@@ -1,0 +1,1660 @@
+<tr RIGA1">
+<td><span>801</span></td>
+<td>Acquafresca R.</td>
+<td class="linkcat"><span>Cagliari</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,81</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>6,5</td>
+<td class="linkcat"><span>6,19</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>803</span></td>
+<td>Adriano L.</td>
+<td class="linkcat"><span>Inter</span></td>
+<td>4</td>
+<td class="linkcat"><span>6,25</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>7</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>804</span></td>
+<td>Amauri C.</td>
+<td class="linkcat"><span>Palermo</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,2</span></td>
+<td>1</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>9</td>
+<td class="linkcat"><span>7,55</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>805</span></td>
+<td>Amoruso N.</td>
+<td class="linkcat"><span>Reggina</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,28</span></td>
+<td>1</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>9</td>
+<td class="linkcat"><span>7,61</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>806</span></td>
+<td>Arnulfo P.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>807</span></td>
+<td>Asamoah G.</td>
+<td class="linkcat"><span>Udinese</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,17</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>7,11</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>922</span></td>
+<td>Aubameyang W.</td>
+<td class="linkcat"><span>Milan</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>808</span></td>
+<td>Babu' A.</td>
+<td class="linkcat"><span>Catania</span></td>
+<td>2</td>
+<td class="linkcat"><span>6</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>810</span></td>
+<td>Bellucci C.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,06</span></td>
+<td>-</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>5,5</td>
+<td class="linkcat"><span>7,33</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>811</span></td>
+<td>Bjelanovic S.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,07</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>4,93</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>926</span></td>
+<td>Bogdani E.</td>
+<td class="linkcat"><span>Livorno</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,44</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>6,5</td>
+<td class="linkcat"><span>5,44</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>812</span></td>
+<td>Bonazzoli E.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>3</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>813</span></td>
+<td>Borriello M.</td>
+<td class="linkcat"><span>Genoa</span></td>
+<td>8</td>
+<td class="linkcat"><span>6,25</span></td>
+<td>-</td>
+<td class="linkcat"><span>5</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>8,06</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>815</span></td>
+<td>Bucchi C.</td>
+<td class="linkcat"><span>Siena</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,62</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,62</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>816</span></td>
+<td>Budan I.</td>
+<td class="linkcat"><span>Parma</span></td>
+<td>1</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,5</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>817</span></td>
+<td>Calaio' E.</td>
+<td class="linkcat"><span>Napoli</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>818</span></td>
+<td>Caracciolo A.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,25</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,25</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>819</span></td>
+<td>Carbonaro P.</td>
+<td class="linkcat"><span>Palermo</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>923</span></td>
+<td>Cassano A.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,7</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,2</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>820</span></td>
+<td>Cavani E.</td>
+<td class="linkcat"><span>Palermo</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,07</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>6,5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>821</span></td>
+<td>Ceravolo F.</td>
+<td class="linkcat"><span>Reggina</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>5,5</td>
+<td class="linkcat"><span>5,7</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>823</span></td>
+<td>Chiesa E.</td>
+<td class="linkcat"><span>Siena</span></td>
+<td>2</td>
+<td class="linkcat"><span>5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>927</span></td>
+<td>Corradi B.</td>
+<td class="linkcat"><span>Parma</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,21</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>5,5</td>
+<td class="linkcat"><span>7,29</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>825</span></td>
+<td>Corvia D.</td>
+<td class="linkcat"><span>Siena</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,42</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,83</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>826</span></td>
+<td>Crespo H.</td>
+<td class="linkcat"><span>Inter</span></td>
+<td>4</td>
+<td class="linkcat"><span>6,38</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>5,5</td>
+<td class="linkcat"><span>7,88</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>827</span></td>
+<td>Cruz J.</td>
+<td class="linkcat"><span>Inter</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,92</span></td>
+<td>1</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>9</td>
+<td class="linkcat"><span>7,83</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>828</span></td>
+<td>Defendi M.</td>
+<td class="linkcat"><span>Atalanta</span></td>
+<td>3</td>
+<td class="linkcat"><span>6</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>830</span></td>
+<td>Del Nero S.</td>
+<td class="linkcat"><span>Lazio</span></td>
+<td>2</td>
+<td class="linkcat"><span>6,25</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,25</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>831</span></td>
+<td>Del Piero A.</td>
+<td class="linkcat"><span>Juventus</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,19</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>7</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>832</span></td>
+<td>Di Carmine S.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>833</span></td>
+<td>Di Michele D.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>834</span></td>
+<td>Di Natale A.</td>
+<td class="linkcat"><span>Udinese</span></td>
+<td>8</td>
+<td class="linkcat"><span>7</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>7,5</td>
+<td class="linkcat"><span>8,31</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>835</span></td>
+<td>Di Vaio M.</td>
+<td class="linkcat"><span>Genoa</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,21</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,57</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>836</span></td>
+<td>Diamanti A.</td>
+<td class="linkcat"><span>Livorno</span></td>
+<td>5</td>
+<td class="linkcat"><span>6,25</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,25</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>837</span></td>
+<td>Eder C.</td>
+<td class="linkcat"><span>Empoli</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>838</span></td>
+<td>Esposito M.</td>
+<td class="linkcat"><span>Roma</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>839</span></td>
+<td>Figueroa L.</td>
+<td class="linkcat"><span>Genoa</span></td>
+<td>2</td>
+<td class="linkcat"><span>6,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>7,5</td>
+<td class="linkcat"><span>7,5</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>840</span></td>
+<td>Floccari S.</td>
+<td class="linkcat"><span>Atalanta</span></td>
+<td>6</td>
+<td class="linkcat"><span>6</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>841</span></td>
+<td>Floro Flores A.</td>
+<td class="linkcat"><span>Udinese</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,62</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>9,5</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>842</span></td>
+<td>Forestieri F.</td>
+<td class="linkcat"><span>Siena</span></td>
+<td>3</td>
+<td class="linkcat"><span>5,75</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,75</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>843</span></td>
+<td>Foti S.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>844</span></td>
+<td>Frick M.</td>
+<td class="linkcat"><span>Siena</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,1</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>848</span></td>
+<td>Gilardino A.</td>
+<td class="linkcat"><span>Milan</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,83</span></td>
+<td>2</td>
+<td class="linkcat"><span>4</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>15</td>
+<td class="linkcat"><span>7,22</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>849</span></td>
+<td>Giuly L.</td>
+<td class="linkcat"><span>Roma</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,83</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>6</td>
+<td class="linkcat"><span>6,39</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>852</span></td>
+<td>Iaquinta V.</td>
+<td class="linkcat"><span>Juventus</span></td>
+<td>6</td>
+<td class="linkcat"><span>6,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>9,1</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>853</span></td>
+<td>Ibrahimovic Z.</td>
+<td class="linkcat"><span>Inter</span></td>
+<td>9</td>
+<td class="linkcat"><span>7,11</span></td>
+<td>-</td>
+<td class="linkcat"><span>7</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>9,67</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>854</span></td>
+<td>Inzaghi F.</td>
+<td class="linkcat"><span>Milan</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,2</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,1</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>855</span></td>
+<td>Inzaghi S.</td>
+<td class="linkcat"><span>Atalanta</span></td>
+<td>4</td>
+<td class="linkcat"><span>5,75</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,75</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>856</span></td>
+<td>Izco M.</td>
+<td class="linkcat"><span>Catania</span></td>
+<td>8</td>
+<td class="linkcat"><span>6</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>857</span></td>
+<td>Joelson I.</td>
+<td class="linkcat"><span>Reggina</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,3</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>858</span></td>
+<td>Kalu I.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>860</span></td>
+<td>Langella A.</td>
+<td class="linkcat"><span>Atalanta</span></td>
+<td>8</td>
+<td class="linkcat"><span>6</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>6,19</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>861</span></td>
+<td>Larrivey J.</td>
+<td class="linkcat"><span>Cagliari</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,42</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,33</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>862</span></td>
+<td>Lavezzi E.</td>
+<td class="linkcat"><span>Napoli</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>7,33</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>863</span></td>
+<td>Lepiller M.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>864</span></td>
+<td>Lupoli A.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>865</span></td>
+<td>Maccarone M.</td>
+<td class="linkcat"><span>Siena</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,94</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>2,5</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>866</span></td>
+<td>Makinwa A.</td>
+<td class="linkcat"><span>Lazio</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,33</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,33</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>873</span></td>
+<td>Malonga D.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>6</td>
+<td class="linkcat"><span>6</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>6</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>920</span></td>
+<td>Martinez J.</td>
+<td class="linkcat"><span>Catania</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,39</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>6,5</td>
+<td class="linkcat"><span>7,22</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>867</span></td>
+<td>Martinez L.</td>
+<td class="linkcat"><span>Parma</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>868</span></td>
+<td>Mascara G.</td>
+<td class="linkcat"><span>Catania</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,22</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>870</span></td>
+<td>Matri A.</td>
+<td class="linkcat"><span>Cagliari</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,15</span></td>
+<td>1</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>10</td>
+<td class="linkcat"><span>7,3</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>871</span></td>
+<td>Matteini D.</td>
+<td class="linkcat"><span>Parma</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>874</span></td>
+<td>Miccoli F.</td>
+<td class="linkcat"><span>Palermo</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,36</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>7,57</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>875</span></td>
+<td>Montella V.</td>
+<td class="linkcat"><span>Sampdoria</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,83</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>6,56</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>876</span></td>
+<td>Morimoto T.</td>
+<td class="linkcat"><span>Catania</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,83</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>5,5</td>
+<td class="linkcat"><span>6,83</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>877</span></td>
+<td>Muslimovic Z.</td>
+<td class="linkcat"><span>Atalanta</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>878</span></td>
+<td>Mutu A.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,83</span></td>
+<td>-</td>
+<td class="linkcat"><span>6</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>8</td>
+<td class="linkcat"><span>8,89</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>881</span></td>
+<td>Oguro M.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>882</span></td>
+<td>Osvaldo P.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>2</td>
+<td class="linkcat"><span>8</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>14</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>883</span></td>
+<td>Palladino R.</td>
+<td class="linkcat"><span>Juventus</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,33</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,83</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>884</span></td>
+<td>Pandev G.</td>
+<td class="linkcat"><span>Lazio</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,89</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>1</td>
+<td class="linkcat"><span>2</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>6</td>
+<td class="linkcat"><span>6,94</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>885</span></td>
+<td>Paolucci M.</td>
+<td class="linkcat"><span>Udinese</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>886</span></td>
+<td>Papa Waigo N.</td>
+<td class="linkcat"><span>Genoa</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,5</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>887</span></td>
+<td>Paponi D.</td>
+<td class="linkcat"><span>Parma</span></td>
+<td>4</td>
+<td class="linkcat"><span>5,33</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,33</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>888</span></td>
+<td>Pazzini G.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,72</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,5</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>889</span></td>
+<td>Pepe S.</td>
+<td class="linkcat"><span>Udinese</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,83</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,67</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>890</span></td>
+<td>Pettinari L.</td>
+<td class="linkcat"><span>Reggina</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>892</span></td>
+<td>Pozzi N.</td>
+<td class="linkcat"><span>Empoli</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,9</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,4</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>894</span></td>
+<td>Quagliarella F.</td>
+<td class="linkcat"><span>Udinese</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,9</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>7,5</td>
+<td class="linkcat"><span>6,25</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>895</span></td>
+<td>Recoba A.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,21</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,64</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>896</span></td>
+<td>Reginaldo F.</td>
+<td class="linkcat"><span>Parma</span></td>
+<td>9</td>
+<td class="linkcat"><span>5,89</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>4</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,11</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>897</span></td>
+<td>Rocchi T.</td>
+<td class="linkcat"><span>Lazio</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,8</span></td>
+<td>1</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>9,5</td>
+<td class="linkcat"><span>7,1</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>898</span></td>
+<td>Ronaldo L.</td>
+<td class="linkcat"><span>Milan</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>899</span></td>
+<td>Rossini F.</td>
+<td class="linkcat"><span>Livorno</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,57</span></td>
+<td>1</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>9,5</td>
+<td class="linkcat"><span>6,29</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>900</span></td>
+<td>Saudati L.</td>
+<td class="linkcat"><span>Empoli</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,65</span></td>
+<td>-</td>
+<td class="linkcat"><span>2</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>6,1</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>902</span></td>
+<td>Sculli G.</td>
+<td class="linkcat"><span>Genoa</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,69</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>2</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,94</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>903</span></td>
+<td>Sosa R.</td>
+<td class="linkcat"><span>Napoli</span></td>
+<td>6</td>
+<td class="linkcat"><span>5,9</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>4</td>
+<td class="linkcat"><span>7,6</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>904</span></td>
+<td>Spinesi G.</td>
+<td class="linkcat"><span>Catania</span></td>
+<td>10</td>
+<td class="linkcat"><span>5,4</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>5</td>
+<td class="linkcat"><span>5,45</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>905</span></td>
+<td>Stellone R.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>2</td>
+<td class="linkcat"><span>6,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>6,5</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>906</span></td>
+<td>Suazo D.</td>
+<td class="linkcat"><span>Inter</span></td>
+<td>7</td>
+<td class="linkcat"><span>5,8</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,4</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>907</span></td>
+<td>Tare I.</td>
+<td class="linkcat"><span>Lazio</span></td>
+<td>4</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>908</span></td>
+<td>Tavano F.</td>
+<td class="linkcat"><span>Livorno</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,38</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>1</td>
+<td class="linkcat"><span>1</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,56</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>909</span></td>
+<td>Totti F.</td>
+<td class="linkcat"><span>Roma</span></td>
+<td>7</td>
+<td class="linkcat"><span>6,79</span></td>
+<td>-</td>
+<td class="linkcat"><span>7</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>9,93</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>910</span></td>
+<td>Trezeguet D.</td>
+<td class="linkcat"><span>Juventus</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,35</span></td>
+<td>3</td>
+<td class="linkcat"><span>10</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>17</td>
+<td class="linkcat"><span>9,3</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>911</span></td>
+<td>Tristan D.</td>
+<td class="linkcat"><span>Livorno</span></td>
+<td>3</td>
+<td class="linkcat"><span>4,83</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>4,83</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>925</span></td>
+<td>Tullberg M.</td>
+<td class="linkcat"><span>Reggina</span></td>
+<td>4</td>
+<td class="linkcat"><span>5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>4,83</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>912</span></td>
+<td>Ventola N.</td>
+<td class="linkcat"><span>Torino</span></td>
+<td>8</td>
+<td class="linkcat"><span>5,88</span></td>
+<td>1</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,94</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>913</span></td>
+<td>Vieri C.</td>
+<td class="linkcat"><span>Fiorentina</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,11</span></td>
+<td>1</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,94</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>928</span></td>
+<td>Vignaroli F.</td>
+<td class="linkcat"><span>Lazio</span></td>
+<td>1</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>914</span></td>
+<td>Volpato R.</td>
+<td class="linkcat"><span>Empoli</span></td>
+<td>3</td>
+<td class="linkcat"><span>5,5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5,5</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>915</span></td>
+<td>Volpe F.</td>
+<td class="linkcat"><span>Livorno</span></td>
+<td>2</td>
+<td class="linkcat"><span>5</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>5</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>916</span></td>
+<td>Vucinic M.</td>
+<td class="linkcat"><span>Roma</span></td>
+<td>8</td>
+<td class="linkcat"><span>6,07</span></td>
+<td>1</td>
+<td class="linkcat"><span>2</span></td>
+<td>1</td>
+<td class="linkcat"><span>3</span></td>
+<td>3</td>
+<td class="linkcat"><span>-</span></td>
+<td>11</td>
+<td class="linkcat"><span>7,14</span></td>
+</tr>
+<tr align="center" class="RIGA1">
+<td><span>917</span></td>
+<td>Zalayeta M.</td>
+<td class="linkcat"><span>Napoli</span></td>
+<td>9</td>
+<td class="linkcat"><span>6,22</span></td>
+<td>-</td>
+<td class="linkcat"><span>4</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>-</td>
+<td class="linkcat"><span>-</span></td>
+<td>-</td>
+<td class="linkcat"><span>7,67</span></td>
+</tr>
+<tr align="center" class="RIGA2">
+<td><span>918</span></td>
+<td>Zampagna R.</td>
+<td class="linkcat"><span>Atalanta</span></td>
+<td>10</td>
+<td class="linkcat"><span>6,15</span></td>
+<td>-</td>
+<td class="linkcat"><span>3</span></td>
+<td>-</td>
+<td class="linkcat"><span>1</span></td>
+<td>3</td>
+<td class="linkcat"><span>1</span></td>
+<td>3</td>
+<td class="linkcat"><span>6,6</span></td>
+</tr>
+                                        </table></td>
+                                      </tr>
+                                      
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td>&nbsp;</td>
+                                </tr>
+								<tr>
+                                  <td class="tratto">&nbsp;</td>
+                                </tr>
+								<tr>
+                                  <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr class="INTE-TABELLA">
+                                        <td colspan="3">Legenda</td>
+                                      </tr>
+                                      <tr align="left" class="RIGA1">
+                                        <td height="20"><span>COD</span> = Codice</td>
+                                        <td><span>PRES</span> = Presenze</td>
+                                        <td><span>VG</span> = Voto giornata </td>
+                                      </tr>
+                                      <tr align="left" class="RIGA2">
+                                        <td height="20"><span>VM</span> = Media voto</td>
+                                        <td><span>GG</span> = Gol giornata</td>
+                                        <td><span>GT</span> = Gol Totali</td>
+                                      </tr>
+                                      <tr align="left" class="RIGA1">
+                                        <td height="20"><span>RG</span> = Rigori giornata</td>
+                                        <td><span>RT</span> = Rigori totali </td>
+                                        <td><span>AG</span>= Assist giornata</td>
+                                      </tr>
+                                      <tr align="left" class="RIGA2">
+                                        <td height="20"><span>AT</span> = Assist totali</td>
+                                        <td><span>AMM</span> = Ammonizioni</td>
+                                        <td><span>ESP</span> = Espulsioni</td>
+                                      </tr>
+                                      <tr align="left" class="RIGA1">
+                                        <td height="20"><span>PT</span> = Punti Magic cup</td>
+                                        <td><span>MEDIA</span> = media punti Magic cup</td>
+                                        <td><span>QUOT</span> = Quotazione Magic Cup</td>
+                                      </tr>
+                                  </table></td>
+                                </tr>
+                                <tr>
+                                  <td>&nbsp;</td>
+                                </tr>
+                              </table></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                </table>
+					</div>
+
+	
+				</div>
+		
+				
+			</div>
+			<div class="footer"><img src="/statiche/campionato/2008/images/footer_verde.jpg" width="802" height="82" /></div>
+		</div>
+
+	</body>
+
+</html>
+
