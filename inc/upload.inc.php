@@ -109,8 +109,8 @@ class upload
 				$scala = min ($width_thumb / $width , $height_thumb / $height);
 				if ($scala < 1)
 				{
-						$new_width = floor ($scala*$width);
-						$new_height = floor ($scala*$height);
+						$new_width = round ($scala*$width);
+						$new_height = round ($scala*$height);
 						$image_temp = @imagecreatetruecolor ($new_width , $new_height) or die("Cannot Initialize new GD image stream");
 						imagecopyresized ($image_temp , $image , 0 , 0 , 0 , 0 , $new_width , $new_height , $width , $height);
 						imagedestroy ($image);
