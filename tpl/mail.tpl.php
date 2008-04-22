@@ -32,22 +32,26 @@
 				border-collapse:separate;
 				border-spacing:0;
 				margin-bottom:1.4em;
-				width:400px;
+				width:100%;
 				clear:both;
 			}
 				
 			tbody {
 				width:100%;
-				color:#000;
+				color:#fff;
 			}
-				
+			
+			th, td {
+				padding:4px 10px 4px 0pt;
+			}
+			
 			caption,th,td {
 				text-align:left;
 				font-weight:400;
 			}
 			
 			h1,h2,h3,h4,h5,h6 {
-				color:#3b678e;
+				color:#ff9900;
 				font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 				font-weight:400;
 			}
@@ -79,19 +83,19 @@
 			}
 
 			#content #content-top-sx {
-				background:transparent url(../imgs/content-top-sx.png) no-repeat scroll left top;
+				background:transparent url(<?php echo IMGSURL; ?>content-top-sx.png) no-repeat scroll left top;
 			}
 
 			#content #content-top-dx {
-				background:transparent url(../imgs/content-top-dx.png) no-repeat scroll right top;
+				background:transparent url(<?php echo IMGSURL; ?>content-top-dx.png) no-repeat scroll right top;
 			}
 
 			#content #content-bottom-sx {
-				background:transparent url(../imgs/content-bottom-sx.png) no-repeat scroll left bottom;
+				background:transparent url(<?php echo IMGSURL; ?>content-bottom-sx.png) no-repeat scroll left bottom;
 			}
 
 			#content #content-bottom-dx {
-				background:transparent url(../imgs/content-bottom-dx.png) no-repeat scroll right bottom;
+				background:transparent url(<?php echo IMGSURL; ?>content-bottom-dx.png) no-repeat scroll right bottom;
 	
 			}
 
@@ -112,12 +116,14 @@
 			}
 			
 			.rosso {
-				background-color: #FFDDDD;
+				background:transparent url(<?php echo IMGSURL; ?>bg-player-exit.png) repeat-x scroll left top;
+				text-align:center;
 			}
-		
+			
 			.verde {
-				background-color: #DDFFDD;
-			}	
+				background:transparent url(<?php echo IMGSURL; ?>bg-player-in.png) repeat-x scroll left top;
+				text-align:center;
+			}
 			
 			#punteggidett .nome , #punteggidett .cognome{
 				width:200px;
@@ -127,17 +133,24 @@
 				width:50px;
 			}		
 			
-			#punteggidett h4{
-				font-weight:bold;
+			h4 {
+				float:left;
+				font-size:18px;
+				font-weight:normal;
 				text-align:center;
+				margin:0 0 10px 0;
 				width:33%;
-			}	
+			}
+			
+			#classifica h4 {
+				width:100%;
+			}
 			
 			
 			#punteggidett caption{
 				font-weight:bold;
-				background-color: #FFF;
-				color:#3b678e;
+				background-color: transparent;
+				color:#ff9900;
 				font-size: 14px;
 			}	
 			
@@ -145,13 +158,13 @@
 				margin: 0px 3px -4px;
 			}
 			
-			.box2-top-sx {background: #514e46 url(../imgs/box2-top-sx.png) no-repeat top left;}
+			.box2-top-sx {background: #514e46 url(<?php echo IMGSURL; ?>box2-top-sx.png) no-repeat top left;}
 
-			.box2-top-dx {background: transparent url(../imgs/box2-top-dx.png) no-repeat top right;}
+			.box2-top-dx {background: transparent url(<?php echo IMGSURL; ?>box2-top-dx.png) no-repeat top right;}
 
-			.box2-bottom-sx {background: transparent url(../imgs/box2-bottom-sx.png) no-repeat bottom left;}
+			.box2-bottom-sx {background: transparent url(<?php echo IMGSURL; ?>box2-bottom-sx.png) no-repeat bottom left;}
 
-			.box2-bottom-dx {background: transparent url(../imgs/box2-bottom-dx.png) no-repeat bottom right;}
+			.box2-bottom-dx {background: transparent url(<?php echo IMGSURL; ?>box2-bottom-dx.png) no-repeat bottom right;}
 
 			.box-content {
 				padding:10px;
@@ -162,13 +175,13 @@
 			#punteggidett {
 				float:left;
 				width:550px;
-				margin:10px auto;
+				margin:10px 95px;
 			}
 			
 			#classifica {
 				float:left;
 				width:350px;
-				margin:10px auto;
+				margin:10px 195px;
 			}
 			
 			#classifica .box-content {
@@ -189,6 +202,7 @@
 			<div class="box2-bottom-sx column last">
 			<div class="box2-bottom-dx column last">
 			<div class="box-content column last">
+			<h4><?php echo $this->squadra; ?></h4>
 			<h4>Punteggio: <?php echo $this->somma; ?></h4>
 			<h4>Giornata: <?php echo $this->giornata; ?></h4>
 			<table class="column last">
@@ -218,7 +232,7 @@
 									<td><?php echo $val['Nome']; ?></td>
 									<td><?php echo $val['Ruolo']; ?></td>
 									<td><?php echo $val['Club']; ?></td>
-									<td><?php echo $val['punt']; ?></td>
+									<td><?php if(!empty($val['punt'])) echo $val['punt']; else echo "&nbsp;" ?></td>
 								</tr>
 						<?php endif; ?>
 					<?php endforeach; ?>
@@ -249,7 +263,7 @@
 									<td><?php echo $val['Nome']; ?></td>
 									<td><?php echo $val['Ruolo']; ?></td>
 									<td><?php echo $val['Club']; ?></td>
-									<td><?php echo $val['punt']; ?></td>
+									<td><?php if(!empty($val['punt'])) echo $val['punt']; else echo "&nbsp;" ?></td>
 								</tr>
 						<?php endif; ?>
 					<?php endforeach; ?>
@@ -267,7 +281,7 @@
 			<div class="box2-bottom-sx column last">
 			<div class="box2-bottom-dx column last">
 			<div class="box-content column last">
-				<h3>Classifica</h3>
+				<h4>Classifica</h4>
 				<table id="classifica-home" cellpadding="0" cellspacing="0">
 					<tbody>
 						<tr>

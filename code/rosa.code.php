@@ -57,7 +57,7 @@ if($squadra != NULL && $squadra > 0 && $squadra < 9)
 	$mediaPartite = 0;
 	foreach($values as $key=>$val)
 	{
-		$giocatori[$i]['nome'] = ucwords(mb_strtolower(utf8_encode($val[1]),"UTF-8")) . " " . utf8_encode($val[2]);
+		$giocatori[$i]['nome'] = $val[1] . " " . $val[2];
 		$giocatori[$i]['ruolo'] = $ruoli[$val[3]];
 		$giocatori[$i]['club'] = $val[5];
 		$voti = explode(';',$val[6]);

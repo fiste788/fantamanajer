@@ -4,8 +4,8 @@ require(INCDIR.'fileSystem.inc.php');
 
 $fileSystemObj = new fileSystem();
 $path = 'db';
-$backupName = $path.'/backup_'. date("Y-m-d H:i:s") . '.gz' ;
-$backupObj = new MySQLDump(DBNAME,$backupName,TRUE,FALSE);
+$backupName = $path.'/backup_'. date("Y-m-d H:i:s") . '.sql' ;
+$backupObj = new MySQLDump(DBNAME,$backupName,FALSE,FALSE);
 //ESEGUO IL BACKUP SETTIMANALE DEL DB
 if($backupObj->dodump())
 {

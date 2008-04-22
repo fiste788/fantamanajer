@@ -33,6 +33,8 @@ class db
 				echo MYSQL_ERRNO()." ".MYSQL_ERROR();
 			}
 			mysql_select_db(DBNAME);
+			mysql_query("SET NAMES utf8;") or die();
+			mysql_query("SET CHARACTER SET utf8;")or die();
 		}
 	}
 	

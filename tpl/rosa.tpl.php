@@ -59,7 +59,7 @@
 		<?php if($this->squadradett['username'] == $_SESSION['userid']): ?>
 			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="index.php?p=rosa&amp;squadra=<?php echo $_GET['squadra'] ?>" method="post">
 					<h4 class="no-margin">Carica il tuo logo:</h4>
-							<input class="upload" name="userfile" type="file" />
+							<input class="upload" name="userfile" type="file" accept="image/gif, image/jpeg, image/jpg" />
 							<input type="submit" class="submit" value="Invia file" />
 						<?php 	if ($this -> isfileupload != -1): ?>									
 							<div style="clear:both;"><?php echo $this -> isfileupload; ?></div>

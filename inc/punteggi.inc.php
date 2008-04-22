@@ -1,4 +1,4 @@
-<?php
+	<?php
 class punteggi
 {
 	function checkPunteggi($giornata)

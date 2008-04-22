@@ -26,7 +26,10 @@ if (isset ($_FILES ['userfile']['tmp_name']))
 	switch( $uploadObj -> uploadFile ($size , $img , $vid , $doc, $path , $name.'-temp'))
 	{
 			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small.jpg','56 56 56',$path . $name . '-small-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '.jpg','81 78 70',$path . $name . '-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '-med.jpg','81 78 70',$path . $name . '-med-reflex.jpg',1))
+			{
 									$contenttpl -> assign ('isfileupload','Upload effettuato correttamente');
+									rename($path.$name.'-temp.'.$ext,$path.$name.'-original.'.$ext);
+									}
 								else
 									$contenttpl -> assign ('isfileupload','Problemi nel ridimensionamento');
 								break;
@@ -35,6 +38,5 @@ if (isset ($_FILES ['userfile']['tmp_name']))
 			case 3: $contenttpl -> assign ('isfileupload','Tipo di file non supportato'); break;
 			case 4: $contenttpl -> assign ('isfileupload','Errore nell\'upload del file'); break;
 	}
-	rename($path.$name.'-temp.'.$ext,$path.$name.'-original.'.$ext);
 }
 ?>

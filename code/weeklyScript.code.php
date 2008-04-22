@@ -67,6 +67,7 @@ if( ($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 15 && $punt
 	{
 		if(!empty($val[4]) && isset($result[$key]))
 		{
+			$mailContent->assign('squadra',$val[1]);
 			$mailContent->assign('somma',array_sum($result[$key]));
 			$mailContent->assign('formazione',$giocatoreObj->createGiornataDettaglioByGiocatori($result[$key],$giornata,$val[0]));
 		

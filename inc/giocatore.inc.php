@@ -123,8 +123,8 @@ class giocatore
 		{
 			$row[] = $giocatori[ $row['IdGioc'] ]['punt'];
 			$row['punt'] = $giocatori[ $row['IdGioc'] ]['punt'];
-			$row['Cognome'] = ucwords(mb_strtolower(utf8_encode($row['Cognome']),"UTF-8"));
-			$row['Nome'] = ucwords(mb_strtolower(utf8_encode($row['Nome']),"UTF-8"));
+			$row['Cognome'] = $row['Cognome'];
+			$row['Nome'] = $row['Nome'];
 			$row['Ruolo'] = $ruoli[$row['Ruolo']]; 
 			if($giocatori[ $row['IdGioc'] ]['panch'] ==TRUE  )
 			{	
