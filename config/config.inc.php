@@ -54,5 +54,8 @@ define ("DBPASS","banana");						//database password => DBPASS
 define ("DBHOST","localhost");					//database host => DBHOST
 
 // Comunica gli errori semplici di esecuzione
-error_reporting(E_ALL);					//activation of error reporting(to be disactivated at the end of the script)
+if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ) 
+	error_reporting(E_ALL);					//activation of error reporting(to be disactivated at the end of the script)
+else
+	error_reporting(0);
 ?>

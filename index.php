@@ -24,6 +24,7 @@ session_start();
 
 require_once 'config/config.inc.php';
 require_once 'config/Savant2.php';
+require_once 'config/pages.inc.php';
 require_once INCDIR.'db.inc.php';
 require_once INCDIR.'auth.inc.php';
 require_once INCDIR.'strings.inc.php';
@@ -50,49 +51,15 @@ else
 //Adding the language
 
 if (!isset($_SESSION['lang']))
-{
 	$_SESSION['lang'] = 'it';
-}
 
 require_once(LANGDIR.$_SESSION['lang'].'/general.lang.php');
 $sesslang=$_SESSION['lang'];
 
-//Checking if the requested page exists otherwise $p = 'home'
-
-$upages = array();
-  $upages[] = 'home';
-  $upages[] = 'rosa';
-  $upages[] = 'classifica';
-  $upages[] = 'punteggidettaglio';
-  $upages[] = 'premi';
-  $upages[] = 'weeklyScript';
-  $upages[] = 'confStampa';
-  $upages[] = 'sendMail';
-  $upages[] = 'contatti';
-  $upages[] = 'acquistaGioc';
-  $upages[] = 'backup';
-  $upages[] = 'other';
-
-$apages = array();
-	$apages[] = 'home';
-	$apages[] = 'formazione';
-	$apages[] = 'rosa';
-	$apages[] = 'classifica';
-	$apages[] = 'punteggidettaglio';
-	$apages[] = 'trasferimenti';
-	$apages[] = 'premi';
-	$apages[] = 'freeplayer';
-	$apages[] = 'formazioniAll';
-	$apages[] = 'confStampa';
-	$apages[] = 'editArticolo';
-	$apages[] = 'contatti';
-	$apages[] = 'location';
-	$upages[] = 'other';
-
 //Try login if POSTDATA exists
 require_once(CODEDIR.'login.code.php');
 
-if(isset($_POST['username']) && $_SESSION['logged'])
+if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
 	header('Location: index.php?p=rosa&squadra='.$_SESSION['idsquadra']);
 
 //Setting up the default user data
@@ -129,84 +96,53 @@ if (!isset($_SESSION['logged'])) {
 if ($_SESSION['logged'] == TRUE)
 	{
 	$_SESSION['import']=0;
-	switch($p) { 
-	case 'home' : 
-  	case 'formazione' :
-  	case 'rosa' : 
-  	case 'classifica' :
-  	case 'punteggidettaglio' :
-  	case 'trasferimenti' :
-  	case 'premi' :
-  	case 'freeplayer' :
-  	case 'formazioniAll' : 
-  	case 'confStampa' : 
-  	case 'editArticolo' : 
-  	case 'contatti' : 
-  	case 'location' : 
-  	case 'other' :
- 
+	if(in_array($p,array_keys($apages)))
+	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
 		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
-		break;
-  
-    default:
-    	    $_SESSION['message'][0] = 1;
-	    $_SESSION['message'][1] = "La pagina non esiste";
-	    $p = 'home';
-      //INCLUDE IL FILE DI CODICE PER LA PAGINA
-      if (file_exists(CODEDIR.$p.'.code.php'))
-    	require(CODEDIR.$p.'.code.php');
-
-	//definisce il file di template utilizzato per visualizzare questa pagina
-   $tplfile = TPLDIR.$p.'.tpl.php';
-
-  break;
 	}
+	else
+	{
+		$_SESSION['message'][0] = 1;
+		$_SESSION['message'][1] = "La pagina non esiste";
+		$p = 'home';
+		//INCLUDE IL FILE DI CODICE PER LA PAGINA
+		if (file_exists(CODEDIR.$p.'.code.php'))
+		    	require(CODEDIR.$p.'.code.php');
+		//definisce il file di template utilizzato per visualizzare questa pagina
+		$tplfile = TPLDIR.$p.'.tpl.php';
+	}
+	$layouttpl->assign('pages',$apages[$p]);
 }
 else
 {
-	switch($p) { 
-  	case 'home' :
-  	case 'rosa' :
-  	case 'weeklyScript' : 
-  	case 'classifica' : 
-  	case 'punteggidettaglio' :
-  	case 'premi' :
-  	case 'confStampa' :
-  	case 'sendMail' : 
-  	case 'contatti' : 
-  	case 'acquistaGioc' :
-  	case 'backup' : 
-  	case 'other' :
-
+	if(in_array($p,array_keys($upages)))
+	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
-		require(CODEDIR.$p.'.code.php');
-
+			require(CODEDIR.$p.'.code.php');
 		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
-		break;
-  
-    default:
-	    if(in_array($p, $apages))
-	    {
-	     	$_SESSION['message'][0] = 0;
-	     	$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina. Sei stato mandato alla home";
-	    }
-	    else
-	    {
-	    	$_SESSION['message'][0] = 1;
-	    	$_SESSION['message'][1] = "La pagina non esiste. Sei stato mandato alla home";
-	    }
-	    $p = 'home';
-      //INCLUDE IL FILE DI CODICE PER LA PAGINA
-      if (file_exists(CODEDIR.$p.'.code.php'))
-    	require(CODEDIR.$p.'.code.php');
-
-	//definisce il file di template utilizzato per visualizzare questa pagina
-   $tplfile = TPLDIR.$p.'.tpl.php';
-
-  break;
 	}
+  	else
+  	{
+		if(in_array($p, $apages))
+		{
+			$_SESSION['message'][0] = 0;
+			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina. Sei stato mandato alla home";
+		}
+		else
+		{
+			$_SESSION['message'][0] = 1;
+			$_SESSION['message'][1] = "La pagina non esiste. Sei stato mandato alla home";
+		}
+		$p = 'home';
+		//INCLUDE IL FILE DI CODICE PER LA PAGINA
+		if (file_exists(CODEDIR.$p.'.code.php'))
+			require(CODEDIR.$p.'.code.php');
+		//definisce il file di template utilizzato per visualizzare questa pagina
+		$tplfile = TPLDIR.$p.'.tpl.php';
+	}
+	$layouttpl->assign('pages',$upages[$p]);
 }
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
