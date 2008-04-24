@@ -16,24 +16,46 @@ $upages = array();
 									'js'=>'',
 									'css'=>array('screen','style'));
 									
-	$upages[] = 'punteggidettaglio';
-	$upages[] = 'premi';
-	$upages[] = 'weeklyScript';
-	$upages[] = 'confStampa';
-	$upages[] = 'sendMail';
-	$upages[] = 'contatti';
-	$upages[] = 'acquistaGioc';
-	$upages[] = 'backup';
-	$upages[] = 'other';
-
+	$upages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$upages['premi'] = array(	'title'=>"Premi",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$upages['confStampa'] = array(	'title'=>"Conferenze stampa",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$upages['contatti'] = array(	'title'=>"Contatti",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$upages['other'] = array(	'title'=>"Altro...",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$upages['sendMail'] = array(	'title'=>"Invio mail formazioni",
+									'js'=>'',
+									'css'=>array('screen','style'));
+	
+	$upages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
+										'js'=>'',
+										'css'=>array('screen','style'));
+										
+	$upages['backup'] = array(	'title'=>"Backup",
+									'js'=>'',
+									'css'=>array('screen','style'));
+	
+	$upages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
+										'js'=>'',
+										'css'=>array('screen','style'));
+	
 $apages = array();
 	$apages['home'] = array(	'title'=>"Home", 
 									'js'=>array('jquery'=>'jquery','ui'=>'tabs'), 
 									'css'=>array('screen','style','tabs'));
-									
-	$apages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
 	
 	$apages['rosa'] = array(	'title'=>"Squadra",
 								'js'=>array('jquery'=>array('jquery','jquery.dimension'),'lightbox'=>'lightbox','ui'=>array('ui.base','ui.accordion')),
@@ -43,16 +65,62 @@ $apages = array();
 									'js'=>array('jquery'=>'jquery'),
 									'css'=>array('screen','style'));
 									
-	$apages[] = 'punteggidettaglio';
-	$apages[] = 'trasferimenti';
-	$apages[] = 'premi';
-	$apages[] = 'freeplayer';
-	$apages[] = 'formazioniAll';
-	$apages[] = 'confStampa';
-	$apages[] = 'editArticolo';
-	$apages[] = 'contatti';
+	$apages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
+									'js'=>array('jquery'=>'jquery'),
+									'css'=>array('screen','style'));
+									
+	$apages['premi'] = array(	'title'=>"Premi",
+									'js'=>array('jquery'=>'jquery'),
+									'css'=>array('screen','style'));
+									
+	$apages['formazione'] = array(	'title'=>"Formazione", 
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+										
+	$apages['confStampa'] = array(	'title'=>"Conferenze stampa",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+									
+	$apages['contatti'] = array(	'title'=>"Contatti",
+									'js'=>array('jquery'=>'jquery'),
+									'css'=>array('screen','style'));	
+									
+	$apages['other'] = array(	'title'=>"Altro...",
+								'js'=>array('jquery'=>'jquery'),
+								'css'=>array('screen','style'));	
+								
+	$apages['sendMail'] = array(	'title'=>"Invio mail formazioni",
+									'js'=>'',
+									'css'=>array('screen','style'));						
+	
+	$apages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$apages['backup'] = array(	'title'=>"Backup",
+									'js'=>'',
+									'css'=>array('screen','style'));
+									
+	$apages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
+										'js'=>'',
+										'css'=>array('screen','style'));
+									
+	$apages['trasferimenti'] = array(	'title'=>"Trasferimenti",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+										
+	$apages['freeplayer'] = array(	'title'=>"Giocatori liberi",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+										
+	$apages['formazioniAll'] = array(	'title'=>"Altre formazioni",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+										
+	$apages['editArticolo'] = array(	'title'=>"Crea o modifica conferenza",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
 	$apages[] = 'location';
-	$upages[] = 'other';
 
 //echo "<pre>".print_r($upages,1)."</pre>";
 //echo "<pre>".print_r(array_keys($upages),1)."</pre>";
