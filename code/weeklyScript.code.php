@@ -10,8 +10,10 @@ $punteggiObj = new punteggi();
 $squadraObj = new squadra();
 $formazioneObj = new formazione();
 $mailObj = new mail();
-$giornata = $giornataObj->checkDay(date("Y-m-d"))-1;
+$giornata = $giornataObj->getIdGiornataByDate(date("Y-m-d"))-1;
 $giocatoreObj = new giocatore();
+
+
 
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 if( ($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 15 && $punteggiObj->checkPunteggi($giornata))
@@ -87,5 +89,7 @@ if( ($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 15 && $punt
 		}
 	}
 	$contenttpl->assign('mail',$mail);
+	//aggiorna i giocatori ceduti di giornata in giornata
+  $giocatoreObj->updateListaGiocatori($giornataObj->getIdGiornataByDate()-1);
 }
 ?>
