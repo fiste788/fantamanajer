@@ -16,6 +16,8 @@ $width_small_thumb = 64;
 $height_small_thumb = 48;
 $width_med_thumb = 150;
 $height_med_thumb = 75;
+$width_large_thumb = 800;
+$height_large_thumb = 600;
 $image_type = 1;
 $contenttpl -> assign ('isfileupload',-1);		//isfileupload( 0: upload ok	-	1: no file	-	2: size too much big	-	3: type of file error	-	4: error)
 if (isset ($_FILES ['userfile']['tmp_name']))
@@ -25,10 +27,10 @@ if (isset ($_FILES ['userfile']['tmp_name']))
 		$name = $_SESSION['idsquadra'];
 	switch( $uploadObj -> uploadFile ($size , $img , $vid , $doc, $path , $name.'-temp'))
 	{
-			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small.jpg','56 56 56',$path . $name . '-small-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '.jpg','81 78 70',$path . $name . '-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '-med.jpg','81 78 70',$path . $name . '-med-reflex.jpg',1))
+			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-original' , $path , $width_large_thumb , $height_large_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small.jpg','56 56 56',$path . $name . '-small-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '.jpg','81 78 70',$path . $name . '-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '-med.jpg','81 78 70',$path . $name . '-med-reflex.jpg',1))
 			{
 									$contenttpl -> assign ('isfileupload','Upload effettuato correttamente');
-									rename($path.$name.'-temp.'.$ext,$path.$name.'-original.'.$ext);
+									unlink($path.$name.'-temp.'.$ext);
 									}
 								else
 									$contenttpl -> assign ('isfileupload','Problemi nel ridimensionamento');

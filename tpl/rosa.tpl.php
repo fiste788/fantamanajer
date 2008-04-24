@@ -169,8 +169,8 @@ $(window).bind("load",function(){
 				if($width > 101)
 					$appo = floor(($width - 100) / 2);
 				?>
-					<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
-					<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'"px'; ?>  />
+					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
+					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'"px'; ?>  />
 				</a>
 			<?php else: ?>
 				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />

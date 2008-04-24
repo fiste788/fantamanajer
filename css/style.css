@@ -317,6 +317,7 @@ em {background-color:transparent;}
 .box-squadra .box-content {width:265px;}
 .box-squadra .lightbox {
 	width:100px;
+	height:105px;
 	display:block;
 	float:left;
 	overflow:hidden;
