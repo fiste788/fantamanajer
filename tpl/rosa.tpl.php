@@ -102,7 +102,7 @@
 				</div>
 				</li>
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
-				<div class="no-margin">
+				<div class="no-margin" style="display:none;">
 					<form id="userdata" action="index.php?p=rosa" name="data" method="post">
 						<div class="formbox">
 							<label for="name">Nome:</label>
