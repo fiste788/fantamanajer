@@ -125,7 +125,7 @@ else
 	}
   	else
   	{
-		if(in_array($p, $apages))
+		if(in_array($p, array_keys($apages)))
 		{
 			$_SESSION['message'][0] = 0;
 			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina. Sei stato mandato alla home";

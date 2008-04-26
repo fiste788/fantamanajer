@@ -56,7 +56,7 @@
 				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php endif; ?>
-		<?php if($this->squadradett['username'] == $_SESSION['userid']): ?>
+		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="index.php?p=rosa&amp;squadra=<?php echo $_GET['squadra'] ?>" method="post">
 					<h4 class="no-margin">Carica il tuo logo:</h4>
 							<input class="upload" name="userfile" type="file" accept="image/gif, image/jpeg, image/jpg" />
@@ -97,7 +97,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<?php if($this->squadradett['username'] == $_SESSION['userid']): ?>
+					<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 					<p id="mex"><?php if($this->data == 0) echo "Se vuoi modificare le tue informazioni personali come mail, nome, password"; elseif($this->data == 1) echo "Le due password non corrispondono"; elseif($this->data == 2) echo "Dati modificati. Vuoi modificarli di nuovo?";  ?></p>
 				</div>
 				</li>

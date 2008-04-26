@@ -48,7 +48,7 @@ class giocatore
 	
 	function getFreePlayer($ruolo)
 	{
-		$q = "SELECT IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,Voti FROM giocatore WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "';";
+		$q = "SELECT IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,Voti FROM giocatore WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' ORDER BY Cognome;";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe))
 		{
