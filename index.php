@@ -96,7 +96,7 @@ if (!isset($_SESSION['logged'])) {
 if ($_SESSION['logged'] == TRUE)
 	{
 	$_SESSION['import']=0;
-	if(in_array($p,array_keys($apages)))
+	if(array_key_exists($p,$apages))
 	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
@@ -117,7 +117,7 @@ if ($_SESSION['logged'] == TRUE)
 }
 else
 {
-	if(in_array($p,array_keys($upages)))
+	if(array_key_exists($p,$upages))
 	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
@@ -125,7 +125,7 @@ else
 	}
   	else
   	{
-		if(in_array($p, array_keys($apages)))
+		if(array_key_exists($p, $apages))
 		{
 			$_SESSION['message'][0] = 0;
 			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina. Sei stato mandato alla home";

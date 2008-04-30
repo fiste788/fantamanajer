@@ -8,11 +8,7 @@ class formazione
 	  $risultato = mysql_query($selez_ruolo);
 	  $elencoopzioni = "";
 	  while ($riga = mysql_fetch_row($risultato)) 
-	  {
-	    
-	    $riga[0] = ucwords(mb_strtolower(utf8_encode($riga[0]),"UTF-8"));
 	    $giocatori[$riga['3']][] = $riga;
-	  }
 	  return $giocatori;
 	}
 	

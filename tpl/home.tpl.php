@@ -120,6 +120,11 @@
 			<img alt="!" src="<?php if($_SESSION['message'][0] == 0) echo IMGSURL.'lock.png'; else echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
+		<script type="text/javascript">
+		$(".messaggio").click(function () {
+			$("div.messaggio").fadeOut("slow");
+		});
+		</script>
 	<?php unset($_SESSION['message']); endif; ?>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 		<?php require (TPLDIR.'operazioni.tpl.php'); ?>
