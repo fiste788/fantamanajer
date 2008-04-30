@@ -19,7 +19,6 @@ $height_med_thumb = 75;
 $width_large_thumb = 800;
 $height_large_thumb = 600;
 $image_type = 1;
-$contenttpl -> assign ('isfileupload',-1);		//isfileupload( 0: upload ok	-	1: no file	-	2: size too much big	-	3: type of file error	-	4: error)
 if (isset ($_FILES ['userfile']['tmp_name']))
 {
 	$ext = $uploadObj -> getExtension($_FILES ['userfile']['name']);
@@ -29,16 +28,25 @@ if (isset ($_FILES ['userfile']['tmp_name']))
 	{
 			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-original' , $path , $width_large_thumb , $height_large_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small.jpg','56 56 56',$path . $name . '-small-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '.jpg','81 78 70',$path . $name . '-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '-med.jpg','81 78 70',$path . $name . '-med-reflex.jpg',1))
 			{
-									$contenttpl -> assign ('isfileupload','Upload effettuato correttamente');
+									$message[] = 0;
+									$message[] = 'Upload effettuato correttamente';
 									unlink($path.$name.'-temp.'.$ext);
 									}
 								else
-									$contenttpl -> assign ('isfileupload','Problemi nel ridimensionamento');
+								{
+									$message[] = 1;
+									$message[] = 'Problemi nel ridimensionamento';
+								}
 								break;
-			case 1: $contenttpl -> assign ('isfileupload','Nessun file selezionato'); break;
-			case 2: $contenttpl -> assign ('isfileupload','File troppo grande'); break;
-			case 3: $contenttpl -> assign ('isfileupload','Tipo di file non supportato'); break;
-			case 4: $contenttpl -> assign ('isfileupload','Errore nell\'upload del file'); break;
+			case 1: 	$message[] = 1;
+							$message[] = 'Nessun file selezionato'; break;
+			case 2: 	$message[] = 1;
+							$message[] = 'File troppo grande'; break;
+			case 3: 	$message[] = 1;
+							$message[] = 'Tipo di file non supportato'; break;
+			case 4: 	$message[] = 1;
+							$message[] = 'Errore nell\'upload del file'; break;
 	}
+	$contenttpl->assign('message',$message);
 }
 ?>

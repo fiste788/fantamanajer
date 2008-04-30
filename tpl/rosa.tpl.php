@@ -47,6 +47,24 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
+	<?php if (isset($this->message)): ?>
+		<?php if($this->message[0] == 1): ?>									
+			<div class="messaggio bad column last">
+				<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" title="Attenzione!" />
+				<span><?php echo $this->message[1]; ?></span>
+			</div>
+		<?php elseif($this->message[0] == 0): /* TUTTO OK */?>
+			<div class="messaggio good column last">
+				<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
+				<span><?php echo $this->message[1]; ?></span>
+			</div>
+		<?php endif; ?>
+		<script type="text/javascript">
+			$(".messaggio").click(function () {
+				$("div.messaggio").fadeOut("slow");
+			});
+		</script>
+	<?php endif; ?>
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
@@ -61,9 +79,6 @@
 					<h4 class="no-margin">Carica il tuo logo:</h4>
 							<input class="upload" name="userfile" type="file" accept="image/gif, image/jpeg, image/jpg" />
 							<input type="submit" class="submit" value="Invia file" />
-						<?php 	if ($this -> isfileupload != -1): ?>									
-							<div style="clear:both;"><?php echo $this -> isfileupload; ?></div>
-						<?php endif; ?>
 			</form>
 			<ul id="accordion" class="ui-accordion-container">
 				<li><a class="ui-accordion-link" href="#">Dati</a>

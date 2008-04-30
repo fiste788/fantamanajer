@@ -286,7 +286,7 @@
 					<tbody>
 						<tr>
 							<th>Squadra</th>
-							<th width="1px">P.ti</th>
+							<th>P.ti</th>
 						</tr>
 						<?php $i=0; ?>
 						<?php foreach ($this->classifica as $key=>$val): ?>
