@@ -105,7 +105,7 @@ if ($_SESSION['logged'] == TRUE)
 	else
 	{
 		$_SESSION['message'][0] = 1;
-		$_SESSION['message'][1] = "La pagina non esiste";
+		$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
 		$p = 'home';
 		//INCLUDE IL FILE DI CODICE PER LA PAGINA
 		if (file_exists(CODEDIR.$p.'.code.php'))
@@ -128,12 +128,12 @@ else
 		if(array_key_exists($p, $apages))
 		{
 			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina. Sei stato mandato alla home";
+			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina " . strtolower($apages[$p]['title']) . ". Sei stato mandato alla home";
 		}
 		else
 		{
 			$_SESSION['message'][0] = 1;
-			$_SESSION['message'][1] = "La pagina non esiste. Sei stato mandato alla home";
+			$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
 		}
 		$p = 'home';
 		//INCLUDE IL FILE DI CODICE PER LA PAGINA
