@@ -253,25 +253,25 @@ class giocatore
         $liste = csv2array($content);
         print_r($liste);
 */
-function returnarray($path) 
-{
-    $content = join('',file($path));
-    $players=explode("\n",$content);
-    foreach ($players as &$value) 
-    {
-      $par=explode(";",$value);
-      $key=$par[0];
-      $keys[]=$key;
-    }
-    $c = array_combine($keys, $players);
-    return $c;
-}
-// aggiorna di giornata in giornata i giocatori, togliendo qll ceduti
+	function returnarray($path) 
+	{
+		$content = join('',file($path));
+		$players=explode("\n",$content);
+		foreach ($players as &$value) 
+		{
+			$par=explode(";",$value);
+			$key=$par[0];
+			$keys[]=$key;
+		}
+		$c = array_combine($keys, $players);
+		return $c;
+	}
+
+	// aggiorna di giornata in giornata i giocatori, togliendo qll ceduti
 	function updateListaGiocatori($giornata)
 	{
-    print "giornata:$giornata";
-    $percorso = "docs/Giornata".$giornata.".csv";
-    $players_now=$this->returnarray($percorso);
+		$percorso = "docs/Giornata".$giornata.".csv";
+		$players_now = $this->returnarray($percorso);
 		$q = "SELECT * FROM giocatore WHERE Club <> ''";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$handle = fopen("docs/voti/ToltiGiornata".$giornata.".csv", "a");
@@ -280,14 +280,12 @@ function returnarray($path)
 			$chiave=$row[0];
 			if(!array_key_exists($chiave,$players_now))
 			{
-			  fwrite($handle,"$row[0];$row[1];$row[2]\n");
-        $update="UPDATE giocatore SET Club = '' WHERE IdGioc=".$chiave;
-        mysql_query($update) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-        
-      }
+				fwrite($handle,"$row[0];$row[1];$row[2]\n");
+				$update="UPDATE giocatore SET Club = '' WHERE IdGioc=".$chiave;
+				mysql_query($update) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+			}
 		}
 		fclose($handle);
-  }
-  
+	}  
 }
 ?>
