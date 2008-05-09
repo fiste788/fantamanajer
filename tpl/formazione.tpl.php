@@ -8,7 +8,7 @@
 <div id="formazione" class="main-content">
 	<?php if($this->timeout): ?>
 		<h3>Giornata <?php echo $this->giornata; ?></h3>
-		<?php if(isset($this->modulo)): ?>	
+		<?php if(isset($this->modulo) && $this->modulo != NULL): ?>	
 				<div>
 					<img alt="modulo" id="img-modulo" title="<?php echo substr($this->value,2) ?>" src="<?php echo IMGSURL.$this->value.'.png' ?>" />
 				</div>
@@ -138,6 +138,7 @@
 			<fieldset id="modulo" class="no-margin fieldset">
 				<h3 class="no-margin">Seleziona il modulo:</h3>
 				<select name="mod" onchange="document.form_modulo.submit();">
+					<option></option>
 					<option value="1-4-4-2" <?php if ($this->value == '1-4-4-2') echo "selected=\"selected\""?>>4-4-2</option>
 					<option value="1-3-5-2" <?php if ($this->value == '1-3-5-2') echo "selected=\"selected\""?>>3-5-2</option>
 					<option value="1-3-4-3" <?php if ($this->value == '1-3-4-3') echo "selected=\"selected\""?>>3-4-3</option>

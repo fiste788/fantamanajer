@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img class="logo" alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />
+		<img alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />
 	</div>
 	<h2 class="column">Dettaglio punteggi</h2>
 </div>
@@ -110,6 +110,7 @@
 				<h3 class="no-margin">Seleziona la giornata</h3>
 				<select name="giorn" onchange="document.selsq.submit();">
 					<option></option>
+					<?php krsort($this->punteggi[1]); ?>
 					<?php foreach($this->punteggi[1] as $key=>$val): ?>
 						<option <?php if($this->getgiornata == $key) echo "selected=\"selected\"" ?> value="<?php echo $key?>"><?php echo $key?></option>
 					<?php endforeach; ?>

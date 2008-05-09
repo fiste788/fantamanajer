@@ -5,12 +5,9 @@ class trasferimenti
 	{
 		$q = "SELECT t1.Nome as NomeOld,t1.Cognome as CognomeOld,t2.Nome as NomeNew,t2.Cognome as CognomeNew FROM giocatore t1 INNER JOIN (trasferimenti INNER JOIN giocatore t2 ON trasferimenti.IdGiocNew = t2.IdGioc) ON t1.idGioc = trasferimenti.IdGiocOld WHERE trasferimenti.IdSquadra = '" . $idSquadra . "';";
 		$exe = mysql_query($q);
+		$values = array();
 		while($row = mysql_fetch_array($exe))
-		{
-			foreach($row as $key=>$val)
-				$row[$key] = ucwords(mb_strtolower(utf8_encode($val),"UTF-8"));
 			$values[] = $row;
-		}
 		if(!empty($values))
 			return $values;
 		else

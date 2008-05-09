@@ -59,16 +59,22 @@ class giocatore
 	
 	function getGiocatoriByArray($giocatori)
 	{
-		$q = "SELECT Cognome,Nome,Ruolo,idSquadraAcquisto FROM giocatore WHERE idGioc IN (";
+		$q = "SELECT idGioc,Cognome,Nome,Ruolo,idSquadraAcquisto FROM giocatore WHERE idGioc IN (";
 		foreach($giocatori as $key => $val)
 			$q .= $val . ",";
 		$q = substr($q,0,-1);
 		$q .= ");";
+		$i=0;
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		while($row = mysql_fetch_array($exe))
-			$result[] = $row;
-			return $result;
+			$result[$row[0]] = $row;		foreach($result as $key=>$val)
+		{
+			$appo[$giocatori[$i]] = $result[$giocatori[$i]];
+			$i++;
+		}
+		return $appo;
 	}
+	
       function recuperaOrdine($giornata,$idsquadra,$idg)
       {
  		// ricavo la formazione relativa

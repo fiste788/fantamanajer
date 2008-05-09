@@ -35,11 +35,14 @@ if($today == $dataGiornata && date("H") == 18)
 			{
 				$isCap = substr($val2,3);
 				if(!empty($isCap))
-					$cap[$key][$key2] = substr($val2,4);
+					$cap[$key][substr($val2,0,3)] = substr($val2,4);
 				$titolariAdjust[$key2] = substr($val2,0,3);
-			}		
+			}
 			$titolariName[] = $giocatoreObj->getGiocatoriByArray($titolariAdjust);
-			$panchinariName[] = $giocatoreObj->getGiocatoriByArray($panchinari);
+			if(count($panchinari) > 0)
+				$panchinariName[] = $giocatoreObj->getGiocatoriByArray($panchinari);
+			else
+				$panchinariName[] = FALSE;
 		}
 		else
 		{
@@ -54,10 +57,10 @@ if($today == $dataGiornata && date("H") == 18)
 			$mailContent->assign('panchinari',$panchinariName);
 			$mailContent->assign('cap',$cap);
 
-			//$mailContent->display(TPLDIR.'mailFormazioni.tpl.php');
+			$mailContent->display(TPLDIR.'mailFormazioni.tpl.php');
 			//MANDO LA MAIL
 			$object = "Formazioni giornata: ". $giornata ;
-		  	$mailObj->sendEmail($val[4],$mailContent->fetch(TPLDIR.'mailFormazioni.tpl.php'),$object);
+		  	//$mailObj->sendEmail($val[4],$mailContent->fetch(TPLDIR.'mailFormazioni.tpl.php'),$object);
 		  	$contenttpl->assign('status',TRUE);
 		}
 	}

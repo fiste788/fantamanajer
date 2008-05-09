@@ -54,7 +54,7 @@ $upages = array();
 	
 $apages = array();
 	$apages['home'] = array(	'title'=>"Home", 
-									'js'=>array('jquery'=>'jquery','ui'=>'tabs'), 
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui.base','ui.tabs','ui.tabs.ext')), 
 									'css'=>array('screen','style','tabs'));
 	
 	$apages['rosa'] = array(	'title'=>"Squadra",
