@@ -25,7 +25,7 @@ class formazione
 	   //echo "<pre>".print_r($formazione,1)."</pre>";
 	  //echo "<pre>".print_r($capitano,1)."</pre>";
 	  $formazz=join(";",array_values($formazione));
-      $modulo=$_SESSION['modulooff'];
+      $modulo=$_SESSION['modulo'];
 	  $insert="INSERT INTO formazioni (IdSquadra,IdGiornata,Elenco,Modulo) VALUES (".$_SESSION['idsquadra'].",'$giornata','$formazz','$modulo')";
 	  mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
 	}
@@ -41,7 +41,7 @@ class formazione
 			}
 		}
 		$formazz=join(";",array_values($formazione));
-      	$modulo=$_SESSION['modulooff'];
+      	$modulo=$_SESSION['modulo'];
 		$insert="UPDATE formazioni SET Modulo='$modulo',Elenco =  '" . $formazz . "' WHERE IdSquadra= '" . $_SESSION['idsquadra'] . "' AND IdGiornata = '" . $giornata . "';";
 		mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
 	}

@@ -33,65 +33,17 @@ $cap="";
 if($timeout)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],$giornata);	
-	$contenttpl->assign('issetForm',$issetform);
-  if($issetform)
-	{
-    $modulo=$issetform['Modulo'];
-    $_SESSION['modulo']=$modulo;
-
-    $elenco=$issetform['Elenco'];
-    $pieces=explode("!",$elenco);
-    
-    $titolari=$pieces[0];
-    $titolari_ar=explode(";",$titolari);
-    foreach($titolari_ar as $appo)
-    {
-      $pezzi=explode("-",$appo);
-      if(count($pezzi)>1)
-      {
-        $pos=key($titolari_ar);
-        $titolari_ar[$pos]=$pezzi[0];
-        if($pos==0)
-          $chiave="Por-".$pos."-cap";       
-        else
-          $chiave="Dif-".($pos-1)."-cap";
-        $cap[$chiave]=$pezzi[1];
-      }
-      next($titolari_ar);
-    }
-    $panchinari=substr($pieces[1],1);
-    $panchinari_ar=explode(";",$panchinari);
-    
-
-    
-    $contenttpl->assign('issetForm',$issetform);
-    $contenttpl->assign('titolari',$titolari_ar);
-    $contenttpl->assign('panchinari',$panchinari_ar);
-    $contenttpl->assign('cap',$cap);
-    //echo "$titolari<br>$panchinari<br>$modulo";
-	}
-  $contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($_SESSION['idsquadra']));
+ 	$contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($_SESSION['idsquadra']));
 	//SETTO A NULL IL VALORE DEL MODULO NELLA SESSIONE
 	if( !isset($_SESSION ['modulo']))
 		$_SESSION['modulo'] = NULL;
 	$contenttpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
 	
 	//RITORNO IN UN ARRAY I VALORI DEL MODULO AL PRIMO POSTO I POR AL SECONDO I DIF E AL TERZO I CC E AL QUARTO GLI ATT 
-	if ( isset($_POST) && !empty($_POST) || $_SESSION ['modulo'] != NULL )
-	{
-		if( isset($_POST['mod']) && !empty($_POST['mod']) )
-		{
-			$_SESSION ['modulooff'] = $_POST ['mod'];
-			$_SESSION ['modulo'] = $_POST ['mod'];
-		}
-    $mod = explode('-',$_SESSION ['modulo']);
-		$contenttpl->assign('value',$_SESSION ['modulo']);
-		$contenttpl->assign('modulo',$mod);
-	}
+	if( isset($_POST['mod']) && !empty($_POST['mod']) )
+		$_SESSION ['modulo'] = $_POST ['mod'];
 	else
-	{
 		$contenttpl->assign('value',NULL);
-	}
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 		
 	/* CONTROLLI SULL'INPUT: 
@@ -151,9 +103,8 @@ if($timeout)
 		//echo "<pre>".print_r($capitano,1)."</pre>";
 		if ($err == 2 && !isset($_POST['username']))	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 		{
+			unset($_POST);
 			$contenttpl->assign('err',2);
-			if(!isset($_SESSION ['modulooff']))
-				$_SESSION ['modulooff']=$_SESSION ['modulo'];
 			if(!$issetform)
 				$formazioneObj->carica_formazione($formazione,$capitano,$giornata);
 			else
@@ -162,7 +113,49 @@ if($timeout)
 	  	else
 			$contenttpl->assign('err',1);
 		if ($missing > 0)
-	  		$contenttpl->assign('err',3);
+	  		$contenttpl->assign('err',3);	
 	}
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],$giornata);	
+	$contenttpl->assign('issetForm',$issetform);
+  	if($issetform)
+	{
+		if( !isset($_POST['mod']) && empty($_POST['mod']) )
+			$_SESSION['modulo']=$issetform['Modulo'];
+
+		$elenco=$issetform['Elenco'];
+		$pieces=explode("!",$elenco);
+		
+		$titolari=$pieces[0];
+		$titolari_ar=explode(";",$titolari);
+		foreach($titolari_ar as $key=>$appo)
+		{
+		  $pezzi=explode("-",$appo);
+		  if(count($pezzi)>1)
+		  {
+		    $pos=$key;
+		    $titolari_ar[$pos]=$pezzi[0];
+		    if($pos==0)
+		      $chiave="Por-".$pos."-cap";       
+		    else
+		      $chiave="Dif-".($pos-1)."-cap";
+		    $cap[$chiave]=$pezzi[1];
+		  }
+		}
+		$panchinari=substr($pieces[1],1);
+		$panchinari_ar=explode(";",$panchinari);
+		$contenttpl->assign('issetForm',$issetform);
+		$contenttpl->assign('titolari',$titolari_ar);
+		$contenttpl->assign('panchinari',$panchinari_ar);
+		$contenttpl->assign('cap',$cap);
+		//echo "$titolari<br>$panchinari<br>$modulo";
+	}
+	if($_SESSION['modulo'] != NULL)
+	{
+		$mod = explode('-',$_SESSION ['modulo']);
+		$contenttpl->assign('value',$_SESSION ['modulo']);
+		$contenttpl->assign('modulo',$mod);
+	}
+	else
+		$contenttpl->assign('modulo',NULL);
 }
 ?>

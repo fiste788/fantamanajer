@@ -445,7 +445,6 @@ tr.row:hover {
 #acquisti select {margin-right:0px;}
 /*-----------------------------forms--------------------------------*/
 input {
-	border:1px solid #a7acb0;
 	line-height:15px;
 	width:88px;
 	vertical-align:middle;
@@ -473,6 +472,7 @@ label {
 }
 .cap {width:50px;}
 #classifica-content {min-width:610px;}
+#classifica-content table {margin-bottom:15px;}
 #tab_classifica {
 	width:290px;
 	overflow:auto;

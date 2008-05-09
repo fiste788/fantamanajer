@@ -12,11 +12,11 @@ $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classi
 		<a href="index.php?p=home" title="Home">Home</a>
 	</li>
 	<?php if($_SESSION['logged']): ?>
-	<li <?php if(in_array($this->p,$laTuaSquadra) && isset($_GET['squadra'])) echo 'class="selected"'; ?>>
+	<li <?php if(in_array($this->p,$laTuaSquadra) && isset($_GET['squadra']) && $_GET['squadra'] == $_SESSION['idsquadra']) echo 'class="selected"'; ?>>
 		<a href="index.php?p=rosa&amp;squadra=<?php echo $_SESSION['idsquadra']; ?>" title="La tua squadra">La tua squadra</a>
 	</li>
 	<?php endif; ?>
-	<li <?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra'])) echo 'class="selected"'; ?>>
+	<li <?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra']) || (isset($_GET['squadra']) && $_SESSION['idsquadra'] != $_GET['squadra'])) echo 'class="selected"'; ?>>
 		<a href="index.php?p=rosa" title="Le squadre">Le squadre</a>
 	</li>
 	<li <?php if(in_array($this->p,$conferenzeStampa)) echo 'class="selected"'; ?>>

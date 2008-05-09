@@ -47,13 +47,13 @@ class squadra
 				if($key == 'passwordnew')
 				{
 					$key = 'password';
-					$q .= $key . " = '" . md5($val) . "',";
+					$q .= $key . " = '" . md5(trim($val)) . "',";
 				} 
 				else
 				{
 					if($key == 'usernamenew')
 						$key = 'username';
-					$q .= $key . " = '" . $val . "',";
+					$q .= $key . " = '" . trim($val) . "',";
 				} 
 			}
 		}

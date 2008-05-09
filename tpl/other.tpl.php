@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
+		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
 	</div>
 	<h2 class="column">Altro...</h2>
 </div>

@@ -25,21 +25,25 @@
 			text-align:center;
 			padding: 10px 11px;
 			display:block;
-			min-width:960px;
 			}
 				
 			table {
 				border-collapse:separate;
 				border-spacing:0;
 				margin-bottom:1.4em;
-				width:230px;
+				width:100%;
 				clear:both;
 			}
 				
 			tbody {
-				color:#000;
+				width:100%;
+				color:#fff;
 			}
-				
+			
+			th, td {
+				padding:4px 10px 4px 0pt;
+			}
+			
 			caption,th,td {
 				text-align:left;
 				font-weight:400;
@@ -71,26 +75,26 @@
 			
 			#content {
 				background:#383838;
-				width:740px;
+				width:840px;
 				text-align:justify;
 				color:#fff;
 				clear:both;
 			}
 
 			#content #content-top-sx {
-				background:transparent url(../imgs/content-top-sx.png) no-repeat scroll left top;
+				background:transparent url(<?php echo IMGSURL; ?>content-top-sx.png) no-repeat scroll left top;
 			}
 
 			#content #content-top-dx {
-				background:transparent url(../imgs/content-top-dx.png) no-repeat scroll right top;
+				background:transparent url(<?php echo IMGSURL; ?>content-top-dx.png) no-repeat scroll right top;
 			}
 
 			#content #content-bottom-sx {
-				background:transparent url(../imgs/content-bottom-sx.png) no-repeat scroll left bottom;
+				background:transparent url(<?php echo IMGSURL; ?>content-bottom-sx.png) no-repeat scroll left bottom;
 			}
 
 			#content #content-bottom-dx {
-				background:transparent url(../imgs/content-bottom-dx.png) no-repeat scroll right bottom;
+				background:transparent url(<?php echo IMGSURL; ?>content-bottom-dx.png) no-repeat scroll right bottom;
 	
 			}
 
@@ -127,30 +131,31 @@
 				font-size:13px;
 			}
 			
-			.box2-top-sx {background: #514e46 url(../imgs/box2-top-sx.png) no-repeat top left;}
+			.box2-top-sx {background: #514e46 url(<?php echo IMGSURL; ?>box2-top-sx.png) no-repeat top left;}
 
-			.box2-top-dx {background: transparent url(../imgs/box2-top-dx.png) no-repeat top right;}
+			.box2-top-dx {background: transparent url(<?php echo IMGSURL; ?>box2-top-dx.png) no-repeat top right;}
 
-			.box2-bottom-sx {background: transparent url(../imgs/box2-bottom-sx.png) no-repeat bottom left;}
+			.box2-bottom-sx {background: transparent url(<?php echo IMGSURL; ?>box2-bottom-sx.png) no-repeat bottom left;}
 
-			.box2-bottom-dx {background: transparent url(../imgs/box2-bottom-dx.png) no-repeat bottom right;}
+			.box2-bottom-dx {background: transparent url(<?php echo IMGSURL; ?>box2-bottom-dx.png) no-repeat bottom right;}
+
 
 			.box-content {
 				padding:10px;
-				width:330px;
+				width:380px;
 				text-align:center;
 			}
 			
 			#squadradett {
 				float:left;
-				width:350px;
+				width:400px;
 				margin:10px;
 			}
 			
 			.riga {
 				margin: 0;
 				clear:both;
-				width:740px;
+				width:840px;
 			}
 		</style>
 	</head>
@@ -182,22 +187,24 @@
 										<?php else: ?>
 											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
 										<?php endif; ?>
-											<td><?php echo utf8_encode($val['Cognome']); ?></td>
-											<td><?php echo utf8_encode($val['Nome']); ?></td>
-											<td><?php if(isset($this->cap[$squadra][$key])) echo $this->cap[$squadra][$key]; else echo '&nbsp'; ?></td>
+											<td><?php echo $val['Cognome']; ?></td>
+											<td><?php echo $val['Nome']; ?></td>
+											<td><?php if(isset($this->cap[$squadra][$val['idGioc']])) echo $this->cap[$squadra][$val['idGioc']]; else echo '&nbsp'; ?></td>
 										</tr>
 									<?php endforeach; ?>
 									</table>
-									<h4>Panchinari</h4><hr/>
-									<table>
-									<?php foreach ($this->panchinari[$squadra] as $key => $val): ?>
-										<tr>
-											<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
-											<td><?php echo utf8_encode($val['Cognome']); ?></td>
-											<td><?php echo utf8_encode($val['Nome']); ?></td>
-										</tr>
-									<?php endforeach; ?>
-									</table>
+									<?php if($this->panchinari[$squadra] != FALSE): ?>
+										<h4>Panchinari</h4><hr/>
+										<table>
+										<?php foreach ($this->panchinari[$squadra] as $key => $val): ?>
+											<tr>
+												<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
+												<td><?php echo $val['Cognome']; ?></td>
+												<td><?php echo $val['Nome']; ?></td>
+											</tr>
+										<?php endforeach; ?>
+										</table>
+									<?php endif; ?>
 								<?php else: ?>
 									<h3><?php echo $this->squadre[$squadra][1]; ?></h3>
 									Non ha settato la formazione.
