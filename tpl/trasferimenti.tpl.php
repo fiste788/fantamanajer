@@ -28,7 +28,7 @@
 	<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
 		Non ha effettuato alcun trasferimento
 	<?php endif; ?>
-	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && count($this->trasferimenti < 15)): ?>
+	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && $this->numTrasferimenti < 15): ?>
 	<br/>
 	<h3>Acquista un giocatore</h3>
 	<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>
@@ -49,9 +49,7 @@
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->giocSquadra as $key=>$val): ?>
 						<?php if($val[3] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val[0]; ?>"
-							<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val[0]) echo ' selected="selected"'; ?>
-							><?php echo utf8_encode($val[1]) . " " . utf8_encode($val[2]); ?></option>
+							<option value="<?php echo $val[0]; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val[0]) echo '  selected="selected"'; ?>><?php echo $val[1] . " " . $val[2]; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
@@ -63,9 +61,7 @@
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->freePlayer as $key=>$val): ?>
 						<?php if($val[3] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val[0]; ?>"
-							<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val[0]) echo ' selected="selected"'; ?>
-							><?php echo utf8_encode($val[1]) . " " . utf8_encode($val[2]); ?></option>
+							<option value="<?php echo $val[0]; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val[0]) echo '  selected="selected"'; ?>><?php echo $val[1] . " " . $val[2]; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>

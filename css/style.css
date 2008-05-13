@@ -82,6 +82,12 @@ em {background-color:transparent;}
 	padding:10px 0 0;
 	clear:both;
 }
+#footer a {
+	padding:0 5px;
+	color:#fff;
+	font-weight:normal;
+}
+#footer img {margin:0 5px 0 0;}
 /*---------------------navbar------------------------*/
 #navbar {
 	padding: 10px 10px 0 15px;
@@ -96,7 +102,7 @@ em {background-color:transparent;}
 	float:left;
 }
 #navbar ul li a {
-	background:transparent url(../imgs/tab-sx.png) no-repeat scroll left bottom;
+	background:transparent url(../imgs/tabs.png) no-repeat scroll left -111px;
 	line-height:37px;
 	height:37px;
 	padding:0 23px;
@@ -106,23 +112,22 @@ em {background-color:transparent;}
 	float:left;
 	margin:0 1px 0 0;
 }
-
 #navbar ul li a:hover {
 	color:#fff1ba;
 }
 #navbar ul li {
-	background:#1e1e1e url(../imgs/tab-dx.png) no-repeat scroll right bottom;
+	background:#1e1e1e url(../imgs/tabs.png) no-repeat scroll right -74px;
 	display:block;
 	padding:0px;
 	width:auto;
 	float:left;
 }
 #navbar ul li.selected a {
-	background:transparent url(../imgs/tab-sel-sx.png) no-repeat scroll left bottom;
+	background:transparent url(../imgs/tabs.png) no-repeat scroll left 0px;
 	color:#ff9900;
 }
 #navbar ul li.selected {
-	background:#383838 url(../imgs/tab-sel-dx.png) no-repeat scroll right bottom;
+	background:#383838 url(../imgs/tabs.png) no-repeat scroll right -37px;
 }
 /*---------------------------------content------------------------------*/
 #content {
@@ -169,15 +174,15 @@ em {background-color:transparent;}
 	margin-bottom:0;
 }
 #operazioni .operazioni-content li,#operazioni .operazioni-content li{clear:both;}
-#operazioni .imp-formazione {background:transparent url(../imgs/formazione.png) no-repeat scroll left center;}
-#operazioni .see-freeplayer {	background:transparent url(../imgs/freeplayer.png) no-repeat scroll left center;}
-#operazioni .see-premi {background:transparent url(../imgs/premi.png) no-repeat scroll left center;}
-#operazioni .see-transfert {background:transparent url(../imgs/transfert.png) no-repeat scroll left center;}
-#operazioni .new-stampa {background:transparent url(../imgs/conf-stampa.png) no-repeat scroll left center;}
-#operazioni-other .undo-punteggi-active {background:transparent url(../imgs/undo-active.png) no-repeat scroll left center;}
-#operazioni-other .redo-punteggi-active {background:transparent url(../imgs/redo-active.png) no-repeat scroll left center;}
-#operazioni-other .undo-punteggi-unactive {background:transparent url(../imgs/undo-unactive.png) no-repeat scroll left center;}
-#operazioni-other .redo-punteggi-unactive {	background:transparent url(../imgs/redo-unactive.png) no-repeat scroll left center;}
+#operazioni .imp-formazione {background:transparent url(../imgs/operazioni.png) no-repeat scroll left -120px;}
+#operazioni .see-freeplayer {	background:transparent url(../imgs/operazioni.png) no-repeat scroll left -90px;}
+#operazioni .see-premi {background:transparent url(../imgs/operazioni.png) no-repeat scroll left -30px;}
+#operazioni .see-transfert {background:transparent url(../imgs/operazioni.png) no-repeat scroll left -60px;}
+#operazioni .new-stampa {background:transparent url(../imgs/operazioni.png) no-repeat scroll left 0px;}
+#operazioni-other .undo-punteggi-active {background:transparent url(../imgs/frecce.png) no-repeat scroll left -60px;}
+#operazioni-other .redo-punteggi-active {background:transparent url(../imgs/frecce.png) no-repeat scroll left 0px;}
+#operazioni-other .undo-punteggi-unactive {background:transparent url(../imgs/frecce.png) no-repeat scroll left -90px;}
+#operazioni-other .redo-punteggi-unactive {	background:transparent url(../imgs/frecce.png) no-repeat scroll left -30px;}
 #operazioni a,#operazioni-other a,#operazioni-other .simil-link {
 	color:#fff;
 	font-weight:normal;
@@ -206,6 +211,7 @@ em {background-color:transparent;}
 	margin:0 auto;
 	display:block;
 	clear:both;
+	padding:0 10px 0 0;
 }
 #squadradett span {width:100%;}
 #squadradett table{

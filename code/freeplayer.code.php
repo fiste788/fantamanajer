@@ -65,5 +65,30 @@ if($order != NULL)
 	elseif($v == 'desc')
 		array_multisort($sort_arr[$order] , SORT_DESC , $freeplayer);
 }
+$orderBy = array();
+$orderBy[] = array('Cognome','asc');
+$orderBy[] = array('Nome','asc');
+$orderBy[] = array('Club','asc');
+$orderBy[] = array('Voti','desc');
+$orderBy[] = array('PartiteGiocate','desc');
+foreach($orderBy as $key=>$val)
+{
+	if(!isset($v) || $order != $val[0])
+		$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=' . $val[1];
+	elseif($order == $val[0])
+	{
+		if($v == 'asc')
+			$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=desc';
+		else
+			$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=asc';
+	}
+	if(isset($ruolo))
+		$link[$val[0]] .= '&amp;ruolo=' . $ruolo;
+	if(isset($suff))
+		$link[$val[0]] .=  '&amp;suff=' . $suff;
+	if(isset($partite))
+		$link[$val[0]] .=  '&amp;partite=' . $partite;
+}
+$contenttpl->assign('link',$link);
 $contenttpl->assign('freeplayer',$freeplayer);
 ?>

@@ -34,7 +34,9 @@ $playerFree = array();
 foreach($ruo as $key=>$val)
 	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
 $contenttpl->assign('freePlayer',$playerFree);
-if($_SESSION['logged'])
+
+$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
+if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 {
 	if($numTrasferimenti <15 )
 	{

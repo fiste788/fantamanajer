@@ -14,57 +14,62 @@ $date = $giornataObj->getDataByGiornata($giornata);
 $giorn = explode(' ',$date[2]);
 $dataGiornata = $giorn[0];
 
-if($today == $dataGiornata && date("H") == 18)
+if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['password']) && trim($_GET['password']) == md5('omordotuanuoraoarounautodromo'))
 {
-	$mailContent = new Savant2();
-	$squadre = $squadraObj->getElencoSquadre();
-	$mailContent->assign('squadre',$squadre);
-	$titolariName = array();
-	$panchinariName = array();
-	$capitani = array();
-	foreach ($squadre as $key => $val)
+	if($today == $dataGiornata && date("H") == 18)
 	{
-		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val[0],$giornata);
-		if($formazione != FALSE)
+		$mailContent = new Savant2();
+		$squadre = $squadraObj->getElencoSquadre();
+		$mailContent->assign('squadre',$squadre);
+		$titolariName = array();
+		$panchinariName = array();
+		$capitani = array();
+		foreach ($squadre as $key => $val)
 		{
-			$formazione = explode('!',$formazione['Elenco']);
-			$titolari = explode(';',$formazione[0]);
-			$panchinari = explode(';',$formazione[1]);
-			unset($panchinari[0]);
-			foreach ($titolari as $key2 => $val2)
+			$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val[0],$giornata);
+			if($formazione != FALSE)
 			{
-				$isCap = substr($val2,3);
-				if(!empty($isCap))
-					$cap[$key][substr($val2,0,3)] = substr($val2,4);
-				$titolariAdjust[$key2] = substr($val2,0,3);
+				$formazione = explode('!',$formazione['Elenco']);
+				$titolari = explode(';',$formazione[0]);
+				$panchinari = explode(';',$formazione[1]);
+				array_shift($panchinari);
+				foreach ($titolari as $key2 => $val2)
+				{
+					$isCap = substr($val2,3);
+					if(!empty($isCap))
+						$cap[$key][substr($val2,0,3)] = substr($val2,4);
+					$titolariAdjust[$key2] = substr($val2,0,3);
+				}
+				$titolariName[] = $giocatoreObj->getGiocatoriByArray($titolariAdjust);
+				if(count($panchinari) > 0)
+					$panchinariName[] = $giocatoreObj->getGiocatoriByArray($panchinari);
+				else
+					$panchinariName[] = FALSE;
 			}
-			$titolariName[] = $giocatoreObj->getGiocatoriByArray($titolariAdjust);
-			if(count($panchinari) > 0)
-				$panchinariName[] = $giocatoreObj->getGiocatoriByArray($panchinari);
 			else
-				$panchinariName[] = FALSE;
+			{
+				$titolariName[] = $panchinariName[] = $cap[] = FALSE;
+			}
 		}
-		else
+		foreach ($squadre as $key => $val)
 		{
-			$titolariName[] = $panchinariName[] = $cap[] = FALSE;
-		}
-	}
-	foreach ($squadre as $key => $val)
-	{
-		if(isset($val[4]))
-		{
-			$mailContent->assign('titolari',$titolariName);
-			$mailContent->assign('panchinari',$panchinariName);
-			$mailContent->assign('cap',$cap);
+			if(isset($val[4]))
+			{
+				$mailContent->assign('titolari',$titolariName);
+				$mailContent->assign('panchinari',$panchinariName);
+				$mailContent->assign('cap',$cap);
 
-			$mailContent->display(TPLDIR.'mailFormazioni.tpl.php');
-			//MANDO LA MAIL
-			$object = "Formazioni giornata: ". $giornata ;
-		  	//$mailObj->sendEmail($val[4],$mailContent->fetch(TPLDIR.'mailFormazioni.tpl.php'),$object);
-		  	$contenttpl->assign('status',TRUE);
+				//$mailContent->display(TPLDIR.'mailFormazioni.tpl.php');
+				//MANDO LA MAIL
+				$object = "Formazioni giornata: ". $giornata ;
+			  	$mailObj->sendEmail($val[4],$mailContent->fetch(TPLDIR.'mailFormazioni.tpl.php'),$object);
+			  	$contenttpl->assign('message','Operazione effettuata correttamente');
+			}
 		}
 	}
+	else
+		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
 }
 else
-	$contenttpl->assign('status',FALSE);
+	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');
 ?>

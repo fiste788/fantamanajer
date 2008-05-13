@@ -223,10 +223,10 @@ $(window).bind("load",function(){
 $(function() {
 	$('a.lightbox').lightBox({
 		imageLoading: '<?php echo IMGSURL; ?>lightbox-ico-loading.gif',
-		imageBtnClose: '<?php echo IMGSURL; ?>lightbox-btn-close.gif',
-		imageBtnPrev: '<?php echo IMGSURL; ?>lightbox-btn-prev.gif',
-		imageBtnNext: '<?php echo IMGSURL; ?>lightbox-btn-next.gif',
-		imageBlank: '<?php echo IMGSURL; ?>lightbox-blank.gif',
+		imageBtnClose: '<?php echo IMGSURL; ?>lightbox-btn-close.png',
+		imageBtnPrev: '<?php echo IMGSURL; ?>lightbox-btn-prev.png',
+		imageBtnNext: '<?php echo IMGSURL; ?>lightbox-btn-next.png',
+		imageBlank: '<?php echo IMGSURL; ?>lightbox-blank.png',
 		fixedNavigation: false,
 		txtImage: 'Immagine',
 		txtOf: 'di'

@@ -13,43 +13,11 @@
 			<tr>
 				<th class="check">Acq.</th>
 				<th>&nbsp;</th>
-				<th class="cognome">Cognome</th>
-				<th class="nome">Nome</th>
-				<th class="club">Club</th>
-				<th class="club"><a href="<?php 	if(!isset($this->getv) || $this->getorder != 'Voti')
-																									echo 'index.php?p=freeplayer&amp;order=Voti&amp;v=desc';
-																								elseif($this->getorder == 'Voti')
-																								{
-																									if($this->getv == 'asc')
-																										echo 'index.php?p=freeplayer&amp;order=Voti&amp;v=desc';
-																									else
-																										echo 'index.php?p=freeplayer&amp;order=Voti&amp;v=asc';
-																								}
-																								if(isset($this->ruolo))
-																									echo '&amp;ruolo=' . $this->ruolo;
-																								if(isset($this->suff))
-																									echo '&amp;suff=' . $this->suff;
-																								if(isset($this->partite))
-																									echo '&amp;partite=' . $this->partite;
-																										?>
-																				">M. voto</a></th>
-				<th class="club"><a href="<?php 	if(!isset($this->getv) || $this->getorder != 'PartiteGiocate')
-																									echo 'index.php?p=freeplayer&amp;order=PartiteGiocate&amp;v=desc';
-																								elseif($this->getorder == 'PartiteGiocate')
-																								{
-																									if($this->getv == 'asc')
-																										echo 'index.php?p=freeplayer&amp;order=PartiteGiocate&amp;v=desc';
-																									else
-																										echo 'index.php?p=freeplayer&amp;order=PartiteGiocate&amp;v=asc';
-																								}
-																								if(isset($this->ruolo))
-																									echo '&amp;ruolo=' . $this->ruolo;
-																								if(isset($this->suff))
-																									echo '&amp;suff=' . $this->suff;
-																								if(isset($this->partite))
-																									echo '&amp;partite=' . $this->partite;
-																								?>
-																				">Partite</a></th>
+				<th class="cognome"><a href="<?php echo $this->link['Cognome'] ?>">Cognome</a></th>
+				<th class="nome"><a href="<?php echo $this->link['Nome'] ?>">Nome</a></th>
+				<th class="club"><a href="<?php echo $this->link['Club'] ?>">Club</a></th>
+				<th class="club"><a href="<?php echo $this->link['Voti'] ?>">M. voto</a></th>
+				<th class="club"><a href="<?php echo $this->link['PartiteGiocate'] ?>">Partite</a></th>
 			</tr>
 			<?php foreach($this->freeplayer as $key => $val): ?>
 			<tr>

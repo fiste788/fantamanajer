@@ -143,7 +143,7 @@ class articolo
 			}
 		}
 		if($order != NULL)
-			$q .= " ORDER BY '" .$order  . "' DESC";
+			$q .= " ORDER BY " .$order  . " DESC";
 		if($start != NULL || $end != NULL)
 			$q .= " LIMIT ".$start.','.$end;
 		$q .= ";";

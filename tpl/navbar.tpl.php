@@ -16,7 +16,7 @@ $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classi
 		<a href="index.php?p=rosa&amp;squadra=<?php echo $_SESSION['idsquadra']; ?>" title="La tua squadra">La tua squadra</a>
 	</li>
 	<?php endif; ?>
-	<li <?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra']) || (isset($_GET['squadra']) && $_SESSION['idsquadra'] != $_GET['squadra'])) echo 'class="selected"'; ?>>
+	<li <?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra']) || (in_array($this->p,$leSquadre) && isset($_GET['squadra']) && $_SESSION['idsquadra'] != $_GET['squadra'])) echo 'class="selected"'; ?>>
 		<a href="index.php?p=rosa" title="Le squadre">Le squadre</a>
 	</li>
 	<li <?php if(in_array($this->p,$conferenzeStampa)) echo 'class="selected"'; ?>>
