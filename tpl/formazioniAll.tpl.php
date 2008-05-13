@@ -105,6 +105,11 @@
 		<img src="<?php echo IMGSURL.'attention.big.png'; ?>" />
 		<span>La formazione non è stata impostata</span>
 	</div>
+	<script type="text/javascript">
+		$(".messaggio").click(function () {
+			$("div.messaggio").fadeOut("slow");
+		});
+		</script>
 	<?php endif; ?>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 		<?php require (TPLDIR.'operazioni.tpl.php'); ?>

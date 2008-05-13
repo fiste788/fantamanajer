@@ -58,23 +58,24 @@ else
 <form name="editConfStampa" method="post" action="index.php?p=editArticolo&amp;a=<?php echo $_GET['a'] ?><?php if(isset($_GET['id'])): ?>&amp;id=<?php echo $_GET['id']; endif; ?>">
 	<fieldset class="no-margin">
 			<div class="formbox">
-			  <label for="title">Titolo:</label>
+			  <label for="title">Titolo: *</label>
 			  <input <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> class="text" type="text" maxlength="30" name="title" id="title" <?php if(isset($title)): ?>value="<?php echo $title ?>"<?php endif; ?>/>
 			</div>
 			<div class="formbox">
 			  <label for="abstract">Sottotitolo:</label>
 			  <textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="3" cols="50" onkeyup="return ismaxlength(this, 75);" name="abstract" id="abstract"><?php if(isset($abstract)) echo $abstract; ?></textarea>
-				<input class="column text disabled" name="abstractCont" type="text" disabled="disabled" value="<?php if(isset($abstract)) echo 75 - mb_strlen($abstract,"UTF-8"); else echo "75";  ?>" />
+				<input class="column text disabled" name="abstractCont" type="text" disabled="disabled" value="<?php if(isset($abstract)) echo 75 - mb_strlen($abstract,'UTF-8'); else echo '75';  ?>" />
 			</div>
 			<div class="formbox">
-			  <label for="text">Testo:</label>
+			  <label for="text">Testo: *</label>
 			  <textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="50" onkeyup="return ismaxlength(this, 500);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
-			  <input class="column text disabled" name="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 500-mb_strlen($text);else echo "500"; ?>" />
+			  <input class="column text disabled" name="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 500-mb_strlen($text);else echo '500'; ?>" />
 			</div>
 		</fieldset>
 		<fieldset class="column">
 			<input class="submit dark" type="submit" name="submit" value="<?php echo $button; ?>" />
 			<input class="submit dark" type="reset" value="Cancella" />
+			<p>(*) I campi contrassegnati con l'asterisco sono obbligatori</p>
 	</fieldset>
 </form>
 </div>

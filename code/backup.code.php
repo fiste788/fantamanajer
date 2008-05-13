@@ -6,23 +6,24 @@ $fileSystemObj = new fileSystem();
 $path = 'db';
 $backupName = $path.'/backup_'. date("Y-m-d H:i:s") . '.sql' ;
 $backupObj = new MySQLDump(DBNAME,$backupName,FALSE,FALSE);
-//ESEGUO IL BACKUP SETTIMANALE DEL DB
-if($backupObj->dodump())
+
+if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['password']) && trim($_GET['password']) == md5('omordotuanuoraoarounautodromo'))
 {
-	$backup[0] = 0;
-	$backup[1] = 'Backup eseguito correttamente';
-	$files = $fileSystemObj->getFileIntoFolder($path);
-	rsort($files);
-	if(count($files) > 8)
+	//ESEGUO IL BACKUP SETTIMANALE DEL DB
+	if($backupObj->dodump())
 	{
-		$lastFile = array_pop($files);
-		unlink($path.'/'.$lastFile);
+		$contenttpl->assign('message','Operazione effettuata correttamente');
+		$files = $fileSystemObj->getFileIntoFolder($path);
+		rsort($files);
+		if(count($files) > 8)
+		{
+			$lastFile = array_pop($files);
+			unlink($path.'/'.$lastFile);
+		}
 	}
+	else
+		$contenttpl->assign('message','Si sono verificati degli errori');
 }
 else
-{
-	$backup[0] = 1;
-	$backup[1] = 'Errore nella creazione del backup';
-}
-$contenttpl->assign('backup',$backup);
+	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');
 ?>

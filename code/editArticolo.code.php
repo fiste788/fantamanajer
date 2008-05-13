@@ -30,59 +30,47 @@ if(isset($_POST['submit']))
 
 	if($action == 'new' || $action == 'edit')
 	{
-		//CICLO I POSTDATA PER VERIFICARE CHE TUTTI I CAMPI SIANO STATI COMPLETATI
-		$missing = "";
-		if ( (isset($_POST)) && (!empty($_POST)) )
+		//INSERISCO NEL DB OPPURE SEGNALO I CAMPI NON RIEMPITI
+		if ( (isset($_POST['title'])) && (!empty($_POST['title'])) && (isset($_POST['text'])) && (!empty($_POST['text'])) )
 		{
-			foreach ($_POST as $key=>$val)
+			$articoloObj = new articolo();
+			$articoloObj->settitle(stripslashes(addslashes($_POST['title'])));
+			$articoloObj->setabstract(stripslashes(addslashes($_POST['abstract'])));
+			$articoloObj->settext(stripslashes(addslashes($_POST['text'])));
+			if($action == 'new')
 			{
-				if ( (!isset($val)) || (empty($val)) )
-				{
-					$missing .= " ".$field[$key];
-				}
-			}
-			//INSERISCO NEL DB OPPURE SEGNALO I CAMPI NON RIEMPITI
-			if ( (!isset($missing)) || (empty($missing)) )
-			{
-				$articoloObj = new articolo();
-				$articoloObj->settitle(stripslashes(addslashes($_POST['title'])));
-				$articoloObj->setabstract(stripslashes(addslashes($_POST['abstract'])));
-				$articoloObj->settext(stripslashes(addslashes($_POST['text'])));
-				if($action == 'new')
-				{
-					$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
-					$articoloObj->setidgiornata($giornata);
-				}
-				else
-				{
-					$articoloObj->setinsertdate($articolo[0]['insertDate']);
-					$articoloObj->setidgiornata($articolo[0]['idGiornata']);
-				}
-				$articoloObj->setidsquadra($_SESSION['idsquadra']);
-				if($action == 'new')
-				{
-					$articoloObj->add($articoloObj);
-					$messaggio[0] = 0;
-					$messaggio[] = "Inserimento completato con successo!";
-					$contenttpl->assign('messaggio',$messaggio);
-				}
-				else
-				{
-					$articoloObj->setidArticolo($_GET['id']);
-					$articoloObj->update($articoloObj);
-					$messaggio[0] = 0;
-					$messaggio[] = "Modifica effettuata con successo!";
-					$contenttpl->assign('messaggio',$messaggio);
-				}
-				$_SESSION['message'] = $messaggio;
-				header("Location:index.php?p=confStampa");
+				$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
+				$articoloObj->setidgiornata($giornata);
 			}
 			else
 			{
-				$messaggio[0] = 1;
-				$messaggio[] = "Non hai compilato correttamente tutti i campi";
+				$articoloObj->setinsertdate($articolo[0]['insertDate']);
+				$articoloObj->setidgiornata($articolo[0]['idGiornata']);
+			}
+			$articoloObj->setidsquadra($_SESSION['idsquadra']);
+			if($action == 'new')
+			{
+				$articoloObj->add($articoloObj);
+				$messaggio[0] = 0;
+				$messaggio[] = "Inserimento completato con successo!";
 				$contenttpl->assign('messaggio',$messaggio);
 			}
+			else
+			{
+				$articoloObj->setidArticolo($_GET['id']);
+				$articoloObj->update($articoloObj);
+				$messaggio[0] = 0;
+				$messaggio[] = "Modifica effettuata con successo!";
+				$contenttpl->assign('messaggio',$messaggio);
+			}
+			$_SESSION['message'] = $messaggio;
+			header("Location:index.php?p=confStampa");
+		}
+		else
+		{
+			$messaggio[0] = 1;
+			$messaggio[] = "Non hai compilato correttamente tutti i campi";
+			$contenttpl->assign('messaggio',$messaggio);
 		}
 	}
 }

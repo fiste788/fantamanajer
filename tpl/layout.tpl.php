@@ -1,13 +1,13 @@
-<?php //echo "<pre>".print_r($this->pages,1)."</pre>"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>FantaManajer<?php if(isset($this->pages['title'])) echo " - ".$this->pages['title']; ?></title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
-		<meta name="description" content="Fantamanajer: un semplice tool per gestire il fantacalcio" />
+		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantacalcio,fantamanajer,fantamanger,manageriale fantacalcio,alzano sopra,condominio i pini,bergamo,calcio,piazzetta" />
+		<meta name="robots" content="index,follow" />
 		<?php foreach($this->pages['css'] as $key=>$val): ?>
 			<link href="<?php echo CSSURL.$val.'.css';?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
@@ -25,8 +25,10 @@
 		<?php endif; ?>
 		<?php endforeach; ?>
 		<?php endif; ?>
+		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' ): ?>
 		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 		<script type="text/javascript">_uacct = "UA-3016148-1";urchinTracker();</script>
+		<?php endif; ?>
 	</head>
 	<body>
 	<!--[if lt IE 7]>

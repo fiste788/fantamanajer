@@ -261,6 +261,7 @@ class giocatore
 */
 	function returnarray($path) 
 	{
+		if(!file_exists($path)) die("File non esistente");
 		$content = join('',file($path));
 		$players=explode("\n",$content);
 		foreach ($players as &$value) 
@@ -276,7 +277,7 @@ class giocatore
 	// aggiorna di giornata in giornata i giocatori, togliendo qll ceduti
 	function updateListaGiocatori($giornata)
 	{
-		$percorso = "docs/Giornata".$giornata.".csv";
+		$percorso = "docs/voti/Giornata".$giornata.".csv";
 		$players_now = $this->returnarray($percorso);
 		$q = "SELECT * FROM giocatore WHERE Club <> ''";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
@@ -287,7 +288,7 @@ class giocatore
 			if(!array_key_exists($chiave,$players_now))
 			{
 				fwrite($handle,"$row[0];$row[1];$row[2]\n");
-				$update="UPDATE giocatore SET Club = '' WHERE IdGioc=".$chiave;
+				$update="UPDATE giocatore SET Club = '' WHERE IdGioc='".$chiave."';";
 				mysql_query($update) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 			}
 		}

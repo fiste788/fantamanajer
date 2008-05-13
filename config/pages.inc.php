@@ -5,7 +5,7 @@
  
 $upages = array();
 	$upages['home'] = array(	'title'=>"Home",
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui.base','ui.tabs','ui.tabs.ext')), 
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-tabs','ui-tabs-ext')), 
 									'css'=>array('screen','style','tabs'));
 									
 	$upages['rosa'] = array(	'title'=>"Squadra", 
@@ -54,11 +54,11 @@ $upages = array();
 	
 $apages = array();
 	$apages['home'] = array(	'title'=>"Home", 
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui.base','ui.tabs','ui.tabs.ext')), 
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-tabs','ui-tabs-ext')), 
 									'css'=>array('screen','style','tabs'));
 	
 	$apages['rosa'] = array(	'title'=>"Squadra",
-								'js'=>array('jquery'=>array('jquery','jquery.dimension'),'lightbox'=>'lightbox','ui'=>array('ui.base','ui.accordion')),
+								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-base','ui-accordion')),
 								'css'=>array('screen','style','lightbox'));
 								
 	$apages['classifica'] = array(	'title'=>"Classifica", 

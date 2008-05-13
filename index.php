@@ -19,8 +19,31 @@ Included library:
  * langlib.inc.php that defines functions for lang array
 
 */
-if(!isset($_SESSION))
-session_start();
+
+$session_name = 'fantamanajer';
+@session_name($session_name);
+// strictly, PHP 4 since 4.4.2 would not need a verification
+if (version_compare(PHP_VERSION, '5.1.2', 'lt') && isset($_COOKIE[$session_name]) && eregi("\r|\n", $_COOKIE[$session_name])) 
+	die('attacked');
+
+if (!isset($_COOKIE[$session_name])) {
+    ob_start();
+    $old_display_errors = ini_get('display_errors');
+    $old_error_reporting = error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $r = session_start();
+    ini_set('display_errors', $old_display_errors);
+    error_reporting($old_error_reporting);
+    unset($old_display_errors, $old_error_reporting);
+    $session_error = ob_get_contents();
+    ob_end_clean();
+    if ($r !== true || ! empty($session_error)) {
+        setcookie($session_name, '', 1);
+        die('sessionError');
+    }
+} else {
+    @session_start();
+}
 
 require_once 'config/config.inc.php';
 require_once 'config/Savant2.php';

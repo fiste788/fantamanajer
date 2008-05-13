@@ -1,6 +1,5 @@
 <?php 
 require(INCDIR.'giocatore.inc.php');
-require(INCDIR.'giornata.inc.php');
 
 $giocatoreObj = new giocatore();
 $giornataObj = new giornata();
@@ -10,6 +9,17 @@ $date = $giornataObj->getDataByGiornata($giornataObj->getIdGiornataByDate());
 $giorn = explode(' ',$date[2]);
 $dataGiornata = $giorn[0];
 
-if($today == $dataGiornata && date("H") == '00')
-	$giocatoreObj->doTransfert();
+
+if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['password']) && trim($_GET['password']) == md5('omordotuanuoraoarounautodromo'))
+{
+	if($today == $dataGiornata && date("H") == '00')
+	{
+		$giocatoreObj->doTransfert();
+		$contenttpl->assign('message','Operazione effettuata correttamente');
+	}
+	else
+		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
+}
+else
+	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');
 ?>
