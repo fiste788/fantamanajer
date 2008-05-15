@@ -67,6 +67,9 @@ else
 				<input class="column text disabled" name="abstractCont" type="text" disabled="disabled" value="<?php if(isset($abstract)) echo 75 - mb_strlen($abstract,'UTF-8'); else echo '75';  ?>" />
 			</div>
 			<div class="formbox">
+				<img class="emoticon" src="<?php echo IMGSURL.'emoticons/andy.png' ?>" alt="Scioccato" onclick="document.getElementById('text').value +=  ':^)';return ismaxlength(document.getElementById('text'), 500);" />
+				<img class="emoticon" src="<?php echo IMGSURL.'emoticons/angry.png' ?>" alt="Arrabbiato" onclick="document.getElementById('text').value += ':@';return ismaxlength(document.getElementById('text'), 500);" />
+				<img class="emoticon" src="<?php echo IMGSURL.'emoticons/Baring_teeth_smiley.png' ?>" alt="Incazzato" onclick="document.getElementById('text').value += '8o|';return ismaxlength(document.getElementById('text'), 500);" />
 			  <label for="text">Testo: *</label>
 			  <textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="50" onkeyup="return ismaxlength(this, 500);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
 			  <input class="column text disabled" name="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 500-mb_strlen($text);else echo '500'; ?>" />

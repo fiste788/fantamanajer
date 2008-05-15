@@ -29,7 +29,7 @@ if (isset ($_FILES ['userfile']['tmp_name']))
 			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-original' , $path , $width_large_thumb , $height_large_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small.jpg','56 56 56',$path . $name . '-small-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '.jpg','81 78 70',$path . $name . '-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '-med.jpg','81 78 70',$path . $name . '-med-reflex.jpg',1))
 			{
 									$message[] = 0;
-									$message[] = 'Upload effettuato correttamente';
+									$message[] = 'Upload effettuato correttamente, Potrebbe essere necessario ricaricare la pagina per problemi di cache. Premi Ctrl+R';
 									unlink($path.$name.'-temp.'.$ext);
 									}
 								else

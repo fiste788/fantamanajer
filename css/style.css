@@ -434,6 +434,9 @@ tr.row:hover {
 	width:200px;
 	margin:0 0 8px 0;
 }
+#articoloedit .emoticon:hover {
+	cursor:pointer;
+}
 #articoloedit .disabled {
 	width:30px;
 	margin:6px;
