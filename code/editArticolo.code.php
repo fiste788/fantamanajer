@@ -1,12 +1,15 @@
 <?php 
 require(INCDIR."articolo.inc.php");
+require(INCDIR."emoticon.inc.php");
 
 $action = NULL;
 $field = array('title'=>'Titolo','abstract'=>'Sottotitolo','text'=>'Testo');
 if(isset($_GET['a']))
 	$action = $_GET['a'];
 $articoloObj = new articolo();
+$emoticonObj = new emoticon();
 
+$contenttpl->assign('emoticons',$emoticonObj->emoticon);
 $contenttpl->assign('messaggio',NULL);
 
 if($action == 'edit' || $action == 'cancel')

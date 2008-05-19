@@ -5,7 +5,7 @@
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'-small.jpg')): ?>
 			<a href="<?php echo UPLOADDIR.$this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
 				<img alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img align="left" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="reflex" align="left" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php else: ?>
 			<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
@@ -71,7 +71,7 @@
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'.jpg')): ?>
 			<a href="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
 				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="logo reflex" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php endif; ?>
 		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
@@ -185,7 +185,7 @@ $(window).bind("load",function(){
 					$appo = floor(($width - 100) / 2);
 				?>
 					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
-					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'"px'; ?>  />
+					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'"px'; ?>  />
 				</a>
 			<?php else: ?>
 				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />

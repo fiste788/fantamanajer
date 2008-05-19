@@ -49,5 +49,13 @@ class giornata
 		$valore = mysql_fetch_row($exe);
 		return $valore;
 	}
+	
+	function getNumberGiornate()
+	{
+		$q = "SELECT COUNT(idGiornata) FROM giornate;";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		$valore = mysql_fetch_row($exe);
+		return $valore[0];
+	}
 }
 ?>

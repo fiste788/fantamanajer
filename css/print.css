@@ -17,7 +17,7 @@ hr {background:#ccc;color:#ccc;width:100%;height:2px;margin:2em 0;padding:0;bord
 hr.space {background:#fff;color:#fff;}
 h1, h2, h3, h4, h5, h6 {font-family:"Helvetica Neue", Arial, "Lucida Grande", sans-serif;}
 code {font:.9em "Courier New", Monaco, Courier, monospace;}
-img {float:left;margin:1.5em 1.5em 1.5em 0;}
+img {float:left;margin:0em 1.5em 1.5em 0;}
 a img {border:none;}
 p img.top {margin-top:0;}
 blockquote {margin:1.5em;padding:1em;font-style:italic;font-size:.9em;}
@@ -25,5 +25,20 @@ blockquote {margin:1.5em;padding:1em;font-style:italic;font-size:.9em;}
 .large {font-size:1.1em;}
 .quiet {color:#999;}
 .hide {display:none;}
-a:link, a:visited {background:transparent;font-weight:700;text-decoration:underline;}
-a:link:after, a:visited:after {content:" (" attr(href) ") ";font-size:90%;}
+a:link, a:visited {background:transparent;font-weight:700;text-decoration:none;}
+a:link:after, a:visited:after {font-size:90%;}
+#squadradett,#navbar,#header,.logout,#login,#footer .right,#fix,.logo-tit img,#icone{display:none;}
+table {width:100%;}
+#classifica-content table {float:left;}
+#tab_classifica {float:left;}
+#tab_classifica table {width:690px !important;}
+#tab_classifica a {color:#000;font-weight:normal;}
+#squadre .reflex {display:none;}
+.box-squadra {clear:both;}
+#footer,.ui-tabs-panel {clear:both;}
+#acquisti {display:none;}
+input {display:none}
+.tableimg,.check {display:none;}
+th {text-align:left;}
+.conf-stampa-content a {display:none;}
+.conf-stampa-content .text {margin-bottom:1.5em;}

@@ -105,6 +105,8 @@ if (!isset($_SESSION['logged'])) {
 		$giornata = $giornataObj->getIdGiornataByDateSecondary();
 	else 
 		$timeout = TRUE;
+	if($giornata > ($giornataObj->getNumberGiornate()-1))
+		$timeout = NULL;
 	define("GIORNATA",$giornata);
 	define("TIMEOUT",$timeout);
 	$contenttpl->assign('giornata',GIORNATA);
