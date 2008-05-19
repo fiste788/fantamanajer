@@ -1,15 +1,21 @@
 <?php 
 require(INCDIR."articolo.inc.php");
 require(INCDIR."squadra.inc.php");
+require(INCDIR."emoticon.inc.php");
 
 $getGiornata = $giornata;
 if (!empty($_GET['giorn']))
 	$getGiornata = $_GET['giorn'];
 $contenttpl->assign('getGiornata',$getGiornata);
 
+$emoticonObj = new emoticon();
 $articoloObj = new articolo();
 $articoloObj->setidgiornata($getGiornata);
-$contenttpl->assign('articoli',$articoloObj->select($articoloObj,'=','*',0,8,NULL));
+$articolo = $articoloObj->select($articoloObj,'=','*',0,8,NULL);
+if($articolo != FALSE)
+	foreach ($articolo as $key=>$val)
+		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
+$contenttpl->assign('articoli',$articolo);
 
 $squadraObj = new squadra();
 $contenttpl->assign('squadre',$squadraObj->getElencoSquadre());

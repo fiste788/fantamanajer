@@ -19,6 +19,13 @@ $height_med_thumb = 75;
 $width_large_thumb = 800;
 $height_large_thumb = 600;
 $image_type = 1;
+switch($image_type) 
+{
+	case 1: $exts = '.jpg'; break;		// the last argument indicate the compression of the image
+	case 2: $exts = '.gif'; break;
+	case 3: $exts = '.png'; break;
+	default:die("Parametro mancante o errato");
+}
 if (isset ($_FILES ['userfile']['tmp_name']))
 {
 	$ext = $uploadObj -> getExtension($_FILES ['userfile']['name']);
@@ -26,7 +33,7 @@ if (isset ($_FILES ['userfile']['tmp_name']))
 		$name = $_SESSION['idsquadra'];
 	switch( $uploadObj -> uploadFile ($size , $img , $vid , $doc, $path , $name.'-temp'))
 	{
-			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-original' , $path , $width_large_thumb , $height_large_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small.jpg','56 56 56',$path . $name . '-small-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '.jpg','81 78 70',$path . $name . '-reflex.jpg',1) && $uploadObj -> createReflex( $path . $name . '-med.jpg','81 78 70',$path . $name . '-med-reflex.jpg',1))
+			case 0: 	if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-small' , $path , $width_small_thumb , $height_small_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-med' , $path , $width_med_thumb , $height_med_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> resize($name.'-original' , $path , $width_large_thumb , $height_large_thumb , $path.$name.'-temp.'.$ext, $image_type) && $uploadObj -> createReflex( $path . $name . '-small'.$exts,'56 56 56',$path . $name . '-small-reflex',$image_type) && $uploadObj -> createReflex( $path . $name . $exts ,'81 78 70',$path . $name . '-reflex',$image_type) && $uploadObj -> createReflex( $path . $name . '-med'.$exts,'81 78 70',$path . $name . '-med-reflex',$image_type))
 			{
 									$message[] = 0;
 									$message[] = 'Upload effettuato correttamente, Potrebbe essere necessario ricaricare la pagina per problemi di cache. Premi Ctrl+R';

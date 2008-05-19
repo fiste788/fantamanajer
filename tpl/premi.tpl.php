@@ -9,7 +9,7 @@
 <table id="rosa" cellpadding="0" cellspacing="0">
 	<tbody>
 		<tr>
-			<th>&nbsp;</th>
+			<th class="tableimg">&nbsp;</th>
 			<th>Posizione</th>
 			<th>Premio</th>
 		</tr>

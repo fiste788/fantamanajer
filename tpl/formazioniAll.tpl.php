@@ -100,9 +100,9 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-	<?php if(!$this->formazione): ?>
+	<?php if(!$this->formazione && TIMEOUT != NULL): ?>
 	<div class="messaggio neut column last" >
-		<img src="<?php echo IMGSURL.'attention.big.png'; ?>" />
+		<img src="<?php echo IMGSURL.'attention-big.png'; ?>" />
 		<span>La formazione non è stata impostata</span>
 	</div>
 	<script type="text/javascript">
@@ -114,7 +114,7 @@
 	<?php if($_SESSION['logged'] == TRUE): ?>
 		<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 	<?php endif; ?>
-	<?php if(isset($this->modulo)): ?>
+	<?php if(isset($this->modulo) && TIMEOUT != NULL): ?>
 	<form class="column last" name="form-modulo" action="index.php" method="post">
 		<fieldset id="modulo" class="no-margin fieldset">
 			<h3 class="no-margin">Seleziona il modulo:</h3>
@@ -130,6 +130,7 @@
 		</fieldset>
 	</form>
 	<?php endif; ?>
+	<?php if(TIMEOUT != NULL): ?>
 	<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="post">
 		<fieldset class="no-margin fieldset">
 			<h3 class="no-margin">Guarda le altre formazioni</h3>
@@ -146,6 +147,7 @@
 			</select>
 		</fieldset>
 	</form>
+	<?php endif; ?>
 	</div>
 	</div>
 	</div>

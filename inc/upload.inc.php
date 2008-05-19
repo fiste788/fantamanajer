@@ -118,7 +118,7 @@ class upload
 				}
 				switch($image_type) 
 				{
-						case 1: return imagejpeg ($image , $destination_path . $new_name . '.jpg' , 100);break;		// the last argument indicate the compression of the image
+						case 1: return imagejpeg ($image , $destination_path . $new_name . '.jpg' , 80);break;		// the last argument indicate the compression of the image
 						case 2: return imagegif ($image , $destination_path . $new_name . '.gif'); break;
 						case 3: return imagepng ($image , $destination_path . $new_name . '.png'); break;
 						default:die("Parametro mancante o errato");
@@ -128,7 +128,13 @@ class upload
 		function createReflex($sourcePath,$gradientColor,$newName,$image_type)
 		{
 			$size = getimagesize($sourcePath);  
-			$imgImport = imagecreatefromjpeg($sourcePath);
+			switch (strtolower($this -> getExtension($sourcePath)))			//switch for get the extension
+			{
+				case 'jpg' : $imgImport = imagecreatefromjpeg($sourcePath); break;
+				case 'gif' : $imgImport = imagecreatefromgif($sourcePath); break;
+				case 'png' : $imgImport = imagecreatefrompng($sourcePath); break;
+				default : die("File non supportato");
+			}		
 			$imgName_w = $size[0];
 			$imgName_h = $size[1];
 			$gradientHeight = $imgName_h/100*40;  
@@ -178,9 +184,9 @@ class upload
 			// imageline ($background, 0, 0, $imgName_w, 0, $gdGradientColor);
 			switch($image_type) 
 			{
-				case 1: return imagejpeg($background, $newName, 100);break;		// the last argument indicate the compression of the image
-				case 2: return imagegif ($background, $newName); break;
-				case 3: return imagepng ($background, $newName); break;
+				case 1: return imagejpeg($background, $newName . '.jpg', 80);break;		// the last argument indicate the compression of the image
+				case 2: return imagegif ($background, $newName . '.gif'); break;
+				case 3: return imagepng ($background, $newName . '.png'); break;
 				default:die("Parametro mancante o errato");
 			}
 			imagedestroy($background);

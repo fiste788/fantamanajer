@@ -13,7 +13,7 @@
 		<caption>Titolari</caption>
 		<tbody>
 			<tr>
-				<th>&nbsp;</th>
+				<th class="tableimg">&nbsp;</th>
 				<th class="cognome">Cognome</th>
 				<th class="nome">Nome</th>
 				<th class="ruolo">Ruolo</th>
@@ -33,7 +33,7 @@
 							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></td>
 					<?php endif; ?>
 							<td><?php echo $val['Cognome']; ?></td>
-							<td><?php echo $val['Nome']; ?></td>
+							<td><?php echo $val['Nome']; if($val['cap']) echo '<span id="cap">(C)</span>'; ?></td>
 							<td><?php echo $val['Ruolo']; ?></td>
 							<td><?php echo $val['Club']; ?></td>
 							<td><?php if(!empty($val['punt'])) echo $val['punt']; else echo "&nbsp;"; ?></td>
@@ -46,7 +46,7 @@
 		<caption>Panchinari</caption>
 		<tbody>
 			<tr>
-				<th>&nbsp;</th>
+				<th class="tableimg">&nbsp;</th>
 				<th class="cognome">Cognome</th>
 				<th class="nome">Nome</th>
 				<th class="ruolo">Ruolo</th>

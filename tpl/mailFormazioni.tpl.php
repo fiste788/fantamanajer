@@ -189,7 +189,7 @@
 										<?php endif; ?>
 											<td><?php echo $val['Cognome']; ?></td>
 											<td><?php echo $val['Nome']; ?></td>
-											<td><?php if(isset($this->cap[$squadra][$val['idGioc']])) echo $this->cap[$squadra][$val['idGioc']]; else echo '&nbsp'; ?></td>
+											<td><?php if(isset($this->cap[$squadra][$val['idGioc']])) echo $this->cap[$squadra][$val['idGioc']]; else echo '&nbsp;'; ?></td>
 										</tr>
 									<?php endforeach; ?>
 									</table>

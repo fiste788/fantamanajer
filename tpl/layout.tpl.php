@@ -38,7 +38,7 @@
 			<?php echo $this->header; ?>
 		</div>
 		<?php require('login.tpl.php'); ?>
-		<div style="height:70px;">&nbsp;</div>
+		<div id="fix" style="height:70px;">&nbsp;</div>
 		<div id="navbar" class="column last">
 			<?php echo $this->navbar ?>
 		</div>

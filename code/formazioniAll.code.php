@@ -23,31 +23,31 @@ $contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($squadra
 $contenttpl->assign('formazione',$formazione);
 if($formazione != FALSE)
 {
-if(strpos($formazione['Elenco'],'!') !== FALSE)
-{
-$giocatori = explode('!',$formazione['Elenco']);
-$titolari = explode(';' , $giocatori[0]);
-$panchinari= substr($giocatori[1],1);
-$panchinari = explode(';' , $panchinari);
+	if(strpos($formazione['Elenco'],'!') !== FALSE)
+	{
+		$giocatori = explode('!',$formazione['Elenco']);
+		$titolari = explode(';' , $giocatori[0]);
+		$panchinari= substr($giocatori[1],1);
+		$panchinari = explode(';' , $panchinari);
 
-foreach($titolari as $appo)
-    {
-      $pezzi=explode("-",$appo);
-      if(count($pezzi)>1)
-      {
-        $pos=key($titolari);
-        $titolari[$pos]=$pezzi[0];
-        if($pos==0)
-          $chiave="Por-".$pos."-cap";       
-        else
-          $chiave="Dif-".($pos-1)."-cap";
-        $cap[$chiave]=$pezzi[1];
-      }
-      next($titolari);
-    }
-}
+		foreach($titolari as $appo)
+		{
+		  $pezzi=explode("-",$appo);
+		  if(count($pezzi)>1)
+		  {
+			$pos=key($titolari);
+			$titolari[$pos]=$pezzi[0];
+			if($pos==0)
+			  $chiave="Por-".$pos."-cap";       
+			else
+			  $chiave="Dif-".($pos-1)."-cap";
+			$cap[$chiave]=$pezzi[1];
+		  }
+		  next($titolari);
+		}
+	}
 else
-$titolari = explode(';' , $formazione['Elenco']);
+	$titolari = explode(';' , $formazione['Elenco']);
 
 $giocatoreObj = new giocatore();
 $contenttpl->assign('modulo',$formazione['Modulo']);

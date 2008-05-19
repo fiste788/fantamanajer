@@ -434,11 +434,15 @@ tr.row:hover {
 	width:200px;
 	margin:0 0 8px 0;
 }
+#articoloedit #emoticons {
+	width: 370px;
+	margin:0 0 0 130px;
+}
 #articoloedit .emoticon:hover {
 	cursor:pointer;
 }
 #articoloedit .disabled {
-	width:30px;
+	width:35px;
 	margin:6px;
 	text-align:center;
 }
@@ -448,6 +452,7 @@ tr.row:hover {
 	clear:both;
 	width:610px;
 }
+#cap {display:none;}
 /*--------trasferimenti-------------*/
 #acquisti {width:375px;}
 #acquisti label {width:130px;}

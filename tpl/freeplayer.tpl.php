@@ -7,12 +7,12 @@
 </div>
 <div id="freeplayer" class="main-content">
 	<?php if($this->appo): ?>
-	<form name="acq" action="index.php?p=trasferimenti" method="post">
+	<form name="acq" action="index.php?p=trasferimenti&squad=<?php echo $_SESSION['idsquadra']; ?>" method="post">
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
-				<th class="check">Acq.</th>
-				<th>&nbsp;</th>
+				<?php if(TIMEOUT != NULL): ?><th class="check">Acq.</th><?php endif; ?>
+				<th class="tableimg">&nbsp;</th>
 				<th class="cognome"><a href="<?php echo $this->link['Cognome'] ?>">Cognome</a></th>
 				<th class="nome"><a href="<?php echo $this->link['Nome'] ?>">Nome</a></th>
 				<th class="club"><a href="<?php echo $this->link['Club'] ?>">Club</a></th>
@@ -21,7 +21,7 @@
 			</tr>
 			<?php foreach($this->freeplayer as $key => $val): ?>
 			<tr>
-				<td><input class="radio" type="radio" name="acquista" value="<?php echo $val['IdGioc']; ?>" /></td>
+				<?php if(TIMEOUT != NULL): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['IdGioc']; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
 				<?php if($val['Voti'] >= $this->suff && $val['PartiteGiocate'] >= $this->partite): ?>
 					<img alt="Verde" title="Verde" src="<?php echo IMGSURL.'player-tit.png' ?>"/>
@@ -40,9 +40,9 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
+	<?php if(TIMEOUT != NULL): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
 	<input type="submit" class="submit dark" value="Acquista" />
-	</form>
+	</form><?php endif; ?>
 <?php else: ?>
 Parametri non validi
 <?php endif; ?>
