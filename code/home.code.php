@@ -2,11 +2,13 @@
 	require (INCDIR.'punteggi.inc.php');
 	require (INCDIR.'squadra.inc.php');
 	require(INCDIR.'articolo.inc.php');
+	require(INCDIR.'emoticon.inc.php');
 	
 	$articoloObj = new articolo();
 	$squadraObj = new squadra();
 	$contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
 	$punteggiObj = new punteggi();
+	$emoticonObj = new emoticon();
 	$classifica = $punteggiObj->getAllPunteggi();
 	$appo = $classifica;
 	foreach($appo as $key=>$val)
@@ -32,6 +34,9 @@
 	}
 	$contenttpl->assign('classifica',$sum);
 	$contenttpl->assign('differenza',$diff);
-	
-	$contenttpl->assign('articoli',$articoloObj->select($articoloObj,NULL,'*',0,2,'insertDate'));
+	$articolo = $articoloObj->select($articoloObj,NULL,'*',0,2,'insertDate');
+	if($articolo != FALSE)
+		foreach ($articolo as $key=>$val)
+			$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
+$contenttpl->assign('articoli',$articolo);
 ?>

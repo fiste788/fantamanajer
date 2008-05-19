@@ -373,7 +373,11 @@ tr.row:hover {
 }
 /*----------------conferenze stampa---------------*/
 .conf-stampa { width:300px; }
-.conf-stampa .text {text-align:justify;}
+.conf-stampa .text {
+	text-align:justify;
+	line-height:1.6;
+}
+.conf-stampa .text img {margin:-3px 0 -7px;}
 .conf-stampa .abstract {
 	font-style:italic;
 	clear:both;
