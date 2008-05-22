@@ -14,7 +14,7 @@ $giornata = $giornataObj->getIdGiornataByDate(date("Y-m-d"))-1;
 $giocatoreObj = new giocatore();
 
 
-if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['password']) && trim($_GET['password']) == md5('omordotuanuoraoarounautodromo'))
+if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo'))
 {
 	//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 	if( ($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 15 && $punteggiObj->checkPunteggi($giornata))
@@ -82,7 +82,7 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['passwo
 			  		$mail++ ;
 			}
 		}
-		if$mail == 0)
+		if($mail == 0)
 			$contenttpl->assign('message','Operazione effettuata correttamente');
 		else
 			$contenttpl->assign('message','Si sono verificati degli errori');

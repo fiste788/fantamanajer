@@ -479,6 +479,10 @@ label {
 	width:295px;
 	float:left;
 }
+.checkbox {
+	width:12px;
+	height:12px;
+}
 #panchinari {
 	width:220px;
 	float:right;
@@ -518,3 +522,11 @@ p.surprise {
 }
 .fieldset { width:260px;}
 .fieldset select { margin-right:5px;}
+.legend {clear:both;}
+#legendcontainer table {width:auto;}
+#option {clear:both;}
+#option .checkbox {
+	clear:both;
+	float:left;
+}
+#option label {width:170px;}

@@ -41,7 +41,7 @@ class emoticon
 	function replaceEmoticon($text,$path)
 	{
 		foreach($this->emoticon as $key=>$val)
-			$text = str_replace($val['cod'],'<img src="'.$path.$val['name'].'.png" alt="' . $val['cod'] . '" title="' . $val['title'] . '" />',$text);
+			$text = str_replace($val['cod'],'<img class="emoticon" src="'.$path.$val['name'].'.png" alt="' . $val['cod'] . '" title="' . $val['title'] . '" />',$text);
 		return $text;
 	}
 }

@@ -7,7 +7,7 @@ $path = 'db';
 $backupName = $path.'/backup_'. date("Y-m-d H:i:s") . '.sql' ;
 $backupObj = new MySQLDump(DBNAME,$backupName,FALSE,FALSE);
 
-if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['password']) && trim($_GET['password']) == md5('omordotuanuoraoarounautodromo'))
+if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo'))
 {
 	//ESEGUO IL BACKUP SETTIMANALE DEL DB
 	if($backupObj->dodump())

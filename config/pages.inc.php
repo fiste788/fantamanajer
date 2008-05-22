@@ -13,7 +13,7 @@ $upages = array();
 								'css'=>array('screen','style','lightbox'));
 								
 	$upages['classifica'] = array(	'title'=>"Classifica",
-									'js'=>'',
+									'js'=>array('jquery'=>'jquery','flot'=>array('excanvas','jquery-flot'),'graphTable'=>'jquery-graphTable'),
 									'css'=>array('screen','style'));
 									
 	$upages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
@@ -25,7 +25,7 @@ $upages = array();
 									'css'=>array('screen','style'));
 									
 	$upages['confStampa'] = array(	'title'=>"Conferenze stampa",
-									'js'=>'',
+									'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix'),
 									'css'=>array('screen','style'));
 									
 	$upages['contatti'] = array(	'title'=>"Contatti",
@@ -62,7 +62,7 @@ $apages = array();
 								'css'=>array('screen','style','lightbox'));
 								
 	$apages['classifica'] = array(	'title'=>"Classifica", 
-									'js'=>array('jquery'=>'jquery'),
+									'js'=>array('jquery'=>'jquery','flot'=>array('excanvas','jquery-flot'),'graphTable'=>'jquery-graphTable'),
 									'css'=>array('screen','style'));
 									
 	$apages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
