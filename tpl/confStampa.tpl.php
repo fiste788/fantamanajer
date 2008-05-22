@@ -1,4 +1,10 @@
 <?php $i=0; ?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.text').pngFix();
+	});
+</script>
+
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'conf-stampa-big.png'; ?>" alt="->" />
