@@ -480,8 +480,8 @@ label {
 	float:left;
 }
 .checkbox {
-	width:12px;
-	height:12px;
+	width:13px;
+	height:13px;
 }
 #panchinari {
 	width:220px;
@@ -524,6 +524,12 @@ p.surprise {
 .fieldset select { margin-right:5px;}
 .legend {clear:both;}
 #legendcontainer table {width:auto;}
+#legendcontainer table tr {height:15px;}
+.legendColorBox,.legendLabel {
+	float:left;
+	height:20px;
+}
+.legendLabel {width:170px;}
 #option {clear:both;}
 #option .checkbox {
 	clear:both;
