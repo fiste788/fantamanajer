@@ -18,7 +18,12 @@
 		<?php foreach($this->pages['js'] as $key=>$val): ?>
 		<?php if(is_array($val)): ?>
 		<?php foreach($val as $key2=>$val2): ?>
+		<?php $appo = explode('|',$val2); ?>
+		<?php if(isset($appo[1])): ?>
+		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js' ?>" language="javascript" type="text/javascript"></script><![endif]-->
+		<?php else: ?>
 		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js' ?>" language="javascript" type="text/javascript"></script>
+		<?php endif; ?>
 		<?php endforeach; ?>
 		<?php else: ?>
 		<script src="<?php echo JSURL . $key . '/' . $val . '.js' ?>" language="javascript" type="text/javascript"></script>

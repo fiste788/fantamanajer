@@ -43,13 +43,12 @@
 		</tbody>
 	</table>
 	</div>
-	<div id="placeholder" class="column" style="width:600px;height:300px;clear:both;">&nbsp;</div>
-	<div id="legendcontainer" class="column">&nbsp;</div>
+	<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
+	<div id="overview" class="column last" style="width:200px;height:100px;clear:both;">&nbsp;</div>
+	<div id="legendcontainer" class="column last">&nbsp;</div>
 	<div id="option" class="column">
-		<div id="choices">Mostra:</div>
+		<div id="choices"><p>Mostra:</p></div>
 		<input class="checkbox" id="all" type="checkbox" <?php if(!$_SESSION['logged']) echo 'checked="checked"';  ?> /><label>De/Seleziona tutti</label>
-		<input class="type checkbox" type="checkbox" checked="checked" name="linee" /><label>Linee</label>
-		<input class="type checkbox" type="checkbox" name="barre" /><label>Barre</label>
 		<script id="source" type="text/javascript">
 		<!-- 
 		$(function () {
@@ -61,69 +60,97 @@
 				?>
 					<?php endforeach; ?>
 				}
-					var options = {
-        lines: { show: true },
-        points: { show: true },
-        legend: { noColumns: 2, container: $("#legendcontainer") },
-        xaxis: { tickDecimals: 0 },
-        yaxis: { min: 0 },
-        selection: { mode: "x" }
-    };
+				var options = {
+					lines: { show: true },
+					points: { show: true },
+					legend: { noColumns: 2, container: $("#legendcontainer") },
+					xaxis: { tickDecimals: 0 },
+					yaxis: { min: 0 },
+					shadowSize:1,
+					selection: { mode: null }
+				};
 
- // hard-code color indices to prevent them from shifting as
- // countries are turned on/off
- var i = 0;
- $.each(datasets, function(key, val) {
- val.color = i;
- ++i;
- });
+				// hard-code color indices to prevent them from shifting as
+				// countries are turned on/off
+				var i = 0;
+				$.each(datasets, function(key, val) {
+				val.color = i;
+				++i;
+				});
 
- // insert checkboxes
- var choiceContainer = $("#choices");
- $.each(datasets, function(key, val) {
- choiceContainer.append('<input class="checkall checkbox" type="checkbox" name="' + key +
- '" checked="checked" /><label>' + val.label + '</label>');
- });
- <?php if($_SESSION['logged'] == TRUE): ?>
-	 choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idsquadra']-1][1]; ?>']").attr ('checked','');
-<?php endif; ?>
- choiceContainer.find("input").click(plotAccordingToChoices);
+				// insert checkboxes
+				var choiceContainer = $("#choices");
+				$.each(datasets, function(key, val) {
+				choiceContainer.append('<div class="formbox"><input class="checkall checkbox" type="checkbox" name="' + key +
+				'" checked="checked" /><label>' + val.label + '</label></div>');
+				});
+				
+				<?php if($_SESSION['logged'] == TRUE): ?>
+					choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idsquadra']-1][1]; ?>']").attr ('checked','');
+				<?php endif; ?>
+					choiceContainer.find("input").click(plotAccordingToChoices);
 
-var placeholder = $("#placeholder");
- function plotAccordingToChoices() {
- var data = [];
- $("#legendcontainer").empty();
- choiceContainer.find("input:checked").each(function () {
- var key = $(this).attr("name");
- if (key && datasets[key])
- data.push(datasets[key]);
- });
+				var placeholder = $("#placeholder");
+				function plotAccordingToChoices() {
+					var data = [];
+					$("#legendcontainer").empty();
+					choiceContainer.find("input:checked").each(function () {
+						var key = $(this).attr("name");
+						if (key && datasets[key])
+							data.push(datasets[key]);
+					});
+					
+					plot = $.plot($("#placeholder"), data, options);
+					
+					var overview = $.plot($("#overview"), data, {
+ lines: { show: true, lineWidth: 1 },
+ shadowSize: 0,
+ xaxis: { ticks: [] },
+yaxis: { min: 0},
+selection: { mode: "x" },
+legend: { show:false }
+});
 
- if (data.length > 0)
- 
- placeholder.bind("selected", function (event, area) {
- 	 $("#legendcontainer").empty();
-       // $("#selection").text(area.x1.toFixed(1) + " to " + area.x2.toFixed(1));
-               plot = $.plot(placeholder, data,
-                          $.extend(true, {}, options, {
-                              xaxis: { min: area.x1, max: area.x2 }
-                          }));
-    });
-    $.plot(placeholder, data, options);
- }
- 
-		$("#all").click(function()
-		{
-			var checked_status = this.checked;
-			$("input.checkall").each(function()
-			{
-				this.checked = checked_status;
-			});
-			plotAccordingToChoices();    
-		});
+// now connect the two
+var internalSelection = false;
+
+$("#placeholder").bind("selected", function (event, area) {
+$("#legendcontainer").empty();
+// do the zooming
+plot = $.plot($("#placeholder"), data,
+$.extend(true, {}, options, {
+xaxis: { min: area.x1, max: area.x2 }
+}));
+
+if (internalSelection)
+return; // prevent eternal loop
+internalSelection = true;
+overview.setSelection(area);
+internalSelection = false;
+});
+
+$("#overview").bind("selected", function (event, area) {
+$("#legendcontainer").empty();
+if (internalSelection)
+return;
+internalSelection = true;
+plot.setSelection(area);
+internalSelection = false;
+});
+
+				}
+
+				$("#all").click(function()
+				{
+					var checked_status = this.checked;
+					$("input.checkall").each(function()
+					{
+						this.checked = checked_status;
+					});
+					plotAccordingToChoices();
+				});
   
-
- plotAccordingToChoices();    
+				plotAccordingToChoices();
  /*$("#clearSelection").click(function () {
  plot.clearSelection();
  });*/

@@ -13,7 +13,7 @@ $upages = array();
 								'css'=>array('screen','style','lightbox'));
 								
 	$upages['classifica'] = array(	'title'=>"Classifica",
-									'js'=>array('jquery'=>'jquery','flot'=>array('excanvas','jquery-flot'),'graphTable'=>'jquery-graphTable'),
+									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
 									'css'=>array('screen','style'));
 									
 	$upages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
