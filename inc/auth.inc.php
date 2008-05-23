@@ -17,14 +17,8 @@ function login($username, $password)
 //Logout function
 function logout()
 {
-	unset($_SESSION['userid']);
-	unset($_SESSION['logged']);
-	unset($_SESSION['usertype']);
-	unset($_SESSION['idsquadra']);
-	unset($_SESSION['nomeSquadra']);
-	unset($_SESSION['nomeProprietario']);
-	unset($_SESSION['email']);
-	unset($_SESSION['modulo']);
+	foreach($_SESSION as $key=>$val)
+		unset($_SESSION[$key]);
 }
 
 ?>

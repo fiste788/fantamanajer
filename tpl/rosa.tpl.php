@@ -155,11 +155,13 @@
 	</div>
 	</div>
 </div>
+<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 <script type="text/javascript" >
 $(window).bind("load",function(){
 	$('#accordion').accordion();
 });
 </script>
+<?php endif; ?>
 <?php else: ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
