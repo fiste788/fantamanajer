@@ -523,6 +523,8 @@ p.surprise {
 .fieldset { width:260px;}
 .fieldset select { margin-right:5px;}
 .legend {clear:both;}
+#placeholder {margin: 20px 0 0; }
+#legendcontainer {clear:both;}
 #legendcontainer table {width:auto;}
 #legendcontainer table tr {height:15px;}
 .legendColorBox,.legendLabel {
@@ -534,5 +536,6 @@ p.surprise {
 #option .checkbox {
 	clear:both;
 	float:left;
+	margin-right:8px;
 }
 #option label {width:170px;}
