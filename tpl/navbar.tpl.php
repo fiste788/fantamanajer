@@ -4,7 +4,7 @@ $laTuaSquadra = array('rosa');
 $leSquadre = array('rosa');
 $conferenzeStampa = array('confStampa','editArticolo');
 $classifica = array('classifica','punteggidettaglio');
-$altro = array('contatti','formazione','formazioniAll','freeplayer','premi','trasferimenti','other');
+$altro = array('contatti','formazione','formazioniAll','freeplayer','premi','trasferimenti','other','linkUtili');
 $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classifica,$altro);
  ?>
 <ul>

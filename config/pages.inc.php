@@ -35,6 +35,10 @@ $upages = array();
 	$upages['other'] = array(	'title'=>"Altro...",
 									'js'=>'',
 									'css'=>array('screen','style'));
+						
+	$upages['linkUtili'] = array(	'title'=>"Link Utili",
+									'js'=>'',
+									'css'=>array('screen','style'));
 									
 	$upages['sendMail'] = array(	'title'=>"Invio mail formazioni",
 									'js'=>'',
@@ -89,6 +93,10 @@ $apages = array();
 								'js'=>array('jquery'=>'jquery'),
 								'css'=>array('screen','style'));	
 								
+	$apages['linkUtili'] = array(	'title'=>"Link Utili",
+									'js'=>array('jquery'=>'jquery'),
+									'css'=>array('screen','style'));
+								
 	$apages['sendMail'] = array(	'title'=>"Invio mail formazioni",
 									'js'=>'',
 									'css'=>array('screen','style'));						
@@ -120,7 +128,7 @@ $apages = array();
 	$apages['editArticolo'] = array(	'title'=>"Crea o modifica conferenza",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
-	$apages[] = 'location';
+
 
 //echo "<pre>".print_r($upages,1)."</pre>";
 //echo "<pre>".print_r(array_keys($upages),1)."</pre>";

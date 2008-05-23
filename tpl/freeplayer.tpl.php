@@ -7,7 +7,7 @@
 </div>
 <div id="freeplayer" class="main-content">
 	<?php if($this->appo): ?>
-	<form name="acq" action="index.php?p=trasferimenti&squad=<?php echo $_SESSION['idsquadra']; ?>" method="post">
+	<?php if(TIMEOUT != FALSE): ?><form name="acq" action="index.php?p=trasferimenti&amp;squad=<?php echo $_SESSION['idsquadra']; ?>" method="post"><?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
@@ -56,13 +56,13 @@ Parametri non validi
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<form id="freeplayeropt" class="column last" name="ruolo" action="index.php?p=freeplayer" method="get">
+		<form id="freeplayeropt" class="column last" name="ruolo_form" action="index.php?p=freeplayer" method="get">
 			<fieldset class="no-margin fieldset">
 				<input type="hidden" name="p" value="<?php echo $_GET['p'];?>" />
 				<input type="hidden" name="order" value="<?php echo $this->getorder ;?>" />
 				<input type="hidden" name="v" value="<?php echo $this->getv;?>" />
 				<h3 class="no-margin">Seleziona il ruolo:</h3>
-				<select name="ruolo" onchange="document.ruolo.submit();">
+				<select name="ruolo" onchange="document.ruolo_form.submit();">
 					<option></option>
 					<?php foreach($ruoli as $key=>$val): ?>
 						<option <?php if($this->ruolo == $key) echo "selected=\"selected\"" ?> value="<?php echo $key?>"><?php echo $val; ?></option>
