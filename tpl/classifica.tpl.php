@@ -56,10 +56,17 @@
 				<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++?>"<?php echo $this->squadre[$key-1][1]; ?>": {
 					label: "<?php echo $this->squadre[$key-1][1]; ?>",
 					data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
-				}<?php if(count($this->classificaDett) != $i) echo ",\n"; 
-				?>
+				},
+				
 					<?php endforeach; ?>
 				}
+				
+				var medie = {
+					<?php foreach($this->classificaDett as $key=>$val): ?>
+					<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
+					"<?php echo $this->squadre[$key-1][1] ?>" : {label: "Media <?php echo $this->squadre[$key-1][1] ?>",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett != $key)) echo ",\n"; ?>
+					<?php endforeach; ?>
+					}
 				var options = {
 					lines: { show: true },
 					points: { show: true },
@@ -94,18 +101,25 @@
 				function plotAccordingToChoices() {
 					var data = [];
 					$("#legendcontainer").empty();
+					var j = null;
+					var k = 0;
 					choiceContainer.find("input:checked").each(function () {
 						var key = $(this).attr("name");
-						if (key && datasets[key])
+						if (key && datasets[key]) {
 							data.push(datasets[key]);
+							j = key;
+							k++;}
 					});
-					
+					//
+					if (k == 1)
+						data.push(medie[j]);
+						
 					plot = $.plot($("#placeholder"), data, options);
 					
 					var overview = $.plot($("#overview"), data, {
  lines: { show: true, lineWidth: 1 },
  shadowSize: 0,
- xaxis: { ticks: [] },
+ xaxis: { ticks: 4 },
 yaxis: { min: 0},
 selection: { mode: "x" },
 legend: { show:false }
