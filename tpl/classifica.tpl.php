@@ -45,7 +45,9 @@
 	</div>
 	<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;">&nbsp;</div>
-	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p>
+	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+	<div id="hidden" class="hidden">&nbsp;</div>
+	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
 	<div id="legendcontainer" class="column last">&nbsp;</div>
 	<div id="option" class="column">
 		<div id="choices" class="column"><p>Mostra:</p></div>
@@ -118,7 +120,18 @@
 				if (k == 1)
 					data.push(medie[j]);
 
-				plot = $.plot($("#placeholder"), data, options);
+				var val1 = $("#hidden").attr('val1');
+				var val2 = $("#hidden").attr('val2');
+
+				if(val1 != null && val2 != null) {
+					plot = $.plot($("#placeholder"), data,
+						$.extend(true, {}, options, {
+							xaxis: { min: Math.round(val1) , max: Math.round(val2) }
+					}));
+				}
+				else 
+					plot = $.plot($("#placeholder"), data,options);
+
 				$("#legendcontainer table").attr('cellspacing','0');
 
 				var overview = $.plot($("#overview"), data, {
@@ -129,34 +142,31 @@
 					selection: { mode: "x" },
 					legend: { show:false }
 				});
-
-				// now connect the two
-				var internalSelection = false;
-
-				$("#placeholder").bind("selected", function (event, area) {
+				
+				$("#clearSelection").click(function () {
+					overview.clearSelection();
+					$("#hidden").removeAttr('val1');
+					$("#hidden").removeAttr('val2');
+					plotAccordingToChoices();
+					$("#clearSelection").addClass('hidden');
+					$("#selection").empty();
+				});
+				
+				$("#overview").bind("selected", function (event, area) {
 					$("#legendcontainer").empty();
+					$("#hidden").attr('val1',area.x1);
+					$("#hidden").attr('val2',area.x2);
+					$("#clearSelection").removeClass('hidden');
+					$("#selection").text("Hai selezionato dalla giornata " + Math.round(area.x1.toFixed(1)) + " alla " + Math.round(area.x2.toFixed(1)));
 					// do the zooming
 					plot = $.plot($("#placeholder"), data,
 						$.extend(true, {}, options, {
-							xaxis: { min: area.x1, max: area.x2 }
+							xaxis: { min: Math.round(area.x1), max: Math.round(area.x2) }
 					}));
-
-					if (internalSelection)
-						return; // prevent eternal loop
-					internalSelection = true;
-					overview.setSelection(area);
-					internalSelection = false;
 				});
-
-				$("#overview").bind("selected", function (event, area) {
-					$("#legendcontainer").empty();
-					if (internalSelection)
-						return;
-					internalSelection = true;
-					plot.setSelection(area);
-					internalSelection = false;
-				});
-
+				
+				if(val1 != null && val2 != null) 
+					overview.setSelection({x1 : val1, x2 : val2});
 			}
 
 			$("#all").click(function()
@@ -170,9 +180,6 @@
 			});
 
 			plotAccordingToChoices();
- /*$("#clearSelection").click(function () {
- plot.clearSelection();
- });*/
 	});
 	-->
 	</script>

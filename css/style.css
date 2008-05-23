@@ -550,4 +550,6 @@ p.surprise {
 	margin:0;
 }
 #option .formbox {width:200px;}
+.hidden {display:none;}
+#selection {margin-bottom:0;}
 
