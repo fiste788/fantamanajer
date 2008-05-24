@@ -226,9 +226,12 @@ class punteggi
 
 //QUESTE FUNZIONI SONO ESCLUSE DALLA CLASSE PER UN BUG DA CORREGGERE
 
-function trim_value(&$value)
-{
-	$value = trim($value);
+function TrimArray($Input){
+ 
+    if (!is_array($Input))
+        return trim($Input);
+ 
+    return array_map('TrimArray', $Input);
 }
 
 function contenuto_via_curl($url)
@@ -255,7 +258,7 @@ function scarica_voti($giorn)
 	$tabella_voti = array(); 
   $espr = "<tr";
 	$handle = fopen($percorso, "a");
-	foreach ($array as $key2=>$ruolo)
+	foreach ($array as $keyruolo=>$ruolo)
 	{
 		$link = "http://magiccup.gazzetta.it/statiche/campionato/2008/statistiche/media_voto_".$ruolo."_nomegazz.shtml";
 		$contenuto = contenuto_via_curl($link);
@@ -268,46 +271,14 @@ function scarica_voti($giorn)
 	 foreach($keywords as $key)
 	 {
   	$espre = "/(<[^<>]+>)+/";
-	  $key = preg_replace($espre,"\t",$key);  
-    fwrite($handle,$key);
-    die(); 
+	  $key = preg_replace($espre,"\t",$key); 
     $pieces = explode("\n",$key);
-    fwrite($handle,trim($pieces[1]).";".trim($pieces[2]).";$pieces[12];$pieces[6];$pieces[7];$key2\n");
+    $pieces=TrimArray($pieces);
+    $pieces[12] = ereg_replace(',','.',$pieces[12]);
+    fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[12];".substr($pieces[3],0,3).";$pieces[6];$pieces[8];\n");
    }
   }  
-  die();
-
-
-
-	
-
-
-
-
-
-
-	
-	echo "<pre>".print_r($tabella_voti,1)."</pre>";
-	die();
-	$espr = "<tr";
-	$keywords = explode($espr, $voti);
-	array_shift($keywords);
-	$handle = fopen($percorso, "a");
-	foreach ($keywords as $player)
-	{
-		$espre = "/(<[^<>]+>)+/";
-		$player = preg_replace($espre,"\t",$player);
-		$pieces = explode("\t",$player);
-		echo "<pre>".print_r($pieces,1)."</pre>";
-		$voto = $pieces[23];
-		$voto = ereg_replace(',','.',$voto);
-		$id = $pieces[1];
-		$cognome = $pieces[3];
-		$club = substr($pieces[5],0,3);
-		$azzo = "$id\t$cognome\t$voto\t$club\n";
-		fwrite($handle,"$id;$cognome;$pieces[23]\n");
-	}
-
+  fclose($handle);
 }
 
 function remove_voti_giornata($voti,$id)
