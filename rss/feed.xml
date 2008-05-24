@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+	<channel>
+		<title>FantaManajer</title>
+		<link>http://www.fantamanajer.it/</link>
+		<description>Lista degli eventi del FantaManajer</description>
+		<lastBuildDate>Mon, 12 Sep 2005 18:37:00 GMT</lastBuildDate>
+		<language>it-it</language>
+		<item>
+			<title>Giocatore lasciato</title>
+			<link>http://www.fantamanajer.it/index.php?p=feedViewer#123</link>
+			<guid>http://www.fantamanajer.it/index.php?p=feedViewer#123</guid>
+			<category><![CDATA[Trasferimenti]]></category>
+			<pubDate>Mon, 12 Sep 2005 18:37:00 GMT</pubDate>
+			<description>prova</description>
+		</item>
+	</channel>
+</rss>
+

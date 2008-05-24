@@ -77,10 +77,11 @@
 			var options = {
 				lines: { show: true },
 				points: { show: true },
-				legend: { noColumns: 2, container: $("#legendcontainer") },
+				grid: { backgroundColor: null },
+				legend: { noColumns: 2, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
 				yaxis: { min: 0 },
-				shadowSize:2,
+				shadowSize: 2,
 				selection: { mode: null }
 			};
 

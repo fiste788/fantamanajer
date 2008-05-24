@@ -43,6 +43,7 @@ define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
 								//urls for:
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL
 define ("JSURL",FULLURL.'js/');					//js => JSURL
+define ("RSSURL",FULLURL.'rss/');					//rss => RSSURL
 define ("IMGSURL",FULLURL.'imgs/');				//img => IMGSURL
 define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
 
