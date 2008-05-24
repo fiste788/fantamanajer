@@ -244,23 +244,70 @@ function contenuto_via_curl($url)
 	return $string;
 }
 
-function scarica_voti()
+function scarica_voti($giorn)
 {
-	$array = array("portieri","difensori","centrocampisti","attaccanti");
-	$tabella_voti = ""; 
-	foreach ($array as $ruolo)
+	$percorso = "../docs/voti/Giornata".$giorn.".csv";
+	if(file_exists($percorso))
+		unlink($percorso);
+	$sep_voti = ";";
+	$novoto = "-";
+	$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
+	$tabella_voti = array(); 
+  $espr = "<tr";
+	$handle = fopen($percorso, "a");
+	foreach ($array as $key2=>$ruolo)
 	{
 		$link = "http://magiccup.gazzetta.it/statiche/campionato/2008/statistiche/media_voto_".$ruolo."_nomegazz.shtml";
 		$contenuto = contenuto_via_curl($link);
 		$tabxruolo = "<tr ".strstr($contenuto,"RIGA1");
 		$s = explode("</table",$tabxruolo);
 		$tabxruolo = $s[0];
-		$handle = fopen("./docs/b.txt", "w");  
-		fwrite($handle,$tabxruolo); 
-		fclose($handle);
-		$tabella_voti .= $tabxruolo;
+
+	 $keywords = explode($espr, $tabxruolo);
+	 array_shift($keywords);
+	 foreach($keywords as $key)
+	 {
+  	$espre = "/(<[^<>]+>)+/";
+	  $key = preg_replace($espre,"\t",$key);  
+    fwrite($handle,$key);
+    die(); 
+    $pieces = explode("\n",$key);
+    fwrite($handle,trim($pieces[1]).";".trim($pieces[2]).";$pieces[12];$pieces[6];$pieces[7];$key2\n");
+   }
+  }  
+  die();
+
+
+
+	
+
+
+
+
+
+
+	
+	echo "<pre>".print_r($tabella_voti,1)."</pre>";
+	die();
+	$espr = "<tr";
+	$keywords = explode($espr, $voti);
+	array_shift($keywords);
+	$handle = fopen($percorso, "a");
+	foreach ($keywords as $player)
+	{
+		$espre = "/(<[^<>]+>)+/";
+		$player = preg_replace($espre,"\t",$player);
+		$pieces = explode("\t",$player);
+		echo "<pre>".print_r($pieces,1)."</pre>";
+		$voto = $pieces[23];
+		$voto = ereg_replace(',','.',$voto);
+		$id = $pieces[1];
+		$cognome = $pieces[3];
+		$club = substr($pieces[5],0,3);
+		$azzo = "$id\t$cognome\t$voto\t$club\n";
+		fwrite($handle,"$id;$cognome;$pieces[23]\n");
 	}
-	return $tabella_voti;
+
 }
 
 function remove_voti_giornata($voti,$id)
@@ -276,28 +323,9 @@ function remove_voti_giornata($voti,$id)
 
 function recupera_voti($giorn)
 {
-	$percorso = "docs/voti/Giornata".$giorn.".csv";
-	if(file_exists($percorso))
-		unlink($percorso);
-	$sep_voti = ";";
-	$novoto = "-";
-	$voti = scarica_voti();
-	$espr = "<tr";
-	$keywords = explode($espr, $voti);
-	array_shift($keywords);
-	$handle = fopen($percorso, "a");
-	foreach ($keywords as $player)
-	{
-		$espre = "/(<[^<>]+>)+/";
-		$player = preg_replace($espre,"\t",$player);
-		$pieces = explode("\t",$player);
-		$voto = $pieces[23];
-		$voto = ereg_replace(',','.',$voto);
-		$id = $pieces[1];
-		$cognome = $pieces[3];
-		$club = substr($pieces[5],0,3);
-		$azzo = "$id\t$cognome\t$voto\t$club\n";
-		fwrite($handle,"$id;$cognome;$pieces[23]\n");
+
+	$voti = scarica_voti($giorn);
+  die();
 		$select = "SELECT Voti FROM giocatore WHERE IdGioc='$id'";
 		$sel_gioc = mysql_query($select)or die("Query non valida: ".$select . mysql_error());
 		$votisc = mysql_fetch_array($sel_gioc);
@@ -320,7 +348,6 @@ function recupera_voti($giorn)
 			$insert = "INSERT INTO giocatore(IdGioc,Cognome,Club,Voti) VALUES('$id','$cognome','$club','$newvoto')";
 			mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
 		}
-	}
 	fclose($handle);
 }	
 ?>
