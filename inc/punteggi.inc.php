@@ -247,11 +247,8 @@ function contenuto_via_curl($url)
 	return $string;
 }
 
-function scarica_voti($giorn)
+function scarica_voti($percorso)
 {
-	$percorso = "../docs/voti/Giornata".$giorn.".csv";
-	if(file_exists($percorso))
-		unlink($percorso);
 	$sep_voti = ";";
 	$novoto = "-";
 	$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
@@ -294,31 +291,16 @@ function remove_voti_giornata($voti,$id)
 
 function recupera_voti($giorn)
 {
+    $percorso = "../docs/voti/Giornata".$giorn.".csv";
+	if(!file_exists($percorso))
+	   scarica_voti($percorso);
+	foreach (file($percorso) as $player)
+	{
+        $pezzi=explode(";",$player);
+        $insert="INSERT INTO voti(IdGioc,IdGiornata,Voto,Gol,Assist) VALUES ('$pezzi[0]','$giorn','$pezzi[3]','$pezzi[5]','$pezzi[6]');";
+        mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
+    }
+    die();
 
-	$voti = scarica_voti($giorn);
-  die();
-		$select = "SELECT Voti FROM giocatore WHERE IdGioc='$id'";
-		$sel_gioc = mysql_query($select)or die("Query non valida: ".$select . mysql_error());
-		$votisc = mysql_fetch_array($sel_gioc);
-		if(is_array($votisc))
-		{
-			$votiold = array_shift($votisc);
-			
-/*->da togliere->			$votiold=remove_voti_giornata($votiold,$id);*/
-		  $update = "UPDATE giocatore SET Voti='$votiold$voto$sep_voti' WHERE IdGioc='$id'";
-			/*----->>>>   DA SCOMMENTARE QUANDO SI ESEGUE CON IL CRON <<<<<<<<<<<<<<------- */  
-			mysql_query($update) or die("Query non valida: ".$update . mysql_error());
-		}
-		else
-		{
-			$newvoto = "";
-			for($i = 1 ; $i < $giorn ; $i++)
-				$newvoto .= $novoto.$sep_voti;
-			$newvoto .= $voto.$sep_voti;
-			$cognome=addslashes($cognome);
-			$insert = "INSERT INTO giocatore(IdGioc,Cognome,Club,Voti) VALUES('$id','$cognome','$club','$newvoto')";
-			mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
-		}
-	fclose($handle);
 }	
 ?>
