@@ -46,9 +46,12 @@ switch($_GET['a'])
 function ismaxlength(obj,maxLenght){
 var mlength=maxLenght;
 if (obj.getAttribute && obj.value.length>mlength) {
+	var cursor = obj.selectionEnd;
+	var scroll = obj.scrollTop;
 	alert("Hai raggiunto il massimo di caratteri consentito")
 	obj.value=obj.value.substring(0,mlength)
-	obj.scrollTop = obj.scrollHeight;
+	obj.selectionEnd = cursor;
+	obj.scrollTop = scroll;
 }
  document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
 }
