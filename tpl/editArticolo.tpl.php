@@ -45,13 +45,12 @@ switch($_GET['a'])
 <!--
 function ismaxlength(obj,maxLenght){
 var mlength=maxLenght;
-if (obj.getAttribute && obj.value.length>mlength)
-alert("Hai raggiunto il massimo di caratteri consentito")
-obj.value=obj.value.substring(0,mlength)
-if(obj.name == 'abstract')
-	document.forms[0].abstractCont.value = mlength - obj.value.length
-else
-	document.forms[0].textCont.value = mlength - obj.value.length
+if (obj.getAttribute && obj.value.length>mlength) {
+	alert("Hai raggiunto il massimo di caratteri consentito")
+	obj.value=obj.value.substring(0,mlength)
+	obj.scrollTop = obj.scrollHeight;
+}
+ document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
 }
 -->
 </script>
@@ -64,7 +63,7 @@ else
 			<div class="formbox">
 			  <label for="abstract">Sottotitolo:</label>
 			  <textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="3" cols="50" onkeyup="return ismaxlength(this, 75);" name="abstract" id="abstract"><?php if(isset($abstract)) echo $abstract; ?></textarea>
-				<input class="column text disabled" name="abstractCont" type="text" disabled="disabled" value="<?php if(isset($abstract)) echo 75 - mb_strlen($abstract,'UTF-8'); else echo '75';  ?>" />
+				<input class="column text disabled" id="abstractCont" type="text" disabled="disabled" value="<?php if(isset($abstract)) echo 75 - mb_strlen($abstract,'UTF-8'); else echo '75';  ?>" />
 			</div>
 			<div class="formbox">
 			<?php if($_GET['a'] != 'cancel'): ?>
@@ -76,7 +75,7 @@ else
 			<?php endif;?>
 			<label for="text">Testo: *</label>
 			<textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="50" onkeyup="return ismaxlength(this, 500);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
-			<input class="column text disabled" name="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 500-mb_strlen($text);else echo '500'; ?>" />
+			<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 500-mb_strlen($text);else echo '500'; ?>" />
 			</div>
 		</fieldset>
 		<fieldset class="column">
