@@ -48,14 +48,6 @@
 	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
 	<div id="hidden" class="hidden">&nbsp;</div>
 	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
-	<div id="legendcontainer" class="column last">&nbsp;</div>
-	<div id="option" class="column">
-		<div id="choices" class="column"><p>Mostra:</p></div>
-		<div class="formbox">
-			<input class="checkbox" id="all" type="checkbox" <?php if(!$_SESSION['logged']) echo 'checked="checked"';  ?> />
-			<label>De/Seleziona tutti</label>
-		</div>
-	</div>
 	<script id="source" type="text/javascript">
 	<!--
 	$(function () {
@@ -78,7 +70,7 @@
 				lines: { show: true },
 				points: { show: true },
 				grid: { backgroundColor: null },
-				legend: { noColumns: 2, container: $("#legendcontainer"),backgroundColor: null },
+				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
 				yaxis: { min: 0 },
 				shadowSize: 2,
@@ -97,7 +89,7 @@
 			var choiceContainer = $("#choices");
 			$.each(datasets, function(key, val) {
 			choiceContainer.append('<div class="formbox"><input class="checkall checkbox" type="checkbox" name="' + key +
-			'" checked="checked" /><label>' + val.label + '</label></div>');
+			'" checked="checked" /><label for="'+ key +'">' + val.label + '</label></div>');
 			});
 
 			<?php if($_SESSION['logged'] == TRUE): ?>
@@ -108,7 +100,7 @@
 			var placeholder = $("#placeholder");
 			function plotAccordingToChoices() {
 				var data = [];
-				$("#legendcontainer").empty();
+				$("#legendcontainer table").remove();
 				var j = null;
 				var k = 0;
 				choiceContainer.find("input:checked").each(function () {
@@ -154,7 +146,7 @@
 				});
 				
 				$("#overview").bind("selected", function (event, area) {
-					$("#legendcontainer").empty();
+					$("#legendcontainer table").remove();
 					$("#hidden").attr('val1',area.x1);
 					$("#hidden").attr('val2',area.x2);
 					$("#clearSelection").removeClass('hidden');
@@ -195,7 +187,7 @@
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
 		<form class="column last" name="classifica_giornata" action="index.php?p=classifica" method="post">
-			<fieldset class="no-margin fieldset  max-large">
+			<fieldset class="no-margin fieldset max-large">
 				<h3 class="no-margin">Guarda la classifica alla giornata</h3>
 					<select name="giorn" onchange="document.classifica_giornata.submit();">
 						<?php for($j = $this->giornate ; $j  > 0 ; $j--): ?>
@@ -204,6 +196,16 @@
 				</select>
 			</fieldset>
 		</form>
+		<div id="legendcontainer" class="column last">
+			<h3 class="no-margin">Legenda</h3>
+		</div>
+		<div id="option" class="column last">
+			<div id="choices" class="column last"><p class="column no-margin">Mostra:</p></div>
+			<div class="formbox">
+				<input class="checkbox" id="all" type="checkbox" <?php if(!$_SESSION['logged']) echo 'checked="checked"';  ?> />
+				<label>De/Seleziona tutti</label>
+			</div>
+		</div>
 	</div>
 	</div>
 	</div>

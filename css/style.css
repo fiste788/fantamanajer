@@ -524,30 +524,34 @@ p.surprise {
 .fieldset select { margin-right:5px;}
 .legend {clear:both;}
 #placeholder {margin: 20px 0 0; }
-#legendcontainer {clear:both;}
+#legendcontainer {
+	clear:both;
+	width:100%;
+	margin:0 0 10px 0;
+}
 #legendcontainer table {
-	width:420px;
+	width:100%
 	border-spacing:0;
 }
-#legendcontainer table tr {height:15px;}
 .legendColorBox,.legendLabel {
 	float:left;
 	height:20px;
 }
 .legendColorBox div {width:14px;}
-.legendLabel {width:170px;}
+.legendLabel {width:240px;}
 #option,choices {
 	clear:both;
-	width:250px;
+	width:100%;
 }
 #option .checkbox {
 	clear:both;
 	float:left;
-	margin:0 8px 0 0;
+	margin:1px 8px 0 0;
 }
 #option label {
 	width:170px;
 	margin:0;
+	text-align:left;
 }
 #option .formbox {width:200px;}
 .hidden {display:none;}
