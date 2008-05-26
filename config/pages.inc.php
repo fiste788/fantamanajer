@@ -5,7 +5,7 @@
  
 $upages = array();
 	$upages['home'] = array(	'title'=>"Home",
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-tabs','ui-tabs-ext')), 
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-tabs','ui-tabs-ext','effects-core','effects-pulsate')),
 									'css'=>array('screen','style','tabs'));
 									
 	$upages['rosa'] = array(	'title'=>"Squadra", 
@@ -58,15 +58,15 @@ $upages = array();
 	
 $apages = array();
 	$apages['home'] = array(	'title'=>"Home", 
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-tabs','ui-tabs-ext')), 
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-tabs','ui-tabs-ext')),
 									'css'=>array('screen','style','tabs'));
 	
 	$apages['rosa'] = array(	'title'=>"Squadra",
-								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-base','ui-accordion')),
+								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-base','ui-accordion'),'ui'=>array('effects-core','effects-pulsate')),
 								'css'=>array('screen','style','lightbox'));
 								
 	$apages['classifica'] = array(	'title'=>"Classifica", 
-									'js'=>array('jquery'=>'jquery','flot'=>array('excanvas','jquery-flot'),'graphTable'=>'jquery-graphTable'),
+									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
 									'css'=>array('screen','style'));
 									
 	$apages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
@@ -78,11 +78,11 @@ $apages = array();
 									'css'=>array('screen','style'));
 									
 	$apages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('jquery'=>'jquery'),
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
 	$apages['confStampa'] = array(	'title'=>"Conferenze stampa",
-										'js'=>array('jquery'=>'jquery'),
+										'js'=>array('jquery'=>'jquery','pngfix'=>'ie|jquery-pngFix','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 									
 	$apages['contatti'] = array(	'title'=>"Contatti",
@@ -114,7 +114,7 @@ $apages = array();
 										'css'=>array('screen','style'));
 									
 	$apages['trasferimenti'] = array(	'title'=>"Trasferimenti",
-										'js'=>array('jquery'=>'jquery'),
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
 	$apages['freeplayer'] = array(	'title'=>"Giocatori liberi",
@@ -126,7 +126,7 @@ $apages = array();
 										'css'=>array('screen','style'));
 										
 	$apages['editArticolo'] = array(	'title'=>"Crea o modifica conferenza",
-										'js'=>array('jquery'=>'jquery'),
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 
 

@@ -103,6 +103,7 @@ if (obj.getAttribute && obj.value.length>mlength) {
 			<span><?php echo $this->messaggio[1]; ?></span>
 		</div>
 		<script type="text/javascript">
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");
 		});

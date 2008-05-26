@@ -50,7 +50,7 @@
 	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
 	<script id="source" type="text/javascript">
 	<!--
-	$(function () {
+ $(function () {
    		var datasets = {
 			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++?>"<?php echo $this->squadre[$key-1][1]; ?>": {
 				label: "<?php echo $this->squadre[$key-1][1]; ?>",
@@ -122,10 +122,8 @@
 							xaxis: { min: Math.round(val1) , max: Math.round(val2) }
 					}));
 				}
-				else 
+				else
 					plot = $.plot($("#placeholder"), data,options);
-
-				$("#legendcontainer table").attr('cellspacing','0');
 
 				var overview = $.plot($("#overview"), data, {
 					lines: { show: true, lineWidth: 1 },
@@ -135,8 +133,8 @@
 					selection: { mode: "x" },
 					legend: { show:false }
 				});
-				
-				$("#clearSelection").click(function () {
+
+				$("#clearSelection").bind("click",function () {
 					overview.clearSelection();
 					$("#hidden").removeAttr('val1');
 					$("#hidden").removeAttr('val2');
@@ -144,7 +142,7 @@
 					$("#clearSelection").addClass('hidden');
 					$("#selection").empty();
 				});
-				
+
 				$("#overview").bind("selected", function (event, area) {
 					$("#legendcontainer table").remove();
 					$("#hidden").attr('val1',area.x1);
@@ -156,9 +154,12 @@
 						$.extend(true, {}, options, {
 							xaxis: { min: Math.round(area.x1), max: Math.round(area.x2) }
 					}));
+					$("#legendcontainer table").attr('cellspacing','0');
 				});
-				
-				if(val1 != null && val2 != null) 
+
+				$("#legendcontainer table").attr('cellspacing','0');
+
+				if(val1 != null && val2 != null)
 					overview.setSelection({x1 : val1, x2 : val2});
 			}
 

@@ -1,7 +1,8 @@
 <?php $i=0; ?>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.text').pngFix();
+	  if(jQuery.browser.msie)
+			$('.text').pngFix();
 	});
 </script>
 
@@ -37,7 +38,7 @@
 						<span class="right"><?php echo $val['insertDate']; ?></span>
 					</em>
 					<h3 class="title"><?php echo $val['title']; ?></h3>
-					<div class="abstract"><?php echo $val['abstract']; ?></div>
+					<?php if(isset($val['abstract'])): ?><div class="abstract"><?php echo $val['abstract']; ?></div><?php endif; ?>
 					<div class="text"><?php echo nl2br($val['text']); ?></div>
 				</div>
 				</div>
@@ -66,6 +67,7 @@
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");
 		});

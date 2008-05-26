@@ -100,6 +100,7 @@
 		</div>
 		<?php endif; ?>
 		<?php if(isset($this->messaggio)): ?>
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		<script type="text/javascript">
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");

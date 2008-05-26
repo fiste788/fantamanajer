@@ -60,6 +60,7 @@
 			</div>
 		<?php endif; ?>
 		<script type="text/javascript">
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 			$(".messaggio").click(function () {
 				$("div.messaggio").fadeOut("slow");
 			});
