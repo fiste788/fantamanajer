@@ -126,6 +126,7 @@
 		<?php endif; ?>
 		<?php if($this->issetForm != FALSE || isset($this->err)): ?> 
 		<script type="text/javascript">
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");
 		});

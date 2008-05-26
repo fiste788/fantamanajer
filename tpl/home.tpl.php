@@ -121,6 +121,7 @@
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");
 		});

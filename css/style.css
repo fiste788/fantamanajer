@@ -1,5 +1,5 @@
 body{
-	font-style:sans-serif;
+	font-family:sans-serif;
 	background-color:#272727;
 	text-align:center;
 	padding: 10px 11px;
@@ -530,7 +530,7 @@ p.surprise {
 	margin:0 0 10px 0;
 }
 #legendcontainer table {
-	width:100%
+	width:100%;
 	border-spacing:0;
 }
 .legendColorBox,.legendLabel {
