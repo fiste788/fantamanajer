@@ -18,7 +18,7 @@
 	<script type="text/javascript">
 			$(document).ready(function() {
 				$("a.toggle").click(function() {
-					$("#operazioni > .operazioni-content").slideToggle("slow");
+					$("#operazioni > .operazioni-content").slideToggle();
 				})
 			});
 		</script>

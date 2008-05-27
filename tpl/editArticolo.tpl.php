@@ -49,7 +49,7 @@ if (obj.getAttribute && obj.value.length>mlength) {
 	var cursor = obj.selectionEnd;
 	var scroll = obj.scrollTop;
 	alert("Hai raggiunto il massimo di caratteri consentito")
-	obj.value=obj.value.substring(0,mlength)
+	obj.value=obj.value.substring(0,mlength);
 	obj.selectionEnd = cursor;
 	obj.scrollTop = scroll;
 }
