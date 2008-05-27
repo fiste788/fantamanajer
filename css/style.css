@@ -556,4 +556,28 @@ p.surprise {
 #option .formbox {width:200px;}
 .hidden {display:none;}
 #selection {margin-bottom:0;}
-
+#giocatori {clear:both;}
+.giocatore {
+	width:180px;
+	color:#000;
+}
+.P {
+	border:1px solid #ff0000;
+	background-color:#ffd1d1;
+}
+.D {
+	border:1px solid #009600;
+	background-color:#d4ffd1;
+}
+.C {
+	border:1px solid #ffbd00;
+	background-color:#fff3d1;
+}
+.A {
+	border:1px solid #00a0ff;
+	background-color:#d0f1ff;
+}
+.droppable {
+	border:1px solid #fff;
+}
+.droppable-hover {background-color:#fff3d1}

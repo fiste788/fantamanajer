@@ -78,7 +78,7 @@
 		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="index.php?p=rosa&amp;squadra=<?php echo $_GET['squadra'] ?>" method="post">
 					<h4 class="no-margin">Carica il tuo logo:</h4>
-							<input class="upload" name="userfile" type="file" accept="image/gif, image/jpeg, image/jpg" />
+							<input class="upload" name="userfile" type="file" />
 							<input type="submit" class="submit" value="Invia file" />
 			</form>
 			<ul id="accordion" class="ui-accordion-container">
