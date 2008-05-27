@@ -558,7 +558,7 @@ p.surprise {
 #selection {margin-bottom:0;}
 #giocatori {clear:both;}
 .giocatore {
-	width:180px;
+	width:100px;
 	color:#000;
 }
 .P {
@@ -577,7 +577,17 @@ p.surprise {
 	border:1px solid #00a0ff;
 	background-color:#d0f1ff;
 }
+#campo {
+	width:600px;
+	height:400px;
+	text-align:center;
+}
+#campo .droppable {
+	height:20px;
+	width:102px;
+	position:relative;
+}
 .droppable {
 	border:1px solid #fff;
 }
-.droppable-hover {background-color:#fff3d1}
+.droppable-hover {background-color:#fff3d1;}

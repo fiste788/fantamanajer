@@ -8,23 +8,31 @@
 <div id="formazione" class="main-content">
 	<?php /* if($this->timeout):*/ ?>
 		<h3>Giornata <?php echo $this->giornata; ?></h3>
-		<div class="column" style="width:150px; height:300px">
-			<div id="droppable-portiere" class="droppable" title="P" style="margin-top:140px; height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="D" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="D" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="D" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="C" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="C" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="C" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="C" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="A" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="A" style="height:20px;"></div>
-			<div id="droppable-portiere" class="droppable" title="A" style="height:20px;"></div>
+		<div id="campo" class="column">
+			<div id="portiere">
+				<div class="droppable" title="P" style="left:<?php echo (600-100)/2; ?>px;"></div>
+			</div>
+			<div id="difensori">
+				<div class="droppable" title="D" style="top: 44px;left:0px;"></div>
+				<div class="droppable" title="D" style="left:<?php echo (600-100)/2; ?>px;"></div>
+				<div class="droppable" title="D" style="left:<?php echo (600-100); ?>px;"></div>
+			</div>
+			<div id="centrocampisti">
+				<div class="droppable" title="C" style="top:44px;"></div>
+				<div class="droppable" title="C" style="left:<?php echo (600-100)/4; ?>px;"></div>
+				<div class="droppable" title="C" style="top:-22px;left:<?php echo (600-100)/2; ?>px;"></div>
+				<div class="droppable" title="C" style="top:-22px;left:<?php echo (600-100)/4*3; ?>px;""></div>
+				<div class="droppable" title="C" style="top:-22px;left:<?php echo (600-100); ?>px;"></div>
+			</div>
+			<div id="attaccanti">
+				<div class="droppable" title="A" style="top:44px;left:"></div>
+				<div class="droppable" title="A" style="left:<?php echo (600-100)/2; ?>px;"></div>
+			</div>
 		</div>
 			<div id="giocatori" class="column" >
 			<?php foreach($this->giocatori as $key=>$val): ?>
 				<div id="<?php echo sprintf('%02d', $j); ?>" class="draggable giocatore<?php echo ' '.$val[3]; ?>">
-				<?php echo $val[1].' '.$val[2]; ?>
+				<?php echo $val[1].' '.substr($val[2],0,1).'.'; ?>
 				</div>
 			<?php $j++; endforeach; ?>
 			</div>
@@ -39,25 +47,44 @@
 			activeClass: 'droppable-active',
 			hoverClass: 'droppable-hover',
 			drop: function(ev, ui) {
-				if($(this).children("div").hasClass('P')) {
-					var id = "#"+$(ui.element).children('div').attr('id').substring(0,2);
-					$("#giocatori").children(id).removeClass('hidden');
-					$(this).html('<div id="'+ui.draggable.attr('id') +'-embed" class="'+ui.draggable.attr('class')+'">' + $(ui.draggable).text() + '</div>');
-					$(this).children("div").draggable({
-						helper:"clone",opacity:0.5,revert:true
-					});
-					$(".draggable").draggable({
-						helper:"clone",opacity:0.5,revert:true
-					});
+				if($(this).children("div").hasClass('embed')) {
+					if($(ui.draggable).hasClass('embed')) {
+						var html = $(ui.draggable).html();
+						var html2 = $(this).html();
+						var id = $(ui.draggable).attr('id');
+						$(ui.helper).remove();
+						$(ui.draggable).replaceWith(html2);
+						$(this).children('div').html(html);
+						$(this).children('div').attr('id',id);
+						$(".draggable").draggable({
+							helper:"clone",opacity:0.5,revert:true
+						});
+					}
+					else {
+						var id = "#"+$(ui.element).children('div').attr('id').substring(0,2);
+						$("#giocatori").children(id).removeClass('hidden');
+						$(this).html('<div id="'+ui.draggable.attr('id') +'-embed" class="embed '+ui.draggable.attr('class')+'">' + $(ui.draggable).text() + '</div>');
+						$(this).children("div").draggable({
+							helper:"clone",opacity:0.5,revert:true
+						});
+						$(".draggable").draggable({
+							helper:"clone",opacity:0.5,revert:true
+						});
+						$(ui.draggable).addClass('hidden');
+						$(ui.helper).remove();
+					}
 				}
 				else{
-					$(this).html('<div id="'+ui.draggable.attr('id') +'-embed" class="'+ui.draggable.attr('class')+'">' + $(ui.draggable).text() + '</div>');
+					$(this).html('<div id="'+ui.draggable.attr('id') +'-embed" class="embed '+ui.draggable.attr('class')+'">' + $(ui.draggable).text() + '</div>');
 					$(this).children(".draggable").draggable({
 						helper:"clone",opacity:0.5,revert:true
 					});
+					if((ui.draggable).parent().attr('id') == 'giocatori')
+						$(ui.draggable).addClass('hidden');
+					else
+						$(ui.draggable).remove();
+					$(ui.helper).remove();
 				}
-				$(ui.draggable).addClass('hidden');
-				$(ui.helper).remove();
 			}
 		});
 		
