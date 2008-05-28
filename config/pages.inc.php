@@ -129,6 +129,10 @@ $apages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-draggable','ui-droppable')),
 										'css'=>array('screen','style'));
 										
+	$apages['formazioneNew2'] = array(	'title'=>"Formazione",
+										'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-draggable','ui-droppable')),
+										'css'=>array('screen','style'));
+										
 	$apages['editArticolo'] = array(	'title'=>"Crea o modifica conferenza",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
