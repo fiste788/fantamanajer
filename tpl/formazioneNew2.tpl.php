@@ -5,7 +5,7 @@
 	</div>
 	<h2 class="column">Formazione</h2>
 </div>
-<div id="formazione" class="main-content">
+<div id="formazione" class="main-content" style="position:relative;">
 	<?php /* if($this->timeout):*/ ?>
 		<h3>Giornata <?php echo $this->giornata; ?></h3>
 		<div id="campo" class="column">
@@ -23,6 +23,7 @@
 			</div>
 	<?php /*endif;*/ ?>
 	<script type="text/javascript">
+  $(function () {
 	function prova(){
 		$(".draggable").draggable({
 			helper:"clone",opacity:0.5,revert:true
@@ -49,28 +50,54 @@
 			},
 			activeClass: 'droppable-active',
 			hoverClass: 'droppable-hover',
-			greedy: true,
+			activate:  function(draggable) { $('.embed').droppable('disable'); },
+			deactivate:  function(draggable) { $('.embed').droppable('enable'); },
+			greedy: false,
 			drop: function(ev,ui) {
-					$(this).append('<div id="'+ui.draggable.attr('id') +'-embed" name="'+ ui.draggable.attr('name') +'" style="'+ ui.helper.attr('style') +'" class="embed droppable '+ui.draggable.attr('class')+'">' + $(ui.draggable).text() + '</div>');
-					$(this).children('div').css('opacity','1');
-					if((ui.draggable).parent().attr('id') == 'giocatori')
-						$(ui.draggable).addClass('hidden');
-					else
-						$(ui.draggable).remove();
-					$(ui.helper).remove();
-					$(".draggable").draggable({
-						helper:"clone",opacity:0.5,revert:true
-					});
+						$(this).append('<div id="'+ui.draggable.attr('id').substring(0,2) +'-embed" name="'+ ui.draggable.attr('name') +'" style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'">' + $(ui.draggable).text() + '</div>');
+						$(this).children('div').css('opacity','1');
+						if((ui.draggable).parent().attr('id') == 'giocatori')
+							$(ui.draggable).addClass('hidden');
+						else
+							$(ui.draggable).remove();
+						$(ui.helper).remove();
+						$(".draggable").draggable({
+							helper:"clone",opacity:0.5,revert:true
+						});
+						embed();
 				}
 			});
-			$(".draggable").bind('click',function() {
-				prova();
-			});
 		};
-		$(".draggable").bind('click',function() {
-				prova();
+
+  function embed() {
+      $('.embed').droppable({
+			accept:  function(draggable) {
+			  	var nome = $(this).attr('name');
+			  	if($(draggable).attr('name') == nome)
+						return true;
+			},
+			activeClass: 'droppable-active',
+			hoverClass: 'droppable-hover',
+			greedy: true,
+			drop: function(ev,ui) {
+			  var id = '#'+$(this).attr('id').substring(0,2);
+				$(this).text(ui.draggable.text());
+				$(this).attr('id',$(ui.draggable).attr('id')+'-embed');
+				$('#giocatori').children(id).removeClass('hidden');
+				$(ui.draggable).addClass('hidden');
+        $(ui.helper).remove();
+				//embed();
+					}
+					});
+    }
+		/*$(".draggable").bind("mouseover", function(e){
+			embed();
+			});*/
+    $(document).ready(function(){
+    		prova();
+      //embed();
 			});
-		
+		});
 	</script>
 </div>
 <div id="squadradett" class="column last">

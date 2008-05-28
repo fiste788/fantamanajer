@@ -560,6 +560,7 @@ p.surprise {
 .giocatore {
 	width:100px;
 	color:#000;
+	cursor:pointer;
 }
 .P {
 	border:1px solid #ff0000;
