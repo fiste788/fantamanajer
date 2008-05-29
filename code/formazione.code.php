@@ -13,8 +13,10 @@ $contenttpl->assign('squadra',$squadra);
 
 require (INCDIR."squadra.inc.php");
 require (INCDIR."formazione.inc.php");
+require (INCDIR."eventi.inc.php");
 
 $squadraObj = new squadra();
+$eventiObj = new eventi();
 $val = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
@@ -105,6 +107,7 @@ if($timeout)
 		{
 			unset($_POST);
 			$contenttpl->assign('err',2);
+			$eventiObj->addEvento('3',$_SESSION['idsquadra']);
 			if(!$issetform)
 				$formazioneObj->carica_formazione($formazione,$capitano,$giornata);
 			else

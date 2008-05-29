@@ -170,5 +170,14 @@ class articolo
 		return $values;
 		
 	}
+	
+	function getArticoloById($id)
+	{
+		$q = "SELECT * FROM articolo WHERE idArticolo = '" . $id . "';";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
+		while($row = mysql_fetch_array($exe))
+			return $row;
+
+	}
 }
 ?>

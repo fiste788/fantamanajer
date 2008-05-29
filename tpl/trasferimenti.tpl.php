@@ -29,7 +29,7 @@
 		Non ha effettuato alcun trasferimento
 	<?php endif; ?>
 	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && $this->numTrasferimenti < 15 && TIMEOUT != NULL): ?>
-	<br/>
+	<br />
 	<h3>Acquista un giocatore</h3>
 	<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>
 	<p class="surprise">Quì è possibile indicare il nome del giocatore che volete acquistare. Se il giocatore è stato già selezionato da una squadra inferiore alla tua in classifica allora riceverai un messaggio di errore.<br />Al contrario il giocatore sarà selezionato per la tua squadra.<br/>Se il proprietario di una squadra inferiore alla tua seleziona il tuo stesso giocatore il giocatore diventerà suo e una mail ti avviserà dell'accaduto in modo che tu puoi selezionare un nuovo giocatore.<br/>I trasferimenti saranno eseguiti nella nottata del giorno della giornata. Ad esempio se la giornata è il 25-12-2007 alora saranno eseguiti nella notte del 25-12-2007 in modo tale che nella mattinata e nel pomeriggio che mancano all'inizio della giornata voi potrete schierare il nuovo giocatore acquistato.Ora è possibile cambiare il giocatore selezionato 2 sole volte.</p>
@@ -42,7 +42,7 @@
 	</script>
 	<form class="column last" id="acquisti" name="edit-trasferimenti" action="index.php?p=trasferimenti&amp;squad=<?php echo $_GET['squad']; ?>" method="post">
 		<fieldset>
-			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>"/>
+			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
 			<label for="player-old">Giocatore vecchio:</label><select id="player-old" name="lascia">
 				<option></option>
 				<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
@@ -100,8 +100,8 @@
 		</div>
 		<?php endif; ?>
 		<?php if(isset($this->messaggio)): ?>
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		<script type="text/javascript">
+		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");
 		});
@@ -113,7 +113,7 @@
 		<form class="column last" name="trasferimenti" action="index.php?p=trasferimenti" method="get">
 		<fieldset class="no-margin fieldset  max-large">
 			<h3 class="no-margin">Seleziona la squadra:</h3>
-			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>">
+			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="squad" onchange="document.trasferimenti.submit();">
 				<option></option>
 				<?php foreach($this->elencosquadre as $key=>$val): ?>
