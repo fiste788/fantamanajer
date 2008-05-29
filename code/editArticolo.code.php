@@ -1,6 +1,7 @@
 <?php 
 require(INCDIR."articolo.inc.php");
 require(INCDIR."emoticon.inc.php");
+require(INCDIR."eventi.inc.php");
 
 $action = NULL;
 $field = array('title'=>'Titolo','abstract'=>'Sottotitolo','text'=>'Testo');
@@ -8,6 +9,7 @@ if(isset($_GET['a']))
 	$action = $_GET['a'];
 $articoloObj = new articolo();
 $emoticonObj = new emoticon();
+$eventiObj = new eventi();
 
 $contenttpl->assign('emoticons',$emoticonObj->emoticon);
 $contenttpl->assign('messaggio',NULL);
@@ -53,10 +55,11 @@ if(isset($_POST['submit']))
 			$articoloObj->setidsquadra($_SESSION['idsquadra']);
 			if($action == 'new')
 			{
-				$articoloObj->add($articoloObj);
+				$idArticolo = $articoloObj->add($articoloObj);
 				$messaggio[0] = 0;
 				$messaggio[] = "Inserimento completato con successo!";
 				$contenttpl->assign('messaggio',$messaggio);
+				$eventiObj->addEvento('1',$_SESSION['idsquadra'],$idArticolo);
 			}
 			else
 			{

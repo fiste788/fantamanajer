@@ -4,10 +4,12 @@ require(INCDIR.'squadra.inc.php');
 require(INCDIR.'giocatore.inc.php');
 require(INCDIR.'punteggi.inc.php');
 require(INCDIR.'mail.inc.php');
+require(INCDIR.'eventi.inc.php');
 	
 $punteggiObj = new punteggi();
 $squadraObj = new squadra();
 $mailObj = new mail();
+$eventiObj = new eventi();
 $squadra = $_SESSION['idsquadra'];
 $acquisto = NULL;
 $lasciato = NULL;
@@ -73,16 +75,16 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 			$appo2[] = $lasciato;
 			$lasciatoDett = $giocatoreObj->getGiocatoriByArray($appo2);
 		}
-	
+	print_r($acquistoDett);
 		$numTrasferimenti = $squadraObj->getNumberTransfert($squadra);
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 		{
-			if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && $acquistoDett[0][2] == $lasciatoDett[0][2] && ($giocatoreAcquistatoOld[0] != $acquisto || $giocatoreLasciatoOld[0] != $lasciato))
+			if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && ($giocatoreAcquistatoOld[0] != $acquisto || $giocatoreLasciatoOld[0] != $lasciato))
 			{
 				if($numTrasferimenti < 2)
 				{
-					if($acquistoDett[0][3] != 0)
+					if($acquistoDett[$acquisto]['idSquadraAcquisto'] != 0)
 					{
 						$classifica = $punteggiObj->getClassifica();
 						$squadre = $squadraObj->getElencoSquadre();
@@ -90,16 +92,16 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 						{
 							$classificaNew[$key] = $val[0];
 						}
-						$posSquadraOld =  array_search($acquistoDett[0][3],$classificaNew);
+						$posSquadraOld =  array_search($acquistoDett[$acquisto]['idSquadraAcquisto'],$classificaNew);
 						$posSquadraNew = array_search($_SESSION['idsquadra'],$classificaNew);
 						if($posSquadraNew > $posSquadraOld)
 						{
-							$giocatoreObj-> unsetGiocatoreLasciatoByIdSquadra($acquistoDett[0][3]);
+							$giocatoreObj-> unsetGiocatoreLasciatoByIdSquadra($acquistoDett[$acquisto]['idSquadraAcquisto']);
 							$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($acquisto);
-							$squadraObj->decreaseNumberTransfert($acquistoDett[0][3]);
-							$body = 'Il giocatore ' . $acquistoDett[0][2] . $acquistoDett[0][1] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
+							$squadraObj->decreaseNumberTransfert($acquistoDett[$acquisto]['idSquadraAcquisto']);
+							$body = 'Il giocatore ' . $acquistoDett[$acquisto]['Nome'] . $acquistoDett[$acquisto]['Cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
 							$mailObj->sendEmail($squadre[$acquistoDett[0][3]-1][4],$body,'Giocatore Rubato');
-							$acquistoDett[0][3] = 0; //ALMENO ENTRA NELL'IF SUCCESSIVO
+							$acquistoDett[$acquisto]['idSquadraAcquisto'] = 0; //ALMENO ENTRA NELL'IF SUCCESSIVO
 						}
 						else
 						{
@@ -110,7 +112,7 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 							$lasciato = NULL;
 						}
 					}
-					if($acquistoDett[0][3] == 0)
+					if($acquistoDett[$acquisto]['idSquadraAcquisto'] == 0)
 					{
 						if($giocatoreAcquistatoOld != FALSE)
 						{
@@ -123,6 +125,7 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 						$messaggio[] = 0;
 						$messaggio[] = 'Operazione eseguita con successo';
 						$contenttpl->assign('messaggio',$messaggio);
+						$eventiObj->addEvento('2',$_SESSION['idsquadra']);
 					}
 				}
 				else
