@@ -107,11 +107,11 @@ if($timeout)
 		{
 			unset($_POST);
 			$contenttpl->assign('err',2);
-			$eventiObj->addEvento('3',$_SESSION['idsquadra']);
 			if(!$issetform)
-				$formazioneObj->carica_formazione($formazione,$capitano,$giornata);
+				$id = $formazioneObj->carica_formazione($formazione,$capitano,$giornata);
 			else
-				$formazioneObj->updateFormazione($formazione,$capitano,$giornata);
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,$giornata);
+			$eventiObj->addEvento('3',$_SESSION['idsquadra'],$id);
 		}
 	  	else
 			$contenttpl->assign('err',1);
