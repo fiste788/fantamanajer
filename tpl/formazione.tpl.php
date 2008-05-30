@@ -150,8 +150,9 @@
 				</select>
 			</fieldset>
 		</form>
-		<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="post">
+		<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="get">
 			<fieldset class="no-margin fieldset">
+			  <input type="hidden" name="p" value="formazioniAll" />
 				<h3 class="no-margin">Guarda le altre formazioni</h3>
 				<?php if(empty($this->formazioniImpostate)): ?>
 					<select name="squadra" disabled="disabled">
