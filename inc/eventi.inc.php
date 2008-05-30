@@ -20,8 +20,10 @@ class eventi
 		require_once(INCDIR.'articolo.inc.php');
 		require_once(INCDIR.'trasferimenti.inc.php');
 		require_once(INCDIR.'formazione.inc.php');
+		require_once(INCDIR.'giocatore.inc.php');
 		$formazioneObj = new formazione();
 		$articoloObj = new articolo();
+		$giocatoreObj = new giocatore();
 		foreach($values as $key=>$val)
 		{
 			switch($val['tipo'])
@@ -32,11 +34,21 @@ class eventi
 								if(!empty($values[$key]['idExternal']['abstract'])) $values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
 								$values[$key]['content'] .= $values[$key]['idExternal']['text'];
 								$values[$key]['link'] = 'index.php?p=confStampa&giorn=' . $values[$key]['idExternal']['idGiornata'];break;
-        		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
-						$values[$key]['content'] = '';break;
+        case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
+								$values[$key]['content'] = '';break;
 				case 3: $values[$key]['idExternal'] = $formazioneObj->getFormazioneById($val['idExternal']);
 								$values[$key]['titolo'] = $val['nome'] . ' ha impostato la formazione per la giornata '. $values[$key]['idExternal']['IdGiornata'];
-								$values[$key]['content'] = '';
+								$giocatori = explode('!',$values[$key]['idExternal']['Elenco']);
+								$titolari = explode(';',$giocatori[0]);
+								foreach($titolari as $key2=>$val2)
+								  $titolari[$key2] = substr($val2,0,3);
+								$titolari = $giocatoreObj->getGiocatoriByArray($titolari);
+								echo "<pre>".print_r($titolari,1)."</pre>";
+								$values[$key]['content'] = 'Formazione: ';
+								foreach($titolari as $key2=>$val2)
+								  $values[$key]['content'] .= $val2['Cognome'].',';
+                $values[$key]['content'] = substr($values[$key]['content'],0,-1);
+								
 			}
 		}
 		echo "<pre>".print_r($values,1)."</pre>";

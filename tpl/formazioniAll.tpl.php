@@ -22,7 +22,7 @@
 				$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
         $elencocap=array('C','VC','VVC'); ?>
 				<?php foreach($this->giocatori as $key=>$val): ?>
-					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr/>
+					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
 					<?php for($i = 0; $i < $this->mod[$j] ; $i++): ?>
 						<select disabled="disabled" name="<?php echo substr($ruo[$j],0,3). '-' . $i ; ?>">
 							<option></option>
@@ -68,7 +68,7 @@
 				</fieldset>
 				<fieldset id="panchinari">
 					<h3 class="center">Panchina</h3>
-					<h4 class="bold no-margin">Giocatori</h4><hr/>
+					<h4 class="bold no-margin">Giocatori</h4><hr />
 					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
 					<select disabled="disabled" name="panch-<?php echo $i; ?>">
 					<option></option>
@@ -131,9 +131,10 @@
 	</form>
 	<?php endif; ?>
 	<?php if(TIMEOUT != NULL): ?>
-	<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="post">
+	<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="get">
 		<fieldset class="no-margin fieldset">
 			<h3 class="no-margin">Guarda le altre formazioni</h3>
+			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<?php if(empty($this->formazioniImpostate)): ?>
 				<select name="squadra" disabled="disabled">
 					<option>Nessuna form. impostata</option>
@@ -146,6 +147,14 @@
 			<?php endif; ?>
 			</select>
 		</fieldset>
+		<fieldset class="no-margin fieldset max-large">
+				<h3 class="no-margin">Guarda la formazione della giornata</h3>
+					<select name="giorn" onchange="document.formazione_other.submit();">
+						<?php for($j = GIORNATA ; $j  > 0 ; $j--): ?>
+							<option <?php if($this->getGiornata == $j) echo "selected=\"selected\"" ?>><?php echo $j; ?></option>
+						<?php endfor; ?>
+				</select>
+			</fieldset>
 	</form>
 	<?php endif; ?>
 	</div>
