@@ -26,10 +26,10 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 			$_SESSION['modulo'] = NULL;
 		}
 		else
-			$layouttpl->assign('loginerror',"Errore nel login.");
+			$layouttpl->assign('loginerror',"Errore nel login");
 	}
 	else
-		$layouttpl->assign('loginerror',"Compila entrambi i campi.");
+		$layouttpl->assign('loginerror',"Errore nel login");
 }
 else
 {

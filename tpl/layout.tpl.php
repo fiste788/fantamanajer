@@ -14,7 +14,7 @@
 		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
 		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL.'ie.css';?>" type="text/css" media="screen, projection"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
-		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo RSSURL.'feed.rss'; ?>" />
+		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL.'rss.php'; ?>" />
 		<?php if(!empty($this->pages['js'])): ?>
 		<?php foreach($this->pages['js'] as $key=>$val): ?>
 		<?php if(is_array($val)): ?>

@@ -27,5 +27,13 @@ class trasferimenti
 		else
 			return FALSE;
 	}
+	
+	function getTrasferimentoById($id)
+	{
+		$q = "SELECT * FROM trasferimenti WHERE IdTrasf = '" . $id . "';";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
+		while($row = mysql_fetch_array($exe))
+			return $row;
+	}
 }
 ?>

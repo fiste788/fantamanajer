@@ -166,6 +166,14 @@
 				<?php endif; ?>
 				</select>
 			</fieldset>
+			<fieldset class="no-margin fieldset max-large">
+				<h3 class="no-margin">Guarda la formazione della giornata</h3>
+					<select name="giorn" onchange="document.formazione_other.submit();">
+						<?php for($j = GIORNATA ; $j  > 0 ; $j--): ?>
+							<option <?php if(GIORNATA == $j) echo "selected=\"selected\"" ?>><?php echo $j; ?></option>
+						<?php endfor; ?>
+				</select>
+			</fieldset>
 		</form>
 	</div>
 	</div>

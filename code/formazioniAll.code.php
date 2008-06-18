@@ -15,15 +15,12 @@ $contenttpl->assign('getGiornata',$giorn);
 $squadraObj = new squadra();
 $val = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
-
+$cap=array();
 $formazioneObj = new formazione();
+$giocatoreObj = new giocatore();
 $formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giorn);
 $formImp = $formazioneObj->getFormazioneExistByGiornata($giorn);
 
-$contenttpl->assign('formazioniImpostate',$formImp);
-$cap=array();
-$contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($squadra));
-$contenttpl->assign('formazione',$formazione);
 if($formazione != FALSE)
 {
 	if(strpos($formazione['Elenco'],'!') !== FALSE)
@@ -49,16 +46,17 @@ if($formazione != FALSE)
 		$panchinari=substr($pieces[1],1);
 		$panchinari_ar=explode(";",$panchinari);
 	}
-else
-	$titolari = explode(';' , $formazione['Elenco']);
+	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolari_ar));
+	$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinari_ar));
+}
+	
+$contenttpl->assign('formazioniImpostate',$formImp);
 
-$giocatoreObj = new giocatore();
+$contenttpl->assign('formazione',$formazione);
 $contenttpl->assign('modulo',$formazione['Modulo']);
 $contenttpl->assign('mod',explode('-',$formazione['Modulo']));
 $contenttpl->assign('formazione',$formazione['Elenco']);
-$contenttpl->assign('titolari',$titolari_ar);
-$contenttpl->assign('panchinari',$panchinari_ar);
 $contenttpl->assign('cap',$cap);
 
-}
+
 ?>

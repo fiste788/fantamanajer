@@ -8,7 +8,7 @@ $today = date("Y-m-d");
 $date = $giornataObj->getDataByGiornata($giornataObj->getIdGiornataByDate());
 $giorn = explode(' ',$date[2]);
 $dataGiornata = $giorn[0];
-
+$giocatoreObj->doTransfert();
 
 if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo'))
 {

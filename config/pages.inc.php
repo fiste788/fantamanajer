@@ -55,6 +55,10 @@ $upages = array();
 	$upages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
 										'js'=>'',
 										'css'=>array('screen','style'));
+									
+	$upages['viewFeed'] = array(	'title'=>"Vedi gli eventi",
+										'js'=>'',
+										'css'=>array('screen','style'));
 	
 $apages = array();
 	$apages['home'] = array(	'title'=>"Home", 

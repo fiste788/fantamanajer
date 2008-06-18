@@ -56,17 +56,27 @@ input.dark:hover {	background:transparent url(../imgs/button2.png) no-repeat scr
 	text-align:center;
 }
 /*----------------------------login-------------------------------------------*/
-#login {
-	width:230px;
-	height:130px;
+#login { height:130px;}
+#loginform { 
+	padding: 10px 20px;
+	width:190px;
+	float:left;
+	height:110px;
 }
-#loginform { padding: 10px 20px;}
-#login .box-top-sx, #login .box-top-dx,#login .box-bottom-sx,#login .box-bottom-dx {
-	height: 130px;
-	width:230px;
+#login .messaggio { 
+	width:115px;
+	margin-right:0;
 }
-#login h3 {margin:0 0 5px 0;}
-#login .submit {display:block;}
+#login .messaggio img { 
+	float:none;
+	margin:0 auto;
+}
+#login .box-top-sx, #login .box-top-dx,#login .box-bottom-sx,#login .box-bottom-dx {	height: 130px;}
+#login h3,#login .field {margin:0 0 8px;}
+#login .submit {
+	display:block;
+	clear:both;
+}
 a.logout,a.logout:hover,a.logout:visited {
 	background:transparent url(../imgs/logout.png) no-repeat center left;
 	color:#fff;
@@ -91,7 +101,6 @@ em {background-color:transparent;}
 /*---------------------navbar------------------------*/
 #navbar {
 	padding: 10px 10px 0 15px;
-	width:703px;
 	clear:both;
 	margin:-30px 0 0;
 }
@@ -213,6 +222,7 @@ em {background-color:transparent;}
 	clear:both;
 	padding:0 10px 0 0;
 }
+#squadradett .logo {padding:0;}
 #squadradett span {width:100%;}
 #squadradett table{
 	width:100%;
