@@ -1,4 +1,7 @@
-<?php $j=0; ?>
+<?php $j=0; 
+$i=0; 
+$elencocap=array('C','VC','VVC'); ?>
+<?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'formazione-big.png'; ?>" alt="->" />
@@ -9,87 +12,43 @@
 	<h3>Giornata <?php echo $this->giornata; ?></h3>
 	<?php if($this->formazione != FALSE): ?>
 		<img alt="modulo" id="img-modulo" title="<?php echo substr($this->modulo,2) ?>" src="<?php echo IMGSURL.$this->modulo.'.png' ?>" />
-	<?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
 		<form id="form-formazione" name="formazione" action="index.php" method="post">		
 			<fieldset id="titolari">
 				<h3 class="center">Titolare</h3>	
-				<?php /*CONTROLLO SE IL MODULO È SETTATO E FACCIO IL FOR CHE STAMPA LE SELECT*/
-				/*INDICE RUOLI: 
-				1 - PORTIERI
-				2 - DIFESORI
-				3 - CENTROCAMPISTI
-				4 - ATTACCANTI */
-				$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
-        $elencocap=array('C','VC','VVC'); ?>
-				<?php foreach($this->giocatori as $key=>$val): ?>
-					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
-					<?php for($i = 0; $i < $this->mod[$j] ; $i++): ?>
-						<select disabled="disabled" name="<?php echo substr($ruo[$j],0,3). '-' . $i ; ?>">
+				<?php foreach($this->titolari as $key=>$val): ?>
+					<?php if($i == $this->mod[$j]): ?>
+						<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
+					<?php $i=0;$j++; endif; ?>
+						<select disabled="disabled">
 							<option></option>
-							<?php $every=$this->titolari[0];foreach($val as $key3=>$val3): ?>
-							  <option value="<?php echo $val3[1];?>"
-							    <?
-								if($every == $val3[1])
-								{
-								    array_shift($this->titolari);
-								    echo "selected=\"selected\""; 
-								}
-							    ?>
-							    >
-								  <?php  
-								    echo $val3[0] . " " . $val3[2];
-								  ?>
-							    </option>
-						  	<?php endforeach; ?>
+							  <option selected="selected" value="<?php echo $val[0];?>"><?php  echo $val[1]. " ". $val[2];  ?></option>
 						</select>
 						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?> 
 							<select disabled="disabled" class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
-								<option>
-								</option>
-								<?php foreach ($elencocap as $elem):?>
+								<option></option>
 								<option <?php 
 								    if(!empty($this->cap))
 								    {
 								    if(array_key_exists($nome,$this->cap))
 								    {
-									if($this->cap[$nome]==$elem)
-									{
-									  echo "selected=\"selected\"";
-									  unset($this->cap[$nome]);
-									}                    
+										  echo "selected=\"selected\"";		                    
 								    }
 								    }                  
-								    ?>><?php echo $elem;?></option>
-								<?php endforeach;?>
+								    ?>><?php echo $this->cap[$nome];?></option>
 							</select>
 						<?php endif; ?>
-					<?php endfor; ?>
-				<?php $j++;endforeach; ?>
+					<?php $i++; ?>
+				<?php endforeach; ?>
 				</fieldset>
 				<fieldset id="panchinari">
 					<h3 class="center">Panchina</h3>
 					<h4 class="bold no-margin">Giocatori</h4><hr />
-					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
-					<select disabled="disabled" name="panch-<?php echo $i; ?>">
+					<?php foreach($this->panchinari as $key3=>$val3): ?>
+					<select disabled="disabled" >
 					<option></option>
-				      	<?php $ogni=$this->panchinari[0];
-				      	for($j = 0 ; $j < count($ruo) ; $j++):?>
-				      		<optgroup label="<?php echo $ruo[$j] ?>">
-				     				<?php foreach($this->giocatori[substr($ruo[$j],0,1)] as $key3=>$val3): ?>
-									<option value="<?php echo $val3[1]; ?>"
-									<?php
-									  if(isset($ogni) && $ogni == $val3[1])
-									  {
-									    array_shift($this->panchinari);
-									    echo "selected=\"selected\""; 
-									  }
-									?>
-									><?php  echo $val3[0] . " " . $val3[2];?></option>
-								<?php endforeach; ?>
-				      		</optgroup>   
-				      	<?php endfor; ?>    
+							<option selected="selected" value="<?php echo $val3[0]; ?>"><?php  echo $val3[1] . " " . $val3[2];?></option>
 					</select> 
-					<?php unset($ogni); endfor;?>
+					<?php endforeach;?>
 				</fieldset>
 			</form>
 		<?php endif; ?>

@@ -75,7 +75,6 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 			$appo2[] = $lasciato;
 			$lasciatoDett = $giocatoreObj->getGiocatoriByArray($appo2);
 		}
-	print_r($acquistoDett);
 		$numTrasferimenti = $squadraObj->getNumberTransfert($squadra);
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'OK')

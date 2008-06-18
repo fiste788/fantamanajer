@@ -205,40 +205,47 @@ class giocatore
 	
 	function doTransfert()
 	{
+		require_once(INCDIR.'eventi.inc.php');
+		$eventiObj = new eventi();
 		$q = "SELECT * FROM giocatore WHERE idSquadraAcquisto <> 0";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
-		while($row = mysql_fetch_row($exe))
+		while($row = mysql_fetch_array($exe))
 		{
 			$values[] = $row;
 		}
+		echo "<pre>".print_r($values,1)."</pre>";
 		if(isset($values))
 		{
 			foreach ($values as $key => $val)
 			{
-				if($val[8] == -1)
+				if($val['idSquadraAcquisto'] == -1)
 				{
-					$values[$key][8] = 0;
-					$values[$key][6] = 0;
+					$values[$key]['idSquadraAcquisto'] = 0;
+					$values[$key]['IdSquadra'] = 0;
 				}
 				else
 				{
-					$values[$key][6] = $val[8];
-					$values[$key][8] = 0;
+					$values[$key]['IdSquadra'] = $val['idSquadraAcquisto'];
+					$values[$key]['idSquadraAcquisto'] = 0;
 				}
-				if($val[6] != 0)
-					$trasf[$val[6]]['old'] = $val[0];
+				if($val['IdSquadra'] != 0)
+					$trasf[$val['IdSquadra']]['old'] = $val[0];
 				else
-					$trasf[$val[8]]['new'] = $val[0];
+					$trasf[$val['idSquadraAcquisto']]['new'] = $val[0];
 			}
 			foreach ($values as $key => $val)
 			{
-				$q = "UPDATE giocatore SET idSquadraAcquisto = '" . $val[8] . "', idSquadra = '" . $val[6] . "' WHERE IdGioc = '" . $val[0] . "'; ";
+				$q = "UPDATE giocatore SET idSquadraAcquisto = '" . $val['idSquadraAcquisto'] . "', idSquadra = '" . $val['IdSquadra'] . "' WHERE IdGioc = '" . $val[0] . "'; ";
 				mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 			}
 			foreach ($trasf as $key => $val)
 			{
 				$q = "INSERT INTO trasferimenti (IdGiocOld,IdGiocNew,IdSquadra) VALUES ('" . $val['old'] . "' , '" . $val['new'] . "' ,'" . $key . "');";
 				mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+				$q = "SELECT IdTrasf FROM trasferimenti WHERE IdGiocOld = '" . $val['old'] . "' AND IdGiocNew = '" . $val['new'] . "' AND IdSquadra = '" . $key . "';";
+				$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+				$data = mysql_fetch_row($exe);
+				$eventiObj->addEvento('4',$_SESSION['idsquadra'],$data[0]);
 			}
 		}
 	}

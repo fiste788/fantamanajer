@@ -3,10 +3,9 @@
 	require (INCDIR.'squadra.inc.php');
 	require(INCDIR.'articolo.inc.php');
 	require(INCDIR.'emoticon.inc.php');
-	require(INCDIR.'eventi.inc.php');
+
 	
 	$articoloObj = new articolo();
-  $eventiObj = new eventi();
 	$squadraObj = new squadra();
 	$contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
 	$punteggiObj = new punteggi();
@@ -41,5 +40,5 @@
 		foreach ($articolo as $key=>$val)
 			$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
 $contenttpl->assign('articoli',$articolo);
-	$eventiObj->getEventi();
+	
 ?>

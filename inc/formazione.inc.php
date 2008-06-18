@@ -18,7 +18,6 @@ class formazione
 		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		while($row = mysql_fetch_array($exe))
 			return $row;
-
 	}
 	
 	function carica_formazione($formazione,$capitano,$giornata)
