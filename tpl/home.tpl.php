@@ -156,4 +156,16 @@
 	</div>
 	</div>
 	</div>
+	<div id="banner" class="column last">
+		<div>
+			<a href="http://piclens.com" target="_blank">
+				<img alt="PicLens" title="PicLens Enabled" src="<?php echo IMGSURL.'piclens.png'; ?>" />
+			</a>
+		</div>
+		<div>
+			<a href="http://www.spreadfirefox.com/node&id=0&t=329">
+				<img alt="Firefox 3" title="Firefox 3" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox3/120x240.png"/>
+			</a>
+		</div>
+	</div>
 </div>

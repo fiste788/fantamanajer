@@ -15,6 +15,7 @@
 		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL.'ie.css';?>" type="text/css" media="screen, projection"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL.'rss.php'; ?>" />
+		<link rel="alternate" href="<?php echo FULLURL.'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<?php if(!empty($this->pages['js'])): ?>
 		<?php foreach($this->pages['js'] as $key=>$val): ?>
 		<?php if(is_array($val)): ?>
@@ -35,6 +36,7 @@
 		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 		<script type="text/javascript">_uacct = "UA-3016148-1";urchinTracker();</script>
 		<?php endif; ?>
+		<script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
 	</head>
 	<body>
 	<!--[if lt IE 7]>
