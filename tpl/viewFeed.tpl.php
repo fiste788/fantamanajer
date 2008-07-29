@@ -4,15 +4,14 @@
 	</div>
 	<h2 class="column">Eventi</h2>
 </div>
-<?php echo "<pre>".print_r($this->eventi,1)."</pre>";?>
 <div id="trasferimenti" class="main-content">
 	<?php foreach($this->eventi as $key =>$val): ?>
 		<?php if($this->evento == 0 || $val['tipo'] == $this->evento): ?>
-			<?php if($val['tipo'] != 2): ?>
+			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
 				<a href="<?php echo $val['link']; ?>">
 			<?php endif;?>
 			<h3 name="evento-<?php echo $val['idEvento']; ?>"><?php echo $val['titolo']; ?></h3>
-			<?php if($val['tipo'] != 2): ?>
+			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
 				</a>
 			<?php endif;?>
 			<?php if(isset($val['content'])): ?>
