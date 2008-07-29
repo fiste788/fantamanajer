@@ -66,7 +66,7 @@ $apages = array();
 									'css'=>array('screen','style','tabs'));
 	
 	$apages['rosa'] = array(	'title'=>"Squadra",
-								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-base','ui-accordion'),'ui'=>array('effects-core','effects-pulsate')),
+								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-base','ui-accordion','effects-core','effects-pulsate')),
 								'css'=>array('screen','style','lightbox'));
 								
 	$apages['classifica'] = array(	'title'=>"Classifica", 
