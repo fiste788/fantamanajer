@@ -18,17 +18,17 @@
 	echo "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>";
 	echo "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss\">\n";
 	echo "<channel>\n";
-	echo '<atom:icon>'.IMGSURL.'picLens-logo.png</atom:icon>\n';
+	echo "<atom:icon>".IMGSURL."picLens-logo.png</atom:icon>\n";
 	foreach($squadre as $key=>$val)
 	{
 		if(file_exists(UPLOADDIR.$val[0] . '-original.jpg'))
 		{
-		echo '<item>\n';
-		echo '<title><![CDATA[' . $val[1] . ']]></title>\n';
-		echo '<link><![CDATA[' . UPLOADDIR.$val[0] . '-original.jpg]]></link>\n';
-		echo '<media:thumbnail url="' . FULLURL.UPLOADDIR.$val[0] . '.jpg" />\n';
-    echo '<media:content url="' . FULLURL.UPLOADDIR.$val[0] . '-original.jpg" />\n';
-		echo '</item>\n';
+		echo "<item>\n";
+		echo "<title><![CDATA[" . $val[1] . "]]></title>\n";
+		echo "<link><![CDATA[" . UPLOADDIR.$val[0] . "-original.jpg]]></link>\n";
+		echo "<media:thumbnail url=\"" . FULLURL.UPLOADDIR.$val[0] . ".jpg\" />\n";
+		echo "<media:content url=\"" . FULLURL.UPLOADDIR.$val[0] . "-original.jpg\" />\n";
+		echo "</item>\n";
 		}
 	}
 	echo "</channel>\n</rss>";
