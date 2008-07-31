@@ -36,9 +36,10 @@ class eventi
 								if(!empty($values[$key]['idExternal']['abstract'])) $values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
 								$values[$key]['content'] .= $values[$key]['idExternal']['text'];
 								$values[$key]['link'] = 'index.php?p=confStampa&giorn=' . $values[$key]['idExternal']['idGiornata'];break;
+								
         		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
 								$values[$key]['content'] = ' ';break;
-								$values[$key]['link'] = ' ';break;
+								$values[$key]['link'] = '';break;
 				case 3: $values[$key]['idExternal'] = $formazioneObj->getFormazioneById($val['idExternal']);
 								$values[$key]['titolo'] = $val['nome'] . ' ha impostato la formazione per la giornata '. $values[$key]['idExternal']['IdGiornata'];
 								$giocatori = explode('!',$values[$key]['idExternal']['Elenco']);

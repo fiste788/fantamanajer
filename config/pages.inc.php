@@ -140,6 +140,10 @@ $apages = array();
 	$apages['editArticolo'] = array(	'title'=>"Crea o modifica conferenza",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
+										
+	$apages['viewFeed'] = array(	'title'=>"Vedi gli eventi",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
 
 
 //echo "<pre>".print_r($upages,1)."</pre>";

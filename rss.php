@@ -34,7 +34,7 @@
 	{
 		echo "<item>\n";
 		echo "<title><![CDATA[" . $val['titolo'] . "]]></title>\n";
-		if(isset($val['link'])) 
+		if(!empty($val['link'])) 
 			echo "<link><![CDATA[" . FULLURL.$val['link'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.$val['link'] . "]]></guid>\n";
 		else
 			echo "<link><![CDATA[" . FULLURL.'index.php?p=viewFeed#evento-'.$val['idEvento'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.'index.php?p=viewFeed#evento-'.$val['idEvento'] . "]]></guid>\n";
