@@ -67,7 +67,8 @@ class giocatore
 		$i=0;
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		while($row = mysql_fetch_array($exe))
-			$result[$row[0]] = $row;		foreach($result as $key=>$val)
+			$result[$row[0]] = $row;
+		foreach($result as $key=>$val)
 		{
 			$appo[$giocatori[$i]] = $result[$giocatori[$i]];
 			$i++;

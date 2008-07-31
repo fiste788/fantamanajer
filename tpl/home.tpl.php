@@ -68,15 +68,34 @@
 			}, fx: { opacity: 'toggle',duration:300 } }).tabs('rotate', 5000,false);
 		});
 	</script>
-	<div id="confStampa" style="clear:both;">
+	<div id="eventi" class="column" style="clear:both;">
+	<h3 class="column">Ultime eventi</h3>
+		<div class="conf-stampa column last" style="clear:both;">
+			<div class="box2-top-sx column last">
+			<div class="box2-top-dx column last">
+			<div class="box2-bottom-sx column last">
+			<div class="box2-bottom-dx column last">
+			<div class="conf-stampa-content column last">
+				<?php foreach($this->eventi as $key =>$val): ?>
+					<?php if($val['tipo'] != 2): ?>
+						<a href="<?php echo $val['link']; ?>">
+					<?php endif;?>
+					<h4 name="evento-<?php echo $val['idEvento']; ?>"><?php echo $val['titolo']; ?></h4>
+					<?php if($val['tipo'] != 2): ?>
+						</a>
+					<?php endif;?>
+				<?php endforeach; ?>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div id="confStampa" class="column last">
 	<h3 class="column">Ultime news</h3>
-	<?php $i = 0; ?>
 	<?php foreach($this->articoli as $key=>$val): ?>
-		<?php if($i%2 == 0): ?>
-			<div class="riga column last">
-		<?php endif; ?>
-		<?php $i++; ?>	
-		<div class="conf-stampa column<?php if($i%2 == 0) echo ' last'; ?>">
+		<div class="conf-stampa column last" style="clear:both;">
 			<div class="box2-top-sx column last">
 			<div class="box2-top-dx column last">
 			<div class="box2-bottom-sx column last">
@@ -103,9 +122,6 @@
 			</div>
 			</div>
 		</div>
-		<?php if($i%2 == 0 || $i == count($this->articoli)): ?>
-			</div>
-		<?php endif; ?>
 	<?php endforeach; ?>
 	</div>
 </div>
