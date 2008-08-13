@@ -88,143 +88,114 @@ class punteggi
 		while ($row = mysql_fetch_row($exe))
 			return($row[0]);
 	}
-      
-	function recVoto($id , $giornata)
-	{
-		$pattern = ";";
-		$query = "SELECT Voti FROM giocatore WHERE IdGioc='$id'";
-		$risu = mysql_query($query) or die("Query non valida: ".$risu . mysql_error());
-		$riga = mysql_fetch_array($risu, MYSQL_NUM) or die("Query non valida: ".$query . mysql_error());;
-		$voti = explode($pattern,$riga[0]);
-		$voto = $voti[$giornata - 1];  
-		return $voto;
-	}
+    
+    function getVotoById($id)
+    {
+        $selectvoto="SELECT Voto FROM voti WHERE IdGioc='$id'";
+        $risu = mysql_query($selectvoto) or die("Query non valida: ".$selectvoto . mysql_error());
+		while ($row = mysql_fetch_row($risu))
+			return($row[0]);
+    }  
+    
+        function getPresenzaById($id)
+    {
+        $select="SELECT Presenza FROM voti WHERE IdGioc='$id'";
+        $risu = mysql_query($select) or die("Query non valida: ".$select. mysql_error());
+		while ($row = mysql_fetch_row($risu))
+			return($row[0]);
+    }
+    
+    function getRuoloById($id)
+    {
+        $query="SELECT Ruolo FROM giocatore WHERE IdGioc='$id'";
+        $exe = mysql_query($query) or die("Query non valida: ".$query . mysql_error());
+		while ($row = mysql_fetch_row($exe))
+			return($row[0]);      
+    }
+    
+    function recurSost($ruolo,&$panch,&$cambi)
+    {
+        echo "<pre>".print_r($panch,1)."<\pre>";
+        foreach($panch as $player)
+        {
+            $presenza=$this->getPresenzabyId($player);
+            if(($this->getRuoloById($player)==$ruolo)&&($presenza))
+            {
+                print "entrato:$player";
+                unset($panch[key($panch)-1]);
+                $cambi++;
+                return $player;
+            }
+        }
+        return 0;
+    }
 	
-	function verificaVoto($voto)
-	{
-		$novoto = "-";  
-		if($voto != $novoto)
-			return true;
-		else
-			return false;
-	}
-	
-	function calcolaPunti($giornata , $idsquadra , $carica)
-	{
-		$pattern = ";";
-		$cambi = 0;
-		$prn_cap = "-";
-		$ruolo_prec = "por";
-		$cap = "";
-		
-		// ricavo la formazione relativa
-		$query = "SELECT Elenco FROM formazioni WHERE IdGiornata='$giornata' AND IdSquadra='$idsquadra'";
-		$risu = mysql_query($query) or die("Query non valida: ".$query . mysql_error());
-		$riga = mysql_fetch_array($risu, MYSQL_NUM) or die("Query non valida: ".$query . mysql_error());;
-		$formaz = explode("!",$riga[0]);
-		
-		// ottengo i titolari
-		$tito = explode($pattern,array_shift($formaz));
-		
-		// ottengo i panchinari
-		$panch = explode($pattern,array_shift($formaz));
-		$el_voti = array();
-		
-		// ciclo ogni giocatore titolare
-		foreach ($tito as $player_dae)
-		{
-			$pieces = explode($prn_cap,$player_dae);
-			$player = $pieces[0];
-			
-			// recupero il voto del giocatore 
-			$voto = $this->recVoto($player,$giornata);
-			
-			// trovo i cap,v-cap e vv-cap
-			if(count($pieces) > 1)	//Mia aggiunta
-			{	
-				$cap = $pieces[1];
-				// se trovo li sbatto dentro così: $array["C"]->idgioc  $array["VC"]->idgioc    
-				$el_cap[$cap] = $player;
-			}
-			// se il gioc ha preso voto lo sbatto dentro così: $array[idgioc]->voto    
-			if($this->verificaVoto($voto))
-				$el_voti[$player] = $voto;
-			// se non ha preso voto    
-			elseif($cambi < 3)
-			{
-				$el_voti[$player] = '';
-				// ottengo il ruolo del gioc che nn ha giocato
-				$q_ruolo = "SELECT ruolo FROM giocatore WHERE IdGioc='$player'";
-				$risu = mysql_query($q_ruolo) or die("Query non valida: ".$q_ruolo. mysql_error());
-				$r = array_shift(mysql_fetch_array($risu, MYSQL_NUM)) or die("Query non valida: ".$q_ruolo . mysql_error());;
-				 
-				// cerco fra tutti i panchinari i giocatori con lo stesso ruolo es. CRESPO SV(CERCO TUTTI GLI ATTACCANTI IN PANCA)
-				$conc = substr(join(",",$panch),1);
-				if($ruolo_prec != $r)
-			      {
-					$ruolo_prec = $r;
-					$q_sost = "SELECT IdGioc FROM giocatore WHERE IdGioc IN (" . $conc . ") AND Ruolo='" . $r . "'";
-					$esito = mysql_query($q_sost) or die("Query non valida: ".$q_sost . mysql_error());
-					$sost = array();
-					
-					// METTO IN $sost TUTTI QUELLI I PANCH CON LO STESSO RUOLO   
-					while ($riga = mysql_fetch_array($esito, MYSQL_NUM))
-					{
-						$a = strpos($conc, $riga[0]);
-						$sost[$a] = $riga[0];    
-					}
-					ksort($sost);
-		     		}		
-				// E LI ORDINO COME NELLA FORMAZIONE     
-				foreach ($sost as $key=>$id_sost)
-				{
-					$voto_s = $this->recVoto($id_sost,$giornata);
-					
-					// SE IL 1° PANCHINARO PRESO VOTO ESCO SENNò CONTINUO A CERCARE   
-					if($this->verificaVoto($voto_s))
-					{						
-						$el_voti[$id_sost.'-panch'] = $voto_s;
-						unset($sost[$key]);
-						$cambi++;
-						break;
-					}
-				}     			
-			}
-		}
+function calcolaPunti($giornata , $idsquadra , $carica)
+{
+    $cambi=0;
+    $somma=0;
+    $flag=0;
+    // ricavo la formazione relativa
+    $query = "SELECT Elenco,cap,vc,vvc FROM formazioni WHERE IdGiornata='$giornata' AND IdSquadra='$idsquadra'";
+    $risu = mysql_query($query) or die("Query non valida: ".$query . mysql_error());
+    $riga = mysql_fetch_array($risu, MYSQL_NUM) or die("Query non valida: ".$query . mysql_error());;
+    $formaz = explode("!",array_shift($riga));
+    $i=0;
 
-    	if(isset($el_cap))
-    	{
-			ksort($el_cap);
-			// RADDOPPIO I PUNTI DEL CAP  
-			foreach ($el_cap as $key=>$value)
-			{			
-				if(array_key_exists($value,$el_voti) && $el_voti[$value] != '')
-				{
-					$el_voti[$value.'-cap'] = $el_voti[$value]*2;
-					unset($el_voti[$value]);
-					break;
-				}
-			}
-		}
-		
-		//INSERISCO NELL'ARRAY ANCHE I PANCHINARI CHE NON SONO ENTRATI
-		foreach($panch as $key=>$val)
-		{
-			if(!isset($el_voti[$val.'-panch']) && $key != 0)
-				$el_voti[$val.'-panch'] = '';
-		}
-		if($carica)	//CONTROLLO SE SONO DA CARICARE
-		{
-			// SOMMO I PUNTI DI QLL KE HAN GIOCATO  
-			$somma = array_sum($el_voti);
-			$ins_somma = "INSERT INTO punteggi(IdGiornata,IdSquadra,Punteggio) VALUES ('$giornata','$idsquadra','$somma')";
-			mysql_query($ins_somma) or die("Query non valida: ".$ins_somma . mysql_error());
-		}
-		return $el_voti;
-	}	
+    // ottengo il capitano che ha preso voto
+    foreach($riga as $cap)
+    {
+        if($this->getPresenzaById($cap))
+        {
+            $flag=1;
+            break;
+        }
+    }
+    if ($flag!=1)
+        $cap="";
+
+    // ottengo i titolari
+    $tito = explode(";",array_shift($formaz));
+    // ottengo i panchinari
+    $panch = explode(";",array_shift($formaz));
+    array_shift($panch);
+    echo "<pre>".print_r($tito,1)."<\pre>";
+    foreach ($tito as $player)
+    {
+
+        $presenza=$this->getPresenzaById($player);
+        if((!$presenza)&&($cambi<3))
+        {
+            print "Non ha preso voto:$player<br>";
+            $sostituto=$this->recurSost($this->getRuoloById($player),$panch,$cambi);
+            if($sostituto!=0)
+                $player=$sostituto;
+        }
+        $voto=$this->getVotoById($player);
+        if($player==$cap)
+            $voto*=2;
+        print "voto$player:$voto<br>";
+        $somma+=$voto;
+    }
+	print "totale:$somma";	
 }
-
+}
 //QUESTE FUNZIONI SONO ESCLUSE DALLA CLASSE PER UN BUG DA CORREGGERE
+function returnarray($path) 
+{
+	if(!file_exists($path)) die("File non esistente");
+	$content = join('',file($path));
+	$players=explode("\n",$content);
+	foreach ($players as &$value) 
+	{
+		$par=explode(";",$value);
+		$key=$par[0];
+		$keys[]=$key;
+	}
+	$c = array_combine($keys, $players);
+	array_pop($c);
+	return $c;
+}
 
 function TrimArray($Input){
  
@@ -247,13 +218,13 @@ function contenuto_via_curl($url)
 	return $string;
 }
 
-function scarica_voti($percorso)
+function scarica_voti_csv($percorso)
 {
 	$sep_voti = ";";
 	$novoto = "-";
 	$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
 	$tabella_voti = array(); 
-  $espr = "<tr";
+    $espr = "<tr";
 	$handle = fopen($percorso, "a");
 	foreach ($array as $keyruolo=>$ruolo)
 	{
@@ -263,44 +234,87 @@ function scarica_voti($percorso)
 		$s = explode("</table",$tabxruolo);
 		$tabxruolo = $s[0];
 
-	 $keywords = explode($espr, $tabxruolo);
-	 array_shift($keywords);
-	 foreach($keywords as $key)
-	 {
-  	$espre = "/(<[^<>]+>)+/";
-	  $key = preg_replace($espre,"\t",$key); 
-    $pieces = explode("\n",$key);
-    $pieces=TrimArray($pieces);
-    $pieces[12] = ereg_replace(',','.',$pieces[12]);
-    fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[12];".substr($pieces[3],0,3).";$pieces[6];$pieces[8];\n");
-   }
-  }  
-  fclose($handle);
+        $keywords = explode($espr, $tabxruolo);
+        array_shift($keywords);
+        foreach($keywords as $key)
+        {
+            $espre = "/(<[^<>]+>)+/";
+            $key = preg_replace($espre,"\t",$key); 
+            $pieces = explode("\n",$key);
+            $pieces=TrimArray($pieces);
+            $pieces[12] = ereg_replace(',','.',$pieces[12]);
+            fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[12];".substr($pieces[3],0,3).";$pieces[6];$pieces[8];\n");
+        }
+    }  
+    fclose($handle);
 }
 
-function remove_voti_giornata($voti,$id)
+
+//lancia il confronto con giornata precedente(esaminando i .csv quindi senza accesso al db) per aggiungere o togliere i giocatori  	
+function update_tab_giocatore($percorsoold,$percorso)
 {
-  print "$id -> $voti<br>";
-  $pieces=explode(";",$voti);
-  $pieces=array_slice($pieces,0,-2);
-  $voti=join(";",$pieces).";";
-  print "$id votazzi:$voti<br>";
-  $update = "UPDATE giocatore SET Voti='$voti' WHERE IdGioc='$id'";  
-	mysql_query($update) or die("Query non valida: ".$update . mysql_error());
+    $playersold=returnarray($percorsoold);
+    $players=returnarray($percorso);
+    
+// aggiorna eventuali cambi di club dei Giocatori-> Es.Criscito da Juve a Genoa
+    foreach($players as $key=>$line)
+    {
+        if(array_key_exists($key,$playersold))
+        {
+            $pieces=explode(";",$line);
+            $clubnew=$pieces[4];
+            $pieces=explode(";",$playersold[$key]);
+            $clubold=$pieces[4];
+            if($clubnew!=$clubold)
+            {
+                $updateclub="UPDATE giocatore SET Club='$clubnew' WHERE IdGioc='$key'";
+                mysql_query($updateclub) or die("Query non valida: ".$updateclub .        mysql_error());
+            }
+        }
+    }
+    
+// aggiunge i giocatori nuovi e rimuove quelli vecchi
+    $datogliere = array_diff_key($playersold, $players);  
+    $dainserire=array_diff_key($players,$playersold);
+    foreach($datogliere as $key=>$val)
+    {
+        $update="UPDATE giocatore SET Club = '' WHERE IdGioc='$key';";
+        mysql_query($update) or die("Query non valida: ".$update .        mysql_error());
+    }        
+    foreach($dainserire as $key=>$val)
+    {
+        $pezzi=explode(";",$val);
+        $insert="INSERT INTO giocatore(IdGioc,Cognome,Ruolo,Club) VALUE ('$pezzi[0]','$pezzi[1]','$pezzi[2]','$pezzi[4]')";
+        mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
+    }            
 }
 
 function recupera_voti($giorn)
 {
     $percorso = "../docs/voti/Giornata".$giorn.".csv";
 	if(!file_exists($percorso))
-	   scarica_voti($percorso);
-	foreach (file($percorso) as $player)
+        // crea il .csv con i voti
+        scarica_voti_csv($percorso);
+        
+	$percorsoold="../docs/voti/Giornata".($giorn-1).".csv";  
+	if(file_exists($percorsoold))
+        update_tab_giocatore($percorsoold,$percorso);  
+    else
+        echo "Aggiornamento non effettuato";
+
+
+    // inserisce i voti di giornata nel db
+    foreach (file($percorso) as $player)
 	{
         $pezzi=explode(";",$player);
-        $insert="INSERT INTO voti(IdGioc,IdGiornata,Voto,Gol,Assist) VALUES ('$pezzi[0]','$giorn','$pezzi[3]','$pezzi[5]','$pezzi[6]');";
+        if($pezzi[3]=="-")
+            $presenza=0;
+        else
+            $presenza=1;
+                
+        $insert="INSERT INTO voti(IdGioc,IdGiornata,Presenza,Voto,Gol,Assist) VALUES ('$pezzi[0]','$giorn',$presenza,'$pezzi[3]','$pezzi[5]','$pezzi[6]');";
         mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
     }
-    die();
-
-}	
+}
+	
 ?>
