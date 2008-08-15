@@ -76,36 +76,30 @@ class giocatore
 		return $appo;
 	}
 	
-      function recuperaOrdine($giornata,$idsquadra,$idg)
-      {
- 		// ricavo la formazione relativa
-		$query="SELECT Elenco FROM formazioni WHERE idgiornata='$giornata' AND idsquadra='$idsquadra'";
-		$risu=mysql_query($query) or die("Query non valida: ".$query . mysql_error());
-		$riga = mysql_fetch_array($risu, MYSQL_NUM) or die("Query non valida: ".$query . mysql_error());
-		$formaz=explode("!",$riga[0]);
-		// ottengo i titolari
-		$tito=explode(";",$formaz[0]);
-		// ottengo i panchinari
-		$panch=explode(";",$formaz[1]);
-    array_shift($panch);
-    $fusion=array_merge($tito,$panch);             
-        for($i=0;$i<count($fusion);$i++)
-        {
-		      $pieces=explode("-",$fusion[$i]);
-		      $fusion[$i]=$pieces[0];
+    function getVotiGiocatoryById($giornata,$idsquadra)
+    {
+        $query="SELECT voti.IdGioc,Cognome, Ruolo, Club, Voto, IdPosizione,Considerato
+                FROM voti
+                INNER JOIN schieramento ON voti.IdGioc = schieramento.IdGioc
+                INNER JOIN giocatore ON voti.IdGioc = giocatore.IdGioc
+                WHERE schieramento.IdFormazione=(
+                                                    SELECT IdFormazione
+                                                    FROM formazioni
+                                                    WHERE IdGiornata ='$giornata'
+                                                    AND IdSquadra ='$idsquadra' )
+                AND voti.IdGiornata ='$giornata'
+                ORDER BY IdPosizione;";
+        $exe=mysql_query($query) or die ("Query non valida: ".$query. mysql_error());
+        while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			$elenco[] = $row;	
+		return($elenco);
 
-            //print "num$i:$fusion[$i] in $kiave<br>";
-            if(strstr($idg,$fusion[$i]))
-            {
-              return $i;
-            }
-        }
-
-      }
+    }
 	
-	function createGiornataDettaglioByGiocatori($result,$giornata,$squadra)
+	function createGiornataDettaglioByGiocatori($giornata,$squadra)
 	{
 		$formazione = array();
+		echo "<pre>".print_r($result,1)."</pre>";
 		$q = "SELECT IdGioc,Nome,Cognome,Ruolo,Club FROM giocatore WHERE IdGioc = "; 
 		foreach($result as $key=>$val)
 		{
@@ -125,7 +119,8 @@ class giocatore
 		}
 		$q = substr($q , 0 , -13);
 		$exe = mysql_query($q);
-		$ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
+		$ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');        
+        echo "<pre>".print_r($elenco,1)."</pre>";
 		while ($row = mysql_fetch_array($exe))
 		{
 			$row[] = $giocatori[ $row['IdGioc'] ]['punt'];
@@ -158,6 +153,8 @@ class giocatore
 		}
     ksort($formazione);		
 		return $formazione;
+
+
 	}
 	
 	function getGiocatoreAcquistatoByIdSquadra($squadra)

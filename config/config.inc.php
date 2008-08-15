@@ -49,7 +49,7 @@ define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
 
 								//database access:
 define ("DBTYPE","mysql");					//database type => DBTYPE
-define ("DBNAME","ingo_fm");					//database name => DBNAME
+define ("DBNAME","test");					//database name => DBNAME
 define ("DBUSER","ingo_fm");					//database username => DBUSER
 define ("DBPASS","banana");						//database password => DBPASS
 define ("DBHOST","localhost");					//database host => DBHOST

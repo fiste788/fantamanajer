@@ -22,7 +22,7 @@
 				3 - CENTROCAMPISTI
 				4 - ATTACCANTI */
 				$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
-       			$elencocap=array('C','VC','VVC'); ?>
+       			$elencocap=array('cap','vc','vvc'); ?>
 				<?php foreach($this->giocatori as $key=>$val): ?>
 					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr/>
 					<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>

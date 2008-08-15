@@ -25,12 +25,12 @@ if($timeout == FALSE)
 
 $formazioneObj = new formazione();
 $formImp = $formazioneObj->getFormazioneExistByGiornata($giornata);
+
 if(isset($formImp[$_SESSION['idsquadra']]) && ($timeout))
 	unset($formImp[$_SESSION['idsquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing=0;
-$count=0;
 $cap="";
 if($timeout)
 {
@@ -55,7 +55,7 @@ if($timeout)
 	if( isset($_POST) && !empty($_POST) && !isset($_POST['mod']))
 	{
 		$formazione = array();
-		$capitano = array();
+		$capitano = array("cap" => "NULL","vc" => "NULL","vvc" => "NULL");
 		$err=2;
 		foreach($_POST as $key => $val)
 		{
@@ -68,10 +68,7 @@ if($timeout)
 				}
 				if( !in_array($val,$formazione))	
 				{
-        				$formazione[$key] = $val;		
-					$count++;
-					if($count == 11)
-					   $formazione[$key] .='!';
+        				$formazione[] = $val;		
 				}
 				else
 				{
@@ -84,7 +81,7 @@ if($timeout)
 				{	
 					if( !in_array($val,$formazione))
 					{
-						$formazione[$key] = $val;
+						$formazione[] = $val;
 					}
 					else
 						$err++;
@@ -95,7 +92,15 @@ if($timeout)
 				if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
 				{		
 					if( !in_array($val,$capitano))
-						$capitano[$key] = $val;
+					{
+                        if(strpos($key,'Por') !== FALSE)
+                           $pos=0;
+                        else
+                        {
+                            $pos=$key{4}+1;  
+						}
+                        $capitano[$val] = $formazione[$pos];
+					}	
 					else
 						$err++;
 				}		
@@ -119,38 +124,27 @@ if($timeout)
 	  		$contenttpl->assign('err',3);	
 	}
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],$giornata);	
-	$contenttpl->assign('issetForm',$issetform);
   	if($issetform)
 	{
 		if( !isset($_POST['mod']) && empty($_POST['mod']) )
 			$_SESSION['modulo']=$issetform['Modulo'];
 
-		$elenco=$issetform['Elenco'];
-		$pieces=explode("!",$elenco);
+		$panchinari_ar=$issetform['Elenco'];
+   		$titolari_ar=array_splice($panchinari_ar,0,11);
+   		foreach($issetform['Cap'] as $key=>$val)
+   		{
+   		   $pos=array_search($val,$titolari_ar);
+   		   if($pos==0)
+   		       $chiave="Por-".$pos."-cap";
+   		   else
+   		       $chiave="Dif-".($pos-1)."-cap";
+   		   $cap[$chiave]=$key;
+        }
 		
-		$titolari=$pieces[0];
-		$titolari_ar=explode(";",$titolari);
-		foreach($titolari_ar as $key=>$appo)
-		{
-		  $pezzi=explode("-",$appo);
-		  if(count($pezzi)>1)
-		  {
-		    $pos=$key;
-		    $titolari_ar[$pos]=$pezzi[0];
-		    if($pos==0)
-		      $chiave="Por-".$pos."-cap";       
-		    else
-		      $chiave="Dif-".($pos-1)."-cap";
-		    $cap[$chiave]=$pezzi[1];
-		  }
-		}
-		$panchinari=substr($pieces[1],1);
-		$panchinari_ar=explode(";",$panchinari);
 		$contenttpl->assign('issetForm',$issetform);
 		$contenttpl->assign('titolari',$titolari_ar);
 		$contenttpl->assign('panchinari',$panchinari_ar);
 		$contenttpl->assign('cap',$cap);
-		//echo "$titolari<br>$panchinari<br>$modulo";
 	}
 	if($_SESSION['modulo'] != NULL)
 	{

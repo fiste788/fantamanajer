@@ -14,7 +14,15 @@ class punteggi
 			return TRUE;
 		}
 	}
-
+    
+    function getPunteggi($idsquadra,$idgiornata)
+    {
+        $query="SELECT punteggio FROM punteggi WHERE IdSquadra='$idsquadra' AND IdGiornata='$idgiornata'";
+		$exe=mysql_query($query) or die("Query non valida: ".$query . mysql_error());
+		while ($row = mysql_fetch_array($exe))
+			return $row[0];       
+    }
+    
 	function getClassifica()
 	{
 		//L'array deve essere strutturato come quì sotto
@@ -81,6 +89,7 @@ class punteggi
 	    return($classificaokay);
 	}
 	
+	
 	function getGiornateWithPunt()
 	{
 		$q = " SELECT COUNT(DISTINCT(IdGiornata)) FROM punteggi;";
@@ -89,17 +98,17 @@ class punteggi
 			return($row[0]);
 	}
     
-    function getVotoById($id)
+    function getVotoById($id,$giornata)
     {
-        $selectvoto="SELECT Voto FROM voti WHERE IdGioc='$id'";
+        $selectvoto="SELECT Voto FROM voti WHERE IdGioc='$id' AND IdGiornata='$giornata'";
         $risu = mysql_query($selectvoto) or die("Query non valida: ".$selectvoto . mysql_error());
 		while ($row = mysql_fetch_row($risu))
 			return($row[0]);
     }  
     
-        function getPresenzaById($id)
+    function getPresenzaById($id,$giornata)
     {
-        $select="SELECT Presenza FROM voti WHERE IdGioc='$id'";
+        $select="SELECT Presenza FROM voti WHERE IdGioc='$id' AND IdGiornata='$giornata'";
         $risu = mysql_query($select) or die("Query non valida: ".$select. mysql_error());
 		while ($row = mysql_fetch_row($risu))
 			return($row[0]);
@@ -113,39 +122,49 @@ class punteggi
 			return($row[0]);      
     }
     
-    function recurSost($ruolo,&$panch,&$cambi)
+    function recurSost($ruolo,&$panch,&$cambi,$giornata)
     {
-        echo "<pre>".print_r($panch,1)."<\pre>";
-        foreach($panch as $player)
+        $num=count($panch);
+        for($i=0;$i<$num;$i++)
         {
-            $presenza=$this->getPresenzabyId($player);
+            $player=$panch[$i];
+            $presenza=$this->getPresenzabyId($player,$giornata);
             if(($this->getRuoloById($player)==$ruolo)&&($presenza))
             {
-                print "entrato:$player";
-                unset($panch[key($panch)-1]);
+                array_splice($panch,$i,1);
                 $cambi++;
                 return $player;
             }
         }
         return 0;
     }
-	
-function calcolaPunti($giornata , $idsquadra , $carica)
+
+function getTabellino($giornata,$idsquadra)
 {
+    
+}
+
+function setConsiderazione($idform,$idplayer)
+{
+    $update="UPDATE schieramento SET Considerato=Considerato+1 WHERE IdFormazione='$idform' AND IdGioc='$idplayer'";
+    mysql_query($update) or die("Query non valida: ".$update. mysql_error());
+    
+}
+function calcolaPunti($giornata , $idsquadra,$carica)
+{
+    
     $cambi=0;
     $somma=0;
     $flag=0;
-    // ricavo la formazione relativa
-    $query = "SELECT Elenco,cap,vc,vvc FROM formazioni WHERE IdGiornata='$giornata' AND IdSquadra='$idsquadra'";
-    $risu = mysql_query($query) or die("Query non valida: ".$query . mysql_error());
-    $riga = mysql_fetch_array($risu, MYSQL_NUM) or die("Query non valida: ".$query . mysql_error());;
-    $formaz = explode("!",array_shift($riga));
-    $i=0;
-
+    require_once('formazione.inc.php');
+    $formObj = new formazione();
+    $form=$formObj->getFormazioneBySquadraAndGiornata($idsquadra,$giornata);
+    $idform=$form['Id'];
+    $ecap=$form['Cap'];
     // ottengo il capitano che ha preso voto
-    foreach($riga as $cap)
+    foreach($ecap as $cap)
     {
-        if($this->getPresenzaById($cap))
+        if($this->getPresenzaById($cap,$giornata))
         {
             $flag=1;
             break;
@@ -154,30 +173,30 @@ function calcolaPunti($giornata , $idsquadra , $carica)
     if ($flag!=1)
         $cap="";
 
-    // ottengo i titolari
-    $tito = explode(";",array_shift($formaz));
-    // ottengo i panchinari
-    $panch = explode(";",array_shift($formaz));
-    array_shift($panch);
-    echo "<pre>".print_r($tito,1)."<\pre>";
+    $panch=$form['Elenco'];
+    $tito=array_splice($panch,0,11);
+
     foreach ($tito as $player)
     {
 
-        $presenza=$this->getPresenzaById($player);
+        $presenza=$this->getPresenzaById($player,$giornata);
         if((!$presenza)&&($cambi<3))
         {
-            print "Non ha preso voto:$player<br>";
-            $sostituto=$this->recurSost($this->getRuoloById($player),$panch,$cambi);
+            $sostituto=$this->recurSost($this->getRuoloById($player),$panch,$cambi,$giornata);
             if($sostituto!=0)
                 $player=$sostituto;
         }
-        $voto=$this->getVotoById($player);
+        $this->setConsiderazione($idform,$player);
+        $voto=$this->getVotoById($player,$giornata);
         if($player==$cap)
+        {
             $voto*=2;
-        print "voto$player:$voto<br>";
+            $this->setConsiderazione($idform,$cap);
+        }    
         $somma+=$voto;
     }
-	print "totale:$somma";	
+    $insert="INSERT INTO punteggi(IdGiornata,IdSquadra,punteggio) VALUES ('$giornata','$idsquadra','$somma');";
+    mysql_query($insert) or die("Query non valida: ".$insert. mysql_error());
 }
 }
 //QUESTE FUNZIONI SONO ESCLUSE DALLA CLASSE PER UN BUG DA CORREGGERE
@@ -300,7 +319,7 @@ function recupera_voti($giorn)
 	if(file_exists($percorsoold))
         update_tab_giocatore($percorsoold,$percorso);  
     else
-        echo "Aggiornamento non effettuato";
+        echo "Nessun giocatore aggiunto/tolto !";
 
 
     // inserisce i voti di giornata nel db
