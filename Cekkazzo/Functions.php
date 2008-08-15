@@ -34,34 +34,31 @@ function mysql_fetch_rowsarr($result, $numass=MYSQL_BOTH) {
 function connessione()
 {
   mysql_connect("localhost","ingo_fm","banana");
-  mysql_select_db("ingo_fm");
+  mysql_select_db("test");
   error_reporting(E_ALL ^ E_NOTICE);
 }
 
 function importa_giocatori()
 {
-  $percorso="./Elencocalciatori.txt";
+  $percorso="D:\Documents and Settings\Shane Vendrell\Documenti/fantacalcio.csv";
   // copia il contenuto di un file in una stringa
   $handle = fopen($percorso, "r");
   $contenuto = fread($handle, filesize($percorso));
   fclose($handle);
-
-  $patt_calc="-";
-  $elenco=trim($elenco);
+  $patt_calc="\n";
   $elenco=explode($patt_calc,$contenuto);
   
   foreach ($elenco as $giocatore)
   {
-    $i++;
     $giocatore=trim($giocatore);
-    $giocatore=ereg_replace("'","`",$giocatore);
-    $pieces=explode("\n",$giocatore);
-    $ruolo=trim($pieces[0]);
-    $nome=trim($pieces[1]);
-    $club=trim($pieces[2]);
-    print "Nome:$nome";
-    $uppa="update giocatore set Cognome='$nome',Ruolo='$ruolo',Club='$club'";
-    $query="INSERT INTO giocatore(Cognome,Ruolo,Club) VALUES ('$nome','$ruolo','$club')";
+    //$giocatore=ereg_replace("'","`",$giocatore);
+    $pieces=explode(";",$giocatore);
+    $codice=trim($pieces[0]);
+    $ruolo=trim($pieces[1]);
+    $nome=trim($pieces[2]);
+    $nome = addslashes(ucwords(strtolower($nome)));
+    $club=ucfirst(strtolower(trim($pieces[4])));
+    $query="INSERT INTO giocatore(IdGioc,Cognome,Ruolo,Club) VALUES ('$codice','$nome','$ruolo','$club')";
     $risultato=mysql_query($query) or die("Query non valida: ".$nome . mysql_error());    
   } 
 }
