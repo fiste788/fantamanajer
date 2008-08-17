@@ -14,7 +14,7 @@ class formazione
 	
 	function getFormazioneById($id)
 	{
-		$q = "SELECT formazioni.IdFormazione,IdSquadra,IdGiornata,IdGioc,IdPosizione,Modulo,cap,vc,vvc FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione WHERE formazioni.IdFormazione='$id' ORDER BY IdPosizione;";
+		$q = "SELECT formazioni.IdFormazione,IdSquadra,IdGiornata,IdGioc,IdPosizione,Modulo,C,VC,VVC FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione WHERE formazioni.IdFormazione='$id' ORDER BY IdPosizione;";
 		$exe = mysql_query($q);
 		$flag=0;
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
@@ -26,9 +26,9 @@ class formazione
                 $idsquadra=$row['IdSquadra'];
                 $idgiornata=$row['IdGiornata'];
                 $modulo=$row['Modulo'];
-                $cap['cap']=$row['cap'];
-                $cap['vc']=$row['vc'];
-                $cap['vvc']=$row['vvc'];
+                $cap['C']=$row['C'];
+                $cap['VC']=$row['VC'];
+                $cap['VVC']=$row['VVC'];
                 $flag=1;
             }
         }
@@ -105,7 +105,7 @@ class formazione
 	
 	function getFormazioneBySquadraAndGiornata($idSquadra,$giornata)
 	{
-		$q = "SELECT formazioni.IdFormazione,IdGioc,IdPosizione,Modulo,cap,vc,vvc FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione WHERE formazioni.IdSquadra='$idSquadra' AND formazioni.IdGiornata = '$giornata' ORDER BY IdPosizione;";
+		$q = "SELECT formazioni.IdFormazione,IdGioc,IdPosizione,Modulo,C,VC,VVC FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione WHERE formazioni.IdSquadra='$idSquadra' AND formazioni.IdGiornata = '$giornata' ORDER BY IdPosizione;";
 		$exe = mysql_query($q);
 		$flag=0;
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
@@ -115,9 +115,9 @@ class formazione
             {
                 $idformazione=$row['IdFormazione'];
                 $modulo=$row['Modulo'];
-                $cap['cap']=$row['cap'];
-                $cap['vc']=$row['vc'];
-                $cap['vvc']=$row['vvc'];
+                $cap['C']=$row['C'];
+                $cap['VC']=$row['VC'];
+                $cap['VVC']=$row['VVC'];
                 $flag=1;
             }
         }
