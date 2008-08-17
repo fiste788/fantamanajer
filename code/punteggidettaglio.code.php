@@ -48,7 +48,7 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $squadra < 9 && $gio
 	{
 		//$result = $punteggiObj->calcolaPunti($giornata,$squadra,FALSE);
 		$contenttpl->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoryById($giornata,$squadra));
+		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra));
 		//echo "<pre>".print_r($giocatoreObj->getVotiGiocatoryById($giornata,$squadra),1)."</pre>";
 		
 	}

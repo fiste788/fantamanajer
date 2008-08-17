@@ -3,6 +3,32 @@ include 'Functions.php';
 $cambi=array(3,8,8,6);
 $ruoli=array("P","D","C","A");
 connessione();
+function elencogiocatori($ruolo_filt)
+{  
+  $selez_ruolo="SELECT Cognome,IdGioc,Nome FROM giocatore WHERE Ruolo='$ruolo_filt' order by Cognome ASC";
+  $risultato = mysql_query($selez_ruolo);
+  $elencoopzioni="<option Selected></option>";
+  while ($riga = mysql_fetch_array($risultato, MYSQL_NUM)) 
+  {
+    $elencoopzioni=$elencoopzioni."<option value=$riga[1]>$riga[0] $riga[2]</option>";
+  }
+  return $elencoopzioni;
+   //$elenco=mysql_fetch_rowsarr($risultato);
+}
+function elencosquadre()
+{
+    print "ciao";
+  $elencasq="select nome,IdSquadra from squadra";
+  $risu=mysql_query($elencasq);
+  echo "<pre>".print_r($risu,1)."</pre>";
+  $options="<option Selected></option>";
+  while ($riga = mysql_fetch_array($risu, MYSQL_NUM)) 
+  {
+    print "aia".$riga[1];
+    $options=$options."<option value=$riga[1]>$riga[0]</option>";
+  }
+  return $options; 
+}
 ?>
 <form method=POST action="InviaRose.code.php"; name=nome>
 <p align="center" class="titolo_articolo">Inserisci la formazione :

@@ -42,11 +42,10 @@ class eventi
 								$values[$key]['link'] = '';break;
 				case 3: $values[$key]['idExternal'] = $formazioneObj->getFormazioneById($val['idExternal']);
 								$values[$key]['titolo'] = $val['nome'] . ' ha impostato la formazione per la giornata '. $values[$key]['idExternal']['IdGiornata'];
-								$giocatori = explode('!',$values[$key]['idExternal']['Elenco']);
-								$titolari = explode(';',$giocatori[0]);
-								foreach($titolari as $key2=>$val2)
-									$titolari[$key2] = substr($val2,0,3);
+								$titolari=$values[$key]['idExternal']['Elenco'];
+								$titolari=array_splice($titolari,0,11);
 								$titolari = $giocatoreObj->getGiocatoriByArray($titolari);
+
 								$values[$key]['content'] = 'Formazione: ';
 								foreach($titolari as $key2=>$val2)
 									$values[$key]['content'] .= $val2['Cognome'].', ';

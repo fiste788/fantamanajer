@@ -33,7 +33,10 @@ class giocatore
 	
 	function getGiocatoriByIdSquadra($idSquadra)
 	{
-		$q = "SELECT IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,Voti FROM giocatore WHERE IdSquadra='" . $idSquadra . "' ORDER BY IdGioc ASC";
+		$q = "SELECT IdGioc, Cognome, Nome, Ruolo, IdSquadra
+            FROM giocatore 
+            WHERE IdSquadra ='$idSquadra'
+            ORDER BY IdGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$giocatori = "";
 		while($row=mysql_fetch_row($exe))
@@ -48,7 +51,8 @@ class giocatore
 	
 	function getFreePlayer($ruolo)
 	{
-		$q = "SELECT IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,Voti FROM giocatore WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' ORDER BY Cognome;";
+		$q = "SELECT giocatore.IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,AVG( Voto ) as Voti,SUM( Presenza ) as Presenze, SUM( Gol ) as Gol, SUM( Assist ) as Assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' GROUP BY giocatore.IdGioc ORDER BY Cognome;";
+            
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe))
 		{
@@ -76,7 +80,7 @@ class giocatore
 		return $appo;
 	}
 	
-    function getVotiGiocatoryById($giornata,$idsquadra)
+    function getVotiGiocatoryByGiornataSquadra($giornata,$idsquadra)
     {
         $query="SELECT voti.IdGioc,Cognome, Ruolo, Club, Voto, IdPosizione,Considerato
                 FROM voti
@@ -264,40 +268,23 @@ class giocatore
         $liste = csv2array($content);
         print_r($liste);
 */
-	function returnarray($path) 
-	{
-		if(!file_exists($path)) die("File non esistente");
-		$content = join('',file($path));
-		$players=explode("\n",$content);
-		foreach ($players as &$value) 
-		{
-			$par=explode(";",$value);
-			$key=$par[0];
-			$keys[]=$key;
-		}
-		$c = array_combine($keys, $players);
-		return $c;
-	}
-
-	// aggiorna di giornata in giornata i giocatori, togliendo qll ceduti
-	function updateListaGiocatori($giornata)
-	{
-		$percorso = "docs/voti/Giornata".$giornata.".csv";
-		$players_now = $this->returnarray($percorso);
-		$q = "SELECT * FROM giocatore WHERE Club <> ''";
+    function getGiocatoryByIdSquadraWithStats($idsquadra)
+    {
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
+            FROM giocatore INNER JOIN voti ON giocatore.IdGioc = voti.IdGioc
+            WHERE IdSquadra ='$idsquadra'
+            GROUP BY giocatore.IdGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-		$handle = fopen("docs/voti/ToltiGiornata".$giornata.".csv", "a");
+		$giocatori = "";
 		while($row=mysql_fetch_row($exe))
 		{
-			$chiave=$row[0];
-			if(!array_key_exists($chiave,$players_now))
-			{
-				fwrite($handle,"$row[0];$row[1];$row[2]\n");
-				$update="UPDATE giocatore SET Club = '' WHERE IdGioc='".$chiave."';";
-				mysql_query($update) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-			}
+			$giocatori[] = $row;
 		}
-		fclose($handle);
-	}  
+		if(isset($giocatori))
+		return $giocatori;
+		else
+		return FALSE;
+
+    }
 }
 ?>

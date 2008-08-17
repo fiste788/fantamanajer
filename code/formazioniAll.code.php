@@ -23,29 +23,9 @@ $formImp = $formazioneObj->getFormazioneExistByGiornata($giorn);
 
 if($formazione != FALSE)
 {
-	if(strpos($formazione['Elenco'],'!') !== FALSE)
-	{
-  	$pieces=explode("!",$formazione['Elenco']);
-
-		$titolari=$pieces[0];
-		$titolari_ar=explode(";",$titolari);
-		foreach($titolari_ar as $key=>$appo)
-		{
-		  $pezzi=explode("-",$appo);
-		  if(count($pezzi)>1)
-		  {
-		    $pos=$key;
-		    $titolari_ar[$pos]=$pezzi[0];
-		    if($pos==0)
-		      $chiave="Por-".$pos."-cap";
-		    else
-		      $chiave="Dif-".($pos-1)."-cap";
-		    $cap[$chiave]=$pezzi[1];
-		  }
-		}
-		$panchinari=substr($pieces[1],1);
-		$panchinari_ar=explode(";",$panchinari);
-	}
+    $panchinari_ar=$formazione['Elenco'];
+    $titolari_ar=array_splice($panchinari_ar,0,11);
+    $cap=$formazione['Cap'];
 	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolari_ar));
 	$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinari_ar));
 }

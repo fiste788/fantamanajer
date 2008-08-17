@@ -39,18 +39,18 @@ $giocatoreObj = new giocatore();
 $freeplayer = $giocatoreObj->getFreePlayer($ruolo);
 foreach($freeplayer as $key=>$val)
 {
-	$voti = $val['Voti'];
+/*	$voti = $val['Voti'];
 	$voti = explode(';',$voti);
 	//echo "<pre>".print_r($voti),"</pre>";
 	$mediavoti = array_sum($voti);
 	$partitegiocate = count(array_filter($voti,"filter"));
 	if($partitegiocate != 0)
-		$mediavoti /= $partitegiocate;
+		$mediavoti /= $partitegiocate;*/
 	$freeplayer[$key]['Nome'] = $val['Nome'];
 	$freeplayer[$key]['Cognome'] = $val['Cognome'];
-	$freeplayer[$key]['Voti'] = substr($mediavoti,0,4);
-	$freeplayer[$key]['VotiAll'] = $mediavoti;
-	$freeplayer[$key]['PartiteGiocate'] = $partitegiocate;
+	$freeplayer[$key]['Voti'] = substr($val['Voti'],0,4);
+	$freeplayer[$key]['VotiAll'] = $val['Voti'];
+	$freeplayer[$key]['PartiteGiocate'] = $val['Presenze'];
 }
 $sort_arr = array();
     foreach($freeplayer AS $uniqid => $row){

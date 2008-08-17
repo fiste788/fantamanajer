@@ -22,6 +22,8 @@
 				<th>Sq.</th>
 				<th>MV</th>
 				<th>PG</th>
+				<th>Gol</th>
+				<th>Assist</th>
 			</tr>
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<tr class="row">
@@ -30,6 +32,8 @@
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['partite']; ?></td>
+				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['gol']; ?></td>
+				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['assist']; ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
