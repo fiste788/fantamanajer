@@ -20,21 +20,22 @@ $eventiObj = new eventi();
 $val = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
-if($timeout == FALSE)
+if(TIMEOUT == FALSE)
+
 	header("Location:index.php?p=formazioniAll");
 
 $formazioneObj = new formazione();
-$formImp = $formazioneObj->getFormazioneExistByGiornata($giornata);
+$formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
 
-if(isset($formImp[$_SESSION['idsquadra']]) && ($timeout))
+if(isset($formImp[$_SESSION['idsquadra']]) && (TIMEOUT))
 	unset($formImp[$_SESSION['idsquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing=0;
 $cap="";
-if($timeout)
+if(TIMEOUT)
 {
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],$giornata);	
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
  	$contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($_SESSION['idsquadra']));
 	//SETTO A NULL IL VALORE DEL MODULO NELLA SESSIONE
 	if( !isset($_SESSION ['modulo']))
@@ -55,7 +56,7 @@ if($timeout)
 	if( isset($_POST) && !empty($_POST) && !isset($_POST['mod']))
 	{
 		$formazione = array();
-		$capitano = array("cap" => "NULL","vc" => "NULL","vvc" => "NULL");
+		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
 		$err=2;
 		foreach($_POST as $key => $val)
 		{
@@ -91,7 +92,7 @@ if($timeout)
 			{
 				if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
 				{		
-					if( !in_array($val,$capitano))
+					if( $capitano[$val] == NULL)
 					{
                         if(strpos($key,'Por') !== FALSE)
                            $pos=0;
@@ -100,9 +101,11 @@ if($timeout)
                             $pos=$key{4}+1;  
 						}
                         $capitano[$val] = $formazione[$pos];
+                        
 					}	
 					else
 						$err++;
+						echo "<pre>".print_r($capitano,1)."</pre>";
 				}		
 			}
 		}
@@ -113,9 +116,9 @@ if($timeout)
 			unset($_POST);
 			$contenttpl->assign('err',2);
 			if(!$issetform)
-				$id = $formazioneObj->carica_formazione($formazione,$capitano,$giornata);
+				$id = $formazioneObj->carica_formazione($formazione,$capitano,GIORNATA);
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,$giornata);
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA);
 			$eventiObj->addEvento('3',$_SESSION['idsquadra'],$id);
 		}
 	  	else
@@ -123,7 +126,7 @@ if($timeout)
 		if ($missing > 0)
 	  		$contenttpl->assign('err',3);	
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],$giornata);	
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
   	if($issetform)
 	{
 		if( !isset($_POST['mod']) && empty($_POST['mod']) )

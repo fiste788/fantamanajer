@@ -107,8 +107,8 @@ if (!isset($_SESSION['logged'])) {
 		$timeout = TRUE;
 	if($giornata > ($giornataObj->getNumberGiornate()-1))
 		$timeout = NULL;
-	define("GIORNATA",$giornata);
-	define("TIMEOUT",$timeout);
+	define("GIORNATA",26);
+	define("TIMEOUT",true);
 	$contenttpl->assign('giornata',GIORNATA);
 	$contenttpl->assign('timeout',TIMEOUT);
 

@@ -154,7 +154,6 @@ em {background-color:transparent;}
 #content #content-top-sx, #content #content-top-dx,#content #content-bottom-sx,#content #content-bottom-dx {width:100%;}
 #content-container {width:100%;}
 .main-content {
-	clear:both;
 	width:610px;
 	float:left;
 	padding: 0 0 15px 15px;
