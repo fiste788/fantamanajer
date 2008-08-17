@@ -79,8 +79,10 @@ function elencogiocatori($ruolo_filt)
 }
 function elencosquadre()
 {
+    print "ciao";
   $elencasq="select nome,IdSquadra from squadra";
   $risu=mysql_query($elencasq);
+  echo "<pre>".print_r($risu,1)."</pre>";
   $options="<option Selected></option>";
   while ($riga = mysql_fetch_array($risu, MYSQL_NUM)) 
   {

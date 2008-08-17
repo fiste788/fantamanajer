@@ -14,10 +14,37 @@ class formazione
 	
 	function getFormazioneById($id)
 	{
-		$q = "SELECT * FROM formazioni WHERE idFormazione = '".$id."';";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
-		while($row = mysql_fetch_array($exe))
-			return $row;
+		$q = "SELECT formazioni.IdFormazione,IdSquadra,IdGiornata,IdGioc,IdPosizione,Modulo,cap,vc,vvc FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione WHERE formazioni.IdFormazione='$id' ORDER BY IdPosizione;";
+		$exe = mysql_query($q);
+		$flag=0;
+		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+		{
+            $elenco[$row['IdPosizione']]=$row['IdGioc'];
+            if(!$flag)
+            {
+                $idformazione=$row['IdFormazione'];
+                $idsquadra=$row['IdSquadra'];
+                $idgiornata=$row['IdGiornata'];
+                $modulo=$row['Modulo'];
+                $cap['cap']=$row['cap'];
+                $cap['vc']=$row['vc'];
+                $cap['vvc']=$row['vvc'];
+                $flag=1;
+            }
+        }
+
+		if($flag)
+		{
+            $formazione['Id']=$idformazione;
+            $formazione['IdSquadra']=$idsquadra;
+            $formazione['IdGiornata']=$idgiornata;
+            $formazione['Elenco']=$elenco;
+            $formazione['Modulo']=$modulo;
+            $formazione['Cap']=$cap;
+            return $formazione;
+        }			
+		else
+			return FALSE;
 	}
 	
 	function carica_formazione($formazione,$capitano,$giornata)

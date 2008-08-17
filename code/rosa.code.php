@@ -48,9 +48,10 @@ $contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 require(INCDIR.'giocatore.inc.php');
 $giocatoreObj = new giocatore();
-if($squadra != NULL && $squadra > 0 && $squadra < 9)
+$values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);
+if(($squadra != NULL) && ($values))
 {
-	$values = $giocatoreObj->getGiocatoriByIdSquadra($squadra);
+
 	$i = 0;
 	$appo = 0;
 	$mediaVoto = 0;
@@ -60,29 +61,19 @@ if($squadra != NULL && $squadra > 0 && $squadra < 9)
 		$giocatori[$i]['nome'] = $val[1] . " " . $val[2];
 		$giocatori[$i]['ruolo'] = $ruoli[$val[3]];
 		$giocatori[$i]['club'] = $val[5];
-		$voti = explode(';',$val[6]);
-		$media = array_sum($voti);
-		$partiteGiocate = count(array_filter($voti,"filter"));
-		if($partiteGiocate != 0)
-		{
-			$giocatori[$i]['voti'] = substr($media / $partiteGiocate,0,4);
-			$giocatori[$i]['votiAll'] = $media / $partiteGiocate;
-			$appo ++;
-		}
-		else
-		{
-			$giocatori[$i]['voti'] = 0;
-			$giocatori[$i]['votiAll'] = 0;
-		}
-		$giocatori[$i]['partite'] = $partiteGiocate;
+        $giocatori[$i]['votiAll']=$val[6];
+        $giocatori[$i]['voti']=substr($val[6],0,4);
+        $giocatori[$i]['partite']=$val[7];
+        $giocatori[$i]['gol']=$val[8];
+        $giocatori[$i]['assist']=$val[9];
 		$mediaVoto += $giocatori[$i]['voti'];
 		$mediaPartite += $giocatori[$i]['partite'];
 		$i++;
 	}
-	$contenttpl->assign('mediaVoto',substr($mediaVoto / $appo,0,4));
-	$contenttpl->assign('mediaVotoAll',$mediaVoto / $appo);
-	$contenttpl->assign('mediaPartite',substr($mediaPartite / $appo,0,4));
-	$contenttpl->assign('mediaPartiteAll',$mediaPartite / $appo);
+	$contenttpl->assign('mediaVoto',substr($mediaVoto / $i,0,4));
+	$contenttpl->assign('mediaVotoAll',$mediaVoto / $i);
+	$contenttpl->assign('mediaPartite',substr($mediaPartite / $i,0,4));
+	$contenttpl->assign('mediaPartiteAll',$mediaPartite / $i);
 	$contenttpl->assign('giocatori',$giocatori);	
 }
 

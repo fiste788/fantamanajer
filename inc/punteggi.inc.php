@@ -139,11 +139,6 @@ class punteggi
         return 0;
     }
 
-function getTabellino($giornata,$idsquadra)
-{
-    
-}
-
 function setConsiderazione($idform,$idplayer)
 {
     $update="UPDATE schieramento SET Considerato=Considerato+1 WHERE IdFormazione='$idform' AND IdGioc='$idplayer'";

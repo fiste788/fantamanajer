@@ -1,6 +1,6 @@
 <?php
-  mysql_connect("localhost","cekkazzo","mangiamerda");
-  mysql_select_db("Fantacalcio");
+  mysql_connect("localhost","ingo_fm","banana");
+  mysql_select_db("test");
   error_reporting(E_ALL ^ E_NOTICE);
   $idsquadra=array_shift($_POST);
   print "id:$idsquadra";
