@@ -4,7 +4,6 @@ config.inc.php:
 Config is a configuration file with definitions, database connection parameters and error notification.
 
 FantaManajer
-
 To do:
 */
 
@@ -50,9 +49,9 @@ define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
 								//database access:
 define ("DBTYPE","mysql");					//database type => DBTYPE
 define ("DBNAME","test");					//database name => DBNAME
-define ("DBUSER","ingo_fm");					//database username => DBUSER
+define ("DBUSER","ingo_test");					//database username => DBUSER
 define ("DBPASS","banana");						//database password => DBPASS
-define ("DBHOST","localhost");					//database host => DBHOST
+define ("DBHOST","ingo.110mb.com:3306");					//database host => DBHOST
 
 // Comunica gli errori semplici di esecuzione
 if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ) 

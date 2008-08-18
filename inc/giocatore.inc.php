@@ -80,6 +80,24 @@ class giocatore
 		return $appo;
 	}
 	
+	function getGiocatoreById($giocatore)
+	{
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as votoMedio,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore INNER JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' GROUP BY giocatore.IdGioc;";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		$q2 = "SELECT IdGiornata, Voto , Presenza , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
+		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q2);
+		while($row = mysql_fetch_array($exe))
+			$values[] = $row;
+		while($row = mysql_fetch_array($exe2))
+		{
+			$data[$row['IdGiornata']] = $row;
+			unset($data[$row['IdGiornata']]['IdGiornata']);
+			unset($data[$row['IdGiornata']][0]);
+		}
+		$values['data'] = $data;
+		return $values;
+	}
+	
     function getVotiGiocatoryByGiornataSquadra($giornata,$idsquadra)
     {
         $query="SELECT voti.IdGioc,Cognome, Ruolo, Club, Voto, IdPosizione,Considerato
@@ -272,7 +290,7 @@ class giocatore
     {
 		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
             FROM giocatore INNER JOIN voti ON giocatore.IdGioc = voti.IdGioc
-            WHERE IdSquadra ='$idsquadra'
+            WHERE IdSquadra ='" . $idsquadra . "'
             GROUP BY giocatore.IdGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$giocatori = "";
@@ -281,10 +299,9 @@ class giocatore
 			$giocatori[] = $row;
 		}
 		if(isset($giocatori))
-		return $giocatori;
+			return $giocatori;
 		else
-		return FALSE;
-
+			return FALSE;
     }
 }
 ?>

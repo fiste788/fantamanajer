@@ -12,6 +12,10 @@ $upages = array();
 								'js'=>array('jquery'=>'jquery','lightbox'=>'lightbox'),
 								'css'=>array('screen','style','lightbox'));
 								
+	$upages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
+								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
+								'css'=>array('screen','style'));
+								
 	$upages['classifica'] = array(	'title'=>"Classifica",
 									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
 									'css'=>array('screen','style'));
@@ -68,6 +72,10 @@ $apages = array();
 	$apages['rosa'] = array(	'title'=>"Squadra",
 								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-base','ui-accordion','effects-core','effects-pulsate')),
 								'css'=>array('screen','style','lightbox'));
+								
+	$apages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
+								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
+								'css'=>array('screen','style'));
 								
 	$apages['classifica'] = array(	'title'=>"Classifica", 
 									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
