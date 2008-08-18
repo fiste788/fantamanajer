@@ -3,7 +3,7 @@ require(INCDIR."articolo.inc.php");
 require(INCDIR."squadra.inc.php");
 require(INCDIR."emoticon.inc.php");
 
-$getGiornata = $giornata;
+$getGiornata = GIORNATA;
 if (!empty($_GET['giorn']))
 	$getGiornata = $_GET['giorn'];
 $contenttpl->assign('getGiornata',$getGiornata);

@@ -52,18 +52,18 @@
 	<!--
  $(function () {
    		var datasets = {
-			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++?>"<?php echo $this->squadre[$key-1][1]; ?>": {
+			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key-1][1]; ?>": {
 				label: "<?php echo $this->squadre[$key-1][1]; ?>",
 				data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
-			}<?php if(count($this->classificaDett) != $key+1) echo ",\n"; ?>
+			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 
 				<?php endforeach; ?>
 			}
 
 			var medie = {
-				<?php foreach($this->classificaDett as $key=>$val): ?>
+				<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
-				"<?php echo $this->squadre[$key-1][1] ?>" : {label: "Media <?php echo $this->squadre[$key-1][1]?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $key+1) echo ",\n"; ?>
+				"<?php echo $this->squadre[$key-1][1] ?>" : {label: "Media <?php echo $this->squadre[$key-1][1]?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>
 				}
 			var options = {

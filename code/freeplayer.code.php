@@ -10,15 +10,24 @@ if(isset($_GET['v']))
 
 $contenttpl->assign('getorder',$order);
 $contenttpl->assign('getv',$v);
-$ruolo = 'P';
-$suff = 6;
-$partite = floor(($giornata - 1) / 2) + 1;
+
+if(!isset($_SESSION['data']['freeplayer']))
+{
+	$_SESSION['data']['freeplayer']['ruolo'] = 'P';
+	$_SESSION['data']['freeplayer']['suff'] = 6;
+	$_SESSION['data']['freeplayer']['partite'] = floor(($giornata - 1) / 2) + 1;
+}
+
 if(isset($_GET['ruolo']))
-	$ruolo = $_GET['ruolo'];
+	$_SESSION['data']['freeplayer']['ruolo'] = $_GET['ruolo'];
 if(isset($_GET['suff']))
-	$suff = $_GET['suff'];
+	$_SESSION['data']['freeplayer']['suff'] = $_GET['suff'];
 if(isset($_GET['partite']))
-	$partite = $_GET['partite'];
+	$_SESSION['data']['freeplayer']['partite'] = $_GET['partite'];
+	
+$ruolo = $_SESSION['data']['freeplayer']['ruolo'];
+$suff = $_SESSION['data']['freeplayer']['suff'];
+$partite = $_SESSION['data']['freeplayer']['partite'];
 
 if(is_numeric($suff) && is_numeric($partite))
 	$contenttpl->assign('appo',TRUE);

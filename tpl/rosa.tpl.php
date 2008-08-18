@@ -27,7 +27,9 @@
 			</tr>
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<tr class="row">
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['nome']; ?></td>
+				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>>
+					<a href="index.php?p=dettaglioGiocatore&id=<?php echo $val['idGioc'] ?>"><?php echo $val['nome']; ?></a>
+				</td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['ruolo']; ?></td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>

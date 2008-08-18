@@ -32,7 +32,10 @@
 							foreach($val as $key3=>$val3): 
 							$selected = FALSE; 
 							if(isset($_POST[substr($ruo[$j],0,3). '-' . $i]) && $_POST[substr($ruo[$j],0,3). '-' . $i] == $val3[1])
+							{
 								$selected=TRUE;
+								unset($every);
+							}
 							elseif(isset($every) && $every == $val3[1])
 								$selected=TRUE;
 							?><option value="<?php echo $val3[1]; ?>" <?php if($selected) echo ' selected="selected"'; ?>><?php echo $val3[0] . " " . $val3[2]; ?></option>

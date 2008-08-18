@@ -236,5 +236,5 @@ if ($layouttpl->isError($result)) {
 }
 
 $dblink->dbClose();
-
+echo "<pre>".print_r($_SESSION,1)."</pre>";
 ?>

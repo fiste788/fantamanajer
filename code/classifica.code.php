@@ -5,6 +5,7 @@ require (INCDIR.'squadra.inc.php');
 $punteggiObj = new punteggi();
 $squadraObj = new squadra();
 
+$giornata = GIORNATA;
 if(isset($_POST['giorn']))
 	$giornata = $_POST['giorn'];
 

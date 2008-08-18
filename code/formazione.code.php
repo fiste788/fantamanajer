@@ -105,7 +105,6 @@ if(TIMEOUT)
 					}	
 					else
 						$err++;
-						echo "<pre>".print_r($capitano,1)."</pre>";
 				}		
 			}
 		}
