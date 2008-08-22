@@ -146,7 +146,7 @@ if(TIMEOUT)
 		$contenttpl->assign('issetForm',$issetform);
 		$contenttpl->assign('titolari',$titolari_ar);
 		$contenttpl->assign('panchinari',$panchinari_ar);
-		$contenttpl->assign('cap',$cap);
+        $contenttpl->assign('cap',$cap);
 	}
 	if($_SESSION['modulo'] != NULL)
 	{

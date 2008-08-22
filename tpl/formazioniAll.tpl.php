@@ -23,19 +23,27 @@ $elencocap=array('C','VC','VVC'); ?>
 							<option></option>
 							  <option selected="selected" value="<?php echo $val[0];?>"><?php  echo $val[1]. " ". $val[2];  ?></option>
 						</select>
-						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?> 
-							<select disabled="disabled" class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
-								<option></option>
-								<option <?php 
-								    if(!empty($this->cap))
-								    {
-								    if(array_key_exists($nome,$this->cap))
-								    {
-										  echo "selected=\"selected\"";		                    
-								    }
-								    }                  
-								    ?>><?php echo $this->cap[$nome];?></option>
-							</select>
+						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
+						<select class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
+							<option></option>
+							<?php foreach ($this->cap as $elem):
+							$selected = FALSE; 
+							if(isset($_POST[$nome]) && $_POST[$nome] == $elem)
+								$selected = TRUE;
+							elseif(!empty($this->cap))
+							{
+								if(array_key_exists($nome,$this->cap))
+								{
+									if($this->cap[$nome]==$elem)
+									{
+											$selected = TRUE;
+											unset($this->cap[$nome]);
+									}
+								}
+							}
+                					?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
+							<?php endforeach;?>
+						</select>
 						<?php endif; ?>
 					<?php $i++; ?>
 				<?php endforeach; ?>

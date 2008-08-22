@@ -3,7 +3,7 @@
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
 	</div>
-	<h2 class="column">Dettaglio Giocatore</h2>
+	<h2 class="column"><?php echo $this->dettaglioGioc[0]['Cognome']." ".$this->dettaglioGioc[0]['Nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content"> 
 <table>
