@@ -1,4 +1,4 @@
-<?php $j=0; 
+<?php $j=0;
 $i=0; 
 $elencocap=array('C','VC','VVC'); ?>
 <?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
@@ -9,7 +9,7 @@ $elencocap=array('C','VC','VVC'); ?>
 	<h2 class="column">Altre formazioni</h2>
 </div>
 <div id="formazione" class="main-content">
-	<h3>Giornata <?php echo $this->giornata; ?></h3>
+	<h3>Giornata <?php echo $this->getGiornata; ?></h3>
 	<?php if($this->formazione != FALSE): ?>
 		<img alt="modulo" id="img-modulo" title="<?php echo substr($this->modulo,2) ?>" src="<?php echo IMGSURL.$this->modulo.'.png' ?>" />
 		<form id="form-formazione" name="formazione" action="index.php" method="post">		
@@ -24,7 +24,7 @@ $elencocap=array('C','VC','VVC'); ?>
 							  <option selected="selected" value="<?php echo $val[0];?>"><?php  echo $val[1]. " ". $val[2];  ?></option>
 						</select>
 						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
-						<select class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
+						<select disabled="disabled" class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
 							<option></option>
 							<?php foreach ($this->cap as $elem):
 							$selected = FALSE; 

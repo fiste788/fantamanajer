@@ -126,7 +126,7 @@ if(TIMEOUT)
 	  		$contenttpl->assign('err',3);	
 	}
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
-  	if($issetform)
+  if($issetform)
 	{
 		if( !isset($_POST['mod']) && empty($_POST['mod']) )
 			$_SESSION['modulo']=$issetform['Modulo'];
@@ -141,13 +141,13 @@ if(TIMEOUT)
    		   else
    		       $chiave="Dif-".($pos-1)."-cap";
    		   $cap[$chiave]=$key;
-        }
-		
-		$contenttpl->assign('issetForm',$issetform);
+      }
+
 		$contenttpl->assign('titolari',$titolari_ar);
 		$contenttpl->assign('panchinari',$panchinari_ar);
         $contenttpl->assign('cap',$cap);
 	}
+		$contenttpl->assign('issetForm',$issetform);
 	if($_SESSION['modulo'] != NULL)
 	{
 		$mod = explode('-',$_SESSION ['modulo']);

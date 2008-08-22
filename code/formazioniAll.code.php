@@ -8,7 +8,10 @@ $giorn = GIORNATA;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 if(isset($_GET['giorn']))
-	$giorn = $_GET['giorn'];
+{
+  $giorn = $_GET['giorn'];
+
+}
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('getGiornata',$giorn);
 
@@ -34,7 +37,6 @@ if($formazione != FALSE)
    		   $chiave="Dif-".($pos-1)."-cap";
    		$cap[$chiave]=$key;
     }
-    echo "<pre>".print_r($cap,1)."</pre>";
 	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolari_ar));
 	$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinari_ar));
 }
