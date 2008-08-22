@@ -68,7 +68,7 @@ function importa_giocatori()
 function elencogiocatori($ruolo_filt)
 {  
   $selez_ruolo="SELECT Cognome,IdGioc,Nome FROM giocatore WHERE Ruolo='$ruolo_filt' order by Cognome ASC";
-  $risultato = mysql_query($selez_ruolo);
+  $risultato = mysql_query($selez_ruolo) or die ("Query non valida: ".$selez_ruolo. mysql_error());
   $elencoopzioni="<option Selected></option>";
   while ($riga = mysql_fetch_array($risultato, MYSQL_NUM)) 
   {
@@ -79,7 +79,7 @@ function elencogiocatori($ruolo_filt)
 }
 function elencosquadre()
 {
-    print "ciao";
+
   $elencasq="select nome,IdSquadra from squadra";
   $risu=mysql_query($elencasq);
   echo "<pre>".print_r($risu,1)."</pre>";

@@ -25,7 +25,16 @@ if($formazione != FALSE)
 {
     $panchinari_ar=$formazione['Elenco'];
     $titolari_ar=array_splice($panchinari_ar,0,11);
-    $cap=$formazione['Cap'];
+    foreach($formazione['Cap'] as $key=>$val)
+   	{
+   	    $pos=array_search($val,$titolari_ar);
+   		if($pos==0)
+   		    $chiave="Por-".$pos."-cap";
+   		else
+   		   $chiave="Dif-".($pos-1)."-cap";
+   		$cap[$chiave]=$key;
+    }
+    echo "<pre>".print_r($cap,1)."</pre>";
 	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolari_ar));
 	$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinari_ar));
 }
@@ -36,6 +45,7 @@ $contenttpl->assign('formazione',$formazione);
 $contenttpl->assign('modulo',$formazione['Modulo']);
 $contenttpl->assign('mod',explode('-',$formazione['Modulo']));
 $contenttpl->assign('formazione',$formazione['Elenco']);
+
 $contenttpl->assign('cap',$cap);
 
 
