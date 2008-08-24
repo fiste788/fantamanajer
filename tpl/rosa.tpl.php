@@ -143,6 +143,10 @@
 							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadradett['mail']; ?>"/>
 						</div>
 						<div class="formbox">
+							<label for="nomeSquadra">E-mail:</label>
+							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>
+						</div>
+						<div class="formbox">
 							<label for="password">Password:</label>
 							<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
 						</div>

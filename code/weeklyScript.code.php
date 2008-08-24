@@ -72,7 +72,7 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 			{
 				$mailContent->assign('squadra',$val[1]);
 				$mailContent->assign('somma',array_sum($result[$key]));
-				$mailContent->assign('formazione',$giocatoreObj->createGiornataDettaglioByGiocatori($result[$key],$giornata,$val[0]));
+				$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$val[0]);
 				$mail = 0;
 				
 			   	//MANDO LA MAIL

@@ -1,13 +1,11 @@
 <?php
-function filter($var)
-{
-	if($var != '-')
-		return $var;
-}	
 
-require(INCDIR.'squadra.inc.php');
-require(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
-require(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'squadra.inc.php');
+require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
+require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
+
+$giocatoreObj = new giocatore();
 
 $squadra = NULL;
 if(isset($_GET['squadra']))
@@ -35,7 +33,7 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
 	{
 		unset($_POST['passwordnewrepeat']);
-		if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['passwordnew'])) )
+		if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
 			$contenttpl->assign('data',$squadraObj->changeData($_POST,$_SESSION['idsquadra']));
 	}
 	else
@@ -46,8 +44,6 @@ $contenttpl->assign('elencosquadre',$elencoSquadre);
 $contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
 
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
-require(INCDIR.'giocatore.inc.php');
-$giocatoreObj = new giocatore();
 $values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);
 if(($squadra != NULL) && ($values))
 {
