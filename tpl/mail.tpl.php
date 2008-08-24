@@ -216,12 +216,12 @@
 						<th class="club">Club</th>
 						<th class="punt">Punt.</th>
 					</tr>
-					<?php foreach($this->formazione as $key=>$val): ?>
-						<?php if(!$val['panch']): ?>
-							<?php if($val['punt'] == ''): ?>
+					<?php $panch=$this->formazione;$tito=array_splice($panch,0,11); ?>
+					<?php foreach($tito as $key=>$val): ?>
+						<?php if($val['Considerato'] == 0): ?>
 								<tr class="rosso">
 									<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></td>
-							<?php elseif($val['cap']): ?>
+							<?php elseif($val['Considerato'] == 2): ?>
 								<tr>
 									<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap2.png' ?>"/></td>
 							<?php else: ?>
@@ -232,7 +232,7 @@
 									<td><?php echo $val['Nome']; ?></td>
 									<td><?php echo $val['Ruolo']; ?></td>
 									<td><?php echo $val['Club']; ?></td>
-									<td><?php if(!empty($val['punt'])) echo $val['punt']; else echo "&nbsp;" ?></td>
+									<td><?php if(!empty($val['Voto'])) echo $val['Voto']; else echo "&nbsp;" ?></td>
 								</tr>
 						<?php endif; ?>
 					<?php endforeach; ?>
@@ -250,12 +250,11 @@
 						<th class="club">Club</th>
 						<th class="punt">Punt.</th>
 					</tr>
-					<?php foreach($this->formazione as $key=>$val): ?>
-						<?php if($val['panch']): ?>
-							<?php if($val['punt'] != ''): ?>
+					<?php foreach($panch as $key=>$val): ?>
+						<?php if($val['Considerato'] == 1): ?>
 								<tr class="verde">
 									<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></td>
-							<?php else: ?>
+							<?php elseif($val['Considerato']==2): ?>
 								<tr>
 									<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
 							<?php endif; ?>
@@ -263,7 +262,7 @@
 									<td><?php echo $val['Nome']; ?></td>
 									<td><?php echo $val['Ruolo']; ?></td>
 									<td><?php echo $val['Club']; ?></td>
-									<td><?php if(!empty($val['punt'])) echo $val['punt']; else echo "&nbsp;" ?></td>
+									<td><?php if(!empty($val['Voto'])) echo $val['Voto']; else echo "&nbsp;" ?></td>
 								</tr>
 						<?php endif; ?>
 					<?php endforeach; ?>
