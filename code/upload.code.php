@@ -1,7 +1,7 @@
 <?php
 /* Upload v 1.0
 author: Sonzogni Stefano*/
-require (INCDIR.'upload.inc.php');		//import the class (upload)
+require_once(INCDIR.'upload.inc.php');		//import the class (upload)
 $uploadObj = new upload();
 
 //set type of file supported

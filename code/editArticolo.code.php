@@ -1,15 +1,16 @@
 <?php 
-require(INCDIR."articolo.inc.php");
-require(INCDIR."emoticon.inc.php");
-require(INCDIR."eventi.inc.php");
+require_once(INCDIR."articolo.inc.php");
+require_once(INCDIR."emoticon.inc.php");
+require_once(INCDIR."eventi.inc.php");
+
+$articoloObj = new articolo();
+$emoticonObj = new emoticon();
+$eventiObj = new eventi();
 
 $action = NULL;
 $field = array('title'=>'Titolo','abstract'=>'Sottotitolo','text'=>'Testo');
 if(isset($_GET['a']))
 	$action = $_GET['a'];
-$articoloObj = new articolo();
-$emoticonObj = new emoticon();
-$eventiObj = new eventi();
 
 $contenttpl->assign('emoticons',$emoticonObj->emoticon);
 $contenttpl->assign('messaggio',NULL);

@@ -1,5 +1,5 @@
 <?php 
-require(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
 
 $giocatoreObj = new giocatore();
 $giornataObj = new giornata();

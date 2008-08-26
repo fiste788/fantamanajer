@@ -1,8 +1,8 @@
 <?php
-require(INCDIR.'squadra.inc.php');
-require(INCDIR.'formazione.inc.php');
-require(INCDIR.'giocatore.inc.php');
-require(INCDIR.'mail.inc.php');
+require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'formazione.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'mail.inc.php');
 
 $squadraObj = new squadra();
 $formazioneObj = new formazione();

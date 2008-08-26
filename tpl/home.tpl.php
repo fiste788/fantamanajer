@@ -5,6 +5,10 @@
 	<h2 class="column">Home</h2>
 </div>
 <div id="home" class="main-content">
+	<?php if($this->giornata == 1): ?>
+	<h2 class="no-margin">Ricordati di impostare il nome della squadra!</h2>
+	<p>Lo trovi nella pagina rosa e lo puoi cambiare entro la prima giornata di campionato</p>
+	<?php endif; ?>
 	<ul id="icone" class="ui-tabs-nav column last">
 		<li><a href="#grafica">
 			<img id="grafica-icon" src="<?php echo IMGSURL.'grafica-icon.png' ?>" title="Nuova grafica" alt="1" />
@@ -68,6 +72,7 @@
 			}, fx: { opacity: 'toggle',duration:300 } }).tabs('rotate', 5000,false);
 		});
 	</script>
+	<?php if($this->eventi != FALSE) :?>
 	<div id="eventi" class="column" style="clear:both;">
 	<h3 class="column">Ultime eventi</h3>
 		<div class="conf-stampa column last" style="clear:both;">
@@ -92,6 +97,8 @@
 			</div>
 		</div>
 	</div>
+	<?php endif; ?>
+	<?php if($this->articoli != FALSE) :?>
 	<div id="confStampa" class="column last">
 	<h3 class="column">Ultime news</h3>
 	<?php foreach($this->articoli as $key=>$val): ?>
@@ -124,6 +131,7 @@
 		</div>
 	<?php endforeach; ?>
 	</div>
+	<?php endif; ?>
 </div>
 <div id="squadradett" class="right last">
 	<div class="box2-top-sx column last">
@@ -154,13 +162,15 @@
 					<th width="1px">P.ti</th>
 				</tr>
 				<?php $i=0; ?>
+				<?php //echo "<pre>".print_r($this->classifica,1)."</pre>" ?>
+				<?php //echo "<pre>".print_r($this->squadre,1)."</pre>" ?>
 				<?php foreach ($this->classifica as $key=>$val): ?>
 					<tr <?php if($this->differenza[$i] < 0): ?>
 							<?php echo 'class="rosso" title="' . $this->differenza[$i]. ' Pos."'; ?>
 						<?php elseif($this->differenza[$i] > 0): ?>
 							<?php echo 'class="verde" title="+ ' . $this->differenza[$i]. ' Pos."'; ?>
 						<?php endif; ?>>
-						<td><?php echo $this->squadre[$key-1][1]; ?></td>
+						<td><?php echo $this->squadre[$key][1]; ?></td>
 						<td><?php echo $val; ?></td>
 					</tr>
 				<?php $i++; endforeach; ?>
@@ -179,7 +189,7 @@
 			</a>
 		</div>
 		<div>
-			<a href="http://www.spreadfirefox.com/node&id=0&t=329">
+			<a href="http://www.spreadfirefox.com/node&amp;id=0&amp;t=329">
 				<img alt="Firefox 3" title="Firefox 3" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox3/120x240.png"/>
 			</a>
 		</div>

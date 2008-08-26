@@ -1,6 +1,6 @@
 <?php 
-require(INCDIR.'backup.inc.php');
-require(INCDIR.'fileSystem.inc.php');
+require_once(INCDIR.'backup.inc.php');
+require_once(INCDIR.'fileSystem.inc.php');
 
 $fileSystemObj = new fileSystem();
 $path = 'db';

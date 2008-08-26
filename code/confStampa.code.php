@@ -1,15 +1,17 @@
 <?php 
-require(INCDIR."articolo.inc.php");
-require(INCDIR."squadra.inc.php");
-require(INCDIR."emoticon.inc.php");
+require_once(INCDIR."articolo.inc.php");
+require_once(INCDIR."squadra.inc.php");
+require_once(INCDIR."emoticon.inc.php");
+
+$emoticonObj = new emoticon();
+$articoloObj = new articolo();
+$squadraObj = new squadra();
 
 $getGiornata = GIORNATA;
 if (!empty($_GET['giorn']))
 	$getGiornata = $_GET['giorn'];
 $contenttpl->assign('getGiornata',$getGiornata);
 
-$emoticonObj = new emoticon();
-$articoloObj = new articolo();
 $articoloObj->setidgiornata($getGiornata);
 
 $articolo = $articoloObj->select($articoloObj,'=','*',0,8,NULL);
@@ -18,15 +20,20 @@ if($articolo != FALSE)
 		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
 $contenttpl->assign('articoli',$articolo);
 
-$squadraObj = new squadra();
+
 $contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
 $giornateWithArticoli = $articoloObj->getGiornateArticoliExist();
-rsort($giornateWithArticoli);
-if(!in_array($giornata,$giornateWithArticoli))
-	array_unshift($giornateWithArticoli,$giornata);
+if($giornateWithArticoli != FALSE)
+{
+	rsort($giornateWithArticoli);
+	if(!in_array($giornata,$giornateWithArticoli))
+		array_unshift($giornateWithArticoli,$giornata);
+	$key = array_search($getGiornata,$giornateWithArticoli);
+}
+else
+	$giornateWithArticoli = $key = FALSE;
 
 $contenttpl->assign('giornateWithArticoli',$giornateWithArticoli);
-$key = array_search($getGiornata,$giornateWithArticoli);
 if($key > 0)
 {
 	if(isset($giornateWithArticoli[$key+1]))

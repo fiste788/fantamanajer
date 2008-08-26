@@ -1,19 +1,18 @@
 <?php 
-require(INCDIR.'mail.inc.php');
-require(INCDIR.'squadra.inc.php');
-require(INCDIR.'punteggi.inc.php');
-require(INCDIR.'giocatore.inc.php');
-require(INCDIR.'formazione.inc.php');
+require_once(INCDIR.'mail.inc.php');
+require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'formazione.inc.php');
 
 //INIZIALIZZO TUTTO CIÒ CHE MI SERVE PER ESEGUIRE LO SCRIPT
 $punteggiObj = new punteggi();
 $squadraObj = new squadra();
 $formazioneObj = new formazione();
 $mailObj = new mail();
-$giornata = $giornataObj->getIdGiornataByDate(date("Y-m-d"))-1;
 $giocatoreObj = new giocatore();
 
-
+$giornata = $giornataObj->getIdGiornataByDate(date("Y-m-d"))-1;
 if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo'))
 {
 	//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT

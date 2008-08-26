@@ -1,5 +1,7 @@
 <?php 
-require(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
+
+$giocatoreObj = new giocatore();
 
 $order = NULL;
 $v = NULL;
@@ -44,7 +46,6 @@ function filter($var)
 		return $var;
 }	
 
-$giocatoreObj = new giocatore();
 $freeplayer = $giocatoreObj->getFreePlayer($ruolo);
 foreach($freeplayer as $key=>$val)
 {

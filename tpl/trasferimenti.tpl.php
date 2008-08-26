@@ -26,7 +26,7 @@
 	</table>
 	
 	<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
-		Non ha effettuato alcun trasferimento
+		<p>Non ha effettuato alcun trasferimento</p>
 	<?php endif; ?>
 	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && $this->numTrasferimenti < 15 && TIMEOUT != NULL): ?>
 	<br />

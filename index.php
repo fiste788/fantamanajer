@@ -107,8 +107,8 @@ if (!isset($_SESSION['logged'])) {
 		$timeout = TRUE;
 	if($giornata > ($giornataObj->getNumberGiornate()-1))
 		$timeout = NULL;
-	define("GIORNATA",26);
-	define("TIMEOUT",true);
+	define("GIORNATA",$giornata);
+	define("TIMEOUT",$timeout);
 	$contenttpl->assign('giornata',GIORNATA);
 	$contenttpl->assign('timeout',TIMEOUT);
 
@@ -236,5 +236,5 @@ if ($layouttpl->isError($result)) {
 }
 
 $dblink->dbClose();
-echo "<pre>".print_r($_SESSION,1)."</pre>";
+//echo "<pre>".print_r($_SESSION,1)."</pre>";
 ?>
