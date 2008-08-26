@@ -1,5 +1,5 @@
 <?php 
-require (INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'punteggi.inc.php');
 
 $punteggiObj = new punteggi();
 

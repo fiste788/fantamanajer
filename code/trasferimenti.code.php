@@ -1,15 +1,19 @@
  <?php 
-require(INCDIR.'trasferimenti.inc.php');
-require(INCDIR.'squadra.inc.php');
-require(INCDIR.'giocatore.inc.php');
-require(INCDIR.'punteggi.inc.php');
-require(INCDIR.'mail.inc.php');
-require(INCDIR.'eventi.inc.php');
+require_once(INCDIR.'trasferimenti.inc.php');
+require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'mail.inc.php');
+require_once(INCDIR.'eventi.inc.php');
 	
 $punteggiObj = new punteggi();
 $squadraObj = new squadra();
 $mailObj = new mail();
 $eventiObj = new eventi();
+$squadraObj = new squadra();
+$giocatoreObj = new giocatore();
+$trasferimentiObj = new trasferimenti();
+
 $squadra = $_SESSION['idsquadra'];
 $acquisto = NULL;
 $lasciato = NULL;
@@ -18,19 +22,11 @@ if(isset($_GET['squad']))
 
 $ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
 $contenttpl->assign('ruo',$ruo);
-
-$squadraObj = new squadra();
 $contenttpl->assign('elencosquadre',$squadraObj->getElencoSquadre());
-
 $contenttpl->assign('squadra',$squadra);
-
-$trasferimentiObj = new trasferimenti();
-
 $trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
 $contenttpl->assign('trasferimenti',$trasferimenti);
 $numTrasferimenti = count($trasferimenti);
-
-$giocatoreObj = new giocatore();
 $contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
 $playerFree = array();
 foreach($ruo as $key=>$val)

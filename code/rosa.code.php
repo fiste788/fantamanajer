@@ -6,6 +6,8 @@ require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
 
 $giocatoreObj = new giocatore();
+$punteggiObj = new punteggi();
+$squadraObj = new squadra();
 
 $squadra = NULL;
 if(isset($_GET['squadra']))
@@ -14,7 +16,6 @@ if(isset($_GET['squadra']))
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('data', 0);
 
-$punteggiObj = new punteggi();
 $classifica = $punteggiObj->getClassifica();
 foreach($classifica as $key=>$val)
 {
@@ -27,7 +28,6 @@ foreach($classifica as $key=>$val)
 }
 $contenttpl->assign('classifica',$classifica);
 $contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($classifica));
-$squadraObj = new squadra();
 if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
@@ -52,6 +52,8 @@ if(($squadra != NULL) && ($values))
 	$appo = 0;
 	$mediaVoto = 0;
 	$mediaPartite = 0;
+	$mediaGol = 0;
+	$mediaAssist = 0;
 	foreach($values as $key=>$val)
 	{
 		$giocatori[$i]['idGioc'] = $val[0];
@@ -65,12 +67,18 @@ if(($squadra != NULL) && ($values))
         $giocatori[$i]['assist']=$val[9];
 		$mediaVoto += $giocatori[$i]['voti'];
 		$mediaPartite += $giocatori[$i]['partite'];
+		$mediaGol += $giocatori[$i]['gol'];
+		$mediaAssist += $giocatori[$i]['assist'];
 		$i++;
 	}
 	$contenttpl->assign('mediaVoto',substr($mediaVoto / $i,0,4));
 	$contenttpl->assign('mediaVotoAll',$mediaVoto / $i);
 	$contenttpl->assign('mediaPartite',substr($mediaPartite / $i,0,4));
 	$contenttpl->assign('mediaPartiteAll',$mediaPartite / $i);
+	$contenttpl->assign('mediaGol',substr($mediaGol / $i,0,4));
+	$contenttpl->assign('mediaGolAll',$mediaGol / $i);
+	$contenttpl->assign('mediaAssist',substr($mediaAssist / $i,0,4));
+	$contenttpl->assign('mediaAssistAll',$mediaAssist / $i);
 	$contenttpl->assign('giocatori',$giocatori);	
 }
 

@@ -167,8 +167,10 @@ class articolo
 		{
 			$values[] = $row[0];
 		}
-		return $values;
-		
+		if(isset($values))
+			return $values;
+		else
+			return FALSE;
 	}
 	
 	function getArticoloById($id)

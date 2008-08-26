@@ -16,7 +16,7 @@
 			<?php foreach($this->classificaDett as $key=>$val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
-				<td><?php echo $this->squadre[$key-1][1]; ?></td>
+				<td><?php echo $this->squadre[$key][1]; ?></td>
 				<td><?php echo array_sum($val); ?></td>
 			 </tr>
 			<?php $i++; endforeach; ?>
@@ -24,6 +24,7 @@
 	</table>
 	<div id="tab_classifica" class="column last">
 	<?php $i = 1; ?>
+	<?php if(key($this->classificaDett[$i]) != 0): ?>
 	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
 		<tbody>
 			<tr>
@@ -35,13 +36,14 @@
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>
 				<td>
-					<a href="index.php?p=punteggidettaglio&amp;giorn=<?php echo $secondKey; ?>&amp;squad=<?php echo $this->squadre[$key-1][0]; ?>"><?php echo $val[$secondKey]; ?></a>
+					<a href="index.php?p=punteggidettaglio&amp;giorn=<?php echo $secondKey; ?>&amp;squad=<?php echo $this->squadre[$key][0]; ?>"><?php echo $val[$secondKey]; ?></a>
 				</td>
 				<?php endforeach; ?>
 			</tr>
 			<?php $i++; endforeach; ?>
 		</tbody>
 	</table>
+	<?php endif; ?>
 	</div>
 	<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
@@ -52,8 +54,8 @@
 	<!--
  $(function () {
    		var datasets = {
-			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key-1][1]; ?>": {
-				label: "<?php echo $this->squadre[$key-1][1]; ?>",
+			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key][1]; ?>": {
+				label: "<?php echo $this->squadre[$key][1]; ?>",
 				data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
 			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 
@@ -63,7 +65,7 @@
 			var medie = {
 				<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
-				"<?php echo $this->squadre[$key-1][1] ?>" : {label: "Media <?php echo $this->squadre[$key-1][1]?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
+				"<?php echo $this->squadre[$key][1] ?>" : {label: "Media <?php echo $this->squadre[$key][1]?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>
 				}
 			var options = {
@@ -191,6 +193,7 @@
 			<fieldset class="no-margin fieldset max-large">
 				<h3 class="no-margin">Guarda la classifica alla giornata</h3>
 					<select name="giorn" onchange="document.classifica_giornata.submit();">
+						<option> </option>
 						<?php for($j = $this->giornate ; $j  > 0 ; $j--): ?>
 							<option <?php if($this->getGiornata == $j) echo "selected=\"selected\"" ?>><?php echo $j; ?></option>
 						<?php endfor; ?>

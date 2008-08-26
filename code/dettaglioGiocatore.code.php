@@ -1,6 +1,6 @@
 <?php 
-require (INCDIR.'giocatore.inc.php');
-require (INCDIR.'squadra.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'squadra.inc.php');
 
 $giocatoreObj = new giocatore();
 $squadraObj = new squadra();

@@ -28,7 +28,7 @@
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<tr class="row">
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>>
-					<a href="index.php?p=dettaglioGiocatore&id=<?php echo $val['idGioc'] ?>"><?php echo $val['nome']; ?></a>
+					<a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['idGioc'] ?>"><?php echo $val['nome']; ?></a>
 				</td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['ruolo']; ?></td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
@@ -41,8 +41,10 @@
 			<?php endforeach; ?>
 			<tr>
 				<td class="ult" colspan="3">Media</td>
-				<td class="ult" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
 				<td class="ult" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
+				<td class="ult" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td class="ult" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
+				<td class="ult" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -126,6 +128,12 @@
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
 				<div class="no-margin" style="display:none;">
 					<form id="userdata" action="index.php?p=rosa" name="data" method="post">
+						<?php if($this->giornata == 1): ?>
+						<div class="formbox">
+							<label for="nomeSquadra">Nome squadra:</label>
+							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>
+						</div>
+						<?php endif; ?>
 						<div class="formbox">
 							<label for="name">Nome:</label>
 							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadradett['nomeProp']; ?>"/>
@@ -141,10 +149,6 @@
 						<div class="formbox">
 							<label for="email">E-mail:</label>
 							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadradett['mail']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="nomeSquadra">E-mail:</label>
-							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>
 						</div>
 						<div class="formbox">
 							<label for="password">Password:</label>
@@ -198,7 +202,7 @@ $(window).bind("load",function(){
 					$appo = floor(($width - 100) / 2);
 				?>
 					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
-					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'"px'; ?>  />
+					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
 				</a>
 			<?php else: ?>
 				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />

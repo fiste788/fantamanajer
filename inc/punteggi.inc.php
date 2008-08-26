@@ -30,7 +30,22 @@ class punteggi
 		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		while ($row = mysql_fetch_array($exe))
 			$classifica[] = $row;
-		return($classifica);
+		if(isset($classifica))
+			return($classifica);
+		else
+		{
+			$q="SELECT IdSquadra, nome FROM squadra";
+			$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+			while ($row = mysql_fetch_array($exe) )
+			{
+				$row['punteggioTot'] = 0;
+				$row['punteggioMed'] = 0;
+				$row['punteggioMax'] = 0;
+				$row['punteggioMin'] = 0;
+				$classifica[] = $row;
+			}
+			return $classifica;
+		}
 	}
 
 	function getAllPunteggi()
@@ -40,17 +55,30 @@ class punteggi
 		$i=0;
 		while ($row = mysql_fetch_array($exe))
 		{
-			$classifica[$row['IdSquadra']] [$row['IdGiornata']]= $row['punteggio'];
-			$somme[$row['IdSquadra']] = array_sum($classifica[$row['IdSquadra']]);
+			$classifica[$row['IdSquadra']-1] [$row['IdGiornata']]= $row['punteggio'];
+			$somme[$row['IdSquadra']-1] = array_sum($classifica[$row['IdSquadra']-1]);
 		}
-		arsort($somme);
-		$appo = array_keys($somme);
-		for($i = 0; $i < count($classifica); $i++)
+		if(isset($somme))
 		{
-			for($j = 0 ; $j < count($classifica [$appo[$i]]) ; $j++)
+			arsort($somme);
+			$appo = array_keys($somme);
+			for($i = 0; $i < count($classifica); $i++)
 			{
-	      	$classificaokay[$appo[$i]][$j+1] = $classifica[$appo[$i]] [$j+1];
-	      }
+				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
+				{
+			  		$classificaokay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
+				}
+			}
+		}
+		else
+		{
+			$q="SELECT nome FROM squadra";
+			$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+			while ($row = mysql_fetch_row($exe) )
+			{
+				$row[] = 0;
+				$classificaokay[] = $row;
+			}
 		}
 	    return($classificaokay);
 	}
@@ -74,17 +102,30 @@ class punteggi
 		$i=0;
 		while ($row = mysql_fetch_array($exe))
 		{
-			$classifica[$row['IdSquadra']] [$row['IdGiornata']]= $row['punteggio'];
-			$somme[$row['IdSquadra']] = array_sum($classifica[$row['IdSquadra']]);
+			$classifica[$row['IdSquadra']-1] [$row['IdGiornata']]= $row['punteggio'];
+			$somme[$row['IdSquadra']-1] = array_sum($classifica[$row['IdSquadra']-1]);
 		}
-		arsort($somme);
-		$appo = array_keys($somme);
-		for($i = 0; $i < count($classifica); $i++)
+		if(isset($somme))
 		{
-			for($j = 0 ; $j < count($classifica [$appo[$i]]) ; $j++)
+			arsort($somme);
+
+			$appo = array_keys($somme);
+			for($i = 0; $i < count($classifica); $i++)
 			{
-	      	$classificaokay[$appo[$i]][$j+1] = $classifica[$appo[$i]] [$j+1];
-	      }
+				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
+				{
+			  		$classificaokay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
+			  	}
+			}
+		}
+		else
+		{
+			$q="SELECT nome FROM squadra";
+			$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+			while ($row = mysql_fetch_row($exe) )
+			{
+				$classificaokay[][] = 0;
+			}
 		}
 	    return($classificaokay);
 	}

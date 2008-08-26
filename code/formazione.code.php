@@ -1,22 +1,18 @@
 <?php
-/* TO-DO: 
--inserire i valori presenti nell'array formazione nel database
--estrarre i valori nella formazione se è già  stata settata
-IL RESTO è FATTO
--caricare i giocatori nelle select(FATTO)
-*/
+require_once(INCDIR."squadra.inc.php");
+require_once(INCDIR."formazione.inc.php");
+require_once(INCDIR."eventi.inc.php");
+
+$squadraObj = new squadra();
+$eventiObj = new eventi();
+$formazioneObj = new formazione();
 
 $squadra = NULL;
 if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
 $contenttpl->assign('squadra',$squadra);
 
-require (INCDIR."squadra.inc.php");
-require (INCDIR."formazione.inc.php");
-require (INCDIR."eventi.inc.php");
 
-$squadraObj = new squadra();
-$eventiObj = new eventi();
 $val = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
@@ -24,7 +20,6 @@ if(TIMEOUT == FALSE)
 
 	header("Location:index.php?p=formazioniAll");
 
-$formazioneObj = new formazione();
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
 
 if(isset($formImp[$_SESSION['idsquadra']]) && (TIMEOUT))
