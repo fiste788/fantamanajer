@@ -110,10 +110,12 @@ if(TIMEOUT)
 			unset($_POST);
 			$contenttpl->assign('err',2);
 			if(!$issetform)
+			{
 				$id = $formazioneObj->carica_formazione($formazione,$capitano,GIORNATA);
+				$eventiObj->addEvento('3',$_SESSION['idsquadra'],$id);
+			}
 			else
 				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA);
-			$eventiObj->addEvento('3',$_SESSION['idsquadra'],$id);
 		}
 	  	else
 			$contenttpl->assign('err',1);
