@@ -1,4 +1,4 @@
-<?php $ruo = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti'); ?>
+<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
@@ -44,6 +44,7 @@
 		<td><?php echo $this->dettaglioGioc[0]['votoMedio']; ?></td>
 	</tr>
 </table>
+<?php if(isset($this->dettaglioGioc['data'])): ?>
 <table>
 	<tr>
 			<th>Dettaglio</th>
@@ -140,6 +141,7 @@
 	});
 	-->
 	</script>
+<?php endif; ?>
 </div>
 <?php if($_SESSION['logged'] == TRUE): ?>
 	<div id="squadradett" class="column last">

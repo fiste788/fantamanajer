@@ -82,7 +82,7 @@ class giocatore
 	
 	function getGiocatoreById($giocatore)
 	{
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as votoMedio,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore INNER JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' GROUP BY giocatore.IdGioc;";
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as votoMedio,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' GROUP BY giocatore.IdGioc;";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		$q2 = "SELECT IdGiornata, Voto , Presenza , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q2);
@@ -94,7 +94,8 @@ class giocatore
 			unset($data[$row['IdGiornata']]['IdGiornata']);
 			unset($data[$row['IdGiornata']][0]);
 		}
-		$values['data'] = $data;
+		if(isset($data))
+			$values['data'] = $data;
 		return $values;
 	}
 	
