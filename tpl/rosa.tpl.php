@@ -128,7 +128,7 @@
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
 				<div class="no-margin" style="display:none;">
 					<form id="userdata" action="index.php?p=rosa" name="data" method="post">
-						<?php if($this->giornata == 1): ?>
+						<?php if($this->giornata <= 2): ?>
 						<div class="formbox">
 							<label for="nomeSquadra">Nome squadra:</label>
 							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>
