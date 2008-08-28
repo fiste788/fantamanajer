@@ -7,7 +7,7 @@
 <div id="home" class="main-content">
 	<?php if($this->giornata == 1): ?>
 	<h2 class="no-margin">Ricordati di impostare il nome della squadra!</h2>
-	<p>Lo trovi nella pagina rosa e lo puoi cambiare entro la prima giornata di campionato</p>
+	<p>Lo trovi nella pagina rosa e lo puoi cambiare entro la seconda giornata di campionato</p>
 	<?php endif; ?>
 	<ul id="icone" class="ui-tabs-nav column last">
 		<li><a href="#grafica">

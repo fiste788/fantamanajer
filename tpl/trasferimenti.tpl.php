@@ -28,7 +28,7 @@
 	<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
 		<p>Non ha effettuato alcun trasferimento</p>
 	<?php endif; ?>
-	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && $this->numTrasferimenti < 15 && TIMEOUT != NULL): ?>
+	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && $this->numTrasferimenti < 15 && TIMEOUT != NULL && GIORNATA != 1): ?>
 	<br />
 	<h3>Acquista un giocatore</h3>
 	<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>
