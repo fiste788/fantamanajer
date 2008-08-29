@@ -34,7 +34,7 @@ function mysql_fetch_rowsarr($result, $numass=MYSQL_BOTH) {
 function connessione()
 {
   mysql_connect("localhost","ingo_fm","banana");
-  mysql_select_db("test");
+  mysql_select_db("ingo_fm");
   error_reporting(E_ALL ^ E_NOTICE);
 }
 
@@ -90,5 +90,29 @@ function elencosquadre()
     $options=$options."<option value=$riga[1]>$riga[0]</option>";
   }
   return $options; 
+}
+
+function recupera_nomi($percorso)
+{
+
+    foreach (file($percorso) as $player)
+    {
+        $pezzi=explode(";",$player);
+        $cod=$pezzi[0];
+        $nome=ucwords(strtolower(addslashes($pezzi[2])));
+        $cognome=strtoupper(addslashes($pezzi[1]));
+        $ruolo=$pezzi[3];
+        $club=substr($pezzi[4],0,3);
+        print $cod.$nome.$club."<br>";
+        $query="UPDATE giocatore SET Cognome='$cognome',Nome='$nome',IdGioc='$cod',Club='$club' WHERE IdGioc=$cod";
+        mysql_query($query) or die("Query non valida: ".$insert . mysql_error());
+        if(mysql_affected_rows()==0)
+        {
+            $insert="INSERT INTO giocatore(IdGioc,Cognome,Nome,Ruolo,Club) VALUE ('$cod','$cognome','$nome','$ruolo','$club')";
+        mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
+        }
+    }
+
+
 }
 ?>

@@ -339,7 +339,8 @@ function update_tab_giocatore($percorsoold,$percorso)
     foreach($dainserire as $key=>$val)
     {
         $pezzi=explode(";",$val);
-        $insert="INSERT INTO giocatore(IdGioc,Cognome,Ruolo,Club) VALUE ('$pezzi[0]','$pezzi[1]','$pezzi[2]','$pezzi[4]')";
+        $cognome=strtoupper(addslashes($pezzi[1]));
+        $insert="INSERT INTO giocatore(IdGioc,Cognome,Ruolo,Club) VALUE ('$pezzi[0]','$cognome','$pezzi[2]','$pezzi[4]')";
         mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
     }            
 }

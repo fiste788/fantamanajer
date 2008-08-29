@@ -17,9 +17,10 @@ $trasferimentiObj = new trasferimenti();
 $squadra = $_SESSION['idsquadra'];
 $acquisto = NULL;
 $lasciato = NULL;
-if(isset($_GET['squad']))
-	$squadra = $_GET['squad'];
-
+if(isset($_GET['squadra']))
+{
+	$squadra = $_GET['squadra'];
+}
 $ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
 $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencosquadre',$squadraObj->getElencoSquadre());
