@@ -182,14 +182,14 @@
 									<table>
 									<?php foreach ($formazione as $key => $val): ?>
 										<tr>
-										<?php if(isset($this->cap[$squadra][$key]) && $this->cap[$squadra][$key] == 'C'): ?>
+										<?php if($this->cap[$squadra]['C'] == $val['idGioc']) : ?>
 											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap2.png' ?>"/></td>
 										<?php else: ?>
 											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
 										<?php endif; ?>
 											<td><?php echo $val['Cognome']; ?></td>
 											<td><?php echo $val['Nome']; ?></td>
-											<td><?php if(isset($this->cap[$squadra][$val['idGioc']])) echo $this->cap[$squadra][$val['idGioc']]; else echo '&nbsp;'; ?></td>
+											<td><?php if(array_search($val['idGioc'],$this->cap[$squadra]) != FALSE)  echo array_search($val['idGioc'],$this->cap[$squadra]); else echo '&nbsp;'; ?></td>
 										</tr>
 									<?php endforeach; ?>
 									</table>
