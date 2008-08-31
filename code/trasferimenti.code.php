@@ -35,7 +35,7 @@ $contenttpl->assign('freePlayer',$playerFree);
 $contenttpl->assign('numTrasferimenti',$numTrasferimenti);
 if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 {
-	if($numTrasferimenti <15 )
+	if($numTrasferimenti <MAXTRASFERIMENTI )
 	{
 		$giocatoreAcquistatoOld = $giocatoreObj->getGiocatoreAcquistatoByIdSquadra($_SESSION['idsquadra']);
 		$giocatoreLasciatoOld = $giocatoreObj->getGiocatoreLasciatoByIdSquadra($_SESSION['idsquadra']);

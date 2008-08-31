@@ -11,7 +11,7 @@
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
-				<?php if(TIMEOUT != NULL): ?><th class="check">Acq.</th><?php endif; ?>
+				<?php if(TIMEOUT != '0' && GIORNATA != 1): ?><th class="check">Acq.</th><?php endif; ?>
 				<th class="tableimg">&nbsp;</th>
 				<th class="cognome"><a href="<?php echo $this->link['Cognome'] ?>">Cognome</a></th>
 				<th class="nome"><a href="<?php echo $this->link['Nome'] ?>">Nome</a></th>
@@ -21,9 +21,9 @@
 			</tr>
 			<?php foreach($this->freeplayer as $key => $val): ?>
 			<tr>
-				<?php if(TIMEOUT != NULL): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['IdGioc']; ?>" /></td><?php endif; ?>
+				<?php if(TIMEOUT != '0' && GIORNATA != 1): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['IdGioc']; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
-				<?php if($val['Voti'] >= $this->suff && $val['PartiteGiocate'] >= $this->partite): ?>
+				<?php if($val['Voti'] >= $this->suff && $val['PartiteGiocate'] >= $this->partite ||GIORNATA == 1): ?>
 					<img alt="Verde" title="Verde" src="<?php echo IMGSURL.'player-tit.png' ?>"/>
 				<?php elseif($val['Voti'] >= $this->suff || $val['PartiteGiocate'] >= $this->partite): ?>
 					<img alt="Giallo" title="Giallo" src="<?php echo IMGSURL.'player-panch.png' ?>"/>
@@ -34,13 +34,13 @@
 				<td><?php echo $val['Cognome']; ?></td>
 				<td><?php echo $val['Nome']; ?></td>
 				<td><?php echo $val['Club']; ?></td>
-				<td title="<?php echo $val['VotiAll']; ?>" <?php if($val['Voti'] >= $this->suff) echo "class=\"verde\""; else echo "class=\"rosso\""; ?>><?php echo $val['Voti']; ?></td>
-				<td <?php if($val['PartiteGiocate'] >= $this->partite) echo "class=\"verde\""; else echo "class=\"rosso\""; ?>><?php echo $val['PartiteGiocate']; ?></td>
+				<td title="<?php echo $val['VotiAll']; ?>" <?php if($val['Voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['Voti']; ?></td>
+				<td <?php if($val['PartiteGiocate'] >= $this->partite && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['PartiteGiocate']; ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php if(TIMEOUT != NULL): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
+	<?php if(TIMEOUT != '0'): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
 	<input type="submit" class="submit dark" value="Acquista" />
 	</form><?php endif; ?>
 <?php else: ?>

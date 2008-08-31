@@ -52,7 +52,6 @@ class giocatore
 	function getFreePlayer($ruolo)
 	{
 		$q = "SELECT giocatore.IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,AVG( Voto ) as Voti,SUM( Presenza ) as Presenze, SUM( Gol ) as Gol, SUM( Assist ) as Assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' GROUP BY giocatore.IdGioc ORDER BY Cognome;";
-            
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe))
 		{

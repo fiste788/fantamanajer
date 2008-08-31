@@ -505,7 +505,7 @@ label {
 #classifica-content {min-width:610px;}
 #classifica-content table {margin-bottom:15px;}
 #tab_classifica {
-	width:290px;
+	width:267px;
 	overflow:auto;
 	height:261px;
 }
@@ -558,11 +558,10 @@ p.surprise {
 	margin:1px 8px 0 0;
 }
 #option label {
-	width:170px;
+	width:200px;
 	margin:0;
 	text-align:left;
 }
-#option .formbox {width:200px;}
 .hidden {display:none;}
 #selection {margin-bottom:0;}
 #giocatori {clear:both;}

@@ -1,4 +1,5 @@
-<?php $j=0;
+<?php 
+$j=0;
 $i=0; 
 $elencocap=array('C','VC','VVC'); ?>
 <?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
@@ -14,11 +15,9 @@ $elencocap=array('C','VC','VVC'); ?>
 		<img alt="modulo" id="img-modulo" title="<?php echo substr($this->modulo,2) ?>" src="<?php echo IMGSURL.$this->modulo.'.png' ?>" />
 		<form id="form-formazione" name="formazione" action="index.php" method="post">		
 			<fieldset id="titolari">
-				<h3 class="center">Titolare</h3>	
+				<h3 class="center">Titolare</h3>
+                <h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />	
 				<?php foreach($this->titolari as $key=>$val): ?>
-					<?php if($i == $this->mod[$j]): ?>
-						<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
-					<?php $i=0;$j++; endif; ?>
 						<select disabled="disabled">
 							<option></option>
 							  <option selected="selected" value="<?php echo $val[0];?>"><?php  echo $val[1]. " ". $val[2];  ?></option>
@@ -45,7 +44,12 @@ $elencocap=array('C','VC','VVC'); ?>
 							<?php endforeach;?>
 						</select>
 						<?php endif; ?>
-					<?php $i++; ?>
+						<?php $i++; ?>
+						<?php if($i == $this->mod[$j] && $j!=3): $j++;?>
+						<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
+					<?php $i=0; endif; ?>
+
+
 				<?php endforeach; ?>
 				</fieldset>
 				<fieldset id="panchinari">
@@ -67,7 +71,7 @@ $elencocap=array('C','VC','VVC'); ?>
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-	<?php if(!$this->formazione && TIMEOUT != NULL): ?>
+	<?php if(!$this->formazione && TIMEOUT != '0'): ?>
 	<div class="messaggio neut column last" >
 		<img src="<?php echo IMGSURL.'attention-big.png'; ?>" />
 		<span>La formazione non è stata impostata</span>
@@ -81,7 +85,7 @@ $elencocap=array('C','VC','VVC'); ?>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 		<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 	<?php endif; ?>
-	<?php if(isset($this->modulo) && TIMEOUT != NULL): ?>
+	<?php if(isset($this->modulo) && TIMEOUT != '0'): ?>
 	<form class="column last" name="form-modulo" action="index.php" method="post">
 		<fieldset id="modulo" class="no-margin fieldset">
 			<h3 class="no-margin">Seleziona il modulo:</h3>
@@ -97,7 +101,7 @@ $elencocap=array('C','VC','VVC'); ?>
 		</fieldset>
 	</form>
 	<?php endif; ?>
-	<?php if(TIMEOUT != NULL): ?>
+	<?php if(TIMEOUT != '0'): ?>
 	<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="get">
 		<fieldset class="no-margin fieldset">
 			<h3 class="no-margin">Guarda le altre formazioni</h3>

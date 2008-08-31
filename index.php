@@ -48,6 +48,7 @@ if (!isset($_COOKIE[$session_name])) {
 require_once 'config/config.inc.php';
 require_once 'config/Savant2.php';
 require_once 'config/pages.inc.php';
+require_once 'config/fantamanajer.config.inc.php';
 require_once INCDIR.'db.inc.php';
 require_once INCDIR.'auth.inc.php';
 require_once INCDIR.'strings.inc.php';
