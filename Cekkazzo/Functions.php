@@ -112,7 +112,32 @@ function recupera_nomi($percorso)
         mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
         }
     }
-
-
 }
+function contenuto_via_curl($url)
+{
+	$handler = curl_init();
+	curl_setopt($handler, CURLOPT_URL, $url);
+	curl_setopt($handler, CURLOPT_HEADER, false);
+	ob_start();
+	curl_exec($handler);
+	curl_close($handler);
+	$string = ob_get_contents();
+	ob_end_clean();
+	return $string;
+}
+function foto()
+{
+    $q="SELECT cognome FROM giocatore WHERE Club='ATA'";
+    $risu=mysql_query($q) or die("Query non valida: ".$q . mysql_error());;
+    while ($riga = mysql_fetch_array($risu, MYSQL_ASSOC)) 
+    {
+        $giocatori[]=strtolower($riga['cognome']);
+    }
+    foreach($giocatori as $appo)
+    {
+        $link="http://www.atalanta.it/atalanta/site/img/squadra/".$appo.".jpg";
+        print $link."<br>";
+    }
+}
+
 ?>
