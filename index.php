@@ -102,12 +102,14 @@ if (!isset($_SESSION['logged'])) {
 	$timeout = $giornataObj->getIdGiornataByDate();
 	$giornata = $timeout;
 	if($timeout == FALSE)
-		$giornata = $giornataObj->getIdGiornataByDateSecondary();
+		$giornata = $giornataObj->getIdGiornataByDateSecondary();	
 	else 
 		$timeout = TRUE;
-	if($giornata > ($giornataObj->getNumberGiornate()-1))
-		$timeout = NULL;
-	define("GIORNATA",$giornata);
+	
+    if($giornata > ($giornataObj->getNumberGiornate()-1))
+		$timeout = '0';
+
+    define("GIORNATA",$giornata);
 	define("TIMEOUT",$timeout);
 	$contenttpl->assign('giornata',GIORNATA);
 	$contenttpl->assign('timeout',TIMEOUT);
