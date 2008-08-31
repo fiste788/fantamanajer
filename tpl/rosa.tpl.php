@@ -122,13 +122,22 @@
 						</tbody>
 					</table>
 					<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-					<p id="mex"><?php if($this->data == 0) echo "Se vuoi modificare le tue informazioni personali come mail, nome, password"; elseif($this->data == 1) echo "Le due password non corrispondono"; elseif($this->data == 2) echo "Dati modificati. Vuoi modificarli di nuovo?";  ?></p>
+					<p id="mex"><?php if($this->data == 0) 
+					{
+						echo "Se vuoi modificare le tue informazioni personali come mail, nome, password";
+						if(GIORNATA <= 2)
+							echo ". Fino alla seconda giornata imposta quì anche il nome della tua squadra"; 
+					}
+					elseif($this->data == 1) 
+						echo "Le due password non corrispondono"; 
+					elseif($this->data == 2) 
+						echo "Dati modificati correttamente. Vuoi modificarli di nuovo?<br /><br />";  ?></p>
 				</div>
 				</li>
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
 				<div class="no-margin" style="display:none;">
-					<form id="userdata" action="index.php?p=rosa" name="data" method="post">
-						<?php if($this->giornata <= 2): ?>
+					<form id="userdata" action="index.php?p=rosa&amp;squadra=<?php echo $_GET['squadra'] ?>" name="data" method="post">
+						<?php if(GIORNATA <= 2): ?>
 						<div class="formbox">
 							<label for="nomeSquadra">Nome squadra:</label>
 							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>

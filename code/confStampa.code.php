@@ -14,7 +14,7 @@ $contenttpl->assign('getGiornata',$getGiornata);
 
 $articoloObj->setidgiornata($getGiornata);
 
-$articolo = $articoloObj->select($articoloObj,'=','*',0,8,NULL);
+$articolo = $articoloObj->select($articoloObj,'=','*');
 if($articolo != FALSE)
 	foreach ($articolo as $key=>$val)
 		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
@@ -58,7 +58,7 @@ if(isset($_SESSION['idsquadra']))
 {
 	$articoloObj->setidgiornata($getGiornata);
 	$articoloObj->setidsquadra($_SESSION['idsquadra']);
-	$articoloExist = $articoloObj->select($articoloObj,'=','*',NULL,NULL,NULL);
+	$articoloExist = $articoloObj->select($articoloObj,'=','*');
 	if(!empty($articoloExist))
 		$contenttpl->assign('articoloExist',0);
 }

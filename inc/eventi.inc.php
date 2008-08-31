@@ -60,7 +60,8 @@ class eventi
 		          					$values[$key]['idExternal']['IdGiocNew'] = $giocatoreObj->getGiocatoriByArray($giocNew);
 									$values[$key]['titolo'] = $val['nome'] . ' ha effettuato un trasferimento';
 									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['IdGiocOld'][$giocOld[0]]['Nome'] .' ' . $values[$key]['idExternal']['IdGiocOld'][$giocOld[0]]['Cognome'].' e ha acquistato '. $values[$key]['idExternal']['IdGiocNew'][$giocNew[0]]['Nome'] .' ' . $values[$key]['idExternal']['IdGiocNew'][$giocNew[0]]['Cognome'];
-									$values[$key]['link'] = 'index.php?p=trasferimenti&squadra=' . $values[$key]['idExternal']['IdSquadra'];break;
+									$values[$key]['link'] = 'index.php?p=trasferimenti&squad=' . $values[$key]['idExternal']['IdSquadra'];
+									unset($giocOld,$giocNew);break;
 								
 				}
 			}

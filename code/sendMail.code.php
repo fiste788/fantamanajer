@@ -29,18 +29,11 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 			$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val[0],$giornata);
 			if($formazione != FALSE)
 			{
-				$formazione = explode('!',$formazione['Elenco']);
-				$titolari = explode(';',$formazione[0]);
-				$panchinari = explode(';',$formazione[1]);
+				$titolari = array_slice($formazione['Elenco'],0,11);
+				$panchinari = array_slice($formazione['Elenco'],11,18);
 				array_shift($panchinari);
-				foreach ($titolari as $key2 => $val2)
-				{
-					$isCap = substr($val2,3);
-					if(!empty($isCap))
-						$cap[$key][substr($val2,0,3)] = substr($val2,4);
-					$titolariAdjust[$key2] = substr($val2,0,3);
-				}
-				$titolariName[] = $giocatoreObj->getGiocatoriByArray($titolariAdjust);
+				$cap[] = $formazione['Cap'];
+				$titolariName[] = $giocatoreObj->getGiocatoriByArray($titolari);
 				if(count($panchinari) > 0)
 					$panchinariName[] = $giocatoreObj->getGiocatoriByArray($panchinari);
 				else

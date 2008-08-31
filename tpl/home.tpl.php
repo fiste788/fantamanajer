@@ -90,6 +90,7 @@
 						</a>
 					<?php endif;?>
 				<?php endforeach; ?>
+				<a class="right" href="index.php?p=viewFeed">Vedi tutti gli eventi &raquo;</a>
 			</div>
 			</div>
 			</div>
