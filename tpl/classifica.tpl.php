@@ -6,7 +6,7 @@
 <h2 class="column">Classifica</h2>
 </div>
 <div id="classifica-content" class="main-content">
-	<table cellpadding="0" cellspacing="0" class="column last" style="width:290px;">
+	<table cellpadding="0" cellspacing="0" class="column last" style="width:313px;">
 		<tbody>
 			<tr>
 				<th style="width:20px">P.</th>
