@@ -34,7 +34,6 @@ else
 	$giornateWithArticoli = $key = FALSE;
 
 $contenttpl->assign('giornateWithArticoli',$giornateWithArticoli);
-echo "<pre>".print_r($giornateWithArticoli,1)."</pre>";
 if($key > 0)
 {
 	if(isset($giornateWithArticoli[$key+1]))
