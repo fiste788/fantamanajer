@@ -77,7 +77,7 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 			   	//MANDO LA MAIL
 			   	$object = "Giornata: ". $giornata . " - Punteggio: " . array_sum($result[$key]);
 			   	//$mailContent->display(TPLDIR.'mail.tpl.php');
-			  	if(!$mailObj->sendEmail($val[4],$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object))
+			  	if(!$mailObj->sendEmail($val[2] . " " . $val[3] . "<" . $val[4]. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object))
 			  		$mail++ ;
 			}
 		}
