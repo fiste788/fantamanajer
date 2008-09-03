@@ -40,9 +40,10 @@ if(isset($_POST['submit']))
 		if ( (isset($_POST['title'])) && (!empty($_POST['title'])) && (isset($_POST['text'])) && (!empty($_POST['text'])) )
 		{
 			$articoloObj = new articolo();
-			$articoloObj->settitle(stripslashes(addslashes($_POST['title'])));
-			$articoloObj->setabstract(stripslashes(addslashes($_POST['abstract'])));
-			$articoloObj->settext(stripslashes(addslashes($_POST['text'])));
+			$articoloObj->settitle(addslashes(stripslashes($_POST['title'])));
+			$articoloObj->setabstract(addslashes(stripslashes($_POST['abstract'])));
+			$articoloObj->settext(addslashes(stripslashes($_POST['text'])));
+			echo $articoloObj->text;
 			if($action == 'new')
 			{
 				$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
