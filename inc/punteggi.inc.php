@@ -149,10 +149,24 @@ class punteggi
     
     function getPresenzaById($id,$giornata)
     {
-        $select="SELECT Presenza FROM voti WHERE IdGioc='$id' AND IdGiornata='$giornata'";
+        $i=0;
+        $select="SELECT Voto FROM voti WHERE IdGioc='$id' AND IdGiornata='$giornata'";
         $risu = mysql_query($select) or die("Query non valida: ".$select. mysql_error());
 		while ($row = mysql_fetch_row($risu))
-			return($row[0]);
+		{
+			$i++;
+		}
+		if(!$i)
+		{
+		  print "$id:--> 0<br>";
+		  return 0;
+		}
+    else
+    {
+      print "$id:--> 1<br>";
+		  return 1;
+    }
+    die();
     }
     
     function getRuoloById($id)
@@ -165,6 +179,7 @@ class punteggi
     
     function recurSost($ruolo,&$panch,&$cambi,$giornata)
     {
+      print "$ruolo<br>";
         $num=count($panch);
         for($i=0;$i<$num;$i++)
         {
@@ -186,7 +201,7 @@ function setConsiderazione($idform,$idplayer)
     mysql_query($update) or die("Query non valida: ".$update. mysql_error());
     
 }
-function calcolaPunti($giornata , $idsquadra,$carica)
+function calcolaPunti($giornata,$idsquadra)
 {
     
     $cambi=0;
@@ -201,7 +216,7 @@ function calcolaPunti($giornata , $idsquadra,$carica)
     foreach($ecap as $cap)
     {
         if($this->getPresenzaById($cap,$giornata))
-        {
+        { 
             $flag=1;
             break;
         }
@@ -218,6 +233,7 @@ function calcolaPunti($giornata , $idsquadra,$carica)
         $presenza=$this->getPresenzaById($player,$giornata);
         if((!$presenza)&&($cambi<3))
         {
+            print "sostituizione<br>";
             $sostituto=$this->recurSost($this->getRuoloById($player),$panch,$cambi,$giornata);
             if($sostituto!=0)
                 $player=$sostituto;
@@ -232,7 +248,7 @@ function calcolaPunti($giornata , $idsquadra,$carica)
         $somma+=$voto;
     }
     $insert="INSERT INTO punteggi(IdGiornata,IdSquadra,punteggio) VALUES ('$giornata','$idsquadra','$somma');";
-    mysql_query($insert) or die("Query non valida: ".$insert. mysql_error());
+    //mysql_query($insert) or die("Query non valida: ".$insert. mysql_error());
 }
 }
 //QUESTE FUNZIONI SONO ESCLUSE DALLA CLASSE PER UN BUG DA CORREGGERE
@@ -277,28 +293,35 @@ function scarica_voti_csv($percorso)
 {
 	$sep_voti = ";";
 	$novoto = "-";
-	$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
+	$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
 	$tabella_voti = array(); 
-    $espr = "<tr";
+    $espr = "<tr>";
+    if (file_exists($percorso))
+        unlink($percorso);
 	$handle = fopen($percorso, "a");
 	foreach ($array as $keyruolo=>$ruolo)
 	{
-		$link = "http://magiccup.gazzetta.it/statiche/campionato/2008/statistiche/media_voto_".$ruolo."_nomegazz.shtml";
+		$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_".$ruolo.".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
 		$contenuto = contenuto_via_curl($link);
-		$tabxruolo = "<tr ".strstr($contenuto,"RIGA1");
-		$s = explode("</table",$tabxruolo);
-		$tabxruolo = $s[0];
+		//print htmlspecialchars($contenuto);
+		$contenuto = preg_replace("/\n/","",$contenuto);
+		preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
+		print $matches[0];
 
-        $keywords = explode($espr, $tabxruolo);
-        array_shift($keywords);
+    $keywords = explode($espr, $matches[0]);
+    array_shift($keywords);
+
+
         foreach($keywords as $key)
         {
-            $espre = "/(<[^<>]+>)+/";
+            $espre = "/(\s*\/?<[^<>]+>)+/";
             $key = preg_replace($espre,"\t",$key); 
-            $pieces = explode("\n",$key);
+            $pieces = explode("\t",$key);
             $pieces=TrimArray($pieces);
-            $pieces[12] = ereg_replace(',','.',$pieces[12]);
-            fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[12];".substr($pieces[3],0,3).";$pieces[6];$pieces[8];\n");
+            $pieces=array_map("htmlspecialchars",$pieces);
+            $pieces[10] = ereg_replace(',','.',$pieces[10]);
+            echo "<pre>".print_r($pieces,1)."</pre>";
+            fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[10];$pieces[3];$pieces[5];$pieces[9];\n");
         }
     }  
     fclose($handle);
@@ -353,10 +376,10 @@ function recupera_voti($giorn)
         scarica_voti_csv($percorso);
         
 	$percorsoold="../docs/voti/Giornata".($giorn-1).".csv";  
-	if(file_exists($percorsoold))
+	/*if(file_exists($percorsoold))
         update_tab_giocatore($percorsoold,$percorso);  
     else
-        echo "Nessun giocatore aggiunto/tolto !";
+        echo "Nessun giocatore aggiunto/tolto !";*/
 
 
     // inserisce i voti di giornata nel db
@@ -367,7 +390,8 @@ function recupera_voti($giorn)
             $presenza=0;
         else
             $presenza=1;
-                
+        if($pezzi[2]=="P")
+            $pezzi[5]=-$pezzi[5];
         $insert="INSERT INTO voti(IdGioc,IdGiornata,Presenza,Voto,Gol,Assist) VALUES ('$pezzi[0]','$giorn',$presenza,'$pezzi[3]','$pezzi[5]','$pezzi[6]');";
         mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
     }
