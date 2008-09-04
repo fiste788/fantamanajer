@@ -1,24 +1,12 @@
-  <title>Setta Punteggi Squadre</title>
-  <form name=azzo method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-  Giornata<input type="text" style="text-align:right"name="giornata">
-  <br>
-  IdSquadra<input type="text" style="text-align:right"name="id">
-  <br>
-  <input type="submit" value="calcola punti">
-  </form>
+
 <?php
-  include 'SetPunteggi.php';
+  include '../inc/punteggi.inc.php';
   include 'Functions.php';
+  $percorso = "../docs/voti/Giornata1.csv";
   connessione();
-  $giornata=$_POST['giornata'];
-  $id=$_POST['id'];
-  if(isset($_POST['giornata'])&&isset($_POST['id']))
-  {   
+  $punteggiObj = new punteggi();
 
-        calcola_punti($giornata,$id);
-
-    
-  }    
+    $punteggiObj->calcolaPunti(1,2);   
 
 ?>
 

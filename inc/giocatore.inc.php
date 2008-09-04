@@ -111,9 +111,11 @@ class giocatore
                                                     AND IdSquadra ='$idsquadra' )
                 AND voti.IdGiornata ='$giornata'
                 ORDER BY IdPosizione;";
+                PRINT $query;
         $exe=mysql_query($query) or die ("Query non valida: ".$query. mysql_error());
         while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			$elenco[] = $row;	
+			//echo "<pre>".print_r($elenco,1)."</pre>";
 		return($elenco);
 
     }
