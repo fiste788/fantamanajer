@@ -100,22 +100,27 @@ class giocatore
 	
     function getVotiGiocatoryByGiornataSquadra($giornata,$idsquadra)
     {
-        $query="SELECT voti.IdGioc,Cognome, Ruolo, Club, Voto, IdPosizione,Considerato
-                FROM voti
-                INNER JOIN schieramento ON voti.IdGioc = schieramento.IdGioc
-                INNER JOIN giocatore ON voti.IdGioc = giocatore.IdGioc
-                WHERE schieramento.IdFormazione=(
-                                                    SELECT IdFormazione
-                                                    FROM formazioni
-                                                    WHERE IdGiornata ='$giornata'
-                                                    AND IdSquadra ='$idsquadra' )
-                AND voti.IdGiornata ='$giornata'
-                ORDER BY IdPosizione;";
-                PRINT $query;
+        $query="SELECT giocatore.IdGioc as gioc, Cognome,Nome, Ruolo, Club, IdPosizione,             Considerato
+                FROM schieramento
+                INNER JOIN giocatore ON schieramento.IdGioc = giocatore.IdGioc
+                WHERE IdFormazione=(SELECT IdFormazione FROM formazioni WHERE IdGiornata='$giornata' AND IdSquadra='$idsquadra')";
         $exe=mysql_query($query) or die ("Query non valida: ".$query. mysql_error());
         while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
-			$elenco[] = $row;	
-			//echo "<pre>".print_r($elenco,1)."</pre>";
+        {
+            
+            $idgioc=$row['gioc'];
+            $qvoto="SELECT Voto FROM voti WHERE IdGioc=$idgioc AND IdGiornata=$giornata";
+            $mais=mysql_query($qvoto) or die ("Query non valida: ".$qvoto. mysql_error());
+            $flag=0;
+            while($riga=mysql_fetch_array($mais,MYSQL_ASSOC))
+            {
+                $row['Voto']=$riga['Voto'];
+                $flag=1;
+            }
+            if(!$flag)
+                $row['Voto']="";
+			$elenco[] = $row;           
+        }
 		return($elenco);
 
     }

@@ -34,7 +34,7 @@ function mysql_fetch_rowsarr($result, $numass=MYSQL_BOTH) {
 function connessione()
 {
   mysql_connect("localhost","ingo_fm","banana");
-  mysql_select_db("ingo_fm");
+  mysql_select_db("test");
   error_reporting(E_ALL ^ E_NOTICE);
 }
 
@@ -113,18 +113,7 @@ function recupera_nomi($percorso)
         }
     }
 }
-function contenuto_via_curl($url)
-{
-	$handler = curl_init();
-	curl_setopt($handler, CURLOPT_URL, $url);
-	curl_setopt($handler, CURLOPT_HEADER, false);
-	ob_start();
-	curl_exec($handler);
-	curl_close($handler);
-	$string = ob_get_contents();
-	ob_end_clean();
-	return $string;
-}
+
 function foto()
 {
     $q="SELECT cognome FROM giocatore WHERE Club='ATA'";
