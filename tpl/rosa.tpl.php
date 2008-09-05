@@ -41,8 +41,8 @@
 			<?php endforeach; ?>
 			<tr>
 				<td class="ult" colspan="3">Media</td>
-				<td class="ult" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
 				<td class="ult" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td class="ult" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
 				<td class="ult" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
 				<td class="ult" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
 			</tr>
