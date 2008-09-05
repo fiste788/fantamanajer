@@ -64,7 +64,7 @@ else
 	define ("DBNAME","fantamanajer");					//database name => DBNAME
 	define ("DBUSER","fantamanajerUser");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
-	define ("DBHOST","localhost");					//database host => DBHOST
+	define ("DBHOST","mysql13.aziendeitalia.com:3306");					//database host => DBHOST
 	
 	//mysql13.aziendeitalia.com:3306
 	error_reporting(0);

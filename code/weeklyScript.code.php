@@ -28,7 +28,10 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 			$squadra = $val[0];			
 			//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 			if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
-				$result[$key] = $punteggiObj->calcolaPunti($giornata , $squadra , TRUE);
+			{
+				$punteggiObj->calcolaPunti($giornata , $squadra );
+				$result[$key] = $giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra);
+			}
 			else
 			{
 				$q = "INSERT INTO punteggi VALUES ('0','" . $giornata . "', '" . $squadra . "');";
@@ -64,18 +67,17 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 		$mailContent->assign('differenza',$diff);
 		$mailContent->assign('squadre',$appo);
 		$mailContent->assign('giornata',$giornata);
-	
 		foreach ($appo as $key => $val)
 		{
 			if(!empty($val[4]) && isset($result[$key]))
 			{
 				$mailContent->assign('squadra',$val[1]);
-				$mailContent->assign('somma',array_sum($result[$key]));
-				$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$val[0]);
+				$mailContent->assign('somma',$punteggiObj->getPunteggi($val[0],$giornata));
+				$mailContent->assign('formazione',$result[$key]);
 				$mail = 0;
 				
 			   	//MANDO LA MAIL
-			   	$object = "Giornata: ". $giornata . " - Punteggio: " . array_sum($result[$key]);
+			   	$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val[0],$giornata);
 			   	//$mailContent->display(TPLDIR.'mail.tpl.php');
 			  	if(!$mailObj->sendEmail($val[2] . " " . $val[3] . "<" . $val[4]. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object))
 			  		$mail++ ;
@@ -86,11 +88,11 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 		else
 			$contenttpl->assign('message','Si sono verificati degli errori');
 		//aggiorna i giocatori ceduti di giornata in giornata
-		$giocatoreObj->updateListaGiocatori($giornata);
+		//$giocatoreObj->updateListaGiocatori($giornata);
 	}
 	else
 		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
 }
 else
-	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');
+	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');*/
 ?>
