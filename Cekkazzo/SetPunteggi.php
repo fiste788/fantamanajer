@@ -6,7 +6,7 @@
     $punteggiObj = new punteggi();
 
     //recupera_voti(1);
-    for($i=1;$i<=8;$i++)
+    for($i=1;$i<=1;$i++)
     {
         $punteggiObj->calcolaPunti(1,$i); 
     }
