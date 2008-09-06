@@ -403,6 +403,7 @@ tr.row:hover {
 }
 .conf-stampa-content {
 	padding:10px;
+	width:280px;
 }
 .new a {
 	display:block;

@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'transfert-big.png'; ?>" alt="->" />
+		<img align="left" src="<?php echo IMGSURL.'eventi-big.png'; ?>" alt="->" />
 	</div>
 	<h2 class="column">Eventi</h2>
 </div>
