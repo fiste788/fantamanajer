@@ -201,7 +201,11 @@ function setConsiderazione($idform,$idplayer)
 }
 function calcolaPunti($giornata,$idsquadra)
 {
-    
+    // Se i punti di quella squadra e giornata ci sono già, esce
+    if($this->getPunteggi($idsquadra,$giornata))
+    {
+        return;
+    }
     $cambi=0;
     $somma=0;
     $flag=0;
