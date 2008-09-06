@@ -51,7 +51,7 @@ class giocatore
 	
 	function getFreePlayer($ruolo)
 	{
-		$q = "SELECT giocatore.IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,AVG( Voto ) as Voti,SUM( Presenza ) as Presenze, SUM( Gol ) as Gol, SUM( Assist ) as Assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' GROUP BY giocatore.IdGioc ORDER BY Cognome;";
+		$q = "SELECT giocatore.IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,AVG( Voto ) as Voti,COUNT( VotoUff ) as Presenze, SUM( Gol ) as Gol, SUM( Assist ) as Assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' GROUP BY giocatore.IdGioc ORDER BY Cognome;";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe))
 		{
@@ -81,9 +81,9 @@ class giocatore
 	
 	function getGiocatoreById($giocatore)
 	{
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as votoMedio,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' GROUP BY giocatore.IdGioc;";
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as votoMedio,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' GROUP BY giocatore.IdGioc;";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
-		$q2 = "SELECT IdGiornata, Voto , Presenza , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
+		$q2 = "SELECT IdGiornata, Voto  , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q2);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
@@ -295,7 +295,7 @@ class giocatore
 */
     function getGiocatoryByIdSquadraWithStats($idsquadra)
     {
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,COUNT( Voto ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
             FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
             WHERE IdSquadra ='" . $idsquadra . "'
             GROUP BY giocatore.IdGioc";
