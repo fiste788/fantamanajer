@@ -22,8 +22,8 @@
 		<li><a href="#valid">
 			<img id="valid-icon" src="<?php echo IMGSURL.'valid-icon.png' ?>" title="Valido W3C" alt="4" />
 		</a></li>
-		<li><a href="#beta">
-			<img id="beta-icon" src="<?php echo IMGSURL.'beta-icon.png' ?>" title="Fase beta" alt="5" />
+		<li><a href="#rss">
+			<img id="beta-icon" src="<?php echo IMGSURL.'rss-icon.png' ?>" title="Feed RSS" alt="5" />
 		</a></li>
 	</ul>
 	<div id="box-home" class="column last">
@@ -45,17 +45,17 @@
 			<div id="coming-soon">
 				<img class="column" src="<?php echo IMGSURL.'coming-soon.png'; ?>" alt="Coming soon" />
 				<h2>Coming soon</h2>
-				<p>Per la prossima stagione verrà implementato un metodo del tutto nuovo per la settare la formazione. Esso consistera in dei riquadri con il nome del giocatore che sarà possibile trascinare sul campo e mettere il giocatore nella posizione desiderata</p>
+				<p>Per la prossima stagione verrà implementato un metodo del tutto nuovo per la settare la formazione. Esso consistera in dei riquadri con il nome del giocatore che sarà possibile trascinare sul campo e mettere il giocatore nella posizione desiderata. E ci sarà anche un'interfaccia di amministrazione per gli admin</p>
 			</div>
 			<div id="valid">
 				<img class="column" src="<?php echo IMGSURL.'valid.png'; ?>" alt="Valido W3C"/>
 				<h2>Valido W3C</h2>
 				<p>Da questa versione l'intero sito è stato validato secondo gli standard web del W3C. Questo consiste nel non avere errori nelle pagine e una maggiore integrazione cross-browser (nessuna differenza tra i browser)</p>
 			</div>
-			<div id="beta">
-				<img class="column" src="<?php echo IMGSURL.'beta.png'; ?>" alt="Beta"/>
-				<h2>Fase beta</h2>
-				<p>In questa versione 1.9 che precede la 2.0 sono stati risolti molti bug, ed è una versione ancora in beta ma che presto raggiungerà la versione stable</p>
+			<div id="rss">
+				<img class="column" src="<?php echo IMGSURL.'rss.png'; ?>" alt="RSS"/>
+				<h2>Feed RSS</h2>
+				<p>Nel FantaManajer 2.0 sono stati introdotti gli eventi con la possibilità di estrarre i feed RSS per aggiungerli alle tue pagine personali come iGoogle o Netvibes. Aggiungi il seguente link per abbonarti al feed RSS del FantaManajer http://www.fantamanajer.it/rss.php</p>
 			</div>
 		</div>
 		</div>

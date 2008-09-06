@@ -295,7 +295,7 @@ class giocatore
 */
     function getGiocatoryByIdSquadraWithStats($idsquadra)
     {
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,SUM( Presenza ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,COUNT( Voto ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
             FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
             WHERE IdSquadra ='" . $idsquadra . "'
             GROUP BY giocatore.IdGioc";
