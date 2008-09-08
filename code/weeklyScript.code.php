@@ -20,6 +20,8 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 	{
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 		recupera_voti($giornata);
+		//AGGIORNA LA LISTA GIOCATORI
+		update_tab_giocatore($giornata);
 		$mailContent = new Savant2();
 		$result = array();
 		$appo = $squadraObj->getElencoSquadre();
