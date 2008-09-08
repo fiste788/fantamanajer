@@ -1,0 +1,541 @@
+111;Buffon;P;JUV
+134;Julio Cesar;P;INT
+123;Doni;P;ROM
+128;Frey;P;FIO
+136;Kalac;P;MIL
+103;Amelia;P;PAL
+114;Carrizo;P;LAZ
+131;Handanovic;P;UDI
+153;Sereni;P;TOR
+132;Iezzo;P;NAP
+141;Mirante;P;SAM
+151;Rubinho;P;GEN
+119;Coppola;P;ATA
+155;Sorrentino;P;CHI
+104;Antonioli;P;BOL
+113;Campagnolo;P;REG
+109;Benussi;P;LEC
+110;Bizzarri;P;CAT
+120;Curci;P;SIE
+139;Marchetti;P;CAG
+115;Castellazzi;P;SAM
+101;Abbiati;P;MIL
+126;Fontana A.;P;PAL
+148;Polito;P;CAT
+112;Calderoni;P;TOR
+124;Eleftheropoulos;P;SIE
+138;Manninger;P;JUV
+105;Aresti;P;CAG
+106;Arthur;P;ROM
+107;Avramov;P;FIO
+108;Belardi;P;UDI
+116;Chimenti;P;JUV
+117;Colombo;P;BOL
+118;Consigli;P;ATA
+121;Degre';P;LAZ
+122;Dida;P;MIL
+125;Fiorillo;P;SAM
+160;Fontana A.m.;P;TOR
+129;Gadignani;P;BOL
+130;Gianello;P;NAP
+133;Jaakkola;P;SIE
+135;Julio Sergio B.;P;ROM
+137;Kosicky;P;CAT
+159;Lamantia;P;GEN
+140;Marino;P;REG
+142;Muslera;P;LAZ
+143;Navarro;P;NAP
+144;Novembre;P;JUV
+145;Orlandoni;P;INT
+146;Padelli;P;SAM
+149;Puggioni;P;REG
+150;Rosati;P;LEC
+152;Scarpi;P;GEN
+156;Squizzi;P;CHI
+157;Storari;P;FIO
+158;Toldo;P;INT
+161;Koprivec;P;UDI
+162;Ujkani;P;PAL
+237;Chiellini;D;JUV
+238;Chivu;D;INT
+306;Mexes;D;ROM
+293;Maicon;D;INT
+315;Nesta;D;MIL
+318;Panucci;D;ROM
+280;Juan;D;ROM
+281;Kaladze;D;MIL
+369;Vargas;D;FIO
+239;Cicinho;D;ROM
+243;Comotto;D;FIO
+279;Jankulovski;D;MIL
+287;Legrottaglie;D;JUV
+302;Maxwell;D;INT
+332;Riise;D;ROM
+371;Zambrotta;D;MIL
+232;Carrozzieri;D;PAL
+262;Domizzi;D;UDI
+271;Gamberini;D;FIO
+301;Materazzi;D;INT
+345;Samuel;D;INT
+245;Cordoba;D;INT
+297;Mandelli;D;CHI
+305;Mellberg;D;JUV
+330;Raggi;D;PAL
+333;Rinaudo;D;NAP
+346;Santacroce;D;NAP
+372;Zapata;D;UDI
+385;Senderos;D;MIL
+201;Accardi;D;SAM
+207;Angelo;D;LEC
+209;Antunes;D;LEC
+212;Balzaretti;D;PAL
+215;Bellini;D;ATA
+221;Bovo;D;PAL
+226;Campagnaro;D;SAM
+228;Cannavaro;D;NAP
+249;Cribari;D;LAZ
+250;Criscito;D;GEN
+265;Felipe;D;UDI
+309;Molinaro;D;JUV
+313;Natali;D;TOR
+327;Portanova;D;SIE
+328;Potenza;D;SIE
+364;Terlizzi;D;CAT
+366;Tonetto;D;ROM
+217;Bianco;D;CAG
+219;Bocchetti;D;GEN
+220;Bonera;D;MIL
+381;Bottinelli;D;SAM
+227;Canini;D;CAG
+235;Castellini;D;BOL
+252;Dainelli;D;FIO
+380;Ferrari;D;GEN
+278;Grygera;D;JUV
+284;Kroldrup;D;FIO
+289;Loria;D;ROM
+290;Lucchini;D;SAM
+295;Maldini;D;MIL
+322;Pieri;D;SAM
+323;Pisano F.;D;CAG
+324;Pisano M.;D;TOR
+334;Rivalta;D;ATA
+337;Rodriguez;D;BOL
+342;Rozehnal;D;LAZ
+357;Siviglia;D;LAZ
+358;Sottil;D;CAT
+359;Stankevicius;D;SAM
+361;Stovini;D;CAT
+202;Agostini;D;CAG
+218;Biava;D;GEN
+224;Burdisso;D;INT
+258;Di Loreto;D;TOR
+288;Lopez;D;CAG
+299;Mantovani;D;CHI
+378;Pratali;D;TOR
+329;Radu;D;LAZ
+347;Santos;D;REG
+351;Schiavi;D;LEC
+353;Silvestre;D;CAT
+354;Silvestri;D;CAT
+360;Stendardo;D;LEC
+363;Talamonti;D;ATA
+367;Valdez;D;REG
+368;Vanden Borre;D;GEN
+375;Zenoni C.;D;BOL
+204;Alvarez P.s.;D;CAT
+210;Aronica;D;NAP
+223;Britos;D;BOL
+234;Cassetti;D;ROM
+236;Cesar;D;CHI
+242;Colombo;D;TOR
+244;Contini;D;NAP
+251;Da Costa;D;FIO
+260;Diamoutene;D;LEC
+272;Garics;D;ATA
+273;Gastaldello;D;SAM
+286;Lanzaro;D;REG
+291;Lukovic;D;UDI
+294;Malago';D;CHI
+298;Manfredini T.;D;ATA
+312;Motta;D;UDI
+335;Rivas;D;INT
+344;Sabato;D;CAT
+348;Sardo;D;CAT
+374;Zebina;D;JUV
+388;Brivio;D;GEN
+213;Basta;D;LEC
+240;Cirillo;D;REG
+241;Coda;D;UDI
+247;Costa;D;REG
+254;De Ceglie;D;JUV
+267;Ferronetti;D;UDI
+283;Knezevic;D;JUV
+314;Nef;D;UDI
+319;Pasqual;D;FIO
+320;Pasquale;D;UDI
+321;Pellegrino;D;ATA
+331;Rickler;D;CHI
+339;Rossettini;D;SIE
+340;Rossi A.;D;SIE
+349;Savini;D;NAP
+379;Vujadinovic;D;UDI
+373;Zauri;D;FIO
+384;Sala;D;UDI
+387;Moti;D;SIE
+203;Alvarez P.;D;REG
+208;Antonini;D;MIL
+216;Belmonte;D;SIE
+229;Capelli;D;ATA
+231;Capuano;D;PAL
+255;Del Grosso;D;SIE
+257;Dellafiore;D;PAL
+264;Favalli;D;MIL
+266;Ferri;D;CAG
+268;Ficagna;D;SIE
+277;Grava;D;NAP
+285;Lanna;D;BOL
+310;Moras;D;BOL
+311;Moro;D;CHI
+377;Papastathopoulos;D;GEN
+325;Polenghi;D;LEC
+343;Rubin;D;TOR
+382;Santon;D;INT
+365;Terzi;D;BOL
+389;Yepes;D;CHI
+205;Andrade;D;JUV
+211;Astori;D;CAG
+214;Belleri;D;LAZ
+222;Brandao;D;SIE
+225;Cala';D;UDI
+230;Caprini;D;TOR
+233;Cassani;D;PAL
+246;Cosenza;D;REG
+253;Darmian;D;MIL
+256;Del Prete;D;SIE
+259;Diakite';D;LAZ
+263;Esposito;D;LEC
+269;Franceschini I.;D;TOR
+270;Frey;D;CHI
+275;Giosa;D;REG
+276;Giuliatto;D;LEC
+282;Kjaer;D;PAL
+292;Magliocchetti;D;CAG
+303;Mazuch;D;FIO
+307;Mihoubi;D;LEC
+317;Ogbonna;D;TOR
+326;Polenta;D;GEN
+336;Rizzo;D;REG
+338;Rolandone;D;TOR
+341;Rossini J.;D;SAM
+350;Scardina;D;CHI
+352;Signorini;D;GEN
+356;Sissoko;D;UDI
+362;Tagliani;D;FIO
+383;Tuia;D;LAZ
+370;Volta;D;SAM
+376;Zuniga;D;SIE
+386;Morero;D;CHI
+606;Kaka';C;MIL
+596;Hamsik;C;NAP
+529;Cambiasso;C;INT
+525;Brienza;C;REG
+530;Camoranesi;C;JUV
+618;Mancini;C;INT
+556;De Rossi;C;ROM
+567;Doni C.;C;ATA
+658;Pirlo;C;MIL
+666;Rosina;C;TOR
+673;Seedorf;C;MIL
+705;Menez;C;ROM
+710;Quaresma;C;INT
+617;Maggio;C;NAP
+679;Taddei;C;ROM
+650;Palladino;C;GEN
+581;Flamini;C;MIL
+597;Inler;C;UDI
+639;Montolivo;C;FIO
+644;Nedved;C;JUV
+656;Perrotta;C;ROM
+678;Stankovic;C;INT
+577;Ferreira Pinto;C;ATA
+586;Gasbarroni;C;GEN
+677;Sissoko M.;C;JUV
+503;Ambrosini;C;MIL
+537;Cigarini;C;ATA
+612;Ledesma C.;C;LAZ
+615;Liverani;C;PAL
+659;Pizarro;C;ROM
+695;Zanetti J.;C;INT
+506;Aquilani;C;ROM
+604;Jovetic;C;FIO
+627;Matuzalem;C;LAZ
+642;Muntari;C;INT
+535;Caserta;C;LEC
+542;Conti;C;CAG
+575;Felipe Melo;C;FIO
+578;Figo;C;INT
+613;Ledesma P.;C;CAT
+616;Luciano;C;CHI
+628;Mauri;C;LAZ
+694;Zanetti C.;C;JUV
+545;Cossu;C;CAG
+547;Cozza;C;REG
+587;Gattuso;C;MIL
+610;Kuzmanovic;C;FIO
+661;Poulsen;C;JUV
+670;Santana;C;FIO
+683;Tissone;C;UDI
+693;Zanchetta;C;LEC
+519;Bogliacino;C;NAP
+585;Gargano;C;NAP
+588;Giacomazzi;C;LEC
+621;Mannini;C;NAP
+630;Mesto;C;GEN
+636;Modesto;C;GEN
+640;Mudingayi;C;BOL
+651;Palombo;C;SAM
+675;Simplicio;C;PAL
+689;Vieira;C;INT
+690;Vigiani;C;REG
+513;Barreto E.;C;REG
+518;Blasi;C;NAP
+582;Foggia;C;LAZ
+593;Guana;C;PAL
+602;Jimenez;C;INT
+625;Marcolini;C;CHI
+645;Nocerino;C;PAL
+668;Salihamidzic;C;JUV
+669;Sammarco;C;SAM
+674;Semioli;C;FIO
+508;Ariatti;C;LEC
+509;Baiocco;C;CAT
+527;Brocchi;C;LAZ
+538;Codrea;C;SIE
+540;Colucci;C;CAT
+561;Dessena;C;SAM
+573;Fabiano;C;REG
+589;Giovinco;C;JUV
+599;Italiano;C;CHI
+607;Kharja;C;SIE
+608;Kolarov;C;LAZ
+614;Lichtsteiner;C;LAZ
+631;Migliaccio;C;PAL
+641;Munari;C;LEC
+652;Paro;C;GEN
+655;Pele';C;INT
+682;Tiago;C;JUV
+688;Vergassola;C;SIE
+501;Abate;C;TOR
+511;Barone;C;TOR
+515;Bentivoglio;C;CHI
+524;Bresciano;C;PAL
+531;Carboni;C;CAT
+544;Corini;C;TOR
+549;Dacourt;C;INT
+560;Delvecchio;C;SAM
+579;Fini;C;CAG
+583;Franceschini D.;C;SAM
+600;Jankovic;C;GEN
+603;Jorgensen;C;FIO
+605;Juric;C;GEN
+653;Parola;C;CAG
+692;Volpi;C;BOL
+696;Zanetti P.;C;TOR
+502;Almiron;C;FIO
+517;Biondini;C;CAG
+533;Carrus;C;BOL
+539;Coelho;C;BOL
+551;D'agostino G.;C;UDI
+554;De Ascentis;C;ATA
+557;De Silvestri;C;LAZ
+564;Diana;C;TOR
+566;Donadel;C;FIO
+568;Edusei;C;CAT
+584;Galloppa;C;SIE
+649;Padoin;C;ATA
+654;Pazienza;C;NAP
+667;Rossi M.;C;GEN
+671;Saumel;C;TOR
+709;Marchini;C;BOL
+514;Barusso;C;SIE
+534;Cascione;C;REG
+570;Emerson;C;MIL
+595;Hallfredsson;C;REG
+647;Olivera;C;GEN
+672;Sculli;C;GEN
+706;Sestu;C;REG
+708;Krsticic;C;SAM
+507;Ardito;C;LEC
+521;Bombardini;C;BOL
+550;D'agostino A.;C;ATA
+569;Ekdal;C;JUV
+590;Gobbi;C;FIO
+594;Guarente;C;ATA
+598;Isla;C;UDI
+624;Marchisio;C;JUV
+643;Mutarelli;C;LAZ
+646;Obodo;C;UDI
+702;Patrascu;C;CHI
+657;Pinzi;C;CHI
+680;Tedesco Gia.;C;CAT
+684;Tognozzi;C;REG
+505;Amoroso;C;BOL
+516;Biagianti;C;CAT
+523;Boudianski;C;UDI
+526;Brighi;C;ROM
+699;Cardacio;C;MIL
+536;Ciaramitaro;C;PAL
+548;Dabo;C;LAZ
+559;Defendi;C;ATA
+703;Domingo;C;GEN
+601;Jarolim;C;SIE
+629;Meghni;C;LAZ
+632;Milanetto;C;GEN
+634;Mingazzini;C;BOL
+635;Missiroli;C;REG
+664;Rigoni;C;CHI
+685;Vailatti;C;TOR
+687;Valiani;C;BOL
+701;Vitale;C;NAP
+707;Dzemaili;C;TOR
+504;Amodio;C;NAP
+510;Barilla';C;REG
+520;Bolzoni;C;INT
+528;Caetano;C;SIE
+532;Carmona;C;REG
+541;Confalone;C;BOL
+543;Coppola;C;SIE
+546;Cotza;C;CAG
+552;Dalla Bona;C;NAP
+553;D'anna;C;CHI
+562;Di Gennaro;C;GEN
+563;Di Matteo L.;C;PAL
+571;Eramo;C;SAM
+574;Fabiano M.;C;LEC
+576;Feltscher;C;LEC
+580;Firmani;C;LAZ
+700;Grippo;C;CHI
+611;Lavecchia;C;BOL
+619;Mancini M.;C;SIE
+620;Manfredini C.;C;LAZ
+622;Manzoni;C;ATA
+623;Marchionni;C;JUV
+626;Masiello S.;C;UDI
+637;Montervino;C;NAP
+648;Padalino;C;SAM
+676;Siqueira;C;UDI
+681;Tedesco Gio.;C;PAL
+686;Valdes;C;ATA
+698;Viudez;C;MIL
+691;Vives;C;LEC
+697;Ziegler;C;SAM
+704;Costinha;C;ATA
+851;Ibrahimovic;A;INT
+877;Mutu;A;FIO
+896;Ronaldinho;A;MIL
+904;Totti;A;ROM
+831;Del Piero;A;JUV
+835;Di Natale;A;UDI
+905;Trezeguet;A;JUV
+805;Amauri;A;JUV
+883;Pandev;A;LAZ
+908;Vucinic;A;ROM
+819;Cassano;A;SAM
+848;Gilardino;A;FIO
+887;Pato;A;MIL
+895;Rocchi;A;LAZ
+862;Lavezzi;A;NAP
+802;Acquafresca;A;CAG
+833;Denis;A;NAP
+864;Maccarone;A;SIE
+873;Miccoli;A;PAL
+894;Quagliarella;A;UDI
+914;Baptista;A;ROM
+920;Shevchenko;A;MIL
+923;Milito;A;GEN
+804;Adriano;A;INT
+921;Bianchi;A;TOR
+840;Floccari;A;ATA
+850;Iaquinta;A;JUV
+889;Pellissier;A;CHI
+806;Amoruso;A;TOR
+827;Cruz;A;INT
+852;Inzaghi F.;A;MIL
+808;Balotelli;A;INT
+814;Borriello;A;MIL
+821;Cavani;A;PAL
+911;Corradi;A;REG
+839;Figueroa;A;GEN
+867;Marazzina;A;BOL
+869;Martinez J.;A;CAT
+888;Pazzini;A;FIO
+903;Tiribocchi;A;LEC
+826;Crespo;A;INT
+909;Zalayeta;A;NAP
+810;Bernacci;A;BOL
+837;Dica;A;CAT
+856;Jeda;A;CAG
+870;Mascara;A;CAT
+813;Bonazzoli;A;SAM
+843;Fornaroli;A;SAM
+910;Zarate;A;LAZ
+816;Cacia;A;LEC
+912;Castillo;A;LEC
+899;Spinesi;A;CAT
+900;Stellone;A;TOR
+901;Stuani;A;REG
+809;Bellucci;A;SAM
+841;Floro Flores;A;UDI
+860;Lanzafame;A;PAL
+879;Obinna;A;INT
+907;Vieri;A;ATA
+922;Succi;A;PAL
+817;Calaio';A;SIE
+854;Iunco;A;CHI
+880;Okaka;A;ROM
+884;Paolucci;A;CAT
+898;Sanchez;A;UDI
+815;Budan;A;PAL
+881;Osvaldo;A;FIO
+890;Pepe;A;UDI
+823;Cerci;A;ATA
+834;Di Michele;A;TOR
+859;Langella;A;CHI
+861;Larrivey;A;CAG
+872;Matri;A;CAG
+919;Kerlon;A;CHI
+803;Adailton;A;BOL
+845;Frick;A;SIE
+801;Abbruscato;A;TOR
+836;Di Vaio;A;BOL
+858;Konan;A;LEC
+874;Montella;A;ROM
+812;Bogdani;A;CHI
+842;Forestieri;A;SIE
+875;Morimoto;A;CAT
+897;Russotto;A;NAP
+906;Ventola;A;TOR
+915;Ragatzu;A;CAG
+847;Ghezzal;A;SIE
+891;Pia';A;NAP
+913;Antenucci;A;CAT
+822;Ceravolo;A;REG
+853;Inzaghi S.;A;LAZ
+855;Izco;A;CAT
+863;Lazzari;A;CAG
+865;Makinwa;A;LAZ
+924;Rakic;A;REG
+824;Coda;A;BOL
+830;Del Nero;A;LAZ
+838;Esposito;A;CHI
+844;Foti;A;UDI
+866;Malonga;A;TOR
+886;Papa Waigo;A;FIO
+820;Catellani;A;CAT
+832;Delia;A;CAT
+868;Marconi;A;ATA
+876;Moro;A;TOR
+885;Paonessa;A;BOL
+892;Plasmati;A;CAT
+916;Sansone;A;SIE
+917;Leonardo;A;LEC

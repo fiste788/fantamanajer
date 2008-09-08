@@ -33,8 +33,8 @@ function mysql_fetch_rowsarr($result, $numass=MYSQL_BOTH) {
 
 function connessione()
 {
-  mysql_connect("localhost","ingo_fm","banana");
-  mysql_select_db("test");
+  mysql_connect("localhost","fantamanajer","banana");
+  mysql_select_db("fantamanajer");
   error_reporting(E_ALL ^ E_NOTICE);
 }
 

@@ -253,6 +253,13 @@ function calcolaPunti($giornata,$idsquadra)
 }
 }
 //QUESTE FUNZIONI SONO ESCLUSE DALLA CLASSE PER UN BUG DA CORREGGERE
+function TrimArray($Input){
+ 
+    if (!is_array($Input))
+        return trim($Input);
+ 
+    return array_map('TrimArray', $Input);
+}
 function returnarray($path) 
 {
 	if(!file_exists($path)) die("File non esistente");
@@ -264,18 +271,13 @@ function returnarray($path)
 		$key=$par[0];
 		$keys[]=$key;
 	}
+	$players=TrimArray($players);
 	$c = array_combine($keys, $players);
 	array_pop($c);
 	return $c;
 }
 
-function TrimArray($Input){
- 
-    if (!is_array($Input))
-        return trim($Input);
- 
-    return array_map('TrimArray', $Input);
-}
+
 
 function contenuto_via_curl($url)
 {
@@ -330,21 +332,62 @@ function scarica_voti_csv($percorso)
 }
 
 
-//lancia il confronto con giornata precedente(esaminando i .csv quindi senza accesso al db) per aggiungere o togliere i giocatori  	
-function update_tab_giocatore($percorsoold,$percorso)
+	
+function scarica_lista($percorso)
 {
+        if(file_exists($percorso))
+            unlink($percorso);
+    	$handle = fopen($percorso, "a");
+    	$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
+    	foreach($array as $keyruolo=>$ruolo)
+    	{
+		  $link = "http://www.fantagazzetta.com/quotazioni_".$ruolo."_gazzetta_dello_sport.asp";
+            $contenuto = contenuto_via_curl($link);   
+            $contenuto = preg_replace("/\n/","",$contenuto);
+            preg_match("/<table.*?class=\"statistiche\">\s*(.*?<\/table>)/",$contenuto,$matches);
+		    $keywords = explode("<tr",$matches[0]);
+            //$keywords=array_map("htmlspecialchars",$keywords);
+            //echo "<pre>".print_r($keywords,1)."</pre>";
+            array_shift($keywords);
+            array_shift($keywords);
+            foreach($keywords as $key)
+            {
+                $espre = "/(\s*\/?<[^<>]+>)+/";
+                $key = preg_replace($espre,"\t",$key); 
+                $pieces = explode("\t",$key);
+                $pieces=TrimArray($pieces);
+                $pieces=array_map("htmlspecialchars",$pieces);
+                $pieces[6]=substr($pieces[6],0,3);
+                $pieces[2]=ucwords(strtolower($pieces[2]));
+                fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[6]\n");
+            }
+        }
+    fclose($handle);
+}
+//lancia il confronto con giornata precedente(esaminando i .csv quindi senza accesso al db) per aggiufngere o togliere i giocatori  
+function update_tab_giocatore($giornata)
+{
+    $percorsoold="../docs/ListaGiornata/ListaGiornata".($giornata-1).".csv";
+    if(!file_exists($percorsoold))
+        return;
+         
+    $percorso = "../docs/ListaGiornata/ListaGiornata".($giornata).".csv";
+        // crea il .csv con la lista aggiornata
+        scarica_lista($percorso);  
+ 
+
     $playersold=returnarray($percorsoold);
     $players=returnarray($percorso);
     
-// aggiorna eventuali cambi di club dei Giocatori-> Es.Criscito da Juve a Genoa
+// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
     foreach($players as $key=>$line)
     {
         if(array_key_exists($key,$playersold))
         {
             $pieces=explode(";",$line);
-            $clubnew=$pieces[4];
+            $clubnew=$pieces[3];
             $pieces=explode(";",$playersold[$key]);
-            $clubold=$pieces[4];
+            $clubold=$pieces[3];
             if($clubnew!=$clubold)
             {
                 $updateclub="UPDATE giocatore SET Club='$clubnew' WHERE IdGioc='$key'";
@@ -356,16 +399,17 @@ function update_tab_giocatore($percorsoold,$percorso)
 // aggiunge i giocatori nuovi e rimuove quelli vecchi
     $datogliere = array_diff_key($playersold, $players);  
     $dainserire=array_diff_key($players,$playersold);
+
     foreach($datogliere as $key=>$val)
     {
-        $update="UPDATE giocatore SET Club = '' WHERE IdGioc='$key';";
+        $update="UPDATE giocatore SET Club = '' WHERE IdGioc='$key'";
         mysql_query($update) or die("Query non valida: ".$update .        mysql_error());
     }        
     foreach($dainserire as $key=>$val)
     {
         $pezzi=explode(";",$val);
-        $cognome=strtoupper(addslashes($pezzi[1]));
-        $insert="INSERT INTO giocatore(IdGioc,Cognome,Ruolo,Club) VALUE ('$pezzi[0]','$cognome','$pezzi[2]','$pezzi[4]')";
+        $cognome=ucwords(strtolower((addslashes($pezzi[1]))));
+        $insert="INSERT INTO giocatore(IdGioc,Cognome,Ruolo,Club) VALUE ('$pezzi[0]','$cognome','$pezzi[2]','$pezzi[3]')";
         mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
     }            
 }
@@ -376,13 +420,6 @@ function recupera_voti($giorn)
         // crea il .csv con i voti
         scarica_voti_csv($percorso);
         
-	$percorsoold="../docs/voti/Giornata".($giorn-1).".csv";  
-	/*if(file_exists($percorsoold))
-        update_tab_giocatore($percorsoold,$percorso);  
-    else
-        echo "Nessun giocatore aggiunto/tolto !";*/
-
-
     // inserisce i voti di giornata nel db
     foreach (file($percorso) as $player)
 	{

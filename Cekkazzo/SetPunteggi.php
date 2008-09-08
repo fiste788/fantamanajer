@@ -6,8 +6,5 @@
     $punteggiObj = new punteggi();
 
     //recupera_voti(1);
-    for($i=1;$i<=1;$i++)
-    {
-        $punteggiObj->calcolaPunti(1,$i); 
-    }
+    update_tab_giocatore(1);
 ?>
