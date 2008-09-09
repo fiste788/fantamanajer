@@ -24,13 +24,13 @@
             <?php foreach($tito as $key=>$val): ?>
 					<?php if($val['Considerato'] == 0 or ($val['Voto']=="" and $val['Considerato']>0)): ?>
 						<tr class="rosso">
-							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></td>
+							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
 					<?php elseif($val['Considerato'] == 2): ?>
 						<tr>
-							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></td>
+							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php $val['Voto']*=2; else: ?>
 						<tr>
-							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></td>
+							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></a></td>
 					<?php endif; ?>		
 							<td><?php echo $val['Cognome']; ?></td>
 							<td><?php echo $val['Nome']; if($val['Considerato'] ==2) echo '<span id="cap">(C)</span>'; ?></td>
@@ -55,13 +55,13 @@
 			<?php foreach($panch as $key=>$val): ?>
 					<?php if($val['Considerato'] == 1): ?>
 						<tr class="verde">
-							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></td>
+							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></a></td>
 					<?php elseif($val['Considerato']==2): ?>
 						<tr>
-							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></td>
+							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php else: ?>
 						<tr>
-							<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></td>
+							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a></td>
 					<?php endif; ?>
 							<td><?php echo $val['Cognome']; ?></td>
 							<td><?php echo $val['Nome']; ?></td>
