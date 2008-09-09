@@ -119,7 +119,7 @@ class giocatore
             }
             if(!$flag)
                 $row['Voto']="";
-			$elenco[] = $row;           
+				$elenco[] = $row;
         }
 		return($elenco);
 
