@@ -20,8 +20,6 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 	{
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 		recupera_voti($giornata);
-		//AGGIORNA LA LISTA GIOCATORI
-		update_tab_giocatore($giornata);
 		$mailContent = new Savant2();
 		$result = array();
 		$appo = $squadraObj->getElencoSquadre();
@@ -89,8 +87,8 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 			$contenttpl->assign('message','Operazione effettuata correttamente');
 		else
 			$contenttpl->assign('message','Si sono verificati degli errori');
-		//aggiorna i giocatori ceduti di giornata in giornata
-		//$giocatoreObj->updateListaGiocatori($giornata);
+		//AGGIORNA LA LISTA GIOCATORI
+		update_tab_giocatore($giornata);
 	}
 	else
 		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
