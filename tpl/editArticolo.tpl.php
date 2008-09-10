@@ -16,7 +16,7 @@ switch($_GET['a'])
 	case 'cancel': $button = 'Rimuovi'; ?>
 	<div class="titolo-pagina">
 		<div class="column logo-tit">
-			<img align="left" src="<?php echo IMGSURL.'cancel-big.png'; ?>" alt="Logo Squadre" />
+			<img align="left" src="<?php echo IMGSURL.'cancel-big.png'; ?>" alt="->" />
 		</div>
 		<h2 class="column">Cancellazione conferenza</h2>
 	</div>
@@ -24,7 +24,7 @@ switch($_GET['a'])
 	case 'edit': $button = 'Modifica'; ?>
 	<div class="titolo-pagina">
 		<div class="column logo-tit">
-			<img align="left" src="<?php echo IMGSURL.'edit-big.png'; ?>" alt="Logo Squadre" />
+			<img align="left" src="<?php echo IMGSURL.'edit-big.png'; ?>" alt="->" />
 		</div>
 		<h2 class="column">Aggiornamento conferenza</h2>
 	</div>
@@ -32,7 +32,7 @@ switch($_GET['a'])
 	case 'new': $button = 'Inserisci';?>
 	<div class="titolo-pagina">
 		<div class="column logo-tit">
-			<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
+			<img align="left" src="<?php echo IMGSURL.'edit-big.png'; ?>" alt="->" />
 		</div>
 		<h2 class="column">Inserimento conferenza</h2>
 	</div>

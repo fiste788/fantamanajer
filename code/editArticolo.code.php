@@ -28,6 +28,7 @@ if(isset($_POST['submit']))
 	{
 		$articoloObj->delete($articoloObj);
 		$messaggio[0] = 0;
+		$eventiObj->deleteEventoByIdExternalAndTipo($_GET['id'],'1');
 		$messaggio[] = 'Cancellazione effettuata con successo';
 		$contenttpl->assign('messaggio',$messaggio);
 		$_SESSION['message'] = $messaggio;

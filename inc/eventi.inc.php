@@ -7,6 +7,12 @@ class eventi
 		mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
 	}
 	
+	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
+	{
+		$q = "DELETE FROM eventi WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "';";
+		mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
+	}
+	
 	function getEventi($tipo = NULL,$min = 0,$max = 10)
 	{
 		$q = "SELECT eventi.*,squadra.nome FROM eventi INNER JOIN squadra ON eventi.idSquadra = squadra.idSquadra ORDER BY data DESC";
