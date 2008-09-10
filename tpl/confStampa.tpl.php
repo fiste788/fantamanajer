@@ -25,10 +25,10 @@
 				<div class="box2-bottom-dx column last">
 				<div class="conf-stampa-content column last">
 					<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
-						<a class="column last" href="index.php?p=editArticolo&amp;a=edit&amp;id=<?php echo $val['idArticolo']; ?>&amp;giorn=<?php echo $this->getGiornata; ?>">
+						<a class="column last" href="index.php?p=editArticolo&amp;a=edit&amp;id=<?php echo $val['idArticolo']; ?>">
 							<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 						</a>
-						<a class="column" href="index.php?p=editArticolo&amp;a=cancel&amp;id=<?php echo $val['idArticolo']; ?>&amp;giorn=<?php echo $this->getGiornata; ?>">
+						<a class="column" href="index.php?p=editArticolo&amp;a=cancel&amp;id=<?php echo $val['idArticolo']; ?>">
 							<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
 						</a>
 					<?php endif; ?>

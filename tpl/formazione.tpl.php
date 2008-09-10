@@ -162,7 +162,7 @@
 						<option>Nessuna form. impostata</option>
 				<?php else:?>
 					<select name="squadra" onchange="document.formazione_other.submit();">
-						<option></option>
+						<option value="<?php echo $_SESSION['idsquadra']; ?>"></option>
 					<?php foreach($this->formazioniImpostate as $key=>$val): ?>
 						<option <?php if($this->squadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
 					<?php endforeach;?>
