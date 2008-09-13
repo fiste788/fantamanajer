@@ -95,7 +95,6 @@
 				<input type="hidden" value="confStampa" name="p" />
 				<h3 class="no-margin">Seleziona la giornata:</h3>
 				<select name="giorn" onchange="document.idgiornata.submit();">
-					<option></option>
 					<?php if($this->giornateWithArticoli != FALSE): ?>
 					<?php foreach ($this->giornateWithArticoli as $key=>$val): ?>
 						<option <?php if($val == $this->getGiornata) echo "selected=\"selected\""; ?>><?php echo $val; ?></option>

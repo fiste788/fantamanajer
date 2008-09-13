@@ -63,7 +63,6 @@ Parametri non validi
 				<input type="hidden" name="v" value="<?php echo $this->getv;?>" />
 				<h3 class="no-margin">Seleziona il ruolo:</h3>
 				<select name="ruolo" onchange="document.ruolo_form.submit();">
-					<option></option>
 					<?php foreach($ruoli as $key=>$val): ?>
 						<option <?php if($this->ruolo == $key) echo "selected=\"selected\"" ?> value="<?php echo $key?>"><?php echo $val; ?></option>
 					<?php endforeach ?>

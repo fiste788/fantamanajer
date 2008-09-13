@@ -115,7 +115,6 @@
 			<h3 class="no-margin">Seleziona la squadra:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="squad" onchange="document.trasferimenti.submit();">
-				<option></option>
 				<?php foreach($this->elencosquadre as $key=>$val): ?>
 					<option <?php if($this->squadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
 				<?php endforeach ?>

@@ -1,9 +1,9 @@
 <?php if($_SESSION['logged'] != TRUE): ?>
-	<div id="login" class="right last">
-		<div class="box-top-sx column last">
-		<div class="box-top-dx column last">
-		<div class="box-bottom-sx column last">
-		<div class="box-bottom-dx column last">
+	<div id="login" class="right last" <?php if(isset($this->loginerror)) echo ' style="width:390px"'; ?>>
+		<div class="box-top-sx right last">
+		<div class="box-top-dx right last">
+		<div class="box-bottom-sx right last">
+		<div class="box-bottom-dx right last">
 		<?php if(isset($this->loginerror)): ?>
 			<div class="messaggio neut column last">
 				<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
