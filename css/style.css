@@ -56,11 +56,11 @@ input.dark:hover {	background:transparent url(../imgs/button2.png) no-repeat scr
 	text-align:center;
 }
 /*----------------------------login-------------------------------------------*/
-#login { height:130px;}
+#login { height:130px;width:230px;}
 #loginform { 
 	padding: 10px 20px;
 	width:190px;
-	float:left;
+	float:right;
 	height:110px;
 }
 #login .messaggio { 
@@ -103,6 +103,7 @@ em {background-color:transparent;}
 	padding: 10px 10px 0 15px;
 	clear:both;
 	margin:-30px 0 0;
+	height:37px;
 }
 #navbar ul {
 	list-style-type:none;

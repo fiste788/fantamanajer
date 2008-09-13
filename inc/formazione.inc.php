@@ -61,7 +61,6 @@ class formazione
         }        
 
         $insert="INSERT INTO formazioni (IdSquadra,IdGiornata,Modulo".$campi.") VALUES (".$_SESSION['idsquadra'].",'$giornata','$modulo'".$valori.")";
-        print "$insert";
         mysql_query($insert) or die("Query non valida: ".$insert . mysql_error());
 
 	  $q = "SELECT idFormazione FROM formazioni WHERE IdSquadra = '" . $_SESSION['idsquadra'] . "' AND IdGiornata ='" . $giornata . "';";

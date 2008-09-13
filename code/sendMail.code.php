@@ -51,7 +51,7 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 				$mailContent->assign('titolari',$titolariName);
 				$mailContent->assign('panchinari',$panchinariName);
 				$mailContent->assign('cap',$cap);
-				echo "<pre>".print_r($val,1)."</pre>";
+
 				//$mailContent->display(TPLDIR.'mailFormazioni.tpl.php');
 				//MANDO LA MAIL
 				$object = "Formazioni giornata: ". $giornata ;

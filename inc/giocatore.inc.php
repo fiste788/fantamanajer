@@ -233,14 +233,15 @@ class giocatore
 	function doTransfert()
 	{
 		require_once(INCDIR.'eventi.inc.php');
+		require_once(INCDIR.'formazione.inc.php');
 		$eventiObj = new eventi();
+		$formazioneObj = new formazione();
 		$q = "SELECT * FROM giocatore WHERE idSquadraAcquisto <> 0";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		while($row = mysql_fetch_array($exe))
 		{
 			$values[] = $row;
 		}
-		echo "<pre>".print_r($values,1)."</pre>";
 		if(isset($values))
 		{
 			foreach ($values as $key => $val)
@@ -267,6 +268,24 @@ class giocatore
 			}
 			foreach ($trasf as $key => $val)
 			{
+				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($key,GIORNATA);
+				echo "<pre>".print_r($formazione,1)."</pre>";
+				if($formazione != FALSE)
+				{
+					echo "ok";
+					if(array_search($val['old'],$formazione['Elenco']) != FALSE)
+					{
+						echo "ok2";
+						$q = "UPDATE schieramento SET IdGioc = '" . $val['new'] . "' WHERE IdGioc = '" . $val['old'] . "' AND IdFormazione = '" . $formazione['Id'] . "';";
+						mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+						$pos = array_search($val['old'],$formazione['Cap']);
+						if($pos != FALSE)
+						{
+							$q = "UPDATE formazioni SET " . $pos . " = '" . $val['new'] . "' WHERE IdFormazione = '" . $formazione['Id'] . "';";
+							mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+						}
+					}
+				}
 				$q = "INSERT INTO trasferimenti (IdGiocOld,IdGiocNew,IdSquadra) VALUES ('" . $val['old'] . "' , '" . $val['new'] . "' ,'" . $key . "');";
 				mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 				$q = "SELECT IdTrasf FROM trasferimenti WHERE IdGiocOld = '" . $val['old'] . "' AND IdGiocNew = '" . $val['new'] . "' AND IdSquadra = '" . $key . "';";

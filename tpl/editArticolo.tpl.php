@@ -55,6 +55,21 @@ if (obj.getAttribute && obj.value.length>mlength) {
 }
  document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
 }
+
+function addEmoticon(insert){
+	obj = document.getElementById('text');
+	var fullText = obj.value;
+	var subText = fullText;
+	var scroll = obj.scrollTop;
+	var end = obj.selectionEnd;
+	subText = subText.substring(0,obj.selectionStart);
+	subText += ' '+insert;
+	var appo = subText.length;
+	subText += fullText.substring(end);
+	obj.value = subText;
+	obj.selectionEnd = appo;
+	obj.scrollTop = scroll;
+}
 -->
 </script>
 <form name="editConfStampa" method="post" action="index.php?p=editArticolo&amp;a=<?php echo $_GET['a'] ?><?php if(isset($_GET['id'])): ?>&amp;id=<?php echo $_GET['id']; endif; ?>">
@@ -72,7 +87,7 @@ if (obj.getAttribute && obj.value.length>mlength) {
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<div id="emoticons">
 				<?php foreach($this->emoticons as $key=>$val):?>
-					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="document.getElementById('text').value +=  '<?php echo $val['cod'] ?>';return ismaxlength(document.getElementById('text'), 500);" />
+					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo $val['cod'] ?>');return ismaxlength(document.getElementById('text'), 500);" />
 				<?php endforeach; ?>
 				</div>			
 			<?php endif;?>
