@@ -86,7 +86,7 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 		if($mail == 0)
 			$contenttpl->assign('message','Operazione effettuata correttamente');
 		else
-			$contenttpl->assign('message','Si sono verificati degli errori');
+			$contenttpl->assign('message','Si sono verificati degli errori nell\'invio delle mail');
 		//AGGIORNA LA LISTA GIOCATORI
 		update_tab_giocatore($giornata);
 	}
@@ -94,5 +94,6 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
 }
 else
-	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');*/
+	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');
+
 ?>
