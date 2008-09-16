@@ -155,7 +155,7 @@ class punteggi
 		while ($row = mysql_fetch_array($risu,MYSQL_ASSOC))
 		{
 			$i++;
-			if($row['VotoUff']==0)
+			if($row['VotoUff']==0 and $row['Voto']==0)
 			 return 0;
 		}
 		if(!$i)
@@ -301,7 +301,10 @@ function scarica_voti_csv($percorso)
     $espr = "<tr>";
     if (file_exists($percorso))
         unlink($percorso);
+    print $percorso;
+
 	$handle = fopen($percorso, "a");
+
 	foreach ($array as $keyruolo=>$ruolo)
 	{
 		$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_".$ruolo.".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
@@ -367,11 +370,10 @@ function scarica_lista($percorso)
 //lancia il confronto con giornata precedente(esaminando i .csv quindi senza accesso al db) per aggiufngere o togliere i giocatori  
 function update_tab_giocatore($giornata)
 {
-    $percorsoold="../docs/ListaGiornata/ListaGiornata".($giornata-1).".csv";
+    $percorsoold="./docs/ListaGiornata/ListaGiornata".($giornata-1).".csv";
     if(!file_exists($percorsoold))
-        return;
-         
-    $percorso = "../docs/ListaGiornata/ListaGiornata".($giornata).".csv";
+        return;   
+    $percorso = "./docs/ListaGiornata/ListaGiornata".($giornata).".csv";
         // crea il .csv con la lista aggiornata
         scarica_lista($percorso);  
  
@@ -399,7 +401,8 @@ function update_tab_giocatore($giornata)
 // aggiunge i giocatori nuovi e rimuove quelli vecchi
     $datogliere = array_diff_key($playersold, $players);  
     $dainserire=array_diff_key($players,$playersold);
-
+    echo "<pre>".print_r($datogliere,1)."</pre>";
+    echo "<pre>".print_r($dainserire,1)."</pre>";
     foreach($datogliere as $key=>$val)
     {
         $update="UPDATE giocatore SET Club = '' WHERE IdGioc='$key'";
@@ -416,7 +419,7 @@ function update_tab_giocatore($giornata)
 
 function recupera_voti($giorn)
 {
-    $percorso = "../docs/voti/Giornata".$giorn.".csv";
+    $percorso = "./docs/voti/Giornata".$giorn.".csv";
         // crea il .csv con i voti
         scarica_voti_csv($percorso);
         
