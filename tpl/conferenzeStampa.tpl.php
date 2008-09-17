@@ -25,10 +25,10 @@
 				<div class="box2-bottom-dx column last">
 				<div class="conf-stampa-content column last">
 					<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
-						<a class="column last" href="index.php?p=editArticolo&amp;a=edit&amp;id=<?php echo $val['idArticolo']; ?>">
+						<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 							<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 						</a>
-						<a class="column" href="index.php?p=editArticolo&amp;a=cancel&amp;id=<?php echo $val['idArticolo']; ?>">
+						<a class="column" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'cancel','id'=>$val['idArticolo'])); ?>">
 							<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
 						</a>
 					<?php endif; ?>
@@ -81,12 +81,12 @@
 				<?php if(!$this->giornprec): ?>
 					<li class="simil-link undo-punteggi-unactive column last">Indietro di una giornata</li>
 				<?php else: ?>
-					<li class="column last"><a class="undo-punteggi-active column last operazione" href="index.php?p=confStampa&amp;giorn=<?php echo $this->giornprec; ?>">Indietro di una giornata</a></li>
+					<li class="column last"><a class="undo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('conferenzeStampa',array('giorn'=>$this->giornprec)); ?>">Indietro di una giornata</a></li>
 				<?php endif; ?>
 				<?php if(!$this->giornsucc): ?>
 					<li class="simil-link redo-punteggi-unactive column last">Avanti di una giornata</li>
 				<?php else: ?>
-				<li class="column last"><a class="redo-punteggi-active column last operazione" href="index.php?p=confStampa&amp;giorn=<?php echo $this->giornsucc; ?>">Avanti di una giornata</a></li>
+				<li class="column last"><a class="redo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('conferenzeStampa',array('giorn'=>$this->giornsucc)); ?>">Avanti di una giornata</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

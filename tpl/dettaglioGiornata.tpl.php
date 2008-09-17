@@ -24,13 +24,13 @@
             <?php foreach($tito as $key=>$val): ?>
 					<?php if($val['Considerato'] == 0 or ($val['Voto']=="" and $val['Considerato']>0)): ?>
 						<tr class="rosso">
-							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
 					<?php elseif($val['Considerato'] == 2): ?>
 						<tr>
-							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php $val['Voto']*=2; else: ?>
 						<tr>
-							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></a></td>
 					<?php endif; ?>		
 							<td><?php echo $val['Cognome']; ?></td>
 							<td><?php echo $val['Nome']; if($val['Considerato'] ==2) echo '<span id="cap">(C)</span>'; ?></td>
@@ -55,13 +55,13 @@
 			<?php foreach($panch as $key=>$val): ?>
 					<?php if($val['Considerato'] == 1): ?>
 						<tr class="verde">
-							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></a></td>
 					<?php elseif($val['Considerato']==2): ?>
 						<tr>
-							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php else: ?>
 						<tr>
-							<td class="tableimg"><a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['gioc']; ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a></td>
 					<?php endif; ?>
 							<td><?php echo $val['Cognome']; ?></td>
 							<td><?php echo $val['Nome']; ?></td>
@@ -92,12 +92,12 @@
 				<?php if(!$this->giornprec): ?>
 					<li class="simil-link undo-punteggi-unactive column last">Indietro di una giornata</li>
 				<?php else: ?>
-					<li class="column last"><a class="undo-punteggi-active column last operazione" href="index.php?p=punteggidettaglio&amp;giorn=<?php echo $this->giornprec; ?>&amp;squad=<?php echo $_GET['squad']; ?>">Indietro di una giornata</a></li>
+					<li class="column last"><a class="undo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$this->giornprec,'squad'=>$_GET['squad'])); ?>">Indietro di una giornata</a></li>
 				<?php endif; ?>
 				<?php if(!$this->giornsucc): ?>
 					<li class="simil-link redo-punteggi-unactive column last">Avanti di una giornata</li>
 				<?php else: ?>
-				<li class="column last"><a class="redo-punteggi-active column last operazione" href="index.php?p=punteggidettaglio&amp;giorn=<?php echo $this->giornsucc; ?>&amp;squad=<?php echo $_GET['squad']; ?>">Avanti di una giornata</a></li>
+				<li class="column last"><a class="redo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$this->giornsucc,'squad'=>$_GET['squad'])); ?>">Avanti di una giornata</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

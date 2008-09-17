@@ -36,7 +36,7 @@
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>
 				<td>
-					<a href="index.php?p=punteggidettaglio&amp;giorn=<?php echo $secondKey; ?>&amp;squad=<?php echo $this->squadre[$key][0]; ?>"><?php echo $val[$secondKey]; ?></a>
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$secondKey,'squad'=>$this->squadre[$key][0])); ?>"><?php echo $val[$secondKey]; ?></a>
 				</td>
 				<?php endforeach; ?>
 			</tr>
@@ -74,7 +74,6 @@
 				grid: { backgroundColor: null },
 				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
-				yaxis: { min: 0 },
 				shadowSize: 2,
 				selection: { mode: null }
 			};
@@ -131,7 +130,6 @@
 					lines: { show: true, lineWidth: 1 },
 					shadowSize: 0,
 					xaxis: { ticks: 4 },
-					yaxis: { min: 0},
 					selection: { mode: "x" },
 					legend: { show:false }
 				});

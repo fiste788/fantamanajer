@@ -10,6 +10,8 @@ $squadraObj = new squadra();
 $getGiornata = GIORNATA;
 if (!empty($_GET['giorn']))
 	$getGiornata = $_GET['giorn'];
+if (!empty($_POST['giorn']))
+	$getGiornata = $_POST['gior'];
 $contenttpl->assign('getGiornata',$getGiornata);
 
 $articoloObj->setidgiornata($getGiornata);
