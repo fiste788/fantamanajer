@@ -40,7 +40,7 @@
 			})
 		});
 	</script>
-	<form class="column last" id="acquisti" name="edit-trasferimenti" action="index.php?p=trasferimenti&amp;squad=<?php echo $_GET['squad']; ?>" method="post">
+	<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_GET['squad'])); ?>" method="post">
 		<fieldset>
 			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
 			<label for="player-old">Giocatore vecchio:</label><select id="player-old" name="lascia">

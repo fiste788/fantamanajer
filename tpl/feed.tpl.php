@@ -4,14 +4,14 @@
 	</div>
 	<h2 class="column">Eventi</h2>
 </div>
-<div id="trasferimenti" class="main-content">
+<div id="feed" class="main-content">
 	<?php if(!empty($this->eventi)): ?>
 	<?php foreach($this->eventi as $key =>$val): ?>
 		<?php if($this->evento == 0 || $val['tipo'] == $this->evento): ?>
 			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
 				<a href="<?php echo $val['link']; ?>">
 			<?php endif;?>
-			<h3 name="evento-<?php echo $val['idEvento']; ?>"><?php echo $val['titolo']; ?></h3>
+			<h3 name="evento-<?php echo $val['idEvento']; ?>"><?php echo $val['titolo']; ?>  <em>(<?php echo $val['data']; ?>)</em></h3>
 			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
 				</a>
 			<?php endif;?>
@@ -31,7 +31,7 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<form class="column last" name="eventi" action="index.php?p=viewFeed" method="post">
+		<form class="column last" name="eventi" action="<?php echo $this->linksObj->getLink('feed'); ?>" method="post">
 		<fieldset class="no-margin fieldset max-large">
 			<h3 class="no-margin">Seleziona il tipo di evento:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />

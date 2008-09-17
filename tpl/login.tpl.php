@@ -1,3 +1,7 @@
+<?php 
+require_once(INCDIR.'links.inc.php');
+$linksObj = new links; 
+?>
 <?php if($_SESSION['logged'] != TRUE): ?>
 	<div id="login" class="right last" <?php if(isset($this->loginerror)) echo ' style="width:390px"'; ?>>
 		<div class="box-top-sx right last">
@@ -28,5 +32,5 @@
 		</div>
 	</div>
 <?php elseif($_SESSION['logged']): ?>
-	<a class="logout right" href="index.php?p=home&amp;logout=TRUE" title="Logout">Logout</a>
+	<a class="logout right" href="<?php echo $linksObj->getLink('logout'); ?>" title="Logout">Logout</a>
 <?php endif; ?>

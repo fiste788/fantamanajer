@@ -28,7 +28,7 @@
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<tr class="row">
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>>
-					<a href="index.php?p=dettaglioGiocatore&amp;id=<?php echo $val['idGioc'] ?>"><?php echo $val['nome']; ?></a>
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['ruolo']; ?></td>
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
@@ -216,7 +216,7 @@ $(window).bind("load",function(){
 			<?php else: ?>
 				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />
 			<?php endif; ?>
-			<h3><a href="index.php?p=rosa&amp;squadra=<?php echo $val[0]; ?>" title="Maggiori informazioni"><?php echo $val[1]; ?></a></h3>	
+			<h3><a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$val[0])); ?>" title="Maggiori informazioni"><?php echo $val[1]; ?></a></h3>	
 			<div>Proprietario: <?php echo $val[5] ?></div>
 			<div>Pos. in classifica: <?php echo $this->posizioni[$val[0]] ?></div>
 		</div>

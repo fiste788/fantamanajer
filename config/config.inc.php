@@ -50,10 +50,12 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 {
 	//database access:
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","fantamanajer");					//database name => DBNAME
-	define ("DBUSER","fantamanajer");					//database username => DBUSER
+	define ("DBNAME","test");					//database name => DBNAME
+	define ("DBUSER","ingo_fm");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","localhost");					//database host => DBHOST
+	//modrewrite
+	define ("MODREWRITE",FALSE);
 	
 	// Comunica gli errori semplici di esecuzione 
 	error_reporting(E_ALL);					//activation of error reporting(to be disactivated at the end of the script)
@@ -65,8 +67,7 @@ else
 	define ("DBUSER","fantamanajerUser");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","mysql13.aziendeitalia.com:3306");					//database host => DBHOST
-	
-	//mysql13.aziendeitalia.com:3306
+	define ("MODREWRITE",TRUE);
 	error_reporting(0);
 }	
 ?>

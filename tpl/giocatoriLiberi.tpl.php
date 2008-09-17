@@ -7,7 +7,7 @@
 </div>
 <div id="freeplayer" class="main-content">
 	<?php if($this->appo): ?>
-	<?php if(TIMEOUT != FALSE): ?><form name="acq" action="index.php?p=trasferimenti&amp;squad=<?php echo $_SESSION['idsquadra']; ?>" method="post"><?php endif; ?>
+	<?php if(TIMEOUT != FALSE): ?><form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idsquadra'])); ?>" method="post"><?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
@@ -23,6 +23,7 @@
 			<tr>
 				<?php if(TIMEOUT != '0' && GIORNATA != 1): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['IdGioc']; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['IdGioc'])) ?>">
 				<?php if($val['Voti'] >= $this->suff && $val['PartiteGiocate'] >= $this->partite ||GIORNATA == 1): ?>
 					<img alt="Verde" title="Verde" src="<?php echo IMGSURL.'player-tit.png' ?>"/>
 				<?php elseif($val['Voti'] >= $this->suff || $val['PartiteGiocate'] >= $this->partite): ?>
@@ -30,6 +31,7 @@
 				<?php else: ?>
 					<img alt="Rosso" title="Rosso" src="<?php echo IMGSURL.'player-rosso.png' ?>"/>
 				<?php endif; ?>
+					</a>
 				</td>
 				<td><?php echo $val['Cognome']; ?></td>
 				<td><?php echo $val['Nome']; ?></td>

@@ -52,6 +52,8 @@ require_once 'config/fantamanajer.config.inc.php';
 require_once INCDIR.'db.inc.php';
 require_once INCDIR.'auth.inc.php';
 require_once INCDIR.'strings.inc.php';
+require_once INCDIR.'links.inc.php';
+
 
 
 //Creating a new db istance
@@ -64,6 +66,13 @@ $headertpl =& new Savant2();
 $footertpl =& new Savant2();
 $contenttpl =& new Savant2();
 $navbartpl =& new Savant2();
+
+//Creating linksObj in object pages
+$linksObj =& new links();
+$headertpl->assign('linksObj',$linksObj);
+$footertpl->assign('linksObj',$linksObj);
+$contenttpl->assign('linksObj',$linksObj);
+$navbartpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
 if (isset($_GET['p']))
@@ -172,7 +181,6 @@ else
 	}
 	$layouttpl->assign('pages',$upages[$p]);
 }
-
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbartpl->assign('p',$p);
 

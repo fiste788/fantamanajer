@@ -20,7 +20,7 @@ $upages = array();
 									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
 									'css'=>array('screen','style'));
 									
-	$upages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
+	$upages['dettaglioGiornata'] = array(	'title'=>"Dettaglio punteggi",
 									'js'=>'',
 									'css'=>array('screen','style'));
 									
@@ -28,7 +28,7 @@ $upages = array();
 									'js'=>'',
 									'css'=>array('screen','style'));
 									
-	$upages['confStampa'] = array(	'title'=>"Conferenze stampa",
+	$upages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
 									'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix'),
 									'css'=>array('screen','style'));
 									
@@ -36,7 +36,7 @@ $upages = array();
 									'js'=>'',
 									'css'=>array('screen','style'));
 									
-	$upages['other'] = array(	'title'=>"Altro...",
+	$upages['altro'] = array(	'title'=>"Altro...",
 									'js'=>'',
 									'css'=>array('screen','style'));
 						
@@ -60,7 +60,7 @@ $upages = array();
 										'js'=>'',
 										'css'=>array('screen','style'));
 									
-	$upages['viewFeed'] = array(	'title'=>"Vedi gli eventi",
+	$upages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>'',
 										'css'=>array('screen','style'));
 	
@@ -81,7 +81,7 @@ $apages = array();
 									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
 									'css'=>array('screen','style'));
 									
-	$apages['punteggidettaglio'] = array(	'title'=>"Dettaglio punteggi",
+	$apages['dettaglioGiornata'] = array(	'title'=>"Dettaglio punteggi",
 									'js'=>array('jquery'=>'jquery'),
 									'css'=>array('screen','style'));
 									
@@ -93,7 +93,7 @@ $apages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
-	$apages['confStampa'] = array(	'title'=>"Conferenze stampa",
+	$apages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
 										'js'=>array('jquery'=>'jquery','pngfix'=>'ie|jquery-pngFix','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 									
@@ -101,7 +101,7 @@ $apages = array();
 									'js'=>array('jquery'=>'jquery'),
 									'css'=>array('screen','style'));	
 									
-	$apages['other'] = array(	'title'=>"Altro...",
+	$apages['altro'] = array(	'title'=>"Altro...",
 								'js'=>array('jquery'=>'jquery'),
 								'css'=>array('screen','style'));	
 								
@@ -129,7 +129,7 @@ $apages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
-	$apages['freeplayer'] = array(	'title'=>"Giocatori liberi",
+	$apages['giocatoriLiberi'] = array(	'title'=>"Giocatori liberi",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
 										
@@ -145,11 +145,11 @@ $apages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-draggable','ui-droppable')),
 										'css'=>array('screen','style'));
 										
-	$apages['editArticolo'] = array(	'title'=>"Crea o modifica conferenza",
+	$apages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
-	$apages['viewFeed'] = array(	'title'=>"Vedi gli eventi",
+	$apages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
 

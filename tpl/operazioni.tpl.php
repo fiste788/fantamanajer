@@ -4,15 +4,15 @@
 		<ul class="operazioni-content">
 		<?php if(TIMEOUT != '0'): ?>
 		<?php if($this->timeout == false): ?>
-			<li><a class="imp-formazione column last operazione" href="index.php?p=formazioniAll">Guarda la formazione</a></li>
+			<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>">Guarda la formazione</a></li>
 		<?php else: ?>
-			<li><a class="imp-formazione column last operazione" href="index.php?p=formazione">Imposta la formazione</a></li>
+			<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('formazione'); ?>">Imposta la formazione</a></li>
 		<?php endif; ?>
 	   <?php endif; ?>
-			<li><a class="new-stampa column last operazione" href="index.php?p=editArticolo&amp;a=new">Rilascia una conferenza</a></li>
-			<li><a class="see-transfert column last operazione" href="index.php?p=trasferimenti&amp;squad=<?php echo $squadra; ?>">Guadra i trasferimenti</a></li>
-			<li><a class="see-freeplayer column last operazione" href="index.php?p=freeplayer">Guadra i giocatori liberi</a></li>
-			<li><a class="see-premi column last operazione" href="index.php?p=premi">Guadra i premi</a></li>
+			<li><a class="new-stampa column last operazione" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'new','id'=>'0')); ?>">Rilascia una conferenza</a></li>
+			<li><a class="see-transfert column last operazione" href="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$squadra)); ?>">Guadra i trasferimenti</a></li>
+			<li><a class="see-freeplayer column last operazione" href="<?php echo $this->linksObj->getLink('giocatoriLiberi'); ?>">Guadra i giocatori liberi</a></li>
+			<li><a class="see-premi column last operazione" href="<?php echo $this->linksObj->getLink('premi'); ?>">Guadra i premi</a></li>
 		</ul>
 	</div>
 	<script type="text/javascript">

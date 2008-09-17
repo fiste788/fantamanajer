@@ -90,7 +90,7 @@
 						</a>
 					<?php endif;?>
 				<?php endforeach; ?>
-				<a class="right" href="index.php?p=viewFeed">Vedi tutti gli eventi &raquo;</a>
+				<a class="right" href="<?php echo $this->linksObj->getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
 			</div>
 			</div>
 			</div>
@@ -110,10 +110,10 @@
 			<div class="box2-bottom-dx column last">
 			<div class="conf-stampa-content column last">
 				<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
-					<a class="column last" href="index.php?p=editArticolo&amp;a=edit&amp;id=<?php echo $val['idArticolo']; ?>">
+					<a class="column last" href=<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 						<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 					</a>
-					<a class="column" href="index.php?p=editArticolo&amp;a=cancel&amp;id=<?php echo $val['idArticolo']; ?>">
+					<a class="column" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'cancel','id'=>$val['idArticolo'])); ?>">
 						<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
 					</a>
 				<?php endif; ?>
