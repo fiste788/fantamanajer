@@ -18,37 +18,42 @@
 		<tbody>
 			<tr>
 				<th>Nome</th>
-				<th>Ruolo</th>
-				<th>Sq.</th>
-				<th>MV</th>
-				<th>PG</th>
-				<th>Gol</th>
-				<th>Assist</th>
+				<th class=tdcenter>Ruolo</th>
+				<th class=tdcenter>Club</th>
+				<th class=tdcenter>PG</th>				
+				<th class=tdcenter>MVoto</th>
+				<th class=tdcenter>Gol</th>
+				<th class=tdcenter>Assist</th>
+				<th class=tdcenter>MMagic</th>
 			</tr>
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<tr class="row">
 				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>>
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['ruolo']; ?></td>
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['partite']; ?></td>
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['gol']; ?></td>
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['assist']; ?></td>
+				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['ruolo']; ?></td>
+				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
+				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['partite']." (".$val['partiteeff'].")"; ?></td>
+				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votoeffAll'] ?>"><?php echo $val['votoeff']; ?></td>
+				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['gol']; ?></td>
+				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['assist']; ?></td>
+                <td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
 			<tr>
 				<td class="ult" colspan="3">Media</td>
-				<td class="ult" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
-				<td class="ult" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
-				<td class="ult" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
-				<td class="ult" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
+				<td  class="tdcenter" class="ult" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
+				<td class="tdcenter" class="ult" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td  class="tdcenter" class="ult" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
+				<td  class="tdcenter"class="ult" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
+				<td  class="tdcenter"class="ult" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
+
 			</tr>
 		</tbody>
 	</table>
 </div>
+
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">

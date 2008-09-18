@@ -314,9 +314,9 @@ class giocatore
 */
     function getGiocatoryByIdSquadraWithStats($idsquadra)
     {
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist,AVG(VotoUff) as votoeff
             FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
-            WHERE IdSquadra ='" . $idsquadra . "'
+            WHERE IdSquadra ='" . $idsquadra . "' 
             GROUP BY giocatore.IdGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$giocatori = "";
@@ -328,6 +328,16 @@ class giocatore
 			return $giocatori;
 		else
 			return FALSE;
+    }
+    function getMedieVoto($idgioc)
+    {
+        $query="SELECT AVG(Voto) as MMagic,AVG(VotoUff) as MVoto,count(Voto) as presenze FROM voti WHERE idgioc='$idgioc'AND VotoUff <> 0 AND Voto <> 0 GROUP by idgioc";
+		$exe = mysql_query($query) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
+		{
+			return $row;
+		}
+
     }
 }
 ?>
