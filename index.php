@@ -93,7 +93,7 @@ $sesslang=$_SESSION['lang'];
 require_once(CODEDIR.'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
-	header('Location: index.php?p=rosa&squadra='.$_SESSION['idsquadra']);
+	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('rosa',array('squadra'=>$_SESSION['idsquadra']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {

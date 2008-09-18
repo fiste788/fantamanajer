@@ -58,7 +58,7 @@ Parametri non validi
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<form id="freeplayeropt" class="column last" name="ruolo_form" action="index.php?p=freeplayer" method="get">
+		<form id="freeplayeropt" class="column last" name="ruolo_form" action="<?php echo $this->linksObj->getLink('giocatoriLiberi'); ?>" method="post">
 			<fieldset class="no-margin fieldset">
 				<input type="hidden" name="p" value="<?php echo $_GET['p'];?>" />
 				<input type="hidden" name="order" value="<?php echo $this->getorder ;?>" />

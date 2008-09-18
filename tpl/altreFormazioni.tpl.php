@@ -102,7 +102,7 @@ $elencocap=array('C','VC','VVC'); ?>
 	</form>
 	<?php endif; ?>
 	<?php if(TIMEOUT != '0'): ?>
-	<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="get">
+	<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
 		<fieldset class="no-margin fieldset">
 			<h3 class="no-margin">Guarda le altre formazioni</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
@@ -111,7 +111,6 @@ $elencocap=array('C','VC','VVC'); ?>
 					<option>Nessuna form. impostata</option>
 			<?php else:?>
 				<select name="squadra" onchange="document.formazione_other.submit();">
-					<option></option>
 				<?php foreach($this->formazioniImpostate as $key=>$val): ?>
 					<option <?php if($this->squadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
 				<?php endforeach; ?>

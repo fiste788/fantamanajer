@@ -68,7 +68,7 @@
 				</fieldset>
 				<fieldset id="panchinari">
 					<h3 class="center">Panchina</h3>
-					<h4 class="bold no-margin">Giocatori</h4><hr/>
+					<h4 class="bold no-margin">Giocatori</h4><hr />
 					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
 					<select name="<?php echo 'panch-'. $i; ?>">
 					<option></option>
@@ -138,11 +138,10 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<form class="column last" name="form_modulo" action="index.php?p=formazione" method="post">
+		<form class="column last" name="form_modulo" action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
 			<fieldset id="modulo" class="no-margin fieldset">
 				<h3 class="no-margin">Seleziona il modulo:</h3>
 				<select name="mod" onchange="document.form_modulo.submit();">
-					<option></option>
 					<option value="1-4-4-2" <?php if ($this->value == '1-4-4-2') echo "selected=\"selected\""?>>4-4-2</option>
 					<option value="1-3-5-2" <?php if ($this->value == '1-3-5-2') echo "selected=\"selected\""?>>3-5-2</option>
 					<option value="1-3-4-3" <?php if ($this->value == '1-3-4-3') echo "selected=\"selected\""?>>3-4-3</option>
@@ -153,7 +152,7 @@
 				</select>
 			</fieldset>
 		</form>
-		<form class="right last" name="formazione_other" action="index.php?p=formazioniAll" method="get">
+		<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
 			<fieldset class="no-margin fieldset">
 			  <input type="hidden" name="p" value="formazioniAll" />
 				<h3 class="no-margin">Guarda le altre formazioni</h3>

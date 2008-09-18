@@ -12,10 +12,13 @@ $giorn = GIORNATA;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 if(isset($_GET['giorn']))
-{
   $giorn = $_GET['giorn'];
+if(isset($_POST['squadra']))
+	$squadra = $_POST['squadra'];
+if(isset($_POST['giorn']))
+  $giorn = $_POST['giorn'];
 
-}
+
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('getGiornata',$giorn);
 

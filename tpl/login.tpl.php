@@ -32,5 +32,5 @@ $linksObj = new links;
 		</div>
 	</div>
 <?php elseif($_SESSION['logged']): ?>
-	<a class="logout right" href="<?php echo $linksObj->getLink('logout'); ?>" title="Logout">Logout</a>
+	<a class="logout right" href="<?php echo $linksObj->getLink('home',array('logout'=>TRUE)); ?>" title="Logout">Logout</a>
 <?php endif; ?>

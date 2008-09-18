@@ -28,10 +28,12 @@ class eventi
 		require_once(INCDIR.'trasferimenti.inc.php');
 		require_once(INCDIR.'formazione.inc.php');
 		require_once(INCDIR.'giocatore.inc.php');
+		require_once(INCDIR.'links.inc.php');
 		$formazioneObj = new formazione();
 		$articoloObj = new articolo();
 		$giocatoreObj = new giocatore();
 		$trasferimentiObj = new trasferimenti();
+		$linksObj = new links();
 		if(isset($values))
 		{
 			foreach($values as $key=>$val)
@@ -43,7 +45,7 @@ class eventi
 									$values[$key]['content'] = '';
 									if(!empty($values[$key]['idExternal']['abstract'])) $values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
 									$values[$key]['content'] .= $values[$key]['idExternal']['text'];
-									$values[$key]['link'] = 'index.php?p=confStampa&giorn=' . $values[$key]['idExternal']['idGiornata'];break;
+									$values[$key]['link'] = $linksObj->getLink('conferenzeStampa',array('giorn'=>$values[$key]['idExternal']['idGiornata']));break;
 								
 		    		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
 									$values[$key]['content'] = ' ';break;
@@ -58,7 +60,7 @@ class eventi
 									foreach($titolari as $key2=>$val2)
 										$values[$key]['content'] .= $val2['Cognome'].', ';
 		          					$values[$key]['content'] = substr($values[$key]['content'],0,-2);
-		          					$values[$key]['link'] = 'index.php?p=formazioniAll&squadra=' . $values[$key]['idExternal']['IdSquadra'].'&giorn=' . $values[$key]['idExternal']['IdGiornata'];break;
+		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('squadra'=>$values[$key]['idExternal']['IdSquadra'],'giorn'=>$values[$key]['idExternal']['IdGiornata']));break;
 		          	case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
 		          					$giocOld[] = $values[$key]['idExternal']['IdGiocOld'];
 		          					$giocNew[] = $values[$key]['idExternal']['IdGiocNew'];
@@ -66,7 +68,7 @@ class eventi
 		          					$values[$key]['idExternal']['IdGiocNew'] = $giocatoreObj->getGiocatoriByArray($giocNew);
 									$values[$key]['titolo'] = $val['nome'] . ' ha effettuato un trasferimento';
 									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['IdGiocOld'][$giocOld[0]]['Nome'] .' ' . $values[$key]['idExternal']['IdGiocOld'][$giocOld[0]]['Cognome'].' e ha acquistato '. $values[$key]['idExternal']['IdGiocNew'][$giocNew[0]]['Nome'] .' ' . $values[$key]['idExternal']['IdGiocNew'][$giocNew[0]]['Cognome'];
-									$values[$key]['link'] = 'index.php?p=trasferimenti&squad=' . $values[$key]['idExternal']['IdSquadra'];
+									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squad'=>$values[$key]['idExternal']['IdSquadra']));
 									unset($giocOld,$giocNew);break;
 								
 				}

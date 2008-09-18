@@ -133,16 +133,8 @@ $apages = array();
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
 										
-	$apages['formazioniAll'] = array(	'title'=>"Altre formazioni",
+	$apages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
 										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
-										
-	$apages['formazioneNew'] = array(	'title'=>"Formazione",
-										'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-draggable','ui-droppable')),
-										'css'=>array('screen','style'));
-										
-	$apages['formazioneNew2'] = array(	'title'=>"Formazione",
-										'js'=>array('jquery'=>'jquery','ui'=>array('ui-base','ui-draggable','ui-droppable')),
 										'css'=>array('screen','style'));
 										
 	$apages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",

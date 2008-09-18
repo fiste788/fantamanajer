@@ -19,6 +19,8 @@ $acquisto = NULL;
 $lasciato = NULL;
 if(isset($_GET['squad']))
 	$squadra = $_GET['squad'];
+if(isset($_POST['squad']))
+	$squadra = $_POST['squad'];
 $ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
 $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencosquadre',$squadraObj->getElencoSquadre());

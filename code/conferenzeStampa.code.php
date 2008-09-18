@@ -11,7 +11,7 @@ $getGiornata = GIORNATA;
 if (!empty($_GET['giorn']))
 	$getGiornata = $_GET['giorn'];
 if (!empty($_POST['giorn']))
-	$getGiornata = $_POST['gior'];
+	$getGiornata = $_POST['giorn'];
 $contenttpl->assign('getGiornata',$getGiornata);
 
 $articoloObj->setidgiornata($getGiornata);

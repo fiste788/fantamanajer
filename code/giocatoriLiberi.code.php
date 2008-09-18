@@ -9,6 +9,11 @@ if(isset($_GET['order']))
 	$order = $_GET['order']; 
 if(isset($_GET['v']))
 	$v = $_GET['v'];
+	
+if(isset($_POST['order']))
+	$order = $_POST['order']; 
+if(isset($_POST['v']))
+	$v = $_POST['v'];
 
 $contenttpl->assign('getorder',$order);
 $contenttpl->assign('getv',$v);
@@ -26,6 +31,13 @@ if(isset($_GET['suff']))
 	$_SESSION['data']['freeplayer']['suff'] = $_GET['suff'];
 if(isset($_GET['partite']))
 	$_SESSION['data']['freeplayer']['partite'] = $_GET['partite'];
+	
+if(isset($_POST['ruolo']))
+	$_SESSION['data']['freeplayer']['ruolo'] = $_POST['ruolo'];
+if(isset($_POST['suff']))
+	$_SESSION['data']['freeplayer']['suff'] = $_POST['suff'];
+if(isset($_POST['partite']))
+	$_SESSION['data']['freeplayer']['partite'] = $_POST['partite'];
 	
 $ruolo = $_SESSION['data']['freeplayer']['ruolo'];
 $suff = $_SESSION['data']['freeplayer']['suff'];
@@ -81,7 +93,7 @@ $orderBy[] = array('Nome','asc');
 $orderBy[] = array('Club','asc');
 $orderBy[] = array('Voti','desc');
 $orderBy[] = array('PartiteGiocate','desc');
-foreach($orderBy as $key=>$val)
+/*foreach($orderBy as $key=>$val)
 {
 	if(!isset($v) || $order != $val[0])
 		$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=' . $val[1];
@@ -98,7 +110,20 @@ foreach($orderBy as $key=>$val)
 		$link[$val[0]] .=  '&amp;suff=' . $suff;
 	if(isset($partite))
 		$link[$val[0]] .=  '&amp;partite=' . $partite;
+}*/
+foreach($orderBy as $key=>$val)
+{
+	if(!isset($v) || $order != $val[0])
+		$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>$val[1],'ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+	elseif($order == $val[0])
+	{
+		if($v == 'asc')
+			$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>'desc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+		else
+			$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>'asc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+	}
 }
+
 $contenttpl->assign('link',$link);
 $contenttpl->assign('freeplayer',$freeplayer);
 ?>
