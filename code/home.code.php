@@ -15,9 +15,9 @@
 	$classifica = $punteggiObj->getAllPunteggi();
 	foreach($classifica as $key=>$val)
 		$sum[$key] = array_sum($classifica[$key]);
-	if(GIORNATA -1 != 0)
+	if((GIORNATA -1) != 0)
 	{
-		$classificaPrec = $punteggiObj->getAllPunteggiByGiornata(GIORNATA -1);
+		$classificaPrec = $punteggiObj->getAllPunteggiByGiornata(GIORNATA -2);
 		foreach($classificaPrec as $key=>$val)
 			$prevSum[$key] = array_sum($classificaPrec[$key]);
 	

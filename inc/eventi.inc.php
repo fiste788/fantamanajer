@@ -15,7 +15,7 @@ class eventi
 	
 	function getEventi($tipo = NULL,$min = 0,$max = 10)
 	{
-		$q = "SELECT eventi.*,squadra.nome FROM eventi INNER JOIN squadra ON eventi.idSquadra = squadra.idSquadra ORDER BY data DESC";
+		$q = "SELECT eventi.idEvento,eventi.idSquadra,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,squadra.nome FROM eventi INNER JOIN squadra ON eventi.idSquadra = squadra.idSquadra ORDER BY data DESC";
 		if($tipo != NULL)
 		  $q .= " WHERE tipo = '" . $tipo . "'";
 		$q .= " LIMIT " . $min . "," . $max . ";";

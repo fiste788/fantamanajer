@@ -387,7 +387,7 @@ tr.row:hover {
 	text-align:justify;
 	line-height:1.6;
 }
-.conf-stampa .text img {margin:-3px 0 -7px;}
+.conf-stampa .text .emoticon,#feed .emoticon {margin:-3px 0 -7px;float:none;}
 .conf-stampa .abstract {
 	font-style:italic;
 	clear:both;
@@ -609,6 +609,11 @@ p.surprise {
 #banner div {
 	clear:both;
 	padding:0 0 20px;
+}
+#feed h3 em {
+	color:#bbb;
+	font-size:10px;
+	font-weight:normal;
 }
 .tdcenter {
 	text-align: center;
