@@ -84,7 +84,7 @@
 			</a>
 		<?php endif; ?>
 		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="index.php?p=rosa&amp;squadra=<?php echo $_GET['squadra'] ?>" method="post">
+			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" method="post">
 					<h4 class="no-margin">Carica il tuo logo:</h4>
 							<input class="upload" name="userfile" type="file" />
 							<input type="submit" class="submit" value="Invia file" />

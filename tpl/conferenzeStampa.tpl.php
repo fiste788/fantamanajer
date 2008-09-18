@@ -90,7 +90,7 @@
 				<?php endif; ?>
 			</ul>
 		</div>
-		<form class="column last" name="idgiornata" action="index.php?p=confStampa" method="get">
+		<form class="column last" name="idgiornata" action="<?php echo $this->linksObj->getLink('conferenzeStampa'); ?>" method="post">
 			<fieldset class="no-margin fieldset">
 				<input type="hidden" value="confStampa" name="p" />
 				<h3 class="no-margin">Seleziona la giornata:</h3>

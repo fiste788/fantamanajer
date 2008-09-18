@@ -71,7 +71,7 @@
 			var options = {
 				lines: { show: true },
 				points: { show: true },
-				grid: { backgroundColor: null },
+				grid: { backgroundColor: null,hoverable:true },
 				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
 				shadowSize: 2,
@@ -142,6 +142,49 @@
 					$("#clearSelection").addClass('hidden');
 					$("#selection").empty();
 				});
+				
+				function showTooltip(x, y,color, contents) {
+					var arrayColor = color.substring(4);
+					arrayColor = arrayColor.replace(')','');
+					arrayColor = arrayColor.split(',');
+					for (var i=0;i<arrayColor.length;i++)
+					{
+						arrayColor[i] = arrayColor[i]*1 + 120;
+					}
+					colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
+					$('<div id="tooltip">' + contents + '</div>').css( {
+						position: 'absolute',
+						display: 'none',
+						top: y + 5,
+						left: x + 5,
+						border: '1px solid '+color,
+						padding: '2px',
+						'background-color': colorLight,
+						color: '#000',
+						opacity: 0.60
+					}).appendTo("body").fadeIn(200);
+				}
+				
+				var previousPoint = null;
+				$("#placeholder").bind("plothover", function (event, pos, item) {
+			
+					if (item) {
+						if (previousPoint != item.datapoint) {
+							previousPoint = item.datapoint;
+							
+							$("#tooltip").remove();
+							var x = item.datapoint[0].toFixed(2),
+							y = item.datapoint[1].toFixed(2);
+							
+							showTooltip(item.pageX, item.pageY,item.series.color,
+							item.series.label + ": giornata " + Math.round(x) + " = " + Math.round(y*10)/10 + " punti");
+						}
+					}
+					else {
+						$("#tooltip").remove();
+						previousPoint = null;
+					}
+				});
 
 				$("#overview").bind("selected", function (event, area) {
 					$("#legendcontainer table").remove();
@@ -187,7 +230,7 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<form class="column last" name="classifica_giornata" action="index.php?p=classifica" method="post">
+		<form class="column last" name="classifica_giornata" action="<?php echo $this->linksObj->getLink('classifica'); ?>" method="post">
 			<fieldset class="no-margin fieldset max-large">
 				<h3 class="no-margin">Guarda la classifica alla giornata</h3>
 					<select name="giorn" onchange="document.classifica_giornata.submit();">

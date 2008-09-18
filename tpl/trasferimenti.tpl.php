@@ -110,7 +110,7 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<form class="column last" name="trasferimenti" action="index.php?p=trasferimenti" method="get">
+		<form class="column last" name="trasferimenti" action="<?php echo $this->linksObj->getLink('trasferimenti'); ?>" method="post">
 		<fieldset class="no-margin fieldset  max-large">
 			<h3 class="no-margin">Seleziona la squadra:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />

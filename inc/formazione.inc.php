@@ -106,6 +106,7 @@ class formazione
 	{
 		$q = "SELECT formazioni.IdFormazione,IdGioc,IdPosizione,Modulo,C,VC,VVC FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione WHERE formazioni.IdSquadra='$idSquadra' AND formazioni.IdGiornata = '$giornata' ORDER BY IdPosizione;";
 		$exe = mysql_query($q);
+		$flag = 0;
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
     	$elenco[$row['IdPosizione']]=$row['IdGioc'];
