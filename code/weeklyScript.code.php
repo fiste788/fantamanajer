@@ -95,5 +95,4 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 }
 else
 	$contenttpl->assign('message','Non sei autorizzato a eseguire l\'operazione');
-
 ?>
