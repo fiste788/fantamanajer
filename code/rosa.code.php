@@ -54,18 +54,24 @@ if(($squadra != NULL) && ($values))
 	$mediaPartite = 0;
 	$mediaGol = 0;
 	$mediaAssist = 0;
+	$mediaMagic=0;
 	foreach($values as $key=>$val)
 	{
 		$giocatori[$i]['idGioc'] = $val[0];
 		$giocatori[$i]['nome'] = $val[1] . " " . $val[2];
 		$giocatori[$i]['ruolo'] = $ruoli[$val[3]];
 		$giocatori[$i]['club'] = $val[5];
-        $giocatori[$i]['votiAll']=$val[6];
-        $giocatori[$i]['voti']=substr($val[6],0,4);
+		$medievoti=$giocatoreObj->getMedieVoto($giocatori[$i]['idGioc']);
+        $giocatori[$i]['votiAll']=$medievoti['MMagic'];
+        $giocatori[$i]['voti']=substr($giocatori[$i]['votiAll'],0,4);
         $giocatori[$i]['partite']=$val[7];
+        $giocatori[$i]['partiteeff']=$medievoti['presenze'];
         $giocatori[$i]['gol']=$val[8];
         $giocatori[$i]['assist']=$val[9];
-		$mediaVoto += $giocatori[$i]['voti'];
+        $giocatori[$i]['votoeffAll']=$medievoti['MVoto'];
+        $giocatori[$i]['votoeff']=substr($giocatori[$i]['votoeffAll'],0,4);
+		$mediaVoto += $giocatori[$i]['votoeffAll'];
+		$mediaMagic += $giocatori[$i]['votiAll'];
 		$mediaPartite += $giocatori[$i]['partite'];
 		$mediaGol += $giocatori[$i]['gol'];
 		$mediaAssist += $giocatori[$i]['assist'];
@@ -73,6 +79,8 @@ if(($squadra != NULL) && ($values))
 	}
 	$contenttpl->assign('mediaVoto',substr($mediaVoto / $i,0,4));
 	$contenttpl->assign('mediaVotoAll',$mediaVoto / $i);
+	$contenttpl->assign('mediaMagicAll',$mediaMagic / $i);
+	$contenttpl->assign('mediaMagic',substr($mediaMagic / $i,0,4));
 	$contenttpl->assign('mediaPartite',substr($mediaPartite / $i,0,4));
 	$contenttpl->assign('mediaPartiteAll',$mediaPartite / $i);
 	$contenttpl->assign('mediaGol',substr($mediaGol / $i,0,4));

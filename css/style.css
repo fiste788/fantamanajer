@@ -610,3 +610,6 @@ p.surprise {
 	clear:both;
 	padding:0 0 20px;
 }
+.tdcenter {
+	text-align: center;
+}
