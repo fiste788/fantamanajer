@@ -5,9 +5,9 @@ class links
 	{
 		if(MODREWRITE)
 		{
-			$link = $page;
+			$link = '/'.$page;
 			if($arrayParam != NULL)
-				$link .= '-'.implode('-',$arrayParam);
+				$link .= '/'.implode('/',$arrayParam);
 			$link .= '.html';
 		}
 		else

@@ -39,9 +39,9 @@
 		echo "<title><![CDATA[" . $val['titolo'] . "]]></title>\n";
 		echo "<pubDate>" . $val['pubData'] . "</pubDate>\n";
 		if(!empty($val['link'])) 
-			echo "<link><![CDATA[" . FULLURL.$val['link'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.$val['link'] . "#" .$val['idExternal'][0] . "]]></guid>\n";
+			echo "<link><![CDATA[" . substr(FULLURL,0,-1).$val['link'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.$val['link'] . "#" .$val['idExternal'][0] . "]]></guid>\n";
 		else
-			echo "<link><![CDATA[" . FULLURL.'index.php?p=viewFeed#evento-'.$val['idEvento'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.'index.php?p=viewFeed#evento-'.$val['idEvento'] . "]]></guid>\n";
+			echo "<link><![CDATA[" . FULLURL.'feed.html#evento-'.$val['idEvento'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.'index.php?p=viewFeed#evento-'.$val['idEvento'] . "]]></guid>\n";
 		echo "<description><![CDATA[" . $val['content'] . "]]></description>\n";
 		echo "</item>\n";
 	}

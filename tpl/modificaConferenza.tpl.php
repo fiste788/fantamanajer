@@ -72,7 +72,12 @@ function addEmoticon(insert){
 }
 -->
 </script>
-<form name="editConfStampa" method="post" action="index.php?p=editArticolo&amp;a=<?php echo $_GET['a'] ?><?php if(isset($_GET['id'])): ?>&amp;id=<?php echo $_GET['id']; endif; ?>">
+<?php 
+$array = array('a'=>$_GET['a']);
+if(isset($_GET['id'])) 
+	$array['id'] = $_GET['id'];
+ ?>
+<form name="editConfStampa" method="post" action="<?php echo $this->linksObj->getLink('modificaConferenza',$array); ?>">
 	<fieldset class="no-margin">
 			<div class="formbox">
 			  <label for="title">Titolo: *</label>
