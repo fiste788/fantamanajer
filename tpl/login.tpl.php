@@ -1,6 +1,8 @@
 <?php 
 require_once(INCDIR.'links.inc.php');
 $linksObj = new links; 
+$array = $_GET;
+unset($array['p']);
 ?>
 <?php if($_SESSION['logged'] != TRUE): ?>
 	<div id="login" class="right last" <?php if(isset($this->loginerror)) echo ' style="width:390px"'; ?>>
@@ -14,7 +16,7 @@ $linksObj = new links;
 				<span><?php echo $this->loginerror; ?></span>
 			</div>
 		<?php endif; ?>
-			<form id="loginform" action="<?php echo $linksObj->getLink('home'); ?>" method="post" name="loginform">
+			<form id="loginform" action="<?php echo $linksObj->getLink($_GET['p'],$array); ?>" method="post" name="loginform">
 				<h3>Login</h3>
 					<div class="field column">
 						<label for="username">Username:</label>

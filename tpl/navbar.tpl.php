@@ -2,7 +2,7 @@
 $home = array('home');
 $laTuaSquadra = array('rosa');
 $leSquadre = array('rosa');
-$conferenzeStampa = array('conferenzeStampa','aggiornamentoArticolo');
+$conferenzeStampa = array('conferenzeStampa','modificaConferenza');
 $classifica = array('classifica','dettaglioGiornata');
 $altro = array('contatti','formazione','altreFormazioni','giocatoriLiberi','premi','trasferimenti','altro','linkUtili','feed','dettaglioGiocatore');
 $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classifica,$altro);
