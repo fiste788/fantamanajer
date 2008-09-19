@@ -3,9 +3,9 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'-small.jpg')): ?>
-			<a href="<?php echo UPLOADDIR.$this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
-				<img alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="reflex" align="left" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+			<a href="<?php echo UPLOADIMGURL.$this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
+				<img alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="reflex" align="left" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php else: ?>
 			<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
@@ -43,12 +43,11 @@
 			<?php endforeach; ?>
 			<tr>
 				<td class="ult" colspan="3">Media</td>
-				<td  class="tdcenter" class="ult" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
-				<td class="tdcenter" class="ult" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
-				<td  class="tdcenter" class="ult" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
-				<td  class="tdcenter"class="ult" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
-				<td  class="tdcenter"class="ult" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
-
+				<td class="ult tdcenter" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -83,9 +82,9 @@
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'.jpg')): ?>
-			<a href="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
-				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="logo reflex" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADDIR. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+			<a href="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
+				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="logo reflex" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php endif; ?>
 		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
@@ -207,7 +206,7 @@ $(window).bind("load",function(){
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
 			<?php if(file_exists(UPLOADDIR. $val[0].'-small.jpg')): ?>
-				<a class="lightbox" href="<?php echo UPLOADDIR.$val[0].'-original.jpg'; ?>" >
+				<a class="lightbox" href="<?php echo UPLOADIMGURL.$val[0].'-original.jpg'; ?>" >
 				<?php 
 				$image = imagecreatefromjpeg(UPLOADDIR.$val[0].'-med.jpg');
 				$width = imagesx ($image); 
@@ -215,8 +214,8 @@ $(window).bind("load",function(){
 				if($width > 101)
 					$appo = floor(($width - 100) / 2);
 				?>
-					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
-					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADDIR. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
+					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADIMGURL. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
+					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADIMGURL. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
 				</a>
 			<?php else: ?>
 				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />

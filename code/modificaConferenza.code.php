@@ -32,7 +32,7 @@ if(isset($_POST['submit']))
 		$messaggio[] = 'Cancellazione effettuata con successo';
 		$contenttpl->assign('messaggio',$messaggio);
 		$_SESSION['message'] = $messaggio;
-		header("Location:index.php?p=confStampa");
+		header("Location: ".$contenttpl->linksObj->getLink('conferenzeStampa'));
 	}
 
 	if($action == 'new' || $action == 'edit')
@@ -44,7 +44,6 @@ if(isset($_POST['submit']))
 			$articoloObj->settitle(addslashes(stripslashes($_POST['title'])));
 			$articoloObj->setabstract(addslashes(stripslashes($_POST['abstract'])));
 			$articoloObj->settext(addslashes(stripslashes($_POST['text'])));
-			echo $articoloObj->text;
 			if($action == 'new')
 			{
 				$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
@@ -73,7 +72,7 @@ if(isset($_POST['submit']))
 				$contenttpl->assign('messaggio',$messaggio);
 			}
 			$_SESSION['message'] = $messaggio;
-			header("Location:index.php?p=confStampa");
+			header("Location: ". $contenttpl->linksObj->getLink('conferenzeStampa'));
 		}
 		else
 		{

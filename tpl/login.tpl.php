@@ -14,7 +14,7 @@ $linksObj = new links;
 				<span><?php echo $this->loginerror; ?></span>
 			</div>
 		<?php endif; ?>
-			<form id="loginform" action="index.php?<?php echo str_replace('&','&amp;',$_SERVER['QUERY_STRING']); ?>" method="post" name="loginform">
+			<form id="loginform" action="<?php echo $linksObj->getLink('home'); ?>" method="post" name="loginform">
 				<h3>Login</h3>
 					<div class="field column">
 						<label for="username">Username:</label>
