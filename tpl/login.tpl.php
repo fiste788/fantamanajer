@@ -3,6 +3,8 @@ require_once(INCDIR.'links.inc.php');
 $linksObj = new links; 
 $array = $_GET;
 unset($array['p']);
+if(!isset($_GET['p']))
+	$_GET['p'] = 'home';
 ?>
 <?php if($_SESSION['logged'] != TRUE): ?>
 	<div id="login" class="right last" <?php if(isset($this->loginerror)) echo ' style="width:390px"'; ?>>
