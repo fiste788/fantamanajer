@@ -28,36 +28,48 @@
 		<td><?php echo $this->dettaglioGioc[0]['Club']; ?></td>
 	</tr>
 	<tr>
-		<td>Gol:</td>
-		<td><?php echo $this->dettaglioGioc[0]['gol']; ?></td>
-	</tr>
-	<tr>
 		<td>Presenze:</td>
 		<td><?php echo $this->dettaglioGioc[0]['presenze']; ?></td>
+	</tr>
+
+	<tr>
+		<td>Gol:</td>
+		<td><?php echo $this->dettaglioGioc[0]['gol']; ?></td>
 	</tr>
 	<tr>
 		<td>Assist:</td>
 		<td><?php echo $this->dettaglioGioc[0]['assist']; ?></td>
 	</tr>
 	<tr>
-		<td>Voto medio:</td>
-		<td><?php echo $this->dettaglioGioc[0]['votoMedio']; ?></td>
+		<td>Media Voto:</td>
+		<td><?php echo $this->dettaglioGioc[0]['mediaVoti']; ?></td>
+	</tr>
+	<tr>
+		<td>Media Punti:</td>
+		<td><?php echo $this->dettaglioGioc[0]['mediaPunti']; ?></td>
 	</tr>
 </table>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
 <table>
 	<tr>
-			<th>Dettaglio</th>
+			<th>Giornata</th>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
 			<th><?php echo $key; ?></th>
 		<?php endforeach; ?>
 	</tr>
 	<tr>
-			<td>Voti</td>
+			<td>Punti</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
 			<td><?php echo $val['Voto']; ?></td>
 		<?php endforeach; ?>
 	</tr>
+	<tr>
+			<td>Voti</td>
+		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
+			<td><?php echo $val['VotoUff']; ?></td>
+		<?php endforeach; ?>
+	</tr>
+
 	<tr>
 			<td>Gol</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
