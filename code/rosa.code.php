@@ -43,7 +43,7 @@ $elencoSquadre = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$elencoSquadre);
 $contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
 
-$ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
+$ruoli = array('P'=>'Por','D'=>'Dif','C'=>'Cen','A'=>'Att');
 $values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);
 if(($squadra != NULL) && ($values))
 {

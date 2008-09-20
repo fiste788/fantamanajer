@@ -1,4 +1,4 @@
-<?php $r='Por.'; ?>
+<?php $r='Por'; ?>
 <?php if($this->squadra != NULL && $this->squadra > 0 && $this->squadra < 9): ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
