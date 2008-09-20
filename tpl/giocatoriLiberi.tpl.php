@@ -16,7 +16,9 @@
 				<th class="cognome"><a href="<?php echo $this->link['Cognome'] ?>">Cognome</a></th>
 				<th class="nome"><a href="<?php echo $this->link['Nome'] ?>">Nome</a></th>
 				<th class="club"><a href="<?php echo $this->link['Club'] ?>">Club</a></th>
-				<th class="club"><a href="<?php echo $this->link['Voti'] ?>">M. voto</a></th>
+				<th class="club"><a href="<?php echo $this->link['Voti'] ?>">M. punti</a></th>
+				<th class="club"><a href="<?php echo $this->link['VotiEff'] ?>">M. voti</a></th>
+
 				<th class="club"><a href="<?php echo $this->link['PartiteGiocate'] ?>">Partite</a></th>
 			</tr>
 			<?php foreach($this->freeplayer as $key => $val): ?>
@@ -37,6 +39,7 @@
 				<td><?php echo $val['Nome']; ?></td>
 				<td><?php echo $val['Club']; ?></td>
 				<td title="<?php echo $val['VotiAll']; ?>" <?php if($val['Voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['Voti']; ?></td>
+				<td title="<?php echo $val['VotEffiAll']; ?>" <?php if($val['Voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['VotiEff']; ?></td>
 				<td <?php if($val['PartiteGiocate'] >= $this->partite && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['PartiteGiocate']; ?></td>
 			</tr>
 			<?php endforeach; ?>

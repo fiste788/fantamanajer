@@ -70,8 +70,10 @@ foreach($freeplayer as $key=>$val)
 		$mediavoti /= $partitegiocate;*/
 	$freeplayer[$key]['Nome'] = $val['Nome'];
 	$freeplayer[$key]['Cognome'] = $val['Cognome'];
-	$freeplayer[$key]['Voti'] = substr($val['Voti'],0,4);
-	$freeplayer[$key]['VotiAll'] = $val['Voti'];
+	$freeplayer[$key]['Voti'] = substr($val['mediaPunti'],0,4);
+	$freeplayer[$key]['VotiAll'] = $val['mediaPunti'];
+	$freeplayer[$key]['VotiEff'] = substr($val['mediaVoti'],0,4);
+	$freeplayer[$key]['VotiEffAll'] = $val['mediaVoti'];	
 	$freeplayer[$key]['PartiteGiocate'] = $val['Presenze'];
 }
 $sort_arr = array();
@@ -92,6 +94,7 @@ $orderBy[] = array('Cognome','asc');
 $orderBy[] = array('Nome','asc');
 $orderBy[] = array('Club','asc');
 $orderBy[] = array('Voti','desc');
+$orderBy[] = array('VotiEff','desc');
 $orderBy[] = array('PartiteGiocate','desc');
 /*foreach($orderBy as $key=>$val)
 {
