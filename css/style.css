@@ -34,6 +34,7 @@ input.submit {
 	height:24px;
 	margin:0 auto;
 	width:128px;
+	padding:0;
 }
 input.submit:hover { background:transparent url(../imgs/button.png) no-repeat scroll center bottom;}
 input.dark {
@@ -617,4 +618,10 @@ p.surprise {
 }
 .tdcenter {
 	text-align: center;
+}
+#dettaglioSquadra label,#dettaglioSquadra .text {
+	width:130px;
+}
+#dettaglioSquadra {
+	width:300px;
 }
