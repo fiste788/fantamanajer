@@ -60,8 +60,8 @@
 					<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->freePlayer as $key=>$val): ?>
-						<?php if($val[3] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val[0]; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val[0]) echo '  selected="selected"'; ?>><?php echo $val[1] . " " . $val[2]; ?></option>
+						<?php if($val['Ruolo'] == substr($this->ruo[$j],0,1)): ?>
+							<option value="<?php echo $val['IdGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['IdGioc']) echo '  selected="selected"'; ?>><?php echo $val['Cognome'] . " " . $val['Nome']; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
