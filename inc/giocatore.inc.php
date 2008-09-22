@@ -49,13 +49,36 @@ class giocatore
 		return FALSE;
 	}
 	
+/*	function getFreePlayer($ruolo)
+	{
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club,SUM( Gol ) as Gol,       SUM( Assist ) as Assist
+            FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
+            WHERE ruolo ='" . $ruolo . "'
+            AND idsquadra =0
+            AND Club <> ''
+            GROUP BY giocatore.IdGioc
+            ORDER BY Cognome";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
+		{
+                $giocatori[]=$row;
+		}
+		return $giocatori;
+	}*/
 	function getFreePlayer($ruolo)
 	{
-		$q = "SELECT giocatore.IdGioc,Cognome,Nome,Ruolo,IdSquadra,Club,AVG( Voto ) as Voti,COUNT( VotoUff ) as Presenze, SUM( Gol ) as Gol, SUM( Assist ) as Assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE IdSquadra= '0' AND Club <> '' AND Ruolo = '". $ruolo . "' GROUP BY giocatore.IdGioc ORDER BY Cognome;";
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club,SUM( Gol ) as Gol,SUM( Assist ) as Assist,AVG(Voto) as mediaPunti, AVG(VotoUff) as mediaVoti,count(Voto) as Presenze
+            FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
+            WHERE ruolo ='" . $ruolo . "'
+            AND idsquadra =0
+            AND Club <> ''
+            AND (VotoUff <> 0 OR Voto IS NULL)
+            GROUP BY giocatore.IdGioc
+            ORDER BY Cognome";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-		while($row=mysql_fetch_array($exe))
+		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
-			$giocatori[] = $row;
+                $giocatori[]=$row;
 		}
 		return $giocatori;
 	}
@@ -81,9 +104,9 @@ class giocatore
 	
 	function getGiocatoreById($giocatore)
 	{
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as votoMedio,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' GROUP BY giocatore.IdGioc;";
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as mediaPunti,avg(VotoUff) as mediaVoti,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' AND (VotoUff <> 0 OR Voto IS NULL) GROUP BY giocatore.IdGioc;";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
-		$q2 = "SELECT IdGiornata, Voto  , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
+		$q2 = "SELECT IdGiornata, Voto,VotoUff , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q2);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
@@ -269,10 +292,13 @@ class giocatore
 			foreach ($trasf as $key => $val)
 			{
 				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($key,GIORNATA);
+				echo "<pre>".print_r($formazione,1)."</pre>";
 				if($formazione != FALSE)
 				{
+					echo "ok";
 					if(array_search($val['old'],$formazione['Elenco']) != FALSE)
 					{
+						echo "ok2";
 						$q = "UPDATE schieramento SET IdGioc = '" . $val['new'] . "' WHERE IdGioc = '" . $val['old'] . "' AND IdFormazione = '" . $formazione['Id'] . "';";
 						mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 						$pos = array_search($val['old'],$formazione['Cap']);
@@ -283,14 +309,12 @@ class giocatore
 						}
 					}
 				}
-				$q = "UPDATE squadra SET numTrasferimenti = 0";
-				mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 				$q = "INSERT INTO trasferimenti (IdGiocOld,IdGiocNew,IdSquadra) VALUES ('" . $val['old'] . "' , '" . $val['new'] . "' ,'" . $key . "');";
 				mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 				$q = "SELECT IdTrasf FROM trasferimenti WHERE IdGiocOld = '" . $val['old'] . "' AND IdGiocNew = '" . $val['new'] . "' AND IdSquadra = '" . $key . "';";
 				$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 				$data = mysql_fetch_row($exe);
-				$eventiObj->addEvento('4',$key,$data[0]);
+				$eventiObj->addEvento('4',$_SESSION['idsquadra'],$data[0]);
 			}
 		}
 	}
@@ -330,7 +354,7 @@ class giocatore
     }
     function getMedieVoto($idgioc)
     {
-        $query="SELECT AVG(Voto) as MMagic,AVG(VotoUff) as MVoto,count(Voto) as presenze FROM voti WHERE idgioc='$idgioc'AND VotoUff <> 0 AND Voto <> 0 GROUP by idgioc";
+        $query="SELECT AVG(Voto) as mediaPunti,AVG(VotoUff) as mediaVoti,count(Voto) as Presenze FROM voti WHERE idgioc='$idgioc'AND VotoUff <> 0 AND Voto <> 0 GROUP by idgioc";
 		$exe = mysql_query($query) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
 		{

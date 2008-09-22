@@ -43,7 +43,7 @@ $elencoSquadre = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$elencoSquadre);
 $contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
 
-$ruoli = array('P'=>'Por','D'=>'Dif','C'=>'Cen','A'=>'Att');
+$ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 $values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);
 if(($squadra != NULL) && ($values))
 {
@@ -62,13 +62,13 @@ if(($squadra != NULL) && ($values))
 		$giocatori[$i]['ruolo'] = $ruoli[$val[3]];
 		$giocatori[$i]['club'] = $val[5];
 		$medievoti=$giocatoreObj->getMedieVoto($giocatori[$i]['idGioc']);
-        $giocatori[$i]['votiAll']=$medievoti['MMagic'];
+        $giocatori[$i]['votiAll']=$medievoti['mediaPunti'];
         $giocatori[$i]['voti']=substr($giocatori[$i]['votiAll'],0,4);
         $giocatori[$i]['partite']=$val[7];
-        $giocatori[$i]['partiteeff']=$medievoti['presenze'];
+        $giocatori[$i]['partiteeff']=$medievoti['Presenze'];
         $giocatori[$i]['gol']=$val[8];
         $giocatori[$i]['assist']=$val[9];
-        $giocatori[$i]['votoeffAll']=$medievoti['MVoto'];
+        $giocatori[$i]['votoeffAll']=$medievoti['mediaVoti'];
         $giocatori[$i]['votoeff']=substr($giocatori[$i]['votoeffAll'],0,4);
 		$mediaVoto += $giocatori[$i]['votoeffAll'];
 		$mediaMagic += $giocatori[$i]['votiAll'];

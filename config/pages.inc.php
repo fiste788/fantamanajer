@@ -144,6 +144,14 @@ $apages = array();
 	$apages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
+																				
+	$apages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+										
+	$apages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
 
 
 //echo "<pre>".print_r($upages,1)."</pre>";

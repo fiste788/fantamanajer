@@ -7,6 +7,7 @@ class squadra
 	var $nomeProp;
 	var $mail;
 	var $username;
+	var $amministratore;
 	
 	function squadra()
 	{ 
@@ -16,6 +17,7 @@ class squadra
 		$this->cognome = NULL;
 		$this->mail = NULL;
 		$this->username = NULL;
+		$this->amministratore = NULL;
 	}
 	
 	function getElencoSquadre()

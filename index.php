@@ -98,8 +98,7 @@ if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
   $_SESSION['userid'] = 1000;
-  $_SESSION['login'] = 'Ospite';
-  $_SESSION['usertype'] = 'Ospiti';
+  $_SESSION['usertype'] = 'guest';
   $_SESSION['logged'] = FALSE;
   $_SESSION['idsquadra'] = FALSE;
 }

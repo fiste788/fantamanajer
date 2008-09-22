@@ -12,13 +12,16 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 		$formsObj->stringCleaner();																				//slashes added and special characters corrected
 		if(login($_POST['username'],$_POST['password']))									//login
 		{
-		  	$q = "SELECT IdSquadra,nome,nomeProp,cognome,mail FROM squadra WHERE username='" . $_POST['username'] . "';";
+		  	$q = "SELECT IdSquadra,nome,nomeProp,cognome,mail,amministratore FROM squadra WHERE username='" . $_POST['username'] . "';";
 		  	$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		  	$valore  = mysql_fetch_array($exe);
 			$navbartpl->assign('loginok',$formsObj->string);
 			$_SESSION['userid'] = $_POST['username'];
 			$_SESSION['logged'] = TRUE;
-			$_SESSION['usertype'] = 'user';
+			if($valore['amministratore'] == 1)
+				$_SESSION['usertype'] = 'admin';
+			else
+				$_SESSION['usertype'] = 'user';
 			$_SESSION['idsquadra'] = $valore['IdSquadra'];
 			$_SESSION['nomeSquadra'] = $valore['nome'];
 			$_SESSION['nomeProprietario'] = $valore['nomeProp'] . " " . $valore['cognome'];
