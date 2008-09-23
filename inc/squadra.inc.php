@@ -108,5 +108,11 @@ class squadra
 		$q2 = "UPDATE squadra SET numTrasferimenti = '". $val  ."' WHERE idSquadra = '".$squadra."';";
 		$exe=mysql_query($q2) or die("Query non valida: ".$q2 . mysql_error());
 	}
+	
+	function addSquadra($username,$name,$admin,$password,$email)
+	{
+		$q = "INSERT INTO squadra (nome,username,password,mail,amministratore) VALUES ('" . $name . "','" . $username . "','" . $password . "','" . $email . "','" . $admin . "');";
+		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+	}
 }
 ?>
