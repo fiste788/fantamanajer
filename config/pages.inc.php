@@ -152,6 +152,10 @@ $apages = array();
 	$apages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
+										
+	$apages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
 
 
 //echo "<pre>".print_r($upages,1)."</pre>";

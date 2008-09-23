@@ -16,6 +16,7 @@
 			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'transfert-other.png'; ?>" title="Trasferimenti" />
 			<ul>
 				<li><a href="<?php echo $this->linksObj->getLink('creaSquadra'); ?>">Crea squadra</a></li>
+				<li><a href="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>">Nuovo trasferimento</a></li>
 			</ul>
 		</div>
 		</div>

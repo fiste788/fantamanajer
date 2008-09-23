@@ -188,6 +188,7 @@
 						$.extend(true, {}, options, {
 							xaxis: { min: Math.round(area.x1), max: Math.round(area.x2) }
 					}));
+					$("#overview").setSelection(area, true);
 					$("#legendcontainer table").attr('cellspacing','0');
 				});
 
