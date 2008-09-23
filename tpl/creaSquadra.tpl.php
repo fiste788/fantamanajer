@@ -10,19 +10,19 @@
 			<h3>Informazioni generali</h3>
 			<div class="formbox">
 				<label for="nomeSquadra">Nome della squadra:</label>
-				<input class="text" id="nomeSquadra" name="nomeSquadra" type="text" maxlength="40" />
+				<input class="text" id="nomeSquadra" name="nomeSquadra" type="text" maxlength="40" <?php if(isset($_POST['nomeSquadra'])) echo 'value="'. $_POST['nomeSquadra'] .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="username">Username:</label>
-				<input class="text" id="username" name="usernamenew" type="text" maxlength="15" />
+				<input class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($_POST['usernamenew'])) echo 'value="'. $_POST['usernamenew'] .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="email">Email:</label>
-				<input class="text" id="email" name="email" type="text" maxlength="30" />
+				<input class="text" id="email" name="email" type="text" maxlength="30" <?php if(isset($_POST['email'])) echo 'value="'. $_POST['email'] .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="amministratore">Amministratore?</label>
-				<input class="checkbox" id="amministratore" name="amministratore" type="checkbox" />
+				<input class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($_POST['amministratore'])) echo 'checked="checked"'; ?> />
 			</div>
 		</fieldset>
 		<fieldset id="panchinari">
@@ -32,7 +32,7 @@
 				<select name="portiere-<?php echo $i ?>">
 					<option></option>
 					<?php foreach($this->portieri as $key=>$val): ?>
-						<option value="<?php echo $val[0] ?>"><?php echo $val[1] ." ". $val[2] ?></option>
+						<option <?php if(isset($_POST['portiere-'.$i]) && $_POST['portiere-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php endfor; ?>
@@ -42,7 +42,7 @@
 				<select name="difensore-<?php echo $i ?>">
 					<option></option>
 					<?php foreach($this->difensori as $key=>$val): ?>
-						<option value="<?php echo $val[0] ?>"><?php echo $val[1] ." ". $val[2] ?></option>
+						<option <?php if(isset($_POST['difensore-'.$i]) && $_POST['difensore-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php endfor; ?>
@@ -52,7 +52,7 @@
 				<select name="centrocampista-<?php echo $i ?>">
 					<option></option>
 					<?php foreach($this->centrocampisti as $key=>$val): ?>
-						<option value="<?php echo $val[0] ?>"><?php echo $val[1] ." ". $val[2] ?></option>
+						<option <?php if(isset($_POST['centrocampista-'.$i]) && $_POST['centrocampista-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php endfor; ?>
@@ -62,7 +62,7 @@
 				<select name="attaccante-<?php echo $i ?>">
 					<option></option>
 					<?php foreach($this->attaccanti as $key=>$val): ?>
-						<option value="<?php echo $val[0] ?>"><?php echo $val[1] ." ". $val[2] ?></option>
+						<option <?php if(isset($_POST['attaccante-'.$i]) && $_POST['attaccante-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php endfor; ?>
