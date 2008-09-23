@@ -96,7 +96,8 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 							$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($acquisto);
 							$squadraObj->decreaseNumberTransfert($acquistoDett[$acquisto]['idSquadraAcquisto']);
 							$body = 'Il giocatore ' . $acquistoDett[$acquisto]['Nome'] . $acquistoDett[$acquisto]['Cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
-							$mailObj->sendEmail($squadre[$acquistoDett[0][3]-1][4],$body,'Giocatore Rubato');
+							$appo = $acquistoDett[$acquisto]['idSquadraAcquisto']-1;
+							$mailObj->sendEmail($squadre[$appo][4],$body,'Giocatore Rubato');
 							$acquistoDett[$acquisto]['idSquadraAcquisto'] = 0; //ALMENO ENTRA NELL'IF SUCCESSIVO
 						}
 						else
@@ -106,6 +107,8 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 							$contenttpl->assign('messaggio',$messaggio);
 							$acquisto = NULL;
 							$lasciato = NULL;
+							$acquistoDett[$acquisto]['idSquadraAcquisto'] = 1;
+							$flag = 1;
 						}
 					}
 					if($acquistoDett[$acquisto]['idSquadraAcquisto'] == 0)
@@ -145,6 +148,11 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 				$contenttpl->assign('messaggio',$messaggio);
 			}
 		}
+		if($flag == 1)
+		{
+      $acquisto = $giocatoreAcquistatoOld[0];
+      $lasciato = $giocatoreLasciatoOld[0];
+    }
 		$contenttpl->assign('giocAcquisto',$acquisto);
 		$contenttpl->assign('giocLasciato',$lasciato);
 	
