@@ -17,6 +17,7 @@ $trasferimentiObj = new trasferimenti();
 $squadra = $_SESSION['idsquadra'];
 $acquisto = NULL;
 $lasciato = NULL;
+$flag=0;
 if(isset($_GET['squad']))
 	$squadra = $_GET['squad'];
 if(isset($_POST['squad']))
@@ -76,83 +77,92 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 		{
-			if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && ($giocatoreAcquistatoOld[0] != $acquisto || $giocatoreLasciatoOld[0] != $lasciato))
+			if($lasciatoDett[$lasciato]['Ruolo'] == $acquistoDett[$acquisto]['Ruolo'])
 			{
-				if($numTrasferimenti < 2)
+				if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && ($giocatoreAcquistatoOld[0] != $acquisto || $giocatoreLasciatoOld[0] != $lasciato))
 				{
-					if($acquistoDett[$acquisto]['idSquadraAcquisto'] != 0)
+					if($numTrasferimenti < 2)
 					{
-						$classifica = $punteggiObj->getClassifica();
-						$squadre = $squadraObj->getElencoSquadre();
-						foreach ($classifica as $key => $val)
+						if($acquistoDett[$acquisto]['idSquadraAcquisto'] != 0)
 						{
-							$classificaNew[$key] = $val[0];
+							$classifica = $punteggiObj->getClassifica();
+							$squadre = $squadraObj->getElencoSquadre();
+							foreach ($classifica as $key => $val)
+							{
+								$classificaNew[$key] = $val[0];
+							}
+							$posSquadraOld =  array_search($acquistoDett[$acquisto]['idSquadraAcquisto'],$classificaNew);
+							$posSquadraNew = array_search($_SESSION['idsquadra'],$classificaNew);
+							if($posSquadraNew > $posSquadraOld)
+							{
+								$giocatoreObj-> unsetGiocatoreLasciatoByIdSquadra($acquistoDett[$acquisto]['idSquadraAcquisto']);
+								$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($acquisto);
+								$squadraObj->decreaseNumberTransfert($acquistoDett[$acquisto]['idSquadraAcquisto']);
+								$body = 'Il giocatore ' . $acquistoDett[$acquisto]['Nome'] . $acquistoDett[$acquisto]['Cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
+								$appo = $acquistoDett[$acquisto]['idSquadraAcquisto']-1;
+								$mailObj->sendEmail($squadre[$appo][4],$body,'Giocatore Rubato');
+								$acquistoDett[$acquisto]['idSquadraAcquisto'] = 0; //ALMENO ENTRA NELL'IF SUCCESSIVO
+							}
+							else
+							{
+								$messaggio[0] = 1;
+								$messaggio[1] = 'Un altra squadra inferiore di te ha già selezionato questo giocatore';
+								$contenttpl->assign('messaggio',$messaggio);
+								$acquisto = NULL;
+								$lasciato = NULL;
+								$acquistoDett[$acquisto]['idSquadraAcquisto'] = 1;
+								$flag = 1;
+							}
 						}
-						$posSquadraOld =  array_search($acquistoDett[$acquisto]['idSquadraAcquisto'],$classificaNew);
-						$posSquadraNew = array_search($_SESSION['idsquadra'],$classificaNew);
-						if($posSquadraNew > $posSquadraOld)
+						if($acquistoDett[$acquisto]['idSquadraAcquisto'] == 0)
 						{
-							$giocatoreObj-> unsetGiocatoreLasciatoByIdSquadra($acquistoDett[$acquisto]['idSquadraAcquisto']);
-							$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($acquisto);
-							$squadraObj->decreaseNumberTransfert($acquistoDett[$acquisto]['idSquadraAcquisto']);
-							$body = 'Il giocatore ' . $acquistoDett[$acquisto]['Nome'] . $acquistoDett[$acquisto]['Cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
-							$appo = $acquistoDett[$acquisto]['idSquadraAcquisto']-1;
-							$mailObj->sendEmail($squadre[$appo][4],$body,'Giocatore Rubato');
-							$acquistoDett[$acquisto]['idSquadraAcquisto'] = 0; //ALMENO ENTRA NELL'IF SUCCESSIVO
-						}
-						else
-						{
-							$messaggio[0] = 1;
-							$messaggio[1] = 'Un altra squadra inferiore di te ha già selezionato questo giocatore';
+							if($giocatoreAcquistatoOld != FALSE)
+							{
+								$giocatoreObj-> unsetGiocatoreLasciatoByIdGioc($giocatoreLasciatoOld[0]);
+								$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($giocatoreAcquistatoOld[0]);
+							}
+							$giocatoreObj->setGiocatoreAcquistatoByIdGioc($acquisto,$_SESSION['idsquadra']);
+							$giocatoreObj->setGiocatoreLasciatoByIdGioc($lasciato);
+							$squadraObj->increaseNumberTransfert($_SESSION['idsquadra']);
+							$messaggio[0] = 0;
+							$messaggio[1] = 'Operazione eseguita con successo';
 							$contenttpl->assign('messaggio',$messaggio);
-							$acquisto = NULL;
-							$lasciato = NULL;
-							$acquistoDett[$acquisto]['idSquadraAcquisto'] = 1;
-							$flag = 1;
+							$eventiObj->addEvento('2',$_SESSION['idsquadra']);
 						}
 					}
-					if($acquistoDett[$acquisto]['idSquadraAcquisto'] == 0)
+					else
 					{
-						if($giocatoreAcquistatoOld != FALSE)
-						{
-							$giocatoreObj-> unsetGiocatoreLasciatoByIdGioc($giocatoreLasciatoOld[0]);
-							$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($giocatoreAcquistatoOld[0]);
-						}
-						$giocatoreObj->setGiocatoreAcquistatoByIdGioc($acquisto,$_SESSION['idsquadra']);
-						$giocatoreObj->setGiocatoreLasciatoByIdGioc($lasciato);
-						$squadraObj->increaseNumberTransfert($_SESSION['idsquadra']);
-						$messaggio[] = 0;
-						$messaggio[] = 'Operazione eseguita con successo';
+						$messaggio[0] = 2;
+						$messaggio[1] = 'Hai già cambiato 2 volte il tuo acquisto';
 						$contenttpl->assign('messaggio',$messaggio);
-						$eventiObj->addEvento('2',$_SESSION['idsquadra']);
 					}
+			
+				}
+				elseif($giocatoreAcquistatoOld[0] == $acquisto && $giocatoreLasciatoOld[0] == $lasciato)
+				{
+					$messaggio[0] = 2;
+					$messaggio[1] = 'Hai già selezionato questi giocatori per l\'acquisto';
+					$contenttpl->assign('messaggio',$messaggio);
 				}
 				else
 				{
-					$messaggio[] = 2;
-					$messaggio[] = 'Hai già cambiato 2 volte il tuo acquisto';
+					$messaggio[0] = 1;
+					$messaggio[1] = 'Non hai compilato correttamente';
 					$contenttpl->assign('messaggio',$messaggio);
 				}
-			
-			}
-			elseif($giocatoreAcquistatoOld[0] == $acquisto && $giocatoreLasciatoOld[0] == $lasciato)
-			{
-				$messaggio[] = 2;
-				$messaggio[] = 'Hai già selezionato questi giocatori per l\'acquisto';
-				$contenttpl->assign('messaggio',$messaggio);
 			}
 			else
 			{
-				$messaggio[] = 1;
-				$messaggio[] = 'Non hai compilato correttamente';
+				$messaggio[0] = 1;
+				$messaggio[1] = 'I giocatori devono avere lo stesso ruolo';
 				$contenttpl->assign('messaggio',$messaggio);
 			}
 		}
 		if($flag == 1)
 		{
-      $acquisto = $giocatoreAcquistatoOld[0];
-      $lasciato = $giocatoreLasciatoOld[0];
-    }
+			$acquisto = $giocatoreAcquistatoOld[0];
+			$lasciato = $giocatoreLasciatoOld[0];
+		}
 		$contenttpl->assign('giocAcquisto',$acquisto);
 		$contenttpl->assign('giocLasciato',$lasciato);
 	
@@ -162,8 +172,8 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 	}
 	else
 	{
-		$messaggio[] = 2;
-		$messaggio[] = 'Hai raggiunto il limite di trasferimenti';
+		$messaggio[0] = 2;
+		$messaggio[1] = 'Hai raggiunto il limite di trasferimenti';
 		$contenttpl->assign('messaggio',$messaggio);
 	}
 }
