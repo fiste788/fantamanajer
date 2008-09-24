@@ -4,17 +4,39 @@ require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'mail.inc.php');
 require_once(INCDIR.'strings.inc.php');
 
+if(isset($_GET['a']))
+	$action = $_GET['a'];
+if(isset($_GET['id']))
+	$id = $_GET['id'];
+
 $squadraObj = new squadra();
 $giocatoreObj = new giocatore();
 $mailObj = new mail();
 $stringObj = new string(NULL);
 
-$contenttpl->assign('portieri',$giocatoreObj->getFreePlayer('P'));
-$contenttpl->assign('difensori',$giocatoreObj->getFreePlayer('D'));
-$contenttpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C'));
-$contenttpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A'));
-
 $giocatori = array();
+
+if(isset($action) && isset($id))
+{
+	if($action == 'edit')
+	{
+	
+	}
+	elseif($action == 'cancel')
+	{
+		if($squadraObj->deleteSquadra($id))
+		{
+			$giocatoreObj->unsetSquadraGiocatoreByIdSquadra($id);
+			$message[0] = 0;
+			$message[1] = "Cancellazione effettuata correttamente";
+		}
+		else
+		{
+			$message[0] = 1;
+			$message[1] = "Hai già eliminato questa squadra";
+		}
+	}
+}
 if(!empty($_POST))
 {
 	foreach($_POST as $key=>$val)
@@ -24,13 +46,13 @@ if(!empty($_POST))
 			$message[0] = 1;
 			$message[1] = "Non hai compilato tutti i campi";
 		}
-		elseif(in_array($val,$giocatori))
+		elseif(in_array($val,$giocatori) && substr($key,0,9) == 'giocatore')
 		{
 			$message[0] = 1;
 			$message[1] = "Hai immesso un giocatore più di una volta";
 			break;
 		}
-		else
+		elseif(substr($key,0,9) == 'giocatore')
 			$giocatori[] = $val;
 	}
 	if(!$mailObj->checkEmailAddress($_POST['email']))
@@ -45,9 +67,18 @@ if(!empty($_POST))
 			$amministratore = TRUE;
 		else
 			$amministratore = FALSE;
-		$squadraObj->addSquadra($_POST['usernamenew'],$_POST['nomeSquadra'],$amministratore,$stringObj->createRandomPassword(),$_POST['email']);
+		$squadra = $squadraObj->addSquadra($_POST['usernamenew'],$_POST['nomeSquadra'],$amministratore,$stringObj->createRandomPassword(),$_POST['email']);
+		$giocatoreObj->setSquadraGiocatoreByArray($giocatori,$squadra['IdSquadra']);
+		$message[0] = 0;
+		$message[1] = "Squadra creata correttamente";
 	}
-	echo "<pre>".print_r($squadraObj,1)."</pre>";
-	$contenttpl->assign('messaggio',$message);
 }
+if(isset($message))
+	$contenttpl->assign('messaggio',$message);
+
+$contenttpl->assign('portieri',$giocatoreObj->getFreePlayer('P'));
+$contenttpl->assign('difensori',$giocatoreObj->getFreePlayer('D'));
+$contenttpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C'));
+$contenttpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A'));
+$contenttpl->assign('elencosquadre',$squadraObj->getElencoSquadre());
 ?>

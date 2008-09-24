@@ -1,3 +1,4 @@
+<?php $j = 0; ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
@@ -29,47 +30,70 @@
 			<h4 class="bold no-margin">Portieri</h4>
 			<hr />
 			<?php for($i = 0;$i < 3; $i++): ?>
-				<select name="portiere-<?php echo $i ?>">
+				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->portieri as $key=>$val): ?>
-						<option <?php if(isset($_POST['portiere-'.$i]) && $_POST['portiere-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
-			<?php endfor; ?>
+			<?php $j++; endfor; ?>
 			<h4 class="bold no-margin">Difensori</h4>
 			<hr />
 			<?php for($i = 0;$i < 8; $i++): ?>
-				<select name="difensore-<?php echo $i ?>">
+				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->difensori as $key=>$val): ?>
-						<option <?php if(isset($_POST['difensore-'.$i]) && $_POST['difensore-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
-			<?php endfor; ?>
+			<?php $j++; endfor; ?>
 			<h4 class="bold no-margin">Centrocampisti</h4>
 			<hr />
 			<?php for($i = 0;$i < 8; $i++): ?>
-				<select name="centrocampista-<?php echo $i ?>">
+				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->centrocampisti as $key=>$val): ?>
-						<option <?php if(isset($_POST['centrocampista-'.$i]) && $_POST['centrocampista-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
-			<?php endfor; ?>
+			<?php $j++; endfor; ?>
 			<h4 class="bold no-margin">Attaccanti</h4>
 			<hr />
 			<?php for($i = 0;$i < 6; $i++): ?>
-				<select name="attaccante-<?php echo $i ?>">
+				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->attaccanti as $key=>$val): ?>
-						<option <?php if(isset($_POST['attaccante-'.$i]) && $_POST['attaccante-'.$i] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
-			<?php endfor; ?>
+			<?php $j++; endfor; ?>
 		</fieldset>
 		<fieldset class="column div-submit">
 			<input type="submit" class="submit dark" value="Crea" />
 		</fieldset>
+		<div class="column last">
+			<div class="box2-top-sx column last">
+			<div class="box2-top-dx column last">
+			<div class="box2-bottom-sx column last">
+			<div class="box2-bottom-dx column last">
+			<div class="box-content column last">
+			<?php foreach($this->elencosquadre as $key=>$val): ?>
+				<div id="elencoSquadre" class="column last">
+					<p class="column last"><?php echo $val[1]; ?></p>
+					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val[0])); ?>">
+						<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
+					</a>
+					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val[0])); ?>">
+						<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
+					</a>
+				</div>
+			<?php endforeach; ?>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+		</div>
 	</form>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>
