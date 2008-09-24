@@ -111,8 +111,23 @@ class squadra
 	
 	function addSquadra($username,$name,$admin,$password,$email)
 	{
-		$q = "INSERT INTO squadra (nome,username,password,mail,amministratore) VALUES ('" . $name . "','" . $username . "','" . $password . "','" . $email . "','" . $admin . "');";
+		$q = "INSERT INTO squadra (nome,username,password,mail,amministratore) VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "');";
 		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$q = "SELECT * FROM squadra WHERE nome = '" . $name . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "';";
+		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		while ($row = mysql_fetch_row($exe) )
+			$val = $row[0];
+		return $val;
+	}
+	
+	function deleteSquadra($id)
+	{
+		$q = "DELETE FROM squadra WHERE IdSquadra = '" . $id . "';";
+		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		if(mysql_affected_rows() == 0)
+			return FALSE;
+		else
+			return TRUE;
 	}
 }
 ?>

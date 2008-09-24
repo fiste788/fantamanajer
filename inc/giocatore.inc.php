@@ -335,12 +335,12 @@ class giocatore
         $liste = csv2array($content);
         print_r($liste);
 */
-    function getGiocatoryByIdSquadraWithStats($idsquadra)
-    {
+	function getGiocatoryByIdSquadraWithStats($idsquadra)
+	{
 		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as voto,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist,AVG(VotoUff) as votoeff
-            FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
-            WHERE IdSquadra ='" . $idsquadra . "' 
-            GROUP BY giocatore.IdGioc";
+			FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
+			WHERE IdSquadra ='" . $idsquadra . "' 
+			GROUP BY giocatore.IdGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$giocatori = "";
 		while($row=mysql_fetch_row($exe))
@@ -351,16 +351,32 @@ class giocatore
 			return $giocatori;
 		else
 			return FALSE;
-    }
-    function getMedieVoto($idgioc)
-    {
-        $query="SELECT AVG(Voto) as mediaPunti,AVG(VotoUff) as mediaVoti,count(Voto) as Presenze FROM voti WHERE idgioc='$idgioc'AND VotoUff <> 0 AND Voto <> 0 GROUP by idgioc";
+	}
+		
+	function getMedieVoto($idgioc)
+	{
+		$query="SELECT AVG(Voto) as mediaPunti,AVG(VotoUff) as mediaVoti,count(Voto) as Presenze FROM voti WHERE idgioc='$idgioc'AND VotoUff <> 0 AND Voto <> 0 GROUP by idgioc";
 		$exe = mysql_query($query) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
 			return $row;
 		}
-
-    }
+	}
+	
+	function setSquadraGiocatoreByArray($giocatori,$idSquadra)
+	{
+		$q = "UPDATE giocatore SET IdSquadra = '" . $idSquadra . "' WHERE IdGioc IN (";
+		foreach($giocatori as $key => $val)
+			$q .= $val . ",";
+		$q = substr($q,0,-1);
+		$q .= ");";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+	}
+	
+	function unsetSquadraGiocatoreByIdSquadra($id)
+	{
+		$q = "UPDATE giocatore SET IdSquadra = '0' WHERE IdSquadra = '" . $id . "';";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+	}
 }
 ?>
