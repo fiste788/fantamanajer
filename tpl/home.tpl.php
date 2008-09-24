@@ -110,7 +110,7 @@
 			<div class="box2-bottom-dx column last">
 			<div class="conf-stampa-content column last">
 				<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
-					<a class="column last" href=<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
+					<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 						<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 					</a>
 					<a class="column" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'cancel','id'=>$val['idArticolo'])); ?>">
