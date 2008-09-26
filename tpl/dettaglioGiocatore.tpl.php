@@ -66,7 +66,7 @@
 	<tr>
 			<td>Voti</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['VotoUff']; ?></td>
+			<td><?php if($val['VotoUff'] != '0') echo $val['VotoUff']; else echo "&nbsp;"; ?></td>
 		<?php endforeach; ?>
 	</tr>
 
@@ -94,7 +94,7 @@
 			var data = [
 				{
 				label: "<?php echo $this->dettaglioGioc[0]['Cognome'] ." ". $this->dettaglioGioc[0]['Nome'] ?>",
-				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php echo '['.$key.','.$val['Voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
+				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php if($val['VotoUff'] != '0') echo '['.$key.','.$val['Voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
 				}
 			];
 				

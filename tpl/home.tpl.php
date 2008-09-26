@@ -74,7 +74,7 @@
 	</script>
 	<?php if($this->eventi != FALSE) :?>
 	<div id="eventi" class="column" style="clear:both;">
-	<h3 class="column">Ultime eventi</h3>
+	<h3 class="column">Ultimi eventi</h3>
 		<div class="conf-stampa column last" style="clear:both;">
 			<div class="box2-top-sx column last">
 			<div class="box2-top-dx column last">
