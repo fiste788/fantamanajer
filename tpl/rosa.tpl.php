@@ -34,10 +34,10 @@
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['ruolo']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['club']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="Tra parentesi è indicato il numero di partite in cui ha preso il voto"><?php echo $val['partite']." (".$val['partiteeff'].")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="<?php echo $val['votoeffAll'] ?>"><?php echo $val['votoeff']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['gol']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['assist']; ?></td>
-                <td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="<?php echo $val['votoeffAll'] ?>"><?php if(!empty($val['votoeff'])) echo $val['votoeff'];else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
+        <td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="<?php echo $val['votiAll'] ?>"><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
