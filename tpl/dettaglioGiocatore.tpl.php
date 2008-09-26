@@ -6,7 +6,7 @@
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['Cognome']." ".$this->dettaglioGioc[0]['Nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content"> 
-<table>
+<table cellpadding="0" cellspacing="0">
 	<tr>
 		<td>Cognome:</td>
 		<td><?php echo $this->dettaglioGioc[0]['Cognome']; ?></td>
@@ -34,23 +34,23 @@
 
 	<tr>
 		<td>Gol:</td>
-		<td><?php echo $this->dettaglioGioc[0]['gol']; ?></td>
+		<td><?php if(!empty($this->dettaglioGioc[0]['gol']))echo $this->dettaglioGioc[0]['gol']; else echo "&nbsp" ?></td>
 	</tr>
 	<tr>
 		<td>Assist:</td>
-		<td><?php echo $this->dettaglioGioc[0]['assist']; ?></td>
+		<td><?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; else echo "&nbsp;" ?></td>
 	</tr>
 	<tr>
 		<td>Media Voto:</td>
-		<td><?php echo $this->dettaglioGioc[0]['mediaVoti']; ?></td>
+		<td><?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; else echo "&nbsp;" ?></td>
 	</tr>
 	<tr>
 		<td>Media Punti:</td>
-		<td><?php echo $this->dettaglioGioc[0]['mediaPunti']; ?></td>
+		<td><?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; else echo "&nbsp;" ?></td>
 	</tr>
 </table>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
-<table>
+<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th>Giornata</th>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
@@ -66,7 +66,7 @@
 	<tr>
 			<td>Voti</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['VotoUff']; ?></td>
+			<td><?php if($val['VotoUff'] != '0') echo $val['VotoUff']; else echo "&nbsp;"; ?></td>
 		<?php endforeach; ?>
 	</tr>
 
@@ -94,7 +94,7 @@
 			var data = [
 				{
 				label: "<?php echo $this->dettaglioGioc[0]['Cognome'] ." ". $this->dettaglioGioc[0]['Nome'] ?>",
-				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php echo '['.$key.','.$val['Voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
+				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php if($val['VotoUff'] != '0') echo '['.$key.','.$val['Voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
 				}
 			];
 				
@@ -188,6 +188,7 @@
 						$.extend(true, {}, options, {
 							xaxis: { min: Math.round(area.x1), max: Math.round(area.x2) }
 					}));
+					$("#overview").setSelection(area, true);
 					$("#legendcontainer table").attr('cellspacing','0');
 				});
 
