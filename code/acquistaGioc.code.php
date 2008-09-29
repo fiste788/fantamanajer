@@ -9,7 +9,7 @@ $date = $giornataObj->getDataByGiornata($giornataObj->getIdGiornataByDate());
 $giorn = explode(' ',$date[2]);
 $dataGiornata = $giorn[0];
 
-if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo'))
+if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo')) || $_SESSION['usertype'] == 'admin'))
 {
 	if($today == $dataGiornata && date("H") == '00')
 	{
