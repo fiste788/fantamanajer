@@ -104,7 +104,7 @@ class giocatore
 	
 	function getGiocatoreById($giocatore)
 	{
-		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, AVG( Voto ) as mediaPunti,avg(VotoUff) as mediaVoti,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' AND (VotoUff <> 0 OR Voto IS NULL) GROUP BY giocatore.IdGioc;";
+		$q = "SELECT giocatore.IdGioc, Cognome, Nome, Ruolo, IdSquadra, Club, round( AVG( Voto ) , 2 ) AS mediaPunti,round(avg(VotoUff),2) as mediaVoti,COUNT( VotoUff ) as presenze, SUM( Gol ) as gol, SUM( Assist ) as assist FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc WHERE giocatore.idGioc = '" . $giocatore . "' AND (VotoUff <> 0 OR Voto IS NULL) GROUP BY giocatore.IdGioc;";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		$q2 = "SELECT IdGiornata, Voto,VotoUff , Gol, Assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q2);
