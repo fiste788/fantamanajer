@@ -13,7 +13,7 @@ if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']
 	if($backupObj->dodump())
 	{
 		$contenttpl->assign('message','Operazione effettuata correttamente');
-		$files = $fileSystemObj->getFileIntoFolder($path);
+        $files = $fileSystemObj->getFileIntoFolder($path);
 		rsort($files);
 		if(count($files) > 8)
 		{
