@@ -1,11 +1,14 @@
 <?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
+
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
 	</div>
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['Cognome']." ".$this->dettaglioGioc[0]['Nome']; ?></h2>
 </div>
+
 <div id="dettaglioGioc" class="main-content"> 
+<IMG src="<?php echo IMGSURL.$this->pathfoto; ?>" ALIGN="bottom">
 <table cellpadding="0" cellspacing="0">
 	<tr>
 		<td>Cognome:</td>
