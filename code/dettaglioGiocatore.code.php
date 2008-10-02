@@ -9,7 +9,9 @@ $id = $_GET['id'];
 
 $dettaglio = $giocatoreObj->getGiocatoreById($id);
 
+
 $contenttpl->assign('squadra',$squadraObj->getSquadraById($dettaglio[0]['IdSquadra']));
 $contenttpl->assign('dettaglioGioc',$dettaglio);
+$contenttpl->assign('pathfoto',"foto/".$id.".jpg");
 ?>
  
