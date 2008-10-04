@@ -17,8 +17,7 @@ $val = $squadraObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
 if(TIMEOUT == FALSE)
-
-	header("Location:index.php?p=formazioniAll");
+	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
 

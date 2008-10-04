@@ -29,7 +29,7 @@ $upages = array();
 									'css'=>array('screen','style'));
 									
 	$upages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
-									'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix'),
+									'js'=>array('jquery'=>'jquery'),
 									'css'=>array('screen','style'));
 									
 	$upages['contatti'] = array(	'title'=>"Contatti",
@@ -94,7 +94,7 @@ $apages = array();
 										'css'=>array('screen','style'));
 										
 	$apages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
-										'js'=>array('jquery'=>'jquery','pngfix'=>'ie|jquery-pngFix','ui'=>array('effects-core','effects-pulsate')),
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 									
 	$apages['contatti'] = array(	'title'=>"Contatti",
