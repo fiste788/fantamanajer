@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
+		<img align="left" src="<?php echo IMGSURL.'admin-area-big.png'; ?>" alt="Logo Squadre" />
 	</div>
 	<h2 class="column">Area amministrativa</h2>
 </div>
@@ -13,7 +13,7 @@
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
 			<h3>Gestione squadre</h3>	
-			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'transfert-other.png'; ?>" title="Trasferimenti" />
+			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'rose-big.png'; ?>" title="Gestione Squadre" />
 			<ul>
 				<li><a href="<?php echo $this->linksObj->getLink('creaSquadra'); ?>">Crea squadra</a></li>
 				<li><a href="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>">Nuovo trasferimento</a></li>

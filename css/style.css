@@ -189,6 +189,7 @@ em {background-color:transparent;}
 #operazioni .see-premi {background:transparent url(../imgs/operazioni.png) no-repeat scroll left -30px;}
 #operazioni .see-transfert {background:transparent url(../imgs/operazioni.png) no-repeat scroll left -60px;}
 #operazioni .new-stampa {background:transparent url(../imgs/operazioni.png) no-repeat scroll left 0px;}
+#operazioni .admin-area {	background:transparent url(../imgs/operazioni.png) no-repeat scroll left -150px;}
 #operazioni-other .undo-punteggi-active {background:transparent url(../imgs/frecce.png) no-repeat scroll left -60px;}
 #operazioni-other .redo-punteggi-active {background:transparent url(../imgs/frecce.png) no-repeat scroll left 0px;}
 #operazioni-other .undo-punteggi-unactive {background:transparent url(../imgs/frecce.png) no-repeat scroll left -90px;}
