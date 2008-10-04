@@ -14,7 +14,7 @@
 			<li><a class="see-freeplayer column last operazione" href="<?php echo $this->linksObj->getLink('giocatoriLiberi'); ?>">Guadra i giocatori liberi</a></li>
 			<li><a class="see-premi column last operazione" href="<?php echo $this->linksObj->getLink('premi'); ?>">Guadra i premi</a></li>
 			<?php if($_SESSION['usertype'] == 'admin'): ?>
-				<li><a class="see-freeplayer column last operazione" href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>">Area amministrativa</a></li>
+				<li><a class="admin-area column last operazione" href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>">Area amministrativa</a></li>
 			<?php endif; ?>
 		</ul>
 	</div>

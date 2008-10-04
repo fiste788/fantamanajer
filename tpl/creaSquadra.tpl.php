@@ -77,6 +77,7 @@
 			<div class="box2-bottom-sx column last">
 			<div class="box2-bottom-dx column last">
 			<div class="box-content column last">
+			<h3>Elenco squadre</h3>
 			<?php foreach($this->elencosquadre as $key=>$val): ?>
 				<div id="elencoSquadre" class="column last">
 					<p class="column last"><?php echo $val[1]; ?></p>
