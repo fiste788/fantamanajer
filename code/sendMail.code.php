@@ -16,7 +16,7 @@ $dataGiornata = $giorn[0];
 
 if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo')) || $_SESSION['usertype'] == 'admin'))
 {
-	if($today == $dataGiornata && date("H") == 18)
+	if(($today == $dataGiornata && date("H") == 18) || $_SESSION['usertype'] == 'admin')
 	{
 		$mailContent = new Savant2();
 		$squadre = $squadraObj->getElencoSquadre();
