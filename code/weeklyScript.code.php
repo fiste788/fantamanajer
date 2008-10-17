@@ -16,7 +16,7 @@ $giornata = $giornataObj->getIdGiornataByDate(date("Y-m-d"))-1;
 if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo')) || $_SESSION['usertype'] == 'admin')
 {
 	//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-	if( ($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 15 && $punteggiObj->checkPunteggi($giornata))
+	if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 15 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['usertype'] == 'admin')
 	{
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 		recupera_voti($giornata);

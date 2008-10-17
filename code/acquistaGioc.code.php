@@ -11,7 +11,7 @@ $dataGiornata = $giorn[0];
 
 if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo')) || $_SESSION['usertype'] == 'admin'))
 {
-	if($today == $dataGiornata && date("H") == '00')
+	if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 'admin')
 	{
 		$giocatoreObj->doTransfert();
 		$contenttpl->assign('message','Operazione effettuata correttamente');
