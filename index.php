@@ -241,7 +241,7 @@ $result = $layouttpl->display(TPLDIR.'layout.tpl.php');
 // error, this will tell you all about it.
 if ($layouttpl->isError($result)) {
     echo "There was an error displaying the template. <pre>";
-    print_r($result);
+    print_r($result,1);
     echo "</pre>";
 }
 
