@@ -151,7 +151,6 @@ class giocatore
 	function createGiornataDettaglioByGiocatori($giornata,$squadra)
 	{
 		$formazione = array();
-		echo "<pre>".print_r($result,1)."</pre>";
 		$q = "SELECT IdGioc,Nome,Cognome,Ruolo,Club FROM giocatore WHERE IdGioc = "; 
 		foreach($result as $key=>$val)
 		{
@@ -172,7 +171,6 @@ class giocatore
 		$q = substr($q , 0 , -13);
 		$exe = mysql_query($q);
 		$ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');        
-        echo "<pre>".print_r($elenco,1)."</pre>";
 		while ($row = mysql_fetch_array($exe))
 		{
 			$row[] = $giocatori[ $row['IdGioc'] ]['punt'];
@@ -296,7 +294,6 @@ class giocatore
 				{
 					if(array_search($val['old'],$formazione['Elenco']) != FALSE)
 					{
-						echo "ok2";
 						$q = "UPDATE schieramento SET IdGioc = '" . $val['new'] . "' WHERE IdGioc = '" . $val['old'] . "' AND IdFormazione = '" . $formazione['Id'] . "';";
 						mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 						$pos = array_search($val['old'],$formazione['Cap']);

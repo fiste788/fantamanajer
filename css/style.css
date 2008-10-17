@@ -618,3 +618,6 @@ p.surprise {
 .tdcenter {
 	text-align: center;
 }
+#dettaglioGioc p {
+	margin-bottom:2px;
+}

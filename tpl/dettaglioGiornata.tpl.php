@@ -101,7 +101,7 @@
 				<?php endif; ?>
 			</ul>
 		</div>
-		<form class="column last" name="selsq" action="index.php?p=punteggidettaglio" method="get">
+		<form class="column last" name="selsq" action="<?php echo $this->linksObj->getLink('dettaglioGiornata'); ?>" method="post">
 			<input type="hidden" name="p" value="<?php echo $_GET['p'];?>" />
 			<fieldset class="no-margin fieldset  max-large">
 				<h3 class="no-margin">Seleziona la giornata</h3>

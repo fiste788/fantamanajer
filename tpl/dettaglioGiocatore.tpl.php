@@ -8,50 +8,19 @@
 </div>
 
 <div id="dettaglioGioc" class="main-content"> 
-<IMG src="<?php echo IMGSURL.$this->pathfoto; ?>" ALIGN="bottom">
-<table cellpadding="0" cellspacing="0">
-	<tr>
-		<td>Cognome:</td>
-		<td><?php echo $this->dettaglioGioc[0]['Cognome']; ?></td>
-	</tr>
-	<tr>
-		<td>Nome:</td>
-		<td><?php echo $this->dettaglioGioc[0]['Nome']; ?></td>
-	</tr>
-	<tr>
-		<td>Ruolo:</td>
-		<td><?php echo $ruo[$this->dettaglioGioc[0]['Ruolo']]; ?></td>
-	</tr>
-	<tr>
-		<td>Squadra:</td>
-		<td><?php if(isset($this->dettaglioGioc[0]['IdSquadra'])) echo $this->squadra['nome']; else echo "Libero" ?></td>
-	</tr>
-	<tr>
-		<td>Club:</td>
-		<td><?php echo $this->dettaglioGioc[0]['Club']; ?></td>
-	</tr>
-	<tr>
-		<td>Presenze:</td>
-		<td><?php echo $this->dettaglioGioc[0]['presenze']; ?></td>
-	</tr>
-
-	<tr>
-		<td>Gol:</td>
-		<td><?php if(!empty($this->dettaglioGioc[0]['gol']))echo $this->dettaglioGioc[0]['gol']; else echo "&nbsp" ?></td>
-	</tr>
-	<tr>
-		<td>Assist:</td>
-		<td><?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; else echo "&nbsp;" ?></td>
-	</tr>
-	<tr>
-		<td>Media Voto:</td>
-		<td><?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; else echo "&nbsp;" ?></td>
-	</tr>
-	<tr>
-		<td>Media Punti:</td>
-		<td><?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; else echo "&nbsp;" ?></td>
-	</tr>
-</table>
+	<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg')): ?>
+	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg'; ?>">
+	<?php endif; ?>
+	<p>Cognome: <?php echo $this->dettaglioGioc[0]['Cognome']; ?></p>
+	<p>Nome: <?php echo $this->dettaglioGioc[0]['Nome']; ?></p>
+	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['Ruolo']]; ?></p>
+	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['IdSquadra'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
+	<p>Club: <?php echo $this->dettaglioGioc[0]['Club']; ?></p>
+	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']; ?></p>
+	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
+	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
+	<p>Media Voto: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
+	<p>Media Punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
 <table cellpadding="0" cellspacing="0">
 	<tr>

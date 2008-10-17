@@ -29,6 +29,7 @@ RewriteRule ^giocatoriLiberi.html$ index.php?p=giocatoriLiberi
 RewriteRule ^conferenzeStampa.html$ index.php?p=conferenzeStampa
 RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giorn=$1
 RewriteRule ^classifica.html$ index.php?p=classifica
+RewriteRule ^dettaglioGiornata.html$ index.php?p=dettaglioGiornata
 RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giorn=$1&squad=$2
 RewriteRule ^premi.html$ index.php?p=premi
 RewriteRule ^contatti.html$ index.php?p=contatti
