@@ -116,7 +116,7 @@ function recupera_nomi($percorso)
 
 function foto()
 {
-    $q="SELECT cognome FROM giocatore WHERE Club='ATA'";
+    $q="SELECT idgioc,nome,cognome FROM giocatore WHERE Club='laz'";
     $risu=mysql_query($q) or die("Query non valida: ".$q . mysql_error());;
     while ($riga = mysql_fetch_array($risu, MYSQL_ASSOC)) 
     {
@@ -124,7 +124,8 @@ function foto()
     }
     foreach($giocatori as $appo)
     {
-        $link="http://www.atalanta.it/atalanta/site/img/squadra/".$appo.".jpg";
+    
+        $link="<a href=http://www.sslazio.it/systemImages/cms/1812_attach1_img_286593_Copia%20di%20".$appo.".jpg>".$appo."</a>";
         print $link."<br>";
     }
 }
