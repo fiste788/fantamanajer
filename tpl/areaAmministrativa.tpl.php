@@ -30,9 +30,11 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<h3><a href="<?php echo $this->linksObj->getLink('giocatoriLiberi'); ?>">Giocatori Liberi</a></h3>	
+			<h3>Manutenzione</h3>	
 			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'freeplayer-other.png'; ?>" title="Giocatori liberi" />
-			<div>Guarda quì i giocatori liberi e le loro statistiche come la media voto e le partite giocate</div>
+			<ul>
+				<li><a href="<?php echo $this->linksObj->getLink('lanciaScript'); ?>">Lancia script</a></li>
+			</ul>
 		</div>
 		</div>
 		</div>

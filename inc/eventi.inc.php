@@ -60,7 +60,7 @@ class eventi
 									foreach($titolari as $key2=>$val2)
 										$values[$key]['content'] .= $val2['Cognome'].', ';
 		          					$values[$key]['content'] = substr($values[$key]['content'],0,-2);
-		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('squadra'=>$values[$key]['idExternal']['IdSquadra'],'giorn'=>$values[$key]['idExternal']['IdGiornata']));break;
+		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['IdGiornata'],'squadra'=>$values[$key]['idExternal']['IdSquadra']));break;
 		          	case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
 		          					$giocOld[] = $values[$key]['idExternal']['IdGiocOld'];
 		          					$giocNew[] = $values[$key]['idExternal']['IdGiocNew'];
