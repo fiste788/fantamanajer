@@ -8,28 +8,66 @@
 	<ul>
 		<li><a class="script" id="backup" href="#">Backup</a></li>
 		<li><a class="script" id="acquistaGioc" href="#">Trasferimenti</a></li>
+		<li><a class="script" id="weeklyScript" href="#">WeeklyScript</a></li>
+		<li><a class="script" id="sendMail" href="#">Manda mail formazione</a></li>
 	</ul>
 	<script type="text/javascript">
-		var loadingImg = "<?php echo IMGSURL.'lightbox-ico-loading.gif' ?>";
+		var loadingImg = "<?php echo IMGSURL.'lightbox-ico-loading.gif' ?>"; 
 		$(".script").click(function () { 
 			var Url = 'index.php?p=' + this.id;
+			var time = new Date();
+			var time_start = time.getTime();
+			var script = this.text;
 			$.ajax({
 				url: Url,
 				type: "post",
 				beforeSend: function(){
-					$("#results").append('<img src="' + loadingImg + '"');
+					$(".messaggio div").remove();
+					$(".messaggio").removeClass("good");
+					$(".messaggio").removeClass("bad");
+					$(".messaggio").append('<div><img src="' + loadingImg + '"</div>');
 				},
 				cache: false,
-				success: function(){
-					$("#results").empty();
-					$("#results").append("Script eseguito con successo");
+				success: function(html,text){
+					$(".messaggio div").fadeOut(function (){
+						$(".messaggio").css('display','none');
+						$(".messaggio").addClass('good');
+						$(".messaggio div").remove();
+						var time2 = new Date();
+						var time_end = time2.getTime();
+						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'ok-big.png'; ?> "><span>Script ' + script + ' eseguito con successo</span></div>').fadeIn();
+					});
 				},
 				error:  function(){
-					$("#results").empty();
-					$("#results").append("Errore nell'esecuzione dello script'");
+					$(".messaggio div").fadeOut(function (){
+						$(".messaggio").css('display','none');
+						$(".messaggio").addClass('bad');
+						$(".messaggio div").remove();
+						var time2 = new Date();
+						var time_end = time2.getTime();
+						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'attention-bad-big.png'; ?> "><span>Errore nell\'esecuzione dello script ' + script + '</span></div>').fadeIn();
+					});
 				}
 			});
 		});
+		
+		$(".messaggio").bind("click",function () {
+			$("div.messaggio").fadeOut("slow");
+		});
 	</script>
-	<div id="results">&nbsp;</div>
 </div>
+<div id="squadradett" class="column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+		  <div class="messaggio column last" style="display:none;">
+  		</div>
+			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>

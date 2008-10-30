@@ -1,16 +1,16 @@
-<?php 
+﻿<?php 
 require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 
 $giornata = GIORNATA;
 if(isset($_POST['giorn']))
 	$giornata = $_POST['giorn'];
 
 $classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata);
-$squadre = $squadraObj->getElencoSquadre();
+$squadre = $utenteObj->getElencoSquadre();
 
 foreach($classificaDett as $key=>$val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 

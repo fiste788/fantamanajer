@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Creo un array in cui specifico titolo,js e css dell'head
  */
@@ -144,20 +144,26 @@ $apages = array();
 	$apages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
+										
+	//$adminpages = $apages;
 																				
-	$apages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
+	$adminpages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
 										
-	$apages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
+	$adminpages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
-	$apages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
+	$adminpages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
-	$apages['lanciaScript'] = array(	'title'=>"Lancia script",
+	$adminpages['lanciaScript'] = array(	'title'=>"Lancia script",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
+										
+	$adminpages['gestioneDatabase'] = array(	'title'=>"Gestione database",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 

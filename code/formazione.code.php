@@ -1,11 +1,13 @@
-<?php
-require_once(INCDIR."squadra.inc.php");
+﻿<?php
+require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."formazione.inc.php");
 require_once(INCDIR."eventi.inc.php");
+require_once(INCDIR."giocatore.inc.php");
 
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $eventiObj = new eventi();
 $formazioneObj = new formazione();
+$giocatoreObj = new giocatore();
 
 $squadra = NULL;
 if(isset($_POST['squadra']))
@@ -13,25 +15,24 @@ if(isset($_POST['squadra']))
 $contenttpl->assign('squadra',$squadra);
 
 
-$val = $squadraObj->getElencoSquadre();
+$val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
 if(TIMEOUT == FALSE)
-
 	header("Location:index.php?p=formazioniAll");
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
 
-if(isset($formImp[$_SESSION['idsquadra']]) && (TIMEOUT))
-	unset($formImp[$_SESSION['idsquadra']]);
+if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
+	unset($formImp[$_SESSION['idSquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing=0;
 $cap="";
 if(TIMEOUT)
 {
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
- 	$contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($_SESSION['idsquadra']));
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+ 	$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']));
 	//SETTO A NULL IL VALORE DEL MODULO NELLA SESSIONE
 	if( !isset($_SESSION ['modulo']))
 		$_SESSION['modulo'] = NULL;
@@ -112,7 +113,7 @@ if(TIMEOUT)
 			if(!$issetform)
 			{
 				$id = $formazioneObj->carica_formazione($formazione,$capitano,GIORNATA);
-				$eventiObj->addEvento('3',$_SESSION['idsquadra'],$id);
+				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$id);
 			}
 			else
 				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA);
@@ -122,7 +123,7 @@ if(TIMEOUT)
 		if ($missing > 0)
 	  		$contenttpl->assign('err',3);	
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
   if($issetform)
 	{
 		if( !isset($_POST['mod']) && empty($_POST['mod']) )

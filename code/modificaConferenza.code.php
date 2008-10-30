@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 require_once(INCDIR."articolo.inc.php");
 require_once(INCDIR."emoticon.inc.php");
 require_once(INCDIR."eventi.inc.php");
@@ -54,14 +54,14 @@ if(isset($_POST['submit']))
 				$articoloObj->setinsertdate($articolo[0]['insertDate']);
 				$articoloObj->setidgiornata($articolo[0]['idGiornata']);
 			}
-			$articoloObj->setidsquadra($_SESSION['idsquadra']);
+			$articoloObj->setidsquadra($_SESSION['idSquadra']);
 			if($action == 'new')
 			{
 				$idArticolo = $articoloObj->add($articoloObj);
 				$messaggio[0] = 0;
 				$messaggio[] = "Inserimento completato con successo!";
 				$contenttpl->assign('messaggio',$messaggio);
-				$eventiObj->addEvento('1',$_SESSION['idsquadra'],$idArticolo);
+				$eventiObj->addEvento('1',$_SESSION['idSquadra'],$idArticolo);
 			}
 			else
 			{

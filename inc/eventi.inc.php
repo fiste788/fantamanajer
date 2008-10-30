@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 class eventi
 {
-	function addEvento($tipo,$idSquadra,$idExternal = NULL)
+	function addEvento($tipo,$idUtente,$idExternal = NULL)
 	{
-		$q = "INSERT INTO eventi (idSquadra,tipo,idExternal) VALUES ('" . $idSquadra . "','" . $tipo . "','" . $idExternal . "');";
+		$q = "INSERT INTO eventi (idUtente,tipo,idExternal) VALUES ('" . $idUtente . "','" . $tipo . "','" . $idExternal . "');";
 		mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
 	}
 	
@@ -15,7 +15,7 @@ class eventi
 	
 	function getEventi($tipo = NULL,$min = 0,$max = 10)
 	{
-		$q = "SELECT eventi.idEvento,eventi.idSquadra,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,squadra.nome FROM eventi INNER JOIN squadra ON eventi.idSquadra = squadra.idSquadra ORDER BY data DESC";
+		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome FROM eventi INNER JOIN utente ON eventi.idUtente = utente.idUtente ORDER BY data DESC";
 		if($tipo != NULL)
 		  $q .= " WHERE tipo = '" . $tipo . "'";
 		$q .= " LIMIT " . $min . "," . $max . ";";
@@ -58,7 +58,7 @@ class eventi
 
 									$values[$key]['content'] = 'Formazione: ';
 									foreach($titolari as $key2=>$val2)
-										$values[$key]['content'] .= $val2['Cognome'].', ';
+										$values[$key]['content'] .= $val2['cognome'].', ';
 		          					$values[$key]['content'] = substr($values[$key]['content'],0,-2);
 		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['IdGiornata'],'squadra'=>$values[$key]['idExternal']['IdSquadra']));break;
 		          	case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);

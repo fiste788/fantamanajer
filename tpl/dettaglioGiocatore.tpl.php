@@ -1,31 +1,31 @@
-<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
+﻿<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
 	</div>
-	<h2 class="column"><?php echo $this->dettaglioGioc[0]['Cognome']." ".$this->dettaglioGioc[0]['Nome']; ?></h2>
+	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content"> 
 <table>
 	<tr>
 		<td>Cognome:</td>
-		<td><?php echo $this->dettaglioGioc[0]['Cognome']; ?></td>
+		<td><?php echo $this->dettaglioGioc[0]['cognome']; ?></td>
 	</tr>
 	<tr>
 		<td>Nome:</td>
-		<td><?php echo $this->dettaglioGioc[0]['Nome']; ?></td>
+		<td><?php echo $this->dettaglioGioc[0]['nome']; ?></td>
 	</tr>
 	<tr>
 		<td>Ruolo:</td>
-		<td><?php echo $ruo[$this->dettaglioGioc[0]['Ruolo']]; ?></td>
+		<td><?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></td>
 	</tr>
 	<tr>
 		<td>Squadra:</td>
-		<td><?php if(isset($this->dettaglioGioc[0]['IdSquadra'])) echo $this->squadra['nome']; else echo "Libero" ?></td>
+		<td><?php if(isset($this->dettaglioGioc[0]['idUtente'])) echo $this->squadra['nome']; else echo "Libero" ?></td>
 	</tr>
 	<tr>
 		<td>Club:</td>
-		<td><?php echo $this->dettaglioGioc[0]['Club']; ?></td>
+		<td><?php echo $this->dettaglioGioc[0]['club']; ?></td>
 	</tr>
 	<tr>
 		<td>Presenze:</td>
@@ -60,26 +60,26 @@
 	<tr>
 			<td>Punti</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['Voto']; ?></td>
+			<td><?php echo $val['voto']; ?></td>
 		<?php endforeach; ?>
 	</tr>
 	<tr>
 			<td>Voti</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php if($val['VotoUff'] != '0') echo $val['VotoUff']; else echo "&nbsp;"; ?></td>
+			<td><?php if($val['votoUff'] != '0') echo $val['votoUff']; else echo "&nbsp;"; ?></td>
 		<?php endforeach; ?>
 	</tr>
 
 	<tr>
 			<td>Gol</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['Gol']; ?></td>
+			<td><?php echo $val['gol']; ?></td>
 		<?php endforeach; ?>
 	</tr>
 	<tr>
 			<td>Assist</td>
 		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['Assist']; ?></td>
+			<td><?php echo $val['assist']; ?></td>
 		<?php endforeach; ?>
 	</tr>
 </table>
@@ -93,8 +93,8 @@
  $(function () {
 			var data = [
 				{
-				label: "<?php echo $this->dettaglioGioc[0]['Cognome'] ." ". $this->dettaglioGioc[0]['Nome'] ?>",
-				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php if($val['VotoUff'] != '0') echo '['.$key.','.$val['Voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
+				label: "<?php echo $this->dettaglioGioc[0]['cognome'] ." ". $this->dettaglioGioc[0]['nome'] ?>",
+				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php if($val['votoUff'] != '0') echo '['.$key.','.$val['voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
 				}
 			];
 				

@@ -1,13 +1,13 @@
-<?php 
-require_once(INCDIR."squadra.inc.php");
+﻿<?php 
+require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."formazione.inc.php");
 require_once(INCDIR."giocatore.inc.php");
 
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
 
-$squadra = $_SESSION['idsquadra'];
+$squadra = $_SESSION['idSquadra'];
 $giorn = GIORNATA;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
@@ -23,7 +23,7 @@ $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('getGiornata',$giorn);
 
 
-$val = $squadraObj->getElencoSquadre();
+$val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 $cap=array();
 $formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giorn);
