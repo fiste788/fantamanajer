@@ -1,11 +1,11 @@
-<?php $r='Por.'; ?>
+﻿<?php $r='Por.'; ?>
 <?php if($this->squadra != NULL && $this->squadra > 0 && $this->squadra < 9): ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'-small.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL.$this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
-				<img alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="reflex" align="left" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'-small.jpg')): ?>
+			<a href="<?php echo UPLOADIMGURL.$this->squadradett['idUtente'].'-original.jpg'; ?>" class="lightbox">
+				<img alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="reflex" align="left" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php else: ?>
 			<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
@@ -28,16 +28,16 @@
 			</tr>
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<tr class="row">
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>>
+				<td<?php if($val['ruolo'] != $r) echo ' class="ult"' ?>>
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
-				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['ruolo']; ?></td>
-				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['club']; ?></td>
-				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['partite']." (".$val['partiteeff'].")"; ?></td>
-				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votoeffAll'] ?>"><?php echo $val['votoeff']; ?></td>
-				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['gol']; ?></td>
-				<td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?>><?php echo $val['assist']; ?></td>
-                <td class="tdcenter" <?php if($val['ruolo'] != $r) echo " class=\"ult\""?> title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['club']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteeff'].")"; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>" title="<?php echo $val['votoeffAll'] ?>"><?php echo $val['votoeff']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['gol']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['assist']; ?></td>
+                <td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>" title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
@@ -81,10 +81,10 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
-				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="logo reflex" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'.jpg')): ?>
+			<a href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="lightbox">
+				<img class="logo" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="logo reflex" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php endif; ?>
 		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>

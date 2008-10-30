@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 class articolo
 {
 	var $idArticolo;
@@ -16,7 +16,7 @@ class articolo
 		$this->abstract = NULL;
 		$this->text = NULL;
 		$this->insertDate = NULL;
-		$this->idsquadra = NULL;
+		$this->idSquadra = NULL;
 		$this->idGiornata = NULL;
 	}
 	
@@ -27,7 +27,7 @@ class articolo
 		$this->abstract = $row['abstract'];
 		$this->text = $row['text'];
 		$this->insertDate = $row['insertDate'];
-		$this->idsquadra = $row['idsquadra'];
+		$this->idSquadra = $row['idSquadra'];
 		$this->idGiornata = $row['idGiornata'];
 	}
 	
@@ -38,7 +38,7 @@ class articolo
 		$row[] = $this->abstract;
 		$row[] = $this->text;
 		$row[] = $this->insertDate;
-		$row[] = $this->idsquadra;
+		$row[] = $this->idSquadra;
 		$row[] = $this->idGiornata;
 		return $row;
 	}
@@ -48,7 +48,7 @@ class articolo
 	function getabstract() { return $this->abstract; }
 	function gettext() { return $this->text; }
 	function getinsertdate() { return $this->insertDate; }
-	function getidsquadra() { return $this->idsquadra; }
+	function getidsquadra() { return $this->idSquadra; }
 	function getidgiornata() { return $this->idGiornata; }
 	
 	function setidarticolo($articolo_idarticolo) { $this->idArticolo = $articolo_idarticolo; }
@@ -56,15 +56,16 @@ class articolo
 	function setabstract($articolo_abstract) { $this->abstract = $articolo_abstract; }
 	function settext($articolo_text) { $this->text = $articolo_text; }
 	function setinsertdate($articolo_insertdate) { $this->insertDate = $articolo_insertdate; }
-	function setidsquadra($articolo_idsquadra) { $this->idsquadra = $articolo_idsquadra; }
+	function setidsquadra($articolo_idsquadra) { $this->idSquadra = $articolo_idsquadra; }
 	function setidgiornata($articolo_idgiornata) { $this->idGiornata = $articolo_idgiornata; }
 	
 	
 	function add($articolo)
 	{
-		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idsquadra, idGiornata) VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idsquadra . "' , '" . $articolo->idGiornata . "');";
+		echo $this->idSquadra;
+		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata) VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "');";
 		mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-		$q = "SELECT idArticolo FROM articolo WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idsquadra = '" . $articolo->idsquadra . "' AND idGiornata = '" . $articolo->idGiornata . "';";
+		$q = "SELECT idArticolo FROM articolo WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "';";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$data = mysql_fetch_row($exe);
 		return $data[0];
@@ -72,7 +73,7 @@ class articolo
 	
 	function update($articolo)
 	{
-		$q = "UPDATE articolo SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idsquadra = '" . $articolo->idsquadra . "' , idGiornata = '" . $articolo->idGiornata . "'  WHERE idArticolo = '" . $articolo->idArticolo . "';";
+		$q = "UPDATE articolo SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idSquadra = '" . $articolo->idSquadra . "' , idGiornata = '" . $articolo->idGiornata . "'  WHERE idArticolo = '" . $articolo->idArticolo . "';";
 		mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 	}
 	
@@ -127,11 +128,11 @@ class articolo
 				$q .= " insertDate ". $equal . " '" . $perc . $articolo->insertDate . $perc . "'";
 				$flag++;
 			}
-			if(!empty($articolo->idsquadra))
+			if(!empty($articolo->idSquadra))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " idsquadra ". $equal . " '" . $perc . $articolo->idsquadra . $perc . "'";
+				$q .= " idSquadra ". $equal . " '" . $perc . $articolo->idSquadra . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->idGiornata))

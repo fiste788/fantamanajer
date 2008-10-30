@@ -34,6 +34,7 @@
 			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'freeplayer-other.png'; ?>" title="Giocatori liberi" />
 			<ul>
 				<li><a href="<?php echo $this->linksObj->getLink('lanciaScript'); ?>">Lancia script</a></li>
+				<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>">Gestione database</a></li>
 			</ul>
 		</div>
 		</div>

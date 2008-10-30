@@ -1,4 +1,4 @@
-	<?php
+﻿	<?php
 class punteggi
 {
 	function checkPunteggi($giornata)
@@ -15,9 +15,9 @@ class punteggi
 		}
 	}
     
-    function getPunteggi($idsquadra,$idgiornata)
+    function getPunteggi($idUtente,$idGiornata)
     {
-        $query="SELECT punteggio FROM punteggi WHERE IdSquadra='$idsquadra' AND IdGiornata='$idgiornata'";
+        $query="SELECT punteggio FROM punteggi WHERE idUtente='$idUtente' AND idGiornata='$idGiornata'";
 		$exe=mysql_query($query) or die("Query non valida: ".$query . mysql_error());
 		while ($row = mysql_fetch_array($exe))
 			return $row[0];       
@@ -25,8 +25,7 @@ class punteggi
     
 	function getClassifica()
 	{
-		//L'array deve essere strutturato come quì sotto
-		$q="SELECT squadra.IdSquadra,Nome,SUM(punteggio) as punteggioTot,AVG(punteggio) as punteggioMed, MAX(punteggio) as punteggioMax, MIN(punteggio) as punteggioMin FROM `punteggi` INNER JOIN squadra on punteggi.IdSquadra = squadra.IdSquadra GROUP BY IdSquadra ORDER BY punteggioTot DESC;";
+		$q="SELECT utente.idUtente,nome,SUM(punteggio) as punteggioTot,AVG(punteggio) as punteggioMed, MAX(punteggio) as punteggioMax, MIN(punteggio) as punteggioMin FROM punteggi INNER JOIN utente on punteggi.idUtente = utente.idUtente GROUP BY idUtente ORDER BY punteggioTot DESC;";
 		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		while ($row = mysql_fetch_array($exe))
 			$classifica[] = $row;
@@ -34,7 +33,7 @@ class punteggi
 			return($classifica);
 		else
 		{
-			$q="SELECT IdSquadra, nome FROM squadra";
+			$q="SELECT idUtente, nome FROM utente";
 			$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 			while ($row = mysql_fetch_array($exe) )
 			{
@@ -50,13 +49,13 @@ class punteggi
 
 	function getAllPunteggi()
 	{
-		$q = "SELECT squadra.IdSquadra, IdGiornata,Nome, punteggio FROM punteggi INNER JOIN squadra ON punteggi.IdSquadra = squadra.IdSquadra;";
+		$q = "SELECT utente.idUtente, idGiornata,nome, punteggio FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente;";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$i=0;
 		while ($row = mysql_fetch_array($exe))
 		{
-			$classifica[$row['IdSquadra']-1] [$row['IdGiornata']]= $row['punteggio'];
-			$somme[$row['IdSquadra']-1] = array_sum($classifica[$row['IdSquadra']-1]);
+			$classifica[$row['idUtente']] [$row['idGiornata']]= $row['punteggio'];
+			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
 		}
 		if(isset($somme))
 		{
@@ -72,13 +71,11 @@ class punteggi
 		}
 		else
 		{
-			$q="SELECT nome FROM squadra";
-			$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-			while ($row = mysql_fetch_row($exe) )
-			{
-				$row[] = 0;
-				$classificaokay[] = $row;
-			}
+			require_once(INCDIR.'utente.inc.php');
+			$utenteObj = new utente();
+			$squadre = $utenteObj->getElencoSquadre();
+			foreach($squadre as $key=>$val)
+				$classificaokay[$key][0] = 0;
 		}
 	    return($classificaokay);
 	}
@@ -97,35 +94,29 @@ class punteggi
 	
 	function getAllPunteggiByGiornata($giornata)
 	{
-		$q = "SELECT squadra.IdSquadra, IdGiornata,Nome, punteggio FROM punteggi INNER JOIN squadra ON punteggi.IdSquadra = squadra.IdSquadra WHERE idGiornata <= " . $giornata . ";";
+		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente WHERE idGiornata <= " . $giornata . ";";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$i=0;
 		while ($row = mysql_fetch_array($exe))
 		{
-			$classifica[$row['IdSquadra']-1] [$row['IdGiornata']]= $row['punteggio'];
-			$somme[$row['IdSquadra']-1] = array_sum($classifica[$row['IdSquadra']-1]);
+			$classifica[$row['idUtente']] [$row['idGiornata']]= $row['punteggio'];
+			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
 		}
 		if(isset($somme))
 		{
 			arsort($somme);
-
 			$appo = array_keys($somme);
 			for($i = 0; $i < count($classifica); $i++)
-			{
 				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
-				{
 			  		$classificaokay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
-			  	}
-			}
 		}
 		else
 		{
-			$q="SELECT nome FROM squadra";
-			$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-			while ($row = mysql_fetch_row($exe) )
-			{
-				$classificaokay[][] = 0;
-			}
+			require_once(INCDIR.'utente.inc.php');
+			$utenteObj = new utente();
+			$squadre = $utenteObj->getElencoSquadre();
+			foreach($squadre as $key=>$val)
+				$classificaokay[$key][0] = 0;
 		}
 	    return($classificaokay);
 	}
@@ -133,44 +124,42 @@ class punteggi
 	
 	function getGiornateWithPunt()
 	{
-		$q = " SELECT COUNT(DISTINCT(IdGiornata)) FROM punteggi;";
+		$q = " SELECT COUNT(DISTINCT(idGiornata)) FROM punteggi;";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		while ($row = mysql_fetch_row($exe))
 			return($row[0]);
 	}
+
+/* tutte le funzione da qui in poi sono da mettere nelle apposite classi tranne quella che calcola i punteggi */
     
-    function getVotoById($id,$giornata)
+    function getVotoById($idGioc,$giornata)
     {
-        $selectvoto="SELECT Voto FROM voti WHERE IdGioc='$id' AND IdGiornata='$giornata'";
-        $risu = mysql_query($selectvoto) or die("Query non valida: ".$selectvoto . mysql_error());
-		while ($row = mysql_fetch_row($risu))
+        $q="SELECT voto FROM voti WHERE idGioc='$idGioc' AND idGiornata='".$giornata."'";
+        $exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		while ($row = mysql_fetch_row($exe))
 			return($row[0]);
     }  
     
-    function getPresenzaById($id,$giornata)
+    function getPresenzaById($idGioc,$giornata)
     {
         $i=0;
-        $select="SELECT Voto,VotoUff FROM voti WHERE IdGioc='$id' AND IdGiornata='$giornata'";
-        $risu = mysql_query($select) or die("Query non valida: ".$select. mysql_error());
-		while ($row = mysql_fetch_array($risu,MYSQL_ASSOC))
+        $q="SELECT voto,votoUff FROM voti WHERE idGioc='$idGioc' AND idGiornata='".$giornata."'";
+        $exe = mysql_query($select) or die("Query non valida: ".$q. mysql_error());
+		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
 			$i++;
-			if($row['VotoUff']==0 and $row['Voto']==0)
-			 return 0;
+			if($row['votoUff']==0 and $row['voto']==0)
+				return 0;
 		}
 		if(!$i)
-		{
 		  return 0;
-		}
-    else
-    {
-		  return 1;
-    }
+	    else
+			return 1;
     }
     
-    function getRuoloById($id)
+    function getRuoloById($idGioc)
     {
-        $query="SELECT Ruolo FROM giocatore WHERE IdGioc='$id'";
+        $query="SELECT ruolo FROM giocatore WHERE idGioc='".$idGioc."'";
         $exe = mysql_query($query) or die("Query non valida: ".$query . mysql_error());
 		while ($row = mysql_fetch_row($exe))
 			return($row[0]);      
@@ -248,7 +237,7 @@ function calcolaPunti($giornata,$idsquadra)
         }    
         $somma+=$voto;
     }
-    $insert="INSERT INTO punteggi(IdGiornata,IdSquadra,punteggio) VALUES ('$giornata','$idsquadra','$somma');";
+    $insert="INSERT INTO punteggi(idGiornata,idUtente,punteggio) VALUES ('$giornata','$idsquadra','$somma');";
     mysql_query($insert) or die("Query non valida: ".$insert. mysql_error());
 }
 }

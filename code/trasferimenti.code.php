@@ -1,20 +1,20 @@
- <?php 
+﻿ <?php 
 require_once(INCDIR.'trasferimenti.inc.php');
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'mail.inc.php');
 require_once(INCDIR.'eventi.inc.php');
 	
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $mailObj = new mail();
 $eventiObj = new eventi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $giocatoreObj = new giocatore();
 $trasferimentiObj = new trasferimenti();
 
-$squadra = $_SESSION['idsquadra'];
+$squadra = $_SESSION['idSquadra'];
 $acquisto = NULL;
 $lasciato = NULL;
 $flag=0;
@@ -24,7 +24,7 @@ if(isset($_POST['squad']))
 	$squadra = $_POST['squad'];
 $ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
 $contenttpl->assign('ruo',$ruo);
-$contenttpl->assign('elencosquadre',$squadraObj->getElencoSquadre());
+$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadre());
 $contenttpl->assign('squadra',$squadra);
 $trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
 $contenttpl->assign('trasferimenti',$trasferimenti);
@@ -36,7 +36,7 @@ foreach($ruo as $key=>$val)
 $contenttpl->assign('freePlayer',$playerFree);
 
 $contenttpl->assign('numTrasferimenti',$numTrasferimenti);
-if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
+if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 {
 	if($numTrasferimenti <MAXTRASFERIMENTI )
 	{
@@ -92,12 +92,12 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 								$classificaNew[$key] = $val[0];
 							}
 							$posSquadraOld =  array_search($acquistoDett[$acquisto]['idSquadraAcquisto'],$classificaNew);
-							$posSquadraNew = array_search($_SESSION['idsquadra'],$classificaNew);
+							$posSquadraNew = array_search($_SESSION['idSquadra'],$classificaNew);
 							if($posSquadraNew > $posSquadraOld)
 							{
 								$giocatoreObj-> unsetGiocatoreLasciatoByIdSquadra($acquistoDett[$acquisto]['idSquadraAcquisto']);
 								$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($acquisto);
-								$squadraObj->decreaseNumberTransfert($acquistoDett[$acquisto]['idSquadraAcquisto']);
+								$utenteObj->decreaseNumberTransfert($acquistoDett[$acquisto]['idSquadraAcquisto']);
 								$body = 'Il giocatore ' . $acquistoDett[$acquisto]['Nome'] . $acquistoDett[$acquisto]['Cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
 								$appo = $acquistoDett[$acquisto]['idSquadraAcquisto']-1;
 								$mailObj->sendEmail($squadre[$appo][4],$body,'Giocatore Rubato');
@@ -121,13 +121,13 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 								$giocatoreObj-> unsetGiocatoreLasciatoByIdGioc($giocatoreLasciatoOld[0]);
 								$giocatoreObj-> unsetGiocatoreAcquistatoByIdGioc($giocatoreAcquistatoOld[0]);
 							}
-							$giocatoreObj->setGiocatoreAcquistatoByIdGioc($acquisto,$_SESSION['idsquadra']);
+							$giocatoreObj->setGiocatoreAcquistatoByIdGioc($acquisto,$_SESSION['idSquadra']);
 							$giocatoreObj->setGiocatoreLasciatoByIdGioc($lasciato);
-							$squadraObj->increaseNumberTransfert($_SESSION['idsquadra']);
+							$utenteObj->increaseNumberTransfert($_SESSION['idSquadra']);
 							$messaggio[0] = 0;
 							$messaggio[1] = 'Operazione eseguita con successo';
 							$contenttpl->assign('messaggio',$messaggio);
-							$eventiObj->addEvento('2',$_SESSION['idsquadra']);
+							$eventiObj->addEvento('2',$_SESSION['idSquadra']);
 						}
 					}
 					else
@@ -166,7 +166,7 @@ if($_SESSION['logged'] && $_SESSION['idsquadra'] == $squadra)
 		$contenttpl->assign('giocAcquisto',$acquisto);
 		$contenttpl->assign('giocLasciato',$lasciato);
 	
-		$giocatoreAcquistatoOld = $giocatoreObj->getGiocatoreAcquistatoByIdSquadra($_SESSION['idsquadra']);	
+		$giocatoreAcquistatoOld = $giocatoreObj->getGiocatoreAcquistatoByIdSquadra($_SESSION['idSquadra']);	
 		if($giocatoreAcquistatoOld != FALSE)
 			$contenttpl->assign('isset',$giocatoreAcquistatoOld);
 	}

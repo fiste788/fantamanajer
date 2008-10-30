@@ -1,4 +1,4 @@
-<?php $j = 0; ?>
+﻿<?php $j = 0; ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
@@ -8,6 +8,16 @@
 <div id="creaSquadre" class="main-content">
 	<form name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
 		<fieldset id="dettaglioSquadra" class="column last no-margin">
+			<div class="formbox">
+				<h3>Seleziona la lega</h3>
+				<select name="lega" onchange="document.creaSquadra.submit();">
+					<option></option>
+					<?php foreach($this->elencoLeghe as $key=>$val): ?>
+						<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<?php if($this->lega != NULL): ?>
 			<h3>Informazioni generali</h3>
 			<div class="formbox">
 				<label for="nomeSquadra">Nome della squadra:</label>
@@ -33,7 +43,7 @@
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->portieri as $key=>$val): ?>
-						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php $j++; endfor; ?>
@@ -43,7 +53,7 @@
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->difensori as $key=>$val): ?>
-						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php $j++; endfor; ?>
@@ -53,7 +63,7 @@
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->centrocampisti as $key=>$val): ?>
-						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php $j++; endfor; ?>
@@ -63,7 +73,7 @@
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php foreach($this->attaccanti as $key=>$val): ?>
-						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['IdGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['IdGioc'] ?>"><?php echo $val['Cognome'] ." ". $val['Nome'] ?></option>
+						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php $j++; endfor; ?>
@@ -95,6 +105,9 @@
 			</div>
 			</div>
 		</div>
+		<?php else: ?>
+		</fieldset>
+		<?php endif; ?>
 	</form>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>

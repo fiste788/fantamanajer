@@ -1,11 +1,11 @@
-<?php 
+﻿<?php 
 require_once(INCDIR."articolo.inc.php");
-require_once(INCDIR."squadra.inc.php");
+require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."emoticon.inc.php");
 
 $emoticonObj = new emoticon();
 $articoloObj = new articolo();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 
 $getGiornata = GIORNATA;
 if (!empty($_GET['giorn']))
@@ -23,7 +23,7 @@ if($articolo != FALSE)
 $contenttpl->assign('articoli',$articolo);
 
 
-$contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
+$contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
 $giornateWithArticoli = $articoloObj->getGiornateArticoliExist();
 if($giornateWithArticoli != FALSE)
 {
@@ -59,7 +59,7 @@ $contenttpl->assign('articoloExist',1);
 if(isset($_SESSION['idsquadra']))
 {
 	$articoloObj->setidgiornata($getGiornata);
-	$articoloObj->setidsquadra($_SESSION['idsquadra']);
+	$articoloObj->setidsquadra($_SESSION['idSquadra']);
 	$articoloExist = $articoloObj->select($articoloObj,'=','*');
 	if(!empty($articoloExist))
 		$contenttpl->assign('articoloExist',0);

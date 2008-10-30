@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
 db.inc.php:
@@ -34,13 +34,27 @@ class db
 			}
 			mysql_select_db(DBNAME);
 			mysql_query("SET NAMES utf8;") or die();
-			mysql_query("SET CHARACTER SET utf8;")or die();
+			mysql_query("SET CHARACTER SET utf8;") or die();
 		}
 	}
 	
 	function DbClose()
 	{
 		mysql_close($this->link);
+	}
+	
+	function DbOptimize()
+	{
+		$q = "SHOW TABLES";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		$result = "";
+		while($row = mysql_fetch_row($exe)) 
+			$result .= $row[0].',';
+		$q = "OPTIMIZE TABLE ";
+		$q .= $result;
+		$q = substr($q,0,-1);
+		echo $q;
+		return mysql_query($q);
 	}
 }
 ?>

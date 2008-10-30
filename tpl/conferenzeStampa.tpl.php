@@ -1,4 +1,4 @@
-<?php $i=0; ?>
+﻿<?php $i=0; ?>
 <script type="text/javascript">
 	$(document).ready(function(){
 	  if(jQuery.browser.msie)
@@ -24,7 +24,7 @@
 				<div class="box2-bottom-sx column last">
 				<div class="box2-bottom-dx column last">
 				<div class="conf-stampa-content column last">
-					<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
+					<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val['idSquadra']): ?>
 						<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 							<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 						</a>
@@ -33,7 +33,7 @@
 						</a>
 					<?php endif; ?>
 					<em>
-						<span class="column last"><?php echo $this->squadre[$val['idSquadra']-1][5]; ?></span>
+						<span class="column last"><?php echo $this->squadre[$val['idSquadra']]['username']; ?></span>
 						<span class="right"><?php echo $val['insertDate']; ?></span>
 					</em>
 					<h3 class="title"><?php echo $val['title']; ?></h3>

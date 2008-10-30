@@ -1,13 +1,13 @@
-<?php
+﻿<?php
 
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
 
 $giocatoreObj = new giocatore();
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 
 $squadra = NULL;
 if(isset($_GET['squadra']))
@@ -19,7 +19,7 @@ $contenttpl->assign('data', 0);
 $classifica = $punteggiObj->getClassifica();
 foreach($classifica as $key=>$val)
 {
-	if($squadra == $val['IdSquadra'])
+	if($squadra == $val['idUtente'])
 	{
 		$contenttpl->assign('media',substr($classifica[$key]['punteggioMed'],0,5));
 		$contenttpl->assign('min',$classifica[$key]['punteggioMin']);
@@ -34,14 +34,14 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 	{
 		unset($_POST['passwordnewrepeat']);
 		if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
-			$contenttpl->assign('data',$squadraObj->changeData($_POST,$_SESSION['idsquadra']));
+			$contenttpl->assign('data',$utenteObj->changeData($_POST,$_SESSION['idSquadra']));
 	}
 	else
 		$contenttpl->assign('data',1);
 }
-$elencoSquadre = $squadraObj->getElencoSquadre();
+$elencoSquadre = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$elencoSquadre);
-$contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
+$contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 $values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);

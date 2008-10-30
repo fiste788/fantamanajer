@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 index.php:
 This is the main page. It switch every page of the website.
@@ -93,14 +93,15 @@ $sesslang=$_SESSION['lang'];
 require_once(CODEDIR.'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
-	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('rosa',array('squadra'=>$_SESSION['idsquadra']))));
+	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('rosa',array('squadra'=>$_SESSION['idSquadra']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
   $_SESSION['userid'] = 1000;
   $_SESSION['usertype'] = 'guest';
   $_SESSION['logged'] = FALSE;
-  $_SESSION['idsquadra'] = FALSE;
+  $_SESSION['idSquadra'] = FALSE;
+  $_SESSION['idLega'] = 1;
 }
 
 /**
@@ -129,10 +130,10 @@ if (!isset($_SESSION['logged'])) {
  * essere caricato per visualizzare la pagina corretta
  *
  */
-if ($_SESSION['logged'] == TRUE)
-	{
-	$_SESSION['import']=0;
-	if(array_key_exists($p,$apages))
+$adminpages = array_merge($adminpages,$apages);
+if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "admin")
+{
+	if(array_key_exists($p,$adminpages))
 	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
@@ -142,6 +143,36 @@ if ($_SESSION['logged'] == TRUE)
 	{
 		$_SESSION['message'][0] = 1;
 		$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
+		$p = 'home';
+		//INCLUDE IL FILE DI CODICE PER LA PAGINA
+		if (file_exists(CODEDIR.$p.'.code.php'))
+		    	require(CODEDIR.$p.'.code.php');
+		//definisce il file di template utilizzato per visualizzare questa pagina
+		$tplfile = TPLDIR.$p.'.tpl.php';
+	}
+	$layouttpl->assign('pages',$adminpages[$p]);
+}
+elseif ($_SESSION['logged'] == TRUE)
+{
+	$_SESSION['import']=0;
+	if(array_key_exists($p,$apages))
+	{
+		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
+			require(CODEDIR.$p.'.code.php');
+		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
+	}
+	else
+	{
+		if(array_key_exists($p, $adminpages))
+		{
+			$_SESSION['message'][0] = 0;
+			$_SESSION['message'][1] = "È necessario essere amministratori per vedere la pagina " . strtolower($apages[$p]['title']) . ". Sei stato mandato alla home";
+		}
+		else
+		{
+			$_SESSION['message'][0] = 1;
+			$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
+		}
 		$p = 'home';
 		//INCLUDE IL FILE DI CODICE PER LA PAGINA
 		if (file_exists(CODEDIR.$p.'.code.php'))
@@ -161,10 +192,10 @@ else
 	}
   	else
   	{
-		if(array_key_exists($p, $apages))
+		if(array_key_exists($p, $adminpages))
 		{
 			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina " . strtolower($apages[$p]['title']) . ". Sei stato mandato alla home";
+			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina " . strtolower($adminpages[$p]['title']) . ". Sei stato mandato alla home";
 		}
 		else
 		{

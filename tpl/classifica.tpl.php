@@ -1,4 +1,4 @@
-<?php $i=1; ?>
+﻿<?php $i=1; ?>
 <div class="titolo-pagina">
 <div class="column logo-tit">
 	<img alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />

@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 require_once(INCDIR.'giocatore.inc.php');
 
 $giocatoreObj = new giocatore();
@@ -68,8 +68,9 @@ foreach($freeplayer as $key=>$val)
 	$partitegiocate = count(array_filter($voti,"filter"));
 	if($partitegiocate != 0)
 		$mediavoti /= $partitegiocate;*/
-	$freeplayer[$key]['Nome'] = $val['Nome'];
-	$freeplayer[$key]['Cognome'] = $val['Cognome'];
+	$freeplayer[$key]['Nome'] = $val['nome'];
+	$freeplayer[$key]['Cognome'] = $val['cognome'];
+	$freeplayer[$key]['Club'] = $val['club'];
 	$freeplayer[$key]['Voti'] = substr($val['mediaPunti'],0,4);
 	$freeplayer[$key]['VotiAll'] = $val['mediaPunti'];
 	$freeplayer[$key]['VotiEff'] = substr($val['mediaVoti'],0,4);
