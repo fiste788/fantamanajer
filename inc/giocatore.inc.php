@@ -33,7 +33,7 @@ class giocatore
             ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$giocatori = array();
-		while($row=mysql_fetch_row($exe))
+		while($row=mysql_fetch_array($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
