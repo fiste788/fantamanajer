@@ -6,34 +6,41 @@
 	<h2 class="column">Crea squadra</h2>
 </div>
 <div id="creaSquadre" class="main-content">
-	<form name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
+	<form name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>" method="post">
 		<fieldset id="dettaglioSquadra" class="column last no-margin">
 			<div class="formbox">
 				<h3>Seleziona la lega</h3>
-				<select name="lega" onchange="document.creaSquadra.submit();">
+				<select name="lega" onchange="document.selezionaLega.submit();">
 					<option></option>
 					<?php foreach($this->elencoLeghe as $key=>$val): ?>
 						<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
 					<?php endforeach; ?>
 				</select>
 			</div>
-			<?php if($this->lega != NULL): ?>
+		</fieldset>
+	</form>
+	<?php if($this->lega != NULL): ?>
+	<form name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
+		<fieldset>
+			<input type="hidden" name="a" value="<?php if(isset($this->getAction)) echo $this->getAction; ?>" />
+			<input type="hidden" name="id" value="<?php if(isset($this->getId)) echo $this->getId; ?>" />
+			
 			<h3>Informazioni generali</h3>
 			<div class="formbox">
 				<label for="nomeSquadra">Nome della squadra:</label>
-				<input class="text" id="nomeSquadra" name="nomeSquadra" type="text" maxlength="40" <?php if(isset($_POST['nomeSquadra'])) echo 'value="'. $_POST['nomeSquadra'] .'"'; ?> />
+				<input class="text" id="nomeSquadra" name="nome" type="text" maxlength="40" <?php if(isset($this->datiSquadra['nome'])) $nomeSquadra = $this->datiSquadra['nome']; if(isset($_POST['nome'])) $nomeSquadra = $_POST['nome']; if(isset($nomeSquadra)) echo 'value="' . $nomeSquadra . '"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="username">Username:</label>
-				<input class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($_POST['usernamenew'])) echo 'value="'. $_POST['usernamenew'] .'"'; ?> />
+				<input class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($this->datiSquadra['username'])) $username = $this->datiSquadra['username']; if(isset($_POST['usernamenew'])) $username = $_POST['usernamenew']; if(isset($username)) echo 'value="'. $username .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="email">Email:</label>
-				<input class="text" id="email" name="email" type="text" maxlength="30" <?php if(isset($_POST['email'])) echo 'value="'. $_POST['email'] .'"'; ?> />
+				<input class="text" id="mail" name="mail" type="text" maxlength="30" <?php if(isset($this->datiSquadra['mail'])) $mail = $this->datiSquadra['mail']; if(isset($_POST['mail'])) $mail = $_POST['mail']; if(isset($mail))echo 'value="'. $mail .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="amministratore">Amministratore?</label>
-				<input class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($_POST['amministratore'])) echo 'checked="checked"'; ?> />
+				<input class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra['amministratore'])) $admin = $this->datiSquadra['amministratore']; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
 			</div>
 		</fieldset>
 		<fieldset id="panchinari">
@@ -42,8 +49,11 @@
 			<?php for($i = 0;$i < 3; $i++): ?>
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
+					<?php if(isset($this->giocatori)): ?>
+						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
+					<?php endif; ?>
 					<?php foreach($this->portieri as $key=>$val): ?>
-						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
+						<option	value="<?php echo $val['idGioc'] ?>"<?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo ' selected="selected"'; ?>><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 			<?php $j++; endfor; ?>
@@ -52,6 +62,9 @@
 			<?php for($i = 0;$i < 8; $i++): ?>
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
+					<?php if(isset($this->giocatori)): ?>
+						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
+					<?php endif; ?>
 					<?php foreach($this->difensori as $key=>$val): ?>
 						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
@@ -62,6 +75,9 @@
 			<?php for($i = 0;$i < 8; $i++): ?>
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
+					<?php if(isset($this->giocatori)): ?>
+						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
+					<?php endif; ?>
 					<?php foreach($this->centrocampisti as $key=>$val): ?>
 						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
@@ -72,6 +88,9 @@
 			<?php for($i = 0;$i < 6; $i++): ?>
 				<select name="giocatore-<?php echo $j ?>">
 					<option></option>
+					<?php if(isset($this->giocatori)): ?>
+						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
+					<?php endif; ?>
 					<?php foreach($this->attaccanti as $key=>$val): ?>
 						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
@@ -105,10 +124,8 @@
 			</div>
 			</div>
 		</div>
-		<?php else: ?>
-		</fieldset>
-		<?php endif; ?>
 	</form>
+	<?php endif; ?>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 	<div id="squadradett" class="column last">
@@ -117,23 +134,23 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-		<?php if(isset($this->messaggio) && $this->messaggio[0] == 0): ?>
+		<?php if(isset($_SESSION['message']) && $_SESSION['message'][0] == 0): ?>
 		<div class="messaggio good column last">
 			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
-			<span><?php echo $this->messaggio[1]; ?></span>
+			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
-		<?php elseif(isset($this->messaggio) && $this->messaggio[0] == 1): ?>
+		<?php elseif(isset($_SESSION['message']) && $_SESSION['message'][0] == 1): ?>
 		<div class="messaggio bad column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" />
-			<span><?php echo $this->messaggio[1]; ?></span>
+			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
-		<?php elseif(isset($this->messaggio) && $this->messaggio[0] == 2): ?>
+		<?php elseif(isset($_SESSION['message']) && $_SESSION['message'][0] == 2): ?>
 		<div class="messaggio neut column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" />
-			<span><?php echo $this->messaggio[1]; ?></span>
+			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<?php endif; ?>
-			<?php if(isset($this->messaggio)): ?>
+			<?php if(isset($_SESSION['message'])): ?>
 			<script type="text/javascript">
 			$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
 			$(".messaggio").click(function () {
@@ -141,6 +158,7 @@
 			});
 			</script>
 			<?php endif; ?>
+			<?php unset($_SESSION['message']) ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		</div>
 		</div>

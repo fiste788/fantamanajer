@@ -13,29 +13,35 @@ $mailObj = new mail();
 $legheObj = new leghe();
 $stringObj = new string(NULL);
 
-$lega = NULL;
 
 if(isset($_GET['a']))
 	$action = $_GET['a'];
+if(isset($_POST['a']))
+	$action = $_POST['a'];
 if(isset($_GET['id']))
-{
 	$id = $_GET['id'];
-	$lega = $utenteObj->getLegaByIdSquadra($id);
-}
+if(isset($_POST['id']))
+	$id = $_POST['id'];
+	
+if(isset($id) && $id != 0)
+	$_SESSION['creaSquadraLega'] = $utenteObj->getLegaByIdSquadra($id);
+
+if(!isset($_SESSION['creaSquadraLega']) || ((!isset($action)) && (!isset($id))))
+	$_SESSION['creaSquadraLega'] = NULL;
+	
 if(isset($_POST['lega']))
-	$lega = $_POST['lega'];
+	$_SESSION['creaSquadraLega'] = $_POST['lega'];
 	
 $giocatori = array();
+$lega = $_SESSION['creaSquadraLega'];
 unset($_POST['lega']);
+echo "<pre>".print_r($_SESSION,1)."</pre>";
+echo "<pre>".print_r($_POST,1)."</pre>";
 if($lega != NULL)
 {
 	if(isset($action) && isset($id))
 	{
-		if($action == 'edit')
-		{
-		
-		}
-		elseif($action == 'cancel')
+		if($action == 'cancel')
 		{
 			if($utenteObj->deleteSquadra($id))
 			{
@@ -51,47 +57,72 @@ if($lega != NULL)
 				$message[1] = "Hai già eliminato questa squadra";
 			}
 		}
-	}
-	if(!empty($_POST))
-	{
-		foreach($_POST as $key=>$val)
+		elseif($action == 'edit' || $action == 'new')
 		{
-			if(empty($val))
+			if(empty($_POST))
 			{
-				$message[0] = 1;
-				$message[1] = "Non hai compilato tutti i campi";
+				if($action == 'edit')
+				{
+					$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadra($id));
+					$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($id));
+				}
 			}
-			elseif(in_array($val,$giocatori) && substr($key,0,9) == 'giocatore')
-			{
-				$message[0] = 1;
-				$message[1] = "Hai immesso un giocatore più di una volta";
-				break;
-			}
-			elseif(substr($key,0,9) == 'giocatore')
-				$giocatori[] = $val;
-		}
-		if(!$mailObj->checkEmailAddress($_POST['email']))
-		{
-			$message[0] = 1;
-			$message[1] = "Mail non corretta";
-		}
-		if(!isset($message))
-		{
-			//tutto giusto
-			if(isset($_POST['amministratore']))
-				$amministratore = TRUE;
 			else
-				$amministratore = FALSE;
-			$squadra = $utenteObj->addSquadra($_POST['usernamenew'],$_POST['nomeSquadra'],$amministratore,$stringObj->createRandomPassword(),$_POST['email'],$lega);
-			echo $squadra;
-			$squadreObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
-			$message[0] = 0;
-			$message[1] = "Squadra creata correttamente";
+			{
+				foreach($_POST as $key=>$val)
+				{
+					if($key != 'id' && empty($val))
+					{
+						$message[0] = 1;
+						$message[1] = "Non hai compilato tutti i campi";
+					}
+					elseif(in_array($val,$giocatori) && substr($key,0,9) == 'giocatore')
+					{
+						$message[0] = 1;
+						$message[1] = "Hai immesso un giocatore più di una volta";
+						break;
+					}
+					elseif(substr($key,0,9) == 'giocatore')
+						$giocatori[] = $val;
+				}
+				if(!$mailObj->checkEmailAddress($_POST['mail']))
+				{
+					$message[0] = 1;
+					$message[1] = "Mail non corretta";
+				}
+				if(!isset($message))
+				{
+					//tutto giusto
+					if(isset($_POST['amministratore']))
+						$amministratore = TRUE;
+					else
+						$amministratore = FALSE;
+					if($action == 'edit')
+					{
+						$campi = array('nome'=>'','usernamenew'=>'','mail'=>'','amministratore'=>'');
+						$data = array_intersect($_POST,$campi);
+						echo "<pre>".print_r($data,1)."</pre>";
+						unset($_POST);
+						$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadra($id));
+						$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($id));
+						$message[0] = 0;
+						$message[1] = "Squadra modificata correttamente";
+					}
+					else
+					{
+						$squadra = $utenteObj->addSquadra($_POST['usernamenew'],$_POST['nomeSquadra'],$amministratore,$stringObj->createRandomPassword(),$_POST['email'],$lega);
+						$squadreObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
+						$message[0] = 0;
+						$message[1] = "Squadra creata correttamente";
+						header('Location: '. str_replace('&amp;','&',$linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>'squadra'))));
+					}
+				}
+			}
 		}
 	}
 }
 if(isset($message))
-	$contenttpl->assign('messaggio',$message);
+	$_SESSION['message'] = $message;
 
 $contenttpl->assign('portieri',$giocatoreObj->getFreePlayer('P'));
 $contenttpl->assign('difensori',$giocatoreObj->getFreePlayer('D'));
@@ -101,4 +132,8 @@ if($lega != NULL)
 	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
 $contenttpl->assign('elencoLeghe',$legheObj->getLeghe());
 $contenttpl->assign('lega',$lega);
+if(isset($id))
+	$contenttpl->assign('getId',$id);
+if(isset($action))
+$contenttpl->assign('getAction',$action);
 ?>
