@@ -31,12 +31,12 @@ if(!isset($_SESSION['creaSquadraLega']) || ((!isset($action)) && (!isset($id))))
 	
 if(isset($_POST['lega']))
 	$_SESSION['creaSquadraLega'] = $_POST['lega'];
-	
+if($_SESSION['usertype'] == 'admin')
+	$_SESSION['creaSquadraLega'] = $_SESSION['idLega'];
+
 $giocatori = array();
 $lega = $_SESSION['creaSquadraLega'];
 unset($_POST['lega']);
-echo "<pre>".print_r($_SESSION,1)."</pre>";
-echo "<pre>".print_r($_POST,1)."</pre>";
 if($lega != NULL)
 {
 	if(isset($action) && isset($id))
@@ -94,14 +94,25 @@ if($lega != NULL)
 				{
 					//tutto giusto
 					if(isset($_POST['amministratore']))
-						$amministratore = TRUE;
+						$amministratore = '1';
 					else
-						$amministratore = FALSE;
+						$amministratore = '0';
 					if($action == 'edit')
 					{
 						$campi = array('nome'=>'','usernamenew'=>'','mail'=>'','amministratore'=>'');
-						$data = array_intersect($_POST,$campi);
-						echo "<pre>".print_r($data,1)."</pre>";
+						foreach($_POST as $key=>$val)
+						{
+							if(isset($campi[$key]))
+								$data[$key] = $val;
+						}
+						$utenteObj->changeData($data,$id);
+						$giocatoriOld = $giocatoreObj->getGiocatoriByIdSquadra($id);
+						foreach($_POST as $key=>$val)
+							if(substr($key,0,9) == 'giocatore')
+								$giocatoriNew[] = $val;
+						foreach($giocatoriOld as $key=>$val)
+							if($val['idGioc'] != $giocatoriNew[$key])
+								$squadreObj->updateGiocatore($giocatoriNew[$key],$val['idGioc'],$id);
 						unset($_POST);
 						$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadra($id));
 						$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($id));

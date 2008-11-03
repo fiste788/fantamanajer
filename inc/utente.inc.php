@@ -49,22 +49,23 @@ class utente
 	function changeData($data,$id)
 	{
 		$q = "UPDATE utente SET ";
+		if(!isset($data['amministratore']))
+			$data['amministratore'] = '0';
+		else
+			$data['amministratore'] = '1';
 		foreach($data as $key=>$val)
 		{
-			if(!empty($val))
+			if($key == 'passwordnew')
 			{
-				if($key == 'passwordnew')
-				{
-					$key = 'password';
-					$q .= $key . " = '" . md5(trim($val)) . "',";
-				} 
-				else
-				{
-					if($key == 'usernamenew')
-						$key = 'username';
-					$q .= $key . " = '" . trim($val) . "',";
-				} 
-			}
+				$key = 'password';
+				$q .= $key . " = '" . md5(trim($val)) . "',";
+			} 
+			else
+			{
+				if($key == 'usernamenew')
+					$key = 'username';
+				$q .= $key . " = '" . trim($val) . "',";
+			} 
 		}
 		$q = substr($q,0,-1);
 		$q .= " WHERE idUtente = '" . $id . "';";
@@ -83,37 +84,6 @@ class utente
 		  	$values[$row[1]] = $row[0];
 		 }
 		 return $values; 
-	}
-	
-	function getNumberTransfert($idUtente)
-	{
-		$q = "SELECT numTrasferimenti FROM utente WHERE idUtente = '".$idUtente."';";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		while ($row = mysql_fetch_row($exe) )
-			$val = $row[0];
-		return $val;
-	}
-	
-	function increaseNumberTransfert($idUtente)
-	{
-		$q = "SELECT numTrasferimenti FROM utente WHERE idUtente = '".$idUtente."';";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		while ($row = mysql_fetch_row($exe) )
-			$val = $row[0];
-		$val++;
-		$q2 = "UPDATE utente SET numTrasferimenti = '". $val ."' WHERE idUtente = '".$idUtente."';";
-		$exe=mysql_query($q2) or die("Query non valida: ".$q2 . mysql_error());
-	}
-	
-	function decreaseNumberTransfert($idUtente)
-	{
-		$q = "SELECT numTrasferimenti FROM utente WHERE idUtente = '".$idUtente."';";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		while ($row = mysql_fetch_row($exe) )
-			$val = $row[0];
-		$val--;
-		$q2 = "UPDATE utente SET numTrasferimenti = '". $val  ."' WHERE idUtente = '".$idUtente."';";
-		$exe=mysql_query($q2) or die("Query non valida: ".$q2 . mysql_error());
 	}
 	
 	function addSquadra($username,$name,$admin,$password,$email,$idLega)

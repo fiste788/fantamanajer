@@ -1,4 +1,4 @@
-body{
+﻿body{
 	font-family:sans-serif;
 	background-color:#272727;
 	text-align:center;
@@ -630,3 +630,4 @@ p.surprise {
 	width:100%;
 	height:24px;
 }
+#creaSquadre label { width:120px;} 

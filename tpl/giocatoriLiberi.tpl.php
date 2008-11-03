@@ -1,4 +1,4 @@
-<?php $ruoli = array('P' => 'Portieri', 'D' => 'Difensori', 'C' => 'Centrocampisti', 'A' =>'Attaccanti') ?>
+﻿<?php $ruoli = array('P' => 'Portieri', 'D' => 'Difensori', 'C' => 'Centrocampisti', 'A' =>'Attaccanti') ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
@@ -7,7 +7,7 @@
 </div>
 <div id="freeplayer" class="main-content">
 	<?php if($this->appo): ?>
-	<?php if(TIMEOUT != FALSE): ?><form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idsquadra'])); ?>" method="post"><?php endif; ?>
+	<?php if(TIMEOUT != FALSE): ?><form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idSquadra'])); ?>" method="post"><?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
@@ -23,7 +23,7 @@
 			</tr>
 			<?php foreach($this->freeplayer as $key => $val): ?>
 			<tr>
-				<?php if(TIMEOUT != '0' && GIORNATA != 1): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['IdGioc']; ?>" /></td><?php endif; ?>
+				<?php if(TIMEOUT != '0' && GIORNATA != 1): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['idGioc']; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['IdGioc'])) ?>">
 				<?php if($val['Voti'] >= $this->suff && $val['PartiteGiocate'] >= $this->partite ||GIORNATA == 1): ?>
@@ -35,9 +35,9 @@
 				<?php endif; ?>
 					</a>
 				</td>
-				<td><?php echo $val['Cognome']; ?></td>
-				<td><?php echo $val['Nome']; ?></td>
-				<td><?php echo $val['Club']; ?></td>
+				<td><?php echo $val['cognome']; ?></td>
+				<td><?php echo $val['nome']; ?></td>
+				<td><?php echo $val['club']; ?></td>
 				<td title="<?php echo $val['VotiAll']; ?>" <?php if($val['Voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['Voti']; ?></td>
 				<td title="<?php echo $val['VotEffiAll']; ?>" <?php if($val['Voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['VotiEff']; ?></td>
 				<td <?php if($val['PartiteGiocate'] >= $this->partite && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['PartiteGiocate']; ?></td>

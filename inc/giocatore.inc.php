@@ -80,19 +80,22 @@ class giocatore
 			$q .= $val . ",";
 		$q = substr($q,0,-1);
 		$q .= ");";
-		$i=0;
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		while($row = mysql_fetch_array($exe))
+			$result[] = $row;
+		return $result;
+	}
+	
+	function getGiocatoreById($idGioc)
+	{
+		$q = "SELECT idGioc,cognome,nome,ruolo FROM giocatore WHERE idGioc = '" . $idGioc . "';";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		while($row = mysql_fetch_array($exe))
 			$result[$row[0]] = $row;
-		foreach($result as $key=>$val)
-		{
-			$appo[$giocatori[$i]] = $result[$giocatori[$i]];
-			$i++;
-		}
-		return $appo;
+		return $result;
 	}
 	
-	function getGiocatoreById($giocatore)
+	function getGiocatoreByIdWithStats($giocatore)
 	{
 		$q = "SELECT giocatore.IdGioc, cognome, nome, ruolo, idUtente, club, AVG( voto ) as mediaPunti,avg(votoUff) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
 				FROM squadre INNER JOIN (giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) on squadre.idGioc = giocatore.idGioc 

@@ -1,4 +1,4 @@
-<div class="titolo-pagina">
+﻿<div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'admin-area-big.png'; ?>" alt="Logo Squadre" />
 	</div>
@@ -15,7 +15,7 @@
 			<h3>Gestione squadre</h3>	
 			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'rose-big.png'; ?>" title="Gestione Squadre" />
 			<ul>
-				<li><a href="<?php echo $this->linksObj->getLink('creaSquadra'); ?>">Crea squadra</a></li>
+				<li><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>">Crea squadra</a></li>
 				<li><a href="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>">Nuovo trasferimento</a></li>
 			</ul>
 		</div>

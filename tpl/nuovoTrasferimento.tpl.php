@@ -1,4 +1,4 @@
-<div class="titolo-pagina">
+﻿<div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
 	</div>
@@ -13,8 +13,8 @@
 				<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->giocSquadra as $key=>$val): ?>
-						<?php if($val[3] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val[0]; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val[0]) echo '  selected="selected"'; ?>><?php echo $val[1] . " " . $val[2]; ?></option>
+						<?php if($val['ruolo'] == substr($this->ruo[$j],0,1)): ?>
+							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
@@ -25,8 +25,8 @@
 					<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->freePlayer as $key=>$val): ?>
-						<?php if($val['Ruolo'] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val['IdGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['IdGioc']) echo '  selected="selected"'; ?>><?php echo $val['Cognome'] . " " . $val['Nome']; ?></option>
+						<?php if($val['ruolo'] == substr($this->ruo[$j],0,1)): ?>
+							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
@@ -76,7 +76,7 @@
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
 		<form class="column last" name="trasferimenti" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
-		<fieldset class="no-margin fieldset  max-large">
+		<fieldset class="no-margin fieldset max-large">
 			<h3 class="no-margin">Seleziona la squadra:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="squad" onchange="document.trasferimenti.submit();">
