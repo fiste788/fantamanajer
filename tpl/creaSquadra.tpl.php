@@ -1,27 +1,14 @@
 ﻿<?php $j = 0; ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
+		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
 	</div>
 	<h2 class="column">Crea squadra</h2>
 </div>
 <div id="creaSquadre" class="main-content">
-	<form name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>" method="post">
-		<fieldset id="dettaglioSquadra" class="column last no-margin">
-			<div class="formbox">
-				<h3>Seleziona la lega</h3>
-				<select name="lega" onchange="document.selezionaLega.submit();">
-					<option></option>
-					<?php foreach($this->elencoLeghe as $key=>$val): ?>
-						<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
-					<?php endforeach; ?>
-				</select>
-			</div>
-		</fieldset>
-	</form>
 	<?php if($this->lega != NULL): ?>
-	<form name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
-		<fieldset>
+	<form class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
+		<fieldset class="column">
 			<input type="hidden" name="a" value="<?php if(isset($this->getAction)) echo $this->getAction; ?>" />
 			<input type="hidden" name="id" value="<?php if(isset($this->getId)) echo $this->getId; ?>" />
 			
@@ -98,7 +85,7 @@
 			<?php $j++; endfor; ?>
 		</fieldset>
 		<fieldset class="column div-submit">
-			<input type="submit" class="submit dark" value="Crea" />
+			<input type="submit" class="submit dark" value="<?php if(isset($this->getAction) && $this->getAction == 'edit') echo 'Modifica'; else echo 'Crea' ?>" />
 		</fieldset>
 		<div class="column last">
 			<div class="box2-top-sx column last">
@@ -160,6 +147,19 @@
 			<?php endif; ?>
 			<?php unset($_SESSION['message']) ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
+			<?php if($_SESSION['usertype'] == 'superadmin'): ?>
+			<form class="column last" name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>" method="post">
+				<fieldset class="no-margin fieldset max-large">
+					<h3>Seleziona la lega</h3>
+					<select name="lega" onchange="document.selezionaLega.submit();">
+						<option></option>
+						<?php foreach($this->elencoLeghe as $key=>$val): ?>
+							<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
+						<?php endforeach; ?>
+					</select>
+				</fieldset>
+			</form>
+			<?php endif; ?>
 		</div>
 		</div>
 		</div>

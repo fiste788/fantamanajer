@@ -131,7 +131,7 @@ if (!isset($_SESSION['logged'])) {
  *
  */
 $adminpages = array_merge($adminpages,$apages);
-if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "admin")
+if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] != "user")
 {
 	if(array_key_exists($p,$adminpages))
 	{

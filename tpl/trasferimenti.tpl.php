@@ -1,4 +1,4 @@
-<?php $i = 0; ?>
+﻿<?php $i = 0; ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'transfert-big.png'; ?>" alt="->" />
@@ -28,7 +28,7 @@
 	<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
 		<p>Non ha effettuato alcun trasferimento</p>
 	<?php endif; ?>
-	<?php if($_SESSION['logged'] && $_SESSION['idsquadra'] == $this->squadra && $this->numTrasferimenti < MAXTRASFERIMENTI && TIMEOUT != '0' && GIORNATA != 1): ?>
+	<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < MAXTRASFERIMENTI && TIMEOUT != '0' && GIORNATA != 1): ?>
 	<br />
 	<h3>Acquista un giocatore</h3>
 	<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>
@@ -48,8 +48,8 @@
 				<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->giocSquadra as $key=>$val): ?>
-						<?php if($val[3] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val[0]; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val[0]) echo '  selected="selected"'; ?>><?php echo $val[1] . " " . $val[2]; ?></option>
+						<?php if($val['ruolo'] == substr($this->ruo[$j],0,1)): ?>
+							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
@@ -60,8 +60,8 @@
 					<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
 					<?php foreach($this->freePlayer as $key=>$val): ?>
-						<?php if($val['Ruolo'] == substr($this->ruo[$j],0,1)): ?>
-							<option value="<?php echo $val['IdGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['IdGioc']) echo '  selected="selected"'; ?>><?php echo $val['Cognome'] . " " . $val['Nome']; ?></option>
+						<?php if($val['ruolo'] == substr($this->ruo[$j],0,1)): ?>
+							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
