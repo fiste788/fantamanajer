@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 require_once(INCDIR.'utente.inc.php');
 require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 class formazione
 {	
 	function getFormazioneById($id)

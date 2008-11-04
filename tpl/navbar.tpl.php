@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 $home = array('home');
 $laTuaSquadra = array('rosa');
 $leSquadre = array('rosa');

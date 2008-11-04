@@ -1,13 +1,15 @@
-﻿<div class="titolo-pagina">
+<div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
 	</div>
 	<h2 class="column">Crea squadra</h2>
 </div>
 <div id="nuovoTrasferimento" class="main-content">
+	<?php if(isset($this->squadra) && $this->squadra != NULL): ?>
 	<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
 		<fieldset>
-			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
+			<input type="hidden" name="squad" value="<?php echo $this->squadra; ?>" />
+			<input type="hidden" name="lega" value="<?php echo $this->lega; ?>" />
 			<label for="player-old">Giocatore vecchio:</label><select id="player-old" name="lascia">
 				<option></option>
 				<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
@@ -40,6 +42,9 @@
 			<?php endif; ?>
 		</fieldset>
 	</form>
+	<?php else: ?>
+	Seleziona la squadra
+	<?php endif; ?>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 	<div id="squadradett" class="column last">
@@ -77,11 +82,24 @@
 		<?php endif; ?>
 		<form class="column last" name="trasferimenti" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
 		<fieldset class="no-margin fieldset max-large">
+			<?php if($_SESSION['usertype'] == 'superadmin'): ?>
+			<h3 class="no-margin">Seleziona la lega:</h3>
+			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
+			<select name="lega" onchange="document.trasferimenti.submit();">
+				<option></option>
+				<?php foreach($this->elencoleghe as $key=>$val): ?>
+					<option <?php if($this->lega == $val['idLega']) echo "selected=\"selected\"" ?> value="<?php echo $val['idLega']?>"><?php echo $val['nomeLega']?></option>
+				<?php endforeach ?>
+			</select>
+		</fieldset>
+		<?php endif; ?>
+		<fieldset class="no-margin fieldset max-large">
 			<h3 class="no-margin">Seleziona la squadra:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="squad" onchange="document.trasferimenti.submit();">
+				<option></option>
 				<?php foreach($this->elencosquadre as $key=>$val): ?>
-					<option <?php if($this->squadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
+					<option <?php if($this->squadra == $val['idUtente']) echo "selected=\"selected\"" ?> value="<?php echo $val['idUtente']?>"><?php echo $val['nome']?></option>
 				<?php endforeach ?>
 			</select>
 		</fieldset>

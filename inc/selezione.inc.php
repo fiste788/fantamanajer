@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class selezione
 {
 	function getSelezioneByIdSquadra($idSquadra)

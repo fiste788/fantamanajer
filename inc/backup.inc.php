@@ -147,7 +147,7 @@ class MySQLDump {
 			if ( $record['Collation'] != NULL)
 				$structure .= ' COLLATE '.$record['Collation'];
 			if ( !empty($record['Default']) )
-				$structure .= ' DEFAULT \''.$record['Default'].'\'';
+				$structure .= ' DEFAULT '.$record['Default'];
 			if ( @strcmp($record['Null'],'YES') != 0 )
 				$structure .= ' NOT NULL';
 			if ( !empty($record['Extra']) )

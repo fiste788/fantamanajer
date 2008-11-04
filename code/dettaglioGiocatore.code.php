@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'utente.inc.php');
 
@@ -7,9 +7,8 @@ $utenteObj = new utente();
 
 $id = $_GET['id'];
 
-$dettaglio = $giocatoreObj->getGiocatoreById($id);
+$dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id);
 
 $contenttpl->assign('squadra',$utenteObj->getSquadraById($dettaglio[0]['idUtente']));
 $contenttpl->assign('dettaglioGioc',$dettaglio);
 ?>
- 

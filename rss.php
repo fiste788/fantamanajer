@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	require_once('config/config.inc.php');
 	require_once(INCDIR.'eventi.inc.php');
 	require_once (INCDIR.'db.inc.php');

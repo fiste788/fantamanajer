@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Creo un array in cui specifico titolo,js e css dell'head
  */

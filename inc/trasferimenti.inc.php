@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class trasferimenti
 {
 	function getTrasferimentiByIdSquadra($idSquadra)
@@ -17,7 +17,7 @@ class trasferimenti
 	function transfer($giocOld,$giocNew,$squadra,$idLega)
 	{
 		$q = "INSERT INTO squadre VALUES ('" . $idLega . "','" . $squadra . "','". $giocNew . "');";
-		$q2 = "DELETE FROM squadre WHERE idGioc = '". $giocOld . "';";
+		$q2 = "DELETE FROM squadre WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "';";
 		$result = mysql_query($q);
 		$result = $result + mysql_query($q2);
 		$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra) VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "');";

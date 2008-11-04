@@ -1,4 +1,4 @@
-﻿<div class="titolo-pagina">
+<div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
 	</div>
@@ -7,7 +7,12 @@
 <div id="gestioneDb" class="main-content">
 	<ul>
 		<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase',array('action'=>'optimize')) ?>">Ottimizza</a></li>
+		<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase',array('action'=>'sincronize')) ?>">Sincronizza</a></li>
 	</ul>
+	<form action="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>" name="eseguiQuery" method="post">
+		<textarea name="query" rows="30" cols="100"><?php if(isset($this->sql)) echo $this->sql; ?></textarea>
+		<input class="submit dark" type="submit" value="Eegui" />
+	</form>
 </div>
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">

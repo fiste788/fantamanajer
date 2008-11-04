@@ -1,4 +1,4 @@
-﻿<?php if(isset($_GET['squadra'])) $squadra = $_GET['squadra']; else $squadra=$_SESSION['idSquadra']; ?>
+<?php if(isset($_GET['squadra'])) $squadra = $_GET['squadra']; else $squadra=$_SESSION['idSquadra']; ?>
 <div id="operazioni" class="column last">
 	<a title="Nascondi" href="#oper" class="toggle operazioni-title column last">Operazioni</a>
 		<ul class="operazioni-content">

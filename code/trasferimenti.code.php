@@ -1,4 +1,4 @@
-﻿ <?php 
+﻿<?php 
 require_once(INCDIR.'trasferimenti.inc.php');
 require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'giocatore.inc.php');

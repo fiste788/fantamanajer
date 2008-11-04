@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /*
 db.inc.php:
@@ -53,8 +53,15 @@ class db
 		$q = "OPTIMIZE TABLE ";
 		$q .= $result;
 		$q = substr($q,0,-1);
-		echo $q;
 		return mysql_query($q);
+	}
+	
+	function sincronize()
+	{
+		require_once(INCDIR.'fileSystem.inc.php');
+		$fileSystemObj = new fileSystem();
+		$folder = DBDIR;
+		return implode(file($folder.array_pop($fileSystemObj->getFileIntoFolder($folder))));
 	}
 }
 ?>

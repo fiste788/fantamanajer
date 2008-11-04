@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 class eventi
 {
 	function addEvento($tipo,$idUtente,$idExternal = NULL)

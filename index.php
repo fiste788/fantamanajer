@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 index.php:
 This is the main page. It switch every page of the website.
@@ -267,6 +267,7 @@ $navbartpl->assign('p',$p);
 /**
  * Output Pagina
  */
+ 
 $result = $layouttpl->display(TPLDIR.'layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
