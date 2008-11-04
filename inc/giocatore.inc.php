@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class giocatore
 {
 	var $idGioc;
@@ -69,7 +69,7 @@ class giocatore
             ORDER BY cognome";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
-            $giocatori[]=$row;
+            $giocatori[$row['idGioc']]=$row;
 		return $giocatori;
 	}
 	

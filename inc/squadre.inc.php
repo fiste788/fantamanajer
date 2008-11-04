@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class squadre
 {
 	function setSquadraGiocatoreByArray($idLega,$giocatori,$idUtente)

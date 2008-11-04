@@ -1,4 +1,4 @@
-﻿body{
+body{
 	font-family:sans-serif;
 	background-color:#272727;
 	text-align:center;
@@ -631,3 +631,8 @@ p.surprise {
 	height:24px;
 }
 #creaSquadre label { width:120px;} 
+.nowrap { white-space:nowrap;}
+#gestioneDb textarea { 
+	width:100%;
+	height:400px;
+} 

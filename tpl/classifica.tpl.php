@@ -1,4 +1,4 @@
-﻿<?php $i=1; ?>
+<?php $i=1; ?>
 <div class="titolo-pagina">
 <div class="column logo-tit">
 	<img alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />
@@ -16,7 +16,7 @@
 			<?php foreach($this->classificaDett as $key=>$val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
-				<td><?php echo $this->squadre[$key][1]; ?></td>
+				<td class="nowrap"><?php echo $this->squadre[$key][1]; ?></td>
 				<td><?php echo array_sum($val); ?></td>
 			 </tr>
 			<?php $i++; endforeach; ?>
@@ -54,8 +54,8 @@
 	<!--
  $(function () {
    		var datasets = {
-			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key][1]; ?>": {
-				label: "<?php echo $this->squadre[$key][1]; ?>",
+			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key]['nome']; ?>": {
+				label: "<?php echo $this->squadre[$key]['nome']; ?>",
 				data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
 			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 
@@ -65,7 +65,7 @@
 			var medie = {
 				<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
-				"<?php echo $this->squadre[$key][1] ?>" : {label: "Media <?php echo $this->squadre[$key][1]?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
+				"<?php echo $this->squadre[$key]['nome'] ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>
 				}
 			var options = {
@@ -94,7 +94,7 @@
 			});
 
 			<?php if($_SESSION['logged'] == TRUE): ?>
-				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idsquadra']-1][1]; ?>']").attr ('checked','');
+				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idSquadra']]['nome']; ?>']").attr ('checked','');
 			<?php endif; ?>
 				choiceContainer.find("input").click(plotAccordingToChoices);
 

@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 class utente
 {
 	var $idSquadra;

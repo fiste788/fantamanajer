@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 //This page has not to be included into index.php pages array because it has to be required only in the
 //page you want login to appear.
 

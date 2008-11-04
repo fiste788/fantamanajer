@@ -30,7 +30,7 @@ class giornata
 		$data2dayAfter = date ("Y-m-d", mktime(0,0,0,$data[1],$data[2]+2,$data[0]));
 		if($day == $data2dayAfter)
       		return $value[1];
-    		else
+    	else
 			return FALSE;
 	}
 	

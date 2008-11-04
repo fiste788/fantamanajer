@@ -1,4 +1,4 @@
-﻿<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
+<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />

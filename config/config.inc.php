@@ -36,7 +36,7 @@ define ("LANGDIR",'lang/');					//lang => LANGDIR
 define ("INCDIR",'inc/');					//inc => INCDIR
 define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD
 define ("UPLOADDIR",'uploadimg/');				//uploadimg => UPLOADDIR
-define ("ADMINCODEDIR",'admincode/');				//admincode => ADMINCODEDIR
+define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
 
 								//urls for:

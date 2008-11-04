@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 	require_once(INCDIR.'punteggi.inc.php');
 	require_once(INCDIR.'utente.inc.php');
 	require_once(INCDIR.'articolo.inc.php');
