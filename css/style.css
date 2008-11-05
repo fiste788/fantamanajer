@@ -626,7 +626,7 @@ p.surprise {
 #dettaglioSquadra {
 	width:300px;
 }
-#elencoSquadre {
+.elencoSquadre {
 	width:100%;
 	height:24px;
 }

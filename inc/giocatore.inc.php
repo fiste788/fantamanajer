@@ -28,9 +28,25 @@ class giocatore
 	function getGiocatoriByIdSquadra($idUtente)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
-            	FROM giocatore INNER JOIN squadre ON giocatore.idGioc = squadre.idGioc
-            	WHERE idUtente ='".$idUtente."'
-            	ORDER BY giocatore.idGioc ASC";
+				FROM giocatore INNER JOIN squadre ON giocatore.idGioc = squadre.idGioc
+				WHERE idUtente ='".$idUtente."'
+				ORDER BY giocatore.idGioc ASC";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		$giocatori = array();
+		while($row = mysql_fetch_array($exe))
+			$giocatori[] = $row;
+		if(isset($giocatori))
+			return $giocatori;
+		else
+			return FALSE;
+	}
+	
+	function getGiocatoriByIdSquadraAndRuolo($idUtente,$ruolo)
+	{
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
+				FROM giocatore INNER JOIN squadre ON giocatore.idGioc = squadre.idGioc
+				WHERE idUtente ='" . $idUtente . "' AND ruolo = '" . $ruolo . "'
+				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$giocatori = array();
 		while($row = mysql_fetch_array($exe))
@@ -44,16 +60,16 @@ class giocatore
 	function getFreePlayer($ruolo)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, club,SUM( gol ) as Gol,SUM( assist ) as Assist,AVG(voto) as mediaPunti, AVG(votoUff) as mediaVoti,count(voto) as Presenze
-	            FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
-	            WHERE ruolo ='" . $ruolo . "'
-	            AND giocatore.idGioc NOT IN (SELECT idGioc FROM squadre WHERE idLega  = '" . $_SESSION['idLega'] . "')
-	            AND club <> ''
-	            AND (votoUff <> 0 OR voto IS NULL)
-	            GROUP BY giocatore.idGioc
-	            ORDER BY cognome";
+				FROM giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.IdGioc
+				WHERE ruolo ='" . $ruolo . "'
+				AND giocatore.idGioc NOT IN (SELECT idGioc FROM squadre WHERE idLega  = '" . $_SESSION['idLega'] . "')
+				AND club <> ''
+				AND (votoUff <> 0 OR voto IS NULL)
+				GROUP BY giocatore.idGioc
+				ORDER BY cognome";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		while($row=mysql_fetch_array($exe,MYSQL_ASSOC))
-            $giocatori[$row['idGioc']]=$row;
+			$giocatori[$row['idGioc']]=$row;
 		return $giocatori;
 	}
 	

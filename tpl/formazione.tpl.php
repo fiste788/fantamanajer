@@ -31,14 +31,14 @@
 							<?php if(isset($this->titolari[$k])) $every=$this->titolari[$k];
 							foreach($val as $key3=>$val3): 
 							$selected = FALSE; 
-							if(isset($_POST[substr($ruo[$j],0,3). '-' . $i]) && $_POST[substr($ruo[$j],0,3). '-' . $i] == $val3[1])
+							if(isset($_POST[substr($ruo[$j],0,3). '-' . $i]) && $_POST[substr($ruo[$j],0,3). '-' . $i] == $val3['idGioc'])
 							{
 								$selected=TRUE;
 								unset($every);
 							}
-							elseif(isset($every) && $every == $val3[1])
+							elseif(isset($every) && $every == $val3['idGioc'])
 								$selected=TRUE;
-							?><option value="<?php echo $val3[1]; ?>" <?php if($selected) echo ' selected="selected"'; ?>><?php echo $val3[0] . " " . $val3[2]; ?></option>
+							?><option value="<?php echo $val3['idGioc']; ?>" <?php if($selected) echo ' selected="selected"'; ?>><?php echo $val3['cognome'] . " " . $val3['nome']; ?></option>
 						  	<?php  endforeach; ?>
 						</select>
 						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
@@ -77,14 +77,14 @@
 							<optgroup label="<?php echo $ruo[$j] ?>">
 								<?php foreach($this->giocatori[substr($ruo[$j],0,1)] as $key3=>$val3): 
 								$selected = FALSE; 
-								if(isset($_POST["panch-". $i]) && $_POST["panch-". $i] == $val3[1])
+								if(isset($_POST["panch-". $i]) && $_POST["panch-". $i] == $val3['idGioc'])
 								{
 									$flag = 1;
 									$selected = TRUE;
 								}
-								if(isset($ogni) && $ogni == $val3[1] && $flag == 0)
+								if(isset($ogni) && $ogni == $val3['idGioc'] && $flag == 0)
 									$selected= TRUE;
-								?><option value="<?php echo $val3[1]; ?>"<?php if($selected) echo ' selected="selected"'; ?>><?php  echo $val3[0] . " " . $val3[2];?></option>
+								?><option value="<?php echo $val3['idGioc']; ?>"<?php if($selected) echo ' selected="selected"'; ?>><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
 								<?php endforeach; ?>
 							</optgroup>
 						<?php endfor; ?>

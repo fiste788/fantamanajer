@@ -95,7 +95,7 @@
 			<div class="box-content column last">
 			<h3>Elenco squadre</h3>
 			<?php foreach($this->elencosquadre as $key=>$val): ?>
-				<div id="elencoSquadre" class="column last">
+				<div class="elencoSquadre column last">
 					<p class="column last"><?php echo $val[1]; ?></p>
 					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val[0])); ?>">
 						<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
