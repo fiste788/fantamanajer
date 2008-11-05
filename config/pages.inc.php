@@ -163,6 +163,10 @@ $apages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
+	$adminpages['inserisciFormazione'] = array(	'title'=>"Inserisci formazione mancante",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
+										
 	$adminpages['gestioneDatabase'] = array(	'title'=>"Gestione database",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));

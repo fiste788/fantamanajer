@@ -22,21 +22,21 @@
 			</tr>
 			<?php $panch=$this->formazione;$tito=array_splice($panch,0,11);?>
             <?php foreach($tito as $key=>$val): ?>
-					<?php if($val['Considerato'] == 0 or ($val['Voto']=="" and $val['Considerato']>0)): ?>
+					<?php if($val['considerato'] == 0 or ($val['voto']=="" and $val['considerato']>0)): ?>
 						<tr class="rosso">
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
-					<?php elseif($val['Considerato'] == 2): ?>
+					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
-					<?php $val['Voto']*=2; else: ?>
+					<?php $val['voto']*=2; else: ?>
 						<tr>
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></a></td>
 					<?php endif; ?>		
-							<td><?php echo $val['Cognome']; ?></td>
-							<td><?php echo $val['Nome']; if($val['Considerato'] ==2) echo '<span id="cap">(C)</span>'; ?></td>
-							<td><?php echo $val['Ruolo']; ?></td>
-							<td><?php echo $val['Club']; ?></td>
-							<td><?php if($val['Considerato'] > 0) echo $val['Voto']; else echo "&nbsp;"; ?></td>
+							<td><?php echo $val['cognome']; ?></td>
+							<td><?php echo $val['nome']; if($val['considerato'] ==2) echo '<span id="cap">(C)</span>'; ?></td>
+							<td><?php echo $val['ruolo']; ?></td>
+							<td><?php echo $val['club']; ?></td>
+							<td><?php if($val['considerato'] > 0) echo $val['voto']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -53,21 +53,21 @@
 				<th class="punt">Punt.</th>
 			</tr>
 			<?php foreach($panch as $key=>$val): ?>
-					<?php if($val['Considerato'] == 1): ?>
+					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></a></td>
-					<?php elseif($val['Considerato']==2): ?>
+					<?php elseif($val['considerato']==2): ?>
 						<tr>
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php else: ?>
 						<tr>
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a></td>
 					<?php endif; ?>
-							<td><?php echo $val['Cognome']; ?></td>
-							<td><?php echo $val['Nome']; ?></td>
-							<td><?php echo $val['Ruolo']; ?></td>
-							<td><?php echo $val['Club']; ?></td>
-							<td><?php if($val['Considerato'] > 0) echo $val['Voto']; else echo "&nbsp;"; ?></td>
+							<td><?php echo $val['cognome']; ?></td>
+							<td><?php echo $val['nome']; ?></td>
+							<td><?php echo $val['ruolo']; ?></td>
+							<td><?php echo $val['club']; ?></td>
+							<td><?php if($val['considerato'] > 0) echo $val['voto']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
 		</tbody>
