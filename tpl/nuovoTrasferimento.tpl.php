@@ -81,8 +81,8 @@
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
 		<form class="column last" name="trasferimenti" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
+		<?php if($_SESSION['usertype'] == 'superadmin'): ?>
 		<fieldset class="no-margin fieldset max-large">
-			<?php if($_SESSION['usertype'] == 'superadmin'): ?>
 			<h3 class="no-margin">Seleziona la lega:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="lega" onchange="document.trasferimenti.submit();">

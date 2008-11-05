@@ -4,8 +4,8 @@ class formazione
 	function getFormazioneById($id)
 	{
 		$q = "SELECT formazioni.idFormazione,idUtente,idGiornata,idGioc,idPosizione,modulo,C,VC,VVC 
-				FROM formazioni INNER JOIN schieramento ON formazioni.IdFormazione=schieramento.IdFormazione 
-				WHERE formazioni.IdFormazione='$id' ORDER BY IdPosizione;";
+				FROM formazioni INNER JOIN schieramento ON formazioni.idFormazione=schieramento.idFormazione 
+				WHERE formazioni.idFormazione='" . $id . "' ORDER BY idPosizione";
 		$exe = mysql_query($q);
 		$flag=0;
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
@@ -23,7 +23,6 @@ class formazione
                 $flag=1;
             }
         }
-
 		if($flag)
 		{
             $formazione['Id']=$idformazione;
@@ -38,52 +37,60 @@ class formazione
 			return FALSE;
 	}
 	
-	function carica_formazione($formazione,$capitano,$giornata)
+	function caricaFormazione($formazione,$capitano,$giornata,$idSquadra)
 	{
         //echo "<pre>".print_r($formazione,1)."</pre>";
         //echo "<pre>".print_r($capitano,1)."</pre>";
-        $modulo=$_SESSION['modulo'];
-        $campi="";
-        $valori="";
+        $modulo = $_SESSION['modulo'];
+        $campi = "";
+        $valori = "";
         foreach($capitano as $key=>$val)
         {
-            $campi.=",$key";
-            $valori.=",'$val'";
+            $campi .= ",".$key;
+            $valori .= ",'".$val."'";
         }        
 
-        $q="INSERT INTO formazioni (idUtente,idGiornata,modulo".$campi.") VALUES (".$_SESSION['idSquadra'].",'$giornata','$modulo'".$valori.")";
+        $q = "INSERT INTO formazioni (idUtente,idGiornata,modulo".$campi.") 
+				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
         mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		$q = "SELECT idFormazione FROM formazioni WHERE idSquadra = '" . $_SESSION['idSquadra'] . "' AND idGiornata ='" . $giornata . "';";
+		$q = "SELECT idFormazione 
+				FROM formazioni 
+				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		while($row = mysql_fetch_array($exe))
-			$id=$row[0];
+			$id = $row[0];
 	    foreach($formazione as $key=>$player)
         {
-            $pos=$key+1;
-            $q="INSERT INTO schieramento(idFormazione,idGioc,idPosizione) VALUES ('$id','$player','$pos')";
+            $pos = $key+1;
+            $q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
+					VALUES ('" . $id . "','" . $player . "','" . $pos . "')";
             $exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());            
         }
         return $id;
 	}
 	
-	function updateFormazione($formazione,$capitano,$giornata)
+	function updateFormazione($formazione,$capitano,$giornata,$idSquadra)
 	{
-      	$modulo=$_SESSION['modulo'];
-      	$str="";
+      	$modulo = $_SESSION['modulo'];
+      	$str = "";
         foreach($capitano as $key=>$val)
-        {
-            $str.=",$key='$val'";
-        }        
-		$q="UPDATE formazioni SET Modulo='$modulo'".$str." WHERE idUtente= '" . $_SESSION['idUtente'] . "' AND IdGiornata = '" . $giornata . "';";
+            $str .= "," . $key . "='" . $val . "'";      
+		$q = "UPDATE formazioni 
+				SET Modulo = '$modulo'".$str." 
+				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		$q = "SELECT idFormazione FROM formazioni WHERE idUtente = '" . $_SESSION['idSquadra'] . "' AND idGiornata ='" . $giornata . "';";
+		$q = "SELECT idFormazione 
+				FROM formazioni 
+				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 	  	$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		while($row = mysql_fetch_array($exe))
-			$id=$row[0];
+			$id = $row[0];
 		foreach($formazione as $key=>$player)
         {
-            $pos=$key+1;
-            $q="UPDATE schieramento SET idFormazione='".$id."',idGioc='".$player."',idPosizione='".$pos."' WHERE idFormazione='".$id."' AND IdPosizione='".$pos."'";
+            $pos = $key+1;
+            $q = "UPDATE schieramento 
+					SET idFormazione='" . $id . "',idGioc='" . $player . "',idPosizione='" . $pos . "' 
+					WHERE idFormazione = '" . $id . "' AND idPosizione = '" . $pos . "'";
             $exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
         }
         return $id;
@@ -91,25 +98,27 @@ class formazione
 	
 	function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
 	{
-		$q = "SELECT formazioni.idFormazione,idGioc,idPosizione,modulo,C,VC,VVC FROM formazioni INNER JOIN schieramento ON formazioni.idFormazione=schieramento.idFormazione WHERE formazioni.idUtente='".$idUtente."' AND formazioni.IdGiornata = '$giornata' ORDER BY IdPosizione;";
+		$q = "SELECT formazioni.idFormazione,idGioc,idPosizione,modulo,C,VC,VVC 
+				FROM formazioni INNER JOIN schieramento ON formazioni.idFormazione = schieramento.idFormazione 
+				WHERE formazioni.idUtente='" . $idUtente . "' AND formazioni.idGiornata = '" . $giornata . "' ORDER BY idPosizione";
 		$exe = mysql_query($q);
 		$flag = 0;
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
-    		$elenco[$row['idPosizione']]=$row['idGioc'];
-			$idformazione=$row['idFormazione'];
-			$modulo=$row['modulo'];
-			$cap['C']=$row['C'];
-			$cap['VC']=$row['VC'];
-			$cap['VVC']=$row['VVC'];
-			$flag=1;
+    		$elenco[$row['idPosizione']] = $row['idGioc'];
+			$idformazione = $row['idFormazione'];
+			$modulo = $row['modulo'];
+			$cap['C'] = $row['C'];
+			$cap['VC'] = $row['VC'];
+			$cap['VVC'] = $row['VVC'];
+			$flag = 1;
 		}
 		if($flag == 1)
 		{
-            $formazione['Id']=$idformazione;
-            $formazione['Elenco']=$elenco;
-            $formazione['Modulo']=$modulo;
-            $formazione['Cap']=$cap;
+            $formazione['Id'] = $idformazione;
+            $formazione['Elenco'] = $elenco;
+            $formazione['Modulo'] = $modulo;
+            $formazione['Cap'] = $cap;
             return $formazione;
         }			
 		else
@@ -118,7 +127,9 @@ class formazione
 	
 	function getFormazioneExistByGiornata($giornata)
 	{
-		$q = "SELECT utente.idUtente,nome FROM formazioni INNER JOIN utente ON formazioni.idUtente = utente.idUtente WHERE idGiornata = '" . $giornata . "'; ";
+		$q = "SELECT utente.idUtente,nome 
+				FROM formazioni INNER JOIN utente ON formazioni.idUtente = utente.idUtente 
+				WHERE idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		while ($row = mysql_fetch_row($exe))
 		{

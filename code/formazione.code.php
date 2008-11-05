@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."formazione.inc.php");
 require_once(INCDIR."eventi.inc.php");
@@ -112,7 +112,7 @@ if(TIMEOUT)
 			$contenttpl->assign('err',2);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->carica_formazione($formazione,$capitano,GIORNATA);
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra']);
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$id);
 			}
 			else

@@ -22,8 +22,10 @@ class utente
 	
 	function getElencoSquadre()
 	{		
-		$q="SELECT * FROM utente WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		 $exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$q = "SELECT * 
+				FROM utente 
+				WHERE idLega = '" . $_SESSION['idLega'] . "'";
+		 $exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		 while ($row = mysql_fetch_array($exe) )
 		  	$values[$row['idUtente']] = $row;
 		 return $values; 
@@ -31,17 +33,21 @@ class utente
 	
 	function getElencoSquadreByLega($idLega)
 	{		
-		$q="SELECT * FROM utente WHERE idLega = '" . $idLega . "'";
-		 $exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		 while ($row = mysql_fetch_array($exe) )
-		  	$values[$row['idUtente']] = $row;
-		 return $values; 
+		$q = "SELECT * 
+				FROM utente
+				WHERE idLega = '" . $idLega . "'";
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idUtente']] = $row;
+		return $values; 
 	}
 	
 	function getSquadraById($idUtente)
 	{		
-		$q="SELECT * FROM utente WHERE idUtente = '" . $idUtente . "'";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$q = "SELECT * 
+				FROM utente 
+				WHERE idUtente = '" . $idUtente . "'";
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$values = mysql_fetch_array($exe);
 		return $values; 
 	}
@@ -68,7 +74,7 @@ class utente
 			} 
 		}
 		$q = substr($q,0,-1);
-		$q .= " WHERE idUtente = '" . $id . "';";
+		$q .= " WHERE idUtente = '" . $id . "'";
 		if(mysql_query($q))
 			return 2;
 		else
@@ -77,32 +83,34 @@ class utente
 	
 	function getAllEmail()
 	{
-		$q = "SELECT mail,idUquadra FROM utente";
+		$q = "SELECT mail,idUtente 
+				FROM utente";
 		$exe = mysql_query($q);
 		while ($row = mysql_fetch_row($exe) )
-		 {
-		  	$values[$row[1]] = $row[0];
-		 }
-		 return $values; 
+			$values[$row[1]] = $row[0];
+		return $values; 
 	}
 	
 	function addSquadra($username,$name,$admin,$password,$email,$idLega)
 	{
-		$q = "INSERT INTO utente (nome,username,password,mail,amministratore,idLega) VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "');";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		$q = "SELECT idUtente FROM utente WHERE nome = '" . $name . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "';";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		echo "ciao".$q;
+		$q = "INSERT INTO utente (nome,username,password,mail,amministratore,idLega) 
+				VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$q = "SELECT idUtente 
+				FROM utente 
+				WHERE nome = '" . $name . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		while ($row = mysql_fetch_row($exe) )
 			$val = $row[0];
 		return $val;
-		echo $val;
 	}
 	
 	function deleteSquadra($idUtente)
 	{
-		$q = "DELETE FROM utente WHERE idUtente = '" . $idUtente . "';";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$q = "DELETE 
+				FROM utente 
+				WHERE idUtente = '" . $idUtente . "'";
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		if(mysql_affected_rows() == 0)
 			return FALSE;
 		else
@@ -111,8 +119,10 @@ class utente
 	
 	function getLegaByIdSquadra($idUtente)
 	{
-		$q = "SELECT idLega FROM utente WHERE idUtente = '" . $idUtente . "';";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$q = "SELECT idLega 
+				FROM utente 
+				WHERE idUtente = '" . $idUtente . "'";
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$val = -1;
 		while ($row = mysql_fetch_row($exe) )
 			$val = $row[0];

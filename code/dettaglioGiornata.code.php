@@ -1,10 +1,10 @@
 <?php 
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'formazione.inc.php');
 require_once(INCDIR.'punteggi.inc.php');
 
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $formazioneObj = new formazione();
 
 $squadra = NULL;
@@ -33,8 +33,8 @@ if($squadra == NULL)
 $contenttpl->assign('giornprec',$giornprec);
 $contenttpl->assign('giornsucc',$giornsucc);
 
-$contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
-$contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
+$contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
+$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['idLega']));
 
 
 $contenttpl->assign('punteggi',$punteggiObj->getAllPunteggi());
@@ -48,7 +48,7 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $squadra < 9 && $gio
 	{
 		//$result = $punteggiObj->calcolaPunti($giornata,$squadra,FALSE);
 		$contenttpl->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra));
+		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataSquadra($giornata,$squadra));
 		//echo "<pre>".print_r($giocatoreObj->getVotiGiocatoryById($giornata,$squadra),1)."</pre>";
 		
 	}
@@ -60,36 +60,4 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $squadra < 9 && $gio
 }
 else
 	$contenttpl->assign('formazione',FALSE);
-	
-/*$q = "SELECT * FROM giocatore;";
-$exe = mysql_query($q);
-while ($row = mysql_fetch_row($exe))
-{
-	$values[] = $row;	
-}
-echo "<pre>".print_r($values,1)."</pre>";
-foreach ($values as $key => $val)
-{
-	$appo = explode(';',$val[5]);
-	//echo $val[2]. " " .count($appo)."<br>";
-	array_pop($appo);
-	array_pop($appo);
-	$values[$key][5] = implode(';',$appo).';';
-}
-echo "<pre>".print_r($values,1)."</pre>";
-$q = "INSERT INTO giocatore2 (IdGioc,Nome,Cognome,Ruolo,Club,Voti,IdSquadra,IdGiocVec,idSquadraAcquisto) VALUES ";
-foreach ($values as $key => $val)
-{
-	$q .= "(";
-	foreach ($val as $key2 => $val2)
-	{
-		$q .= "'" . addslashes($val2) . "',";
-	}
-	$q = substr($q,0,-1);
-	$q .= "),";
-}
-$q = substr($q,0,-1);
-$q .= ";";
-echo $q;
-mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());*/
 ?>

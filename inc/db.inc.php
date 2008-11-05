@@ -61,7 +61,7 @@ class db
 		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
 		$folder = DBDIR;
-		return implode(file($folder.array_pop($fileSystemObj->getFileIntoFolder($folder))));
+		return file_get_contents(($folder.array_pop($fileSystemObj->getFileIntoFolder($folder))));
 	}
 }
 ?>
