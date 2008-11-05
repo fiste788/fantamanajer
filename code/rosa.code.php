@@ -4,10 +4,12 @@ require_once(INCDIR.'utente.inc.php');
 require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'voti.inc.php');
 
 $giocatoreObj = new giocatore();
 $punteggiObj = new punteggi();
 $utenteObj = new utente();
+$votiObj = new voti();
 
 $squadra = NULL;
 if(isset($_GET['squadra']))
@@ -44,7 +46,7 @@ $contenttpl->assign('elencosquadre',$elencoSquadre);
 $contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
-$values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);
+$values = $giocatoreObj->getGiocatoriByIdSquadraWithStats($squadra);
 if(($squadra != NULL) && ($values))
 {
 
@@ -61,15 +63,15 @@ if(($squadra != NULL) && ($values))
 		$giocatori[$i]['nome'] = $val[1] . " " . $val[2];
 		$giocatori[$i]['ruolo'] = $ruoli[$val[3]];
 		$giocatori[$i]['club'] = $val[5];
-		$medievoti=$giocatoreObj->getMedieVoto($giocatori[$i]['idGioc']);
-        $giocatori[$i]['votiAll']=$medievoti['mediaPunti'];
-        $giocatori[$i]['voti']=substr($giocatori[$i]['votiAll'],0,4);
-        $giocatori[$i]['partite']=$val[7];
-        $giocatori[$i]['partiteeff']=$medievoti['Presenze'];
-        $giocatori[$i]['gol']=$val[8];
-        $giocatori[$i]['assist']=$val[9];
-        $giocatori[$i]['votoeffAll']=$medievoti['mediaVoti'];
-        $giocatori[$i]['votoeff']=substr($giocatori[$i]['votoeffAll'],0,4);
+		$medievoti = $votiObj->getMedieVoto($giocatori[$i]['idGioc']);
+		$giocatori[$i]['votiAll']=$medievoti['mediaPunti'];
+		$giocatori[$i]['voti']=substr($giocatori[$i]['votiAll'],0,4);
+		$giocatori[$i]['partite']=$val[7];
+		$giocatori[$i]['partiteeff']=$medievoti['Presenze'];
+		$giocatori[$i]['gol']=$val[8];
+		$giocatori[$i]['assist']=$val[9];
+		$giocatori[$i]['votoeffAll']=$medievoti['mediaVoti'];
+		$giocatori[$i]['votoeff']=substr($giocatori[$i]['votoeffAll'],0,4);
 		$mediaVoto += $giocatori[$i]['votoeffAll'];
 		$mediaMagic += $giocatori[$i]['votiAll'];
 		$mediaPartite += $giocatori[$i]['partite'];
