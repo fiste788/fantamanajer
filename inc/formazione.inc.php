@@ -101,11 +101,11 @@ class formazione
 				FROM formazioni INNER JOIN schieramento ON formazioni.idFormazione = schieramento.idFormazione 
 				WHERE formazioni.idUtente = '" . $idUtente . "' AND formazioni.idGiornata = '" . $giornata . "' 
 				ORDER BY idPosizione";
-		$exe = mysql_query($q);
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$flag = 0;
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
-    		$elenco[$row['idPosizione']] = $row['idGioc'];
+			$elenco[$row['idPosizione']] = $row['idGioc'];
 			$idFormazione = $row['idFormazione'];
 			$modulo = $row['modulo'];
 			$cap['C'] = $row['C'];

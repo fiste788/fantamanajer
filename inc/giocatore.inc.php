@@ -120,8 +120,8 @@ class giocatore
 		return $values;
 	}
 	
-    function getVotiGiocatoriByGiornataSquadra($giornata,$idUtente)
-    {
+	function getVotiGiocatoriByGiornataSquadra($giornata,$idUtente)
+	{
 		require_once(INCDIR.'voti.inc.php');
 		$votiObj = new voti();
 		$q = "SELECT giocatore.idGioc as gioc, cognome, nome, ruolo, club, idPosizione, considerato
