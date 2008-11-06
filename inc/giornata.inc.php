@@ -14,7 +14,9 @@ class giornata
 	
 	function getIdGiornataByDate()
 	{
-		$q = "SELECT idGiornata FROM giornate WHERE '" . date("Y-m-d H:i:s") . "' BETWEEN dataInizio AND dataFine";
+		$q = "SELECT idGiornata 
+				FROM giornate 
+				WHERE '" . date("Y-m-d H:i:s") . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
@@ -22,7 +24,9 @@ class giornata
 	
 	function checkDay($day)
 	{
-		$q = "SELECT dataInizio,idGiornata FROM giornate WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
+		$q = "SELECT dataInizio,idGiornata 
+				FROM giornate 
+				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$value = mysql_fetch_row($exe);
 		$array = explode(" ",$value[0]);
@@ -36,7 +40,9 @@ class giornata
 	
 	function getIdGiornataByDateSecondary()
 	{
-		$q = "SELECT idGiornata FROM giornate WHERE '" . date("Y-m-d H:i:s") . "' BETWEEN dataCenterInizio AND dataCenterFine";
+		$q = "SELECT idGiornata 
+				FROM giornate 
+				WHERE '" . date("Y-m-d H:i:s") . "' BETWEEN dataCenterInizio AND dataCenterFine";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
@@ -44,7 +50,9 @@ class giornata
 	
 	function getDataByGiornata($giorn)
 	{
-		$q = "SELECT * FROM giornate WHERE idGiornata = '" . $giorn . "';";
+		$q = "SELECT * 
+				FROM giornate 
+				WHERE idGiornata = '" . $giorn . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		$valore = mysql_fetch_row($exe);
 		return $valore;
@@ -52,7 +60,8 @@ class giornata
 	
 	function getNumberGiornate()
 	{
-		$q = "SELECT COUNT(idGiornata) FROM giornate;";
+		$q = "SELECT COUNT(idGiornata) 
+				FROM giornate";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];

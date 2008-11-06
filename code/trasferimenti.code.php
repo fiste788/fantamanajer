@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 require_once(INCDIR.'trasferimenti.inc.php');
 require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
@@ -68,7 +68,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 			$acquistoDett = $giocatoreObj->getGiocatoreById($acquisto);
 		if($lasciato != NULL)
 			$lasciatoDett = $giocatoreObj->getGiocatoreById($lasciato);
-		$numTrasferimenti = $selezioneObj->getNumberTransfert($squadra);
+		$numSelezioni = $selezioneObj->getNumberSelezioni($squadra);
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 		{
@@ -76,7 +76,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 			{
 				if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && ($selezione['giocNew'] != $acquisto || $selezione['giocOld'] != $lasciato))
 				{
-					if($numTrasferimenti < NUMSELEZIONI)
+					if($numSelezioni < NUMSELEZIONI)
 					{	
 						$squadraOld = $selezioneObj->checkFree($acquisto,$_SESSION['idLega']);
 						if($squadraOld != FALSE)

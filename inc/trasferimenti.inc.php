@@ -18,16 +18,37 @@ class trasferimenti
 	
 	function transfer($giocOld,$giocNew,$squadra,$idLega)
 	{
-		$q = "INSERT INTO squadre 
-				VALUES ('" . $idLega . "','" . $squadra . "','". $giocNew . "')";
-		$q2 = "DELETE 
-				FROM squadre 
-				WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
+		require_once(INCDIR.'squadre.inc.php');
+		$squadreObj = new squadre();
+		$squadraOld = $squadreObj->getSquadraByIdGioc($giocNew,$idLega);
+		if($squadraOld == FALSE)
+		{
+			$q = "INSERT INTO squadre 
+					VALUES ('" . $idLega . "','" . $squadra . "','". $giocNew . "')";
+			$q2 = "DELETE 
+					FROM squadre 
+					WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
+		}
+		else
+		{
+			$q = "UPDATE squadre 
+					SET idUtente = '" . $squadra . "' 
+					WHERE idGioc = '". $giocNew . "' AND idLega = '" . $idLega . "'";
+			$q2 = "UPDATE squadre 
+					SET idUtente = '" . $squadraOld . "' 
+					WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
+		}
 		$result = mysql_query($q);
 		$result = $result + mysql_query($q2);
-		$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra) 
-				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "')";
+		$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra,idGiornata) 
+				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "')";
 		$result = $result + mysql_query($q);
+		if($squadraOld != FALSE)
+		{
+			$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra,idGiornata) 
+				VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "')";
+			$result = $result + mysql_query($q);
+		}
 		if($result)
 			return TRUE;
 		else

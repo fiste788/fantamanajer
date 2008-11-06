@@ -7,8 +7,7 @@ class squadre
 		{
 			$q = "INSERT INTO squadre 
 					VALUES ('" . $idLega . "','" . $idUtente . "','" . $val . "');";
-			mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
-			return true;
+			return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		}
 	}
 	
@@ -17,8 +16,7 @@ class squadre
 		$q = "DELETE 
 				FROM squadre 
 				WHERE idUtente = '" . $idUtente . "';";
-		mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
-		return true;
+		return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 	}
 	
 	function updateGiocatore($giocatoreNew,$giocatoreOld,$idUtente)
@@ -26,8 +24,19 @@ class squadre
 		$q = "UPDATE squadre 
 				SET idGioc = '" . $giocatoreNew . "' 
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "';";
-		mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
-		return true;
+		return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+	}
+	
+	function getSquadraByIdGioc($idGioc,$idLega)
+	{
+		$q = "SELECT idUtente
+				FROM squadre 
+				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "';";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		$values = FALSE;
+		while($row = mysql_fetch_array($exe))
+			$values = $row['idUtente'];
+		return $values;
 	}
 }
 ?>

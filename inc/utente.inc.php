@@ -25,10 +25,10 @@ class utente
 		$q = "SELECT * 
 				FROM utente 
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		 $exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		 while ($row = mysql_fetch_array($exe) )
-		  	$values[$row['idUtente']] = $row;
-		 return $values; 
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idUtente']] = $row;
+		return $values; 
 	}
 	
 	function getElencoSquadreByLega($idLega)

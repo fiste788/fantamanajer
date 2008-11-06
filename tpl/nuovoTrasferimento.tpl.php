@@ -1,8 +1,8 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
+		<img align="left" src="<?php echo IMGSURL.'transfert-big.png'; ?>" alt="Logo Squadre" />
 	</div>
-	<h2 class="column">Crea squadra</h2>
+	<h2 class="column">Nuovo trasferimento</h2>
 </div>
 <div id="nuovoTrasferimento" class="main-content">
 	<?php if(isset($this->squadra) && $this->squadra != NULL): ?>

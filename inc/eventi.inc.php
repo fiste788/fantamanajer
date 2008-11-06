@@ -3,19 +3,23 @@ class eventi
 {
 	function addEvento($tipo,$idUtente,$idExternal = NULL)
 	{
-		$q = "INSERT INTO eventi (idUtente,tipo,idExternal) VALUES ('" . $idUtente . "','" . $tipo . "','" . $idExternal . "');";
-		mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
+		$q = "INSERT INTO eventi (idUtente,tipo,idExternal) 
+				VALUES ('" . $idUtente . "','" . $tipo . "','" . $idExternal . "')";
+		return mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
 	}
 	
 	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
 	{
-		$q = "DELETE FROM eventi WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "';";
-		mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
+		$q = "DELETE 
+				FROM eventi WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
+		return mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
 	}
 	
 	function getEventi($tipo = NULL,$min = 0,$max = 10)
 	{
-		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome FROM eventi INNER JOIN utente ON eventi.idUtente = utente.idUtente ORDER BY data DESC";
+		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
+				FROM eventi INNER JOIN utente ON eventi.idUtente = utente.idUtente 
+				ORDER BY data DESC";
 		if($tipo != NULL)
 		  $q .= " WHERE tipo = '" . $tipo . "'";
 		$q .= " LIMIT " . $min . "," . $max . ";";
@@ -46,7 +50,6 @@ class eventi
 									if(!empty($values[$key]['idExternal']['abstract'])) $values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
 									$values[$key]['content'] .= $values[$key]['idExternal']['text'];
 									$values[$key]['link'] = $linksObj->getLink('conferenzeStampa',array('giorn'=>$values[$key]['idExternal']['idGiornata']));break;
-								
 		    		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
 									$values[$key]['content'] = ' ';break;
 									$values[$key]['link'] = '';break;
@@ -70,7 +73,6 @@ class eventi
 									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['IdGiocOld'][$giocOld[0]]['Nome'] .' ' . $values[$key]['idExternal']['IdGiocOld'][$giocOld[0]]['Cognome'].' e ha acquistato '. $values[$key]['idExternal']['IdGiocNew'][$giocNew[0]]['Nome'] .' ' . $values[$key]['idExternal']['IdGiocNew'][$giocNew[0]]['Cognome'];
 									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squad'=>$values[$key]['idExternal']['IdSquadra']));
 									unset($giocOld,$giocNew);break;
-								
 				}
 			}
 			return $values;

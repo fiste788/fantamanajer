@@ -74,70 +74,67 @@ class fileSystem
 	
 	function scaricaVotiCsv($percorso)
 	{
-		$sep_voti = ";";
-		$novoto = "-";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
-		$tabella_voti = array(); 
 	    $espr = "<tr>";
 	    if (file_exists($percorso))
 	        unlink($percorso);
 		$handle = fopen($percorso, "a");
 		foreach ($array as $keyruolo=>$ruolo)
 		{
-			$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_".$ruolo.".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
+			$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_" . $ruolo . ".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
 			$contenuto = $this->contenutoCurl($link);
 			//print htmlspecialchars($contenuto);
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
-	    	$keywords = explode($espr, $matches[0]);
+			$keywords = explode($espr, $matches[0]);
 			array_shift($keywords);
-	        foreach($keywords as $key)
-	        {
-	            $espre = "/(\s*\/?<[^<>]+>)+/";
-	            $key = preg_replace($espre,"\t",$key); 
-	            $pieces = explode("\t",$key);
-	            foreach($pieces as $key=>$val)
+			foreach($keywords as $key)
+			{
+				$espre = "/(\s*\/?<[^<>]+>)+/";
+				$key = preg_replace($espre,"\t",$key); 
+				$pieces = explode("\t",$key);
+				foreach($pieces as $key=>$val)
 					$pieces = trim($val);
-	            $pieces=array_map("htmlspecialchars",$pieces);
-	            $pieces[10] = ereg_replace(',','.',$pieces[10]);
-	            $pieces[4] = ereg_replace(',','.',$pieces[4]);
-	            fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[4];$pieces[10];$pieces[3];$pieces[5];$pieces[9];\n");
-	        }
-	    }  
-	    fclose($handle);
+				$pieces = array_map("htmlspecialchars",$pieces);
+				$pieces[10] = ereg_replace(',','.',$pieces[10]);
+				$pieces[4] = ereg_replace(',','.',$pieces[4]);
+				fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[4];$pieces[10];$pieces[3];$pieces[5];$pieces[9];\n");
+			}
+		}
+		fclose($handle);
 	}
 	
 	function scaricaLista($percorso)
 	{
-	        if(file_exists($percorso))
-	            unlink($percorso);
-	    	$handle = fopen($percorso, "a");
-	    	$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
-	    	foreach($array as $keyruolo=>$ruolo)
-	    	{
-			  $link = "http://www.fantagazzetta.com/quotazioni_".$ruolo."_gazzetta_dello_sport.asp";
-	            $contenuto = $this->contenutoCurl($link);   
-	            $contenuto = preg_replace("/\n/","",$contenuto);
-	            preg_match("/<table.*?class=\"statistiche\">\s*(.*?<\/table>)/",$contenuto,$matches);
-			    $keywords = explode("<tr",$matches[0]);
-	            //$keywords=array_map("htmlspecialchars",$keywords);
-	            //echo "<pre>".print_r($keywords,1)."</pre>";
-	            array_shift($keywords);
-	            array_shift($keywords);
-	            foreach($keywords as $key)
-	            {
-	                $espre = "/(\s*\/?<[^<>]+>)+/";
-	                $key = preg_replace($espre,"\t",$key); 
-	                $pieces = explode("\t",$key);
-	                foreach($pieces as $key=>$val)
-						$pieces = trim($val);
-	                $pieces=array_map("htmlspecialchars",$pieces);
-	                $pieces[6]=substr($pieces[6],0,3);
-	                $pieces[2]=ucwords(strtolower($pieces[2]));
-	                fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[6]\n");
-	            }
-	        }
-	    fclose($handle);
+		if(file_exists($percorso))
+			unlink($percorso);
+		$handle = fopen($percorso, "a");
+		$array = array("P"=>"portieri","D"=>"difensori","C"=>"centrocampisti","A"=>"attaccanti");
+		foreach($array as $keyruolo=>$ruolo)
+		{
+			$link = "http://www.fantagazzetta.com/quotazioni_" . $ruolo . "_gazzetta_dello_sport.asp";
+			$contenuto = $this->contenutoCurl($link);   
+			$contenuto = preg_replace("/\n/","",$contenuto);
+			preg_match("/<table.*?class=\"statistiche\">\s*(.*?<\/table>)/",$contenuto,$matches);
+			$keywords = explode("<tr",$matches[0]);
+			//$keywords=array_map("htmlspecialchars",$keywords);
+			//echo "<pre>".print_r($keywords,1)."</pre>";
+			array_shift($keywords);
+			array_shift($keywords);
+			foreach($keywords as $key)
+			{
+				$espre = "/(\s*\/?<[^<>]+>)+/";
+				$key = preg_replace($espre,"\t",$key); 
+				$pieces = explode("\t",$key);
+				foreach($pieces as $key=>$val)
+					$pieces = trim($val);
+				$pieces=array_map("htmlspecialchars",$pieces);
+				$pieces[6]=substr($pieces[6],0,3);
+				$pieces[2]=ucwords(strtolower($pieces[2]));
+				fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[6]\n");
+			}
+		}
+		fclose($handle);
 	}
 	
 	/*function TrimArray($Input)
