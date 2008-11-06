@@ -58,10 +58,11 @@ class db
 	
 	function sincronize()
 	{
-		require_once(INCDIR.'fileSystem.inc.php');
-		$fileSystemObj = new fileSystem();
-		$folder = DBDIR;
-		return file_get_contents(($folder.array_pop($fileSystemObj->getFileIntoFolder($folder))));
+		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
+		if(!empty($nomeBackup))
+			return file_get_contents('http://www.fantamanajer.it/db/'.$nomeBackup);
+		else
+			return FALSE;
 	}
 }
 ?>
