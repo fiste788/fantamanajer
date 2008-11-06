@@ -49,9 +49,7 @@ if($numTrasferimenti <MAXTRASFERIMENTI )
 		if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) )
 		{
 			$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista']);
-			$playerFree = array();
-			foreach($ruo as $key=>$val)
-				$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
+			$playerFree = $giocatoreObj->getGiocatoriNotSquadra($squadra);
 			$flag = 0;
 			foreach($playerFree as $key=>$val)
 				if($val['idGioc'] == $_POST['acquista'])
@@ -93,8 +91,5 @@ if(isset($messaggio))
 	$contenttpl->assign('messaggio',$messaggio);
 	
 $contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
-$playerFree = array();
-foreach($ruo as $key=>$val)
-	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
-$contenttpl->assign('freePlayer',$playerFree);
+$contenttpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($squadra));
 ?>

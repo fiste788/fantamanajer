@@ -35,7 +35,6 @@ class selezione
 	
 	function updateGioc($giocNew,$giocOld,$idLega,$idSquadra)
 	{
-		// unset della squadra che avava prima quel giocatore
 		$q = "SELECT numSelezioni 
 				FROM selezione 
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
@@ -72,11 +71,12 @@ class selezione
 		}
 	}
 	
-	function getNumberTransfert($idUtente)
+	function getNumberSelezioni($idUtente)
 	{
 		$q = "SELECT numSelezioni 
 				FROM selezione WHERE idSquadra = '" . $idUtente . "'";
-		$exe=mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$val = NULL;
 		while ($row = mysql_fetch_row($exe) )
 			$val = $row[0];
 		return $val;

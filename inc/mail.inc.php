@@ -35,6 +35,5 @@ class mail
 		else
 			return FALSE;
 	}
-
 }
 ?>

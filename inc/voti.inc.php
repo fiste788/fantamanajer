@@ -5,7 +5,7 @@ class voti
 	{
 		$q = "SELECT voto 
 				FROM voti 
-				WHERE idGioc = '".$idGioc."' AND idGiornata = '".$giornata."'";
+				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		while ($row = mysql_fetch_row($exe))
 			return($row[0]);
@@ -15,12 +15,12 @@ class voti
 	{
 		$i = 0;
 		$q = "SELECT voto,votoUff 
-				FROM voti WHERE idGioc='$idGioc' AND idGiornata='".$giornata."'";
-		$exe = mysql_query($select) or die("Query non valida: ".$q. mysql_error());
+				FROM voti WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
+		$exe = mysql_query($q) or die("Query non valida: ".$q. mysql_error());
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
 			$i++;
-			if($row['votoUff']==0 and $row['voto']==0)
+			if($row['votoUff'] == 0 && $row['voto'] == 0)
 				return 0;
 		}
 		if(!$i)
@@ -33,7 +33,8 @@ class voti
 	{
 		$q = "SELECT AVG(voto) as mediaPunti,AVG(votoUff) as mediaVoti,count(voto) as Presenze 
 				FROM voti 
-				WHERE idGioc='".$idGioc."' AND votoUff <> 0 AND voto <> 0 GROUP by idGioc";
+				WHERE idGioc = '" . $idGioc . "' AND votoUff <> 0 AND voto <> 0 
+				GROUP by idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			return $row;
@@ -50,15 +51,25 @@ class voti
 		{
 			$pezzi = explode(";",$player);
 			if($pezzi[3] == "-")
-			$presenza = 0;
+				$presenza = 0;
 			else
-			$presenza = 1;
+				$presenza = 1;
 			if($pezzi[2] == "P")
-			$pezzi[6] = -$pezzi[6];
+				$pezzi[6] = -$pezzi[6];
 			$q = "INSERT INTO voti(idGioc,idGiornata,votoUff,voto,gol,assist) 
-					VALUES ('".$pezzi[0]."','".$giorn."','".$pezzi[3]."','".$pezzi[4]."','".$pezzi[6]."','".$pezzi[7]."')";
-		mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+					VALUES ('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[3] . "','" . $pezzi[4] . "','" . $pezzi[6] . "','" . $pezzi[7] . "')";
+			mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		}
+	}
+	
+	function checkVotiExist($giornata)
+	{
+		$q = "SELECT DISTINCT(idGiornata)
+				FROM voti";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			$values[] = $row['idGiornata'];
+		return in_array($giornata,$values);
 	}
 }
 ?>

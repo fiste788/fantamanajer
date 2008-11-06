@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 05 Nov, 2008 at 07:27 PM
+-- Generato il: 05 Nov, 2008 at 08:24 PM
 -- Versione MySQL: 5.0.67
 -- Versione PHP: 5.2.6-2ubuntu4
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Struttura della tabella `articolo`
 --
 
-DROP TABLE IF EXISTS `articolo`;
 CREATE TABLE IF NOT EXISTS `articolo` (
   `idArticolo` int(11) NOT NULL auto_increment,
   `title` varchar(30) collate utf8_unicode_ci NOT NULL default '',
@@ -64,7 +63,6 @@ INSERT INTO `articolo` (`idArticolo`, `title`, `abstract`, `text`, `insertDate`,
 -- Struttura della tabella `club`
 --
 
-DROP TABLE IF EXISTS `club`;
 CREATE TABLE IF NOT EXISTS `club` (
   `idClub` int(11) NOT NULL auto_increment,
   `nomeClub` varchar(15) collate utf8_unicode_ci NOT NULL,
@@ -76,26 +74,26 @@ CREATE TABLE IF NOT EXISTS `club` (
 --
 
 INSERT INTO `club` (`idClub`, `nomeClub`) VALUES
-(1, 'MIL'),
-(2, 'PAL'),
-(3, 'BOL'),
-(4, 'CAG'),
-(5, 'ROM'),
-(6, 'FIO'),
-(7, 'UDI'),
-(8, 'LEC'),
-(9, 'CAT'),
-(10, 'JUV'),
-(11, 'TOR'),
-(12, 'REG'),
-(13, 'LAZ'),
-(14, 'SAM'),
-(15, 'ATA'),
-(16, 'SIE'),
-(17, 'NAP'),
-(18, 'INT'),
-(19, 'GEN'),
-(20, 'CHI');
+(1, 'Milan'),
+(2, 'Palermo'),
+(3, 'Bologna'),
+(4, 'Cagliari'),
+(5, 'Roma'),
+(6, 'Fiorentina'),
+(7, 'Udinese'),
+(8, 'Lecce'),
+(9, 'Catania'),
+(10, 'Juventus'),
+(11, 'Torino'),
+(12, 'Reggina'),
+(13, 'Lazio'),
+(14, 'Sampdoria'),
+(15, 'Atalanta'),
+(16, 'Siena'),
+(17, 'Napoli'),
+(18, 'Inter'),
+(19, 'Genoa'),
+(20, 'Chievo');
 
 -- --------------------------------------------------------
 
@@ -103,13 +101,12 @@ INSERT INTO `club` (`idClub`, `nomeClub`) VALUES
 -- Struttura della tabella `eventi`
 --
 
-DROP TABLE IF EXISTS `eventi`;
 CREATE TABLE IF NOT EXISTS `eventi` (
   `idEvento` int(11) NOT NULL auto_increment,
-  `idUtente` int(11) NOT NULL default '0',
+  `idUtente` int(11) NOT NULL,
   `data` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  `tipo` int(11) NOT NULL default '0',
-  `idExternal` int(11) NOT NULL default '0',
+  `tipo` int(11) NOT NULL,
+  `idExternal` int(11) NOT NULL,
   PRIMARY KEY  (`idEvento`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=38 ;
 
@@ -157,24 +154,23 @@ INSERT INTO `eventi` (`idEvento`, `idUtente`, `data`, `tipo`, `idExternal`) VALU
 -- Struttura della tabella `formazioni`
 --
 
-DROP TABLE IF EXISTS `formazioni`;
 CREATE TABLE IF NOT EXISTS `formazioni` (
-  `IdFormazione` int(11) NOT NULL auto_increment,
-  `IdGiornata` int(11) NOT NULL,
-  `IdSquadra` int(11) NOT NULL,
-  `Modulo` varchar(7) collate utf8_unicode_ci NOT NULL,
+  `idFormazione` int(11) NOT NULL auto_increment,
+  `idGiornata` int(11) NOT NULL,
+  `idUtente` int(11) NOT NULL,
+  `modulo` varchar(7) collate utf8_unicode_ci NOT NULL,
   `C` int(11) NOT NULL,
   `VC` int(11) NOT NULL,
   `VVC` int(11) NOT NULL,
-  PRIMARY KEY  (`IdFormazione`),
-  UNIQUE KEY `IdGiorSq` (`IdGiornata`,`IdSquadra`)
+  PRIMARY KEY  (`idFormazione`),
+  UNIQUE KEY `IdGiorSq` (`idGiornata`,`idUtente`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=65 ;
 
 --
 -- Dump dei dati per la tabella `formazioni`
 --
 
-INSERT INTO `formazioni` (`IdFormazione`, `IdGiornata`, `IdSquadra`, `Modulo`, `C`, `VC`, `VVC`) VALUES
+INSERT INTO `formazioni` (`idFormazione`, `idGiornata`, `idUtente`, `modulo`, `C`, `VC`, `VVC`) VALUES
 (4, 1, 1, '1-3-4-3', 369, 221, 287),
 (5, 1, 4, '1-4-3-3', 298, 321, 371),
 (6, 1, 2, '1-3-5-2', 318, 260, 327),
@@ -243,7 +239,6 @@ INSERT INTO `formazioni` (`IdFormazione`, `IdGiornata`, `IdSquadra`, `Modulo`, `
 -- Struttura della tabella `giocatore`
 --
 
-DROP TABLE IF EXISTS `giocatore`;
 CREATE TABLE IF NOT EXISTS `giocatore` (
   `idGioc` int(11) unsigned NOT NULL default '0',
   `nome` varchar(30) collate utf8_unicode_ci NOT NULL,
@@ -839,7 +834,6 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 -- Struttura della tabella `giornate`
 --
 
-DROP TABLE IF EXISTS `giornate`;
 CREATE TABLE IF NOT EXISTS `giornate` (
   `idGiornata` int(10) unsigned NOT NULL auto_increment,
   `dataInizio` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -900,7 +894,6 @@ INSERT INTO `giornate` (`idGiornata`, `dataInizio`, `dataFine`, `dataCenterInizi
 -- Struttura della tabella `leghe`
 --
 
-DROP TABLE IF EXISTS `leghe`;
 CREATE TABLE IF NOT EXISTS `leghe` (
   `idLega` int(11) NOT NULL auto_increment,
   `nomeLega` varchar(15) collate utf8_unicode_ci NOT NULL,
@@ -920,20 +913,19 @@ INSERT INTO `leghe` (`idLega`, `nomeLega`) VALUES
 -- Struttura della tabella `punteggi`
 --
 
-DROP TABLE IF EXISTS `punteggi`;
 CREATE TABLE IF NOT EXISTS `punteggi` (
   `punteggio` float NOT NULL,
-  `IdGiornata` int(10) unsigned NOT NULL,
-  `IdSquadra` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`IdGiornata`,`IdSquadra`),
-  KEY `IdSquadra` (`IdSquadra`)
+  `idGiornata` int(10) unsigned NOT NULL,
+  `idUtente` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`idGiornata`,`idUtente`),
+  KEY `IdSquadra` (`idUtente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `punteggi`
 --
 
-INSERT INTO `punteggi` (`punteggio`, `IdGiornata`, `IdSquadra`) VALUES
+INSERT INTO `punteggi` (`punteggio`, `idGiornata`, `idUtente`) VALUES
 (73, 1, 1),
 (82.5, 1, 2),
 (68, 1, 3),
@@ -997,21 +989,20 @@ INSERT INTO `punteggi` (`punteggio`, `IdGiornata`, `IdSquadra`) VALUES
 -- Struttura della tabella `schieramento`
 --
 
-DROP TABLE IF EXISTS `schieramento`;
 CREATE TABLE IF NOT EXISTS `schieramento` (
-  `IdFormazione` int(11) NOT NULL,
-  `IdPosizione` int(11) NOT NULL,
-  `IdGioc` int(11) NOT NULL,
-  `Considerato` int(11) NOT NULL,
-  PRIMARY KEY  (`IdFormazione`,`IdPosizione`,`IdGioc`),
-  KEY `IdGioca` (`IdGioc`)
+  `idFormazione` int(11) NOT NULL,
+  `idPosizione` int(11) NOT NULL,
+  `idGioc` int(11) NOT NULL,
+  `considerato` int(11) NOT NULL,
+  PRIMARY KEY  (`idFormazione`,`idPosizione`,`idGioc`),
+  KEY `IdGioca` (`idGioc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `schieramento`
 --
 
-INSERT INTO `schieramento` (`IdFormazione`, `IdPosizione`, `IdGioc`, `Considerato`) VALUES
+INSERT INTO `schieramento` (`idFormazione`, `idPosizione`, `idGioc`, `considerato`) VALUES
 (4, 1, 114, 1),
 (4, 2, 221, 1),
 (4, 3, 369, 2),
@@ -2117,7 +2108,6 @@ INSERT INTO `schieramento` (`IdFormazione`, `IdPosizione`, `IdGioc`, `Considerat
 -- Struttura della tabella `selezione`
 --
 
-DROP TABLE IF EXISTS `selezione`;
 CREATE TABLE IF NOT EXISTS `selezione` (
   `idLega` int(11) NOT NULL,
   `idSquadra` int(11) NOT NULL,
@@ -2137,7 +2127,6 @@ CREATE TABLE IF NOT EXISTS `selezione` (
 -- Struttura della tabella `squadre`
 --
 
-DROP TABLE IF EXISTS `squadre`;
 CREATE TABLE IF NOT EXISTS `squadre` (
   `idLega` int(11) NOT NULL,
   `idUtente` int(11) NOT NULL,
@@ -2356,7 +2345,6 @@ INSERT INTO `squadre` (`idLega`, `idUtente`, `idGioc`) VALUES
 -- Struttura della tabella `trasferimenti`
 --
 
-DROP TABLE IF EXISTS `trasferimenti`;
 CREATE TABLE IF NOT EXISTS `trasferimenti` (
   `IdTrasf` int(10) unsigned NOT NULL auto_increment,
   `IdGiocOld` int(11) NOT NULL default '0',
@@ -2382,7 +2370,6 @@ INSERT INTO `trasferimenti` (`IdTrasf`, `IdGiocOld`, `IdGiocNew`, `IdSquadra`) V
 -- Struttura della tabella `utente`
 --
 
-DROP TABLE IF EXISTS `utente`;
 CREATE TABLE IF NOT EXISTS `utente` (
   `idUtente` int(11) NOT NULL auto_increment,
   `nome` varchar(40) collate utf8_unicode_ci NOT NULL,
@@ -2417,23 +2404,22 @@ INSERT INTO `utente` (`idUtente`, `nome`, `nomeProp`, `cognome`, `mail`, `userna
 -- Struttura della tabella `voti`
 --
 
-DROP TABLE IF EXISTS `voti`;
 CREATE TABLE IF NOT EXISTS `voti` (
-  `IdGioc` int(11) NOT NULL,
-  `IdGiornata` int(10) NOT NULL,
-  `VotoUff` float NOT NULL,
-  `Voto` float NOT NULL,
-  `Gol` int(11) NOT NULL,
-  `Assist` int(11) NOT NULL,
-  PRIMARY KEY  (`IdGioc`,`IdGiornata`),
-  KEY `IdGiornata` (`IdGiornata`)
+  `idGioc` int(11) NOT NULL,
+  `idGiornata` int(10) NOT NULL,
+  `votoUff` float NOT NULL,
+  `voto` float NOT NULL,
+  `gol` int(11) NOT NULL,
+  `assist` int(11) NOT NULL,
+  PRIMARY KEY  (`idGioc`,`idGiornata`),
+  KEY `IdGiornata` (`idGiornata`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `voti`
 --
 
-INSERT INTO `voti` (`IdGioc`, `IdGiornata`, `VotoUff`, `Voto`, `Gol`, `Assist`) VALUES
+INSERT INTO `voti` (`idGioc`, `idGiornata`, `votoUff`, `voto`, `gol`, `assist`) VALUES
 (101, 1, 6, 4, -2, 0),
 (101, 2, 6.5, 4.5, -2, 0),
 (101, 3, 6.5, 5.5, -1, 0),

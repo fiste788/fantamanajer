@@ -275,6 +275,7 @@
 			</div>
 			</div>
 			</div>
+			<?php if(isset($this->classifica)): ?>
 			<div id="classifica" class="column last">
 			<div class="box2-top-sx column last">
 			<div class="box2-top-dx column last">
@@ -307,6 +308,7 @@
 			</div>
 			</div>
 			</div>
+			<?php endif; ?>
 		</div>
 		</div>
 		</div>

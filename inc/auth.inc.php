@@ -1,5 +1,4 @@
 <?php
-
 //Authentication scripts
 
 //Login function
@@ -20,5 +19,4 @@ function logout()
 	foreach($_SESSION as $key=>$val)
 		unset($_SESSION[$key]);
 }
-
 ?>
