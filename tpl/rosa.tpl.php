@@ -32,7 +32,7 @@
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['club']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo strtoupper(substr($val['club'],0,3)); ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteeff'].")"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>" title="<?php echo $val['votoeffAll'] ?>"><?php echo $val['votoeff']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['gol']; ?></td>

@@ -1,6 +1,19 @@
 <?php 
 class selezione
 {
+	function getSelezioni()
+	{
+		$q = "SELECT * 
+				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		while($row = mysql_fetch_array($exe))
+			$values[] = $row;
+		if(isset($values))
+			return $values;
+		else
+			return FALSE;
+	}
+	
 	function getSelezioneByIdSquadra($idSquadra)
 	{
 		$q = "SELECT * 
@@ -80,6 +93,12 @@ class selezione
 		while ($row = mysql_fetch_row($exe) )
 			$val = $row[0];
 		return $val;
+	}
+	
+	function svuota()
+	{
+		$q = "TRUNCATE TABLE selezione";
+		return mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 	}
 }
 ?>

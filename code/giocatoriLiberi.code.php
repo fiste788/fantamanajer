@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 require_once(INCDIR.'giocatore.inc.php');
 
 $giocatoreObj = new giocatore();
@@ -68,14 +68,14 @@ foreach($freeplayer as $key=>$val)
 	$partitegiocate = count(array_filter($voti,"filter"));
 	if($partitegiocate != 0)
 		$mediavoti /= $partitegiocate;*/
-	$freeplayer[$key]['Nome'] = $val['nome'];
-	$freeplayer[$key]['Cognome'] = $val['cognome'];
-	$freeplayer[$key]['Club'] = $val['club'];
-	$freeplayer[$key]['Voti'] = substr($val['mediaPunti'],0,4);
-	$freeplayer[$key]['VotiAll'] = $val['mediaPunti'];
-	$freeplayer[$key]['VotiEff'] = substr($val['mediaVoti'],0,4);
-	$freeplayer[$key]['VotiEffAll'] = $val['mediaVoti'];	
-	$freeplayer[$key]['PartiteGiocate'] = $val['Presenze'];
+	$freeplayer[$key]['nome'] = $val['nome'];
+	$freeplayer[$key]['cognome'] = $val['cognome'];
+	$freeplayer[$key]['club'] = $val['nomeClub'];
+	$freeplayer[$key]['voti'] = substr($val['mediaPunti'],0,4);
+	$freeplayer[$key]['votiAll'] = $val['mediaPunti'];
+	$freeplayer[$key]['votiEff'] = substr($val['mediaVoti'],0,4);
+	$freeplayer[$key]['votiEffAll'] = $val['mediaVoti'];	
+	$freeplayer[$key]['partiteGiocate'] = $val['presenze'];
 }
 $sort_arr = array();
     foreach($freeplayer AS $uniqid => $row){

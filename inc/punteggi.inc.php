@@ -25,10 +25,11 @@ class punteggi
 		return $punteggio;      
 	}
     
-	function getClassifica()
+	function getClassifica($idLega)
 	{
 		$q = "SELECT utente.idUtente,nome,SUM(punteggio) as punteggioTot,AVG(punteggio) as punteggioMed, MAX(punteggio) as punteggioMax, MIN(punteggio) as punteggioMin 
-				FROM punteggi INNER JOIN utente on punteggi.idUtente = utente.idUtente 
+				FROM punteggi INNER JOIN utente on punteggi.idUtente = utente.idUtente
+				WHERE punteggi.idLega = '" . $idLega . "' 
 				GROUP BY idUtente 
 				ORDER BY punteggioTot DESC";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
@@ -53,10 +54,11 @@ class punteggi
 		}
 	}
 
-	function getAllPunteggi()
+	function getAllPunteggi($idLega)
 	{
 		$q = "SELECT utente.idUtente, idGiornata,nome, punteggio 
-				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente";
+				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente
+				WHERE punteggi.idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
@@ -97,11 +99,11 @@ class punteggi
 		return $pos;
 	}
 	
-	function getAllPunteggiByGiornata($giornata)
+	function getAllPunteggiByGiornata($giornata,$idLega)
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio 
 				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente 
-				WHERE idGiornata <= " . $giornata;
+				WHERE idGiornata <= " . $giornata . " AND punteggi.idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
@@ -178,8 +180,8 @@ class punteggi
 			$somma = 0;
 			$flag = 0;
 			$form = $formazioneObj->getFormazioneBySquadraAndGiornata($idSquadra,$giornata);
-			$idForm = $form['Id'];
-			$eCap = $form['Cap'];
+			$idForm = $form['id'];
+			$eCap = $form['cap'];
 			// ottengo il capitano che ha preso voto
 			foreach($eCap as $cap)
 			{
@@ -191,7 +193,7 @@ class punteggi
 			}
 			if ($flag != 1)
 				$cap = "";
-			$panch = $form['Elenco'];
+			$panch = $form['elenco'];
 			$tito = array_splice($panch,0,11);
 			foreach ($tito as $player)
 			{

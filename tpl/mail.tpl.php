@@ -218,21 +218,21 @@
 					</tr>
 					<?php $panch=$this->formazione;$tito=array_splice($panch,0,11);?>
             <?php foreach($tito as $key=>$val): ?>
-					<?php if($val['Considerato'] == 0 or ($val['Voto']=="" and $val['Considerato']>0)): ?>
+					<?php if($val['considerato'] == 0 || ($val['voto'] == "" && $val['considerato'] > 0)): ?>
 						<tr class="rosso">
 							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></td>
-					<?php elseif($val['Considerato'] == 2): ?>
+					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap2.png' ?>"/></td>
-					<?php $val['Voto']*=2; else: ?>
+					<?php $val['voto'] *= 2; else: ?>
 						<tr>
 							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
 					<?php endif; ?>		
-							<td><?php echo $val['Cognome']; ?></td>
-							<td><?php echo $val['Nome']; if($val['Considerato'] ==2) echo '<span id="cap">(C)</span>'; ?></td>
-							<td><?php echo $val['Ruolo']; ?></td>
-							<td><?php echo $val['Club']; ?></td>
-							<td><?php if($val['Considerato'] > 0) echo $val['Voto']; else echo "&nbsp;"; ?></td>
+							<td><?php echo $val['cognome']; ?></td>
+							<td><?php echo $val['nome']; if($val['considerato'] == 2) echo '<span id="cap">(C)</span>'; ?></td>
+							<td><?php echo $val['ruolo']; ?></td>
+							<td><?php echo $val['club']; ?></td>
+							<td><?php if($val['considerato'] > 0) echo $val['voto']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
 				</tbody>
@@ -250,21 +250,21 @@
 						<th class="punt">Punt.</th>
 					</tr>
 					<?php foreach($panch as $key=>$val): ?>
-					<?php if($val['Considerato'] == 1): ?>
+					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></td>
-					<?php elseif($val['Considerato']==2): ?>
+					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></td>
 					<?php else: ?>
 						<tr>
 							<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
 					<?php endif; ?>
-							<td><?php echo $val['Cognome']; ?></td>
-							<td><?php echo $val['Nome']; ?></td>
-							<td><?php echo $val['Ruolo']; ?></td>
-							<td><?php echo $val['Club']; ?></td>
-							<td><?php if($val['Considerato'] > 0) echo $val['Voto']; else echo "&nbsp;"; ?></td>
+							<td><?php echo $val['cognome']; ?></td>
+							<td><?php echo $val['nome']; ?></td>
+							<td><?php echo $val['ruolo']; ?></td>
+							<td><?php echo $val['club']; ?></td>
+							<td><?php if($val['considerato'] > 0) echo $val['voto']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
 				</tbody>
@@ -296,7 +296,7 @@
 								<?php elseif($this->differenza[$i] > 0): ?>
 									<?php echo 'class="verde" title="+ ' . $this->differenza[$i]. ' Pos."'; ?>
 								<?php endif; ?>>
-								<td><?php echo $this->squadre[$key][1]; ?></td>
+								<td><?php echo $this->squadre[$key]['nome']; ?></td>
 								<td><?php echo $val; ?></td>
 							</tr>
 						<?php $i++; endforeach; ?>

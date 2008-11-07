@@ -13,12 +13,14 @@
 				<th>N.</th>
 				<th>Giocatore nuovo</th>
 				<th>Giocatore vecchio</th>
+				<th>Giornata</th>
 			</tr>
 			<?php foreach($this->trasferimenti as $key=>$val): ?>
 			<tr class="row">
 				<td><?php echo $i+1; ?></td>
-				<td><?php echo $val['CognomeNew'] . " " . $val['NomeNew']; ?></td>
-				<td><?php echo $val['CognomeOld'] . " " . $val['NomeOld']; ?></td>
+				<td><?php echo $val['cognomeNew'] . " " . $val['nomeNew']; ?></td>
+				<td><?php echo $val['cognomeOld'] . " " . $val['nomeOld']; ?></td>
+				<td><?php echo $val['idGiornata']; ?></td>
 			</tr>
 			<?php $i++; ?>
 			<?php endforeach; ?>

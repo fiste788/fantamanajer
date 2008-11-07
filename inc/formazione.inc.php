@@ -25,12 +25,12 @@ class formazione
         }
 		if($flag)
 		{
-			$formazione['Id'] = $idFormazione;
-			$formazione['IdSquadra'] = $idSquadra;
-			$formazione['IdGiornata'] = $idGiornata;
-			$formazione['Elenco'] = $elenco;
-			$formazione['Modulo'] = $modulo;
-			$formazione['Cap'] = $cap;
+			$formazione['id'] = $idFormazione;
+			$formazione['idSquadra'] = $idSquadra;
+			$formazione['idGiornata'] = $idGiornata;
+			$formazione['elenco'] = $elenco;
+			$formazione['modulo'] = $modulo;
+			$formazione['cap'] = $cap;
 			return $formazione;
 		}
 		else
@@ -115,10 +115,10 @@ class formazione
 		}
 		if($flag == 1)
 		{
-			$formazione['Id'] = $idFormazione;
-			$formazione['Elenco'] = $elenco;
-			$formazione['Modulo'] = $modulo;
-			$formazione['Cap'] = $cap;
+			$formazione['id'] = $idFormazione;
+			$formazione['elenco'] = $elenco;
+			$formazione['modulo'] = $modulo;
+			$formazione['cap'] = $cap;
 			return $formazione;
 		}
 		else

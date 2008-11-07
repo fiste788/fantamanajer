@@ -81,7 +81,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 						$squadraOld = $selezioneObj->checkFree($acquisto,$_SESSION['idLega']);
 						if($squadraOld != FALSE)
 						{
-							$classifica = $punteggiObj->getClassifica();
+							$classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
 							$squadre = $squadraObj->getElencoSquadre();
 							foreach ($classifica as $key => $val)
 								$classificaNew[$key] = $val[0];
@@ -90,9 +90,9 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 							if($posSquadraNew > $posSquadraOld)
 							{
 								$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
-								$body = 'Il giocatore ' . $acquistoDett[$acquisto]['Nome'] . $acquistoDett[$acquisto]['Cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
-								$appo = $acquistoDett[$acquisto]['idSquadraAcquisto']-1;
-								$mailObj->sendEmail($squadre[$appo][4],$body,'Giocatore Rubato');
+								$body = 'Il giocatore ' . $acquistoDett[$acquisto]['nome'] . $acquistoDett[$acquisto]['cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
+								$appo = $squadre[$acquistoDett[$acquisto]['idSquadraAcquisto']];
+								$mailObj->sendEmail($squadre[$appo]['mail'],$body,'Giocatore Rubato');
 							}
 							else
 							{

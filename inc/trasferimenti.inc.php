@@ -1,11 +1,11 @@
 <?php 
 class trasferimenti
 {
-	function getTrasferimentiByIdSquadra($idSquadra)
+	function getTrasferimentiByIdSquadra($idSquadra,$idGiornata = 0)
 	{
-		$q = "SELECT t1.nome as NomeOld,t1.cognome as CognomeOld,t2.nome as NomeNew,t2.cognome as CognomeNew 
+		$q = "SELECT idGiocOld,t1.nome as nomeOld,t1.cognome as cognomeOld,idGiocNew,t2.nome as nomeNew,t2.cognome as cognomeNew, idGiornata 
 				FROM giocatore t1 INNER JOIN (trasferimenti INNER JOIN giocatore t2 ON trasferimenti.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimenti.idGiocOld 
-				WHERE trasferimenti.idSquadra = '" . $idSquadra . "'";
+				WHERE trasferimenti.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
 		$values = array();
 		while($row = mysql_fetch_array($exe))
@@ -53,6 +53,27 @@ class trasferimenti
 			return TRUE;
 		else
 			return FALSE;
+	}
+	
+	function doTransfertBySelezione()
+	{
+		require_once(INCDIR.'selezione.inc.php');
+		require_once(INCDIR.'squadre.inc.php');
+		$selezioneObj = new selezione();
+		$squadreObj = new squadre();
+		$selezioni = $selezioneObj->getSelezioni();
+		if($selezioni != FALSE)
+		{
+			foreach($selezioni as $key=>$val)
+			{
+				$squadreObj->unsetSquadraByIdGioc($val['giocOld'],$val['idLega']);
+				$squadreObj->setSquadraByIdGioc($val['giocNew'],$val['idLega'],$val['idSquadra']);
+				$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra,idGiornata) 
+				VALUES ('" . $val['giocOld'] . "' , '" . $val['giocNew'] . "' ,'" . $val['idSquadra'] . "','" . GIORNATA . "')";
+				mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
+			}
+			$selezioneObj->svuota();
+		}
 	}
 	
 	function getTrasferimentoById($id)

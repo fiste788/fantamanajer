@@ -18,22 +18,22 @@ $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
 if(TIMEOUT == FALSE)
-	header("Location:index.php?p=formazioniAll");
+	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
 
-if(isset($formImp[$_SESSION['idUtente']]) && (TIMEOUT))
-	unset($formImp[$_SESSION['idUtente']]);
+if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
+	unset($formImp[$_SESSION['idSquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing=0;
 $cap="";
 if(TIMEOUT)
 {
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA);	
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	$ruo = array('P','D','C','A');
 	foreach($ruo as $key=>$val)
-		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idUtente'],$val);
+		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
 	$contenttpl->assign('giocatori',$giocatori);
 	//SETTO A NULL IL VALORE DEL MODULO NELLA SESSIONE
 	if( !isset($_SESSION ['modulo']))
@@ -111,35 +111,35 @@ if(TIMEOUT)
 			$contenttpl->assign('err',2);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente']);
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra']);
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente']);
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra']);
 		}
 		else
 			$contenttpl->assign('err',1);
 		if ($missing > 0)
 			$contenttpl->assign('err',3);	
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA);	
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	if($issetform)
 	{
 		if( !isset($_POST['mod']) && empty($_POST['mod']) )
-			$_SESSION['modulo']=$issetform['Modulo'];
-		$panchinari_ar=$issetform['Elenco'];
-		$titolari_ar=array_splice($panchinari_ar,0,11);
-		foreach($issetform['Cap'] as $key=>$val)
+			$_SESSION['modulo'] = $issetform['modulo'];
+		$panchinariAr = $issetform['elenco'];
+		$titolariAr=array_splice($panchinariAr,0,11);
+		foreach($issetform['cap'] as $key=>$val)
 		{
-			$pos=array_search($val,$titolari_ar);
-			if($pos==0)
-				$chiave="Por-".$pos."-cap";
+			$pos = array_search($val,$titolariAr);
+			if($pos == 0)
+				$chiave = "Por-" . $pos . "-cap";
 			else
-				$chiave="Dif-".($pos-1)."-cap";
-				$cap[$chiave]=$key;
+				$chiave = "Dif-" . ($pos-1) . "-cap";
+				$cap[$chiave] = $key;
 		}
-		$contenttpl->assign('titolari',$titolari_ar);
-		$contenttpl->assign('panchinari',$panchinari_ar);
+		$contenttpl->assign('titolari',$titolariAr);
+		$contenttpl->assign('panchinari',$panchinariAr);
 		$contenttpl->assign('cap',$cap);
 	}
 	$contenttpl->assign('issetForm',$issetform);

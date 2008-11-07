@@ -50,9 +50,7 @@ if(!isset($formImp[$squadra]))
 	$contenttpl->assign('formImp',FALSE);
 	if($mod != NULL)
 	{
-	 	$ruo = array('P','D','C','A');
-		foreach($ruo as $key=>$val)
-			$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($squadra,$val);
+		$giocatori = $giocatoreObj->getGiocatoriBySquadraAndGiornata($squadra,$giornata);
 		$contenttpl->assign('giocatori',$giocatori);
 		$contenttpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
 		
@@ -125,7 +123,7 @@ if(!isset($formImp[$squadra]))
 					$mailContent->assign('giornata',$giornata);
 					$mailContent->assign('squadra',$squadraDett['nome']);
 					$mailContent->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
-					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra));
+					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataSquadra($giornata,$squadra));
 					
 				   	$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($squadra,$giornata);
 				   	//$mailContent->display(TPLDIR.'mail.tpl.php');

@@ -7,7 +7,7 @@ class squadre
 		{
 			$q = "INSERT INTO squadre 
 					VALUES ('" . $idLega . "','" . $idUtente . "','" . $val . "');";
-			return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+			mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 		}
 	}
 	
@@ -37,6 +37,21 @@ class squadre
 		while($row = mysql_fetch_array($exe))
 			$values = $row['idUtente'];
 		return $values;
+	}
+	
+	function setSquadraByIdGioc($idGioc,$idLega,$idUtente)
+	{
+		$q = "INSERT INTO squadre 
+				VALUES ('" . $idLega . "','" . $idUtente . "','" . $idGioc . "');";
+		return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+	}
+	
+	function unsetSquadraByIdGioc($idGioc,$idLega)
+	{
+		$q = "DELETE
+				FROM squadre 
+				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "';";
+		return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
 	}
 }
 ?>

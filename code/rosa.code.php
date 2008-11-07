@@ -18,7 +18,7 @@ if(isset($_GET['squadra']))
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('data', 0);
 
-$classifica = $punteggiObj->getClassifica();
+$classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
 foreach($classifica as $key=>$val)
 {
 	if($squadra == $val['idUtente'])
