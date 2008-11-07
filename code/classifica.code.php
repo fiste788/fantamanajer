@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'utente.inc.php');
 
@@ -9,7 +9,7 @@ $giornata = GIORNATA;
 if(isset($_POST['giorn']))
 	$giornata = $_POST['giorn'];
 
-$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata);
+$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['idLega']);
 $squadre = $utenteObj->getElencoSquadre();
 
 foreach($classificaDett as $key=>$val)

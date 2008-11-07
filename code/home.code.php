@@ -12,12 +12,12 @@
 	$emoticonObj = new emoticon();
 	
 	$contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
-	$classifica = $punteggiObj->getAllPunteggi();
+	$classifica = $punteggiObj->getAllPunteggi($_SESSION['idLega']);
 	foreach($classifica as $key=>$val)
 		$sum[$key] = array_sum($classifica[$key]);
 	if((GIORNATA -1) != 0)
 	{
-		$classificaPrec = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt() - 1);
+		$classificaPrec = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt() - 1,$_SESSION['idLega']);
 		foreach($classificaPrec as $key=>$val)
 			$prevSum[$key] = array_sum($classificaPrec[$key]);
 	

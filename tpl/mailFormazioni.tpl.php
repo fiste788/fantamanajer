@@ -1,4 +1,3 @@
-<?php $i=0; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -160,6 +159,7 @@
 		</style>
 	</head>
 	<body>
+		<?php $i = 0; ?>
 		<div id="content" class="column last">
 			<div id="content-top-sx" class="column last">
 				<div id="content-top-dx" class="column last">
@@ -167,7 +167,7 @@
 						<div id="content-bottom-dx" class="column last">
 							<div id="content-container" class="column last" >
 							<?php foreach ($this->titolari as $squadra => $formazione): ?>
-								<?php if($i%2 == 0): ?>
+								<?php if($i % 2 == 0): ?>
 									<div class="riga column last">
 								<?php endif; ?>
 								<div id="squadradett" class="column last">
@@ -177,30 +177,30 @@
 								<div class="box2-bottom-dx column last">
 								<div class="box-content column last">
 								<?php if ($formazione != FALSE): ?>
-									<h3><?php echo $this->squadre[$squadra][1]; ?></h3>
+									<h3><?php echo $this->squadre[$squadra]['nome']; ?></h3>
 									<h4>Titolari</h4><hr />
 									<table>
-									<?php foreach ($formazione as $key => $val): ?>
+									<?php foreach($formazione as $key => $val): ?>
 										<tr>
 										<?php if($this->cap[$squadra]['C'] == $val['idGioc']) : ?>
 											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap2.png' ?>"/></td>
 										<?php else: ?>
 											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
 										<?php endif; ?>
-											<td><?php echo $val['Cognome']; ?></td>
-											<td><?php echo $val['Nome']; ?></td>
+											<td><?php echo $val['cognome']; ?></td>
+											<td><?php echo $val['nome']; ?></td>
 											<td><?php if(array_search($val['idGioc'],$this->cap[$squadra]) != FALSE)  echo array_search($val['idGioc'],$this->cap[$squadra]); else echo '&nbsp;'; ?></td>
 										</tr>
 									<?php endforeach; ?>
 									</table>
 									<?php if($this->panchinari[$squadra] != FALSE): ?>
-										<h4>Panchinari</h4><hr/>
+										<h4>Panchinari</h4><hr />
 										<table>
 										<?php foreach ($this->panchinari[$squadra] as $key => $val): ?>
 											<tr>
 												<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
-												<td><?php echo $val['Cognome']; ?></td>
-												<td><?php echo $val['Nome']; ?></td>
+												<td><?php echo $val['cognome']; ?></td>
+												<td><?php echo $val['nome']; ?></td>
 											</tr>
 										<?php endforeach; ?>
 										</table>

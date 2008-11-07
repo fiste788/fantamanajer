@@ -24,7 +24,7 @@
 				$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
        			$elencocap=array('C','VC','VVC'); ?>
 				<?php foreach($this->giocatori as $key=>$val): ?>
-					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr/>
+					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
 					<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>
 						<select name="<?php echo substr($ruo[$j],0,3). '-' . $i ; ?>">
 							<option></option>
@@ -72,7 +72,7 @@
 					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
 					<select name="<?php echo 'panch-'. $i; ?>">
 					<option></option>
-				      	<?php if(isset($this->panchinari[$i])) $ogni=$this->panchinari[$i]; $flag= 0;
+				      	<?php if(isset($this->panchinari[$i])) $ogni = $this->panchinari[$i]; $flag= 0;
 				      		for($j = 0 ; $j < count($ruo) ; $j++): ?>
 							<optgroup label="<?php echo $ruo[$j] ?>">
 								<?php foreach($this->giocatori[substr($ruo[$j],0,1)] as $key3=>$val3): 
