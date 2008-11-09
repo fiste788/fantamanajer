@@ -118,7 +118,7 @@ if(!isset($formImp[$squadra]))
 				$message[0] = 0;
 				if($votiObj->checkVotiExist($giornata))
 				{
-					$punteggiObj->calcolaPunti($giornata,$squadra);
+					$punteggiObj->calcolaPunti($giornata,$squadra,$lega);
 					$squadraDett = $utenteObj->getSquadraById($squadra);
 					$mailContent->assign('giornata',$giornata);
 					$mailContent->assign('squadra',$squadraDett['nome']);
