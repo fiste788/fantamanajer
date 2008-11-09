@@ -12,10 +12,10 @@ class punteggi
 		else
 			return TRUE;
 	}
-    
-    function getPunteggi($idUtente,$idGiornata)
-    {
-        $q = "SELECT punteggio 
+
+	function getPunteggi($idUtente,$idGiornata)
+	{
+		$q = "SELECT punteggio 
 				FROM punteggi 
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
@@ -24,7 +24,7 @@ class punteggi
 			$punteggio = $row[0];
 		return $punteggio;      
 	}
-    
+
 	function getClassifica($idLega)
 	{
 		$q = "SELECT utente.idUtente,nome,SUM(punteggio) as punteggioTot,AVG(punteggio) as punteggioMed, MAX(punteggio) as punteggioMax, MIN(punteggio) as punteggioMin 
@@ -84,7 +84,7 @@ class punteggi
 			foreach($squadre as $key=>$val)
 				$classificaOkay[$key][0] = 0;
 		}
-	    return($classificaOkay);
+		return($classificaOkay);
 	}
 	
 	function getPosClassifica($classifica) //come classifica si intende la variabile uscita dalla funzione getClassifica
@@ -117,7 +117,7 @@ class punteggi
 			$appo = array_keys($somme);
 			for($i = 0; $i < count($classifica); $i++)
 				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
-			  		$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
+					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
 		}
 		else
 		{
@@ -127,7 +127,7 @@ class punteggi
 			foreach($squadre as $key=>$val)
 				$classificaOkay[$key][0] = 0;
 		}
-	    return($classificaOkay);
+		return($classificaOkay);
 	}
 	
 	
@@ -139,9 +139,9 @@ class punteggi
 		while ($row = mysql_fetch_row($exe))
 			return($row[0]);
 	}
-    
-    function recurSost($ruolo,&$panch,&$cambi,$giornata)
-    {
+
+	function recurSost($ruolo,&$panch,&$cambi,$giornata)
+	{
 		require_once(INCDIR.'voti.inc.php');
 		require_once(INCDIR.'giocatore.inc.php');
 		$votiObj = new voti();
@@ -159,15 +159,15 @@ class punteggi
 			}
 		}
 		return 0;
-    }
+	}
 
-	function calcolaPunti($giornata,$idSquadra)
+	function calcolaPunti($giornata,$idSquadra,$idLega)
 	{
 		require_once('formazione.inc.php');
 		require_once('voti.inc.php');
 		require_once('giocatore.inc.php');
 		require_once('schieramento.inc.php');
-	    
+
 		$formazioneObj = new formazione();
 		$votiObj = new voti();
 		$giocatoreObj = new giocatore();
@@ -218,8 +218,8 @@ class punteggi
 						SET punteggio = '" . $somma . "' 
 						WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
 			else
-				$q = "INSERT INTO punteggi(idGiornata,idUtente,punteggio) 
-						VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "')";
+				$q = "INSERT INTO punteggi(idGiornata,idUtente,punteggio,idLega) 
+						VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
 			mysql_query($q) or die("Query non valida: ".$q. mysql_error());
 		}
 	}

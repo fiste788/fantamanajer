@@ -36,7 +36,7 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 				//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 				if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 				{
-					$punteggiObj->calcolaPunti($giornata,$squadra);
+					$punteggiObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
 					$result[$key] = $giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra);
 				}
 				else
@@ -83,11 +83,11 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 					$mailContent->assign('formazione',$result[$key]);
 					$mail = 0;
 					
-				   	//MANDO LA MAIL
-				   	$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
-				   	//$mailContent->display(TPLDIR.'mail.tpl.php');
-				  	if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object))
-				  		$mail++ ;
+					//MANDO LA MAIL
+					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
+					//$mailContent->display(TPLDIR.'mail.tpl.php');
+					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object))
+						$mail++ ;
 				}
 			}
 			if($mail == 0)

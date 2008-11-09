@@ -234,6 +234,11 @@ class giocatore
 		$trasferimentiObj = new trasferimenti();
 		$giocatori = $this->getGiocatoriByIdSquadra($idUtente);
 		$trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($idUtente,$idGiornata);
+		$sort_arr = array();
+		foreach($trasferimenti as $uniqid => $row)
+			foreach($row as $key => $value)
+				$sort_arr[$key][$uniqid] = $value;
+		array_multisort($sort_arr['idGiornata'] , SORT_DESC , $trasferimenti);
 		foreach($trasferimenti as $key=>$val)
 			foreach($giocatori as $key2=>$val2)
 				if($val2['idGioc'] == $val['idGiocNew'])
