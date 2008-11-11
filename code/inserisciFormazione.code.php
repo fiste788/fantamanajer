@@ -20,13 +20,13 @@ $squadra = NULL;
 $giornata = NULL;
 $lega = NULL;
 $mod = NULL;
-if(isset($_POST['lega']))
+if(isset($_POST['lega']) && !empty($_POST['lega']))
 	$lega = $_POST['lega'];
-if(isset($_POST['squad']))
+if(isset($_POST['squad']) && !empty($_POST['squad']))
 	$squadra = $_POST['squad'];
-if(isset($_POST['mod']))
+if(isset($_POST['mod']) && !empty($_POST['mod']))
 	$mod = $_POST['mod'];
-if(isset($_POST['giorn']))
+if(isset($_POST['giorn']) && !empty($_POST['giorn']))
 	$giornata = $_POST['giorn'];
 if($_SESSION['usertype'] == 'admin')
 	$lega = $_SESSION['idLega'];
@@ -38,7 +38,10 @@ $contenttpl->assign('modulo',explode('-',$mod));
 $contenttpl->assign('giornata',$giornata);
 if($lega != NULL)
 {
-	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
+	$squadre = $utenteObj->getElencoSquadreByLega($lega);
+	$contenttpl->assign('elencosquadre',$squadre);
+	if(!isset($squadre[$squadra]))
+		$squadra = NULL;
 	$contenttpl->assign('squadra',$squadra);
 }
 
@@ -48,7 +51,7 @@ $cap = "";
 if(!isset($formImp[$squadra]))
 {	
 	$contenttpl->assign('formImp',FALSE);
-	if($mod != NULL)
+	if($squadra != NULL)
 	{
 		$giocatori = $giocatoreObj->getGiocatoriBySquadraAndGiornata($squadra,$giornata);
 		$contenttpl->assign('giocatori',$giocatori);
@@ -114,7 +117,7 @@ if(!isset($formImp[$squadra]))
 			if ($err == 2)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 			{
 				unset($_POST);
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,$giornata,$squadra);
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,$giornata,$squadra,$mod);
 				$message[0] = 0;
 				if($votiObj->checkVotiExist($giornata))
 				{

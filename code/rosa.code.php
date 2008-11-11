@@ -19,7 +19,7 @@ $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('data', 0);
 
 $classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
-foreach($classifica as $key=>$val)
+foreach($classifica as $key => $val)
 {
 	if($squadra == $val['idUtente'])
 	{
@@ -29,7 +29,7 @@ foreach($classifica as $key=>$val)
 	}
 }
 $contenttpl->assign('classifica',$classifica);
-$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($classifica));
+$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($_SESSION['idLega']));
 if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
@@ -57,7 +57,7 @@ if(($squadra != NULL) && ($values))
 	$mediaGol = 0;
 	$mediaAssist = 0;
 	$mediaMagic=0;
-	foreach($values as $key=>$val)
+	foreach($values as $key => $val)
 	{
 		$giocatori[$i]['idGioc'] = $val[0];
 		$giocatori[$i]['nome'] = $val[1] . " " . $val[2];

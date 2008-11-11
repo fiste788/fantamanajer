@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."formazione.inc.php");
 require_once(INCDIR."giocatore.inc.php");
@@ -25,33 +25,34 @@ $contenttpl->assign('getGiornata',$giorn);
 
 $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
-$cap=array();
+$cap = array();
 $formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giorn);
 $formImp = $formazioneObj->getFormazioneExistByGiornata($giorn);
 
 if($formazione != FALSE)
 {
-    $panchinari_ar=$formazione['Elenco'];
-    $titolari_ar=array_splice($panchinari_ar,0,11);
-    foreach($formazione['Cap'] as $key=>$val)
+    $panchinariAr = $formazione['elenco'];
+    $titolariAr = array_splice($panchinariAr,0,11);
+    foreach($formazione['cap'] as $key => $val)
    	{
-   	    $pos=array_search($val,$titolari_ar);
-   		if($pos==0)
-   		    $chiave="Por-".$pos."-cap";
+   	    $pos = array_search($val,$titolariAr);
+   		if($pos == 0)
+   		    $chiave = "Por-" . $pos . "-cap";
    		else
-   		   $chiave="Dif-".($pos-1)."-cap";
-   		$cap[$chiave]=$key;
+   		   $chiave = "Dif-" . ($pos-1) . "-cap";
+   		$cap[$chiave] = $key;
     }
-	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolari_ar));
-	$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinari_ar));
+	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolariAr));
+	if(!empty($panchinariAr))
+		$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinariAr));
+	else
+		$contenttpl->assign('panchinari',FALSE);
 }
 	
 $contenttpl->assign('formazioniImpostate',$formImp);
 $contenttpl->assign('formazione',$formazione);
-$contenttpl->assign('modulo',$formazione['Modulo']);
-$contenttpl->assign('mod',explode('-',$formazione['Modulo']));
-$contenttpl->assign('formazione',$formazione['Elenco']);
+$contenttpl->assign('modulo',$formazione['modulo']);
+$contenttpl->assign('mod',explode('-',$formazione['modulo']));
+$contenttpl->assign('formazione',$formazione['elenco']);
 $contenttpl->assign('cap',$cap);
-
-
 ?>

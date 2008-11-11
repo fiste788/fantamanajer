@@ -5,6 +5,7 @@ $leSquadre = array('rosa');
 $conferenzeStampa = array('conferenzeStampa','modificaConferenza');
 $classifica = array('classifica','dettaglioGiornata');
 $altro = array('contatti','formazione','altreFormazioni','giocatoriLiberi','premi','trasferimenti','altro','linkUtili','feed','dettaglioGiocatore');
+$areaAmministrativa = array('areaAmministrativa','inserisciFormazione','nuovoTrasferimento','creaSquadra','lanciaScript','gestioneDatabase');
 $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classifica,$altro);
  ?>
 <ul>
@@ -28,4 +29,9 @@ $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classi
 	<li<?php if(in_array($this->p,$altro)) echo ' class="selected"'; ?>>
 		<a href="<?php echo $this->linksObj->getLink('altro'); ?>" title="Altro...">Altro...</a>
 	</li>
+	<?php if($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'superadmin'): ?>
+	<li<?php if(in_array($this->p,$areaAmministrativa)) echo ' class="selected"'; ?>>
+		<a href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>" title="Area amministrativa">Area amministrativa</a>
+	</li>
+	<?php endif; ?>
 </ul>

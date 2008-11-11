@@ -14,7 +14,7 @@
 	<script type="text/javascript">
 		var loadingImg = "<?php echo IMGSURL.'lightbox-ico-loading.gif' ?>"; 
 		$(".script").click(function () { 
-			var Url = 'index.php?p=' + this.id;
+			var Url = this.id + '.html';
 			var time = new Date();
 			var time_start = time.getTime();
 			var script = this.text;
@@ -28,6 +28,8 @@
 					$(".messaggio").append('<div><img src="' + loadingImg + '"</div>');
 				},
 				cache: false,
+				username: "winadministrator",
+				password: "banana",
 				success: function(html,text){
 					$(".messaggio div").fadeOut(function (){
 						$(".messaggio").css('display','none');

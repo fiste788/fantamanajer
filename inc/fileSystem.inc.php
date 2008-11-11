@@ -93,7 +93,7 @@ class fileSystem
 				$espre = "/(\s*\/?<[^<>]+>)+/";
 				$key = preg_replace($espre,"\t",$key); 
 				$pieces = explode("\t",$key);
-				foreach($pieces as $key=>$val)
+				foreach($pieces as $key => $val)
 					$pieces = trim($val);
 				$pieces = array_map("htmlspecialchars",$pieces);
 				$pieces[10] = ereg_replace(',','.',$pieces[10]);
@@ -126,7 +126,7 @@ class fileSystem
 				$espre = "/(\s*\/?<[^<>]+>)+/";
 				$key = preg_replace($espre,"\t",$key); 
 				$pieces = explode("\t",$key);
-				foreach($pieces as $key=>$val)
+				foreach($pieces as $key => $val)
 					$pieces = trim($val);
 				$pieces=array_map("htmlspecialchars",$pieces);
 				$pieces[6]=substr($pieces[6],0,3);

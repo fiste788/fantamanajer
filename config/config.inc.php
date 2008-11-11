@@ -38,6 +38,7 @@ define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD
 define ("UPLOADDIR",'uploadimg/');				//uploadimg => UPLOADDIR
 define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
+define ("MAILTPLDIR",TPLDIR.'mail/');	
 
 								//urls for:
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL

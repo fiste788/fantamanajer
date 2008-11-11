@@ -102,7 +102,7 @@
 	<?php if($this->articoli != FALSE) :?>
 	<div id="confStampa" class="column last">
 	<h3 class="column">Ultime news</h3>
-	<?php foreach($this->articoli as $key=>$val): ?>
+	<?php foreach($this->articoli as $key => $val): ?>
 		<div class="conf-stampa column last" style="clear:both;">
 			<div class="box2-top-sx column last">
 			<div class="box2-top-dx column last">
@@ -165,7 +165,7 @@
 				<?php $i=0; ?>
 				<?php //echo "<pre>".print_r($this->classifica,1)."</pre>" ?>
 				<?php //echo "<pre>".print_r($this->squadre,1)."</pre>" ?>
-				<?php foreach ($this->classifica as $key=>$val): ?>
+				<?php foreach ($this->classifica as $key => $val): ?>
 					<tr <?php if($this->differenza[$i] < 0): ?>
 							<?php echo 'class="rosso" title="' . $this->differenza[$i]. ' Pos."'; ?>
 						<?php elseif($this->differenza[$i] > 0): ?>

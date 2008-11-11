@@ -39,7 +39,7 @@
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
-					<?php foreach($this->portieri as $key=>$val): ?>
+					<?php foreach($this->portieri as $key => $val): ?>
 						<option	value="<?php echo $val['idGioc'] ?>"<?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo ' selected="selected"'; ?>><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -52,7 +52,7 @@
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
-					<?php foreach($this->difensori as $key=>$val): ?>
+					<?php foreach($this->difensori as $key => $val): ?>
 						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -65,7 +65,7 @@
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
-					<?php foreach($this->centrocampisti as $key=>$val): ?>
+					<?php foreach($this->centrocampisti as $key => $val): ?>
 						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -78,7 +78,7 @@
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
-					<?php foreach($this->attaccanti as $key=>$val): ?>
+					<?php foreach($this->attaccanti as $key => $val): ?>
 						<option <?php if(isset($_POST['giocatore-'.$j]) && $_POST['giocatore-'.$j] == $val['idGioc']) echo 'selected="selected"'; ?> value="<?php echo $val['idGioc'] ?>"><?php echo $val['cognome'] ." ". $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -94,16 +94,23 @@
 			<div class="box2-bottom-dx column last">
 			<div class="box-content column last">
 			<h3>Elenco squadre</h3>
-			<?php foreach($this->elencosquadre as $key=>$val): ?>
+			<?php foreach($this->elencosquadre as $key => $val): ?>
 				<div class="elencoSquadre column last">
-					<p class="column last"><?php echo $val[1]; ?></p>
-					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val[0])); ?>">
+					<p class="column last"><?php echo $val['nome']; ?></p>
+					<a class="right last" onclick="conferma(this,'<?php echo $val['nome'] ?>');" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val['idUtente'])); ?>">
 						<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
 					</a>
-					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val[0])); ?>">
+					<a class="right last" onclick="conferma(this,'<?php echo $val['nome'] ?>');" ref="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val['idUtente'])); ?>">
 						<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 					</a>
 				</div>
+				<script type="text/javascript">
+					function conferma(obj,text)
+					{
+						if(confirm("Sei sicuro di voler eliminare la squadra " + text + "\nL'azione non potrà essere annullata"))
+							window.location.href = this.href;
+					}
+				</script>
 			<?php endforeach; ?>
 			</div>
 			</div>
@@ -153,7 +160,7 @@
 					<h3>Seleziona la lega</h3>
 					<select name="lega" onchange="document.selezionaLega.submit();">
 						<option></option>
-						<?php foreach($this->elencoLeghe as $key=>$val): ?>
+						<?php foreach($this->elencoLeghe as $key => $val): ?>
 							<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
 						<?php endforeach; ?>
 					</select>

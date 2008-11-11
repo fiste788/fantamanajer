@@ -1,18 +1,24 @@
 <?php
 class eventi
 {
+	var $idEvento;
+	var $idUtente;
+	var $data;	//viene settata in automatico nel db con un on_update = CURRENT_TIMESTAMP
+	var $tipo;	//1 = conferenza stampa, 2 = selezione giocatore, 3 = formazione, 4 = trasferimento
+	var $idExternal;	// id da cui prendere i dati dell'evento
+	
 	function addEvento($tipo,$idUtente,$idExternal = NULL)
 	{
 		$q = "INSERT INTO eventi (idUtente,tipo,idExternal) 
 				VALUES ('" . $idUtente . "','" . $tipo . "','" . $idExternal . "')";
-		return mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
 	{
 		$q = "DELETE 
 				FROM eventi WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
-		return mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function getEventi($tipo = NULL,$min = 0,$max = 10)
@@ -23,8 +29,7 @@ class eventi
 		if($tipo != NULL)
 		  $q .= " WHERE tipo = '" . $tipo . "'";
 		$q .= " LIMIT " . $min . "," . $max . ";";
-		
-		$exe = mysql_query($q) or die(MYSQL_ERRNO().$q ." ".MYSQL_ERROR());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
 			
@@ -40,7 +45,7 @@ class eventi
 		$linksObj = new links();
 		if(isset($values))
 		{
-			foreach($values as $key=>$val)
+			foreach($values as $key => $val)
 			{
 				switch($val['tipo'])
 				{

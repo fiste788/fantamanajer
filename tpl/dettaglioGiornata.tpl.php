@@ -21,7 +21,7 @@
 				<th class="punt">Punt.</th>
 			</tr>
 			<?php $panch=$this->formazione;$tito=array_splice($panch,0,11);?>
-            <?php foreach($tito as $key=>$val): ?>
+            <?php foreach($tito as $key => $val): ?>
 					<?php if($val['considerato'] == 0 or ($val['voto']=="" and $val['considerato']>0)): ?>
 						<tr class="rosso">
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
@@ -52,7 +52,7 @@
 				<th class="club">Club</th>
 				<th class="punt">Punt.</th>
 			</tr>
-			<?php foreach($panch as $key=>$val): ?>
+			<?php foreach($panch as $key => $val): ?>
 					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></a></td>
@@ -108,14 +108,14 @@
 				<select name="giorn" onchange="document.selsq.submit();">
 					<option></option>
 					<?php krsort($this->punteggi[1]); ?>
-					<?php foreach($this->punteggi[1] as $key=>$val): ?>
+					<?php foreach($this->punteggi[1] as $key => $val): ?>
 						<option <?php if($this->getgiornata == $key) echo "selected=\"selected\"" ?> value="<?php echo $key?>"><?php echo $key?></option>
 					<?php endforeach; ?>
 				</select>
 				<h3 class="no-margin">Seleziona la squadra</h3>
 				<select name="squad" onchange="document.selsq.submit();">
 					<option></option>
-					<?php foreach($this->squadre as $key=>$val): ?>
+					<?php foreach($this->squadre as $key => $val): ?>
 						<option <?php if($this->getsquadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
 					<?php endforeach; ?>
 				</select>

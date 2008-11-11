@@ -12,7 +12,7 @@ if(isset($_POST['giorn']))
 $classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['idLega']);
 $squadre = $utenteObj->getElencoSquadre();
 
-foreach($classificaDett as $key=>$val)
+foreach($classificaDett as $key => $val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 	
 $contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());

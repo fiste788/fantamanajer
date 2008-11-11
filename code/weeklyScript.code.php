@@ -49,18 +49,18 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 			//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
 			$classifica = $punteggiObj->getAllPunteggiByGiornata($giornata,$lega['idLega']);
 			$appo2 = $classifica;
-			foreach($appo2 as $key=>$val)
+			foreach($appo2 as $key => $val)
 			{
 				array_pop($appo2[$key]);
 				$prevSum[$key] = array_sum($appo2[$key]);
 			} 
-			foreach($classifica as $key=>$val)
+			foreach($classifica as $key => $val)
 				$sum[$key] = array_sum($classifica[$key]);
 			arsort($prevSum);
 		
-			foreach($prevSum as $key=>$val)
+			foreach($prevSum as $key => $val)
 				$indexPrevSum[] = $key;
-			foreach($sum as $key=>$val)
+			foreach($sum as $key => $val)
 				$indexSum[] = $key;
 			
 			foreach($indexSum as $key => $val)
@@ -86,7 +86,7 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 					//MANDO LA MAIL
 					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
 					//$mailContent->display(TPLDIR.'mail.tpl.php');
-					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object))
+					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailWeekly.tpl.php'),$object))
 						$mail++ ;
 				}
 			}

@@ -59,7 +59,7 @@ function filter($var)
 }	
 
 $freeplayer = $giocatoreObj->getFreePlayer($ruolo);
-foreach($freeplayer as $key=>$val)
+foreach($freeplayer as $key => $val)
 {
 /*	$voti = $val['Voti'];
 	$voti = explode(';',$voti);
@@ -97,7 +97,7 @@ $orderBy[] = array('Club','asc');
 $orderBy[] = array('Voti','desc');
 $orderBy[] = array('VotiEff','desc');
 $orderBy[] = array('PartiteGiocate','desc');
-/*foreach($orderBy as $key=>$val)
+/*foreach($orderBy as $key => $val)
 {
 	if(!isset($v) || $order != $val[0])
 		$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=' . $val[1];
@@ -115,7 +115,7 @@ $orderBy[] = array('PartiteGiocate','desc');
 	if(isset($partite))
 		$link[$val[0]] .=  '&amp;partite=' . $partite;
 }*/
-foreach($orderBy as $key=>$val)
+foreach($orderBy as $key => $val)
 {
 	if(!isset($v) || $order != $val[0])
 		$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>$val[1],'ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));

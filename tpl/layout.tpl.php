@@ -8,7 +8,7 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantacalcio,fantamanajer,fantamanger,manageriale fantacalcio,alzano sopra,condominio i pini,bergamo,calcio,piazzetta" />
 		<meta name="robots" content="index,follow" />
-		<?php foreach($this->pages['css'] as $key=>$val): ?>
+		<?php foreach($this->pages['css'] as $key => $val): ?>
 			<link href="<?php echo CSSURL.$val.'.css';?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
@@ -17,7 +17,7 @@
 		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL.'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL.'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<?php if(!empty($this->pages['js'])): ?>
-		<?php foreach($this->pages['js'] as $key=>$val): ?>
+		<?php foreach($this->pages['js'] as $key => $val): ?>
 		<?php if(is_array($val)): ?>
 		<?php foreach($val as $key2=>$val2): ?>
 		<?php $appo = explode('|',$val2); ?>

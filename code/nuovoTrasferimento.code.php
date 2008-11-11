@@ -27,7 +27,7 @@ $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencoleghe',$legheObj->getLeghe());
 $contenttpl->assign('lega',$lega);
 
-/*foreach($legheObj->getLeghe() as $key=>$val)
+/*foreach($legheObj->getLeghe() as $key => $val)
 	$appo[$val['idLega']] = $utenteObj->getElencoSquadreByLega($val['idLega']);
 $contenttpl->assign('elencojs',$appo);*/
 
@@ -51,7 +51,7 @@ if($numTrasferimenti <MAXTRASFERIMENTI )
 			$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista']);
 			$playerFree = $giocatoreObj->getGiocatoriNotSquadra($squadra);
 			$flag = 0;
-			foreach($playerFree as $key=>$val)
+			foreach($playerFree as $key => $val)
 				if($val['idGioc'] == $_POST['acquista'])
 					$flag = 1;
 			if($flag != 0)

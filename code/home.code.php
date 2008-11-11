@@ -13,17 +13,17 @@
 	
 	$contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
 	$classifica = $punteggiObj->getAllPunteggi($_SESSION['idLega']);
-	foreach($classifica as $key=>$val)
+	foreach($classifica as $key => $val)
 		$sum[$key] = array_sum($classifica[$key]);
 	if((GIORNATA -1) != 0)
 	{
 		$classificaPrec = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt() - 1,$_SESSION['idLega']);
-		foreach($classificaPrec as $key=>$val)
+		foreach($classificaPrec as $key => $val)
 			$prevSum[$key] = array_sum($classificaPrec[$key]);
 	
-		foreach($prevSum as $key=>$val)
+		foreach($prevSum as $key => $val)
 			$indexPrevSum[] = $key;
-		foreach($sum as $key=>$val)
+		foreach($sum as $key => $val)
 			$indexSum[] = $key;
 		
 		foreach($indexSum as $key => $val)
@@ -42,7 +42,7 @@
 	$contenttpl->assign('differenza',$diff);
 	$articolo = $articoloObj->select($articoloObj,NULL,'*',0,1,'insertDate');
 	if($articolo != FALSE)
-		foreach ($articolo as $key=>$val)
+		foreach ($articolo as $key => $val)
 			$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
 	$contenttpl->assign('articoli',$articolo);
 
