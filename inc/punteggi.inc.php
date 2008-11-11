@@ -1,12 +1,17 @@
 <?php
 class punteggi
 {
+	var $punteggio;
+	var $idGiornata;
+	var $idUtente;
+	var $idLega;
+	
 	function checkPunteggi($giornata)
 	{
 		$q = "SELECT * 
 				FROM punteggi 
-				WHERE IdGiornata = '" . $giornata . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+				WHERE idGiornata = '" . $giornata . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(mysql_num_rows($exe) > 0)
 			return FALSE;
 		else
@@ -18,10 +23,10 @@ class punteggi
 		$q = "SELECT punteggio 
 				FROM punteggi 
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$punteggio = NULL;
 		while ($row = mysql_fetch_array($exe))
-			$punteggio = $row[0];
+			$punteggio = $row['punteggio'];
 		return $punteggio;      
 	}
 
@@ -32,7 +37,7 @@ class punteggi
 				WHERE punteggi.idLega = '" . $idLega . "' 
 				GROUP BY idUtente 
 				ORDER BY punteggioTot DESC";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe))
 			$classifica[] = $row;
 		if(isset($classifica))
@@ -41,14 +46,14 @@ class punteggi
 		{
 			$q = "SELECT idUtente, nome 
 					FROM utente";
-			$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 			while ($row = mysql_fetch_array($exe) )
 			{
 				$row['punteggioTot'] = 0;
 				$row['punteggioMed'] = 0;
 				$row['punteggioMax'] = 0;
 				$row['punteggioMin'] = 0;
-				$classifica[] = $row;
+				$classifica[$row['idUtente']] = $row;
 			}
 			return $classifica;
 		}
@@ -59,7 +64,7 @@ class punteggi
 		$q = "SELECT utente.idUtente, idGiornata,nome, punteggio 
 				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente
 				WHERE punteggi.idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
 		{
@@ -81,14 +86,15 @@ class punteggi
 			require_once(INCDIR.'utente.inc.php');
 			$utenteObj = new utente();
 			$squadre = $utenteObj->getElencoSquadre();
-			foreach($squadre as $key=>$val)
+			foreach($squadre as $key => $val)
 				$classificaOkay[$key][0] = 0;
 		}
 		return($classificaOkay);
 	}
 	
-	function getPosClassifica($classifica) //come classifica si intende la variabile uscita dalla funzione getClassifica
+	function getPosClassifica($idLega)
 	{
+		$classifica = $this->getClassifica($idLega);
 		$pos = array();
 		$i = 1;
 		foreach($classifica as $key => $val)
@@ -104,7 +110,7 @@ class punteggi
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio 
 				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente 
 				WHERE idGiornata <= " . $giornata . " AND punteggi.idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
 		{
@@ -124,7 +130,7 @@ class punteggi
 			require_once(INCDIR.'utente.inc.php');
 			$utenteObj = new utente();
 			$squadre = $utenteObj->getElencoSquadre();
-			foreach($squadre as $key=>$val)
+			foreach($squadre as $key => $val)
 				$classificaOkay[$key][0] = 0;
 		}
 		return($classificaOkay);
@@ -135,7 +141,7 @@ class punteggi
 	{
 		$q = "SELECT COUNT(DISTINCT(idGiornata)) 
 				FROM punteggi";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_row($exe))
 			return($row[0]);
 	}
@@ -220,7 +226,20 @@ class punteggi
 			else
 				$q = "INSERT INTO punteggi(idGiornata,idUtente,punteggio,idLega) 
 						VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
-			mysql_query($q) or die("Query non valida: ".$q. mysql_error());
+			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		}
+	}
+	
+	function setPunteggiToZero($idUtente,$idLega)
+	{
+		$giornateWithPunt = $this->getGiornateWithPunt();
+		if(!empty($giornateWithPunt))
+			$giornateWithPunt = 0;
+		for($i = 1; $i < $giornateWithPunt; $i++)
+		{
+			$q = "INSERT INTO punteggi
+					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
+			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
 	}
 }

@@ -17,6 +17,7 @@ SetOutputFilter DEFLATE
   ExpiresByType text/javascript "access plus 216000 seconds"  
   ExpiresByType application/x-javascript "access plus 216000 seconds"  
 </IfModule>
+
 php_flag display_errors on
 RewriteEngine On
 RewriteRule ^home.html$ index.php?p=home
@@ -24,11 +25,13 @@ RewriteRule ^home/(.*).html$ index.php?p=home&logout=TRUE
 RewriteRule ^rosa.html$ index.php?p=rosa
 RewriteRule ^rosa/(.*).html$ index.php?p=rosa&squadra=$1
 RewriteRule ^dettaglioGiocatore/(.*).html$ index.php?p=dettaglioGiocatore&id=$1
+RewriteRule ^trasferimenti.html$ index.php?p=trasferimenti
 RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squad=$1
 RewriteRule ^giocatoriLiberi.html$ index.php?p=giocatoriLiberi
 RewriteRule ^conferenzeStampa.html$ index.php?p=conferenzeStampa
 RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giorn=$1
 RewriteRule ^classifica.html$ index.php?p=classifica
+RewriteRule ^dettaglioGiornata.html$ index.php?p=dettaglioGiornata
 RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giorn=$1&squad=$2
 RewriteRule ^premi.html$ index.php?p=premi
 RewriteRule ^contatti.html$ index.php?p=contatti
@@ -39,3 +42,14 @@ RewriteRule ^modificaConferenza/(.*)/(.*).html$ index.php?p=modificaConferenza&a
 RewriteRule ^altro.html$ index.php?p=altro
 RewriteRule ^feed.html$ index.php?p=feed
 RewriteRule ^giocatoriLiberi/(.*)/(.*)/(.*)/(.*)/(.*).html$ index.php?p=giocatoriLiberi&order=$1&v=$2&ruolo=$3&suff=$4&partite=$5
+RewriteRule ^sendMail.html$ index.php?p=sendMail
+RewriteRule ^weeklyScript.html$ index.php?p=weeklyScript
+RewriteRule ^acquistaGioc.html$ index.php?p=acquistaGioc
+RewriteRule ^backup.html$ index.php?p=backup
+
+<FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
+   AuthName "Inserisci username e password"
+   AuthType Basic
+   AuthUserFile c:/wamp/www/fantamanajer-2.1/.htpasswd
+   require valid-user
+</FilesMatch>

@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 require_once(INCDIR."articolo.inc.php");
 require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."emoticon.inc.php");
@@ -18,7 +18,7 @@ $articoloObj->setidgiornata($getGiornata);
 
 $articolo = $articoloObj->select($articoloObj,'=','*');
 if($articolo != FALSE)
-	foreach ($articolo as $key=>$val)
+	foreach ($articolo as $key => $val)
 		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
 $contenttpl->assign('articoli',$articolo);
 

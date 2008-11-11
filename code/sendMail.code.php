@@ -29,15 +29,15 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 			$titolariName = array();
 			$panchinariName = array();
 			$capitani = array();
-			foreach ($squadre as $key=>$val)
+			foreach ($squadre as $key => $val)
 			{
 				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val['idUtente'],$giornata);
 				if($formazione != FALSE)
 				{
-					$titolari = array_slice($formazione['Elenco'],0,11);
-					$panchinari = array_slice($formazione['Elenco'],11,18);
+					$titolari = array_slice($formazione['elenco'],0,11);
+					$panchinari = array_slice($formazione['elenco'],11,18);
 					//array_shift($panchinari);
-					$cap[$key] = $formazione['Cap'];
+					$cap[$key] = $formazione['cap'];
 					$titolariName[$key] = $giocatoreObj->getGiocatoriByArray($titolari);
 					if(count($panchinari) > 0)
 						$panchinariName[$key] = $giocatoreObj->getGiocatoriByArray($panchinari);
@@ -55,10 +55,10 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 					$mailContent->assign('panchinari',$panchinariName);
 					$mailContent->assign('cap',$cap);
 	
-					//$mailContent->display(TPLDIR.'mailFormazioni.tpl.php');
+					$mailContent->display(MAILTPLDIR.'mailFormazioni.tpl.php');
 					//MANDO LA MAIL
 					$object = "Formazioni giornata: ". $giornata ;
-				  	$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(TPLDIR.'mailFormazioni.tpl.php'),$object);
+				  	//$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailFormazioni.tpl.php'),$object);
 				  	$contenttpl->assign('message','Operazione effettuata correttamente');
 				}
 			}

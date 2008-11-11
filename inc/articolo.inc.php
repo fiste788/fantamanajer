@@ -65,11 +65,11 @@ class articolo
 		echo $this->idSquadra;
 		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata) 
 				VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "')";
-		mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
 				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$data = mysql_fetch_row($exe);
 		return $data[0];
 	}
@@ -79,7 +79,7 @@ class articolo
 		$q = "UPDATE articolo 
 				SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idSquadra = '" . $articolo->idSquadra . "' , idGiornata = '" . $articolo->idGiornata . "'  
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
-		return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function delete($articolo)
@@ -87,13 +87,13 @@ class articolo
 		$q = "DELETE 
 				FROM articolo 
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
-		return mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function select($articolo , $equal , $field, $start = NULL , $end = NULL, $order = NULL)
 	{
-		$flag=0;
-		$perc="";
+		$flag = 0;
+		$perc = "";
 		if(strtolower($equal) == "like")
 			$perc = "%";
 		$q = "SELECT " . $field . " FROM articolo"; 
@@ -153,7 +153,7 @@ class articolo
 		if($start != NULL || $end != NULL)
 			$q .= " LIMIT ".$start.','.$end;
 		//echo $q;
-		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
 		if(isset($values))
@@ -166,9 +166,9 @@ class articolo
 	{
 		$q = "SELECT DISTINCT idGiornata 
 				FROM articolo";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
-		while($row = mysql_fetch_row($exe))
-			$values[] = $row[0];
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while($row = mysql_fetch_array($exe))
+			$values[] = $row['idArticolo'];
 		if(isset($values))
 			return $values;
 		else
@@ -180,9 +180,8 @@ class articolo
 		$q = "SELECT * 
 				FROM articolo 
 				WHERE idArticolo = '" . $id . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO(). $q ." ".MYSQL_ERROR());
-		while($row = mysql_fetch_array($exe))
-			return $row;
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_fetch_array($exe);
 	}
 }
 ?>

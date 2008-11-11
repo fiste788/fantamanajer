@@ -91,7 +91,7 @@ if(isset($_GET['id']))
 			<div class="formbox">
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<div id="emoticons">
-				<?php foreach($this->emoticons as $key=>$val):?>
+				<?php foreach($this->emoticons as $key => $val):?>
 					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo $val['cod'] ?>');return ismaxlength(document.getElementById('text'), 500);" />
 				<?php endforeach; ?>
 				</div>			

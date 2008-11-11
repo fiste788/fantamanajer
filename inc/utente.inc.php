@@ -8,24 +8,14 @@ class utente
 	var $mail;
 	var $username;
 	var $amministratore;
-	
-	function utente()
-	{ 
-		$this->idUtente = NULL;
-		$this->nome = NULL;
-		$this->nomeProp = NULL;
-		$this->cognome = NULL;
-		$this->mail = NULL;
-		$this->username = NULL;
-		$this->amministratore = NULL;
-	}
+	var $idLega;
 	
 	function getElencoSquadre()
 	{		
 		$q = "SELECT * 
 				FROM utente 
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
 			$values[$row['idUtente']] = $row;
 		return $values; 
@@ -36,7 +26,7 @@ class utente
 		$q = "SELECT * 
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
 			$values[$row['idUtente']] = $row;
 		return $values; 
@@ -47,9 +37,8 @@ class utente
 		$q = "SELECT * 
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		$values = mysql_fetch_array($exe);
-		return $values; 
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_fetch_array($exe); 
 	}
 	
 	function changeData($data,$id)
@@ -59,7 +48,7 @@ class utente
 			$data['amministratore'] = '0';
 		else
 			$data['amministratore'] = '1';
-		foreach($data as $key=>$val)
+		foreach($data as $key => $val)
 		{
 			if($key == 'passwordnew')
 			{
@@ -75,7 +64,7 @@ class utente
 		}
 		$q = substr($q,0,-1);
 		$q .= " WHERE idUtente = '" . $id . "'";
-		if(mysql_query($q))
+		if(mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q))
 			return 2;
 		else
 			return 3;
@@ -85,23 +74,26 @@ class utente
 	{
 		$q = "SELECT mail,idUtente 
 				FROM utente";
-		$exe = mysql_query($q);
-		while ($row = mysql_fetch_row($exe) )
-			$values[$row[1]] = $row[0];
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
 	
 	function addSquadra($username,$name,$admin,$password,$email,$idLega)
 	{
+		require_once(INCDIR.'punteggi.inc.php');
+		$punteggiObj = new punteggi();
 		$q = "INSERT INTO utente (nome,username,password,mail,amministratore,idLega) 
 				VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$q = "SELECT idUtente 
 				FROM utente 
 				WHERE nome = '" . $name . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-		while ($row = mysql_fetch_row($exe) )
-			$val = $row[0];
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe) )
+			$val = $row['idUtente'];
+		$punteggiObj->setPunteggiToZero($val,$idLega);
 		return $val;
 	}
 	
@@ -110,7 +102,7 @@ class utente
 		$q = "DELETE 
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(mysql_affected_rows() == 0)
 			return FALSE;
 		else
@@ -122,10 +114,10 @@ class utente
 		$q = "SELECT idLega 
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die("Query non valida: ".$q . mysql_error());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$val = -1;
-		while ($row = mysql_fetch_row($exe) )
-			$val = $row[0];
+		while ($row = mysql_fetch_array($exe) )
+			$val = $row['idLega'];
 		return $val;
 	}
 }

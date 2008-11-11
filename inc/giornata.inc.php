@@ -4,20 +4,15 @@ class giornata
 	var $idGiornata;
 	var $dataInizio;
 	var $dataFine;
-	
-	function giornata()
-	{
-		$this->idGiornata = NULL;
-		$this->dataInizio = NULL;
-		$this->dataFine = NULL;
-	}
+	var $dataCenterInizio;	//inizio della giornata in cui non si può settare la formazione
+	var $dataCeterFine;	//fine della giornata in cui non si può settare la formazione
 	
 	function getIdGiornataByDate()
 	{
 		$q = "SELECT idGiornata 
 				FROM giornate 
 				WHERE '" . date("Y-m-d H:i:s") . "' BETWEEN dataInizio AND dataFine";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
 	}
@@ -27,7 +22,7 @@ class giornata
 		$q = "SELECT dataInizio,idGiornata 
 				FROM giornate 
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$value = mysql_fetch_row($exe);
 		$array = explode(" ",$value[0]);
 		$data = explode("-",$array[0]);
@@ -43,7 +38,7 @@ class giornata
 		$q = "SELECT idGiornata 
 				FROM giornate 
 				WHERE '" . date("Y-m-d H:i:s") . "' BETWEEN dataCenterInizio AND dataCenterFine";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
 	}
@@ -53,7 +48,7 @@ class giornata
 		$q = "SELECT * 
 				FROM giornate 
 				WHERE idGiornata = '" . $giorn . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_row($exe);
 		return $valore;
 	}
@@ -62,7 +57,7 @@ class giornata
 	{
 		$q = "SELECT COUNT(idGiornata) 
 				FROM giornate";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR()." ".$q);
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
 	}

@@ -15,7 +15,7 @@ class links
 			$link = 'index.php?p='.$page;
 			if($arrayParam != NULL)
 			{
-				foreach($arrayParam as $key=>$val)
+				foreach($arrayParam as $key => $val)
 					$link .= '&amp;' . $key . "=" . $val;
 			}
 		}

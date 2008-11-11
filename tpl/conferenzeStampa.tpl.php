@@ -1,4 +1,4 @@
-﻿<?php $i=0; ?>
+<?php $i=0; ?>
 <script type="text/javascript">
 	$(document).ready(function(){
 	  if(jQuery.browser.msie)
@@ -13,7 +13,7 @@
 </div>
 <div id="confStampa" class="main-content">
 	<?php if(isset($this->articoli) && !empty($this->articoli)):?>
-		<?php foreach($this->articoli as $key=>$val): ?>
+		<?php foreach($this->articoli as $key => $val): ?>
 			<?php if($i%2 == 0): ?>
 				<div class="riga column last">
 			<?php endif; ?>
@@ -96,7 +96,7 @@
 				<h3 class="no-margin">Seleziona la giornata:</h3>
 				<select name="giorn" onchange="document.idgiornata.submit();">
 					<?php if($this->giornateWithArticoli != FALSE): ?>
-					<?php foreach ($this->giornateWithArticoli as $key=>$val): ?>
+					<?php foreach ($this->giornateWithArticoli as $key => $val): ?>
 						<option <?php if($val == $this->getGiornata) echo "selected=\"selected\""; ?>><?php echo $val; ?></option>
 					<?php endforeach; ?>
 					<?php endif; ?>

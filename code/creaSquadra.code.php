@@ -12,7 +12,7 @@ $giocatoreObj = new giocatore();
 $mailObj = new mail();
 $legheObj = new leghe();
 $stringObj = new string(NULL);
-
+$mailContent = new Savant2();
 
 if(isset($_GET['a']))
 	$action = $_GET['a'];
@@ -48,11 +48,11 @@ if($lega != NULL)
 				$squadreObj->unsetSquadraGiocatoreByIdSquadra($id);
 				$message[0] = 0;
 				$message[1] = "Cancellazione effettuata correttamente";
-				$lega = NULL;
+				$_SESSION['message'] = $message;
+				header('Location: '. str_replace('&amp;','&',$linksObj->getLink('creaSquadra',array('a'=>'new','id'=>0))));
 			}
 			else
 			{
-				$lega = NULL;
 				$message[0] = 1;
 				$message[1] = "Hai già eliminato questa squadra";
 			}
@@ -69,7 +69,7 @@ if($lega != NULL)
 			}
 			else
 			{
-				foreach($_POST as $key=>$val)
+				foreach($_POST as $key => $val)
 				{
 					if($key != 'id' && empty($val))
 					{
@@ -100,17 +100,17 @@ if($lega != NULL)
 					if($action == 'edit')
 					{
 						$campi = array('nome'=>'','usernamenew'=>'','mail'=>'','amministratore'=>'');
-						foreach($_POST as $key=>$val)
+						foreach($_POST as $key => $val)
 						{
 							if(isset($campi[$key]))
 								$data[$key] = $val;
 						}
 						$utenteObj->changeData($data,$id);
 						$giocatoriOld = $giocatoreObj->getGiocatoriByIdSquadra($id);
-						foreach($_POST as $key=>$val)
+						foreach($_POST as $key => $val)
 							if(substr($key,0,9) == 'giocatore')
 								$giocatoriNew[] = $val;
-						foreach($giocatoriOld as $key=>$val)
+						foreach($giocatoriOld as $key => $val)
 							if($val['idGioc'] != $giocatoriNew[$key])
 								$squadreObj->updateGiocatore($giocatoriNew[$key],$val['idGioc'],$id);
 						unset($_POST);
@@ -121,11 +121,19 @@ if($lega != NULL)
 					}
 					else
 					{
-						$squadra = $utenteObj->addSquadra($_POST['usernamenew'],$_POST['nomeSquadra'],$amministratore,$stringObj->createRandomPassword(),$_POST['email'],$lega);
+						$password = $stringObj->createRandomPassword();
+						$squadra = $utenteObj->addSquadra($_POST['usernamenew'],$_POST['nome'],$amministratore,$password,$_POST['mail'],$lega);
 						$squadreObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
 						$message[0] = 0;
 						$message[1] = "Squadra creata correttamente";
-						header('Location: '. str_replace('&amp;','&',$linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>'squadra'))));
+						$mailContent->assign('username',$_POST['usernamenew']);
+						$mailContent->assign('squadra',$_POST['nome']);
+						$mailContent->assign('password',$password);
+						$mailContent->assign('lega',$legheObj->getLegaById($lega));
+						$object = "Benvenuto nel FantaManajer!";
+						//$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
+						$mailObj->sendEmail($_POST['email'],$mailContent->fetch(MAILTPLDIR.'mailBenvenuto.tpl.php'),$object);
+						header('Location: '. str_replace('&amp;','&',$linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$squadra))));
 					}
 				}
 			}

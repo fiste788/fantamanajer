@@ -33,7 +33,7 @@ $contenttpl->assign('trasferimenti',$trasferimenti);
 $numTrasferimenti = count($trasferimenti);
 $contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
 $playerFree = array();
-foreach($ruo as $key=>$val)
+foreach($ruo as $key => $val)
 	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
 $contenttpl->assign('freePlayer',$playerFree);
 

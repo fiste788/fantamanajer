@@ -15,7 +15,7 @@
 				<th>Giocatore vecchio</th>
 				<th>Giornata</th>
 			</tr>
-			<?php foreach($this->trasferimenti as $key=>$val): ?>
+			<?php foreach($this->trasferimenti as $key => $val): ?>
 			<tr class="row">
 				<td><?php echo $i+1; ?></td>
 				<td><?php echo $val['cognomeNew'] . " " . $val['nomeNew']; ?></td>
@@ -49,7 +49,7 @@
 				<option></option>
 				<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
-					<?php foreach($this->giocSquadra as $key=>$val): ?>
+					<?php foreach($this->giocSquadra as $key => $val): ?>
 						<?php if($val['ruolo'] == substr($this->ruo[$j],0,1)): ?>
 							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endif; ?>
@@ -61,7 +61,7 @@
 				<option></option>
 					<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
 			      <optgroup label="<?php echo $this->ruo[$j] ?>">
-					<?php foreach($this->freePlayer as $key=>$val): ?>
+					<?php foreach($this->freePlayer as $key => $val): ?>
 						<?php if($val['ruolo'] == substr($this->ruo[$j],0,1)): ?>
 							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endif; ?>
@@ -117,7 +117,7 @@
 			<h3 class="no-margin">Seleziona la squadra:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="squad" onchange="document.trasferimenti.submit();">
-				<?php foreach($this->elencosquadre as $key=>$val): ?>
+				<?php foreach($this->elencosquadre as $key => $val): ?>
 					<option <?php if($this->squadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
 				<?php endforeach ?>
 			</select>

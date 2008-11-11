@@ -13,7 +13,7 @@
 				<th style="width:180px">Nome</th>
 				<th style="width:70px">Punti tot</th>
 			</tr>
-			<?php foreach($this->classificaDett as $key=>$val): ?>
+			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
 				<td class="nowrap"><?php echo $this->squadre[$key][1]; ?></td>
@@ -28,11 +28,11 @@
 	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
 		<tbody>
 			<tr>
-				<?php foreach($this->classificaDett[$i] as $key=>$val): ?>
+				<?php foreach($this->classificaDett[$i] as $key => $val): ?>
 					<th style="width:35px"><?php echo $key ?></th>
 				<?php endforeach; ?>
 			</tr>
-			<?php foreach($this->classificaDett as $key=>$val): ?>
+			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>
 				<td>
@@ -54,7 +54,7 @@
 	<!--
  $(function () {
    		var datasets = {
-			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key]['nome']; ?>": {
+			<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $this->squadre[$key]['nome']; ?>": {
 				label: "<?php echo $this->squadre[$key]['nome']; ?>",
 				data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
 			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
@@ -63,7 +63,7 @@
 			}
 
 			var medie = {
-				<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>
+				<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
 				"<?php echo $this->squadre[$key]['nome'] ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>

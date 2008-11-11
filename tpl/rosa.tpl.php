@@ -1,5 +1,5 @@
 <?php $r='Por.'; ?>
-<?php if($this->squadra != NULL && $this->squadra > 0 && $this->squadra < 9): ?>
+<?php if($this->squadra != NULL): ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'-small.jpg')): ?>
@@ -26,7 +26,7 @@
 				<th class=tdcenter>Assist</th>
 				<th class=tdcenter>MPunti</th>
 			</tr>
-			<?php foreach($this->giocatori as $key=>$val): ?>
+			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="row">
 				<td<?php if($val['ruolo'] != $r) echo ' class="ult"' ?>>
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
