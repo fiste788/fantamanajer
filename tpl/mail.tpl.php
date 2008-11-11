@@ -217,7 +217,7 @@
 						<th class="punt">Punt.</th>
 					</tr>
 					<?php $panch=$this->formazione;$tito=array_splice($panch,0,11);?>
-            <?php foreach($tito as $key=>$val): ?>
+            <?php foreach($tito as $key => $val): ?>
 					<?php if($val['considerato'] == 0 || ($val['voto'] == "" && $val['considerato'] > 0)): ?>
 						<tr class="rosso">
 							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></td>
@@ -249,7 +249,7 @@
 						<th class="club">Club</th>
 						<th class="punt">Punt.</th>
 					</tr>
-					<?php foreach($panch as $key=>$val): ?>
+					<?php foreach($panch as $key => $val): ?>
 					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></td>
@@ -290,7 +290,7 @@
 							<th>P.ti</th>
 						</tr>
 						<?php $i=0; ?>
-						<?php foreach ($this->classifica as $key=>$val): ?>
+						<?php foreach ($this->classifica as $key => $val): ?>
 							<tr <?php if($this->differenza[$i] < 0): ?>
 									<?php echo 'class="rosso" title="' . $this->differenza[$i]. ' Pos."'; ?>
 								<?php elseif($this->differenza[$i] > 0): ?>
