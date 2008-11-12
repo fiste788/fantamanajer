@@ -38,10 +38,10 @@ class voti
 
 	function getMedieVoto($idGioc)
 	{
-		$q = "SELECT AVG(voto) as mediaPunti,AVG(votoUff) as mediaVoti,count(voto) as Presenze 
+		$q = "SELECT AVG(voto) as mediaPunti,AVG(votoUff) as mediaVoti,count(voto) as presenze 
 				FROM voti 
 				WHERE idGioc = '" . $idGioc . "' AND votoUff <> 0 AND voto <> 0 
-				GROUP by idGioc";
+				GROUP BY idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			return $row;

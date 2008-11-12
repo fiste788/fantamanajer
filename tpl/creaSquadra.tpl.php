@@ -1,40 +1,64 @@
 <?php $j = 0; ?>
 <div class="titolo-pagina">
+<?php if(isset($_GET['a'])):
+switch($_GET['a']):
+case 'new': $button = 'Crea';?>
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
 	</div>
 	<h2 class="column">Crea squadra</h2>
+<?php 	break; endcase;
+	case 'edit': $button = 'Modifica'; ?>
+	<div class="column logo-tit">
+		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
+	</div>
+	<h2 class="column">Modifica squadra</h2>
+<?php 	break; endcase;
+	case 'cancel': $button = 'Cancella'; ?>
+	<div class="column logo-tit">
+		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
+	</div>
+	<h2 class="column">Cancella squadra</h2>
+<?php break; endcase;
+	default: $button = 'Errore'; break; 
+endswitch;else:
+?>
+<div class="column logo-tit">
+		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
+	</div>
+	<h2 class="column">Crea squadra</h2>
+<?php endif; ?>
 </div>
 <div id="creaSquadre" class="main-content">
-	<?php if($this->lega != NULL): ?>
-	<form class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
+	<?php if($this->lega != NULL && isset($_GET['a']) && isset($_GET['id'])): ?>
+	<form class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
 		<fieldset class="column">
-			<input type="hidden" name="a" value="<?php if(isset($this->getAction)) echo $this->getAction; ?>" />
-			<input type="hidden" name="id" value="<?php if(isset($this->getId)) echo $this->getId; ?>" />
+			<input type="hidden" name="a" value="<?php if(isset($_GET['a'])) echo $_GET['a']; ?>" />
+			<input type="hidden" name="id" value="<?php if(isset($_GET['id'])) echo $_GET['id']; ?>" />
 			
 			<h3>Informazioni generali</h3>
 			<div class="formbox">
 				<label for="nomeSquadra">Nome della squadra:</label>
-				<input class="text" id="nomeSquadra" name="nome" type="text" maxlength="40" <?php if(isset($this->datiSquadra['nome'])) $nomeSquadra = $this->datiSquadra['nome']; if(isset($_POST['nome'])) $nomeSquadra = $_POST['nome']; if(isset($nomeSquadra)) echo 'value="' . $nomeSquadra . '"'; ?> />
+				<input<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> class="text" id="nomeSquadra" name="nome" type="text" maxlength="40" <?php if(isset($this->datiSquadra['nome'])) $nomeSquadra = $this->datiSquadra['nome']; if(isset($_POST['nome'])) $nomeSquadra = $_POST['nome']; if(isset($nomeSquadra)) echo 'value="' . $nomeSquadra . '"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="username">Username:</label>
-				<input class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($this->datiSquadra['username'])) $username = $this->datiSquadra['username']; if(isset($_POST['usernamenew'])) $username = $_POST['usernamenew']; if(isset($username)) echo 'value="'. $username .'"'; ?> />
+				<input<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($this->datiSquadra['username'])) $username = $this->datiSquadra['username']; if(isset($_POST['usernamenew'])) $username = $_POST['usernamenew']; if(isset($username)) echo 'value="'. $username .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="email">Email:</label>
-				<input class="text" id="mail" name="mail" type="text" maxlength="30" <?php if(isset($this->datiSquadra['mail'])) $mail = $this->datiSquadra['mail']; if(isset($_POST['mail'])) $mail = $_POST['mail']; if(isset($mail))echo 'value="'. $mail .'"'; ?> />
+				<input<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> class="text" id="mail" name="mail" type="text" maxlength="30" <?php if(isset($this->datiSquadra['mail'])) $mail = $this->datiSquadra['mail']; if(isset($_POST['mail'])) $mail = $_POST['mail']; if(isset($mail))echo 'value="'. $mail .'"'; ?> />
 			</div>
 			<div class="formbox">
 				<label for="amministratore">Amministratore?</label>
-				<input class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra['amministratore'])) $admin = $this->datiSquadra['amministratore']; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
+				<input<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra['amministratore'])) $admin = $this->datiSquadra['amministratore']; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
 			</div>
 		</fieldset>
 		<fieldset id="panchinari">
 			<h4 class="bold no-margin">Portieri</h4>
 			<hr />
 			<?php for($i = 0;$i < 3; $i++): ?>
-				<select name="giocatore-<?php echo $j ?>">
+				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
@@ -47,7 +71,7 @@
 			<h4 class="bold no-margin">Difensori</h4>
 			<hr />
 			<?php for($i = 0;$i < 8; $i++): ?>
-				<select name="giocatore-<?php echo $j ?>">
+				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
@@ -60,7 +84,7 @@
 			<h4 class="bold no-margin">Centrocampisti</h4>
 			<hr />
 			<?php for($i = 0;$i < 8; $i++): ?>
-				<select name="giocatore-<?php echo $j ?>">
+				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
@@ -73,7 +97,7 @@
 			<h4 class="bold no-margin">Attaccanti</h4>
 			<hr />
 			<?php for($i = 0;$i < 6; $i++): ?>
-				<select name="giocatore-<?php echo $j ?>">
+				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore-<?php echo $j ?>">
 					<option></option>
 					<?php if(isset($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore-'.$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
@@ -85,7 +109,15 @@
 			<?php $j++; endfor; ?>
 		</fieldset>
 		<fieldset class="column div-submit">
-			<input type="submit" class="submit dark" value="<?php if(isset($this->getAction) && $this->getAction == 'edit') echo 'Modifica'; else echo 'Crea' ?>" />
+			<input<?php if($_GET['a'] == 'cancel') echo ' onclick="conferma()"'; ?> type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
+			<?php if($_GET['a'] == 'cancel'): ?>
+				<script type="text/javascript">
+					function conferma()
+					{
+						return confirm("Sei sicuro di voler eliminare la squadra <?php echo $this->elencosquadre[$_GET['id']]['nome'] ?>\nL'azione non potrà essere annullata")
+					}
+				</script>
+				<?php endif; ?>
 		</fieldset>
 		<div class="column last">
 			<div class="box2-top-sx column last">
@@ -97,20 +129,13 @@
 			<?php foreach($this->elencosquadre as $key => $val): ?>
 				<div class="elencoSquadre column last">
 					<p class="column last"><?php echo $val['nome']; ?></p>
-					<a class="right last" onclick="conferma(this,'<?php echo $val['nome'] ?>');" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val['idUtente'])); ?>">
+					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val['idUtente'],'lega'=>$this->lega)); ?>">
 						<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
 					</a>
-					<a class="right last" onclick="conferma(this,'<?php echo $val['nome'] ?>');" ref="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val['idUtente'])); ?>">
+					<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val['idUtente'],'lega'=>$this->lega)); ?>">
 						<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 					</a>
 				</div>
-				<script type="text/javascript">
-					function conferma(obj,text)
-					{
-						if(confirm("Sei sicuro di voler eliminare la squadra " + text + "\nL'azione non potrà essere annullata"))
-							window.location.href = this.href;
-					}
-				</script>
 			<?php endforeach; ?>
 			</div>
 			</div>
@@ -119,6 +144,8 @@
 			</div>
 		</div>
 	</form>
+	<?php else: ?>
+	<p>Parametri mancanti</p>
 	<?php endif; ?>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>
@@ -151,15 +178,15 @@
 				$("div.messaggio").fadeOut("slow");
 			});
 			</script>
+			<?php unset($_SESSION['message']); ?>
 			<?php endif; ?>
-			<?php unset($_SESSION['message']) ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 			<?php if($_SESSION['usertype'] == 'superadmin'): ?>
 			<form class="column last" name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>" method="post">
 				<fieldset class="no-margin fieldset max-large">
 					<h3>Seleziona la lega</h3>
 					<select name="lega" onchange="document.selezionaLega.submit();">
-						<option></option>
+						<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>
 						<?php foreach($this->elencoLeghe as $key => $val): ?>
 							<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
 						<?php endforeach; ?>

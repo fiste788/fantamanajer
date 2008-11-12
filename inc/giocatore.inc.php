@@ -128,7 +128,6 @@ class giocatore
 				WHERE idUtente = '" . $idUtente . "' 
 				GROUP BY giocatore.idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$giocatori = "";
 		while($row = mysql_fetch_array($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
