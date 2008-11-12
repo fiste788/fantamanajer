@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 07 Nov, 2008 at 07:38 PM
+-- Generato il: 12 Nov, 2008 at 06:57 PM
 -- Versione MySQL: 5.0.67
 -- Versione PHP: 5.2.6-2ubuntu4
 
@@ -3032,7 +3032,7 @@ CREATE TABLE IF NOT EXISTS `utente` (
 
 INSERT INTO `utente` (`idUtente`, `nome`, `nomeProp`, `cognome`, `mail`, `username`, `password`, `numTrasferimenti`, `amministratore`, `idLega`) VALUES
 (1, 'La potenza è nulla senza il Control', 'Jack-ass', 'Bauer', 'francesco.bertocchi@gmail.com', 'ToMasTurbato', '826ad6b0338304c40b42644b5144f80a', 0, 0, 1),
-(2, 'FC Rocco', 'Stefano', 'Sonzogn', 'stefano788@gmail.com', 'Fiste788', '08b5411f848a2581a41672a759c87380', 0, 1, 1),
+(2, 'FC Rocco', 'Stefano', 'Sonzogni', 'stefano788@gmail.com', 'Fiste788', 'd41d8cd98f00b204e9800998ecf8427e', 0, 0, 1),
 (3, 'Se saltelli segna Balotelli fc', 'Riccardo', 'Zambelli', 'bornintheusa@hotmail.it', 'riki', 'c8c773394c9a1678f1841aec3afbe778', 0, 0, 1),
 (4, 'Barcollo Ma Non Mollo', 'Patrick', 'Skeggia', 'rossi.patrick@gmail.com', 'reds10', '1e48c4420b7073bc11916c6c1de226bb', 0, 0, 1),
 (5, 'Aristogatti', 'Cirino', 'Figarazzi', 'giosuegatti@alice.it', 'gio', 'dc1d252540c77435ae6d4d9090df0a85', 1, 0, 1),
