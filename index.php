@@ -130,10 +130,11 @@ if (!isset($_SESSION['logged'])) {
  * essere caricato per visualizzare la pagina corretta
  *
  */
-$adminpages = array_merge($adminpages,$apages);
-if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] != "user")
+$adminpages = array_merge($adminpages,$userpages);
+$superadminpages = array_merge($superadminpages,$adminpages);
+if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "superadmin")
 {
-	if(array_key_exists($p,$adminpages))
+	if(array_key_exists($p,$superadminpages))
 	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
@@ -150,12 +151,11 @@ if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] != "user")
 		//definisce il file di template utilizzato per visualizzare questa pagina
 		$tplfile = TPLDIR.$p.'.tpl.php';
 	}
-	$layouttpl->assign('pages',$adminpages[$p]);
+	$layouttpl->assign('pages',$superadminpages[$p]);
 }
-elseif ($_SESSION['logged'] == TRUE)
+elseif ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "admin")
 {
-	$_SESSION['import']=0;
-	if(array_key_exists($p,$apages))
+	if(array_key_exists($p,$adminpages))
 	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
@@ -163,10 +163,10 @@ elseif ($_SESSION['logged'] == TRUE)
 	}
 	else
 	{
-		if(array_key_exists($p, $adminpages))
+		if(array_key_exists($p, $superadminpages))
 		{
 			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario essere amministratori per vedere la pagina " . strtolower($apages[$p]['title']) . ". Sei stato mandato alla home";
+			$_SESSION['message'][1] = "È necessario essere amministratori di sistema per vedere la pagina " . strtolower($superadminpages[$p]['title']) . ". Sei stato mandato alla home";
 		}
 		else
 		{
@@ -180,11 +180,46 @@ elseif ($_SESSION['logged'] == TRUE)
 		//definisce il file di template utilizzato per visualizzare questa pagina
 		$tplfile = TPLDIR.$p.'.tpl.php';
 	}
-	$layouttpl->assign('pages',$apages[$p]);
+	$layouttpl->assign('pages',$adminpages[$p]);
+}
+elseif ($_SESSION['logged'] == TRUE)
+{
+	$_SESSION['import']=0;
+	if(array_key_exists($p,$userpages))
+	{
+		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
+			require(CODEDIR.$p.'.code.php');
+		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
+	}
+	else
+	{
+		if(array_key_exists($p, $superadminpages))
+		{
+			$_SESSION['message'][0] = 0;
+			$_SESSION['message'][1] = "È necessario essere amministratori di sistema per vedere la pagina " . strtolower($superadminpages[$p]['title']) . ". Sei stato mandato alla home";
+		}
+		elseif(array_key_exists($p, $adminpages))
+		{
+			$_SESSION['message'][0] = 0;
+			$_SESSION['message'][1] = "È necessario essere amministratori per vedere la pagina " . strtolower($adminpages[$p]['title']) . ". Sei stato mandato alla home";
+		}
+		else
+		{
+			$_SESSION['message'][0] = 1;
+			$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
+		}
+		$p = 'home';
+		//INCLUDE IL FILE DI CODICE PER LA PAGINA
+		if (file_exists(CODEDIR.$p.'.code.php'))
+		    	require(CODEDIR.$p.'.code.php');
+		//definisce il file di template utilizzato per visualizzare questa pagina
+		$tplfile = TPLDIR.$p.'.tpl.php';
+	}
+	$layouttpl->assign('pages',$userpages[$p]);
 }
 else
 {
-	if(array_key_exists($p,$upages))
+	if(array_key_exists($p,$guestpages))
 	{
 		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
 			require(CODEDIR.$p.'.code.php');
@@ -192,10 +227,10 @@ else
 	}
   	else
   	{
-		if(array_key_exists($p, $adminpages))
+		if(array_key_exists($p, $superadminpages))
 		{
 			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina " . strtolower($adminpages[$p]['title']) . ". Sei stato mandato alla home";
+			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina " . strtolower($superadminpages[$p]['title']) . ". Sei stato mandato alla home";
 		}
 		else
 		{
@@ -209,7 +244,7 @@ else
 		//definisce il file di template utilizzato per visualizzare questa pagina
 		$tplfile = TPLDIR.$p.'.tpl.php';
 	}
-	$layouttpl->assign('pages',$upages[$p]);
+	$layouttpl->assign('pages',$guestpages[$p]);
 }
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbartpl->assign('p',$p);

@@ -233,7 +233,7 @@ class punteggi
 	function setPunteggiToZero($idUtente,$idLega)
 	{
 		$giornateWithPunt = $this->getGiornateWithPunt();
-		if(!empty($giornateWithPunt))
+		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
 		for($i = 1; $i < $giornateWithPunt; $i++)
 		{

@@ -50,6 +50,6 @@ RewriteRule ^backup.html$ index.php?p=backup
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
    AuthName "Inserisci username e password"
    AuthType Basic
-   AuthUserFile c:/wamp/www/fantamanajer-2.1/.htpasswd
+   AuthUserFile ${DOCUMENT_ROOT}/fantamanajer-2.1/.htpasswd
    require valid-user
 </FilesMatch>

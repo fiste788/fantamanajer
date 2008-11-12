@@ -120,5 +120,29 @@ class utente
 			$val = $row['idLega'];
 		return $val;
 	}
+	
+	function getSquadraByUsername($username,$idUtente)
+	{
+		$q = "SELECT * 
+				FROM utente 
+				WHERE username LIKE '" . $username . "' AND idUtente <> '" . $idUtente . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$val = FALSE;
+		while ($row = mysql_fetch_array($exe) )
+			$val = $row;
+		return $val;
+	}
+	
+	function getSquadraByNome($nome,$idUtente)
+	{
+		$q = "SELECT * 
+				FROM utente 
+				WHERE nome LIKE '" . $nome . "' AND idUtente <> '" . $idUtente . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$val = FALSE;
+		while ($row = mysql_fetch_array($exe) )
+			$val = $row;
+		return $val;
+	}
 }
 ?>
