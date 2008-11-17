@@ -6,6 +6,7 @@ class utente
 	var $cognome;
 	var $nomeProp;
 	var $mail;
+	var $abilitaMail;
 	var $username;
 	var $amministratore;
 	var $idLega;

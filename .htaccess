@@ -1,55 +1,56 @@
-Header unset ETag
 FileETag None
+<IfModule mod_headers.c>
+	Header unset ETag
+</IfModule>
 <IfModule mod_deflate.c>
-<FilesMatch "\.(html?|txt|css|js|php|pl|jpg|png|gif)$">
-SetOutputFilter DEFLATE
-</FilesMatch>
+	<FilesMatch "\.(html?|txt|css|js|php|pl|jpg|png|gif)$">
+		SetOutputFilter DEFLATE
+	</FilesMatch>
 </IfModule>
 <IfModule mod_expires.c>  
-  ExpiresActive On  
-  ExpiresDefault "access plus 1 seconds"  
-  ExpiresByType text/html "access plus 1 seconds"  
-  ExpiresByType image/gif "access plus 2592000 seconds"  
-  ExpiresByType image/jpeg "access plus 2592000 seconds"  
-  ExpiresByType image/png "access plus 2592000 seconds"  
-  ExpiresByType image/ico "access plus 10 years"
-  ExpiresByType text/css "access plus 604800 seconds"  
-  ExpiresByType text/javascript "access plus 216000 seconds"  
-  ExpiresByType application/x-javascript "access plus 216000 seconds"  
+	ExpiresActive On  
+	ExpiresDefault "access plus 1 seconds"  
+	ExpiresByType text/html "access plus 1 seconds"  
+	ExpiresByType image/gif "access plus 2592000 seconds"  
+	ExpiresByType image/jpeg "access plus 2592000 seconds"  
+	ExpiresByType image/png "access plus 2592000 seconds"  
+	ExpiresByType image/ico "access plus 10 years"
+	ExpiresByType text/css "access plus 604800 seconds"  
+	ExpiresByType text/javascript "access plus 216000 seconds"  
+	ExpiresByType application/x-javascript "access plus 216000 seconds"  
 </IfModule>
-
-php_flag display_errors on
-RewriteEngine On
-RewriteRule ^home.html$ index.php?p=home
-RewriteRule ^home/(.*).html$ index.php?p=home&logout=TRUE
-RewriteRule ^rosa.html$ index.php?p=rosa
-RewriteRule ^rosa/(.*).html$ index.php?p=rosa&squadra=$1
-RewriteRule ^dettaglioGiocatore/(.*).html$ index.php?p=dettaglioGiocatore&id=$1
-RewriteRule ^trasferimenti.html$ index.php?p=trasferimenti
-RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squad=$1
-RewriteRule ^giocatoriLiberi.html$ index.php?p=giocatoriLiberi
-RewriteRule ^conferenzeStampa.html$ index.php?p=conferenzeStampa
-RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giorn=$1
-RewriteRule ^classifica.html$ index.php?p=classifica
-RewriteRule ^dettaglioGiornata.html$ index.php?p=dettaglioGiornata
-RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giorn=$1&squad=$2
-RewriteRule ^premi.html$ index.php?p=premi
-RewriteRule ^contatti.html$ index.php?p=contatti
-RewriteRule ^formazione.html$ index.php?p=formazione
-RewriteRule ^altreFormazioni.html$ index.php?p=altreFormazioni
-RewriteRule ^altreFormazioni/(.*)/(.*).html$ index.php?p=altreFormazioni&giorn=$1&squadra=$2
-RewriteRule ^modificaConferenza/(.*)/(.*).html$ index.php?p=modificaConferenza&a=$1&id=$2
-RewriteRule ^altro.html$ index.php?p=altro
-RewriteRule ^feed.html$ index.php?p=feed
-RewriteRule ^giocatoriLiberi/(.*)/(.*)/(.*)/(.*)/(.*).html$ index.php?p=giocatoriLiberi&order=$1&v=$2&ruolo=$3&suff=$4&partite=$5
-RewriteRule ^sendMail.html$ index.php?p=sendMail
-RewriteRule ^weeklyScript.html$ index.php?p=weeklyScript
-RewriteRule ^acquistaGioc.html$ index.php?p=acquistaGioc
-RewriteRule ^backup.html$ index.php?p=backup
-
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^home.html$ index.php?p=home
+	RewriteRule ^home/(.*).html$ index.php?p=home&logout=TRUE
+	RewriteRule ^rosa.html$ index.php?p=rosa
+	RewriteRule ^rosa/(.*).html$ index.php?p=rosa&squadra=$1
+	RewriteRule ^dettaglioGiocatore/(.*).html$ index.php?p=dettaglioGiocatore&id=$1
+	RewriteRule ^trasferimenti.html$ index.php?p=trasferimenti
+	RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squad=$1
+	RewriteRule ^giocatoriLiberi.html$ index.php?p=giocatoriLiberi
+	RewriteRule ^conferenzeStampa.html$ index.php?p=conferenzeStampa
+	RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giorn=$1
+	RewriteRule ^classifica.html$ index.php?p=classifica
+	RewriteRule ^dettaglioGiornata.html$ index.php?p=dettaglioGiornata
+	RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giorn=$1&squad=$2
+	RewriteRule ^premi.html$ index.php?p=premi
+	RewriteRule ^contatti.html$ index.php?p=contatti
+	RewriteRule ^formazione.html$ index.php?p=formazione
+	RewriteRule ^altreFormazioni.html$ index.php?p=altreFormazioni
+	RewriteRule ^altreFormazioni/(.*)/(.*).html$ index.php?p=altreFormazioni&giorn=$1&squadra=$2
+	RewriteRule ^modificaConferenza/(.*)/(.*).html$ index.php?p=modificaConferenza&a=$1&id=$2
+	RewriteRule ^altro.html$ index.php?p=altro
+	RewriteRule ^feed.html$ index.php?p=feed
+	RewriteRule ^giocatoriLiberi/(.*)/(.*)/(.*)/(.*)/(.*).html$ index.php?p=giocatoriLiberi&order=$1&v=$2&ruolo=$3&suff=$4&partite=$5
+	RewriteRule ^sendMail.html$ index.php?p=sendMail
+	RewriteRule ^weeklyScript.html$ index.php?p=weeklyScript
+	RewriteRule ^acquistaGioc.html$ index.php?p=acquistaGioc
+	RewriteRule ^backup.html$ index.php?p=backup
+</IfModule>
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
-   AuthName "Inserisci username e password"
-   AuthType Basic
-   AuthUserFile ${DOCUMENT_ROOT}/fantamanajer-2.1/.htpasswd
-   require valid-user
+	AuthName "Inserisci username e password"
+	AuthType Basic
+	AuthUserFile ${DOCUMENT_ROOT}/fantamanajer-2.1/.htpasswd
+	require valid-user
 </FilesMatch>
