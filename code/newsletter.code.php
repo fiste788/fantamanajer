@@ -1,0 +1,73 @@
+<?php
+require_once(INCDIR.'utente.inc.php');
+require_once(INCDIR.'leghe.inc.php');
+require_once(INCDIR.'mail.inc.php');
+	
+$utenteObj = new utente();
+$legheObj = new leghe();
+$mailObj = new mail();
+$mailContent = new Savant2();
+
+$lega = NULL;
+if(isset($_POST['lega']))
+	$lega = $_POST['lega'];
+if($_SESSION['usertype'] == 'admin')
+	$lega = $_SESSION['idLega'];
+
+$contenttpl->assign('elencoleghe',$legheObj->getLeghe());
+$contenttpl->assign('lega',$lega);
+
+if($lega != NULL && $lega != 0)
+	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
+
+if(isset($_POST['button']))
+{
+	echo "<pre>".print_r($_POST,1)."</pre>";
+	foreach($_POST as $key => $val)
+	{
+		if(empty($val))
+		{
+			$message[0] = 1;
+			$message[1] = "Non hai compilato tutti i campi";
+		}
+	}
+	if(!isset($_POST['selezione']) || !isset($_POST['type']))
+		{
+			$message[0] = 1;
+			$message[1] = "Non hai compilato tutti i campi";
+		}
+	if(!isset($message))
+	{
+		$mailContent->assign('object',$_POST['object']);
+		$mailContent->assign('text',$_POST['text']);
+		$mailContent->assign('date',date("d-m-Y"));
+		$mailContent->assign('type',$_POST['type']);
+		$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
+		if($_POST['type'] == 'C')
+		{
+			$object = 'Comunicazione: ';
+			if($lega == 0)
+				$email = $utenteObj->getAllEmail();
+			else
+				$email = $utenteObj->getAllEmailByLega($lega);
+		}
+		else
+		{
+			$object = 'Newsletter: ';
+			if($lega == 0)
+				$email = $utenteObj->getAllEmailAbilitate();
+			else
+				$email = $utenteObj->getAllEmailAbilitateByLega($lega);
+		}
+		foreach($_POST['selezione'] as $key => $val)
+			$emailOk = $email[$val];
+		
+		$object .= $_POST['object'];
+		$mailContent->display(MAILTPLDIR.'mailNewsletter.tpl.php');	
+		//$mailObj->sendMail($_POST['selezione'],$mailContent->fetch(MAILTPLDIR.'mailNewsletter.tpl.php'),$object);
+		$message[0] = 0;
+		$message[1] = 'Mail inviate correttamente';
+	}
+	$contenttpl->assign('message',$message);
+}
+?>

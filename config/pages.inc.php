@@ -161,6 +161,10 @@ $adminpages = array();
 	$adminpages['inserisciFormazione'] = array(	'title'=>"Inserisci formazione mancante",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
+										
+	$adminpages['newsletter'] = array(	'title'=>"Newsletter",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
 
 $superadminpages = array();										
 	$superadminpages['gestioneDatabase'] = array(	'title'=>"Gestione database",

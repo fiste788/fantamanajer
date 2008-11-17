@@ -51,51 +51,66 @@ class formazione
 		$valori = "";
 		foreach($capitano as $key => $val)
 		{
-			$campi .= ",".$key;
-			$valori .= ",'".$val."'";
+			$campi .= "," . $key;
+			$valori .= ",'" . $val."'";
 		}
 		$q = "INSERT INTO formazioni (idUtente,idGiornata,modulo" . $campi .") 
 				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
-		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$q = "SELECT idFormazione 
 				FROM formazioni 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		while($row = mysql_fetch_array($exe))
 			$id = $row['idFormazione'];
-		foreach($formazione as $key=>$player)
+		foreach($formazione as $key => $player)
 		{
 			$pos = $key+1;
 			$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
 					VALUES ('" . $id . "','" . $player . "','" . $pos . "')";
-			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);          
+			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;          
 		}
+		if(isset($err))
+		{
+			mysql_query("ROLLBACK");
+			die("Errore nella transazione: <br />" . $err);
+		}
+		else
+			mysql_query("COMMIT");
 		return $id;
 	}
 	
 	function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
 	{
+		mysql_query("START TRANSACTION");
 		$str = "";
 		foreach($capitano as $key => $val)
 			$str .= "," . $key . "='" . $val . "'";      
 		$q = "UPDATE formazioni 
 				SET Modulo = '$modulo'".$str." 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
-		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$q = "SELECT idFormazione 
 				FROM formazioni 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		while($row = mysql_fetch_array($exe))
 			$id = $row['idFormazione'];
-		foreach($formazione as $key=>$player)
+		foreach($formazione as $key => $player)
 		{
 			$pos = $key + 1;
 			$q = "UPDATE schieramento 
 					SET idFormazione='" . $id . "',idGioc='" . $player . "',idPosizione='" . $pos . "' 
 					WHERE idFormazione = '" . $id . "' AND idPosizione = '" . $pos . "'";
-			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
+		if(isset($err))
+		{
+			mysql_query("ROLLBACK");
+			die("Errore nella transazione: <br />" . $err);
+		}
+		else
+			mysql_query("COMMIT");
 		return $id;
 	}
 	

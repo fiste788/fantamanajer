@@ -54,10 +54,11 @@ class selezione
 	
 	function updateGioc($giocNew,$giocOld,$idLega,$idSquadra)
 	{
+		mysql_query("START TRANSACTION");
 		$q = "SELECT numSelezioni 
 				FROM selezione 
-				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
+		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$values = array();
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
@@ -66,12 +67,12 @@ class selezione
 			$q = "UPDATE selezione 
 					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values[0]['numSelezioni'] - 1) . "' 
 					WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
-			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		$q = "SELECT numSelezioni 
 				FROM selezione 
-				WHERE giocNew <> NULL AND idSquadra = '" . $idSquadra . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				WHERE giocNew IS NOT NULL AND idSquadra = '" . $idSquadra . "'  LOCK IN SHARE MODE";
+		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$values = array();
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
@@ -80,14 +81,21 @@ class selezione
 			$q = "UPDATE selezione 
 					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values[0]['numSelezioni']+1) . "' 
 					WHERE idSquadra = '" . $idSquadra . "'";
-			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		else
 		{
 			$q = "INSERT INTO selezione 
 					VALUES ('" . $idLega . "','" . $idSquadra . "','" . $giocOld . "','" . $giocNew . "','1')";
-			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);	
+			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;	
 		}
+		if(isset($err))
+		{
+			mysql_query("ROLLBACK");
+			die("Errore nella transazione: <br />" . $err);
+		}
+		else
+			mysql_query("COMMIT");
 	}
 	
 	function getNumberSelezioni($idUtente)
