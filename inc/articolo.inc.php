@@ -168,7 +168,7 @@ class articolo
 				FROM articolo";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
-			$values[] = $row['idArticolo'];
+			$values[] = $row['idGiornata'];
 		if(isset($values))
 			return $values;
 		else
