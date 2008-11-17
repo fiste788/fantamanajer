@@ -35,7 +35,7 @@
 			<div id="grafica">
 				<img class="column" src="<?php echo IMGSURL.'grafica.png'; ?>" alt="Nuova Grafica" />
 				<h2>Nuova Grafica</h2>
-				<p>FantaManajer 1.9 introduce una nuovissima grafica in stile web 2.0. Nuove icone, nuovi sfondi per rendere più piacevole la navigazione</p>
+				<p>FantaManajer 2.0 introduce una nuovissima grafica in stile web 2.0. Nuove icone, nuovi sfondi per rendere più piacevole la navigazione</p>
 			</div>
 			<div id="effetti">
 				<img class="column" src="<?php echo IMGSURL.'effetti.png'; ?>" alt="Effetti" />

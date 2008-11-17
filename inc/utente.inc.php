@@ -80,6 +80,39 @@ class utente
 		return $values; 
 	}
 	
+	function getAllEmailAbilitate()
+	{
+		$q = "SELECT mail,idUtente 
+				FROM utente
+				WHERE abilitaMail <> 0";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idUtente']] = $row['mail'];
+		return $values; 
+	}
+	
+	function getAllEmailByLega($idLega)
+	{
+		$q = "SELECT mail,idLega 
+				FROM utente
+				WHERE idLega = '" . $idLega . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idLega']] = $row['mail'];
+		return $values; 
+	}
+	
+	function getAllEmailAbilitateByLega($idLega)
+	{
+		$q = "SELECT mail,idLega
+				FROM utente
+				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idLega']] = $row['mail'];
+		return $values; 
+	}
+	
 	function addSquadra($username,$name,$admin,$password,$email,$idLega)
 	{
 		require_once(INCDIR.'punteggi.inc.php');

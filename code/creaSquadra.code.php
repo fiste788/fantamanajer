@@ -128,10 +128,10 @@ if($lega != NULL && $action != NULL && $id != NULL)
 				else
 				{
 					$password = $stringObj->createRandomPassword();
-					echo md5($password)."<br >";
-					echo $password;
+					$linksObj->startTransaction();
 					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),addslashes(stripslashes(trim($_POST['nome']))),$amministratore,$password,addslashes(stripslashes(trim($_POST['mail']))),$lega);
 					$squadreObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
+					$linksObj->commit();
 					$id = $squadra;
 					$message[0] = 0;
 					$message[1] = "Squadra creata correttamente";
@@ -139,8 +139,8 @@ if($lega != NULL && $action != NULL && $id != NULL)
 					$mailContent->assign('squadra',$_POST['nome']);
 					$mailContent->assign('password',$password);
 					$mailContent->assign('lega',$legheObj->getLegaById($lega));
+					$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
 					$object = "Benvenuto nel FantaManajer!";
-					$punteggiObj->setPunteggiToZero($squadra,$lega);
 					$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
 					//$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR.'mailBenvenuto.tpl.php'),$object);
 					unset($_POST);

@@ -242,5 +242,12 @@ class punteggi
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
 	}
+	
+	function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)
+	{
+		$q = "INSERT INTO punteggi
+				VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
+		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+	}
 }
 ?>

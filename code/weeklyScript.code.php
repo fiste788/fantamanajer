@@ -23,82 +23,79 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 	if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['usertype'] == 'supersadmin')
 	{
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-		$votiObj->recuperaVoti($giornata);
-		$leghe = $legheObj->getLeghe();
-		foreach($leghe as $lega)
+		if($votiObj->recuperaVoti($giornata))
 		{
-			$mailContent = new Savant2();
-			$result = array();
-			$squadre = $utenteObj->getElencoSquadreByLega($lega['idLega']);
-			foreach($squadre as $key =>$val)
+			$leghe = $legheObj->getLeghe();
+			foreach($leghe as $lega)
 			{
-				$squadra = $val['idUtente'];			
-				//CALCOLO I PUNTI SE C'È LA FORMAZIONE
-				if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
+				$mailContent = new Savant2();
+				$result = array();
+				$squadre = $utenteObj->getElencoSquadreByLega($lega['idLega']);
+				$dbObj->startTransaction();
+				foreach($squadre as $key =>$val)
 				{
-					$punteggiObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
-					$result[$key] = $giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra);
+					$squadra = $val['idUtente'];			
+					//CALCOLO I PUNTI SE C'È LA FORMAZIONE
+					if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
+						$punteggiObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
+					else
+						$punteggiObj->setPunteggiToZeroByGiornata($squadra,$lega['idLega'],$giornata);
 				}
-				else
-				{
-					$q = "INSERT INTO punteggi VALUES ('0','" . $giornata . "', '" . $squadra . "');";
-					mysql_query($q) or die("Query non valida: ".$q . mysql_error());
-				}
-			}
-		
-			//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
-			$classifica = $punteggiObj->getAllPunteggiByGiornata($giornata,$lega['idLega']);
-			$appo2 = $classifica;
-			foreach($appo2 as $key => $val)
-			{
-				array_pop($appo2[$key]);
-				$prevSum[$key] = array_sum($appo2[$key]);
-			} 
-			foreach($classifica as $key => $val)
-				$sum[$key] = array_sum($classifica[$key]);
-			arsort($prevSum);
-		
-			foreach($prevSum as $key => $val)
-				$indexPrevSum[] = $key;
-			foreach($sum as $key => $val)
-				$indexSum[] = $key;
+				$dbObj->commit();
 			
-			foreach($indexSum as $key => $val)
-			{
-				if($val == $indexPrevSum[$key])
-					$diff[] = 0;
-				else
-					$diff[] = (array_search($val,$indexPrevSum))- $key;
-			}
-			$mailContent->assign('classifica',$sum);
-			$mailContent->assign('differenza',$diff);
-			$mailContent->assign('squadre',$appo);
-			$mailContent->assign('giornata',$giornata);
-			foreach ($squadre as $key => $val)
-			{
-				if(!empty($val['mail']) && isset($result[$key]))
+				//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
+				$classifica = $punteggiObj->getAllPunteggiByGiornata($giornata,$lega['idLega']);
+				$appo2 = $classifica;
+				foreach($appo2 as $key => $val)
 				{
-					$mailContent->assign('squadra',$val['nomeProp']);
-					$mailContent->assign('somma',$punteggiObj->getPunteggi($val['idUtente'],$giornata));
-					$mailContent->assign('formazione',$result[$key]);
-					$mail = 0;
-					
-					//MANDO LA MAIL
-					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
-					//$mailContent->display(TPLDIR.'mail.tpl.php');
-					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailWeekly.tpl.php'),$object))
-						$mail++ ;
+					array_pop($appo2[$key]);
+					$prevSum[$key] = array_sum($appo2[$key]);
+				} 
+				foreach($classifica as $key => $val)
+					$sum[$key] = array_sum($classifica[$key]);
+				arsort($prevSum);
+			
+				foreach($prevSum as $key => $val)
+					$indexPrevSum[] = $key;
+				foreach($sum as $key => $val)
+					$indexSum[] = $key;
+				
+				foreach($indexSum as $key => $val)
+				{
+					if($val == $indexPrevSum[$key])
+						$diff[] = 0;
+					else
+						$diff[] = (array_search($val,$indexPrevSum))- $key;
 				}
+				$mailContent->assign('classifica',$sum);
+				$mailContent->assign('differenza',$diff);
+				$mailContent->assign('squadre',$appo);
+				$mailContent->assign('giornata',$giornata);
+				foreach ($squadre as $key => $val)
+				{
+					if(!empty($val['mail']))
+					{
+						$mailContent->assign('squadra',$val['nomeProp']);
+						$mailContent->assign('somma',$punteggiObj->getPunteggi($val['idUtente'],$giornata));
+						$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$val['idUtente']););
+						$mail = 0;
+						
+						//MANDO LA MAIL
+						$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
+						//$mailContent->display(TPLDIR.'mail.tpl.php');
+						if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailWeekly.tpl.php'),$object))
+							$mail++ ;
+					}
+				}
+				if($mail == 0)
+					$contenttpl->assign('message','Operazione effettuata correttamente');
+				else
+					$contenttpl->assign('message','Si sono verificati degli errori nell\'invio delle mail');
+				unset($mailContent);
 			}
-			if($mail == 0)
-				$contenttpl->assign('message','Operazione effettuata correttamente');
-			else
-				$contenttpl->assign('message','Si sono verificati degli errori nell\'invio delle mail');
-			unset($result);
-			unset($mailContent);
+			//AGGIORNA LA LISTA GIOCATORI
+			$giocatoreObj->updateTabGiocatore($giornata);
 		}
-		//AGGIORNA LA LISTA GIOCATORI
-		$giocatoreObj->updateTabGiocatore($giornata);
 	}
 	else
 		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');

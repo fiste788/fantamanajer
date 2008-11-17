@@ -57,8 +57,8 @@ require_once INCDIR.'links.inc.php';
 
 
 //Creating a new db istance
-$dblink = &new db;
-$dblink->dbConnect();
+$dbObj = &new db;
+$dbObj->dbConnect();
 
 //Creating object for pages
 $layouttpl =& new Savant2();
@@ -312,6 +312,6 @@ if ($layouttpl->isError($result)) {
     echo "</pre>";
 }
 
-$dblink->dbClose();
+$dbObj->dbClose();
 //echo "<pre>".print_r($_SESSION,1)."</pre>";
 ?>

@@ -91,12 +91,12 @@ if($order != NULL)
 		array_multisort($sort_arr[$order] , SORT_DESC , $freeplayer);
 }
 $orderBy = array();
-$orderBy[] = array('Cognome','asc');
-$orderBy[] = array('Nome','asc');
-$orderBy[] = array('Club','asc');
-$orderBy[] = array('Voti','desc');
-$orderBy[] = array('VotiEff','desc');
-$orderBy[] = array('PartiteGiocate','desc');
+$orderBy[] = array('campo'=>'cognome','default'=>'asc');
+$orderBy[] = array('campo'=>'nome','default'=>'asc');
+$orderBy[] = array('campo'=>'club','default'=>'asc');
+$orderBy[] = array('campo'=>'voti','default'=>'desc');
+$orderBy[] = array('campo'=>'votiEff','default'=>'desc');
+$orderBy[] = array('campo'=>'partiteGiocate','default'=>'desc');
 /*foreach($orderBy as $key => $val)
 {
 	if(!isset($v) || $order != $val[0])
@@ -117,14 +117,14 @@ $orderBy[] = array('PartiteGiocate','desc');
 }*/
 foreach($orderBy as $key => $val)
 {
-	if(!isset($v) || $order != $val[0])
-		$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>$val[1],'ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+	if(!isset($v) || $order != $val['campo'])
+		$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
 	elseif($order == $val[0])
 	{
 		if($v == 'asc')
-			$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>'desc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
 		else
-			$link[$val[0]] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val[0],'v'=>'asc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
 	}
 }
 

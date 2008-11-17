@@ -64,5 +64,20 @@ class db
 		else
 			return FALSE;
 	}
+	
+	function startTransaction()
+	{
+		mysql_query("START TRANSACTION");
+	}
+	
+	function commit()
+	{
+		mysql_query("COMMIT");
+	}
+	
+	function rollback()
+	{
+		mysql_query("ROLLBACK");
+	}
 }
 ?>

@@ -25,6 +25,7 @@ class trasferimenti
 		$formazioneObj = new formazione();
 		$schieramentoObj = new schieramento();
 		$squadraOld = $squadreObj->getSquadraByIdGioc($giocNew,$idLega);
+		mysql_query("START TRANSACTION");
 		if($squadraOld == FALSE)
 		{
 			$q = "INSERT INTO squadre 
@@ -42,11 +43,11 @@ class trasferimenti
 					SET idUtente = '" . $squadraOld . "' 
 					WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
 		}
-		$result = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);;
-		$result = $result + mysql_query($q2) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		mysql_query($q2) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra,idGiornata) 
 				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "')";
-		$result = $result + mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
 		if($formazione != FALSE)
 		{
@@ -67,12 +68,15 @@ class trasferimenti
 			}
 			$q = "INSERT INTO trasferimenti (idGiocOld,idGiocNew,idSquadra,idGiornata) 
 					VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "')";
-			$result = $result + mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);;
+			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
-		if($result)
-			return TRUE;
+		if(isset($err))
+		{
+			mysql_query("ROLLBACK");
+			die("Errore nella transazione: <br />" . $err);
+		}
 		else
-			return FALSE;
+			mysql_query("COMMIT");
 	}
 	
 	function doTransfertBySelezione()
