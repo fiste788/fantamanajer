@@ -352,6 +352,9 @@ tr.row:hover {
 	background:transparent url(../imgs/bg-row.png) repeat-x scroll left bottom;
 	color:#000;
 }
+.row td {
+	white-space:nowrap;
+}
 .rosso {
 	background:transparent url(../imgs/bg-player-exit.png) repeat-x scroll left top;
 	text-align:center;

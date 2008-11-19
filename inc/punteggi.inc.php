@@ -31,7 +31,7 @@ class punteggi
 			while ($row = mysql_fetch_array($exe))
 				$punteggio += $row['punteggio'];
 		}
-		return $punteggio;      
+		return $punteggio;
 	}
 
 	function getClassifica($idLega)
@@ -128,13 +128,11 @@ class punteggi
 		}
 		if(isset($somme))
 		{
-			echo "<pre>".print_r($classifica,1)."</pre>";
 			arsort($somme);
 			$appo = array_keys($somme);
 			for($i = 0; $i < count($classifica); $i++)
 				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
 					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
-			echo "<pre>".print_r($classificaOkay,1)."</pre>";
 		}
 		else
 		{
@@ -235,7 +233,7 @@ class punteggi
 						SET punteggio = '" . $somma . "' 
 						WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
 			else
-				$q = "INSERT INTO punteggi(idGiornata,idUtente,punteggio,idLega) 
+				$q = "INSERT INTO punteggi (idGiornata,idUtente,punteggio,idLega) 
 						VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
@@ -248,7 +246,7 @@ class punteggi
 			$giornateWithPunt = 0;
 		for($i = 1; $i < $giornateWithPunt; $i++)
 		{
-			$q = "INSERT INTO punteggi
+			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
@@ -257,7 +255,7 @@ class punteggi
 	function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)
 	{
 		if($this->getPunteggi($idUtente,$idGiornata) != '0')
-			$q = "INSERT INTO punteggi
+			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		else
 			return TRUE;
