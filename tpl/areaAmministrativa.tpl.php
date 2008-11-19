@@ -53,7 +53,7 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<img class="column last" alt="->" src="<?php echo IMGSURL.'contatti.png'; ?>" title="Newsletter" />
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'contatti-other.png'; ?>" title="Newsletter" />
 			<h3><a href="<?php echo $this->linksObj->getLink('newsletter'); ?>">Newsletter</a></h3>
 		</div>
 		</div>

@@ -2,10 +2,12 @@
 require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'formazione.inc.php');
 require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
 
 $punteggiObj = new punteggi();
 $utenteObj = new utente();
 $formazioneObj = new formazione();
+$giocatoreObj = new giocatore();
 
 $squadra = NULL;
 $giornata = NULL;
@@ -37,12 +39,11 @@ $contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['idLega']));
 
 
-$contenttpl->assign('punteggi',$punteggiObj->getAllPunteggi());
-
-require(INCDIR.'giocatore.inc.php');
-$giocatoreObj = new giocatore();
-
-if($squadra != NULL && $giornata != NULL && $squadra > 0 && $squadra < 9 && $giornata > 0 && $giornata <= $giornate)
+$contenttpl->assign('punteggi',$punteggiObj->getAllPunteggi($_SESSION['idLega']));
+$penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($squadra,$giornata);
+if($penalità != FALSE)
+	$contenttpl->assign('penalità',$penalità);
+if($squadra != NULL && $giornata != NULL && $squadra > 0 && $giornata > 0 && $giornata <= $giornate)
 {	
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 	{
@@ -51,10 +52,10 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $squadra < 9 && $gio
 	}
 	else
 	{
-		$contenttpl->assign('formazione',2);
+		$contenttpl->assign('formazione',FALSE);
 		$contenttpl->assign('somma',0);
 	}
 }
 else
-	$contenttpl->assign('formazione',FALSE);
+	$contenttpl->assign('formazione',NULL);
 ?>

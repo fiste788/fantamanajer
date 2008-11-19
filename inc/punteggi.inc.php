@@ -25,8 +25,12 @@ class punteggi
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$punteggio = NULL;
-		while ($row = mysql_fetch_array($exe))
-			$punteggio = $row['punteggio'];
+		if(mysql_num_rows($exe) > 0)
+		{
+			$punteggio = 0;
+			while ($row = mysql_fetch_array($exe))
+				$punteggio += $row['punteggio'];
+		}
 		return $punteggio;      
 	}
 
@@ -68,8 +72,10 @@ class punteggi
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
 		{
-			$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
-			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
+			if(isset($classifica[$row['idUtente']] [$row['idGiornata']]))
+				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
+			else
+				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
 		}
 		if(isset($somme))
 		{
@@ -107,23 +113,28 @@ class punteggi
 	
 	function getAllPunteggiByGiornata($giornata,$idLega)
 	{
-		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio 
+		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
 				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente 
 				WHERE idGiornata <= " . $giornata . " AND punteggi.idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
 		{
-			$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
+			if(isset($classifica[$row['idUtente']] [$row['idGiornata']]))
+				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
+			else
+				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
 			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
 		}
 		if(isset($somme))
 		{
+			echo "<pre>".print_r($classifica,1)."</pre>";
 			arsort($somme);
 			$appo = array_keys($somme);
 			for($i = 0; $i < count($classifica); $i++)
 				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
 					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
+			echo "<pre>".print_r($classificaOkay,1)."</pre>";
 		}
 		else
 		{
@@ -219,7 +230,7 @@ class punteggi
 				}
 				$somma += $voto;
 			}
-			if($punteggioOld != NULL)
+			if($punteggioOld == '0')
 				$q = "UPDATE punteggi
 						SET punteggio = '" . $somma . "' 
 						WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
@@ -245,9 +256,23 @@ class punteggi
 	
 	function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)
 	{
-		$q = "INSERT INTO punteggi
-				VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
+		if($this->getPunteggi($idUtente,$idGiornata) != '0')
+			$q = "INSERT INTO punteggi
+					VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
+		else
+			return TRUE;
 		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+	}
+	
+	function getPenalitàBySquadraAndGiornata($idUtente,$idGiornata)
+	{
+		$q = "SELECT punteggio,penalità 
+				FROM punteggi
+				WHERE punteggio < 0";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe))
+			$val[] = $row;
+		return $val;
 	}
 }
 ?>

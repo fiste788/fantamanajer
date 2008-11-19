@@ -50,24 +50,11 @@ else
 	
 $contenttpl->assign('ruolo',$ruolo);
 $contenttpl->assign('suff',$suff);
-$contenttpl->assign('partite',$partite);
-
-function filter($var)
-{
-	if($var != '-')
-		return $var;
-}	
+$contenttpl->assign('partite',$partite);	
 
 $freeplayer = $giocatoreObj->getFreePlayer($ruolo);
 foreach($freeplayer as $key => $val)
 {
-/*	$voti = $val['Voti'];
-	$voti = explode(';',$voti);
-	//echo "<pre>".print_r($voti),"</pre>";
-	$mediavoti = array_sum($voti);
-	$partitegiocate = count(array_filter($voti,"filter"));
-	if($partitegiocate != 0)
-		$mediavoti /= $partitegiocate;*/
 	$freeplayer[$key]['nome'] = $val['nome'];
 	$freeplayer[$key]['cognome'] = $val['cognome'];
 	$freeplayer[$key]['club'] = $val['nomeClub'];
@@ -78,11 +65,10 @@ foreach($freeplayer as $key => $val)
 	$freeplayer[$key]['partiteGiocate'] = $val['presenze'];
 }
 $sort_arr = array();
-    foreach($freeplayer AS $uniqid => $row){
-        foreach($row AS $key => $value){
-            $sort_arr[$key][$uniqid] = $value;
-        }
-    }
+foreach($freeplayer as $uniqid => $row)
+	foreach($row as $key => $value)
+		$sort_arr[$key][$uniqid] = $value;
+
 if($order != NULL)
 {
 	if($v == 'asc')
@@ -97,29 +83,12 @@ $orderBy[] = array('campo'=>'club','default'=>'asc');
 $orderBy[] = array('campo'=>'voti','default'=>'desc');
 $orderBy[] = array('campo'=>'votiEff','default'=>'desc');
 $orderBy[] = array('campo'=>'partiteGiocate','default'=>'desc');
-/*foreach($orderBy as $key => $val)
-{
-	if(!isset($v) || $order != $val[0])
-		$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=' . $val[1];
-	elseif($order == $val[0])
-	{
-		if($v == 'asc')
-			$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=desc';
-		else
-			$link[$val[0]] = 'index.php?p=freeplayer&amp;order=' . $val[0] . '&amp;v=asc';
-	}
-	if(isset($ruolo))
-		$link[$val[0]] .= '&amp;ruolo=' . $ruolo;
-	if(isset($suff))
-		$link[$val[0]] .=  '&amp;suff=' . $suff;
-	if(isset($partite))
-		$link[$val[0]] .=  '&amp;partite=' . $partite;
-}*/
+
 foreach($orderBy as $key => $val)
 {
 	if(!isset($v) || $order != $val['campo'])
 		$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
-	elseif($order == $val[0])
+	elseif($order == $val['campo'])
 	{
 		if($v == 'asc')
 			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));

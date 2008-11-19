@@ -28,7 +28,7 @@
 					$(".messaggio").append('<div><img src="' + loadingImg + '"</div>');
 				},
 				cache: false,
-				username: "winadministrator",
+				username: "administrator",
 				password: "banana",
 				success: function(html,text){
 					$(".messaggio div").fadeOut(function (){

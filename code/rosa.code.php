@@ -49,14 +49,13 @@ $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 $values = $giocatoreObj->getGiocatoriByIdSquadraWithStats($squadra);
 if(($squadra != NULL) && ($values))
 {
-
 	$i = 0;
 	$appo = 0;
 	$mediaVoto = 0;
 	$mediaPartite = 0;
 	$mediaGol = 0;
 	$mediaAssist = 0;
-	$mediaMagic=0;
+	$mediaMagic = 0;
 	foreach($values as $key => $val)
 	{
 		$giocatori[$i]['idGioc'] = $val['idGioc'];
@@ -67,12 +66,12 @@ if(($squadra != NULL) && ($values))
 		$giocatori[$i]['votiAll'] = $medieVoti['mediaPunti'];
 		$giocatori[$i]['voti'] = substr($giocatori[$i]['votiAll'],0,4);
 		$giocatori[$i]['partite'] = $val['presenze'];
-		$giocatori[$i]['partiteeff'] = $medieVoti['presenze'];
+		$giocatori[$i]['partiteEff'] = $medieVoti['presenze'];
 		$giocatori[$i]['gol'] = $val['gol'];
 		$giocatori[$i]['assist'] = $val['assist'];
-		$giocatori[$i]['votoeffAll'] = $medieVoti['mediaVoti'];
-		$giocatori[$i]['votoeff'] = substr($giocatori[$i]['votoeffAll'],0,4);
-		$mediaVoto += $giocatori[$i]['votoeffAll'];
+		$giocatori[$i]['votoEffAll'] = $medieVoti['mediaVoti'];
+		$giocatori[$i]['votoEff'] = substr($giocatori[$i]['votoEffAll'],0,4);
+		$mediaVoto += $giocatori[$i]['votoEffAll'];
 		$mediaMagic += $giocatori[$i]['votiAll'];
 		$mediaPartite += $giocatori[$i]['partite'];
 		$mediaGol += $giocatori[$i]['gol'];

@@ -16,7 +16,7 @@
 				<th class="cognome"><a href="<?php echo $this->link['cognome'] ?>">Cognome</a></th>
 				<th class="nome"><a href="<?php echo $this->link['nome'] ?>">Nome</a></th>
 				<th class="club"><a href="<?php echo $this->link['club'] ?>">Club</a></th>
-				<th class="club"><a href="<?php echo $this->link['voti'] ?>">M. punti</a></th>
+				<th class="club"><a href="<?php echo $this->link['voti'] ?>">M. p.ti</a></th>
 				<th class="club"><a href="<?php echo $this->link['votiEff'] ?>">M. voti</a></th>
 				<th class="club"><a href="<?php echo $this->link['partiteGiocate'] ?>">Partite</a></th>
 			</tr>
@@ -36,7 +36,7 @@
 				</td>
 				<td><?php echo $val['cognome']; ?></td>
 				<td><?php echo $val['nome']; ?></td>
-				<td><?php echo $val['club']; ?></td>
+				<td><?php echo strtoupper(substr($val['club'],0,3)); ?></td>
 				<td title="<?php echo $val['votiAll']; ?>" <?php if($val['voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['voti']; ?></td>
 				<td title="<?php echo $val['votEffiAll']; ?>" <?php if($val['voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['votiEff']; ?></td>
 				<td <?php if($val['partiteGiocate'] >= $this->partite && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['partiteGiocate']; ?></td>

@@ -50,39 +50,52 @@
 	</tr>
 </table>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
-<table>
+<table style="width:100px;" class="column last">
 	<tr>
-			<th>Giornata</th>
+		<th>Giornata</th>
+	</tr>
+	<tr>
+		<td>Punti</td>
+	</tr>
+	<tr>
+		<td>Voti</td>
+	</tr>
+	<tr>
+		<td>Gol</td>
+	</tr>
+	<tr>
+		<td>Assist</td>
+	</tr>
+</table>
+<div id="tab_giocatore" class="column last">
+	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['data'])*40; ?>px;margin:0;">
+		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
 			<th><?php echo $key; ?></th>
 		<?php endforeach; ?>
-	</tr>
-	<tr>
-			<td>Punti</td>
+		</tr>
+		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
 			<td><?php echo $val['voto']; ?></td>
 		<?php endforeach; ?>
-	</tr>
-	<tr>
-			<td>Voti</td>
+		</tr>
+		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
 			<td><?php if($val['votoUff'] != '0') echo $val['votoUff']; else echo "&nbsp;"; ?></td>
 		<?php endforeach; ?>
-	</tr>
-
-	<tr>
-			<td>Gol</td>
+		</tr>
+		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
 			<td><?php echo $val['gol']; ?></td>
 		<?php endforeach; ?>
-	</tr>
-	<tr>
-			<td>Assist</td>
+		</tr>
+		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
 			<td><?php echo $val['assist']; ?></td>
 		<?php endforeach; ?>
-	</tr>
-</table>
+		</tr>
+	</table>
+</div>
 <div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
 	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>

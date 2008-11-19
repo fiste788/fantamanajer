@@ -49,6 +49,10 @@ class utente
 			$data['amministratore'] = '0';
 		else
 			$data['amministratore'] = '1';
+		if(!isset($data['abilitaMail']))
+			$data['abilitaMail'] = '0';
+		else
+			$data['abilitaMail'] = '1';
 		foreach($data as $key => $val)
 		{
 			if($key == 'passwordnew')
@@ -94,23 +98,23 @@ class utente
 	
 	function getAllEmailByLega($idLega)
 	{
-		$q = "SELECT mail,idLega 
+		$q = "SELECT mail,idUtente 
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
-			$values[$row['idLega']] = $row['mail'];
+			$values[$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
 	
 	function getAllEmailAbilitateByLega($idLega)
 	{
-		$q = "SELECT mail,idLega
+		$q = "SELECT mail,idUtente
 				FROM utente
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
-			$values[$row['idLega']] = $row['mail'];
+			$values[$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
 	

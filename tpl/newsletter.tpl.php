@@ -1,4 +1,3 @@
-<?php $j =0; $k = 0; ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'contatti-big.png'; ?>" alt="->" />
@@ -17,9 +16,9 @@
 			<?php if($this->lega == 0): ?>
 			<div class="formbox">
 				<label for="selezione">Leghe:</label>
-				<select id="selezione" name="selezione" multiple="multiple" size="6" class="column newsletterBox">
+				<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 					<?php foreach($this->elencoleghe as $key => $val): ?>
-						<option selected="selected" value="<?php echo $val['idLega'] ?>"><?php echo $val['nomeLega'] ?></option>
+								<option<?php if(isset($_POST['selezione']) && array_search($val['idLega'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idLega'] ?>"><?php echo $val['nomeLega'] ?></option>
 					<?php endforeach; ?>
 				</select>
 				<div class="selectAll column">
@@ -30,9 +29,9 @@
 			<?php else: ?>
 			<div class="formbox">
 				<label for="selezione">Squadre:</label>
-				<select id="selezione" name="selezioneSquadre" multiple="multiple" size="6" class="column newsletterBox">
+				<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 					<?php foreach($this->elencosquadre as $key => $val): ?>
-						<option value="<?php echo $val['idUtente'] ?>"><?php echo $val['nome'] ?></option>
+						<option<?php if(isset($_POST['selezione']) && array_search($val['idUtente'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente'] ?>"><?php echo $val['nome'] ?></option>
 					<?php endforeach; ?>
 				</select>
 				<div class="selectAll column">

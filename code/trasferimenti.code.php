@@ -19,7 +19,8 @@ $trasferimentiObj = new trasferimenti();
 $squadra = $_SESSION['idSquadra'];
 $acquisto = NULL;
 $lasciato = NULL;
-$flag=0;
+$flag = 0;
+$appo = 0;
 if(isset($_GET['squad']))
 	$squadra = $_GET['squad'];
 if(isset($_POST['squad']))
@@ -29,15 +30,95 @@ $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadre());
 $contenttpl->assign('squadra',$squadra);
 $trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
-$contenttpl->assign('trasferimenti',$trasferimenti);
 $numTrasferimenti = count($trasferimenti);
-$contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
 $playerFree = array();
 foreach($ruo as $key => $val)
 	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
-$contenttpl->assign('freePlayer',$playerFree);
 
-$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
+$trasferiti = $giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']);
+/*
+ * Quì effettuo il trasferimento diretto
+ */ 
+if($trasferiti != FALSE)
+{
+	$appo = 1;
+	$numTrasferiti = 0;
+	$contenttpl->assign('trasferiti',$trasferiti);
+	foreach($trasferiti as $key => $val)
+		$freePlayerByRuolo[$val['idGioc']] = $giocatoreObj->getFreePlayer($val['ruolo']);
+	$contenttpl->assign('freePlayerByRuolo',$freePlayerByRuolo);
+	foreach($trasferiti as $masterKey => $masterVal)
+	{
+		if($numTrasferimenti < MAXTRASFERIMENTI )
+		{
+			if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
+			{
+				echo "<pre>".print_r($_POST,1)."</pre>";
+				if(isset($_POST['acquista'][$masterKey]) && !empty($_POST['acquista'][$masterKey]) )
+				{
+					$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista'][$masterKey]);
+					$flag = 0;
+					foreach($playerFree as $key => $val)
+						if($val['idGioc'] == $_POST['acquista'][$masterKey])
+							$flag = 1;
+					if($flag != 0)
+					{
+						$giocatoreLasciato = $giocatoreObj->getGiocatoreById($masterVal['idGioc']);
+						if($giocatoreAcquistato[$_POST['acquista'][$masterKey]]['ruolo'] == $giocatoreLasciato[$masterVal['idGioc']]['ruolo'])
+						{
+							$trasferimentiObj->transfer($masterVal['idGioc'],$_POST['acquista'][$masterKey],$squadra,$_SESSION['idLega']);
+							$appo = 0;
+							$numTrasferiti ++;
+							$selezione = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);
+							if($selezione['giocOld'] == $masterVal['idGioc']);
+								$selezioneObj->unsetSelezioneByIdSquadra($squadra);
+							$trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
+							$numTrasferimenti = count($trasferimenti);
+							foreach($ruo as $key => $val)
+								$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
+							$messaggio[0] = 0;
+							$messaggio[1] = 'Trasferimento effettuato correttamente';
+						}
+						else
+						{
+							$messaggio[0] = 1;
+							$messaggio[1] = 'I giocatori devono avere lo stesso ruolo';
+						}
+					}
+					else
+					{
+						$messaggio[0] = 1;
+						$messaggio[1] = 'Il giocatore non è libero';
+					}
+				}
+				elseif($appo == 1)
+				{
+					$messaggio[0] = 1;
+					$messaggio[1] = 'Non hai compilato correttamente';
+				}
+			}
+		}
+		else
+		{
+			$messaggio[0] = 2;
+			$messaggio[1] = 'Hai raggiunto il limite di trasferimenti';
+		}
+	}
+	if($numTrasferiti == count($trasferiti))
+	{
+		unset($contenttpl->generalMessage);
+		unset($contenttpl->trasferiti);
+		unset($_POST);
+	}
+	if(isset($messaggio))
+		$contenttpl->assign('messaggio',$messaggio);
+}
+
+
+
+/*
+ * Quì seleziono il giocatore per il trasferimento
+ */   
 if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 {
 	if($numTrasferimenti <MAXTRASFERIMENTI )
@@ -161,4 +242,9 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 		$contenttpl->assign('messaggio',$messaggio);
 	}
 }
+
+$contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
+$contenttpl->assign('freePlayer',$playerFree);
+$contenttpl->assign('trasferimenti',$trasferimenti);
+$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
 ?>
