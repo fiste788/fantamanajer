@@ -22,7 +22,6 @@ if($lega != NULL && $lega != 0)
 
 if(isset($_POST['button']))
 {
-	echo "<pre>".print_r($_POST,1)."</pre>";
 	foreach($_POST as $key => $val)
 	{
 		if(empty($val))
@@ -32,10 +31,10 @@ if(isset($_POST['button']))
 		}
 	}
 	if(!isset($_POST['selezione']) || !isset($_POST['type']))
-		{
-			$message[0] = 1;
-			$message[1] = "Non hai compilato tutti i campi";
-		}
+	{
+		$message[0] = 1;
+		$message[1] = "Non hai compilato tutti i campi";
+	}
 	if(!isset($message))
 	{
 		$mailContent->assign('object',$_POST['object']);
@@ -60,13 +59,19 @@ if(isset($_POST['button']))
 				$email = $utenteObj->getAllEmailAbilitateByLega($lega);
 		}
 		foreach($_POST['selezione'] as $key => $val)
-			$emailOk = $email[$val];
-		
+			$emailOk[] = $email[$val];
 		$object .= $_POST['object'];
-		$mailContent->display(MAILTPLDIR.'mailNewsletter.tpl.php');	
-		//$mailObj->sendMail($_POST['selezione'],$mailContent->fetch(MAILTPLDIR.'mailNewsletter.tpl.php'),$object);
-		$message[0] = 0;
-		$message[1] = 'Mail inviate correttamente';
+		//$mailContent->display(MAILTPLDIR.'mailNewsletter.tpl.php');	
+		if($mailObj->sendEmail(implode(",",$emailOk),$mailContent->fetch(MAILTPLDIR.'mailNewsletter.tpl.php'),$object))
+		{
+			$message[0] = 0;
+			$message[1] = 'Mail inviate correttamente';
+		}
+		else
+		{
+			$message[0] = 1;
+			$message[1] = 'Problemi nell\'invio della mail';
+		}
 	}
 	$contenttpl->assign('message',$message);
 }

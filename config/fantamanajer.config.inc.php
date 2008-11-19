@@ -7,7 +7,7 @@ FantaManajer
 To do:
 */
 
-define ("MAXTRASFERIMENTI",15);	
+define ("MAXTRASFERIMENTI",20);	
 define ("NUMSELEZIONI",2);
 
 ?>

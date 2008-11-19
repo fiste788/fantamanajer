@@ -3,7 +3,7 @@ FileETag None
 	Header unset ETag
 </IfModule>
 <IfModule mod_deflate.c>
-	<FilesMatch "\.(html?|txt|css|js|php|pl|jpg|png|gif)$">
+	<FilesMatch "\.(html?|txt|css|js|php|pl|jpg|png|gif|ico)$">
 		SetOutputFilter DEFLATE
 	</FilesMatch>
 </IfModule>
@@ -43,6 +43,13 @@ FileETag None
 	RewriteRule ^altro.html$ index.php?p=altro
 	RewriteRule ^feed.html$ index.php?p=feed
 	RewriteRule ^giocatoriLiberi/(.*)/(.*)/(.*)/(.*)/(.*).html$ index.php?p=giocatoriLiberi&order=$1&v=$2&ruolo=$3&suff=$4&partite=$5
+	RewriteRule ^areaAmministrativa.html$ index.php?p=areaAmministrativa
+	RewriteRule ^creaSquadra/(.*)/(.*)/(.*).html$ index.php?p=creaSquadra&a=$1&id=$2&lega=$3
+	RewriteRule ^inserisciFormazione.html$ index.php?p=inserisciFormazione
+	RewriteRule ^newsletter.html$ index.php?p=newsletter
+	RewriteRule ^nuovoTrasferimento.html$ index.php?p=nuovoTrasferimento
+	RewriteRule ^lanciaScript.html$ index.php?p=lanciaScript
+	RewriteRule ^gestioneDatabase/(.*).html$ index.php?p=gestioneDatabase&action=$1
 	RewriteRule ^sendMail.html$ index.php?p=sendMail
 	RewriteRule ^weeklyScript.html$ index.php?p=weeklyScript
 	RewriteRule ^acquistaGioc.html$ index.php?p=acquistaGioc
@@ -51,6 +58,6 @@ FileETag None
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
 	AuthName "Inserisci username e password"
 	AuthType Basic
-	AuthUserFile ${DOCUMENT_ROOT}/fantamanajer-2.1/.htpasswd
+	AuthUserFile htpasswd/fantamanajer-2.1/.htpasswd
 	require valid-user
 </FilesMatch>

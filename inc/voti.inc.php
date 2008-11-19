@@ -51,9 +51,11 @@ class voti
 	{
 		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
-		$percorso = "./docs/voti/Giornata".$giorn.".csv";
+		$percorso = "./docs/voti/Giornata" . $giorn . ".csv";
 		$fileSystemObj->scaricaVotiCsv($percorso);	// crea il .csv con i voti
 		// inserisce i voti di giornata nel db
+		if($this->checkVotiExist($giorn))
+			return TRUE;
 		mysql_query("START TRANSACTION");
 		foreach (file($percorso) as $player)
 		{

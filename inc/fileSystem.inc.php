@@ -45,18 +45,15 @@ class fileSystem
 	{
 		if(!file_exists($path)) 
 			die("File non esistente");
-		$content = join('',file($path));
+		$content = trim(file_get_contents($path));
 		$players = explode("\n",$content);
-		foreach ($players as &$value) 
+		foreach ($players as $key => $val) 
 		{
-			$par = explode(";",$value);
-			$players = trim($value);
-			$key = $par[0];
-			$keys[] = $key;
+			$par = explode(";",$val);
+			$players = trim($val);
+			$playersOk[$par[0]] = $players;
 		}
-		$c = array_combine($keys, $players);
-		array_pop($c);
-		return $c;
+		return $playersOk;
 	}
 	
 	function contenutoCurl($url)
@@ -79,7 +76,7 @@ class fileSystem
 	    if (file_exists($percorso))
 	        unlink($percorso);
 		$handle = fopen($percorso, "a");
-		foreach ($array as $keyruolo=>$ruolo)
+		foreach ($array as $keyruolo => $ruolo)
 		{
 			$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_" . $ruolo . ".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
 			$contenuto = $this->contenutoCurl($link);
@@ -94,7 +91,7 @@ class fileSystem
 				$key = preg_replace($espre,"\t",$key); 
 				$pieces = explode("\t",$key);
 				foreach($pieces as $key => $val)
-					$pieces = trim($val);
+					$pieces[$key] = trim($val);
 				$pieces = array_map("htmlspecialchars",$pieces);
 				$pieces[10] = ereg_replace(',','.',$pieces[10]);
 				$pieces[4] = ereg_replace(',','.',$pieces[4]);
@@ -127,7 +124,7 @@ class fileSystem
 				$key = preg_replace($espre,"\t",$key); 
 				$pieces = explode("\t",$key);
 				foreach($pieces as $key => $val)
-					$pieces = trim($val);
+					$pieces[$key] = trim($val);
 				$pieces=array_map("htmlspecialchars",$pieces);
 				$pieces[6]=substr($pieces[6],0,3);
 				$pieces[2]=ucwords(strtolower($pieces[2]));
@@ -136,13 +133,5 @@ class fileSystem
 		}
 		fclose($handle);
 	}
-	
-	/*function TrimArray($Input)
-	{
-	    if (!is_array($Input))
-	        return trim($Input);
-	 
-	    return array_map('TrimArray', $Input);
-	}*/
 }
 ?>

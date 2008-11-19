@@ -57,8 +57,8 @@ require_once INCDIR.'links.inc.php';
 
 
 //Creating a new db istance
-$dbObj = &new db;
-$dbObj->dbConnect();
+$dbLink = &new db;
+$dbLink->dbConnect();
 
 //Creating object for pages
 $layouttpl =& new Savant2();
@@ -107,23 +107,36 @@ if (!isset($_SESSION['logged'])) {
 /**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
-	require_once(INCDIR.'giornata.inc.php');
-	$giornataObj = new giornata();
-	$timeout = $giornataObj->getIdGiornataByDate();
-	$giornata = $timeout;
-	if($timeout == FALSE)
-		$giornata = $giornataObj->getIdGiornataByDateSecondary();	
-	else 
-		$timeout = TRUE;
+require_once(INCDIR.'giornata.inc.php');
+$giornataObj = new giornata();
+$timeout = $giornataObj->getIdGiornataByDate();
+$giornata = $timeout;
+if($timeout == FALSE)
+	$giornata = $giornataObj->getIdGiornataByDateSecondary();	
+else 
+	$timeout = TRUE;
+if($giornata > ($giornataObj->getNumberGiornate()-1))
+	$timeout = '0';
+
+define("GIORNATA",$giornata);
+define("TIMEOUT",$timeout);
+$contenttpl->assign('giornata',GIORNATA);
+$contenttpl->assign('timeout',TIMEOUT);
 	
-    if($giornata > ($giornataObj->getNumberGiornate()-1))
-		$timeout = '0';
+/**
+ * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente
+ */
 
-    define("GIORNATA",$giornata);
-	define("TIMEOUT",$timeout);
-	$contenttpl->assign('giornata',GIORNATA);
-	$contenttpl->assign('timeout',TIMEOUT);
-
+if ($_SESSION['logged'])
+{
+	require_once(INCDIR.'giocatore.inc.php');
+	require_once(INCDIR.'trasferimenti.inc.php');
+	$giocatoreObj = new giocatore();
+	$trasferimentiObj = new trasferimenti();
+	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < MAXTRASFERIMENTI )
+		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+		
+}
 /**
  * INIZIALIZZAZIONE VARIABILI CONTENT
  * Questo Switch discrimina tra i vari moduli di codice quello che deve
@@ -312,6 +325,6 @@ if ($layouttpl->isError($result)) {
     echo "</pre>";
 }
 
-$dbObj->dbClose();
+$dbLink->dbClose();
 //echo "<pre>".print_r($_SESSION,1)."</pre>";
 ?>

@@ -49,7 +49,7 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 			}
 			foreach ($squadre as $key => $val)
 			{
-				if(isset($val['mail']))
+				if(isset($val['mail']) && $val['abilitaMail'] == 1)
 				{
 					$mailContent->assign('titolari',$titolariName);
 					$mailContent->assign('panchinari',$panchinariName);

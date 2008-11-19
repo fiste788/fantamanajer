@@ -346,6 +346,7 @@ em {background-color:transparent;}
 #rosa {
 	width:515px;
 	float:left;
+	empty-cells:show;
 }
 tr.row:hover {
 	background:transparent url(../imgs/bg-row.png) repeat-x scroll left bottom;
@@ -651,4 +652,15 @@ p.surprise {
 	width:35px;
 	margin:6px;
 	text-align:center;
+}
+#tab_giocatore {
+	width:510px;
+	height:153px;
+	overflow:auto;
+}
+#tab_giocatore table {
+	empty-cells: show;
+}
+#tab_giocatore td, #tab_giocatore th {
+	width:40px;
 }

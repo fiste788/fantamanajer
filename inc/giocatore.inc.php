@@ -77,7 +77,10 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$result[$row['idGioc']] = $row;
-		return $result;
+		if(isset($result))
+			return $result;
+		else
+			return FALSE;
 	}
 	
 	function getGiocatoreByIdWithStats($giocatore)
@@ -118,7 +121,10 @@ class giocatore
 			$row['voto'] = $votiObj->getVotoByIdGioc($row['gioc'],$giornata);
 			$elenco[] = $row;
 		}
-		return($elenco);
+		if(isset($elenco))
+			return $elenco;
+		else
+			return FALSE;
 	}
 	
 	function getGiocatoriByIdSquadraWithStats($idUtente)
@@ -145,6 +151,19 @@ class giocatore
 		while ($row = mysql_fetch_array($exe))
 			return($row['ruolo']);
 	}
+	
+	function getArrayGiocatoriFromDatabase()
+	{
+		$q = "SELECT giocatore.idGioc, cognome, ruolo, nomeClub  
+				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while($row = mysql_fetch_row($exe))
+		{
+			$row[3] = strtoupper(substr($row[3],0,3));
+			$giocatori[$row[0]] = implode(";",$row);
+		}
+		return $giocatori;
+	}
 
 	function updateTabGiocatore($giornata)
 	{
@@ -156,9 +175,9 @@ class giocatore
 			return;   
 		$percorso = "./docs/ListaGiornata/ListaGiornata" . ($giornata) . ".csv";  
 		$fileSystemObj->scaricaLista($percorso);  // crea il .csv con la lista aggiornata
-		$playersOld = $fileSystemObj->returnArray($percorsoOld);
+		//$playersOld = $fileSystemObj->returnArray($percorsoOld);
+		$playersOld = $this->getArrayGiocatoriFromDatabase();
 		$players = $fileSystemObj->returnArray($percorso);
-		
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$line)
 		{
@@ -171,7 +190,7 @@ class giocatore
 				if($clubNew != $clubOld)
 				{
 					$q = "UPDATE giocatore 
-							SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '%" . $clubNew . "%') 
+							SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $clubNew . "%') 
 							WHERE idGioc = '" . $key . "'";
 					mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 				}
@@ -192,16 +211,16 @@ class giocatore
 			$pezzi = explode(";",$val);
 			$cognome = ucwords(strtolower((addslashes($pezzi[1]))));
 			$q = "INSERT INTO giocatore(idGioc,cognome,ruolo,club) 
-					VALUES ('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '%" . $pezzi[3] . "%'))";
+					VALUES ('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%'))";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
 	}
 
-	function getGiocatoriNotSquadra($squadra)
+	function getGiocatoriNotSquadra($idUtente)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore LEFT JOIN squadre ON giocatore.idGioc = squadre.idGioc
-				WHERE idUtente <> '" . $squadra . "' OR idUtente IS NULL
+				WHERE idUtente <> '" . $idUtente . "' OR idUtente IS NULL
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
@@ -238,6 +257,20 @@ class giocatore
 		foreach($giocatori as $key => $val)
 			$giocatoriByRuolo[$val['ruolo']][] = $val;
 		return $giocatoriByRuolo;
+	}
+	
+	function getGiocatoriTrasferiti($idUtente)
+	{
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
+				FROM giocatore INNER JOIN squadre ON giocatore.idGioc = squadre.idGioc
+				WHERE idUtente = '" . $idUtente . "' AND (club IS NULL OR club = '')";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			$giocatori[] = $row;
+		if(isset($giocatori))
+			return $giocatori;
+		else
+			return FALSE;
 	}
 }
 //insert into trasferimenti2 (SELECT idTrasf,idgiornate.idGiornata FROM (`eventi` inner join giornate on eventi.data between giornate.dataInizio AND dataFine) inner join trasferimenti on idExternal = idTrasf WHERE tipo = '4')

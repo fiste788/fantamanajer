@@ -8,7 +8,7 @@
 	<h4>Giornata: <span><?php if(isset($this->getgiornata)) echo $this->getgiornata; ?></span></h4>
 	<h4>Squadra: <span><?php if(isset($this->getsquadra)) echo $this->squadradett['nome']; ?></span></h4>
 	<h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
-	<?php if($this->formazione != FALSE && $this->formazione != 2): ?>
+	<?php if($this->formazione != FALSE && $this->formazione != NULL): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Titolari</caption>
 		<tbody>
@@ -41,6 +41,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+	<?php if(!empty($panchinari)): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Panchinari</caption>
 		<tbody>
@@ -56,7 +57,7 @@
 					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost-in.png' ?>"/></a></td>
-					<?php elseif($val['considerato']==2): ?>
+					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php else: ?>
@@ -72,8 +73,9 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+	<?php endif; ?>
 </div>
-<?php elseif($this->formazione == 2): ?>
+<?php elseif($this->formazione == FALSE): ?>
 <span class="column" style="clear:both;">Formazione non settata</span></div>
 <?php else: ?>
 <span class="column" style="clear:both;">Parametri mancanti o errati</span></div>
@@ -84,6 +86,14 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
+		<?php if(isset($this->penalità)): ?>
+		<div class="messaggio neut column last">
+			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
+			<?php foreach($this->penalità as $key => $val): ?>
+				<span>Penalità: <?php echo $val['punteggio']; ?> punti<br />Motivazione: <?php echo $val['penalità']; ?></span>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>

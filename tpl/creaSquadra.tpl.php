@@ -110,6 +110,9 @@ endswitch;else:
 		</fieldset>
 		<fieldset class="column div-submit">
 			<input<?php if($_GET['a'] == 'cancel') echo ' onclick="conferma()"'; ?> type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
+			<?php if($_GET['a'] != 'cancel'): ?>
+				<input class="submit dark" type="reset" value="Annulla" />
+			<?php endif; ?>
 			<?php if($_GET['a'] == 'cancel'): ?>
 				<script type="text/javascript">
 					function conferma()
@@ -117,7 +120,7 @@ endswitch;else:
 						return confirm("Sei sicuro di voler eliminare la squadra <?php echo $this->elencosquadre[$_GET['id']]['nome'] ?>\nL'azione non potrà essere annullata")
 					}
 				</script>
-				<?php endif; ?>
+			<?php endif; ?>
 		</fieldset>
 		<div class="column last">
 			<div class="box2-top-sx column last">
@@ -125,6 +128,7 @@ endswitch;else:
 			<div class="box2-bottom-sx column last">
 			<div class="box2-bottom-dx column last">
 			<div class="box-content column last">
+			<?php if($_GET['a'] != 'new'): ?><h4><a href="<?php $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$this->lega)); ?>">Crea una squadra</a></h4><?php endif; ?>
 			<h3>Elenco squadre</h3>
 			<?php foreach($this->elencosquadre as $key => $val): ?>
 				<div class="elencoSquadre column last">

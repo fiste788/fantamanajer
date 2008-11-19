@@ -5,7 +5,7 @@ $leSquadre = array('rosa');
 $conferenzeStampa = array('conferenzeStampa','modificaConferenza');
 $classifica = array('classifica','dettaglioGiornata');
 $altro = array('contatti','formazione','altreFormazioni','giocatoriLiberi','premi','trasferimenti','altro','linkUtili','feed','dettaglioGiocatore');
-$areaAmministrativa = array('areaAmministrativa','inserisciFormazione','nuovoTrasferimento','creaSquadra','lanciaScript','gestioneDatabase');
+$areaAmministrativa = array('areaAmministrativa','inserisciFormazione','nuovoTrasferimento','creaSquadra','lanciaScript','gestioneDatabase','newsletter');
 $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classifica,$altro);
  ?>
 <ul>

@@ -34,6 +34,7 @@
 				margin-bottom:1.4em;
 				width:100%;
 				clear:both;
+				empty-cells:show;
 			}
 				
 			tbody {
@@ -187,6 +188,10 @@
 			#classifica .box-content {
 				width:330px;
 			}
+			
+			.cognome,.nome {
+				white-space: nowrap;
+			}
 		</style>
 	</head>
 	<body>
@@ -205,6 +210,7 @@
 			<h4><?php echo $this->squadra; ?></h4>
 			<h4>Punteggio: <?php echo $this->somma; ?></h4>
 			<h4>Giornata: <?php echo $this->giornata; ?></h4>
+			<?php if($this->formazione != FALSE): ?>
 			<table class="column last">
 				<caption>Titolari</caption>
 				<tbody>
@@ -216,8 +222,8 @@
 						<th class="club">Club</th>
 						<th class="punt">Punt.</th>
 					</tr>
-					<?php $panch=$this->formazione;$tito=array_splice($panch,0,11);?>
-            <?php foreach($tito as $key => $val): ?>
+					<?php $panch = $this->formazione;$tito = array_splice($panch,0,11);?>
+            	<?php foreach($tito as $key => $val): ?>
 					<?php if($val['considerato'] == 0 || ($val['voto'] == "" && $val['considerato'] > 0)): ?>
 						<tr class="rosso">
 							<td class="tableimg"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></td>
@@ -228,8 +234,8 @@
 						<tr>
 							<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
 					<?php endif; ?>		
-							<td><?php echo $val['cognome']; ?></td>
-							<td><?php echo $val['nome']; if($val['considerato'] == 2) echo '<span id="cap">(C)</span>'; ?></td>
+							<td class="cognome"><?php echo $val['cognome']; ?></td>
+							<td class="nome"><?php echo $val['nome']; if($val['considerato'] == 2) echo '<span id="cap">(C)</span>'; ?></td>
 							<td><?php echo $val['ruolo']; ?></td>
 							<td><?php echo $val['club']; ?></td>
 							<td><?php if($val['considerato'] > 0) echo $val['voto']; else echo "&nbsp;"; ?></td>
@@ -237,7 +243,7 @@
 			<?php endforeach; ?>
 				</tbody>
 			</table>
-
+			<?php if(!empty($panch)): ?>
 			<table class="column last">
 				<caption>Panchinari</caption>
 				<tbody>
@@ -269,6 +275,10 @@
 			<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php endif; ?>
+			<?php else: ?>
+				Formazione non impostata
+			<?php endif; ?>
 			</div>
 			</div>
 			</div>
