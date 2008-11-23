@@ -211,6 +211,13 @@
 			<h4>Punteggio: <?php echo $this->somma; ?></h4>
 			<h4>Giornata: <?php echo $this->giornata; ?></h4>
 			<?php if($this->formazione != FALSE): ?>
+			<?php if(isset($this->penalità)): ?>
+				<div class="column last">
+					<?php foreach($this->penalità as $key => $val): ?>
+						<span>Penalità: <?php echo $val['punteggio']; ?> punti<br />Motivazione: <?php echo $val['penalità']; ?></span>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
 			<table class="column last">
 				<caption>Titolari</caption>
 				<tbody>

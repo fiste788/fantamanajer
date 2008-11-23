@@ -77,6 +77,9 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 				{
 					if(!empty($val['mail']) && $val['abilitaMail'] == 1)
 					{
+						$penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($val['idUtente'],$giornata);
+						if($penalità != FALSE)
+							$mailContent->assign('penalità',$penalità);
 						$mailContent->assign('squadra',$val['nome']);
 						$mailContent->assign('somma',$punteggiObj->getPunteggi($val['idUtente'],$giornata));
 						$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataSquadra($giornata,$val['idUtente']));

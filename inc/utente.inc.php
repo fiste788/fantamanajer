@@ -47,7 +47,7 @@ class utente
 		$q = "UPDATE utente SET ";
 		if(!isset($data['amministratore']))
 			$data['amministratore'] = '0';
-		else
+		elseif($data['amministratore'] == 'on')
 			$data['amministratore'] = '1';
 		if(!isset($data['abilitaMail']))
 			$data['abilitaMail'] = '0';
@@ -55,44 +55,44 @@ class utente
 			$data['abilitaMail'] = '1';
 		foreach($data as $key => $val)
 		{
-			if($key == 'passwordnew')
+			if(!empty($val))
 			{
-				$key = 'password';
-				$q .= $key . " = '" . md5(trim($val)) . "',";
-			} 
-			else
-			{
-				if($key == 'usernamenew')
-					$key = 'username';
-				$q .= $key . " = '" . trim($val) . "',";
+				if($key == 'passwordnew')
+				{
+					$key = 'password';
+					$q .= $key . " = '" . md5(trim($val)) . "',";
+				} 
+				else
+				{
+					if($key == 'usernamenew')
+						$key = 'username';
+					$q .= $key . " = '" . trim($val) . "',";
+				}
 			} 
 		}
 		$q = substr($q,0,-1);
 		$q .= " WHERE idUtente = '" . $id . "'";
-		if(mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q))
-			return 2;
-		else
-			return 3;
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function getAllEmail()
 	{
-		$q = "SELECT mail,idUtente 
+		$q = "SELECT mail,idUtente,idLega 
 				FROM utente";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
-			$values[$row['idUtente']] = $row['mail'];
+			$values[$row['idLega']][$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
 	
 	function getAllEmailAbilitate()
 	{
-		$q = "SELECT mail,idUtente 
+		$q = "SELECT mail,idUtente,idLega 
 				FROM utente
 				WHERE abilitaMail <> 0";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
-			$values[$row['idUtente']] = $row['mail'];
+			$values[$row['idLega']][$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
 	

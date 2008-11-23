@@ -15,6 +15,11 @@ margin-left:10px;
 margin-right:0;
 margin-left:0;
 }
+#big-container {
+	width:981px;
+	margin:0 auto;
+	text-align:center;
+}
 .no-margin {margin:0px;}
 .no-padding {padding:0px;}
 .bold {font-weight:700;}
@@ -344,7 +349,6 @@ em {background-color:transparent;}
 #other .box-content div {text-align:left;}
 .ult {border-top: 1px solid #CCC;}
 #rosa {
-	width:515px;
 	float:left;
 	empty-cells:show;
 }
@@ -635,6 +639,7 @@ p.surprise {
 	height:24px;
 }
 #creaSquadre label { width:120px;} 
+#creaSquadre .div-submit { margin: 0 0 10px;}
 .nowrap { white-space:nowrap;}
 #gestioneDb textarea { 
 	width:100%;
