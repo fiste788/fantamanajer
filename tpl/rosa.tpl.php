@@ -22,9 +22,9 @@
 				<th class=tdcenter>Club</th>
 				<th class=tdcenter>PG</th>				
 				<th class=tdcenter>MVoti</th>
+				<th class=tdcenter>MPunti</th>
 				<th class=tdcenter>Gol</th>
 				<th class=tdcenter>Assist</th>
-				<th class=tdcenter>MPunti</th>
 			</tr>
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="<?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">
@@ -34,10 +34,10 @@
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo strtoupper(substr($val['club'],0,3)); ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteEff'].")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>" title="<?php echo $val['votoEffAll'] ?>"><?php echo $val['votoEff']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['gol']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['assist']; ?></td>
-                <td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>" title="<?php echo $val['votiAll'] ?>"><?php echo $val['voti']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votoEffAll'] . '"'; ?>><?php if(!empty($val['votoEff'])) echo $val['votoEff']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votiAll'] . '"'; ?>"><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
@@ -126,17 +126,7 @@
 						</tbody>
 					</table>
 					<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-					<p id="mex"><?php if($this->data == 0) 
-					{
-						echo "Se vuoi modificare le tue informazioni personali come mail, nome, password";
-						if(GIORNATA <= 2)
-							echo ". Fino alla seconda giornata imposta quì anche il nome della tua squadra"; 
-					}
-					elseif($this->data == 1) 
-						echo "Le due password non corrispondono"; 
-					elseif($this->data == 2) 
-						echo "Dati modificati correttamente. Vuoi modificarli di nuovo?<br /><br />";  ?></p>
-				</div>
+					<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra<?php endif; ?></p>
 				</li>
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
 				<div class="no-margin" style="display:none;">

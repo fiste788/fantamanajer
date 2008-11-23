@@ -34,12 +34,32 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
 	{
-		unset($_POST['passwordnewrepeat']);
-		if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
-			$contenttpl->assign('data',$utenteObj->changeData($_POST,$_SESSION['idSquadra']));
+		if(strlen($_POST['passwordnew']) < 6)
+		{
+			if($_SESSION['usertype'] == "superadmin")
+				$_POST['amministratore'] = 2;
+			elseif($_SESSION['usertype'] == "admin")
+				$_POST['amministratore'] = 1;
+			unset($_POST['passwordnewrepeat']);
+			if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
+			{
+				$utenteObj->changeData($_POST,$_SESSION['idSquadra']);
+				$message[0] = 0;
+				$message[1] = "Dati modificati correttamente";
+			}
+		}
+		else
+		{
+			$message[0] = 1;
+			$message[1] = "La password deve essere lunga almeno 6 caratteri";
+		}
 	}
 	else
-		$contenttpl->assign('data',1);
+	{
+		$message[0] = 1;
+		$message[1] = "Le 2 password non corrispondono";
+	}
+	$contenttpl->assign('message',$message);
 }
 $elencoSquadre = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$elencoSquadre);

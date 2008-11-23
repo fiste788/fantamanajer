@@ -129,7 +129,7 @@
 					<option value="1-5-3-2" <?php if ($this->mod == '1-5-3-2') echo "selected=\"selected\""?>>5-3-2</option>
 				</select>
 			</fieldset>
-			<?php if(isset($this->lega) && $this->lega != NULL && isset($this->formImp) && $this->formImp != TRUE): ?>
+			<?php if(isset($this->lega) && $this->lega != NULL && isset($this->mod) && $this->mod != NULL && isset($this->giornata) && $this->giornata != NULL): ?>
 			<fieldset class="no-margin fieldset max-large">
 				<h3 class="no-margin">Seleziona la squadra:</h3>
 				<select id="squad" name="squad">

@@ -35,9 +35,7 @@
 	</head>
 	<?php flush(); ?>
 	<body>
-	<!--[if lt IE 7]>
-		<div id="outer" style="border-left:960px solid #272727;float:left;">
-		<div id="inner" style="margin-left:-960px;height:1px;position:relative;"><![endif]-->
+		<div id="big-container">
 		<div id="header" class="column last">
 			<?php echo $this->header; ?>
 		</div>
@@ -62,10 +60,7 @@
 		<div id="footer">
 			<?php echo $this->footer ?>
 		</div>
-		<!--[if lt IE 7]>
 		</div>
-		</div>
-		<![endif]-->
 		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' ): ?>
 		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 		<script type="text/javascript">_uacct = "UA-3016148-1";urchinTracker();</script>

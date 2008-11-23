@@ -17,7 +17,7 @@
 			var Url = this.id + '.html';
 			var time = new Date();
 			var time_start = time.getTime();
-			var script = this.text;
+			var script = this.id;
 			$.ajax({
 				url: Url,
 				type: "post",
@@ -37,7 +37,10 @@
 						$(".messaggio div").remove();
 						var time2 = new Date();
 						var time_end = time2.getTime();
-						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'ok-big.png'; ?> "><span>Script ' + script + ' eseguito con successo</span></div>').fadeIn();
+						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'ok-big.png'; ?> "><span>Script ' + script + ' eseguito con successo</span></div>').fadeIn( function() {
+							if(jQuery.browser.msie)
+								$(".messaggio").removeAttr('style');	
+						});
 					});
 				},
 				error:  function(){
@@ -47,7 +50,10 @@
 						$(".messaggio div").remove();
 						var time2 = new Date();
 						var time_end = time2.getTime();
-						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'attention-bad-big.png'; ?> "><span>Errore nell\'esecuzione dello script ' + script + '</span></div>').fadeIn();
+						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'attention-bad-big.png'; ?> "><span>Errore nell\'esecuzione dello script ' + script + '</span></div>').fadeIn(function() {
+							if(jQuery.browser.msie)
+								$(".messaggio").removeAttr('style');
+						});
 					});
 				}
 			});

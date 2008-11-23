@@ -22,6 +22,7 @@ if($lega != NULL && $lega != 0)
 
 if(isset($_POST['button']))
 {
+	unset($_POST['lega']);
 	foreach($_POST as $key => $val)
 	{
 		if(empty($val))
@@ -58,8 +59,14 @@ if(isset($_POST['button']))
 			else
 				$email = $utenteObj->getAllEmailAbilitateByLega($lega);
 		}
+		$emailOk = array();
 		foreach($_POST['selezione'] as $key => $val)
-			$emailOk[] = $email[$val];
+		{
+			if(is_array($email[$val]))
+				$emailOk = array_merge($email[$val],$emailOk);
+			else
+				$emailOk[] = $email[$val];
+		}
 		$object .= $_POST['object'];
 		//$mailContent->display(MAILTPLDIR.'mailNewsletter.tpl.php');	
 		if($mailObj->sendEmail(implode(",",$emailOk),$mailContent->fetch(MAILTPLDIR.'mailNewsletter.tpl.php'),$object))

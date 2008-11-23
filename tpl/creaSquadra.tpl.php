@@ -32,7 +32,7 @@ endswitch;else:
 <div id="creaSquadre" class="main-content">
 	<?php if($this->lega != NULL && isset($_GET['a']) && isset($_GET['id'])): ?>
 	<form class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
-		<fieldset class="column">
+		<fieldset class="column no-margin">
 			<input type="hidden" name="a" value="<?php if(isset($_GET['a'])) echo $_GET['a']; ?>" />
 			<input type="hidden" name="id" value="<?php if(isset($_GET['id'])) echo $_GET['id']; ?>" />
 			
@@ -108,7 +108,7 @@ endswitch;else:
 				</select>
 			<?php $j++; endfor; ?>
 		</fieldset>
-		<fieldset class="column div-submit">
+		<fieldset class="column no-margin div-submit">
 			<input<?php if($_GET['a'] == 'cancel') echo ' onclick="conferma()"'; ?> type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<input class="submit dark" type="reset" value="Annulla" />
