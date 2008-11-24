@@ -50,7 +50,7 @@
 	</tr>
 </table>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
-<table style="width:100px;" class="column last">
+<table style="width:100px;" class="column last" cellpadding="0" cellspacing="0">
 	<tr>
 		<th>Giornata</th>
 	</tr>
@@ -162,7 +162,7 @@
 						color: '#000',
 						opacity: 0.60
 					}).appendTo("body").fadeIn(200);
-				}
+				};
 				
 				var previousPoint = null;
 				$("#placeholder").bind("plothover", function (event, pos, item) {

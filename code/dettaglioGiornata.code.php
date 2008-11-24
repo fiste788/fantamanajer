@@ -20,12 +20,12 @@ $contenttpl->assign('getsquadra',$squadra);
 $contenttpl->assign('getgiornata',$giornata);
 $giornate = $punteggiObj->getGiornateWithPunt();
 	
-if(isset($_GET['giorn']) && $_GET['giorn']-1 >=0)
-	$giornprec = $_GET['giorn']-1;	
+if(isset($_GET['giorn']) && $_GET['giorn'] -1 >= 0)
+	$giornprec = $_GET['giorn'] -1;	
 else
 	$giornprec = FALSE;
-if(isset($_GET['giorn']) && $_GET['giorn']+1 <= $giornate)
-	$giornsucc = $_GET['giorn']+1;	
+if(isset($_GET['giorn']) && $_GET['giorn'] + 1 <= $giornate)
+	$giornsucc = $_GET['giorn'] + 1;	
 else
 	$giornsucc = FALSE;
 
@@ -39,7 +39,7 @@ $contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['idLega']));
 
 
-$contenttpl->assign('punteggi',$punteggiObj->getAllPunteggi($_SESSION['idLega']));
+$contenttpl->assign('giornate',$giornate);
 $penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($squadra,$giornata);
 if($penalità != FALSE)
 	$contenttpl->assign('penalità',$penalità);
@@ -48,7 +48,7 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $giornata > 0 && $gi
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 	{
 		$contenttpl->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataSquadra($giornata,$squadra));		
+		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$squadra));		
 	}
 	else
 	{

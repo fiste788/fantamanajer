@@ -10,16 +10,17 @@
 		<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase',array('action'=>'sincronize')) ?>">Sincronizza</a></li>
 	</ul>
 	<form action="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>" name="eseguiQuery" method="post">
+		<p class="no-margin">Inserisci quì la tua query</p>
 		<textarea name="query" rows="30" cols="100"><?php if(isset($this->sql)) echo $this->sql; ?></textarea>
 		<input class="submit dark" type="submit" value="Eegui" />
 	</form>
-</div>
+</div>                                                    
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
-	<div class="box-content column last">
+	<div class="box-content column last">        
 		<?php if(isset($this->messaggio) && $this->messaggio[0] == 0): ?>
 		<div class="messaggio good column last">
 			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
@@ -33,7 +34,12 @@
 		<?php endif; ?>
 		<?php if(isset($this->messaggio)): ?>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
+		$(document).ready(function() {
+			$('.messaggio').show('pulsate',{times: 3 }, function() {
+				if(jQuery.browser.msie)
+					$(".messaggio").removeAttr('style');
+			}); 
+		});
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");
 		});

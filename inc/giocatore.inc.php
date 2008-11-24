@@ -105,16 +105,16 @@ class giocatore
 		return $values;
 	}
 	
-	function getVotiGiocatoriByGiornataSquadra($giornata,$idUtente)
+	function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
 	{
 		require_once(INCDIR.'voti.inc.php');
+		require_once(INCDIR.'formazione.inc.php');
 		$votiObj = new voti();
-		$q = "SELECT giocatore.idGioc as gioc, cognome, nome, ruolo, club, idPosizione, considerato
-				FROM schieramento
-				INNER JOIN giocatore ON schieramento.idGioc = giocatore.idGioc
-				WHERE idFormazione = (SELECT idFormazione 
-					FROM formazioni 
-					WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "')";
+		$formazioneObj = new formazione();
+		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($idUtente,$giornata);
+		$q = "SELECT giocatore.idGioc as gioc, cognome, nome, ruolo, nomeClub, idPosizione, considerato
+				FROM schieramento INNER JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON schieramento.idGioc = giocatore.idGioc
+				WHERE idFormazione = '" . $formazione['id'] . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{

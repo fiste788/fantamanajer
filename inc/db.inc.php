@@ -56,15 +56,6 @@ class db
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);;
 	}
 	
-	function sincronize()
-	{
-		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
-		if(!empty($nomeBackup))
-			return file_get_contents('http://www.fantamanajer.it/db/'.$nomeBackup);
-		else
-			return FALSE;
-	}
-	
 	function startTransaction()
 	{
 		mysql_query("START TRANSACTION");

@@ -29,7 +29,7 @@
 	<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
 		<p>Non ha effettuato alcun trasferimento</p>
 	<?php endif; ?>
-	<?php if(isset($this->trasferiti)): ?>
+	<?php if(isset($this->trasferiti) && $this->numTrasferimenti < MAXTRASFERIMENTI): ?>
 		<p>Uno o più dei tuoi giocatori non sono più presenti nella lista della gazzetta. Dalla form sottostante potrai selezionarne subito un altro e fare un trasferimento immediato
 		<?php if(count($this->trasferiti) > (MAXTRASFERIMENTI - $this->numTrasferimenti) && $this->numTrasferimenti < MAXTRASFERIMENTI): ?><br /><strong>Attenzione!</strong> Ti rimangono solo <?php echo (MAXTRASFERIMENTI - $this->numTrasferimenti); ?> trasferimento/i e i giocatori da sostituire sono <?php echo count($this->trasferiti); ?>. Compila solo <?php echo (MAXTRASFERIMENTI - $this->numTrasferimenti); ?> giocatore/i a tua scelta.<?php endif; ?></p>
 		<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_GET['squad'])); ?>" method="post">

@@ -459,6 +459,9 @@ tr.row:hover {
 	width:200px;
 	margin:0 0 8px 0;
 }
+#articoloedit .formbox {
+	width:100%;
+}
 #articoloedit #emoticons {
 	width: 370px;
 	margin:0 0 0 130px;
@@ -652,9 +655,16 @@ p.surprise {
 #newsletter textarea {
 	width:430px;
 }
+#newsletter .formbox {
+	width:100%;
+}
 #newsletter .selectAll {
 	clear:both;
 	margin:0 0 0 100px;
+	width:200px;
+}
+#newsletter .text {
+	width:200px;
 }
 #newsletter .disabled {
 	width:35px;
@@ -671,4 +681,7 @@ p.surprise {
 }
 #tab_giocatore td, #tab_giocatore th {
 	width:40px;
+}
+#home #eventi h3 {
+	width:250px;
 }

@@ -60,14 +60,14 @@
 			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 
 				<?php endforeach; ?>
-			}
+			};
 
 			var medie = {
 				<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
 				"<?php echo $this->squadre[$key]['nome'] ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>
-				}
+				};
 			var options = {
 				lines: { show: true },
 				points: { show: true },
@@ -163,7 +163,7 @@
 						color: '#000',
 						opacity: 0.60
 					}).appendTo("body").fadeIn(200);
-				}
+				};
 				
 				var previousPoint = null;
 				$("#placeholder").bind("plothover", function (event, pos, item) {
