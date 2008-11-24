@@ -35,11 +35,11 @@
 					</a>
 				</td>
 				<td><?php echo $val['cognome']; ?></td>
-				<td><?php echo $val['nome']; ?></td>
+				<td><?php if(!empty($val['nome'])) echo $val['nome']; else echo "&nbsp;" ?></td>
 				<td><?php echo strtoupper(substr($val['club'],0,3)); ?></td>
-				<td title="<?php echo $val['votiAll']; ?>" <?php if($val['voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['voti']; ?></td>
-				<td title="<?php echo $val['votEffiAll']; ?>" <?php if($val['voti'] >= $this->suff && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['votiEff']; ?></td>
-				<td <?php if($val['partiteGiocate'] >= $this->partite && GIORNATA != 1) echo "class=\"verde\""; elseif(GIORNATA != 1) echo "class=\"rosso\""; ?>><?php echo $val['partiteGiocate']; ?></td>
+				<td<?php if(!empty($val['votiAll'])) echo ' title="' . $val['votiAll'] . '"'; ?><?php if($val['voti'] >= $this->suff && GIORNATA != 1) echo ' class="verde"'; elseif(GIORNATA != 1) echo ' class="rosso"'; ?>><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
+				<td<?php if(!empty($val['votiEffAll'])) echo ' title="' . $val['votiEffAll'] . '"'; ?><?php if($val['voti'] >= $this->suff && GIORNATA != 1) echo ' class="verde"'; elseif(GIORNATA != 1) echo ' class="rosso"'; ?>><?php if(!empty($val['votiEff'])) echo $val['votiEff']; else echo "&nbsp;" ?></td>
+				<td<?php if($val['partiteGiocate'] >= $this->partite && GIORNATA != 1) echo ' class="verde"'; elseif(GIORNATA != 1) echo ' class="rosso"'; ?>><?php echo $val['partiteGiocate']; ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>

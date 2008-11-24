@@ -76,6 +76,7 @@ class punteggi
 				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
 			else
 				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
+			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
 		}
 		if(isset($somme))
 		{

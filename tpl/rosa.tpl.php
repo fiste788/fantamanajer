@@ -32,7 +32,7 @@
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo strtoupper(substr($val['club'],0,3)); ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteEff'].")"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votoEffAll'] . '"'; ?>><?php if(!empty($val['votoEff'])) echo $val['votoEff']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votiAll'] . '"'; ?>"><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>

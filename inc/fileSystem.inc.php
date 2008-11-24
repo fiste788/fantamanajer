@@ -114,8 +114,6 @@ class fileSystem
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match("/<table.*?class=\"statistiche\">\s*(.*?<\/table>)/",$contenuto,$matches);
 			$keywords = explode("<tr",$matches[0]);
-			//$keywords=array_map("htmlspecialchars",$keywords);
-			//echo "<pre>".print_r($keywords,1)."</pre>";
 			array_shift($keywords);
 			array_shift($keywords);
 			foreach($keywords as $key)
@@ -125,13 +123,22 @@ class fileSystem
 				$pieces = explode("\t",$key);
 				foreach($pieces as $key => $val)
 					$pieces[$key] = trim($val);
-				$pieces=array_map("htmlspecialchars",$pieces);
-				$pieces[6]=substr($pieces[6],0,3);
-				$pieces[2]=ucwords(strtolower($pieces[2]));
+				$pieces = array_map("htmlspecialchars",$pieces);
+				$pieces[6] = substr($pieces[6],0,3);
+				$pieces[2] = ucwords(strtolower($pieces[2]));
 				fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[6]\n");
 			}
 		}
 		fclose($handle);
+	}
+	
+	function getLastBackup()
+	{
+		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
+		if(!empty($nomeBackup) && file_exists('http://www.fantamanajer.it/db/'.$nomeBackup))
+			return file_get_contents('http://www.fantamanajer.it/db/'.$nomeBackup);
+		else
+			return FALSE;
 	}
 }
 ?>
