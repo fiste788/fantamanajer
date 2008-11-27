@@ -49,7 +49,7 @@ if($numTrasferimenti <MAXTRASFERIMENTI )
 		if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) )
 		{
 			$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista']);
-			$playerFree = $giocatoreObj->getGiocatoriNotSquadra($squadra);
+			$playerFree = $giocatoreObj->getGiocatoriNotSquadra($squadra,$lega);
 			$flag = 0;
 			foreach($playerFree as $key => $val)
 				if($val['idGioc'] == $_POST['acquista'])
@@ -85,11 +85,11 @@ if($numTrasferimenti <MAXTRASFERIMENTI )
 else
 {
 	$messaggio[] = 2;
-	$messaggio[] = 'Hai raggiunto il limite di trasferimenti';
+	$messaggio[] = 'Ha raggiunto il limite di trasferimenti';
 }
 if(isset($messaggio))
 	$contenttpl->assign('messaggio',$messaggio);
 	
 $contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
-$contenttpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($squadra));
+$contenttpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($squadra,$lega));
 ?>

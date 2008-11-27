@@ -73,17 +73,17 @@
 					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
 					<select name="<?php echo 'panch-'. $i; ?>">
 					<option></option>
-				      	<?php if(isset($this->panchinari[$i])) $ogni = $this->panchinari[$i]; $flag= 0;
+				      	<?php if(isset($this->panchinari[$i])) $every = $this->panchinari[$i]; 
 				      		for($j = 0 ; $j < count($ruo) ; $j++): ?>
 							<optgroup label="<?php echo $ruo[$j] ?>">
 								<?php foreach($this->giocatori[substr($ruo[$j],0,1)] as $key3=>$val3): 
 								$selected = FALSE; 
 								if(isset($_POST["panch-". $i]) && $_POST["panch-". $i] == $val3['idGioc'])
 								{
-									$flag = 1;
 									$selected = TRUE;
+									unset($every);
 								}
-								if(isset($ogni) && $ogni == $val3['idGioc'] && $flag == 0)
+								if(isset($every) && $every == $val3['idGioc'])
 									$selected= TRUE;
 								?><option value="<?php echo $val3['idGioc']; ?>"<?php if($selected) echo ' selected="selected"'; ?>><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
 								<?php endforeach; ?>

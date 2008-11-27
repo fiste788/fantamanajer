@@ -24,7 +24,7 @@ $contenttpl->assign('articoli',$articolo);
 
 
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
-$giornateWithArticoli = $articoloObj->getGiornateArticoliExist();
+$giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['idLega']);
 if($giornateWithArticoli != FALSE)
 {
 	rsort($giornateWithArticoli);
@@ -56,10 +56,11 @@ elseif(!$key)
 }
 
 $contenttpl->assign('articoloExist',1);
-if(isset($_SESSION['idsquadra']))
+if(isset($_SESSION['idSquadra']))
 {
 	$articoloObj->setidgiornata($getGiornata);
 	$articoloObj->setidsquadra($_SESSION['idSquadra']);
+	$articoloObj->setidlega($_SESSION['idLega']);
 	$articoloExist = $articoloObj->select($articoloObj,'=','*');
 	if(!empty($articoloExist))
 		$contenttpl->assign('articoloExist',0);

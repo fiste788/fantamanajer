@@ -3,14 +3,15 @@ class eventi
 {
 	var $idEvento;
 	var $idUtente;
+	var $idLega;
 	var $data;	//viene settata in automatico nel db con un on_update = CURRENT_TIMESTAMP
 	var $tipo;	//1 = conferenza stampa, 2 = selezione giocatore, 3 = formazione, 4 = trasferimento
 	var $idExternal;	// id da cui prendere i dati dell'evento
 	
-	function addEvento($tipo,$idUtente,$idExternal = NULL)
+	function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)
 	{
-		$q = "INSERT INTO eventi (idUtente,tipo,idExternal) 
-				VALUES ('" . $idUtente . "','" . $tipo . "','" . $idExternal . "')";
+		$q = "INSERT INTO eventi (idUtente,idLega,tipo,idExternal) 
+				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -21,14 +22,15 @@ class eventi
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
-	function getEventi($tipo = NULL,$min = 0,$max = 10)
+	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
 		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
 				FROM eventi INNER JOIN utente ON eventi.idUtente = utente.idUtente 
-				ORDER BY data DESC";
+				WHERE eventi.idLega = '" . $idLega . "'";
 		if($tipo != NULL)
-		  $q .= " WHERE tipo = '" . $tipo . "'";
-		$q .= " LIMIT " . $min . "," . $max . ";";
+		  $q .= " AND tipo = '" . $tipo . "'";
+		$q .= " ORDER BY data DESC 
+				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
@@ -70,12 +72,12 @@ class eventi
 		          					$values[$key]['content'] = substr($values[$key]['content'],0,-2);
 		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['idGiornata'],'squadra'=>$values[$key]['idExternal']['idSquadra']));break;
 		          	case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
-		          					$giocOld[] = $values[$key]['idExternal']['idGiocOld'];
-		          					$giocNew[] = $values[$key]['idExternal']['idGiocNew'];
-		          					$values[$key]['idExternal']['idGiocOld'] = $giocatoreObj->getGiocatoriByArray($giocOld);
-		          					$values[$key]['idExternal']['idGiocNew'] = $giocatoreObj->getGiocatoriByArray($giocNew);
+		          					$giocOld = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocOld']);
+		          					$giocNew = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocNew']);
+		          					$values[$key]['idExternal']['idGiocOld'] = $giocOld[$values[$key]['idExternal']['idGiocOld']];
+		          					$values[$key]['idExternal']['idGiocNew'] = $giocNew[$values[$key]['idExternal']['idGiocNew']];
 									$values[$key]['titolo'] = $val['nome'] . ' ha effettuato un trasferimento';
-									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['idGiocOld'][$giocOld[0]]['nome'] .' ' . $values[$key]['idExternal']['idGiocOld'][$giocOld[0]]['cognome'].' e ha acquistato '. $values[$key]['idExternal']['idGiocNew'][$giocNew[0]]['nome'] .' ' . $values[$key]['idExternal']['idGiocNew'][$giocNew[0]]['cognome'];
+									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['idGiocOld']['nome'] .' ' . $values[$key]['idExternal']['idGiocOld']['cognome'].' e ha acquistato '. $values[$key]['idExternal']['idGiocNew']['nome'] .' ' . $values[$key]['idExternal']['idGiocNew']['cognome'];
 									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squad'=>$values[$key]['idExternal']['idSquadra']));
 									unset($giocOld,$giocNew);break;
 				}

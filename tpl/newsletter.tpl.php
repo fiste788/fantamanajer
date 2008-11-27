@@ -29,15 +29,22 @@
 			<?php else: ?>
 			<div class="formbox">
 				<label for="selezione">Squadre:</label>
+				<?php if($this->elencosquadre == FALSE): ?>
+				<select disabled="disabled" id="selezione" multiple="multiple" size="6" class="column newsletterBox">
+					<option value="NULL">Nessuna squadra presente</option>
+				<?php else: ?>
 				<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 					<?php foreach($this->elencosquadre as $key => $val): ?>
 						<option<?php if(isset($_POST['selezione']) && array_search($val['idUtente'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente'] ?>"><?php echo $val['nome'] ?></option>
 					<?php endforeach; ?>
+				<?php endif; ?>
 				</select>
+				<?php if($this->elencosquadre != FALSE): ?>
 				<div class="selectAll column">
 					<a href="#" onclick="setSelectOptions(true)">Seleziona tutto</a> /
 					<a href="#" onclick="setSelectOptions(false)">Deseleziona tutto</a>
 				</div>
+				<?php endif; ?>
 			</div>
 			<?php endif; ?>
 			<div class="formbox">
@@ -110,6 +117,7 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
+		<?php if($_SESSION['usertype'] == 'superadmin'): ?>
 		<form class="right last" name="newsletterData" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
 			<fieldset class="no-margin fieldset">
 				<h3 class="no-margin">Seleziona la lega</h3>
@@ -122,6 +130,7 @@
 				</select>
 			</fieldset>
 		</form>
+		<?php endif; ?>
 	</div>
 	</div>
 	</div>

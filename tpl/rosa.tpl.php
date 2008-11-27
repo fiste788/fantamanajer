@@ -199,24 +199,24 @@ $(window).bind("load",function(){
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<?php if(file_exists(UPLOADDIR. $val[0].'-small.jpg')): ?>
-				<a class="lightbox" href="<?php echo UPLOADIMGURL.$val[0].'-original.jpg'; ?>" >
+			<?php if(file_exists(UPLOADDIR. $val['idUtente'].'-small.jpg')): ?>
+				<a class="lightbox" href="<?php echo UPLOADIMGURL.$val['idUtente'].'-original.jpg'; ?>" >
 				<?php 
-				$image = imagecreatefromjpeg(UPLOADDIR.$val[0].'-med.jpg');
+				$image = imagecreatefromjpeg(UPLOADDIR.$val['idUtente'].'-med.jpg');
 				$width = imagesx ($image); 
 				imagedestroy($image);
 				if($width > 101)
 					$appo = floor(($width - 100) / 2);
 				?>
-					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADIMGURL. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
-					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADIMGURL. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
+					<img class="logo" alt="<?php echo $val['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $val['idUtente'].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
+					<img class="logo reflex" alt="<?php echo $val['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $val['idUtente'].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
 				</a>
 			<?php else: ?>
-				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />
+				<img class="logo column last" alt="<?php echo $val['idUtente']; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val['nome']; ?>" />
 			<?php endif; ?>
-			<h3><a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$val[0])); ?>" title="Maggiori informazioni"><?php echo $val[1]; ?></a></h3>	
-			<div>Proprietario: <?php echo $val[5] ?></div>
-			<div>Pos. in classifica: <?php echo $this->posizioni[$val[0]] ?></div>
+			<h3><a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$val['idUtente'])); ?>" title="Maggiori informazioni"><?php echo $val['nome']; ?></a></h3>	
+			<div>Proprietario: <?php echo $val['username'] ?></div>
+			<div>Pos. in classifica: <?php echo $this->posizioni[$val['idUtente']] ?></div>
 		</div>
 		</div>
 		</div>

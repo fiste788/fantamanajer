@@ -195,6 +195,9 @@
 		</style>
 	</head>
 	<body>
+		<a class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
+			<img alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
+		</a>
 		<div id="content" class="column last">
 		<div id="content-top-sx" class="column last">
 		<div id="content-top-dx" class="column last">

@@ -166,6 +166,10 @@ $adminpages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 
+	$adminpages['penalita'] = array(	'title'=>"Penalità",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
+
 $superadminpages = array();										
 	$superadminpages['gestioneDatabase'] = array(	'title'=>"Gestione database",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),

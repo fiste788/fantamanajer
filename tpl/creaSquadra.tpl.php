@@ -122,6 +122,7 @@ endswitch;else:
 				</script>
 			<?php endif; ?>
 		</fieldset>
+		<?php if($this->elencosquadre != FALSE): ?>
 		<div class="column last">
 			<div class="box2-top-sx column last">
 			<div class="box2-top-dx column last">
@@ -147,6 +148,7 @@ endswitch;else:
 			</div>
 			</div>
 		</div>
+		<?php endif; ?>
 	</form>
 	<?php else: ?>
 	<p>Parametri mancanti</p>

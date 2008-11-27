@@ -15,6 +15,7 @@ $legheObj = new leghe();
 $stringObj = new string(NULL);
 $mailContent = new Savant2();
 $punteggiObj = new punteggi();
+$dbObj = new db();
 
 $action = NULL;
 $id = NULL;
@@ -128,10 +129,10 @@ if($lega != NULL && $action != NULL && $id != NULL)
 				else
 				{
 					$password = $stringObj->createRandomPassword();
-					$linksObj->startTransaction();
+					$dbObj->startTransaction();
 					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),addslashes(stripslashes(trim($_POST['nome']))),$amministratore,$password,addslashes(stripslashes(trim($_POST['mail']))),$lega);
 					$squadreObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
-					$linksObj->commit();
+					$dbObj->commit();
 					$id = $squadra;
 					$message[0] = 0;
 					$message[1] = "Squadra creata correttamente";
@@ -152,10 +153,10 @@ if($lega != NULL && $action != NULL && $id != NULL)
 if(isset($message))
 	$_SESSION['message'] = $message;
 
-$contenttpl->assign('portieri',$giocatoreObj->getFreePlayer('P'));
-$contenttpl->assign('difensori',$giocatoreObj->getFreePlayer('D'));
-$contenttpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C'));
-$contenttpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A'));
+$contenttpl->assign('portieri',$giocatoreObj->getFreePlayer('P',$lega));
+$contenttpl->assign('difensori',$giocatoreObj->getFreePlayer('D',$lega));
+$contenttpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C',$lega));
+$contenttpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A',$lega));
 if($lega != NULL)
 	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
 $contenttpl->assign('elencoLeghe',$legheObj->getLeghe());

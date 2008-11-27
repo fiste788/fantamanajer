@@ -30,7 +30,10 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe) )
 			$values[$row['idUtente']] = $row;
-		return $values; 
+		if(isset($values))
+			return $values;
+		else
+			return FALSE; 
 	}
 	
 	function getSquadraById($idUtente)

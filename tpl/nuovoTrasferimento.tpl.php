@@ -97,11 +97,16 @@
 		<?php endif; ?>
 		<fieldset class="no-margin fieldset max-large">
 			<h3 class="no-margin">Seleziona la squadra:</h3>
-			<select name="squad" onchange="document.trasferimenti.submit();">
+			<?php if(!$this->elencosquadre): ?>
+				<select disabled="disabled" name="squad">
+					<option value="NULL">Nessuna squadra presente</option>
+			<?php else: ?>
+				<select name="squad" onchange="document.trasferimenti.submit();">
 				<?php if($this->squadra == NULL): ?><option></option><?php endif; ?>
 				<?php foreach($this->elencosquadre as $key => $val): ?>
 					<option <?php if($this->squadra == $val['idUtente']) echo "selected=\"selected\"" ?> value="<?php echo $val['idUtente']?>"><?php echo $val['nome']?></option>
 				<?php endforeach ?>
+			<?php endif; ?>
 			</select>
 		</fieldset>
 	</form>
