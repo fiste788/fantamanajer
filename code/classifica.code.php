@@ -17,6 +17,7 @@ foreach($classificaDett as $key => $val)
 	
 $contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());
 $contenttpl->assign('classificaDett',$classificaDett);
+$contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($_SESSION['idLega']));
 $contenttpl->assign('squadre',$squadre);
 $contenttpl->assign('getGiornata',$giornata);
 ?>

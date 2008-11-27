@@ -116,9 +116,10 @@
 			];
 				
 			var options = {
+				colors: ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed", "#000080", "6b8e23", "ff4500"],
 				lines: { show: true },
 				points: { show: true },
-				grid: { backgroundColor: null,hoverable:true },
+				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
 				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
 				yaxis: { min: 0 },
@@ -139,7 +140,8 @@
 					xaxis: { tickDecimals: 0 },
 					yaxis: { min: 0},
 					selection: { mode: "x" },
-					legend: { show:false }
+					legend: { show:false },
+					grid: {tickColor: '#aaa',color:'#aaa',borderWidth:1}
 				});
 				
 				function showTooltip(x, y,color, contents) {
@@ -149,6 +151,8 @@
 					for (var i=0;i<arrayColor.length;i++)
 					{
 						arrayColor[i] = arrayColor[i]*1 + 120;
+						if(arrayColor[i] > 255)
+							arrayColor[i] = 255;
 					}
 					colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
 					$('<div id="tooltip">' + contents + '</div>').css( {

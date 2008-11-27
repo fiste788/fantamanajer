@@ -6,8 +6,9 @@ class articolo
 	var $abstract;
 	var $text;
 	var $insertDate;
-	var $idsquadra;
+	var $idSquadra;
 	var $idGiornata;
+	var $idLega;
 	
 	function articolo()
 	{
@@ -18,6 +19,7 @@ class articolo
 		$this->insertDate = NULL;
 		$this->idSquadra = NULL;
 		$this->idGiornata = NULL;
+		$this->idLega = NULL;
 	}
 	
 	function setFromRow($row)
@@ -29,6 +31,7 @@ class articolo
 		$this->insertDate = $row['insertDate'];
 		$this->idSquadra = $row['idSquadra'];
 		$this->idGiornata = $row['idGiornata'];
+		$this->idLega = $row['idLega'];
 	}
 	
 	function getDataRow($row)
@@ -40,6 +43,7 @@ class articolo
 		$row[] = $this->insertDate;
 		$row[] = $this->idSquadra;
 		$row[] = $this->idGiornata;
+		$row[] = $this->idLega;
 		return $row;
 	}
 	
@@ -50,6 +54,7 @@ class articolo
 	function getinsertdate() { return $this->insertDate; }
 	function getidsquadra() { return $this->idSquadra; }
 	function getidgiornata() { return $this->idGiornata; }
+	function getidlega() { return $this->idLega; }
 	
 	function setidarticolo($articolo_idarticolo) { $this->idArticolo = $articolo_idarticolo; }
 	function settitle($articolo_title) { $this->title = $articolo_title; }
@@ -58,17 +63,17 @@ class articolo
 	function setinsertdate($articolo_insertdate) { $this->insertDate = $articolo_insertdate; }
 	function setidsquadra($articolo_idsquadra) { $this->idSquadra = $articolo_idsquadra; }
 	function setidgiornata($articolo_idgiornata) { $this->idGiornata = $articolo_idgiornata; }
+	function setidlega($articolo_idlega) { $this->idLega = $articolo_idlega; }
 	
 	
 	function add($articolo)
 	{
-		echo $this->idSquadra;
-		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata) 
-				VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "')";
+		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata, idLega) 
+				VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "' , '" . $articolo->idLega . "')";
 		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
-				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "'";
+				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "' AND idLega = '" . $articolo->idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$data = mysql_fetch_row($exe);
 		return $data[0];
@@ -77,7 +82,7 @@ class articolo
 	function update($articolo)
 	{
 		$q = "UPDATE articolo 
-				SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idSquadra = '" . $articolo->idSquadra . "' , idGiornata = '" . $articolo->idGiornata . "'  
+				SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idSquadra = '" . $articolo->idSquadra . "' , idGiornata = '" . $articolo->idGiornata . "' , idLega = '" . $articolo->idLega . "'  
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
@@ -147,12 +152,18 @@ class articolo
 				$q .= " idGiornata ". $equal . " '" . $perc . $articolo->idGiornata . $perc . "'";
 				$flag++;
 			}
+			if(!empty($articolo->idLega))
+			{
+				if($flag != 0)
+					$q .= ' AND';
+				$q .= " idLega ". $equal . " '" . $perc . $articolo->idLega . $perc . "'";
+				$flag++;
+			}
 		}
 		if($order != NULL)
 			$q .= " ORDER BY " .$order  . " DESC";
 		if($start != NULL || $end != NULL)
 			$q .= " LIMIT ".$start.','.$end;
-		//echo $q;
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row;
@@ -162,10 +173,11 @@ class articolo
 			return FALSE;
 	}
 	
-	function getGiornateArticoliExist()
+	function getGiornateArticoliExist($idLega)
 	{
 		$q = "SELECT DISTINCT idGiornata 
-				FROM articolo";
+				FROM articolo
+				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$values[] = $row['idGiornata'];

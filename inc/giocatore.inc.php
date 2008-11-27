@@ -39,13 +39,13 @@ class giocatore
 			return FALSE;
 	}
 	
-	function getFreePlayer($ruolo)
+	function getFreePlayer($ruolo,$idLega)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, nomeClub,SUM( gol ) as gol,SUM( assist ) as assist,AVG(voto) as mediaPunti, AVG(votoUff) as mediaVoti,count(voto) as presenze
 				FROM (giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.idGioc) LEFT JOIN club ON giocatore.club = club.idClub
-				WHERE ruolo ='" . $ruolo . "' AND giocatore.idGioc NOT IN (SELECT idGioc 
+				WHERE ruolo = '" . $ruolo . "' AND giocatore.idGioc NOT IN (SELECT idGioc 
 																			FROM squadre 
-																			WHERE idLega  = '" . $_SESSION['idLega'] . "') AND club <> '' AND (votoUff <> 0 OR voto IS NULL) 
+																			WHERE idLega = '" . $idLega . "') AND club <> '' AND (votoUff <> 0 OR voto IS NULL) 
 				GROUP BY giocatore.idGioc
 				ORDER BY cognome";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -216,11 +216,11 @@ class giocatore
 		}
 	}
 
-	function getGiocatoriNotSquadra($idUtente)
+	function getGiocatoriNotSquadra($idUtente,$idLega)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore LEFT JOIN squadre ON giocatore.idGioc = squadre.idGioc
-				WHERE idUtente <> '" . $idUtente . "' OR idUtente IS NULL
+				WHERE idLega = '" . $idLega . "' AND idUtente <> '" . $idUtente . "' OR idUtente IS NULL
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))

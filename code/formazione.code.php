@@ -101,7 +101,7 @@ if(TIMEOUT)
 			if(!$issetform)
 			{
 				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
-				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$id);
+				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
 				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
@@ -133,13 +133,13 @@ if(TIMEOUT)
 				$chiave = "Por-" . $pos . "-cap";
 			else
 				$chiave = "Dif-" . ($pos-1) . "-cap";
-				$cap[$chiave] = $key;
+			$cap[$chiave] = $key;
 		}
 		$contenttpl->assign('titolari',$titolariAr);
-		if(!empty($panchinariAr))
-			$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinariAr));
-		else
+		if(empty($panchinariAr))
 			$contenttpl->assign('panchinari',FALSE);
+		else
+			$contenttpl->assign('panchinari',$panchinariAr);
 		$contenttpl->assign('cap',$cap);
 	}
 	$contenttpl->assign('issetForm',$issetform);

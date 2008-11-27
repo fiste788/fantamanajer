@@ -124,17 +124,13 @@
 				clear:both;
 				float:left;
 				padding: 15px;
+				width:810px;
+				text-align:center;
 			}
 			
 			h3 {
 				font-weight:bold;
 				font-size:16px;
-				margin:0;
-			}
-			em {
-				margin: 0 0 10px 0;
-				clear:both;
-				font-style:italic;
 			}
 			
 			h4 {
@@ -168,6 +164,10 @@
 				clear:both;
 				width:840px;
 			}
+			#punteggidett {
+				width:380px;
+				margin:0 auto;
+			}
 		</style>
 	</head>
 	<body>
@@ -181,11 +181,23 @@
 						<div id="content-bottom-dx" class="column last">
 							<div id="content-container" class="column last" >
 								<div class="main-content">
-									<h3 class="column last"><?php echo $this->object; ?></h3>
-									<em class="column last"><?php if($this->type == 'N') echo 'Newsletter'; else echo 'Comunicazione' ?> del <?php echo $this->date; ?> Autore: <?php echo $this->autore['username']; ?></em>
-									<p style="clear:both;margin-bottom:15px;" class="column last"><?php echo $this->text; ?></p>
-									<p style="clear:both;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
+									<div id="punteggidett">
+									<div class="box2-top-sx column last">
+									<div class="box2-top-dx column last">
+									<div class="box2-bottom-sx column last">
+									<div class="box2-bottom-dx column last">
+									<div class="box-content column last">
+									<h3>Penalità!</h3>
+									<img align="left" src="<?php echo IMGSURL.'attention-big.png'; ?>" alt="->" />
+									<p>Sei stato penalizzato di <?php echo $this->punti; ?> punti nella giornata <?php echo $this->giornata; ?> con la motivazione: '<?php echo $this->motivo; ?>'</p>
+									</div>
+									</div>
+									</div>
+									</div>
+									</div>
+									</div>
+									<p class="column last" style="width:100%">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
+									Per domande o chiarimenti contatta l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a>
 								</div>
 							</div>
 						</div>

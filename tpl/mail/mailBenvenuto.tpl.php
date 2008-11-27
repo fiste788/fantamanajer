@@ -165,7 +165,7 @@
 		</style>
 	</head>
 	<body>
-		<a class="linkheader column last" title="Home" href="www.fantamanajer.it/home.html">
+		<a class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
 			<img alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
 		</a>
 		<div id="content" class="column last">
@@ -184,7 +184,7 @@
 										Username: <strong><?php echo $this->username; ?></strong><br />
 										Password: <strong><?php echo $this->password; ?></strong><br />
 										La tua squadra si chiama <?php echo $this->squadra; ?>. Una volta effettuato l'accesso potrai cambiare il nome della tua squadra e modificare i tuoi dati personali.<br /><br />
-										Clicca <a href="www.fantamanajer.it">quì</a> per accedere al sito.<br />
+										Clicca <a href="http://www.fantamanajer.it">quì</a> per accedere al sito.<br />
 									</div>
 									<p class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
 									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>

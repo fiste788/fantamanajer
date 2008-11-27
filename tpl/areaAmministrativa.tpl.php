@@ -67,6 +67,21 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Penalità" />
+			<h3><a href="<?php echo $this->linksObj->getLink('penalita'); ?>">Inserisci le penalità</a></hs3>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
+	<?php if($_SESSION['usertype'] == 'superadmin'): ?>
+	<div class="box-squadra column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
 			<h3>Manutenzione</h3>	
 			<img class="column last" alt="->" src="<?php echo IMGSURL.'freeplayer-other.png'; ?>" title="Giocatori liberi" />
 			<ul>
@@ -79,6 +94,7 @@
 		</div>
 		</div>
 	</div>
+	<?php endif; ?>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 	<div id="squadradett" class="column last">

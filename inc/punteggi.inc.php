@@ -2,6 +2,7 @@
 class punteggi
 {
 	var $punteggio;
+	var $penalità;
 	var $idGiornata;
 	var $idUtente;
 	var $idLega;
@@ -267,11 +268,46 @@ class punteggi
 	{
 		$q = "SELECT punteggio,penalità 
 				FROM punteggi
-				WHERE punteggio < 0";
+				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe))
-			$val[] = $row;
-		return $val;
+			$val = $row;
+		if(isset($val))
+			return $val;
+		else
+			return FALSE;
+	}
+	
+	function getPenalitàByLega($idLega)
+	{
+		$q = "SELECT *
+				FROM punteggi
+				WHERE punteggio < 0 AND idLega = '" . $idLega . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe))
+			$val[$row['idUtente']][$row['idGiornata']] = $row['punteggio'];
+		if(isset($val))
+			return $val;
+		else
+			return FALSE;
+	}
+	
+	function setPenalità($punti,$motivo,$idGiornata,$idUtente,$idLega)
+	{
+		if($this->getPenalitàBySquadraAndGiornata($idUtente,$idGiornata) != FALSE)
+			$q = "UPDATE punteggi SET punteggio = '" . (-$punti) . "', penalità = '" . $motivo . "'
+					WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'"; 
+		else
+			$q = "INSERT INTO punteggi (punteggio,penalità,idGiornata,idUtente,idLega) 
+					VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
+		return $exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+	}
+	
+	function unsetPenalità($idUtente,$idGiornata)
+	{
+		$q = "DELETE FROM punteggi
+				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
+		return  mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 }
 ?>

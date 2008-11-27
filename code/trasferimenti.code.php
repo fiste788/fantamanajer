@@ -15,6 +15,7 @@ $utenteObj = new utente();
 $giocatoreObj = new giocatore();
 $selezioneObj = new selezione();
 $trasferimentiObj = new trasferimenti();
+$mailContentObj = new Savant2();
 
 $squadra = $_SESSION['idSquadra'];
 $acquisto = NULL;
@@ -33,7 +34,7 @@ $trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
 $numTrasferimenti = count($trasferimenti);
 $playerFree = array();
 foreach($ruo as $key => $val)
-	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
+	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1),$_SESSION['idLega']));
 
 $trasferiti = $giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']);
 /*
@@ -45,7 +46,7 @@ if($trasferiti != FALSE)
 	$numTrasferiti = 0;
 	$contenttpl->assign('trasferiti',$trasferiti);
 	foreach($trasferiti as $key => $val)
-		$freePlayerByRuolo[$val['idGioc']] = $giocatoreObj->getFreePlayer($val['ruolo']);
+		$freePlayerByRuolo[$val['idGioc']] = $giocatoreObj->getFreePlayer($val['ruolo'],$_SESSION['idLega']);
 	$contenttpl->assign('freePlayerByRuolo',$freePlayerByRuolo);
 	foreach($trasferiti as $masterKey => $masterVal)
 	{
@@ -53,7 +54,6 @@ if($trasferiti != FALSE)
 		{
 			if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 			{
-				echo "<pre>".print_r($_POST,1)."</pre>";
 				if(isset($_POST['acquista'][$masterKey]) && !empty($_POST['acquista'][$masterKey]) )
 				{
 					$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista'][$masterKey]);
@@ -75,7 +75,7 @@ if($trasferiti != FALSE)
 							$trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
 							$numTrasferimenti = count($trasferimenti);
 							foreach($ruo as $key => $val)
-								$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1)));
+								$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1),$_SESSION['idLega']));
 							$messaggio[0] = 0;
 							$messaggio[1] = 'Trasferimento effettuato correttamente';
 						}
@@ -171,9 +171,9 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 							if($posSquadraNew > $posSquadraOld)
 							{
 								$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
-								$body = 'Il giocatore ' . $acquistoDett[$acquisto]['nome'] . $acquistoDett[$acquisto]['cognome'] . ' che volevi acquistare è stato selezionata da un altra squadra. Recati sul sito e seleziona un altro giocatore entro il giorno prima della fine della giornata';
+								$mailContent->assign('giocatore',$acquistoDett[$acquisto]['nome'] . ' ' . $acquistoDett[$acquisto]['cognome']);s
 								$appo = $squadre[$acquistoDett[$acquisto]['idSquadraAcquisto']];
-								$mailObj->sendEmail($squadre[$appo]['mail'],$body,'Giocatore Rubato');
+								$mailObj->sendEmail($squadre[$appo]['mail'],$mailContent->fetch(MAILTPLDIR.'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
 							}
 							else
 							{
@@ -191,7 +191,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 							$messaggio[0] = 0;
 							$messaggio[1] = 'Operazione eseguita con successo';
 							$contenttpl->assign('messaggio',$messaggio);
-							$eventiObj->addEvento('2',$_SESSION['idSquadra']);
+							$eventiObj->addEvento('2',$_SESSION['idSquadra'],$_SESSION['idLega']);
 						}
 					}
 					else

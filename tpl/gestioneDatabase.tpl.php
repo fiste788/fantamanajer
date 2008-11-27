@@ -35,10 +35,7 @@
 		<?php if(isset($this->messaggio)): ?>
 		<script type="text/javascript">
 		$(document).ready(function() {
-			$('.messaggio').show('pulsate',{times: 3 }, function() {
-				if(jQuery.browser.msie)
-					$(".messaggio").removeAttr('style');
-			}); 
+			$('.messaggio').show('pulsate',{times: 3 }); 
 		});
 		$(".messaggio").click(function () {
 			$("div.messaggio").fadeOut("slow");

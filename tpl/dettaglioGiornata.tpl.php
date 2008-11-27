@@ -90,7 +90,7 @@
 		<div class="messaggio neut column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 			<?php foreach($this->penalità as $key => $val): ?>
-				<span>Penalità: <?php echo $val['punteggio']; ?> punti<br />Motivazione: <?php echo $val['penalità']; ?></span>
+				<span>Penalità: <?php echo $val['punteggio']; ?> punti<br />Motivazione: <?php echo $val['penalità']; ?></span><br />
 			<?php endforeach; ?>
 		</div>
 		<?php endif; ?>
