@@ -15,17 +15,21 @@ if(isset($_GET['squad']))
 	$squadra = $_GET['squad'];
 if(isset($_GET['giorn']))
 	$giornata = $_GET['giorn'];
+if(isset($_POST['squad']))
+	$squadra = $_POST['squad'];
+if(isset($_POST['giorn']))
+	$giornata = $_POST['giorn'];
 	
 $contenttpl->assign('getsquadra',$squadra);
 $contenttpl->assign('getgiornata',$giornata);
 $giornate = $punteggiObj->getGiornateWithPunt();
 	
-if(isset($_GET['giorn']) && $_GET['giorn'] -1 >= 0)
-	$giornprec = $_GET['giorn'] -1;	
+if(isset($giornata) && $giornata -1 >= 0)
+	$giornprec = $giornata -1;	
 else
 	$giornprec = FALSE;
-if(isset($_GET['giorn']) && $_GET['giorn'] + 1 <= $giornate)
-	$giornsucc = $_GET['giorn'] + 1;	
+if(isset($giornata) && $giornata + 1 <= $giornate)
+	$giornsucc = $giornata + 1;	
 else
 	$giornsucc = FALSE;
 

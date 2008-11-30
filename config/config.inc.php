@@ -27,7 +27,7 @@ define ("FULLURL",$proto.$host.$sitepath.'/');			//fullurl example: http://local
 								//absolute paths for:
 define ("CSSDIR",FULLPATH.'css/');				//css => CSSDIR
 define ("JSDIR",FULLPATH.'js/');				//js => JSDIR
-define ("IMGDIR",FULLPATH.'img/');				//img => IMGDIR
+define ("IMGDIR",FULLPATH.'imgs/');				//img => IMGDIR
 
 								//relative paths for:
 define ("CODEDIR",'code/');					//code => CODEDIR

@@ -6,49 +6,19 @@
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content"> 
-<table>
-	<tr>
-		<td>Cognome:</td>
-		<td><?php echo $this->dettaglioGioc[0]['cognome']; ?></td>
-	</tr>
-	<tr>
-		<td>Nome:</td>
-		<td><?php echo $this->dettaglioGioc[0]['nome']; ?></td>
-	</tr>
-	<tr>
-		<td>Ruolo:</td>
-		<td><?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></td>
-	</tr>
-	<tr>
-		<td>Squadra:</td>
-		<td><?php if(isset($this->dettaglioGioc[0]['idUtente'])) echo $this->squadra['nome']; else echo "Libero" ?></td>
-	</tr>
-	<tr>
-		<td>Club:</td>
-		<td><?php echo $this->dettaglioGioc[0]['nomeClub']; ?></td>
-	</tr>
-	<tr>
-		<td>Presenze:</td>
-		<td><?php echo $this->dettaglioGioc[0]['presenze']; ?></td>
-	</tr>
-
-	<tr>
-		<td>Gol:</td>
-		<td><?php echo $this->dettaglioGioc[0]['gol']; ?></td>
-	</tr>
-	<tr>
-		<td>Assist:</td>
-		<td><?php echo $this->dettaglioGioc[0]['assist']; ?></td>
-	</tr>
-	<tr>
-		<td>Media Voto:</td>
-		<td><?php echo $this->dettaglioGioc[0]['mediaVoti']; ?></td>
-	</tr>
-	<tr>
-		<td>Media Punti:</td>
-		<td><?php echo $this->dettaglioGioc[0]['mediaPunti']; ?></td>
-	</tr>
-</table>
+<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg')): ?>
+	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg'; ?>">
+	<?php endif; ?>
+	<p>Cognome: <?php echo $this->dettaglioGioc[0]['Cognome']; ?></p>
+	<p>Nome: <?php echo $this->dettaglioGioc[0]['Nome']; ?></p>
+	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['Ruolo']]; ?></p>
+	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['IdSquadra'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
+	<p>Club: <?php echo $this->dettaglioGioc[0]['Club']; ?></p>
+	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']; ?></p>
+	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
+	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
+	<p>Media Voto: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
+	<p>Media Punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
 <table style="width:100px;" class="column last" cellpadding="0" cellspacing="0">
 	<tr>
