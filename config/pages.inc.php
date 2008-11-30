@@ -29,7 +29,7 @@ $guestpages = array();
 									'css'=>array('screen','style'));
 									
 	$guestpages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
-									'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix'),
+									'js'=>array('jquery'=>'jquery'),
 									'css'=>array('screen','style'));
 									
 	$guestpages['contatti'] = array(	'title'=>"Contatti",
@@ -94,7 +94,7 @@ $userpages = array();
 										'css'=>array('screen','style'));
 										
 	$userpages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
-										'js'=>array('jquery'=>'jquery','pngfix'=>'ie|jquery-pngFix','ui'=>array('effects-core','effects-pulsate')),
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 									
 	$userpages['contatti'] = array(	'title'=>"Contatti",
@@ -111,7 +111,7 @@ $userpages = array();
 								
 	$userpages['sendMail'] = array(	'title'=>"Invio mail formazioni",
 									'js'=>'',
-									'css'=>array('screen','style'));						
+									'css'=>array('screen','style'));
 	
 	$userpages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
 									'js'=>'',

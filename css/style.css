@@ -884,3 +884,6 @@ p.surprise {
 #penalità label {
 	width: 150px;
 }
+#dettaglioGioc p {
+	margin-bottom:2px;
+}
