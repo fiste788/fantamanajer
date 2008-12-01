@@ -36,8 +36,9 @@ define ("LANGDIR",'lang/');					//lang => LANGDIR
 define ("INCDIR",'inc/');					//inc => INCDIR
 define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD
 define ("UPLOADDIR",'uploadimg/');				//uploadimg => UPLOADDIR
-define ("ADMINCODEDIR",'admincode/');				//admincode => ADMINCODEDIR
+define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
+define ("MAILTPLDIR",TPLDIR.'mail/');	
 
 								//urls for:
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL
@@ -50,7 +51,7 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 {
 	//database access:
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","fantamanajer");					//database name => DBNAME
+	define ("DBNAME","fantamanajer2-1");					//database name => DBNAME
 	define ("DBUSER","fantamanajer");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","localhost");					//database host => DBHOST

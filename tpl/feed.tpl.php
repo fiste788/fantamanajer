@@ -5,7 +5,7 @@
 	<h2 class="column">Eventi</h2>
 </div>
 <div id="feed" class="main-content">
-	<?php if(!empty($this->eventi)): ?>
+	<?php if($this->eventi != FALSE): ?>
 	<?php foreach($this->eventi as $key =>$val): ?>
 		<?php if($this->evento == 0 || $val['tipo'] == $this->evento): ?>
 			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
@@ -20,6 +20,8 @@
 			<?php endif; ?>
 		<?php endif; ?>
 	<?php endforeach; ?>
+	<?php else: ?>
+		<p>Nessun evento</p>
 	<?php endif; ?>
 </div>
 <div id="squadradett" class="column last">
@@ -36,7 +38,7 @@
 			<h3 class="no-margin">Seleziona il tipo di evento:</h3>
 			<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 			<select name="evento" onchange="document.eventi.submit();">
-				<option></option>
+				<option>Tutti gli eventi</option>
 				<option <?php if($this->evento == '1') echo "selected=\"selected\"" ?> value="1">Conferenze stampa</option>
 				<option <?php if($this->evento == '2') echo "selected=\"selected\"" ?> value="2">Giocatore selezionato</option>
 				<option <?php if($this->evento == '3') echo "selected=\"selected\"" ?> value="3">Formazione impostata</option>

@@ -32,27 +32,27 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<div id="grafica">
+			<div id="grafica" class="panel">
 				<img class="column" src="<?php echo IMGSURL.'grafica.png'; ?>" alt="Nuova Grafica" />
 				<h2>Nuova Grafica</h2>
-				<p>FantaManajer 1.9 introduce una nuovissima grafica in stile web 2.0. Nuove icone, nuovi sfondi per rendere più piacevole la navigazione</p>
+				<p>FantaManajer 2.0 introduce una nuovissima grafica in stile web 2.0. Nuove icone, nuovi sfondi per rendere più piacevole la navigazione</p>
 			</div>
-			<div id="effetti">
+			<div id="effetti" class="panel">
 				<img class="column" src="<?php echo IMGSURL.'effetti.png'; ?>" alt="Effetti" />
 				<h2>Effetti</h2>
 				<p>Grazie alle librerie di jQuery (noto framework javascript) sono stati aggiunti diversi effetti per rendere il nuovo FantaManajer più accattivante. Popup, trasparenze e animazioni e molto altro...</p>
 			</div>
-			<div id="coming-soon">
+			<div id="coming-soon" class="panel">
 				<img class="column" src="<?php echo IMGSURL.'coming-soon.png'; ?>" alt="Coming soon" />
 				<h2>Coming soon</h2>
 				<p>Per la prossima stagione verrà implementato un metodo del tutto nuovo per la settare la formazione. Esso consistera in dei riquadri con il nome del giocatore che sarà possibile trascinare sul campo e mettere il giocatore nella posizione desiderata. E ci sarà anche un'interfaccia di amministrazione per gli admin</p>
 			</div>
-			<div id="valid">
+			<div id="valid" class="panel">
 				<img class="column" src="<?php echo IMGSURL.'valid.png'; ?>" alt="Valido W3C"/>
 				<h2>Valido W3C</h2>
 				<p>Da questa versione l'intero sito è stato validato secondo gli standard web del W3C. Questo consiste nel non avere errori nelle pagine e una maggiore integrazione cross-browser (nessuna differenza tra i browser)</p>
 			</div>
-			<div id="rss">
+			<div id="rss" class="panel">
 				<img class="column" src="<?php echo IMGSURL.'rss.png'; ?>" alt="RSS"/>
 				<h2>Feed RSS</h2>
 				<p>Nel FantaManajer 2.0 sono stati introdotti gli eventi con la possibilità di estrarre i feed RSS per aggiungerli alle tue pagine personali come iGoogle o Netvibes. Aggiungi il seguente link per abbonarti al feed RSS del FantaManajer http://www.fantamanajer.it/rss.php</p>
@@ -68,7 +68,7 @@
 			$('#icone').tabs({event:'mouseover',cache:true, show: function(ui)
 			{
 			if(jQuery.browser.msie)
-				  document.getElementById(ui.panel.id).style.removeAttribute('filter');
+				  $(".panel").removeAttr('style');
 			}, fx: { opacity: 'toggle',duration:300 } }).tabs('rotate', 5000,false);
 		});
 	</script>
@@ -102,14 +102,14 @@
 	<?php if($this->articoli != FALSE) :?>
 	<div id="confStampa" class="column last">
 	<h3 class="column">Ultime news</h3>
-	<?php foreach($this->articoli as $key=>$val): ?>
+	<?php foreach($this->articoli as $key => $val): ?>
 		<div class="conf-stampa column last" style="clear:both;">
 			<div class="box2-top-sx column last">
 			<div class="box2-top-dx column last">
 			<div class="box2-bottom-sx column last">
 			<div class="box2-bottom-dx column last">
 			<div class="conf-stampa-content column last">
-				<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
+				<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val['idSquadra']): ?>
 					<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 						<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 					</a>
@@ -118,7 +118,7 @@
 					</a>
 				<?php endif; ?>
 				<em>
-					<span class="column last"><?php echo $this->squadre[$val['idSquadra']-1][5]; ?></span>
+					<span class="column last"><?php echo $this->squadre[$val['idSquadra']]['username']; ?></span>
 					<span class="right"><?php echo $val['insertDate']; ?></span>
 				</em>
 				<h3 class="title"><?php echo $val['title']; ?></h3>
@@ -141,14 +141,14 @@
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(isset($_SESSION['message'])): ?>
-		<div class="messaggio neut column last">
+		<div id="messaggio" class="messaggio neut column last">
 			<img alt="!" src="<?php if($_SESSION['message'][0] == 0) echo IMGSURL.'lock.png'; else echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 	<?php unset($_SESSION['message']); endif; ?>
@@ -165,7 +165,7 @@
 				<?php $i=0; ?>
 				<?php //echo "<pre>".print_r($this->classifica,1)."</pre>" ?>
 				<?php //echo "<pre>".print_r($this->squadre,1)."</pre>" ?>
-				<?php foreach ($this->classifica as $key=>$val): ?>
+				<?php foreach ($this->classifica as $key => $val): ?>
 					<tr <?php if($this->differenza[$i] < 0): ?>
 							<?php echo 'class="rosso" title="' . $this->differenza[$i]. ' Pos."'; ?>
 						<?php elseif($this->differenza[$i] > 0): ?>

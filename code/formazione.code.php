@@ -1,155 +1,155 @@
 <?php
-require_once(INCDIR."squadra.inc.php");
+require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."formazione.inc.php");
 require_once(INCDIR."eventi.inc.php");
+require_once(INCDIR."giocatore.inc.php");
 
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $eventiObj = new eventi();
 $formazioneObj = new formazione();
+$giocatoreObj = new giocatore();
 
+if(TIMEOUT == FALSE)
+	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
+
+$mod = NULL;
 $squadra = NULL;
 if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
+if(isset($_POST['mod']))
+	$mod = $_POST['mod'];
 $contenttpl->assign('squadra',$squadra);
 
-
-$val = $squadraObj->getElencoSquadre();
+$val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
 if(TIMEOUT == FALSE)
 	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
-
-if(isset($formImp[$_SESSION['idsquadra']]) && (TIMEOUT))
-	unset($formImp[$_SESSION['idsquadra']]);
+if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
+	unset($formImp[$_SESSION['idSquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);
 
-$missing=0;
-$cap="";
+$missing = 0;
+$cap = "";
 if(TIMEOUT)
 {
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
- 	$contenttpl->assign('giocatori',$formazioneObj->getGiocatoriByIdSquadra($_SESSION['idsquadra']));
-	//SETTO A NULL IL VALORE DEL MODULO NELLA SESSIONE
-	if( !isset($_SESSION ['modulo']))
-		$_SESSION['modulo'] = NULL;
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$ruo = array('P','D','C','A');
+	foreach($ruo as $key => $val)
+		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
+	$contenttpl->assign('giocatori',$giocatori);
 	$contenttpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
-	
-	//RITORNO IN UN ARRAY I VALORI DEL MODULO AL PRIMO POSTO I POR AL SECONDO I DIF E AL TERZO I CC E AL QUARTO GLI ATT 
-	if( isset($_POST['mod']) && !empty($_POST['mod']) )
-		$_SESSION ['modulo'] = $_POST ['mod'];
-	else
-		$contenttpl->assign('value',NULL);
+
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 		
 	/* CONTROLLI SULL'INPUT: 
 	I VALORI NON DEVONO ESSERE DOPPI 
 	IL CAPITANO FACOLTATIVO
 	*/
-	if( isset($_POST) && !empty($_POST) && !isset($_POST['mod']))
+	if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 	{
 		$formazione = array();
 		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
-		$err=2;
+		$err = 2;
 		foreach($_POST as $key => $val)
 		{
-			if((strpos($key,'cap') === FALSE) && (strpos($key,'panch') === FALSE))	//CONTROLLO SE È UNA SELECT RELATIVA AL CAPITANO
-			{	
-       			 if(empty($val))
-				{
-					$missing ++;
-					$err ++;
-				}
-				if( !in_array($val,$formazione))	
-				{
-        				$formazione[] = $val;		
-				}
-				else
-				{
-					$err++;
-				}
-			}
-			if(strpos($key,'panch') !== FALSE)
+			if(strpos($key,'Por') !== FALSE || strpos($key,'Dif') !== FALSE || strpos($key,'Cen') !== FALSE || strpos($key,'Att') !== FALSE || strpos($key,'panch') !== FALSE)
 			{
-      			  if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
-				{	
-					if( !in_array($val,$formazione))
+				if((strpos($key,'cap') === FALSE) && (strpos($key,'panch') === FALSE))	//CONTROLLO SE È UNA SELECT RELATIVA AL CAPITANO
+				{
+					if(empty($val))
 					{
-						$formazione[] = $val;
+						$missing ++;
+						$err ++;
 					}
+					if( !in_array($val,$formazione))
+							$formazione[] = $val;		
 					else
 						$err++;
-				}	
-			}
-			if(strpos($key,'cap') !== FALSE)
-			{
-				if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
-				{		
-					if( $capitano[$val] == NULL)
+				}
+				if(strpos($key,'panch') !== FALSE)
+				{
+					if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
 					{
-                        if(strpos($key,'Por') !== FALSE)
-                           $pos=0;
-                        else
-                        {
-                            $pos=$key{4}+1;  
-						}
-                        $capitano[$val] = $formazione[$pos];
-                        
+						if( !in_array($val,$formazione))
+							$formazione[] = $val;
+						else
+							$err++;
 					}	
-					else
-						$err++;
-				}		
+				}
+				if(strpos($key,'cap') !== FALSE)
+				{
+					if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
+					{
+						if( $capitano[$val] == NULL)
+						{
+							 if(strpos($key,'Por') !== FALSE)
+								$pos = 0;
+							else
+								$pos = $key{4} + 1;  
+							$capitano[$val] = $formazione[$pos];
+						}	
+						else
+							$err++;
+					}		
+				}
 			}
 		}
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
-		if ($err == 2 && !isset($_POST['username']))	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
+		if ($err == 2)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 		{
 			unset($_POST);
-			$contenttpl->assign('err',2);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->carica_formazione($formazione,$capitano,GIORNATA);
-				$eventiObj->addEvento('3',$_SESSION['idsquadra'],$id);
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
+				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA);
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
+			$message[0] = 0;
+			$message[1] = 'Formazione caricata correttamente';
 		}
-	  	else
-			$contenttpl->assign('err',1);
+		else
+		{
+			$message[0] = 1;
+			$message[1] = 'Hai inserito dei valori multipli';
+		}
 		if ($missing > 0)
-	  		$contenttpl->assign('err',3);	
+		{
+			$message[0] = 1;
+			$message[1] = 'Valori mancanti';
+		}
+		$contenttpl->assign('message',$message);
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idsquadra'],GIORNATA);	
-  if($issetform)
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	if($issetform)
 	{
-		if( !isset($_POST['mod']) && empty($_POST['mod']) )
-			$_SESSION['modulo']=$issetform['Modulo'];
-
-		$panchinari_ar=$issetform['Elenco'];
-   		$titolari_ar=array_splice($panchinari_ar,0,11);
-   		foreach($issetform['Cap'] as $key=>$val)
-   		{
-   		   $pos=array_search($val,$titolari_ar);
-   		   if($pos==0)
-   		       $chiave="Por-".$pos."-cap";
-   		   else
-   		       $chiave="Dif-".($pos-1)."-cap";
-   		   $cap[$chiave]=$key;
-      }
-
-		$contenttpl->assign('titolari',$titolari_ar);
-		$contenttpl->assign('panchinari',$panchinari_ar);
-        $contenttpl->assign('cap',$cap);
+		$mod = $issetform['modulo'];
+		$panchinariAr = $issetform['elenco'];
+		$titolariAr = array_splice($panchinariAr,0,11);
+		foreach($issetform['cap'] as $key => $val)
+		{
+			$pos = array_search($val,$titolariAr);
+			if($pos == 0)
+				$chiave = "Por-" . $pos . "-cap";
+			else
+				$chiave = "Dif-" . ($pos-1) . "-cap";
+			$cap[$chiave] = $key;
+		}
+		$contenttpl->assign('titolari',$titolariAr);
+		if(empty($panchinariAr))
+			$contenttpl->assign('panchinari',FALSE);
+		else
+			$contenttpl->assign('panchinari',$panchinariAr);
+		$contenttpl->assign('cap',$cap);
 	}
-		$contenttpl->assign('issetForm',$issetform);
-	if($_SESSION['modulo'] != NULL)
-	{
-		$mod = explode('-',$_SESSION ['modulo']);
-		$contenttpl->assign('value',$_SESSION ['modulo']);
-		$contenttpl->assign('modulo',$mod);
-	}
+	$contenttpl->assign('issetForm',$issetform);
+	$contenttpl->assign('mod',$mod);
+	if($mod != NULL)
+		$contenttpl->assign('modulo',explode('-',$mod));
 	else
 		$contenttpl->assign('modulo',NULL);
 }

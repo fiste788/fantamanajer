@@ -1,13 +1,13 @@
-<?php
+﻿<?php
 	require_once('config/config.inc.php');
-	require_once('inc/squadra.inc.php');
+	require_once('inc/utente.inc.php');
 	require_once (INCDIR.'db.inc.php');
 
 	//Creating a new db istance
 	$dblink = &new db;
 	$dblink->dbConnect();
-	$squadraObj = new squadra();
-	$squadre = $squadraObj->getElencoSquadre();
+	$utenteObj = new utente();
+	$squadre = $utenteObj->getElencoSquadre();
 	//echo "<pre>".print_r($squadre,1)."</pre>";
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML
@@ -21,13 +21,13 @@
 	echo "<atom:icon>".IMGSURL."picLens-logo.png</atom:icon>\n";
 	foreach($squadre as $key=>$val)
 	{
-		if(file_exists(UPLOADDIR.$val[0] . '-original.jpg'))
+		if(file_exists(UPLOADDIR.$val['idUtente'] . '-original.jpg'))
 		{
 		echo "<item>\n";
-		echo "<title><![CDATA[" . $val[1] . "]]></title>\n";
-		echo "<link><![CDATA[" . UPLOADDIR.$val[0] . "-original.jpg]]></link>\n";
-		echo "<media:thumbnail url=\"" . FULLURL.UPLOADDIR.$val[0] . ".jpg\" />\n";
-		echo "<media:content url=\"" . FULLURL.UPLOADDIR.$val[0] . "-original.jpg\" />\n";
+		echo "<title><![CDATA[" . $val['nome'] . "]]></title>\n";
+		echo "<link><![CDATA[" . UPLOADDIR.$val['idUtente'] . "-original.jpg]]></link>\n";
+		echo "<media:thumbnail url=\"" . FULLURL.UPLOADDIR.$val['idUtente'] . ".jpg\" />\n";
+		echo "<media:content url=\"" . FULLURL.UPLOADDIR.$val['idUtente'] . "-original.jpg\" />\n";
 		echo "</item>\n";
 		}
 	}

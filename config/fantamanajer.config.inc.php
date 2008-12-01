@@ -7,5 +7,7 @@ FantaManajer
 To do:
 */
 
-define ("MAXTRASFERIMENTI",15);				//css => CSSDIR
+define ("MAXTRASFERIMENTI",20);	
+define ("NUMSELEZIONI",2);
 
+?>

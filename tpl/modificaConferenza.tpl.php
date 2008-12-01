@@ -91,8 +91,8 @@ if(isset($_GET['id']))
 			<div class="formbox">
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<div id="emoticons">
-				<?php foreach($this->emoticons as $key=>$val):?>
-					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo $val['cod'] ?>');return ismaxlength(document.getElementById('text'), 500);" />
+				<?php foreach($this->emoticons as $key => $val):?>
+					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod'])) ?>');return ismaxlength(document.getElementById('text'), 500);" />
 				<?php endforeach; ?>
 				</div>			
 			<?php endif;?>
@@ -118,14 +118,14 @@ if(isset($_GET['id']))
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(isset($this->messaggio) && $this->messaggio[0] == 1): ?>
-		<div class="messaggio bad column last">
+		<div id="messaggio" class="messaggio bad column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" />
 			<span><?php echo $this->messaggio[1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 	<?php endif; ?>

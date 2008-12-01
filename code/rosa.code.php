@@ -1,25 +1,26 @@
 <?php
 
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR.'voti.inc.php');
 
 $giocatoreObj = new giocatore();
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
+$votiObj = new voti();
 
 $squadra = NULL;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 
 $contenttpl->assign('squadra',$squadra);
-$contenttpl->assign('data', 0);
 
-$classifica = $punteggiObj->getClassifica();
-foreach($classifica as $key=>$val)
+$classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
+foreach($classifica as $key => $val)
 {
-	if($squadra == $val['IdSquadra'])
+	if($squadra == $val['idUtente'])
 	{
 		$contenttpl->assign('media',substr($classifica[$key]['punteggioMed'],0,5));
 		$contenttpl->assign('min',$classifica[$key]['punteggioMin']);
@@ -27,50 +28,69 @@ foreach($classifica as $key=>$val)
 	}
 }
 $contenttpl->assign('classifica',$classifica);
-$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($classifica));
+$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($_SESSION['idLega']));
 if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
 	{
-		unset($_POST['passwordnewrepeat']);
-		if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
-			$contenttpl->assign('data',$squadraObj->changeData($_POST,$_SESSION['idsquadra']));
+		if(strlen($_POST['passwordnew']) < 6)
+		{
+			if($_SESSION['usertype'] == "superadmin")
+				$_POST['amministratore'] = 2;
+			elseif($_SESSION['usertype'] == "admin")
+				$_POST['amministratore'] = 1;
+			unset($_POST['passwordnewrepeat']);
+			if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
+			{
+				$utenteObj->changeData($_POST,$_SESSION['idSquadra']);
+				$message[0] = 0;
+				$message[1] = "Dati modificati correttamente";
+			}
+		}
+		else
+		{
+			$message[0] = 1;
+			$message[1] = "La password deve essere lunga almeno 6 caratteri";
+		}
 	}
 	else
-		$contenttpl->assign('data',1);
+	{
+		$message[0] = 1;
+		$message[1] = "Le 2 password non corrispondono";
+	}
+	$contenttpl->assign('message',$message);
 }
-$elencoSquadre = $squadraObj->getElencoSquadre();
+$elencoSquadre = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$elencoSquadre);
-$contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
+$contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
-$values = $giocatoreObj->getGiocatoryByIdSquadraWithStats($squadra);
+$values = $giocatoreObj->getGiocatoriByIdSquadraWithStats($squadra);
 if(($squadra != NULL) && ($values))
 {
-
 	$i = 0;
 	$appo = 0;
 	$mediaVoto = 0;
 	$mediaPartite = 0;
 	$mediaGol = 0;
 	$mediaAssist = 0;
-	$mediaMagic=0;
-	foreach($values as $key=>$val)
+	$mediaMagic = 0;
+	foreach($values as $key => $val)
 	{
-		$giocatori[$i]['idGioc'] = $val[0];
-		$giocatori[$i]['nome'] = $val[1] . " " . $val[2];
-		$giocatori[$i]['ruolo'] = $ruoli[$val[3]];
-		$giocatori[$i]['club'] = $val[5];
-		$medievoti=$giocatoreObj->getMedieVoto($giocatori[$i]['idGioc']);
-        $giocatori[$i]['votiAll']=$medievoti['mediaPunti'];
-        $giocatori[$i]['voti']=substr($giocatori[$i]['votiAll'],0,4);
-        $giocatori[$i]['partite']=$val[7];
-        $giocatori[$i]['partiteeff']=$medievoti['Presenze'];
-        $giocatori[$i]['gol']=$val[8];
-        $giocatori[$i]['assist']=$val[9];
-        $giocatori[$i]['votoeffAll']=$medievoti['mediaVoti'];
-        $giocatori[$i]['votoeff']=substr($giocatori[$i]['votoeffAll'],0,4);
-		$mediaVoto += $giocatori[$i]['votoeffAll'];
+		$giocatori[$i]['idGioc'] = $val['idGioc'];
+		$giocatori[$i]['nome'] = $val['cognome'] . " " . $val['nome'];
+		$giocatori[$i]['ruolo'] = $ruoli[$val['ruolo']];
+		$giocatori[$i]['club'] = $val['nomeClub'];
+		$medieVoti = $votiObj->getMedieVoto($giocatori[$i]['idGioc']);
+		$giocatori[$i]['votiAll'] = $medieVoti['mediaPunti'];
+		$giocatori[$i]['voti'] = substr($giocatori[$i]['votiAll'],0,4);
+		$giocatori[$i]['partite'] = $val['presenze'];
+		$giocatori[$i]['partiteEff'] = $medieVoti['presenze'];
+		$giocatori[$i]['gol'] = $val['gol'];
+		$giocatori[$i]['assist'] = $val['assist'];
+		$giocatori[$i]['votoEffAll'] = $medieVoti['mediaVoti'];
+		$giocatori[$i]['votoEff'] = substr($giocatori[$i]['votoEffAll'],0,4);
+		$mediaVoto += $giocatori[$i]['votoEffAll'];
 		$mediaMagic += $giocatori[$i]['votiAll'];
 		$mediaPartite += $giocatori[$i]['partite'];
 		$mediaGol += $giocatori[$i]['gol'];

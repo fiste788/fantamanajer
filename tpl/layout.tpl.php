@@ -8,7 +8,7 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantacalcio,fantamanajer,fantamanger,manageriale fantacalcio,alzano sopra,condominio i pini,bergamo,calcio,piazzetta" />
 		<meta name="robots" content="index,follow" />
-		<?php foreach($this->pages['css'] as $key=>$val): ?>
+		<?php foreach($this->pages['css'] as $key => $val): ?>
 			<link href="<?php echo CSSURL.$val.'.css';?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
@@ -17,7 +17,7 @@
 		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL.'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL.'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<?php if(!empty($this->pages['js'])): ?>
-		<?php foreach($this->pages['js'] as $key=>$val): ?>
+		<?php foreach($this->pages['js'] as $key => $val): ?>
 		<?php if(is_array($val)): ?>
 		<?php foreach($val as $key2=>$val2): ?>
 		<?php $appo = explode('|',$val2); ?>
@@ -35,9 +35,7 @@
 	</head>
 	<?php flush(); ?>
 	<body>
-	<!--[if lt IE 7]>
-		<div id="outer" style="border-left:960px solid #272727;float:left;">
-		<div id="inner" style="margin-left:-960px;height:1px;position:relative;"><![endif]-->
+		<div id="big-container">
 		<div id="header" class="column last">
 			<?php echo $this->header; ?>
 		</div>
@@ -62,10 +60,7 @@
 		<div id="footer">
 			<?php echo $this->footer ?>
 		</div>
-		<!--[if lt IE 7]>
 		</div>
-		</div>
-		<![endif]-->
 		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' ): ?>
 		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 		<script type="text/javascript">_uacct = "UA-3016148-1";urchinTracker();</script>

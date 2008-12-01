@@ -1,11 +1,11 @@
 <?php $r='Por.'; ?>
-<?php if($this->squadra != NULL && $this->squadra > 0 && $this->squadra < 9): ?>
+<?php if($this->squadra != NULL): ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'-small.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL.$this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
-				<img alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="reflex" align="left" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'-small.jpg')): ?>
+			<a href="<?php echo UPLOADIMGURL.$this->squadradett['idUtente'].'-original.jpg'; ?>" class="lightbox">
+				<img alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="reflex" align="left" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php else: ?>
 			<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
@@ -22,22 +22,22 @@
 				<th class=tdcenter>Club</th>
 				<th class=tdcenter>PG</th>				
 				<th class=tdcenter>MVoti</th>
+				<th class=tdcenter>MPunti</th>
 				<th class=tdcenter>Gol</th>
 				<th class=tdcenter>Assist</th>
-				<th class=tdcenter>MPunti</th>
 			</tr>
-			<?php foreach($this->giocatori as $key=>$val): ?>
-			<tr class="row">
-				<td<?php if($val['ruolo'] != $r) echo " class=\"ult\""?>>
+			<?php foreach($this->giocatori as $key => $val): ?>
+			<tr class="<?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">
+				<td<?php if($val['ruolo'] != $r) echo ' class="ult"' ?>>
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['ruolo']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['club']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="Tra parentesi è indicato il numero di partite in cui ha preso il voto"><?php echo $val['partite']." (".$val['partiteeff'].")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="<?php echo $val['votoeffAll'] ?>"><?php if(!empty($val['votoeff'])) echo $val['votoeff'];else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
-        <td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>" title="<?php echo $val['votiAll'] ?>"><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteEff'].")"; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votoEffAll'] . '"'; ?>><?php if(!empty($val['votoEff'])) echo $val['votoEff']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votiAll'] . '"'; ?>"><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
@@ -45,9 +45,9 @@
 				<td class="ult" colspan="3">Media</td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -61,30 +61,30 @@
 	<div class="box-content column last">
 	<?php if (isset($this->message)): ?>
 		<?php if($this->message[0] == 1): ?>									
-			<div class="messaggio bad column last">
+			<div id="messaggio" class="messaggio bad column last">
 				<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" title="Attenzione!" />
 				<span><?php echo $this->message[1]; ?></span>
 			</div>
 		<?php elseif($this->message[0] == 0): /* TUTTO OK */?>
-			<div class="messaggio good column last">
+			<div id="messaggio" class="messaggio good column last">
 				<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
 				<span><?php echo $this->message[1]; ?></span>
 			</div>
 		<?php endif; ?>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-			$(".messaggio").click(function () {
-				$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+			$("#messaggio").click(function () {
+				$("div#messaggio").fadeOut("slow");
 			});
 		</script>
 	<?php endif; ?>
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
-		<?php if(file_exists(UPLOADDIR. $this->squadradett['IdSquadra'].'.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-original.jpg'; ?>" class="lightbox">
-				<img class="logo" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="logo reflex" alt="<?php echo $this->squadradett['IdSquadra']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['IdSquadra'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'.jpg')): ?>
+			<a href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="lightbox">
+				<img class="logo" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+				<img class="logo reflex" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php endif; ?>
 		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
@@ -126,17 +126,7 @@
 						</tbody>
 					</table>
 					<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-					<p id="mex"><?php if($this->data == 0) 
-					{
-						echo "Se vuoi modificare le tue informazioni personali come mail, nome, password";
-						if(GIORNATA <= 2)
-							echo ". Fino alla seconda giornata imposta quì anche il nome della tua squadra"; 
-					}
-					elseif($this->data == 1) 
-						echo "Le due password non corrispondono"; 
-					elseif($this->data == 2) 
-						echo "Dati modificati correttamente. Vuoi modificarli di nuovo?<br /><br />";  ?></p>
-				</div>
+					<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra<?php endif; ?></p>
 				</li>
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
 				<div class="no-margin" style="display:none;">
@@ -162,6 +152,10 @@
 						<div class="formbox">
 							<label for="email">E-mail:</label>
 							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadradett['mail']; ?>"/>
+						</div>
+						<div class="formbox">
+							<label for="abilitaMail">Ricevi email:</label>
+							<input id="mail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
 						</div>
 						<div class="formbox">
 							<label for="password">Password:</label>
@@ -205,24 +199,24 @@ $(window).bind("load",function(){
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<?php if(file_exists(UPLOADDIR. $val[0].'-small.jpg')): ?>
-				<a class="lightbox" href="<?php echo UPLOADIMGURL.$val[0].'-original.jpg'; ?>" >
+			<?php if(file_exists(UPLOADDIR. $val['idUtente'].'-small.jpg')): ?>
+				<a class="lightbox" href="<?php echo UPLOADIMGURL.$val['idUtente'].'-original.jpg'; ?>" >
 				<?php 
-				$image = imagecreatefromjpeg(UPLOADDIR.$val[0].'-med.jpg');
+				$image = imagecreatefromjpeg(UPLOADDIR.$val['idUtente'].'-med.jpg');
 				$width = imagesx ($image); 
 				imagedestroy($image);
 				if($width > 101)
 					$appo = floor(($width - 100) / 2);
 				?>
-					<img class="logo" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADIMGURL. $val[0].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
-					<img class="logo reflex" alt="<?php echo $val[0]; ?>" src="<?php echo UPLOADIMGURL. $val[0].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
+					<img class="logo" alt="<?php echo $val['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $val['idUtente'].'-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?> />
+					<img class="logo reflex" alt="<?php echo $val['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $val['idUtente'].'-med-reflex.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita"<?php if(isset($appo)) echo ' style="margin-left:-'.$appo.'px"'; ?>  />
 				</a>
 			<?php else: ?>
-				<img class="logo column last" alt="<?php echo $val[0]; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val[1]; ?>" />
+				<img class="logo column last" alt="<?php echo $val['idUtente']; ?>" src="<?php echo IMGSURL.'no-foto.png'; ?>" title="<?php echo $val['nome']; ?>" />
 			<?php endif; ?>
-			<h3><a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$val[0])); ?>" title="Maggiori informazioni"><?php echo $val[1]; ?></a></h3>	
-			<div>Proprietario: <?php echo $val[5] ?></div>
-			<div>Pos. in classifica: <?php echo $this->posizioni[$val[0]] ?></div>
+			<h3><a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$val['idUtente'])); ?>" title="Maggiori informazioni"><?php echo $val['nome']; ?></a></h3>	
+			<div>Proprietario: <?php echo $val['username'] ?></div>
+			<div>Pos. in classifica: <?php echo $this->posizioni[$val['idUtente']] ?></div>
 		</div>
 		</div>
 		</div>

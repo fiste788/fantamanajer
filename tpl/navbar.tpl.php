@@ -5,6 +5,7 @@ $leSquadre = array('rosa');
 $conferenzeStampa = array('conferenzeStampa','modificaConferenza');
 $classifica = array('classifica','dettaglioGiornata');
 $altro = array('contatti','formazione','altreFormazioni','giocatoriLiberi','premi','trasferimenti','altro','linkUtili','feed','dettaglioGiocatore');
+$areaAmministrativa = array('areaAmministrativa','inserisciFormazione','nuovoTrasferimento','creaSquadra','lanciaScript','gestioneDatabase','newsletter','penalita');
 $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classifica,$altro);
  ?>
 <ul>
@@ -12,11 +13,11 @@ $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classi
 		<a href="<?php echo $this->linksObj->getLink('home'); ?>" title="Home">Home</a>
 	</li>
 	<?php if($_SESSION['logged']): ?>
-	<li<?php if(in_array($this->p,$laTuaSquadra) && isset($_GET['squadra']) && $_GET['squadra'] == $_SESSION['idsquadra']) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_SESSION['idsquadra'])); ?>" title="La tua squadra">La tua squadra</a>
+	<li<?php if(in_array($this->p,$laTuaSquadra) && isset($_GET['squadra']) && $_GET['squadra'] == $_SESSION['idSquadra']) echo ' class="selected"'; ?>>
+		<a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_SESSION['idSquadra'])); ?>" title="La tua squadra">La tua squadra</a>
 	</li>
 	<?php endif; ?>
-	<li<?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra']) || (in_array($this->p,$leSquadre) && isset($_GET['squadra']) && $_SESSION['idsquadra'] != $_GET['squadra'])) echo ' class="selected"'; ?>>
+	<li<?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra']) || (in_array($this->p,$leSquadre) && isset($_GET['squadra']) && $_SESSION['idSquadra'] != $_GET['squadra'])) echo ' class="selected"'; ?>>
 		<a href="<?php echo $this->linksObj->getLink('rosa'); ?>" title="Le squadre">Le squadre</a>
 	</li>
 	<li<?php if(in_array($this->p,$conferenzeStampa)) echo ' class="selected"'; ?>>
@@ -28,4 +29,9 @@ $allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classi
 	<li<?php if(in_array($this->p,$altro)) echo ' class="selected"'; ?>>
 		<a href="<?php echo $this->linksObj->getLink('altro'); ?>" title="Altro...">Altro...</a>
 	</li>
+	<?php if($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'superadmin'): ?>
+	<li<?php if(in_array($this->p,$areaAmministrativa)) echo ' class="selected"'; ?>>
+		<a href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>" title="Area amministrativa">Area amministrativa</a>
+	</li>
+	<?php endif; ?>
 </ul>

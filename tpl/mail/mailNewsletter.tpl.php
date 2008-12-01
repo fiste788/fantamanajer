@@ -1,4 +1,3 @@
-<?php $i=0; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -73,6 +72,13 @@
 				margin-right:0;
 			}
 			
+			a, a:link, a:visited, a:hover {
+				color: #ff9900;
+				text-decoration:none;
+				font-weight:bold;
+				cursor:pointer;
+			}
+			
 			#content {
 				background:#383838;
 				width:840px;
@@ -116,14 +122,19 @@
 				
 			.main-content {
 				clear:both;
-				width:610px;
 				float:left;
-				padding: 0 0 15px 15px;
+				padding: 15px;
 			}
 			
 			h3 {
 				font-weight:bold;
 				font-size:16px;
+				margin:0;
+			}
+			em {
+				margin: 0 0 10px 0;
+				clear:both;
+				font-style:italic;
 			}
 			
 			h4 {
@@ -160,66 +171,22 @@
 		</style>
 	</head>
 	<body>
+		<a class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
+			<img alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
+		</a>
 		<div id="content" class="column last">
 			<div id="content-top-sx" class="column last">
 				<div id="content-top-dx" class="column last">
 					<div id="content-bottom-sx" class="column last">
 						<div id="content-bottom-dx" class="column last">
 							<div id="content-container" class="column last" >
-							<?php foreach ($this->titolari as $squadra => $formazione): ?>
-								<?php if($i%2 == 0): ?>
-									<div class="riga column last">
-								<?php endif; ?>
-								<div id="squadradett" class="column last">
-								<div class="box2-top-sx column last">
-								<div class="box2-top-dx column last">
-								<div class="box2-bottom-sx column last">
-								<div class="box2-bottom-dx column last">
-								<div class="box-content column last">
-								<?php if ($formazione != FALSE): ?>
-									<h3><?php echo $this->squadre[$squadra][1]; ?></h3>
-									<h4>Titolari</h4><hr />
-									<table>
-									<?php foreach ($formazione as $key => $val): ?>
-										<tr>
-										<?php if($this->cap[$squadra]['C'] == $val['idGioc']) : ?>
-											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap2.png' ?>"/></td>
-										<?php else: ?>
-											<td class="tableimg"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
-										<?php endif; ?>
-											<td><?php echo $val['Cognome']; ?></td>
-											<td><?php echo $val['Nome']; ?></td>
-											<td><?php if(array_search($val['idGioc'],$this->cap[$squadra]) != FALSE)  echo array_search($val['idGioc'],$this->cap[$squadra]); else echo '&nbsp;'; ?></td>
-										</tr>
-									<?php endforeach; ?>
-									</table>
-									<?php if($this->panchinari[$squadra] != FALSE): ?>
-										<h4>Panchinari</h4><hr/>
-										<table>
-										<?php foreach ($this->panchinari[$squadra] as $key => $val): ?>
-											<tr>
-												<td class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
-												<td><?php echo $val['Cognome']; ?></td>
-												<td><?php echo $val['Nome']; ?></td>
-											</tr>
-										<?php endforeach; ?>
-										</table>
-									<?php endif; ?>
-								<?php else: ?>
-									<h3><?php echo $this->squadre[$squadra][1]; ?></h3>
-									Non ha settato la formazione.
-								<?php endif; ?>
+								<div class="main-content">
+									<h3 class="column last"><?php echo $this->object; ?></h3>
+									<em class="column last"><?php if($this->type == 'N') echo 'Newsletter'; else echo 'Comunicazione' ?> del <?php echo $this->date; ?> Autore: <?php echo $this->autore['username']; ?></em>
+									<p style="clear:both;margin-bottom:15px;" class="column last"><?php echo $this->text; ?></p>
+									<p style="clear:both;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
+									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
 								</div>
-								</div>
-								</div>
-								</div>
-								</div>
-								</div>
-								<?php $i++; ?>
-								<?php if($i%2 == 0): ?>
-									</div>
-								<?php endif; ?>
-							<?php endforeach; ?>
 							</div>
 						</div>
 					</div>

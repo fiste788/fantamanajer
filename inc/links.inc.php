@@ -5,9 +5,9 @@ class links
 	{
 		if(MODREWRITE)
 		{
-			$link = '/'.$page;
+			$link = '/' . $page;
 			if($arrayParam != NULL)
-				$link .= '/'.implode('/',$arrayParam);
+				$link .= '/' . implode('/',$arrayParam);
 			$link .= '.html';
 		}
 		else
@@ -15,8 +15,8 @@ class links
 			$link = 'index.php?p='.$page;
 			if($arrayParam != NULL)
 			{
-				foreach($arrayParam as $key=>$val)
-					$link .= '&amp;'.$key."=".$val;
+				foreach($arrayParam as $key => $val)
+					$link .= '&amp;' . $key . "=" . $val;
 			}
 		}
 		return $link;

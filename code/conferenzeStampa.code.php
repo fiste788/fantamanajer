@@ -1,11 +1,11 @@
 <?php 
 require_once(INCDIR."articolo.inc.php");
-require_once(INCDIR."squadra.inc.php");
+require_once(INCDIR."utente.inc.php");
 require_once(INCDIR."emoticon.inc.php");
 
 $emoticonObj = new emoticon();
 $articoloObj = new articolo();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 
 $getGiornata = GIORNATA;
 if (!empty($_GET['giorn']))
@@ -18,13 +18,13 @@ $articoloObj->setidgiornata($getGiornata);
 
 $articolo = $articoloObj->select($articoloObj,'=','*');
 if($articolo != FALSE)
-	foreach ($articolo as $key=>$val)
+	foreach ($articolo as $key => $val)
 		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
 $contenttpl->assign('articoli',$articolo);
 
 
-$contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
-$giornateWithArticoli = $articoloObj->getGiornateArticoliExist();
+$contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
+$giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['idLega']);
 if($giornateWithArticoli != FALSE)
 {
 	rsort($giornateWithArticoli);
@@ -56,10 +56,11 @@ elseif(!$key)
 }
 
 $contenttpl->assign('articoloExist',1);
-if(isset($_SESSION['idsquadra']))
+if(isset($_SESSION['idSquadra']))
 {
 	$articoloObj->setidgiornata($getGiornata);
-	$articoloObj->setidsquadra($_SESSION['idsquadra']);
+	$articoloObj->setidsquadra($_SESSION['idSquadra']);
+	$articoloObj->setidlega($_SESSION['idLega']);
 	$articoloExist = $articoloObj->select($articoloObj,'=','*');
 	if(!empty($articoloExist))
 		$contenttpl->assign('articoloExist',0);
