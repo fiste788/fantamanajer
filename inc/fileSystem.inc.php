@@ -69,8 +69,9 @@ class fileSystem
 		return $string;
 	}
 	
-	function scaricaVotiCsv($percorso)
+	function scaricaVotiCsv($giorn)
 	{
+        $percorso = "./docs/voti/Giornata" . $giorn . ".csv";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
 	    $espr = "<tr>";
 	    if (file_exists($percorso))
@@ -83,6 +84,12 @@ class fileSystem
 			if(empty($contenuto))
 				return FALSE;
 			//print htmlspecialchars($contenuto);
+			preg_match("/<td.*?artxtTitolino.*?Giornata\s{1}(.+?)<\/span>/",$contenuto,$matches);
+			$giornata=$matches[1];
+			if($giornata!= $giorn) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
+			{
+                return false;
+            }
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
 			$keywords = explode($espr, $matches[0]);
