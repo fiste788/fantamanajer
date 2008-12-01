@@ -45,7 +45,7 @@ class voti
 		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
 		$percorso = "./docs/voti/Giornata" . $giorn . ".csv";
-		if($fileSystemObj->scaricaVotiCsv($percorso))
+		if($fileSystemObj->scaricaVotiCsv($giorn))
 		{	// crea il .csv con i voti
 			if($this->checkVotiExist($giorn))
 				return TRUE;
