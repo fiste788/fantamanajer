@@ -118,14 +118,14 @@ if(isset($_GET['id']))
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(isset($this->messaggio) && $this->messaggio[0] == 1): ?>
-		<div class="messaggio bad column last">
+		<div id="messaggio" class="messaggio bad column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" />
 			<span><?php echo $this->messaggio[1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 	<?php endif; ?>

@@ -44,7 +44,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php if(TIMEOUT != '0'): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
+	<?php if(TIMEOUT != '0' || TIMEOUT != FALSE): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
 	<input type="submit" class="submit dark" value="Acquista" />
 	</form><?php endif; ?>
 <?php else: ?>

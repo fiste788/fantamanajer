@@ -80,6 +80,8 @@ class fileSystem
 		{
 			$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_" . $ruolo . ".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
 			$contenuto = $this->contenutoCurl($link);
+			if(empty($contenuto))
+				return FALSE;
 			//print htmlspecialchars($contenuto);
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
@@ -99,6 +101,7 @@ class fileSystem
 			}
 		}
 		fclose($handle);
+		return TRUE;
 	}
 	
 	function scaricaLista($percorso)

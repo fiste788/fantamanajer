@@ -74,13 +74,13 @@ $elencocap=array('C','VC','VVC'); ?>
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(!$this->formazione && TIMEOUT != '0'): ?>
-	<div class="messaggio neut column last" >
+	<div id="messaggio" class="messaggio neut column last" >
 		<img src="<?php echo IMGSURL.'attention-big.png'; ?>" />
 		<span>La formazione non è stata impostata</span>
 	</div>
 	<script type="text/javascript">
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 	<?php endif; ?>

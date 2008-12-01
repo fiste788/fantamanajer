@@ -1,6 +1,6 @@
 <?php if(isset($_GET['squadra'])) $squadra = $_GET['squadra']; else $squadra=$_SESSION['idSquadra']; ?>
 	<?php if(isset($this->generalMessage)): ?>									
-		<div class="messaggio bad column last">
+		<div id="messaggioGen" class="messaggio bad column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" title="Attenzione!" />
 			<span><?php echo $this->generalMessage; ?></span>
 		</div>

@@ -141,14 +141,14 @@
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(isset($_SESSION['message'])): ?>
-		<div class="messaggio neut column last">
+		<div id="messaggio" class="messaggio neut column last">
 			<img alt="!" src="<?php if($_SESSION['message'][0] == 0) echo IMGSURL.'lock.png'; else echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 	<?php unset($_SESSION['message']); endif; ?>

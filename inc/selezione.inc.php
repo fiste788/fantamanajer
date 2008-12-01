@@ -34,7 +34,7 @@ class selezione
 		$q = "UPDATE selezione 
 				SET giocOld = NULL,giocNew = NULL 
 				WHERE idSquadra = '" . $idSquadra . "';";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function checkFree($idGioc,$idLega)

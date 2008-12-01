@@ -126,7 +126,7 @@ if(!isset($formImp[$squadra]))
 					$mailContent->assign('giornata',$giornata);
 					$mailContent->assign('squadra',$squadraDett['nome']);
 					$mailContent->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
-					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataSquadra($giornata,$squadra));
+					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$squadra));
 					
 				   	$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($squadra,$giornata);
 				   	//$mailContent->display(TPLDIR.'mail.tpl.php');

@@ -96,21 +96,21 @@
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 		<?php if(isset($this->message) && $this->message[0] == 0): ?>
-		<div class="messaggio good column last">
+		<div id="messaggio" class="messaggio good column last">
 			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
 			<span><?php echo $this->message[1]; ?></span>
 		</div>
 		<?php elseif(isset($this->message) && $this->message[0] == 1): ?>
-		<div class="messaggio bad column last">
+		<div id="messaggio" class="messaggio bad column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" />
 			<span><?php echo $this->message[1]; ?></span>
 		</div>
 		<?php endif; ?>
 		<?php if(isset($this->message)): ?> 
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 		<?php endif; ?>

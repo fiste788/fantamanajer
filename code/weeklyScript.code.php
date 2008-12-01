@@ -18,7 +18,7 @@ $votiObj = new voti();
 $legheObj = new leghe();
 $dbObj = new db();
 
-$giornata = $giornataObj->getIdGiornataByDate(date("Y-m-d"))-1;
+$giornata = GIORNATA - 1;
 if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo')) || $_SESSION['usertype'] == 'superadmin')
 {
 	//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
@@ -30,8 +30,6 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 			$leghe = $legheObj->getLeghe();
 			foreach($leghe as $lega)
 			{
-				$mailContent = new Savant2();
-				$result = array();
 				$squadre = $utenteObj->getElencoSquadreByLega($lega['idLega']);
 				$dbObj->startTransaction();
 				foreach($squadre as $key =>$val)
@@ -69,14 +67,16 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 					else
 						$diff[] = (array_search($val,$indexPrevSum))- $key;
 				}
-				$mailContent->assign('classifica',$sum);
-				$mailContent->assign('differenza',$diff);
-				$mailContent->assign('squadre',$squadre);
-				$mailContent->assign('giornata',$giornata);
+				
 				foreach ($squadre as $key => $val)
 				{
 					if(!empty($val['mail']) && $val['abilitaMail'] == 1)
 					{
+						$mailContent = new Savant2();
+						$mailContent->assign('classifica',$sum);
+						$mailContent->assign('differenza',$diff);
+						$mailContent->assign('squadre',$squadre);
+						$mailContent->assign('giornata',$giornata);
 						$penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($val['idUtente'],$giornata);
 						if($penalità != FALSE)
 							$mailContent->assign('penalità',$penalità);
@@ -101,6 +101,8 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 			//AGGIORNA LA LISTA GIOCATORI
 			$giocatoreObj->updateTabGiocatore($giornata);
 		}
+		else
+			$contenttpl->assign('message','Problema nel recupero dei voti dalla gazzetta');
 	}
 	else
 		$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');

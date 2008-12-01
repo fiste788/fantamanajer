@@ -6,10 +6,10 @@ class schieramento
 	var $idGioc;
 	var $considerazione;	//0 = non ha giocato, 1 = giocato, 2 = capitano
 	
-	function setConsiderazione($idFormazione,$idGioc)
+	function setConsiderazione($idFormazione,$idGioc,$val)
 	{
 	    $q = "UPDATE schieramento 
-				SET considerato = considerato + 1 
+				SET considerato = '" . $val . "'
 				WHERE idFormazione = '" . $idFormazione . "' AND idGioc = '" . $idGioc . "'";
 	    mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}

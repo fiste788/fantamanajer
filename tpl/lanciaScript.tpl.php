@@ -22,45 +22,45 @@
 				url: Url,
 				type: "post",
 				beforeSend: function(){
-					$(".messaggio div").remove();
-					$(".messaggio").removeClass("good");
-					$(".messaggio").removeClass("bad");
-					$(".messaggio").append('<div><img src="' + loadingImg + '"</div>');
+					$("#messaggio div").remove();
+					$("#messaggio").removeClass("good");
+					$("#messaggio").removeClass("bad");
+					$("#messaggio").append('<div><img src="' + loadingImg + '"</div>');
 				},
 				cache: false,
 				username: "administrator",
 				password: "banana",
 				success: function(html,text){
-					$(".messaggio div").fadeOut(function (){
-						$(".messaggio").css('display','none');
-						$(".messaggio").addClass('good');
-						$(".messaggio div").remove();
+					$("#messaggio div").fadeOut(function (){
+						$("#messaggio").css('display','none');
+						$("#messaggio").addClass('good');
+						$("#messaggio div").remove();
 						var time2 = new Date();
 						var time_end = time2.getTime();
-						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'ok-big.png'; ?> "><span>Script ' + script + ' eseguito con successo</span></div>').fadeIn( function() {
+						$("#messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'ok-big.png'; ?> "><span>Script ' + script + ' eseguito con successo</span></div>').fadeIn( function() {
 							if(jQuery.browser.msie)
-								$(".messaggio").removeAttr('style');	
+								$("#messaggio").removeAttr('style');	
 						});
 					});
 				},
 				error:  function(){
-					$(".messaggio div").fadeOut(function (){
-						$(".messaggio").css('display','none');
-						$(".messaggio").addClass('bad');
-						$(".messaggio div").remove();
+					$("#messaggio div").fadeOut(function (){
+						$("#messaggio").css('display','none');
+						$("#messaggio").addClass('bad');
+						$("#messaggio div").remove();
 						var time2 = new Date();
 						var time_end = time2.getTime();
-						$(".messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'attention-bad-big.png'; ?> "><span>Errore nell\'esecuzione dello script ' + script + '</span></div>').fadeIn(function() {
+						$("#messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'attention-bad-big.png'; ?> "><span>Errore nell\'esecuzione dello script ' + script + '</span></div>').fadeIn(function() {
 							if(jQuery.browser.msie)
-								$(".messaggio").removeAttr('style');
+								$("#messaggio").removeAttr('style');
 						});
 					});
 				}
 			});
 		});
 		
-		$(".messaggio").bind("click",function () {
-			$("div.messaggio").fadeOut("slow");
+		$("#messaggio").bind("click",function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 	</script>
 </div>
@@ -70,7 +70,7 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-		  <div class="messaggio column last" style="display:none;">
+		  <div id="messaggio" class="messaggio column last" style="display:none;">
   		</div>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		</div>
