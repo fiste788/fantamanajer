@@ -71,7 +71,6 @@
 				<?php endforeach; ?>
 				};
 			var options = {
-				colors: ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed", "#8F8F8F#" ,"#99ff77", "#ff4500"],
 				lines: { show: true },
 				points: { show: true },
 				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
@@ -130,7 +129,6 @@
 					plot = $.plot($("#placeholder"), data,options);
 
 				var overview = $.plot($("#overview"), data, {
-					colors: ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed", "#8F8F8F#" ,"#AFDAA6", "#6b8e23", "#ff4500"],
 					lines: { show: true, lineWidth: 1 },
 					shadowSize: 0,
 					xaxis: { ticks: 4 },

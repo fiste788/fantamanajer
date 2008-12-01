@@ -6,14 +6,14 @@
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content"> 
-<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg')): ?>
-	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg'; ?>">
-	<?php endif; ?>
-	<p>Cognome: <?php echo $this->dettaglioGioc[0]['Cognome']; ?></p>
-	<p>Nome: <?php echo $this->dettaglioGioc[0]['Nome']; ?></p>
-	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['Ruolo']]; ?></p>
-	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['IdSquadra'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
-	<p>Club: <?php echo $this->dettaglioGioc[0]['Club']; ?></p>
+<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg')): ?>
+	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg'; ?>">
+<?php endif; ?>
+	<p>Cognome: <?php echo $this->dettaglioGioc[0]['cognome']; ?></p>
+	<p>Nome: <?php echo $this->dettaglioGioc[0]['nome']; ?></p>
+	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
+	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['idUtente'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
+	<p>Club: <?php echo $this->dettaglioGioc[0]['nomeClub']; ?></p>
 	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']; ?></p>
 	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
 	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
@@ -86,7 +86,6 @@
 			];
 				
 			var options = {
-				colors: ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed", "#000080", "6b8e23", "ff4500"],
 				lines: { show: true },
 				points: { show: true },
 				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },

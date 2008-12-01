@@ -13,7 +13,7 @@ if(!isset($_GET['p']))
 		<div class="box-bottom-sx right last">
 		<div class="box-bottom-dx right last">
 		<?php if(isset($this->loginerror)): ?>
-			<div class="messaggio neut column last">
+			<div id="messaggio" class="messaggio neut column last">
 				<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 				<span><?php echo $this->loginerror; ?></span>
 			</div>

@@ -85,7 +85,7 @@ class giocatore
 	
 	function getGiocatoreByIdWithStats($giocatore)
 	{
-		$q = "SELECT giocatore.IdGioc, cognome, nome, ruolo, idUtente, nomeClub, AVG( voto ) as mediaPunti,avg(votoUff) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, nomeClub, AVG( voto ) as mediaPunti,avg(votoUff) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
 				FROM squadre INNER JOIN ((giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) LEFT JOIN club ON club.idClub = giocatore.club) ON squadre.idGioc = giocatore.idGioc 
 				WHERE giocatore.idGioc = '" . $giocatore . "' AND (votoUff <> 0 OR voto IS NULL) 
 				GROUP BY giocatore.idGioc";
@@ -169,10 +169,6 @@ class giocatore
 	{
 		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
-		
-		$percorsoOld = "./docs/ListaGiornata/ListaGiornata" . ($giornata-1) . ".csv";
-		if(!file_exists($percorsoOld))
-			return;   
 		$percorso = "./docs/ListaGiornata/ListaGiornata" . ($giornata) . ".csv";  
 		$fileSystemObj->scaricaLista($percorso);  // crea il .csv con la lista aggiornata
 		//$playersOld = $fileSystemObj->returnArray($percorsoOld);
@@ -188,22 +184,29 @@ class giocatore
 				$pieces = explode(";",$playersOld[$key]);
 				$clubOld = $pieces[3];
 				if($clubNew != $clubOld)
-				{
-					$q = "UPDATE giocatore 
-							SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $clubNew . "%') 
-							WHERE idGioc = '" . $key . "'";
-					mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-				}
+					$clubs[$clubNew][] = $key;
+			}
+		}
+		if(isset($clubs))
+		{
+			foreach($clubs as $key => $val)
+			{
+				$giocatori = join("','",$clubs[$key]);
+				$q = "UPDATE giocatore 
+						SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
+						WHERE idGioc IN ('" . $giocatori . "')";
+				mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 			}
 		}
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
 		$daTogliere = array_diff_key($playersOld, $players);  
 		$daInserire = array_diff_key($players,$playersOld);
-		foreach($daTogliere as $key => $val)
+		if(isset($daTogliere))
 		{
+			$stringaDaTogliere = join("','",$daTogliere);
 			$q = "UPDATE giocatore 
 					SET club = '' 
-					WHERE idGioc = '" . $key . "'";
+					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}        
 		foreach($daInserire as $key => $val)

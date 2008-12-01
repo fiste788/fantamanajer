@@ -24,12 +24,17 @@ class giornata
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$value = mysql_fetch_row($exe);
-		$array = explode(" ",$value[0]);
-		$data = explode("-",$array[0]);
-		$data2dayAfter = date ("Y-m-d", mktime(0,0,0,$data[1],$data[2]+2,$data[0]));
-		if($day == $data2dayAfter)
-      		return $value[1];
-    	else
+		if(!empty($value))
+		{
+			$array = explode(" ",$value[0]);
+			$data = explode("-",$array[0]);
+			$data2dayAfter = date ("Y-m-d", mktime(0,0,0,$data[1],$data[2]+2,$data[0]));
+			if($day == $data2dayAfter)
+				return $value[1];
+			else
+				return FALSE;
+		}
+		else
 			return FALSE;
 	}
 	

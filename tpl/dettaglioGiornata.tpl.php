@@ -20,7 +20,7 @@
 				<th class="club">Club</th>
 				<th class="punt">Punt.</th>
 			</tr>
-			<?php $panch=$this->formazione;$tito=array_splice($panch,0,11);?>
+			<?php $panch = $this->formazione; $tito = array_splice($panch,0,11); ?>
             <?php foreach($tito as $key => $val): ?>
 					<?php if($val['considerato'] == 0 || ($val['voto'] == "" && $val['considerato'] > 0)): ?>
 						<tr class="rosso">
@@ -41,7 +41,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php if(!empty($panchinari)): ?>
+	<?php if(!empty($panch)): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Panchinari</caption>
 		<tbody>
@@ -87,7 +87,7 @@
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 		<?php if(isset($this->penalità)): ?>
-		<div class="messaggio neut column last">
+		<div id="messaggio" class="messaggio neut column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 			<?php foreach($this->penalità as $key => $val): ?>
 				<span>Penalità: <?php echo $val['punteggio']; ?> punti<br />Motivazione: <?php echo $val['penalità']; ?></span><br />

@@ -84,10 +84,8 @@ class punteggi
 			arsort($somme);
 			$appo = array_keys($somme);
 			for($i = 0; $i < count($classifica); $i++)
-			{
-				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
+				for($j = 1 ; $j <= max(array_keys($classifica [$appo[$i]])) ; $j++)
 					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
-			}
 		}
 		else
 		{
@@ -133,14 +131,14 @@ class punteggi
 			arsort($somme);
 			$appo = array_keys($somme);
 			for($i = 0; $i < count($classifica); $i++)
-				for($j = 1 ; $j <= count($classifica [$appo[$i]]) ; $j++)
+				for($j = 1 ; $j <= max(array_keys($classifica [$appo[$i]])) ; $j++)
 					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
 		}
 		else
 		{
 			require_once(INCDIR.'utente.inc.php');
 			$utenteObj = new utente();
-			$squadre = $utenteObj->getElencoSquadre();
+			$squadre = $utenteObj->getElencoSquadreByLega($idLega);
 			foreach($squadre as $key => $val)
 				$classificaOkay[$key][0] = 0;
 		}
@@ -221,12 +219,12 @@ class punteggi
 					if($sostituto != 0)
 						$player = $sostituto;
 				}
-				$schieramentoObj->setConsiderazione($idForm,$player);
+				$schieramentoObj->setConsiderazione($idForm,$player,1);
 				$voto = $votiObj->getVotoByIdGioc($player,$giornata);
 				if($player == $cap)
 				{
 					$voto *= 2;
-					$schieramentoObj->setConsiderazione($idForm,$cap);
+					$schieramentoObj->setConsiderazione($idForm,$cap,2);
 				}
 				$somma += $voto;
 			}

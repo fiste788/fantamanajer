@@ -45,9 +45,9 @@
 				<td class="ult" colspan="3">Media</td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -61,20 +61,20 @@
 	<div class="box-content column last">
 	<?php if (isset($this->message)): ?>
 		<?php if($this->message[0] == 1): ?>									
-			<div class="messaggio bad column last">
+			<div id="messaggio" class="messaggio bad column last">
 				<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" title="Attenzione!" />
 				<span><?php echo $this->message[1]; ?></span>
 			</div>
 		<?php elseif($this->message[0] == 0): /* TUTTO OK */?>
-			<div class="messaggio good column last">
+			<div id="messaggio" class="messaggio good column last">
 				<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
 				<span><?php echo $this->message[1]; ?></span>
 			</div>
 		<?php endif; ?>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-			$(".messaggio").click(function () {
-				$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+			$("#messaggio").click(function () {
+				$("div#messaggio").fadeOut("slow");
 			});
 		</script>
 	<?php endif; ?>
