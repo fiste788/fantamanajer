@@ -4,57 +4,70 @@
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
 	</div>
-	<h2 class="column"><?php echo $this->dettaglioGioc[0]['Cognome']." ".$this->dettaglioGioc[0]['Nome']; ?></h2>
+	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
 
 <div id="dettaglioGioc" class="main-content"> 
-	<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg')): ?>
-	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['IdGioc'].'.jpg'; ?>">
-	<?php endif; ?>
-	<p>Cognome: <?php echo $this->dettaglioGioc[0]['Cognome']; ?></p>
-	<p>Nome: <?php echo $this->dettaglioGioc[0]['Nome']; ?></p>
-	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['Ruolo']]; ?></p>
-	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['IdSquadra'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
-	<p>Club: <?php echo $this->dettaglioGioc[0]['Club']; ?></p>
+<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg')): ?>
+	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg'; ?>">
+<?php endif; ?>
+	<p>Cognome: <?php echo $this->dettaglioGioc[0]['cognome']; ?></p>
+	<p>Nome: <?php echo $this->dettaglioGioc[0]['nome']; ?></p>
+	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
+	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['idUtente'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
+	<p>Club: <?php echo $this->dettaglioGioc[0]['nomeClub']; ?></p>
 	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']; ?></p>
 	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
 	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
 	<p>Media Voto: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
 	<p>Media Punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
-<table cellpadding="0" cellspacing="0">
+<table style="width:100px;" class="column last" cellpadding="0" cellspacing="0">
 	<tr>
-			<th>Giornata</th>
-		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<th><?php echo $key; ?></th>
-		<?php endforeach; ?>
+		<th>Giornata</th>
 	</tr>
 	<tr>
-			<td>Punti</td>
-		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['Voto']; ?></td>
-		<?php endforeach; ?>
+		<td>Punti</td>
 	</tr>
 	<tr>
-			<td>Voti</td>
-		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php if($val['VotoUff'] != '0') echo $val['VotoUff']; else echo "&nbsp;"; ?></td>
-		<?php endforeach; ?>
-	</tr>
-
-	<tr>
-			<td>Gol</td>
-		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['Gol']; ?></td>
-		<?php endforeach; ?>
+		<td>Voti</td>
 	</tr>
 	<tr>
-			<td>Assist</td>
-		<?php foreach($this->dettaglioGioc['data'] as $key=>$val): ?>
-			<td><?php echo $val['Assist']; ?></td>
-		<?php endforeach; ?>
+		<td>Gol</td>
+	</tr>
+	<tr>
+		<td>Assist</td>
 	</tr>
 </table>
+<div id="tab_giocatore" class="column last">
+	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['data'])*40; ?>px;margin:0;">
+		<tr>
+		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
+			<th><?php echo $key; ?></th>
+		<?php endforeach; ?>
+		</tr>
+		<tr>
+		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
+			<td><?php echo $val['voto']; ?></td>
+		<?php endforeach; ?>
+		</tr>
+		<tr>
+		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
+			<td><?php if($val['votoUff'] != '0') echo $val['votoUff']; else echo "&nbsp;"; ?></td>
+		<?php endforeach; ?>
+		</tr>
+		<tr>
+		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
+			<td><?php echo $val['gol']; ?></td>
+		<?php endforeach; ?>
+		</tr>
+		<tr>
+		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
+			<td><?php echo $val['assist']; ?></td>
+		<?php endforeach; ?>
+		</tr>
+	</table>
+</div>
 <div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
 	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
@@ -65,15 +78,19 @@
  $(function () {
 			var data = [
 				{
-				label: "<?php echo $this->dettaglioGioc[0]['Cognome'] ." ". $this->dettaglioGioc[0]['Nome'] ?>",
-				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key=>$val): $i++; ?><?php if($val['VotoUff'] != '0') echo '['.$key.','.$val['Voto'].']'; if(count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
+				label: "Voto <?php echo $this->dettaglioGioc[0]['cognome'] ." ". $this->dettaglioGioc[0]['nome'] ?>",
+				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key => $val): $i++; ?><?php if($val['votoUff'] != '0') echo '['.$key.','.$val['votoUff'].']'; if($val['votoUff'] != '0' && count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
+				},
+				{
+				label: "Punteggio <?php echo $this->dettaglioGioc[0]['cognome'] ." ". $this->dettaglioGioc[0]['nome'] ?>",
+				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key => $val): $i++; ?><?php if($val['voto'] != '0') echo '['.$key.','.$val['voto'].']'; if($val['voto'] != '0' && count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
 				}
 			];
 				
 			var options = {
 				lines: { show: true },
 				points: { show: true },
-				grid: { backgroundColor: null,hoverable:true },
+				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
 				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
 				yaxis: { min: 0 },
@@ -94,7 +111,8 @@
 					xaxis: { tickDecimals: 0 },
 					yaxis: { min: 0},
 					selection: { mode: "x" },
-					legend: { show:false }
+					legend: { show:false },
+					grid: {tickColor: '#aaa',color:'#aaa',borderWidth:1}
 				});
 				
 				function showTooltip(x, y,color, contents) {
@@ -104,6 +122,8 @@
 					for (var i=0;i<arrayColor.length;i++)
 					{
 						arrayColor[i] = arrayColor[i]*1 + 120;
+						if(arrayColor[i] > 255)
+							arrayColor[i] = 255;
 					}
 					colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
 					$('<div id="tooltip">' + contents + '</div>').css( {
@@ -117,7 +137,7 @@
 						color: '#000',
 						opacity: 0.60
 					}).appendTo("body").fadeIn(200);
-				}
+				};
 				
 				var previousPoint = null;
 				$("#placeholder").bind("plothover", function (event, pos, item) {

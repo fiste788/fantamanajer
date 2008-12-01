@@ -1,49 +1,51 @@
 <?php $i=1; ?>
 <div class="titolo-pagina">
-<div class="column logo-tit">
-	<img alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />
-</div>
-<h2 class="column">Classifica</h2>
+	<div class="column logo-tit">
+		<img alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />
+	</div>
+	<h2 class="column">Classifica</h2>
 </div>
 <div id="classifica-content" class="main-content">
-	<table cellpadding="0" cellspacing="0" class="column last" style="width:316px;overflow:hidden;">
-		<tbody>
-			<tr>
-				<th style="width:20px">P.</th>
-				<th style="width:180px">Nome</th>
-				<th style="width:70px">Punti tot</th>
-			</tr>
-			<?php foreach($this->classificaDett as $key=>$val): ?>
-			<tr>
-				<td><?php echo $i; ?></td>
-				<td><?php echo $this->squadre[$key][1]; ?></td>
-				<td><?php echo array_sum($val); ?></td>
-			 </tr>
-			<?php $i++; endforeach; ?>
-		</tbody>
-	</table>
-	<div id="tab_classifica" class="column last">
-	<?php $i = 1; ?>
-	<?php if(key($this->classificaDett[$i]) != 0): ?>
-	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
-		<tbody>
-			<tr>
-				<?php foreach($this->classificaDett[$i] as $key=>$val): ?>
-					<th style="width:35px"><?php echo $key ?></th>
-				<?php endforeach; ?>
-			</tr>
-			<?php foreach($this->classificaDett as $key=>$val): ?>
-			<tr>
-			<?php foreach($val as $secondKey=>$secondVal): ?>
-				<td>
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$secondKey,'squad'=>$this->squadre[$key][0])); ?>"><?php echo $val[$secondKey]; ?></a>
-				</td>
-				<?php endforeach; ?>
-			</tr>
-			<?php $i++; endforeach; ?>
-		</tbody>
-	</table>
-	<?php endif; ?>
+	<div id="classifica-container" class="column last">
+		<table class="no-margin" cellpadding="0" cellspacing="0" class="column last" style="width:316px;overflow:hidden;">
+			<tbody>
+				<tr>
+					<th style="width:20px">P.</th>
+					<th style="width:180px">Nome</th>
+					<th style="width:70px">Punti tot</th>
+				</tr>
+				<?php foreach($this->classificaDett as $key => $val): ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td class="nowrap"><?php echo $this->squadre[$key]['nome']; ?></td>
+					<td><?php echo array_sum($val); ?></td>
+				 </tr>
+				<?php $i++;$flag = $key; endforeach; ?>
+			</tbody>
+		</table>
+		<div id="tab_classifica" class="column last">
+		<?php $i = 1; ?>
+		<?php if(key($this->classificaDett[$flag]) != 0): ?>
+		<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
+			<tbody>
+				<tr>
+					<?php foreach($this->classificaDett[$flag] as $key => $val): ?>
+						<th style="width:35px"><?php echo $key ?></th>
+					<?php endforeach; ?>
+				</tr>
+				<?php foreach($this->classificaDett as $key => $val): ?>
+				<tr>
+				<?php foreach($val as $secondKey=>$secondVal): ?>
+					<td<?php if(isset($this->penalità[$key][$secondKey])) echo ' title="Penalità: ' . $this->penalità[$key][$secondKey] . ' punti" class="rosso"' ?>>
+						<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$secondKey,'squad'=>$this->squadre[$key][0])); ?>"><?php echo $val[$secondKey]; ?></a>
+					</td>
+					<?php endforeach; ?>
+				</tr>
+				<?php $i++; endforeach; ?>
+			</tbody>
+		</table>
+		<?php endif; ?>
+		</div>
 	</div>
 	<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
@@ -54,24 +56,24 @@
 	<!--
  $(function () {
    		var datasets = {
-			<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>"<?php echo $this->squadre[$key][1]; ?>": {
-				label: "<?php echo $this->squadre[$key][1]; ?>",
+			<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $this->squadre[$key]['nome']; ?>": {
+				label: "<?php echo $this->squadre[$key]['nome']; ?>",
 				data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
 			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 
 				<?php endforeach; ?>
-			}
+			};
 
 			var medie = {
-				<?php $i=0; foreach($this->classificaDett as $key=>$val): $i++; ?>
+				<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
-				"<?php echo $this->squadre[$key][1] ?>" : {label: "Media <?php echo $this->squadre[$key][1]?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
+				"<?php echo $this->squadre[$key]['nome'] ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>
-				}
+				};
 			var options = {
 				lines: { show: true },
 				points: { show: true },
-				grid: { backgroundColor: null,hoverable:true },
+				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
 				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
 				xaxis: { tickDecimals: 0 },
 				shadowSize: 2,
@@ -94,7 +96,7 @@
 			});
 
 			<?php if($_SESSION['logged'] == TRUE): ?>
-				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idsquadra']-1][1]; ?>']").attr ('checked','');
+				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idSquadra']]['nome']; ?>']").attr ('checked','');
 			<?php endif; ?>
 				choiceContainer.find("input").click(plotAccordingToChoices);
 
@@ -131,7 +133,8 @@
 					shadowSize: 0,
 					xaxis: { ticks: 4 },
 					selection: { mode: "x" },
-					legend: { show:false }
+					legend: { show:false },
+					grid : {tickColor: '#aaa',color:'#aaa',borderWidth:1}
 				});
 
 				$("#clearSelection").bind("click",function () {
@@ -150,6 +153,8 @@
 					for (var i=0;i<arrayColor.length;i++)
 					{
 						arrayColor[i] = arrayColor[i]*1 + 120;
+						if(arrayColor[i] > 255)
+							arrayColor[i] = 255;
 					}
 					colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
 					$('<div id="tooltip">' + contents + '</div>').css( {
@@ -163,7 +168,7 @@
 						color: '#000',
 						opacity: 0.60
 					}).appendTo("body").fadeIn(200);
-				}
+				};
 				
 				var previousPoint = null;
 				$("#placeholder").bind("plothover", function (event, pos, item) {
@@ -197,6 +202,7 @@
 						$.extend(true, {}, options, {
 							xaxis: { min: Math.round(area.x1), max: Math.round(area.x2) }
 					}));
+					$("#overview").setSelection(area, true);
 					$("#legendcontainer table").attr('cellspacing','0');
 				});
 
@@ -244,8 +250,10 @@
 			<h3 class="no-margin">Legenda</h3>
 		</div>
 		<div id="option" class="column last">
-			<div id="choices" class="column last"><p class="column no-margin">Mostra:</p></div>
-			<div class="formbox">
+			<div id="choices" class="column last">
+				<p class="column no-margin">Mostra:</p>
+			</div>
+			<div class="formbox" id="allCont">
 				<input class="checkbox" id="all" type="checkbox" <?php if(!$_SESSION['logged']) echo 'checked="checked"';  ?> />
 				<label>De/Seleziona tutti</label>
 			</div>

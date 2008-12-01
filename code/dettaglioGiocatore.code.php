@@ -1,16 +1,14 @@
 S<?php 
 require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 
 $giocatoreObj = new giocatore();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 
 $id = $_GET['id'];
 
-$dettaglio = $giocatoreObj->getGiocatoreById($id);
+$dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id);
 
-
-$contenttpl->assign('squadra',$squadraObj->getSquadraById($dettaglio[0]['IdSquadra']));
+$contenttpl->assign('squadra',$utenteObj->getSquadraById($dettaglio[0]['idUtente']));
 $contenttpl->assign('dettaglioGioc',$dettaglio);
 ?>
- 

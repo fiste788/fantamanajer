@@ -1,11 +1,13 @@
 <?php 
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'formazione.inc.php');
 require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'giocatore.inc.php');
 
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 $formazioneObj = new formazione();
+$giocatoreObj = new giocatore();
 
 $squadra = NULL;
 $giornata = NULL;
@@ -22,12 +24,12 @@ $contenttpl->assign('getsquadra',$squadra);
 $contenttpl->assign('getgiornata',$giornata);
 $giornate = $punteggiObj->getGiornateWithPunt();
 	
-if(isset($giornata) && $giornata-1 >=0)
-	$giornprec = $giornata-1;	
+if(isset($giornata) && $giornata -1 >= 0)
+	$giornprec = $giornata -1;	
 else
 	$giornprec = FALSE;
-if(isset($giornata) && $giornata+1 <= $giornate)
-	$giornsucc = $giornata+1;	
+if(isset($giornata) && $giornata + 1 <= $giornate)
+	$giornsucc = $giornata + 1;	
 else
 	$giornsucc = FALSE;
 
@@ -37,63 +39,27 @@ if($squadra == NULL)
 $contenttpl->assign('giornprec',$giornprec);
 $contenttpl->assign('giornsucc',$giornsucc);
 
-$contenttpl->assign('squadradett',$squadraObj->getSquadraById($squadra));
-$contenttpl->assign('squadre',$squadraObj->getElencoSquadre());
+$contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
+$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['idLega']));
 
 
-$contenttpl->assign('punteggi',$punteggiObj->getAllPunteggi());
-
-require(INCDIR.'giocatore.inc.php');
-$giocatoreObj = new giocatore();
-
-if($squadra != NULL && $giornata != NULL && $squadra > 0 && $squadra < 9 && $giornata > 0 && $giornata <= $giornate)
+$contenttpl->assign('giornate',$giornate);
+$penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($squadra,$giornata);
+if($penalità != FALSE)
+	$contenttpl->assign('penalità',$penalità);
+if($squadra != NULL && $giornata != NULL && $squadra > 0 && $giornata > 0 && $giornata <= $giornate)
 {	
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 	{
-		//$result = $punteggiObj->calcolaPunti($giornata,$squadra,FALSE);
 		$contenttpl->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoryByGiornataSquadra($giornata,$squadra));
-		//echo "<pre>".print_r($giocatoreObj->getVotiGiocatoryById($giornata,$squadra),1)."</pre>";
-		
+		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$squadra));		
 	}
 	else
 	{
-		$contenttpl->assign('formazione',2);
+		$contenttpl->assign('formazione',FALSE);
 		$contenttpl->assign('somma',0);
 	}
 }
 else
-	$contenttpl->assign('formazione',FALSE);
-	
-/*$q = "SELECT * FROM giocatore;";
-$exe = mysql_query($q);
-while ($row = mysql_fetch_row($exe))
-{
-	$values[] = $row;	
-}
-echo "<pre>".print_r($values,1)."</pre>";
-foreach ($values as $key => $val)
-{
-	$appo = explode(';',$val[5]);
-	//echo $val[2]. " " .count($appo)."<br>";
-	array_pop($appo);
-	array_pop($appo);
-	$values[$key][5] = implode(';',$appo).';';
-}
-echo "<pre>".print_r($values,1)."</pre>";
-$q = "INSERT INTO giocatore2 (IdGioc,Nome,Cognome,Ruolo,Club,Voti,IdSquadra,IdGiocVec,idSquadraAcquisto) VALUES ";
-foreach ($values as $key => $val)
-{
-	$q .= "(";
-	foreach ($val as $key2 => $val2)
-	{
-		$q .= "'" . addslashes($val2) . "',";
-	}
-	$q = substr($q,0,-1);
-	$q .= "),";
-}
-$q = substr($q,0,-1);
-$q .= ";";
-echo $q;
-mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());*/
+	$contenttpl->assign('formazione',NULL);
 ?>

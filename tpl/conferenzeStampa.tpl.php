@@ -1,8 +1,9 @@
 <?php $i=0; ?>
 <script type="text/javascript">
 	$(document).ready(function(){
-	  if(jQuery.browser.msie)
-			$('.text').pngFix();
+		if(jQuery.browser.msie && jQuery.browser.version < 7)
+			if($('.text').length > 0)
+				$('.text').pngFix();
 	});
 </script>
 <div class="titolo-pagina">
@@ -13,7 +14,7 @@
 </div>
 <div id="confStampa" class="main-content">
 	<?php if(isset($this->articoli) && !empty($this->articoli)):?>
-		<?php foreach($this->articoli as $key=>$val): ?>
+		<?php foreach($this->articoli as $key => $val): ?>
 			<?php if($i%2 == 0): ?>
 				<div class="riga column last">
 			<?php endif; ?>
@@ -24,7 +25,7 @@
 				<div class="box2-bottom-sx column last">
 				<div class="box2-bottom-dx column last">
 				<div class="conf-stampa-content column last">
-					<?php if(isset($_SESSION['idsquadra']) && $_SESSION['idsquadra'] == $val['idSquadra']): ?>
+					<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val['idSquadra']): ?>
 						<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 							<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
 						</a>
@@ -33,7 +34,7 @@
 						</a>
 					<?php endif; ?>
 					<em>
-						<span class="column last"><?php echo $this->squadre[$val['idSquadra']-1][5]; ?></span>
+						<span class="column last"><?php echo $this->squadre[$val['idSquadra']]['username']; ?></span>
 						<span class="right"><?php echo $val['insertDate']; ?></span>
 					</em>
 					<h3 class="title"><?php echo $val['title']; ?></h3>
@@ -61,14 +62,14 @@
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(isset($_SESSION['message']) && $_SESSION['message'][0] == 0): ?>
-		<div class="messaggio good column last">
+		<div id="messaggio" class="messaggio good column last">
 			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		$(document).ready(function() {$('.messaggio').show('pulsate',{times: 3 }); });
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 		<?php unset($_SESSION['message']); ?>
@@ -96,7 +97,7 @@
 				<h3 class="no-margin">Seleziona la giornata:</h3>
 				<select name="giorn" onchange="document.idgiornata.submit();">
 					<?php if($this->giornateWithArticoli != FALSE): ?>
-					<?php foreach ($this->giornateWithArticoli as $key=>$val): ?>
+					<?php foreach ($this->giornateWithArticoli as $key => $val): ?>
 						<option <?php if($val == $this->getGiornata) echo "selected=\"selected\""; ?>><?php echo $val; ?></option>
 					<?php endforeach; ?>
 					<?php endif; ?>

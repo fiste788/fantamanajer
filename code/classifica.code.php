@@ -1,22 +1,23 @@
 <?php 
 require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'squadra.inc.php');
+require_once(INCDIR.'utente.inc.php');
 
 $punteggiObj = new punteggi();
-$squadraObj = new squadra();
+$utenteObj = new utente();
 
 $giornata = GIORNATA;
 if(isset($_POST['giorn']))
 	$giornata = $_POST['giorn'];
 
-$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata);
-$squadre = $squadraObj->getElencoSquadre();
+$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['idLega']);
+$squadre = $utenteObj->getElencoSquadre();
 
-foreach($classificaDett as $key=>$val)
+foreach($classificaDett as $key => $val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 	
 $contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());
 $contenttpl->assign('classificaDett',$classificaDett);
+$contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($_SESSION['idLega']));
 $contenttpl->assign('squadre',$squadre);
 $contenttpl->assign('getGiornata',$giornata);
 ?>

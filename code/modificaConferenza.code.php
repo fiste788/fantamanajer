@@ -29,7 +29,7 @@ if(isset($_POST['submit']))
 		$articoloObj->delete($articoloObj);
 		$messaggio[0] = 0;
 		$eventiObj->deleteEventoByIdExternalAndTipo($_GET['id'],'1');
-		$messaggio[] = 'Cancellazione effettuata con successo';
+		$messaggio[1] = 'Cancellazione effettuata con successo';
 		$contenttpl->assign('messaggio',$messaggio);
 		$_SESSION['message'] = $messaggio;
 		header("Location: ".$contenttpl->linksObj->getLink('conferenzeStampa'));
@@ -54,21 +54,22 @@ if(isset($_POST['submit']))
 				$articoloObj->setinsertdate($articolo[0]['insertDate']);
 				$articoloObj->setidgiornata($articolo[0]['idGiornata']);
 			}
-			$articoloObj->setidsquadra($_SESSION['idsquadra']);
+			$articoloObj->setidsquadra($_SESSION['idSquadra']);
+			$articoloObj->setidlega($_SESSION['idLega']);
 			if($action == 'new')
 			{
 				$idArticolo = $articoloObj->add($articoloObj);
 				$messaggio[0] = 0;
-				$messaggio[] = "Inserimento completato con successo!";
+				$messaggio[1] = "Inserimento completato con successo!";
 				$contenttpl->assign('messaggio',$messaggio);
-				$eventiObj->addEvento('1',$_SESSION['idsquadra'],$idArticolo);
+				$eventiObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
 			}
 			else
 			{
 				$articoloObj->setidArticolo($_GET['id']);
 				$articoloObj->update($articoloObj);
 				$messaggio[0] = 0;
-				$messaggio[] = "Modifica effettuata con successo!";
+				$messaggio[1] = "Modifica effettuata con successo!";
 				$contenttpl->assign('messaggio',$messaggio);
 			}
 			$_SESSION['message'] = $messaggio;
@@ -77,7 +78,7 @@ if(isset($_POST['submit']))
 		else
 		{
 			$messaggio[0] = 1;
-			$messaggio[] = "Non hai compilato correttamente tutti i campi";
+			$messaggio[1] = "Non hai compilato correttamente tutti i campi";
 			$contenttpl->assign('messaggio',$messaggio);
 		}
 	}

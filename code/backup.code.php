@@ -4,14 +4,17 @@ require_once(INCDIR.'fileSystem.inc.php');
 
 $fileSystemObj = new fileSystem();
 $path = 'db';
-$backupName = $path.'/backup_'. date("Y-m-d_H:i:s") . '.sql' ;
+$name = 'backup_'. date("Y-m-d_H:i:s") . '.sql' ;
+$backupName = $path . '/' . $name;
 $backupObj = new MySQLDump(DBNAME,$backupName,FALSE,FALSE);
 
-if(isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass']) && trim($_GET['pass']) == md5('omordotuanuoraoarounautodromo'))
+if($_SESSION['usertype'] == 'superadmin')
 {
-	//ESEGUO IL BACKUP SETTIMANALE DEL DB
 	if($backupObj->dodump())
 	{
+		$handle = fopen('docs/nomeBackup.txt','w');
+		fwrite($handle,$name);
+		fclose($handle);
 		$contenttpl->assign('message','Operazione effettuata correttamente');
         $files = $fileSystemObj->getFileIntoFolder($path);
 		rsort($files);

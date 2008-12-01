@@ -17,7 +17,7 @@ $elencocap=array('C','VC','VVC'); ?>
 			<fieldset id="titolari">
 				<h3 class="center">Titolare</h3>
                 <h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />	
-				<?php foreach($this->titolari as $key=>$val): ?>
+				<?php foreach($this->titolari as $key => $val): ?>
 						<select disabled="disabled">
 							<option></option>
 							  <option selected="selected" value="<?php echo $val[0];?>"><?php  echo $val[1]. " ". $val[2];  ?></option>
@@ -52,6 +52,7 @@ $elencocap=array('C','VC','VVC'); ?>
 
 				<?php endforeach; ?>
 				</fieldset>
+				<?php if($this->panchinari != FALSE): ?>
 				<fieldset id="panchinari">
 					<h3 class="center">Panchina</h3>
 					<h4 class="bold no-margin">Giocatori</h4><hr />
@@ -62,6 +63,7 @@ $elencocap=array('C','VC','VVC'); ?>
 					</select> 
 					<?php endforeach;?>
 				</fieldset>
+				<?php endif; ?>
 			</form>
 		<?php endif; ?>
 </div>
@@ -72,13 +74,13 @@ $elencocap=array('C','VC','VVC'); ?>
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(!$this->formazione && TIMEOUT != '0'): ?>
-	<div class="messaggio neut column last" >
+	<div id="messaggio" class="messaggio neut column last" >
 		<img src="<?php echo IMGSURL.'attention-big.png'; ?>" />
 		<span>La formazione non è stata impostata</span>
 	</div>
 	<script type="text/javascript">
-		$(".messaggio").click(function () {
-			$("div.messaggio").fadeOut("slow");
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
 		});
 		</script>
 	<?php endif; ?>
@@ -111,8 +113,8 @@ $elencocap=array('C','VC','VVC'); ?>
 					<option>Nessuna form. impostata</option>
 			<?php else:?>
 				<select name="squadra" onchange="document.formazione_other.submit();">
-				<?php foreach($this->formazioniImpostate as $key=>$val): ?>
-					<option <?php if($this->squadra == $val[0]) echo "selected=\"selected\"" ?> value="<?php echo $val[0]?>"><?php echo $val[1]?></option>
+				<?php foreach($this->formazioniImpostate as $key => $val): ?>
+					<option <?php if($this->squadra == $val['idUtente']) echo "selected=\"selected\"" ?> value="<?php echo $val['idUtente']?>"><?php echo $val['nome']?></option>
 				<?php endforeach; ?>
 			<?php endif; ?>
 			</select>
