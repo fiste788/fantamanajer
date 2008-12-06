@@ -16,12 +16,10 @@ if(isset($_GET['giorn']))
 if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
 if(isset($_POST['giorn']))
-  $giorn = $_POST['giorn'];
-
+	$giorn = $_POST['giorn'];
 
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('getGiornata',$giorn);
-
 
 $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
@@ -31,28 +29,18 @@ $formImp = $formazioneObj->getFormazioneExistByGiornata($giorn);
 
 if($formazione != FALSE)
 {
-    $panchinariAr = $formazione['elenco'];
-    $titolariAr = array_splice($panchinariAr,0,11);
-    foreach($formazione['cap'] as $key => $val)
-   	{
-   	    $pos = array_search($val,$titolariAr);
-   		if($pos == 0)
-   		    $chiave = "Por-" . $pos . "-cap";
-   		else
-   		   $chiave = "Dif-" . ($pos-1) . "-cap";
-   		$cap[$chiave] = $key;
-    }
+	$panchinariAr = $formazione['elenco'];
+	$titolariAr = array_splice($panchinariAr,0,11);
 	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolariAr));
 	if(!empty($panchinariAr))
 		$contenttpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinariAr));
 	else
 		$contenttpl->assign('panchinari',FALSE);
 }
-	
 $contenttpl->assign('formazioniImpostate',$formImp);
 $contenttpl->assign('formazione',$formazione);
 $contenttpl->assign('modulo',$formazione['modulo']);
 $contenttpl->assign('mod',explode('-',$formazione['modulo']));
 $contenttpl->assign('formazione',$formazione['elenco']);
-$contenttpl->assign('cap',$cap);
+$contenttpl->assign('cap',$formazione['cap']);
 ?>

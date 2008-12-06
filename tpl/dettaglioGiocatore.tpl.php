@@ -1,12 +1,10 @@
 <?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
-
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
 	</div>
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
-
 <div id="dettaglioGioc" class="main-content"> 
 <?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg')): ?>
 	<img class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg'; ?>">

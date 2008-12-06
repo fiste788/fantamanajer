@@ -145,7 +145,7 @@ class fileSystem
 	function getLastBackup()
 	{
 		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
-		if(!empty($nomeBackup) && file_exists('http://www.fantamanajer.it/db/'.$nomeBackup))
+		if(!empty($nomeBackup) && file('http://www.fantamanajer.it/db/'.$nomeBackup) != FALSE)
 			return file_get_contents('http://www.fantamanajer.it/db/'.$nomeBackup);
 		else
 			return FALSE;

@@ -55,10 +55,10 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 					$mailContent->assign('panchinari',$panchinariName);
 					$mailContent->assign('cap',$cap);
 	
-					$mailContent->display(MAILTPLDIR.'mailFormazioni.tpl.php');
+					//$mailContent->display(MAILTPLDIR.'mailFormazioni.tpl.php');
 					//MANDO LA MAIL
 					$object = "Formazioni giornata: ". $giornata ;
-				  	//$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailFormazioni.tpl.php'),$object);
+				  	$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailFormazioni.tpl.php'),$object);
 				  	$contenttpl->assign('message','Operazione effettuata correttamente');
 				}
 			}

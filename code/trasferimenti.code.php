@@ -171,7 +171,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 							if($posSquadraNew > $posSquadraOld)
 							{
 								$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
-								$mailContent->assign('giocatore',$acquistoDett[$acquisto]['nome'] . ' ' . $acquistoDett[$acquisto]['cognome']);s
+								$mailContent->assign('giocatore',$acquistoDett[$acquisto]['nome'] . ' ' . $acquistoDett[$acquisto]['cognome']);
 								$appo = $squadre[$acquistoDett[$acquisto]['idSquadraAcquisto']];
 								$mailObj->sendEmail($squadre[$appo]['mail'],$mailContent->fetch(MAILTPLDIR.'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
 							}

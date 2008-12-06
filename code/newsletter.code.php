@@ -39,7 +39,7 @@ if(isset($_POST['button']))
 	if(!isset($message))
 	{
 		$mailContent->assign('object',$_POST['object']);
-		$mailContent->assign('text',$_POST['text']);
+		$mailContent->assign('text',nl2br($_POST['text']));
 		$mailContent->assign('date',date("d-m-Y"));
 		$mailContent->assign('type',$_POST['type']);
 		$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));

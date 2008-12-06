@@ -22,6 +22,16 @@ class utente
 		return $values; 
 	}
 	
+	function getAllSquadre()
+	{		
+		$q = "SELECT * 
+				FROM utente";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe) )
+			$values[$row['idUtente']] = $row;
+		return $values; 
+	}
+	
 	function getElencoSquadreByLega($idLega)
 	{		
 		$q = "SELECT * 

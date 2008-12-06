@@ -1,4 +1,4 @@
-S<?php 
+<?php 
 require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'utente.inc.php');
 
