@@ -132,7 +132,7 @@ class trasferimenti
 				}
 				$q = "SELECT idTrasf 
 						FROM trasferimenti
-						WHERE giocOld = '" . $val['giocOld'] . "' AND giocNew = '" . $val['giocNew'] . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val['idSquadra'] ."'";
+						WHERE idGiocOld = '" . $val['giocOld'] . "' AND idGiocNew = '" . $val['giocNew'] . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val['idSquadra'] ."'";
 				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				$idTrasferimento = mysql_fetch_row($exe);
 				$eventiObj->addEvento('4',$val['idSquadra'],$val['idLega'],$idTrasferimento[0]);

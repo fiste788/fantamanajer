@@ -23,7 +23,7 @@
 				3 - CENTROCAMPISTI
 				4 - ATTACCANTI */
 				$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
-       			$elencocap = array('C','VC','VVC'); ?>
+				$elencocap = array('C','VC','VVC'); ?>
 				<?php foreach($this->giocatori as $key => $val): ?>
 					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
 					<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>
@@ -51,16 +51,13 @@
 								$selected = TRUE;
 							elseif(!empty($this->cap))
 							{
-								if(array_key_exists($nome,$this->cap))
+								if(array_search($val['idGioc'],$this->cap) == $elem))
 								{
-									if($this->cap[$nome]==$elem)
-									{
-											$selected = TRUE;
-											unset($this->cap[$nome]);
-									}
+									$selected = TRUE;
+									unset($this->cap[$nome]);
 								}
 							}
-                					?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
+							?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
 							<?php endforeach;?>
 						</select>
 						<?php endif; ?>
@@ -73,8 +70,8 @@
 					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
 					<select name="<?php echo 'panch-'. $i; ?>">
 					<option></option>
-				      	<?php if(isset($this->panchinari[$i])) $every = $this->panchinari[$i]; 
-				      		for($j = 0 ; $j < count($ruo) ; $j++): ?>
+						<?php if(isset($this->panchinari[$i])) $every = $this->panchinari[$i]; 
+							for($j = 0 ; $j < count($ruo) ; $j++): ?>
 							<optgroup label="<?php echo $ruo[$j] ?>">
 								<?php foreach($this->giocatori[substr($ruo[$j],0,1)] as $key3=>$val3): 
 								$selected = FALSE; 

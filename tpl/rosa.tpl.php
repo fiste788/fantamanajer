@@ -130,7 +130,7 @@
 				</li>
 				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
 				<div class="no-margin" style="display:none;">
-					<form id="userdata" action="index.php?p=rosa&amp;squadra=<?php echo $_GET['squadra'] ?>" name="data" method="post">
+					<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" name="data" method="post">
 						<?php if(GIORNATA <= 2): ?>
 						<div class="formbox">
 							<label for="nomeSquadra">Nome squadra:</label>
@@ -180,7 +180,9 @@
 <?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 <script type="text/javascript" >
 $(window).bind("load",function(){
-	$('#accordion').accordion();
+	$('#accordion').accordion({
+		autoHeight: false
+		});
 });
 </script>
 <?php endif; ?>

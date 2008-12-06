@@ -9,9 +9,6 @@ $eventiObj = new eventi();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
 
-if(TIMEOUT == FALSE)
-	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
-
 $mod = NULL;
 $squadra = NULL;
 if(isset($_POST['squadra']))
@@ -130,21 +127,12 @@ if(TIMEOUT)
 		$mod = $issetform['modulo'];
 		$panchinariAr = $issetform['elenco'];
 		$titolariAr = array_splice($panchinariAr,0,11);
-		foreach($issetform['cap'] as $key => $val)
-		{
-			$pos = array_search($val,$titolariAr);
-			if($pos == 0)
-				$chiave = "Por-" . $pos . "-cap";
-			else
-				$chiave = "Dif-" . ($pos-1) . "-cap";
-			$cap[$chiave] = $key;
-		}
 		$contenttpl->assign('titolari',$titolariAr);
 		if(empty($panchinariAr))
 			$contenttpl->assign('panchinari',FALSE);
 		else
 			$contenttpl->assign('panchinari',$panchinariAr);
-		$contenttpl->assign('cap',$cap);
+		$contenttpl->assign('cap',$issetform['cap']);
 	}
 	$contenttpl->assign('issetForm',$issetform);
 	$contenttpl->assign('mod',$mod);

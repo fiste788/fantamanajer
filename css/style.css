@@ -349,13 +349,17 @@ em {
 	height: 18px;
 	width: 120px;
 }
+#accordion form {
+	margin:0 auto;
+	width: 240px;
+}
 #accordion table {
 	margin: 0 0 10px 0;
 }
 #accordion .formbox {
 	width: 230px;
-	margin: 5px auto;
-	float: none;
+	margin: 3px auto;
+	float: left;
 }
 #mex {
 	width: 100%;

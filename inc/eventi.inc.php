@@ -24,7 +24,7 @@ class eventi
 	
 	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
-		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
+		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0100') as pubData,tipo,idExternal,utente.nome 
 				FROM eventi INNER JOIN utente ON eventi.idUtente = utente.idUtente 
 				WHERE eventi.idLega = '" . $idLega . "'";
 		if($tipo != NULL)

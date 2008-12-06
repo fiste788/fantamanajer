@@ -25,7 +25,8 @@
 					$("#messaggio div").remove();
 					$("#messaggio").removeClass("good");
 					$("#messaggio").removeClass("bad");
-					$("#messaggio").append('<div><img src="' + loadingImg + '"</div>');
+					$("#messaggio").css('display','block');
+					$("#messaggio").append('<div><img src="' + loadingImg + '" / ></div>');
 				},
 				cache: false,
 				username: "administrator",

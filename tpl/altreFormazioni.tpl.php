@@ -1,7 +1,6 @@
 <?php 
 $j=0;
-$i=0; 
-$elencocap=array('C','VC','VVC'); ?>
+$i=0;  ?>
 <?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
@@ -16,40 +15,24 @@ $elencocap=array('C','VC','VVC'); ?>
 		<form id="form-formazione" name="formazione" action="index.php" method="post">		
 			<fieldset id="titolari">
 				<h3 class="center">Titolare</h3>
-                <h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />	
+				<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />	
 				<?php foreach($this->titolari as $key => $val): ?>
 						<select disabled="disabled">
 							<option></option>
-							  <option selected="selected" value="<?php echo $val[0];?>"><?php  echo $val[1]. " ". $val[2];  ?></option>
+							  <option selected="selected" value="<?php echo $val['idGioc'];?>"><?php  echo $val['cognome']. " ". $val['nome'];  ?></option>
 						</select>
 						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
-						<select disabled="disabled" class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
+						<select disabled="disabled" class="cap">
 							<option></option>
-							<?php foreach ($this->cap as $elem):
-							$selected = FALSE; 
-							if(isset($_POST[$nome]) && $_POST[$nome] == $elem)
-								$selected = TRUE;
-							elseif(!empty($this->cap))
-							{
-								if(array_key_exists($nome,$this->cap))
-								{
-									if($this->cap[$nome]==$elem)
-									{
-											$selected = TRUE;
-											unset($this->cap[$nome]);
-									}
-								}
-							}
-                					?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
-							<?php endforeach;?>
+							<?php if(array_search($val['idGioc'],$this->cap) != FALSE): ?>
+							<option selected="selected"><?php echo array_search($val['idGioc'],$this->cap); ?></option>
+							<?php endif; ?>
 						</select>
 						<?php endif; ?>
 						<?php $i++; ?>
 						<?php if($i == $this->mod[$j] && $j!=3): $j++;?>
 						<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
 					<?php $i=0; endif; ?>
-
-
 				<?php endforeach; ?>
 				</fieldset>
 				<?php if($this->panchinari != FALSE): ?>
@@ -59,7 +42,7 @@ $elencocap=array('C','VC','VVC'); ?>
 					<?php foreach($this->panchinari as $key3=>$val3): ?>
 					<select disabled="disabled" >
 					<option></option>
-							<option selected="selected" value="<?php echo $val3[0]; ?>"><?php  echo $val3[1] . " " . $val3[2];?></option>
+							<option selected="selected" value="<?php echo $val3['idGioc']; ?>"><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
 					</select> 
 					<?php endforeach;?>
 				</fieldset>

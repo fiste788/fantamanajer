@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	require_once('config/config.inc.php');
 	require_once('inc/utente.inc.php');
 	require_once (INCDIR.'db.inc.php');
@@ -7,7 +7,7 @@
 	$dblink = &new db;
 	$dblink->dbConnect();
 	$utenteObj = new utente();
-	$squadre = $utenteObj->getElencoSquadre();
+	$squadre = $utenteObj->getAllSquadre();
 	//echo "<pre>".print_r($squadre,1)."</pre>";
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML
