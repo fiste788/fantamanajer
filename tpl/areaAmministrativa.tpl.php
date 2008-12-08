@@ -83,7 +83,7 @@
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
 			<h3>Manutenzione</h3>	
-			<img class="column last" alt="->" src="<?php echo IMGSURL.'freeplayer-other.png'; ?>" title="Giocatori liberi" />
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'gestione-database.png'; ?>" title="Manutenzione" />
 			<ul>
 				<li><a href="<?php echo $this->linksObj->getLink('lanciaScript'); ?>">Lancia script</a></li>
 				<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>">Gestione database</a></li>

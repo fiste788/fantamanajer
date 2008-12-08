@@ -118,7 +118,7 @@ input.dark:hover {
 	height: 130px;
 }
 #login h3, #login .field {
-	margin: 0 0 8px;
+	margin: 0 0 7px;
 }
 #login .submit {
 	display: block;
@@ -628,7 +628,7 @@ tr.row:hover {
 	margin-right: 0px;
 }
 /*-----------------------------forms--------------------------------*/
-input {
+input.text {
 	line-height: 15px;
 	width: 88px;
 	vertical-align: middle;
@@ -647,10 +647,10 @@ label {
 	width: 295px;
 	float: left;
 }
-.checkbox {
+/*.checkbox {
 	width: 13px;
 	height: 13px;
-}
+}*/
 #panchinari {
 	width: 220px;
 	float: right;
@@ -759,7 +759,7 @@ p.surprise {
 	margin: 1px 8px 0 0;
 }
 #option label {
-	width: 255px;
+	width: 250px;
 	margin: 0;
 	text-align: left;
 }
