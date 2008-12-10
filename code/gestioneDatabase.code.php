@@ -47,19 +47,19 @@ if(isset($_GET['action']))
 		else
 		{
 			$querys = explode(';',$sql);
-			//$dbObj->startTransaction();
+			$dbObj->startTransaction();
 			array_pop($querys);
 			foreach($querys as $key=>$val)
 				mysql_query($val) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR();
 			if(!isset($err))
 			{
-				//$dbObj->commit();
+				$dbObj->commit();
 				$messaggio[0] = 0;
 				$messaggio[1] = 'Sincronizzazione eseguita con successo';
 			}
 			else
 			{
-				
+				$dbObj->rollback();
 				$messaggio[0] = 1;
 				$messaggio[1] = 'Errore nella sincronizzazione: ' . $err;
 				$contenttpl->assign('sql',$sql);

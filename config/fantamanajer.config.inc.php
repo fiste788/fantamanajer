@@ -7,7 +7,7 @@ FantaManajer
 To do:
 */
 
-define ("MAXTRASFERIMENTI",20);	
-define ("NUMSELEZIONI",2);
+define ("$_SESSION['datiLega']['numTrasferimenti']",20);	
+define ("$_SESSION['datiLega']['numSelezioni']",2);
 
 ?>

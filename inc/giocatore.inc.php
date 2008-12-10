@@ -14,7 +14,6 @@ class giocatore
 				WHERE idUtente = '" . $idUtente . "'
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$giocatori = array();
 		while($row = mysql_fetch_array($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
@@ -30,7 +29,6 @@ class giocatore
 				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "'
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$giocatori = array();
 		while($row = mysql_fetch_array($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
@@ -45,7 +43,7 @@ class giocatore
 				FROM (giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.idGioc) LEFT JOIN club ON giocatore.club = club.idClub
 				WHERE ruolo = '" . $ruolo . "' AND giocatore.idGioc NOT IN (SELECT idGioc 
 																			FROM squadre 
-																			WHERE idLega = '" . $idLega . "') AND club <> '' AND (votoUff <> 0 OR voto IS NULL) 
+																			WHERE idLega = '" . $idLega . "') AND club IS NOT NULL AND (votoUff <> 0 OR voto IS NULL) 
 				GROUP BY giocatore.idGioc
 				ORDER BY cognome";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -58,11 +56,7 @@ class giocatore
 	{
 		$q = "SELECT idGioc,cognome,nome,ruolo 
 				FROM giocatore 
-				WHERE idGioc IN (";
-		foreach($giocatori as $key => $val)
-			$q .= $val . ",";
-		$q = substr($q,0,-1);
-		$q .= ")";
+				WHERE idGioc IN ('" . implode("','",$giocatori) . "')";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$result[] = $row;
@@ -193,7 +187,7 @@ class giocatore
 		{
 			foreach($clubs as $key => $val)
 			{
-				$giocatori = join("','",$clubs[$key]);
+				$giocatori = implode("','",$clubs[$key]);
 				$q = "UPDATE giocatore 
 						SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
 						WHERE idGioc IN ('" . $giocatori . "')";
@@ -203,20 +197,24 @@ class giocatore
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
 		$daTogliere = array_diff_key($playersOld, $players);  
 		$daInserire = array_diff_key($players,$playersOld);
-		if(isset($daTogliere))
+		if(!empty($daTogliere))
 		{
-			$stringaDaTogliere = join("','",$daTogliere);
+			$stringaDaTogliere = implode("','",$daTogliere);
 			$q = "UPDATE giocatore 
-					SET club = '' 
+					SET club = NULL 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		}        
-		foreach($daInserire as $key => $val)
+		}
+		if(!empty($daInserire))
 		{
-			$pezzi = explode(";",$val);
-			$cognome = ucwords(strtolower((addslashes($pezzi[1]))));
-			$q = "INSERT INTO giocatore(idGioc,cognome,ruolo,club) 
-					VALUES ('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%'))";
+			$q = "INSERT INTO giocatore(idGioc,cognome,ruolo,club) VALUES ";
+			foreach($daInserire as $key => $val)
+			{
+				$pezzi = explode(";",$val);
+				$cognome = ucwords(strtolower((addslashes($pezzi[1]))));
+				$arrayInserire = "('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%'))";
+			}
+			$q .= implode(',',$arrayInserire);
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
 	}
@@ -225,7 +223,7 @@ class giocatore
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore LEFT JOIN squadre ON giocatore.idGioc = squadre.idGioc
-				WHERE idLega = '" . $idLega . "' AND idUtente <> '" . $idUtente . "' OR idUtente IS NULL
+				WHERE idLega = '" . $idLega . "' AND (idUtente <> '" . $idUtente . "' OR idUtente IS NULL) AND club IS NOT NULL
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
@@ -278,5 +276,4 @@ class giocatore
 			return FALSE;
 	}
 }
-//insert into trasferimenti2 (SELECT idTrasf,idgiornate.idGiornata FROM (`eventi` inner join giornate on eventi.data between giornate.dataInizio AND dataFine) inner join trasferimenti on idExternal = idTrasf WHERE tipo = '4')
 ?>

@@ -191,18 +191,18 @@
 					}
 				});
 
-				$("#overview").bind("selected", function (event, area) {
+				$("#overview").bind("plotselected", function (event, area) {
 					$("#legendcontainer table").remove();
-					$("#hidden").attr('val1',area.x1);
-					$("#hidden").attr('val2',area.x2);
+					$("#hidden").attr('val1',area.xaxis.from);
+					$("#hidden").attr('val2',area.xaxis.to);
 					$("#clearSelection").removeClass('hidden');
-					$("#selection").text("Hai selezionato dalla giornata " + Math.round(area.x1.toFixed(1)) + " alla " + Math.round(area.x2.toFixed(1)));
+					$("#selection").text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from.toFixed(1)) + " alla " + Math.round(area.xaxis.to.toFixed(1)));
 					// do the zooming
 					plot = $.plot($("#placeholder"), data,
 						$.extend(true, {}, options, {
-							xaxis: { min: Math.round(area.x1), max: Math.round(area.x2) }
+							xaxis: { min: Math.round(area.xaxis.from), max: Math.round(area.xaxis.to) }
 					}));
-					$("#overview").setSelection(area, true);
+					overview.setSelection(area, true);
 					$("#legendcontainer table").attr('cellspacing','0');
 				});
 

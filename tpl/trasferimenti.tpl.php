@@ -29,9 +29,9 @@
 	<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
 		<p>Non ha effettuato alcun trasferimento</p>
 	<?php endif; ?>
-	<?php if(isset($this->trasferiti) && $this->numTrasferimenti < MAXTRASFERIMENTI): ?>
+	<?php if(isset($this->trasferiti) && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti']): ?>
 		<p>Uno o più dei tuoi giocatori non sono più presenti nella lista della gazzetta. Dalla form sottostante potrai selezionarne subito un altro e fare un trasferimento immediato
-		<?php if(count($this->trasferiti) > (MAXTRASFERIMENTI - $this->numTrasferimenti) && $this->numTrasferimenti < MAXTRASFERIMENTI): ?><br /><strong>Attenzione!</strong> Ti rimangono solo <?php echo (MAXTRASFERIMENTI - $this->numTrasferimenti); ?> trasferimento/i e i giocatori da sostituire sono <?php echo count($this->trasferiti); ?>. Compila solo <?php echo (MAXTRASFERIMENTI - $this->numTrasferimenti); ?> giocatore/i a tua scelta.<?php endif; ?></p>
+		<?php if(count($this->trasferiti) > ($_SESSION['datiLega']['numTrasferimenti'] - $this->numTrasferimenti) && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti']): ?><br /><strong>Attenzione!</strong> Ti rimangono solo <?php echo ($_SESSION['datiLega']['numTrasferimenti'] - $this->numTrasferimenti); ?> trasferimento/i e i giocatori da sostituire sono <?php echo count($this->trasferiti); ?>. Compila solo <?php echo ($_SESSION['datiLega']['numTrasferimenti'] - $this->numTrasferimenti); ?> giocatore/i a tua scelta.<?php endif; ?></p>
 		<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_GET['squad'])); ?>" method="post">
 		<?php foreach($this->trasferiti as $key => $val): ?>
 			<fieldset>
@@ -54,7 +54,7 @@
 			</fieldset>
 		</form>
 	<?php else: ?>
-		<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < MAXTRASFERIMENTI && TIMEOUT != '0' && GIORNATA != 1): ?>
+		<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] && TIMEOUT != '0' && GIORNATA != 1): ?>
 		<br />
 		<h3>Acquista un giocatore</h3>
 		<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>

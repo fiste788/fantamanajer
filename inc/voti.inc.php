@@ -46,10 +46,10 @@ class voti
 		$fileSystemObj = new fileSystem();
 		$percorso = "./docs/voti/Giornata" . $giorn . ".csv";
 		if($fileSystemObj->scaricaVotiCsv($giorn))
-		{	// crea il .csv con i voti
+		{
 			if($this->checkVotiExist($giorn))
 				return TRUE;
-			mysql_query("START TRANSACTION");
+			$q = "INSERT INTO voti(idGioc,idGiornata,votoUff,voto,gol,assist) VALUES ";
 			foreach (file($percorso) as $player)
 			{
 				$pezzi = explode(";",$player);
@@ -59,18 +59,10 @@ class voti
 					$presenza = 1;
 				if($pezzi[2] == "P")
 					$pezzi[6] = -$pezzi[6];
-				$q = "INSERT INTO voti(idGioc,idGiornata,votoUff,voto,gol,assist) 
-						VALUES ('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[3] . "','" . $pezzi[4] . "','" . $pezzi[6] . "','" . $pezzi[7] . "')";
-				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+				$voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[3] . "','" . $pezzi[4] . "','" . $pezzi[6] . "','" . $pezzi[7] . "')";
 			}
-			if(isset($err))
-			{
-				mysql_query("ROLLBACK");
-				die($err);
-			}
-			else
-				mysql_query("COMMIT");
-			return TRUE;
+			$q .= implode(',',$voti);
+			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
 		else
 			return FALSE;

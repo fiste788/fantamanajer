@@ -10,8 +10,12 @@ class eventi
 	
 	function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)
 	{
-		$q = "INSERT INTO eventi (idUtente,idLega,tipo,idExternal) 
-				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
+		if($idExternal != NULL)
+			$q = "INSERT INTO eventi (idUtente,idLega,tipo,idExternal) 
+					VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
+		else
+			$q = "INSERT INTO eventi (idUtente,idLega,tipo) 
+					VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "')";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	

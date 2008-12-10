@@ -69,9 +69,9 @@ class fileSystem
 		return $string;
 	}
 	
-	function scaricaVotiCsv($giorn)
+	function scaricaVotiCsv($giornata)
 	{
-        $percorso = "./docs/voti/Giornata" . $giorn . ".csv";
+        $percorso = "./docs/voti/Giornata" . $giornata . ".csv";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
 	    $espr = "<tr>";
 	    if (file_exists($percorso))
@@ -85,11 +85,9 @@ class fileSystem
 				return FALSE;
 			//print htmlspecialchars($contenuto);
 			preg_match("/<td.*?artxtTitolino.*?Giornata\s{1}(.+?)<\/span>/",$contenuto,$matches);
-			$giornata=$matches[1];
-			if($giornata!= $giorn) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
-			{
-                return false;
-            }
+			$giornataGazzetta = $matches[1];
+			if($giornataGazzetta != $giornata) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
+                return FALSE;
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
 			$keywords = explode($espr, $matches[0]);
@@ -145,8 +143,8 @@ class fileSystem
 	function getLastBackup()
 	{
 		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
-		if(!empty($nomeBackup) && file('http://www.fantamanajer.it/db/'.$nomeBackup) != FALSE)
-			return file_get_contents('http://www.fantamanajer.it/db/'.$nomeBackup);
+		if(!empty($nomeBackup) && file('http://www.fantamanajer.it/db/' . $nomeBackup) != FALSE)
+			return file_get_contents('http://www.fantamanajer.it/db/' . $nomeBackup);
 		else
 			return FALSE;
 	}

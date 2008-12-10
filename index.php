@@ -26,29 +26,30 @@ $session_name = 'fantamanajer';
 if (version_compare(PHP_VERSION, '5.1.2', 'lt') && isset($_COOKIE[$session_name]) && eregi("\r|\n", $_COOKIE[$session_name])) 
 	die('attacked');
 
-if (!isset($_COOKIE[$session_name])) {
-    ob_start();
-    $old_display_errors = ini_get('display_errors');
-    $old_error_reporting = error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-    $r = session_start();
-    ini_set('display_errors', $old_display_errors);
-    error_reporting($old_error_reporting);
-    unset($old_display_errors, $old_error_reporting);
-    $session_error = ob_get_contents();
-    ob_end_clean();
-    if ($r !== true || ! empty($session_error)) {
-        setcookie($session_name, '', 1);
-        die('sessionError');
-    }
-} else {
-    @session_start();
+if (!isset($_COOKIE[$session_name])) 
+{
+	ob_start();
+	$old_display_errors = ini_get('display_errors');
+	$old_error_reporting = error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	$r = session_start();
+	ini_set('display_errors', $old_display_errors);
+	error_reporting($old_error_reporting);
+	unset($old_display_errors, $old_error_reporting);
+	$session_error = ob_get_contents();
+	ob_end_clean();
+	if ($r !== TRUE || ! empty($session_error)) 
+	{
+		setcookie($session_name, '', 1);
+		die('sessionError');
+	}
 }
+else
+	@session_start();
 
 require_once 'config/config.inc.php';
 require_once 'config/Savant2.php';
 require_once 'config/pages.inc.php';
-require_once 'config/fantamanajer.config.inc.php';
 require_once INCDIR.'db.inc.php';
 require_once INCDIR.'auth.inc.php';
 require_once INCDIR.'strings.inc.php';
@@ -124,19 +125,23 @@ $contenttpl->assign('giornata',GIORNATA);
 $contenttpl->assign('timeout',TIMEOUT);
 	
 /**
- * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente
+ * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
  */
 
 if ($_SESSION['logged'])
 {
 	require_once(INCDIR.'giocatore.inc.php');
 	require_once(INCDIR.'trasferimenti.inc.php');
+	require_once(INCDIR.'leghe.inc.php');
 	$giocatoreObj = new giocatore();
 	$trasferimentiObj = new trasferimenti();
-	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < MAXTRASFERIMENTI )
+	$legheObj = new leghe();
+	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
+	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
 		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 		
 }
+
 /**
  * INIZIALIZZAZIONE VARIABILI CONTENT
  * Questo Switch discrimina tra i vari moduli di codice quello che deve

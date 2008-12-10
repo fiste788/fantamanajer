@@ -34,7 +34,7 @@ if((isset($_GET['user']) && trim($_GET['user']) == 'admin' && isset($_GET['pass'
 				$dbObj->startTransaction();
 				foreach($squadre as $key =>$val)
 				{
-					$squadra = $val['idUtente'];			
+					$squadra = $val['idUtente'];
 					//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 					if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 						$punteggiObj->calcolaPunti($giornata,$squadra,$lega['idLega']);

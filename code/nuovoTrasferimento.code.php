@@ -42,7 +42,7 @@ $contenttpl->assign('trasferimenti',$trasferimenti);
 $numTrasferimenti = count($trasferimenti);
 
 $contenttpl->assign('numTrasferimenti',$numTrasferimenti);
-if($numTrasferimenti <MAXTRASFERIMENTI )
+if($numTrasferimenti <$_SESSION['datiLega']['numTrasferimenti'] )
 {
 	if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 	{
