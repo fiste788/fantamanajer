@@ -50,7 +50,7 @@ if($trasferiti != FALSE)
 	$contenttpl->assign('freePlayerByRuolo',$freePlayerByRuolo);
 	foreach($trasferiti as $masterKey => $masterVal)
 	{
-		if($numTrasferimenti < MAXTRASFERIMENTI )
+		if($numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] )
 		{
 			if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 			{
@@ -121,7 +121,7 @@ if($trasferiti != FALSE)
  */   
 if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 {
-	if($numTrasferimenti <MAXTRASFERIMENTI )
+	if($numTrasferimenti <$_SESSION['datiLega']['numTrasferimenti'] )
 	{
 		$selezione = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);
 
@@ -157,7 +157,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 			{
 				if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && ($selezione['giocNew'] != $acquisto || $selezione['giocOld'] != $lasciato))
 				{
-					if($numSelezioni < NUMSELEZIONI)
+					if($numSelezioni < $_SESSION['datiLega']['numSelezioni'])
 					{	
 						$squadraOld = $selezioneObj->checkFree($acquisto,$_SESSION['idLega']);
 						if($squadraOld != FALSE)
@@ -198,7 +198,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 					{
 						$flag = 1;
 						$messaggio[0] = 2;
-						$messaggio[1] = 'Hai già cambiato ' . NUMSELEZIONI . ' volte il tuo acquisto';
+						$messaggio[1] = 'Hai già cambiato ' . $_SESSION['datiLega']['numSelezioni'] . ' volte il tuo acquisto';
 						$contenttpl->assign('messaggio',$messaggio);
 					}
 			

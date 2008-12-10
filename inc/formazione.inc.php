@@ -65,7 +65,7 @@ class formazione
 			$id = $row['idFormazione'];
 		foreach($formazione as $key => $player)
 		{
-			$pos = $key+1;
+			$pos = $key + 1;
 			$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
 					VALUES ('" . $id . "','" . $player . "','" . $pos . "')";
 			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;          
@@ -85,9 +85,9 @@ class formazione
 		mysql_query("START TRANSACTION");
 		$str = "";
 		foreach($capitano as $key => $val)
-			$str .= "," . $key . "='" . $val . "'";      
+			$str .= "," . $key . " = '" . $val . "'";      
 		$q = "UPDATE formazioni 
-				SET Modulo = '$modulo'".$str." 
+				SET Modulo = '" . $modulo . "'" . $str . " 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$q = "SELECT idFormazione 

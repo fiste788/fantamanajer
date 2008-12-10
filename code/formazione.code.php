@@ -82,7 +82,7 @@ if(TIMEOUT)
 					{
 						if( $capitano[$val] == NULL)
 						{
-							 if(strpos($key,'Por') !== FALSE)
+							if(strpos($key,'Por') !== FALSE)
 								$pos = 0;
 							else
 								$pos = $key{4} + 1;  

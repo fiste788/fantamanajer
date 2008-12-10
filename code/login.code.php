@@ -8,6 +8,8 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 {
 	if( (!empty($_POST['username'])) && (!empty($_POST['password'])) )
 	{
+		require_once(INCDIR.'leghe.inc.php');
+		$legheObj = new leghe();
 		$formsObj = & new string($_POST['username']);											//create a new string object
 		$formsObj->stringCleaner();																				//slashes added and special characters corrected
 		if(login($_POST['username'],$_POST['password']))									//login
@@ -24,12 +26,11 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 				$_SESSION['usertype'] = 'admin';
 			else
 				$_SESSION['usertype'] = 'user';
-			$_SESSION['idLega'] = $valore['idLega'];	
+			$_SESSION['idLega'] = $valore['idLega'];
 			$_SESSION['idSquadra'] = $valore['idUtente'];
 			$_SESSION['nomeSquadra'] = $valore['nome'];
 			$_SESSION['nomeProprietario'] = $valore['nomeProp'] . " " . $valore['cognome'];
 			$_SESSION['email'] = $valore['mail'];
-			$_SESSION['modulo'] = NULL;
 		}
 		else
 			$layouttpl->assign('loginerror',"Errore nel login");
