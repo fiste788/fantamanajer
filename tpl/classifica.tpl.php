@@ -7,7 +7,7 @@
 </div>
 <div id="classifica-content" class="main-content">
 	<div id="classifica-container" class="column last">
-		<table class="no-margin" cellpadding="0" cellspacing="0" class="column last" style="width:316px;overflow:hidden;">
+		<table cellpadding="0" cellspacing="0" class="column last no-margin" style="width:316px;overflow:hidden;">
 			<tbody>
 				<tr>
 					<th style="width:20px">P.</th>

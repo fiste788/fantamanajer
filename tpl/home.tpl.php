@@ -82,13 +82,15 @@
 			<div class="box2-bottom-dx column last">
 			<div class="conf-stampa-content column last">
 				<?php foreach($this->eventi as $key =>$val): ?>
+					<h4>
 					<?php if($val['tipo'] != 2): ?>
-						<a href="<?php echo $val['link']; ?>">
+						<a name="evento-<?php echo $val['idEvento']; ?>" href="<?php echo $val['link']; ?>">
 					<?php endif;?>
-					<h4 name="evento-<?php echo $val['idEvento']; ?>"><?php echo $val['titolo']; ?></h4>
+					<?php echo $val['titolo']; ?>
 					<?php if($val['tipo'] != 2): ?>
 						</a>
 					<?php endif;?>
+					</h4>
 				<?php endforeach; ?>
 				<a class="right" href="<?php echo $this->linksObj->getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
 			</div>

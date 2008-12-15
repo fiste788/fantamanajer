@@ -888,6 +888,10 @@ p.surprise {
 #home #eventi h3 {
 	width: 250px;
 }
+#eventi a {
+	font-weight:normal;
+	font-size:14px;
+}
 #penalità label {
 	width: 150px;
 }

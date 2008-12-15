@@ -8,13 +8,15 @@
 	<?php if($this->eventi != FALSE): ?>
 	<?php foreach($this->eventi as $key =>$val): ?>
 		<?php if($this->evento == 0 || $val['tipo'] == $this->evento): ?>
+			<h3>
 			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
-				<a href="<?php echo $val['link']; ?>">
+				<a name="evento-<?php echo $val['idEvento']; ?>" href="<?php echo $val['link']; ?>">
 			<?php endif;?>
-			<h3 name="evento-<?php echo $val['idEvento']; ?>"><?php echo $val['titolo']; ?>  <em>(<?php echo $val['data']; ?>)</em></h3>
+			<?php echo $val['titolo']; ?>  <em>(<?php echo $val['data']; ?>)</em>
 			<?php if($val['tipo'] != 2 && $_SESSION['logged']): ?>
 				</a>
 			<?php endif;?>
+			</h3>
 			<?php if(isset($val['content'])): ?>
 				<p><?php echo $val['content']; ?></p>
 			<?php endif; ?>

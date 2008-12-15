@@ -1,7 +1,7 @@
 <?php
 
 require_once(INCDIR.'utente.inc.php');
-require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
+//require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'voti.inc.php');

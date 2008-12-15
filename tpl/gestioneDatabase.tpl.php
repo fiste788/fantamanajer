@@ -14,7 +14,7 @@
 		<textarea name="query" rows="30" cols="100"><?php if(isset($this->sql)) echo $this->sql; ?></textarea>
 		<input class="submit dark" type="submit" value="Eegui" />
 	</form>
-</div>                                                    
+</div>
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">

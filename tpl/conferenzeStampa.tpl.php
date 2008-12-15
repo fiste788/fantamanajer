@@ -1,10 +1,12 @@
 <?php $i=0; ?>
 <script type="text/javascript">
+	<!--
 	$(document).ready(function(){
 		if(jQuery.browser.msie && jQuery.browser.version < 7)
 			if($('.text').length > 0)
 				$('.text').pngFix();
 	});
+	-->
 </script>
 <div class="titolo-pagina">
 	<div class="column logo-tit">

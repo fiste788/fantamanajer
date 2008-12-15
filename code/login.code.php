@@ -8,15 +8,13 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 {
 	if( (!empty($_POST['username'])) && (!empty($_POST['password'])) )
 	{
-		require_once(INCDIR.'leghe.inc.php');
-		$legheObj = new leghe();
 		$formsObj = & new string($_POST['username']);											//create a new string object
 		$formsObj->stringCleaner();																				//slashes added and special characters corrected
 		if(login($_POST['username'],$_POST['password']))									//login
 		{
-		  	$q = "SELECT idUtente,nome,nomeProp,cognome,mail,amministratore,idLega FROM utente WHERE username='" . $_POST['username'] . "';";
-		  	$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-		  	$valore  = mysql_fetch_array($exe);
+			$q = "SELECT idUtente,nome,nomeProp,cognome,mail,amministratore,idLega FROM utente WHERE username='" . $_POST['username'] . "';";
+			$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+			$valore  = mysql_fetch_array($exe);
 			$navbartpl->assign('loginok',$formsObj->string);
 			$_SESSION['userid'] = $_POST['username'];
 			$_SESSION['logged'] = TRUE;
