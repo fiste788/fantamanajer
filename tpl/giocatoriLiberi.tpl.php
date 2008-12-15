@@ -7,7 +7,7 @@
 </div>
 <div id="freeplayer" class="main-content">
 	<?php if($this->appo): ?>
-	<?php if(TIMEOUT != FALSE): ?><form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idSquadra'])); ?>" method="post"><?php endif; ?>
+	<?php if(TIMEOUT != '0' || TIMEOUT != FALSE): ?><form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idSquadra'])); ?>" method="post"><?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>

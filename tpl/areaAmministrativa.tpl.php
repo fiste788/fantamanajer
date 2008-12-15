@@ -68,7 +68,7 @@
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
 			<img class="column last" alt="->" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Penalità" />
-			<h3><a href="<?php echo $this->linksObj->getLink('penalita'); ?>">Inserisci le penalità</a></hs3>
+			<h3><a href="<?php echo $this->linksObj->getLink('penalita'); ?>">Inserisci le penalità</a></h3>
 		</div>
 		</div>
 		</div>

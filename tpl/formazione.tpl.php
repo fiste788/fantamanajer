@@ -35,10 +35,15 @@
 							if(isset($_POST[substr($ruo[$j],0,3). '-' . $i]) && $_POST[substr($ruo[$j],0,3). '-' . $i] == $val3['idGioc'])
 							{
 								$selected=TRUE;
+								$selezionato = $val3['idGioc'];
 								unset($every);
 							}
 							elseif(isset($every) && $every == $val3['idGioc'])
+							{
 								$selected = TRUE;
+								$selezionato = $val3['idGioc'];
+								unset($every);
+							}
 							?><option value="<?php echo $val3['idGioc']; ?>" <?php if($selected) echo ' selected="selected"'; ?>><?php echo $val3['cognome'] . " " . $val3['nome']; ?></option>
 						  	<?php  endforeach; ?>
 						</select>
@@ -51,7 +56,7 @@
 								$selected = TRUE;
 							elseif(!empty($this->cap))
 							{
-								if(array_search($val['idGioc'],$this->cap) == $elem))
+								if(array_search($selezionato,$this->cap) == $elem)
 								{
 									$selected = TRUE;
 									unset($this->cap[$nome]);
@@ -81,7 +86,10 @@
 									unset($every);
 								}
 								if(isset($every) && $every == $val3['idGioc'])
+								{
 									$selected= TRUE;
+									unset($every);
+								}
 								?><option value="<?php echo $val3['idGioc']; ?>"<?php if($selected) echo ' selected="selected"'; ?>><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
 								<?php endforeach; ?>
 							</optgroup>

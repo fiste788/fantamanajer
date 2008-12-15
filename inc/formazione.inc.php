@@ -29,8 +29,8 @@ class formazione
 				$cap['VC'] = $row['VC'];
 				$cap['VVC'] = $row['VVC'];
 				$flag = TRUE;
-            }
-        }
+			}
+		}
 		if($flag)
 		{
 			$formazione['id'] = $idFormazione;
@@ -47,6 +47,8 @@ class formazione
 	
 	function caricaFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
 	{
+		require_once(INCDIR . 'schieramento.inc.php');
+		$schieramentoObj = new schieramento();
 		$campi = "";
 		$valori = "";
 		foreach($capitano as $key => $val)
@@ -62,14 +64,9 @@ class formazione
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		while($row = mysql_fetch_array($exe))
-			$id = $row['idFormazione'];
+			$idFormazione = $row['idFormazione'];
 		foreach($formazione as $key => $player)
-		{
-			$pos = $key + 1;
-			$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
-					VALUES ('" . $id . "','" . $player . "','" . $pos . "')";
-			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;          
-		}
+			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
 		if(isset($err))
 		{
 			mysql_query("ROLLBACK");
@@ -77,15 +74,17 @@ class formazione
 		}
 		else
 			mysql_query("COMMIT");
-		return $id;
+		return $idFormazione;
 	}
 	
 	function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
 	{
+		require_once(INCDIR . 'schieramento.inc.php');
+		$schieramentoObj = new schieramento();
 		mysql_query("START TRANSACTION");
 		$str = "";
 		foreach($capitano as $key => $val)
-			$str .= "," . $key . " = '" . $val . "'";      
+			$str .= "," . $key . " = '" . $val . "'";
 		$q = "UPDATE formazioni 
 				SET Modulo = '" . $modulo . "'" . $str . " 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
@@ -95,15 +94,9 @@ class formazione
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		while($row = mysql_fetch_array($exe))
-			$id = $row['idFormazione'];
+			$idFormazione = $row['idFormazione'];
 		foreach($formazione as $key => $player)
-		{
-			$pos = $key + 1;
-			$q = "UPDATE schieramento 
-					SET idFormazione='" . $id . "',idGioc='" . $player . "',idPosizione='" . $pos . "' 
-					WHERE idFormazione = '" . $id . "' AND idPosizione = '" . $pos . "'";
-			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		}
+			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
 		if(isset($err))
 		{
 			mysql_query("ROLLBACK");
@@ -111,7 +104,7 @@ class formazione
 		}
 		else
 			mysql_query("COMMIT");
-		return $id;
+		return $idFormazione;
 	}
 	
 	function getFormazioneBySquadraAndGiornata($idUtente,$giornata)

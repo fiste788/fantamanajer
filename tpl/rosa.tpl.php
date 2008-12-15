@@ -18,13 +18,13 @@
 		<tbody>
 			<tr>
 				<th>Nome</th>
-				<th class=tdcenter>Ruolo</th>
-				<th class=tdcenter>Club</th>
-				<th class=tdcenter>PG</th>				
-				<th class=tdcenter>MVoti</th>
-				<th class=tdcenter>MPunti</th>
-				<th class=tdcenter>Gol</th>
-				<th class=tdcenter>Assist</th>
+				<th class="tdcenter">Ruolo</th>
+				<th class="tdcenter">Club</th>
+				<th class="tdcenter">PG</th>
+				<th class="tdcenter">MVoti</th>
+				<th class="tdcenter">MPunti</th>
+				<th class="tdcenter">Gol</th>
+				<th class="tdcenter">Assist</th>
 			</tr>
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="<?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">
@@ -35,7 +35,7 @@
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteEff'].")"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votoEffAll'] . '"'; ?>><?php if(!empty($val['votoEff'])) echo $val['votoEff']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votiAll'] . '"'; ?>"><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votiAll'] . '"'; ?>><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
 			</tr>
@@ -95,7 +95,6 @@
 			</form>
 			<ul id="accordion" class="ui-accordion-container">
 				<li><a class="ui-accordion-link" href="#">Dati</a>
-				<div class="">
 				<?php endif;?>
 					<table class="column last"  cellpadding="0" cellspacing="0">
 						<tbody>
@@ -155,7 +154,7 @@
 						</div>
 						<div class="formbox">
 							<label for="abilitaMail">Ricevi email:</label>
-							<input id="mail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
+							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
 						</div>
 						<div class="formbox">
 							<label for="password">Password:</label>
