@@ -28,7 +28,7 @@ class fileSystem
 		{
 			while (false !== ($file = readdir($handle)))
 			{ 
-				if ($file != "." && $file != ".." && $file != ".svn") 
+				if ($file != ".htaccess" && $file != "." && $file != ".." && $file != ".svn") 
 					$output[] = $file;
 			} 
 			closedir($handle); 
@@ -143,8 +143,8 @@ class fileSystem
 	function getLastBackup()
 	{
 		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
-		if(!empty($nomeBackup) && file('http://www.fantamanajer.it/db/' . $nomeBackup) != FALSE)
-			return file_get_contents('http://www.fantamanajer.it/db/' . $nomeBackup);
+		if(!empty($nomeBackup) && file('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup) != FALSE)
+			return file_get_contents('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup);
 		else
 			return FALSE;
 	}
