@@ -212,7 +212,7 @@ class giocatore
 			{
 				$pezzi = explode(";",$val);
 				$cognome = ucwords(strtolower((addslashes($pezzi[1]))));
-				$arrayInserire = "('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%'))";
+				$arrayInserire[] = "('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%'))";
 			}
 			$q .= implode(',',$arrayInserire);
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);

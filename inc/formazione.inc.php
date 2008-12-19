@@ -53,8 +53,11 @@ class formazione
 		$valori = "";
 		foreach($capitano as $key => $val)
 		{
-			$campi .= "," . $key;
-			$valori .= ",'" . $val."'";
+			if(!empty($val))
+			{
+				$campi .= "," . $key;
+				$valori .= ",'" . $val."'";
+			}
 		}
 		$q = "INSERT INTO formazioni (idUtente,idGiornata,modulo" . $campi .") 
 				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
@@ -84,7 +87,8 @@ class formazione
 		mysql_query("START TRANSACTION");
 		$str = "";
 		foreach($capitano as $key => $val)
-			$str .= "," . $key . " = '" . $val . "'";
+			if(!empty($val))
+				$str .= "," . $key . " = '" . $val . "'";
 		$q = "UPDATE formazioni 
 				SET Modulo = '" . $modulo . "'" . $str . " 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
