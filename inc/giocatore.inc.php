@@ -56,7 +56,8 @@ class giocatore
 	{
 		$q = "SELECT idGioc,cognome,nome,ruolo 
 				FROM giocatore 
-				WHERE idGioc IN ('" . implode("','",$giocatori) . "')";
+				WHERE idGioc IN ('" . implode("','",$giocatori) . "')
+				ORDER BY FIELD(idGioc,'" . implode("','",$giocatori) . "')";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$result[] = $row;

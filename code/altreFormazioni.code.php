@@ -38,7 +38,6 @@ if($formazione != FALSE)
 		$contenttpl->assign('panchinari',FALSE);
 }
 $contenttpl->assign('formazioniImpostate',$formImp);
-$contenttpl->assign('formazione',$formazione);
 $contenttpl->assign('modulo',$formazione['modulo']);
 $contenttpl->assign('mod',explode('-',$formazione['modulo']));
 $contenttpl->assign('formazione',$formazione['elenco']);
