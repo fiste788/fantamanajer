@@ -3,6 +3,9 @@ class leghe
 {
 	var $idLega;
 	var $nomeLega;
+	var $capitano;
+	var $numTrasferimenti;
+	var $numSelezioni;
 	
 	function getLeghe()
 	{

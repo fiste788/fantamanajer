@@ -29,10 +29,10 @@ class eventi
 	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
 		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0100') as pubData,tipo,idExternal,utente.nome 
-				FROM eventi INNER JOIN utente ON eventi.idUtente = utente.idUtente 
+				FROM eventi LEFT JOIN utente ON eventi.idUtente = utente.idUtente 
 				WHERE eventi.idLega = '" . $idLega . "'";
 		if($tipo != NULL)
-		  $q .= " AND tipo = '" . $tipo . "'";
+			$q .= " AND tipo = '" . $tipo . "'";
 		$q .= " ORDER BY data DESC 
 				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -61,7 +61,7 @@ class eventi
 									if(!empty($values[$key]['idExternal']['abstract'])) $values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
 									$values[$key]['content'] .= $values[$key]['idExternal']['text'];
 									$values[$key]['link'] = $linksObj->getLink('conferenzeStampa',array('giorn'=>$values[$key]['idExternal']['idGiornata']));break;
-		    		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
+					case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
 									$values[$key]['content'] = ' ';break;
 									$values[$key]['link'] = '';break;
 					case 3: $values[$key]['idExternal'] = $formazioneObj->getFormazioneById($val['idExternal']);
@@ -69,21 +69,23 @@ class eventi
 									$titolari=$values[$key]['idExternal']['elenco'];
 									$titolari=array_splice($titolari,0,11);
 									$titolari = $giocatoreObj->getGiocatoriByArray($titolari);
-
 									$values[$key]['content'] = 'Formazione: ';
 									foreach($titolari as $key2=>$val2)
 										$values[$key]['content'] .= $val2['cognome'].', ';
-		          					$values[$key]['content'] = substr($values[$key]['content'],0,-2);
-		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['idGiornata'],'squadra'=>$values[$key]['idExternal']['idSquadra']));break;
-		          	case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
-		          					$giocOld = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocOld']);
-		          					$giocNew = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocNew']);
-		          					$values[$key]['idExternal']['idGiocOld'] = $giocOld[$values[$key]['idExternal']['idGiocOld']];
-		          					$values[$key]['idExternal']['idGiocNew'] = $giocNew[$values[$key]['idExternal']['idGiocNew']];
+									$values[$key]['content'] = substr($values[$key]['content'],0,-2);
+									$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['idGiornata'],'squadra'=>$values[$key]['idExternal']['idSquadra']));break;
+					case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
+									$giocOld = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocOld']);
+									$giocNew = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocNew']);
+									$values[$key]['idExternal']['idGiocOld'] = $giocOld[$values[$key]['idExternal']['idGiocOld']];
+									$values[$key]['idExternal']['idGiocNew'] = $giocNew[$values[$key]['idExternal']['idGiocNew']];
 									$values[$key]['titolo'] = $val['nome'] . ' ha effettuato un trasferimento';
 									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['idGiocOld']['nome'] .' ' . $values[$key]['idExternal']['idGiocOld']['cognome'].' e ha acquistato '. $values[$key]['idExternal']['idGiocNew']['nome'] .' ' . $values[$key]['idExternal']['idGiocNew']['cognome'];
 									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squad'=>$values[$key]['idExternal']['idSquadra']));
 									unset($giocOld,$giocNew);break;
+					case 5: $values[$key]['idExternal']['trasferiti'] = $giocatoreObj->getGiocatoriTrasferitiByGiornata($values[$key]['idExternal']);
+									$values[$key]['idExternal']['inseriti'] = $giocatoreObj->getGiocatoriInseritiByGiornata($values[$key]['idExternal']);
+									echo "<pre>".print_r($values[$key],1)."</pre>";
 				}
 			}
 			return $values;

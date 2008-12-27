@@ -182,13 +182,16 @@ class punteggi
 		require_once('voti.inc.php');
 		require_once('giocatore.inc.php');
 		require_once('schieramento.inc.php');
+		require_once('leghe.inc.php');
 
 		$formazioneObj = new formazione();
 		$votiObj = new voti();
 		$giocatoreObj = new giocatore();
 		$schieramentoObj = new schieramento();
+		$legheObj = new leghe();
 		// Se i punti di quella squadra e giornata ci sono già, esce
 		$punteggioOld = $this->getPunteggi($idSquadra,$giornata);
+		$datiLega = $legheObj->getLegaById($idLega);
 		if($punteggioOld == '0' || $punteggioOld == NULL)
 		{
 			$cambi = 0;
@@ -221,7 +224,7 @@ class punteggi
 				}
 				$schieramentoObj->setConsiderazione($idForm,$player,1);
 				$voto = $votiObj->getVotoByIdGioc($player,$giornata);
-				if($player == $cap)
+				if($player == $cap && $datiLega['capitano'])
 				{
 					$voto *= 2;
 					$schieramentoObj->setConsiderazione($idForm,$cap,2);

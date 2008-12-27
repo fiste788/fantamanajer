@@ -47,24 +47,26 @@
 							?><option value="<?php echo $val3['idGioc']; ?>" <?php if($selected) echo ' selected="selected"'; ?>><?php echo $val3['cognome'] . " " . $val3['nome']; ?></option>
 						  	<?php  endforeach; ?>
 						</select>
-						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
-						<select class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
-							<option></option>
-							<?php foreach ($elencocap as $elem):
-							$selected = FALSE; 
-							if(isset($_POST[$nome]) && $_POST[$nome] == $elem)
-								$selected = TRUE;
-							elseif(!empty($this->cap))
-							{
-								if(array_search($selezionato,$this->cap) == $elem)
-								{
+						<?php if($_SESSION['datiLega']['capitano']): ?>
+							<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
+							<select class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
+								<option></option>
+								<?php foreach ($elencocap as $elem):
+								$selected = FALSE; 
+								if(isset($_POST[$nome]) && $_POST[$nome] == $elem)
 									$selected = TRUE;
-									unset($this->cap[$nome]);
+								elseif(!empty($this->cap))
+								{
+									if(array_search($selezionato,$this->cap) == $elem)
+									{
+										$selected = TRUE;
+										unset($this->cap[$nome]);
+									}
 								}
-							}
-							?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
-							<?php endforeach;?>
-						</select>
+								?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
+								<?php endforeach;?>
+							</select>
+							<?php endif; ?>
 						<?php endif; ?>
 					<?php $k++; endfor; ?>
 				<?php $j++; endforeach; ?>
