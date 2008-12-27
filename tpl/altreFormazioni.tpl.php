@@ -21,13 +21,15 @@ $i=0;  ?>
 							<option></option>
 							  <option selected="selected" value="<?php echo $val['idGioc'];?>"><?php  echo $val['cognome']. " ". $val['nome'];  ?></option>
 						</select>
-						<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
-						<select disabled="disabled" class="cap">
-							<option></option>
-							<?php if(array_search($val['idGioc'],$this->cap) != FALSE): ?>
-							<option selected="selected"><?php echo array_search($val['idGioc'],$this->cap); ?></option>
+						<?php if($_SESSION['datiLega']['capitano']): ?>
+							<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
+							<select disabled="disabled" class="cap">
+								<option></option>
+								<?php if(array_search($val['idGioc'],$this->cap) != FALSE): ?>
+								<option selected="selected"><?php echo array_search($val['idGioc'],$this->cap); ?></option>
+								<?php endif; ?>
+							</select>
 							<?php endif; ?>
-						</select>
 						<?php endif; ?>
 						<?php $i++; ?>
 						<?php if($i == $this->mod[$j] && $j!=3): $j++;?>

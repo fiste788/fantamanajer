@@ -48,7 +48,6 @@ if(isset($_GET['action']))
 		{
 			//TO-DO: cekko - invece che esplodere così creare un espressione regolare che splitti per ogni ; che però non sia incluso tra apici singoli
 			$querys = explode(";\n",$sql);
-			echo "<pre>" . print_r($querys,1) . "</pre>";
 			$dbObj->startTransaction();
 			array_pop($querys);
 			foreach($querys as $key=>$val)
