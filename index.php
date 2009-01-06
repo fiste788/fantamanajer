@@ -77,9 +77,9 @@ $navbartpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
 if (isset($_GET['p']))
-  $p = $_GET['p'];
+	$p = $_GET['p'];
 else
-  $p = 'home';
+	$p = 'home';
 
 
 //Adding the language
@@ -87,8 +87,10 @@ else
 if (!isset($_SESSION['lang']))
 	$_SESSION['lang'] = 'it';
 
+/*
 require_once(LANGDIR.$_SESSION['lang'].'/general.lang.php');
-$sesslang=$_SESSION['lang'];
+$sesslang = $_SESSION['lang'];
+*/
 
 //Try login if POSTDATA exists
 require_once(CODEDIR.'login.code.php');
@@ -98,11 +100,11 @@ if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
-  $_SESSION['userid'] = 1000;
-  $_SESSION['usertype'] = 'guest';
-  $_SESSION['logged'] = FALSE;
-  $_SESSION['idSquadra'] = FALSE;
-  $_SESSION['idLega'] = 1;
+	$_SESSION['userid'] = 1000;
+	$_SESSION['usertype'] = 'guest';
+	$_SESSION['logged'] = FALSE;
+	$_SESSION['idSquadra'] = FALSE;
+	$_SESSION['idLega'] = 1;
 }
 
 /**
@@ -117,7 +119,7 @@ if($timeout == FALSE)
 else 
 	$timeout = TRUE;
 if($giornata > ($giornataObj->getNumberGiornate()-1))
-	$timeout = '0';
+	$timeout = -1;
 
 define("GIORNATA",$giornata);
 define("TIMEOUT",$timeout);
@@ -272,62 +274,62 @@ $navbartpl->assign('p',$p);
  * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
  *
  */
-	// $header->assign('title',$lang['title']);
-  //$layouttpl->assign('styles', $styles);
-//  $layouttpl->assign('meta', $lang['description']);
-//  $layouttpl->assign('meta', $lang['keywords']);
-  //$layouttpl->assign('js', $js);
-  
+// $header->assign('title',$lang['title']);
+// $layouttpl->assign('styles', $styles);
+// $layouttpl->assign('meta', $lang['description']);
+// $layouttpl->assign('meta', $lang['keywords']);
+// $layouttpl->assign('js', $js);
+
 /**
  * GENERAZIONE LAYOUT
  */
 
-  /**
-   * PRODUZIONE HEADER
-   * il require include il file con il codice per l'header, incluso il nome del file template
-   */
-  $header=$headertpl->fetch(TPLDIR.'header.tpl.php');
+/**
+ * PRODUZIONE HEADER
+ * il require include il file con il codice per l'header, incluso il nome del file template
+ */
+$header=$headertpl->fetch(TPLDIR.'header.tpl.php');
 
-  /**
-   * PRODUZIONE FOOTER
-   * il require include il file con il codice per il'footer, incluso il nome del file del file template
-   */
-//  $footertpl->assign('p',$p);
-  $footer=$footertpl->fetch(TPLDIR.'footer.tpl.php');
+/**
+ * PRODUZIONE FOOTER
+ * il require include il file con il codice per il'footer, incluso il nome del file del file template
+ */
+//$footertpl->assign('p',$p);
+$footer=$footertpl->fetch(TPLDIR.'footer.tpl.php');
 
-  /**
-   * PRODUZIONE MENU
-   * il require include il file con il codice per il menu, incluso il nome del file del file template
-   */
-   
-//  $navbartpl->assign('p',$p);
-  $navbar=$navbartpl->fetch(TPLDIR.'navbar.tpl.php');
-  /**
-   * PRODUZIONE CONTENT
-   * Esegue la fetch del template per l'area content
-   */
-  $content=$contenttpl->fetch($tplfile);
+/**
+ * PRODUZIONE MENU
+ * il require include il file con il codice per il menu, incluso il nome del file del file template
+ */
 
-  /**
-   * COMPOSIZIONE PAGINA
-   */
+// $navbartpl->assign('p',$p);
+$navbar=$navbartpl->fetch(TPLDIR.'navbar.tpl.php');
+/**
+ * PRODUZIONE CONTENT
+ * Esegue la fetch del template per l'area content
+ */
+$content=$contenttpl->fetch($tplfile);
 
-  $layouttpl->assign('header', $header);
-  $layouttpl->assign('footer', $footer);
-  $layouttpl->assign('content', $content);
-  $layouttpl->assign('navbar', $navbar);
+/**
+ * COMPOSIZIONE PAGINA
+ */
+
+$layouttpl->assign('header', $header);
+$layouttpl->assign('footer', $footer);
+$layouttpl->assign('content', $content);
+$layouttpl->assign('navbar', $navbar);
 
 /**
  * Output Pagina
  */
- 
+
 $result = $layouttpl->display(TPLDIR.'layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
 if ($layouttpl->isError($result)) {
-    echo "There was an error displaying the template. <pre>";
-    print_r($result,1);
-    echo "</pre>";
+	echo "There was an error displaying the template. <pre>";
+	print_r($result,1);
+	echo "</pre>";
 }
 
 $dbLink->dbClose();
