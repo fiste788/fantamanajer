@@ -47,6 +47,7 @@
 		<?php endif; ?>
 		</div>
 	</div>
+	<?php if(!empty($this->giornate)): ?>
 	<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
 	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
@@ -226,6 +227,7 @@
 	});
 	-->
 	</script>
+	<?php endif; ?>
 </div>
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
@@ -246,6 +248,7 @@
 				</select>
 			</fieldset>
 		</form>
+		<?php if(!empty($this->giornate)): ?>
 		<div id="legendcontainer" class="column last">
 			<h3 class="no-margin">Legenda</h3>
 		</div>
@@ -258,6 +261,7 @@
 				<label>De/Seleziona tutti</label>
 			</div>
 		</div>
+		<?php endif; ?>
 	</div>
 	</div>
 	</div>
