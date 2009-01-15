@@ -1,2 +1,509 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(b(C){C.r=C.r||{};C.14(C.r,{52:b(F,G){1T(d E=0;E<G.1m;E++){8(G[E]!==U){C.2D(F[0],"2C.2B."+G[E],F[0].Q[G[E]])}}},51:b(F,G){1T(d E=0;E<G.1m;E++){8(G[E]!==U){F.k(G[E],C.2D(F[0],"2C.2B."+G[E]))}}},4Z:b(E,F){8(F=="t"){F=E.4Y(":4X")?"1c":"1r"}6 F},4W:b(F,G){d H,E;2A(F[0]){12"1e":H=0;S;12"4V":H=0.5;S;12"2q":H=1;S;2z:H=F[0]/G.2x}2A(F[1]){12"1f":E=0;S;12"4U":E=0.5;S;12"2p":E=1;S;2z:E=F[1]/G.2y}6{x:E,y:H}},4T:b(F){8(F.1v().W("1V")=="1U"){6 F}d E={2y:F.4S({1X:2w}),2x:F.4R({1X:2w}),"2v":F.k("2v")};F.4Q(\'<2u 1V="1U" Q="4P-4O:2c%;4N:1i;4M:4L;1X:0;4K:0"></2u>\');d I=F.1v();8(F.k("R")=="1R"){I.k({R:"1W"});F.k({R:"1W"})}m{d H=F.k("1e");8(1S(j(H))){H="2t"}d G=F.k("1f");8(1S(j(G))){G="2t"}I.k({R:F.k("R"),1e:H,1f:G,4J:F.k("z-4I")}).1c();F.k({R:"1W",1e:0,1f:0})}I.k(E);6 I},4H:b(E){8(E.1v().W("1V")=="1U"){6 E.1v().4G(E)}6 E},4F:b(F,G,E,H){H=H||{};C.1n(G,b(J,I){1u=F.2g(I);8(1u[0]>0){H[I]=1u[0]*E+1u[1]}});6 H},19:b(G,H,J,I){d E=(1d J=="b"?J:(I?I:U));d F=(1d J=="1P"?J:U);6 e.1n(b(){d O={};d M=C(e);d N=M.W("Q")||"";8(1d N=="1P"){N=N["1O"]}8(G.t){M.4E(G.t)?G.p=G.t:G.q=G.t}d K=C.14({},(1t.1s?1t.1s.2s(e,U):e.2r));8(G.q){M.1b(G.q)}8(G.p){M.1a(G.p)}d L=C.14({},(1t.1s?1t.1s.2s(e,U):e.2r));8(G.q){M.1a(G.q)}8(G.p){M.1b(G.p)}1T(d P 4D L){8(1d L[P]!="b"&&L[P]&&P.1H("4C")==-1&&P.1H("1m")==-1&&L[P]!=K[P]&&(P.1Q(/1G/i)||(!P.1Q(/1G/i)&&!1S(j(L[P],10))))&&(K.R!="1R"||(K.R=="1R"&&!P.1Q(/1f|1e|2q|2p/)))){O[P]=L[P]}}M.4B(O,H,F,b(){8(1d C(e).W("Q")=="1P"){C(e).W("Q")["1O"]="";C(e).W("Q")["1O"]=N}m{C(e).W("Q",N)}8(G.q){C(e).1b(G.q)}8(G.p){C(e).1a(G.p)}8(E){E.l(e,g)}})})}});C.V.14({2o:C.V.1c,2n:C.V.1r,2m:C.V.t,2l:C.V.1b,2k:C.V.1a,2i:C.V.2j,1q:b(E,G,F,H){6 C.r[E]?C.r[E].4A(e,{4z:E,4y:G||{},1p:F,1o:H}):U},1c:b(){8(!g[0]||(g[0].17==1N||/(1M|1L|1K)/.1J(g[0]))){6 e.2o.l(e,g)}m{d E=g[1]||{};E["1I"]="1c";6 e.1q.l(e,[g[0],E,g[2]||E.1p,g[3]||E.1o])}},1r:b(){8(!g[0]||(g[0].17==1N||/(1M|1L|1K)/.1J(g[0]))){6 e.2n.l(e,g)}m{d E=g[1]||{};E["1I"]="1r";6 e.1q.l(e,[g[0],E,g[2]||E.1p,g[3]||E.1o])}},t:b(){8(!g[0]||(g[0].17==1N||/(1M|1L|1K)/.1J(g[0]))||(g[0].17==4x)){6 e.2m.l(e,g)}m{d E=g[1]||{};E["1I"]="t";6 e.1q.l(e,[g[0],E,g[2]||E.1p,g[3]||E.1o])}},1b:b(F,E,H,G){6 E?C.r.19.l(e,[{q:F},E,H,G]):e.2l(F)},1a:b(F,E,H,G){6 E?C.r.19.l(e,[{p:F},E,H,G]):e.2k(F)},2j:b(F,E,H,G){6 E?C.r.19.l(e,[{t:F},E,H,G]):e.2i(F)},2h:b(E,G,F,I,H){6 C.r.19.l(e,[{q:G,p:E},F,I,H])},4w:b(){6 e.2h.l(e,g)},2g:b(E){d F=e.k(E),G=[];C.1n(["4v","4u","%","4t"],b(H,I){8(F.1H(I)>0){G=[1l(F),I]}});6 G}});h.1n(["2e","4s","4r","4q","4p","1G","4o"],b(F,E){h.4n.4m[E]=b(G){8(G.4l==0){G.T=D(G.2f,E);G.18=B(G.18)}G.2f.Q[E]="1C("+[c.1F(c.1E(j((G.1D*(G.18[0]-G.T[0]))+G.T[0]),f),0),c.1F(c.1E(j((G.1D*(G.18[1]-G.T[1]))+G.T[1]),f),0),c.1F(c.1E(j((G.1D*(G.18[2]-G.T[2]))+G.T[2]),f),0)].4k(",")+")"}});b B(F){d E;8(F&&F.17==4j&&F.1m==3){6 F}8(E=/1C\\(\\s*([0-9]{1,3})\\s*,\\s*([0-9]{1,3})\\s*,\\s*([0-9]{1,3})\\s*\\)/.15(F)){6[j(E[1]),j(E[2]),j(E[3])]}8(E=/1C\\(\\s*([0-9]+(?:\\.[0-9]+)?)\\%\\s*,\\s*([0-9]+(?:\\.[0-9]+)?)\\%\\s*,\\s*([0-9]+(?:\\.[0-9]+)?)\\%\\s*\\)/.15(F)){6[1l(E[1])*2.1B,1l(E[2])*2.1B,1l(E[3])*2.1B]}8(E=/#([a-11-Z-9]{2})([a-11-Z-9]{2})([a-11-Z-9]{2})/.15(F)){6[j(E[1],16),j(E[2],16),j(E[3],16)]}8(E=/#([a-11-Z-9])([a-11-Z-9])([a-11-Z-9])/.15(F)){6[j(E[1]+E[1],16),j(E[2]+E[2],16),j(E[3]+E[3],16)]}8(E=/4i\\(0, 0, 0, 0\\)/.15(F)){6 A["1i"]}6 A[h.4h(F).4g()]}b D(G,E){d F;4f{F=h.4e(G,E);8(F!=""&&F!="1i"||h.4d(G,"4c")){S}E="2e"}4b(G=G.4a);6 B(F)}d A={49:[0,f,f],48:[2a,f,f],46:[2d,2d,45],44:[0,0,0],43:[0,0,f],41:[24,42,42],40:[0,f,f],3Z:[0,0,Y],3Y:[0,Y,Y],3X:[1A,1A,1A],3W:[0,2c,0],3V:[3U,3T,2b],3S:[Y,0,Y],3R:[3Q,2b,47],3P:[f,29,0],3O:[3N,50,3M],3L:[Y,0,0],3K:[3J,3I,3H],3G:[3F,0,1k],3E:[f,0,f],3D:[f,3C,0],3B:[0,o,0],3A:[v,0,3z],3y:[2a,28,29],3x:[3w,3v,28],3u:[26,f,f],3t:[27,3s,27],3r:[1k,1k,1k],3q:[f,3p,3o],3n:[f,f,26],3m:[0,f,0],3l:[f,0,f],3k:[o,0,0],3j:[0,0,o],3i:[o,o,0],3h:[f,24,0],3g:[f,1j,3f],3e:[o,0,o],3d:[o,0,o],3c:[f,0,0],3b:[1j,1j,1j],3a:[f,f,f],39:[f,f,0],1i:[f,f,f]};h.u["38"]=h.u["23"];h.14(h.u,{22:"21",23:b(F,G,E,I,H){6 h.u[h.u.22](F,G,E,I,H)},37:b(F,G,E,I,H){6 I*(G/=H)*G+E},21:b(F,G,E,I,H){6-I*(G/=H)*(G-2)+E},36:b(F,G,E,I,H){8((G/=H/2)<1){6 I/2*G*G+E}6-I/2*((--G)*(G-2)-1)+E},35:b(F,G,E,I,H){6 I*(G/=H)*G*G+E},34:b(F,G,E,I,H){6 I*((G=G/H-1)*G*G+1)+E},33:b(F,G,E,I,H){8((G/=H/2)<1){6 I/2*G*G*G+E}6 I/2*((G-=2)*G*G+2)+E},32:b(F,G,E,I,H){6 I*(G/=H)*G*G*G+E},31:b(F,G,E,I,H){6-I*((G=G/H-1)*G*G*G-1)+E},30:b(F,G,E,I,H){8((G/=H/2)<1){6 I/2*G*G*G*G+E}6-I/2*((G-=2)*G*G*G-2)+E},2Z:b(F,G,E,I,H){6 I*(G/=H)*G*G*G*G+E},2Y:b(F,G,E,I,H){6 I*((G=G/H-1)*G*G*G*G+1)+E},2X:b(F,G,E,I,H){8((G/=H/2)<1){6 I/2*G*G*G*G*G+E}6 I/2*((G-=2)*G*G*G*G+2)+E},2W:b(F,G,E,I,H){6-I*c.20(G/H*(c.n/2))+I+E},2V:b(F,G,E,I,H){6 I*c.13(G/H*(c.n/2))+E},2U:b(F,G,E,I,H){6-I/2*(c.20(c.n*G/H)-1)+E},2T:b(F,G,E,I,H){6(G==0)?E:I*c.w(2,10*(G/H-1))+E},2S:b(F,G,E,I,H){6(G==H)?E+I:I*(-c.w(2,-10*G/H)+1)+E},2R:b(F,G,E,I,H){8(G==0){6 E}8(G==H){6 E+I}8((G/=H/2)<1){6 I/2*c.w(2,10*(G-1))+E}6 I/2*(-c.w(2,-10*--G)+2)+E},2Q:b(F,G,E,I,H){6-I*(c.1h(1-(G/=H)*G)-1)+E},2P:b(F,G,E,I,H){6 I*c.1h(1-(G=G/H-1)*G)+E},2O:b(F,G,E,I,H){8((G/=H/2)<1){6-I/2*(c.1h(1-G*G)-1)+E}6 I/2*(c.1h(1-(G-=2)*G)+1)+E},2N:b(F,H,E,L,K){d I=1.X;d J=0;d G=L;8(H==0){6 E}8((H/=K)==1){6 E+L}8(!J){J=K*0.3}8(G<c.1z(L)){G=L;d I=J/4}m{d I=J/(2*c.n)*c.1y(L/G)}6-(G*c.w(2,10*(H-=1))*c.13((H*K-I)*(2*c.n)/J))+E},2M:b(F,H,E,L,K){d I=1.X;d J=0;d G=L;8(H==0){6 E}8((H/=K)==1){6 E+L}8(!J){J=K*0.3}8(G<c.1z(L)){G=L;d I=J/4}m{d I=J/(2*c.n)*c.1y(L/G)}6 G*c.w(2,-10*H)*c.13((H*K-I)*(2*c.n)/J)+L+E},2L:b(F,H,E,L,K){d I=1.X;d J=0;d G=L;8(H==0){6 E}8((H/=K/2)==2){6 E+L}8(!J){J=K*(0.3*1.5)}8(G<c.1z(L)){G=L;d I=J/4}m{d I=J/(2*c.n)*c.1y(L/G)}8(H<1){6-0.5*(G*c.w(2,10*(H-=1))*c.13((H*K-I)*(2*c.n)/J))+E}6 G*c.w(2,-10*(H-=1))*c.13((H*K-I)*(2*c.n)/J)*0.5+L+E},2K:b(F,G,E,J,I,H){8(H==1x){H=1.X}6 J*(G/=I)*G*((H+1)*G-H)+E},2J:b(F,G,E,J,I,H){8(H==1x){H=1.X}6 J*((G=G/I-1)*G*((H+1)*G+H)+1)+E},2I:b(F,G,E,J,I,H){8(H==1x){H=1.X}8((G/=I/2)<1){6 J/2*(G*G*(((H*=(1.1Z))+1)*G-H))+E}6 J/2*((G-=2)*G*(((H*=(1.1Z))+1)*G+H)+2)+E},1Y:b(F,G,E,I,H){6 I-h.u.1w(F,H-G,0,I,H)+E},1w:b(F,G,E,I,H){8((G/=H)<(1/2.v)){6 I*(7.1g*G*G)+E}m{8(G<(2/2.v)){6 I*(7.1g*(G-=(1.5/2.v))*G+0.v)+E}m{8(G<(2.5/2.v)){6 I*(7.1g*(G-=(2.25/2.v))*G+0.2H)+E}m{6 I*(7.1g*(G-=(2.2G/2.v))*G+0.2F)+E}}}},2E:b(F,G,E,I,H){8(G<H/2){6 h.u.1Y(F,G*2,0,I,H)*0.5+E}6 h.u.1w(F,G*2-H,0,I,H)*0.5+I*0.5+E}})})(h)',62,313,'||||||return||if|||function|Math|var|this|255|arguments|jQuery||parseInt|css|apply|else|PI|128|remove|add|effects||toggle|easing|75|pow||||||||||||||||||||style|position|break|start|null|fn|attr|70158|139|F0||fA|case|sin|extend|exec||constructor|end|animateClass|removeClass|addClass|show|typeof|top|left|5625|sqrt|transparent|192|211|parseFloat|length|each|callback|duration|effect|hide|defaultView|document|unit|parent|easeOutBounce|undefined|asin|abs|169|55|rgb|pos|min|max|color|indexOf|mode|test|fast|normal|slow|Number|cssText|object|match|static|isNaN|for|fxWrapper|id|relative|margin|easeInBounce|525|cos|easeOutQuad|def|swing|165||224|144|230|140|240|107|100|245|backgroundColor|elem|cssUnit|morph|_toggleClass|toggleClass|_removeClass|_addClass|__toggle|_hide|_show|right|bottom|currentStyle|getComputedStyle|auto|div|float|true|height|width|default|switch|storage|ec|data|easeInOutBounce|984375|625|9375|easeInOutBack|easeOutBack|easeInBack|easeInOutElastic|easeOutElastic|easeInElastic|easeInOutCirc|easeOutCirc|easeInCirc|easeInOutExpo|easeOutExpo|easeInExpo|easeInOutSine|easeOutSine|easeInSine|easeInOutQuint|easeOutQuint|easeInQuint|easeInOutQuart|easeOutQuart|easeInQuart|easeInOutCubic|easeOutCubic|easeInCubic|easeInOutQuad|easeInQuad|jswing|yellow|white|silver|red|violet|purple|203|pink|orange|olive|navy|maroon|magenta|lime|lightyellow|193|182|lightpink|lightgrey|238|lightgreen|lightcyan|216|173|lightblue|khaki|130|indigo|green|215|gold|fuchsia|148|darkviolet|122|150|233|darksalmon|darkred|204|153|darkorchid|darkorange|85|darkolivegreen|darkmagenta|183|189|darkkhaki|darkgreen|darkgrey|darkcyan|darkblue|cyan|brown||blue|black|220|beige||azure|aqua|parentNode|while|body|nodeName|curCSS|do|toLowerCase|trim|rgba|Array|join|state|step|fx|outlineColor|borderTopColor|borderRightColor|borderLeftColor|borderBottomColor|pt|px|em|switchClass|Function|options|method|call|animate|Moz|in|hasClass|setTransition|replaceWith|removeWrapper|index|zIndex|padding|none|border|background|size|font|wrap|outerHeight|outerWidth|createWrapper|center|middle|getBaseline|hidden|is|setMode||restore|save'.split('|'),0,{}))
+/*
+ * jQuery UI Effects 1.5.3
+ *
+ * Copyright (c) 2008 Aaron Eisenberger (aaronchi@gmail.com)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ * http://docs.jquery.com/UI/Effects/
+ */
+;(function($) {
 
+$.effects = $.effects || {}; //Add the 'effects' scope
+
+$.extend($.effects, {
+	save: function(el, set) {
+		for(var i=0;i<set.length;i++) {
+			if(set[i] !== null) $.data(el[0], "ec.storage."+set[i], el[0].style[set[i]]);
+		}
+	},
+	restore: function(el, set) {
+		for(var i=0;i<set.length;i++) {
+			if(set[i] !== null) el.css(set[i], $.data(el[0], "ec.storage."+set[i]));
+		}
+	},
+	setMode: function(el, mode) {
+		if (mode == 'toggle') mode = el.is(':hidden') ? 'show' : 'hide'; // Set for toggle
+		return mode;
+	},
+	getBaseline: function(origin, original) { // Translates a [top,left] array into a baseline value
+		// this should be a little more flexible in the future to handle a string & hash
+		var y, x;
+		switch (origin[0]) {
+			case 'top': y = 0; break;
+			case 'middle': y = 0.5; break;
+			case 'bottom': y = 1; break;
+			default: y = origin[0] / original.height;
+		};
+		switch (origin[1]) {
+			case 'left': x = 0; break;
+			case 'center': x = 0.5; break;
+			case 'right': x = 1; break;
+			default: x = origin[1] / original.width;
+		};
+		return {x: x, y: y};
+	},
+	createWrapper: function(el) {
+		if (el.parent().attr('id') == 'fxWrapper')
+			return el;
+		var props = {width: el.outerWidth({margin:true}), height: el.outerHeight({margin:true}), 'float': el.css('float')};
+		el.wrap('<div id="fxWrapper" style="font-size:100%;background:transparent;border:none;margin:0;padding:0"></div>');
+		var wrapper = el.parent();
+		if (el.css('position') == 'static'){
+			wrapper.css({position: 'relative'});
+			el.css({position: 'relative'});
+		} else {
+			var top = el.css('top'); if(isNaN(parseInt(top))) top = 'auto';
+			var left = el.css('left'); if(isNaN(parseInt(left))) left = 'auto';
+			wrapper.css({ position: el.css('position'), top: top, left: left, zIndex: el.css('z-index') }).show();
+			el.css({position: 'relative', top:0, left:0});
+		}
+		wrapper.css(props);
+		return wrapper;
+	},
+	removeWrapper: function(el) {
+		if (el.parent().attr('id') == 'fxWrapper')
+			return el.parent().replaceWith(el);
+		return el;
+	},
+	setTransition: function(el, list, factor, val) {
+		val = val || {};
+		$.each(list,function(i, x){
+			unit = el.cssUnit(x);
+			if (unit[0] > 0) val[x] = unit[0] * factor + unit[1];
+		});
+		return val;
+	},
+	animateClass: function(value, duration, easing, callback) {
+
+		var cb = (typeof easing == "function" ? easing : (callback ? callback : null));
+		var ea = (typeof easing == "object" ? easing : null);
+
+		return this.each(function() {
+
+			var offset = {}; var that = $(this); var oldStyleAttr = that.attr("style") || '';
+			if(typeof oldStyleAttr == 'object') oldStyleAttr = oldStyleAttr["cssText"]; /* Stupidly in IE, style is a object.. */
+			if(value.toggle) { that.hasClass(value.toggle) ? value.remove = value.toggle : value.add = value.toggle; }
+
+			//Let's get a style offset
+			var oldStyle = $.extend({}, (document.defaultView ? document.defaultView.getComputedStyle(this,null) : this.currentStyle));
+			if(value.add) that.addClass(value.add); if(value.remove) that.removeClass(value.remove);
+			var newStyle = $.extend({}, (document.defaultView ? document.defaultView.getComputedStyle(this,null) : this.currentStyle));
+			if(value.add) that.removeClass(value.add); if(value.remove) that.addClass(value.remove);
+
+			// The main function to form the object for animation
+			for(var n in newStyle) {
+				if( typeof newStyle[n] != "function" && newStyle[n] /* No functions and null properties */
+				&& n.indexOf("Moz") == -1 && n.indexOf("length") == -1 /* No mozilla spezific render properties. */
+				&& newStyle[n] != oldStyle[n] /* Only values that have changed are used for the animation */
+				&& (n.match(/color/i) || (!n.match(/color/i) && !isNaN(parseInt(newStyle[n],10)))) /* Only things that can be parsed to integers or colors */
+				&& (oldStyle.position != "static" || (oldStyle.position == "static" && !n.match(/left|top|bottom|right/))) /* No need for positions when dealing with static positions */
+				) offset[n] = newStyle[n];
+			}
+
+			that.animate(offset, duration, ea, function() { // Animate the newly constructed offset object
+				// Change style attribute back to original. For stupid IE, we need to clear the damn object.
+				if(typeof $(this).attr("style") == 'object') { $(this).attr("style")["cssText"] = ""; $(this).attr("style")["cssText"] = oldStyleAttr; } else $(this).attr("style", oldStyleAttr);
+				if(value.add) $(this).addClass(value.add); if(value.remove) $(this).removeClass(value.remove);
+				if(cb) cb.apply(this, arguments);
+			});
+
+		});
+	}
+});
+
+//Extend the methods of jQuery
+$.fn.extend({
+	//Save old methods
+	_show: $.fn.show,
+	_hide: $.fn.hide,
+	__toggle: $.fn.toggle,
+	_addClass: $.fn.addClass,
+	_removeClass: $.fn.removeClass,
+	_toggleClass: $.fn.toggleClass,
+	// New ec methods
+	effect: function(fx,o,speed,callback) {
+		return $.effects[fx] ? $.effects[fx].call(this, {method: fx, options: o || {}, duration: speed, callback: callback }) : null;
+	},
+	show: function() {
+		if(!arguments[0] || (arguments[0].constructor == Number || /(slow|normal|fast)/.test(arguments[0])))
+			return this._show.apply(this, arguments);
+		else {
+			var o = arguments[1] || {}; o['mode'] = 'show';
+			return this.effect.apply(this, [arguments[0], o, arguments[2] || o.duration, arguments[3] || o.callback]);
+		}
+	},
+	hide: function() {
+		if(!arguments[0] || (arguments[0].constructor == Number || /(slow|normal|fast)/.test(arguments[0])))
+			return this._hide.apply(this, arguments);
+		else {
+			var o = arguments[1] || {}; o['mode'] = 'hide';
+			return this.effect.apply(this, [arguments[0], o, arguments[2] || o.duration, arguments[3] || o.callback]);
+		}
+	},
+	toggle: function(){
+		if(!arguments[0] || (arguments[0].constructor == Number || /(slow|normal|fast)/.test(arguments[0])) || (arguments[0].constructor == Function))
+			return this.__toggle.apply(this, arguments);
+		else {
+			var o = arguments[1] || {}; o['mode'] = 'toggle';
+			return this.effect.apply(this, [arguments[0], o, arguments[2] || o.duration, arguments[3] || o.callback]);
+		}
+	},
+	addClass: function(classNames,speed,easing,callback) {
+		return speed ? $.effects.animateClass.apply(this, [{ add: classNames },speed,easing,callback]) : this._addClass(classNames);
+	},
+	removeClass: function(classNames,speed,easing,callback) {
+		return speed ? $.effects.animateClass.apply(this, [{ remove: classNames },speed,easing,callback]) : this._removeClass(classNames);
+	},
+	toggleClass: function(classNames,speed,easing,callback) {
+		return speed ? $.effects.animateClass.apply(this, [{ toggle: classNames },speed,easing,callback]) : this._toggleClass(classNames);
+	},
+	morph: function(remove,add,speed,easing,callback) {
+		return $.effects.animateClass.apply(this, [{ add: add, remove: remove },speed,easing,callback]);
+	},
+	switchClass: function() {
+		return this.morph.apply(this, arguments);
+	},
+	// helper functions
+	cssUnit: function(key) {
+		var style = this.css(key), val = [];
+		$.each( ['em','px','%','pt'], function(i, unit){
+			if(style.indexOf(unit) > 0)
+				val = [parseFloat(style), unit];
+		});
+		return val;
+	}
+});
+
+/*
+ * jQuery Color Animations
+ * Copyright 2007 John Resig
+ * Released under the MIT and GPL licenses.
+ */
+
+// We override the animation for all of these color styles
+jQuery.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor', 'color', 'outlineColor'], function(i,attr){
+		jQuery.fx.step[attr] = function(fx){
+				if ( fx.state == 0 ) {
+						fx.start = getColor( fx.elem, attr );
+						fx.end = getRGB( fx.end );
+				}
+
+				fx.elem.style[attr] = "rgb(" + [
+						Math.max(Math.min( parseInt((fx.pos * (fx.end[0] - fx.start[0])) + fx.start[0]), 255), 0),
+						Math.max(Math.min( parseInt((fx.pos * (fx.end[1] - fx.start[1])) + fx.start[1]), 255), 0),
+						Math.max(Math.min( parseInt((fx.pos * (fx.end[2] - fx.start[2])) + fx.start[2]), 255), 0)
+				].join(",") + ")";
+		}
+});
+
+// Color Conversion functions from highlightFade
+// By Blair Mitchelmore
+// http://jquery.offput.ca/highlightFade/
+
+// Parse strings looking for color tuples [255,255,255]
+function getRGB(color) {
+		var result;
+
+		// Check if we're already dealing with an array of colors
+		if ( color && color.constructor == Array && color.length == 3 )
+				return color;
+
+		// Look for rgb(num,num,num)
+		if (result = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(color))
+				return [parseInt(result[1]), parseInt(result[2]), parseInt(result[3])];
+
+		// Look for rgb(num%,num%,num%)
+		if (result = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(color))
+				return [parseFloat(result[1])*2.55, parseFloat(result[2])*2.55, parseFloat(result[3])*2.55];
+
+		// Look for #a0b1c2
+		if (result = /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(color))
+				return [parseInt(result[1],16), parseInt(result[2],16), parseInt(result[3],16)];
+
+		// Look for #fff
+		if (result = /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(color))
+				return [parseInt(result[1]+result[1],16), parseInt(result[2]+result[2],16), parseInt(result[3]+result[3],16)];
+
+		// Look for rgba(0, 0, 0, 0) == transparent in Safari 3
+		if (result = /rgba\(0, 0, 0, 0\)/.exec(color))
+				return colors['transparent']
+
+		// Otherwise, we're most likely dealing with a named color
+		return colors[jQuery.trim(color).toLowerCase()];
+}
+
+function getColor(elem, attr) {
+		var color;
+
+		do {
+				color = jQuery.curCSS(elem, attr);
+
+				// Keep going until we find an element that has color, or we hit the body
+				if ( color != '' && color != 'transparent' || jQuery.nodeName(elem, "body") )
+						break;
+
+				attr = "backgroundColor";
+		} while ( elem = elem.parentNode );
+
+		return getRGB(color);
+};
+
+// Some named colors to work with
+// From Interface by Stefan Petre
+// http://interface.eyecon.ro/
+
+var colors = {
+	aqua:[0,255,255],
+	azure:[240,255,255],
+	beige:[245,245,220],
+	black:[0,0,0],
+	blue:[0,0,255],
+	brown:[165,42,42],
+	cyan:[0,255,255],
+	darkblue:[0,0,139],
+	darkcyan:[0,139,139],
+	darkgrey:[169,169,169],
+	darkgreen:[0,100,0],
+	darkkhaki:[189,183,107],
+	darkmagenta:[139,0,139],
+	darkolivegreen:[85,107,47],
+	darkorange:[255,140,0],
+	darkorchid:[153,50,204],
+	darkred:[139,0,0],
+	darksalmon:[233,150,122],
+	darkviolet:[148,0,211],
+	fuchsia:[255,0,255],
+	gold:[255,215,0],
+	green:[0,128,0],
+	indigo:[75,0,130],
+	khaki:[240,230,140],
+	lightblue:[173,216,230],
+	lightcyan:[224,255,255],
+	lightgreen:[144,238,144],
+	lightgrey:[211,211,211],
+	lightpink:[255,182,193],
+	lightyellow:[255,255,224],
+	lime:[0,255,0],
+	magenta:[255,0,255],
+	maroon:[128,0,0],
+	navy:[0,0,128],
+	olive:[128,128,0],
+	orange:[255,165,0],
+	pink:[255,192,203],
+	purple:[128,0,128],
+	violet:[128,0,128],
+	red:[255,0,0],
+	silver:[192,192,192],
+	white:[255,255,255],
+	yellow:[255,255,0],
+	transparent: [255,255,255]
+};
+	
+/*
+ * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ *
+ * Uses the built in easing capabilities added In jQuery 1.1
+ * to offer multiple easing options
+ *
+ * TERMS OF USE - jQuery Easing
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Â© 2008 George McGinley Smith
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+*/
+
+// t: current time, b: begInnIng value, c: change In value, d: duration
+jQuery.easing['jswing'] = jQuery.easing['swing'];
+
+jQuery.extend( jQuery.easing,
+{
+	def: 'easeOutQuad',
+	swing: function (x, t, b, c, d) {
+		//alert(jQuery.easing.default);
+		return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+	},
+	easeInQuad: function (x, t, b, c, d) {
+		return c*(t/=d)*t + b;
+	},
+	easeOutQuad: function (x, t, b, c, d) {
+		return -c *(t/=d)*(t-2) + b;
+	},
+	easeInOutQuad: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t + b;
+		return -c/2 * ((--t)*(t-2) - 1) + b;
+	},
+	easeInCubic: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t + b;
+	},
+	easeOutCubic: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t + 1) + b;
+	},
+	easeInOutCubic: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t + b;
+		return c/2*((t-=2)*t*t + 2) + b;
+	},
+	easeInQuart: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t*t + b;
+	},
+	easeOutQuart: function (x, t, b, c, d) {
+		return -c * ((t=t/d-1)*t*t*t - 1) + b;
+	},
+	easeInOutQuart: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
+		return -c/2 * ((t-=2)*t*t*t - 2) + b;
+	},
+	easeInQuint: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t*t*t + b;
+	},
+	easeOutQuint: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t*t*t + 1) + b;
+	},
+	easeInOutQuint: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
+		return c/2*((t-=2)*t*t*t*t + 2) + b;
+	},
+	easeInSine: function (x, t, b, c, d) {
+		return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+	},
+	easeOutSine: function (x, t, b, c, d) {
+		return c * Math.sin(t/d * (Math.PI/2)) + b;
+	},
+	easeInOutSine: function (x, t, b, c, d) {
+		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+	},
+	easeInExpo: function (x, t, b, c, d) {
+		return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+	},
+	easeOutExpo: function (x, t, b, c, d) {
+		return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+	},
+	easeInOutExpo: function (x, t, b, c, d) {
+		if (t==0) return b;
+		if (t==d) return b+c;
+		if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+		return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+	},
+	easeInCirc: function (x, t, b, c, d) {
+		return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+	},
+	easeOutCirc: function (x, t, b, c, d) {
+		return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+	},
+	easeInOutCirc: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
+		return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
+	},
+	easeInElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+	},
+	easeOutElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
+	},
+	easeInOutElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+		return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+	},
+	easeInBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158;
+		return c*(t/=d)*t*((s+1)*t - s) + b;
+	},
+	easeOutBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158;
+		return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
+	},
+	easeInOutBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158; 
+		if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
+		return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+	},
+	easeInBounce: function (x, t, b, c, d) {
+		return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
+	},
+	easeOutBounce: function (x, t, b, c, d) {
+		if ((t/=d) < (1/2.75)) {
+			return c*(7.5625*t*t) + b;
+		} else if (t < (2/2.75)) {
+			return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+		} else if (t < (2.5/2.75)) {
+			return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+		} else {
+			return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+		}
+	},
+	easeInOutBounce: function (x, t, b, c, d) {
+		if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
+		return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+	}
+});
+
+/*
+ *
+ * TERMS OF USE - EASING EQUATIONS
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Â© 2001 Robert Penner
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+ */
+
+})(jQuery);

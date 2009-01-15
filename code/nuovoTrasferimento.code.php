@@ -30,7 +30,7 @@ $contenttpl->assign('lega',$lega);
 /*foreach($legheObj->getLeghe() as $key => $val)
 	$appo[$val['idLega']] = $utenteObj->getElencoSquadreByLega($val['idLega']);
 $contenttpl->assign('elencojs',$appo);*/
-
+$contenttpl->assign('elencosquadre',FALSE);
 if($lega != NULL)
 {
 	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));

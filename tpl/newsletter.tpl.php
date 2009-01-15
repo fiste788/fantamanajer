@@ -108,10 +108,12 @@
 		<?php endif; ?>
 		<?php if(isset($this->message)): ?> 
 		<script type="text/javascript">
-		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
-		$("#messaggio").click(function () {
-			$("div#messaggio").fadeOut("slow");
-		});
+		window.onload = (function(){
+ 			$("#messaggio").effect("pulsate", { times: 3 }, 1000);
+			$("#messaggio").click(function () {
+				$("div#messaggio").fadeOut("slow");
+			});
+ 		});
 		</script>
 		<?php endif; ?>
 		<?php if($_SESSION['logged'] == TRUE): ?>

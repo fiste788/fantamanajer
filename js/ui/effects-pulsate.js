@@ -1,2 +1,55 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(7(A){A.n.z=7(B){y d.j(7(){f 3=A(d);f h=A.n.x(3,B.4.w||"m");f c=B.4.v||5;b(h=="g"){c--}b(3.u(":t")){3.s("6",0);3.m();3.a({6:1},B.9/2,B.4.8);c=c-2}r(f C=0;C<c;C++){3.a({6:0},B.9/2,B.4.8).a({6:1},B.9/2,B.4.8)}b(h=="g"){3.a({6:0},B.9/2,B.4.8,7(){3.g();b(B.e){B.e.l(d,k)}})}q{3.a({6:0},B.9/2,B.4.8).a({6:1},B.9/2,B.4.8,7(){b(B.e){B.e.l(d,k)}})}3.j("p",7(){3.i()});3.i()})}})(o)',39,39,'|||D|options||opacity|function|easing|duration|animate|if|E|this|callback|var|hide|F|dequeue|queue|arguments|apply|show|effects|jQuery|fx|else|for|css|hidden|is|times|mode|setMode|return|pulsate|||'.split('|'),0,{}))
+/*
+ * jQuery UI Effects Pulsate
+ *
+ * Copyright (c) 2008 Aaron Eisenberger (aaronchi@gmail.com)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ * http://docs.jquery.com/UI/Effects/Pulsate
+ *
+ * Depends:
+ *	effects.core.js
+ */
+(function($) {
 
+$.effects.pulsate = function(o) {
+
+	return this.queue(function() {
+		
+		// Create element
+		var el = $(this);
+		
+		// Set options
+		var mode = $.effects.setMode(el, o.options.mode || 'show'); // Set Mode
+		var times = o.options.times || 5; // Default # of times
+		
+		// Adjust
+		if (mode == 'hide') times--;
+		if (el.is(':hidden')) { // Show fadeIn
+			el.css('opacity', 0);
+			el.show(); // Show
+			el.animate({opacity: 1}, o.duration / 2, o.options.easing);
+			times = times-2;
+		}
+		
+		// Animate
+		for (var i = 0; i < times; i++) { // Pulsate
+			el.animate({opacity: 0}, o.duration / 2, o.options.easing).animate({opacity: 1}, o.duration / 2, o.options.easing);
+		};
+		if (mode == 'hide') { // Last Pulse
+			el.animate({opacity: 0}, o.duration / 2, o.options.easing, function(){
+				el.hide(); // Hide
+				if(o.callback) o.callback.apply(this, arguments); // Callback
+			});
+		} else {
+			el.animate({opacity: 0}, o.duration / 2, o.options.easing).animate({opacity: 1}, o.duration / 2, o.options.easing, function(){
+				if(o.callback) o.callback.apply(this, arguments); // Callback
+			});
+		};
+		el.queue('fx', function() { el.dequeue(); });
+		el.dequeue();
+	});
+	
+};
+
+})(jQuery);
