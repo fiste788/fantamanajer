@@ -124,7 +124,8 @@ if(TIMEOUT)
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	if($issetform)
 	{
-		$mod = $issetform['modulo'];
+		if(empty($_POST))
+			$mod = $issetform['modulo'];
 		$panchinariAr = $issetform['elenco'];
 		$titolariAr = array_splice($panchinariAr,0,11);
 		$contenttpl->assign('titolari',$titolariAr);
