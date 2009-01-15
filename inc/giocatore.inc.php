@@ -229,7 +229,10 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			$giocatori[$row['idGioc']] = $row;
-		return $giocatori;
+		if(isset($giocatori))
+			return $giocatori;
+		else
+			return FALSE;
 	}
 	
 	function getGiocatoriBySquadraAndGiornata($idUtente,$idGiornata)

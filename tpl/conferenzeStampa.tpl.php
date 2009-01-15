@@ -1,7 +1,7 @@
 <?php $i=0; ?>
 <script type="text/javascript">
 	<!--
-	$(document).ready(function(){
+	window.onload = (function(){
 		if(jQuery.browser.msie && jQuery.browser.version < 7)
 			if($('.text').length > 0)
 				$('.text').pngFix();
@@ -69,10 +69,12 @@
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		$(document).ready(function() {$('#messaggio').show('pulsate',{times: 3 }); });
-		$("#messaggio").click(function () {
-			$("div#messaggio").fadeOut("slow");
-		});
+		window.onload = (function(){
+ 			$("#messaggio").effect("pulsate", { times: 3 }, 1000);
+			$("#messaggio").click(function () {
+				$("div#messaggio").fadeOut("slow");
+			});
+ 		});
 		</script>
 		<?php unset($_SESSION['message']); ?>
 	<?php endif; ?>
