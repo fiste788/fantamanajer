@@ -102,12 +102,12 @@
 				<?php if(!$this->giornprec): ?>
 					<li class="simil-link undo-punteggi-unactive column last">Indietro di una giornata</li>
 				<?php else: ?>
-					<li class="column last"><a class="undo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$this->giornprec,'squad'=>$_GET['squad'])); ?>">Indietro di una giornata</a></li>
+					<li class="column last"><a class="undo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$this->giornprec,'squad'=>$this->getsquadra)); ?>">Indietro di una giornata</a></li>
 				<?php endif; ?>
 				<?php if(!$this->giornsucc): ?>
 					<li class="simil-link redo-punteggi-unactive column last">Avanti di una giornata</li>
 				<?php else: ?>
-				<li class="column last"><a class="redo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$this->giornsucc,'squad'=>$_GET['squad'])); ?>">Avanti di una giornata</a></li>
+				<li class="column last"><a class="redo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giorn'=>$this->giornsucc,'squad'=>$this->getsquadra)); ?>">Avanti di una giornata</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

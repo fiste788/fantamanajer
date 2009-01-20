@@ -13,17 +13,6 @@
 	</div>
 	<h2 class="column"><?php echo $this->squadradett['nome'] ?></h2>
 </div>
-<style type="text/css">
-#rosa {
-    position: relative;
-}
-
-.popup {
-    position: absolute;
-    display: none; /* keeps the popup hidden if no JS available */
-}
-
-</style>
 <div id="squadre" class="main-content">
 	<table id="rosa" cellpadding="0" cellspacing="0">
 		<tbody>
@@ -38,7 +27,7 @@
 				<th class="tdcenter">Assist</th>
 			</tr>
 			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr title="<?php echo $val['nome']; ?>" class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">	
+			<tr class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">	
 				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult' ?>">
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
@@ -63,17 +52,6 @@
 		</tbody>
 	</table>
 </div>
-<script type="text/javascript">
-	$(".name").tooltip({
- cssClass: "",
- delay : 0,   // time in milliseconds that you must leave the mouse over the link until the tooltip appears
- duration : 500,  //time in milliseconds that the tooltip will stay visible after you remove the mouse over the link
- xOffset : 15,
- yOffset : 15,
- opacity : 0,
- fadeDuration: 400
-}); 
-</script>
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">
