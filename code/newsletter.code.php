@@ -69,7 +69,7 @@ if(isset($_POST['button']))
 		}
 		$object .= $_POST['object'];
 		//$mailContent->display(MAILTPLDIR.'mailNewsletter.tpl.php');	
-		if($mailObj->sendEmail(implode(",",$emailOk),$mailContent->fetch(MAILTPLDIR.'mailNewsletter.tpl.php'),$object))
+		if($mailObj->sendEmail(implode(",",$emailOk),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object))
 		{
 			$message[0] = 0;
 			$message[1] = 'Mail inviate correttamente';

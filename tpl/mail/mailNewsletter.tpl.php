@@ -170,22 +170,22 @@
 			}
 		</style>
 	</head>
-	<body>
-		<a class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
-			<img alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
+	<body style="float:left;border:0;font-weight:inherit;font-style:inherit;font-size:12px;font-family:sans-serif;vertical-align:baseline;margin:0;padding:0;line-height:1.5;background:#272727;font-size:75%;	color:#fff;font-family:sans-serif;margin: 0;text-align:center;padding: 10px 11px;display:block;">
+		<a style="float:left;margin:0;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;border:0 none;" class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
+			<img style="border:0 none;" border="0" alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
 		</a>
-		<div id="content" class="column last">
-			<div id="content-top-sx" class="column last">
-				<div id="content-top-dx" class="column last">
-					<div id="content-bottom-sx" class="column last">
-						<div id="content-bottom-dx" class="column last">
-							<div id="content-container" class="column last" >
-								<div class="main-content">
-									<h3 class="column last"><?php echo $this->object; ?></h3>
-									<em class="column last"><?php if($this->type == 'N') echo 'Newsletter'; else echo 'Comunicazione' ?> del <?php echo $this->date; ?> Autore: <?php echo $this->autore['username']; ?></em>
-									<p style="clear:both;margin-bottom:15px;" class="column last"><?php echo $this->text; ?></p>
-									<p style="clear:both;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
+		<div style="-moz-border-radius:10px;float:left;background:#383838;width:840px;text-align:justify;color:#fff;clear:both;margin:0" id="content" class="column last">
+			<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-top-sx.png) no-repeat scroll left top;width:100%;" id="content-top-sx" class="column last">
+				<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-top-dx.png) no-repeat scroll right top;width:100%;" id="content-top-dx" class="column last">
+					<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-bottom-sx.png) no-repeat scroll left bottom;width:0;" id="content-bottom-sx" class="column last">
+						<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-bottom-dx.png) no-repeat scroll right bottom;width:100%;" id="content-bottom-dx" class="column last">
+							<div style="float:left;margin:0;width:100%;" id="content-container" class="column last">
+								<div style="clear:both;float:left;padding: 15px;width:810px;" class="main-content">
+									<h3 style="font-size:14px;width:100%;color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:800;"><?php echo $this->object; ?></h3>
+									<em style="font-size:12px;float:left;margin:0;" class="column last"><?php if($this->type == 'N') echo 'Newsletter'; else echo 'Comunicazione' ?> del <?php echo $this->date; ?> Autore: <?php echo $this->autore['username']; ?></em>
+									<p style="font-size:12px;width:100%;clear:both;margin-bottom:15px;float:left;" class="column last"><?php echo $this->text; ?></p>
+									<p style="font-size:12px;clear:both;float:left;width:100%;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
+									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
 								</div>
 							</div>
 						</div>

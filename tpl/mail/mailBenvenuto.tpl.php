@@ -164,18 +164,18 @@
 			}
 		</style>
 	</head>
-	<body>
-		<a class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
+	<body style="border:0;	font-weight:inherit;font-style:inherit;font-size:12px;font-family:sans-serif;vertical-align:baseline;margin:0;padding:0;line-height:1.5;background:#272727;font-size:75%;	color:#fff;font-family:sans-serif;margin: 0;text-align:center;padding: 10px 11px;display:block;">
+		<a style="float:left;margin:0;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
 			<img alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
 		</a>
-		<div id="content" class="column last">
-			<div id="content-top-sx" class="column last">
-				<div id="content-top-dx" class="column last">
-					<div id="content-bottom-sx" class="column last">
-						<div id="content-bottom-dx" class="column last">
-							<div id="content-container" class="column last" >
-								<div class="main-content">
-									<h3>Benvenuto nel FantaManajer</h3>
+		<div style="float:left;background:#383838;width:840px;text-align:justify;color:#fff;clear:both;margin:0" id="content" class="column last">
+			<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-top-sx.png) no-repeat scroll left top;width:100%;" id="content-top-sx" class="column last">
+				<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-top-dx.png) no-repeat scroll right top;width:100%;" id="content-top-dx" class="column last">
+					<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-bottom-sx.png) no-repeat scroll left bottom;width:0;" id="content-bottom-sx" class="column last">
+						<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-bottom-dx.png) no-repeat scroll right bottom;width:100%;" id="content-bottom-dx" class="column last">
+							<div style="float:left;margin:0;width:100%;" id="content-container" class="column last">
+								<div style="clear:both;float:left;padding: 15px;" class="main-content">
+									<h3 style="color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:400;">Benvenuto nel FantaManajer</h3>
 									<p>FantaManajer è un sito che ti permette di gestire la tua lega del fantacalcio creata con i tuoi amici<br />
 									Dal sito è possibile settare la tua formazione e si occuperà lui di scaricare i punteggi e calcolare il tuo voto!</p><br />
 									<div>
@@ -184,10 +184,10 @@
 										Username: <strong><?php echo $this->username; ?></strong><br />
 										Password: <strong><?php echo $this->password; ?></strong><br />
 										La tua squadra si chiama <?php echo $this->squadra; ?>. Una volta effettuato l'accesso potrai cambiare il nome della tua squadra e modificare i tuoi dati personali.<br /><br />
-										Clicca <a href="http://www.fantamanajer.it">quì</a> per accedere al sito.<br />
+										Clicca <a style="color: #ff9900;text-decoration:none;font-weight:bold;	cursor:pointer;" href="http://www.fantamanajer.it">quì</a> per accedere al sito.<br />
 									</div>
-									<p class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
+									<p style="float:left;margin:0;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
+									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a style="color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="color: #ff9900;text-decoration:none;font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
 								</div>
 							</div>
 						</div>
