@@ -83,7 +83,7 @@
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="lightbox">
+			<a href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
 				<img class="logo" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 				<img class="logo reflex" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
@@ -246,16 +246,5 @@ $(window).bind("load",function(){
 	<?php endif; ?>
 <?php endif; ?>
 <script type="text/javascript">
-$(function() {
-	$('a.lightbox').lightBox({
-		imageLoading: '<?php echo IMGSURL; ?>lightbox-ico-loading.gif',
-		imageBtnClose: '<?php echo IMGSURL; ?>lightbox-btn-close.png',
-		imageBtnPrev: '<?php echo IMGSURL; ?>lightbox-btn-prev.png',
-		imageBtnNext: '<?php echo IMGSURL; ?>lightbox-btn-next.png',
-		imageBlank: '<?php echo IMGSURL; ?>lightbox-blank.png',
-		fixedNavigation: false,
-		txtImage: 'Immagine',
-		txtOf: 'di'
-	}); // Select all links with lightbox class
-});
+$(document).ready(function() { $("fancybox").fancybox()}); 
 </script>

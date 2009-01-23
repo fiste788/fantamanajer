@@ -9,8 +9,8 @@ $guestpages = array();
 									'css'=>array('screen','style','tabs'));
 									
 	$guestpages['rosa'] = array(	'title'=>"Squadra", 
-								'js'=>array('jquery'=>'jquery','lightbox'=>'lightbox'),
-								'css'=>array('screen','style','lightbox'));
+								'js'=>array('jquery'=>'jquery','fancybox'=>'fancybox','pngfix'=>'jquery-pngFix'),
+								'css'=>array('screen','style','fancybox'));
 								
 	$guestpages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
 								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
