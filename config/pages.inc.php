@@ -9,8 +9,8 @@ $guestpages = array();
 									'css'=>array('screen','style','tabs'));
 									
 	$guestpages['rosa'] = array(	'title'=>"Squadra", 
-								'js'=>array('jquery'=>'jquery','fancybox'=>'fancybox','pngfix'=>'jquery-pngFix'),
-								'css'=>array('screen','style','fancybox'));
+								'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix','fancybox'=>'fancybox'),
+								'css'=>array('screen','style','fancy'));
 								
 	$guestpages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
 								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
@@ -70,8 +70,8 @@ $userpages = array();
 									'css'=>array('screen','style','tabs'));
 	
 	$userpages['rosa'] = array(	'title'=>"Squadra",
-								'js'=>array('jquery'=>array('jquery','jquery-dimension'),'lightbox'=>'lightbox','ui'=>array('ui-core','ui-accordion','effects-core','effects-pulsate'),'tooltip'=>'tooltip'),
-								'css'=>array('screen','style','lightbox'));
+								'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix','fancybox'=>'fancybox','ui'=>array('ui-core','ui-accordion','effects-core','effects-pulsate'),'tooltip'=>'tooltip'),
+								'css'=>array('screen','style','fancy'));
 								
 	$userpages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
 								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
