@@ -148,12 +148,16 @@
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		window.onload = (function(){
+		/*window.onload = (function(){
  			$("#messaggio").effect("pulsate", { times: 3 }, 1000);
 			$("#messaggio").click(function () {
 				$("div#messaggio").fadeOut("slow");
 			});
- 		});
+ 		});*/
+ 		$(document).ready(function() {$('#messaggio').effect('pulsate',{times: 3 }); });
+		$("#messaggio").click(function () {
+			$("div#messaggio").fadeOut("slow");
+		});
 		</script>
 	<?php unset($_SESSION['message']); endif; ?>
 	<?php if($_SESSION['logged'] == TRUE): ?>
