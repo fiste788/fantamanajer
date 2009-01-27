@@ -108,13 +108,37 @@ endswitch;else:
 				</select>
 			<?php $j++; endfor; ?>
 		</fieldset>
+		<div id="dialog" title="Sei sicuro?" style="display:none;">
+		<p>ciao</p>
+		</div>
 		<fieldset class="column no-margin div-submit">
-			<input<?php if($_GET['a'] == 'cancel') echo ' onclick="conferma()"'; ?> type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
+			<input id="elimina" onclick="return false;" type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<input class="submit dark" type="reset" value="Annulla" />
 			<?php endif; ?>
 			<?php if($_GET['a'] == 'cancel'): ?>
 				<script type="text/javascript">
+					$("#elimina").click(function () {
+						alert("ok");
+						$("#dialog").dialog({
+							resizable: false,
+							height:140,
+							modal: true,
+							overlay: {
+								backgroundColor: '#000',
+								opacity: 0.5
+							},
+							buttons: {
+								'Delete all items in recycle bin': function() {
+									$(this).dialog('close');
+								},
+								Cancel: function() {
+									$(this).dialog('close');
+								}
+							}	
+						});
+					});
+					alert("err");
 					function conferma()
 					{
 						return confirm("Sei sicuro di voler eliminare la squadra <?php echo $this->elencosquadre[$_GET['id']]['nome'] ?>\nL'azione non potrà essere annullata")
