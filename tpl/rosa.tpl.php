@@ -3,7 +3,7 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'-small.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL.$this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
+			<a title="<?php echo $this->squadradett['nome'] ?>" href="<?php echo UPLOADIMGURL.$this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
 				<img alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 				<img class="reflex" align="left" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
@@ -83,7 +83,7 @@
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'.jpg')): ?>
-			<a href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
+			<a title="<?php echo $this->squadradett['nome'] ?>" href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
 				<img class="logo" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 				<img class="logo reflex" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
@@ -202,7 +202,7 @@ $(window).bind("load",function(){
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
 			<?php if(file_exists(UPLOADDIR. $val['idUtente'].'-small.jpg')): ?>
-				<a title="<?php echo $val['nome']; ?>" class="fancybox" href="<?php echo UPLOADIMGURL.$val['idUtente'].'-original.jpg'; ?>" >
+				<a rel="group" title="<?php echo $val['nome']; ?>" class="fancybox" href="<?php echo UPLOADIMGURL.$val['idUtente'].'-original.jpg'; ?>" >
 				<?php 
 				$image = imagecreatefromjpeg(UPLOADDIR.$val['idUtente'].'-med.jpg');
 				$width = imagesx ($image); 

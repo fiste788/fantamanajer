@@ -151,8 +151,8 @@ $adminpages = array();
 										'css'=>array('screen','style'));
 										
 	$adminpages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
-										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-dialog','effects-core','effects-pulsate')),
+										'css'=>array('screen','style','dialog'));
 										
 	$adminpages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
