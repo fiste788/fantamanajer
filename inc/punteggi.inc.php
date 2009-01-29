@@ -42,6 +42,39 @@ class punteggi
 				WHERE punteggi.idLega = '" . $idLega . "' 
 				GROUP BY idUtente 
 				ORDER BY punteggioTot DESC";
+				/*SELECT tb1.idUtente, count( tb1.idUtente ) AS nro
+FROM (
+
+SELECT idGiornata AS giorn, idUtente, punteggio
+FROM punteggi
+WHERE punteggio = (
+SELECT MAX( punteggio )
+FROM punteggi
+WHERE idGiornata = giorn )
+) AS tb1
+GROUP BY tb1.idUtente
+ORDER BY nro DESC ;
+
+
+SELECT utente.idUtente, nome, SUM( punteggi.punteggio ) AS punteggioTot, AVG( punteggi.punteggio ) AS punteggioMed, MAX( punteggi.punteggio ) AS punteggioMax, MIN( punteggi.punteggio ) AS punteggioMin, count( tb1.idUtente ) AS giornateVinte
+FROM (
+punteggi
+INNER JOIN utente ON punteggi.idUtente = utente.idUtente
+)
+INNER JOIN (
+
+SELECT idGiornata AS giorn, idUtente, punteggio
+FROM punteggi
+WHERE punteggio = (
+SELECT MAX( punteggio )
+FROM punteggi
+WHERE idGiornata = giorn
+AND punteggi.idLega = '1' )
+) AS tb1 ON utente.idUtente = tb1.idUtente
+AND punteggi.idGiornata = tb1.giorn
+WHERE punteggi.idLega = '1'
+GROUP BY idUtente
+ORDER BY punteggioTot DESC , giornateVinte DESC*/
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe))
 			$classifica[] = $row;
