@@ -31,11 +31,10 @@ endswitch;else:
 </div>
 <div id="creaSquadre" class="main-content">
 	<?php if($this->lega != NULL && isset($_GET['a']) && isset($_GET['id'])): ?>
-	<form class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
+	<form id="creaSq" class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
 		<fieldset class="column no-margin">
 			<input type="hidden" name="a" value="<?php if(isset($_GET['a'])) echo $_GET['a']; ?>" />
 			<input type="hidden" name="id" value="<?php if(isset($_GET['id'])) echo $_GET['id']; ?>" />
-			
 			<h3>Informazioni generali</h3>
 			<div class="formbox">
 				<label for="nomeSquadra">Nome della squadra:</label>
@@ -51,7 +50,7 @@ endswitch;else:
 			</div>
 			<div class="formbox">
 				<label for="amministratore">Amministratore?</label>
-				<input<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra['amministratore'])) $admin = $this->datiSquadra['amministratore']; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
+				<input<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra['amministratore']) && $this->datiSquadra['amministratore'] != 0) $admin = $this->datiSquadra['amministratore']; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
 			</div>
 		</fieldset>
 		<fieldset id="panchinari">
@@ -108,18 +107,17 @@ endswitch;else:
 				</select>
 			<?php $j++; endfor; ?>
 		</fieldset>
-		<div id="dialog" title="Sei sicuro?" style="display:none;">
-		<p>ciao</p>
+		<div id="dialog" title="Attenzione!" style="display:none;">
+		<p>Sei sicuro di voler eliminare la squadra <br />"<?php echo $nomeSquadra ?>"?</p>
 		</div>
 		<fieldset class="column no-margin div-submit">
-			<input id="elimina" onclick="return false;" type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
+			<input id="elimina" onclick="return false;" type="submit" name="button2" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<input class="submit dark" type="reset" value="Annulla" />
 			<?php endif; ?>
 			<?php if($_GET['a'] == 'cancel'): ?>
 				<script type="text/javascript">
 					$("#elimina").click(function () {
-						alert("ok");
 						$("#dialog").dialog({
 							resizable: false,
 							height:140,
@@ -129,20 +127,17 @@ endswitch;else:
 								opacity: 0.5
 							},
 							buttons: {
-								'Delete all items in recycle bin': function() {
+								'Elimina squadra': function() {
+									$(".div-submit").append('<input style="display:none;" id="eliminaConf" type="hidden" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />');
+									$("#creaSq").submit();
 									$(this).dialog('close');
 								},
-								Cancel: function() {
+								Annulla: function() {
 									$(this).dialog('close');
 								}
 							}	
 						});
 					});
-					alert("err");
-					function conferma()
-					{
-						return confirm("Sei sicuro di voler eliminare la squadra <?php echo $this->elencosquadre[$_GET['id']]['nome'] ?>\nL'azione non potrà essere annullata")
-					}
 				</script>
 			<?php endif; ?>
 		</fieldset>

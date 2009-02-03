@@ -33,7 +33,7 @@ if(isset($_POST['punti']) && isset($_POST['motivo']) && !empty($_POST['punti']) 
 {
 	if(is_numeric($_POST['punti']))
 	{	
-		$squadraDett = $utenteObj->getSquadraById($_SESSION['idSquadra']);
+		$squadraDett = $utenteObj->getSquadraById($squadra);
 		$punteggiObj->setPenalità(abs($_POST['punti']),addslashes(stripslashes($_POST['motivo'])),$giornata,$squadra,$lega);
 		if($squadraDett['abilitaMail'] == 1)
 		{

@@ -185,7 +185,8 @@
 									<em style="font-size:12px;float:left;margin:0;" class="column last"><?php if($this->type == 'N') echo 'Newsletter'; else echo 'Comunicazione' ?> del <?php echo $this->date; ?> Autore: <?php echo $this->autore['username']; ?></em>
 									<p style="font-size:12px;width:100%;clear:both;margin-bottom:15px;float:left;" class="column last"><?php echo $this->text; ?></p>
 									<p style="font-size:12px;clear:both;float:left;width:100%;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
+									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a>
+									<?php if($this->type == 'N'): ?><br />Se non vuoi più ricevere newsletter accedi al sito e disattivala dalle impostazioni personali presenti nella pagina la tua squadra<?php endif; ?></p>
 								</div>
 							</div>
 						</div>
