@@ -200,7 +200,7 @@ class giocatore
 		$daInserire = array_diff_key($players,$playersOld);
 		if(!empty($daTogliere))
 		{
-			$stringaDaTogliere = implode("','",$daTogliere);
+			$stringaDaTogliere = implode("','",array_keys($daTogliere));
 			$q = "UPDATE giocatore 
 					SET club = NULL 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";

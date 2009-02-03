@@ -74,6 +74,29 @@ AND punteggi.idLega = '1' )
 AND punteggi.idGiornata = tb1.giorn
 WHERE punteggi.idLega = '1'
 GROUP BY idUtente
+ORDER BY punteggioTot DESC , giornateVinte DESC
+
+SELECT utente.idUtente, nome, SUM( punteggi.punteggio ) AS punteggioTot, AVG( punteggi.punteggio ) AS punteggioMed, MAX( punteggi.punteggio ) AS punteggioMax, MIN( punteggi.punteggio ) AS punteggioMin, giornateVinte
+FROM (
+punteggi
+INNER JOIN utente ON punteggi.idUtente = utente.idUtente
+)
+INNER JOIN (
+
+SELECT punteggi.idUtente, count( punteggi.idUtente ) AS giornateVinte
+FROM punteggi
+INNER JOIN (
+
+SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
+FROM punteggi
+WHERE punteggi.idLega = '1'
+GROUP BY idGiornata
+) AS tb1 ON punteggi.idGiornata = tb1.giorn
+AND punteggi.punteggio = tb1.punt
+WHERE punteggi.idLega = '1'
+GROUP BY idUtente
+) AS tb2 ON punteggi.idUtente = tb2.idUtente
+GROUP BY idUtente
 ORDER BY punteggioTot DESC , giornateVinte DESC*/
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe))
