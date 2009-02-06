@@ -247,6 +247,6 @@ $(window).bind("load",function(){
 <?php endif; ?>
 <script type="text/javascript">
 	$(document).ready(function() { 
-		$(".fancybox").fancybox({overlayShow:true})
+		$(".fancybox").fancybox({'zoomSpeedIn': 500, 'zoomSpeedOut' : 500})
 	}); 
 </script>
