@@ -31,7 +31,7 @@ if((GIORNATA -1) != 0)
 		if($val == $indexPrevSum[$key])
 			$diff[$key] = 0;
 		else
-			$diff[$key] = (array_search($val,$indexPrevSum))- $key;
+			$diff[$key] = (array_search($val,$indexPrevSum)) - $key;
 	}
 }
 else

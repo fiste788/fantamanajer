@@ -89,9 +89,7 @@
 		<?php if(isset($this->penalità)): ?>
 		<div id="messaggio" class="messaggio neut column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
-			<?php foreach($this->penalità as $key => $val): ?>
-				<span>Penalità: <?php echo $val['punteggio']; ?> punti<br />Motivazione: <?php echo $val['penalità']; ?></span><br />
-			<?php endforeach; ?>
+			<span>Penalità: <?php echo $this->penalità['punteggio']; ?> punti<br />Motivazione: <?php echo $this->penalità['penalità']; ?></span><br />
 		</div>
 		<?php endif; ?>
 		<?php if($_SESSION['logged'] == TRUE): ?>

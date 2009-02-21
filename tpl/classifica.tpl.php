@@ -85,8 +85,8 @@
 			// countries are turned on/off
 			var i = 0;
 			$.each(datasets, function(key, val) {
-			val.color = i;
-			++i;
+				val.color = i;
+				++i;
 			});
 
 			// insert checkboxes
@@ -123,7 +123,8 @@
 				if(val1 != null && val2 != null) {
 					plot = $.plot($("#placeholder"), data,
 						$.extend(true, {}, options, {
-							xaxis: { min: Math.round(val1) , max: Math.round(val2) }
+							xaxis: { min: Math.round(val1) , max: Math.round(val2) },
+							yaxis: {}
 					}));
 				}
 				else
@@ -198,10 +199,32 @@
 					$("#hidden").attr('val2',area.xaxis.to);
 					$("#clearSelection").removeClass('hidden');
 					$("#selection").text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from.toFixed(1)) + " alla " + Math.round(area.xaxis.to.toFixed(1)));
+					//selecting only the used data
+					var data = [];
+					var j = null;
+					var k = 0;
+					choiceContainer.find("input:checked").each(function () {
+						var appo = {};
+						var key = $(this).attr("name");
+						appo.label = key;
+						appo.data = [];
+						appo.color = datasets[key]['color'];
+						if (key && datasets[key]) {
+							for(i=Math.round(area.xaxis.from);i<=Math.round(area.xaxis.to); i++) {
+								appo.data.push(datasets[key]['data'][Math.abs(i - datasets[key]['data'].length)])
+							}
+							data.push(appo);
+							j = key;
+							k++;}
+					});
+					if (k == 1)
+						data.push(medie[j]);
+					
 					// do the zooming
 					plot = $.plot($("#placeholder"), data,
 						$.extend(true, {}, options, {
-							xaxis: { min: Math.round(area.xaxis.from), max: Math.round(area.xaxis.to) }
+							xaxis: { min: Math.round(area.xaxis.from), max: Math.round(area.xaxis.to) },
+							yaxis: {}
 					}));
 					overview.setSelection(area, true);
 					$("#legendcontainer table").attr('cellspacing','0');
