@@ -71,11 +71,11 @@ class fileSystem
 	
 	function scaricaVotiCsv($giornata)
 	{
-        $percorso = "./docs/voti/Giornata" . $giornata . ".csv";
+		$percorso = "./docs/voti/Giornata" . $giornata . ".csv";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
-	    $espr = "<tr>";
-	    if (file_exists($percorso))
-	        unlink($percorso);
+		$espr = "<tr>";
+		if (file_exists($percorso))
+			unlink($percorso);
 		$handle = fopen($percorso, "a");
 		foreach ($array as $keyruolo => $ruolo)
 		{
@@ -87,7 +87,7 @@ class fileSystem
 			preg_match("/<td.*?artxtTitolino.*?Giornata\s{1}(.+?)<\/span>/",$contenuto,$matches);
 			$giornataGazzetta = $matches[1];
 			if($giornataGazzetta != $giornata) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
-                return FALSE;
+				return FALSE;
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
 			$keywords = explode($espr, $matches[0]);

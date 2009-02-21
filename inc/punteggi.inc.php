@@ -37,67 +37,20 @@ class punteggi
 
 	function getClassifica($idLega)
 	{
-		$q = "SELECT utente.idUtente,nome,SUM(punteggio) as punteggioTot,AVG(punteggio) as punteggioMed, MAX(punteggio) as punteggioMax, MIN(punteggio) as punteggioMin 
-				FROM punteggi INNER JOIN utente on punteggi.idUtente = utente.idUtente
-				WHERE punteggi.idLega = '" . $idLega . "' 
-				GROUP BY idUtente 
-				ORDER BY punteggioTot DESC";
-				/*SELECT tb1.idUtente, count( tb1.idUtente ) AS nro
-FROM (
-
-SELECT idGiornata AS giorn, idUtente, punteggio
-FROM punteggi
-WHERE punteggio = (
-SELECT MAX( punteggio )
-FROM punteggi
-WHERE idGiornata = giorn )
-) AS tb1
-GROUP BY tb1.idUtente
-ORDER BY nro DESC ;
-
-
-SELECT utente.idUtente, nome, SUM( punteggi.punteggio ) AS punteggioTot, AVG( punteggi.punteggio ) AS punteggioMed, MAX( punteggi.punteggio ) AS punteggioMax, MIN( punteggi.punteggio ) AS punteggioMin, count( tb1.idUtente ) AS giornateVinte
-FROM (
-punteggi
-INNER JOIN utente ON punteggi.idUtente = utente.idUtente
-)
-INNER JOIN (
-
-SELECT idGiornata AS giorn, idUtente, punteggio
-FROM punteggi
-WHERE punteggio = (
-SELECT MAX( punteggio )
-FROM punteggi
-WHERE idGiornata = giorn
-AND punteggi.idLega = '1' )
-) AS tb1 ON utente.idUtente = tb1.idUtente
-AND punteggi.idGiornata = tb1.giorn
-WHERE punteggi.idLega = '1'
-GROUP BY idUtente
-ORDER BY punteggioTot DESC , giornateVinte DESC
-
-SELECT utente.idUtente, nome, SUM( punteggi.punteggio ) AS punteggioTot, AVG( punteggi.punteggio ) AS punteggioMed, MAX( punteggi.punteggio ) AS punteggioMax, MIN( punteggi.punteggio ) AS punteggioMin, giornateVinte
-FROM (
-punteggi
-INNER JOIN utente ON punteggi.idUtente = utente.idUtente
-)
-INNER JOIN (
-
-SELECT punteggi.idUtente, count( punteggi.idUtente ) AS giornateVinte
-FROM punteggi
-INNER JOIN (
-
-SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
-FROM punteggi
-WHERE punteggi.idLega = '1'
-GROUP BY idGiornata
-) AS tb1 ON punteggi.idGiornata = tb1.giorn
-AND punteggi.punteggio = tb1.punt
-WHERE punteggi.idLega = '1'
-GROUP BY idUtente
-) AS tb2 ON punteggi.idUtente = tb2.idUtente
-GROUP BY idUtente
-ORDER BY punteggioTot DESC , giornateVinte DESC*/
+		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, MIN(punteggi.punteggio) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN (
+						SELECT punteggi.idUtente, count( punteggi.idUtente ) AS giornateVinte
+								FROM punteggi INNER JOIN (
+										SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
+										FROM punteggi
+										WHERE punteggi.idLega = '" . $idLega . "'
+										GROUP BY idGiornata) AS tb1 
+								ON punteggi.idGiornata = tb1.giorn AND punteggi.punteggio = tb1.punt
+								WHERE punteggi.idLega = '" . $idLega . "'
+								GROUP BY idUtente) AS tb2 
+				ON punteggi.idUtente = tb2.idUtente
+				GROUP BY idUtente
+				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe))
 			$classifica[] = $row;
@@ -133,12 +86,13 @@ ORDER BY punteggioTot DESC , giornateVinte DESC*/
 				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
 			else
 				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
-			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
 		}
+		$somme = $this->getClassifica($idLega);
 		if(isset($somme))
 		{
-			arsort($somme);
-			$appo = array_keys($somme);
+			$appo = array();
+			foreach($somme as $key=>$val)
+				$appo[] = $val['idUtente'];
 			for($i = 0; $i < count($classifica); $i++)
 				for($j = 1 ; $j <= max(array_keys($classifica [$appo[$i]])) ; $j++)
 					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
@@ -167,6 +121,45 @@ ORDER BY punteggioTot DESC , giornateVinte DESC*/
 		return $pos;
 	}
 	
+	function getClassificaByGiornata($idLega,$idGiornata)
+	{
+		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, MIN(punteggi.punteggio) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN (
+						SELECT punteggi.idUtente, count( punteggi.idUtente ) AS giornateVinte
+								FROM punteggi INNER JOIN (
+										SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
+										FROM punteggi
+										WHERE punteggi.idLega = '" . $idLega . "' AND punteggi.idGiornata <= '" . $idGiornata . "'
+										GROUP BY idGiornata) AS tb1 
+								ON punteggi.idGiornata = tb1.giorn AND punteggi.punteggio = tb1.punt
+								WHERE punteggi.idLega = '" . $idLega . "'  AND punteggi.idGiornata <= '" . $idGiornata . "'
+								GROUP BY idUtente) AS tb2 
+				ON punteggi.idUtente = tb2.idUtente
+				WHERE punteggi.idGiornata <= '" . $idGiornata . "'
+				GROUP BY idUtente
+				ORDER BY punteggioTot DESC , giornateVinte DESC";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_array($exe))
+			$classifica[] = $row;
+		if(isset($classifica))
+			return($classifica);
+		else
+		{
+			$q = "SELECT idUtente, nome 
+					FROM utente";
+			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			while ($row = mysql_fetch_array($exe) )
+			{
+				$row['punteggioTot'] = 0;
+				$row['punteggioMed'] = 0;
+				$row['punteggioMax'] = 0;
+				$row['punteggioMin'] = 0;
+				$classifica[$row['idUtente']] = $row;
+			}
+			return $classifica;
+		}
+	}
+	
 	function getAllPunteggiByGiornata($giornata,$idLega)
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
@@ -180,12 +173,13 @@ ORDER BY punteggioTot DESC , giornateVinte DESC*/
 				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
 			else
 				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
-			$somme[$row['idUtente']] = array_sum($classifica[$row['idUtente']]);
 		}
+		$somme = $this->getClassificaByGiornata($idLega,$giornata);
 		if(isset($somme))
 		{
-			arsort($somme);
-			$appo = array_keys($somme);
+			$appo = array();
+			foreach($somme as $key=>$val)
+				$appo[] = $val['idUtente'];
 			for($i = 0; $i < count($classifica); $i++)
 				for($j = 1 ; $j <= max(array_keys($classifica [$appo[$i]])) ; $j++)
 					$classificaOkay[$appo[$i]][$j] = $classifica[$appo[$i]] [$j];
