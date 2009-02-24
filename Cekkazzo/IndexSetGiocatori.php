@@ -2,8 +2,13 @@
 <?php
 
   include 'Functions.php';
-  connessione();
-  $percorso="..\docs\giocatori08-09.csv";
-  foto();
+  require("../inc/giocatore.inc.php");
+  require("../config/config.inc.php");
+  require("../inc/db.inc.php");
+  
+  $giocatoreobj = new giocatore();
+  $dbLink = &new db;
+  $dbLink->dbConnect();
+  $giocatoreobj->updateTabGiocatore(25);
 
 ?>
