@@ -85,8 +85,8 @@ class giocatore
 	
 	function getGiocatoreByIdWithStats($giocatore)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, nomeClub, AVG( voto ) as mediaPunti,avg(votoUff) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
-				FROM squadre INNER JOIN ((giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) LEFT JOIN club ON club.idClub = giocatore.club) ON squadre.idGioc = giocatore.idGioc 
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, nomeClub, ROUND(AVG( voto ),2) as mediaPunti,ROUND(avg(votoUff),2) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
+				FROM squadre RIGHT JOIN ((giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) LEFT JOIN club ON club.idClub = giocatore.club) ON squadre.idGioc = giocatore.idGioc 
 				WHERE giocatore.idGioc = '" . $giocatore . "' AND (votoUff <> 0 OR voto IS NULL) 
 				GROUP BY giocatore.idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -102,6 +102,7 @@ class giocatore
 		}
 		if(isset($data))
 			$values['data'] = $data;
+		//echo "<pre>".print_r($values,1)."</pre>";
 		return $values;
 	}
 	
