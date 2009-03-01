@@ -6,9 +6,7 @@
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content"> 
-<?php if(file_exists(IMGDIR.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg')): ?>
-	<img alt="foto" class="column" src="<?php echo IMGSURL.'foto/'.$this->dettaglioGioc[0]['idGioc'].'.jpg'; ?>" />
-<?php endif; ?>
+	<img alt="foto" class="column" src="<?php echo $this->pathfoto; ?>" />
 	<p>Cognome: <?php echo $this->dettaglioGioc[0]['cognome']; ?></p>
 	<p>Nome: <?php echo $this->dettaglioGioc[0]['nome']; ?></p>
 	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
