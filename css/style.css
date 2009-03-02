@@ -904,3 +904,40 @@ p.surprise {
 #creaSq .text {
 	width:160px;
 }
+#modificaGioc #ricerca {
+	margin-bottom: 10px;
+	border: 1px solid #000;
+	width: 600px;
+}
+#modificaGioc #ricerca td, #modificaGioc #ricerca th {
+	padding: 0 5px;
+	width: 590px;
+	vertical-align:middle;
+}
+#modificaGioc #ricerca thead {
+	background-color: #ddd;
+	color: #000;
+	height:25px;
+}
+#modificaGioc #ricerca tbody {
+	overflow-x: hidden;
+	overflow-y: auto;
+	height:150px;
+}
+#modificaGioc #ricerca a {
+	width: 100%;
+	display: block;
+}
+#modificaGioc #ricerca .riga1 {
+	background-color: #fff;
+}
+#modificaGioc #ricerca .riga2 {
+	background-color: #FFE5BE;
+}
+#table-search-container label{
+	width:160px;
+	margin-left: 5px;
+}
+.table-search-criteria-field {
+	margin-right:200px;
+}

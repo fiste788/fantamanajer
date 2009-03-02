@@ -175,10 +175,10 @@ class giocatore
 		$percorso = "./docs/ListaGiornata/ListaGiornata" . ($giornata) . ".csv"; 
 		$fileSystemObj->scaricaLista($percorso);  // crea il .csv con la lista aggiornata
 		
-    $playersOld = $this->getArrayGiocatoriFromDatabase();
+		$playersOld = $this->getArrayGiocatoriFromDatabase();
 		$players = $fileSystemObj->returnArray($percorso);
 		
-    // aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
+		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$line)
 		{
 			if(array_key_exists($key,$playersOld))
@@ -191,7 +191,7 @@ class giocatore
 					$clubs[$clubNew][] = $key;
 			}
 		}
-    if(isset($clubs))
+		if(isset($clubs))
 		{
 			foreach($clubs as $key => $val)
 			{
@@ -205,17 +205,17 @@ class giocatore
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
 		$daTogliere = array_diff_key($playersOld, $players);  
 		$daInserire = array_diff_key($players,$playersOld);
-    //toglie giocatori venduti o svincolati
+		//toglie giocatori venduti o svincolati
 		if(isset($daTogliere))
 		{
-		  foreach($daTogliere as $id => $val)
-		    $eventiObj->addEvento('6',0,0,$id);
-      $stringaDaTogliere = join("','",array_keys($daTogliere));
+			foreach($daTogliere as $id => $val)
+				$eventiObj->addEvento('6',0,0,$id);
+			$stringaDaTogliere = join("','",array_keys($daTogliere));
 			$q = "UPDATE giocatore 
 					SET club = NULL 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
-      mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		}        
+			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		}
 		// aggiunge nuovi giocatori
 		foreach($daInserire as $key => $val)
 		{
@@ -284,6 +284,15 @@ class giocatore
 		else
 			return FALSE;
 	}
+	
+	function getAllGiocatori()
+	{
+		$q = "SELECT * 
+				FROM giocatore";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			$giocatori[] = $row;
+		return $giocatori;
+	}
 }
-//insert into trasferimenti2 (SELECT idTrasf,idgiornate.idGiornata FROM (`eventi` inner join giornate on eventi.data between giornate.dataInizio AND dataFine) inner join trasferimenti on idExternal = idTrasf WHERE tipo = '4')
 ?>

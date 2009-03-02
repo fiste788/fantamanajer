@@ -70,7 +70,7 @@ $userpages = array();
 									'css'=>array('screen','style','tabs'));
 	
 	$userpages['rosa'] = array(	'title'=>"Squadra",
-								'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix','fancybox'=>'fancybox','ui'=>array('ui-core','ui-accordion','effects-core','effects-pulsate'),'tooltip'=>'tooltip'),
+								'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix','fancybox'=>'fancybox','ui'=>array('ui-core','ui-accordion','effects-core','effects-pulsate')),
 								'css'=>array('screen','style','fancy'));
 								
 	$userpages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
@@ -179,6 +179,9 @@ $superadminpages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
 										
+	$superadminpages['modificaGiocatore'] = array(	'title'=>"ModificaGiocatore",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate'),'flot'=>array('ie|excanvas','jquery-flot'),'quickSearch'=>'quickSearch'),
+										'css'=>array('screen','style'));
 //echo "<pre>".print_r($guestpages,1)."</pre>";
 //echo "<pre>".print_r(array_keys($guestpages),1)."</pre>";
 ?>

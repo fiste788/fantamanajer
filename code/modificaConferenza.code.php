@@ -47,7 +47,7 @@ if(isset($_POST['submit']))
 			if($action == 'new')
 			{
 				$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
-				$articoloObj->setidgiornata($giornata);
+				$articoloObj->setidgiornata(GIORNATA);
 			}
 			else
 			{

@@ -57,6 +57,10 @@
 				<input class="column radio" type="radio" value="C" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'C') echo 'checked="checked"'; ?>><label>Comunicazione</label>
 				<input class="column radio" type="radio" value="N" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'N') echo 'checked="checked"'; ?>><label>Newsletter</label>
 			</div>
+			<div class="formbox">
+				<label>Crea conferenza:</label>
+				<input class="column checkbox" type="checkbox" name="conferenza"<?php if(isset($_POST['conferenza'])) echo 'checked="checked"'; ?>>
+			</div>
 		</fieldset>
 		<fieldset class="column last">
 			<input type="submit" name="button" class="column submit dark" value="Invia" />

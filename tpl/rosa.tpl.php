@@ -247,6 +247,14 @@ $(window).bind("load",function(){
 <?php endif; ?>
 <script type="text/javascript">
 	$(document).ready(function() { 
-		$(".fancybox").fancybox({'zoomSpeedIn': 500, 'zoomSpeedOut' : 500})
+		$(".fancybox").fancybox({
+			'zoomSpeedIn': 500,
+			'zoomSpeedOut' : 500,
+			'imageScale' : true,
+			'zoomOpacity' : true,
+			'overlayShow' : true,
+			'overlayOpacity' : 0.6,
+			'centerOnScroll' : true
+			})
 	}); 
 </script>
