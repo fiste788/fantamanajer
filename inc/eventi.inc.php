@@ -51,12 +51,14 @@ class eventi
 			{
 				switch($val['tipo'])
 				{
-					case 1: $values[$key]['idExternal'] = $articoloObj->getArticoloById($val['idExternal']);
-									$values[$key]['titolo'] = $val['nome'] . ' ha rilasciato una conferenza stampa intitolata '. $values[$key]['idExternal']['title'];
-									$values[$key]['content'] = '';
-									if(!empty($values[$key]['idExternal']['abstract'])) $values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
-									$values[$key]['content'] .= $values[$key]['idExternal']['text'];
-									$values[$key]['link'] = $linksObj->getLink('conferenzeStampa',array('giorn'=>$values[$key]['idExternal']['idGiornata']));break;
+					case 1:
+						$values[$key]['idExternal'] = $articoloObj->getArticoloById($val['idExternal']);
+						$values[$key]['titolo'] = $val['nome'] . ' ha rilasciato una conferenza stampa intitolata '. $values[$key]['idExternal']['title'];
+						$values[$key]['content'] = '';
+						if(!empty($values[$key]['idExternal']['abstract'])) 
+							$values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
+						$values[$key]['content'] .= $values[$key]['idExternal']['text'];
+						$values[$key]['link'] = $linksObj->getLink('conferenzeStampa',array('giorn'=>$values[$key]['idExternal']['idGiornata']));break;
 		    		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
 									$values[$key]['content'] = ' ';break;
 									$values[$key]['link'] = '';break;
@@ -65,34 +67,32 @@ class eventi
 									$titolari=$values[$key]['idExternal']['elenco'];
 									$titolari=array_splice($titolari,0,11);
 									$titolari = $giocatoreObj->getGiocatoriByArray($titolari);
-
 									$values[$key]['content'] = 'Formazione: ';
 									foreach($titolari as $key2=>$val2)
 										$values[$key]['content'] .= $val2['cognome'].', ';
-		          					$values[$key]['content'] = substr($values[$key]['content'],0,-2);
-		          					$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['idGiornata'],'squadra'=>$values[$key]['idExternal']['idSquadra']));break;
-		          	case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
-		          					$giocOld = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocOld']);
-		          					$giocNew = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocNew']);
-		          					$values[$key]['idExternal']['idGiocOld'] = $giocOld[$values[$key]['idExternal']['idGiocOld']];
-		          					$values[$key]['idExternal']['idGiocNew'] = $giocNew[$values[$key]['idExternal']['idGiocNew']];
+									$values[$key]['content'] = substr($values[$key]['content'],0,-2);
+									$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['idGiornata'],'squadra'=>$values[$key]['idExternal']['idSquadra']));break;
+					case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
+									$giocOld = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocOld']);
+									$giocNew = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocNew']);
+									$values[$key]['idExternal']['idGiocOld'] = $giocOld[$values[$key]['idExternal']['idGiocOld']];
+									$values[$key]['idExternal']['idGiocNew'] = $giocNew[$values[$key]['idExternal']['idGiocNew']];
 									$values[$key]['titolo'] = $val['nome'] . ' ha effettuato un trasferimento';
 									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['idGiocOld']['nome'] .' ' . $values[$key]['idExternal']['idGiocOld']['cognome'].' e ha acquistato '. $values[$key]['idExternal']['idGiocNew']['nome'] .' ' . $values[$key]['idExternal']['idGiocNew']['cognome'];
 									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squad'=>$values[$key]['idExternal']['idSquadra']));
 									unset($giocOld,$giocNew);break;
-									
 								case 5: 
-                  $player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-                  $values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['cognome'].' '.$player[$values[$key]['idExternal']]['nome'].' inserito nella lista giocatori';
+									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
+									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['cognome'].' '.$player[$values[$key]['idExternal']]['nome'].' inserito nella lista giocatori';
 									$values[$key]['content'] = ' ';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('id'=>$values[$key]['idExternal']));
-                  break;
+									break;
 								case 6: 
-                  $player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-                  $values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['cognome'].' '.$player[$values[$key]['idExternal']]['nome'].' non fa piu\' parte della lista giocatori';
+									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
+									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['cognome'].' '.$player[$values[$key]['idExternal']]['nome'].' non fa piu\' parte della lista giocatori';
 									$values[$key]['content'] = ' ';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('id'=>$values[$key]['idExternal']));
-                  break;
+									break;
 				}
 			}
 			return $values;
