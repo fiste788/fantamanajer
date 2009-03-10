@@ -71,7 +71,11 @@ class fileSystem
 	
 	function scaricaVotiCsv($giornata)
 	{
-		$percorso = "./docs/voti/Giornata" . $giornata . ".csv";
+		if($giornata<10)
+			$zero=0;
+		else
+			$zero="";
+		$percorso = "./docs/voti/Giornata" .$zero.$giornata . ".csv";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
 		$espr = "<tr>";
 		if (file_exists($percorso))

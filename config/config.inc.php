@@ -29,6 +29,7 @@ define ("CSSDIR",FULLPATH.'css/');				//css => CSSDIR
 define ("JSDIR",FULLPATH.'js/');				//js => JSDIR
 define ("IMGDIR",FULLPATH.'imgs/');				//img => IMGDIR
 
+
 								//relative paths for:
 define ("CODEDIR",'code/');					//code => CODEDIR
 define ("TPLDIR",'tpl/');					//tpl => TPLDIR
@@ -39,13 +40,14 @@ define ("UPLOADDIR",'uploadimg/');				//uploadimg => UPLOADDIR
 define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
 define ("MAILTPLDIR",TPLDIR.'mail/');	
-
+define ("VOTIDIR",'docs/voti/');				 //docs/voti => VOTIDIR
 								//urls for:
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL
 define ("JSURL",FULLURL.'js/');					//js => JSURL
 define ("RSSURL",FULLURL.'rss/');					//rss => RSSURL
 define ("IMGSURL",FULLURL.'imgs/');				//img => IMGSURL
 define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
+
 
 if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' )
 {

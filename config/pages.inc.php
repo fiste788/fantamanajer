@@ -63,6 +63,8 @@ $guestpages = array();
 	$guestpages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>'',
 										'css'=>array('screen','style'));
+
+	
 	
 $userpages = array();
 	$userpages['home'] = array(	'title'=>"Home", 
@@ -142,6 +144,10 @@ $userpages = array();
 										'css'=>array('screen','style'));
 										
 	$userpages['feed'] = array(	'title'=>"Vedi gli eventi",
+										'js'=>array('jquery'=>'jquery'),
+										'css'=>array('screen','style'));
+							
+    $userpages['download'] = array(	'title'=>"Area Download",
 										'js'=>array('jquery'=>'jquery'),
 										'css'=>array('screen','style'));
 
