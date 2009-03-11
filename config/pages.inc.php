@@ -186,7 +186,7 @@ $superadminpages = array();
 										'css'=>array('screen','style'));
 										
 	$superadminpages['modificaGiocatore'] = array(	'title'=>"ModificaGiocatore",
-										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate'),'flot'=>array('ie|excanvas','jquery-flot'),'quickSearch'=>'quickSearch'),
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate'),'flot'=>array('ie|excanvas','jquery-flot')),
 										'css'=>array('screen','style'));
 //echo "<pre>".print_r($guestpages,1)."</pre>";
 //echo "<pre>".print_r(array_keys($guestpages),1)."</pre>";

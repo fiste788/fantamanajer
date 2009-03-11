@@ -89,6 +89,19 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailWeekly.tpl.php'),$object))
 						$mail++ ;
 				}
+				if(!empty($val['cell']) && $val['abilitaMess'] == 1)
+				{
+					$sms = "";
+					$sms .= "Punteggio giornata " . $giornata . ": ";
+					$sms .= $punteggiObj->getPunteggi($val['idUtente'],$giornata);
+					$giocatori = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val['idUtente']);
+					foreach($giocatori as $key2 => $val2)
+						$sms .= $val2['cognome'] . " " . $val2['voto'] . ",";
+					$smsFlag = 0;
+					
+					if(!$mailObj->sendEmailToVodafone($val['cell'],$sms))
+						$smsFlag++ ;
+				}
 			}
 			if($mail == 0)
 				$contenttpl->assign('message','Operazione effettuata correttamente');

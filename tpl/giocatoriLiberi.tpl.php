@@ -24,7 +24,7 @@
 			<tr>
 				<?php if(TIMEOUT != '0' && GIORNATA != 1): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['idGioc']; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>">
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])) ?>">
 				<?php if($val['voti'] >= $this->suff && $val['partiteGiocate'] >= $this->partite ||GIORNATA == 1): ?>
 					<img alt="Verde" title="Verde" src="<?php echo IMGSURL.'player-tit.png' ?>"/>
 				<?php elseif($val['voti'] >= $this->suff || $val['partiteGiocate'] >= $this->partite): ?>

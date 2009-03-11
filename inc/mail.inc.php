@@ -38,5 +38,13 @@ class mail
 		}
 		return @mail($email,$object, $body,$html);
 	}
+	
+	function sendEmailToVodafone($num,$body)
+	{
+		$html = "MIME-Version: 1.0\r\n";
+		$html .= "Content-type: text/html; charset=UTF-8\r\n";
+		$html .= "From: <stefano788@gmail.com>\r\n";
+		return mail($num ."@sms.vodafone.it","bo", $body,$html);
+	}
 }
 ?>

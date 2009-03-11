@@ -66,6 +66,10 @@ class utente
 			$data['abilitaMail'] = '0';
 		else
 			$data['abilitaMail'] = '1';
+		if(!isset($data['abilitaMess']))
+			$data['abilitaMess'] = '0';
+		elseif($data['abilitaMess'] == 'on')
+			$data['abilitaMess'] = '1';
 		foreach($data as $key => $val)
 		{
 			if(!empty($val))

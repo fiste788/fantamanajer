@@ -48,8 +48,9 @@ class upload
 						return 3;
 						die ("errore nel tipo");
 				}
-				if ($upload_dir != UPLOADDIR)
-				{					switch ($_FILES ['userfile'] ['type'])	
+				if ($upload_dir == "")
+				{	
+					switch ($_FILES ['userfile'] ['type'])	
 					{
 							case in_array($_FILES['userfile']['type'],$img) : $upload_dir = "uploadimages/";break;
 							case in_array($_FILES['userfile']['type'],$vid) : $upload_dir = "uploadvideos/";break;

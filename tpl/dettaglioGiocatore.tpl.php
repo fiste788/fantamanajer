@@ -7,8 +7,20 @@
 </div>
 <div id="dettaglioGioc" class="main-content"> 
 	<img alt="foto" class="column" src="<?php echo $this->pathfoto; ?>" />
+	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+	<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc[0]['idGioc'] ?>" />
+	<div>
+		<label for="cognome">Cognome:</label>
+		<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc[0]['cognome'])) echo $this->dettaglioGioc[0]['cognome'] ?>" />
+	</div>
+	<div>
+		<label for="nome">Nome:</label>
+		<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc[0]['nome'])) echo $this->dettaglioGioc[0]['nome'] ?>" />
+	</div>
+	<?php else: ?>
 	<p>Cognome: <?php echo $this->dettaglioGioc[0]['cognome']; ?></p>
 	<p>Nome: <?php echo $this->dettaglioGioc[0]['nome']; ?></p>
+	<?php endif; ?>
 	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
 	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['idUtente'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
 	<p>Club: <?php echo $this->dettaglioGioc[0]['nomeClub']; ?></p>
@@ -17,6 +29,9 @@
 	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
 	<p>Media Voto: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
 	<p>Media Punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
+	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+	<input class="upload" type="file" name="userfile" id="upload"/>
+	<?php endif; ?>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
 <table style="width:100px;" class="column last" cellpadding="0" cellspacing="0">
 	<tr>
@@ -66,7 +81,7 @@
 </div>
 <div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+	<div>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</div>
 	<div id="hidden" class="hidden">&nbsp;</div>
 	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
 	<script id="source" type="text/javascript">
