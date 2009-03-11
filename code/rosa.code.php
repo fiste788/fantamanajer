@@ -5,11 +5,25 @@ require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOW
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'voti.inc.php');
+require_once(INCDIR.'mail.inc.php');
 
 $giocatoreObj = new giocatore();
 $punteggiObj = new punteggi();
 $utenteObj = new utente();
 $votiObj = new voti();
+$mailObj = new mail();
+
+$sms = "";
+					$sms .= "Punteggio giornata " . '15' . ": ";
+					$sms .= $punteggiObj->getPunteggi(2,15);
+					$giocatori = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra(15,2);
+					foreach($giocatori as $key => $val)
+						$sms .= $val['cognome'] . " " . $val['voto'] . ",";
+					$smsFlag = 0;
+					
+					if(!$mailObj->sendEmailToVodafone('3476009406',$sms))
+						$smsFlag++ ;
+					//echo $smsFlag;
 
 $squadra = NULL;
 if(isset($_GET['squadra']))

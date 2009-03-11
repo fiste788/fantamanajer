@@ -62,7 +62,7 @@
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
 					<?php else: ?>
 						<tr>
-							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['gioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a></td>
 					<?php endif; ?>
 							<td><?php echo $val['cognome']; ?></td>
 							<td><?php echo $val['nome']; ?></td>

@@ -1,7 +1,7 @@
 /*
- * jQuery UI Effects Pulsate 1.6rc5
+ * jQuery UI Effects Pulsate 1.7
  *
- * Copyright (c) 2009 AUTHORS.txt (http://ui.jquery.com/about)
+ * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
@@ -10,4 +10,4 @@
  * Depends:
  *	effects.core.js
  */
-(function(a){a.effects.pulsate=function(b){return this.queue(function(){var d=a(this);var g=a.effects.setMode(d,b.options.mode||"show");var f=b.options.times||5;var e=b.duration?b.duration/2:a.fx.speeds._default/2;if(g=="hide"){f--}if(d.is(":hidden")){d.css("opacity",0);d.show();d.animate({opacity:1},e,b.options.easing);f=f-2}for(var c=0;c<f;c++){d.animate({opacity:0},e,b.options.easing).animate({opacity:1},e,b.options.easing)}if(g=="hide"){d.animate({opacity:0},e,b.options.easing,function(){d.hide();if(b.callback){b.callback.apply(this,arguments)}})}else{d.animate({opacity:0},e,b.options.easing).animate({opacity:1},e,b.options.easing,function(){if(b.callback){b.callback.apply(this,arguments)}})}d.queue("fx",function(){d.dequeue()});d.dequeue()})}})(jQuery);
+(function($){$.effects.pulsate=function(o){return this.queue(function(){var el=$(this);var mode=$.effects.setMode(el,o.options.mode||'show');var times=o.options.times||5;var duration=o.duration?o.duration/2:$.fx.speeds._default/2;if(mode=='hide')times--;if(el.is(':hidden')){el.css('opacity',0);el.show();el.animate({opacity:1},duration,o.options.easing);times=times-2}for(var i=0;i<times;i++){el.animate({opacity:0},duration,o.options.easing).animate({opacity:1},duration,o.options.easing)};if(mode=='hide'){el.animate({opacity:0},duration,o.options.easing,function(){el.hide();if(o.callback)o.callback.apply(this,arguments)})}else{el.animate({opacity:0},duration,o.options.easing).animate({opacity:1},duration,o.options.easing,function(){if(o.callback)o.callback.apply(this,arguments)})};el.queue('fx',function(){el.dequeue()});el.dequeue()})}})(jQuery);

@@ -94,6 +94,21 @@
 		</div>
 		</div>
 	</div>
+	<div class="box-squadra column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'freeplayer-other.png'; ?>" title="Modificagiocatore" />
+			<h3><a href="<?php echo $this->linksObj->getLink('modificaGiocatore'); ?>">Modifica giocatore</a></h3>
+			</ul>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
 	<?php endif; ?>
 </div>
 	<?php if($_SESSION['logged'] == TRUE): ?>

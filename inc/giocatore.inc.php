@@ -294,5 +294,13 @@ class giocatore
 			$giocatori[] = $row;
 		return $giocatori;
 	}
+	
+	function aggiornaGiocatore($id,$cognome,$nome)
+	{
+		$q = "UPDATE giocatore
+				SET cognome = '" . $cognome . "', nome = '" . $nome . "'
+				WHERE idGioc = '" . $id . "'";
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+	}
 }
 ?>

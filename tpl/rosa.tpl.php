@@ -29,7 +29,7 @@
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">	
 				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult' ?>">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])) ?>"><?php echo $val['nome']; ?></a>
 				</td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
@@ -94,9 +94,10 @@
 							<input class="upload" name="userfile" type="file" />
 							<input type="submit" class="submit" value="Invia file" />
 			</form>
-			<ul id="accordion" class="ui-accordion-container">
-				<li><a class="ui-accordion-link" href="#">Dati</a>
+			<div id="accordion" class="ui-accordion-container">
+				<a class="ui-accordion-link" href="#">Dati</a>
 				<?php endif;?>
+				<div>
 					<table class="column last"  cellpadding="0" cellspacing="0">
 						<tbody>
 							<tr>
@@ -127,9 +128,9 @@
 					</table>
 					<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 					<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra<?php endif; ?></p>
-				</li>
-				<li><a class="ui-accordion-link" href="#">Clicca qui</a>
-				<div class="no-margin" style="display:none;">
+				</div>
+				<a class="ui-accordion-link" href="#">Clicca qui</a>
+				<div class="no-margin">
 					<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" name="data" method="post">
 						<?php if(GIORNATA <= 2): ?>
 						<div class="formbox">
@@ -158,6 +159,14 @@
 							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
 						</div>
 						<div class="formbox">
+							<label for="cell">Numero cellulare:</label>
+							<input id="cell" class="text" type="text" maxlength="10" name="cell"  value="<?php echo $this->squadradett['cell']; ?>"/>
+						</div>
+						<div class="formbox">
+							<label for="abilitaMess">Ricevi sms:</label>
+							<input id="abilitaMess" class="checkbox" type="checkbox" name="abilitaMess"<?php if($this->squadradett['abilitaMess'] == 1) echo ' checked="checked"' ?>/>
+						</div>
+						<div class="formbox">
 							<label for="password">Password:</label>
 							<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
 						</div>
@@ -168,8 +177,7 @@
 						<input type="submit" class="submit" value="OK" />
 					</form>
 				</div>
-			</li>
-			</ul>
+			</div>
 			<?php endif; ?>
 	</div>
 	</div>
@@ -179,10 +187,8 @@
 </div>
 <?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
 <script type="text/javascript" >
-$(window).bind("load",function(){
-	$('#accordion').accordion({
-		autoHeight: false
-		});
+$(document).ready(function(){
+	$('#accordion').accordion({ autoHeight: false });
 });
 </script>
 <?php endif; ?>

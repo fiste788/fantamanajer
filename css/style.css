@@ -5,6 +5,7 @@ body {
 	padding: 10px 11px;
 	display: block;
 	min-width: 960px;
+	-webkit-text-size-adjust: none;
 }
 h1, h2, h3, h4, h5, h6 {
 	color: #ff9900;
@@ -12,6 +13,9 @@ h1, h2, h3, h4, h5, h6 {
 .right {
 	float: right;
 	margin-left: 10px;
+}
+p {
+	font-size: 12px;
 }
 .last {
 	margin-right: 0;
@@ -336,9 +340,6 @@ em {
 	width: 100%;
 	list-style-type: none;
 }
-#accordion li {
-	clear: both;
-}
 #accordion label {
 	color: #ff9900;
 	float: left;
@@ -360,6 +361,46 @@ em {
 	width: 230px;
 	margin: 3px auto;
 	float: left;
+}
+.ui-accordion .ui-accordion-header { 
+	cursor: pointer;
+	position: relative;
+	margin-top: 1px;
+	zoom: 1;
+	display:block;
+}
+.ui-accordion .ui-accordion-li-fix {
+	display: inline;
+}
+.ui-accordion .ui-accordion-header-active {
+	border-bottom: 0 !important;
+}
+.ui-accordion .ui-accordion-header a {
+	display: block;
+	font-size: 1em;
+	padding: 0;
+}
+.ui-accordion .ui-accordion-header .ui-icon {
+	position: absolute;
+	left: .5em;
+	top: 50%;
+	margin-top: -8px;
+}
+.ui-accordion .ui-accordion-content {
+	padding: 0;
+	border-top: 0;
+	margin-top: -2px;
+	position: relative;
+	top: 1px;
+	margin-bottom: 2px;
+	overflow: auto;
+	display: none;
+}
+.ui-accordion .ui-accordion-content-active {
+	display: block;
+}
+#accordion .submit {
+	margin:8px 0 0;
 }
 #mex {
 	width: 100%;
@@ -905,39 +946,9 @@ p.surprise {
 	width:160px;
 }
 #modificaGioc #ricerca {
-	margin-bottom: 10px;
-	border: 1px solid #000;
+	margin:10px 0;
 	width: 600px;
 }
-#modificaGioc #ricerca td, #modificaGioc #ricerca th {
-	padding: 0 5px;
-	width: 590px;
-	vertical-align:middle;
-}
-#modificaGioc #ricerca thead {
-	background-color: #ddd;
-	color: #000;
-	height:25px;
-}
-#modificaGioc #ricerca tbody {
-	overflow-x: hidden;
-	overflow-y: auto;
-	height:150px;
-}
-#modificaGioc #ricerca a {
-	width: 100%;
-	display: block;
-}
-#modificaGioc #ricerca .riga1 {
-	background-color: #fff;
-}
-#modificaGioc #ricerca .riga2 {
-	background-color: #FFE5BE;
-}
-#table-search-container label{
-	width:160px;
-	margin-left: 5px;
-}
-.table-search-criteria-field {
-	margin-right:200px;
+#ricerca label {
+	width:120px;
 }
