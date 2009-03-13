@@ -34,7 +34,7 @@
 					<select name="ricercaGioc" id="ricercaGioc">
 						<option></option>
 						<?php foreach($this->giocatori as $key=>$val): ?>
-						<option value="<?php echo $val['idGioc'] ?>" <?php if($_POST['idGioc'] == $val['idGioc']) echo 'selected="selected"' ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
+						<option value="<?php echo $val['idGioc'] ?>"<?php if(isset($_POST['idGioc']) && $_POST['idGioc'] == $val['idGioc']) echo ' selected="selected"' ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 						<?php endforeach; ?>
 					</select>
 				</fileset>
