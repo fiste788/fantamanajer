@@ -31,29 +31,25 @@
 				cache: false,
 				username: "administrator",
 				password: "banana",
-				success: function(html,text){
+				dataType: "xml",
+				complete: function(xml,text){
 					$("#messaggio div").fadeOut(function (){
 						$("#messaggio").css('display','none');
-						$("#messaggio").addClass('good');
+						risp = $("#return",xml.responseText);
+						var classe = $(risp).attr('class');
+						$("#messaggio").addClass(classe);
 						$("#messaggio div").remove();
 						var time2 = new Date();
 						var time_end = time2.getTime();
-						$("#messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'ok-big.png'; ?> "><span>Script ' + script + ' eseguito con successo</span></div>').fadeIn( function() {
+						var img = "";
+						if(classe == "good")
+							img = "ok";
+						else
+							img = "attention-bad";
+						img = '<img src="<?php echo IMGSURL; ?>' + img + '-big.png">';
+						$("#messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms">' + img + '<span>' + $(risp).html() + '</span></div>').fadeIn( function() {
 							if(jQuery.browser.msie)
 								$("#messaggio").removeAttr('style');	
-						});
-					});
-				},
-				error:  function(){
-					$("#messaggio div").fadeOut(function (){
-						$("#messaggio").css('display','none');
-						$("#messaggio").addClass('bad');
-						$("#messaggio div").remove();
-						var time2 = new Date();
-						var time_end = time2.getTime();
-						$("#messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms Risposta del server: ' + text + '"><img src="<?php echo IMGSURL.'attention-bad-big.png'; ?> "><span>Errore nell\'esecuzione dello script ' + script + '</span></div>').fadeIn(function() {
-							if(jQuery.browser.msie)
-								$("#messaggio").removeAttr('style');
 						});
 					});
 				}

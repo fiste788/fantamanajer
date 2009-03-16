@@ -7,13 +7,12 @@ $path = 'db';
 $name = 'backup_'. date("Y-m-d_H:i:s") . '.sql' ;
 $backupName = $path . '/' . $name;
 $backupObj = new MySQLDump(DBNAME,$backupName,FALSE,FALSE);
-
+ob_start();
 if($backupObj->dodump())
 {
 	$handle = fopen('docs/nomeBackup.txt','w');
 	fwrite($handle,$name);
 	fclose($handle);
-	$contenttpl->assign('message','Operazione effettuata correttamente');
 	$files = $fileSystemObj->getFileIntoFolder($path);
 	rsort($files);
 	if(count($files) > 8)
@@ -21,7 +20,14 @@ if($backupObj->dodump())
 		$lastFile = array_pop($files);
 		unlink($path.'/'.$lastFile);
 	}
+	$message[0] = 0;
+	$message[1] = "Operazione effettuata correttamente";
 }
 else
-	$contenttpl->assign('message','Si sono verificati degli errori');
+{
+	$message[0] = 1;
+	$message[1] = "Si sono verificati degli errori";	
+}
+ob_end_clean();
+$contenttpl->assign('message',$message);
 ?>
