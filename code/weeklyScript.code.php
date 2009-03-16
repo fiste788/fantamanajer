@@ -26,6 +26,7 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 	if($votiObj->recuperaVoti($giornata))
 	{
 		$leghe = $legheObj->getLeghe();
+		$mail = 0;
 		foreach($leghe as $lega)
 		{
 			$squadre = $utenteObj->getElencoSquadreByLega($lega['idLega']);
@@ -81,7 +82,6 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 					$mailContent->assign('squadra',$val['nome']);
 					$mailContent->assign('somma',$punteggiObj->getPunteggi($val['idUtente'],$giornata));
 					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val['idUtente']));
-					$mail = 0;
 					
 					//MANDO LA MAIL
 					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
@@ -103,18 +103,31 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 						$smsFlag++ ;
 				}
 			}
-			if($mail == 0)
-				$contenttpl->assign('message','Operazione effettuata correttamente');
-			else
-				$contenttpl->assign('message','Si sono verificati degli errori nell\'invio delle mail');
 			unset($mailContent);
+		}
+		if($mail == 0)
+		{
+			$message[0] = 0;
+			$message[1] = "Operazione effettuata correttamente";
+		}
+		else
+		{
+			$message[0] = 1;
+			$message[1] = "Errori nell'invio delle mail";
 		}
 		//AGGIORNA LA LISTA GIOCATORI
 		$giocatoreObj->updateTabGiocatore($giornata);
 	}
 	else
-		$contenttpl->assign('message','Problema nel recupero dei voti dalla gazzetta');
+	{
+		$message[0] = 1;
+		$message[1] = "Problema nel recupero dei voti dalla gazzetta";
+	}
 }
 else
-	$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
+{
+	$message[0] = 1;
+	$message[1] = "Non puoi effettuare l'operazione ora";
+}
+$contenttpl->assign('message',$message);
 ?>

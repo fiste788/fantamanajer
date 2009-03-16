@@ -19,6 +19,7 @@ $dataGiornata = $giorn[0];
 if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'superadmin')
 {
 	$leghe = $legheObj->getLeghe();
+	$mail = 0;
 	foreach($leghe as $lega)
 	{
 		$mailContent = new Savant2();
@@ -56,12 +57,26 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 				//$mailContent->display(MAILTPLDIR.'mailFormazioni.tpl.php');
 				//MANDO LA MAIL
 				$object = "Formazioni giornata: ". $giornata ;
-			  	$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailFormazioni.tpl.php'),$object);
-			  	$contenttpl->assign('message','Operazione effettuata correttamente');
+				if($mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailFormazioni.tpl.php'),$object))
+					$mail++;
 			}
 		}
 	}
+	if($mail == 0)
+	{
+		$message[0] = 0;
+		$message[1] = "Operazione effettuata correttamente";
+	}
+	else
+	{
+		$message[0] = 1;
+		$message[1] = "Errori nell'invio delle mail";
+	}
 }
 else
-	$contenttpl->assign('message','Non puoi effettuare l\'operazione ora');
+{
+	$message[0] = 1;
+	$message[1] = "Non puoi effettuare l'operazione ora'";
+}
+$contenttpl->assign('message',$message);
 ?>
