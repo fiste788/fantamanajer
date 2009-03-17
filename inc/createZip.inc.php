@@ -179,6 +179,14 @@ class createZip  {
             exit;
         }
 
+  //then send the headers to foce download the zip file
+  header("Content-type: application/zip");
+  header("Content-Disposition: attachment; filename=".basename($archiveName).";" );
+  header("Pragma: no-cache");
+  header("Expires: 0");
+  readfile("$archiveName");
+
+/*
         header("Pragma: public");
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -187,7 +195,7 @@ class createZip  {
         header("Content-Disposition: attachment; filename=".basename($archiveName).";" );
         header("Content-Transfer-Encoding: binary");
         header("Content-Length: ".filesize($archiveName));
-        readfile("$archiveName");
+        readfile("$archiveName");*/
         
      }
 	 
@@ -204,14 +212,12 @@ class createZip  {
 			$this -> addFile($fileContents, $dirzip.$val);  
 		}
 
-		$fileName = $dir.$namearchive.".zip";
-		$fd = fopen ($fileName, "w");
+		$fileName = $namearchive.".zip";
+		$fd = fopen ($fileName, "wb");
 		$out = fwrite ($fd, $this -> getZippedfile());
 		fclose ($fd);
-		return $fileName;
-
-		//$this -> forceDownload($fileName);
-		//@unlink($fileName); 		
+		return $fileName;	
 	}
 }
+
 ?> 

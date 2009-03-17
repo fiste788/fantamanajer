@@ -13,9 +13,9 @@ $contenttpl->assign('filesVoti',$filesVoti);
 if(isset($_POST['giornata']) && $_POST['giornata'] == TOZIP)
 {
 	$createZip = new createZip();
-	$pathzip=$createZip -> createZipfromDir(VOTIDIR,'voti');	
-	$createZip -> forceDownload($pathzip);
-	@unlink($pathzip);
+	$path=$createZip -> createZipfromDir(VOTIDIR,'voti');	
+	$createZip -> forceDownload($path);
+	@unlink($path); 
 }
 
 ?>
