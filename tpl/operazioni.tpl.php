@@ -1,5 +1,5 @@
 <?php if(isset($_GET['squadra'])) $squadra = $_GET['squadra']; else $squadra=$_SESSION['idSquadra']; ?>
-	<?php if(isset($this->generalMessage)): ?>									
+	<?php if(isset($this->generalMessage)): ?>	
 		<div id="messaggioGen" class="messaggio bad column last">
 			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" title="Attenzione!" />
 			<span><?php echo $this->generalMessage; ?></span>
@@ -20,8 +20,8 @@
 				<li><a class="see-freeplayer column last operazione" href="<?php echo $this->linksObj->getLink('giocatoriLiberi'); ?>">Guadra i giocatori liberi</a></li>
 				<li><a class="see-premi column last operazione" href="<?php echo $this->linksObj->getLink('premi'); ?>">Guadra i premi</a></li>
 				<?php if($_SESSION['usertype'] != 'user'): ?>
-					<li><a class="admin-area column last operazione" href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>">Area amministrativa</a></li>
 					<li><a class="admin-area column last operazione" href="<?php echo $this->linksObj->getLink('download'); ?>">Area download</a></li>
+					<li><a class="admin-area column last operazione" href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>">Area amministrativa</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

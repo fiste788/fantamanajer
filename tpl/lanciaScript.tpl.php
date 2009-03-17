@@ -12,7 +12,7 @@
 		<li><a class="script" id="sendMail" href="#">Manda mail formazione</a></li>
 	</ul>
 	<script type="text/javascript">
-		var loadingImg = "<?php echo IMGSURL.'lightbox-ico-loading.gif' ?>"; 
+		var loadingImg = "<?php echo IMGSURL.'ajax-loader.gif' ?>"; 
 		$(".script").click(function () { 
 			var Url = this.id + '.html';
 			var time = new Date();
@@ -26,7 +26,7 @@
 					$("#messaggio").removeClass("good");
 					$("#messaggio").removeClass("bad");
 					$("#messaggio").css('display','block');
-					$("#messaggio").append('<div><img src="' + loadingImg + '" / ></div>');
+					$("#messaggio").append('<div style="text-align:center;"><img style="float:none;margin:18px 0;" src="' + loadingImg + '" / ></div>');
 				},
 				cache: false,
 				username: "administrator",
@@ -35,22 +35,35 @@
 				complete: function(xml,text){
 					$("#messaggio div").fadeOut(function (){
 						$("#messaggio").css('display','none');
-						risp = $("#return",xml.responseText);
-						var classe = $(risp).attr('class');
-						$("#messaggio").addClass(classe);
-						$("#messaggio div").remove();
 						var time2 = new Date();
 						var time_end = time2.getTime();
-						var img = "";
-						if(classe == "good")
-							img = "ok";
+						if(xml.responseText != "")
+						{
+							risp = $("#return",xml.responseText);
+							var classe = $(risp).attr('class');
+							$("#messaggio").addClass(classe);
+							$("#messaggio div").remove();
+							var img = "";
+							if(classe == "good")
+								img = "ok";
+							else
+								img = "attention-bad";
+							img = '<img src="<?php echo IMGSURL; ?>' + img + '-big.png">';
+							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>' + $(risp).html() + '</span></div>').fadeIn( function() {
+								if(jQuery.browser.msie)
+									$("#messaggio").removeAttr('style');
+							});
+						}
 						else
-							img = "attention-bad";
-						img = '<img src="<?php echo IMGSURL; ?>' + img + '-big.png">';
-						$("#messaggio").append('<div title="Tempo di esecuzione ' + (time_end-time_start) + 'ms">' + img + '<span>' + $(risp).html() + '</span></div>').fadeIn( function() {
-							if(jQuery.browser.msie)
-								$("#messaggio").removeAttr('style');	
-						});
+						{
+							$("#messaggio").addClass("bad");
+							$("#messaggio div").remove();
+							img = '<img src="<?php echo IMGSURL; ?>attention-bad-big.png">';
+							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Errore nel recupero dei dati</span></div>').fadeIn( function() {
+								if(jQuery.browser.msie)
+									$("#messaggio").removeAttr('style');
+							});
+						}
 					});
 				}
 			});

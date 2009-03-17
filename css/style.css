@@ -436,6 +436,9 @@ em {
 	float: left;
 	margin-right: 10px;
 }
+#return {
+	border: 0 none;
+}
 #freeplayeropt input.text {
 	width: 30px;
 	text-align: center;

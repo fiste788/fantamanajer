@@ -144,7 +144,7 @@ class fileSystem
 	{
 		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
 		if(!empty($nomeBackup) && file('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup) != FALSE)
-			return file_get_contents('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup);
+			return implode(gzfile('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup));
 		else
 			return FALSE;
 	}
