@@ -8,8 +8,9 @@
 	<form name="giornataForm" action="<?php echo $this->linksObj->getLink('download'); ?>" method="post">
 		<select id="giornata" name="giornata" onchange="download();">
 			<option></option>
+			<option value="<?php echo TOZIP;?>">TUTTE</option>
 		<?php foreach ($this->filesVoti as $key=>$val): ?>
-			<option<?php if(isset($_POST['giornata']) && $_POST['giornata'] == $val) echo ' selected="selected"' ?> value="<?php echo $val;?>"><?php echo "Giornata " . ($key + 1); ?></option>
+			<option<?php if(isset($_POST['giornata']) && $_POST['giornata'] == $val) echo ' selected="selected"' ?> value="<?php echo $val;?>"><?php echo $val; ?></option>
 		<?php endforeach; ?>
 		</select>
 		<input class="submit dark" type="submit" value="Download"/>
@@ -19,8 +20,10 @@
 		{
 			var file = document.getElementById('giornata').value;
 			var path = "<?php echo FULLURL . VOTIDIR; ?>";
-			if(file != "")
+			if(file != "" && file !="all")
 				document.giornataForm.action = path + file;
+			else
+			 	document.giornataForm.action="<?php echo $this->linksObj->getLink('download');?>";
 		}
 	</script>
 </div>
