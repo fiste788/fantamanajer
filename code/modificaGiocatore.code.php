@@ -29,7 +29,8 @@ if(isset($_POST))
 		$ext = $uploadObj -> getExtension($_FILES ['userfile']['name']);
 		if(isset($_POST['idGioc']))
 			$name = $_POST['idGioc'];
-		switch( $uploadObj -> uploadFile ($size , $img , $vid , $doc, $path , $name.'-temp'))
+
+		switch($uploadObj -> uploadFile ($size , $img , $vid , $doc, $path , $name.'-temp'))
 		{
 				case 0: 	switch (strtolower($uploadObj->getExtension($path.$name.'-temp.'.$ext)))			//switch for get the extension
 								{
@@ -53,6 +54,16 @@ if(isset($_POST))
 										$message[1] = 'Problemi nel ridimensionamento';
 									}
 								}
+								else
+								{
+									$nameimg=$path.$name.".".$ext;
+									if(file_exists($nameimg))
+										unlink($nameimg);
+									rename($path.$name.'-temp.'.$ext,$nameimg);
+									$message[0] = 0;
+									$message[1] = 'Upload effettuato correttamente';
+								}
+								
 								break;
 				case 1: 	$message[0] = 1;
 								$message[1] = 'Nessun file selezionato'; break;

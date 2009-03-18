@@ -83,15 +83,15 @@ class eventi
 									unset($giocOld,$giocNew);break;
 								case 5: 
 									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['cognome'].' '.$player[$values[$key]['idExternal']]['nome'].' inserito nella lista giocatori';
+									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['nome'].' '.$player[$values[$key]['idExternal']]['cognome'].' inserito nella lista giocatori';
 									$values[$key]['content'] = ' ';
-									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('id'=>$values[$key]['idExternal']));
+									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
 								case 6: 
 									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['cognome'].' '.$player[$values[$key]['idExternal']]['nome'].' non fa piu\' parte della lista giocatori';
+									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['nome'].' '.$player[$values[$key]['idExternal']]['cognome'].' non fa piu\' parte della lista giocatori';
 									$values[$key]['content'] = ' ';
-									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('id'=>$values[$key]['idExternal']));
+									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
 				}
 			}
