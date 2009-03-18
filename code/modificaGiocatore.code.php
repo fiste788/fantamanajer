@@ -9,7 +9,6 @@ if(isset($_POST))
 {
 	if(!empty($_FILES ['userfile']['tmp_name']))
 	{
-		echo "prova";
 		require_once(INCDIR.'upload.inc.php');	
 		$uploadObj = new upload();
 		$img = array ("image/gif" , "image/png" , "image/pjpeg" , "image/jpeg");
@@ -44,25 +43,25 @@ if(isset($_POST))
 								{
 									if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) )
 									{
-										$message[] = 0;
-										$message[] = 'Upload effettuato correttamente';
+										$message[0] = 0;
+										$message[1] = 'Upload effettuato correttamente';
 										unlink($path.$name.'-temp.'.$ext);
 									}
 									else
 									{
-										$message[] = 1;
-										$message[] = 'Problemi nel ridimensionamento';
+										$message[0] = 1;
+										$message[1] = 'Problemi nel ridimensionamento';
 									}
 								}
 								break;
-				case 1: 	$message[] = 1;
-								$message[] = 'Nessun file selezionato'; break;
-				case 2: 	$message[] = 1;
-								$message[] = 'File troppo grande'; break;
-				case 3: 	$message[] = 1;
-								$message[] = 'Tipo di file non supportato'; break;
-				case 4: 	$message[] = 1;
-								$message[] = 'Errore nell\'upload del file'; break;
+				case 1: 	$message[0] = 1;
+								$message[1] = 'Nessun file selezionato'; break;
+				case 2: 	$message[0] = 1;
+								$message[1] = 'File troppo grande'; break;
+				case 3: 	$message[0] = 1;
+								$message[1] = 'Tipo di file non supportato'; break;
+				case 4: 	$message[0] = 1;
+								$message[1] = 'Errore nell\'upload del file'; break;
 		}
 		$contenttpl->assign('message',$message);
 	}

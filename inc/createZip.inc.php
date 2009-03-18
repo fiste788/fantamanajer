@@ -162,7 +162,7 @@ class createZip  {
      * @param archiveName string - name of the created archive file
      */
 
-    public function forceDownload($archiveName) {
+    public function forceDownload($archiveName,$newName) {
         $headerInfo = '';
          
         if(ini_get('zlib.output_compression')) {
@@ -181,7 +181,7 @@ class createZip  {
 
   //then send the headers to foce download the zip file
   header("Content-type: application/zip");
-  header("Content-Disposition: attachment; filename=".basename($archiveName).";" );
+  header("Content-Disposition: attachment; filename=".basename($newName).";" );
   header("Pragma: no-cache");
   header("Expires: 0");
   readfile("$archiveName");
@@ -199,23 +199,22 @@ class createZip  {
         
      }
 	 
-	function createZipfromDir($dir,$namearchive)  //directory, nome da dare all'archivio
+	function createZipFromDir($dir,$namearchive)  //directory, nome da dare all'archivio
 	{
-		$dirzip=$namearchive."/";
-		$this -> addDirectory($dirzip);
+		$dirzip = $namearchive . "/";
+		$this->addDirectory($dirzip);
 		
-		$fileObj = new fileSystem();
-		$files=$fileObj->getFileIntoFolder($dir);	
+		$fileSystemObj = new fileSystem();
+		$files = $fileSystemObj->getFileIntoFolder($dir);	
 		foreach($files as $key=>$val)
 		{	
-			$fileContents = file_get_contents($dir.$val); 
-			$this -> addFile($fileContents, $dirzip.$val);  
+			$fileContents = file_get_contents($dir . $val); 
+			$this->addFile($fileContents,$dirzip . $val);  
 		}
-
-		$fileName = $namearchive.".zip";
-		$fd = fopen ($fileName, "wb");
-		$out = fwrite ($fd, $this -> getZippedfile());
-		fclose ($fd);
+		$fileName = TMPDIR . microtime() . ".zip";
+		$fd = fopen($fileName,"wb");
+		$out = fwrite($fd,$this->getZippedfile());
+		fclose($fd);
 		return $fileName;	
 	}
 }

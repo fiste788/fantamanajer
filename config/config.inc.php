@@ -41,6 +41,7 @@ define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
 define ("MAILTPLDIR",TPLDIR.'mail/');	
 define ("VOTIDIR",'docs/voti/');				 //docs/voti => VOTIDIR
+define ("TMPDIR",'tmp/');				 //docs/voti => VOTIDIR
 								//urls for:
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL
 define ("JSURL",FULLURL.'js/');					//js => JSURL
