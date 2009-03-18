@@ -14,6 +14,7 @@
 				<th>Giocatore nuovo</th>
 				<th>Giocatore vecchio</th>
 				<th>Giornata</th>
+				<th>Obbligato</th>
 			</tr>
 			<?php foreach($this->trasferimenti as $key => $val): ?>
 			<tr class="row">
@@ -21,6 +22,7 @@
 				<td><?php echo $val['cognomeNew'] . " " . $val['nomeNew']; ?></td>
 				<td><?php echo $val['cognomeOld'] . " " . $val['nomeOld']; ?></td>
 				<td><?php echo $val['idGiornata']; ?></td>
+				<td><?php if($val['obbligato']) echo "X";else echo "&nbsp;" ?></td>
 			</tr>
 			<?php $i++; ?>
 			<?php endforeach; ?>

@@ -302,5 +302,16 @@ class giocatore
 				WHERE idGioc = '" . $id . "'";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
+	
+	function checkOutLista($idGioc)
+	{
+		$q = "SELECT club
+				FROM giocatore
+				WHERE idGioc = '" . $idGioc . "' AND club IS NULL";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			return 1;
+		return 0;
+	}
 }
 ?>
