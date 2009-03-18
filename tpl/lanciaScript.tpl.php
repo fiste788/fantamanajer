@@ -56,10 +56,10 @@
 						}
 						else
 						{
-							$("#messaggio").addClass("bad");
+							$("#messaggio").addClass("neut");
 							$("#messaggio div").remove();
-							img = '<img src="<?php echo IMGSURL; ?>attention-bad-big.png">';
-							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Errore nel recupero dei dati</span></div>').fadeIn( function() {
+							img = '<img src="<?php echo IMGSURL; ?>attention-big.png">';
+							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Impossibile recuperare dati sull\'esecuzione</span></div>').fadeIn( function() {
 								if(jQuery.browser.msie)
 									$("#messaggio").removeAttr('style');
 							});

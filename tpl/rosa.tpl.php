@@ -159,14 +159,6 @@
 							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
 						</div>
 						<div class="formbox">
-							<label for="cell">Numero cellulare:</label>
-							<input id="cell" class="text" type="text" maxlength="10" name="cell"  value="<?php echo $this->squadradett['cell']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="abilitaMess">Ricevi sms:</label>
-							<input id="abilitaMess" class="checkbox" type="checkbox" name="abilitaMess"<?php if($this->squadradett['abilitaMess'] == 1) echo ' checked="checked"' ?>/>
-						</div>
-						<div class="formbox">
 							<label for="password">Password:</label>
 							<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
 						</div>

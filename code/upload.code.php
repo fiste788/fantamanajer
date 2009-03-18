@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* Upload v 1.0
 author: Sonzogni Stefano*/
 require_once(INCDIR.'upload.inc.php');		//import the class (upload)
