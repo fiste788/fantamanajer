@@ -955,3 +955,16 @@ p.surprise {
 #ricerca label {
 	width:120px;
 }
+#lanciaScript ul {
+	list-style-type:none;
+}
+#lanciaScript ul li {
+	line-height:68px;
+	height:68px;
+}
+#lanciaScript ul li a {
+	display:block;
+}
+#lanciaScript ul li h3{
+	margin:20px 0 0 10px;
+}
