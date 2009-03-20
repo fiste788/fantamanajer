@@ -961,6 +961,9 @@ p.surprise {
 #lanciaScript ul li {
 	line-height:68px;
 	height:68px;
+	margin: 3px 0;
+	width:100%;
+	float:left;
 }
 #lanciaScript ul li a {
 	display:block;

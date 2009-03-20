@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'attention-big.png'; ?>" alt="->" />
+		<img align="left" src="<?php echo IMGSURL.'penalita-big.png'; ?>" alt="->" />
 	</div>
 	<h2 class="column">Inserisci penalità</h2>
 </div>
