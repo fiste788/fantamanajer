@@ -1,12 +1,12 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'other-big.png'; ?>" alt="Logo Squadre" />
+		<img align="left" src="<?php echo IMGSURL.'run-big.png'; ?>" alt="Logo lancia script" />
 	</div>
 	<h2 class="column">Esegui script</h2>
 </div>
 <div id="lanciaScript" class="main-content">
 	<ul>
-		<li><a class="script" id="backup" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'gestione-database.png' ?>"><h3 class="column">Backup</h3></a></li>
+		<li><a class="script" id="backup" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'backup.png' ?>"><h3 class="column">Backup</h3></a></li>
 		<li><a class="script" id="acquistaGioc" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-big.png' ?>"><h3 class="column">Trasferimenti</h3></a></li>
 		<li><a class="script" id="weeklyScript" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png' ?>"><h3 class="column">WeeklyScript</h3></a></li>
 		<li><a class="script" id="sendMail" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'contatti-big.png' ?>"><h3 class="column">Manda mail formazione</h3></a></li>
