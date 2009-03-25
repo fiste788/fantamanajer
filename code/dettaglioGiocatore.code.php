@@ -18,7 +18,8 @@ if(!file_exists(IMGDIR . $pathfoto))
 
 $contenttpl->assign('dettaglioGioc',$dettaglio);
 $contenttpl->assign('pathfoto',IMGSURL . $pathfoto);
-
+if($_SESSION['logged'] == TRUE)
+{
 	if(!empty($dettaglio[0]['idUtente']))		// carico giocatori della squadra
 	{
 		$squadra = $dettaglio[0]['idUtente'];
@@ -27,18 +28,20 @@ $contenttpl->assign('pathfoto',IMGSURL . $pathfoto);
 		$dettagliosquadra= $utenteObj->getSquadraById($squadra);
 		$contenttpl->assign('label',$dettagliosquadra['nome']);
 	}
-	elseif($_SESSION['logged'] == TRUE)			// carico giocatori liberi
+	else			// carico giocatori liberi
 	{
 		$ruolo = $dettaglio[0]['ruolo'];
 		$elencogiocatori = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['datiLega']['idLega']);
 		$contenttpl->assign('label',$ruoplu[$ruolo]." liberi");
 	}
-	else			// carico giocatori del club
-	{
-		$club = $dettaglio[0]['nomeClub'];
-		$elencogiocatori = $giocatoreObj->getGiocatoriByIdClub($dettaglio[0]['idClub']);
-		$contenttpl->assign('label',$club);
-	}
+
+}
+else			// carico giocatori del club
+{
+	$club = $dettaglio[0]['nomeClub'];
+	$elencogiocatori = $giocatoreObj->getGiocatoriByIdClub($dettaglio[0]['idClub']);
+	$contenttpl->assign('label',$club);
+}
 
 	$contenttpl->assign('elencogiocatori',$elencogiocatori);
 	$keys=array_keys($elencogiocatori);
