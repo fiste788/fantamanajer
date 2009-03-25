@@ -1,4 +1,5 @@
-<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante'); ?>
+<?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante');
+$ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
@@ -22,7 +23,7 @@
 	<p>Nome: <?php echo $this->dettaglioGioc[0]['nome']; ?></p>
 	<?php endif; ?>
 	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
-	<p>Squadra: <?php if(isset($this->dettaglioGioc[0]['idUtente'])) echo $this->squadra['nome']; else echo "Libero" ?></p>
+	<p>Squadra: <?php echo $this->label; ?></p>
 	<p>Club: <?php echo $this->dettaglioGioc[0]['nomeClub']; ?></p>
 	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']; ?></p>
 	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
@@ -202,20 +203,57 @@
 	</script>
 <?php endif; ?>
 </div>
-<?php if($_SESSION['logged'] == TRUE): ?>
+
 	<div id="squadradett" class="column last">
 		<div class="box2-top-sx column last">
 		<div class="box2-top-dx column last">
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
+	
 		<div class="box-content column last">
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
+			<?php if($_SESSION['logged'] == TRUE)	
+			 	require (TPLDIR.'operazioni.tpl.php'); ?>
+
+		<div id="operazioni-other" class="column last">
+			<h3 align=center class="no-margin"> 
+			<?php echo $this->label; ?></h3>
+			<br>
+			<ul class="operazioni-content">
+			<?php 
+				$linkparams=array('edit'=>'view','id'=>$this->idgioc);
+				if(!$this->giocprec): ?>
+					<li class="simil-link undo-punteggi-unactive column last">Giocatore precedente</li>
+				<?php else: ?>
+					<li class="column last"><a title="<?php echo $this->elencogiocatori[$this->giocprec]['cognome']." ".$this->elencogiocatori[$this->giocprec]['nome'];?>" class="undo-punteggi-active column last operazione" href="<?php $linkparams['id']=$this->giocprec;echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>">Giocatore precedente</a></li>
+				<?php endif; ?>
+				<?php if(!$this->giocsucc): ?>
+					<li class="simil-link redo-punteggi-unactive column last">Giocatore successivo</li>
+				<?php else: ?>
+					<li class="column last"><a title="<?php echo $this->elencogiocatori[$this->giocsucc]['cognome']." ".$this->elencogiocatori[$this->giocsucc]['nome'];?>" class="redo-punteggi-active column last operazione" href="<?php $linkparams['id']=$this->giocsucc;echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>">Giocatore successivo</a></li>
+				<?php endif; ?>
+			</ul>
+		</div>
+				<form class="column last" name="gioc" action="<?php 
+				echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>" method="get">
+			<fieldset class="no-margin fieldset">
+				<input type="hidden" value="dettaglioGiocatore" name="p" />
+				<input type="hidden" value="view" name="edit" />
+
+				<h3 class="no-margin">Seleziona il giocatore:</h3>
+				<select name="id" onchange="document.gioc.submit();">
+					<?php if($this->elencogiocatori != FALSE): ?>
+					<?php foreach ($this->elencogiocatori as $key => $val): ?>
+						<option <?php if($key == $this->idgioc) echo "selected=\"selected\""; ?> value="<?php echo $key;?>"><?php echo $val['cognome']." ".$val['nome']; ?></option>
+					<?php endforeach; ?>
+					<?php endif; ?>
+				</select>
+
+			</fieldset>
+		</form>
 		</div>
 		</div>
 		</div>
 		</div>
 		</div>
 	</div>
-<?php else: ?>
-	<div class="right">&nbsp;</div>
-<?php endif; ?>
+

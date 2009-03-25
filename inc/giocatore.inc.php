@@ -16,7 +16,23 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$giocatori = array();
 		while($row = mysql_fetch_array($exe))
-			$giocatori[] = $row;
+			$giocatori[$row['idGioc']] = $row;
+		if(isset($giocatori))
+			return $giocatori;
+		else
+			return FALSE;
+	}
+	
+	function getGiocatoriByIdClub($idClub)
+	{
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
+				FROM giocatore
+				WHERE club = '" . $idClub . "'
+				ORDER BY giocatore.idGioc ASC";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$giocatori = array();
+		while($row = mysql_fetch_array($exe))
+			$giocatori[$row['idGioc']] = $row;
 		if(isset($giocatori))
 			return $giocatori;
 		else
@@ -85,7 +101,7 @@ class giocatore
 	
 	function getGiocatoreByIdWithStats($giocatore)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, nomeClub, ROUND(AVG( voto ),2) as mediaPunti,ROUND(avg(votoUff),2) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, idClub,nomeClub, ROUND(AVG( voto ),2) as mediaPunti,ROUND(avg(votoUff),2) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
 				FROM squadre RIGHT JOIN ((giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) LEFT JOIN club ON club.idClub = giocatore.club) ON squadre.idGioc = giocatore.idGioc 
 				WHERE giocatore.idGioc = '" . $giocatore . "' AND (votoUff <> 0 OR voto IS NULL) 
 				GROUP BY giocatore.idGioc";

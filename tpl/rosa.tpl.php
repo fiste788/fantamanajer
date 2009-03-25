@@ -82,6 +82,21 @@
 		<?php if($_SESSION['logged'] == TRUE): ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 		<?php endif; ?>
+		<div id="operazioni-other" class="column last">
+		<ul class="operazioni-content">
+				<?php if(!$this->squadraprec): ?>
+					<li class="simil-link undo-punteggi-unactive column last">Squadra precedente</li>
+				<?php else: ?>
+					<li class="column last"><a title="<?php echo $this->elencosquadre[$this->squadraprec]['nome'];?>" class="undo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$this->squadraprec)); ?>">Squadra precedente</a></li>
+				<?php endif; ?>
+				<?php if(!$this->squadrasucc): ?>
+					<li class="simil-link redo-punteggi-unactive column last">Squadra successiva</li>
+				<?php else: ?>
+				<li class="column last"><a title="<?php echo $this->elencosquadre[$this->squadrasucc]['nome'];?>" class="redo-punteggi-active column last operazione" href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$this->squadrasucc)); ?>">Squadra successiva</a></li>
+				<?php endif; ?>
+			</ul>
+		</div>
+
 		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'.jpg')): ?>
 			<a title="<?php echo $this->squadradett['nome'] ?>" href="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
 				<img class="logo" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
