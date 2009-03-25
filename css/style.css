@@ -962,11 +962,11 @@ p.surprise {
 	line-height:68px;
 	height:68px;
 	margin: 3px 0;
-	width:100%;
 	float:left;
+	clear:both;
 }
 #lanciaScript ul li a {
-	display:block;
+	display:inline-block;
 }
 #lanciaScript ul li h3{
 	margin:20px 0 0 10px;

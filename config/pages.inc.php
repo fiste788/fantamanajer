@@ -175,6 +175,10 @@ $adminpages = array();
 	$adminpages['penalita'] = array(	'title'=>"Penalità",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'));
+										
+	$adminpages['impostazioni'] = array(	'title'=>"Impostazioni lega",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'));
 
 $superadminpages = array();										
 	$superadminpages['gestioneDatabase'] = array(	'title'=>"Gestione database",

@@ -141,7 +141,6 @@ if ($_SESSION['logged'])
 	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
 	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
 		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
-		
 }
 
 /**
@@ -167,7 +166,7 @@ if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "superadmin")
 		$p = 'home';
 		//INCLUDE IL FILE DI CODICE PER LA PAGINA
 		if (file_exists(CODEDIR.$p.'.code.php'))
-		    	require(CODEDIR.$p.'.code.php');
+				require(CODEDIR.$p.'.code.php');
 		//definisce il file di template utilizzato per visualizzare questa pagina
 		$tplfile = TPLDIR.$p.'.tpl.php';
 	}
@@ -196,7 +195,7 @@ elseif ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "admin")
 		$p = 'home';
 		//INCLUDE IL FILE DI CODICE PER LA PAGINA
 		if (file_exists(CODEDIR.$p.'.code.php'))
-		    	require(CODEDIR.$p.'.code.php');
+				require(CODEDIR.$p.'.code.php');
 		//definisce il file di template utilizzato per visualizzare questa pagina
 		$tplfile = TPLDIR.$p.'.tpl.php';
 	}
@@ -231,7 +230,7 @@ elseif ($_SESSION['logged'] == TRUE)
 		$p = 'home';
 		//INCLUDE IL FILE DI CODICE PER LA PAGINA
 		if (file_exists(CODEDIR.$p.'.code.php'))
-		    	require(CODEDIR.$p.'.code.php');
+				require(CODEDIR.$p.'.code.php');
 		//definisce il file di template utilizzato per visualizzare questa pagina
 		$tplfile = TPLDIR.$p.'.tpl.php';
 	}
@@ -245,8 +244,8 @@ else
 			require(CODEDIR.$p.'.code.php');
 		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
 	}
-  	else
-  	{
+	else
+	{
 		if(array_key_exists($p, $superadminpages))
 		{
 			$_SESSION['message'][0] = 0;
