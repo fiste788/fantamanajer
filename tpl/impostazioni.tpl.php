@@ -17,11 +17,15 @@
 		</div>
 		<div class="formbox">
 			<label>Numero max trasferimenti</label>
-			<input type="input" name="numTrasferimenti"  value="<?php echo $_SESSION['datiLega']['numTrasferimenti'] ?>" />
+			<input type="input" name="numTrasferimenti" value="<?php echo $_SESSION['datiLega']['numTrasferimenti'] ?>" />
 		</div>
 		<div class="formbox">
 			<label>Numero max selezione giocatori</label>
-			<input type="input" name="numSelezioni"  value="<?php echo $_SESSION['datiLega']['numSelezioni'] ?>" />
+			<input type="input" name="numSelezioni" value="<?php echo $_SESSION['datiLega']['numSelezioni'] ?>" />
+		</div>
+		<div class="formbox">
+			<label>Minuti consegna anticipata formazione</label>
+			<input type="input" name="minFormazione" value="<?php echo $_SESSION['datiLega']['minFormazione'] ?>" />
 		</div>
 	</form>
 </div>
