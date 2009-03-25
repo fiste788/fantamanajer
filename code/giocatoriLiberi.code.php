@@ -68,7 +68,6 @@ $sort_arr = array();
 foreach($freeplayer as $uniqid => $row)
 	foreach($row as $key => $value)
 		$sort_arr[$key][$uniqid] = $value;
-
 if($order != NULL)
 {
 	if($v == 'asc')

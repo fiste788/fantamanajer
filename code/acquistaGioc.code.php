@@ -19,7 +19,7 @@ if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 's
 else
 {
 	$message[0] = 1;
-	$message[1] = "Non puoi effettuare l'operazione ora");
+	$message[1] = "Non puoi effettuare l'operazione ora";
 }
 $contenttpl->assign('message',$message);
 ?>

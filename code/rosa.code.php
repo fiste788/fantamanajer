@@ -15,7 +15,6 @@ $votiObj = new voti();
 $squadra = NULL;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
-
 $contenttpl->assign('squadra',$squadra);
 
 $classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
@@ -63,6 +62,17 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 }
 $elencoSquadre = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$elencoSquadre);
+
+if(isset($elencoSquadre[$squadra-1]))
+	$contenttpl->assign('squadraprec',($squadra-1));
+else
+	$contenttpl->assign('squadraprec',false);
+
+if(isset($elencoSquadre[$squadra+1]))
+	$contenttpl->assign('squadrasucc',($squadra+1));
+else
+	$contenttpl->assign('squadrasucc',false);
+	
 $contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
