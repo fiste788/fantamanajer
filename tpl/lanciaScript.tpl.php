@@ -20,11 +20,12 @@
 			var script = this.id;
 			$.ajax({
 				url: Url,
-				type: "post",
+				type: "POST",
 				beforeSend: function(){
 					$("#messaggio div").remove();
 					$("#messaggio").removeClass("good");
 					$("#messaggio").removeClass("bad");
+					$("#messaggio").removeClass("neut");
 					$("#messaggio").css('display','block');
 					$("#messaggio").append('<div style="text-align:center;"><img style="float:none;margin:18px 0;" src="' + loadingImg + '" / ></div>');
 				},
