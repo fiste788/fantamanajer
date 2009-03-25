@@ -108,6 +108,23 @@ if (!isset($_SESSION['logged'])) {
 }
 
 /**
+ * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
+ */
+
+if ($_SESSION['logged'])
+{
+	require_once(INCDIR.'giocatore.inc.php');
+	require_once(INCDIR.'trasferimenti.inc.php');
+	require_once(INCDIR.'leghe.inc.php');
+	$giocatoreObj = new giocatore();
+	$trasferimentiObj = new trasferimenti();
+	$legheObj = new leghe();
+	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
+	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
+		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+}
+
+/**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
 require_once(INCDIR.'giornata.inc.php');
@@ -125,23 +142,6 @@ define("GIORNATA",$giornata);
 define("TIMEOUT",$timeout);
 $contenttpl->assign('giornata',GIORNATA);
 $contenttpl->assign('timeout',TIMEOUT);
-	
-/**
- * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
- */
-
-if ($_SESSION['logged'])
-{
-	require_once(INCDIR.'giocatore.inc.php');
-	require_once(INCDIR.'trasferimenti.inc.php');
-	require_once(INCDIR.'leghe.inc.php');
-	$giocatoreObj = new giocatore();
-	$trasferimentiObj = new trasferimenti();
-	$legheObj = new leghe();
-	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
-	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
-		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
-}
 
 /**
  * INIZIALIZZAZIONE VARIABILI CONTENT
