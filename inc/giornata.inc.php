@@ -46,9 +46,9 @@ class giornata
 		$minuti = 0;
 		if(isset($_SESSION['datiLega']))
 			$minuti = $_SESSION['datiLega']['minFormazione'];
-		$q = "SELECT idGiornata 
-				FROM giornate 
-				WHERE NOW() BETWEEN dataCenterInizio - INTERVAL " . $minuti . " MINUTE AND dataCenterFine";
+		$q = "SELECT MIN( idGiornata -1 )
+				FROM giornate
+				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
