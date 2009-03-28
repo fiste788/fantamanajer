@@ -971,3 +971,13 @@ p.surprise {
 #lanciaScript ul li h3{
 	margin:20px 0 0 10px;
 }
+#giornate input {
+	width:120px;
+}
+#giornate .giornata {
+	width:20px;
+	text-align: center;
+}
+#impostazioni label {
+	width:220px;
+}

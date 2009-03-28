@@ -209,36 +209,29 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 		<div class="box2-top-dx column last">
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
-	
 		<div class="box-content column last">
-			<?php if($_SESSION['logged'] == TRUE)	
-			 	require (TPLDIR.'operazioni.tpl.php'); ?>
-
+			<?php if($_SESSION['logged'] == TRUE) require (TPLDIR . 'operazioni.tpl.php'); ?>
 		<div id="operazioni-other" class="column last">
-			<h3 align=center class="no-margin"> 
-			<?php echo $this->label; ?></h3>
-			<br>
+			<h3 align="center" class="no-margin"><?php echo $this->label; ?></h3>
 			<ul class="operazioni-content">
 			<?php 
 				$linkparams=array('edit'=>'view','id'=>$this->idgioc);
 				if(!$this->giocprec): ?>
 					<li class="simil-link undo-punteggi-unactive column last">Giocatore precedente</li>
 				<?php else: ?>
-					<li class="column last"><a title="<?php echo $this->elencogiocatori[$this->giocprec]['cognome']." ".$this->elencogiocatori[$this->giocprec]['nome'];?>" class="undo-punteggi-active column last operazione" href="<?php $linkparams['id']=$this->giocprec;echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>">Giocatore precedente</a></li>
+					<li class="column last"><a title="<?php echo $this->elencogiocatori[$this->giocprec]['cognome'] . ' ' . $this->elencogiocatori[$this->giocprec]['nome']; ?>" class="undo-punteggi-active column last operazione" href="<?php $linkparams['id'] = $this->giocprec; echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>">Giocatore precedente</a></li>
 				<?php endif; ?>
 				<?php if(!$this->giocsucc): ?>
 					<li class="simil-link redo-punteggi-unactive column last">Giocatore successivo</li>
 				<?php else: ?>
-					<li class="column last"><a title="<?php echo $this->elencogiocatori[$this->giocsucc]['cognome']." ".$this->elencogiocatori[$this->giocsucc]['nome'];?>" class="redo-punteggi-active column last operazione" href="<?php $linkparams['id']=$this->giocsucc;echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>">Giocatore successivo</a></li>
+					<li class="column last"><a title="<?php echo $this->elencogiocatori[$this->giocsucc]['cognome'] . ' ' . $this->elencogiocatori[$this->giocsucc]['nome'];?>" class="redo-punteggi-active column last operazione" href="<?php $linkparams['id'] = $this->giocsucc ; echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>">Giocatore successivo</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>
-				<form class="column last" name="gioc" action="<?php 
-				echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>" method="get">
+		<form class="column last" name="gioc" action="<?php echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>" method="get">
 			<fieldset class="no-margin fieldset">
 				<input type="hidden" value="dettaglioGiocatore" name="p" />
 				<input type="hidden" value="view" name="edit" />
-
 				<h3 class="no-margin">Seleziona il giocatore:</h3>
 				<select name="id" onchange="document.gioc.submit();">
 					<?php if($this->elencogiocatori != FALSE): ?>
@@ -247,7 +240,6 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 					<?php endforeach; ?>
 					<?php endif; ?>
 				</select>
-
 			</fieldset>
 		</form>
 		</div>
