@@ -5,6 +5,7 @@
 	<h2 class="column">Area amministrativa</h2>
 </div>
 <div id="other" class="main-content">
+	<?php if($_SESSION['usertype'] == "superadmin"): ?><h3 class="riga">Amministrazione lega</h3><?php endif; ?>
 	<div class="box-squadra column last">
 		<div class="box2-top-sx column last">
 		<div class="box2-top-dx column last">
@@ -81,6 +82,7 @@
 		</div>
 	</div>
 	<?php if($_SESSION['usertype'] == 'superadmin'): ?>
+	<h3 class="riga">Amministrazione FantaManajer</h3>
 	<div class="box-squadra column last">
 		<div class="box2-top-sx column last">
 		<div class="box2-top-dx column last">

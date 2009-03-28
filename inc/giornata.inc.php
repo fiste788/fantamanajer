@@ -72,5 +72,15 @@ class giornata
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
 	}
+	
+	function getAllGiornate()
+	{
+		$q = "SELECT * 
+				FROM giornate";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			$giornate[$row['idGiornata']] = $row;
+		return $giornate;
+	}
 }
 ?>
