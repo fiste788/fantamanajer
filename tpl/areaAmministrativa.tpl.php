@@ -12,7 +12,7 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">	
-			<img class="column last" alt="->" src="<?php echo IMGSURL.'rose-big.png'; ?>" title="Gestione Squadre" />
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'rose.png'; ?>" title="Gestione Squadre" />
 			<h3><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>">Gestione squadre</a></h3>
 			<div>Crea una nuova squadra o modifica/cancella una esistente</div>
 		</div>
@@ -72,9 +72,24 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<img class="column last" alt="->" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Gestione penalità" />
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'penalita.png'; ?>" title="Gestione penalità" />
 			<h3><a href="<?php echo $this->linksObj->getLink('penalita'); ?>">Gestione penalità</a></h3>
 			<div>Inserisci e vedi le penalità inflitte alle squadre</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
+	<div class="box-squadra column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'impostazioni.png'; ?>" title="Modifica impostazioni" />
+			<h3><a href="<?php echo $this->linksObj->getLink('impostazioni'); ?>">Modifica impostazioni</a></h3>
+			<div>Modifica le opzioni per la tua lega come il n° di trasferimenti, il capitano doppio...</div>
 		</div>
 		</div>
 		</div>
@@ -104,12 +119,24 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<h3>Manutenzione</h3>	
-			<img class="column last" alt="->" src="<?php echo IMGSURL.'gestione-database.png'; ?>" title="Manutenzione" />
-			<ul>
-				<li><a href="<?php echo $this->linksObj->getLink('lanciaScript'); ?>">Lancia script</a></li>
-				<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>">Gestione database</a></li>
-			</ul>
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'run.png'; ?>" title="Lancia script" />
+			<h3><a href="<?php echo $this->linksObj->getLink('lanciaScript'); ?>">Lancia script</a></h3>
+			<div>Da questa pagina puoi lanciare i 4 script che gestiscono il FantaManajer</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
+	<div class="box-squadra column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'gestione-database.png'; ?>" title="Gestione database" />
+			<h3><a href="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>">Gestione database</a></h3>
+			<div>Sincronizza il tuo db in locale o esegui una query</div>
 		</div>
 		</div>
 		</div>

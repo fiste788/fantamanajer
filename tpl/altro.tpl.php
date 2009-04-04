@@ -51,6 +51,21 @@
 		</div>
 		</div>
 	</div>
+	<div class="box-squadra column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+			<h3><a href="<?php echo $this->linksObj->getLink('download'); ?>">Download</a></h3>
+			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'download.png'; ?>" title="Download" />
+			<div>Scarica i voti di ogni giornata per controllare da te il punteggio ottenuto</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
 	<?php if(TIMEOUT != NULL): ?>
 	<div class="box-squadra column last">
 		<div class="box2-top-sx column last">

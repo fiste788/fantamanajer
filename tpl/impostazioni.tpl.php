@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'conf-stampa-big.png'; ?>" alt="->" />
+		<img align="left" src="<?php echo IMGSURL.'impostazioni-big.png'; ?>" alt="->" />
 	</div>
 	<h2 class="column">Impostazioni lega</h2>
 </div>
