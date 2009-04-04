@@ -1,6 +1,6 @@
 <div class="titolo-pagina">
 	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
+		<img align="left" src="<?php echo IMGSURL.'download-big.png'; ?>" alt="->" />
 	</div>
 	<h2 class="column">Area Download</h2>
 </div>

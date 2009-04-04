@@ -56,6 +56,7 @@ FileETag None
 	RewriteRule ^backup.html$ index.php?p=backup
 	RewriteRule ^modificaGiocatore.html$ index.php?p=modificaGiocatore
 	RewriteRule ^download.html$ index.php?p=download
+	RewriteRule ^impostazioni.html$ index.php?p=impostazioni
 </IfModule>
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
 	AuthName "Inserisci username e password"

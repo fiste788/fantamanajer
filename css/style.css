@@ -274,6 +274,9 @@ em {
 #operazioni .admin-area {
 	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -150px;
 }
+#operazioni .download {
+	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -180px;
+}
 #operazioni-other .undo-punteggi-active {
 	background: transparent url(../imgs/frecce.png) no-repeat scroll left -60px;
 }
@@ -286,6 +289,7 @@ em {
 #operazioni-other .redo-punteggi-unactive {
 	background: transparent url(../imgs/frecce.png) no-repeat scroll left -30px;
 }
+
 #operazioni a, #operazioni-other a, #operazioni-other .simil-link {
 	color: #fff;
 	font-weight: normal;
