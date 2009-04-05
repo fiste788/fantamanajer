@@ -82,5 +82,15 @@ class giornata
 			$giornate[$row['idGiornata']] = $row;
 		return $giornate;
 	}
+	
+	function getTargetCountdown()
+	{
+		$q = "SELECT MAX(dataFine)
+				FROM giornate
+				WHERE NOW() > dataInizio";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$valore = mysql_fetch_row($exe);
+		return $valore[0];
+	}
 }
 ?>

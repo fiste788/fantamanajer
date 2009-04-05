@@ -4,13 +4,16 @@ require_once(INCDIR.'utente.inc.php');
 require_once(INCDIR.'articolo.inc.php');
 require_once(INCDIR.'emoticon.inc.php');
 require_once(INCDIR.'eventi.inc.php');
+require_once(INCDIR.'giornata.inc.php');
 
 $articoloObj = new articolo();
 $utenteObj = new utente();
 $eventiObj = new eventi();
 $punteggiObj = new punteggi();
 $emoticonObj = new emoticon();
+$giornataObj = new giornata();
 
+$contenttpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
 $classifica = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt(),$_SESSION['idLega']);
 foreach($classifica as $key => $val)

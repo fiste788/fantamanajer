@@ -147,18 +147,25 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
+	<?php if(TIMEOUT): ?>
+	<div id="countdown">Tempo rimanente consegna formazione:<br/><div>&nbsp;</div></div>
+	<script type="text/javascript">
+		var d = new Date();
+		d.setFullYear(<?php echo $this->dataFine['year'] . ',' . ($this->dataFine['month'] -1) . ',' . $this->dataFine['day']; ?>);
+		d.setHours(<?php echo $this->dataFine['hour'] . ',' . $this->dataFine['minute'] . ',' . $this->dataFine['second']; ?>);
+		$('#countdown div').countdown({
+			msgFormat: '<span class="number">%d</span> [giorno|giorni], <span class="number">%h</span> [ora|ore] <span class="number">%m</span> [minuto|minuti] e <span class="number">%s</span> [secondo|secondi]',
+			date: d,
+			msgNow:'Tempo scaduto'
+		});
+	</script>
+	<?php endif; ?>
 	<?php if(isset($_SESSION['message'])): ?>
 		<div id="messaggio" class="messaggio neut column last">
 			<img alt="!" src="<?php if($_SESSION['message'][0] == 0) echo IMGSURL.'lock.png'; else echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 			<span><?php echo $_SESSION['message'][1]; ?></span>
 		</div>
 		<script type="text/javascript">
-		/*window.onload = (function(){
- 			$("#messaggio").effect("pulsate", { times: 3 }, 1000);
-			$("#messaggio").click(function () {
-				$("div#messaggio").fadeOut("slow");
-			});
- 		});*/
  		$(document).ready(function() {$('#messaggio').effect('pulsate',{times: 3 }); });
 		$("#messaggio").click(function () {
 			$("div#messaggio").fadeOut("slow");
