@@ -46,6 +46,15 @@ if (!isset($_COOKIE[$session_name]))
 }
 else
 	@session_start();
+	
+/*
+ * Prevent XSS attach
+ */
+ 
+foreach($_POST as $key=>$val)
+	$_POST[$key] = stripslashes(addslashes(htmlspecialchars($val)));
+foreach($_GET as $key=>$val)
+	$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 
 require_once 'config/config.inc.php';
 require_once 'config/Savant2.php';

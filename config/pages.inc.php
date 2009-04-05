@@ -5,7 +5,7 @@
  
 $guestpages = array();
 	$guestpages['home'] = array(	'title'=>"Home",
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-tabs','effects-core','effects-pulsate')),
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-tabs','effects-core','effects-pulsate'),'countdown'=>'countdown'),
 									'css'=>array('screen','style','tabs'));
 									
 	$guestpages['rosa'] = array(	'title'=>"Squadra", 
@@ -68,7 +68,7 @@ $guestpages = array();
 	
 $userpages = array();
 	$userpages['home'] = array(	'title'=>"Home", 
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-tabs')),
+									'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-tabs'),'countdown'=>'countdown'),
 									'css'=>array('screen','style','tabs'));
 	
 	$userpages['rosa'] = array(	'title'=>"Squadra",

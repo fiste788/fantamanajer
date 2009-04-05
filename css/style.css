@@ -985,3 +985,10 @@ p.surprise {
 #impostazioni label {
 	width:220px;
 }
+#countdown {
+	font-size:16px;
+}
+#countdown .number {
+	font-size: 26px;
+	font-weight:bold;
+}
