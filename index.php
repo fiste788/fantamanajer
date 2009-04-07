@@ -57,7 +57,7 @@ foreach($_GET as $key=>$val)
 	$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 
 require_once 'config/config.inc.php';
-require_once 'config/Savant2.php';
+require_once 'config/Savant3.php';
 require_once 'config/pages.inc.php';
 require_once INCDIR.'db.inc.php';
 require_once INCDIR.'auth.inc.php';
@@ -71,11 +71,11 @@ $dbLink = &new db;
 $dbLink->dbConnect();
 
 //Creating object for pages
-$layouttpl =& new Savant2();
-$headertpl =& new Savant2();
-$footertpl =& new Savant2();
-$contenttpl =& new Savant2();
-$navbartpl =& new Savant2();
+$layouttpl =& new Savant3();
+$headertpl =& new Savant3();
+$footertpl =& new Savant3();
+$contenttpl =& new Savant3();
+$navbartpl =& new Savant3();
 
 //Creating linksObj in object pages
 $linksObj =& new links();

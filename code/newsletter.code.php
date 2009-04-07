@@ -10,7 +10,7 @@ $legheObj = new leghe();
 $mailObj = new mail();
 $articoloObj = new articolo();
 $eventiObj = new eventi();
-$mailContent = new Savant2();
+$mailContent = new Savant3();
 
 $lega = NULL;
 if(isset($_POST['lega']))

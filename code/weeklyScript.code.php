@@ -71,7 +71,7 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 			{
 				if(!empty($val['mail']) && $val['abilitaMail'] == 1)
 				{
-					$mailContent = new Savant2();
+					$mailContent = new Savant3();
 					$mailContent->assign('classifica',$sum);
 					$mailContent->assign('differenza',$diff);
 					$mailContent->assign('squadre',$squadre);

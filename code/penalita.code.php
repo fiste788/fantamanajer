@@ -8,7 +8,7 @@ $utenteObj = new utente();
 $legheObj = new leghe();
 $mailObj = new mail();
 $punteggiObj = new punteggi();
-$mailContent = new Savant2();
+$mailContent = new Savant3();
 
 $giornata = GIORNATA;
 $squadra = NULL;

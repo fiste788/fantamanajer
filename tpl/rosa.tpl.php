@@ -267,7 +267,9 @@ $(document).ready(function(){
 			'zoomOpacity' : true,
 			'overlayShow' : true,
 			'overlayOpacity' : 0.6,
-			'centerOnScroll' : true
+			'centerOnScroll' : true,
+			'padding' : 0,
+			'hideOnContentClick' : false
 			})
 	}); 
 </script>

@@ -22,7 +22,7 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 	$mail = 0;
 	foreach($leghe as $lega)
 	{
-		$mailContent = new Savant2();
+		$mailContent = new Savant3();
 		$squadre = $utenteObj->getElencoSquadreByLega($lega['idLega']);
 		$mailContent->assign('squadre',$squadre);
 		$titolariName = array();
