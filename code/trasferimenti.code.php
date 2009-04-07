@@ -15,7 +15,7 @@ $utenteObj = new utente();
 $giocatoreObj = new giocatore();
 $selezioneObj = new selezione();
 $trasferimentiObj = new trasferimenti();
-$mailContentObj = new Savant2();
+$mailContentObj = new Savant3();
 
 $squadra = $_SESSION['idSquadra'];
 $acquisto = NULL;
