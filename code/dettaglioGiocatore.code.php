@@ -6,7 +6,15 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 $giocatoreObj = new giocatore();
 $utenteObj = new utente();
 
-$id = $_GET['id'];
+if(isset($_GET['id']))
+	$id = $_GET['id'];
+if(isset($_GET['edit']))
+	$edit = $_GET['edit'];
+if(isset($_POST['id']))
+	$id = $_POST['id'];
+if(isset($_POST['edit']))
+	$edit = $_POST['edit'];
+
 $contenttpl->assign('idgioc',$id);
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id);
 
