@@ -25,7 +25,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
 	<p>Squadra: <?php echo $this->label; ?></p>
 	<p>Club: <?php echo $this->dettaglioGioc[0]['nomeClub']; ?></p>
-	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']; ?></p>
+	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenzeeff']." (".$this->dettaglioGioc[0]['presenze'].")"; ?></p>
 	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
 	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
 	<p>Media Voto: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
