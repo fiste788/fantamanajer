@@ -101,15 +101,16 @@ class giocatore
 	
 	function getGiocatoreByIdWithStats($giocatore)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, idClub,nomeClub, ROUND(AVG( voto ),2) as mediaPunti,ROUND(avg(votoUff),2) as mediaVoti,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist 
-				FROM squadre RIGHT JOIN ((giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) LEFT JOIN club ON club.idClub = giocatore.club) ON squadre.idGioc = giocatore.idGioc 
-				WHERE giocatore.idGioc = '" . $giocatore . "'
-				GROUP BY giocatore.idGioc";
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, idClub,nomeClub FROM squadre RIGHT JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON squadre.idGioc = giocatore.idGioc WHERE giocatore.idGioc ='" . $giocatore . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$q2 = "SELECT idGiornata, voto,votoUff , gol, assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q2);
-		while($row = mysql_fetch_array($exe))
-			$values[] = $row;
+		$q3="SELECT ROUND( AVG( voto ) , 2 ) AS mediaPunti, ROUND( avg( votoUff ) , 2 ) AS mediaVoti, COUNT( votoUff ) AS presenze, SUM( gol ) AS gol, SUM( assist ) AS assist
+FROM VOTI
+WHERE voti.idGioc ='" . $giocatore . "'
+AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
+		$exe3 = mysql_query($q3) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q3);
+
 		while($row = mysql_fetch_array($exe2))
 		{
 			$data[$row['idGiornata']] = $row;
@@ -117,8 +118,19 @@ class giocatore
 			unset($data[$row['idGiornata']][0]);
 		}
 		if(isset($data))
+		{
 			$values['data'] = $data;
-		//echo "<pre>".print_r($values,1)."</pre>";
+			$presenzeeff=count($data);
+		}
+		else
+			$presenzeeff=0;
+		while($row = mysql_fetch_array($exe, MYSQL_ASSOC))
+		{
+			$row=array_merge($row,mysql_fetch_array($exe3, MYSQL_ASSOC));
+			$row['presenzeeff']=$presenzeeff;
+			$values[] = $row;
+		}
+
 		return $values;
 	}
 	

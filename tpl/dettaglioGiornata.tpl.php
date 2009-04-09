@@ -24,7 +24,7 @@
             <?php foreach($tito as $key => $val): ?>
 					<?php if($val['considerato'] == 0 || ($val['voto'] == "" && $val['considerato'] > 0)): ?>
 						<tr class="rosso">
-							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
+							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-sost.png' ?>"/></a></td>
 					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg"><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a></td>
