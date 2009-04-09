@@ -143,14 +143,18 @@ em {
 }
 #footer {
 	text-align: center;
-	width: 100%;
-	padding: 10px 0 0;
+	width: 961px;
+	padding: 10px 10px 0;
 	clear: both;
+	float: left;
 }
 #footer a {
 	padding: 0 5px;
 	color: #fff;
 	font-weight: normal;
+}
+#footer a,#footer p {
+	font-size:10px;
 }
 #footer img {
 	margin: 0 5px 0 0;
@@ -868,10 +872,17 @@ p.surprise {
 	clear: both;
 	padding: 0 0 20px;
 }
-#feed h3 em {
+#feed h4 em {
 	color: #bbb;
 	font-size: 10px;
 	font-weight: normal;
+}
+#feed h4 a {
+	font-size: 14px;
+	font-weight:bold;
+}
+#feed h4 {
+	font-weight:bold;
 }
 .tdcenter {
 	text-align: center;
