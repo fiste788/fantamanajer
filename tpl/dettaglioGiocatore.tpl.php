@@ -228,10 +228,10 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 				<?php endif; ?>
 			</ul>
 		</div>
-		<form class="column last" name="gioc" action="<?php echo $this->linksObj->getLink('dettaglioGiocatore',$linkparams); ?>" method="get">
+		<form class="column last" name="gioc" action="<?php echo $this->linksObj->getLink('dettaglioGiocatore'); ?>" method="post">
 			<fieldset class="no-margin fieldset">
-				<input type="hidden" value="dettaglioGiocatore" name="p" />
-				<input type="hidden" value="view" name="edit" />
+				<input type="hidden" value="<?php echo $_GET['p'];?>" />
+				<input type="hidden" value="<?php echo $_GET['edit'];?>" name="edit" />
 				<h3 class="no-margin">Seleziona il giocatore:</h3>
 				<select name="id" onchange="document.gioc.submit();">
 					<?php if($this->elencogiocatori != FALSE): ?>

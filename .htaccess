@@ -40,6 +40,7 @@ FileETag None
 	RewriteRule ^home/(.*).html$ index.php?p=home&logout=TRUE
 	RewriteRule ^rosa.html$ index.php?p=rosa
 	RewriteRule ^rosa/(.*).html$ index.php?p=rosa&squadra=$1
+	RewriteRule ^dettaglioGiocatore.html$ index.php?p=dettaglioGiocatore
 	RewriteRule ^dettaglioGiocatore/(.*)/(.*).html$ index.php?p=dettaglioGiocatore&edit=$1&id=$2
 	RewriteRule ^trasferimenti.html$ index.php?p=trasferimenti
 	RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squad=$1
