@@ -89,7 +89,7 @@
 		<div class="box-content column last">
 			<img class="column last" alt="->" src="<?php echo IMGSURL.'impostazioni.png'; ?>" title="Modifica impostazioni" />
 			<h3><a href="<?php echo $this->linksObj->getLink('impostazioni'); ?>">Modifica impostazioni</a></h3>
-			<div>Modifica le opzioni per la tua lega come il n° di trasferimenti, il capitano doppio...</div>
+			<div>Cambia le opzioni per la tua lega come il n° di trasferimenti, il capitano doppio...</div>
 		</div>
 		</div>
 		</div>
@@ -137,6 +137,21 @@
 			<img class="column last" alt="->" src="<?php echo IMGSURL.'gestione-database.png'; ?>" title="Gestione database" />
 			<h3><a href="<?php echo $this->linksObj->getLink('gestioneDatabase'); ?>">Gestione database</a></h3>
 			<div>Sincronizza il tuo db in locale o esegui una query</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</div>
+	<div class="box-squadra column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+			<img class="column last" alt="->" src="<?php echo IMGSURL.'calendario.png'; ?>" title="Gestione giornate" />
+			<h3><a href="<?php echo $this->linksObj->getLink('giornate'); ?>">Gestione giornate</a></h3>
+			<div>Modifica gli orari di inizio o di fine delle giornate</div>
 		</div>
 		</div>
 		</div>

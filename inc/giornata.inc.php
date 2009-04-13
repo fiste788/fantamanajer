@@ -4,8 +4,6 @@ class giornata
 	var $idGiornata;
 	var $dataInizio;
 	var $dataFine;
-	var $dataCenterInizio;	//inizio della giornata in cui non si può settare la formazione
-	var $dataCeterFine;	//fine della giornata in cui non si può settare la formazione
 	
 	function getIdGiornataByDate()
 	{
@@ -85,12 +83,29 @@ class giornata
 	
 	function getTargetCountdown()
 	{
-		$q = "SELECT MAX(dataFine)
+		$minuti = 0;
+		if(isset($_SESSION['datiLega']))
+			$minuti = $_SESSION['datiLega']['minFormazione'];
+		$q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE 
 				FROM giornate
 				WHERE NOW() > dataInizio";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_row($exe);
 		return $valore[0];
+	}
+	
+	function updateGiornate($giornate)
+	{
+		$bool = TRUE;
+		foreach($giornate as $key => $val)
+		{
+			foreach($val as $key2 => $val2)
+			{
+				$q = "UPDATE giornate SET " . $key2 . " = '" . $val2 . "' WHERE idGiornata = '" . $key . "'";
+				$bool *= mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			}
+		}
+		return $bool;
 	}
 }
 ?>

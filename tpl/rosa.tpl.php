@@ -184,8 +184,8 @@
 						<input type="submit" class="submit" value="OK" />
 					</form>
 				</div>
-			</div>
 			<?php endif; ?>
+		</div>
 	</div>
 	</div>
 	</div>
