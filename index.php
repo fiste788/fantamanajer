@@ -52,8 +52,14 @@ else
  */
  
 foreach($_POST as $key=>$val)
+	if(is_array($val))
+		foreach($val as $key2=>$val2)
+			$_POST[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
 	$_POST[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 foreach($_GET as $key=>$val)
+	if(is_array($val))
+		foreach($val as $key2=>$val2)
+			$_GET[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
 	$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 
 require_once 'config/config.inc.php';

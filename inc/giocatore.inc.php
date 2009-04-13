@@ -106,9 +106,9 @@ class giocatore
 		$q2 = "SELECT idGiornata, voto,votoUff , gol, assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q2);
 		$q3="SELECT ROUND( AVG( voto ) , 2 ) AS mediaPunti, ROUND( avg( votoUff ) , 2 ) AS mediaVoti, COUNT( votoUff ) AS presenze, SUM( gol ) AS gol, SUM( assist ) AS assist
-FROM VOTI
-WHERE voti.idGioc ='" . $giocatore . "'
-AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
+				FROM voti
+				WHERE voti.idGioc ='" . $giocatore . "'
+				AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
 		$exe3 = mysql_query($q3) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q3);
 
 		while($row = mysql_fetch_array($exe2))

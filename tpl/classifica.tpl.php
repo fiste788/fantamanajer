@@ -168,7 +168,7 @@
 						padding: '2px',
 						'background-color': colorLight,
 						color: '#000',
-						opacity: 0.60
+						opacity: 0.70
 					}).appendTo("body").fadeIn(200);
 				};
 				

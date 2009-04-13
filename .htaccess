@@ -64,6 +64,7 @@ FileETag None
 	RewriteRule ^inserisciFormazione.html$ index.php?p=inserisciFormazione
 	RewriteRule ^newsletter.html$ index.php?p=newsletter
 	RewriteRule ^nuovoTrasferimento.html$ index.php?p=nuovoTrasferimento
+	RewriteRule ^penalita.html$ index.php?p=penalita
 	RewriteRule ^lanciaScript.html$ index.php?p=lanciaScript
 	RewriteRule ^gestioneDatabase/(.*).html$ index.php?p=gestioneDatabase&action=$1
 	RewriteRule ^sendMail.html$ index.php?p=sendMail
