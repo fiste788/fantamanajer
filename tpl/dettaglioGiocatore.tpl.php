@@ -6,9 +6,12 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 	</div>
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
-<div id="dettaglioGioc" class="main-content"> 
-	<img alt="foto" class="column" src="<?php echo $this->pathfoto; ?>" />
-	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+<div id="dettaglioGioc" class="main-content">
+<div id="dettaglioGioc" class="card_player"> 
+<div class="left">
+<img  alt="<?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?>" src="<?php echo $this->pathfoto; ?>"/>
+</div>
+<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
 	<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc[0]['idGioc'] ?>" />
 	<div>
 		<label for="cognome">Cognome:</label>
@@ -19,19 +22,28 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 		<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc[0]['nome'])) echo $this->dettaglioGioc[0]['nome'] ?>" />
 	</div>
 	<?php else: ?>
-	<p>Cognome: <?php echo $this->dettaglioGioc[0]['cognome']; ?></p>
-	<p>Nome: <?php echo $this->dettaglioGioc[0]['nome']; ?></p>
-	<?php endif; ?>
-	<p>Ruolo: <?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
-	<p>Squadra: <?php echo $this->label; ?></p>
-	<p>Club: <?php echo $this->dettaglioGioc[0]['nomeClub']; ?></p>
-	<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenzeeff']." (".$this->dettaglioGioc[0]['presenze'].")"; ?></p>
-	<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
-	<p>Assist: <?php if(!empty($this->dettaglioGioc[0]['assist'])) echo $this->dettaglioGioc[0]['assist']; ?></p>
-	<p>Media Voto: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
-	<p>Media Punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
+<p>
+<img title="<?php echo $this->dettaglioGioc[0]['nomeClub']?>"class="shield" alt="" src="<?php echo $this->pathclub ?>"/>
+<span><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></span>
+<?php endif; ?>
+<br/>
+<?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?>
+<br/>
+Presenze: <?php echo $this->dettaglioGioc[0]['presenzeeff']." (".$this->dettaglioGioc[0]['presenze'].")"; ?>
+<br/>
+Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?>
+<br/>
+Assist: <?php echo $this->dettaglioGioc[0]['assist']; ?>
+<br/>
+Media voti: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?>
+<br/>
+Media punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?>
+</p>
+</div>
 	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+	<div class="uploadleft">
 	<input class="upload" type="file" name="userfile" id="upload"/>
+	</div>
 	<?php endif; ?>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
 <table style="width:100px;" class="column last" cellpadding="0" cellspacing="0">
@@ -249,3 +261,4 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 		</div>
 	</div>
 
+    

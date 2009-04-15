@@ -19,6 +19,7 @@ $contenttpl->assign('idgioc',$id);
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id);
 
 $pathfoto = 'foto/' . $dettaglio[0]['idGioc'] . '.jpg';
+$pathclub = 'clubs/'. $dettaglio[0]['idClub'].'_medium.gif';
 if(!file_exists(IMGDIR . $pathfoto))
 	$pathfoto = 'foto/nophoto.jpg';
 
@@ -26,6 +27,7 @@ if(!file_exists(IMGDIR . $pathfoto))
 
 $contenttpl->assign('dettaglioGioc',$dettaglio);
 $contenttpl->assign('pathfoto',IMGSURL . $pathfoto);
+$contenttpl->assign('pathclub',IMGSURL . $pathclub);
 if($_SESSION['logged'] == TRUE)
 {
 	if(!empty($dettaglio[0]['idUtente']))		// carico giocatori della squadra

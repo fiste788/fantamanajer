@@ -888,7 +888,10 @@ p.surprise {
 	text-align: center;
 }
 #dettaglioGioc p {
-	margin-bottom:2px;
+float:left;
+margin:0 0 0 5px;
+padding:0;
+width:315px;
 }
 #dettaglioSquadra label, #dettaglioSquadra .text {
 	width: 130px;
@@ -1002,4 +1005,43 @@ p.surprise {
 #countdown .number {
 	font-size: 26px;
 	font-weight:bold;
+}
+
+div.card_player {
+background:transparent url(../img/back_card_player.gif) no-repeat scroll right top;
+color:#111111111;
+overflow:hidden;
+}
+
+div.left {
+float:left;
+margin:0;
+padding:5px 0 0 20px;
+width:172px;
+}
+
+div.uploadleft {
+margin:0;
+padding:5px 0 0 20px;
+}
+
+div.card_player p {
+font-size:11.5px;
+float:none;
+margin:0 0 0 5px;
+padding:0;
+width:315px;
+height:215px;
+}
+div.card_player p span {
+font-family:"century gothic","Arial","Helvetica","sans-serif";
+font-size:14px;
+line-height:2;
+}
+
+img.shield {
+display:block;
+margin:5px 0 5px 40px;
+height:65px;
+float:none
 }
