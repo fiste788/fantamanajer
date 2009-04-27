@@ -13,7 +13,7 @@ $giocatoreObj = new giocatore();
 $mailObj = new mail();
 $legheObj = new leghe();
 $stringObj = new string(NULL);
-$mailContent = new Savant2();
+$mailContent = new Savant3();
 $punteggiObj = new punteggi();
 $dbObj = new db();
 

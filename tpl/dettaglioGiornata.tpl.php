@@ -67,7 +67,7 @@
 							<td><?php echo $val['cognome']; ?></td>
 							<td><?php echo $val['nome']; ?></td>
 							<td><?php echo $val['ruolo']; ?></td>
-							<td><?php strtoupper(substr($val['nomeClub'],0,3)); ?></td>
+							<td><?php echo strtoupper(substr($val['nomeClub'],0,3)); ?></td>
 							<td><?php if($val['considerato'] > 0 && !empty($val['voto'])) echo $val['voto']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>

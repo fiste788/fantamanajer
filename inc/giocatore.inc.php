@@ -56,17 +56,30 @@ class giocatore
 	}
 	
 	function getFreePlayer($ruolo,$idLega)
-	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, nomeClub,SUM( gol ) as gol,SUM( assist ) as assist,AVG(voto) as mediaPunti, AVG(votoUff) as mediaVoti,count(voto) as presenze
-				FROM (giocatore LEFT JOIN voti ON giocatore.IdGioc = voti.idGioc) LEFT JOIN club ON giocatore.club = club.idClub
-				WHERE ruolo = '" . $ruolo . "' AND giocatore.idGioc NOT IN (SELECT idGioc 
-																			FROM squadre 
-																			WHERE idLega = '" . $idLega . "') AND club <> '' AND (votoUff <> 0 OR voto IS NULL) 
-				GROUP BY giocatore.idGioc
-				ORDER BY cognome";
+	{				
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idClub, nomeClub
+		FROM giocatore
+		INNER JOIN club ON giocatore.club = club.idClub
+		WHERE ruolo = '" . $ruolo . "'
+		AND club <> ''
+		AND giocatore.idGioc NOT
+		IN (
+			SELECT idGioc
+			FROM squadre
+			WHERE idLega = '" . $idLega . "')";
+
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			$giocatori[$row['idGioc']] = $row;
+			
+		$idjoined=implode(",", array_keys($giocatori));		
+		$qstats="SELECT idGioc,count(voto) as presenze,SUM( gol ) as gol,SUM( assist ) as assist,ROUND(AVG(voto),2) as mediaPunti, ROUND(AVG(votoUff),2) as mediaVoti
+FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and votoUff=0)) GROUP BY idGioc";
+		$exe = mysql_query($qstats) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $qstats);
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+		{
+			$giocatori[$row['idGioc']]=array_merge($giocatori[$row['idGioc']],$row);
+		}
 		return $giocatori;
 	}
 	
