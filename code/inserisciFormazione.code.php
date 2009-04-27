@@ -14,7 +14,7 @@ $giocatoreObj = new giocatore();
 $punteggiObj = new punteggi();
 $votiObj = new voti();
 $mailObj = new mail();
-$mailContent = new Savant2();
+$mailContent = new Savant3();
 
 $squadra = NULL;
 $giornata = NULL;

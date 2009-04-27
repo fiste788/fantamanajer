@@ -58,11 +58,20 @@ foreach($freeplayer as $key => $val)
 	$freeplayer[$key]['nome'] = $val['nome'];
 	$freeplayer[$key]['cognome'] = $val['cognome'];
 	$freeplayer[$key]['club'] = $val['nomeClub'];
-	$freeplayer[$key]['voti'] = substr($val['mediaPunti'],0,4);
-	$freeplayer[$key]['votiAll'] = $val['mediaPunti'];
-	$freeplayer[$key]['votiEff'] = substr($val['mediaVoti'],0,4);
-	$freeplayer[$key]['votiEffAll'] = $val['mediaVoti'];	
-	$freeplayer[$key]['partiteGiocate'] = $val['presenze'];
+	if(isset($val['mediaPunti']))
+		$freeplayer[$key]['voti'] = $val['mediaPunti'];
+	else
+		$freeplayer[$key]['voti'] = "";
+		
+	if(isset($val['mediaVoti']))
+		$freeplayer[$key]['votiEff'] = $val['mediaVoti'];
+	else
+		$freeplayer[$key]['votiEff'] = "";
+	
+	if(isset($val['presenze']))
+		$freeplayer[$key]['partiteGiocate'] = $val['presenze'];
+	else
+		$freeplayer[$key]['partiteGiocate'] = 0;
 }
 $sort_arr = array();
 foreach($freeplayer as $uniqid => $row)
