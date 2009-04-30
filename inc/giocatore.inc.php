@@ -87,11 +87,8 @@ FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and vo
 	{
 		$q = "SELECT idGioc,cognome,nome,ruolo 
 				FROM giocatore 
-				WHERE idGioc IN (";
-		foreach($giocatori as $key => $val)
-			$q .= $val . ",";
-		$q = substr($q,0,-1);
-		$q .= ")";
+				WHERE idGioc IN ('" . implode("','",$giocatori) . "')
+				ORDER BY FIELD(idGioc,'" . implode("','",$giocatori) . "')";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$result[] = $row;

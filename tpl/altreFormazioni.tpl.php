@@ -15,18 +15,18 @@ $i=0;  ?>
 		<form id="form-formazione" name="formazione" action="index.php" method="post">		
 			<fieldset id="titolari">
 				<h3 class="center">Titolare</h3>
-				<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />	
+				<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
 				<?php foreach($this->titolari as $key => $val): ?>
 						<select disabled="disabled">
-							<option></option>
-							  <option selected="selected" value="<?php echo $val['idGioc'];?>"><?php  echo $val['cognome']. " ". $val['nome'];  ?></option>
+							<option selected="selected" value="<?php echo $val['idGioc'];?>"><?php  echo $val['cognome']. " ". $val['nome'];  ?></option>
 						</select>
 						<?php if($_SESSION['datiLega']['capitano']): ?>
 							<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
 							<select disabled="disabled" class="cap">
-								<option></option>
 								<?php if(array_search($val['idGioc'],$this->cap) != FALSE): ?>
 								<option selected="selected"><?php echo array_search($val['idGioc'],$this->cap); ?></option>
+								<?php else: ?>
+								<option></option>
 								<?php endif; ?>
 							</select>
 							<?php endif; ?>
