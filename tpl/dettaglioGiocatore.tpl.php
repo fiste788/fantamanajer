@@ -7,46 +7,51 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
 </div>
 <div id="dettaglioGioc" class="main-content">
-<div id="dettaglioGioc" class="card_player"> 
-<div class="left">
-<img  alt="<?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?>" src="<?php echo $this->pathfoto; ?>"/>
-</div>
-<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
-	<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc[0]['idGioc'] ?>" />
-	<div>
-		<label for="cognome">Cognome:</label>
-		<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc[0]['cognome'])) echo $this->dettaglioGioc[0]['cognome'] ?>" />
-	</div>
-	<div>
-		<label for="nome">Nome:</label>
-		<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc[0]['nome'])) echo $this->dettaglioGioc[0]['nome'] ?>" />
-	</div>
-	<?php else: ?>
-<p>
-<img title="<?php echo $this->dettaglioGioc[0]['nomeClub']?>"class="shield" alt="" src="<?php echo $this->pathclub ?>"/>
-<span><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></span>
+	<div id="cardPlayer" class="column last">
+		<div class="box2-top-sx column last">
+		<div class="box2-top-dx column last">
+		<div class="box2-bottom-sx column last">
+		<div class="box2-bottom-dx column last">
+		<div class="box-content column last">
+			<img class="column" alt="<?php echo $this->dettaglioGioc[0]['cognome'] . ' ' . $this->dettaglioGioc[0]['nome']; ?>" src="<?php echo $this->pathfoto; ?>"/>
+			<div id="datiGioc" class="column last">
+				<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+				<div id="formData">
+					<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc[0]['idGioc'] ?>" />
+					<div>
+						<label for="cognome">Cognome:</label>
+						<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc[0]['cognome'])) echo $this->dettaglioGioc[0]['cognome'] ?>" />
+					</div>
+					<div>
+						<label for="nome">Nome:</label>
+						<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc[0]['nome'])) echo $this->dettaglioGioc[0]['nome'] ?>" />
+					</div>
+				</div>
+				<?php else: ?>
+				<h5><?php echo $this->dettaglioGioc[0]['cognome'] . ' ' . $this->dettaglioGioc[0]['nome']; ?></h5>
+				<?php endif; ?>
+				<img title="<?php echo $this->dettaglioGioc[0]['nomeClub']?>" class="shield" alt="<?php echo $this->dettaglioGioc[0]['nomeClub']?>" src="<?php echo $this->pathclub ?>"/>
+				<p><?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
+				<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
+				<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenzeeff']." (".$this->dettaglioGioc[0]['presenze'].")"; ?></p>
+				<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
+				<p>Assist: <?php echo $this->dettaglioGioc[0]['assist']; ?></p>
+				<p>Media voti: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
+				<p>Media punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
+			</div>
+		<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+		<div class="uploadleft column last">
+			<input class="upload" type="file" name="userfile" id="upload"/>
+		</div>
 <?php endif; ?>
-<br/>
-<?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?>
-<br/>
-Presenze: <?php echo $this->dettaglioGioc[0]['presenzeeff']." (".$this->dettaglioGioc[0]['presenze'].")"; ?>
-<br/>
-Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?>
-<br/>
-Assist: <?php echo $this->dettaglioGioc[0]['assist']; ?>
-<br/>
-Media voti: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?>
-<br/>
-Media punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?>
-</p>
-</div>
-	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
-	<div class="uploadleft">
-	<input class="upload" type="file" name="userfile" id="upload"/>
 	</div>
-	<?php endif; ?>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
 <?php if(isset($this->dettaglioGioc['data'])): ?>
-<table style="width:100px;" class="column last" cellpadding="0" cellspacing="0">
+<table style="width:100px;clear:both;" class="column last" cellpadding="0" cellspacing="0">
 	<tr>
 		<th>Giornata</th>
 	</tr>
@@ -94,7 +99,7 @@ Media punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this-
 </div>
 <div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-	<div>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</div>
+	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
 	<div id="hidden" class="hidden">&nbsp;</div>
 	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
 	<script id="source" type="text/javascript">
@@ -260,5 +265,3 @@ Media punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this-
 		</div>
 		</div>
 	</div>
-
-    

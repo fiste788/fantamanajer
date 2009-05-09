@@ -5,7 +5,7 @@
 	<h2 class="column">Esegui script</h2>
 </div>
 <div id="lanciaScript" class="main-content">
-	<ul>
+	<ul class="column last">
 		<li><a class="script" id="backup" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'backup.png' ?>"><h3 class="column">Backup</h3></a></li>
 		<li><a class="script" id="acquistaGioc" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-big.png' ?>"><h3 class="column">Trasferimenti</h3></a></li>
 		<li><a class="script" id="weeklyScript" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png' ?>"><h3 class="column">WeeklyScript</h3></a></li>
@@ -20,7 +20,7 @@
 			var script = this.id;
 			$.ajax({
 				url: Url,
-				type: "POST",
+				type: "GET",
 				beforeSend: function(){
 					$("#messaggio div").remove();
 					$("#messaggio").removeClass("good");

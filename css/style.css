@@ -1006,42 +1006,38 @@ width:315px;
 	font-size: 26px;
 	font-weight:bold;
 }
-
-div.card_player {
-background:transparent url(../img/back_card_player.gif) no-repeat scroll right top;
-color:#111111111;
-overflow:hidden;
+#cardPlayer .box-content{
+	width:400px;
 }
-
-div.left {
-float:left;
-margin:0;
-padding:5px 0 0 20px;
-width:172px;
+#cardPlayer {
+	margin: 0 0 10px 0;
 }
-
-div.uploadleft {
-margin:0;
-padding:5px 0 0 20px;
+#cardPlayer .uploadleft {
+	margin:5px 0 0;
+	clear:both;
 }
-
-div.card_player p {
-font-size:11.5px;
-float:none;
-margin:0 0 0 5px;
-padding:0;
-width:315px;
-height:215px;
+#cardPlayer label{
+	width:60px;
 }
-div.card_player p span {
-font-family:"century gothic","Arial","Helvetica","sans-serif";
-font-size:14px;
-line-height:2;
+#cardPlayer #formData{
+	margin:0 0 10px;
 }
-
+#cardPlayer p {
+	font-size:11px;
+	margin:0 0 0 8px;
+	padding:0;
+	float:none;
+	width:auto;
+}
+#cardPlayer h5 {
+	color: #fff;
+}
 img.shield {
-display:block;
-margin:5px 0 5px 40px;
-height:65px;
-float:none
+	display:block;
+	float:right;
+	clear:both;
+}
+#datiGioc {
+	width:230px;
+	text-align:left;
 }
