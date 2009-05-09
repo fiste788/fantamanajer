@@ -19,7 +19,7 @@ $contenttpl->assign('idgioc',$id);
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id);
 
 $pathfoto = 'foto/' . $dettaglio[0]['idGioc'] . '.jpg';
-$pathclub = 'clubs/'. $dettaglio[0]['idClub'].'_medium.gif';
+$pathclub = 'clubs/' . $dettaglio[0]['idClub'] . '.png';
 if(!file_exists(IMGDIR . $pathfoto))
 	$pathfoto = 'foto/nophoto.jpg';
 
@@ -53,17 +53,17 @@ else			// carico giocatori del club
 	$contenttpl->assign('label',$club);
 }
 
-	$contenttpl->assign('elencogiocatori',$elencogiocatori);
-	$keys=array_keys($elencogiocatori);
+$contenttpl->assign('elencogiocatori',$elencogiocatori);
+$keys=array_keys($elencogiocatori);
 
-	if(isset($keys[array_search($id,$keys)-1]))
-		$contenttpl->assign('giocprec',$keys[array_search($id,$keys)-1]);
-	else
-		$contenttpl->assign('giocprec',false);
+if(isset($keys[array_search($id,$keys)-1]))
+	$contenttpl->assign('giocprec',$keys[array_search($id,$keys)-1]);
+else
+	$contenttpl->assign('giocprec',false);
 
-	if(isset($keys[array_search($id,$keys)+1]))
-		$contenttpl->assign('giocsucc',$keys[array_search($id,$keys)+1]);
-	else
-		$contenttpl->assign('giocsucc',false);
+if(isset($keys[array_search($id,$keys)+1]))
+	$contenttpl->assign('giocsucc',$keys[array_search($id,$keys)+1]);
+else
+	$contenttpl->assign('giocsucc',false);
 
 ?>

@@ -50,6 +50,7 @@ else
 /*
  * Prevent XSS attach
  */
+
 foreach($_POST as $key=>$val)
 {
 	if(is_array($val))

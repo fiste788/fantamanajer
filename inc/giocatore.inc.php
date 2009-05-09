@@ -43,7 +43,7 @@ class giocatore
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore INNER JOIN squadre ON giocatore.idGioc = squadre.idGioc
-				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "'
+				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND club IS NOT NULL
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$giocatori = array();
@@ -111,20 +111,17 @@ FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and vo
 	
 	function getGiocatoreByIdWithStats($giocatore)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, idClub,nomeClub FROM squadre RIGHT JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON squadre.idGioc = giocatore.idGioc WHERE giocatore.idGioc ='" . $giocatore . "'";
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, idClub,nomeClub 
+				FROM squadre RIGHT JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON squadre.idGioc = giocatore.idGioc 
+				WHERE giocatore.idGioc ='" . $giocatore . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-
 		$q3="SELECT ROUND( AVG( voto ) , 2 ) AS mediaPunti, ROUND( avg( votoUff ) , 2 ) AS mediaVoti, COUNT( votoUff ) AS presenze, SUM( gol ) AS gol, SUM( assist ) AS assist
-FROM voti
-WHERE voti.idGioc ='" . $giocatore . "'
-AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
-
+				FROM voti
+				WHERE voti.idGioc ='" . $giocatore . "' AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
 		$exe3 = mysql_query($q3) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q3);
-
 		$q2 = "SELECT idGiornata, voto,votoUff , gol, assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q2);
 		$presenzeeff=mysql_affected_rows();
-		
 		while($row = mysql_fetch_array($exe2))
 		{
 			$data[$row['idGiornata']] = $row;
@@ -133,14 +130,12 @@ AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
 		}
 		if(isset($data))
 			$values['data'] = $data;
-			
-		while($row = mysql_fetch_array($exe, MYSQL_ASSOC))
+		while($row = mysql_fetch_array($exe))
 		{
-			$row=array_merge($row,mysql_fetch_array($exe3, MYSQL_ASSOC));
+			$row=array_merge($row,mysql_fetch_array($exe3));
 			$row['presenzeeff']=$presenzeeff;
 			$values[] = $row;
 		}
-
 		return $values;
 	}
 	

@@ -78,6 +78,6 @@ FileETag None
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
 	AuthName "Inserisci username e password"
 	AuthType Basic
-	AuthUserFile htpasswd/fantamanajer-2.1/.htpasswd
+	AuthUserFile htpasswd/fantamanajer/.htpasswd
 	require valid-user
 </FilesMatch>

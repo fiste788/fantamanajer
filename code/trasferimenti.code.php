@@ -203,8 +203,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 					}
 			
 				}
-				elseif($selezione['giocNew'] == $acquisto && 
-$selezione['giocOld'] == $lasciato)
+				elseif($selezione['giocNew'] == $acquisto && $selezione['giocOld'] == $lasciato)
 				{
 					$messaggio[0] = 2;
 					$messaggio[1] = 'Hai già selezionato questi giocatori per l\'acquisto';
