@@ -15,7 +15,7 @@ array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)
 $sitepath = implode('/',$tmp);					//recreate $sitepath with slash (/one/jpg)
 
 if (isset($_SERVER['DOCUMENT_ROOT']))
-  $doc_root = $_SERVER['DOCUMENT_ROOT'];			//document root specified into php.ini file
+	$doc_root = $_SERVER['DOCUMENT_ROOT'];			//document root specified into php.ini file
 
 
 $cwd = str_replace('\\','/',getcwd());				//get currently used directory(if under windows replace \\ with /)
