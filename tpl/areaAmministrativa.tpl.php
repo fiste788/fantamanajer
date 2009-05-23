@@ -13,7 +13,7 @@
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">	
 			<img class="column last" alt="->" src="<?php echo IMGSURL.'rose.png'; ?>" title="Gestione Squadre" />
-			<h3><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0')); ?>">Gestione squadre</a></h3>
+			<h3><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$_SESSION['datiLega']['idLega'])); ?>">Gestione squadre</a></h3>
 			<div>Crea una nuova squadra o modifica/cancella una esistente</div>
 		</div>
 		</div>

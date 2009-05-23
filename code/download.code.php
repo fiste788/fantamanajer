@@ -8,7 +8,7 @@ $fileObj = new fileSystem();
 $filesVoti = $fileObj->getFileIntoFolder(VOTIDIR);
 sort($filesVoti); 
 
-$contenttpl->assign('filesVoti',$filesVoti);2 
+$contenttpl->assign('filesVoti',$filesVoti);
 
 if(isset($_POST['giornata']) && !empty($_POST['giornata']))
 {
