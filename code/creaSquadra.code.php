@@ -24,7 +24,7 @@ if(isset($_GET['a']))
 	$action = $_GET['a'];
 if(isset($_GET['id']))
 	$id = $_GET['id'];
-if(isset($_GET['lega']))
+if(isset($_GET['lega']) && !empty($_GET['lega']))
 	$lega = $_GET['lega'];
 if(isset($_POST['a']))
 	$action = $_POST['a'];
@@ -42,7 +42,7 @@ if($lega != NULL && $action != NULL && $id != NULL)
 	{
 		if($action == 'cancel' || $action == 'edit')
 		{
-			$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadra($id));
+			$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($id)));
 			$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($id));
 		}
 	}
@@ -66,21 +66,24 @@ if($lega != NULL && $action != NULL && $id != NULL)
 		elseif($action == 'edit' || $action == 'new')
 		{
 			$giocatori = array();
-			foreach($_POST as $key => $val)
+			foreach($_POST['giocatore'] as $key => $val)
 			{
-				if($key != 'id' && empty($val))
+				if(!empty($val))
+				{
+					if(in_array($val,$giocatori))
+					{
+						$message[0] = 1;
+						$message[1] = "Hai immesso un giocatore più di una volta";
+						break;
+					}
+					else
+						$giocatori[] = $val;
+				}
+				else
 				{
 					$message[0] = 1;
-					$message[1] = "Non hai compilato tutti i campi";
+					$message[1] = "Non hai compilato tutti i giocatori";
 				}
-				elseif(in_array($val,$giocatori) && substr($key,0,9) == 'giocatore')
-				{
-					$message[0] = 1;
-					$message[1] = "Hai immesso un giocatore più di una volta";
-					break;
-				}
-				elseif(substr($key,0,9) == 'giocatore')
-					$giocatori[] = $val;
 			}
 			if(!$mailObj->checkEmailAddress($_POST['mail']))
 			{
@@ -113,15 +116,12 @@ if($lega != NULL && $action != NULL && $id != NULL)
 							$data[$key] = addslashes(stripslashes(trim($val)));
 					}
 					$utenteObj->changeData($data,$id);
-					$giocatoriOld = $giocatoreObj->getGiocatoriByIdSquadra($id);
-					foreach($_POST as $key => $val)
-						if(substr($key,0,9) == 'giocatore')
-							$giocatoriNew[] = $val;
-					foreach($giocatoriOld as $key => $val)
-						if($val['idGioc'] != $giocatoriNew[$key])
-							$squadreObj->updateGiocatore($giocatoriNew[$key],$val['idGioc'],$id);
+					$giocatoriOld = array_keys($giocatoreObj->getGiocatoriByIdSquadra($id));
+					foreach($giocatori as $key => $val)
+						if(!in_array($val,$giocatoriOld))
+							$squadreObj->updateGiocatore($val,$giocatoriOld[$key],$id);
 					unset($_POST);
-					$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadra($id));
+					$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($id)));
 					$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($id));
 					$message[0] = 0;
 					$message[1] = "Squadra modificata correttamente";
@@ -142,8 +142,8 @@ if($lega != NULL && $action != NULL && $id != NULL)
 					$mailContent->assign('lega',$legheObj->getLegaById($lega));
 					$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
 					$object = "Benvenuto nel FantaManajer!";
-					$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
-					//$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR.'mailBenvenuto.tpl.php'),$object);
+					//$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
+					$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR.'mailBenvenuto.tpl.php'),$object);
 					unset($_POST);
 				}
 			}
