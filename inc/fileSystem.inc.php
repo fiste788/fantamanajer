@@ -92,6 +92,7 @@ class fileSystem
 			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
 			$keywords = explode($espr, $matches[0]);
 			array_shift($keywords);
+			echo "<pre>".print_r($keywords,1)."</pre>";
 			foreach($keywords as $key)
 			{
 				$espre = "/(\s*\/?<[^<>]+>)+/";
@@ -105,6 +106,7 @@ class fileSystem
 				fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[4];$pieces[10];$pieces[3];$pieces[5];$pieces[9];\n");
 			}
 		}
+		die();
 		fclose($handle);
 		return TRUE;
 	}

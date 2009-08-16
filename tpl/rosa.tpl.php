@@ -26,6 +26,7 @@
 				<th class="tdcenter">Gol</th>
 				<th class="tdcenter">Assist</th>
 			</tr>
+			<?php if(!empty($this->giocatori)): ?>
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">	
 				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult' ?>">
@@ -41,13 +42,18 @@
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
+			<?php endif;?>
 			<tr>
+				<?php if(!empty($this->giocatori)): ?>
 				<td class="ult" colspan="3">Media</td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
 				<td class="ult tdcenter" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
+				<?php else: ?>
+				<td class="ult" colspan="3"><br><br>Nessun giocatore in rosa</td>
+				<?php endif; ?>
 			</tr>
 		</tbody>
 	</table>

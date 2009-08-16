@@ -97,11 +97,11 @@ FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and vo
 	
 	function getGiocatoreById($idGioc)
 	{
-		$q = "SELECT idGioc,cognome,nome,ruolo 
-				FROM giocatore 
+		$q = "SELECT idGioc,cognome,nome,ruolo,nomeClub,partitivo 
+				FROM giocatore LEFT JOIN club ON giocatore.club=club.idClub
 				WHERE idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			$result[$row['idGioc']] = $row;
 		if(isset($result))
 			return $result;
@@ -191,6 +191,7 @@ FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and vo
 		$q = "SELECT giocatore.idGioc, cognome, ruolo, nomeClub  
 				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub WHERE giocatore.club IS NOT NULL";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$giocatori=array();
 		while($row = mysql_fetch_row($exe))
 		{
 			$row[3] = strtoupper(substr($row[3],0,3));
@@ -226,13 +227,14 @@ FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and vo
 		}
 		if(isset($clubs))
 		{
+			mysql_query("START TRANSACTION");
 			foreach($clubs as $key => $val)
 			{
 				$giocatori = join("','",$clubs[$key]);
 				$q = "UPDATE giocatore 
 						SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
 						WHERE idGioc IN ('" . $giocatori . "')";
-				mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			}
 		}
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
@@ -247,18 +249,30 @@ FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and vo
 			$q = "UPDATE giocatore 
 					SET club = NULL 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
-			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		// aggiunge nuovi giocatori
+		$rowtoinsert="";
 		foreach($daInserire as $key => $val)
 		{
 			$pezzi = explode(";",$val);
 			$cognome = ucwords(strtolower((addslashes($pezzi[1]))));
-			$q = "INSERT INTO giocatore(idGioc,cognome,ruolo,club) 
-					VALUES ('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%'))";
-			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-			$eventiObj->addEvento('5',0,0,$pezzi[0]);
+			$rowtoinsert .=  "('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%')),";
+			if(!empty($playersOld))
+				$eventiObj->addEvento('5',0,0,$pezzi[0]);
 		}
+		$q=rtrim("INSERT INTO giocatore(idGioc,cognome,ruolo,club) VALUES ".$rowtoinsert,",");
+		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(isset($err))
+		{
+			mysql_query("ROLLBACK");
+			return false;
+		}
+		else
+		{
+			mysql_query("COMMIT");
+			return true;
+		}	
 	}
 
 	function getGiocatoriNotSquadra($idUtente,$idLega)

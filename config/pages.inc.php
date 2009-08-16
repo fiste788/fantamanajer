@@ -59,6 +59,9 @@ $guestpages = array();
 	$guestpages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
 										'js'=>'',
 										'css'=>array('screen','style'));
+	$guestpages['updateGioc'] = array(	'title'=>"Aggiorna lista giocatori",
+										'js'=>'',
+										'css'=>array('screen','style'));
 									
 	$guestpages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>'',
@@ -126,6 +129,9 @@ $userpages = array();
 	$userpages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
 										'js'=>'',
 										'css'=>array('screen','style'));
+	$userpages['updateGioc'] = array(	'title'=>"Aggiorna lista giocatori",
+										'js'=>'',
+										'css'=>array('screen','style'));										
 									
 	$userpages['trasferimenti'] = array(	'title'=>"Trasferimenti",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),

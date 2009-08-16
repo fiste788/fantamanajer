@@ -108,6 +108,7 @@ if(($squadra != NULL) && ($values))
 		$mediaAssist += $giocatori[$i]['assist'];
 		$i++;
 	}
+	
 	$contenttpl->assign('mediaVoto',substr($mediaVoto / $i,0,4));
 	$contenttpl->assign('mediaVotoAll',$mediaVoto / $i);
 	$contenttpl->assign('mediaMagicAll',$mediaMagic / $i);
