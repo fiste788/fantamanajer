@@ -1,4 +1,6 @@
 <?php
+
+
 class eventi
 {
 	var $idEvento;
@@ -25,9 +27,22 @@ class eventi
 	
 	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
+		$ruoli = array("articoli" =>
+					array (
+    					'P'=> "il",
+    					'D'=> "il",
+    					'C'=> "il",
+    					'A'=> "l'"),
+				"nome" =>
+				array (
+    				'P'=> "portiere",
+    				'D'=> "difensore",
+    				'C'=> "centrocampista",
+    				'A'=> "attaccante"
+		));
 		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
 				FROM eventi LEFT JOIN utente ON eventi.idUtente = utente.idUtente 
-				WHERE eventi.idLega = '" . $idLega . "' OR eventi.idLega = '0'";
+				WHERE (eventi.idLega = '" . $idLega . "' OR eventi.idLega = '0')";
 		if($tipo != NULL)
 		  $q .= " AND tipo = '" . $tipo . "'";
 		$q .= " ORDER BY data DESC 
@@ -83,14 +98,16 @@ class eventi
 									unset($giocOld,$giocNew);break;
 								case 5: 
 									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['nome'].' '.$player[$values[$key]['idExternal']]['cognome'].' inserito nella lista giocatori';
-									$values[$key]['content'] = ' ';
+									$selected=$player[$values[$key]['idExternal']];
+									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' inserito nella lista giocatori';
+									$values[$key]['content'] = ucwords($ruoli['articoli'][$selected['ruolo']]).' '.$ruoli['nome'][$selected['ruolo']].' '.$selected['nome'].' '.$selected['cognome'].' ora fa parte della rosa '.$selected['partitivo'].' '.$selected['nomeClub'].', pertanto e\' stato inserito nella lista giocatori';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
 								case 6: 
 									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$values[$key]['titolo'] =  $player[$values[$key]['idExternal']]['nome'].' '.$player[$values[$key]['idExternal']]['cognome'].' non fa piu\' parte della lista giocatori';
-									$values[$key]['content'] = ' ';
+									$selected=$player[$values[$key]['idExternal']];
+									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' non fa piu\' parte della lista giocatori';
+									$values[$key]['content'] = ucwords($ruoli['articoli'][$selected['ruolo']]).' '.$ruoli['nome'][$selected['ruolo']].' '.$selected['nome'].' '.$selected['cognome'].' non e\' piu\' un giocatore militante in Serie A';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
 				}
