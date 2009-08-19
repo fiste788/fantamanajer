@@ -82,18 +82,18 @@ require_once INCDIR.'links.inc.php';
 
 
 //Creating a new db istance
-$dbLink = &new db;
+$dbLink = new db;
 $dbLink->dbConnect();
 
 //Creating object for pages
-$layouttpl =& new Savant3();
-$headertpl =& new Savant3();
-$footertpl =& new Savant3();
-$contenttpl =& new Savant3();
-$navbartpl =& new Savant3();
+$layouttpl = new Savant3();
+$headertpl = new Savant3();
+$footertpl = new Savant3();
+$contenttpl = new Savant3();
+$navbartpl = new Savant3();
 
 //Creating linksObj in object pages
-$linksObj =& new links();
+$linksObj = new links();
 $headertpl->assign('linksObj',$linksObj);
 $footertpl->assign('linksObj',$linksObj);
 $contenttpl->assign('linksObj',$linksObj);
