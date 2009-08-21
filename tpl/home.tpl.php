@@ -148,7 +148,7 @@
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
 	<?php if(TIMEOUT): ?>
-	<div id="countdown">Tempo rimanente consegna formazione:<br /><div>&nbsp;</div></div>
+	<div id="countdown">Tempo rimanente per la formazione:<br /><div>&nbsp;</div></div>
 	<script type="text/javascript">
 		var d = new Date();
 		d.setFullYear(<?php echo $this->dataFine['year'] . ',' . ($this->dataFine['month'] -1) . ',' . $this->dataFine['day']; ?>);
