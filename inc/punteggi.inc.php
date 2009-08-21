@@ -88,7 +88,7 @@ class punteggi
 				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
 		}
 		$somme = $this->getClassifica($idLega);
-		if(isset($somme))
+		if(isset($classifica))
 		{
 			$appo = array();
 			foreach($somme as $key=>$val)
@@ -175,7 +175,7 @@ class punteggi
 				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
 		}
 		$somme = $this->getClassificaByGiornata($idLega,$giornata);
-		if(isset($somme))
+		if(isset($classifica))
 		{
 			$appo = array();
 			foreach($somme as $key=>$val)

@@ -59,7 +59,7 @@ endswitch;else:
 			<?php for($i = 0;$i < 3; $i++): ?>
 				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore[]">
 					<option></option>
-					<?php if(isset($this->giocatori)): ?>
+					<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
 					<?php foreach($this->portieri as $key => $val): ?>
@@ -72,7 +72,7 @@ endswitch;else:
 			<?php for($i = 0;$i < 8; $i++): ?>
 				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore[]">
 					<option></option>
-					<?php if(isset($this->giocatori)): ?>
+					<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
 					<?php foreach($this->difensori as $key => $val): ?>
@@ -85,7 +85,7 @@ endswitch;else:
 			<?php for($i = 0;$i < 8; $i++): ?>
 				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore[]">
 					<option></option>
-					<?php if(isset($this->giocatori)): ?>
+					<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
 					<?php foreach($this->centrocampisti as $key => $val): ?>
@@ -98,7 +98,7 @@ endswitch;else:
 			<?php for($i = 0;$i < 6; $i++): ?>
 				<select<?php if($button == 'Cancella') echo ' disabled="disabled"' ?> name="giocatore[]">
 					<option></option>
-					<?php if(isset($this->giocatori)): ?>
+					<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
 						<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"' ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome'] ?></option>
 					<?php endif; ?>
 					<?php foreach($this->attaccanti as $key => $val): ?>

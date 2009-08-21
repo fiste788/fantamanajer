@@ -8,7 +8,7 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 {
 	if( (!empty($_POST['username'])) && (!empty($_POST['password'])) )
 	{
-		$formsObj = & new string($_POST['username']);											//create a new string object
+		$formsObj = new string($_POST['username']);											//create a new string object
 		$formsObj->stringCleaner();																				//slashes added and special characters corrected
 		if(login($_POST['username'],$_POST['password']))									//login
 		{
