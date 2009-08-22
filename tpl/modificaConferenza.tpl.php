@@ -43,17 +43,19 @@ switch($_GET['a'])
 <div id="articoloedit" class="main-content">
 <script language="javascript" type="text/javascript">
 <!--
-function ismaxlength(obj,maxLenght){
-var mlength=maxLenght;
-if (obj.getAttribute && obj.value.length>mlength) {
-	var cursor = obj.selectionEnd;
-	var scroll = obj.scrollTop;
-	alert("Hai raggiunto il massimo di caratteri consentito")
-	obj.value=obj.value.substring(0,mlength);
-	obj.selectionEnd = cursor;
-	obj.scrollTop = scroll;
-}
- document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
+function ismaxlength(obj,maxLenght)
+{
+	var mlength=maxLenght;
+	if (obj.getAttribute && obj.value.length>mlength) 
+	{
+		var cursor = obj.selectionEnd;
+		var scroll = obj.scrollTop;
+		alert("Hai raggiunto il massimo di caratteri consentito");
+		obj.value=obj.value.substring(0,mlength);
+		obj.selectionEnd = cursor;
+		obj.scrollTop = scroll;
+	}
+	 document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
 }
 
 function addEmoticon(insert){
@@ -92,13 +94,13 @@ if(isset($_GET['id']))
 			<?php if($_GET['a'] != 'cancel'): ?>
 				<div id="emoticons">
 				<?php foreach($this->emoticons as $key => $val):?>
-					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod'])) ?>');return ismaxlength(document.getElementById('text'), 500);" />
+					<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod'])) ?>');return ismaxlength(document.getElementById('text'), 1000);" />
 				<?php endforeach; ?>
 				</div>			
 			<?php endif;?>
 			<label for="text">Testo: *</label>
-			<textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="50" onkeyup="return ismaxlength(this, 500);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
-			<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 500-mb_strlen($text);else echo '500'; ?>" />
+			<textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="50" onkeyup="return ismaxlength(this, 1000);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
+			<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 1000-mb_strlen($text);else echo '1000'; ?>" />
 			</div>
 		</fieldset>
 		<fieldset class="column">
