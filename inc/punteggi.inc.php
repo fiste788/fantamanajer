@@ -254,7 +254,7 @@ class punteggi
 			foreach($eCap as $cap)
 			{
 				if($votiObj->getPresenzaByIdGioc($cap,$giornata))
-				{ 
+				{
 					$flag = 1;
 					break;
 				}
@@ -297,7 +297,7 @@ class punteggi
 		$giornateWithPunt = $this->getGiornateWithPunt();
 		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
-		for($i = 1; $i < $giornateWithPunt; $i++)
+		for($i = 1; $i <= $giornateWithPunt; $i++)
 		{
 			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
