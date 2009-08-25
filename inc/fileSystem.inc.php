@@ -79,34 +79,39 @@ class fileSystem
 		$handle = fopen($percorso, "a");
 		foreach ($array as $keyruolo => $ruolo)
 		{
-			$link = "http://magic.gazzetta.it/magiccampionato/08-09/statistiche/stats_gg_" . $ruolo . ".shtml?s=75caca1787f9f15f1b3e231cb1a21974";
+			if($keyruolo == "P")
+				$link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
+			else
+				$link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/stats_gg_" . $ruolo . ".shtml?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
 			$contenuto = $this->contenutoCurl($link);
 			if(empty($contenuto))
 				return FALSE;
 			//print htmlspecialchars($contenuto);
 			preg_match("/<td.*?artxtTitolino.*?Giornata\s{1}(.+?)<\/span>/",$contenuto,$matches);
-			$giornataGazzetta = $matches[1];
+			/*$giornataGazzetta = $matches[1];
 			if($giornataGazzetta != $giornata) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
-				return FALSE;
+				return FALSE;*/
 			$contenuto = preg_replace("/\n/","",$contenuto);
-			preg_match("/(<tr>\s+<td class=\"ar_txtInput\").*<\/table>/",$contenuto,$matches);
-			$keywords = explode($espr, $matches[0]);
-			array_shift($keywords);
-			echo "<pre>".print_r($keywords,1)."</pre>";
+			preg_match('#<div class="freeTable"><table[^>]*>(.*?)</table></div>#mis',$contenuto,$matches);
+			preg_match_all('#<tr[^>]*>(.*?)</tr>#mis', $matches[1],$keywords);
+			$keywords = $keywords[1];
+			unset($keywords[0]);
 			foreach($keywords as $key)
 			{
-				$espre = "/(\s*\/?<[^<>]+>)+/";
-				$key = preg_replace($espre,"\t",$key); 
-				$pieces = explode("\t",$key);
-				foreach($pieces as $key => $val)
-					$pieces[$key] = trim($val);
-				$pieces = array_map("htmlspecialchars",$pieces);
-				$pieces[10] = ereg_replace(',','.',$pieces[10]);
-				$pieces[4] = ereg_replace(',','.',$pieces[4]);
-				fwrite($handle,"$pieces[1];$pieces[2];$keyruolo;$pieces[4];$pieces[10];$pieces[3];$pieces[5];$pieces[9];\n");
+				preg_match_all("#<td[^>]*>(.*?)</td>#mis",$key,$array);
+				$array = array_map("trim",$array[1]);
+				$array = array_map("stripslashes",$array);
+				$array = array_map("addslashes",$array);
+				
+				if(!empty($key))
+				{
+					$array[3] = str_replace(',','.',$array[3]);
+					$array[9] = str_replace(',','.',$array[9]);
+					
+					fwrite($handle,"$array[0];$array[1];$array[2];$keyruolo;$array[4];$array[5];$array[6];$array[7];$array[8];$array[9];\n");
+				}
 			}
 		}
-		die();
 		fclose($handle);
 		return TRUE;
 	}
