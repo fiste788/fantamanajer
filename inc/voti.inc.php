@@ -70,6 +70,7 @@ class voti
 	
 	function checkVotiExist($giornata)
 	{
+		$values = array();
 		$q = "SELECT DISTINCT(idGiornata)
 				FROM voti";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
