@@ -116,7 +116,7 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 			$message[1] = "Errori nell'invio delle mail";
 		}
 		//AGGIORNA LA LISTA GIOCATORI
-		$giocatoreObj->updateTabGiocatore($giornata);
+		//$giocatoreObj->updateTabGiocatore($giornata);
 	}
 	else
 	{

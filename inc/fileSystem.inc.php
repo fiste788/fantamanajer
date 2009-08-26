@@ -71,12 +71,14 @@ class fileSystem
 	
 	function scaricaVotiCsv($giornata)
 	{
-		$percorso = "./docs/voti/Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
+		$nomeFile = str_pad($giornata,2,"0",STR_PAD_LEFT);
+		$percorso = "./docs/voti/csv/Giornata" . $nomeFile . ".csv";
+		$percorsoXml = "./docs/voti/xml/Giornata" . $nomeFile . ".xml";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
-		$espr = "<tr>";
 		if (file_exists($percorso))
 			unlink($percorso);
 		$handle = fopen($percorso, "a");
+		$xmlArray = array();
 		foreach ($array as $keyruolo => $ruolo)
 		{
 			if($keyruolo == "P")
@@ -85,35 +87,63 @@ class fileSystem
 				$link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/stats_gg_" . $ruolo . ".shtml?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
 			$contenuto = $this->contenutoCurl($link);
 			if(empty($contenuto))
-				return FALSE;
-			//print htmlspecialchars($contenuto);
-			preg_match("/<td.*?artxtTitolino.*?Giornata\s{1}(.+?)<\/span>/",$contenuto,$matches);
-			/*$giornataGazzetta = $matches[1];
+				return TRUE;
+				
+			preg_match('#<span class="giornata">Giornata\s(.*?)<\/span>#mis',$contenuto,$matches);
+			$giornataGazzetta = $matches[1];
 			if($giornataGazzetta != $giornata) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
-				return FALSE;*/
+				return TRUE;
 			$contenuto = preg_replace("/\n/","",$contenuto);
 			preg_match('#<div class="freeTable"><table[^>]*>(.*?)</table></div>#mis',$contenuto,$matches);
 			preg_match_all('#<tr[^>]*>(.*?)</tr>#mis', $matches[1],$keywords);
 			$keywords = $keywords[1];
 			unset($keywords[0]);
+
 			foreach($keywords as $key)
 			{
-				preg_match_all("#<td[^>]*>(.*?)</td>#mis",$key,$array);
-				$array = array_map("trim",$array[1]);
-				$array = array_map("stripslashes",$array);
-				$array = array_map("addslashes",$array);
+				preg_match_all("#<td[^>]*>(.*?)</td>#mis",$key,$player);
+				$player = array_map("trim",$player[1]);
+				$player = array_map("stripslashes",$player);
+				$player = array_map("addslashes",$player);
 				
 				if(!empty($key))
 				{
-					$array[3] = str_replace(',','.',$array[3]);
-					$array[9] = str_replace(',','.',$array[9]);
-					
-					fwrite($handle,"$array[0];$array[1];$array[2];$keyruolo;$array[4];$array[5];$array[6];$array[7];$array[8];$array[9];\n");
+					$player[3] = str_replace(',','.',$player[3]);
+					$player[9] = str_replace(',','.',$player[9]);
+					$player[10] = $keyruolo;
+					$xmlArray[] = $player;
+					fwrite($handle,"$player[0];$player[1];$player[2];$keyruolo;$player[3];$player[4];$player[5];$player[6];$player[7];$player[8];$player[9];\n");
 				}
 			}
 		}
+		$this->writeXmlVoti($xmlArray,$percorsoXml);
 		fclose($handle);
 		return TRUE;
+	}
+	
+	function writeXmlVoti($tree,$percorso) 
+	{
+		$xml = new XmlWriter();
+		$xml->openURI($percorso);
+		$xml->startDocument("1.0");
+		$xml->startElement("players");
+		foreach($tree as $node) 
+		{
+			$xml->startElement("player");
+			$xml->writeElement("id",$node[0]);
+			$xml->writeElement("nome",ucwords(strtolower($node[1])));
+			$xml->writeElement("club",$node[2]);
+			$xml->writeElement("ruolo",$node[10]);
+			$xml->writeElement("voto",$node[3]);
+			$xml->writeElement("gol",$node[4]);
+			$xml->writeElement("rigori",$node[5]);
+			$xml->writeElement("ammonizioni",$node[6]);
+			$xml->writeElement("esplusioni",$node[7]);
+			$xml->writeElement("assist",$node[8]);
+			$xml->writeElement("punti",$node[9]);
+			$xml->endElement();
+		}
+		$xml->endDocument();
 	}
 	
 	function scaricaLista($percorso)
