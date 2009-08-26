@@ -44,25 +44,27 @@ class voti
 	{
 		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
-		$percorso = "./docs/voti/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
+		$percorso = "./docs/voti/csv/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
 		if($fileSystemObj->scaricaVotiCsv($giorn))
 		{
 			if($this->checkVotiExist($giorn))
 				return TRUE;
-			$q = "INSERT INTO voti(idGioc,idGiornata,votoUff,voto,gol,assist) VALUES ";
-			foreach (file($percorso) as $player)
+			$q = "INSERT INTO voti(idGioc,idGiornata,votoUff,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
+			$content = file($percorso);
+			if($content != FALSE)
 			{
-				$pezzi = explode(";",$player);
-				if($pezzi[3] == "-")
-					$presenza = 0;
-				else
-					$presenza = 1;
-				if($pezzi[2] == "P")
-					$pezzi[6] = -$pezzi[6];
-				$voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[3] . "','" . $pezzi[4] . "','" . $pezzi[6] . "','" . $pezzi[7] . "')";
+				foreach ($content as $player)
+				{
+					$pezzi = explode(";",$player);
+					if($pezzi[2] == "P")
+						$pezzi[6] = -$pezzi[6];
+					$voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[4] . "','" . $pezzi[10] . "','" . $pezzi[5] . "','" . $pezzi[9] . "','" . $pezzi[6] . "','" . $pezzi[7] . "','" . $pezzi[8] . "')";
+				}
+				$q .= implode(',',$voti);
+				return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 			}
-			$q .= implode(',',$voti);
-			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			else
+				return FALSE;
 		}
 		else
 			return FALSE;
