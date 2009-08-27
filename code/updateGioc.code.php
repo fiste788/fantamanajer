@@ -1,7 +1,11 @@
 <?php 
 
 require_once(INCDIR.'giocatore.inc.php');
-print "hi bitch";
+require_once(INCDIR.'fileSystem.inc.php');
+$giocatoreObj = new giocatore();
+$fileObj = new fileSystem();
+$fileObj->decrypt();
+die();
 $giornata=GIORNATA-1;
 if($giocatoreObj->updateTabGiocatore($giornata))
 {

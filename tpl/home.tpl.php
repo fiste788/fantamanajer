@@ -89,7 +89,7 @@
 				<?php foreach($this->eventi as $key =>$val): ?>
 					<h4>
 					<?php if($val['tipo'] != 2): ?>
-						<a name="evento-<?php echo $val['idEvento']; ?>" href="<?php echo $val['link']; ?>">
+						<a name="evento-<?php echo $val['idEvento']; ?>" href="<?php echo $val['link']; ?>" title="<?php echo $val['content']; ?>">
 					<?php endif;?>
 					<?php echo $val['titolo']; ?>
 					<?php if($val['tipo'] != 2): ?>
