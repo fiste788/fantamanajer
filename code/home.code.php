@@ -39,8 +39,7 @@ if((GIORNATA -1) != 0)
 }
 else
 	foreach($classifica as $key => $val)
-		$diff[$key] = 0;
-		
+		$diff[$key] = 0;	
 $contenttpl->assign('classifica',$sum);
 $contenttpl->assign('differenza',$diff);
 $articoloObj->setidlega($_SESSION['idLega']);

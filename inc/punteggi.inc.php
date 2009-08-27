@@ -141,11 +141,12 @@ class punteggi
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe))
 			$classifica[] = $row;
+	
 		if(isset($classifica))
 			return($classifica);
 		else
 		{
-			$q = "SELECT idUtente, nome 
+			/*$q = "SELECT idUtente, nome 
 					FROM utente";
 			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 			while ($row = mysql_fetch_array($exe) )
@@ -155,16 +156,16 @@ class punteggi
 				$row['punteggioMax'] = 0;
 				$row['punteggioMin'] = 0;
 				$classifica[$row['idUtente']] = $row;
-			}
-			return $classifica;
+			}*/
+			return NULL;
 		}
 	}
 	
 	function getAllPunteggiByGiornata($giornata,$idLega)
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
-				FROM punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente 
-				WHERE idGiornata <= " . $giornata . " AND punteggi.idLega = '" . $idLega . "'";
+				FROM punteggi RIGHT JOIN utente ON punteggi.idUtente = utente.idUtente 
+				WHERE idGiornata <= " . $giornata . " OR idGiornata is NULL AND utente.idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))
@@ -175,7 +176,7 @@ class punteggi
 				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
 		}
 		$somme = $this->getClassificaByGiornata($idLega,$giornata);
-		if(isset($classifica))
+		if(isset($somme))
 		{
 			$appo = array();
 			foreach($somme as $key=>$val)
@@ -193,6 +194,7 @@ class punteggi
 				$classificaOkay[$key][0] = 0;
 		}
 		return($classificaOkay);
+		
 	}
 	
 	
@@ -254,7 +256,7 @@ class punteggi
 			foreach($eCap as $cap)
 			{
 				if($votiObj->getPresenzaByIdGioc($cap,$giornata))
-				{
+				{ 
 					$flag = 1;
 					break;
 				}
@@ -297,7 +299,7 @@ class punteggi
 		$giornateWithPunt = $this->getGiornateWithPunt();
 		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
-		for($i = 1; $i <= $giornateWithPunt; $i++)
+		for($i = 1; $i < $giornateWithPunt; $i++)
 		{
 			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
