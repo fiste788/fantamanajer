@@ -24,7 +24,7 @@
 			</tbody>
 		</table>
 		<div id="tab_classifica" class="column last"  style="height:<?php echo (27 * (count($this->classificaDett) +1)) +18 ?>px">
-		<?php $i = 1; ?>
+		<?php $appo = array_keys($this->classificaDett); $i = $appo[0]; ?>
 		<?php if(key($this->classificaDett[$flag]) != 0): ?>
 		<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
 			<tbody>
@@ -96,7 +96,7 @@
 			'" checked="checked" /><label for="'+ key +'">' + val.label + '</label></div>');
 			});
 
-			<?php if($_SESSION['logged'] == TRUE): ?>
+			<?php if($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']): ?>
 				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idSquadra']]['nome']; ?>']").attr ('checked','');
 			<?php endif; ?>
 				choiceContainer.find("input").click(plotAccordingToChoices);
