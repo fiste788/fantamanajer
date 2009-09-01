@@ -25,6 +25,7 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 			else
 				$_SESSION['usertype'] = 'user';
 			$_SESSION['idLega'] = $valore['idLega'];
+			$_SESSION['legaView'] = $valore['idLega'];
 			$_SESSION['idSquadra'] = $valore['idUtente'];
 			$_SESSION['nomeSquadra'] = $valore['nome'];
 			$_SESSION['nomeProprietario'] = $valore['nomeProp'] . " " . $valore['cognome'];

@@ -135,7 +135,7 @@ class punteggi
 								WHERE punteggi.idLega = '" . $idLega . "'  AND punteggi.idGiornata <= '" . $idGiornata . "'
 								GROUP BY idUtente) AS tb2 
 				ON punteggi.idUtente = tb2.idUtente
-				WHERE punteggi.idGiornata <= '" . $idGiornata . "'
+				WHERE punteggi.idGiornata <= '" . $idGiornata . "' AND punteggi.idLega = '" . $idLega . "'
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -165,7 +165,7 @@ class punteggi
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
 				FROM punteggi RIGHT JOIN utente ON punteggi.idUtente = utente.idUtente 
-				WHERE idGiornata <= " . $giornata . " OR idGiornata is NULL AND utente.idLega = '" . $idLega . "'";
+				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND utente.idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$i = 0;
 		while ($row = mysql_fetch_array($exe))

@@ -17,7 +17,7 @@ if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 $contenttpl->assign('squadra',$squadra);
 
-$classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
+$classifica = $punteggiObj->getClassifica($_SESSION['legaView']);
 foreach($classifica as $key => $val)
 {
 	if($squadra == $val['idUtente'])
@@ -28,7 +28,7 @@ foreach($classifica as $key => $val)
 	}
 }
 $contenttpl->assign('classifica',$classifica);
-$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($_SESSION['idLega']));
+$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($_SESSION['legaView']));
 if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
@@ -60,7 +60,7 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 	}
 	$contenttpl->assign('message',$message);
 }
-$elencoSquadre = $utenteObj->getElencoSquadre();
+$elencoSquadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 $contenttpl->assign('elencosquadre',$elencoSquadre);
 
 if(isset($elencoSquadre[$squadra-1]))

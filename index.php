@@ -131,6 +131,9 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['idLega'] = 1;
 }
 
+require_once(INCDIR.'leghe.inc.php');
+$legheObj = new leghe();
+
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
  */
@@ -139,10 +142,9 @@ if ($_SESSION['logged'])
 {
 	require_once(INCDIR.'giocatore.inc.php');
 	require_once(INCDIR.'trasferimenti.inc.php');
-	require_once(INCDIR.'leghe.inc.php');
+	
 	$giocatoreObj = new giocatore();
 	$trasferimentiObj = new trasferimenti();
-	$legheObj = new leghe();
 	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
 	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
 		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
@@ -152,6 +154,7 @@ if ($_SESSION['logged'])
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
 require_once(INCDIR.'giornata.inc.php');
+
 $giornataObj = new giornata();
 $timeout = $giornataObj->getIdGiornataByDate();
 $giornata = $timeout;
@@ -167,6 +170,12 @@ define("TIMEOUT",$timeout);
 $contenttpl->assign('giornata',GIORNATA);
 $contenttpl->assign('timeout',TIMEOUT);
 
+$leghe = $legheObj->getLeghe();
+$headertpl->assign('leghe',$leghe);
+if(!isset($_SESSION['legaView']))
+	$_SESSION['legaView'] = $leghe[0]['idLega'];
+if(isset($_POST['legaView']))
+	$_SESSION['legaView'] = $_POST['legaView'];
 /**
  * INIZIALIZZAZIONE VARIABILI CONTENT
  * Questo Switch discrimina tra i vari moduli di codice quello che deve
@@ -291,7 +300,7 @@ else
 }
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbartpl->assign('p',$p);
-
+$headertpl->assign('p',$p);
 /**
  *
  * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>

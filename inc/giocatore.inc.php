@@ -71,14 +71,19 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			$giocatori[$row['idGioc']] = $row;
-			
-		$idjoined=implode(",", array_keys($giocatori));		
-		$qstats="SELECT idGioc,count(voto) as presenze,SUM( gol ) as gol,SUM( assist ) as assist,ROUND(AVG(voto),2) as mediaPunti, ROUND(AVG(votoUff),2) as mediaVoti
-FROM voti WHERE idGioc IN(".$idjoined."	) AND (votoUff <> 0 or (voto <> 0 and votoUff=0)) GROUP BY idGioc";
-		$exe = mysql_query($qstats) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $qstats);
-		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+		
+		if(isset($giocatori) && !empty($giocatori))
 		{
-			$giocatori[$row['idGioc']]=array_merge($giocatori[$row['idGioc']],$row);
+			$idjoined = implode(",", array_keys($giocatori));	
+			$qstats = "SELECT idGioc,count(voto) as presenze,SUM( gol ) as gol,SUM( assist ) as assist,ROUND(AVG(voto),2) as mediaPunti, ROUND(AVG(votoUff),2) as mediaVoti
+					FROM voti 
+					WHERE idGioc IN(" . $idjoined . ") AND (votoUff <> 0 or (voto <> 0 and votoUff=0)) 
+					GROUP BY idGioc";
+			$exe = mysql_query($qstats) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $qstats);
+			while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+			{
+				$giocatori[$row['idGioc']]=array_merge($giocatori[$row['idGioc']],$row);
+			}
 		}
 		return $giocatori;
 	}

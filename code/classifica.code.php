@@ -9,15 +9,15 @@ $giornata = GIORNATA;
 if(isset($_POST['giorn']))
 	$giornata = $_POST['giorn'];
 
-$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['idLega']);
-$squadre = $utenteObj->getElencoSquadre();
+$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['legaView']);
+$squadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 
 foreach($classificaDett as $key => $val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 	
 $contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());
 $contenttpl->assign('classificaDett',$classificaDett);
-$contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($_SESSION['idLega']));
+$contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($_SESSION['legaView']));
 $contenttpl->assign('squadre',$squadre);
 $contenttpl->assign('getGiornata',$giornata);
 ?>
