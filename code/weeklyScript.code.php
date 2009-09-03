@@ -7,6 +7,7 @@ require_once(INCDIR.'formazione.inc.php');
 require_once(INCDIR.'voti.inc.php');
 require_once(INCDIR.'leghe.inc.php');
 require_once(INCDIR.'db.inc.php');
+require_once(INCDIR.'decrypt.inc.php');
 
 //INIZIALIZZO TUTTO CIÒ CHE MI SERVE PER ESEGUIRE LO SCRIPT
 $punteggiObj = new punteggi();
@@ -17,14 +18,19 @@ $giocatoreObj = new giocatore();
 $votiObj = new voti();
 $legheObj = new leghe();
 $dbObj = new db();
+$decryptObj= new decrypt();
 
 $giornata = GIORNATA - 1;
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['usertype'] == 'superadmin')
 {
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-	if($votiObj->recuperaVoti($giornata))
-	{
+
+	if($result=$decryptObj->decryptCdfile($giornata))
+	{       
+		$giocatoreObj->updateTabGiocatore($result,$giornata);
+		if(!$votiObj->checkVotiExist($giornata))             
+			$decryptObj->importVoti($result,$giornata);
 		$leghe = $legheObj->getLeghe();
 		$mail = 0;
 		foreach($leghe as $lega)

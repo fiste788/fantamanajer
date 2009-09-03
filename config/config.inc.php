@@ -39,7 +39,8 @@ define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD
 define ("UPLOADDIR",'uploadimg/');				//uploadimg => UPLOADDIR
 define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
-define ("MAILTPLDIR",TPLDIR.'mail/');	
+define ("MAILTPLDIR",TPLDIR.'mail/');
+define ("LISTAGIOCDIR",'docs/lista/');	
 define ("VOTIDIR",'docs/voti/');				 //docs/voti => VOTIDIR
 define ("TMPDIR",'tmp/');				 //docs/voti => VOTIDIR
 								//urls for:

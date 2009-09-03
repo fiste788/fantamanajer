@@ -12,6 +12,7 @@ class squadre
 			$q = "INSERT INTO squadre 
 					VALUES ('" . $idLega . "','" . $idUtente . "','" . $val . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			print $q.";";
 		}
 	}
 	

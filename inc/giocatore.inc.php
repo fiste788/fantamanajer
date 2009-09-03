@@ -66,25 +66,24 @@ class giocatore
 		IN (
 			SELECT idGioc
 			FROM squadre
-			WHERE idLega = '" . $idLega . "')";
+			WHERE idLega = '" . $idLega . "')
+		ORDER BY cognome,nome";
 
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 			$giocatori[$row['idGioc']] = $row;
-		
-		if(isset($giocatori) && !empty($giocatori))
+			
+		$idjoined=implode(",", array_keys($giocatori));		
+		$qstats="SELECT idGioc,ROUND(SUM(punti)/SUM(valutato),2) AS mediaPunti, ROUND(SUM(voto)/SUM(valutato),2 ) AS mediaVoti, SUM( presenza ) AS presenze,SUM( valutato ) AS presenzeeff, SUM( gol ) AS gol, SUM( assist ) AS assist
+				FROM voti
+				WHERE voti.idGioc IN(" . $idjoined.") GROUP BY IdGioc"; 
+		$exe = mysql_query($qstats) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $qstats);  
+
+		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
 		{
-			$idjoined = implode(",", array_keys($giocatori));	
-			$qstats = "SELECT idGioc,count(voto) as presenze,SUM( gol ) as gol,SUM( assist ) as assist,ROUND(AVG(voto),2) as mediaPunti, ROUND(AVG(votoUff),2) as mediaVoti
-					FROM voti 
-					WHERE idGioc IN(" . $idjoined . ") AND (votoUff <> 0 or (voto <> 0 and votoUff=0)) 
-					GROUP BY idGioc";
-			$exe = mysql_query($qstats) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $qstats);
-			while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
-			{
-				$giocatori[$row['idGioc']]=array_merge($giocatori[$row['idGioc']],$row);
-			}
-		}
+			$giocatori[$row['idGioc']]=array_merge($giocatori[$row['idGioc']],$row);
+		}        
+		echo "<pre>".print_r($giocatori,1)."</pre>";
 		return $giocatori;
 	}
 	
@@ -120,25 +119,27 @@ class giocatore
 				FROM squadre RIGHT JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON squadre.idGioc = giocatore.idGioc 
 				WHERE giocatore.idGioc ='" . $giocatore . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$q3="SELECT ROUND( AVG( voto ) , 2 ) AS mediaPunti, ROUND( avg( votoUff ) , 2 ) AS mediaVoti, COUNT( votoUff ) AS presenze, SUM( gol ) AS gol, SUM( assist ) AS assist
+		$q3="SELECT ROUND(SUM(punti)/SUM(valutato),2) AS mediaPunti, ROUND(SUM(voto)/SUM(valutato),2 ) AS mediaVoti, SUM( presenza ) AS presenze,SUM( valutato ) AS presenzeeff, SUM( gol ) AS gol, SUM( assist ) AS assist
 				FROM voti
-				WHERE voti.idGioc ='" . $giocatore . "' AND (votoUff <> 0 or (voto <> 0 and votoUff=0))";
+				WHERE voti.idGioc ='" . $giocatore."'";
 		$exe3 = mysql_query($q3) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q3);
-		$q2 = "SELECT idGiornata, voto,votoUff , gol, assist FROM voti  WHERE idGioc = '" . $giocatore . "';";
+		$q2 = "SELECT * FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q2);
-		$presenzeeff=mysql_affected_rows();
+
 		while($row = mysql_fetch_array($exe2))
 		{
-			$data[$row['idGiornata']] = $row;
-			unset($data[$row['idGiornata']]['idGiornata']);
-			unset($data[$row['idGiornata']][0]);
+			if($row['presenza']!=0)
+			{
+				$data[$row['idGiornata']] = $row;
+				unset($data[$row['idGiornata']]['idGiornata']);
+				unset($data[$row['idGiornata']][0]);
+			}
 		}
 		if(isset($data))
 			$values['data'] = $data;
 		while($row = mysql_fetch_array($exe))
 		{
 			$row=array_merge($row,mysql_fetch_array($exe3));
-			$row['presenzeeff']=$presenzeeff;
 			$values[] = $row;
 		}
 		return $values;
@@ -168,10 +169,17 @@ class giocatore
 	
 	function getGiocatoriByIdSquadraWithStats($idUtente)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, nomeClub, AVG( voto ) as voto,COUNT( votoUff ) as presenze, SUM( gol ) as gol, SUM( assist ) as assist,AVG(votoUff) as votoeff
-				FROM squadre INNER JOIN ((giocatore LEFT JOIN voti ON giocatore.idGioc = voti.idGioc) LEFT JOIN club ON club.idClub = giocatore.club) ON squadre.idGioc = giocatore.idGioc
-				WHERE idUtente = '" . $idUtente . "' 
-				GROUP BY giocatore.idGioc";
+		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, nomeClub, SUM( presenza ) AS presenze, SUM( valutato ) AS presenzeconvoto, ROUND(SUM( punti ) / SUM( valutato ),2) AS avgpunti, ROUND(SUM( voto ) / SUM( valutato ),2) AS avgvoto, SUM( gol ) AS gol,SUM( golsub ) AS golsubiti, sum( assist ) AS assist, sum(ammonizioni) as ammonizioni,sum(espulsioni) as espulsioni
+FROM squadre
+INNER JOIN (
+(
+giocatore
+LEFT JOIN voti ON giocatore.idGioc = voti.idGioc
+)
+LEFT JOIN club ON club.idClub = giocatore.club
+) ON squadre.idGioc = giocatore.idGioc
+WHERE idUtente ='".$idUtente."'
+GROUP BY giocatore.idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe))
 			$giocatori[] = $row;
@@ -205,29 +213,30 @@ class giocatore
 		return $giocatori;
 	}
 
-	function updateTabGiocatore($giornata)
+	function updateTabGiocatore($path,$giornata)
 	{
-		require_once(INCDIR.'fileSystem.inc.php');
+		require_once(INCDIR.'decrypt.inc.php');
 		require_once(INCDIR.'eventi.inc.php');
+		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
+		$decryptObj = new decrypt();
 		$eventiObj = new eventi();
-		$percorso = "./docs/ListaGiornata/ListaGiornata" . ($giornata) . ".csv"; 
-		$fileSystemObj->scaricaLista($percorso);  // crea il .csv con la lista aggiornata
-		
+		$ruoli=array("P","D","C","A");
+
 		$playersOld = $this->getArrayGiocatoriFromDatabase();
-		$players = $fileSystemObj->returnArray($percorso);
-		
+		$players = $fileSystemObj->returnArray($path,"|");
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
-		foreach($players as $key=>$line)
+		foreach($players as $key=>$details)
 		{
 			if(array_key_exists($key,$playersOld))
 			{
-				$pieces = explode(";",$line);
-				$clubNew = $pieces[3];
+				$clubNew = substr($details[3],1,3);
 				$pieces = explode(";",$playersOld[$key]);
 				$clubOld = $pieces[3];
 				if($clubNew != $clubOld)
-					$clubs[$clubNew][] = $key;
+				{
+					$clubs[$clubNew][] = $key;    
+				}
 			}
 		}
 		if(isset($clubs))
@@ -239,14 +248,45 @@ class giocatore
 				$q = "UPDATE giocatore 
 						SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
 						WHERE idGioc IN ('" . $giocatori . "')";
+				print $q;
+				foreach($clubs[$key] as $single)
+					$eventiObj->addEvento('7',0,0,$single);
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			}
 		}
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
 		$daTogliere = array_diff_key($playersOld, $players);  
 		$daInserire = array_diff_key($players,$playersOld);
-		//toglie giocatori venduti o svincolati
-		if(isset($daTogliere))
+		echo "<pre>".print_r($daTogliere,1)."</pre>";
+        echo "<pre>".print_r($daInserire,1)."</pre>";
+
+		// aggiunge nuovi giocatori
+		if(count($daInserire)!=0)
+		{
+			$rowtoinsert="";
+			foreach($daInserire as $key => $pezzi)
+			{
+				$esprex="/[A-Z`]*\s?[A-Z`]{2,}/";
+				$id=$pezzi[0];
+				$nominativo=trim($pezzi[2],'"');
+				$club=substr(trim($pezzi[3],'"'),0,3);
+				$ruolo=$ruoli[$pezzi[5]];
+    			preg_match ($esprex,$nominativo,$ass);
+    			$cognome=$ass[0];
+    			$nome=trim(substr($nominativo,strlen($cognome)));
+				
+				$cognome = ucwords(strtolower((addslashes($cognome))));
+				$nome=ucwords(strtolower((addslashes($nome))));
+				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $club . "%')),";
+				if(!empty($playersOld))
+					$eventiObj->addEvento('5',0,0,$pezzi[0]);
+			}
+			$q=rtrim("INSERT INTO giocatore(idGioc,cognome,nome,ruolo,club) VALUES ".$rowtoinsert,",");
+            
+			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		}
+
+		if(count($daTogliere)!=0)
 		{
 			foreach($daTogliere as $id => $val)
 				$eventiObj->addEvento('6',0,0,$id);
@@ -254,23 +294,14 @@ class giocatore
 			$q = "UPDATE giocatore 
 					SET club = NULL 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
+
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
-		// aggiunge nuovi giocatori
-		$rowtoinsert="";
-		foreach($daInserire as $key => $val)
-		{
-			$pezzi = explode(";",$val);
-			$cognome = ucwords(strtolower((addslashes($pezzi[1]))));
-			$rowtoinsert .=  "('" . $pezzi[0] . "','" . $cognome . "','" . $pezzi[2] . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $pezzi[3] . "%')),";
-			if(!empty($playersOld))
-				$eventiObj->addEvento('5',0,0,$pezzi[0]);
-		}
-		$q=rtrim("INSERT INTO giocatore(idGioc,cognome,ruolo,club) VALUES ".$rowtoinsert,",");
-		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+
 		if(isset($err))
 		{
 			mysql_query("ROLLBACK");
+			print "cazzo.$err";
 			return false;
 		}
 		else

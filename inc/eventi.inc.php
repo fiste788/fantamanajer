@@ -110,6 +110,13 @@ class eventi
 									$values[$key]['content'] = ucwords($ruoli['articoli'][$selected['ruolo']]).' '.$ruoli['nome'][$selected['ruolo']].' '.$selected['nome'].' '.$selected['cognome'].' non e\' piu\' un giocatore militante in Serie A';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
+								case 7: 
+									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
+									$selected=$player[$values[$key]['idExternal']];
+									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' è stato ingaggiato dalla squadra del '.$selected['partitivo'].' '.$sselected['nomeClub'];
+									$values[$key]['content'] = '';
+									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
+									break;
 				}
 			}
 			return $values;
