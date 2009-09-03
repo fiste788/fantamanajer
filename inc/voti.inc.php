@@ -42,8 +42,8 @@ class voti
 	
 	function recuperaVoti($giorn)
 	{
-		require_once(INCDIR.'fileSystem.inc.php');
-		$fileSystemObj = new fileSystem();
+		require_once(INCDIR.'fileSystem.inc.php');    
+		$fileSystemObj = new fileSystem();         
 		$percorso = "./docs/voti/csv/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
 		if($fileSystemObj->scaricaVotiCsv($giorn))
 		{

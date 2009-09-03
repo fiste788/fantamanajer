@@ -34,9 +34,9 @@
 				</td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['partite']." (".$val['partiteEff'].")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votoEffAll'] . '"'; ?>><?php if(!empty($val['votoEff'])) echo $val['votoEff']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['votoEffAll'])) echo ' title="' . $val['votiAll'] . '"'; ?>><?php if(!empty($val['voti'])) echo $val['voti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['presenze']." (".$val['presenzeEff'].")"; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['avgvoto'])) echo ' title="' . $val['avgvoto'] . '"'; ?>><?php if(!empty($val['avgvoto'])) echo $val['avgvoto']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['avgpunti'])) echo ' title="' . $val['avgpunti'] . '"'; ?>><?php if(!empty($val['avgpunti'])) echo $val['avgpunti']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
 			</tr>
@@ -46,11 +46,11 @@
 			<tr>
 				<?php if(!empty($this->giocatori)): ?>
 				<td class="ult" colspan="3">Media</td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaPartiteAll; ?>"><?php echo $this->mediaPartite; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaVotoAll; ?>"><?php echo $this->mediaVoto; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaMagicAll; ?>"><?php echo $this->mediaMagic; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaGolAll; ?>"><?php echo $this->mediaGol; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaAssistAll; ?>"><?php echo $this->mediaAssist; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaPartite; ?>"><?php echo $this->mediaPartite; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaVoto; ?>"><?php echo $this->mediaVoto; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaPunti; ?>"><?php echo $this->mediaPunti; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaGol; ?>"><?php echo $this->mediaGol; ?></td>
+				<td class="ult tdcenter" title="<?php echo $this->mediaAssist; ?>"><?php echo $this->mediaAssist; ?></td>
 				<?php else: ?>
 				<td class="ult" colspan="3"><br><br>Nessun giocatore in rosa</td>
 				<?php endif; ?>

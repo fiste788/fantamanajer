@@ -41,7 +41,7 @@ class fileSystem
 		}
 	}
 	
-	function returnArray($path) 
+	function returnArray($path,$sep=";") 
 	{
 		if(!file_exists($path)) 
 			die("File non esistente");
@@ -49,9 +49,9 @@ class fileSystem
 		$players = explode("\n",$content);
 		foreach ($players as $key => $val) 
 		{
-			$par = explode(";",$val);
+			$par = explode($sep,$val);
 			$players = trim($val);
-			$playersOk[$par[0]] = $players;
+			$playersOk[$par[0]] = $par;
 		}
 		return $playersOk;
 	}
@@ -98,7 +98,7 @@ class fileSystem
 			preg_match_all('#<tr[^>]*>(.*?)</tr>#mis', $matches[1],$keywords);
 			$keywords = $keywords[1];
 			unset($keywords[0]);
-
+            print $keywords;
 			foreach($keywords as $key)
 			{
 				preg_match_all("#<td[^>]*>(.*?)</td>#mis",$key,$player);

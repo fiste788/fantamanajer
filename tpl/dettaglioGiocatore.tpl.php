@@ -33,7 +33,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 				<img title="<?php echo $this->dettaglioGioc[0]['nomeClub']?>" class="shield" alt="<?php echo $this->dettaglioGioc[0]['nomeClub']?>" src="<?php echo $this->pathclub ?>"/>
 				<p><?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
 				<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
-				<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenzeeff']." (".$this->dettaglioGioc[0]['presenze'].")"; ?></p>
+				<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']." (".$this->dettaglioGioc[0]['presenzeeff'].")"; ?></p>
 				<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
 				<p>Assist: <?php echo $this->dettaglioGioc[0]['assist']; ?></p>
 				<p>Media voti: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
@@ -66,7 +66,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 	</tr>
 	<tr>
 		<td>Assist</td>
-	</tr>
+	</tr>  
 </table>
 <div id="tab_giocatore" class="column last">
 	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['data'])*40; ?>px;margin:0;">
@@ -77,12 +77,12 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 		</tr>
 		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
-			<td><?php echo $val['voto']; ?></td>
+			<td><?php echo $val['punti']; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
-			<td><?php if($val['votoUff'] != '0') echo $val['votoUff']; else echo "&nbsp;"; ?></td>
+			<td><?php if($val['voto'] != '0') echo $val['voto']; else echo "&nbsp;"; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
@@ -94,7 +94,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 		<?php foreach($this->dettaglioGioc['data'] as $key => $val): ?>
 			<td><?php echo $val['assist']; ?></td>
 		<?php endforeach; ?>
-		</tr>
+		</tr> 
 	</table>
 </div>
 <div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
