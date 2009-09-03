@@ -83,7 +83,6 @@ class giocatore
 		{
 			$giocatori[$row['idGioc']]=array_merge($giocatori[$row['idGioc']],$row);
 		}        
-		echo "<pre>".print_r($giocatori,1)."</pre>";
 		return $giocatori;
 	}
 	

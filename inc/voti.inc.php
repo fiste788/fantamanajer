@@ -10,7 +10,7 @@ class voti
 	
 	function getVotoByIdGioc($idGioc,$giornata)
 	{
-		$q = "SELECT voto 
+		$q = "SELECT punti 
 				FROM voti 
 				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
