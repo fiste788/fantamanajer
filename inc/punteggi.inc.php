@@ -49,6 +49,7 @@ class punteggi
 								WHERE punteggi.idLega = '" . $idLega . "'
 								GROUP BY idUtente) AS tb2 
 				ON punteggi.idUtente = tb2.idUtente
+				WHERE utente.idLega = '" . $idLega . "'
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -299,7 +300,7 @@ class punteggi
 		$giornateWithPunt = $this->getGiornateWithPunt();
 		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
-		for($i = 1; $i < $giornateWithPunt; $i++)
+		for($i = 1; $i <= $giornateWithPunt; $i++)
 		{
 			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
