@@ -20,16 +20,19 @@ $dbObj = new db();
 $action = NULL;
 $id = NULL;
 $lega = NULL;
+
 if(isset($_GET['a']))
 	$action = $_GET['a'];
-if(isset($_GET['id']))
-	$id = $_GET['id'];
-if(isset($_GET['lega']) && !empty($_GET['lega']))
-	$lega = $_GET['lega'];
 if(isset($_POST['a']))
 	$action = $_POST['a'];
+	
+if(isset($_GET['id']))
+	$id = $_GET['id'];
 if(isset($_POST['id']))
 	$id = $_POST['id'];
+
+if(isset($_GET['lega']) && !empty($_GET['lega']))
+	$lega = $_GET['lega'];
 if(isset($_POST['lega']))
 	$lega = $_POST['lega'];
 	
@@ -161,10 +164,12 @@ if($lega != NULL)
 	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
 $contenttpl->assign('elencoLeghe',$legheObj->getLeghe());
 $contenttpl->assign('lega',$lega);
+$contenttpl->assign('id',$id);
+$contenttpl->assign('action',$action);
 $goTo = array();
 if($action != NULL && $action == 'cancel' || $action == 'new')
-	$goTo = array('lega'=>$lega,'a'=>'new','id'=>'0');
+	$goTo = array('a'=>'new','id'=>'0','lega'=>$lega);
 elseif($action != NULL)
-	$goTo = array('lega'=>$lega,'a'=>'edit','id'=>$id);
+	$goTo = array('a'=>'edit','id'=>$id,'lega'=>$lega);
 $contenttpl->assign('goTo',$goTo);
 ?>

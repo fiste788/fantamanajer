@@ -1,7 +1,7 @@
 <?php $j = 0; ?>
 <div class="titolo-pagina">
-<?php if(isset($_GET['a'])):
-switch($_GET['a']):
+<?php if(isset($this->action)):
+switch($this->action):
 case 'new': $button = 'Crea';?>
 	<div class="column logo-tit">
 		<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
@@ -30,11 +30,11 @@ endswitch;else:
 <?php endif; ?>
 </div>
 <div id="creaSquadre" class="main-content">
-	<?php if($this->lega != NULL && isset($_GET['a']) && isset($_GET['id'])): ?>
+	<?php if($this->lega != NULL && isset($this->id) && isset($this->action)): ?>
 	<form id="creaSq" class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
 		<fieldset class="column no-margin">
-			<input type="hidden" name="a" value="<?php if(isset($_GET['a'])) echo $_GET['a']; ?>" />
-			<input type="hidden" name="id" value="<?php if(isset($_GET['id'])) echo $_GET['id']; ?>" />
+			<input type="hidden" name="a" value="<?php if(isset($this->action)) echo $this->action; ?>" />
+			<input type="hidden" name="id" value="<?php if(isset($this->id)) echo $this->id; ?>" />
 			<h3>Informazioni generali</h3>
 			<div class="formbox">
 				<label for="nomeSquadra">Nome della squadra:</label>
@@ -111,13 +111,13 @@ endswitch;else:
 		<p>Sei sicuro di voler eliminare la squadra <br />"<?php echo $nomeSquadra ?>"?</p>
 		</div>
 		<fieldset class="column no-margin div-submit">
-			<?php if($_GET['a'] == 'cancel'): ?>
+			<?php if($this->action == 'cancel'): ?>
 				<input id="elimina" onclick="return false;" type="submit" name="button2" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
 			<?php else: ?>
 				<input type="submit" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />
 			<?php endif; ?>
 				<input class="submit dark" type="reset" value="Annulla" />
-			<?php if($_GET['a'] == 'cancel'): ?>
+			<?php if($this->action == 'cancel'): ?>
 				<script type="text/javascript">
 					$("#elimina").click(function () {
 						$("#dialog").dialog({
@@ -150,7 +150,11 @@ endswitch;else:
 			<div class="box2-bottom-sx column last">
 			<div class="box2-bottom-dx column last">
 			<div class="box-content column last">
-			<?php if($_GET['a'] != 'new'): ?><h4><a href="<?php $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$this->lega)); ?>">Crea una squadra</a></h4><?php endif; ?>
+			<?php if($this->action != 'new'): ?>
+				<h4>
+					<a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$this->lega)); ?>">Crea una squadra</a>
+				</h4>
+			<?php endif; ?>
 			<h3>Elenco squadre</h3>
 			<?php foreach($this->elencosquadre as $key => $val): ?>
 				<div class="elencoSquadre column last">
@@ -211,7 +215,7 @@ endswitch;else:
 			<?php endif; ?>
 			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 			<?php if($_SESSION['usertype'] == 'superadmin'): ?>
-			<form class="column last" name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="get">
+			<form class="column last" name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
 				<input type="hidden" name="p" value="creaSquadra" />
 				<input type="hidden" name="a" value="new" />
 				<input type="hidden" name="id" value="0" />

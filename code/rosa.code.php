@@ -33,7 +33,7 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
 	{
-		if(strlen($_POST['passwordnew']) < 6)
+		if(strlen($_POST['passwordnew']) > 6)
 		{
 			if($_SESSION['usertype'] == "superadmin")
 				$_POST['amministratore'] = 2;
