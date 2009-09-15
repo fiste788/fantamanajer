@@ -115,13 +115,14 @@ class giocatore
 	function getGiocatoreByIdWithStats($giocatore)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente, idClub,nomeClub 
-				FROM squadre RIGHT JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON squadre.idGioc = giocatore.idGioc 
+				FROM (SELECT * FROM squadre WHERE idLega='".$_SESSION['legaView']."') AS squad RIGHT JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON squad.idGioc = giocatore.idGioc 
 				WHERE giocatore.idGioc ='" . $giocatore . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$q3="SELECT ROUND(SUM(punti)/SUM(valutato),2) AS mediaPunti, ROUND(SUM(voto)/SUM(valutato),2 ) AS mediaVoti, SUM( presenza ) AS presenze,SUM( valutato ) AS presenzeeff, SUM( gol ) AS gol, SUM( assist ) AS assist
 				FROM voti
-				WHERE voti.idGioc ='" . $giocatore."'";
+				WHERE voti.idGioc ='" . $giocatore."'";		
 		$exe3 = mysql_query($q3) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q3);
+		
 		$q2 = "SELECT * FROM voti  WHERE idGioc = '" . $giocatore . "';";
 		$exe2 = mysql_query($q2) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q2);
 
@@ -133,7 +134,7 @@ class giocatore
 				unset($data[$row['idGiornata']]['idGiornata']);
 				unset($data[$row['idGiornata']][0]);
 			}
-		}
+		}       
 		if(isset($data))
 			$values['data'] = $data;
 		while($row = mysql_fetch_array($exe))
@@ -142,6 +143,7 @@ class giocatore
 			$values[] = $row;
 		}
 		return $values;
+		echo "<pre>".print_r($values,1)."</pre>";
 	}
 	
 	function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
