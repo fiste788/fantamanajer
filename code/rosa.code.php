@@ -99,7 +99,7 @@ if(($squadra != NULL) && ($values))
 		$giocatori[$i]['presenze'] = $val['presenze'];
 		$giocatori[$i]['presenzeEff'] = $val['presenzeconvoto'];
 		if($val['ruolo']=="P")
-			$giocatori[$i]['gol'] = -$val['golsubiti'];
+			$giocatori[$i]['gol'] = -$val['golSubiti'];
 		else
 		{
 			$giocatori[$i]['gol'] = $val['gol'];

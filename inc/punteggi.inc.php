@@ -37,9 +37,9 @@ class punteggi
 
 	function getClassifica($idLega)
 	{
-		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio > 0) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
 				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN (
-						SELECT punteggi.idUtente, count( punteggi.idUtente ) AS giornateVinte
+						SELECT punteggi.idUtente, COUNT( punteggi.idUtente ) AS giornateVinte
 								FROM punteggi INNER JOIN (
 										SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
 										FROM punteggi
@@ -124,9 +124,9 @@ class punteggi
 	
 	function getClassificaByGiornata($idLega,$idGiornata)
 	{
-		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio > 0) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
 				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN (
-						SELECT punteggi.idUtente, count( punteggi.idUtente ) AS giornateVinte
+						SELECT punteggi.idUtente, COUNT( punteggi.idUtente ) AS giornateVinte
 								FROM punteggi INNER JOIN (
 										SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
 										FROM punteggi

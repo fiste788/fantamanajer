@@ -87,7 +87,7 @@ class fileSystem
 				$link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/stats_gg_" . $ruolo . ".shtml?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
 			$contenuto = $this->contenutoCurl($link);
 			if(empty($contenuto))
-				return TRUE;
+				return true;
 				
 			preg_match('#<span class="giornata">Giornata\s(.*?)<\/span>#mis',$contenuto,$matches);
 			$giornataGazzetta = $matches[1];
@@ -98,7 +98,7 @@ class fileSystem
 			preg_match_all('#<tr[^>]*>(.*?)</tr>#mis', $matches[1],$keywords);
 			$keywords = $keywords[1];
 			unset($keywords[0]);
-            print $keywords;
+			print $keywords;
 			foreach($keywords as $key)
 			{
 				preg_match_all("#<td[^>]*>(.*?)</td>#mis",$key,$player);
@@ -118,7 +118,7 @@ class fileSystem
 		}
 		$this->writeXmlVoti($xmlArray,$percorsoXml);
 		fclose($handle);
-		return TRUE;
+		return true;
 	}
 	
 	function writeXmlVoti($tree,$percorso) 
@@ -141,6 +141,40 @@ class fileSystem
 			$xml->writeElement("esplusioni",$node[7]);
 			$xml->writeElement("assist",$node[8]);
 			$xml->writeElement("punti",$node[9]);
+			$xml->endElement();
+		}
+		$xml->endDocument();
+	}
+	
+	function writeXmlVotiDecript($tree,$percorso) 
+	{
+		$xml = new XmlWriter();
+		$ruoli=array("P","D","C","A");
+		$xml->openURI($percorso);
+		$xml->startDocument("1.0");
+		$xml->startElement("players");
+		foreach($tree as $id=>$node) 
+		{
+			$xml->startElement("player");
+			$xml->writeElement("id",$id);
+			$xml->writeElement("nome",trim($node[2],'"'));
+			$xml->writeElement("club",substr(trim($node[3],'"'),0,3));
+			$xml->writeElement("ruolo",$ruoli[$node[5]]);
+			$xml->writeElement("valutato",$node[6]);	//1=valutato,0=senzavoto
+			$xml->writeElement("punti",$node[7]);
+			$xml->writeElement("voto",$node[10]);
+			$xml->writeElement("gol",$node[11]);
+			$xml->writeElement("golSubiti",$node[12]);
+			$xml->writeElement("golVittoria",$node[13]);
+			$xml->writeElement("golPareggio",$node[14]);
+			$xml->writeElement("assist",$node[15]);
+			$xml->writeElement("ammonizioni",$node[16]);
+			$xml->writeElement("espulsioni",$node[17]);
+			$xml->writeElement("rigoriSegnati",$node[18]);
+			$xml->writeElement("rigoriSubiti",$node[19]);
+			$xml->writeElement("presenza",$node[23]);
+			$xml->writeElement("titolare",$node[24]);
+			$xml->writeElement("quotazione",$node[27]);
 			$xml->endElement();
 		}
 		$xml->endDocument();

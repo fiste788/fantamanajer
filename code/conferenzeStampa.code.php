@@ -15,6 +15,7 @@ if (!empty($_POST['giorn']))
 $contenttpl->assign('getGiornata',$getGiornata);
 
 $articoloObj->setidgiornata($getGiornata);
+$articoloObj->setidlega($_SESSION['legaView']);
 
 $articolo = $articoloObj->select($articoloObj,'=','*');
 if($articolo != FALSE)
@@ -23,8 +24,8 @@ if($articolo != FALSE)
 $contenttpl->assign('articoli',$articolo);
 
 
-$contenttpl->assign('squadre',$utenteObj->getElencoSquadre());
-$giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['idLega']);
+$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['legaView']);
 if($giornateWithArticoli != FALSE)
 {
 	rsort($giornateWithArticoli);

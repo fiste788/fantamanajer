@@ -1,6 +1,4 @@
 <?php 
-require_once(INCDIR.'fileSystem.inc.php');
-
 class decrypt
 {
 /*campi file .rcs
@@ -32,79 +30,83 @@ class decrypt
 */
 	function decryptCdfile($giornata)
 	{
-		$fileSystemObj= new fileSystem;
-		$percorso=LISTAGIOCDIR."giornata".$giornata.".txt";
+		require_once(INCDIR.'fileSystem.inc.php');
+		$fileSystemObj = new fileSystem();
+		$percorso = VOTIDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
 		if (file_exists($percorso))
 			return $percorso;
-		$handle = fopen($percorso, "a");
-		$site="http://magic.gazzetta.it";
-		$content=$fileSystemObj->contenutoCurl($site."/magiccampionato/09-10/free/download/cd/?s=26f93e16fd6fc65929fd435a0cf17e372f23a6b422");
+		$handle = fopen($percorso, "a+");
+		$site = "http://magic.gazzetta.it";
+		$content = $fileSystemObj->contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/?s=26f93e16fd6fc65929fd435a0cf17e372f23a6b422");
 
-    $search="";
+		$search = "";
 		$content = preg_replace("/\n/","",$content);
 		preg_match("/Giornata $giornata(.*?)<a href=\"(.+?)\"/i",$content,$matches);
-    $url=($site.$matches[2]);	
-		
-		$decrypt="2A 68 6C 34 35 6A 6E 31 32 64 66 67 46 46 44 52 38 73 78 63 33 33 64 65 72 66 76 2A";
+		$url = ($site.$matches[2]);
+
+		$decrypt = "2A 68 6C 34 35 6A 6E 31 32 64 66 67 46 46 44 52 38 73 78 63 33 33 64 65 72 66 76 2A";
 		$explode_xor = explode(" ", $decrypt);
 		$i = 0;
 
-		$scrivi_file=fopen($percorso,"w");
-		$stringa="";
-		if (!$p_file = fopen($url,"r")) {
+		$scriviFile = fopen($percorso,"w");
+		$stringa = "";
+		if (!$p_file = fopen($url,"r"))
 			return false;
-		} else {
-			while(!feof($p_file))
+		else
 		{
-			if ($i == 28) {$i = 0;}
-			$linea = fgets($p_file, 2);
-			$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
-			$i++;
-			$stringa .= chr($xor2);
-		}
-		$pezzi=explode("\n",$stringa);
-		array_pop($pezzi);
-		foreach($pezzi as $key=>$val)
-			{$pieces=explode("|",$val);
-			if($pieces[4]==0) unset($pezzi[$key]);
+			while(!feof($p_file))
+			{
+				if ($i == 28)
+					$i = 0;
+				$linea = fgets($p_file, 2);
+				$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
+				$i++;
+				$stringa .= chr($xor2);
 			}
-		fwrite($scrivi_file,join("\n",$pezzi));
-		fclose($scrivi_file);
-		fclose($p_file);
+			$pezzi = explode("\n",$stringa);
+			array_pop($pezzi);
+			foreach($pezzi as $key=>$val)
+			{
+				$pieces = explode("|",$val);
+				$pezzi[$key] = join(";",$pieces);
+				if($pieces[4] == 0) 
+					unset($pezzi[$key]);
+			}
+			fwrite($scriviFile,join("\n",$pezzi));
+			fclose($scriviFile);
+			fclose($p_file);
 		}
 		return $percorso;
-	}	 
+	}
 	
 	function importVoti($path,$giornata)
 	{
-		$fileSystemObj= new fileSystem;	
-		$players=$fileSystemObj->returnArray($path,"|");
+		require_once(INCDIR.'fileSystem.inc.php');
+		$fileSystemObj = new fileSystem();
+		$players = $fileSystemObj->returnArray($path,";");
+		$fileSystemObj->writeXmlVotiDecript($players,str_replace("csv","xml",$path));
 		foreach($players as $id=>$stats)
 		{
-			$valutato=$stats[6];  //1=valutato,0=senzavoto
-			$punti=$stats[7];
-			$voto=$stats[10];
-			$gol=$stats[11];
-			$golsub=$stats[12];
-			$golvit=$stats[13];
-			$golpar=$stats[14];
-			$assist=$stats[15];
-			$ammonizioni=$stats[16];
-			$espulsioni=$stats[17];
-			$rigorisegn=$stats[18];
-			$rigorisub=$stats[19];
-			$presenza=$stats[23];
-			$titolare=$stats[24];
-			$quotazione=$stats[27];
+			$valutato = $stats[6];	//1=valutato,0=senzavoto
+			$punti = $stats[7];
+			$voto = $stats[10];
+			$gol = $stats[11];
+			$golsub = $stats[12];
+			$golvit = $stats[13];
+			$golpar = $stats[14];
+			$assist = $stats[15];
+			$ammonizioni = $stats[16];
+			$espulsioni = $stats[17];
+			$rigorisegn = $stats[18];
+			$rigorisub = $stats[19];
+			$presenza = $stats[23];
+			$titolare = $stats[24];
+			$quotazione = $stats[27];
 			$rows[] = "('" . $id . "','" . $giornata . "','" . $valutato . "','" . $punti . "','" . $voto . "','" . $gol . "','" . $golsub . "','" . $golvit . "','" . $golpar . "','" . $assist . "','" . $ammonizioni . "','" . $espulsioni . "','" . $rigorisegn . "','" . $rigorisub . "','" . $presenza . "','" . $titolare . "','" . $quotazione . "')";
 		}
-		$q="";
-		$q="INSERT INTO voti(idGioc,idGiornata,valutato,punti,voto,gol,golsub,golvit,golpar,assist,ammonizioni,espulsioni,rigorisegn,rigorisub,presenza,titolare,quotazione) VALUES ";  
+		$q = "INSERT INTO voti(idGioc,idGiornata,valutato,punti,voto,gol,golSub,golVit,golPar,assist,ammonizioni,espulsioni,rigoriSegn,rigoriSub,presenza,titolare,quotazione) VALUES ";  
 		$q .= implode(',',$rows);
 		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-  
 	}
-
-
 }
 ?>

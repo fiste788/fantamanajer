@@ -28,13 +28,13 @@ if(isset($_POST['squad']))
 	$squadra = $_POST['squad'];
 $ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
 $contenttpl->assign('ruo',$ruo);
-$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadre());
+$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 $contenttpl->assign('squadra',$squadra);
 $trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
 $numTrasferimenti = count($trasferimenti);
 $playerFree = array();
 foreach($ruo as $key => $val)
-	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1),$_SESSION['idLega']));
+	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer(substr($val,0,1),$_SESSION['legaView']));
 
 $trasferiti = $giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']);
 /*

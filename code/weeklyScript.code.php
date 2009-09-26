@@ -27,9 +27,9 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 
 	if($result=$decryptObj->decryptCdfile($giornata))
-	{       
+	{
 		$giocatoreObj->updateTabGiocatore($result,$giornata);
-		if(!$votiObj->checkVotiExist($giornata))             
+		if(!$votiObj->checkVotiExist($giornata))
 			$decryptObj->importVoti($result,$giornata);
 		$leghe = $legheObj->getLeghe();
 		$mail = 0;
