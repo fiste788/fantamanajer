@@ -52,7 +52,7 @@ $contenttpl->assign('ruolo',$ruolo);
 $contenttpl->assign('suff',$suff);
 $contenttpl->assign('partite',$partite);	
 
-$freeplayer = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['idLega']);
+$freeplayer = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['legaView']);
 foreach($freeplayer as $key => $val)
 {
 	$freeplayer[$key]['nome'] = $val['nome'];

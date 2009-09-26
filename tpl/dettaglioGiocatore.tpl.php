@@ -34,7 +34,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 				<p><?php echo $ruo[$this->dettaglioGioc[0]['ruolo']]; ?></p>
 				<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
 				<p>Presenze: <?php echo $this->dettaglioGioc[0]['presenze']." (".$this->dettaglioGioc[0]['presenzeeff'].")"; ?></p>
-				<p>Gol: <?php if(!empty($this->dettaglioGioc[0]['gol'])) echo $this->dettaglioGioc[0]['gol'];  ?></p>
+				<p>Gol: <?php echo $this->dettaglioGioc[0]['gol'];  ?></p>
 				<p>Assist: <?php echo $this->dettaglioGioc[0]['assist']; ?></p>
 				<p>Media voti: <?php if(!empty($this->dettaglioGioc[0]['mediaVoti'])) echo $this->dettaglioGioc[0]['mediaVoti']; ?></p>
 				<p>Media punti: <?php if(!empty($this->dettaglioGioc[0]['mediaPunti'])) echo $this->dettaglioGioc[0]['mediaPunti']; ?></p>
@@ -108,7 +108,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 			var data = [
 				{
 				label: "Voto <?php echo $this->dettaglioGioc[0]['cognome'] ." ". $this->dettaglioGioc[0]['nome'] ?>",
-				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key => $val): $i++; ?><?php if($val['votoUff'] != '0') echo '['.$key.','.$val['votoUff'].']'; if($val['votoUff'] != '0' && count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
+				data: [<?php $i = 0; foreach($this->dettaglioGioc['data'] as $key => $val): $i++; ?><?php if($val['punti'] != '0') echo '['.$key.','.$val['punti'].']'; if($val['punti'] != '0' && count($this->dettaglioGioc['data']) != $i) echo ','; endforeach; ?>]
 				},
 				{
 				label: "Punteggio <?php echo $this->dettaglioGioc[0]['cognome'] ." ". $this->dettaglioGioc[0]['nome'] ?>",

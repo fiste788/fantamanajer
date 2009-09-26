@@ -20,20 +20,20 @@ class voti
 
 	function getPresenzaByIdGioc($idGioc,$giornata)
 	{
-		$q = "SELECT voto,votoUff 
+		$q = "SELECT voto,punti 
 				FROM voti WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
-			if($row['votoUff'] <> 0 && $row['voto'] <> 0)
+			if($row['punti'] <> 0 && $row['voto'] <> 0)
 				return TRUE;
 		return FALSE;
 	}
 
 	function getMedieVoto($idGioc)
 	{
-		$q = "SELECT AVG(voto) as mediaPunti,AVG(votoUff) as mediaVoti,count(voto) as presenze 
+		$q = "SELECT AVG(voto) as mediaPunti,AVG(punti) as mediaVoti,count(voto) as presenze 
 				FROM voti 
-				WHERE idGioc = '" . $idGioc . "' AND votoUff <> 0 AND voto <> 0 
+				WHERE idGioc = '" . $idGioc . "' AND punti <> 0 AND voto <> 0 
 				GROUP BY idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
@@ -42,14 +42,14 @@ class voti
 	
 	function recuperaVoti($giorn)
 	{
-		require_once(INCDIR.'fileSystem.inc.php');    
-		$fileSystemObj = new fileSystem();         
+		require_once(INCDIR.'fileSystem.inc.php');
+		$fileSystemObj = new fileSystem();
 		$percorso = "./docs/voti/csv/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
 		if($fileSystemObj->scaricaVotiCsv($giorn))
 		{
 			if($this->checkVotiExist($giorn))
 				return TRUE;
-			$q = "INSERT INTO voti(idGioc,idGiornata,votoUff,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
+			$q = "INSERT INTO voti(idGioc,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
 			$content = file($percorso);
 			if($content != FALSE)
 			{

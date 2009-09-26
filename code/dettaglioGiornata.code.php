@@ -40,7 +40,7 @@ $contenttpl->assign('giornprec',$giornprec);
 $contenttpl->assign('giornsucc',$giornsucc);
 
 $contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
-$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['idLega']));
+$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 
 
 $contenttpl->assign('giornate',$giornate);

@@ -16,7 +16,7 @@ if(isset($_POST['edit']))
 	$edit = $_POST['edit'];
 
 $contenttpl->assign('idgioc',$id);
-$dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id);
+$dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id,$_SESSION['legaView']);
 
 $pathfoto = 'foto/' . $dettaglio[0]['idGioc'] . '.jpg';
 $pathclub = 'clubs/' . $dettaglio[0]['idClub'] . '.png';
