@@ -12,7 +12,7 @@
 		<div class="box2-bottom-sx column last">
 		<div class="box2-bottom-dx column last">
 		<div class="box-content column last">
-			<h3><a href="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$squadra)); ?>">Trasferimenti</a></h3>	
+			<h3><a href="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idSquadra'])); ?>">Trasferimenti</a></h3>	
 			<img class="logo column last" alt="->" src="<?php echo IMGSURL.'transfert-other.png'; ?>" title="Trasferimenti" />
 			<div>Vedi i trasferimenti effettuati dalla tua e dalle altre squadre e seleziona il tuo acquisto</div>
 		</div>

@@ -1,10 +1,4 @@
 <?php $i=1; ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img alt="->" src="<?php echo IMGSURL. 'classifica-big.png'; ?>" />
-	</div>
-	<h2 class="column">Classifica</h2>
-</div>
 <div id="classifica-content" class="main-content">
 	<div id="classifica-container" class="column last">
 		<table cellpadding="0" cellspacing="0" class="column last no-margin" style="width:316px;overflow:hidden;">
@@ -17,7 +11,7 @@
 				<?php foreach($this->classificaDett as $key => $val): ?>
 				<tr>
 					<td><?php echo $i; ?></td>
-					<td class="nowrap"><?php echo $this->squadre[$key]['nome']; ?></td>
+					<td class="squadra" id="squadra-<?php echo $key; ?>" class="nowrap"><?php echo $this->squadre[$key]['nome']; ?></td>
 					<td><?php echo array_sum($val); ?></td>
 				 </tr>
 				<?php $i++;$flag = $key; endforeach; ?>
@@ -48,16 +42,16 @@
 		</div>
 	</div>
 	<?php if(!empty($this->giornate)): ?>
-	<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
+	<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+	<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
 	<div id="hidden" class="hidden">&nbsp;</div>
-	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
+	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
 	<script id="source" type="text/javascript">
 	<!--
  $(function () {
    		var datasets = {
-			<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $this->squadre[$key]['nome']; ?>": {
+			<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $key; ?>": {
 				label: "<?php echo $this->squadre[$key]['nome']; ?>",
 				data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
 			}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
@@ -68,14 +62,15 @@
 			var medie = {
 				<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>
 				<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]) ?>
-				"<?php echo $this->squadre[$key]['nome'] ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
+				"<?php echo $key ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']; ?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]) ?>,<?php echo $media ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 				<?php endforeach; ?>
 				};
 			var options = {
+				colors: ["#edc240", "#afd8f8","#555555", "#cb4b4b", "#4da74d", "#9440ed","#dddddd","#00a2ff"],
 				lines: { show: true },
 				points: { show: true },
 				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
-				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
+				legend: {show: false },
 				xaxis: { tickDecimals: 0 },
 				shadowSize: 2,
 				selection: { mode: null }
@@ -88,16 +83,22 @@
 				val.color = i;
 				++i;
 			});
+			i = 0;
+			$.each(medie, function(key, val) {
+				val.color = i;
+				++i;
+			});
 
 			// insert checkboxes
-			var choiceContainer = $("#choices");
+			var choiceContainer = $("#classifica-container table");
 			$.each(datasets, function(key, val) {
-			choiceContainer.append('<div class="formbox"><input class="checkall checkbox" type="checkbox" name="' + key +
-			'" checked="checked" /><label for="'+ key +'">' + val.label + '</label></div>');
+				rigaSquadra = choiceContainer.find("#squadra-"+key.replace(/ /g,''));
+				rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '">&nbsp;</div>');
+				rigaSquadra.prepend('<input style="margin:2px 0 0;float:left;padding:0" class="checkall checkbox" type="checkbox" name="' + key + '" checked="checked" />');
 			});
 
 			<?php if($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']): ?>
-				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idSquadra']]['nome']; ?>']").attr ('checked','');
+				choiceContainer.find("input[name!='<?php echo $this->squadre[$_SESSION['idSquadra']]['idUtente']; ?>']").attr ('checked','');
 			<?php endif; ?>
 				choiceContainer.find("input").click(plotAccordingToChoices);
 
@@ -128,9 +129,12 @@
 					}));
 				}
 				else
+				{
 					plot = $.plot($("#placeholder"), data,options);
+				}
 
 				var overview = $.plot($("#overview"), data, {
+					colors: ["#edc240", "#afd8f8","#555555", "#cb4b4b", "#4da74d", "#9440ed","#dddddd","#00a2ff"],
 					lines: { show: true, lineWidth: 1 },
 					shadowSize: 0,
 					xaxis: { ticks: 4 },
@@ -252,43 +256,3 @@
 	</script>
 	<?php endif; ?>
 </div>
-<div id="squadradett" class="column last">
-	<div class="box2-top-sx column last">
-	<div class="box2-top-dx column last">
-	<div class="box2-bottom-sx column last">
-	<div class="box2-bottom-dx column last">
-	<div class="box-content column last">
-		<?php if($_SESSION['logged'] == TRUE): ?>
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-		<?php endif; ?>
-		<form class="column last" name="classifica_giornata" action="<?php echo $this->linksObj->getLink('classifica'); ?>" method="post">
-			<fieldset class="no-margin fieldset max-large">
-				<h3 class="no-margin">Guarda la classifica alla giornata</h3>
-					<select name="giorn" onchange="document.classifica_giornata.submit();">
-						<?php for($j = $this->giornate ; $j  > 0 ; $j--): ?>
-							<option <?php if($this->getGiornata == $j) echo "selected=\"selected\"" ?>><?php echo $j; ?></option>
-						<?php endfor; ?>
-				</select>
-			</fieldset>
-		</form>
-		<?php if(!empty($this->giornate)): ?>
-		<div id="legendcontainer" class="column last">
-			<h3 class="no-margin">Legenda</h3>
-		</div>
-		<div id="option" class="column last">
-			<div id="choices" class="column last">
-				<p class="column no-margin">Mostra:</p>
-			</div>
-			<div class="formbox" id="allCont">
-				<input class="checkbox" id="all" type="checkbox" <?php if(!$_SESSION['logged']) echo 'checked="checked"';  ?> />
-				<label>De/Seleziona tutti</label>
-			</div>
-		</div>
-		<?php endif; ?>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-</div>
-

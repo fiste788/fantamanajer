@@ -15,9 +15,12 @@ $squadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 foreach($classificaDett as $key => $val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 	
-$contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());
+$giornate = $punteggiObj->getGiornateWithPunt();
+$contenttpl->assign('giornate',$giornate);
 $contenttpl->assign('classificaDett',$classificaDett);
 $contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($_SESSION['legaView']));
 $contenttpl->assign('squadre',$squadre);
-$contenttpl->assign('getGiornata',$giornata);
+
+$operationtpl->assign('getGiornata',$giornata);
+$operationtpl->assign('giornate',$giornate);
 ?>
