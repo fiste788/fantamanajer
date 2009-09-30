@@ -150,20 +150,15 @@ class giocatore
 	
 	function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
 	{
-		require_once(INCDIR.'voti.inc.php');
 		require_once(INCDIR.'formazione.inc.php');
-		$votiObj = new voti();
 		$formazioneObj = new formazione();
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($idUtente,$giornata);
-		$q = "SELECT giocatore.idGioc as gioc, cognome, nome, ruolo, nomeClub, idPosizione, considerato
-				FROM schieramento INNER JOIN (giocatore LEFT JOIN club ON giocatore.club = club.idClub) ON schieramento.idGioc = giocatore.idGioc
+		$q = "SELECT giocatore.idGioc as gioc, cognome, nome, ruolo, nomeClub, idPosizione, considerato, voti.*
+				FROM schieramento INNER JOIN ((giocatore LEFT JOIN club ON giocatore.club = club.idClub) INNER JOIN voti ON giocatore.idGioc = voti.idGioc AND voti.idGiornata = '" . $giornata . "') ON schieramento.idGioc = giocatore.idGioc 
 				WHERE idFormazione = '" . $formazione['id'] . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
-		{
-			$row['voto'] = $votiObj->getVotoByIdGioc($row['gioc'],$giornata);
 			$elenco[] = $row;
-		}
 		if(isset($elenco))
 			return $elenco;
 		else

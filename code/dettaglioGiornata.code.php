@@ -36,14 +36,9 @@ else
 if($squadra == NULL)
 	$giornprec=$giornsucc=FALSE;
 
-$contenttpl->assign('giornprec',$giornprec);
-$contenttpl->assign('giornsucc',$giornsucc);
-
 $contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 
-
-$contenttpl->assign('giornate',$giornate);
 $penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($squadra,$giornata);
 if($penalità != FALSE)
 	$contenttpl->assign('penalità',$penalità);
@@ -62,4 +57,11 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $giornata > 0 && $gi
 }
 else
 	$contenttpl->assign('formazione',NULL);
+
+$operationtpl->assign('penalità',$penalità);
+$operationtpl->assign('giornprec',$giornprec);
+$operationtpl->assign('giornsucc',$giornsucc);
+$operationtpl->assign('giornate',$giornate);
+$operationtpl->assign('getsquadra',$squadra);
+$operationtpl->assign('getgiornata',$giornata);
 ?>

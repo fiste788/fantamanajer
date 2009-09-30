@@ -90,6 +90,7 @@ $layouttpl = new Savant3();
 $headertpl = new Savant3();
 $footertpl = new Savant3();
 $contenttpl = new Savant3();
+$operationtpl = new Savant3();
 $navbartpl = new Savant3();
 
 //Creating linksObj in object pages
@@ -97,6 +98,7 @@ $linksObj = new links();
 $headertpl->assign('linksObj',$linksObj);
 $footertpl->assign('linksObj',$linksObj);
 $contenttpl->assign('linksObj',$linksObj);
+$operationtpl->assign('linksObj',$linksObj);
 $navbartpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
@@ -169,9 +171,11 @@ define("GIORNATA",$giornata);
 define("TIMEOUT",$timeout);
 $contenttpl->assign('giornata',GIORNATA);
 $contenttpl->assign('timeout',TIMEOUT);
+$operationtpl->assign('giornata',GIORNATA);
+$operationtpl->assign('timeout',TIMEOUT);
 
 $leghe = $legheObj->getLeghe();
-$headertpl->assign('leghe',$leghe);
+$layouttpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
 	$_SESSION['legaView'] = $leghe[0]['idLega'];
 if(isset($_POST['legaView']))
@@ -300,7 +304,8 @@ else
 }
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbartpl->assign('p',$p);
-$headertpl->assign('p',$p);
+$navbartpl->assign('pages',array_merge($guestpages,$userpages,$adminpages,$superadminpages));
+$layouttpl->assign('p',$p);
 /**
  *
  * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
@@ -341,6 +346,10 @@ $navbar=$navbartpl->fetch(TPLDIR.'navbar.tpl.php');
  * Esegue la fetch del template per l'area content
  */
 $content=$contenttpl->fetch($tplfile);
+if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
+	$operation=$operationtpl->fetch(TPLDIR . "operazioni/" . $p . ".tpl.php");
+else
+	$operation = NULL;
 
 /**
  * COMPOSIZIONE PAGINA
@@ -349,6 +358,7 @@ $content=$contenttpl->fetch($tplfile);
 $layouttpl->assign('header', $header);
 $layouttpl->assign('footer', $footer);
 $layouttpl->assign('content', $content);
+$layouttpl->assign('operation', $operation);
 $layouttpl->assign('navbar', $navbar);
 
 /**

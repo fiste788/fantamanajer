@@ -45,22 +45,28 @@
 			<?php echo $this->navbar ?>
 		</div>
 		<div id="content" class="column last">
-			<div id="content-top-sx" class="column last">
-				<div id="content-top-dx" class="column last">
-					<div id="content-bottom-sx" class="column last">
-						<div id="content-bottom-dx" class="column last">
-							<div id="content-container" class="column last" >
-								<?php echo $this->content ?>
-							</div>
-						</div>
-					</div>
-				</div>
+			<div id="content-container" class="column last" >
+				<?php echo $this->content ?>
 			</div>
 		</div>
 		<div id="footer">
 			<?php echo $this->footer ?>
 		</div>
 		</div>
+		<div id="click-menu"></div>
+		<div id="menu"><?php echo $this->operation ?></div>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#click-menu").mouseover(function(event){
+					var appo = $("#menu");
+						$("#menu").animate({right:'0px'},'slow');
+				});
+				$("#menu").mouseleave(function(event){
+					var appo = $("#menu");
+						$("#menu").animate({right:'-300px'},'slow');
+				});
+			});
+		</script>
 		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' ): ?>
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

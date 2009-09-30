@@ -36,27 +36,28 @@ if($giornateWithArticoli != FALSE)
 else
 	$giornateWithArticoli = $key = FALSE;
 
-$contenttpl->assign('giornateWithArticoli',$giornateWithArticoli);
+$operationtpl->assign('giornateWithArticoli',$giornateWithArticoli);
 if($key > 0)
 {
 	if(isset($giornateWithArticoli[$key+1]))
-		$contenttpl->assign('giornprec',$giornateWithArticoli[$key+1]);
+		$operationtpl->assign('giornprec',$giornateWithArticoli[$key+1]);
 	else
-		$contenttpl->assign('giornprec',FALSE);
-	$contenttpl->assign('giornsucc',$giornateWithArticoli[$key-1]);
+		$operationtpl->assign('giornprec',FALSE);
+	$operationtpl->assign('giornsucc',$giornateWithArticoli[$key-1]);
 }
 elseif(($key == 0 || $giornata == $getGiornata) && count($giornateWithArticoli) != 1)
 {
-	$contenttpl->assign('giornprec',$giornateWithArticoli[$key+1]);
-	$contenttpl->assign('giornsucc',FALSE);
+	$operationtpl->assign('giornprec',$giornateWithArticoli[$key+1]);
+	$operationtpl->assign('giornsucc',FALSE);
 }
 elseif(!$key)
 {
-	$contenttpl->assign('giornprec',FALSE);
-	$contenttpl->assign('giornsucc',FALSE);
+	$operationtpl->assign('giornprec',FALSE);
+	$operationtpl->assign('giornsucc',FALSE);
 }
 
-$contenttpl->assign('articoloExist',1);
+$operationtpl->assign('articoloExist',1);
+$operationtpl->assign('getGiornata',$getGiornata);
 if(isset($_SESSION['idSquadra']))
 {
 	$articoloObj->setidgiornata($getGiornata);
