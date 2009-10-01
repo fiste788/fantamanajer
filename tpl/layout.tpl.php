@@ -1,23 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>FantaManajer<?php if(isset($this->pages['title'])) echo " - ".$this->pages['title']; ?></title>
+		<title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
 		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantacalcio,fantamanajer,fantamanger,manageriale fantacalcio,alzano sopra,condominio i pini,bergamo,calcio,piazzetta" />
 		<meta name="robots" content="index,follow" />
-		<?php foreach($this->pages['css'] as $key => $val): ?>
-			<link href="<?php echo CSSURL.$val.'.css';?>" media="screen" rel="stylesheet" type="text/css" />
+		<?php foreach($this->css as $key => $val): ?>
+			<link href="<?php echo CSSURL . $val . '.css';?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
-		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL.'ie.css';?>" type="text/css" media="screen, projection"><![endif]-->
+		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.css';?>" type="text/css" media="screen, projection"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
-		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL.'rss.php'; ?>" />
-		<link rel="alternate" href="<?php echo FULLURL.'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
-		<?php if(!empty($this->pages['js'])): ?>
-		<?php foreach($this->pages['js'] as $key => $val): ?>
+		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
+		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
+		<?php if(!empty($this->js)): ?>
+		<?php foreach($this->js as $key => $val): ?>
 		<?php if(is_array($val)): ?>
 		<?php foreach($val as $key2=>$val2): ?>
 		<?php $appo = explode('|',$val2); ?>

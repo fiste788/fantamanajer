@@ -9,7 +9,7 @@
 		<a title="Nascondi" href="#oper" class="toggle operazioni-title column last">Operazioni</a>
 			<ul class="operazioni-content">
 			<?php if(TIMEOUT != '0'): ?>
-			<?php if($this->timeout == false): ?>
+			<?php if(TIMEOUT == false): ?>
 				<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>">Guarda la formazione</a></li>
 			<?php else: ?>
 				<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('formazione'); ?>">Imposta la formazione</a></li>
