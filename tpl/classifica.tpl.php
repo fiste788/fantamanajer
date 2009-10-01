@@ -11,7 +11,7 @@
 				<?php foreach($this->classificaDett as $key => $val): ?>
 				<tr>
 					<td><?php echo $i; ?></td>
-					<td class="squadra" id="squadra-<?php echo $key; ?>" class="nowrap"><?php echo $this->squadre[$key]['nome']; ?></td>
+					<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><?php echo $this->squadre[$key]['nome']; ?></td>
 					<td><?php echo array_sum($val); ?></td>
 				 </tr>
 				<?php $i++;$flag = $key; endforeach; ?>
@@ -93,7 +93,7 @@
 			var choiceContainer = $("#classifica-container table");
 			$.each(datasets, function(key, val) {
 				rigaSquadra = choiceContainer.find("#squadra-"+key.replace(/ /g,''));
-				rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '">&nbsp;</div>');
+				rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '"></div>');
 				rigaSquadra.prepend('<input style="margin:2px 0 0;float:left;padding:0" class="checkall checkbox" type="checkbox" name="' + key + '" checked="checked" />');
 			});
 

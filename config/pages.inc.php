@@ -3,206 +3,203 @@
  * Creo un array in cui specifico titolo,js e css dell'head
  */
  
-$guestpages = array();
-	$guestpages['home'] = array(	'title'=>"Home",
+$pages = array();
+	$pages['home'] = array(	'title'=>"Home",
 									'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-tabs','effects-core','effects-pulsate'),'countdown'=>'countdown'),
-									'css'=>array('screen','style','tabs'));
+									'css'=>array('screen','style','tabs'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'home','title'=>'Home','order'=>1,'main'=>TRUE));
 									
-	$guestpages['rosa'] = array(	'title'=>"Squadra", 
-								'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix','fancybox'=>'fancybox'),
-								'css'=>array('screen','style','fancy'));
+	$pages['squadre'] = array(	'title'=>"Squadra", 
+								'js'=>array('jquery'=>'jquery','fancybox'=>'fancybox'),
+								'css'=>array('screen','style','fancy'),
+								'roles'=>-1,
+								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
 								
-	$guestpages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
+	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
 								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
-								'css'=>array('screen','style'));
+								'css'=>array('screen','style'),
+								'roles'=>-1,
+								'navbar'=>array('key'=>'altro','title'=>'Dettaglio giocatore','order'=>6));
 								
-	$guestpages['classifica'] = array(	'title'=>"Classifica",
+	$pages['classifica'] = array(	'title'=>"Classifica",
 									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 									
-	$guestpages['dettaglioGiornata'] = array(	'title'=>"Dettaglio punteggi",
+	$pages['dettaglioGiornata'] = array(	'title'=>"Dettaglio punteggi",
 									'js'=>'',
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'classifica','title'=>'Dettaglio giornata','order'=>5));
 									
-	$guestpages['premi'] = array(	'title'=>"Premi",
+	$pages['premi'] = array(	'title'=>"Premi",
 									'js'=>'',
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Premi','order'=>6));
 									
-	$guestpages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
+	$pages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
 									'js'=>array('jquery'=>'jquery'),
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'conferenzeStampa','title'=>'Conferenze stampa','order'=>4,'main'=>TRUE));
 									
-	$guestpages['contatti'] = array(	'title'=>"Contatti",
+	$pages['contatti'] = array(	'title'=>"Contatti",
 									'js'=>'',
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Contatti','order'=>6));
 									
-	$guestpages['altro'] = array(	'title'=>"Altro...",
+	$pages['altro'] = array(	'title'=>"Altro...",
 									'js'=>'',
-									'css'=>array('screen','style'));
-						
-	$guestpages['linkUtili'] = array(	'title'=>"Link Utili",
-									'js'=>'',
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Altro...','order'=>6,'main'=>TRUE));
 									
-	$guestpages['sendMail'] = array(	'title'=>"Invio mail formazioni",
+	$pages['sendMail'] = array(	'title'=>"Invio mail formazioni",
 									'js'=>'',
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
 	
-	$guestpages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
+	$pages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
 										'js'=>'',
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>-1,
+										'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
 										
-	$guestpages['backup'] = array(	'title'=>"Backup",
+	$pages['backup'] = array(	'title'=>"Backup",
 									'js'=>'',
-									'css'=>array('screen','style'));
+									'css'=>array('screen','style'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
 	
-	$guestpages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
+	$pages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
 										'js'=>'',
-										'css'=>array('screen','style'));
-	$guestpages['updateGioc'] = array(	'title'=>"Aggiorna lista giocatori",
+										'css'=>array('screen','style'),
+										'roles'=>-1,
+										'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
+										
+	$pages['updateGioc'] = array(	'title'=>"Aggiorna lista giocatori",
 										'js'=>'',
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>-1,
+										'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
 									
-	$guestpages['feed'] = array(	'title'=>"Vedi gli eventi",
+	$pages['feed'] = array(	'title'=>"Vedi gli eventi",
 										'js'=>'',
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>-1,
+										'navbar'=>array('key'=>'altro','title'=>'Eventi','order'=>6));
 
-	
-	
-$userpages = array();
-	$userpages['home'] = array(	'title'=>"Home", 
-									'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-tabs'),'countdown'=>'countdown'),
-									'css'=>array('screen','style','tabs'));
-	
-	$userpages['rosa'] = array(	'title'=>"Squadra",
-								'js'=>array('jquery'=>'jquery','pngfix'=>'jquery-pngFix','fancybox'=>'fancybox','ui'=>array('ui-core','ui-accordion','effects-core','effects-pulsate')),
-								'css'=>array('screen','style','fancy'));
-								
-	$userpages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
-								'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
-								'css'=>array('screen','style'));
-								
-	$userpages['classifica'] = array(	'title'=>"Classifica", 
-									'js'=>array('jquery'=>'jquery','flot'=>array('ie|excanvas','jquery-flot')),
-									'css'=>array('screen','style'));
-									
-	$userpages['dettaglioGiornata'] = array(	'title'=>"Dettaglio punteggi",
-									'js'=>array('jquery'=>'jquery'),
-									'css'=>array('screen','style'));
-									
-	$userpages['premi'] = array(	'title'=>"Premi",
-									'js'=>array('jquery'=>'jquery'),
-									'css'=>array('screen','style'));
-									
-	$userpages['formazione'] = array(	'title'=>"Formazione", 
+	$pages['formazione'] = array(	'title'=>"Formazione", 
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Formazione','order'=>6));
 										
-	$userpages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
+	$pages['dettaglioSquadra'] = array(	'title'=>"Squadra", 
+									'js'=>array('jquery'=>'jquery','fancybox'=>'fancybox'),
+									'css'=>array('screen','style','fancy'),
+									'roles'=>-1,
+									'navbar'=>array('key'=>'dettaglioSquadra','title'=>'La tua squadra','order'=>2,'main'=>TRUE));						
+									
+	$pages['trasferimenti'] = array(	'title'=>"Trasferimenti",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
-									
-	$userpages['contatti'] = array(	'title'=>"Contatti",
-									'js'=>array('jquery'=>'jquery'),
-									'css'=>array('screen','style'));	
-									
-	$userpages['altro'] = array(	'title'=>"Altro...",
-								'js'=>array('jquery'=>'jquery'),
-								'css'=>array('screen','style'));	
-								
-	$userpages['linkUtili'] = array(	'title'=>"Link Utili",
-									'js'=>array('jquery'=>'jquery'),
-									'css'=>array('screen','style'));
-								
-	$userpages['sendMail'] = array(	'title'=>"Invio mail formazioni",
-									'js'=>'',
-									'css'=>array('screen','style'));
-	
-	$userpages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
-									'js'=>'',
-									'css'=>array('screen','style'));
-									
-	$userpages['backup'] = array(	'title'=>"Backup",
-									'js'=>'',
-									'css'=>array('screen','style'));
-									
-	$userpages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
-										'js'=>'',
-										'css'=>array('screen','style'));
-	$userpages['updateGioc'] = array(	'title'=>"Aggiorna lista giocatori",
-										'js'=>'',
-										'css'=>array('screen','style'));										
-									
-	$userpages['trasferimenti'] = array(	'title'=>"Trasferimenti",
-										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Trasferimenti','order'=>6));
 										
-	$userpages['giocatoriLiberi'] = array(	'title'=>"Giocatori liberi",
+	$pages['giocatoriLiberi'] = array(	'title'=>"Giocatori liberi",
 										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Giocatori liberi','order'=>6));
 										
-	$userpages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
+	$pages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
 										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni','order'=>6));
 										
-	$userpages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
+	$pages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
-										
-	$userpages['feed'] = array(	'title'=>"Vedi gli eventi",
-										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'conferenzeStampa','title'=>'Crea o modifica conferenza','order'=>4));
 							
-    $userpages['download'] = array(	'title'=>"Area Download",
+    $pages['download'] = array(	'title'=>"Area Download",
 										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
-
-$adminpages = array();																			
-	$adminpages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Download','order'=>6));
+																		
+	$pages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
 										'js'=>array('jquery'=>'jquery'),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Area amministrativa','order'=>7,'main'=>TRUE));
 										
-	$adminpages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
+	$pages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
 										'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','ui-dialog','effects-core','effects-pulsate')),
-										'css'=>array('screen','style','dialog'));
+										'css'=>array('screen','style','dialog'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Crea una nuova squadra','order'=>7));
 										
-	$adminpages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
+	$pages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Nuovo trasferimento','order'=>7));
 										
-	$adminpages['inserisciFormazione'] = array(	'title'=>"Inserisci formazione mancante",
+	$pages['inserisciFormazione'] = array(	'title'=>"Inserisci formazione mancante",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Inserisci formazione mancante','order'=>7));
 										
-	$adminpages['newsletter'] = array(	'title'=>"Newsletter",
+	$pages['newsletter'] = array(	'title'=>"Newsletter",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Newsletter','order'=>7));
 
-	$adminpages['penalita'] = array(	'title'=>"Penalità",
+	$pages['penalita'] = array(	'title'=>"Penalità",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Penalità','order'=>7));
 										
-	$adminpages['impostazioni'] = array(	'title'=>"Impostazioni lega",
+	$pages['impostazioni'] = array(	'title'=>"Impostazioni lega",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>1,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Impostazioni lega','order'=>7));
+									
+	$pages['gestioneDatabase'] = array(	'title'=>"Gestione database",
+										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
+										'css'=>array('screen','style'),
+										'roles'=>2,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione database','order'=>7));
 
-$superadminpages = array();										
-	$superadminpages['gestioneDatabase'] = array(	'title'=>"Gestione database",
+	$pages['lanciaScript'] = array(	'title'=>"Lancia script",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
-
-	$superadminpages['lanciaScript'] = array(	'title'=>"Lancia script",
-										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>2,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Lancia script','order'=>7));
 										
-	$superadminpages['modificaGiocatore'] = array(	'title'=>"Modifica giocatore",
+	$pages['modificaGiocatore'] = array(	'title'=>"Modifica giocatore",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate'),'flot'=>array('ie|excanvas','jquery-flot')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>2,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore','order'=>7));
 										
-	$superadminpages['giornate'] = array(	'title'=>"Giornate",
+	$pages['giornate'] = array(	'title'=>"Giornate",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
-										'css'=>array('screen','style'));
+										'css'=>array('screen','style'),
+										'roles'=>2,
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Giornate','order'=>7));
 										
-//echo "<pre>".print_r($guestpages,1)."</pre>";
-//echo "<pre>".print_r(array_keys($guestpages),1)."</pre>";
 ?>

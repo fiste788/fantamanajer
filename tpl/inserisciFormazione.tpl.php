@@ -7,7 +7,7 @@
 </div>
 <div id="formazione" class="main-content">
 	<?php if(isset($this->formImp) && !$this->formImp): ?>	
-		<h3>Giornata <?php echo $this->giornata; ?></h3>
+		<h3>Giornata <?php GIORNATA; ?></h3>
 		<?php if(isset($this->squadra) && $this->squadra != NULL && isset($this->mod) && $this->mod != NULL && isset($this->giornata) && $this->giornata != NULL): ?>	
 				<div>
 					<img alt="modulo" id="img-modulo" title="<?php echo substr($this->mod,2) ?>" src="<?php echo IMGSURL.$this->mod.'.png' ?>" />

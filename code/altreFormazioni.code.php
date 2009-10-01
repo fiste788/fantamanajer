@@ -25,7 +25,7 @@ $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 $cap = array();
 $formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giorn);
-$formImp = $formazioneObj->getFormazioneExistByGiornata($giorn);
+$formImp = $formazioneObj->getFormazioneExistByGiornata($giorn,$_SESSION['legaView']);
 
 if($formazione != FALSE)
 {

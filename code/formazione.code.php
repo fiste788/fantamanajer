@@ -23,7 +23,7 @@ $contenttpl->assign('elencosquadre',$val);
 if(TIMEOUT == FALSE)
 	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
-$formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA);
+$formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
 if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
 	unset($formImp[$_SESSION['idSquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);

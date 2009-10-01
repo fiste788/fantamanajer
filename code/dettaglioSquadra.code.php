@@ -1,11 +1,9 @@
 <?php
-
 require_once(INCDIR.'utente.inc.php');
 require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
 require_once(INCDIR.'punteggi.inc.php');
 require_once(INCDIR.'giocatore.inc.php');
 require_once(INCDIR.'voti.inc.php');
-
 
 $giocatoreObj = new giocatore();
 $punteggiObj = new punteggi();
@@ -16,7 +14,6 @@ $squadra = NULL;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 $contenttpl->assign('squadra',$squadra);
-
 $classifica = $punteggiObj->getClassifica($_SESSION['legaView']);
 foreach($classifica as $key => $val)
 {
@@ -28,7 +25,6 @@ foreach($classifica as $key => $val)
 	}
 }
 $contenttpl->assign('classifica',$classifica);
-$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($_SESSION['legaView']));
 if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
@@ -60,8 +56,6 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 	}
 	$contenttpl->assign('message',$message);
 }
-$elencoSquadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
-$contenttpl->assign('elencosquadre',$elencoSquadre);
 
 if(isset($elencoSquadre[$squadra-1]))
 	$contenttpl->assign('squadraprec',($squadra-1));
@@ -122,7 +116,7 @@ if(($squadra != NULL) && ($values))
 	$contenttpl->assign('mediaPartite',round($mediaPartite/$i,2));
 	$contenttpl->assign('mediaGol',round($mediaGol/($i-3),2));
 	$contenttpl->assign('mediaAssist',round($mediaAssist/$i,2));
-	$contenttpl->assign('giocatori',$giocatori);	
+	$contenttpl->assign('giocatori',$giocatori);
 }
 
 ?>

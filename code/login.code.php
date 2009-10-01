@@ -18,6 +18,7 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 			$navbartpl->assign('loginok',$formsObj->string);
 			$_SESSION['userid'] = $_POST['username'];
 			$_SESSION['logged'] = TRUE;
+			$_SESSION['roles'] = $valore['amministratore'];
 			if($valore['amministratore'] == 2)
 				$_SESSION['usertype'] = 'superadmin';
 			elseif($valore['amministratore'] == 1)

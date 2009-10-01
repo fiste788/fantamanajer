@@ -6,8 +6,8 @@
 	<h2 class="column">Formazione</h2>
 </div>
 <div id="formazione" class="main-content">
-	<?php if($this->timeout): ?>
-		<h3>Giornata <?php echo $this->giornata; ?></h3>
+	<?php if(TIMEOUT): ?>
+		<h3>Giornata <?php echo GIORNATA; ?></h3>
 		<?php if(isset($this->mod) && $this->mod != NULL): ?>
 				<div>
 					<img alt="modulo" id="img-modulo" title="<?php echo substr($this->mod,2) ?>" src="<?php echo IMGSURL.$this->mod.'.png' ?>" />
