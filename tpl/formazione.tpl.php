@@ -1,103 +1,56 @@
 <?php $j =0; $k = 0; ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'formazione-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column">Formazione</h2>
-</div>
 <div id="formazione" class="main-content">
 	<?php if(TIMEOUT): ?>
 		<h3>Giornata <?php echo GIORNATA; ?></h3>
 		<?php if(isset($this->mod) && $this->mod != NULL): ?>
-				<div>
-					<img alt="modulo" id="img-modulo" title="<?php echo substr($this->mod,2) ?>" src="<?php echo IMGSURL.$this->mod.'.png' ?>" />
-				</div>
+				<div style="width:950px;height:600px;position:relative;border:1px solid #fff;">
+					<img style="display:none;" width="930" alt="modulo" id="img-modulo" title="<?php echo substr($this->mod,2) ?>" src="<?php echo IMGSURL.$this->mod.'.png' ?>" />
+				
 				<form id="form-formazione" name="formazione" action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
-					<fieldset id="titolari">
 					<input type="hidden" name="mod" value="<?php echo $this->mod; ?>">
-					<h3 class="center">Titolare</h3>
-				<?php /*CONTROLLO SE IL MODULO È SETTATO E FACCIO IL FOR CHE STAMPA LE SELECT*/
-				/*INDICE RUOLI:
-				1 - PORTIERI
-				2 - DIFESORI
-				3 - CENTROCAMPISTI
-				4 - ATTACCANTI */
-				$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
-				$elencocap = array('C','VC','VVC'); ?>
 				<?php foreach($this->giocatori as $key => $val): ?>
-					<h4 class="bold no-margin"><?php echo ucfirst($ruo[$j]); ?></h4><hr />
 					<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>
-						<select name="<?php echo substr($ruo[$j],0,3). '-' . $i ; ?>">
+						<select class="titolare <?php echo $this->ruo[$j] ?>" style="position:absolute;<?php echo 'top:'. ((((600-(18*$this->modulo[$j])) / ($this->modulo[$j]+1)) * ($i+1)) + (($i+1) * 18)-24) . 'px;left:' . 240 * $j . 'px'; ?>" name="<?php echo $this->ruo[$j] . '[' . $i . ']' ; ?>">
 							<option></option>
-							<?php if(isset($this->titolari[$k])) $every=$this->titolari[$k];
-							foreach($val as $key3=>$val3): 
-							$selected = FALSE; 
-							if(isset($_POST[substr($ruo[$j],0,3). '-' . $i]) && $_POST[substr($ruo[$j],0,3). '-' . $i] == $val3['idGioc'])
-							{
-								$selected=TRUE;
-								$selezionato = $val3['idGioc'];
-								unset($every);
-							}
-							elseif(isset($every) && $every == $val3['idGioc'])
-							{
-								$selected = TRUE;
-								$selezionato = $val3['idGioc'];
-								unset($every);
-							}
-							?><option value="<?php echo $val3['idGioc']; ?>" <?php if($selected) echo ' selected="selected"'; ?>><?php echo $val3['cognome'] . " " . $val3['nome']; ?></option>
+							<?php foreach($val as $key3=>$val3): ?>
+								<option value="<?php echo $val3['idGioc']; ?>"<?php if(isset($this->titolari[$k]) && $val3['idGioc'] == $this->titolari[$k]) echo ' selected="selected"'; ?>><?php echo $val3['cognome'] . " " . $val3['nome']; ?></option>
 						  	<?php  endforeach; ?>
 						</select>
-						<?php if($_SESSION['datiLega']['capitano']): ?>
-							<?php if($j == 0 || $j ==1 ): /*SE È UN DIFENSORE O UN PORTIERE VISULIZZO LA SELECT PER IL CAPITANO */ ?>
-							<select class="cap" name="<?php $nome=substr($ruo[$j],0,3).'-'.$i.'-cap'; echo $nome; ?>">
-								<option></option>
-								<?php foreach ($elencocap as $elem):
-								$selected = FALSE; 
-								if(isset($_POST[$nome]) && $_POST[$nome] == $elem)
-									$selected = TRUE;
-								elseif(!empty($this->cap))
-								{
-									if(array_search($selezionato,$this->cap) == $elem)
-									{
-										$selected = TRUE;
-										unset($this->cap[$nome]);
-									}
-								}
-								?><option<?php if($selected) echo ' selected="selected"'; ?>><?php echo $elem; ?></option>
-								<?php endforeach;?>
-							</select>
-							<?php endif; ?>
-						<?php endif; ?>
 					<?php $k++; endfor; ?>
 				<?php $j++; endforeach; ?>
-				</fieldset>
+				</div>
+				<?php foreach($this->elencocap as $key => $val): ?>
+				<?php echo $val ?>
+				<select class="cap" id="<?php echo $val; ?>" name="cap[<?php echo $val; ?>]">
+					<option></option>
+					<?php foreach($this->giocatori['P'] as $key2=>$val2): 
+					echo $val2['idGioc']."  " . $this->cap[$val]; 
+						if($val2['idGioc'] == $this->cap[$val]): ?>
+							<option value="<?php echo $val2['idGioc']; ?>" selected="selected"><?php  echo $val2['cognome'] . " " . $val2['nome'];?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+					<?php foreach($this->giocatori['D'] as $key2=>$val2): 
+						if($val2['idGioc'] == $this->cap[$val]): ?>
+							<option value="<?php echo $val2['idGioc']; ?>" selected="selected"><?php  echo $val2['cognome'] . " " . $val2['nome'];?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</select>
+				<?php endforeach; ?>
 				<fieldset id="panchinari">
 					<h3 class="center">Panchina</h3>
 					<h4 class="bold no-margin">Giocatori</h4><hr />
 					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
-					<select name="<?php echo 'panch-'. $i; ?>">
+					<select class="panch" name="panch[]">
 					<option></option>
-						<?php if(isset($this->panchinari[$i])) $every = $this->panchinari[$i]; 
-							for($j = 0 ; $j < count($ruo) ; $j++): ?>
-							<optgroup label="<?php echo $ruo[$j] ?>">
-								<?php foreach($this->giocatori[substr($ruo[$j],0,1)] as $key3=>$val3): 
-								$selected = FALSE; 
-								if(isset($_POST["panch-". $i]) && $_POST["panch-". $i] == $val3['idGioc'])
-								{
-									$selected = TRUE;
-									unset($every);
-								}
-								if(isset($every) && $every == $val3['idGioc'])
-								{
-									$selected= TRUE;
-									unset($every);
-								}
-								?><option value="<?php echo $val3['idGioc']; ?>"<?php if($selected) echo ' selected="selected"'; ?>><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
+						<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
+							<optgroup label="<?php echo $this->ruo[$j] ?>">
+								<?php foreach($this->giocatori[substr($this->ruo[$j],0,1)] as $key3=>$val3): ?>
+									<option value="<?php echo $val3['idGioc']; ?>"<?php if(isset($this->panchinari[$i]) && $val3['idGioc'] == $this->panchinari[$i]) echo ' selected="selected"'; ?>><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
 								<?php endforeach; ?>
 							</optgroup>
 						<?php endfor; ?>
 					</select>
-					<?php unset($ogni); endfor; ?>
+					<?php endfor; ?>
 					<div class="div-submit">
 						<input class="submit dark" type="submit" name="button" value="Invia" />
 						<input class="submit dark" type="reset" value="Torna indietro" />
@@ -107,13 +60,82 @@
 			<?php endif; ?>
 	<?php endif; ?>
 </div>
+<script type="text/javascript">
+
+
+	$(document).ready(function() {
+		$(".P,.D").change(function() {
+			$(".cap").empty();
+			var array = {C:'<?php echo $this->cap['C'] ?>',VC:'<?php echo $this->cap['VC'] ?>',VVC:'<?php echo $this->cap['VVC'] ?>'};
+			$(".P option:selected,.D option:selected").each(function () {
+				a = $("#C");
+            	if($(this).attr('value') != '')
+            		string = '<option value="' + $(this).attr('value') + '" ';
+					if($(this).attr('value') == array["C"])
+						string = string + 'selected="selected"';
+					string = string + '>' + $(this).text() + '</option>';
+					a.append(string);
+				a = $("#VC");
+            	if($(this).attr('value') != '' && $(this).attr('value') != array["VC"])
+					string = '<option value="' + $(this).attr('value') + '" ';
+					if($(this).attr('value') == array["VC"])
+						string = string + 'selected="selected"';
+					string = string + '>' + $(this).text() + '</option>';
+					a.append(string);
+				a = $("#VVC");
+            	if($(this).attr('value') != '' && $(this).attr('value') != array["VVC"])
+					string = '<option value="' + $(this).attr('value') + '" ';
+					if($(this).attr('value') == array["VVC"])
+						string = string + 'selected="selected"';
+					string = string + '>' + $(this).text() + '</option>';
+					a.append(string);
+			});
+		});
+	});
+	
+	$(document).ready(function() {
+		$(".titolare,.panch").change(function() {
+			$(".panch option,.titolare option").css('background','#0ff');
+			$(".titolare option:selected,.panch option:selected").each(function () {
+                $(".panch option[value=" + $(this).attr('value') + "],.titolare option[value=" + $(this).attr('value') + "]").css('background','#fff');
+              });
+			
+		});
+	});
+	
+	<?php if(isset($this->titolari)): ?>
+		$(document).ready(function() {
+			$(".panch option,.titolare option").css('background','#0ff');
+			$(".titolare option:selected,.panch option:selected").each(function () {
+                $(".panch option[value=" + $(this).attr('value') + "],.titolare option[value=" + $(this).attr('value') + "]").css('background','#fff');
+              });
+		});
+		
+		$(document).ready(function() {
+			var array = {C:'<?php echo $this->cap['C'] ?>',VC:'<?php echo $this->cap['VC'] ?>',VVC:'<?php echo $this->cap['VVC'] ?>'};
+			$(".P option:selected,.D option:selected").each(function () {
+				a = $("#C");
+            	if($(this).attr('value') != '' && $(this).attr('value') != array["C"])
+					a.append('<option value="' + $(this).attr('value') + '" >' + $(this).text() + '</option>');
+				a = $("#VC");
+            	if($(this).attr('value') != '' && $(this).attr('value') != array["VC"])
+					a.append('<option value="' + $(this).attr('value') + '" >' + $(this).text() + '</option>');
+				a = $("#VVC");
+            	if($(this).attr('value') != '' && $(this).attr('value') != array["VVC"])
+					a.append('<option value="' + $(this).attr('value') + '" >' + $(this).text() + '</option>');
+			});
+			
+		});
+	<?php endif; ?>
+</script>
+
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-		<?php if(!$this->timeout): //NON PIÙ NECESSARIO QUESTO IF PER L'HEADER LOCATION NELLA CODE' ?>
+		<?php if(!TIMEOUT): //NON PIÙ NECESSARIO QUESTO IF PER L'HEADER LOCATION NELLA CODE' ?>
 		<div id="messaggio" class="messaggio neut column last" >
 			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" />
 			<span>Non puoi effettuare operazioni in questo momento.Aspetta la fine delle partite</span>

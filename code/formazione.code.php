@@ -29,15 +29,17 @@ if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
 $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
-$cap = "";
+$frega = 0;
+$ruo = array('P','D','C','A');
+$elencocap = array('C','VC','VVC');
+$contenttpl->assign('ruo',$ruo);
+$contenttpl->assign('elencocap',$elencocap);
 if(TIMEOUT)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
-	$ruo = array('P','D','C','A');
 	foreach($ruo as $key => $val)
 		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
 	$contenttpl->assign('giocatori',$giocatori);
-	$contenttpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
 
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 		
@@ -49,54 +51,55 @@ if(TIMEOUT)
 	{
 		$formazione = array();
 		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
-		$err = 2;
-		foreach($_POST as $key => $val)
+		$err = 0;
+		
+		foreach($ruo as $ruolo)
 		{
-			if(strpos($key,'Por') !== FALSE || strpos($key,'Dif') !== FALSE || strpos($key,'Cen') !== FALSE || strpos($key,'Att') !== FALSE || strpos($key,'panch') !== FALSE)
+			foreach($_POST[$ruolo] as $key=>$val)
 			{
-				if((strpos($key,'cap') === FALSE) && (strpos($key,'panch') === FALSE))	//CONTROLLO SE È UNA SELECT RELATIVA AL CAPITANO
+				if(empty($val))
 				{
-					if(empty($val))
-					{
-						$missing ++;
-						$err ++;
-					}
-					if( !in_array($val,$formazione))
-							$formazione[] = $val;		
+					$missing ++;
+					$err ++;
+				}
+				if( !in_array($val,$formazione))
+					$formazione[] = $val;		
+				else
+					$err++;
+			}
+		}
+		foreach($_POST['panch'] as $key=>$val)
+		{
+			if(!empty($val))
+			{
+				if( !in_array($val,$formazione))
+					$formazione[] = $val;		
+				else
+					$err++;
+			}	
+		}
+		foreach($_POST['cap'] as $key=>$val)
+		{
+			if(!empty($val))
+			{
+				$ruoloGioc = $giocatoreObj->getRuoloByIdGioc($val);
+				if( $ruoloGioc == 'P' || $ruoloGioc == 'D' )
+				{
+					if( !in_array($val,$capitano))
+						$capitano[$key] = $val;		
 					else
 						$err++;
 				}
-				if(strpos($key,'panch') !== FALSE)
+				else
 				{
-					if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
-					{
-						if( !in_array($val,$formazione))
-							$formazione[] = $val;
-						else
-							$err++;
-					}	
+					$frega++;
+					$err++;
 				}
-				if(strpos($key,'cap') !== FALSE)
-				{
-					if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
-					{
-						if( $capitano[$val] == NULL)
-						{
-							if(strpos($key,'Por') !== FALSE)
-								$pos = 0;
-							else
-								$pos = $key{4} + 1;  
-							$capitano[$val] = $formazione[$pos];
-						}	
-						else
-							$err++;
-					}		
-				}
-			}
+			}	
 		}
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
-		if ($err == 2)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
+		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 		{
 			unset($_POST);
 			if(!$issetform)
@@ -119,6 +122,11 @@ if(TIMEOUT)
 			$message[0] = 1;
 			$message[1] = 'Valori mancanti';
 		}
+		if ($frega > 0)
+		{
+			$message[0] = 1;
+			$message[1] = 'Stai cercando di fregarmi?';
+		}
 		$contenttpl->assign('message',$message);
 	}
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
@@ -128,6 +136,25 @@ if(TIMEOUT)
 			$mod = $issetform['modulo'];
 		$panchinariAr = $issetform['elenco'];
 		$titolariAr = array_splice($panchinariAr,0,11);
+		$i = 0;
+		if(!empty($_POST))
+		{
+			foreach($ruo as $ruolo)
+			{
+				foreach($_POST[$ruolo] as $key=>$val)
+				{
+					$titolariAr[$i] = $val;
+					$i++;
+				}
+			}
+			foreach($_POST['panch'] as $key=>$val)
+			{
+				$panchinariAr[$i] = $val;
+				$i++;
+			}
+			foreach($_POST['cap'] as $key=>$val)
+				$capitano[$key] = $val;
+		}
 		$contenttpl->assign('titolari',$titolariAr);
 		if(empty($panchinariAr))
 			$contenttpl->assign('panchinari',FALSE);
