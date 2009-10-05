@@ -877,6 +877,10 @@ p.surprise {
 	color: #000;
 	cursor: pointer;
 }
+.giocatore p{
+	margin:0;
+	font-weight:bold;
+}
 .P {
 	border: 1px solid #ff0000;
 	background-color: #ffd1d1;
@@ -895,11 +899,11 @@ p.surprise {
 }
 #campo {
 	width: 600px;
-	height: 400px;
+	
 	text-align: center;
 }
 #campo .droppable {
-	height: 60px;
+	height: 100px;
 	width: 600px;
 }
 .droppable {
