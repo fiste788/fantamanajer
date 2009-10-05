@@ -100,6 +100,12 @@ $pages = array();
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione','order'=>6));
 										
+	$pages['formazioneNew2'] = array(	'title'=>"Formazione", 
+										'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','effects-core','effects-pulsate','ui-draggable','ui-droppable')),
+										'css'=>array('screen','style'),
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Formazione','order'=>6));
+										
 	$pages['dettaglioSquadra'] = array(	'title'=>"Squadra", 
 									'js'=>array('jquery'=>'jquery','fancybox'=>'fancybox'),
 									'css'=>array('screen','style','fancy'),
