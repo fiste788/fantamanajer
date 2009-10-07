@@ -144,8 +144,7 @@ input.dark:hover {
 #login select {
 	margin:2px 1px;
 	width:120px;
-	padding:2px;
-	
+	padding:0;
 }
 #login .lega {
 	margin:6px 3px 0 0;
@@ -870,16 +869,41 @@ p.surprise {
 	margin-bottom: 0;
 }
 #giocatori {
-	clear: both;
+	width:370px;
+}
+#panchina {
+	width:700px;
+	height:100px;
+	display:block;
+}
+#panchina .droppable{
+	width:100px;
+	height:86px;
+	padding:7px 0;
+	display:block;
+	float:left;
 }
 .giocatore {
-	width: 100px;
+	width: 70px;
 	color: #000;
 	cursor: pointer;
+	text-align:center;
+	padding:4px;
+	float:left;
+	margin:3px 5px;
+	height:76px;
+	overflow:hidden;
+	-moz-border-radius:10px;
+}
+.giocatore span{
+	position:absolute;
+	top:5px;
+	left:5px;
 }
 .giocatore p{
 	margin:0;
 	font-weight:bold;
+	line-height:14px;
 }
 .P {
 	border: 1px solid #ff0000;
@@ -898,19 +922,17 @@ p.surprise {
 	background-color: #d0f1ff;
 }
 #campo {
-	width: 600px;
-	
+	width: 554px;
+	height:644px;
+	background:transparent url(../imgs/campo.png) no-repeat -3px -3px;
 	text-align: center;
 }
 #campo .droppable {
-	height: 100px;
-	width: 600px;
-}
-.droppable {
-	border: 1px solid #fff;
+	height: 140px;
 }
 .droppable-hover {
 	background-color: #fff3d1;
+	opacity:0.5;
 }
 #banner {
 	width: 100%;

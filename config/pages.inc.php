@@ -164,7 +164,7 @@ $pages = array();
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),
 										'css'=>array('screen','style'),
 										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Inserisci formazione mancante','order'=>7));
+										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione formazioni','order'=>7));
 										
 	$pages['newsletter'] = array(	'title'=>"Newsletter",
 										'js'=>array('jquery'=>'jquery','ui'=>array('effects-core','effects-pulsate')),

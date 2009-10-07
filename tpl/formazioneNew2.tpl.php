@@ -1,9 +1,7 @@
-<?php $j =0; $k = 0; ?>
-<?php print_r($this->titolari) ?>
+<?php $j =0; $k = 0;$ruolo="" ?>
 <div id="formazione" class="main-content" style="position:relative;">
 	<?php  if(TIMEOUT): ?>
 		<h3>Giornata <?php echo GIORNATA; ?></h3>
-		
 		<div id="campo" class="column">
 			<div id="portiere" class="droppable" name="P"></div>
 			<div id="difensori" class="droppable" name="D"></div>
@@ -12,17 +10,33 @@
 		</div>
 			<div id="giocatori" class="column" >
 			<?php foreach($this->giocatori as $key=>$val): ?>
+				<?php if($ruolo != $val['ruolo']) echo '<div style="clear:both;line-height:1px">&nbsp;</div>' ?>
 				<div id="<?php echo $val['idGioc'] ?>" name="<?php echo $val['ruolo']; ?>" class="draggable giocatore <?php echo $val['ruolo']; ?>">
 					<img width="40" src="imgs/foto/<?php echo $val['idGioc']; ?>.jpg" />
-					<?php echo $val['cognome'] . ' ' . $val['nome']; ?>
+					<p><?php echo $val['cognome'] . ' ' . $val['nome']; ?></p>
 				</div>
+				<?php if($ruolo != $val['ruolo'])$ruolo = $val['ruolo']; ?>
 			<?php $j++; endforeach; ?>
 			</div>
+			<div id="panchina" class="column">
+				<div class="droppable"></div>
+				<div class="droppable"></div>
+				<div class="droppable"></div>
+				<div class="droppable"></div>
+				<div class="droppable"></div>
+				<div class="droppable"></div>
+				<div class="droppable"></div>
+			</div>
 			<div id="field">
-	<?php for($i=0;$i<11;$i++): ?>
-		<input <?php if(isset($this->titolari[$i])) echo 'value="' . $this->titolari[$i] . '" title="' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '" rel="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . '"' ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
-	<?php endfor; ?>
-	</div>
+				<?php for($i=0;$i<11;$i++): ?>
+					<input <?php if(isset($this->titolari[$i])) echo 'value="' . $this->titolari[$i] . '" title="' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '" rel="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . '"' ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+				<?php endfor; ?>
+			</div>
+			<div id="panchina-field">
+				<?php for($i=0;$i<6;$i++): ?>
+					<input <?php if(isset($this->panchinari[$i])) echo 'value="' . $this->titolari[$i] . '" title="' . $this->giocatori[$this->panchinari[$i]]['cognome'] . ' ' . $this->giocatori[$this->panchinari[$i]]['nome'] . '" rel="' . $this->giocatori[$this->panchinari[$i]]['ruolo'] . '"' ?> id="panch-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
+				<?php endfor; ?>
+			</div>
 	<?php endif; ?>
 	<script type="text/javascript">
   $(document).ready(function(){
@@ -38,7 +52,7 @@
 				data['D']=5;
 				data['C']=5;
 				data['A']=3;
-		$('.droppable').droppable({
+		$('#campo .droppable').droppable({
 			accept: function(draggable) {
 				var nome = $(this).attr('name');
 				if($(draggable).attr('name') == nome) {
@@ -169,9 +183,12 @@
 						}
 						else
 						{
-							data['D'] = 5;
-							data['C'] = 3;
-							data['A'] = 2;
+							if(nAtt == 2)
+							{
+								data['D'] = 5;
+								data['C'] = 3;
+								data['A'] = 2;
+							}
 						}
 					}
 				
@@ -232,13 +249,9 @@
 			over:function(draggable) { $('.embed').droppable('enable'); },
 			greedy: false,*/
 			drop: function(ev,ui) {
-						$(this).append('<div id="'+ui.draggable.attr('id') +'" name="'+ ui.draggable.attr('name') +'" class="embed '+ui.draggable.attr('class')+'"><img width="40" src="imgs/foto/' + ui.draggable.attr('id') + '.jpg" /><p>' + $(ui.draggable).text() + '</p></div>');
-						$(this).children('div').css('opacity','1');
-						if((ui.draggable).parent().attr('id') == 'giocatori')
-							$(ui.draggable).addClass('hidden');
-						else
-							$(ui.draggable).remove();
+						$(ui.draggable).remove();
 						$(ui.helper).remove();
+						$("#giocatori #" + ui.draggable.attr('id')).removeClass("hidden");
 						list = $("#field").find("input");
 						list.each(function (i) {
 							$(list[i]).removeAttr('value');
@@ -246,6 +259,54 @@
 						lista = $("#campo").find("div.embed");
 						lista.each(function (i) {
 							$("input[name=gioc[" + i + "]]").attr('value',$(lista[i]).attr('id'));
+						});
+						list = $("#panchina-field").find("input");
+						list.each(function (i) {
+							$(list[i]).removeAttr('value');
+						});
+						lista = $("#panchina").find("div.embed");
+						lista.each(function (i) {
+							$("input[name=panch[" + i + "]]").attr('value',$(lista[i]).attr('id'));
+						});
+						$(".draggable").draggable({
+							helper:"clone",opacity:0.5,revert:true
+						});
+						
+				}
+			});
+			
+			$('#panchina .droppable').droppable({
+			accept: function(draggable) {
+				var n = 0;
+				$(this).find("div").each(function () {
+					n++;
+				});
+				if(n== 0)
+					return true;
+			},
+			activeClass: 'droppable-active',
+			hoverClass: 'droppable-hover',
+			/*activate:  function(draggable) { $('.embed').droppable('disable'); },
+			deactivate:  function(draggable) { $('.embed').droppable('enable'); },
+			over:function(draggable) { $('.embed').droppable('enable'); },
+			greedy: false,*/
+			drop: function(ev,ui) {
+						ui.draggable.removeClass('embed');
+							$(this).append('<div id="'+ui.draggable.attr('id') +'" name="'+ ui.draggable.attr('name') +'" style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><span></span><img width="40" src="imgs/foto/' + ui.draggable.attr('id') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+						$(this).children('div').css('opacity','1');
+						if((ui.draggable).parent().attr('id') == 'giocatori')
+							$(ui.draggable).addClass('hidden');
+						else
+							$(ui.draggable).remove();
+						$(ui.helper).remove();
+						list = $("#panchina-field").find("input");
+						list.each(function (i) {
+							$(list[i]).removeAttr('value');
+						});
+						lista = $("#panchina").find("div.embed");
+						lista.each(function (i) {
+							$(lista[i]).children('span').text(i+1);
+							$("input[name=panch[" + i + "]]").attr('value',$(lista[i]).attr('id'));
 						});
 						$(".draggable").draggable({
 							helper:"clone",opacity:0.5,revert:true
