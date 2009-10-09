@@ -25,6 +25,7 @@
 						<div id="panch-<?php echo $i ?>" class="droppable"></div>
 					<?php endfor; ?>
 				</div>
+				<div class="draggable giocatore" name="cap">CAPITANO</div>
 				<div id="field">
 					<?php for($i=0;$i<11;$i++): ?>
 						<input <?php if(isset($this->titolari[$i])) echo 'value="' . $this->titolari[$i] . '" title="' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '" rel="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . '"' ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
@@ -255,7 +256,6 @@
 							$(".draggable").draggable({
 								helper:"clone",opacity:0.5,revert:true
 							});
-						
 					}
 				});
 				$('#giocatori').droppable({
@@ -330,9 +330,20 @@
 							$(".draggable").draggable({
 								helper:"clone",opacity:0.5,revert:true
 							});
-						
 					}
 				});
+				$("#campo .draggable[name=P],#campo .draggable[name=D]").droppable({
+								accept: function(draggable) {
+									if($(draggable).attr('name') == 'cap')
+										return true;
+								},
+								hoverClass: 'droppable-hover',
+								drop: function(ev,ui) {
+									$(this).prepend("<div>C</div>");
+									$(ui.draggable).addClass('hidden');
+									$(ui.helper).remove();
+								}
+							});
 			});
 		</script>
 		<input name="button" type="submit" class="button" value="Invia">
