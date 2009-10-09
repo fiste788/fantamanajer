@@ -13,8 +13,6 @@ $mod = NULL;
 $squadra = NULL;
 if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
-if(isset($_POST['mod']))
-	$mod = $_POST['mod'];
 $contenttpl->assign('squadra',$squadra);
 
 $val = $utenteObj->getElencoSquadre();
@@ -30,6 +28,7 @@ $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
 $frega = 0;
+$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
 $ruo = array('P','D','C','A');
 $elencocap = array('C','VC','VVC');
 $contenttpl->assign('ruo',$ruo);
@@ -59,6 +58,7 @@ if(TIMEOUT)
 				$missing ++;
 				$err ++;
 			}
+			$modulo[$giocatori[$val]['ruolo']] = $modulo[$giocatori[$val]['ruolo']] + 1; 
 			if( !in_array($val,$formazione))
 				$formazione[] = $val;
 			else
@@ -101,11 +101,11 @@ if(TIMEOUT)
 			unset($_POST);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$modulo));
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$modulo));
 			$message[0] = 0;
 			$message[1] = 'Formazione caricata correttamente';
 		}
@@ -129,8 +129,7 @@ if(TIMEOUT)
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	if($issetform)
 	{
-		if(empty($_POST))
-			$mod = $issetform['modulo'];
+		$modulo = $issetform['modulo'];
 		$panchinariAr = $issetform['elenco'];
 		$titolariAr = array_splice($panchinariAr,0,11);
 		$i = 0;
@@ -157,9 +156,8 @@ if(TIMEOUT)
 		$contenttpl->assign('cap',$issetform['cap']);
 	}
 	$contenttpl->assign('issetForm',$issetform);
-	$contenttpl->assign('mod',$mod);
-	if($mod != NULL)
-		$contenttpl->assign('modulo',explode('-',$mod));
+	if($modulo != NULL)
+		$contenttpl->assign('modulo',explode('-',$modulo));
 	else
 		$contenttpl->assign('modulo',NULL);
 }
