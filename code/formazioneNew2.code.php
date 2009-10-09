@@ -52,27 +52,24 @@ if(TIMEOUT)
 		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
 		$err = 0;
 		
-		foreach($ruo as $ruolo)
+		foreach($_POST['gioc'] as $key=>$val)
 		{
-			foreach($_POST[$ruolo] as $key=>$val)
+			if(empty($val))
 			{
-				if(empty($val))
-				{
-					$missing ++;
-					$err ++;
-				}
-				if( !in_array($val,$formazione))
-					$formazione[] = $val;		
-				else
-					$err++;
+				$missing ++;
+				$err ++;
 			}
+			if( !in_array($val,$formazione))
+				$formazione[] = $val;
+			else
+				$err++;
 		}
 		foreach($_POST['panch'] as $key=>$val)
 		{
 			if(!empty($val))
 			{
 				if( !in_array($val,$formazione))
-					$formazione[] = $val;		
+					$formazione[] = $val;
 				else
 					$err++;
 			}	
@@ -96,6 +93,7 @@ if(TIMEOUT)
 				}
 			}	
 		}
+		echo $err;
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
@@ -138,13 +136,10 @@ if(TIMEOUT)
 		$i = 0;
 		if(!empty($_POST))
 		{
-			foreach($ruo as $ruolo)
+			foreach($_POST['gioc'] as $key=>$val)
 			{
-				foreach($_POST[$ruolo] as $key=>$val)
-				{
-					$titolariAr[$i] = $val;
-					$i++;
-				}
+				$titolariAr[$i] = $val;
+				$i++;
 			}
 			foreach($_POST['panch'] as $key=>$val)
 			{
