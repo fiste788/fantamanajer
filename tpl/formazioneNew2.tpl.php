@@ -38,9 +38,24 @@
 		<?php endif; ?>
 		<script type="text/javascript">
 		$(document).ready(function(){
-			list = $("#field").find("input");
+				var modulo = Array();
+				modulo['P'] = <?php echo $this->modulo[0]; ?>;
+				modulo['D'] = <?php echo $this->modulo[1]; ?>;
+				modulo['C'] = <?php echo $this->modulo[2]; ?>;
+				modulo['A'] = <?php echo $this->modulo[3]; ?>;
+				ruolo = 'P';
+				j = 0;
+				k = 0;
+				list = $("#field").find("input");
 				list.each(function (i) {
-					$("#campo div.droppable[name=" +$(list[i]).attr('rel')+"]").append('<div id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
+					if($(list[i]).attr('rel') != ruolo)
+					{
+						j++;
+						k = 0;
+					}
+					$("#campo div.droppable[name=" +$(list[i]).attr('rel')+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[$(list[i]).attr('rel')])) / (modulo[$(list[i]).attr('rel')] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
+					ruolo = $(list[i]).attr('rel');
+					k++;
 				});
 				list = $("#panchina-field").find("input[value!='']");
 				list.each(function (i) {
