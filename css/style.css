@@ -871,12 +871,20 @@ p.surprise {
 #giocatori {
 	width:370px;
 }
+.fasciaCap {
+	position:absolute;
+	top:0px;
+	right:0px;
+	background: transparent url(../imgs/fascia-cap.png) no-repeat;
+	width:22px;
+	height:22px;
+}
 #panchina {
 	width:700px;
 	height:100px;
 	display:block;
 }
-#panchina .droppable{
+#panchina .droppable, #capitani .droppable{
 	width:100px;
 	height:86px;
 	padding:7px 0;

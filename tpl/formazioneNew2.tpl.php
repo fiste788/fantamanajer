@@ -1,5 +1,4 @@
 <?php $j =0; $k = 0;$ruolo="" ?>
-<?php echo "<pre>" . print_r($_POST,1) . "</pre>"; ?>
 <div id="formazione" class="main-content" style="position:relative;">
 	<?php  if(TIMEOUT): ?>
 		<h3>Giornata <?php echo GIORNATA; ?></h3>
@@ -25,8 +24,12 @@
 						<div id="panch-<?php echo $i ?>" class="droppable"></div>
 					<?php endfor; ?>
 				</div>
-				<div class="draggable giocatore" name="cap">CAPITANO</div>
-				<div id="field">
+				<div id="capitani" class="column">
+					<?php foreach ($this->elencoCap as $key => $val): ?>
+						<div id="<?php echo $val ?>" class="droppable"></div>
+					<?php endforeach; ?>
+				</div>
+				<div id="titolari-field">
 					<?php for($i=0;$i<11;$i++): ?>
 						<input <?php if(isset($this->titolari[$i])) echo 'value="' . $this->titolari[$i] . '" title="' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '" rel="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . '"' ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
 					<?php endfor; ?>
@@ -36,32 +39,48 @@
 						<input <?php if(isset($this->panchinari[$i])) echo 'value="' . $this->panchinari[$i] . '" title="' . $this->giocatori[$this->panchinari[$i]]['cognome'] . ' ' . $this->giocatori[$this->panchinari[$i]]['nome'] . '" rel="' . $this->giocatori[$this->panchinari[$i]]['ruolo'] . '"' ?> id="panch-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
 					<?php endfor; ?>
 				</div>
+				<div id="capitani-field">
+					<?php foreach ($this->elencoCap as $key => $val): ?>
+						<input <?php if(isset($this->cap[$val])) echo 'value="' . $this->cap[$val] . '" title="' . $this->giocatori[$this->cap[$val]]['cognome'] . ' ' . $this->giocatori[$this->cap[$val]]['nome'] . '" rel="' . $this->giocatori[$this->cap[$val]]['ruolo'] . '"' ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
+					<?php endforeach; ?>
+				</div>
 		<?php endif; ?>
+		<?php if(!empty($this->modulo)): ?>
 		<script type="text/javascript">
-		$(document).ready(function(){
-				var modulo = Array();
+			var modulo = Array();
 				modulo['P'] = <?php echo $this->modulo[0]; ?>;
 				modulo['D'] = <?php echo $this->modulo[1]; ?>;
 				modulo['C'] = <?php echo $this->modulo[2]; ?>;
 				modulo['A'] = <?php echo $this->modulo[3]; ?>;
-				ruolo = 'P';
-				j = 0;
-				k = 0;
-				list = $("#field").find("input");
-				list.each(function (i) {
-					if($(list[i]).attr('rel') != ruolo)
-					{
-						j++;
-						k = 0;
-					}
-					$("#campo div.droppable[name=" +$(list[i]).attr('rel')+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[$(list[i]).attr('rel')])) / (modulo[$(list[i]).attr('rel')] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
-					ruolo = $(list[i]).attr('rel');
-					k++;
-				});
-				list = $("#panchina-field").find("input[value!='']");
-				list.each(function (i) {
-					$("#panchina .droppable[id=panch-" + i + "]").append('<div id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
-				});
+		</script>
+		<?php endif; ?>
+		<script type="text/javascript">
+		$(document).ready(function(){
+				if(typeof(modulo) != "undefined")
+				{
+					ruolo = 'P';
+					j = 0;
+					k = 0;
+					list = $("#titolari-field").find("input");
+					list.each(function (i) {
+						if($(list[i]).attr('rel') != ruolo)
+						{
+							j++;
+							k = 0;
+						}
+						$("#campo div.droppable[name=" +$(list[i]).attr('rel')+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[$(list[i]).attr('rel')])) / (modulo[$(list[i]).attr('rel')] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
+						ruolo = $(list[i]).attr('rel');
+						k++;
+					});
+					list = $("#panchina-field").find("input[value!='']");
+					list.each(function (i) {
+						$("#panchina .droppable[id=panch-" + i + "]").append('<div id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
+					});
+					list = $("#capitani-field").find("input[value!='']");
+					list.each(function (i) {
+						$("#capitani .droppable[id=" + $(list[i]).attr('id') + "]").append('<div id="'+ $(list[i]).attr('value') +'" name="'+ $(list[i]).attr('rel') +'" class="embed giocatore draggable ui-draggable '+ $(list[i]).attr('rel') +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + $(list[i]).attr('title') + '</p></div>');
+					});
+				}
 			$(".draggable").draggable({
 				helper:"clone",opacity:0.5,revert:true
 			});
@@ -238,24 +257,25 @@
 				over:function(draggable) { $('.embed').droppable('enable'); },
 				greedy: false,*/
 				drop: function(ev,ui) {
-							$(this).append('<div id="'+ui.draggable.attr('id') +'" name="'+ ui.draggable.attr('name') +'" style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><img width="40" src="imgs/foto/' + ui.draggable.attr('id') + '.jpg" /><p>' + $(ui.draggable).text() + '</p></div>');
+							$(this).append('<div id="'+ui.draggable.attr('id') +'" name="'+ ui.draggable.attr('name') +'" style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><img width="40" src="imgs/foto/' + ui.draggable.attr('id') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							$(this).children('div').css('opacity','1');
 							if((ui.draggable).parent().attr('id') == 'giocatori')
 								$(ui.draggable).addClass('hidden');
 							else
 								$(ui.draggable).remove();
 							$(ui.helper).remove();
-							list = $("#field").find("input");
+							list = $("#titolari-field").find("input");
 							list.each(function (i) {
 								$(list[i]).removeAttr('value');
 							});
 							lista = $("#campo").find("div.embed");
 							lista.each(function (i) {
-								$("#field #gioc-" + i).attr('value',$(lista[i]).attr('id'));
+								$("#titolari-field #gioc-" + i).attr('value',$(lista[i]).attr('id'));
 							});
-							$(".draggable").draggable({
+							$("#campo .draggable").draggable({
 								helper:"clone",opacity:0.5,revert:true
 							});
+							checkCapitani();
 					}
 				});
 				$('#giocatori').droppable({
@@ -272,7 +292,7 @@
 								$(ui.draggable).remove();
 							$(ui.helper).remove();
 							$("#giocatori #" + ui.draggable.attr('id')).removeClass("hidden");
-							list = $("#field").find("input");
+							list = $("#titolari-field").find("input");
 							list.each(function (i) {
 								$(list[i]).removeAttr('value');
 							});
@@ -288,10 +308,10 @@
 							lista.each(function (i) {
 								$("input[name=panch[" + i + "]]").attr('value',$(lista[i]).attr('id'));
 							});
-							$(".draggable").draggable({
+							$("#giocatori .draggable").draggable({
 								helper:"clone",opacity:0.5,revert:true
 							});
-						
+						checkCapitani();
 					}
 				});
 			
@@ -327,23 +347,56 @@
 							lista.each(function (i) {
 								$("input[name=panch[" + i + "]]").attr('value',$(lista[i]).attr('id'));
 							});
-							$(".draggable").draggable({
+							$("#panchina .draggable").draggable({
 								helper:"clone",opacity:0.5,revert:true
+							});
+							checkCapitani();
+					}
+				});
+				$('#capitani .droppable').droppable({
+				accept: function(draggable) {
+					var n = 0;
+					$(this).find("div").each(function () {
+						n++;
+					});
+					if(n == 0)
+						if(($(draggable).attr('name') == "P" || $(draggable).attr('name') == "D") && $(draggable).parent().parent().attr('id') == 'campo')
+							return true;
+				},
+				activeClass: 'droppable-active',
+				hoverClass: 'droppable-hover',
+				drop: function(ev,ui) {
+								$(this).append('<div id="'+ui.draggable.attr('id') +'" name="'+ ui.draggable.attr('name') +'" style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><img width="40" src="imgs/foto/' + ui.draggable.attr('id') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							$(this).children('div').css('opacity','1');
+							list = $("#capitani-field").find("input");
+							list.each(function (i) {
+								$(list[i]).removeAttr('value');
+							});
+							id = $(this).attr('id');
+							lista = $("#capitani").find("div.embed");
+							lista.each(function (i) {
+								$("input[name=cap[" + $(lista[i]).parent().attr('id') + "]]").attr('value',$(lista[i]).attr('id'));
 							});
 					}
 				});
-				$("#campo .draggable[name=P],#campo .draggable[name=D]").droppable({
-								accept: function(draggable) {
-									if($(draggable).attr('name') == 'cap')
-										return true;
-								},
-								hoverClass: 'droppable-hover',
-								drop: function(ev,ui) {
-									$(this).prepend("<div>C</div>");
-									$(ui.draggable).addClass('hidden');
-									$(ui.helper).remove();
-								}
-							});
+				function checkCapitani()
+				{
+					list = $("#capitani").find(".draggable");
+					listTitolari = $("#campo").find("div.embed");
+					list.each(function (i) {
+						idCap = $(list[i]).attr('id');
+						flag = false;
+						listTitolari.each(function (i) {
+							val = $(listTitolari[i]).attr('id');
+							if(idCap == val)
+								flag = true;
+						});
+						if(!flag) {
+							$(list[i]).remove();
+							$("#capitani-field input[value=" + idCap + "]").removeAttr('value');
+						}
+					});
+				}
 			});
 		</script>
 		<input name="button" type="submit" class="button" value="Invia">
@@ -393,16 +446,6 @@
 		<form class="column last" name="form_modulo" action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
 			<fieldset id="modulo" class="no-margin fieldset">
 				<h3 class="no-margin">Seleziona il modulo:</h3>
-				<select name="mod" onchange="document.form_modulo.submit();">
-					<?php if(!isset($this->mod)): ?><option></option><?php endif; ?>
-					<option value="1-4-4-2" <?php if ($this->mod == '1-4-4-2') echo "selected=\"selected\""?>>4-4-2</option>
-					<option value="1-3-5-2" <?php if ($this->mod == '1-3-5-2') echo "selected=\"selected\""?>>3-5-2</option>
-					<option value="1-3-4-3" <?php if ($this->mod == '1-3-4-3') echo "selected=\"selected\""?>>3-4-3</option>
-					<option value="1-4-5-1" <?php if ($this->mod == '1-4-5-1') echo "selected=\"selected\""?>>4-5-1</option>
-					<option value="1-4-3-3" <?php if ($this->mod == '1-4-3-3') echo "selected=\"selected\""?>>4-3-3</option>
-					<option value="1-5-4-1" <?php if ($this->mod == '1-5-4-1') echo "selected=\"selected\""?>>5-4-1</option>
-					<option value="1-5-3-2" <?php if ($this->mod == '1-5-3-2') echo "selected=\"selected\""?>>5-3-2</option>
-				</select>
 			</fieldset>
 		</form>
 		<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
