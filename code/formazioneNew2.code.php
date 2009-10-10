@@ -9,7 +9,6 @@ $eventiObj = new eventi();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
 
-$mod = NULL;
 $squadra = NULL;
 if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
@@ -28,11 +27,11 @@ $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
 $frega = 0;
-$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
+$moduloAr = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
 $ruo = array('P','D','C','A');
-$elencocap = array('C','VC','VVC');
+$elencoCap = array('C','VC','VVC');
 $contenttpl->assign('ruo',$ruo);
-$contenttpl->assign('elencocap',$elencocap);
+$contenttpl->assign('elencoCap',$elencoCap);
 if(TIMEOUT)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
@@ -58,7 +57,7 @@ if(TIMEOUT)
 				$missing ++;
 				$err ++;
 			}
-			$modulo[$giocatori[$val]['ruolo']] = $modulo[$giocatori[$val]['ruolo']] + 1; 
+			$moduloAr[$giocatori[$val]['ruolo']] = $moduloAr[$giocatori[$val]['ruolo']] + 1; 
 			if( !in_array($val,$formazione))
 				$formazione[] = $val;
 			else
@@ -101,11 +100,11 @@ if(TIMEOUT)
 			unset($_POST);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$modulo));
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$modulo));
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
 			$message[0] = 0;
 			$message[1] = 'Formazione caricata correttamente';
 		}
@@ -126,7 +125,7 @@ if(TIMEOUT)
 		}
 		$contenttpl->assign('message',$message);
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
 	if($issetform)
 	{
 		$modulo = $issetform['modulo'];
@@ -156,7 +155,7 @@ if(TIMEOUT)
 		$contenttpl->assign('cap',$issetform['cap']);
 	}
 	$contenttpl->assign('issetForm',$issetform);
-	if($modulo != NULL)
+	if(isset($modulo))
 		$contenttpl->assign('modulo',explode('-',$modulo));
 	else
 		$contenttpl->assign('modulo',NULL);
