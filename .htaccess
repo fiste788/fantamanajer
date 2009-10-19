@@ -1,22 +1,5 @@
 FileETag None
-<IfModule mod_headers.c>
-	Header unset ETag
-	<FilesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
-		Header set Cache-Control "max-age=2592000, public"
-	</FilesMatch>
-	<FilesMatch "\\.(css)$">
-		Header set Cache-Control "max-age=604800, public"
-	</FilesMatch>
-	<FilesMatch "\\.(js)$">
-		Header set Cache-Control "max-age=216000, private"
-	</FilesMatch>
-	<FilesMatch "\\.(xml|txt)$">
-		Header set Cache-Control "max-age=216000, public, must-revalidate"
-	</FilesMatch>
-	<FilesMatch "\\.(html|htm|php)$">
-		Header set Cache-Control "max-age=1, private, must-revalidate"
-	</FilesMatch>
-</IfModule>
+AddType image/x-icon .ico
 <IfModule mod_deflate.c>
 	<FilesMatch "\.(html?|txt|css|js|php|pl|jpg|png|gif|ico)$">
 		SetOutputFilter DEFLATE
@@ -24,15 +7,15 @@ FileETag None
 </IfModule>
 <IfModule mod_expires.c>  
 	ExpiresActive On  
-	ExpiresDefault "access plus 1 seconds"  
-	ExpiresByType text/html "access plus 1 seconds"  
-	ExpiresByType image/gif "access plus 2592000 seconds"  
-	ExpiresByType image/jpeg "access plus 2592000 seconds"  
-	ExpiresByType image/png "access plus 2592000 seconds"  
-	ExpiresByType image/ico "access plus 10 years"
-	ExpiresByType text/css "access plus 604800 seconds"  
-	ExpiresByType text/javascript "access plus 216000 seconds"  
-	ExpiresByType application/x-javascript "access plus 216000 seconds"  
+	ExpiresDefault "access plus 1 years"
+	ExpiresByType text/html "access plus 1 seconds"
+	ExpiresByType image/gif "access plus 1 years"
+	ExpiresByType image/jpeg "access plus 1 years"
+	ExpiresByType image/png "access plus 1 years"
+	ExpiresByType image/x-icon "access plus 1 years"
+	ExpiresByType text/css "access plus 1 years"
+	ExpiresByType text/javascript "access plus 1 years"
+	ExpiresByType application/x-javascript "access plus 1 years"
 </IfModule>
 <IfModule mod_rewrite.c>
 	RewriteEngine On
@@ -75,6 +58,24 @@ FileETag None
 	RewriteRule ^modificaGiocatore.html$ index.php?p=modificaGiocatore
 	RewriteRule ^download.html$ index.php?p=download
 	RewriteRule ^impostazioni.html$ index.php?p=impostazioni
+</IfModule>
+<IfModule mod_headers.c>
+	Header unset ETag
+	<FilesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
+		Header set Cache-Control "max-age=2592000, public"
+	</FilesMatch>
+	<FilesMatch "\\.(css)$">
+		Header set Cache-Control "max-age=2592000, public"
+	</FilesMatch>
+	<FilesMatch "\\.(js)$">
+		Header set Cache-Control "max-age=2592000, public"
+	</FilesMatch>
+	<FilesMatch "\\.(xml|txt)$">
+		Header set Cache-Control "max-age=216000, public, must-revalidate"
+	</FilesMatch>
+	<FilesMatch "\\.(html|htm|php)$">
+		Header set Cache-Control "max-age=1, private, must-revalidate"
+	</FilesMatch>
 </IfModule>
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
 	AuthName "Inserisci username e password"
