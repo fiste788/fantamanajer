@@ -8,9 +8,7 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantacalcio,fantamanajer,fantamanger,manageriale fantacalcio,alzano sopra,condominio i pini,bergamo,calcio,piazzetta" />
 		<meta name="robots" content="index,follow" />
-		<?php foreach($this->css as $key => $val): ?>
-			<link href="<?php echo CSSURL . $val . '.css';?>" media="screen" rel="stylesheet" type="text/css" />
-		<?php endforeach; ?>
+		<link href="<?php echo CSSURL . 'screen.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
 		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.css';?>" type="text/css" media="screen, projection"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
