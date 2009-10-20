@@ -162,7 +162,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $squadra)
 						$squadraOld = $selezioneObj->checkFree($acquisto,$_SESSION['idLega']);
 						if($squadraOld != FALSE)
 						{
-							$classifica = $punteggiObj->getClassifica($_SESSION['idLega']);
+							$classifica = $punteggiObj->getClassificaByGiornata($_SESSION['idLega'],GIORNATA);
 							$squadre = $squadraObj->getElencoSquadre();
 							foreach ($classifica as $key => $val)
 								$classificaNew[$key] = $val[0];

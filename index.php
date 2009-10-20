@@ -154,17 +154,12 @@ if ($_SESSION['logged'])
 require_once(INCDIR.'giornata.inc.php');
 
 $giornataObj = new giornata();
-$timeout = $giornataObj->getIdGiornataByDate();
-$giornata = $timeout;
-if($timeout == FALSE)
-	$giornata = $giornataObj->getIdGiornataByDateSecondary();	
-else 
-	$timeout = TRUE;
-if($giornata > ($giornataObj->getNumberGiornate()-1))
-	$timeout = -1;
+$giornata = $giornataObj->getGiornataByDate();
 
-define("GIORNATA",$giornata);
-define("TIMEOUT",$timeout);
+define("GIORNATA",$giornata['idGiornata']);
+define("PARTITEINCORSO",$giornata['partiteInCorso']);
+define("STAGIONEFINITA",$giornata['stagioneFinita']);
+
 
 $leghe = $legheObj->getLeghe();
 $layouttpl->assign('leghe',$leghe);

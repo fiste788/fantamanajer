@@ -17,7 +17,7 @@ $contenttpl->assign('squadra',$squadra);
 $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
-if(TIMEOUT == FALSE)
+if(PARTITEINCORSO == TRUE)
 	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
@@ -32,7 +32,7 @@ $ruo = array('P','D','C','A');
 $elencoCap = array('C','VC','VVC');
 $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencoCap',$elencoCap);
-if(TIMEOUT)
+if(!PARTITEINCORSO)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);

@@ -14,7 +14,7 @@ $squadra = NULL;
 if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 $contenttpl->assign('squadra',$squadra);
-$classifica = $punteggiObj->getClassifica($_SESSION['legaView']);
+$classifica = $punteggiObj->getClassificaByGiornata($_SESSION['legaView'],GIORNATA);
 foreach($classifica as $key => $val)
 {
 	if($squadra == $val['idUtente'])

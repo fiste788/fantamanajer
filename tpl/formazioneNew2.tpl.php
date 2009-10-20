@@ -1,6 +1,6 @@
 <?php $j =0; $k = 0;$ruolo="" ?>
 <div id="formazione" class="main-content" style="position:relative;">
-	<?php  if(TIMEOUT): ?>
+	<?php  if(!PARTITEINCORSO): ?>
 		<h3>Giornata <?php echo GIORNATA; ?></h3>
 		<form action="<?php echo $this->linksObj->getLink('formazioneNew2') ?>" method="post">
 			<div id="campo" class="column">
@@ -65,12 +65,6 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-		<?php if(!TIMEOUT): //NON PIÙ NECESSARIO QUESTO IF PER L'HEADER LOCATION NELLA CODE' ?>
-		<div id="messaggio" class="messaggio neut column last" >
-			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" />
-			<span>Non puoi effettuare operazioni in questo momento.Aspetta la fine delle partite</span>
-		</div>
-		<?php endif; ?>
 		<?php if(isset($this->message) && $this->message[0] == 0): ?>
 		<div id="messaggio" class="messaggio good column last">
 			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />

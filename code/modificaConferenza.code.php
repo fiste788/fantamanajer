@@ -84,4 +84,24 @@ if(isset($_POST['submit']))
 	}
 }
 
+if(isset($this->articolo))
+	$title=$this->articolo[0]['title'];
+if(isset($_POST['title']))
+	$title=$_POST['title'];
+if(isset($this->articolo))
+	$abstract=$this->articolo[0]['abstract'];
+if(isset($_POST['abstract']))
+	$abstract=$_POST['abstract'];
+if(isset($this->articolo))
+	$text=$this->articolo[0]['text'];
+if(isset($_POST['text']))
+	$text=$_POST['text'];
+switch($_GET['a'])
+{
+	case 'cancel': $button = 'Rimuovi'; break;
+	case 'edit': $button = 'Modifica'; break; 
+	case 'new': $button = 'Inserisci'; break;
+	default: $button = 'Errore';break;
+}
+
 ?>

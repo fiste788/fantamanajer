@@ -56,7 +56,7 @@
 			</fieldset>
 		</form>
 	<?php else: ?>
-		<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] && TIMEOUT != '0' && GIORNATA != 1): ?>
+		<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] && PARTITEINCORSO == FALSE && GIORNATA != 1): ?>
 		<br />
 		<h3>Acquista un giocatore</h3>
 		<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>

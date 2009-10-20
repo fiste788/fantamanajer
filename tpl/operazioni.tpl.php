@@ -8,8 +8,8 @@
 	<div id="operazioni" class="column last">
 		<a title="Nascondi" href="#oper" class="toggle operazioni-title column last">Operazioni</a>
 			<ul class="operazioni-content">
-			<?php if(TIMEOUT != '0'): ?>
-			<?php if(TIMEOUT == false): ?>
+			<?php if(STAGIONEFINITA != FALSE): ?>
+			<?php if(PARTITEINCORSO): ?>
 				<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>">Guarda la formazione</a></li>
 			<?php else: ?>
 				<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('formazione'); ?>">Imposta la formazione</a></li>
