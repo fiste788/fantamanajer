@@ -66,7 +66,7 @@
 		</div>
 		</div>
 	</div>
-	<?php if(TIMEOUT != NULL): ?>
+	<?php if(STAGIONEFINITA == FALSE): ?>
 	<div class="box-squadra column last">
 		<div class="box2-top-sx column last">
 		<div class="box2-top-dx column last">

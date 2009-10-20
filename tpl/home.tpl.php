@@ -147,7 +147,7 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-	<?php if(TIMEOUT): ?>
+	<?php if(PARTITEINCORSO == FALSE): ?>
 	<div id="countdown">Tempo rimanente per la formazione:<br /><div>&nbsp;</div></div>
 	<script type="text/javascript">
 		var d = new Date();

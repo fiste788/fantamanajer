@@ -1,44 +1,4 @@
 <?php
-if(isset($this->articolo))
-	$title=$this->articolo[0]['title'];
-if(isset($_POST['title']))
-	$title=$_POST['title'];
-if(isset($this->articolo))
-	$abstract=$this->articolo[0]['abstract'];
-if(isset($_POST['abstract']))
-	$abstract=$_POST['abstract'];
-if(isset($this->articolo))
-	$text=$this->articolo[0]['text'];
-if(isset($_POST['text']))
-	$text=$_POST['text'];
-switch($_GET['a'])
-{
-	case 'cancel': $button = 'Rimuovi'; ?>
-	<div class="titolo-pagina">
-		<div class="column logo-tit">
-			<img align="left" src="<?php echo IMGSURL.'cancel-big.png'; ?>" alt="->" />
-		</div>
-		<h2 class="column">Cancellazione conferenza</h2>
-	</div>
-	<?php 	break; endcase;
-	case 'edit': $button = 'Modifica'; ?>
-	<div class="titolo-pagina">
-		<div class="column logo-tit">
-			<img align="left" src="<?php echo IMGSURL.'edit-big.png'; ?>" alt="->" />
-		</div>
-		<h2 class="column">Aggiornamento conferenza</h2>
-	</div>
-	<?php	break; endcase;
-	case 'new': $button = 'Inserisci';?>
-	<div class="titolo-pagina">
-		<div class="column logo-tit">
-			<img align="left" src="<?php echo IMGSURL.'edit-big.png'; ?>" alt="->" />
-		</div>
-		<h2 class="column">Inserimento conferenza</h2>
-	</div>
-	<?php break; endcase;
-	default: $button = 'Errore';break;
-}
 ?>
 <div id="articoloedit" class="main-content">
 <script language="javascript" type="text/javascript">
@@ -87,7 +47,7 @@ if(isset($_GET['id']))
 			</div>
 			<div class="formbox">
 			  <label for="abstract">Sottotitolo:</label>
-			  <textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="3" cols="50" onkeyup="return ismaxlength(this, 75);" name="abstract" id="abstract"><?php if(isset($abstract)) echo $abstract; ?></textarea>
+			  <textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="3" cols="80" onkeyup="return ismaxlength(this, 75);" name="abstract" id="abstract"><?php if(isset($abstract)) echo $abstract; ?></textarea>
 				<input class="column text disabled" id="abstractCont" type="text" disabled="disabled" value="<?php if(isset($abstract)) echo 75 - mb_strlen($abstract,'UTF-8'); else echo '75';  ?>" />
 			</div>
 			<div class="formbox">
@@ -99,7 +59,7 @@ if(isset($_GET['id']))
 				</div>			
 			<?php endif;?>
 			<label for="text">Testo: *</label>
-			<textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="50" onkeyup="return ismaxlength(this, 1000);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
+			<textarea class="column" <?php if($_GET['a'] == 'cancel') echo 'disabled="disabled"'; ?> rows="12" cols="80" onkeyup="return ismaxlength(this, 1000);" name="text" id="text"><?php if(isset($text)) echo trim($text); ?></textarea>
 			<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($text)) echo 1000-mb_strlen($text);else echo '1000'; ?>" />
 			</div>
 		</fieldset>

@@ -58,7 +58,7 @@ $i=0;  ?>
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-	<?php if(!$this->formazione && TIMEOUT != '0'): ?>
+	<?php if(!$this->formazione && PARTITEINCORSO): ?>
 	<div id="messaggio" class="messaggio neut column last" >
 		<img src="<?php echo IMGSURL.'attention-big.png'; ?>" />
 		<span>La formazione non è stata impostata</span>
@@ -72,7 +72,7 @@ $i=0;  ?>
 	<?php if($_SESSION['logged'] == TRUE): ?>
 		<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 	<?php endif; ?>
-	<?php if(isset($this->modulo) && TIMEOUT != '0'): ?>
+	<?php if(isset($this->modulo) && PARTITEINCORSO == FALSE): ?>
 	<form class="column last" name="form-modulo" action="index.php" method="post">
 		<fieldset id="modulo" class="no-margin fieldset">
 			<h3 class="no-margin">Seleziona il modulo:</h3>
@@ -88,7 +88,7 @@ $i=0;  ?>
 		</fieldset>
 	</form>
 	<?php endif; ?>
-	<?php if(TIMEOUT != '0'): ?>
+	<?php if(PARTITEINCORSO == FALSE): ?>
 	<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
 		<fieldset class="no-margin fieldset">
 			<h3 class="no-margin">Guarda le altre formazioni</h3>
