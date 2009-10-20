@@ -29,7 +29,7 @@ $(document).ready(function(){
 						appo = title.split('-');
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
-						$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a  rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 					});
 					list = $("#capitani-field").find("input[value!='']");
 					list.each(function (i) {
@@ -38,7 +38,7 @@ $(document).ready(function(){
 						appo = title.split('-');
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
-						$("#capitani .droppable[id=cap-" + $(list[i]).attr('id') + "]").append('<div id="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						$("#capitani .droppable[id=cap-" + $(list[i]).attr('id') + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 					});
 				}
 			$(".draggable").draggable({
@@ -314,10 +314,12 @@ $(document).ready(function(){
 							list.each(function (i) {
 								$(list[i]).removeAttr('value');
 							});
-							id = $(this).attr('id');
 							lista = $("#capitani").find("div.embed");
 							lista.each(function (i) {
-								$("input[name=cap[" + $(lista[i]).parent().attr('id') + "]]").attr('value',$(lista[i]).children('a').attr('rel'));
+								current = $(lista[i]);
+								id = current.parent().attr('id');
+								appo = id.split('-');
+								$("input[name=cap[" + appo[1] + "]]").attr('value',$(lista[i]).children('a').attr('rel'));
 							});
 					}
 				});

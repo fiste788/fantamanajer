@@ -21,7 +21,7 @@
 				<?php $j++; endforeach; ?>
 				</div>
 				<div id="panchina" class="column">
-					<?php for($i=0;$i<6;$i++): ?>
+					<?php for($i=0;$i<7;$i++): ?>
 						<div id="panch-<?php echo $i ?>" class="droppable"></div>
 					<?php endfor; ?>
 				</div>
@@ -37,12 +37,12 @@
 				</div>
 				<div id="panchina-field">
 					<?php for($i=0;$i<7;$i++): ?>
-						<input <?php if(isset($this->panchinari[$i])) echo 'value="' . $this->panchinari[$i] . '" title="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . $this->giocatori[$this->titolari[$i]]['ruolo'] . '-' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '"' ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
+						<input <?php if(isset($this->panchinari[$i])) echo 'value="' . $this->panchinari[$i] . '" title="' . $this->giocatori[$this->panchinari[$i]]['ruolo'] . $this->giocatori[$this->panchinari[$i]]['ruolo'] . '-' . $this->giocatori[$this->panchinari[$i]]['cognome'] . ' ' . $this->giocatori[$this->panchinari[$i]]['nome'] . '"' ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
 					<?php endfor; ?>
 				</div>
 				<div id="capitani-field">
 					<?php foreach ($this->elencoCap as $key => $val): ?>
-						<input <?php if(isset($this->cap[$val])) echo 'value="' . $this->cap[$val] . '" title="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . $this->giocatori[$this->titolari[$i]]['ruolo'] . '-' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '"' ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
+						<input <?php if(isset($this->cap[$val])) echo 'value="' . $this->cap[$val] . '" title="' . $this->giocatori[$this->cap[$val]]['ruolo'] . $this->giocatori[$this->cap[$val]]['ruolo'] . '-' . $this->giocatori[$this->cap[$val]]['cognome'] . ' ' . $this->giocatori[$this->cap[$val]]['nome'] . '"' ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
 					<?php endforeach; ?>
 				</div>
 		<?php endif; ?>
