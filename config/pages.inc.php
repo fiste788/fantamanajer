@@ -48,7 +48,7 @@ $pages = array();
 									
 	$pages['contatti'] = array(	'title'=>"Contatti",
 									'js'=>'',
-									'css'=>array('screen','style'),
+									'css'=>array('screen'),
 									'roles'=>-1,
 									'navbar'=>array('key'=>'altro','title'=>'Contatti','order'=>6));
 									
@@ -102,7 +102,7 @@ $pages = array();
 										
 	$pages['formazioneNew2'] = array(	'title'=>"Formazione", 
 										'js'=>array('jquery'=>'jquery','ui'=>array('ui-core','effects-core','effects-pulsate','ui-draggable','ui-droppable')),
-										'css'=>array('screen','style'),
+										'css'=>array('screen'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione','order'=>6));
 										
