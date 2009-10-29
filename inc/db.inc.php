@@ -15,7 +15,7 @@ To Do:
 
 class db
 {
-	var $link;	
+	var $link;
 	/*
 	DbConnect is  method that give a connection to a database.
 	
@@ -33,8 +33,8 @@ class db
 				echo MYSQL_ERRNO()." ".MYSQL_ERROR();
 			}
 			mysql_select_db(DBNAME);
-			mysql_query("SET NAMES utf8;") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-			mysql_query("SET CHARACTER SET utf8;") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			mysql_query("SET NAMES utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
+			mysql_query("SET CHARACTER SET utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
 		}
 	}
 	
