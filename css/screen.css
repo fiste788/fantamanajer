@@ -69,38 +69,6 @@ input.dark {
 input.dark:hover {
 	background: transparent url(../imgs/button2.png) no-repeat scroll center bottom;
 }
-.box-top-sx, .box-top-dx, .box-bottom-sx, .box-bottom-dx, .box2-top-sx, .box2-top-dx, .box2-bottom-sx, .box2-bottom-dx {
-	width: 100%;
-}
-.box-top-sx {
-	background: #514e46 url(../imgs/box-top-sx.png) no-repeat top left;
-}
-.box-top-dx {
-	background: transparent url(../imgs/box-top-dx.png) no-repeat top right;
-}
-.box-bottom-sx {
-	background: transparent url(../imgs/box-bottom-sx.png) no-repeat bottom left;
-}
-.box-bottom-dx {
-	background: transparent url(../imgs/box-bottom-dx.png) no-repeat bottom right;
-}
-.box2-top-sx {
-	background: #514e46 url(../imgs/box2-top-sx.png) no-repeat top left;
-}
-.box2-top-dx {
-	background: transparent url(../imgs/box2-top-dx.png) no-repeat top right;
-}
-.box2-bottom-sx {
-	background: transparent url(../imgs/box2-bottom-sx.png) no-repeat bottom left;
-}
-.box2-bottom-dx {
-	background: transparent url(../imgs/box2-bottom-dx.png) no-repeat bottom right;
-}
-.box-content {
-	padding: 10px;
-	width: 280px;
-	text-align: center;
-}
 #header {
 	margin:5px 0 8px;
 }
@@ -226,7 +194,7 @@ em {
 }
 .selected a {
 	background: #00a2ff;
-	font-weight:bold;
+	font-weight:bold !important;
 	float:left;
 }
 .selected .son {
@@ -539,11 +507,15 @@ em {
 	margin: 0 10px;
 }
 .box-squadra {
-	width: 285px;
+	width: 455px;
 	padding: 10px;
 }
-.box-squadra .box-content {
-	width: 265px;
+.box-squadra .data {
+	width: 300px;
+}
+.box-squadra .link {
+	float:right;
+	margin-right:0;
 }
 .box-squadra .fancybox {
 	width: 100px;
@@ -788,19 +760,21 @@ label {
 	text-align: center;
 }
 #click-menu {
-	position:absolute;
+	position:fixed;
 	right:0;
-	top:0;
+	top:50%;
 	width:5px;
 	z-index:2;
-	height:100%;
 }
 #menu {
-	background: url(../imgs/bg-content.png) repeat;
+	border-color:#00a2ff;
+	border-style:solid;
+	border-width: 5px 0px 5px 5px; 
+	background: #585858;
 	position:fixed;
 	right:-300px;
 	top:25px;
-	width:300px;
+	width:295px;
 	display:block;
 }
 .tickLabel {

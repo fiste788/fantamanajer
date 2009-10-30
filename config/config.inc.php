@@ -10,6 +10,14 @@ To do:
 $proto = "http://";						//protocol
 $host = $_SERVER['SERVER_NAME'];				//server name
 
+$hostArray = explode('.',$host);
+if(in_array('develop',$hostArray))
+{
+	$hostArray[0] = 'static';
+	define ("DEVELOP",TRUE);
+}
+$host = implode('.',$hostArray);
+
 $tmp = explode('/',$_SERVER['PHP_SELF']);			//website path(example: for "http://www.test.us/one/jpg/one.jpg" it takes "/one/jpg/one.jpg")
 array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)
 $sitepath = implode('/',$tmp);					//recreate $sitepath with slash (/one/jpg)
@@ -42,10 +50,9 @@ define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
 define ("MAILTPLDIR",TPLDIR.'mail/');
 define ("VOTIDIR",'docs/voti/csv/');				 //docs/voti => VOTIDIR
 define ("TMPDIR",'tmp/');				 //docs/voti => VOTIDIR
-								//urls for:
+
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL
 define ("JSURL",FULLURL.'js/');					//js => JSURL
-define ("RSSURL",FULLURL.'rss/');					//rss => RSSURL
 define ("IMGSURL",FULLURL.'imgs/');				//img => IMGSURL
 define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
 
@@ -67,11 +74,11 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 else
 {
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","fantamanajer");					//database name => DBNAME
-	define ("DBUSER","fantamanajerUser");					//database username => DBUSER
+	define ("DBNAME","fantamanajer2-5");					//database name => DBNAME
+	define ("DBUSER","fantaUser2-5");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","mysql13.aziendeitalia.com:3306");					//database host => DBHOST
 	define ("MODREWRITE",FALSE);
 	error_reporting(E_ALL);
-}	
+}
 ?>

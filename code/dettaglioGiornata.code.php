@@ -11,14 +11,14 @@ $giocatoreObj = new giocatore();
 
 $squadra = NULL;
 $giornata = NULL;
-if(isset($_GET['squad']))
-	$squadra = $_GET['squad'];
-if(isset($_GET['giorn']))
-	$giornata = $_GET['giorn'];
-if(isset($_POST['squad']))
-	$squadra = $_POST['squad'];
-if(isset($_POST['giorn']))
-	$giornata = $_POST['giorn'];
+if(isset($_GET['squadra']))
+	$squadra = $_GET['squadra'];
+if(isset($_GET['giornata']))
+	$giornata = $_GET['giornata'];
+if(isset($_POST['squadra']))
+	$squadra = $_POST['squadra'];
+if(isset($_POST['giornata']))
+	$giornata = $_POST['giornata'];
 	
 $contenttpl->assign('getsquadra',$squadra);
 $contenttpl->assign('getgiornata',$giornata);
