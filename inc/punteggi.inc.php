@@ -51,17 +51,7 @@ class punteggi
 	function getClassificaByGiornata($idLega,$idGiornata)
 	{
 		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
-				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN (
-						SELECT punteggi.idUtente, COUNT( punteggi.idUtente ) AS giornateVinte
-								FROM punteggi INNER JOIN (
-										SELECT idGiornata AS giorn, MAX( punteggio ) AS punt
-										FROM punteggi
-										WHERE punteggi.idLega = '" . $idLega . "' AND punteggi.idGiornata <= '" . $idGiornata . "'
-										GROUP BY idGiornata) AS tb1 
-								ON punteggi.idGiornata = tb1.giorn AND punteggi.punteggio = tb1.punt
-								WHERE punteggi.idLega = '" . $idLega . "'  AND punteggi.idGiornata <= '" . $idGiornata . "'
-								GROUP BY idUtente) AS tb2 
-				ON punteggi.idUtente = tb2.idUtente
+				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN giornatevinte ON punteggi.idUtente = giornatevinte.idUtente
 				WHERE punteggi.idGiornata <= '" . $idGiornata . "' AND punteggi.idLega = '" . $idLega . "'
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";

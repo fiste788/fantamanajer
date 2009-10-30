@@ -22,10 +22,10 @@ $acquisto = NULL;
 $lasciato = NULL;
 $flag = 0;
 $appo = 0;
-if(isset($_GET['squad']))
-	$squadra = $_GET['squad'];
-if(isset($_POST['squad']))
-	$squadra = $_POST['squad'];
+if(isset($_GET['squadra']))
+	$squadra = $_GET['squadra'];
+if(isset($_POST['squadra']))
+	$squadra = $_POST['squadra'];
 $ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
 $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));

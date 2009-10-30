@@ -51,21 +51,23 @@
 			<?php echo $this->footer ?>
 		</div>
 		</div>
-		<div id="click-menu"></div>
+		<?php if(!empty($this->operation)): ?>
+		<div id="click-menu">Menu</div>
 		<div id="menu"><?php echo $this->operation ?></div>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$("#click-menu").mouseover(function(event){
+				$("#click-menu").toggle(function(event){
 					var appo = $("#menu");
 						$("#menu").animate({right:'0px'},'slow');
-				});
-				$("#menu").mouseleave(function(event){
+				},
+				function(event){
 					var appo = $("#menu");
 						$("#menu").animate({right:'-300px'},'slow');
 				});
 			});
 		</script>
-		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' ): ?>
+		<?php endif; ?>
+		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' && !DEVELOP ): ?>
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

@@ -6,8 +6,8 @@ $punteggiObj = new punteggi();
 $utenteObj = new utente();
 
 $giornata = GIORNATA;
-if(isset($_POST['giorn']))
-	$giornata = $_POST['giorn'];
+if(isset($_POST['giornata']))
+	$giornata = $_POST['giornata'];
 
 $classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['legaView']);
 $squadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
