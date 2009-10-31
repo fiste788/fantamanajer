@@ -7,27 +7,24 @@ class giornata
 	
 	function getGiornataByDate()
 	{
-		$minuti = 0;
-		if(isset($_SESSION['datiLega']))
-			$minuti = $_SESSION['datiLega']['minFormazione'];
+		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']['minFormazione'] : 0;
 		$q = "SELECT idGiornata 
 				FROM giornate 
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_array($exe);
-		$valore['partiteInCorso'] = FALSE;
-		$valore['stagioneFinita'] = FALSE; 
-		if ($valore[0] == FALSE)
+		if (!empty($valore))
+			$valore['partiteInCorso'] = FALSE;
+		else
 		{
-			$q = "SELECT MIN( idGiornata -1 )
+			$q = "SELECT MIN( idGiornata -1 ) as idGiornata
 				FROM giornate
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-			$valore = mysql_fetch_row($exe);
+			$valore = mysql_fetch_array($exe);
 			$valore['partiteInCorso'] = TRUE;
 		}
-		if($valore['idGiornata'] > ($this->getNumberGiornate()-1))
-			$giornata['stagioneFinita'] = TRUE;
+		$valore['stagioneFinita'] = $valore['idGiornata'] > ($this->getNumberGiornate()-1) ? TRUE : FALSE;
 		return $valore;
 	}
 	
@@ -83,9 +80,7 @@ class giornata
 	
 	function getTargetCountdown()
 	{
-		$minuti = 0;
-		if(isset($_SESSION['datiLega']))
-			$minuti = $_SESSION['datiLega']['minFormazione'];
+		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']['minFormazione'] : 0;
 		$q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE 
 				FROM giornate
 				WHERE NOW() > dataInizio";

@@ -1,11 +1,5 @@
 <?php $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante');
 $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti'); ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column"><?php echo $this->dettaglioGioc[0]['cognome']." ".$this->dettaglioGioc[0]['nome']; ?></h2>
-</div>
 <div id="dettaglioGioc" class="main-content">
 	<div id="cardPlayer" class="column last">
 		<div class="box2-top-sx column last">
@@ -97,11 +91,11 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 		</tr> 
 	</table>
 </div>
-<div id="placeholder" class="column last" style="width:600px;height:300px;clear:both;">&nbsp;</div>
+<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;">&nbsp;</div>
 	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-	<p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+	<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
 	<div id="hidden" class="hidden">&nbsp;</div>
-	<a id="clearSelection" class="hidden">(Cancella selezione)</a>
+	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
 	<script id="source" type="text/javascript">
 	<!--
  $(function () {
