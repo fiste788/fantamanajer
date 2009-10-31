@@ -27,6 +27,7 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 <ul>
 	<?php foreach($appo as $key=>$val):
 		$a = FALSE;
+		//echo "<pre>" . print_r($val,1) . "</pre>";
 		if(in_array($this->p,$val['pages'])) $a = TRUE;
 			if($a): ?>
 				<li class="selected">
