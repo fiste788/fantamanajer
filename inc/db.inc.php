@@ -29,7 +29,7 @@ class db
 		{
 			$this->link = mysql_connect(DBHOST,DBUSER,DBPASS);
 			if(!$this->link)
-			{
+			{	
 				echo MYSQL_ERRNO()." ".MYSQL_ERROR();
 			}
 			mysql_select_db(DBNAME);

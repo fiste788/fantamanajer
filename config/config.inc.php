@@ -56,13 +56,12 @@ define ("JSURL",FULLURL.'js/');					//js => JSURL
 define ("IMGSURL",FULLURL.'imgs/');				//img => IMGSURL
 define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
 
-
-if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' )
+if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost')
 {
 	//database access:
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","fantamanajer");					//database name => DBNAME
-	define ("DBUSER","fantamanajer");					//database username => DBUSER
+	define ("DBNAME","fantamanajer2-5");					//database name => DBNAME
+	define ("DBUSER","fantaUser2-5");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","localhost");					//database host => DBHOST
 	//modrewrite
