@@ -48,6 +48,17 @@ class punteggi
 		return $pos;
 	}
 	
+	function getGiornateVinte($idUtente)
+	{
+		$q = "SELECT giornateVinte 
+				FROM giornateVinte 
+				WHERE idUtente = '" . $idUtente . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_assoc($exe))
+			$values = $row['giornateVinte'];
+		return $values;
+	}
+	
 	function getClassificaByGiornata($idLega,$idGiornata)
 	{
 		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte

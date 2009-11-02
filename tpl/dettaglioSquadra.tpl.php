@@ -1,18 +1,90 @@
 <?php $r='Por.'; ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<?php if(file_exists(UPLOADDIR. $this->squadradett['idUtente'].'-small.jpg')): ?>
-			<a title="<?php echo $this->squadradett['nome'] ?>" href="<?php echo UPLOADIMGURL.$this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox">
-				<img alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-				<img class="reflex" align="left" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-small-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
-			</a>
-		<?php else: ?>
-			<img align="left" src="<?php echo IMGSURL.'rose-big.png'; ?>" alt="Logo Squadre" />
-		<?php endif; ?>
-	</div>
-	<h2 class="column"><?php echo $this->squadradett['nome'] ?></h2>
-</div>
 <div id="squadre" class="main-content">
+	<div class="column last">
+		<div id="imageContainer">
+			<a title="<?php echo $this->squadradett['nome'] ?>" href="<?php echo UPLOADIMGURL.$this->squadradett['idUtente'].'-original.jpg'; ?>" class="fancybox column">
+				<img alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
+			</a>
+			<?php if($this->squadradett['idUtente'] == $_SESSION['idSquadra']): ?>
+			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" method="post">
+				<h4 class="no-margin">Carica il tuo logo:</h4>
+					<input class="upload" name="userfile" type="file" />
+					<input type="submit" class="submit" value="Invia file" />
+			</form>
+			<?php endif; ?>
+		</div>
+		<h2 id="nomeSquadra" class="column"><?php echo $this->squadradett['nome']; ?></h2>
+		<div id="dettaglioSquadra">
+			<p>
+				<span class="bold">Proprietario:</span>
+				<?php echo $this->squadradett['nomeProp'] . " " . $this->squadradett['cognome']; ?>
+			</p>
+			<p>
+				<span class="bold">Username:</span>
+				<?php echo $this->squadradett['username']; ?>
+			</p>
+			<p>
+				<span class="bold">E-mail:</span>
+				<?php echo $this->squadradett['mail']; ?>
+			</p>
+			<p>
+				<span class="bold">Media punti:</span>
+				<?php echo $this->media; ?>
+			</p>
+			<p>
+				<span class="bold">Punti min:</span>
+				<?php echo $this->min; ?>
+			</p>
+			<p>
+				<span class="bold">Punti max:</span>
+				<?php echo $this->max; ?>
+			</p>
+						<?php if($this->squadradett['idUtente'] == $_SESSION['idSquadra']): ?>
+						<p class="column" id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
+						<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a href="">Clicca qui</a></p>
+					</div>
+					<div class="hidden no-margin">
+						<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" name="data" method="post">
+							<?php if(GIORNATA <= 2): ?>
+							<div class="formbox">
+								<label for="nomeSquadra">Nome squadra:</label>
+								<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>
+							</div>
+							<?php endif; ?>
+							<div class="formbox">
+								<label for="name">Nome:</label>
+								<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadradett['nomeProp']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="surname">Cognome:</label>
+								<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadradett['cognome']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="username">Username:</label>
+								<input id="username" class="text" type="text" maxlength="15" name="usernamenew"  value="<?php echo $this->squadradett['username']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="email">E-mail:</label>
+								<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadradett['mail']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="abilitaMail">Ricevi email:</label>
+								<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
+							</div>
+							<div class="formbox">
+								<label for="password">Password:</label>
+								<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
+							</div>
+							<div class="formbox">
+								<label for="passwordrepeat">Ripeti Pass:</label>
+								<input id="passwordrepeat" class="text" type="password" maxlength="12" name="passwordnewrepeat"/>
+							</div>
+							<input type="submit" class="submit" value="OK" />
+						</form>
+					</div>
+				<?php endif; ?>
+	</div>
+<h3>Giocatori</h3>
 	<table id="rosa" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
@@ -27,7 +99,7 @@
 			</tr>
 			<?php if(!empty($this->giocatori)): ?>
 			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">	
+			<tr class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">
 				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult' ?>">
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><?php echo $val['nome']; ?></a>
 				</td>
@@ -108,88 +180,6 @@
 				<img class="logo reflex" alt="<?php echo $this->squadradett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadradett['idUtente'].'-reflex.jpg'; ?>" title="Logo <?php echo $this->squadradett['nome']; ?>" />
 			</a>
 		<?php endif; ?>
-		<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-			<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" method="post">
-					<h4 class="no-margin">Carica il tuo logo:</h4>
-							<input class="upload" name="userfile" type="file" />
-							<input type="submit" class="submit" value="Invia file" />
-			</form>
-			<div id="accordion" class="ui-accordion-container">
-				<a class="ui-accordion-link" href="#">Dati</a>
-				<?php endif;?>
-				<div>
-					<table class="column last"  cellpadding="0" cellspacing="0">
-						<tbody>
-							<tr>
-								<th>Proprietario:</th>
-								<td><?php echo $this->squadradett['nomeProp'] . " " . $this->squadradett['cognome'] ?></td>
-							</tr>
-							<tr>
-								<th>Username:</th>
-								<td><?php echo $this->squadradett['username'] ?></td>
-							</tr>
-							<tr>
-								<th>E-mail:</th>
-								<td><?php echo $this->squadradett['mail'] ?></td>
-							</tr>
-							<tr>
-								<th>Media punti:</th>
-								<td><?php echo $this->media ?></td>
-							</tr>
-							<tr>
-								<th>Punti min:</th>
-								<td><?php echo $this->min ?></td>
-							</tr>
-							<tr>
-								<th>Punti max:</th>
-								<td><?php echo $this->max ?></td>
-							</tr>
-						</tbody>
-					</table>
-					<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-					<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra<?php endif; ?></p>
-				</div>
-				<a class="ui-accordion-link" href="#">Clicca qui</a>
-				<div class="no-margin">
-					<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" name="data" method="post">
-						<?php if(GIORNATA <= 2): ?>
-						<div class="formbox">
-							<label for="nomeSquadra">Nome squadra:</label>
-							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadradett['nome']; ?>"/>
-						</div>
-						<?php endif; ?>
-						<div class="formbox">
-							<label for="name">Nome:</label>
-							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadradett['nomeProp']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="surname">Cognome:</label>
-							<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadradett['cognome']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="username">Username:</label>
-							<input id="username" class="text" type="text" maxlength="15" name="usernamenew"  value="<?php echo $this->squadradett['username']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="email">E-mail:</label>
-							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadradett['mail']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="abilitaMail">Ricevi email:</label>
-							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadradett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
-						</div>
-						<div class="formbox">
-							<label for="password">Password:</label>
-							<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
-						</div>
-						<div class="formbox">
-							<label for="passwordrepeat">Ripeti Pass:</label>
-							<input id="passwordrepeat" class="text" type="password" maxlength="12" name="passwordnewrepeat"/>
-						</div>
-						<input type="submit" class="submit" value="OK" />
-					</form>
-				</div>
-			<?php endif; ?>
 		</div>
 	</div>
 	</div>
@@ -197,10 +187,3 @@
 	</div>
 	</div>
 </div>
-<?php if(strcasecmp($this->squadradett['username'], $_SESSION['userid']) == 0): ?>
-<script type="text/javascript" >
-$(document).ready(function(){
-	$('#accordion').accordion({ autoHeight: false });
-});
-</script>
-<?php endif; ?>
