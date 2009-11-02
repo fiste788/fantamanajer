@@ -1,21 +1,29 @@
 FileETag None
 AddType image/x-icon .ico
+
+#AuthName "Inserisci username e password"
+#AuthType Basic
+#AuthUserFile /var/www/vhosts/fantamanajer.it/httpdocs/.htpasswd
+#Require valid-user
+
+ErrorDocument 400 /error_docs/bad_request.html
+ErrorDocument 401 /error_docs/unauthorized.html
+ErrorDocument 403 /error_docs/forbidden.html
+ErrorDocument 404 /error_docs/not_found.html
+ErrorDocument 405 /error_docs/method_not_allowed.html
+ErrorDocument 406 /error_docs/not_acceptable.html
+ErrorDocument 407 /error_docs/proxy_authentication_required.html
+ErrorDocument 412 /error_docs/precondition_failed.html
+ErrorDocument 414 /error_docs/request-uri_too_long.html
+ErrorDocument 415 /error_docs/unsopported_media_type.html
+ErrorDocument 500 /error_docs/internal_server_error.html
+ErrorDocument 501 /error_docs/not_implemented.html
+ErrorDocument 502 /error_docs/bad_gateway.html
+
 <IfModule mod_deflate.c>
 	<FilesMatch "\.(html?|txt|css|js|php|pl|jpg|png|gif|ico)$">
 		SetOutputFilter DEFLATE
 	</FilesMatch>
-</IfModule>
-<IfModule mod_expires.c>  
-	ExpiresActive On  
-	ExpiresDefault "access plus 1 years"
-	ExpiresByType text/html "access plus 1 seconds"
-	ExpiresByType image/gif "access plus 1 years"
-	ExpiresByType image/jpeg "access plus 1 years"
-	ExpiresByType image/png "access plus 1 years"
-	ExpiresByType image/x-icon "access plus 1 years"
-	ExpiresByType text/css "access plus 1 years"
-	ExpiresByType text/javascript "access plus 1 years"
-	ExpiresByType application/x-javascript "access plus 1 years"
 </IfModule>
 <IfModule mod_rewrite.c>
 	RewriteEngine On
@@ -59,27 +67,3 @@ AddType image/x-icon .ico
 	RewriteRule ^download.html$ index.php?p=download
 	RewriteRule ^impostazioni.html$ index.php?p=impostazioni
 </IfModule>
-<IfModule mod_headers.c>
-	Header unset ETag
-	<FilesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
-		Header set Cache-Control "max-age=2592000, public"
-	</FilesMatch>
-	<FilesMatch "\\.(css)$">
-		Header set Cache-Control "max-age=2592000, public"
-	</FilesMatch>
-	<FilesMatch "\\.(js)$">
-		Header set Cache-Control "max-age=2592000, public"
-	</FilesMatch>
-	<FilesMatch "\\.(xml|txt)$">
-		Header set Cache-Control "max-age=216000, public, must-revalidate"
-	</FilesMatch>
-	<FilesMatch "\\.(html|htm|php)$">
-		Header set Cache-Control "max-age=1, private, must-revalidate"
-	</FilesMatch>
-</IfModule>
-<FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
-	AuthName "Inserisci username e password"
-	AuthType Basic
-	AuthUserFile htpasswd/fantamanajer/.htpasswd
-	require valid-user
-</FilesMatch>
