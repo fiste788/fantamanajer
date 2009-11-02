@@ -1147,9 +1147,9 @@ img.shield {
     left: 0;
     z-index: 90;
     padding: 20px 20px 40px 20px;
-    margin: 0;
-    background: transparent;
-    display: none;
+	margin: 0;
+	background: transparent;
+	display: none;
 }
 
 #fancy_inner {
@@ -1297,7 +1297,7 @@ div.fancy_bg_n {
 	top: -20px;
 	width: 100%;
 	height: 20px;
-	background: transparent url(../imgs/fancy_shadow_n.png) repeat-x;
+	background: transparent url(../imgs/fancy_shadow_n.png) repeat-x 0 bottom;
 }
 
 div.fancy_bg_ne {
@@ -1335,14 +1335,14 @@ div.fancy_bg_sw {
 	left: -20px;
 	width: 20px;
 	height: 20px;
-	background: transparent url(../imgs/fancy_shadow_sw.png) no-repeat;
+	background: transparent url(../imgs/fancy_shadow_sw.png) no-repeat right 0;
 }
 
 div.fancy_bg_w {
 	left: -20px;
 	height: 100%;
 	width: 20px;
-	background: transparent url(../imgs/fancy_shadow_w.png) repeat-y;
+	background: transparent url(../imgs/fancy_shadow_w.png) repeat-y right 0;
 }
 
 div.fancy_bg_nw {
@@ -1350,7 +1350,7 @@ div.fancy_bg_nw {
 	left: -20px;
 	width: 20px;
 	height: 20px;
-	background: transparent url(../imgs/fancy_shadow_nw.png) no-repeat;
+	background: transparent url(../imgs/fancy_shadow_nw.png) no-repeat right bottom;
 }
 
 #fancy_title {
@@ -1370,6 +1370,10 @@ div.fancy_bg_nw {
 
 #fancy_title table {
 	margin: 0 auto;
+	width:auto;
+}
+#fancy_title td {
+	border: 0 none;
 }
 
 #fancy_title td {

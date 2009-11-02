@@ -75,6 +75,7 @@
 		<script type="text/javascript">
 			try {
 				var pageTracker = _gat._getTracker("UA-3016148-1");
+				pageTracker._setDomainName("www.fantamanajer.it");
 				pageTracker._trackPageview();
 			} catch(err) {}
 		</script>
