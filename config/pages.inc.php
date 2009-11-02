@@ -81,6 +81,12 @@ $pages = array();
 										'css'=>array('screen'),
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Script'));
+	
+	$pages['uploadFtp'] = array(	'title'=>"Upload FTP",
+										'js'=>'',
+										'css'=>array('screen'),
+										'roles'=>-1,
+										'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
 										
 	$pages['backup'] = array(	'title'=>"Backup",
 									'js'=>'',
