@@ -38,11 +38,31 @@
 			<?php echo $this->header; ?>
 		</div>
 		<?php require('login.tpl.php'); ?>
-		<div id="fix" style="height:70px;">&nbsp;</div>
 		<div id="navbar" class="column last">
 			<?php echo $this->navbar ?>
 		</div>
 		<div id="content" class="column last">
+			<?php if(isset($this->message)): ?>
+			<?php switch($this->message['level']): 
+				 case 0: ?>
+				<div id="messaggio" class="messaggio good column last">
+					<img alt="OK" src="<?php echo IMGSURL . 'ok-big.png'; ?>" />								
+				<?php break; case 1: ?>
+					<div id="messaggio" class="messaggio bad column last">
+						<img alt="!" src="<?php echo IMGSURL . 'attention-bad-big.png'; ?>" title="Attenzione!" />
+				<?php endswitch; ?>
+				<span><?php echo $this->message['text']; ?></span>
+				</div>	
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$("#messaggio").effect("pulsate", { times: 2 }, 1000);
+					$("#messaggio").hover("opacity", 0.2);
+					$("#messaggio").click(function () {
+						$("div#messaggio").fadeOut("slow");
+					});
+				});
+			</script>
+			<?php endif; ?>
 			<div id="content-container" class="column last" >
 				<?php echo $this->content ?>
 			</div>

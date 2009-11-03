@@ -1,17 +1,11 @@
-<?php $ruoli = array('P' => 'Portieri', 'D' => 'Difensori', 'C' => 'Centrocampisti', 'A' =>'Attaccanti') ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'freeplayer-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column">Giocatori liberi</h2>
-</div>
 <div id="freeplayer" class="main-content">
-	<?php if($this->appo): ?>
-	<?php if(TIMEOUT != '0' || TIMEOUT != FALSE): ?><form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idSquadra'])); ?>" method="post"><?php endif; ?>
+	<?php if($this->validFilter): ?>
+	<?php if(!PARTITEINCORSO || !STAGIONEFINITA): ?>
+	<form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squad'=>$_SESSION['idSquadra'])); ?>" method="post"><?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
-				<?php if(TIMEOUT != '0' && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><th class="check">Acq.</th><?php endif; ?>
+				<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><th class="check">Acq.</th><?php endif; ?>
 				<th class="tableimg">&nbsp;</th>
 				<th class="cognome"><a href="<?php echo $this->link['cognome'] ?>">Cognome</a></th>
 				<th class="nome"><a href="<?php echo $this->link['nome'] ?>">Nome</a></th>
@@ -22,7 +16,7 @@
 			</tr>
 			<?php foreach($this->freeplayer as $key => $val): ?>
 			<tr>
-				<?php if(TIMEOUT != '0' && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['idGioc']; ?>" /></td><?php endif; ?>
+				<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val['idGioc']; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])) ?>">
 				<?php if($val['voti'] >= $this->suff && $val['partiteGiocate'] >= $this->partite ||GIORNATA == 1): ?>
@@ -44,7 +38,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php if(TIMEOUT != '0' || TIMEOUT != FALSE && $_SESSION['legaView'] == $_SESSION['idLega']): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
+	<?php if(!PARTITEINCORSO || !STAGIONEFINITA && $_SESSION['legaView'] == $_SESSION['idLega']): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
 	<input type="submit" class="submit dark" value="Acquista" />
 	</form><?php endif; ?>
 <?php else: ?>

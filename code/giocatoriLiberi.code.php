@@ -3,56 +3,50 @@ require_once(INCDIR.'giocatore.inc.php');
 
 $giocatoreObj = new giocatore();
 
-$order = NULL;
-$v = NULL;
+$filterOrder = NULL;
+$filterVersus = NULL;
+$ruoli = array('P' => 'Portieri', 'D' => 'Difensori', 'C' => 'Centrocampisti', 'A' =>'Attaccanti');
 if(isset($_GET['order']))
-	$order = $_GET['order']; 
+	$filterOrder = $_GET['order']; 
 if(isset($_GET['v']))
-	$v = $_GET['v'];
+	$filterVersus = $_GET['v'];
 	
 if(isset($_POST['order']))
-	$order = $_POST['order']; 
+	$filterOrder = $_POST['order']; 
 if(isset($_POST['v']))
-	$v = $_POST['v'];
+	$filterVersus = $_POST['v'];
 
-$contenttpl->assign('getorder',$order);
-$contenttpl->assign('getv',$v);
-
-if(!isset($_SESSION['data']['freeplayer']))
+if(!isset($_SESSION['userNavigationData']['freeplayer']))
 {
-	$_SESSION['data']['freeplayer']['ruolo'] = 'P';
-	$_SESSION['data']['freeplayer']['suff'] = 6;
-	$_SESSION['data']['freeplayer']['partite'] = floor(($giornata - 1) / 2) + 1;
+	$_SESSION['userNavigationData']['freeplayer']['ruolo'] = 'P';
+	$_SESSION['userNavigationData']['freeplayer']['suff'] = 6;
+	$_SESSION['userNavigationData']['freeplayer']['partite'] = floor((GIORNATA - 1) / 2) + 1;
 }
 
 if(isset($_GET['ruolo']))
-	$_SESSION['data']['freeplayer']['ruolo'] = $_GET['ruolo'];
+	$_SESSION['userNavigationData']['freeplayer']['ruolo'] = $_GET['ruolo'];
 if(isset($_GET['suff']))
-	$_SESSION['data']['freeplayer']['suff'] = $_GET['suff'];
+	$_SESSION['userNavigationData']['freeplayer']['suff'] = $_GET['suff'];
 if(isset($_GET['partite']))
-	$_SESSION['data']['freeplayer']['partite'] = $_GET['partite'];
+	$_SESSION['userNavigationData']['freeplayer']['partite'] = $_GET['partite'];
 	
 if(isset($_POST['ruolo']))
-	$_SESSION['data']['freeplayer']['ruolo'] = $_POST['ruolo'];
+	$_SESSION['userNavigationData']['freeplayer']['ruolo'] = $_POST['ruolo'];
 if(isset($_POST['suff']))
-	$_SESSION['data']['freeplayer']['suff'] = $_POST['suff'];
+	$_SESSION['userNavigationData']['freeplayer']['suff'] = $_POST['suff'];
 if(isset($_POST['partite']))
-	$_SESSION['data']['freeplayer']['partite'] = $_POST['partite'];
+	$_SESSION['userNavigationData']['freeplayer']['partite'] = $_POST['partite'];
 	
-$ruolo = $_SESSION['data']['freeplayer']['ruolo'];
-$suff = $_SESSION['data']['freeplayer']['suff'];
-$partite = $_SESSION['data']['freeplayer']['partite'];
+$filterRuolo = $_SESSION['userNavigationData']['freeplayer']['ruolo'];
+$filterSuff = $_SESSION['userNavigationData']['freeplayer']['suff'];
+$filterPartite = $_SESSION['userNavigationData']['freeplayer']['partite'];
 
-if(is_numeric($suff) && is_numeric($partite))
-	$contenttpl->assign('appo',TRUE);
+if(is_numeric($filterSuff) && is_numeric($filterPartite))
+	$contenttpl->assign('validFilter',TRUE);
 else
-	$contenttpl->assign('appo',FALSE);
-	
-$contenttpl->assign('ruolo',$ruolo);
-$contenttpl->assign('suff',$suff);
-$contenttpl->assign('partite',$partite);	
+	$contenttpl->assign('validFilter',FALSE);
 
-$freeplayer = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['legaView']);
+$freeplayer = $giocatoreObj->getFreePlayer($filterRuolo,$_SESSION['legaView']);
 foreach($freeplayer as $key => $val)
 {
 	$freeplayer[$key]['nome'] = $val['nome'];
@@ -77,12 +71,12 @@ $sort_arr = array();
 foreach($freeplayer as $uniqid => $row)
 	foreach($row as $key => $value)
 		$sort_arr[$key][$uniqid] = $value;
-if($order != NULL)
+if($filterOrder != NULL)
 {
-	if($v == 'asc')
-		array_multisort($sort_arr[$order] , SORT_ASC , $freeplayer);
-	elseif($v == 'desc')
-		array_multisort($sort_arr[$order] , SORT_DESC , $freeplayer);
+	if($filterVersus == 'asc')
+		array_multisort($sort_arr[$filterOrder] , SORT_ASC , $freeplayer);
+	elseif($filterVersus == 'desc')
+		array_multisort($sort_arr[$filterOrder] , SORT_DESC , $freeplayer);
 }
 $orderBy = array();
 $orderBy[] = array('campo'=>'cognome','default'=>'asc');
@@ -94,17 +88,25 @@ $orderBy[] = array('campo'=>'partiteGiocate','default'=>'desc');
 
 foreach($orderBy as $key => $val)
 {
-	if(!isset($v) || $order != $val['campo'])
-		$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+	if(!isset($v) || $filterOrder != $val['campo'])
+		$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 	elseif($order == $val['campo'])
 	{
-		if($v == 'asc')
-			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+		if($filterVersus == 'asc')
+			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 		else
-			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$ruolo,'suff'=>$suff,'partite'=>$partite));
+			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 	}
 }
 
+$contenttpl->assign('order',$filterOrder);
+$contenttpl->assign('v',$filterVersus);
 $contenttpl->assign('link',$link);
 $contenttpl->assign('freeplayer',$freeplayer);
+$contenttpl->assign('suff',$filterSuff);
+$contenttpl->assign('partite',$filterPartite);
+$operationtpl->assign('ruolo',$filterRuolo);
+$operationtpl->assign('suff',$filterSuff);
+$operationtpl->assign('partite',$filterPartite);
+$operationtpl->assign('ruoli',$ruoli);
 ?>
