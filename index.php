@@ -116,7 +116,7 @@ if (!isset($_SESSION['lang']))
 require_once(CODEDIR.'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
-	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('rosa',array('squadra'=>$_SESSION['idSquadra']))));
+	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
@@ -145,7 +145,7 @@ if ($_SESSION['logged'])
 	$trasferimentiObj = new trasferimenti();
 	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
 	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
-		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+		$layouttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 
 /**
@@ -173,19 +173,27 @@ if(isset($_POST['legaView']))
  * essere caricato per visualizzare la pagina corretta
  *
  */
-//echo print_r($_SESSION,1);die();
+$message = array();
 if(!isset($pages[$p])) 
 {
-	$_SESSION['message'][0] = 1;
-	$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
+	$message['level'] = 1;
+	$message['text'] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
 	$p = 'home';
 }
 elseif($pages[$p]['roles'] > $_SESSION['roles']) 
 {
-	$_SESSION['message'][0] = 1;
-	$_SESSION['message'][1] = "Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home";
+	$message['level'] = 1;
+	$message['text'] = "Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home";
 	$p = 'home';
 }
+if(isset($_SESSION['message']))
+{
+	$message = $_SESSION['message'];
+	unset($_SESSION['message']);
+}
+if(!empty($message))
+	$layouttpl->assign('message',$message);
+
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR.$p.'.code.php'))
 	require(CODEDIR.$p.'.code.php');
@@ -235,10 +243,13 @@ $navbar = $navbartpl->fetch(TPLDIR . 'navbar.tpl.php');
  * Esegue la fetch del template per l'area content
  */
 $content = $contenttpl->fetch($tplfile);
-if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
-	$operation = $operationtpl->fetch(TPLDIR . "operazioni/" . $p . ".tpl.php");
-else
-	$operation = NULL;
+$operation = "";
+if($_SESSION['logged'])
+{
+	$operation = $operationtpl->fetch(TPLDIR . "operazioni.tpl.php");
+	if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
+		$operation .= $operationtpl->fetch(TPLDIR . "operazioni/" . $p . ".tpl.php");
+}
 
 /**
  * COMPOSIZIONE PAGINA

@@ -10,21 +10,22 @@ $punteggiObj = new punteggi();
 $utenteObj = new utente();
 $votiObj = new voti();
 
-$squadra = NULL;
+$filterSquadra = NULL;
 if(isset($_GET['squadra']))
-	$squadra = $_GET['squadra'];
-$contenttpl->assign('squadra',$squadra);
+	$filterSquadra = $_GET['squadra'];
+
 $classifica = $punteggiObj->getClassificaByGiornata($_SESSION['legaView'],GIORNATA);
+$elencoSquadre = $utenteObj->getElencoSquadre($_SESSION['legaView']);
 foreach($classifica as $key => $val)
 {
-	if($squadra == $val['idUtente'])
+	if($filterSquadra == $val['idUtente'])
 	{
 		$contenttpl->assign('media',substr($classifica[$key]['punteggioMed'],0,5));
 		$contenttpl->assign('min',$classifica[$key]['punteggioMin']);
 		$contenttpl->assign('max',$classifica[$key]['punteggioMax']);
 	}
 }
-$contenttpl->assign('classifica',$classifica);
+
 if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 {
 	if($_POST['passwordnew'] == $_POST['passwordnewrepeat'])
@@ -39,39 +40,27 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 			if( (isset($_POST['nomeProp'])) || (isset($_POST['cognome'])) || (isset($_POST['usernamenew'])) || (isset($_POST['mail'])) || (isset($_POST['nome'])) || (isset($_POST['passwordnew'])) )
 			{
 				$utenteObj->changeData($_POST,$_SESSION['idSquadra']);
-				$message[0] = 0;
-				$message[1] = "Dati modificati correttamente";
+				$message['level'] = 0;
+				$message['text'] = "Dati modificati correttamente";
 			}
 		}
 		else
 		{
-			$message[0] = 1;
-			$message[1] = "La password deve essere lunga almeno 6 caratteri";
+			$message['level'] = 1;
+			$message['text'] = "La password deve essere lunga almeno 6 caratteri";
 		}
 	}
 	else
 	{
-		$message[0] = 1;
-		$message[1] = "Le 2 password non corrispondono";
+		$message['level'] = 1;
+		$message['text'] = "Le 2 password non corrispondono";
 	}
-	$contenttpl->assign('message',$message);
+	$layouttpl->assign('message',$message);
 }
 
-if(isset($elencoSquadre[$squadra-1]))
-	$contenttpl->assign('squadraprec',($squadra-1));
-else
-	$contenttpl->assign('squadraprec',false);
-
-if(isset($elencoSquadre[$squadra+1]))
-	$contenttpl->assign('squadrasucc',($squadra+1));
-else
-	$contenttpl->assign('squadrasucc',false);
-	
-$contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
-
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
-$values = $giocatoreObj->getGiocatoriByIdSquadraWithStats($squadra);
-if(($squadra != NULL) && ($values))
+$values = $giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra);
+if(($filterSquadra != NULL) && ($values))
 {
 	$i = 0;
 	$appo = 0;
@@ -119,4 +108,17 @@ if(($squadra != NULL) && ($values))
 	$contenttpl->assign('giocatori',$giocatori);
 }
 
+$contenttpl->assign('squadra',$filterSquadra);
+$contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
+$contenttpl->assign('classifica',$classifica);
+$operationtpl->assign('elencoSquadre',$elencoSquadre);
+if(isset($elencoSquadre[$filterSquadra-1]))
+	$operationtpl->assign('squadraPrec',($filterSquadra-1));
+else
+	$operationtpl->assign('squadraPrec',false);
+
+if(isset($elencoSquadre[$filterSquadra+1]))
+	$operationtpl->assign('squadraSucc',($filterSquadra+1));
+else
+	$operationtpl->assign('squadraSucc',false);
 ?>
