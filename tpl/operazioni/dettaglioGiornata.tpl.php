@@ -1,12 +1,8 @@
-<div class="box-content column last">
-	<?php if(isset($this->penalità)): ?>
+<?php if(isset($this->penalità)): ?>
 	<div id="messaggio" class="messaggio neut column last">
 		<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
 		<span>Penalità: <?php echo $this->penalità['punteggio']; ?> punti<br />Motivazione: <?php echo $this->penalità['penalità']; ?></span><br />
 	</div>
-	<?php endif; ?>
-	<?php if($_SESSION['logged'] == TRUE): ?>
-		<?php require (TPLDIR.'operazioni.tpl.php'); ?>
 	<?php endif; ?>
 	<div id="operazioni-other" class="column last">
 		<ul class="operazioni-content">
@@ -41,4 +37,3 @@
 			</select>
 		</fieldset>
 	</form>
-</div>

@@ -17,7 +17,7 @@ class utente
 				FROM utente 
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idUtente']] = $row;
 		return $values; 
 	}
@@ -27,7 +27,7 @@ class utente
 		$q = "SELECT * 
 				FROM utente";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idUtente']] = $row;
 		return $values; 
 	}
@@ -38,7 +38,7 @@ class utente
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idUtente']] = $row;
 		if(isset($values))
 			return $values;
@@ -52,7 +52,7 @@ class utente
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		return mysql_fetch_array($exe); 
+		return mysql_fetch_assoc($exe); 
 	}
 	
 	function changeData($data,$id)
@@ -97,7 +97,7 @@ class utente
 		$q = "SELECT mail,idUtente,idLega 
 				FROM utente";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idLega']][$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
@@ -108,7 +108,7 @@ class utente
 				FROM utente
 				WHERE abilitaMail <> 0";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idLega']][$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
@@ -119,7 +119,7 @@ class utente
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
@@ -130,14 +130,14 @@ class utente
 				FROM utente
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$values[$row['idUtente']] = $row['mail'];
 		return $values; 
 	}
 	
 	function addSquadra($username,$name,$admin,$password,$email,$idLega)
 	{
-		require_once(INCDIR.'punteggi.inc.php');
+		require_once(INCDIR . 'punteggi.inc.php');
 		$punteggiObj = new punteggi();
 		$q = "INSERT INTO utente (nome,username,password,mail,amministratore,idLega) 
 				VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
@@ -146,7 +146,7 @@ class utente
 				FROM utente 
 				WHERE nome = '" . $name . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row['idUtente'];
 		$punteggiObj->setPunteggiToZero($val,$idLega);
 		return $val;
@@ -171,7 +171,7 @@ class utente
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$val = -1;
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row['idLega'];
 		return $val;
 	}
@@ -183,7 +183,7 @@ class utente
 				WHERE username LIKE '" . $username . "' AND idUtente <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$val = FALSE;
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row;
 		return $val;
 	}
@@ -195,7 +195,7 @@ class utente
 				WHERE nome LIKE '" . $nome . "' AND idUtente <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$val = FALSE;
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row;
 		return $val;
 	}

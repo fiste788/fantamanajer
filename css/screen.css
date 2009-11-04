@@ -246,15 +246,11 @@ em {
 	width: 100%;
 }
 /*----------box-content---------------------------*/
-#operazioni, #operazioni-other {
+#operazioni,#operazioni-other {
 	text-align: left;
-	margin: 0 0 15px 0;
-	border-bottom: 1px solid #fff;
-	padding: 0 0 8px 0;
+	padding: 0;
+	margin:0 0 5px;
 	width: 100%;
-}
-#operazioni-other {
-	border: 0px;
 }
 #operazioni a.operazioni-title {
 	background: transparent url(../imgs/point.png) no-repeat scroll left center;
@@ -547,7 +543,7 @@ tr.row:hover {
 	background: #00A2FF;
 	color: #fff;
 }
-.row:hover a {
+tr.row:hover a {
 	color: #fff;
 }
 .row td {
@@ -783,8 +779,9 @@ label {
 	position:fixed;
 	right:-300px;
 	top:25px;
-	width:295px;
+	width:285px;
 	display:block;
+	padding:10px 0 10px 10px;
 }
 .tickLabel {
 	color: #aaa;
@@ -1008,7 +1005,7 @@ p.surprise {
 }
 #tab_giocatore {
 	width: 510px;
-	height: 153px;
+	height: 190px;
 	overflow: auto;
 }
 #tab_giocatore table {

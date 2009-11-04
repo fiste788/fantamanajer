@@ -1,5 +1,5 @@
 <?php
-class punteggi
+class punteggio
 {
 	var $punteggio;
 	var $penalità;
@@ -10,7 +10,7 @@ class punteggi
 	function checkPunteggi($giornata)
 	{
 		$q = "SELECT * 
-				FROM punteggi 
+				FROM punteggio 
 				WHERE idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(mysql_num_rows($exe) > 0)
@@ -22,14 +22,14 @@ class punteggi
 	function getPunteggi($idUtente,$idGiornata)
 	{
 		$q = "SELECT punteggio 
-				FROM punteggi 
+				FROM punteggio 
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$punteggio = NULL;
 		if(mysql_num_rows($exe) > 0)
 		{
 			$punteggio = 0;
-			while ($row = mysql_fetch_array($exe))
+			while ($row = mysql_fetch_assoc($exe))
 				$punteggio += $row['punteggio'];
 		}
 		return $punteggio;
@@ -42,7 +42,7 @@ class punteggi
 		$i = 1;
 		foreach($classifica as $key => $val)
 		{
-			$pos[$val[0]] = $i;
+			$pos[$val['idUtente']] = $i;
 			$i++;
 		}
 		return $pos;
@@ -61,15 +61,14 @@ class punteggi
 	
 	function getClassificaByGiornata($idLega,$idGiornata)
 	{
-		$q = "SELECT utente.idUtente, nome, SUM(punteggi.punteggio) AS punteggioTot, AVG(punteggi.punteggio) AS punteggioMed, MAX(punteggi.punteggio) AS punteggioMax, (SELECT MIN(punteggi.punteggio) FROM punteggi WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
-				FROM (punteggi INNER JOIN utente ON punteggi.idUtente = utente.idUtente) LEFT JOIN giornateVinte ON punteggi.idUtente = giornateVinte.idUtente
-				WHERE punteggi.idGiornata <= '" . $idGiornata . "' AND punteggi.idLega = '" . $idLega . "'
+		$q = "SELECT utente.idUtente, nome, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.idUtente) LEFT JOIN giornateVinte ON punteggio.idUtente = giornateVinte.idUtente
+				WHERE punteggio.idGiornata <= '" . $idGiornata . "' AND punteggio.idLega = '" . $idLega . "'
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe))
+		while ($row = mysql_fetch_assoc($exe))
 			$classifica[$row['idUtente']] = $row;
-	
 		if(isset($classifica))
 			return($classifica);
 		else
@@ -79,11 +78,11 @@ class punteggi
 	function getAllPunteggiByGiornata($giornata,$idLega)
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
-				FROM punteggi RIGHT JOIN utente ON punteggi.idUtente = utente.idUtente 
+				FROM punteggio RIGHT JOIN utente ON punteggio.idUtente = utente.idUtente 
 				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND utente.idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$i = 0;
-		while ($row = mysql_fetch_array($exe))
+		while ($row = mysql_fetch_assoc($exe))
 		{
 			if(isset($classifica[$row['idUtente']] [$row['idGiornata']]))
 				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
@@ -98,8 +97,9 @@ class punteggi
 		}
 		else
 		{
-			require_once(INCDIR.'utente.inc.php');
+			require_once(INCDIR . 'utente.db.inc.php');
 			$utenteObj = new utente();
+			
 			$squadre = $utenteObj->getElencoSquadreByLega($idLega);
 			foreach($squadre as $key => $val)
 				$somme[$key][0] = 0;
@@ -111,24 +111,26 @@ class punteggi
 	
 	function getGiornateWithPunt()
 	{
-		$q = "SELECT COUNT(DISTINCT(idGiornata)) 
-				FROM punteggi";
+		$q = "SELECT COUNT(DISTINCT(idGiornata)) as numGiornate
+				FROM punteggio";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_row($exe))
-			return($row[0]);
+		while ($row = mysql_fetch_assoc($exe))
+			return($row['numGiornate']);
 	}
 
 	function recurSost($ruolo,&$panch,&$cambi,$giornata)
 	{
-		require_once(INCDIR.'voti.inc.php');
-		require_once(INCDIR.'giocatore.inc.php');
-		$votiObj = new voti();
+		require_once(INCDIR . 'voto.db.inc.php');
+		require_once(INCDIR . 'giocatore.db.inc.php');
+		
+		$votoObj = new voto();
 		$giocatoreObj = new giocatore();
+		
 		$num = count($panch);
 		for($i = 0;$i < $num;$i++)
 		{
 			$player = $panch[$i];
-			$presenza = $votiObj->getPresenzabyIdGioc($player,$giornata);
+			$presenza = $votoObj->getPresenzabyIdGioc($player,$giornata);
 			if(($giocatoreObj->getRuoloByIdGioc($player) == $ruolo) && ($presenza))
 			{
 				array_splice($panch,$i,1);
@@ -141,20 +143,20 @@ class punteggi
 
 	function calcolaPunti($giornata,$idSquadra,$idLega)
 	{
-		require_once('formazione.inc.php');
-		require_once('voti.inc.php');
-		require_once('giocatore.inc.php');
-		require_once('schieramento.inc.php');
-		require_once('leghe.inc.php');
+		require_once(INCDIR . 'formazione.db.inc.php');
+		require_once(INCDIR . 'voto.db.inc.php');
+		require_once(INCDIR . 'giocatore.db.inc.php');
+		require_once(INCDIR . 'schieramento.db.inc.php');
+		require_once(INCDIR . 'lega.db.inc.php');
 
 		$formazioneObj = new formazione();
-		$votiObj = new voti();
+		$votoObj = new voto();
 		$giocatoreObj = new giocatore();
 		$schieramentoObj = new schieramento();
-		$legheObj = new leghe();
+		$legaObj = new lega();
 		// Se i punti di quella squadra e giornata ci sono già, esce
 		$punteggioOld = $this->getPunteggi($idSquadra,$giornata);
-		$datiLega = $legheObj->getLegaById($idLega);
+		$datiLega = $legaObj->getLegaById($idLega);
 		if($punteggioOld == '0' || $punteggioOld == NULL)
 		{
 			$cambi = 0;
@@ -166,7 +168,7 @@ class punteggi
 			// ottengo il capitano che ha preso voto
 			foreach($eCap as $cap)
 			{
-				if($votiObj->getPresenzaByIdGioc($cap,$giornata))
+				if($votoObj->getPresenzaByIdGioc($cap,$giornata))
 				{ 
 					$flag = 1;
 					break;
@@ -178,7 +180,7 @@ class punteggi
 			$tito = array_splice($panch,0,11);
 			foreach ($tito as $player)
 			{
-				$presenza = $votiObj->getPresenzaByIdGioc($player,$giornata);
+				$presenza = $votoObj->getPresenzaByIdGioc($player,$giornata);
 				if((!$presenza) && ($cambi < 3))
 				{
 					$sostituto = $this->recurSost($giocatoreObj->getRuoloByIdGioc($player),$panch,$cambi,$giornata);
@@ -186,7 +188,7 @@ class punteggi
 						$player = $sostituto;
 				}
 				$schieramentoObj->setConsiderazione($idForm,$player,1);
-				$voto = $votiObj->getVotoByIdGioc($player,$giornata);
+				$voto = $votoObj->getVotoByIdGioc($player,$giornata);
 				if($player == $cap && $datiLega['capitano'])
 				{
 					$voto *= 2;
@@ -195,11 +197,11 @@ class punteggi
 				$somma += $voto;
 			}
 			if($punteggioOld == '0')
-				$q = "UPDATE punteggi
+				$q = "UPDATE punteggio
 						SET punteggio = '" . $somma . "' 
 						WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
 			else
-				$q = "INSERT INTO punteggi (idGiornata,idUtente,punteggio,idLega) 
+				$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,idLega) 
 						VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
@@ -212,7 +214,7 @@ class punteggi
 			$giornateWithPunt = 0;
 		for($i = 1; $i <= $giornateWithPunt; $i++)
 		{
-			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
+			$q = "INSERT INTO punteggio (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
@@ -221,7 +223,7 @@ class punteggi
 	function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)
 	{
 		if($this->getPunteggi($idUtente,$idGiornata) != '0')
-			$q = "INSERT INTO punteggi (punteggio,idGiornata,idUtente,idLega) 
+			$q = "INSERT INTO punteggio (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		else
 			return TRUE;
@@ -231,10 +233,10 @@ class punteggi
 	function getPenalitàBySquadraAndGiornata($idUtente,$idGiornata)
 	{
 		$q = "SELECT punteggio,penalità 
-				FROM punteggi
+				FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe))
+		while ($row = mysql_fetch_assoc($exe))
 			$val = $row;
 		if(isset($val))
 			return $val;
@@ -245,10 +247,10 @@ class punteggi
 	function getPenalitàByLega($idLega)
 	{
 		$q = "SELECT *
-				FROM punteggi
+				FROM punteggio
 				WHERE punteggio < 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe))
+		while ($row = mysql_fetch_assoc($exe))
 			$val[$row['idUtente']][$row['idGiornata']] = $row['punteggio'];
 		if(isset($val))
 			return $val;
@@ -259,17 +261,17 @@ class punteggi
 	function setPenalità($punti,$motivo,$idGiornata,$idUtente,$idLega)
 	{
 		if($this->getPenalitàBySquadraAndGiornata($idUtente,$idGiornata) != FALSE)
-			$q = "UPDATE punteggi SET punteggio = '" . (-$punti) . "', penalità = '" . $motivo . "'
+			$q = "UPDATE punteggio SET punteggio = '" . (-$punti) . "', penalità = '" . $motivo . "'
 					WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'"; 
 		else
-			$q = "INSERT INTO punteggi (punteggio,penalità,idGiornata,idUtente,idLega) 
+			$q = "INSERT INTO punteggio (punteggio,penalità,idGiornata,idUtente,idLega) 
 					VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		return $exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function unsetPenalità($idUtente,$idGiornata)
 	{
-		$q = "DELETE FROM punteggi
+		$q = "DELETE FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		return  mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}

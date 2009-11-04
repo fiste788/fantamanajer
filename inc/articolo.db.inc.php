@@ -75,8 +75,8 @@ class articolo
 				FROM articolo 
 				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "' AND idLega = '" . $articolo->idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$data = mysql_fetch_row($exe);
-		return $data[0];
+		$data = mysql_fetch_assoc($exe);
+		return $data['idArticolo'];
 	}
 	
 	function update($articolo)
@@ -165,7 +165,7 @@ class articolo
 		if($start != NULL || $end != NULL)
 			$q .= " LIMIT ".$start.','.$end;
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(isset($values))
 			return $values;
@@ -179,7 +179,7 @@ class articolo
 				FROM articolo
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row['idGiornata'];
 		if(isset($values))
 			return $values;
@@ -193,7 +193,7 @@ class articolo
 				FROM articolo 
 				WHERE idArticolo = '" . $id . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		return mysql_fetch_array($exe);
+		return mysql_fetch_assoc($exe);
 	}
 }
 ?>

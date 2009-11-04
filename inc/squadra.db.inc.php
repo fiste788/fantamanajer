@@ -39,7 +39,7 @@ class squadre
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$values = FALSE;
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values = $row['idUtente'];
 		return $values;
 	}

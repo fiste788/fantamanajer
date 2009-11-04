@@ -94,36 +94,28 @@
 				<th class="tdcenter">MPunti</th>
 				<th class="tdcenter">Gol</th>
 				<th class="tdcenter">Assist</th>
+				<th class="tdcenter">Ammonizioni</th>
+				<th class="tdcenter">Esplusioni</th>
 			</tr>
 			<?php if(!empty($this->giocatori)): ?>
 			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if(empty($val['club'])) echo 'rosso'; else echo 'row' ?>">
+			<tr class="tr <?php if(empty($val['idClub'])) echo 'rosso'; else echo 'row' ?>">
 				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult' ?>">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><?php echo $val['nome']; ?></a>
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><?php echo $val['cognome'] . ' ' . $val['nome']; ?></a>
 				</td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['presenze']." (".$val['presenzeEff'].")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['avgvoto'])) echo ' title="' . $val['avgvoto'] . '"'; ?>><?php if(!empty($val['avgvoto'])) echo $val['avgvoto']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"<?php if(!empty($val['avgpunti'])) echo ' title="' . $val['avgpunti'] . '"'; ?>><?php if(!empty($val['avgpunti'])) echo $val['avgpunti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['presenze']." (".$val['presenzeVoto'].")"; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['avgVoti'])) echo $val['avgVoti']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['avgPunti'])) echo $val['avgPunti']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['ammonizioni'])) echo $val['ammonizioni']; else echo "&nbsp;" ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['espulsioni'])) echo $val['espulsioni']; else echo "&nbsp;" ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
 			<?php endif;?>
-			<tr>
-				<?php if(!empty($this->giocatori)): ?>
-				<td class="ult" colspan="3">Media</td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaPartite; ?>"><?php echo $this->mediaPartite; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaVoto; ?>"><?php echo $this->mediaVoto; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaPunti; ?>"><?php echo $this->mediaPunti; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaGol; ?>"><?php echo $this->mediaGol; ?></td>
-				<td class="ult tdcenter" title="<?php echo $this->mediaAssist; ?>"><?php echo $this->mediaAssist; ?></td>
-				<?php else: ?>
-				<td class="ult" colspan="3"><br><br>Nessun giocatore in rosa</td>
-				<?php endif; ?>
-			</tr>
 		</tbody>
 	</table>
 </div>

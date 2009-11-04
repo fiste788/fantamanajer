@@ -14,6 +14,7 @@
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/rss+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
+		<script src="<?php echo JSURL . 'jquery/jquery.js' ?>" language="javascript" type="text/javascript"></script>
 		<?php if(!empty($this->js)): ?>
 		<?php foreach($this->js as $key => $val): ?>
 		<?php if(is_array($val)): ?>
@@ -45,23 +46,27 @@
 			<?php if(isset($this->message)): ?>
 			<?php switch($this->message['level']): 
 				 case 0: ?>
-				<div id="messaggio" class="messaggio good column last">
+				<div id="messaggio" title="Clicca per nascondere" class="messaggio good column last">
 					<img alt="OK" src="<?php echo IMGSURL . 'ok-big.png'; ?>" />								
 				<?php break; case 1: ?>
-					<div id="messaggio" class="messaggio bad column last">
-						<img alt="!" src="<?php echo IMGSURL . 'attention-bad-big.png'; ?>" title="Attenzione!" />
+				<div id="messaggio" title="Clicca per nascondere" class="messaggio bad column last">
+					<img alt="!" src="<?php echo IMGSURL . 'attention-bad-big.png'; ?>" title="Attenzione!" />
 				<?php endswitch; ?>
-				<span><?php echo $this->message['text']; ?></span>
-				</div>	
-			<script type="text/javascript">
-				$(document).ready(function(){
-					$("#messaggio").effect("pulsate", { times: 2 }, 1000);
-					$("#messaggio").hover("opacity", 0.2);
-					$("#messaggio").click(function () {
-						$("div#messaggio").fadeOut("slow");
+					<span><?php echo $this->message['text']; ?></span>
+				</div>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$("#messaggio").effect("pulsate", { times: 2 }, 1000);
+						$("#messaggio").hover(function () {
+							$(this).fadeTo("fast",0.2);
+						},function () {
+							$(this).fadeTo("fast",1);
+						});
+						$("#messaggio").click(function () {
+							$("div#messaggio").fadeOut("slow");
+						});
 					});
-				});
-			</script>
+				</script>
 			<?php endif; ?>
 			<div id="content-container" class="column last" >
 				<?php echo $this->content ?>

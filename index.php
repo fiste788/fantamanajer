@@ -71,13 +71,13 @@ foreach($_GET as $key=>$val)
 	else
 		$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 }
-require_once 'config/config.inc.php';
-require_once 'config/Savant3.php';
-require_once 'config/pages.inc.php';
-require_once INCDIR.'db.inc.php';
-require_once INCDIR.'auth.inc.php';
-require_once INCDIR.'strings.inc.php';
-require_once INCDIR.'links.inc.php';
+require_once('config/config.inc.php');
+require_once('config/Savant3.php');
+require_once('config/pages.inc.php');
+require_once(INCDIR . 'db.inc.php');
+require_once(INCDIR . 'auth.inc.php');
+require_once(INCDIR . 'strings.inc.php');
+require_once(INCDIR . 'links.inc.php');
 
 
 
@@ -113,7 +113,7 @@ if (!isset($_SESSION['lang']))
 	$_SESSION['lang'] = 'it';
 
 //Try login if POSTDATA exists
-require_once(CODEDIR.'login.code.php');
+require_once(CODEDIR . 'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
 	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
@@ -129,8 +129,8 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['legaView'] = 1;
 }
 
-require_once(INCDIR.'leghe.inc.php');
-$legheObj = new leghe();
+require_once(INCDIR . 'lega.db.inc.php');
+$legaObj = new lega();
 
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
@@ -138,20 +138,20 @@ $legheObj = new leghe();
 
 if ($_SESSION['logged'])
 {
-	require_once(INCDIR.'giocatore.inc.php');
-	require_once(INCDIR.'trasferimenti.inc.php');
+	require_once(INCDIR . 'giocatore.db.inc.php');
+	require_once(INCDIR . 'trasferimento.db.inc.php');
 	
 	$giocatoreObj = new giocatore();
-	$trasferimentiObj = new trasferimenti();
-	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
-	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
+	$trasferimentoObj = new trasferimento();
+	$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
+	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
 		$layouttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 
 /**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
-require_once(INCDIR.'giornata.inc.php');
+require_once(INCDIR . 'giornata.db.inc.php');
 
 $giornataObj = new giornata();
 $giornata = $giornataObj->getGiornataByDate();
@@ -161,7 +161,7 @@ define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
 
-$leghe = $legheObj->getLeghe();
+$leghe = $legaObj->getLeghe();
 $layouttpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
 	$_SESSION['legaView'] = $leghe[0]['idLega'];
@@ -195,10 +195,10 @@ if(!empty($message))
 	$layouttpl->assign('message',$message);
 
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
-if (file_exists(CODEDIR.$p.'.code.php'))
-	require(CODEDIR.$p.'.code.php');
+if (file_exists(CODEDIR . $p . '.code.php'))
+	require(CODEDIR . $p . '.code.php');
 //definisce il file di template utilizzato per visualizzare questa pagina
-$tplfile = TPLDIR.$p.'.tpl.php';
+$tplfile = TPLDIR . $p . '.tpl.php';
 
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
@@ -209,10 +209,12 @@ $navbartpl->assign('pages',$pages);
  * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
  *
  */
- $layouttpl->assign('title',$pages[$p]['title']);
- $layouttpl->assign('css', $pages[$p]['css']);
- $layouttpl->assign('js', $pages[$p]['js']);
- $layouttpl->assign('p',$p);
+$layouttpl->assign('title',$pages[$p]['title']);
+$layouttpl->assign('p',$p);
+if(isset($pages[$p]['css']))
+ 	$layouttpl->assign('css', $pages[$p]['css']);
+if(isset($pages[$p]['js']))
+	$layouttpl->assign('js', $pages[$p]['js']);
 
 /**
  * GENERAZIONE LAYOUT

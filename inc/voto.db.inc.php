@@ -1,5 +1,5 @@
 <?php 
-class voti
+class voto
 {
 	var $idGioc;
 	var $idGiornata;
@@ -11,19 +11,31 @@ class voti
 	function getVotoByIdGioc($idGioc,$giornata)
 	{
 		$q = "SELECT punti 
-				FROM voti 
+				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_row($exe))
-			return($row[0]);
+		while ($row = mysql_fetch_assoc($exe))
+			return($row['punti']);
+	}
+	
+	function getAllVotoByIdGioc($idGioc)
+	{
+		$q = "SELECT * 
+				FROM voto 
+				WHERE idGioc = '" . $idGioc . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		while ($row = mysql_fetch_assoc($exe))
+			$values[$row['idGiornata']] = $row;
+		return $values;
 	}
 
 	function getPresenzaByIdGioc($idGioc,$giornata)
 	{
 		$q = "SELECT voto,punti 
-				FROM voti WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
+				FROM voto 
+				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while ($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+		while ($row = mysql_fetch_assoc($exe))
 			if($row['punti'] <> 0 && $row['voto'] <> 0)
 				return TRUE;
 		return FALSE;
@@ -32,11 +44,11 @@ class voti
 	function getMedieVoto($idGioc)
 	{
 		$q = "SELECT AVG(voto) as mediaPunti,AVG(punti) as mediaVoti,count(voto) as presenze 
-				FROM voti 
+				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND punti <> 0 AND voto <> 0 
 				GROUP BY idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+		while($row = mysql_fetch_assoc($exe))
 			return $row;
 	}
 	
@@ -49,7 +61,7 @@ class voti
 		{
 			if($this->checkVotiExist($giorn))
 				return TRUE;
-			$q = "INSERT INTO voti(idGioc,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
+			$q = "INSERT INTO voto(idGioc,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
 			$content = file($percorso);
 			if($content != FALSE)
 			{
@@ -74,9 +86,9 @@ class voti
 	{
 		$values = array();
 		$q = "SELECT DISTINCT(idGiornata)
-				FROM voti";
+				FROM voto";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe,MYSQL_ASSOC))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row['idGiornata'];
 		return in_array($giornata,$values);
 	}

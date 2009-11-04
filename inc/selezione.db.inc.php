@@ -12,7 +12,7 @@ class selezione
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(isset($values))
 			return $values;
@@ -26,7 +26,7 @@ class selezione
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
 				WHERE idSquadra = '" . $idSquadra . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		return mysql_fetch_array($exe);
+		return mysql_fetch_assoc($exe);
 	}
 	
 	function unsetSelezioneByIdSquadra($idSquadra)
@@ -44,7 +44,7 @@ class selezione
 				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$values = array();
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(!empty($values))
 			return $values['idSquadra'];
@@ -60,7 +60,7 @@ class selezione
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$values = array();
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(!empty($values))
 		{
@@ -74,7 +74,7 @@ class selezione
 				WHERE giocNew IS NOT NULL AND idSquadra = '" . $idSquadra . "'  LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		$values = array();
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(!empty($values))
 		{
@@ -105,7 +105,7 @@ class selezione
 				WHERE idSquadra = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$val = NULL;
-		while ($row = mysql_fetch_array($exe) )
+		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row['numSelezioni'];
 		return $val;
 	}

@@ -1,21 +1,19 @@
 <?php
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'squadre.inc.php');
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'mail.inc.php');
-require_once(INCDIR.'leghe.inc.php');
-require_once(INCDIR.'strings.inc.php');
-require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'squadra.db.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDIR . 'mail.inc.php');
+require_once(INCDIR . 'strings.inc.php');
 
-$utenteObj = new utente();
-$squadreObj = new squadre();
-$giocatoreObj = new giocatore();
-$mailObj = new mail();
-$legheObj = new leghe();
-$stringObj = new string(NULL);
 $mailContent = new Savant3();
-$punteggiObj = new punteggi();
 $dbObj = new db();
+$utenteObj = new utente();
+$squadraObj = new squadra();
+$giocatoreObj = new giocatore();
+$legaObj = new lega();
+$mailObj = new mail();
+$stringObj = new string(NULL);
 
 $action = NULL;
 $id = NULL;
@@ -55,7 +53,7 @@ if($lega != NULL && $action != NULL && $id != NULL)
 		{
 			if($utenteObj->deleteSquadra($id))
 			{
-				$squadreObj->unsetSquadraGiocatoreByIdSquadra($id);
+				$squadraObj->unsetSquadraGiocatoreByIdSquadra($id);
 				$message[0] = 0;
 				$message[1] = "Cancellazione effettuata correttamente";
 				unset($_POST);
@@ -122,7 +120,7 @@ if($lega != NULL && $action != NULL && $id != NULL)
 					$giocatoriOld = array_keys($giocatoreObj->getGiocatoriByIdSquadra($id));
 					foreach($giocatori as $key => $val)
 						if(!in_array($val,$giocatoriOld))
-							$squadreObj->updateGiocatore($val,$giocatoriOld[$key],$id);
+							$squadraObj->updateGiocatore($val,$giocatoriOld[$key],$id);
 					unset($_POST);
 					$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($id)));
 					$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($id));
@@ -134,7 +132,7 @@ if($lega != NULL && $action != NULL && $id != NULL)
 					$password = $stringObj->createRandomPassword();
 					$dbObj->startTransaction();
 					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),addslashes(stripslashes(trim($_POST['nome']))),$amministratore,$password,addslashes(stripslashes(trim($_POST['mail']))),$lega);
-					$squadreObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
+					$squadraObj->setSquadraGiocatoreByArray($lega,$giocatori,$squadra);
 					$dbObj->commit();
 					$id = $squadra;
 					$message[0] = 0;

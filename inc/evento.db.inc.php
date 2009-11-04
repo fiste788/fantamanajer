@@ -1,19 +1,16 @@
 <?php
-
-
-class eventi
+class evento
 {
 	var $idEvento;
 	var $idUtente;
 	var $idLega;
 	var $data;	//viene settata in automatico nel db con un on_update = CURRENT_TIMESTAMP
-	var $tipo;	//1 = conferenza stampa, 2 = selezione giocatore, 3 = formazione, 4 = trasferimento, 
-              //5=ingresso giocatore in lista, 6=uscita giocare dalla lista
+	var $tipo;	//1 = conferenza stampa, 2 = selezione giocatore, 3 = formazione, 4 = trasferimento, 5=ingresso giocatore in lista, 6=uscita giocare dalla lista
 	var $idExternal;	// id da cui prendere i dati dell'evento
 	
 	function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)
 	{
-		$q = "INSERT INTO eventi (idUtente,idLega,tipo,idExternal) 
+		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal) 
 				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
@@ -21,12 +18,24 @@ class eventi
 	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
 	{
 		$q = "DELETE 
-				FROM eventi WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
+				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
+		require_once(INCDIR . 'articolo.db.inc.php');
+		require_once(INCDIR . 'trasferimento.db.inc.php');
+		require_once(INCDIR . 'formazione.db.inc.php');
+		require_once(INCDIR . 'giocatore.db.inc.php');
+		require_once(INCDIR . 'links.inc.php');
+		
+		$articoloObj = new articolo();
+		$trasferimentoObj = new trasferimento();
+		$formazioneObj = new formazione();
+		$giocatoreObj = new giocatore();
+		$linksObj = new links();
+		
 		$ruoli = array("articoli" =>
 					array (
     					'P'=> "il",
@@ -40,26 +49,16 @@ class eventi
     				'C'=> "centrocampista",
     				'A'=> "attaccante"
 		));
-		$q = "SELECT eventi.idEvento,eventi.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
-				FROM eventi LEFT JOIN utente ON eventi.idUtente = utente.idUtente 
-				WHERE (eventi.idLega = '" . $idLega . "' OR eventi.idLega = '0')";
+		$q = "SELECT evento.idEvento,evento.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
+				FROM evento LEFT JOIN utente ON evento.idUtente = utente.idUtente 
+				WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
 		if($tipo != NULL)
 		  $q .= " AND tipo = '" . $tipo . "'";
 		$q .= " ORDER BY data DESC 
 				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_array($exe))
+		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
-		require_once(INCDIR.'articolo.inc.php');
-		require_once(INCDIR.'trasferimenti.inc.php');
-		require_once(INCDIR.'formazione.inc.php');
-		require_once(INCDIR.'giocatore.inc.php');
-		require_once(INCDIR.'links.inc.php');
-		$formazioneObj = new formazione();
-		$articoloObj = new articolo();
-		$giocatoreObj = new giocatore();
-		$trasferimentiObj = new trasferimenti();
-		$linksObj = new links();
 		if(isset($values))
 		{
 			foreach($values as $key => $val)
@@ -87,7 +86,7 @@ class eventi
 										$values[$key]['content'] .= $val2['cognome'].', ';
 									$values[$key]['content'] = substr($values[$key]['content'],0,-2);
 									$values[$key]['link'] = $linksObj->getLink('altreFormazioni',array('giorn'=>$values[$key]['idExternal']['idGiornata'],'squadra'=>$values[$key]['idExternal']['idSquadra']));break;
-					case 4: $values[$key]['idExternal'] = $trasferimentiObj->getTrasferimentoById($val['idExternal']);
+					case 4: $values[$key]['idExternal'] = $trasferimentoObj->getTrasferimentoById($val['idExternal']);
 									$giocOld = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocOld']);
 									$giocNew = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']['idGiocNew']);
 									$values[$key]['idExternal']['idGiocOld'] = $giocOld[$values[$key]['idExternal']['idGiocOld']];
