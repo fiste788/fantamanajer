@@ -1,7 +1,7 @@
 <?php 
-require_once(INCDIR."articolo.inc.php");
-require_once(INCDIR."utente.inc.php");
-require_once(INCDIR."emoticon.inc.php");
+require_once(INCDIR . "articolo.db.inc.php");
+require_once(INCDIR . "utente.db.inc.php");
+require_once(INCDIR . "emoticon.inc.php");
 
 $emoticonObj = new emoticon();
 $articoloObj = new articolo();

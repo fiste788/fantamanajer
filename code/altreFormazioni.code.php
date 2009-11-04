@@ -1,7 +1,7 @@
 <?php 
-require_once(INCDIR."utente.inc.php");
-require_once(INCDIR."formazione.inc.php");
-require_once(INCDIR."giocatore.inc.php");
+require_once(INCDIR . "utente.db.inc.php");
+require_once(INCDIR . "formazione.db.inc.php");
+require_once(INCDIR . "giocatore.db.inc.php");
 
 $utenteObj = new utente();
 $formazioneObj = new formazione();

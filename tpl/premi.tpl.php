@@ -11,31 +11,31 @@
 		<tr>
 			<th class="tableimg">&nbsp;</th>
 			<th>Posizione</th>
-			<?php if(TIMEOUT == -1): ?><th>Squadra</th><?php endif; ?>
+			<?php if(STAGIONEFINITA): ?><th>Squadra</th><?php endif; ?>
 			<th>Premio</th>
 		</tr>
 		<tr>
 			<td class="tableimg"><img alt="oro" src="<?php echo IMGSURL . 'cup-oro.png'; ?>" /></td>
 			<td>1° classificato</td>
-			<?php if(TIMEOUT == -1): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome']; ?></td><?php endif; ?>
+			<?php if(STAGIONEFINITA): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome']; ?></td><?php endif; ?>
 			<td class="ruolo">130€</td>
 		</tr>
 		<tr>
 			<td class="tableimg"><img alt="argento" src="<?php echo IMGSURL . 'cup-argento.png'; ?>" /></td>
 			<td>2° classificato</td>
-			<?php if(TIMEOUT == -1): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome'] ;?></td><?php endif; ?>
+			<?php if(STAGIONEFINITA): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome'] ;?></td><?php endif; ?>
 			<td>76€</td>
 		</tr>
 		<tr>
 			<td class="tableimg"><img alt="bronzo" src="<?php echo IMGSURL . 'cup-bronzo.png'; ?>" /></td>
 			<td>3° classificato</td>
-			<?php if(TIMEOUT == -1): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome']; ?></td><?php endif; ?>
+			<?php if(STAGIONEFINITA): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome']; ?></td><?php endif; ?>
 			<td>50€</td>
 		</tr>
 		<tr>
 			<td class="tableimg"><img alt="legno" src="<?php echo IMGSURL . 'cup-legno.png'; ?>" /></td>
 			<td>4° classificato</td>
-			<?php if(TIMEOUT == -1): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome']; ?></td><?php endif; ?>
+			<?php if(STAGIONEFINITA): ?><td><?php $appo = array_shift($this->classifica); echo $appo['nome']; ?></td><?php endif; ?>
 			<td>38€</td>
 		</tr>
 	</tbody>

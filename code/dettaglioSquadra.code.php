@@ -1,20 +1,18 @@
 <?php
-require_once(INCDIR.'utente.inc.php');
-require_once(CODEDIR.'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
-require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'voti.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(CODEDIR . 'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
 
-$giocatoreObj = new giocatore();
-$punteggiObj = new punteggi();
 $utenteObj = new utente();
-$votiObj = new voti();
+$punteggioObj = new punteggio();
+$giocatoreObj = new giocatore();
 
 $filterSquadra = NULL;
 if(isset($_GET['squadra']))
 	$filterSquadra = $_GET['squadra'];
 
-$classifica = $punteggiObj->getClassificaByGiornata($_SESSION['legaView'],GIORNATA);
+$classifica = $punteggioObj->getClassificaByGiornata($_SESSION['legaView'],GIORNATA);
 $elencoSquadre = $utenteObj->getElencoSquadre($_SESSION['legaView']);
 foreach($classifica as $key => $val)
 {
@@ -59,55 +57,8 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 }
 
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
-$values = $giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra);
-if(($filterSquadra != NULL) && ($values))
-{
-	$i = 0;
-	$appo = 0;
-	$mediaVoto = 0;
-	$mediaPartite = 0;
-	$mediaGol = 0;
-	$mediaAssist = 0;
-	$mediaPunti = 0;
-	$nonpermedia=0;
-	foreach($values as $key => $val)
-	{
-		$giocatori[$i]['idGioc'] = $val['idGioc'];
-		$giocatori[$i]['nome'] = $val['cognome'] . " " . $val['nome'];
-		$giocatori[$i]['ruolo'] = $ruoli[$val['ruolo']];
-		$giocatori[$i]['club'] = $val['nomeClub'];
-		//$medieVoti = $votiObj->getMedieVoto($giocatori[$i]['idGioc']);
-		$giocatori[$i]['avgpunti'] = $val['avgpunti'];
-		$giocatori[$i]['avgvoto'] = $val['avgvoto'];
-		$giocatori[$i]['presenze'] = $val['presenze'];
-		$giocatori[$i]['presenzeEff'] = $val['presenzeconvoto'];
-		if($val['ruolo']=="P")
-			$giocatori[$i]['gol'] = -$val['golSubiti'];
-		else
-		{
-			$giocatori[$i]['gol'] = $val['gol'];
-			$mediaGol += $giocatori[$i]['gol'];
-		}
-		$giocatori[$i]['assist'] = $val['assist'];
-		$giocatori[$i]['espulsioni'] = $val['espulsioni'];
-		$giocatori[$i]['ammonizioni'] = $val['ammonizioni'];
-		
-		$mediaVoto += $giocatori[$i]['avgvoto'];
-		$mediaPunti += $giocatori[$i]['avgpunti'];
-		$mediaPartite += $giocatori[$i]['presenze'];
-		$mediaAssist += $giocatori[$i]['assist'];
-		if($giocatori[$i]['presenzeEff']==0)
-			$nonpermedia++;
-		$i++;
-	}
-	$contenttpl->assign('mediaVoto',round($mediaVoto/($i-$nonpermedia),2));
-	$contenttpl->assign('mediaPunti',round($mediaPunti/($i-$nonpermedia),2));
-	$contenttpl->assign('mediaPartite',round($mediaPartite/$i,2));
-	$contenttpl->assign('mediaGol',round($mediaGol/($i-3),2));
-	$contenttpl->assign('mediaAssist',round($mediaAssist/$i,2));
-	$contenttpl->assign('giocatori',$giocatori);
-}
-
+//echo "<pre>".print_r($giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra),1)."</pre>";
+$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra));
 $contenttpl->assign('squadra',$filterSquadra);
 $contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
 $contenttpl->assign('classifica',$classifica);

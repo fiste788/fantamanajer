@@ -31,7 +31,7 @@
 				<tr>
 				<?php foreach($val as $secondKey=>$secondVal): ?>
 					<td<?php if(isset($this->penalità[$key][$secondKey])) echo ' title="Penalità: ' . $this->penalità[$key][$secondKey] . ' punti" class="rosso"' ?>>
-						<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key][0])); ?>"><?php echo $val[$secondKey]; ?></a>
+						<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]['idUtente'])); ?>"><?php echo $val[$secondKey]; ?></a>
 					</td>
 					<?php endforeach; ?>
 				</tr>

@@ -1,7 +1,7 @@
 <?php 
-require_once(INCDIR.'trasferimenti.inc.php');
+require_once(INCDIR . 'trasferimento.db.inc.php');
 
-$trasferimentiObj = new trasferimenti();
+$trasferimentoObj = new trasferimento();
 $giornataObj = new giornata();
 
 $today = date("Y-m-d");
@@ -11,7 +11,7 @@ $dataGiornata = $giorn[0];
 
 if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 'superadmin')
 {
-	$trasferimentiObj->doTransfertBySelezione();
+	$trasferimentoObj->doTransfertBySelezione();
 	$message[0] = 0;
 	$message[1] = "Operazione effettuata correttamente";
 	

@@ -1,69 +1,71 @@
 <?php 
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'utente.inc.php');
-$ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
 
 $giocatoreObj = new giocatore();
 $utenteObj = new utente();
 
 if(isset($_GET['id']))
-	$id = $_GET['id'];
+	$filterId = $_GET['id'];
 if(isset($_GET['edit']))
-	$edit = $_GET['edit'];
+	$filterEdit = $_GET['edit'];
 if(isset($_POST['id']))
-	$id = $_POST['id'];
+	$filterId = $_POST['id'];
 if(isset($_POST['edit']))
-	$edit = $_POST['edit'];
+	$filterEdit = $_POST['edit'];
 
-$contenttpl->assign('idgioc',$id);
-$dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($id,$_SESSION['legaView']);
+$ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante');
+$ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 
-$pathfoto = 'foto/' . $dettaglio[0]['idGioc'] . '.jpg';
-$pathclub = 'clubs/' . $dettaglio[0]['idClub'] . '.png';
+$dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
+$pathfoto = 'foto/' . $dettaglio['dettaglio']['idGioc'] . '.jpg';
+$pathclub = 'clubs/' . $dettaglio['dettaglio']['idClub'] . '.png';
 if(!file_exists(IMGDIR . $pathfoto))
 	$pathfoto = 'foto/nophoto.jpg';
 
-
-
-$contenttpl->assign('dettaglioGioc',$dettaglio);
-$contenttpl->assign('pathfoto',IMGSURL . $pathfoto);
-$contenttpl->assign('pathclub',IMGSURL . $pathclub);
 if($_SESSION['logged'] == TRUE)
 {
-	if(!empty($dettaglio[0]['idUtente']))		// carico giocatori della squadra
+	if(!empty($dettaglio['dettaglio']['idUtente']))		// carico giocatori della squadra
 	{
-		$squadra = $dettaglio[0]['idUtente'];
-		$elencogiocatori = $giocatoreObj->getGiocatoriByIdSquadra($squadra);
+		$squadra = $dettaglio['dettaglio']['idUtente'];
+		$elencoGiocatori = $giocatoreObj->getGiocatoriByIdSquadra($squadra);
 		$contenttpl->assign('idsquadra',$squadra);
-		$dettagliosquadra= $utenteObj->getSquadraById($squadra);
-		$contenttpl->assign('label',$dettagliosquadra['nome']);
+		$dettaglioSquadra= $utenteObj->getSquadraById($squadra);
+		$operationtpl->assign('label',$dettaglioSquadra['nome']);
+		$contenttpl->assign('label',$dettaglioSquadra['nome']);
 	}
 	else			// carico giocatori liberi
 	{
-		$ruolo = $dettaglio[0]['ruolo'];
-		$elencogiocatori = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['datiLega']['idLega']);
+		$ruolo = $dettaglio['dettaglio']['ruolo'];
+		$elencoGiocatori = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['datiLega']['idLega']);
+		$operationtpl->assign('label',$ruoplu[$ruolo]." liberi");
 		$contenttpl->assign('label',$ruoplu[$ruolo]." liberi");
 	}
 
 }
 else			// carico giocatori del club
 {
-	$club = $dettaglio[0]['nomeClub'];
-	$elencogiocatori = $giocatoreObj->getGiocatoriByIdClub($dettaglio[0]['idClub']);
+	$club = $dettaglio['dettaglio']['nomeClub'];
+	$elencoGiocatori = $giocatoreObj->getGiocatoriByIdClub($dettaglio['dettaglio']['idClub']);
+	$operationtpl->assign('label',$club);
 	$contenttpl->assign('label',$club);
 }
+$keys = array_keys($elencoGiocatori);
 
-$contenttpl->assign('elencogiocatori',$elencogiocatori);
-$keys=array_keys($elencogiocatori);
-
-if(isset($keys[array_search($id,$keys)-1]))
-	$contenttpl->assign('giocprec',$keys[array_search($id,$keys)-1]);
+$operationtpl->assign('idGioc',$filterId);
+$contenttpl->assign('dettaglioGioc',$dettaglio);
+$contenttpl->assign('pathFoto',IMGSURL . $pathfoto);
+$contenttpl->assign('pathClub',IMGSURL . $pathclub);
+$contenttpl->assign('ruoli',$ruo);
+$contenttpl->assign('ruoliPlurale',$ruoplu);
+$operationtpl->assign('elencoGiocatori',$elencoGiocatori);
+if(isset($keys[array_search($filterId,$keys)-1]))
+	$operationtpl->assign('giocPrec',$keys[array_search($filterId,$keys)-1]);
 else
-	$contenttpl->assign('giocprec',false);
+	$operationtpl->assign('giocPrec',false);
 
-if(isset($keys[array_search($id,$keys)+1]))
-	$contenttpl->assign('giocsucc',$keys[array_search($id,$keys)+1]);
+if(isset($keys[array_search($filterId,$keys)+1]))
+	$operationtpl->assign('giocSucc',$keys[array_search($filterId,$keys)+1]);
 else
-	$contenttpl->assign('giocsucc',false);
-
+	$operationtpl->assign('giocSucc',false);
 ?>

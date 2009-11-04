@@ -1,8 +1,8 @@
 <?php
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
 
-$punteggiObj = new punteggi();
+$punteggioObj = new punteggio();
 $utenteObj = new utente();
 
 $squadra = NULL;
@@ -11,11 +11,11 @@ if(isset($_GET['squadra']))
 
 $elencoSquadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 foreach ($elencoSquadre as $key => $val)
-	$elencoSquadre[$key]['giornateVinte'] = $punteggiObj->getGiornateVinte($val['idUtente']);
+	$elencoSquadre[$key]['giornateVinte'] = $punteggioObj->getGiornateVinte($val['idUtente']);
 
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('elencosquadre',$elencoSquadre);
-$contenttpl->assign('posizioni',$punteggiObj->getPosClassifica($_SESSION['legaView']));
-$contenttpl->assign('ultimaGiornata',$punteggiObj->getGiornateWithPunt());
+$contenttpl->assign('posizioni',$punteggioObj->getPosClassifica($_SESSION['legaView']));
+$contenttpl->assign('ultimaGiornata',$punteggioObj->getGiornateWithPunt());
 
 ?>

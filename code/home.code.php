@@ -1,26 +1,26 @@
 <?php 
-require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'articolo.inc.php');
-require_once(INCDIR.'emoticon.inc.php');
-require_once(INCDIR.'eventi.inc.php');
-require_once(INCDIR.'giornata.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'articolo.db.inc.php');
+require_once(INCDIR . 'evento.db.inc.php');
+require_once(INCDIR . 'giornata.db.inc.php');
+require_once(INCDIR . 'emoticon.inc.php');
 
-$articoloObj = new articolo();
+$punteggioObj = new punteggio();
 $utenteObj = new utente();
-$eventiObj = new eventi();
-$punteggiObj = new punteggi();
-$emoticonObj = new emoticon();
+$articoloObj = new articolo();
+$eventoObj = new evento();
 $giornataObj = new giornata();
+$emoticonObj = new emoticon();
 
 $contenttpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
-$classifica = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt(),$_SESSION['legaView']);
+$classifica = $punteggioObj->getAllPunteggiByGiornata($punteggioObj->getGiornateWithPunt(),$_SESSION['legaView']);
 foreach($classifica as $key => $val)
 	$sum[$key] = array_sum($classifica[$key]);
 if((GIORNATA -1) != 0)
 {
-	$classificaPrec = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt() - 1,$_SESSION['legaView']);
+	$classificaPrec = $punteggioObj->getAllPunteggiByGiornata($punteggioObj->getGiornateWithPunt() - 1,$_SESSION['legaView']);
 	foreach($classificaPrec as $key => $val)
 		$prevSum[$key] = array_sum($classificaPrec[$key]);
 
@@ -46,8 +46,8 @@ $articoloObj->setidlega($_SESSION['legaView']);
 $articolo = $articoloObj->select($articoloObj,'=','*',0,1,'insertDate');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
-		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
+		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL . 'emoticons/');
 $contenttpl->assign('articoli',$articolo);
-$eventi = $eventiObj->getEventi($_SESSION['legaView'],NULL,0,5);
+$eventi = $eventoObj->getEventi($_SESSION['legaView'],NULL,0,5);
 $contenttpl->assign('eventi',$eventi);
 ?>
