@@ -66,7 +66,6 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 	define ("DBHOST","localhost");					//database host => DBHOST
 	//modrewrite
 	define ("MODREWRITE",FALSE);
-	
 	// Comunica gli errori semplici di esecuzione 
 	error_reporting(E_ALL);					//activation of error reporting(to be disactivated at the end of the script)
 }

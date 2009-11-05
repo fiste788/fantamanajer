@@ -51,7 +51,7 @@ class punteggio
 	function getGiornateVinte($idUtente)
 	{
 		$q = "SELECT giornateVinte 
-				FROM giornateVinte 
+				FROM giornatevinte 
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_assoc($exe))
@@ -62,7 +62,7 @@ class punteggio
 	function getClassificaByGiornata($idLega,$idGiornata)
 	{
 		$q = "SELECT utente.idUtente, nome, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
-				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.idUtente) LEFT JOIN giornateVinte ON punteggio.idUtente = giornateVinte.idUtente
+				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.idUtente) LEFT JOIN giornatevinte ON punteggio.idUtente = giornatevinte.idUtente
 				WHERE punteggio.idGiornata <= '" . $idGiornata . "' AND punteggio.idLega = '" . $idLega . "'
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
