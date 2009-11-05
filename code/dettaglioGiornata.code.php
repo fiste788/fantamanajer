@@ -9,45 +9,27 @@ $formazioneObj = new formazione();
 $punteggioObj = new punteggio();
 $giocatoreObj = new giocatore();
 
-$squadra = NULL;
-$giornata = NULL;
+$filterSquadra = NULL;
+$filterGiornata = NULL;
 if(isset($_GET['squadra']))
-	$squadra = $_GET['squadra'];
+	$filterSquadra = $_GET['squadra'];
 if(isset($_GET['giornata']))
-	$giornata = $_GET['giornata'];
+	$filterGiornata = $_GET['giornata'];
 if(isset($_POST['squadra']))
-	$squadra = $_POST['squadra'];
+	$filterSquadra = $_POST['squadra'];
 if(isset($_POST['giornata']))
-	$giornata = $_POST['giornata'];
+	$filterGiornata = $_POST['giornata'];
 	
-$contenttpl->assign('getsquadra',$squadra);
-$contenttpl->assign('getgiornata',$giornata);
 $giornate = $punteggioObj->getGiornateWithPunt();
-	
-if(isset($giornata) && $giornata -1 >= 0)
-	$giornprec = $giornata -1;	
-else
-	$giornprec = FALSE;
-if(isset($giornata) && $giornata + 1 <= $giornate)
-	$giornsucc = $giornata + 1;	
-else
-	$giornsucc = FALSE;
-
-if($squadra == NULL)
-	$giornprec=$giornsucc=FALSE;
-
-$contenttpl->assign('squadradett',$utenteObj->getSquadraById($squadra));
-$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
-
-$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($squadra,$giornata);
+$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata);
 if($penalità != FALSE)
 	$contenttpl->assign('penalità',$penalità);
-if($squadra != NULL && $giornata != NULL && $squadra > 0 && $giornata > 0 && $giornata <= $giornate)
+if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $giornata > 0 && $filterGiornata <= $giornate)
 {	
-	if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
+	if($formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
 	{
-		$contenttpl->assign('somma',$punteggioObj->getPunteggi($squadra,$giornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$squadra));		
+		$contenttpl->assign('somma',$punteggioObj->getPunteggi($filterSquadra,$filterGiornata));
+		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra));		
 	}
 	else
 	{
@@ -58,10 +40,39 @@ if($squadra != NULL && $giornata != NULL && $squadra > 0 && $giornata > 0 && $gi
 else
 	$contenttpl->assign('formazione',NULL);
 
+$quickLinks = array();
+if(isset($filterGiornata) && $filterGiornata -1 >= 0)
+{
+	$idPrec = $filterGiornata -1;
+	$quickLinks['prec']['href'] = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
+	$quickLinks['prec']['title'] = "Giornata " . $idPrec;
+}	
+else
+{
+	$idPrec = false;
+	$quickLinks['prec'] = false;
+}
+if(isset($filterGiornata) && $filterGiornata + 1 <= $giornate)
+{
+	$idSucc = $filterGiornata + 1;
+	$quickLinks['succ']['href'] = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$filterSquadra));
+	$quickLinks['succ']['title'] = "Giornata " . $idSucc;
+}	
+else
+{
+	$idSucc = false;
+	$quickLinks['succ'] = false;
+}
+	
+$contenttpl->assign('idSquadra',$filterSquadra);
+$contenttpl->assign('idGiornata',$filterGiornata);
+$contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
+$operationtpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 $operationtpl->assign('penalità',$penalità);
-$operationtpl->assign('giornprec',$giornprec);
-$operationtpl->assign('giornsucc',$giornsucc);
+$operationtpl->assign('giornPrec',$idPrec);
+$operationtpl->assign('giornSucc',$idSucc);
 $operationtpl->assign('giornate',$giornate);
-$operationtpl->assign('getsquadra',$squadra);
-$operationtpl->assign('getgiornata',$giornata);
+$operationtpl->assign('idSquadra',$filterSquadra);
+$operationtpl->assign('idGiornata',$filterGiornata);
+$layouttpl->assign('quickLinks',$quickLinks);
 ?>

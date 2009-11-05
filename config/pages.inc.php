@@ -81,12 +81,12 @@ $pages = array();
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Eventi'));
 
-	$pages['formazione'] = array(	'title'=>"Formazione", 
+	$pages['formazioneBasic'] = array(	'title'=>"Formazione", 
 										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 										
-	$pages['formazioneNew2'] = array(	'title'=>"Formazione", 
+	$pages['formazione'] = array(	'title'=>"Formazione", 
 										'js'=>array('ui'=>array('ui-core','effects-core','effects-pulsate','ui-draggable','ui-droppable')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));

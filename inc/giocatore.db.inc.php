@@ -9,10 +9,10 @@ class giocatore
 	
 	function getGiocatoriByIdSquadra($idUtente)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
-				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
+		$q = "SELECT idGioc, cognome, nome, ruolo, idUtente
+				FROM giocatorisquadra
 				WHERE idUtente = '" . $idUtente . "'
-				ORDER BY giocatore.idGioc ASC";
+				ORDER BY idGioc ASC";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$giocatori = array();
 		while($row = mysql_fetch_assoc($exe))
@@ -57,27 +57,29 @@ class giocatore
 	
 	function getFreePlayer($ruolo,$idLega)
 	{				
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idClub, nomeClub
-		FROM giocatore
-		INNER JOIN club ON giocatore.club = club.idClub
-		WHERE ruolo = '" . $ruolo . "'
-		AND club <> ''
-		AND giocatore.idGioc NOT
-		IN (
-			SELECT idGioc
-			FROM squadra
-			WHERE idLega = '" . $idLega . "')
-		ORDER BY cognome,nome";
+		$q = "SELECT giocatoristatistiche.*
+				FROM giocatoristatistiche
+				WHERE idGioc IN (SELECT idGioc
+					FROM giocatore
+					INNER JOIN club ON giocatore.club = club.idClub
+					WHERE ruolo = '" . $ruolo . "'
+					AND club <> ''
+					AND giocatore.idGioc NOT IN (
+						SELECT idGioc
+						FROM squadra
+						WHERE idLega = '" . $idLega . "'))
+				ORDER BY cognome,nome";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_assoc($exe))
 			$giocatori[$row['idGioc']] = $row;
-		$idjoined=implode(",", array_keys($giocatori));		
+		/*$idjoined=implode(",", array_keys($giocatori));		
 		$qstats="SELECT idGioc,ROUND(SUM(punti)/SUM(valutato),2) AS mediaPunti, ROUND(SUM(voto)/SUM(valutato),2 ) AS mediaVoti, SUM( presenza ) AS presenze,SUM( valutato ) AS presenzeeff, SUM( gol ) AS gol, SUM( assist ) AS assist
 				FROM voti
-				WHERE voti.idGioc IN(" . $idjoined.") GROUP BY IdGioc"; 
+				WHERE voti.idGioc IN(" . $idjoined.") 
+				GROUP BY IdGioc"; 
 		$exe = mysql_query($qstats) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $qstats);  
 		while($row = mysql_fetch_assoc($exe))
-			$giocatori[$row['idGioc']] = array_merge($giocatori[$row['idGioc']],$row);
+			$giocatori[$row['idGioc']] = array_merge($giocatori[$row['idGioc']],$row);*/
 		return $giocatori;
 	}
 	
@@ -111,13 +113,11 @@ class giocatore
 	{
 		require_once(INCDIR . 'voto.db.inc.php');
 		$votoObj = new voto();
-		$q = "SELECT giocatoristatistiche.*
+		$q = "SELECT giocatoristatistiche.*,idLega,idUtente
 				FROM (SELECT * 
 						FROM squadra 
-						WHERE idLega='" . $_SESSION['legaView'] . "') AS squad RIGHT JOIN giocatoristatistiche ON squad.idGioc = giocatoristatistiche.idGioc
-				WHERE squad.idGioc ='" . $idGioc . "'";
-		if($idLega != NULL)
-			$q .= " AND idLega = '" . $idLega . "'";
+						WHERE idLega='" . $idLega . "') AS squad RIGHT JOIN giocatoristatistiche ON squad.idGioc = giocatoristatistiche.idGioc
+				WHERE giocatoristatistiche.idGioc ='" . $idGioc . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$data = $votoObj->getAllVotoByIdGioc($idGioc);
 		while($row = mysql_fetch_assoc($exe))
@@ -149,7 +149,7 @@ class giocatore
 	function getGiocatoriByIdSquadraWithStats($idUtente)
 	{
 		$q = "SELECT *
-				FROM giocatoristatistiche
+				FROM giocatoristatistiche INNER JOIN squadra on giocatoristatistiche.idGioc = squadra.idGioc
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_assoc($exe))

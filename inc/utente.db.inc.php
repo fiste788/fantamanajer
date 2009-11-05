@@ -137,8 +137,8 @@ class utente
 	
 	function addSquadra($username,$name,$admin,$password,$email,$idLega)
 	{
-		require_once(INCDIR . 'punteggi.inc.php');
-		$punteggiObj = new punteggi();
+		require_once(INCDIR . 'punteggio.db.inc.php');
+		$punteggioObj = new punteggio();
 		$q = "INSERT INTO utente (nome,username,password,mail,amministratore,idLega) 
 				VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
@@ -148,7 +148,7 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row['idUtente'];
-		$punteggiObj->setPunteggiToZero($val,$idLega);
+		$punteggioObj->setPunteggiToZero($val,$idLega);
 		return $val;
 	}
 	

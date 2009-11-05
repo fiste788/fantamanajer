@@ -1,146 +1,70 @@
-<?php $j =0; $k = 0; ?>
-<div id="formazione" class="main-content">
-	<?php if(TIMEOUT): ?>
+<?php $j =0; $k = 0;$ruolo="" ?>
+<div id="formazione" class="main-content" style="position:relative;">
+	<?php  if(!PARTITEINCORSO): ?>
 		<h3>Giornata <?php echo GIORNATA; ?></h3>
-		<?php if(isset($this->mod) && $this->mod != NULL): ?>
-				<div style="width:950px;height:600px;position:relative;border:1px solid #fff;">
-					<img style="display:none;" width="930" alt="modulo" id="img-modulo" title="<?php echo substr($this->mod,2) ?>" src="<?php echo IMGSURL.$this->mod.'.png' ?>" />
-				
-				<form id="form-formazione" name="formazione" action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
-					<input type="hidden" name="mod" value="<?php echo $this->mod; ?>">
-				<?php foreach($this->giocatori as $key => $val): ?>
-					<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>
-						<select class="titolare <?php echo $this->ruo[$j] ?>" style="position:absolute;<?php echo 'top:'. ((((600-(18*$this->modulo[$j])) / ($this->modulo[$j]+1)) * ($i+1)) + (($i+1) * 18)-24) . 'px;left:' . 240 * $j . 'px'; ?>" name="<?php echo $this->ruo[$j] . '[' . $i . ']' ; ?>">
-							<option></option>
-							<?php foreach($val as $key3=>$val3): ?>
-								<option value="<?php echo $val3['idGioc']; ?>"<?php if(isset($this->titolari[$k]) && $val3['idGioc'] == $this->titolari[$k]) echo ' selected="selected"'; ?>><?php echo $val3['cognome'] . " " . $val3['nome']; ?></option>
-						  	<?php  endforeach; ?>
-						</select>
-					<?php $k++; endfor; ?>
+		<form action="<?php echo $this->linksObj->getLink('formazione') ?>" method="post">
+			<div id="campo" class="column">
+				<div id="PP" class="droppable"></div>
+				<div id="DD" class="droppable"></div>
+				<div id="CC" class="droppable"></div>
+				<div id="AA" class="droppable"></div>
+			</div>
+				<div id="giocatori" class="column" >
+				<?php foreach($this->giocatori as $key=>$val): ?>
+					<?php if($ruolo != $val['ruolo']) echo '<div style="clear:both;line-height:1px">&nbsp;</div>' ?>
+					<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val['idGioc'],$this->titolari)) || (!empty($this->panchinari) && in_array($val['idGioc'],$this->panchinari))) echo 'hidden' ?> <?php echo $val['ruolo']; ?>">
+						<a class="hidden" rel="<?php echo $val['idGioc'] ?>" name="<?php echo $val['ruolo'].$val['ruolo']; ?>"></a>
+						<img alt="<?php echo $val['idGioc']; ?>" width="40" src="imgs/foto/<?php echo $val['idGioc']; ?>.jpg" />
+						<p><?php echo $val['cognome'] . ' ' . $val['nome']; ?></p>
+					</div>
+					<?php if($ruolo != $val['ruolo'])$ruolo = $val['ruolo']; ?>
 				<?php $j++; endforeach; ?>
 				</div>
-				<?php foreach($this->elencocap as $key => $val): ?>
-				<?php echo $val ?>
-				<select class="cap" id="<?php echo $val; ?>" name="cap[<?php echo $val; ?>]">
-					<option></option>
-					<?php foreach($this->giocatori['P'] as $key2=>$val2): 
-					echo $val2['idGioc']."  " . $this->cap[$val]; 
-						if($val2['idGioc'] == $this->cap[$val]): ?>
-							<option value="<?php echo $val2['idGioc']; ?>" selected="selected"><?php  echo $val2['cognome'] . " " . $val2['nome'];?></option>
-						<?php endif; ?>
-					<?php endforeach; ?>
-					<?php foreach($this->giocatori['D'] as $key2=>$val2): 
-						if($val2['idGioc'] == $this->cap[$val]): ?>
-							<option value="<?php echo $val2['idGioc']; ?>" selected="selected"><?php  echo $val2['cognome'] . " " . $val2['nome'];?></option>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</select>
-				<?php endforeach; ?>
-				<fieldset id="panchinari">
-					<h3 class="center">Panchina</h3>
-					<h4 class="bold no-margin">Giocatori</h4><hr />
-					<?php for( $i = 0 ; $i < 7 ; $i++): ?>
-					<select class="panch" name="panch[]">
-					<option></option>
-						<?php for($j = 0 ; $j < count($this->ruo) ; $j++): ?>
-							<optgroup label="<?php echo $this->ruo[$j] ?>">
-								<?php foreach($this->giocatori[substr($this->ruo[$j],0,1)] as $key3=>$val3): ?>
-									<option value="<?php echo $val3['idGioc']; ?>"<?php if(isset($this->panchinari[$i]) && $val3['idGioc'] == $this->panchinari[$i]) echo ' selected="selected"'; ?>><?php  echo $val3['cognome'] . " " . $val3['nome'];?></option>
-								<?php endforeach; ?>
-							</optgroup>
-						<?php endfor; ?>
-					</select>
+				<div id="panchina" class="column">
+					<?php for($i=0;$i<7;$i++): ?>
+						<div id="panch-<?php echo $i ?>" class="droppable"></div>
 					<?php endfor; ?>
-					<div class="div-submit">
-						<input class="submit dark" type="submit" name="button" value="Invia" />
-						<input class="submit dark" type="reset" value="Torna indietro" />
-					</div>
-					</fieldset>
-				</form>
-			<?php endif; ?>
-	<?php endif; ?>
+				</div>
+				<div id="capitani" class="column">
+					<?php foreach ($this->elencoCap as $key => $val): ?>
+						<div id="cap-<?php echo $val ?>" class="droppable"></div>
+					<?php endforeach; ?>
+				</div>
+				<div id="titolari-field">
+					<?php for($i=0;$i<11;$i++): ?>
+						<input <?php if(isset($this->titolari[$i])) echo 'value="' . $this->titolari[$i] . '" title="' . $this->giocatori[$this->titolari[$i]]['ruolo'] . $this->giocatori[$this->titolari[$i]]['ruolo'] . '-' . $this->giocatori[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatori[$this->titolari[$i]]['nome'] . '"' ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+					<?php endfor; ?>
+				</div>
+				<div id="panchina-field">
+					<?php for($i=0;$i<7;$i++): ?>
+						<input <?php if(isset($this->panchinari[$i])) echo 'value="' . $this->panchinari[$i] . '" title="' . $this->giocatori[$this->panchinari[$i]]['ruolo'] . $this->giocatori[$this->panchinari[$i]]['ruolo'] . '-' . $this->giocatori[$this->panchinari[$i]]['cognome'] . ' ' . $this->giocatori[$this->panchinari[$i]]['nome'] . '"' ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
+					<?php endfor; ?>
+				</div>
+				<div id="capitani-field">
+					<?php foreach ($this->elencoCap as $key => $val): ?>
+						<input <?php if(isset($this->cap[$val])) echo 'value="' . $this->cap[$val] . '" title="' . $this->giocatori[$this->cap[$val]]['ruolo'] . $this->giocatori[$this->cap[$val]]['ruolo'] . '-' . $this->giocatori[$this->cap[$val]]['cognome'] . ' ' . $this->giocatori[$this->cap[$val]]['nome'] . '"' ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
+					<?php endforeach; ?>
+				</div>
+		<?php endif; ?>
+		<?php if(!empty($this->modulo)): ?>
+		<script type="text/javascript">
+			var modulo = Array();
+				modulo['PP'] = <?php echo $this->modulo[0]; ?>;
+				modulo['DD'] = <?php echo $this->modulo[1]; ?>;
+				modulo['CC'] = <?php echo $this->modulo[2]; ?>;
+				modulo['AA'] = <?php echo $this->modulo[3]; ?>;
+		</script>
+		<?php endif; ?>
+		<script type="text/javascript" src="<?php echo JSURL . 'custom/formazione.js' ?>"></script>
+		<input name="button" type="submit" class="button" value="Invia" />
+		</form>
 </div>
-<script type="text/javascript">
-
-
-	$(document).ready(function() {
-		$(".P,.D").change(function() {
-			$(".cap").empty();
-			var array = {C:'<?php echo $this->cap['C'] ?>',VC:'<?php echo $this->cap['VC'] ?>',VVC:'<?php echo $this->cap['VVC'] ?>'};
-			$(".P option:selected,.D option:selected").each(function () {
-				a = $("#C");
-            	if($(this).attr('value') != '')
-            		string = '<option value="' + $(this).attr('value') + '" ';
-					if($(this).attr('value') == array["C"])
-						string = string + 'selected="selected"';
-					string = string + '>' + $(this).text() + '</option>';
-					a.append(string);
-				a = $("#VC");
-            	if($(this).attr('value') != '' && $(this).attr('value') != array["VC"])
-					string = '<option value="' + $(this).attr('value') + '" ';
-					if($(this).attr('value') == array["VC"])
-						string = string + 'selected="selected"';
-					string = string + '>' + $(this).text() + '</option>';
-					a.append(string);
-				a = $("#VVC");
-            	if($(this).attr('value') != '' && $(this).attr('value') != array["VVC"])
-					string = '<option value="' + $(this).attr('value') + '" ';
-					if($(this).attr('value') == array["VVC"])
-						string = string + 'selected="selected"';
-					string = string + '>' + $(this).text() + '</option>';
-					a.append(string);
-			});
-		});
-	});
-	
-	$(document).ready(function() {
-		$(".titolare,.panch").change(function() {
-			$(".panch option,.titolare option").css('background','#0ff');
-			$(".titolare option:selected,.panch option:selected").each(function () {
-                $(".panch option[value=" + $(this).attr('value') + "],.titolare option[value=" + $(this).attr('value') + "]").css('background','#fff');
-              });
-			
-		});
-	});
-	
-	<?php if(isset($this->titolari)): ?>
-		$(document).ready(function() {
-			$(".panch option,.titolare option").css('background','#0ff');
-			$(".titolare option:selected,.panch option:selected").each(function () {
-                $(".panch option[value=" + $(this).attr('value') + "],.titolare option[value=" + $(this).attr('value') + "]").css('background','#fff');
-              });
-		});
-		
-		$(document).ready(function() {
-			var array = {C:'<?php echo $this->cap['C'] ?>',VC:'<?php echo $this->cap['VC'] ?>',VVC:'<?php echo $this->cap['VVC'] ?>'};
-			$(".P option:selected,.D option:selected").each(function () {
-				a = $("#C");
-            	if($(this).attr('value') != '' && $(this).attr('value') != array["C"])
-					a.append('<option value="' + $(this).attr('value') + '" >' + $(this).text() + '</option>');
-				a = $("#VC");
-            	if($(this).attr('value') != '' && $(this).attr('value') != array["VC"])
-					a.append('<option value="' + $(this).attr('value') + '" >' + $(this).text() + '</option>');
-				a = $("#VVC");
-            	if($(this).attr('value') != '' && $(this).attr('value') != array["VVC"])
-					a.append('<option value="' + $(this).attr('value') + '" >' + $(this).text() + '</option>');
-			});
-			
-		});
-	<?php endif; ?>
-</script>
-
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-		<?php if(!TIMEOUT): //NON PIÙ NECESSARIO QUESTO IF PER L'HEADER LOCATION NELLA CODE' ?>
-		<div id="messaggio" class="messaggio neut column last" >
-			<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" />
-			<span>Non puoi effettuare operazioni in questo momento.Aspetta la fine delle partite</span>
-		</div>
-		<?php endif; ?>
 		<?php if(isset($this->message) && $this->message[0] == 0): ?>
 		<div id="messaggio" class="messaggio good column last">
 			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
@@ -173,16 +97,6 @@
 		<form class="column last" name="form_modulo" action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
 			<fieldset id="modulo" class="no-margin fieldset">
 				<h3 class="no-margin">Seleziona il modulo:</h3>
-				<select name="mod" onchange="document.form_modulo.submit();">
-					<?php if(!isset($this->mod)): ?><option></option><?php endif; ?>
-					<option value="1-4-4-2" <?php if ($this->mod == '1-4-4-2') echo "selected=\"selected\""?>>4-4-2</option>
-					<option value="1-3-5-2" <?php if ($this->mod == '1-3-5-2') echo "selected=\"selected\""?>>3-5-2</option>
-					<option value="1-3-4-3" <?php if ($this->mod == '1-3-4-3') echo "selected=\"selected\""?>>3-4-3</option>
-					<option value="1-4-5-1" <?php if ($this->mod == '1-4-5-1') echo "selected=\"selected\""?>>4-5-1</option>
-					<option value="1-4-3-3" <?php if ($this->mod == '1-4-3-3') echo "selected=\"selected\""?>>4-3-3</option>
-					<option value="1-5-4-1" <?php if ($this->mod == '1-5-4-1') echo "selected=\"selected\""?>>5-4-1</option>
-					<option value="1-5-3-2" <?php if ($this->mod == '1-5-3-2') echo "selected=\"selected\""?>>5-3-2</option>
-				</select>
 			</fieldset>
 		</form>
 		<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">

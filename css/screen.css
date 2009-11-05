@@ -3,10 +3,9 @@ body {
 	font-family: Arial,sans-serif;
 	background: #373737 url(../imgs/bg.jpg) no-repeat scroll center top;
 	text-align: center;
-	padding: 0 11px;
 	display: block;
-	min-width: 960px;
-	overflow-x:hidden;
+	overflow-x:auto;
+	overflow-y:scroll;
 	-webkit-text-size-adjust: none;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -27,6 +26,7 @@ p {
 	width: 980px;
 	margin: 0 auto;
 	text-align: center;
+	padding:0 6px;
 }
 .no-margin {
 	margin: 0px;
@@ -111,7 +111,7 @@ input.dark:hover {
 	margin:5px 0 5px 5px;
 }
 #login select {
-	margin:2px 1px;
+	margin:5px 1px;
 	width:120px;
 	padding:0;
 }
@@ -140,7 +140,7 @@ a.logout, a.logout:hover, a.logout:visited {
 	color: #fff;
 	font-weight: normal;
 	padding: 0 10px 0 25px;
-	margin: 3px 0 0;
+	margin: 4px 0 0;
 }
 em {
 	background-color: transparent;
@@ -173,7 +173,7 @@ em {
 	padding:0 0 0 15px;
 	clear: both;
 	height: 23px;
-	width:100%;
+	width:965px;
 }
 #navbar ul {
 	list-style-type: none;
@@ -376,46 +376,6 @@ em {
 	width: 230px;
 	margin: 3px auto;
 	float: left;
-}
-.ui-accordion .ui-accordion-header { 
-	cursor: pointer;
-	position: relative;
-	margin-top: 1px;
-	zoom: 1;
-	display:block;
-}
-.ui-accordion .ui-accordion-li-fix {
-	display: inline;
-}
-.ui-accordion .ui-accordion-header-active {
-	border-bottom: 0 !important;
-}
-.ui-accordion-header a {
-	display: block;
-	font-size: 1em;
-	padding: 0;
-}
-.ui-accordion .ui-accordion-header .ui-icon {
-	position: absolute;
-	left: .5em;
-	top: 50%;
-	margin-top: -8px;
-}
-.ui-accordion .ui-accordion-content {
-	padding: 0;
-	border-top: 0;
-	margin-top: -2px;
-	position: relative;
-	top: 1px;
-	margin-bottom: 2px;
-	overflow: auto;
-	display: none;
-}
-.ui-accordion .ui-accordion-content-active {
-	display: block;
-}
-#accordion .submit {
-	margin:8px 0 0;
 }
 #mex {
 	width: 100%;
@@ -764,12 +724,28 @@ label {
 #tab_classifica td, #tab_classifica th {
 	text-align: center;
 }
-#click-menu {
+#rightBar {
 	position:fixed;
 	right:0;
-	top:50%;
-	width:5px;
+	top:40%;
+	width:23px;
 	z-index:2;
+	background:#00a2ff;
+	text-align:center;
+}
+#rightBar .quickLinksDisabled {
+	background:#bbb;
+}
+#rightBar a {
+	color:#fff;
+	padding:4px;
+	display:block;
+}
+#rightBar #click-menu {
+	margin:3px 0;
+}
+#rightBar span {
+	display:block;
 }
 #menu {
 	border-color:#00a2ff;

@@ -3,7 +3,7 @@
 		<h3 class="no-margin">Guarda la classifica alla giornata</h3>
 			<select name="giorn" onchange="document.classifica_giornata.submit();">
 				<?php for($j = $this->giornate ; $j  > 0 ; $j--): ?>
-					<option <?php if($this->getGiornata == $j) echo "selected=\"selected\"" ?>><?php echo $j; ?></option>
+					<option<?php if($this->getGiornata == $j) echo 'selected="selected"'; ?>><?php echo $j; ?></option>
 				<?php endfor; ?>
 		</select>
 	</fieldset>
