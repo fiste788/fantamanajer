@@ -183,8 +183,6 @@
 					<th width="1px">P.ti</th>
 				</tr>
 				<?php $i=0; ?>
-				<?php //echo "<pre>".print_r($this->classifica,1)."</pre>" ?>
-				<?php //echo "<pre>".print_r($this->squadre,1)."</pre>" ?>
 				<?php foreach ($this->classifica as $key => $val): ?>
 					<tr <?php if($this->differenza[$i] < 0): ?>
 							<?php echo 'class="rosso" title="' . $this->differenza[$i]. ' Pos."'; ?>
