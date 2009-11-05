@@ -191,7 +191,7 @@
 						<?php elseif($this->differenza[$i] > 0): ?>
 							<?php echo 'class="verde" title="+ ' . $this->differenza[$i]. ' Pos."'; ?>
 						<?php endif; ?>>
-						<td><?php echo $this->squadre[$key][1]; ?></td>
+						<td><?php echo $this->squadre[$key]['nome']; ?></td>
 						<td><?php echo $val; ?></td>
 					</tr>
 				<?php $i++; endforeach; ?>

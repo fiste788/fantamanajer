@@ -247,11 +247,9 @@ $navbar = $navbartpl->fetch(TPLDIR . 'navbar.tpl.php');
 $content = $contenttpl->fetch($tplfile);
 $operation = "";
 if($_SESSION['logged'])
-{
-	$operation = $operationtpl->fetch(TPLDIR . "operazioni.tpl.php");
-	if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
+	$operation .= $operationtpl->fetch(TPLDIR . "operazioni.tpl.php");
+if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
 		$operation .= $operationtpl->fetch(TPLDIR . "operazioni/" . $p . ".tpl.php");
-}
 
 /**
  * COMPOSIZIONE PAGINA

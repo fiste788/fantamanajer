@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR.'giocatore.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
 
 $giocatoreObj = new giocatore();
 
@@ -78,13 +78,14 @@ if($filterOrder != NULL)
 	elseif($filterVersus == 'desc')
 		array_multisort($sort_arr[$filterOrder] , SORT_DESC , $freeplayer);
 }
+
 $orderBy = array();
 $orderBy[] = array('campo'=>'cognome','default'=>'asc');
 $orderBy[] = array('campo'=>'nome','default'=>'asc');
 $orderBy[] = array('campo'=>'club','default'=>'asc');
-$orderBy[] = array('campo'=>'voti','default'=>'desc');
-$orderBy[] = array('campo'=>'votiEff','default'=>'desc');
-$orderBy[] = array('campo'=>'partiteGiocate','default'=>'desc');
+$orderBy[] = array('campo'=>'avgPunti','default'=>'desc');
+$orderBy[] = array('campo'=>'avgVoti','default'=>'desc');
+$orderBy[] = array('campo'=>'presenzeVoto','default'=>'desc');
 
 foreach($orderBy as $key => $val)
 {

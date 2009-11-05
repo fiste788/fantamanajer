@@ -11,8 +11,8 @@ class trasferimento
 	function getTrasferimentiByIdSquadra($idSquadra,$idGiornata = 0)
 	{
 		$q = "SELECT idGiocOld,t1.nome as nomeOld,t1.cognome as cognomeOld,idGiocNew,t2.nome as nomeNew,t2.cognome as cognomeNew, idGiornata, obbligato 
-				FROM giocatore t1 INNER JOIN (trasferimenti INNER JOIN giocatore t2 ON trasferimenti.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimenti.idGiocOld 
-				WHERE trasferimenti.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
+				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimenti.idGiocOld 
+				WHERE trasferimento.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$values = array();
 		while($row = mysql_fetch_assoc($exe))

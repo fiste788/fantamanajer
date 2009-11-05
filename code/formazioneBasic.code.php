@@ -9,15 +9,18 @@ $eventiObj = new eventi();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
 
+$mod = NULL;
 $squadra = NULL;
 if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
+if(isset($_POST['mod']))
+	$mod = $_POST['mod'];
 $contenttpl->assign('squadra',$squadra);
 
 $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
-if(PARTITEINCORSO == TRUE)
+if(TIMEOUT == FALSE)
 	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
@@ -27,15 +30,15 @@ $contenttpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
 $frega = 0;
-$moduloAr = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
 $ruo = array('P','D','C','A');
-$elencoCap = array('C','VC','VVC');
+$elencocap = array('C','VC','VVC');
 $contenttpl->assign('ruo',$ruo);
-$contenttpl->assign('elencoCap',$elencoCap);
-if(!PARTITEINCORSO)
+$contenttpl->assign('elencocap',$elencocap);
+if(TIMEOUT)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
-	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);
+	foreach($ruo as $key => $val)
+		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
 	$contenttpl->assign('giocatori',$giocatori);
 
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
@@ -50,25 +53,27 @@ if(!PARTITEINCORSO)
 		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
 		$err = 0;
 		
-		foreach($_POST['gioc'] as $key=>$val)
+		foreach($ruo as $ruolo)
 		{
-			if(empty($val))
+			foreach($_POST[$ruolo] as $key=>$val)
 			{
-				$missing ++;
-				$err ++;
+				if(empty($val))
+				{
+					$missing ++;
+					$err ++;
+				}
+				if( !in_array($val,$formazione))
+					$formazione[] = $val;		
+				else
+					$err++;
 			}
-			$moduloAr[$giocatori[$val]['ruolo']] = $moduloAr[$giocatori[$val]['ruolo']] + 1; 
-			if( !in_array($val,$formazione))
-				$formazione[] = $val;
-			else
-				$err++;
 		}
 		foreach($_POST['panch'] as $key=>$val)
 		{
 			if(!empty($val))
 			{
 				if( !in_array($val,$formazione))
-					$formazione[] = $val;
+					$formazione[] = $val;		
 				else
 					$err++;
 			}	
@@ -92,7 +97,6 @@ if(!PARTITEINCORSO)
 				}
 			}	
 		}
-		echo $err;
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
@@ -100,11 +104,11 @@ if(!PARTITEINCORSO)
 			unset($_POST);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
 			$message[0] = 0;
 			$message[1] = 'Formazione caricata correttamente';
 		}
@@ -125,19 +129,23 @@ if(!PARTITEINCORSO)
 		}
 		$contenttpl->assign('message',$message);
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
+	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	if($issetform)
 	{
-		$modulo = $issetform['modulo'];
+		if(empty($_POST))
+			$mod = $issetform['modulo'];
 		$panchinariAr = $issetform['elenco'];
 		$titolariAr = array_splice($panchinariAr,0,11);
 		$i = 0;
 		if(!empty($_POST))
 		{
-			foreach($_POST['gioc'] as $key=>$val)
+			foreach($ruo as $ruolo)
 			{
-				$titolariAr[$i] = $val;
-				$i++;
+				foreach($_POST[$ruolo] as $key=>$val)
+				{
+					$titolariAr[$i] = $val;
+					$i++;
+				}
 			}
 			foreach($_POST['panch'] as $key=>$val)
 			{
@@ -155,8 +163,9 @@ if(!PARTITEINCORSO)
 		$contenttpl->assign('cap',$issetform['cap']);
 	}
 	$contenttpl->assign('issetForm',$issetform);
-	if(isset($modulo))
-		$contenttpl->assign('modulo',explode('-',$modulo));
+	$contenttpl->assign('mod',$mod);
+	if($mod != NULL)
+		$contenttpl->assign('modulo',explode('-',$mod));
 	else
 		$contenttpl->assign('modulo',NULL);
 }

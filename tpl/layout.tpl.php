@@ -76,34 +76,48 @@
 			<?php echo $this->footer ?>
 		</div>
 		</div>
+		<div id="rightBar">
+			<?php if(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] != FALSE): ?>
+				<a class="quickLinks" href="<?php echo $this->quickLinks['prec']['href']; ?>" title="<?php echo $this->quickLinks['prec']['title']; ?>">&laquo;</a>
+			<?php elseif(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] == FALSE): ?>
+				<a class="quickLinksDisabled" title="Disabilitato">&laquo;</a>
+			<?php endif; ?>
+			<?php if(!empty($this->operation)): ?>
+				<a title="Mostra menu" id="click-menu"><span>M</span><span>E</span><span>N</span><span>U</span></a>
+			<?php endif; ?>
+			<?php if(isset($this->quickLinks['succ']) && $this->quickLinks['succ'] != FALSE): ?>
+				<a class="quickLinks" href="<?php echo $this->quickLinks['succ']['href']; ?>" title="<?php echo $this->quickLinks['succ']['title']; ?>">&raquo;</a>
+			<?php elseif(isset($this->quickLinks['succ']) && $this->quickLinks['succ'] == FALSE): ?>
+				<a class="quickLinksDisabled" title="Disabilitato">&raquo;</a>
+			<?php endif; ?>
+		</div>
 		<?php if(!empty($this->operation)): ?>
-		<div id="click-menu">Menu</div>
-		<div id="menu"><?php echo $this->operation ?></div>
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$("#click-menu").toggle(function(event){
-					var appo = $("#menu");
-						$("#menu").animate({right:'0px'},'slow');
-				},
-				function(event){
-					var appo = $("#menu");
-						$("#menu").animate({right:'-300px'},'slow');
+			<div id="menu"><?php echo $this->operation ?></div>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$("#click-menu").toggle(function(event){
+							$("#menu").animate({right:'0px'},'slow');
+							$("#click-menu").attr("title","Nascondi menu");
+					},
+					function(event){
+							$("#menu").animate({right:'-300px'},'slow');
+							$("#click-menu").attr("title","Mostra menu");
+					});
 				});
-			});
-		</script>
-		<?php endif; ?>
-		<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' && !DEVELOP ): ?>
-		<script type="text/javascript">
-			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript">
-			try {
-				var pageTracker = _gat._getTracker("UA-3016148-1");
-				pageTracker._setDomainName("www.fantamanajer.it");
-				pageTracker._trackPageview();
-			} catch(err) {}
-		</script>
+			</script>
+			<?php endif; ?>
+			<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' && !DEVELOP ): ?>
+			<script type="text/javascript">
+				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+				document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+			</script>
+			<script type="text/javascript">
+				try {
+					var pageTracker = _gat._getTracker("UA-3016148-1");
+					pageTracker._setDomainName("www.fantamanajer.it");
+					pageTracker._trackPageview();
+				} catch(err) {}
+			</script>
 		<?php endif; ?>
 	</body>
 </html>

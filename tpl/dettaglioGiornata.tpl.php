@@ -1,6 +1,6 @@
 <div id="punteggidett" class=" main-content">
-	<h4>Giornata: <span><?php if(isset($this->getgiornata)) echo $this->getgiornata; ?></span></h4>
-	<h4>Squadra: <span><?php if(isset($this->getsquadra)) echo $this->squadradett['nome']; ?></span></h4>
+	<h4>Giornata: <span><?php if(isset($this->idGiornata)) echo $this->idGiornata; ?></span></h4>
+	<h4>Squadra: <span><?php if(isset($this->idSquadra)) echo $this->squadraDett['nome']; ?></span></h4>
 	<h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
 	<?php if($this->formazione != FALSE && $this->formazione != NULL): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">

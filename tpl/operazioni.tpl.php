@@ -7,7 +7,7 @@
 	<?php endif; ?>
 	<div id="operazioni" class="column last">
 		<ul class="operazioni-content">
-		<?php if(STAGIONEFINITA != FALSE): ?>
+		<?php if(STAGIONEFINITA == FALSE): ?>
 		<?php if(PARTITEINCORSO): ?>
 			<li><a class="imp-formazione column last operazione" href="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>">Guarda la formazione</a></li>
 		<?php else: ?>

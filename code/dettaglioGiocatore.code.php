@@ -52,6 +52,31 @@ else			// carico giocatori del club
 }
 $keys = array_keys($elencoGiocatori);
 
+$quickLinks = array();
+if(isset($keys[array_search($filterId,$keys)-1]))
+{
+	$idPrec = $keys[array_search($filterId,$keys)-1];
+	$quickLinks['prec']['href'] = $contenttpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idPrec));
+	$quickLinks['prec']['title'] = $elencoGiocatori[$idPrec]['cognome'] . ' ' . $elencoGiocatori[$idPrec]['nome'];
+}
+else
+{
+	$idPrec = false;
+	$quickLinks['prec'] = false;
+}
+
+if(isset($keys[array_search($filterId,$keys)+1]))
+{
+	$idSucc = $keys[array_search($filterId,$keys)+1];
+	$quickLinks['succ']['href'] = $contenttpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idSucc));
+	$quickLinks['succ']['title'] = $elencoGiocatori[$idSucc]['cognome'] . ' ' . $elencoGiocatori[$idSucc]['nome'];
+}
+else
+{
+	$idSucc = false;
+	$quickLinks['succ'] = false;
+}
+
 $operationtpl->assign('idGioc',$filterId);
 $contenttpl->assign('dettaglioGioc',$dettaglio);
 $contenttpl->assign('pathFoto',IMGSURL . $pathfoto);
@@ -59,13 +84,7 @@ $contenttpl->assign('pathClub',IMGSURL . $pathclub);
 $contenttpl->assign('ruoli',$ruo);
 $contenttpl->assign('ruoliPlurale',$ruoplu);
 $operationtpl->assign('elencoGiocatori',$elencoGiocatori);
-if(isset($keys[array_search($filterId,$keys)-1]))
-	$operationtpl->assign('giocPrec',$keys[array_search($filterId,$keys)-1]);
-else
-	$operationtpl->assign('giocPrec',false);
-
-if(isset($keys[array_search($filterId,$keys)+1]))
-	$operationtpl->assign('giocSucc',$keys[array_search($filterId,$keys)+1]);
-else
-	$operationtpl->assign('giocSucc',false);
+$operationtpl->assign('giocPrec',$idPrec);
+$operationtpl->assign('giocSucc',$idSucc);
+$layouttpl->assign('quickLinks',$quickLinks);
 ?>
