@@ -41,7 +41,7 @@ else
 	$contenttpl->assign('formazione',NULL);
 
 $quickLinks = array();
-if(isset($filterGiornata) && $filterGiornata -1 >= 0)
+if(isset($filterGiornata) && $filterGiornata -1 > 0)
 {
 	$idPrec = $filterGiornata -1;
 	$quickLinks['prec']['href'] = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
