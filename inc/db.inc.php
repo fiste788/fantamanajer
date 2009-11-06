@@ -34,7 +34,7 @@ class db
 			}
 
 			if(!mysql_select_db(DBNAME))
-				die();
+				die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 			mysql_query("SET NAMES utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
 			mysql_query("SET CHARACTER SET utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
 		}

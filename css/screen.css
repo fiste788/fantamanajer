@@ -220,8 +220,6 @@ em {
 	clear: both;
 	min-width: 960px;
 	position:relative;
-	overflow-x:hidden;
-	overflow-y:visible;
 }
 #content #content-top-sx {
 	background: transparent url(../imgs/content-top-sx.png) no-repeat scroll left top;
