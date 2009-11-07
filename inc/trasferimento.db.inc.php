@@ -11,9 +11,11 @@ class trasferimento
 	function getTrasferimentiByIdSquadra($idSquadra,$idGiornata = 0)
 	{
 		$q = "SELECT idGiocOld,t1.nome as nomeOld,t1.cognome as cognomeOld,idGiocNew,t2.nome as nomeNew,t2.cognome as cognomeNew, idGiornata, obbligato 
-				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimenti.idGiocOld 
+				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimento.idGiocOld 
 				WHERE trasferimento.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		$values = array();
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
@@ -57,14 +59,22 @@ class trasferimento
 					WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
 		}
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		mysql_query($q2) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q2 . "<br />";
 		$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
 				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($giocOld) . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$q = "SELECT idTrasf 
 						FROM trasferimento
 						WHERE idGiocOld = '" . $giocOld . "' AND idGiocNew = '" . $giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $squadra ."'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$idTrasferimento = mysql_fetch_assoc($exe);
 		$eventiObj->addEvento('4',$squadra,$idLega,$idTrasferimento['idTrasf']);
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
@@ -88,10 +98,14 @@ class trasferimento
 			$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
 					VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($giocNew) . "')";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+			if(DEBUG)
+				echo $q . "<br />";
 			$q = "SELECT idTrasf 
 						FROM trasferimento
 						WHERE idGiocOld = '" . $giocNew . "' AND idGiocNew = '" . $giocOld . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $squadraOld ."'";
 			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+			if(DEBUG)
+				echo $q . "<br />";
 			$idTrasferimento = mysql_fetch_assoc($exe);
 			$eventiObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento['idTrasf']);
 		}
@@ -131,6 +145,8 @@ class trasferimento
 				$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
 				VALUES ('" . $val['giocOld'] . "' , '" . $val['giocNew'] . "' ,'" . $val['idSquadra'] . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($val['giocOld']) . "')";
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+				if(DEBUG)
+				echo $q . "<br />";
 				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val['idSquadra'],GIORNATA);
 				if($formazione != FALSE)
 				{
@@ -143,6 +159,8 @@ class trasferimento
 						FROM trasferimento
 						WHERE idGiocOld = '" . $val['giocOld'] . "' AND idGiocNew = '" . $val['giocNew'] . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val['idSquadra'] ."'";
 				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+				if(DEBUG)
+					echo $q . "<br />";
 				$idTrasferimento = mysql_fetch_assoc($exe);
 				$eventiObj->addEvento('4',$val['idSquadra'],$val['idLega'],$idTrasferimento['idTrasf']);
 				if(isset($err))
@@ -163,6 +181,8 @@ class trasferimento
 				FROM trasferimento 
 				WHERE idTrasf = '" . $id . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			return $row;
 	}

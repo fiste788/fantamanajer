@@ -42,11 +42,13 @@
 		</div>
 	</div>
 	<?php if(!empty($this->giornate)): ?>
-	<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;">&nbsp;</div>
-	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-	<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
-	<div id="hidden" class="hidden">&nbsp;</div>
-	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
+	<div id="grafico">
+		<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;">&nbsp;</div>
+		<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
+		<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+		<div id="hidden" class="hidden">&nbsp;</div>
+		<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
+	</div>
 	<script id="source" type="text/javascript">
 		var datasets = {
 			<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $key; ?>": {

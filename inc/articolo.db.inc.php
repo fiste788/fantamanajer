@@ -70,11 +70,15 @@ class articolo
 	{
 		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata, idLega) 
 				VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "' , '" . $articolo->idLega . "')";
+		if(DEBUG)
+			echo $q . "<br />";
 		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
 				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "' AND idLega = '" . $articolo->idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		$data = mysql_fetch_assoc($exe);
 		return $data['idArticolo'];
 	}
@@ -84,6 +88,8 @@ class articolo
 		$q = "UPDATE articolo 
 				SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idSquadra = '" . $articolo->idSquadra . "' , idGiornata = '" . $articolo->idGiornata . "' , idLega = '" . $articolo->idLega . "'  
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -92,6 +98,8 @@ class articolo
 		$q = "DELETE 
 				FROM articolo 
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	

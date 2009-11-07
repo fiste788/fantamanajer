@@ -173,7 +173,7 @@ if(isset($_POST['legaView']))
  * essere caricato per visualizzare la pagina corretta
  *
  */
-$message = array();
+
 if(!isset($pages[$p])) 
 {
 	$message['level'] = 1;

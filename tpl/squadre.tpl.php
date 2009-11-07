@@ -24,30 +24,9 @@
 			<li>
 				<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$this->ultimaGiornata,'squadra'=>$val['idUtente'])); ?>" title="Ultima giornata">Ultima giornata</a>
 			</li>
-			<li>
-				<a href="<?php echo $this->linksObj->getLink('conferenzeStampa',array('giornata'=>0,'squadra'=>$val['idUtente'])); ?>" title="Conferenze stampa">Conferenze stampa</a>
-			</li>
 		</ul>
 	</div>
-<?php unset($appo); endforeach; ?>
-</div>
-	<?php if($_SESSION['logged'] == TRUE): ?>
-	<div id="squadradett" class="column last">
-		<div class="box2-top-sx column last">
-		<div class="box2-top-dx column last">
-		<div class="box2-bottom-sx column last">
-		<div class="box2-bottom-dx column last">
-		<div class="box-content column last">
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
-	</div>
-	<?php else: ?>
-		<div class="right">&nbsp;</div>
-	<?php endif; ?>
+<?php endforeach; ?>
 <script type="text/javascript">
 	$(document).ready(function() { 
 		$(".fancybox").fancybox({

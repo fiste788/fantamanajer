@@ -13,6 +13,8 @@ class lega
 		$q = "SELECT * 
 				FROM lega";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe) )
 		  	$values[] = $row;
 		return $values; 
@@ -24,6 +26,8 @@ class lega
 				FROM lega
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_fetch_assoc($exe);
 	}
 	
@@ -34,6 +38,8 @@ class lega
 			$q .= $key . " = '" . $val . "',";
 		$q = substr($q,0,-1);
 		$q .= " WHERE idLega = '" . $_SESSION['idLega'] . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -42,6 +48,8 @@ class lega
 		$q = "SHOW COLUMNS
 				FROM lega";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$result[$row['Field']] = $row['Default'];
 		return $result;

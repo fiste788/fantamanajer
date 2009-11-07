@@ -11,8 +11,9 @@ class squadre
 		{
 			$q = "INSERT INTO squadra 
 					VALUES ('" . $idLega . "','" . $idUtente . "','" . $val . "')";
+			if(DEBUG)
+				echo $q . "<br />";
 			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-			print $q.";";
 		}
 	}
 	
@@ -21,6 +22,8 @@ class squadre
 		$q = "DELETE 
 				FROM squadra 
 				WHERE idUtente = '" . $idUtente . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -29,6 +32,8 @@ class squadre
 		$q = "UPDATE squadra 
 				SET idGioc = '" . $giocatoreNew . "' 
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -39,6 +44,8 @@ class squadre
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$values = FALSE;
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$values = $row['idUtente'];
 		return $values;
@@ -48,6 +55,8 @@ class squadre
 	{
 		$q = "INSERT INTO squadra 
 				VALUES ('" . $idLega . "','" . $idUtente . "','" . $idGioc . "')";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -56,6 +65,8 @@ class squadre
 		$q = "DELETE
 				FROM squadra 
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 }

@@ -12,6 +12,8 @@ class giornata
 				FROM giornata 
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		$valore = mysql_fetch_assoc($exe);
 		if (!empty($valore))
 			$valore['partiteInCorso'] = FALSE;
@@ -21,6 +23,8 @@ class giornata
 				FROM giornata
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			if(DEBUG)
+				echo $q . "<br />";
 			$valore = mysql_fetch_assoc($exe);
 			$valore['partiteInCorso'] = TRUE;
 		}
@@ -34,6 +38,8 @@ class giornata
 				FROM giornata 
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		$value = mysql_fetch_assoc($exe);
 		if(!empty($value))
 		{
@@ -55,8 +61,9 @@ class giornata
 				FROM giornata 
 				WHERE idGiornata = '" . $giorn . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$valore = mysql_fetch_assoc($exe);
-		return $valore;
+		if(DEBUG)
+			echo $q . "<br />";
+		return mysql_fetch_assoc($exe);
 	}
 	
 	function getNumberGiornate()
@@ -64,6 +71,8 @@ class giornata
 		$q = "SELECT COUNT(idGiornata) as numeroGiornate
 				FROM giornata";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		$valore = mysql_fetch_assoc($exe);
 		return $valore['numeroGiornate'];
 	}
@@ -73,6 +82,8 @@ class giornata
 		$q = "SELECT * 
 				FROM giornata";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$giornate[$row['idGiornata']] = $row;
 		return $giornate;
@@ -84,6 +95,8 @@ class giornata
 		$q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE as dataFine
 				FROM giornata
 				WHERE NOW() > dataInizio";
+		if(DEBUG)
+			echo $q . "<br />";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$valore = mysql_fetch_assoc($exe);
 		return $valore['dataFine'];
@@ -97,6 +110,8 @@ class giornata
 			foreach($val as $key2 => $val2)
 			{
 				$q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE idGiornata = '" . $key . "'";
+				if(DEBUG)
+					echo $q . "<br />";
 				$bool *= mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 			}
 		}
