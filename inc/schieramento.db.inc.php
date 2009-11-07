@@ -8,10 +8,12 @@ class schieramento
 	
 	function setConsiderazione($idFormazione,$idGioc,$val)
 	{
-	    $q = "UPDATE schieramento 
+		$q = "UPDATE schieramento 
 				SET considerato = '" . $val . "'
 				WHERE idFormazione = '" . $idFormazione . "' AND idGioc = '" . $idGioc . "'";
-	    mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function changeGioc($idFormazione,$idGiocOld,$idGiocNew)
@@ -19,6 +21,8 @@ class schieramento
 		$q = "UPDATE schieramento 
 				SET idGioc = '" . $idGiocNew . "' 
 				WHERE idGioc = '" . $idGiocOld . "' AND idFormazione = '" . $idFormazione . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -28,6 +32,8 @@ class schieramento
 					FROM schieramento
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$row = mysql_fetch_assoc($exe);
 		if(empty($row['idGioc']))
 			$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
@@ -36,7 +42,9 @@ class schieramento
 			$q = "UPDATE schieramento 
 					SET idFormazione='" . $idFormazione . "',idGioc='" . $idGioc . "',idPosizione='" . $pos . "' 
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
-		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
+		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 	}
 }
 ?>

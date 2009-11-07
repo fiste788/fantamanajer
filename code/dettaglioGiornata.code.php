@@ -29,7 +29,7 @@ if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $g
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
 	{
 		$contenttpl->assign('somma',$punteggioObj->getPunteggi($filterSquadra,$filterGiornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra));		
+		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra));
 	}
 	else
 	{

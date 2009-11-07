@@ -51,6 +51,10 @@
 					k++;
 				}
 			});
+			if(k == 0)
+				$(placeholder).css("display","none");
+			else
+				$(placeholder).css("display","block");
 			if (k == 1)
 				data.push(medie[j]);
 

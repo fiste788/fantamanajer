@@ -12,6 +12,8 @@ class evento
 	{
 		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal) 
 				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -19,6 +21,8 @@ class evento
 	{
 		$q = "DELETE 
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -57,6 +61,8 @@ class evento
 		$q .= " ORDER BY data DESC 
 				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(isset($values))
@@ -73,11 +79,11 @@ class evento
 							$values[$key]['content'] = '<em>'.$values[$key]['idExternal']['abstract'].'</em><br />';
 						$values[$key]['content'] .= $values[$key]['idExternal']['text'];
 						$values[$key]['link'] = $linksObj->getLink('conferenzeStampa',array('giorn'=>$values[$key]['idExternal']['idGiornata']));break;
-		    		case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
+					case 2: $values[$key]['titolo'] = $val['nome'] . ' ha selezionato un giocatore per l\'acquisto';
 									$values[$key]['content'] = ' ';break;
 									$values[$key]['link'] = '';break;
 					case 3: $values[$key]['idExternal'] = $formazioneObj->getFormazioneById($val['idExternal']);
-                  $values[$key]['titolo'] = $val['nome'] . ' ha impostato la formazione per la giornata '. $values[$key]['idExternal']['idGiornata'];
+									$values[$key]['titolo'] = $val['nome'] . ' ha impostato la formazione per la giornata '. $values[$key]['idExternal']['idGiornata'];
 									$titolari=$values[$key]['idExternal']['elenco'];
 									$titolari=array_splice($titolari,0,11);
 									$titolari = $giocatoreObj->getGiocatoriByArray($titolari);

@@ -14,6 +14,8 @@ class voto
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe))
 			return($row['punti']);
 	}
@@ -24,6 +26,8 @@ class voto
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe))
 			$values[$row['idGiornata']] = $row;
 		return $values;
@@ -35,6 +39,8 @@ class voto
 				FROM voto 
 				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe))
 			if($row['punti'] <> 0 && $row['voto'] <> 0)
 				return TRUE;
@@ -48,6 +54,8 @@ class voto
 				WHERE idGioc = '" . $idGioc . "' AND punti <> 0 AND voto <> 0 
 				GROUP BY idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			return $row;
 	}
@@ -73,6 +81,8 @@ class voto
 					$voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[4] . "','" . $pezzi[10] . "','" . $pezzi[5] . "','" . $pezzi[9] . "','" . $pezzi[6] . "','" . $pezzi[7] . "','" . $pezzi[8] . "')";
 				}
 				$q .= implode(',',$voti);
+				if(DEBUG)
+					echo $q . "<br />";
 				return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 			}
 			else
@@ -88,6 +98,8 @@ class voto
 		$q = "SELECT DISTINCT(idGiornata)
 				FROM voto";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row['idGiornata'];
 		return in_array($giornata,$values);

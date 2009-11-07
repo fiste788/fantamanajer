@@ -12,6 +12,8 @@ class selezione
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
 		if(isset($values))
@@ -26,6 +28,8 @@ class selezione
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
 				WHERE idSquadra = '" . $idSquadra . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_fetch_assoc($exe);
 	}
 	
@@ -34,6 +38,8 @@ class selezione
 		$q = "UPDATE selezione 
 				SET giocOld = NULL,giocNew = NULL 
 				WHERE idSquadra = '" . $idSquadra . "';";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
@@ -43,6 +49,8 @@ class selezione
 				FROM selezione 
 				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		$values = array();
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
@@ -59,6 +67,8 @@ class selezione
 				FROM selezione 
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$values = array();
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
@@ -67,12 +77,16 @@ class selezione
 			$q = "UPDATE selezione 
 					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values[0]['numSelezioni'] - 1) . "' 
 					WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
+			if(DEBUG)
+				echo $q . "<br />";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		$q = "SELECT numSelezioni 
 				FROM selezione 
 				WHERE giocNew IS NOT NULL AND idSquadra = '" . $idSquadra . "'  LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$values = array();
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
@@ -81,12 +95,16 @@ class selezione
 			$q = "UPDATE selezione 
 					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values[0]['numSelezioni']+1) . "' 
 					WHERE idSquadra = '" . $idSquadra . "'";
+			if(DEBUG)
+				echo $q . "<br />";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		else
 		{
 			$q = "INSERT INTO selezione 
 					VALUES ('" . $idLega . "','" . $idSquadra . "','" . $giocOld . "','" . $giocNew . "','1')";
+			if(DEBUG)
+				echo $q . "<br />";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;	
 		}
 		if(isset($err))
@@ -105,6 +123,8 @@ class selezione
 				WHERE idSquadra = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$val = NULL;
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe) )
 			$val = $row['numSelezioni'];
 		return $val;
@@ -113,6 +133,8 @@ class selezione
 	function svuota()
 	{
 		$q = "TRUNCATE TABLE selezione";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 }

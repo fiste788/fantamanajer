@@ -16,6 +16,8 @@ class formazione
 				WHERE formazione.idFormazione = '" . $id . "' ORDER BY idPosizione";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$flag = FALSE;
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe))
 		{
 			$elenco[$row['idPosizione']] = $row['idGioc'];
@@ -64,10 +66,14 @@ class formazione
 		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .") 
 				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$q = "SELECT idFormazione 
 				FROM formazione 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$idFormazione = $row['idFormazione'];
 		foreach($formazione as $key => $player)
@@ -97,10 +103,14 @@ class formazione
 				SET Modulo = '" . $modulo . "'" . $str . " 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		$q = "SELECT idFormazione 
 				FROM formazione 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$idFormazione = $row['idFormazione'];
 		foreach($formazione as $key => $player)
@@ -123,6 +133,8 @@ class formazione
 				ORDER BY idPosizione";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$flag = FALSE;
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe))
 		{
 			$elenco[$row['idPosizione']] = $row['idGioc'];
@@ -151,6 +163,8 @@ class formazione
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.idUtente 
 				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while ($row = mysql_fetch_assoc($exe))
 		{
 			$val[$row['idUtente']]['idUtente'] = $row['idUtente'];
@@ -167,6 +181,8 @@ class formazione
 		$q = "UPDATE formazione 
 				SET " . $cap . " = '" . $idGiocNew . "'
 				WHERE idFormazione = '" . $idFormazione . "'";
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 }

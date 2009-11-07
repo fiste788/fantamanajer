@@ -56,20 +56,37 @@ if(isset($_POST['passwordnew']) && isset($_POST['passwordnewrepeat']) )
 	$layouttpl->assign('message',$message);
 }
 
+if(isset($elencoSquadre[$filterSquadra-1]))
+{
+	$idPrec = $filterSquadra -1;
+	$quickLinks['prec']['href'] = $contenttpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idPrec));
+	$quickLinks['prec']['title'] = $elencoSquadre[$idPrec]['nome'];
+}	
+else
+{
+	$idPrec = false;
+	$quickLinks['prec'] = false;
+}
+
+if(isset($elencoSquadre[$filterSquadra+1]))
+{
+	$idSucc = $filterSquadra +1;
+	$quickLinks['succ']['href'] = $contenttpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idSucc));
+	$quickLinks['succ']['title'] = $elencoSquadre[$idSucc]['nome'];
+}	
+else
+{
+	$idSucc = false;
+	$quickLinks['succ'] = false;
+}
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
-//echo "<pre>".print_r($giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra),1)."</pre>";
+
 $contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra));
 $contenttpl->assign('squadra',$filterSquadra);
 $contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
 $contenttpl->assign('classifica',$classifica);
 $operationtpl->assign('elencoSquadre',$elencoSquadre);
-if(isset($elencoSquadre[$filterSquadra-1]))
-	$operationtpl->assign('squadraPrec',($filterSquadra-1));
-else
-	$operationtpl->assign('squadraPrec',false);
-
-if(isset($elencoSquadre[$filterSquadra+1]))
-	$operationtpl->assign('squadraSucc',($filterSquadra+1));
-else
-	$operationtpl->assign('squadraSucc',false);
+$operationtpl->assign('squadraPrec',$idPrec);
+$operationtpl->assign('squadraSucc',$idSucc);
+$layouttpl->assign('quickLinks',$quickLinks);
 ?>
