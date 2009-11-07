@@ -10,8 +10,6 @@ if(isset($_GET['squadra']))
 	$squadra = $_GET['squadra'];
 
 $elencoSquadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
-foreach ($elencoSquadre as $key => $val)
-	$elencoSquadre[$key]['giornateVinte'] = $punteggioObj->getGiornateVinte($val['idUtente']);
 
 $contenttpl->assign('squadra',$squadra);
 $contenttpl->assign('elencosquadre',$elencoSquadre);
