@@ -388,20 +388,29 @@ em {
 	padding: 10px;
 	width: 240px;
 	position:absolute;
+	text-align:center;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	z-index:2;
 }
 .good {
+	color:#00bb00;
 	border: 2px solid #00ff00;
+	background:#bad6bb;
 }
 .bad {
+	color:#bb0000;
 	border: 2px solid #ff0000;
+	background:#d6babc;
 }
 .neut {
+	color:#cc6600;
+	background:#d6c9ba;
 	border: 2px solid #ff9900;
 }
 .messaggio span {
 	vertical-align: middle;
 	font-size: 14px;
-	color: #fff;
 	font-weight: bold;
 }
 .messaggio img {
@@ -727,7 +736,7 @@ label {
 	right:0;
 	top:40%;
 	width:23px;
-	z-index:2;
+	z-index:4;
 	background:#00a2ff;
 	text-align:center;
 }
@@ -756,6 +765,7 @@ label {
 	width:285px;
 	display:block;
 	padding:10px 0 10px 10px;
+	z-index:3;
 }
 .tickLabel {
 	color: #aaa;
@@ -853,6 +863,7 @@ p.surprise {
 	height:76px;
 	overflow:hidden;
 	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
 }
 .giocatore span{
 	position:absolute;

@@ -47,20 +47,24 @@
 			<?php switch($this->message['level']): 
 				 case 0: ?>
 				<div id="messaggio" title="Clicca per nascondere" class="messaggio good column last">
-					<img alt="OK" src="<?php echo IMGSURL . 'ok-big.png'; ?>" />								
+					<img alt="OK" src="<?php echo IMGSURL . 'ok-big.png'; ?>" />
 				<?php break; case 1: ?>
 				<div id="messaggio" title="Clicca per nascondere" class="messaggio bad column last">
 					<img alt="!" src="<?php echo IMGSURL . 'attention-bad-big.png'; ?>" title="Attenzione!" />
+				<?php break; case 2: ?>
+				<div id="messaggio" title="Clicca per nascondere" class="messaggio neut column last">
+					<img alt="!" src="<?php echo IMGSURL . 'attention-big.png'; ?>" title="Attenzione!" />
 				<?php endswitch; ?>
 					<span><?php echo $this->message['text']; ?></span>
 				</div>
 				<script type="text/javascript">
 					$(document).ready(function(){
-						$("#messaggio").effect("pulsate", { times: 2 }, 1000);
-						$("#messaggio").hover(function () {
-							$(this).fadeTo("fast",0.2);
-						},function () {
-							$(this).fadeTo("fast",1);
+						$("#messaggio").effect("pulsate", { times: 2 }, 1000, function(){
+							$("#messaggio").hover(function () {
+								$(this).fadeTo("fast",0.2);
+							},function () {
+								$(this).fadeTo("fast",1);
+							});
 						});
 						$("#messaggio").click(function () {
 							$("div#messaggio").fadeOut("slow");

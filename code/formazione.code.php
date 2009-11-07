@@ -21,7 +21,7 @@ if(PARTITEINCORSO == TRUE)
 	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
-if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
+if(isset($formImp[$_SESSION['idSquadra']]) && !PARTITEINCORSO)
 	unset($formImp[$_SESSION['idSquadra']]);
 $contenttpl->assign('formazioniImpostate',$formImp);
 
@@ -105,25 +105,24 @@ if(!PARTITEINCORSO)
 			}
 			else
 				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
-			$message[0] = 0;
-			$message[1] = 'Formazione caricata correttamente';
+			$message['level'] = 0;
+			$message['text'] = 'Formazione caricata correttamente';
 		}
 		else
 		{
-			$message[0] = 1;
-			$message[1] = 'Hai inserito dei valori multipli';
+			$message['leve'] = 1;
+			$message['text'] = 'Hai inserito dei valori multipli';
 		}
 		if ($missing > 0)
 		{
-			$message[0] = 1;
-			$message[1] = 'Valori mancanti';
+			$message['level'] = 1;
+			$message['text'] = 'Valori mancanti';
 		}
 		if ($frega > 0)
 		{
-			$message[0] = 1;
-			$message[1] = 'Stai cercando di fregarmi?';
+			$message['level'] = 1;
+			$message['text'] = 'Stai cercando di fregarmi?';
 		}
-		$contenttpl->assign('message',$message);
 	}
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
 	if($issetform)
@@ -153,6 +152,8 @@ if(!PARTITEINCORSO)
 		else
 			$contenttpl->assign('panchinari',$panchinariAr);
 		$contenttpl->assign('cap',$issetform['cap']);
+		$message['level'] = 2;
+		$message['text'] = 'Hai già impostato la formazione. Se la rinvii quella vecchia verrà sovrascritta';
 	}
 	$contenttpl->assign('issetForm',$issetform);
 	if(isset($modulo))
@@ -160,4 +161,6 @@ if(!PARTITEINCORSO)
 	else
 		$contenttpl->assign('modulo',NULL);
 }
+if(isset($message))
+	$layouttpl->assign('message',$message);
 ?>
