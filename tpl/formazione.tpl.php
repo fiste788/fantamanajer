@@ -65,35 +65,6 @@
 	<div class="box2-bottom-sx column last">
 	<div class="box2-bottom-dx column last">
 	<div class="box-content column last">
-		<?php if(isset($this->message) && $this->message[0] == 0): ?>
-		<div id="messaggio" class="messaggio good column last">
-			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
-			<span><?php echo $this->message[1]; ?></span>
-		</div>
-		<?php elseif(isset($this->message) && $this->message[0] == 1): ?>
-		<div id="messaggio" class="messaggio bad column last">
-			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" />
-			<span><?php echo $this->message[1]; ?></span>
-		</div>
-		<?php elseif($this->issetForm != FALSE):  ?>
-			<div id="messaggio" class="messaggio neut column last">
-				<img alt="!" src="<?php echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
-				<span>Hai già impostato la formazione. Se la rinvii quella vecchia verrà sovrascritta</span>
-			</div>
-		<?php endif; ?>
-		<?php if($this->issetForm != FALSE || isset($this->message)): ?> 
-		<script type="text/javascript">
-		window.onload = (function(){
- 			$("#messaggio").effect("pulsate", { times: 3 }, 1000);
-			$("#messaggio").click(function () {
-				$("div#messaggio").fadeOut("slow");
-			});
- 		});
-		</script>
-		<?php endif; ?>
-		<?php if($_SESSION['logged'] == TRUE): ?>
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-		<?php endif; ?>
 		<form class="column last" name="form_modulo" action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
 			<fieldset id="modulo" class="no-margin fieldset">
 				<h3 class="no-margin">Seleziona il modulo:</h3>
