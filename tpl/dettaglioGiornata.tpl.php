@@ -37,7 +37,7 @@
 							<td><?php echo $val['nome']; if($val['considerato'] == 2) echo '<span id="cap">(C)</span>'; ?></td>
 							<td><?php echo $val['ruolo']; ?></td>
 							<td><?php echo strtoupper(substr($val['nomeClub'],0,3)); ?></td>
-							<td><?php if($val['titolare']) echo "X"; ?></td>
+							<td><?php if($val['titolare']) echo "X";else echo "&nbsp;"; ?></td>
 							<td><?php if(!empty($val['voto'])) echo $val['punti']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
@@ -77,7 +77,7 @@
 							<td><?php echo $val['nome']; ?></td>
 							<td><?php echo $val['ruolo']; ?></td>
 							<td><?php echo strtoupper(substr($val['nomeClub'],0,3)); ?></td>
-							<td><?php if($val['titolare']) echo "X"; ?></td>
+							<td><?php if($val['titolare']) echo "X";else echo "&nbsp;"; ?></td>
 							<td><?php if(!empty($val['voto'])) echo $val['punti']; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>

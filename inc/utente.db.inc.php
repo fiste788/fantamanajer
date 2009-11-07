@@ -14,7 +14,7 @@ class utente
 	function getElencoSquadre()
 	{		
 		$q = "SELECT * 
-				FROM utente 
+				FROM utente INNER JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_assoc($exe) )
@@ -35,7 +35,7 @@ class utente
 	function getElencoSquadreByLega($idLega)
 	{		
 		$q = "SELECT * 
-				FROM utente
+				FROM utente INNER JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while ($row = mysql_fetch_assoc($exe) )

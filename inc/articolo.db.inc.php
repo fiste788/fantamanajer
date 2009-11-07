@@ -164,6 +164,8 @@ class articolo
 			$q .= " ORDER BY " .$order  . " DESC";
 		if($start != NULL || $end != NULL)
 			$q .= " LIMIT ".$start.','.$end;
+		if(DEBUG)
+			echo $q . "<br />";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row;
@@ -179,6 +181,8 @@ class articolo
 				FROM articolo
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		while($row = mysql_fetch_assoc($exe))
 			$values[] = $row['idGiornata'];
 		if(isset($values))
@@ -193,6 +197,8 @@ class articolo
 				FROM articolo 
 				WHERE idArticolo = '" . $id . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
 		return mysql_fetch_assoc($exe);
 	}
 }
