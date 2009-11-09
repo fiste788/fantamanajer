@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR . 'giornata.inc.php');
+require_once(INCDIR . 'giornata.db.inc.php');
 
 $giornataObj = new giornata();
 $giornate = $giornataObj->getAllGiornate();
@@ -15,23 +15,23 @@ if(isset($_POST['submit']))
 				$date[$key]['dataFine'] = $val;
 		if(isset($date) && $giornataObj->updateGiornate($date))
 		{
-			$message[0] = 0;
-			$message[1] = "Operazione effettuata con successo";
+			$message['level'] = 0;
+			$message['text'] = "Operazione effettuata con successo";
 			$giornate = $giornataObj->getAllGiornate();
 		}
 		else
 		{
-			$message[0] = 1;
-			$message[1] = "Errore nell'esecuzione. Controlla il formato delle date";
+			$message['level'] = 1;
+			$message['text'] = "Errore nell'esecuzione. Controlla il formato delle date";
 		}
 	}
 	else
 	{
-		$message[0] = 1;
-		$message[1] = "Non hai compiulato tutti i campi";
+		$message['level'] = 1;
+		$message['text'] = "Non hai compiulato tutti i campi";
 	}
 }
 $contenttpl->assign('giornate',$giornate);
 if(isset($message))
-	$contenttpl->assign('message',$message);
+	$layouttpl->assign('message',$message);
 ?>

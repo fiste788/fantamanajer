@@ -32,45 +32,19 @@
 				<input type="input" name="minFormazione" value="<?php echo $_SESSION['datiLega']['minFormazione'] ?>" />
 				<?php if(isset($this->default['minFormazione'])): ?><small>Default: <?php echo $this->default['minFormazione'] ?></small><?php endif; ?>
 			</div>
+			<div class="formbox">
+				<label>Pagina premi</label>
+				<textarea name="premi"><?php if(!empty($_SESSION['datiLega']['premi'])) echo $_SESSION['datiLega']['premi']; ?></textarea>
+			</div>
 		</fieldset>
 		<fieldset>
 			<input type="submit" class="submit dark" value="OK" />
 		</fieldset>
-	</form>
-</div>
-<div id="squadradett" class="column last">
-	<div class="box2-top-sx column last">
-	<div class="box2-top-dx column last">
-	<div class="box2-bottom-sx column last">
-	<div class="box2-bottom-dx column last">
-	<div class="box-content column last">
-	<?php if(isset($this->messaggio) && $this->messaggio[0] == 0): ?>
-		<div id="messaggio" class="messaggio good column last">
-			<img alt="OK" src="<?php echo IMGSURL.'ok-big.png'; ?>" />
-			<span><?php echo $this->messaggio[1]; ?></span>
-		</div>
-	<?php elseif(isset($this->messaggio) && $this->messaggio[0] == 1): ?>
-		<div id="messaggio" class="messaggio bad column last">
-			<img alt="!" src="<?php echo IMGSURL.'attention-bad-big.png'; ?>" />
-			<span><?php echo $this->messaggio[1]; ?></span>
-		</div>
-	<?php endif; ?>
-	<?php if(isset($this->messaggio)): ?>
 		<script type="text/javascript">
-		window.onload = (function(){
- 			$("#messaggio").effect("pulsate", { times: 3 }, 1000);
-			$("#messaggio").click(function () {
-				$("div#messaggio").fadeOut("slow");
-			});
- 		});
+			mySettings['namespace'] = 'html';
+			$(document).ready(function() {
+	     		 $("textarea").markItUp(mySettings);
+	  		 });
 		</script>
-	<?php endif; ?>
-		<?php if($_SESSION['logged'] == TRUE): ?>
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-		<?php endif; ?>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
+	</form>
 </div>
