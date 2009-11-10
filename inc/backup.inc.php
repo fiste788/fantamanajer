@@ -255,25 +255,46 @@ class MySQLDump {
 	*/
 	function getDatabaseStructure(){
 		$structure = '';
-		$records = @mysql_query('SHOW TABLES');
+		$records = @mysql_query('SHOW TABLE STATUS');
 		if ( @mysql_num_rows($records) == 0 )
 			return false;
-		while ( $record = @mysql_fetch_row($records) ) {
-			$structure .= $this->getTableStructure($record[0]);
+		while ( $record = @mysql_fetch_array($records) ) {
+			if($record['Comment'] != "VIEW")
+				$structure .= $this->getTableStructure($record[0]);
 		}
 		return true;
   }
+  
+	function getViewStructure(){
+		$records = @mysql_query('SHOW TABLE STATUS');
+		while ( $record = mysql_fetch_array($records) ) {
+			if($record['Comment'] != "")
+			{
+				$data = "-- \n";
+				$data .= "-- Dumping data for view `$record[0]` \n";
+				$data .= "-- \n\n";
+				$exe = mysql_query('SHOW CREATE VIEW ' . $record[0]);
+				while ( $row = mysql_fetch_array($exe) ) 
+					$data .= $row['Create View'];
+				$data .= ";\n\n-- --------------------------------------------------------\n\n";
+				$this->saveToFile($this->file,$data);
+			}
+		}
+		return true;
+  }
+		
 
 	/**
 	* Writes to file all the selected database tables data
 	* @param boolean $hexValue It defines if the output is base-16 or not
 	*/
 	function getDatabaseData($hexValue = true){
-		$records = @mysql_query('SHOW TABLES');
+		$records = @mysql_query('SHOW TABLE STATUS');
 		if ( @mysql_num_rows($records) == 0 )
 			return false;
-		while ( $record = @mysql_fetch_row($records) ) {
-			$this->getTableData($record[0],$hexValue);
+		while ( $record = @mysql_fetch_array($records) ) {
+			if($record['Comment'] != "VIEW")
+				$this->getTableData($record[0],$hexValue);
 		}
   }
 
@@ -284,6 +305,7 @@ class MySQLDump {
 		$this->saveToFile($this->file,"SET FOREIGN_KEY_CHECKS = 0;\n\n-- --------------------------------------------------------\n\n");
 		$this->getDatabaseStructure();
 		$this->getDatabaseData($this->hexValue);
+		$this->getViewStructure();
 		$this->saveToFile($this->file,"SET FOREIGN_KEY_CHECKS = 1;\n\n");
 		$this->closeFile($this->file);
 		return true;
@@ -327,7 +349,7 @@ class MySQLDump {
 			else
 				$unique = "";
 			if (($row->Key_name != 'PRIMARY') AND ($row->Non_unique == '1') AND ($row->Index_type == 'BTREE')) {
-				if ( (!is_array($index)) OR (!isset($index[$row->Key_name])) OR (isset($index[$row->Key_name])AND $index[$row->Key_name]=="") )
+				if (isset($index) && (!is_array($index)) OR (!isset($index[$row->Key_name])) OR (isset($index[$row->Key_name])AND $index[$row->Key_name]=="") )
 					$index[$row->Key_name] = "  KEY `{$row->Key_name}` (`{$row->Column_name}`";
 				else
 					$index[$row->Key_name] .= ", `{$row->Column_name}`";

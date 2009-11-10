@@ -1,9 +1,3 @@
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'run-big.png'; ?>" alt="Logo lancia script" />
-	</div>
-	<h2 class="column">Esegui script</h2>
-</div>
 <div id="lanciaScript" class="main-content">
 	<ul class="column last">
 		<li><a class="script" id="backup" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'backup.png' ?>"><h3 class="column">Backup</h3></a></li>
@@ -15,7 +9,7 @@
 	<script type="text/javascript">
 		var loadingImg = "<?php echo IMGSURL.'ajax-loader.gif' ?>"; 
 		$(".script").click(function () { 
-			var Url = this.id + '.html';
+			var Url = 'index.php?p='+this.id ;
 			var time = new Date();
 			var time_start = time.getTime();
 			var script = this.id;
@@ -33,61 +27,57 @@
 				cache: false,
 				username: "administrator",
 				password: "banana",
-				dataType: "xml",
+				dataType: "html",
 				complete: function(xml,text){
-					$("#messaggio div").fadeOut(function (){
+					var time2 = new Date();
+					var time_end = time2.getTime();
+					if(xml.responseText != "")
+					{
+						risp = $("#return",xml.responseText);
+						var classe = $(risp).attr('class');
+						$("#messaggio div").remove();
 						$("#messaggio").css('display','none');
-						var time2 = new Date();
-						var time_end = time2.getTime();
-						if(xml.responseText != "")
-						{
-							risp = $("#return",xml.responseText);
-							var classe = $(risp).attr('class');
+						if(typeof(classe) != "undefined")
+						{	
 							$("#messaggio").addClass(classe);
-							$("#messaggio div").remove();
 							var img = "";
 							if(classe == "good")
 								img = "ok";
 							else
 								img = "attention-bad";
-							img = '<img src="<?php echo IMGSURL; ?>' + img + '-big.png">';
-							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>' + $(risp).html() + '</span></div>').fadeIn( function() {
+							img = '<img src="<?php echo IMGSURL; ?>' + img + '.png">';
+							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>' + $(risp).html() + '</span></div>').fadeIn("slow", function() {
 								if(jQuery.browser.msie)
 									$("#messaggio").removeAttr('style');
 							});
 						}
 						else
 						{
-							$("#messaggio").addClass("neut");
 							$("#messaggio div").remove();
-							img = '<img src="<?php echo IMGSURL; ?>attention-big.png">';
-							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Impossibile recuperare dati sull\'esecuzione</span></div>').fadeIn( function() {
+							$("#messaggio").css('display','none');
+							$("#messaggio").addClass("bad");
+							img = '<img src="<?php echo IMGSURL; ?>attention-bad.png">';
+							$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Errore scononsciuto</span></div>').fadeIn("slow", function() {
 								if(jQuery.browser.msie)
 									$("#messaggio").removeAttr('style');
 							});
 						}
-					});
+					}
+					else
+					{
+						$("#messaggio div").remove();
+						$("#messaggio").css('display','none');
+						$("#messaggio").addClass("neut");
+						img = '<img src="<?php echo IMGSURL; ?>attention.png">';
+						$("#messaggio").append('<div title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Problemi di connessione</span></div>').fadeIn("slow", function() {
+							if(jQuery.browser.msie)
+								$("#messaggio").removeAttr('style');
+						});
+					}
 				}
 			});
 		});
 		
-		$("#messaggio").bind("click",function () {
-			$("div#messaggio").fadeOut("slow");
-		});
 	</script>
 </div>
-<div id="squadradett" class="column last">
-		<div class="box2-top-sx column last">
-		<div class="box2-top-dx column last">
-		<div class="box2-bottom-sx column last">
-		<div class="box2-bottom-dx column last">
-		<div class="box-content column last">
-		  <div id="messaggio" class="messaggio column last" style="display:none;">
-  		</div>
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
-	</div>
+<div id="messaggio" class="messaggio column last" style="display:none;"></div>

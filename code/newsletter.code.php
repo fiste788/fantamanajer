@@ -1,79 +1,76 @@
 <?php
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'leghe.inc.php');
-require_once(INCDIR.'mail.inc.php');
-require_once(INCDIR.'articolo.inc.php');
-require_once(INCDIR.'eventi.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDIR . 'articolo.db.inc.php');
+require_once(INCDIR . 'evento.db.inc.php');
+require_once(INCDIR . 'mail.inc.php');
 	
 $utenteObj = new utente();
-$legheObj = new leghe();
-$mailObj = new mail();
+$legaObj = new lega();
 $articoloObj = new articolo();
-$eventiObj = new eventi();
+$eventoObj = new evento();
+$mailObj = new mail();
 $mailContent = new Savant3();
 
-$lega = NULL;
+$filterLega = NULL;
 if(isset($_POST['lega']))
-	$lega = $_POST['lega'];
-if($_SESSION['usertype'] == 'admin')
-	$lega = $_SESSION['idLega'];
+	$filterLega = $_POST['lega'];
+if($_SESSION['roles'] == '1')
+	$filterLega = $_SESSION['idLega'];
 
-$contenttpl->assign('elencoleghe',$legheObj->getLeghe());
-$contenttpl->assign('lega',$lega);
-
-if($lega != NULL && $lega != 0)
-	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
+$elencoLeghe = $legaObj->getLeghe();
 
 if(isset($_POST['button']))
 {
+	$error = FALSE;
 	unset($_POST['lega']);
 	foreach($_POST as $key => $val)
 	{
 		if(empty($val))
 		{
-			$message[0] = 1;
-			$message[1] = "Non hai compilato tutti i campi";
+			$error = TRUE;
+			$message['level'] = 1;
+			$message['text'] = "Non hai compilato tutti i campi";
 		}
 	}
 	if(!isset($_POST['selezione']) || !isset($_POST['type']))
 	{
-		$message[0] = 1;
-		$message[1] = "Non hai compilato tutti i campi";
+		$error = TRUE;
+		$message['level'] = 1;
+		$message['text'] = "Non hai compilato tutti i campi";
 	}
-	if(!isset($message))
+	if(!$error)
 	{
 		$mailContent->assign('object',$_POST['object']);
 		$mailContent->assign('text',nl2br($_POST['text']));
 		$mailContent->assign('date',date("d-m-Y"));
 		$mailContent->assign('type',$_POST['type']);
 		$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
+		
 		if($_POST['type'] == 'C')
 		{
 			$object = 'Comunicazione: ';
-			if($lega == 0)
+			if($filterLega == 0)
 				$email = $utenteObj->getAllEmail();
 			else
-				$email = $utenteObj->getAllEmailByLega($lega);
+				$email = $utenteObj->getAllEmailByLega($filterLega);
 		}
 		else
 		{
 			$object = 'Newsletter: ';
-			if($lega == 0)
+			if($filterLega == 0)
 				$email = $utenteObj->getAllEmailAbilitate();
 			else
-				$email = $utenteObj->getAllEmailAbilitateByLega($lega);
-		}
-		$emailOk = array();
-		foreach($_POST['selezione'] as $key => $val)
-		{
-			if(is_array($email[$val]))
-				$emailOk = array_merge($email[$val],$emailOk);
-			else
-				$emailOk[] = $email[$val];
+				$email = $utenteObj->getAllEmailAbilitateByLega($filterLega);
 		}
 		$object .= $_POST['object'];
-		//$mailContent->display(MAILTPLDIR.'mailNewsletter.tpl.php');	
-		if($mailObj->sendEmail(implode(",",$emailOk),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object))
+		$bool = TRUE;
+		if($filterLega == 0)
+			foreach($_POST['selezione'] as $key => $val)
+				$bool *= $mailObj->sendEmail(implode(",",$email[$val]),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
+		else
+				$bool *= $mailObj->sendEmail(implode(",",array_intersect_key($email,array_flip($_POST['selezione']))),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
+		if($bool)
 		{
 			if(isset($_POST['conferenza']))
 			{
@@ -86,15 +83,19 @@ if(isset($_POST['button']))
 				$idArticolo = $articoloObj->add($articoloObj);
 				$eventiObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
 			}
-			$message[0] = 0;
-			$message[1] = 'Mail inviate correttamente';
+			$message['level'] = 0;
+			$message['text'] = 'Mail inviate correttamente';
 		}
 		else
 		{
-			$message[0] = 1;
-			$message[1] = 'Problemi nell\'invio della mail';
+			$message['level'] = 1;
+			$message['text'] = 'Problemi nell\'invio delle mail';
 		}
 	}
-	$contenttpl->assign('message',$message);
+	$layouttpl->assign('message',$message);
 }
+$contenttpl->assign('elencoLeghe',$elencoLeghe);
+$contenttpl->assign('lega',$filterLega);
+if($filterLega != NULL && $filterLega != 0)
+	$contenttpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
 ?>

@@ -13,8 +13,8 @@ class utente
 	
 	function getElencoSquadre()
 	{		
-		$q = "SELECT * 
-				FROM utente INNER JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
+		$q = "SELECT utente.*,giornateVinte 
+				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
@@ -38,8 +38,8 @@ class utente
 	
 	function getElencoSquadreByLega($idLega)
 	{		
-		$q = "SELECT * 
-				FROM utente INNER JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
+		$q = "SELECT utente.*,giornateVinte 
+				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
