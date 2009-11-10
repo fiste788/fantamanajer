@@ -1,37 +1,35 @@
 <?php 
-require_once(INCDIR.'mail.inc.php');
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'formazione.inc.php');
-require_once(INCDIR.'voti.inc.php');
-require_once(INCDIR.'leghe.inc.php');
-require_once(INCDIR.'db.inc.php');
-require_once(INCDIR.'decrypt.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'formazione.db.inc.php');
+require_once(INCDIR . 'voto.db.inc.php');
+require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDIR . 'mail.inc.php');
+require_once(INCDIR . 'db.inc.php');
+require_once(INCDIR . 'decrypt.inc.php');
 
-//INIZIALIZZO TUTTO CIÒ CHE MI SERVE PER ESEGUIRE LO SCRIPT
-$punteggiObj = new punteggi();
 $utenteObj = new utente();
-$formazioneObj = new formazione();
-$mailObj = new mail();
+$punteggioObj = new punteggio();
 $giocatoreObj = new giocatore();
-$votiObj = new voti();
-$legheObj = new leghe();
+$formazioneObj = new formazione();
+$votoObj = new voto();
+$legaObj = new lega();
+$mailObj = new mail();
 $dbObj = new db();
 $decryptObj= new decrypt();
 
 $giornata = GIORNATA - 1;
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['usertype'] == 'superadmin')
+if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-
-	if($result=$decryptObj->decryptCdfile($giornata))
+	if($result = $decryptObj->decryptCdfile($giornata))
 	{
 		$giocatoreObj->updateTabGiocatore($result,$giornata);
-		if(!$votiObj->checkVotiExist($giornata))
+		if(!$votoObj->checkVotiExist($giornata))
 			$decryptObj->importVoti($result,$giornata);
-		$leghe = $legheObj->getLeghe();
+		$leghe = $legaObj->getLeghe();
 		$mail = 0;
 		foreach($leghe as $lega)
 		{
@@ -42,14 +40,14 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 				$squadra = $val['idUtente'];
 				//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 				if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
-					$punteggiObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
+					$punteggioObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
 				else
-					$punteggiObj->setPunteggiToZeroByGiornata($squadra,$lega['idLega'],$giornata);
+					$punteggioObj->setPunteggiToZeroByGiornata($squadra,$lega['idLega'],$giornata);
 			}
 			$dbObj->commit();
 		
 			//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
-			$classifica = $punteggiObj->getAllPunteggiByGiornata($giornata,$lega['idLega']);
+			$classifica = $punteggioObj->getAllPunteggiByGiornata($giornata,$lega['idLega']);
 			$appo2 = $classifica;
 			foreach($appo2 as $key => $val)
 			{
@@ -82,58 +80,45 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 14 && $pun
 					$mailContent->assign('differenza',$diff);
 					$mailContent->assign('squadre',$squadre);
 					$mailContent->assign('giornata',$giornata);
-					$penalità = $punteggiObj->getPenalitàBySquadraAndGiornata($val['idUtente'],$giornata);
+					$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($val['idUtente'],$giornata);
 					if($penalità != FALSE)
 						$mailContent->assign('penalità',$penalità);
 					$mailContent->assign('squadra',$val['nome']);
-					$mailContent->assign('somma',$punteggiObj->getPunteggi($val['idUtente'],$giornata));
+					$mailContent->assign('somma',$punteggioObj->getPunteggi($val['idUtente'],$giornata));
 					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val['idUtente']));
 					
 					//MANDO LA MAIL
-					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($val['idUtente'],$giornata);
+					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val['idUtente'],$giornata);
 					//$mailContent->display(MAILTPLDIR.'mail.tpl.php');
-					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR.'mailWeekly.tpl.php'),$object))
+					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php'),$object))
 						$mail++ ;
-				}
-				if(!empty($val['cell']) && $val['abilitaMess'] == 1)
-				{
-					$sms = "";
-					$sms .= "Punteggio giornata " . $giornata . ": ";
-					$sms .= $punteggiObj->getPunteggi($val['idUtente'],$giornata);
-					$giocatori = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val['idUtente']);
-					foreach($giocatori as $key2 => $val2)
-						$sms .= $val2['cognome'] . " " . $val2['voto'] . ",";
-					$smsFlag = 0;
-					
-					if(!$mailObj->sendEmailToVodafone($val['cell'],$sms))
-						$smsFlag++ ;
 				}
 			}
 			unset($mailContent);
 		}
 		if($mail == 0)
 		{
-			$message[0] = 0;
-			$message[1] = "Operazione effettuata correttamente";
+			$message['level'] = 0;
+			$message['text'] = "Operazione effettuata correttamente";
 		}
 		else
 		{
-			$message[0] = 1;
-			$message[1] = "Errori nell'invio delle mail";
+			$message['level'] = 1;
+			$message['text'] = "Errori nell'invio delle mail";
 		}
 		//AGGIORNA LA LISTA GIOCATORI
 		//$giocatoreObj->updateTabGiocatore($giornata);
 	}
 	else
 	{
-		$message[0] = 1;
-		$message[1] = "Problema nel recupero dei voti dalla gazzetta";
+		$message['level'] = 1;
+		$message['text'] = "Problema nel recupero dei voti dalla gazzetta";
 	}
 }
 else
 {
-	$message[0] = 1;
-	$message[1] = "Non puoi effettuare l'operazione ora";
+	$message['level'] = 1;
+	$message['text'] = "Non puoi effettuare l'operazione ora";
 }
-$contenttpl->assign('message',$message);
+$layouttpl->assign('message',$message);
 ?>

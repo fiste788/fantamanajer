@@ -239,9 +239,9 @@ class giocatore
 		$daInserire = array_diff_key($players,$playersOld);
 
 		// aggiunge nuovi giocatori
-		if(count($daInserire)!=0)
+		if(count($daInserire) != 0)
 		{
-			$rowtoinsert="";
+			$rowtoinsert = "";
 			foreach($daInserire as $key => $pezzi)
 			{
 				$esprex = "/[A-Z`]*\s?[A-Z`]{2,}/";
@@ -264,7 +264,7 @@ class giocatore
 				echo $q . "<br />";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
-		if(count($daTogliere)!=0)
+		if(count($daTogliere) != 0)
 		{
 			foreach($daTogliere as $id => $val)
 				$eventoObj->addEvento('6',0,0,$id);

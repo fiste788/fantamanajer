@@ -284,7 +284,7 @@ class punteggio
 	{
 		if($this->getPenalitàBySquadraAndGiornata($idUtente,$idGiornata) != FALSE)
 			$q = "UPDATE punteggio SET punteggio = '" . (-$punti) . "', penalità = '" . $motivo . "'
-					WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'"; 
+					WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND punteggio < 0"; 
 		else
 			$q = "INSERT INTO punteggio (punteggio,penalità,idGiornata,idUtente,idLega) 
 					VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
