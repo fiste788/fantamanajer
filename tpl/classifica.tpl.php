@@ -1,4 +1,4 @@
-<?php $i=1; ?>
+<?php $i = 1; ?>
 <div id="classifica-content" class="main-content">
 	<div id="classifica-container" class="column last">
 		<table cellpadding="0" cellspacing="0" class="column last no-margin" style="width:316px;overflow:hidden;">
