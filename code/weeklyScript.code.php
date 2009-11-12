@@ -23,12 +23,13 @@ $giornata = GIORNATA - 1;
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
+	$path = $decryptObj->decryptCdfile($giornata);
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-	if($result = $decryptObj->decryptCdfile($giornata))
+	if($path != FALSE)
 	{
-		$giocatoreObj->updateTabGiocatore($result,$giornata);
+		$giocatoreObj->updateTabGiocatore($path,$giornata);
 		if(!$votoObj->checkVotiExist($giornata))
-			$decryptObj->importVoti($result,$giornata);
+			$votoObj->importVoti($path,$giornata);
 		$leghe = $legaObj->getLeghe();
 		$mail = 0;
 		foreach($leghe as $lega)
@@ -120,5 +121,5 @@ else
 	$message['level'] = 1;
 	$message['text'] = "Non puoi effettuare l'operazione ora";
 }
-$layouttpl->assign('message',$message);
+$contenttpl->assign('message',$message);
 ?>

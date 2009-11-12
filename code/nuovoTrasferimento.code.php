@@ -1,95 +1,76 @@
 <?php
-require_once(INCDIR.'trasferimenti.inc.php');
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'eventi.inc.php');
-require_once(INCDIR.'leghe.inc.php');
-	
-$eventiObj = new eventi();
+require_once(INCDIR . 'trasferimento.db.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'lega.db.inc.php');
+
+$trasferimentoObj = new trasferimento();	
 $utenteObj = new utente();
 $giocatoreObj = new giocatore();
-$trasferimentiObj = new trasferimenti();
-$legheObj = new leghe();
+$legaObj = new lega();
 
-$squadra = NULL;
-$lega = NULL;
-$acquisto = NULL;
-$lasciato = NULL;
+$filterSquadra = NULL;
+$filterLega = NULL;
+if(isset($_POST['squadra']))
+	$filterSquadra = $_POST['squadra'];
 if(isset($_POST['lega']))
-	$lega = $_POST['lega'];
-if(isset($_POST['squad']))
-	$squadra = $_POST['squad'];
+	$filterLega = $_POST['lega'];
 if($_SESSION['usertype'] == 'admin')
-	$lega = $_SESSION['idLega'];
-$ruo = array('Portiere','Difensori','Centrocampisti','Attaccanti');
-$contenttpl->assign('ruo',$ruo);
+	$filterLega = $_SESSION['idLega'];
 
-$contenttpl->assign('elencoleghe',$legheObj->getLeghe());
-$contenttpl->assign('lega',$lega);
-
-/*foreach($legheObj->getLeghe() as $key => $val)
-	$appo[$val['idLega']] = $utenteObj->getElencoSquadreByLega($val['idLega']);
-$contenttpl->assign('elencojs',$appo);*/
-$contenttpl->assign('elencosquadre',FALSE);
-if($lega != NULL)
-{
-	$contenttpl->assign('elencosquadre',$utenteObj->getElencoSquadreByLega($lega));
-	$contenttpl->assign('squadra',$squadra);
-}
-
-$trasferimenti = $trasferimentiObj->getTrasferimentiByIdSquadra($squadra);
-$contenttpl->assign('trasferimenti',$trasferimenti);
+$trasferimenti = $trasferimentoObj->getTrasferimentiByIdSquadra($filterSquadra);
 $numTrasferimenti = count($trasferimenti);
 
-$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
-if($numTrasferimenti <$_SESSION['datiLega']['numTrasferimenti'] )
+if($numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] )
 {
 	if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 	{
 		if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) )
 		{
 			$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista']);
-			$playerFree = $giocatoreObj->getGiocatoriNotSquadra($squadra,$lega);
-			$flag = 0;
-			foreach($playerFree as $key => $val)
-				if($val['idGioc'] == $_POST['acquista'])
-					$flag = 1;
-			if($flag != 0)
+			$giocatoreLasciato = $giocatoreObj->getGiocatoreById($_POST['lascia']);
+			if($giocatoreAcquistato[$_POST['acquista']]['ruolo'] == $giocatoreLasciato[$_POST['lascia']]['ruolo'])
 			{
-				$giocatoreLasciato = $giocatoreObj->getGiocatoreById($_POST['lascia']);
-				if($giocatoreAcquistato[$_POST['acquista']]['ruolo'] == $giocatoreLasciato[$_POST['lascia']]['ruolo'])
-				{
-					$trasferimentiObj->transfer($_POST['lascia'],$_POST['acquista'],$squadra,$_SESSION['idLega']);
-					$messaggio[0] = 0;
-					$messaggio[1] = 'Trasferimento effettuato correttamente';
-				}
-				else
-				{
-					$messaggio[0] = 1;
-					$messaggio[1] = 'I giocatori devono avere lo stesso ruolo';
-				}
+				$trasferimentoObj->transfer($_POST['lascia'],$_POST['acquista'],$filterSquadra,$filterLega);
+				$message['level'] = 0;
+				$message['text'] = 'Trasferimento effettuato correttamente';
 			}
 			else
-		{
-			$messaggio[] = 1;
-			$messaggio[] = 'Il giocatore non è libero';
-		}
+			{
+				$message['level'] = 2;
+				$message['text'] = 'I giocatori devono avere lo stesso ruolo';
+			}
 		}
 		else
 		{
-			$messaggio[] = 1;
-			$messaggio[] = 'Non hai compilato correttamente';
+			$message['level'] = 1;
+			$message['text'] = 'Non hai compilato correttamente';
 		}
 	}
 }
 else
 {
-	$messaggio[] = 2;
-	$messaggio[] = 'Ha raggiunto il limite di trasferimenti';
+	$message['level'] = 2;
+	$message['text'] = 'Ha raggiunto il limite di trasferimenti';
 }
-if(isset($messaggio))
-	$contenttpl->assign('messaggio',$messaggio);
+if(isset($message))
+	$layouttpl->assign('message',$message);
 	
-$contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($squadra));
-$contenttpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($squadra,$lega));
+$ruoli = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
+
+$contenttpl->assign('trasferimenti',$trasferimenti);
+$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
+$contenttpl->assign('ruoli',$ruoli);
+$contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));
+$contenttpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($filterSquadra,$filterLega));
+$contenttpl->assign('squadra',$filterSquadra);
+$contenttpl->assign('lega',$filterLega);
+$operationtpl->assign('squadra',$filterSquadra);
+$operationtpl->assign('elencoLeghe',$legaObj->getLeghe());
+$operationtpl->assign('lega',$filterLega);
+if($filterLega != NULL)
+{
+	$operationtpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+	$contenttpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+}
 ?>

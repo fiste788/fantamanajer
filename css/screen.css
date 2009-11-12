@@ -247,7 +247,7 @@ em {
 #operazioni,#operazioni-other {
 	text-align: left;
 	padding: 0;
-	margin:0 0 5px;
+	margin:0;
 	width: 100%;
 }
 #operazioni a.operazioni-title {
@@ -556,7 +556,8 @@ tr.row:hover a {
 }
 /*----------------conferenze stampa---------------*/
 .conf-stampa {
-	width: 300px;
+	width: 450px;
+	padding:10px;
 }
 .conf-stampa .text {
 	text-align: justify;
@@ -650,7 +651,8 @@ tr.row:hover a {
 .riga {
 	margin: 0 0 10px 0;
 	clear: both;
-	width: 610px;
+	width: 100%;
+	border-bottom:2px solid #00a2ff;
 }
 #cap {
 	display: none;
@@ -766,6 +768,9 @@ label {
 	display:block;
 	padding:10px 0 10px 10px;
 	z-index:3;
+}
+#menu h3 {
+	margin-bottom:5px;
 }
 .tickLabel {
 	color: #aaa;
@@ -948,9 +953,12 @@ p.surprise {
 #nomeSquadra {
 	margin:0;
 }
-.elencoSquadre {
-	width: 100%;
-	height: 24px;
+.elencoSquadre li {
+	width:230px;
+	float:left;
+}
+.elencoSquadre ul {
+	list-style-type: none;
 }
 #creaSquadre label {
 	width: 120px;

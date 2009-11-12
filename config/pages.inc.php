@@ -20,6 +20,7 @@ $pages = array();
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 								
 	$pages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
+								'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'conferenzeStampa','title'=>'Conferenze stampa','order'=>4,'main'=>TRUE));
 								

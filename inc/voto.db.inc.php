@@ -104,5 +104,36 @@ class voto
 			$values[] = $row['idGiornata'];
 		return in_array($giornata,$values);
 	}
+	
+	function importVoti($path,$giornata)
+	{
+		require_once(INCDIR . 'fileSystem.inc.php');
+		$fileSystemObj = new fileSystem();
+		
+		$players = $fileSystemObj->returnArray($path,";");
+		$fileSystemObj->writeXmlVotiDecript($players,str_replace("csv","xml",$path));
+		foreach($players as $id=>$stats)
+		{
+			$valutato = $stats[6];	//1=valutato,0=senzavoto
+			$punti = $stats[7];
+			$voto = $stats[10];
+			$gol = $stats[11];
+			$golsub = $stats[12];
+			$golvit = $stats[13];
+			$golpar = $stats[14];
+			$assist = $stats[15];
+			$ammonizioni = $stats[16];
+			$espulsioni = $stats[17];
+			$rigorisegn = $stats[18];
+			$rigorisub = $stats[19];
+			$presenza = $stats[23];
+			$titolare = $stats[24];
+			$quotazione = $stats[27];
+			$rows[] = "('" . $id . "','" . $giornata . "','" . $valutato . "','" . $punti . "','" . $voto . "','" . $gol . "','" . $golsub . "','" . $golvit . "','" . $golpar . "','" . $assist . "','" . $ammonizioni . "','" . $espulsioni . "','" . $rigorisegn . "','" . $rigorisub . "','" . $presenza . "','" . $titolare . "','" . $quotazione . "')";
+		}
+		$q = "INSERT INTO voto (idGioc,idGiornata,valutato,punti,voto,gol,golSub,golVit,golPar,assist,ammonizioni,espulsioni,rigoriSegn,rigoriSub,presenza,titolare,quotazione) VALUES ";  
+		$q .= implode(',',$rows);
+		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+	}
 }
 ?>

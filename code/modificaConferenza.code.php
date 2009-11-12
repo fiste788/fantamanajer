@@ -1,41 +1,39 @@
 <?php 
-require_once(INCDIR."articolo.inc.php");
-require_once(INCDIR."emoticon.inc.php");
-require_once(INCDIR."eventi.inc.php");
+require_once(INCDIR . "articolo.db.inc.php");
+require_once(INCDIR . "evento.db.inc.php");
+require_once(INCDIR . "emoticon.inc.php");
 
 $articoloObj = new articolo();
+$eventoObj = new evento();
 $emoticonObj = new emoticon();
-$eventiObj = new eventi();
 
-$action = NULL;
-$field = array('title'=>'Titolo','abstract'=>'Sottotitolo','text'=>'Testo');
+$filterAction = NULL;
+$filterId = NULL;
 if(isset($_GET['a']))
-	$action = $_GET['a'];
+	$filterAction = $_GET['a'];
+if(isset($_GET['id']))
+	$filterId = $_GET['id'];
 
-$contenttpl->assign('emoticons',$emoticonObj->emoticon);
-$contenttpl->assign('messaggio',NULL);
-
-if($action == 'edit' || $action == 'cancel')
+if($filterAction == 'edit' || $filterAction == 'cancel')
 {
-	$articoloObj->setidArticolo($_GET['id']);
+	$articoloObj->setidArticolo($filterId);
 	$articolo = $articoloObj->select($articoloObj,'=','*');
 	$contenttpl->assign('articolo',$articolo);
 }
 
 if(isset($_POST['submit']))
 {
-	if($action == 'cancel')
+	if($filterAction == 'cancel')
 	{
 		$articoloObj->delete($articoloObj);
-		$messaggio[0] = 0;
-		$eventiObj->deleteEventoByIdExternalAndTipo($_GET['id'],'1');
-		$messaggio[1] = 'Cancellazione effettuata con successo';
-		$contenttpl->assign('messaggio',$messaggio);
+		$eventoObj->deleteEventoByIdExternalAndTipo($filterId,'1');
+		$message['level'] = 0;
+		$message['text'] = 'Cancellazione effettuata con successo';
 		$_SESSION['message'] = $messaggio;
 		header("Location: ".$contenttpl->linksObj->getLink('conferenzeStampa'));
 	}
 
-	if($action == 'new' || $action == 'edit')
+	if($filterAction == 'new' || $filterAction == 'edit')
 	{
 		//INSERISCO NEL DB OPPURE SEGNALO I CAMPI NON RIEMPITI
 		if ( (isset($_POST['title'])) && (!empty($_POST['title'])) && (isset($_POST['text'])) && (!empty($_POST['text'])) )
@@ -44,7 +42,7 @@ if(isset($_POST['submit']))
 			$articoloObj->settitle(addslashes(stripslashes($_POST['title'])));
 			$articoloObj->setabstract(addslashes(stripslashes($_POST['abstract'])));
 			$articoloObj->settext(addslashes(stripslashes($_POST['text'])));
-			if($action == 'new')
+			if($filterAction == 'new')
 			{
 				$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
 				$articoloObj->setidgiornata(GIORNATA);
@@ -56,52 +54,62 @@ if(isset($_POST['submit']))
 			}
 			$articoloObj->setidsquadra($_SESSION['idSquadra']);
 			$articoloObj->setidlega($_SESSION['idLega']);
-			if($action == 'new')
+			if($filterAction == 'new')
 			{
 				$idArticolo = $articoloObj->add($articoloObj);
-				$messaggio[0] = 0;
-				$messaggio[1] = "Inserimento completato con successo!";
-				$contenttpl->assign('messaggio',$messaggio);
-				$eventiObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
+				$message['level'] = 0;
+				$message['text'] = "Inserimento completato con successo!";
+				$eventoObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
 			}
 			else
 			{
-				$articoloObj->setidArticolo($_GET['id']);
+				$articoloObj->setidArticolo($filterId);
 				$articoloObj->update($articoloObj);
-				$messaggio[0] = 0;
-				$messaggio[1] = "Modifica effettuata con successo!";
-				$contenttpl->assign('messaggio',$messaggio);
+				$message['level'] = 0;
+				$message['text'] = "Modifica effettuata con successo!";
 			}
-			$_SESSION['message'] = $messaggio;
+			$_SESSION['message'] = $message;
 			header("Location: ". $contenttpl->linksObj->getLink('conferenzeStampa'));
 		}
 		else
 		{
-			$messaggio[0] = 1;
-			$messaggio[1] = "Non hai compilato correttamente tutti i campi";
-			$contenttpl->assign('messaggio',$messaggio);
+			$messaggio['level'] = 1;
+			$messaggio['text'] = "Non hai compilato correttamente tutti i campi";
+			$layouttpl->assign('message',$message);
 		}
 	}
 }
-
-if(isset($this->articolo))
-	$title=$this->articolo[0]['title'];
+$title = "";
+$abstract = "";
+$text = "";
+if(isset($articolo))
+	$title = $articolo[0]['title'];
 if(isset($_POST['title']))
-	$title=$_POST['title'];
-if(isset($this->articolo))
-	$abstract=$this->articolo[0]['abstract'];
+	$title = $_POST['title'];
+if(isset($articolo))
+	$abstract = $articolo[0]['abstract'];
 if(isset($_POST['abstract']))
-	$abstract=$_POST['abstract'];
-if(isset($this->articolo))
-	$text=$this->articolo[0]['text'];
+	$abstract = $_POST['abstract'];
+if(isset($articolo))
+	$text = $articolo[0]['text'];
 if(isset($_POST['text']))
-	$text=$_POST['text'];
-switch($_GET['a'])
+	$text = $_POST['text'];
+switch($filterAction)
 {
 	case 'cancel': $button = 'Rimuovi'; break;
 	case 'edit': $button = 'Modifica'; break; 
 	case 'new': $button = 'Inserisci'; break;
 	default: $button = 'Errore';break;
 }
+$goTo = array('a'=>$filterAction);
+if($filterId != NULL) 
+	$goTo['id'] = $filterId;
 
+$contenttpl->assign('action',$filterAction);
+$contenttpl->assign('title',$title);
+$contenttpl->assign('abstract',$abstract);
+$contenttpl->assign('text',$text);
+$contenttpl->assign('emoticons',$emoticonObj->emoticon);
+$contenttpl->assign('button',$button);
+$contenttpl->assign('goTo',$goTo);
 ?>

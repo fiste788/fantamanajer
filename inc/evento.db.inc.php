@@ -99,7 +99,7 @@ class evento
 									$values[$key]['idExternal']['idGiocNew'] = $giocNew[$values[$key]['idExternal']['idGiocNew']];
 									$values[$key]['titolo'] = $val['nome'] . ' ha effettuato un trasferimento';
 									$values[$key]['content'] = $val['nome'] .' ha ceduto il giocatore '. $values[$key]['idExternal']['idGiocOld']['nome'] .' ' . $values[$key]['idExternal']['idGiocOld']['cognome'].' e ha acquistato '. $values[$key]['idExternal']['idGiocNew']['nome'] .' ' . $values[$key]['idExternal']['idGiocNew']['cognome'];
-									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squad'=>$values[$key]['idExternal']['idSquadra']));
+									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squadra'=>$values[$key]['idExternal']['idSquadra']));
 									unset($giocOld,$giocNew);break;
 								case 5: 
 									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
