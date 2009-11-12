@@ -1,5 +1,5 @@
 <?php 
-class squadre
+class squadra
 {
 	var $idLega;
 	var $idUtente;
@@ -7,14 +7,13 @@ class squadre
 	
 	function setSquadraGiocatoreByArray($idLega,$giocatori,$idUtente)
 	{
+		$q = "INSERT INTO squadra VALUES ";
 		foreach($giocatori as $key => $val)
-		{
-			$q = "INSERT INTO squadra 
-					VALUES ('" . $idLega . "','" . $idUtente . "','" . $val . "')";
-			if(DEBUG)
-				echo $q . "<br />";
-			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		}
+			$row[] = "('" . $idLega . "','" . $idUtente . "','" . $val . "')";
+		$q .= implode(',',$row);
+		if(DEBUG)
+			echo $q . "<br />";
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 	}
 	
 	function unsetSquadraGiocatoreByIdSquadra($idUtente)
@@ -32,6 +31,16 @@ class squadre
 		$q = "UPDATE squadra 
 				SET idGioc = '" . $giocatoreNew . "' 
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "'";
+		if(DEBUG)
+			echo $q . "<br />";
+		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+	}
+	
+	function updateGiocatoreSquadra($idGioc,$idLega,$idUtente)
+	{
+		$q = "UPDATE squadra 
+				SET idUtente = '" . $idUtente . "' 
+				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);

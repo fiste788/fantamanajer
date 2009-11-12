@@ -1,15 +1,14 @@
 <?php 
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'utente.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
 
 $giocatoreObj = new giocatore();
 $utenteObj = new utente();
-
 if(isset($_POST))
 {
 	if(!empty($_FILES ['userfile']['tmp_name']))
 	{
-		require_once(INCDIR.'upload.inc.php');	
+		require_once(INCDIR . 'upload.inc.php');	
 		$uploadObj = new upload();
 		$img = array ("image/gif" , "image/png" , "image/pjpeg" , "image/jpeg");
 		$vid = array();
@@ -44,14 +43,14 @@ if(isset($_POST))
 								{
 									if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) )
 									{
-										$message[0] = 0;
-										$message[1] = 'Upload effettuato correttamente';
+										$message['level'] = 0;
+										$message['text'] = 'Upload effettuato correttamente';
 										unlink($path.$name.'-temp.'.$ext);
 									}
 									else
 									{
-										$message[0] = 1;
-										$message[1] = 'Problemi nel ridimensionamento';
+										$message['level'] = 1;
+										$message['text'] = 'Problemi nel ridimensionamento';
 									}
 								}
 								else
@@ -60,25 +59,30 @@ if(isset($_POST))
 									if(file_exists($nameimg))
 										unlink($nameimg);
 									rename($path.$name.'-temp.'.$ext,$nameimg);
-									$message[0] = 0;
-									$message[1] = 'Upload effettuato correttamente';
+									$message['level'] = 0;
+									$message['text'] = 'Upload effettuato correttamente';
 								}
 								
 								break;
-				case 1: 	$message[0] = 1;
-								$message[1] = 'Nessun file selezionato'; break;
-				case 2: 	$message[0] = 1;
-								$message[1] = 'File troppo grande'; break;
-				case 3: 	$message[0] = 1;
-								$message[1] = 'Tipo di file non supportato'; break;
-				case 4: 	$message[0] = 1;
-								$message[1] = 'Errore nell\'upload del file'; break;
+				case 1: 	$message['level'] = 1;
+							$message['text'] = 'Nessun file selezionato'; break;
+				case 2: 	$message['level'] = 1;
+							$message['text'] = 'File troppo grande'; break;
+				case 3: 	$message['level'] = 1;
+							$message['text'] = 'Tipo di file non supportato'; break;
+				case 4: 	$message['level'] = 1;
+							$message['text'] = 'Errore nell\'upload del file'; break;
 		}
-		$contenttpl->assign('message',$message);
 	}
 
 	if(!empty($_POST['nome']) && !empty($_POST['nome']))
+	{
 		$giocatoreObj->aggiornaGiocatore($_POST['idGioc'],$_POST['cognome'],$_POST['nome']);
+		$message['level'] = 0;
+		$message['text'] = 'Giocatore rinominato correttamente';
+	}
 }
-$contenttpl->assign('giocatori',$giocatoreObj->getAllGiocatori());
+if(isset($message))
+	$layouttpl->assign('message',$message);
+$operationtpl->assign('giocatori',$giocatoreObj->getAllGiocatori());
 ?>

@@ -1,15 +1,15 @@
 <?php
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'formazione.inc.php');
-require_once(INCDIR.'giocatore.inc.php');
-require_once(INCDIR.'mail.inc.php');
-require_once(INCDIR.'leghe.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'formazione.db.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDIR . 'mail.db.inc.php');
 
 $utenteObj = new utente();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
+$legaObj = new lega();
 $mailObj = new mail();
-$legheObj = new leghe();
 
 $today = date("Y-m-d");
 $date = $giornataObj->getDataByGiornata($giornata);
@@ -18,7 +18,7 @@ $dataGiornata = $giorn[0];
 
 if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'superadmin')
 {
-	$leghe = $legheObj->getLeghe();
+	$leghe = $legaObj->getLeghe();
 	$mail = 0;
 	foreach($leghe as $lega)
 	{
@@ -35,7 +35,6 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 			{
 				$titolari = array_slice($formazione['elenco'],0,11);
 				$panchinari = array_slice($formazione['elenco'],11,18);
-				//array_shift($panchinari);
 				$cap[$key] = $formazione['cap'];
 				$titolariName[$key] = $giocatoreObj->getGiocatoriByArray($titolari);
 				if(count($panchinari) > 0)
@@ -64,19 +63,19 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 	}
 	if($mail == 0)
 	{
-		$message[0] = 0;
-		$message[1] = "Operazione effettuata correttamente";
+		$message['level'] = 0;
+		$message['text'] = "Operazione effettuata correttamente";
 	}
 	else
 	{
-		$message[0] = 1;
-		$message[1] = "Errori nell'invio delle mail";
+		$message['level'] = 1;
+		$message['text'] = "Errori nell'invio delle mail";
 	}
 }
 else
 {
-	$message[0] = 1;
-	$message[1] = "Non puoi effettuare l'operazione ora";
+	$message['level'] = 1;
+	$message['text'] = "Non puoi effettuare l'operazione ora";
 }
 $contenttpl->assign('message',$message);
 ?>

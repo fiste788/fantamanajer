@@ -11,9 +11,11 @@ $giocatoreObj = new giocatore();
 $filterSquadra = NULL;
 if(isset($_GET['squadra']))
 	$filterSquadra = $_GET['squadra'];
+	
+$squadraDett = $utenteObj->getSquadraById($filterSquadra);
 
-$classifica = $punteggioObj->getClassificaByGiornata($_SESSION['legaView'],GIORNATA);
-$elencoSquadre = $utenteObj->getElencoSquadre($_SESSION['legaView']);
+$classifica = $punteggioObj->getClassificaByGiornata($squadraDett['idLega'],GIORNATA);
+$elencoSquadre = $utenteObj->getElencoSquadre($squadraDett['idLega']);
 foreach($classifica as $key => $val)
 {
 	if($filterSquadra == $val['idUtente'])

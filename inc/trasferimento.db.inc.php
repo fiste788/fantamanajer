@@ -27,43 +27,30 @@ class trasferimento
 	
 	function transfer($giocOld,$giocNew,$squadra,$idLega)
 	{
-		require_once(INCDIR . 'squadre.inc.php');
-		require_once(INCDIR . 'formazione.inc.php');
-		require_once(INCDIR . 'schieramento.inc.php');
-		require_once(INCDIR . 'eventi.inc.php');
-		require_once(INCDIR . 'giocatore.inc.php');
+		require_once(INCDIR . 'squadra.db.inc.php');
+		require_once(INCDIR . 'formazione.db.inc.php');
+		require_once(INCDIR . 'schieramento.db.inc.php');
+		require_once(INCDIR . 'evento.db.inc.php');
+		require_once(INCDIR . 'giocatore.db.inc.php');
 		
-		$squadreObj = new squadre();
+		$squadraObj = new squadra();
 		$formazioneObj = new formazione();
 		$schieramentoObj = new schieramento();
-		$eventiObj = new eventi();
+		$eventoObj = new evento();
 		$giocatoreObj = new giocatore();
 		
-		$squadraOld = $squadreObj->getSquadraByIdGioc($giocNew,$idLega);
+		$squadraOld = $squadraObj->getSquadraByIdGioc($giocNew,$idLega);
 		mysql_query("START TRANSACTION");
 		if($squadraOld == FALSE)
 		{
-			$q = "INSERT INTO squadra 
-					VALUES ('" . $idLega . "','" . $squadra . "','". $giocNew . "')";
-			$q2 = "DELETE 
-					FROM squadra 
-					WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
+			$squadraObj->setSquadraByIdGioc($giocNew,$idLega,$squadra);
+			$squadraObj->unsetSquadraByIdGioc($giocNew,$idLega);
 		}
 		else
 		{
-			$q = "UPDATE squadra 
-					SET idUtente = '" . $squadra . "' 
-					WHERE idGioc = '". $giocNew . "' AND idLega = '" . $idLega . "'";
-			$q2 = "UPDATE squadra 
-					SET idUtente = '" . $squadraOld . "' 
-					WHERE idGioc = '". $giocOld . "' AND idLega = '" . $idLega . "'";
+			$squadraObj->updateGiocatoreSquadra($giocNew,$idLega,$squadra);
+			$squadraObj->updateGiocatoreSquadra($giocOld,$idLega,$squadraOld);
 		}
-		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			echo $q . "<br />";
-		mysql_query($q2) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			echo $q2 . "<br />";
 		$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
 				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($giocOld) . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
@@ -76,7 +63,7 @@ class trasferimento
 		if(DEBUG)
 			echo $q . "<br />";
 		$idTrasferimento = mysql_fetch_assoc($exe);
-		$eventiObj->addEvento('4',$squadra,$idLega,$idTrasferimento['idTrasf']);
+		$eventoObj->addEvento('4',$squadra,$idLega,$idTrasferimento['idTrasf']);
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
 		if($formazione != FALSE)
 		{
@@ -107,7 +94,7 @@ class trasferimento
 			if(DEBUG)
 				echo $q . "<br />";
 			$idTrasferimento = mysql_fetch_assoc($exe);
-			$eventiObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento['idTrasf']);
+			$eventoObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento['idTrasf']);
 		}
 		if(isset($err))
 		{

@@ -203,7 +203,7 @@ class giocatore
 		$eventoObj = new evento();
 		$fileSystemObj = new fileSystem();
 		
-		$ruoli=array("P","D","C","A");
+		$ruoli = array("P","D","C","A");
 		$playersOld = $this->getArrayGiocatoriFromDatabase();
 		$players = $fileSystemObj->returnArray($path,";");
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno

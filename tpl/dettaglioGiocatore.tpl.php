@@ -1,22 +1,17 @@
 <div id="dettaglioGioc" class="main-content">
 	<div id="cardPlayer" class="column last">
-		<div class="box2-top-sx column last">
-		<div class="box2-top-dx column last">
-		<div class="box2-bottom-sx column last">
-		<div class="box2-bottom-dx column last">
-		<div class="box-content column last">
 			<img class="column" alt="<?php echo $this->dettaglioGioc['dettaglio']['cognome'] . ' ' . $this->dettaglioGioc['dettaglio']['nome']; ?>" src="<?php echo $this->pathFoto; ?>"/>
 			<div id="datiGioc" class="column last">
-				<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+				<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 				<div id="formData">
 					<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']['idGioc'] ?>" />
 					<div>
 						<label for="cognome">Cognome:</label>
-						<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['cognome'])) echo $this->dettaglioGioc[0]['cognome'] ?>" />
+						<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['cognome'])) echo $this->dettaglioGioc['dettaglio']['cognome'] ?>" />
 					</div>
 					<div>
 						<label for="nome">Nome:</label>
-						<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['nome'])) echo $this->dettaglioGioc[0]['nome'] ?>" />
+						<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['nome'])) echo $this->dettaglioGioc['dettaglio']['nome'] ?>" />
 					</div>
 				</div>
 				<?php else: ?>
@@ -31,16 +26,11 @@
 				<p>Media voti: <?php if(!empty($this->dettaglioGioc['dettaglio']['avgVoti'])) echo $this->dettaglioGioc['dettaglio']['avgVoti']; ?></p>
 				<p>Media punti: <?php if(!empty($this->dettaglioGioc['dettaglio']['avgPunti'])) echo $this->dettaglioGioc['dettaglio']['avgPunti']; ?></p>
 			</div>
-		<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['usertype'] == 'superadmin'): ?>
+		<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 		<div class="uploadleft column last">
 			<input class="upload" type="file" name="userfile" id="upload"/>
 		</div>
 <?php endif; ?>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
 	</div>
 <?php if(isset($this->dettaglioGioc['dettaglio']['data'])): ?>
 <table style="width:100px;clear:both;" class="column last" cellpadding="0" cellspacing="0">
