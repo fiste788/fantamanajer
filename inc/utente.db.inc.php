@@ -44,7 +44,7 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
+		while ($row = mysql_fetch_assoc($exe))
 			$values[$row['idUtente']] = $row;
 		if(isset($values))
 			return $values;
