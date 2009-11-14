@@ -102,23 +102,23 @@ class evento
 									$values[$key]['link'] = $linksObj->getLink('trasferimenti',array('squadra'=>$values[$key]['idExternal']['idSquadra']));
 									unset($giocOld,$giocNew);break;
 								case 5: 
-									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$selected=$player[$values[$key]['idExternal']];
+									$player = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
+									$selected = $player[$values[$key]['idExternal']];
 									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' ('.$selected['nomeClub'].') inserito nella lista giocatori';
 									$values[$key]['content'] = ucwords($ruoli['articoli'][$selected['ruolo']]).' '.$ruoli['nome'][$selected['ruolo']].' '.$selected['nome'].' '.$selected['cognome'].' ora fa parte della rosa '.$selected['partitivo'].' '.$selected['nomeClub'].', pertanto e\' stato inserito nella lista giocatori';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
 								case 6: 
-									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$selected=$player[$values[$key]['idExternal']];
+									$player = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
+									$selected = $player[$values[$key]['idExternal']];
 									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' non fa piu\' parte della lista giocatori';
 									$values[$key]['content'] = ucwords($ruoli['articoli'][$selected['ruolo']]).' '.$ruoli['nome'][$selected['ruolo']].' '.$selected['nome'].' '.$selected['cognome'].' non e\' piu\' un giocatore militante in Serie A';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
 								case 7: 
-									$player=$giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
-									$selected=$player[$values[$key]['idExternal']];
-									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' è stato ingaggiato dalla squadra del '.$selected['partitivo'].' '.$sselected['nomeClub'];
+									$player = $giocatoreObj->getGiocatoreById($values[$key]['idExternal']);
+									$selected = $player[$values[$key]['idExternal']];
+									$values[$key]['titolo'] =  $selected['nome'].' '.$selected['cognome'].' è stato ingaggiato dalla squadra del '.$selected['partitivo'].' '.$selected['nomeClub'];
 									$values[$key]['content'] = '';
 									$values[$key]['link'] = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
 									break;
