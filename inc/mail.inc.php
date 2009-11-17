@@ -4,9 +4,9 @@ class mail
 	function checkEmailAddress($email) 
 	{
 		if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/',$email))
-			return true;
+			return TRUE;
 		else
-    		return false; 
+    		return FALSE; 
 	}
   
 	function sendEmail($email,$body,$object)

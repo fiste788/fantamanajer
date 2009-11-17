@@ -115,7 +115,7 @@ if (!isset($_SESSION['lang']))
 //Try login if POSTDATA exists
 require_once(CODEDIR . 'login.code.php');
 
-if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
+if(isset($_POST['username']) && $_SESSION['logged'])
 	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
 
 //Setting up the default user data

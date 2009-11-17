@@ -5,7 +5,7 @@
 * Here is an inline example:
 * <code>
 * $connection = @mysql_connect($dbhost,$dbuser,$dbpsw);
-* $dumper = new MySQLDump($dbname,'filename.sql',false,false);
+* $dumper = new MySQLDump($dbname,'filename.sql',FALSE,FALSE);
 * $dumper->doDump();
 * </code>
 *
@@ -23,34 +23,34 @@ class MySQLDump {
 	/**
 	* @access private
 	*/
-	var $database = null;
+	var $database = NULL;
 
 	/**
 	* @access private
 	*/
-	var $compress = false;
+	var $compress = FALSE;
 
 	/**
 	* @access private
 	*/
-	var $hexValue = false;
+	var $hexValue = FALSE;
 
   /**
 	* The output filename
 	* @access private
 	*/
-	var $filename = null;
+	var $filename = NULL;
 
 	/**
 	* The pointer of the output file
 	* @access private
 	*/
-	var $file = null;
+	var $file = NULL;
 
 	/**
 	* @access private
 	*/
-	var $isWritten = false;
+	var $isWritten = FALSE;
 
 	/**
 	* Class constructor
@@ -59,10 +59,10 @@ class MySQLDump {
 	* @param boolean $compress It defines if the output file is compress (gzip) or not
 	* @param boolean $hexValue It defines if the outup values are base-16 or not
 	*/
-	function MYSQLDump($db = null, $filepath = 'dump.sql', $compress = false, $hexValue = false){
+	function MYSQLDump($db = NULL, $filepath = 'dump.sql', $compress = FALSE, $hexValue = FALSE){
 		$this->compress = $compress;
 		if ( !$this->setOutputFile($filepath) )
-			return false;
+			return FALSE;
 		return $this->setDatabase($db);
 	}
 
@@ -73,8 +73,8 @@ class MySQLDump {
 	function setDatabase($db){
 		$this->database = $db;
 		if ( !@mysql_select_db($this->database) )
-			return false;
-		return true;
+			return FALSE;
+		return TRUE;
   }
 
 	/**
@@ -87,14 +87,14 @@ class MySQLDump {
 
 	/**
 	* Sets the output file type (It can be made only if the file hasn't been already written)
-	* @param boolean $compress If it's true, the output file will be compressed
+	* @param boolean $compress If it's TRUE, the output file will be compressed
 	*/
 	function setCompress($compress){
 		if ( $this->isWritten )
-			return false;
+			return FALSE;
 		$this->compress = $compress;
 		$this->openFile($this->filename);
-		return true;
+		return TRUE;
   }
 
 	/**
@@ -111,7 +111,7 @@ class MySQLDump {
 	*/
 	function setOutputFile($filepath){
 		if ( $this->isWritten )
-			return false;
+			return FALSE;
 		$this->filename = $filepath;
 		$this->file = $this->openFile($this->filename);
 		return $this->file;
@@ -131,7 +131,7 @@ class MySQLDump {
 	*/
   function getTableStructure($table){
 		if ( !$this->setDatabase($this->database) )
-			return false;
+			return FALSE;
 		// Structure Header
 		$structure = "-- \n";
 		$structure .= "-- Table structure for table `{$table}` \n";
@@ -141,7 +141,7 @@ class MySQLDump {
 		$structure .= "CREATE TABLE `".$table."` (\n";
 		$records = @mysql_query('SHOW FULL COLUMNS FROM `'.$table.'`');
 		if ( @mysql_num_rows($records) == 0 )
-			return false;
+			return FALSE;
 		while ( $record = mysql_fetch_assoc($records) ) {
 			$structure .= '`'.$record['Field'].'` '.$record['Type'];
 			if ( $record['Collation'] != NULL)
@@ -159,7 +159,7 @@ class MySQLDump {
 				$structure .= ' COMMENT \''.$record['Comment'].'\'';
 			$structure .= ",\n";
 		}
-		$structure = @ereg_replace(",\n$", null, $structure);
+		$structure = @ereg_replace(",\n$", NULL, $structure);
 
 		// Save all Column Indexes
 		$structure .= $this->getSqlKeysTable($table);
@@ -185,9 +185,9 @@ class MySQLDump {
 	* @param string $table The table name
 	* @param boolean $hexValue It defines if the output is base 16 or not
 	*/
-	function getTableData($table,$hexValue = true) {
+	function getTableData($table,$hexValue = TRUE) {
 		if ( !$this->setDatabase($this->database) )
-			return false;
+			return FALSE;
 		// Header
 		$data = "-- \n";
 		$data .= "-- Dumping data for table `$table` \n";
@@ -196,7 +196,7 @@ class MySQLDump {
 		$records = mysql_query('SHOW FIELDS FROM `'.$table.'`');
 		$num_fields = @mysql_num_rows($records);
 		if ( $num_fields == 0 )
-			return false;
+			return FALSE;
 		// Field names
 		$selectStatement = "SELECT ";
 		$insertStatement = "INSERT INTO `$table` (";
@@ -205,7 +205,7 @@ class MySQLDump {
 			$record = @mysql_fetch_assoc($records);
 			if ( ($hexValue) && ($this->isTextValue($record['Type'])) ) {
 				$selectStatement .= 'HEX(`'.$record['Field'].'`)';
-				$hexField [$x] = true;
+				$hexField [$x] = TRUE;
 			}
 			else
 				$selectStatement .= '`'.$record['Field'].'`';
@@ -257,12 +257,12 @@ class MySQLDump {
 		$structure = '';
 		$records = @mysql_query('SHOW TABLE STATUS');
 		if ( @mysql_num_rows($records) == 0 )
-			return false;
+			return FALSE;
 		while ( $record = @mysql_fetch_array($records) ) {
 			if($record['Comment'] != "VIEW")
 				$structure .= $this->getTableStructure($record[0]);
 		}
-		return true;
+		return TRUE;
   }
   
 	function getViewStructure(){
@@ -280,7 +280,7 @@ class MySQLDump {
 				$this->saveToFile($this->file,$data);
 			}
 		}
-		return true;
+		return TRUE;
   }
 		
 
@@ -288,10 +288,10 @@ class MySQLDump {
 	* Writes to file all the selected database tables data
 	* @param boolean $hexValue It defines if the output is base-16 or not
 	*/
-	function getDatabaseData($hexValue = true){
+	function getDatabaseData($hexValue = TRUE){
 		$records = @mysql_query('SHOW TABLE STATUS');
 		if ( @mysql_num_rows($records) == 0 )
-			return false;
+			return FALSE;
 		while ( $record = @mysql_fetch_array($records) ) {
 			if($record['Comment'] != "VIEW")
 				$this->getTableData($record[0],$hexValue);
@@ -308,7 +308,7 @@ class MySQLDump {
 		$this->getViewStructure();
 		$this->saveToFile($this->file,"SET FOREIGN_KEY_CHECKS = 1;\n\n");
 		$this->closeFile($this->file);
-		return true;
+		return TRUE;
 	}
 	
 	/**
@@ -316,10 +316,10 @@ class MySQLDump {
 	*/
 	function writeDump($filename) {
 		if ( !$this->setOutputFile($filename) )
-			return false;
+			return FALSE;
 		$this->doDump();
     $this->closeFile($this->file);
-    return true;
+    return TRUE;
 	}
 
 	/**
@@ -332,7 +332,7 @@ class MySQLDump {
 		unset($fulltext);
 		$results = mysql_query("SHOW KEYS FROM `{$table}`");
 		if ( @mysql_num_rows($results) == 0 )
-			return false;
+			return FALSE;
 		while($row = mysql_fetch_object($results)) {
 			if (($row->Key_name == 'PRIMARY') AND ($row->Index_type == 'BTREE')) {
 				if ( $primary == "" )
@@ -423,7 +423,7 @@ class MySQLDump {
 	* @access private
 	*/
 	function openFile($filename) {
-		$file = false;
+		$file = FALSE;
 		if ( $this->compress )
 			$file = @gzopen($filename, "w9");
 		else
@@ -439,7 +439,7 @@ class MySQLDump {
 			@gzwrite($file, $data);
 		else
 			@fwrite($file, $data);
-		$this->isWritten = true;
+		$this->isWritten = TRUE;
 	}
 
   /**

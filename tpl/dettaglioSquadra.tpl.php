@@ -1,8 +1,8 @@
-<?php $r='Por.'; ?>
+<?php $r = 'Por.'; ?>
 <div id="squadre" class="main-content">
 	<div>
-		<a title="<?php echo $this->squadraDett['nome'] ?>" href="<?php echo UPLOADIMGURL.$this->squadraDett['idUtente'].'-original.jpg'; ?>" class="fancybox column">
-			<img alt="<?php echo $this->squadraDett['idUtente']; ?>" src="<?php echo UPLOADIMGURL. $this->squadraDett['idUtente'].'.jpg'; ?>" title="Logo <?php echo $this->squadraDett['nome']; ?>" />
+		<a title="<?php echo $this->squadraDett['nome']; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '-original.jpg'; ?>" class="fancybox column">
+			<img alt="<?php echo $this->squadraDett['idUtente']; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett['nome']; ?>" />
 		</a>
 		<?php if($this->squadraDett['idUtente'] == $_SESSION['idSquadra']): ?>
 		<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
@@ -39,7 +39,7 @@
 			</p>
 						<?php if($this->squadraDett['idUtente'] == $_SESSION['idSquadra']): ?>
 						<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
-						<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a href="">Clicca qui</a></p>
+						<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a href="">Clicca quì</a></p>
 					<div class="hidden no-margin">
 						<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" name="data" method="post">
 							<?php if(GIORNATA <= 2): ?>
@@ -98,23 +98,23 @@
 				<th class="tdcenter">Esplusioni</th>
 			</tr>
 			<?php if(!empty($this->giocatori)): ?>
-			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if(empty($val['idClub'])) echo 'rosso'; else echo 'row' ?>">
-				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult' ?>">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><?php echo $val['cognome'] . ' ' . $val['nome']; ?></a>
-				</td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['ruolo']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php echo $val['presenze']." (".$val['presenzeVoto'].")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['avgVoti'])) echo $val['avgVoti']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['avgPunti'])) echo $val['avgPunti']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['ammonizioni'])) echo $val['ammonizioni']; else echo "&nbsp;" ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult' ?>"><?php if(!empty($val['espulsioni'])) echo $val['espulsioni']; else echo "&nbsp;" ?></td>
-			</tr>
-			<?php $r = $val ['ruolo'];  ?>
-			<?php endforeach; ?>
+				<?php foreach($this->giocatori as $key => $val): ?>
+				<tr class="tr <?php if(empty($val['idClub'])) echo 'rosso'; else echo 'row'; ?>">
+					<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult'; ?>">
+						<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><?php echo $val['cognome'] . ' ' . $val['nome']; ?></a>
+					</td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['ruolo']; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['presenze'] . " (" . $val['presenzeVoto'] . ")"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['avgVoti'])) echo $val['avgVoti']; else echo "&nbsp;"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['avgPunti'])) echo $val['avgPunti']; else echo "&nbsp;"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['ammonizioni'])) echo $val['ammonizioni']; else echo "&nbsp;"; ?></td>
+					<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['espulsioni'])) echo $val['espulsioni']; else echo "&nbsp;"; ?></td>
+				</tr>
+				<?php $r = $val ['ruolo'];  ?>
+				<?php endforeach; ?>
 			<?php endif;?>
 		</tbody>
 	</table>

@@ -66,8 +66,8 @@ if(isset($elencoSquadre[$filterSquadra-1]))
 }	
 else
 {
-	$idPrec = false;
-	$quickLinks['prec'] = false;
+	$idPrec = FALSE;
+	$quickLinks['prec'] = FALSE;
 }
 
 if(isset($elencoSquadre[$filterSquadra+1]))
@@ -78,8 +78,8 @@ if(isset($elencoSquadre[$filterSquadra+1]))
 }	
 else
 {
-	$idSucc = false;
-	$quickLinks['succ'] = false;
+	$idSucc = FALSE;
+	$quickLinks['succ'] = FALSE;
 }
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 

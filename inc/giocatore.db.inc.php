@@ -279,12 +279,12 @@ class giocatore
 		if(isset($err))
 		{
 			mysql_query("ROLLBACK");
-			return false;
+			return FALSE;
 		}
 		else
 		{
 			mysql_query("COMMIT");
-			return true;
+			return TRUE;
 		}	
 	}
 

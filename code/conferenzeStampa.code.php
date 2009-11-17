@@ -43,8 +43,8 @@ if(isset($giornateWithArticoli[$key + 1]))
 }
 else
 {
-	$idPrec = false;
-	$quickLinks['prec'] = false;
+	$idPrec = FALSE;
+	$quickLinks['prec'] = FALSE;
 }
 if(isset($giornateWithArticoli[$key -1]))
 {
@@ -54,8 +54,8 @@ if(isset($giornateWithArticoli[$key -1]))
 }
 else
 {
-	$idSucc = false;
-	$quickLinks['succ'] = false;
+	$idSucc = FALSE;
+	$quickLinks['succ'] = FALSE;
 }
 
 $contenttpl->assign('articoli',$articolo);

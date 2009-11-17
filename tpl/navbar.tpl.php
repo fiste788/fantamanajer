@@ -26,10 +26,10 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 ?>
 <ul>
 	<?php foreach($appo as $key=>$val):
-		$a = FALSE;
+		$selected = FALSE;
 		//echo "<pre>" . print_r($val,1) . "</pre>";
-		if(in_array($this->p,$val['pages'])) $a = TRUE;
-			if($a): ?>
+		if(in_array($this->p,$val['pages'])) $selected = TRUE;
+			if($selected): ?>
 				<li class="selected">
 			<?php else: ?>
 				<li>
@@ -40,12 +40,11 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 				<?php else: ?>
 				<a href="<?php echo $this->linksObj->getLink($key); ?>"><?php echo $val['title']; ?></a>
 				<?php endif; ?>
-				<?php if($a && !isset($this->pages[$this->p]['navbar']['main'])): ?>
+				<?php if($selected && !isset($this->pages[$this->p]['navbar']['main'])): ?>
 					<a class="son"> > </a>
 					<a><?php echo $this->pages[$this->p]['navbar']['title']; ?></a>
 				<?php endif; ?>
 			</div>
 			</li>
 	<?php endforeach; ?>
-	
 </ul>

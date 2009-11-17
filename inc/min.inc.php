@@ -175,7 +175,7 @@ function cssmin_array_is_assoc($array)
 	{
 	if (!is_array($array))
 		{
-		return false;
+		return FALSE;
 		}
 	else
 		{
@@ -259,7 +259,7 @@ class JSMin {
   protected $input       = '';
   protected $inputIndex  = 0;
   protected $inputLength = 0;
-  protected $lookAhead   = null;
+  protected $lookAhead   = NULL;
   protected $output      = '';
 
   // -- Public Static Methods --------------------------------------------------
@@ -339,14 +339,14 @@ class JSMin {
 
   protected function get() {
     $c = $this->lookAhead;
-    $this->lookAhead = null;
+    $this->lookAhead = NULL;
 
-    if ($c === null) {
+    if ($c === NULL) {
       if ($this->inputIndex < $this->inputLength) {
         $c = $this->input[$this->inputIndex];
         $this->inputIndex += 1;
       } else {
-        $c = null;
+        $c = NULL;
       }
     }
 
@@ -354,7 +354,7 @@ class JSMin {
       return "\n";
     }
 
-    if ($c === null || $c === "\n" || ord($c) >= self::ORD_SPACE) {
+    if ($c === NULL || $c === "\n" || ord($c) >= self::ORD_SPACE) {
       return $c;
     }
 
@@ -369,7 +369,7 @@ class JSMin {
     $this->a = "\n";
     $this->action(3);
 
-    while ($this->a !== null) {
+    while ($this->a !== NULL) {
       switch ($this->a) {
         case ' ':
           if ($this->isAlphaNum($this->b)) {
@@ -472,7 +472,7 @@ class JSMin {
                 }
                 break;
 
-              case null:
+              case NULL:
                 throw new JSMinException('Unterminated comment.');
             }
           }

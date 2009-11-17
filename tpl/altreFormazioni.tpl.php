@@ -1,6 +1,4 @@
-<?php 
-$j=0;
-$i=0;  ?>
+<?php $j=0; $i=0; ?>
 <?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
 <div class="titolo-pagina">
 	<div class="column logo-tit">

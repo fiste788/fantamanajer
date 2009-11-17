@@ -28,17 +28,21 @@ if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $g
 {	
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
 	{
+		$formazione = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra);
+		$titolari = array_splice($panch,0,11);
 		$contenttpl->assign('somma',$punteggioObj->getPunteggi($filterSquadra,$filterGiornata));
-		$contenttpl->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra));
+		$contenttpl->assign('titolari',$titolari);
+		$contenttpl->assign('titolari',$formazione);
 	}
 	else
 	{
-		$contenttpl->assign('formazione',FALSE);
+		$contenttpl->assign('tirolari',FALSE);
+		$contenttpl->assign('panchinari',FALSE);
 		$contenttpl->assign('somma',0);
 	}
 }
 else
-	$contenttpl->assign('formazione',NULL);
+	$contenttpl->assign('titolari',NULL);
 
 $quickLinks = array();
 if(isset($filterGiornata) && $filterGiornata -1 > 0)
@@ -49,8 +53,8 @@ if(isset($filterGiornata) && $filterGiornata -1 > 0)
 }	
 else
 {
-	$idPrec = false;
-	$quickLinks['prec'] = false;
+	$idPrec = FALSE;
+	$quickLinks['prec'] = FALSE;
 }
 if(isset($filterGiornata) && $filterGiornata + 1 <= $giornate)
 {
@@ -60,8 +64,8 @@ if(isset($filterGiornata) && $filterGiornata + 1 <= $giornate)
 }	
 else
 {
-	$idSucc = false;
-	$quickLinks['succ'] = false;
+	$idSucc = FALSE;
+	$quickLinks['succ'] = FALSE;
 }
 	
 $contenttpl->assign('idSquadra',$filterSquadra);

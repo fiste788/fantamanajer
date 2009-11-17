@@ -36,7 +36,7 @@
 		<fieldset class="no-margin">
 				<div class="formbox">
 					<label for="title">Titolo: *</label>
-					<input<?php if($this->action == 'cancel') echo ' disabled="disabled"'; ?> class="text" type="text" maxlength="30" name="title" id="title" <?php if(isset($this->title)): ?>value="<?php echo $this->title ?>"<?php endif; ?>/>
+					<input<?php if($this->action == 'cancel') echo ' disabled="disabled"'; ?> class="text" type="text" maxlength="30" name="title" id="title" <?php if(isset($this->title)) echo ' value="' . $this->title .'"'; ?> />
 				</div>
 				<div class="formbox">
 					<label for="abstract">Sottotitolo:</label>
@@ -47,7 +47,7 @@
 				<?php if($this->action != 'cancel'): ?>
 					<div id="emoticons">
 					<?php foreach($this->emoticons as $key => $val):?>
-						<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png' ?>" title="<?php echo $val['title'] ?>" alt="<?php echo $val['cod'] ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod'])) ?>');return ismaxlength(document.getElementById('text'), 1000);" />
+						<img class="emoticon" src="<?php echo IMGSURL.'emoticons/' . $val['name'] . '.png'; ?>" title="<?php echo $val['title']; ?>" alt="<?php echo $val['cod']; ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod']);) ?>');return ismaxlength(document.getElementById('text'), 1000);" />
 					<?php endforeach; ?>
 					</div>			
 				<?php endif;?>

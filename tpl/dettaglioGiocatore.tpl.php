@@ -7,21 +7,21 @@
 					<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']['idGioc'] ?>" />
 					<div>
 						<label for="cognome">Cognome:</label>
-						<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['cognome'])) echo $this->dettaglioGioc['dettaglio']['cognome'] ?>" />
+						<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['cognome'])) echo $this->dettaglioGioc['dettaglio']['cognome']; ?>" />
 					</div>
 					<div>
 						<label for="nome">Nome:</label>
-						<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['nome'])) echo $this->dettaglioGioc['dettaglio']['nome'] ?>" />
+						<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['nome'])) echo $this->dettaglioGioc['dettaglio']['nome']; ?>" />
 					</div>
 				</div>
 				<?php else: ?>
 				<h3><?php echo $this->dettaglioGioc['dettaglio']['cognome'] . ' ' . $this->dettaglioGioc['dettaglio']['nome']; ?></h3>
 				<?php endif; ?>
-				<img title="<?php echo $this->dettaglioGioc['dettaglio']['nomeClub']?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']['nomeClub']?>" src="<?php echo $this->pathClub ?>"/>
+				<img title="<?php echo $this->dettaglioGioc['dettaglio']['nomeClub']?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']['nomeClub']; ?>" src="<?php echo $this->pathClub; ?>"/>
 				<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']['ruolo']]; ?></p>
 				<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
-				<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']['presenze']." (".$this->dettaglioGioc['dettaglio']['presenzeVoto'].")"; ?></p>
-				<p>Gol: <?php if($this->dettaglioGioc['dettaglio']['ruolo'] != 'P') echo $this->dettaglioGioc['dettaglio']['gol'];else  echo $this->dettaglioGioc['dettaglio']['golSubiti'];  ?></p>
+				<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']['presenze'] . " (" . $this->dettaglioGioc['dettaglio']['presenzeVoto'] . ")"; ?></p>
+				<p>Gol: <?php if($this->dettaglioGioc['dettaglio']['ruolo'] != 'P') echo $this->dettaglioGioc['dettaglio']['gol']; else echo $this->dettaglioGioc['dettaglio']['golSubiti']; ?></p>
 				<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']['assist']; ?></p>
 				<p>Media voti: <?php if(!empty($this->dettaglioGioc['dettaglio']['avgVoti'])) echo $this->dettaglioGioc['dettaglio']['avgVoti']; ?></p>
 				<p>Media punti: <?php if(!empty($this->dettaglioGioc['dettaglio']['avgPunti'])) echo $this->dettaglioGioc['dettaglio']['avgPunti']; ?></p>
@@ -57,7 +57,7 @@
 	</tr>
 </table>
 <div id="tab_giocatore" class="column last">
-	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['dettaglio']['data'])*40; ?>px;margin:0;">
+	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['dettaglio']['data']) * 40; ?>px;margin:0;">
 		<tr>
 		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
 			<th><?php echo $key; ?></th>
@@ -102,27 +102,27 @@
 	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
 	<script id="source" type="text/javascript">
 	<!--
- $(function () {
+		$(function () {
 			var data = [
 				{
-				label: "Voto <?php echo $this->dettaglioGioc['dettaglio']['cognome'] ." ". $this->dettaglioGioc['dettaglio']['nome'] ?>",
+				label: "Voto <?php echo $this->dettaglioGioc['dettaglio']['cognome'] ." ". $this->dettaglioGioc['dettaglio']['nome']; ?>",
 				data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): $i++; ?><?php if($val['punti'] != '0') echo '['.$key.','.$val['punti'].']'; if($val['punti'] != '0' && count($this->dettaglioGioc['dettaglio']['data']) != $i) echo ','; endforeach; ?>]
 				},
 				{
-				label: "Punteggio <?php echo $this->dettaglioGioc['dettaglio']['cognome'] ." ". $this->dettaglioGioc['dettaglio']['nome'] ?>",
+				label: "Punteggio <?php echo $this->dettaglioGioc['dettaglio']['cognome'] ." ". $this->dettaglioGioc['dettaglio']['nome']; ?>",
 				data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): $i++; ?><?php if($val['voto'] != '0') echo '['.$key.','.$val['voto'].']'; if($val['voto'] != '0' && count($this->dettaglioGioc['dettaglio']['data']) != $i) echo ','; endforeach; ?>]
 				}
 			];
 				
 			var options = {
-				lines: { show: true },
-				points: { show: true },
-				grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
-				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
+				lines: { show: TRUE },
+				points: { show: TRUE },
+				grid: { backgroundColor: NULL,hoverable:TRUE,tickColor: '#aaa',color:'#aaa' },
+				legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: NULL },
 				xaxis: { tickDecimals: 0 },
 				yaxis: { min: 0 },
 				shadowSize: 2,
-				selection: { mode: null }
+				selection: { mode: NULL }
 			};
 
 			// hard-code color indices to prevent them from shifting as
@@ -133,12 +133,12 @@
 
 
 				var overview = $.plot($("#overview"), data, {
-					lines: { show: true, lineWidth: 1 },
+					lines: { show: TRUE, lineWidth: 1 },
 					shadowSize: 0,
 					xaxis: { tickDecimals: 0 },
 					yaxis: { min: 0},
 					selection: { mode: "x" },
-					legend: { show:false },
+					legend: { show:FALSE },
 					grid: {tickColor: '#aaa',color:'#aaa',borderWidth:1}
 				});
 				
@@ -166,7 +166,7 @@
 					}).appendTo("body").fadeIn(200);
 				};
 				
-				var previousPoint = null;
+				var previousPoint = NULL;
 				$("#placeholder").bind("plothover", function (event, pos, item) {
 			
 					if (item) {
@@ -183,7 +183,7 @@
 					}
 					else {
 						$("#tooltip").remove();
-						previousPoint = null;
+						previousPoint = NULL;
 					}
 				});
 
@@ -204,10 +204,10 @@
 					$("#selection").text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from) + " alla " + Math.round(area.xaxis.to));
 					// do the zooming
 					plot = $.plot($("#placeholder"), data,
-						$.extend(true, {}, options, {
+						$.extend(TRUE, {}, options, {
 							xaxis: { min: Math.round(area.xaxis.from), max: Math.round(area.xaxis.to) }
 					}));
-					overview.setSelection(area, true);
+					overview.setSelection(area, TRUE);
 					$("#legendcontainer table").attr('cellspacing','0');
 				});
 

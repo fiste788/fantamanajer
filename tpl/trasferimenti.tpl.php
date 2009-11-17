@@ -34,7 +34,7 @@
 				<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
 				<label for="player-old">Giocatore vecchio:</label>
 				<select disabled="disabled" id="player-old" name="lascia[]">
-					<option selected="selected" value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] . " " . $val['nome'] ?></option>
+					<option selected="selected" value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
 				</select>
 				<label for="player-new">Giocatore nuovo:</label>
 				<select id="player-new" name="acquista[]">

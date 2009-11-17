@@ -1,9 +1,3 @@
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'home-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column">Home</h2>
-</div>
 <div id="home" class="main-content">
 	<?php if(GIORNATA == 1): ?>
 	<h2 class="no-margin center">Ricordati di impostare il nome della squadra!</h2>
@@ -69,12 +63,12 @@
 		$(document).ready( function() {
 			$('#tabs').tabs({
 				event:'mouseover',
-				cache:true,
+				cache:TRUE,
 				show: function(ui)
 				{
 					if(jQuery.browser.msie)
 						$(".panel").removeAttr('style');
-				}, fx: { opacity: 'toggle',duration:300 } }).tabs('rotate', 5000,false);
+				}, fx: { opacity: 'toggle',duration:300 } }).tabs('rotate', 5000,FALSE);
 		});
 	</script>
 	<?php if($this->eventi != FALSE) :?>
