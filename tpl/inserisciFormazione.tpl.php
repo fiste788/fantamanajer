@@ -1,10 +1,3 @@
-<?php $j =0; $k = 0; ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'formazione-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column">Formazione</h2>
-</div>
 <div id="formazione" class="main-content">
 	<?php if(isset($this->formImp) && !$this->formImp): ?>	
 		<h3>Giornata <?php GIORNATA; ?></h3>

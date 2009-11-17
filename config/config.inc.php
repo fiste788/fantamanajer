@@ -16,8 +16,10 @@ if(in_array('develop',$hostArray))
 	$hostArray[0] = 'static';
 	define ("DEVELOP",TRUE);
 }
+else
+	define ("DEVELOP",FALSE);
 $host = implode('.',$hostArray);
-define('DEBUG',false);
+define('DEBUG',FALSE);
 
 $tmp = explode('/',$_SERVER['PHP_SELF']);			//website path(example: for "http://www.test.us/one/jpg/one.jpg" it takes "/one/jpg/one.jpg")
 array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)

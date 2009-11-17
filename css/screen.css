@@ -95,6 +95,7 @@ input.dark:hover {
 	margin: 5px;
 	padding:0;
 	width:auto !important;
+	position: static;
 }
 #login .messaggio span{
 	font-size:12px;

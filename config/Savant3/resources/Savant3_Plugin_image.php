@@ -40,7 +40,7 @@ class Savant3_Plugin_image extends Savant3_Plugin {
 	* 
 	*/
 	
-	protected $documentRoot = null;
+	protected $documentRoot = NULL;
 	
 	
 	/**
@@ -53,7 +53,7 @@ class Savant3_Plugin_image extends Savant3_Plugin {
 	* 
 	*/
 	
-	protected $imageDir = null;
+	protected $imageDir = NULL;
 	
 	
 	/**
@@ -82,8 +82,8 @@ class Savant3_Plugin_image extends Savant3_Plugin {
 	* 
 	*/
 	
-	public function image($file, $alt = null, $height = null, $width = null,
-		$attr = null)
+	public function image($file, $alt = NULL, $height = NULL, $width = NULL,
+		$attr = NULL)
 	{
 		// is the document root set?
 		if (is_null($this->documentRoot) && isset($_SERVER['DOCUMENT_ROOT'])) {
@@ -106,12 +106,12 @@ class Savant3_Plugin_image extends Savant3_Plugin {
 		}
 		
 		// the image file type code (PNG = 3)
-		$type = null;
+		$type = NULL;
 		
 		// get the file information
-		$info = false;
+		$info = FALSE;
 		
-		if (strpos($file, '://') === false) {
+		if (strpos($file, '://') === FALSE) {
 			// no "://" in the file, so it's local
 			$file = $this->imageDir . $file;
 			$tmp = $this->documentRoot . $file;
@@ -119,7 +119,7 @@ class Savant3_Plugin_image extends Savant3_Plugin {
 		} else {
 			// don't attempt to get file info from streams, it takes
 			// way too long.
-			$info = false;
+			$info = FALSE;
 		}
 		
 		// did we find the file info?

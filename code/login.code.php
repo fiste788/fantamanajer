@@ -32,11 +32,13 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 			$_SESSION['nomeProprietario'] = $valore['nomeProp'] . " " . $valore['cognome'];
 			$_SESSION['email'] = $valore['mail'];
 		}
-		else
-			$layouttpl->assign('loginerror',"Errore nel login");
 	}
 	else
-		$layouttpl->assign('loginerror',"Errore nel login");
+	{
+		$message['level'] = 2;
+		$message['text'] = "Errore nel login";
+		$layouttpl->assign('message',$message);
+	}
 }
 else
 {

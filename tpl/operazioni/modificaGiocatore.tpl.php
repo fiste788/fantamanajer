@@ -17,7 +17,7 @@
 			$.ajax({
 				url: 'dettaglioGiocatore/edit/' + this.value + '.html',
 				type: "post",
-				cache: false,
+				cache: FALSE,
 				dataType: "xml",
 				complete: function(xml,text){
 					dettaglio = $("#dettaglioGioc",xml.responseText);
@@ -32,7 +32,7 @@
 	$.ajax({
 		url: 'dettaglioGiocatore/edit/<?php echo $_POST['idGioc'] ?>.html',
 		type: "post",
-		cache: false,
+		cache: FALSE,
 		dataType: "xml",
 		complete: function(xml,text){
 			dettaglio = $("#dettaglioGioc",xml.responseText);

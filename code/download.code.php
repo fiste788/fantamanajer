@@ -1,7 +1,6 @@
 <?php 
 require_once(INCDIR.'fileSystem.inc.php');
 include_once(INCDIR."createZip.inc.php");
-define ("TOZIP","all");
 
 $fileObj = new fileSystem();
 
@@ -12,7 +11,7 @@ $contenttpl->assign('filesVoti',$filesVoti);
 
 if(isset($_POST['giornata']) && !empty($_POST['giornata']))
 {
-	if($_POST['giornata'] == TOZIP)
+	if($_POST['giornata'] == "all")
 	{
 		$createZip = new createZip();
 		$path = $createZip->createZipFromDir(VOTIDIR,'voti');

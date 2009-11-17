@@ -19,20 +19,20 @@
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
-		<script src="<?php echo JSURL . 'jquery/jquery.js' ?>" language="javascript" type="text/javascript"></script>
+		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" language="javascript" type="text/javascript"></script>
 		<?php if(!empty($this->js)): ?>
 		<?php foreach($this->js as $key => $val): ?>
 		<?php if(is_array($val)): ?>
 		<?php foreach($val as $key2=>$val2): ?>
 		<?php $appo = explode('|',$val2); ?>
 		<?php if(isset($appo[1])): ?>
-		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js' ?>" language="javascript" type="text/javascript"></script><![endif]-->
+		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" language="javascript" type="text/javascript"></script><![endif]-->
 		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js' ?>" language="javascript" type="text/javascript"></script>
+		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" language="javascript" type="text/javascript"></script>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val . '.js' ?>" language="javascript" type="text/javascript"></script>
+		<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" language="javascript" type="text/javascript"></script>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		<?php endif; ?>
@@ -77,12 +77,12 @@
 					});
 				</script>
 			<?php endif; ?>
-			<div id="content-container" class="column last" >
-				<?php echo $this->content ?>
+			<div id="content-container" class="column last">
+				<?php echo $this->content; ?>
 			</div>
 		</div>
 		<div id="footer">
-			<?php echo $this->footer ?>
+			<?php echo $this->footer; ?>
 		</div>
 		</div>
 		<div id="rightBar">
@@ -101,7 +101,7 @@
 			<?php endif; ?>
 		</div>
 		<?php if(!empty($this->operation)): ?>
-			<div id="menu"><?php echo $this->operation ?></div>
+			<div id="menu"><?php echo $this->operation; ?></div>
 			<script type="text/javascript">
 				$(document).ready(function(){
 					$("#click-menu").toggle(function(event){
@@ -115,7 +115,7 @@
 				});
 			</script>
 			<?php endif; ?>
-			<?php if( substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' && !DEVELOP ): ?>
+			<?php if(substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost' && !DEVELOP ): ?>
 			<script type="text/javascript">
 				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 				document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

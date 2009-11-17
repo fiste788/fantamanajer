@@ -6,7 +6,7 @@ class fileSystem
 		$output = array();
 		if ($handle = opendir($folder)) 
 		{
-			while (false !== ($file = readdir($handle)))
+			while (FALSE !== ($file = readdir($handle)))
 			{ 
 				if ($file != "." && $file != ".." && $file != ".svn" && is_dir($folder.'/'.$file)) 
 					$output[] = $file;
@@ -26,7 +26,7 @@ class fileSystem
 		$output = array();
 		if ($handle = opendir($folder)) 
 		{
-			while (false !== ($file = readdir($handle)))
+			while (FALSE !== ($file = readdir($handle)))
 			{ 
 				if ($file != ".htaccess" && $file != "." && $file != ".." && $file != ".svn") 
 					$output[] = $file;
@@ -60,7 +60,7 @@ class fileSystem
 	{
 		$handler = curl_init();
 		curl_setopt($handler, CURLOPT_URL, $url);
-		curl_setopt($handler, CURLOPT_HEADER, false);
+		curl_setopt($handler, CURLOPT_HEADER, FALSE);
 		ob_start();
 		curl_exec($handler);
 		curl_close($handler);
@@ -87,7 +87,7 @@ class fileSystem
 				$link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/stats_gg_" . $ruolo . ".shtml?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
 			$contenuto = $this->contenutoCurl($link);
 			if(empty($contenuto))
-				return true;
+				return TRUE;
 				
 			preg_match('#<span class="giornata">Giornata\s(.*?)<\/span>#mis',$contenuto,$matches);
 			$giornataGazzetta = $matches[1];
@@ -118,7 +118,7 @@ class fileSystem
 		}
 		$this->writeXmlVoti($xmlArray,$percorsoXml);
 		fclose($handle);
-		return true;
+		return TRUE;
 	}
 	
 	function writeXmlVoti($tree,$percorso) 

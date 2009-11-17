@@ -2,7 +2,7 @@
 	<h4>Giornata: <span><?php if(isset($this->idGiornata)) echo $this->idGiornata; ?></span></h4>
 	<h4>Squadra: <span><?php if(isset($this->idSquadra)) echo $this->squadraDett['nome']; ?></span></h4>
 	<h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
-	<?php if($this->formazione != FALSE && $this->formazione != NULL): ?>
+	<?php if($this->titolari != FALSE && $this->titolari != NULL): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Titolari</caption>
 		<tbody>
@@ -15,22 +15,21 @@
 				<th class="club">Titolare</th>
 				<th class="punt">Punt.</th>
 			</tr>
-			<?php $panch = $this->formazione; $tito = array_splice($panch,0,11); ?>
-			<?php foreach($tito as $key => $val): ?>
+			<?php foreach($this->titolari as $key => $val): ?>
 					<?php if($val['considerato'] == 0 || ($val['voto'] == "" && $val['considerato'] > 0)): ?>
 						<tr class="rosso">
 							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-rosso.png' ?>"/></a>
+								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-rosso.png'; ?>"/></a>
 							</td>
 					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a>
+								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png'; ?>"/></a>
 							</td>
 					<?php $val['punti'] *= 2; else: ?>
 						<tr>
 							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png' ?>"/></a>
+								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit.png'; ?>"/></a>
 							</td>
 					<?php endif; ?>		
 							<td><?php echo $val['cognome']; ?></td>
@@ -43,7 +42,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php if(!empty($panch)): ?>
+	<?php if(!empty($this->panchinari)): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Panchinari</caption>
 		<tbody>
@@ -86,7 +85,7 @@
 	<?php endif; ?>
 </div>
 <?php elseif($this->formazione == FALSE): ?>
-<span class="column" style="clear:both;">Formazione non settata</span></div>
+	<span class="column" style="clear:both;">Formazione non settata</span></div>
 <?php else: ?>
-<span class="column" style="clear:both;">Parametri mancanti o errati</span></div>
+	<span class="column" style="clear:both;">Parametri mancanti o errati</span></div>
 <?php endif; ?>

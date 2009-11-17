@@ -61,8 +61,8 @@ if(isset($keys[array_search($filterId,$keys)-1]))
 }
 else
 {
-	$idPrec = false;
-	$quickLinks['prec'] = false;
+	$idPrec = FALSE;
+	$quickLinks['prec'] = FALSE;
 }
 
 if(isset($keys[array_search($filterId,$keys)+1]))
@@ -73,8 +73,8 @@ if(isset($keys[array_search($filterId,$keys)+1]))
 }
 else
 {
-	$idSucc = false;
-	$quickLinks['succ'] = false;
+	$idSucc = FALSE;
+	$quickLinks['succ'] = FALSE;
 }
 
 $operationtpl->assign('idGioc',$filterId);

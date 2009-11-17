@@ -1,10 +1,10 @@
 <div id="lanciaScript" class="main-content">
 	<ul class="column last">
-		<li><a class="script" id="backup" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'backup.png' ?>"><h3 class="column">Backup</h3></a></li>
-		<li><a class="script" id="acquistaGioc" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-big.png' ?>"><h3 class="column">Trasferimenti</h3></a></li>
-		<li><a class="script" id="weeklyScript" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png' ?>"><h3 class="column">WeeklyScript</h3></a></li>
-		<li><a class="script" id="uploadFtp" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png' ?>"><h3 class="column">Aggiorna versione</h3></a></li>
-		<li><a class="script" id="sendMail" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'contatti-big.png' ?>"><h3 class="column">Manda mail formazione</h3></a></li>
+		<li><a class="script" id="backup" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'backup.png'; ?>"><h3 class="column">Backup</h3></a></li>
+		<li><a class="script" id="acquistaGioc" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-big.png'; ?>"><h3 class="column">Trasferimenti</h3></a></li>
+		<li><a class="script" id="weeklyScript" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png'; ?>"><h3 class="column">WeeklyScript</h3></a></li>
+		<li><a class="script" id="uploadFtp" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png'; ?>"><h3 class="column">Aggiorna versione</h3></a></li>
+		<li><a class="script" id="sendMail" href="#"><img class="column" alt="->" src="<?php echo IMGSURL . 'contatti-big.png'; ?>"><h3 class="column">Manda mail formazione</h3></a></li>
 	</ul>
 	<script type="text/javascript">
 		var loadingImg = "<?php echo IMGSURL.'ajax-loader.gif' ?>"; 
@@ -24,7 +24,7 @@
 					$("#messaggio").css('display','block');
 					$("#messaggio").append('<div style="text-align:center;"><img style="float:none;margin:18px 0;" src="' + loadingImg + '" / ></div>');
 				},
-				cache: false,
+				cache: FALSE,
 				username: "administrator",
 				password: "banana",
 				dataType: "html",

@@ -60,15 +60,15 @@ class Savant3 {
 		'template_path' => array(),
 		'resource_path' => array(),
 		'error_text'    => "\n\ntemplate error, examine fetch() result\n\n",
-		'exceptions'    => false,
-		'autoload'      => false,
-		'compiler'      => null,
+		'exceptions'    => FALSE,
+		'autoload'      => FALSE,
+		'compiler'      => NULL,
 		'filters'       => array(),
 		'plugins'       => array(),
-		'template'      => null,
+		'template'      => NULL,
 		'plugin_conf'   => array(),
-		'extract'       => false,
-		'fetch'         => null,
+		'extract'       => FALSE,
+		'fetch'         => NULL,
 		'escape'        => array('htmlspecialchars'),
 	);
 	
@@ -93,7 +93,7 @@ class Savant3 {
 	* 
 	*/
 	
-	public function __construct($config = null)
+	public function __construct($config = NULL)
 	{
 		// force the config to an array
 		settype($config, 'array');
@@ -105,7 +105,7 @@ class Savant3 {
 		} else {
 			// no directories set, use the
 			// default directory only
-			$this->setPath('template', null);
+			$this->setPath('template', NULL);
 		}
 		
 		// set the default resource search path
@@ -115,7 +115,7 @@ class Savant3 {
 		} else {
 			// no directories set, use the
 			// default directory only
-			$this->setPath('resource', null);
+			$this->setPath('resource', NULL);
 		}
 		
 		// set the error reporting text
@@ -329,21 +329,21 @@ class Savant3 {
 	*
 	* @access public
 	* 
-	* @param string $key The specific configuration key to return.  If null,
+	* @param string $key The specific configuration key to return.  If NULL,
 	* returns the entire configuration array.
 	* 
 	* @return mixed A copy of the $this->__config array.
 	* 
 	*/
 	
-	public function getConfig($key = null)
+	public function getConfig($key = NULL)
 	{
 		if (is_null($key)) {
 			// no key requested, return the entire config array
 			return $this->__config;
 		} elseif (empty($this->__config[$key])) {
 			// no such key
-			return null;
+			return NULL;
 		} else {
 			// return the requested key
 			return $this->__config[$key];
@@ -357,7 +357,7 @@ class Savant3 {
 	* 
 	* @access public
 	* 
-	* @param bool $flag True to use __autoload(), false to not use it.
+	* @param bool $flag True to use __autoload(), FALSE to not use it.
 	* 
 	* @return void
 	* 
@@ -379,7 +379,7 @@ class Savant3 {
 	* @access public
 	* 
 	* @param mixed $compiler A compiler callback value suitable for the
-	* first parameter of call_user_func().  Set to null/false/empty to
+	* first parameter of call_user_func().  Set to NULL/FALSE/empty to
 	* use PHP itself as the template markup (i.e., no compiling).
 	* 
 	* @return void
@@ -416,7 +416,7 @@ class Savant3 {
 	* 
 	* @access public
 	* 
-	* @param bool $flag True to turn on exception throwing, false
+	* @param bool $flag True to turn on exception throwing, FALSE
 	* to turn it off.
 	* 
 	* @return void
@@ -435,7 +435,7 @@ class Savant3 {
 	* 
 	* @access public
 	* 
-	* @param bool $flag True to turn on variable extraction, false
+	* @param bool $flag True to turn on variable extraction, FALSE
 	* to turn it off.
 	* 
 	* @return void
@@ -462,7 +462,7 @@ class Savant3 {
 	*
 	*/
 	
-	public function setPluginConf($plugin, $config = null)
+	public function setPluginConf($plugin, $config = NULL)
 	{
 		$this->__config['plugin_conf'][$plugin] = $config;
 	}
@@ -708,8 +708,8 @@ class Savant3 {
 	* @param string $type The type of path to set, typically 'template'
 	* or 'resource'.
 	* 
-	* @param string|array $path The new set of search paths.  If null or
-	* false, resets to the current directory only.
+	* @param string|array $path The new set of search paths.  If NULL or
+	* FALSE, resets to the current directory only.
 	*
 	* @return void
 	*
@@ -804,7 +804,7 @@ class Savant3 {
 	* @param string $file The file name to look for.
 	* 
 	* @return string|bool The full path and file name for the target file,
-	* or boolean false if the file is not found in any of the paths.
+	* or boolean FALSE if the file is not found in any of the paths.
 	*
 	*/
 	
@@ -820,7 +820,7 @@ class Savant3 {
 			$fullname = $path . $file;
 			
 			// is the path based on a stream?
-			if (strpos($path, '://') === false) {
+			if (strpos($path, '://') === FALSE) {
 				// not a stream, so do a realpath() to avoid
 				// directory traversal attempts on the local file
 				// system. Suggested by Ian Eure, initially
@@ -841,7 +841,7 @@ class Savant3 {
 		}
 		
 		// could not find the file in the set of paths
-		return false;
+		return FALSE;
 	}
 	
 	
@@ -890,7 +890,7 @@ class Savant3 {
 	* 
 	* @access public
 	* 
-	* @return bool True on success, false on failure.
+	* @return bool True on success, FALSE on failure.
 	* 
 	*/
 	
@@ -909,7 +909,7 @@ class Savant3 {
 					$this->$key = $val;
 				}
 			}
-			return true;
+			return TRUE;
 		}
 		
 		// assign from associative array
@@ -920,17 +920,17 @@ class Savant3 {
 					$this->$key = $val;
 				}
 			}
-			return true;
+			return TRUE;
 		}
 		
 		// assign by name and value (can't assign to __config).
 		if (is_string($arg0) && func_num_args() > 1 && $arg0 != '__config') {
 			$this->$arg0 = $arg1;
-			return true;
+			return TRUE;
 		}
 		
 		// $arg0 was not object, array, or string.
-		return false;
+		return FALSE;
 	}
 	
 	
@@ -953,7 +953,7 @@ class Savant3 {
 	* 
 	* @access public
 	* 
-	* @return bool True on success, false on failure.
+	* @return bool True on success, FALSE on failure.
 	* 
 	*/
 	
@@ -962,9 +962,9 @@ class Savant3 {
 		// assign by name and reference (can't assign to __config).
 		if ($key != '__config') {
 			$this->$key =& $val;
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 	
@@ -988,7 +988,7 @@ class Savant3 {
 	* 
 	*/
 	
-	public function display($tpl = null)
+	public function display($tpl = NULL)
 	{
 		echo $this->getOutput($tpl);
 	}
@@ -996,12 +996,12 @@ class Savant3 {
 	/**
 	 * Returns output, including error_text if an error occurs.
 	 * 
-	 * @param $tpl The template to process; if null, uses the
+	 * @param $tpl The template to process; if NULL, uses the
 	 * default template set with setTemplate().
 	 * 
 	 * @return string The template output.
 	 */
-	public function getOutput($tpl = null)
+	public function getOutput($tpl = NULL)
 	{
 	    $output = $this->fetch($tpl);
         if ($this->isError($output)) {
@@ -1019,14 +1019,14 @@ class Savant3 {
 	* 
 	* @access public
 	* 
-	* @param string $tpl The template to process; if null, uses the
+	* @param string $tpl The template to process; if NULL, uses the
 	* default template set with setTemplate().
 	* 
 	* @return mixed The template output string, or a Savant3_Error.
 	* 
 	*/
 	
-	public function fetch($tpl = null)
+	public function fetch($tpl = NULL)
 	{
 		// make sure we have a template source to work with
 		if (is_null($tpl)) {
@@ -1075,7 +1075,7 @@ class Savant3 {
 			}
 			
 			// reset the fetch script value, get the buffer, and return.
-			$this->__config['fetch'] = null;
+			$this->__config['fetch'] = NULL;
 			return ob_get_clean();
 		}
 	}
@@ -1105,7 +1105,7 @@ class Savant3 {
 	* 
 	*/
 	
-	protected function template($tpl = null)
+	protected function template($tpl = NULL)
 	{
 		// set to default template if none specified.
 		if (is_null($tpl)) {
@@ -1261,14 +1261,14 @@ class Savant3 {
 	* E_USER_ERROR (the most severe possible).
 	* 
 	* @param bool $trace Whether or not to include a backtrace, default
-	* true.
+	* TRUE.
 	* 
 	* @return object Savant3_Error
 	* 
 	*/
 	
 	public function error($code, $info = array(), $level = E_USER_ERROR,
-		$trace = true)
+		$trace = TRUE)
 	{
 		$autoload = $this->__config['autoload'];
 		
@@ -1320,7 +1320,7 @@ class Savant3 {
 		// is it even an object?
 		if (! is_object($obj)) {
 			// not an object, so can't be a Savant3_Error
-			return false;
+			return FALSE;
 		} else {
 			// make sure the Savant3 error class is available for
 			// comparison

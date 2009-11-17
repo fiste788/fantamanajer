@@ -44,7 +44,7 @@ class Savant3_Plugin_htmlAttribs extends Savant3_Plugin {
 		$xhtml = '';
 		foreach ((array) $attribs as $key => $val) {
 		
-			if ($val === null) {
+			if ($val === NULL) {
 				continue;
 			}
 			

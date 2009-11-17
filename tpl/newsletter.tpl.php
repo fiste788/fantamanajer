@@ -12,12 +12,12 @@
 				<label for="selezione">Leghe:</label>
 				<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 					<?php foreach($this->elencoLeghe as $key => $val): ?>
-								<option<?php if(isset($_POST['selezione']) && array_search($val['idLega'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idLega'] ?>"><?php echo $val['nomeLega'] ?></option>
+								<option<?php if(isset($_POST['selezione']) && array_search($val['idLega'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option>
 					<?php endforeach; ?>
 				</select>
 				<div class="selectAll column">
-					<a href="#" onclick="setSelectOptions(true)">Seleziona tutto</a> /
-					<a href="#" onclick="setSelectOptions(false)">Deseleziona tutto</a>
+					<a href="#" onclick="setSelectOptions(TRUE)">Seleziona tutto</a> /
+					<a href="#" onclick="setSelectOptions(FALSE)">Deseleziona tutto</a>
 				</div>
 			</div>
 			<?php else: ?>
@@ -29,14 +29,14 @@
 				<?php else: ?>
 				<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 					<?php foreach($this->elencoSquadre as $key => $val): ?>
-						<option<?php if(isset($_POST['selezione']) && array_search($val['idUtente'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente'] ?>"><?php echo $val['nome'] ?></option>
+						<option<?php if(isset($_POST['selezione']) && array_search($val['idUtente'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente']; ?>"><?php echo $val['nome']; ?></option>
 					<?php endforeach; ?>
 				<?php endif; ?>
 				</select>
 				<?php if($this->elencoSquadre != FALSE): ?>
 				<div class="selectAll column">
-					<a href="#" onclick="setSelectOptions(true)">Seleziona tutto</a> /
-					<a href="#" onclick="setSelectOptions(false)">Deseleziona tutto</a>
+					<a href="#" onclick="setSelectOptions(TRUE)">Seleziona tutto</a> /
+					<a href="#" onclick="setSelectOptions(FALSE)">Deseleziona tutto</a>
 				</div>
 				<?php endif; ?>
 			</div>
@@ -44,16 +44,16 @@
 			<div class="formbox">
 				<label for="testo">Testo:</label>
 				<textarea class="column" id="testo" rows="15" cols="50" name="text" onkeyup="return ismaxlength(this, 1000);"><?php if(isset($_POST['text'])) echo $_POST['text']; ?></textarea>
-				<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($_POST['text'])) echo 1000-mb_strlen($_POST['text']);else echo '1000'; ?>" />
+				<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($_POST['text'])) echo 1000 - mb_strlen($_POST['text']);else echo '1000'; ?>" />
 			</div>
 			<div class="formbox">
 				<label>Tipologia:</label>
-				<input class="column radio" type="radio" value="C" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'C') echo 'checked="checked"'; ?>><label>Comunicazione</label>
-				<input class="column radio" type="radio" value="N" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'N') echo 'checked="checked"'; ?>><label>Newsletter</label>
+				<input class="column radio" type="radio" value="C" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'C') echo ' checked="checked"'; ?>><label>Comunicazione</label>
+				<input class="column radio" type="radio" value="N" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'N') echo ' checked="checked"'; ?>><label>Newsletter</label>
 			</div>
 			<div class="formbox">
 				<label>Crea conferenza:</label>
-				<input class="column checkbox" type="checkbox" name="conferenza"<?php if(isset($_POST['conferenza'])) echo 'checked="checked"'; ?>>
+				<input class="column checkbox" type="checkbox" name="conferenza"<?php if(isset($_POST['conferenza'])) echo ' checked="checked"'; ?>>
 			</div>
 		</fieldset>
 		<fieldset class="column last">
@@ -80,31 +80,10 @@
 				for (var i = 0; i < selectCount; i++) {
 					selectObject.options[i].selected = do_check;
 				}
-			return true;
+			return TRUE;
 			}
 			-->
 		</script>
 	</form>
 	<?php endif; ?>
-</div>
-<div id="squadradett" class="column last">
-		<?php if($_SESSION['roles'] == '2'): ?>
-		<form class="right last" name="newsletterData" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
-			<fieldset class="no-margin fieldset">
-				<h3 class="no-margin">Seleziona la lega</h3>
-					<select name="lega" onchange="document.newsletterData.submit();">
-					<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>
-						<option<?php if(isset($this->lega) && $this->lega == 0) echo ' selected="selected"'; ?> value="0">Tutte le leghe</option>
-					<?php foreach($this->elencoLeghe as $key => $val): ?>
-						<option <?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']?>"><?php echo $val['nomeLega']?></option>
-					<?php endforeach;?>
-				</select>
-			</fieldset>
-		</form>
-		<?php endif; ?>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
 </div>

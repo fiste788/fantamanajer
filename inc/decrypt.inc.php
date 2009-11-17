@@ -52,7 +52,7 @@ class decrypt
 			$scriviFile = fopen($percorso,"w");
 			$stringa = "";
 			if (!$p_file = fopen($url,"r"))
-				return false;
+				return FALSE;
 			else
 			{
 				while(!feof($p_file))

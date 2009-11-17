@@ -4,7 +4,7 @@ require_once(INCDIR.'fileSystem.inc.php');
 $fileSystemObj = new fileSystem();
 
 $root = ".";
-$files = directoryToArray($root, true);
+$files = directoryToArray($root, TRUE);
 
 function directoryToArray($directory, $recursive) {
 	$array_items = array();
@@ -13,7 +13,7 @@ function directoryToArray($directory, $recursive) {
 	ftp_login($connection, "developuser", "fantadevelop") or die('Username o password errati.');
 
 	if ($handle = opendir($directory)) {
-		while (false !== ($file = readdir($handle))) {
+		while (FALSE !== ($file = readdir($handle))) {
 			if ($file != "." && $file != ".." && $file != ".svn" && $file != "imgs") {
 				if (is_dir($directory. "/" . $file)) {
 					$appo = $directory. "/" . $file;

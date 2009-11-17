@@ -90,7 +90,7 @@ class Savant3_Plugin_date extends Savant3_Plugin {
 	* 
 	*/
 	
-	function date($datestring, $format = null)
+	function date($datestring, $format = NULL)
 	{
 		settype($format, 'string');
 		
@@ -99,7 +99,7 @@ class Savant3_Plugin_date extends Savant3_Plugin {
 		}
 		
 		// does the format string have a % sign in it?
-		if (strpos($format, '%') === false) {
+		if (strpos($format, '%') === FALSE) {
 			// no, look for a custom format string
 			if (! empty($this->custom[$format])) {
 				// found a custom format string

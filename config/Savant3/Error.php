@@ -37,7 +37,7 @@ class Savant3_Error {
 	*
 	*/
 	
-	public $code = null;
+	public $code = NULL;
 	
 	
 	/**
@@ -76,7 +76,7 @@ class Savant3_Error {
 	*
 	*/
 	
-	public $trace = null;
+	public $trace = NULL;
 	
 	
 	/**
@@ -99,7 +99,7 @@ class Savant3_Error {
 		}
 		
 		// add a backtrace
-		if ($conf['trace'] === true) {
+		if ($conf['trace'] === TRUE) {
 			$this->trace = debug_backtrace();
 		}
 	}
