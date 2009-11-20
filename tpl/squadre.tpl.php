@@ -1,4 +1,3 @@
-<div id="squadre" class="main-content">
 <?php foreach($this->elencosquadre as $key => $val): ?>
 	<div class="box-squadra column last">
 	<?php if(file_exists(UPLOADDIR. $val['idUtente'] . '-small.jpg')): ?>
@@ -32,13 +31,13 @@
 		$(".fancybox").fancybox({
 			'zoomSpeedIn': 500,
 			'zoomSpeedOut' : 500,
-			'imageScale' : TRUE,
-			'zoomOpacity' : TRUE,
-			'overlayShow' : TRUE,
+			'imageScale' : true,
+			'zoomOpacity' : true,
+			'overlayShow' : true,
 			'overlayOpacity' : 0.6,
-			'centerOnScroll' : TRUE,
+			'centerOnScroll' : true,
 			'padding' : 0,
-			'hideOnContentClick' : FALSE
+			'hideOnContentClick' : true
 			})
 	}); 
 </script>

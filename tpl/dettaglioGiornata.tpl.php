@@ -1,8 +1,7 @@
-<div id="punteggidett" class=" main-content">
-	<h4>Giornata: <span><?php if(isset($this->idGiornata)) echo $this->idGiornata; ?></span></h4>
-	<h4>Squadra: <span><?php if(isset($this->idSquadra)) echo $this->squadraDett['nome']; ?></span></h4>
-	<h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
-	<?php if($this->titolari != FALSE && $this->titolari != NULL): ?>
+<h4>Giornata: <span><?php if(isset($this->idGiornata)) echo $this->idGiornata; ?></span></h4>
+<h4>Squadra: <span><?php if(isset($this->idSquadra)) echo $this->squadraDett['nome']; ?></span></h4>
+<h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
+<?php if($this->titolari != FALSE && $this->titolari != NULL): ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Titolari</caption>
 		<tbody>
@@ -55,7 +54,7 @@
 				<th class="club">Titolare</th>
 				<th class="punt">Punt.</th>
 			</tr>
-			<?php foreach($panch as $key => $val): ?>
+			<?php foreach($this->panchinari as $key => $val): ?>
 					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg">
@@ -83,9 +82,8 @@
 		</tbody>
 	</table>
 	<?php endif; ?>
-</div>
 <?php elseif($this->formazione == FALSE): ?>
-	<span class="column" style="clear:both;">Formazione non settata</span></div>
+	<span class="column" style="clear:both;">Formazione non settata</span>
 <?php else: ?>
-	<span class="column" style="clear:both;">Parametri mancanti o errati</span></div>
+	<span class="column" style="clear:both;">Parametri mancanti o errati</span>
 <?php endif; ?>

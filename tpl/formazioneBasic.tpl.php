@@ -1,5 +1,4 @@
 <?php $j =0; $k = 0; ?>
-<div id="formazione" class="main-content">
 	<?php if(TIMEOUT): ?>
 		<h3>Giornata <?php echo GIORNATA; ?></h3>
 		<?php if(isset($this->mod) && $this->mod != NULL): ?>

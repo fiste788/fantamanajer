@@ -150,11 +150,14 @@ em {
 	margin-top: 0 !important;
 }
 #footer {
+	background: transparent url(../imgs/bg-footer.png) no-repeat left top;
 	text-align: center;
-	width: 961px;
-	padding: 10px 10px 0;
+	width: 960px;
+	padding: 4px 10px;
 	clear: both;
 	float: left;
+	height:15px;
+	margin:0 0 10px;
 }
 #footer a {
 	padding: 0 5px;
@@ -163,6 +166,7 @@ em {
 }
 #footer a,#footer p {
 	font-size:10px;
+	margin:0;
 }
 #footer img {
 	margin: 0 5px 0 0;
@@ -237,12 +241,10 @@ em {
 #content #content-top-sx, #content #content-top-dx, #content #content-bottom-sx, #content #content-bottom-dx {
 	width: 100%;
 }
-#content-container {
+.main-content {
 	width: 950px;
 	padding:15px;
-}
-.main-content {
-	width: 100%;
+	float:left;
 }
 /*----------box-content---------------------------*/
 #operazioni,#operazioni-other {
@@ -322,7 +324,7 @@ em {
 #formupload .submit {
 	margin: 8px 0 0 0;
 }
-#squadradett {
+#datiSquadra {
 	float: right;
 	width: 300px;
 }
@@ -332,17 +334,17 @@ em {
 	clear: both;
 	padding: 0 10px 0 0;
 }
-#squadradett .logo {
+#dettaglioSquadra .logo {
 	padding: 0;
 }
-#squadradett span {
+#dettaglioSquadra span {
 	width: 100%;
 }
-#squadradett table {
+#dettaglioSquadra table {
 	width: 100%;
 	margin: 0;
 }
-#squadradett th {
+#dettaglioSquadra th {
 	border-bottom: 1px solid #ddd;
 }
 /*------accordion----*/
@@ -490,10 +492,10 @@ em {
 	float: left;
 	overflow: hidden;
 }
-#other img {
+#altro img {
 	margin: 0 10px 0 0;
 }
-#other .box-content div {
+#altro .box-content div {
 	text-align: left;
 }
 .ult {
@@ -538,18 +540,18 @@ tr.row:hover a {
 	width: auto;
 	border: none;
 }
-#punteggidett h4 {
+#dettaglioGiornata h4 {
 	font-weight: normal;
 	float: left;
 	width: 33%;
 	text-align: center;
 	font-size: 1.5em;
 }
-#punteggidett h4 span {
+#dettaglioGiornata h4 span {
 	color: white;
 	font-size: 16px;
 }
-#punteggidett caption {
+#dettaglioGiornata caption {
 	font-weight: bold;
 	color: #00a2ff;
 	font-size: 14px;
@@ -628,25 +630,25 @@ tr.row:hover a {
 	float: left;
 	margin: 4px 0;
 }
-#articoloedit .text {
+#modificaConferenza .text {
 	width: 200px;
 	margin: 0 0 8px 0;
 }
-#articoloedit .formbox {
+#modificaConferenza .formbox {
 	width: 100%;
 }
-#articoloedit #emoticons {
+#modificaConferenza #emoticons {
 	margin: 0 0 0 130px;
 }
-#articoloedit .emoticon:hover {
+#modificaConferenza .emoticon:hover {
 	cursor: pointer;
 }
-#articoloedit .disabled {
+#modificaConferenza .disabled {
 	width: 35px;
 	margin: 6px;
 	text-align: center;
 }
-#articoloedit label {
+#modificaConferenza label {
 	width: 130px;
 }
 .riga {
@@ -706,13 +708,13 @@ label {
 .cap {
 	width: 50px;
 }
-#classifica-content {
+#classifica {
 	min-width: 610px;
 }
 #classifica-container {
 	margin:0 0 15px;
 }
-#classifica-content table {
+#classifica table {
 	margin: 0;
 	float: left;
 }
@@ -782,21 +784,21 @@ label {
 .tableimg {
 	width: 20px;
 }
-#freeplayer .text {
+#giocatoriLiberi .text {
 	padding: 0 10px;
 	width: 24px;
 	float: left;
 	text-align: center;
 }
-#freeplayer label {
+#giocatoriLiberi label {
 	width: auto;
 	float: left;
 	padding: 8px 10px 0 0;
 }
-#freeplayer .submit {
+#giocatoriLiberi .submit {
 	margin: 6px 0 0 8px;
 }
-#freeplayer .acq {
+#giocatoriLiberi .acq {
 	width: auto;
 }
 p.ohmy {
@@ -934,16 +936,16 @@ p.surprise {
 .tdcenter {
 	text-align: center;
 }
-#dettaglioGioc p {
+#dettaglioGiocatore p {
 	float:left;
 	margin:0 0 0 5px;
 	padding:0;
 	width:315px;
 }
-#dettaglioSquadra p {
+#datiSquadra p {
 	margin:0;
 }
-#dettaglioSquadra {
+#datiSquadra {
 	width:100%;
 }
 #imageContainer {
@@ -961,16 +963,16 @@ p.surprise {
 .elencoSquadre ul {
 	list-style-type: none;
 }
-#creaSquadre label {
+#creaSquadra label {
 	width: 120px;
 }
-#creaSquadre .div-submit {
+#creaSquadra .div-submit {
 	margin: 0 0 10px;
 }
 .nowrap {
 	white-space: nowrap;
 }
-#gestioneDb textarea {
+#gestioneDatabase textarea {
 	width: 100%;
 	height: 400px;
 }
@@ -1015,21 +1017,14 @@ p.surprise {
 	font-weight:normal;
 	font-size:14px;
 }
-#penalità label {
+#penalita label {
 	width: 150px;
 }
-#dettaglioGioc p {
+#dettaglioGiocatore p {
 	margin-bottom:2px;
 }
 #creaSq .text {
 	width:160px;
-}
-#modificaGioc #ricerca {
-	margin:10px 0;
-	width: 600px;
-}
-#ricerca label {
-	width:120px;
 }
 #lanciaScript ul {
 	list-style-type:none;

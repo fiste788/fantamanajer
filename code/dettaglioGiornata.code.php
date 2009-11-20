@@ -29,10 +29,10 @@ if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $g
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
 	{
 		$formazione = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra);
-		$titolari = array_splice($panch,0,11);
+		$titolari = array_splice($formazione,0,11);
 		$contenttpl->assign('somma',$punteggioObj->getPunteggi($filterSquadra,$filterGiornata));
 		$contenttpl->assign('titolari',$titolari);
-		$contenttpl->assign('titolari',$formazione);
+		$contenttpl->assign('panchinari',$formazione);
 	}
 	else
 	{

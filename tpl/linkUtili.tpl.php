@@ -1,4 +1,3 @@
-<div id="confStampa" class="main-content">
 <p>In questa pagina vogliamo ringraziare tutti i servizi/siti che permettono al FantaManajer di esistere.<br />Eccone la lista:</p>
 <ul>
 	<li>
@@ -30,4 +29,3 @@
 		<p>Ci ha aiutato concedendoci il suo account di 110mb con già il servizio mail attivo</p>
 	</li>
 </ul>
-</div>
