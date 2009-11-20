@@ -1,12 +1,6 @@
 <?php $j=0; $i=0; ?>
 <?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'formazione-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column">Altre formazioni</h2>
-</div>
-<div id="formazione" class="main-content">
+
 	<h3>Giornata <?php echo $this->getGiornata; ?></h3>
 	<?php if($this->formazione != FALSE): ?>
 		<img alt="modulo" id="img-modulo" title="<?php echo substr($this->modulo,2) ?>" src="<?php echo IMGSURL.$this->modulo.'.png' ?>" />
@@ -49,7 +43,7 @@
 				<?php endif; ?>
 			</form>
 		<?php endif; ?>
-</div>
+
 <div id="squadradett" class="column last">
 	<div class="box2-top-sx column last">
 	<div class="box2-top-dx column last">

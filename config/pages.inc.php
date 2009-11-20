@@ -151,7 +151,7 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione database'));
 
 	$pages['lanciaScript'] = array(	'title'=>"Lancia script",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
+										'js'=>array('ui'=>array('effects-core','effects-pulsate'),'custom'=>array('lanciaScript')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Lancia script'));
 										
