@@ -55,7 +55,7 @@
 					<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
 				<?php break; case 1: ?>
 				<div id="messaggio" title="Clicca per nascondere" class="messaggio bad column last">
-					<img alt="!" src="<?php echo IMGSURL . 'attention-bad-big.png'; ?>" title="Attenzione!" />
+					<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
 				<?php break; case 2: ?>
 				<div id="messaggio" title="Clicca per nascondere" class="messaggio neut column last">
 					<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
