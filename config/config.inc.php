@@ -39,15 +39,14 @@ define ("FULLURL",$proto.$host.$sitepath.'/');			//fullurl example: http://local
 define ("CSSDIR",FULLPATH.'css/');				//css => CSSDIR
 define ("JSDIR",FULLPATH.'js/');				//js => JSDIR
 define ("IMGDIR",FULLPATH.'imgs/');				//img => IMGDIR
-
+define ("UPLOADDIR",FULLPATH.'uploadimg/');		//uploadimg => UPLOADDIR
 
 								//relative paths for:
 define ("CODEDIR",'code/');					//code => CODEDIR
 define ("TPLDIR",'tpl/');					//tpl => TPLDIR
 define ("LANGDIR",'lang/');					//lang => LANGDIR
 define ("INCDIR",'inc/');					//inc => INCDIR
-define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD
-define ("UPLOADDIR",'uploadimg/');				//uploadimg => UPLOADDIR
+define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD				//uploadimg => UPLOADDIR
 define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
 define ("MAILTPLDIR",TPLDIR.'mail/');
@@ -75,8 +74,8 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 else
 {
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","fantamanajer2-5");					//database name => DBNAME
-	define ("DBUSER","fantaUser2-5");					//database username => DBUSER
+	define ("DBNAME","devfantamanajer");					//database name => DBNAME
+	define ("DBUSER","developer");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","mysql13.aziendeitalia.com:3306");					//database host => DBHOST
 	define ("MODREWRITE",FALSE);

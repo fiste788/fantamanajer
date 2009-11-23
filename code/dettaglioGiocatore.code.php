@@ -20,7 +20,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
 $pathfoto = 'foto/' . $dettaglio['dettaglio']['idGioc'] . '.jpg';
 $pathclub = 'clubs/' . $dettaglio['dettaglio']['idClub'] . '.png';
-if(!file_exists(IMGDIR . $pathfoto))
+if(!@file(IMGSURL . $pathfoto))
 	$pathfoto = 'foto/nophoto.jpg';
 
 if($_SESSION['logged'] == TRUE)
@@ -77,12 +77,12 @@ else
 	$quickLinks['succ'] = FALSE;
 }
 
-$operationtpl->assign('idGioc',$filterId);
 $contenttpl->assign('dettaglioGioc',$dettaglio);
 $contenttpl->assign('pathFoto',IMGSURL . $pathfoto);
 $contenttpl->assign('pathClub',IMGSURL . $pathclub);
 $contenttpl->assign('ruoli',$ruo);
 $contenttpl->assign('ruoliPlurale',$ruoplu);
+$operationtpl->assign('idGioc',$filterId);
 $operationtpl->assign('elencoGiocatori',$elencoGiocatori);
 $operationtpl->assign('giocPrec',$idPrec);
 $operationtpl->assign('giocSucc',$idSucc);
