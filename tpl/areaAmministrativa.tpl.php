@@ -1,6 +1,6 @@
 <?php if($_SESSION['roles'] == "2"): ?><h3 class="riga">Amministrazione lega</h3><?php endif; ?>
 <div class="box-squadra column last">
-	<img class="column last" alt="->" src="<?php echo IMGSURL . 'rose.png'; ?>" title="Gestione Squadre" />
+	<img class="column last" alt="->" src="<?php echo IMGSURL . 'squadre.png'; ?>" title="Gestione Squadre" />
 	<h3><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$_SESSION['datiLega']['idLega'])); ?>">Gestione squadre</a></h3>
 	<div>Crea una nuova squadra o modifica/cancella una esistente</div>
 </div>
@@ -10,12 +10,12 @@
 	<div>Effettua un nuovo trasferimento o uno scambio</div>
 </div>
 <div class="box-squadra column last">
-	<img class="column last" alt="->" src="<?php echo IMGSURL . 'formazione-other.png'; ?>" title="Gestione formazioni" />
+	<img class="column last" alt="->" src="<?php echo IMGSURL . 'formazione.png'; ?>" title="Gestione formazioni" />
 	<h3><a href="<?php echo $this->linksObj->getLink('inserisciFormazione'); ?>">Gestione formazioni</a></h3>
 	<div>Inserisci una vecchia formazione e calcolane i punti</div>
 </div>
 <div class="box-squadra column last">
-	<img class="column last" alt="->" src="<?php echo IMGSURL . 'contatti-other.png'; ?>" title="Newsletter" />
+	<img class="column last" alt="->" src="<?php echo IMGSURL . 'contatti.png'; ?>" title="Newsletter" />
 	<h3><a href="<?php echo $this->linksObj->getLink('newsletter'); ?>">Newsletter</a></h3>
 	<div>Invia le mail con le ultime novità sul FantaManajer</div>
 </div>
@@ -32,7 +32,7 @@
 <?php if($_SESSION['roles'] == "2"): ?>
 <h3 class="riga">Amministrazione FantaManajer</h3>
 <div class="box-squadra column last">
-	<img class="column last" alt="->" src="<?php echo IMGSURL . 'freeplayer-other.png'; ?>" title="Modifica giocatore" />
+	<img class="column last" alt="->" src="<?php echo IMGSURL . 'freeplayer.png'; ?>" title="Modifica giocatore" />
 	<h3><a href="<?php echo $this->linksObj->getLink('modificaGiocatore'); ?>">Modifica giocatore</a></h3>
 	<div>Cambia nome e cognome e carica una nuova foto ai giocatori</div>
 </div>

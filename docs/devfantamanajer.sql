@@ -39,35 +39,35 @@ CREATE TABLE IF NOT EXISTS `articolo` (
 INSERT INTO `articolo` (`idArticolo`, `title`, `abstract`, `text`, `insertDate`, `idSquadra`, `idGiornata`, `idLega`) VALUES
 (1, 'Silence', NULL, 'It''s my time to win.', '2009-08-28 14:49:45', 8, 2, 1),
 (2, 'Si parte', 'Inizia il fantacalcio', 'Quando il gioco si fa duro...I duri cominciano a giocare...Forza e onore!!!', '2009-08-28 17:52:17', 3, 2, 1),
-(3, 'Formazione', 'domani non sono a casa...\r\n', 'Siccome domani non ci sono e non potrò inserire la formazione la scrivo quà:\r\nmodulo:4-3-3\r\n\r\nFrey\r\n----------\r\nMaicon (vc)\r\nSanton (c)\r\nCriscito (vvc)\r\nPaci\r\n-----------\r\nZapater\r\nMariga\r\nBiabiany\r\n-----------\r\nMiccoli\r\nAmauri\r\nLucarelli\r\n\r\nRiserve:\r\nAvramov\r\nMotta\r\nDiniz\r\nZanetti\r\nCandreva\r\nPalacio\r\nHuntelaar\r\n\r\nmodifica alle 0.54 a Santon la C di capitano me l''hanno data come caffè', '2009-08-29 00:48:17', 7, 2, 1),
-(4, 'Lista giocatori aggiornata', NULL, 'La lista giocatori è stata aggiornata a stasera, pertanto ci sono tutti gli ultimi colpi di mercato...e si possono già comprare per la prossima giornata', '2009-08-31 22:00:20', 1, 3, 1),
-(5, 'il seby è grasso', 'la scoperta del nuovo millenio', 'dalle ricerchè effettuate in cina dal nostro staff capeggiato dal cristian abbiamo scoperto che il sebi ha una massa grassa superiore al 100% cioè tutto il corpo capelli compresi', '2009-09-11 10:40:40', 12, 3, 2),
+(3, 'Formazione', 'domani non sono a casa...\r\n', 'Siccome domani non ci sono e non potrÃ² inserire la formazione la scrivo quÃ :\r\nmodulo:4-3-3\r\n\r\nFrey\r\n----------\r\nMaicon (vc)\r\nSanton (c)\r\nCriscito (vvc)\r\nPaci\r\n-----------\r\nZapater\r\nMariga\r\nBiabiany\r\n-----------\r\nMiccoli\r\nAmauri\r\nLucarelli\r\n\r\nRiserve:\r\nAvramov\r\nMotta\r\nDiniz\r\nZanetti\r\nCandreva\r\nPalacio\r\nHuntelaar\r\n\r\nmodifica alle 0.54 a Santon la C di capitano me l''hanno data come caffÃ¨', '2009-08-29 00:48:17', 7, 2, 1),
+(4, 'Lista giocatori aggiornata', NULL, 'La lista giocatori Ã¨ stata aggiornata a stasera, pertanto ci sono tutti gli ultimi colpi di mercato...e si possono giÃ  comprare per la prossima giornata', '2009-08-31 22:00:20', 1, 3, 1),
+(5, 'il seby Ã¨ grasso', 'la scoperta del nuovo millenio', 'dalle ricerchÃ¨ effettuate in cina dal nostro staff capeggiato dal cristian abbiamo scoperto che il sebi ha una massa grassa superiore al 100% cioÃ¨ tutto il corpo capelli compresi', '2009-09-11 10:40:40', 12, 3, 2),
 (8, 'vince acora', 'uvette tutte schiacciate', 'ho vinto pure sta settimana io... ahahahaha', '2009-09-14 19:51:00', 10, 4, 2),
-(9, 'attenzione', '     per uva!!!', 'state tranquilli il campionato è appena incominciato e puo succedere di tutto....piano piano risorgero di nuovo...tranquillo paki.....goditi questi attimi del campionato....  :p', '2009-09-17 00:21:57', 13, 4, 2),
+(9, 'attenzione', '     per uva!!!', 'state tranquilli il campionato Ã¨ appena incominciato e puo succedere di tutto....piano piano risorgero di nuovo...tranquillo paki.....goditi questi attimi del campionato....  :p', '2009-09-17 00:21:57', 13, 4, 2),
 (10, 'per andrea....', 'pegly...', 'se provi un''altra volta a prendere 1 giocatore contro le regole ti cancelliamo e non stiamo scherzando!!! :@ora sei stato punito e te lo sei meritato....', '2009-09-19 19:48:24', 13, 4, 2),
-(11, 'Avanti così', NULL, 'direi che il campionato per fc rocco non poteva cominciare meglio.. bisogna continuare così  (h)', '2009-09-22 13:36:32', 2, 5, 1),
-(12, 'per le uve presenti...', 'brlumeribrevwehvib!!!', 'io sostengo che questa settimana efnivwivbwrhvibiwrvinjfrhubwrvbwivb vincerà oenvwievbiuvbryuwvbinewviuwovnbvre,seguito dal piu forte che sarà erviubwerivunbwivurv e infine come 3 posto secondo me andrà woienvenviwubvnwenvbiwuvebi weorvernvirevnuivesmdc......questo è tutto al tguva a voi studio (h)', '2009-09-22 20:42:49', 13, 5, 2),
+(11, 'Avanti cosÃ¬', NULL, 'direi che il campionato per fc rocco non poteva cominciare meglio.. bisogna continuare cosÃ¬  (h)', '2009-09-22 13:36:32', 2, 5, 1),
+(12, 'per le uve presenti...', 'brlumeribrevwehvib!!!', 'io sostengo che questa settimana efnivwivbwrhvibiwrvinjfrhubwrvbwivb vincerÃ  oenvwievbiuvbryuwvbinewviuwovnbvre,seguito dal piu forte che sarÃ  erviubwerivunbwivurv e infine come 3 posto secondo me andrÃ  woienvenviwubvnwenvbiwuvebi weorvernvirevnuivesmdc......questo Ã¨ tutto al tguva a voi studio (h)', '2009-09-22 20:42:49', 13, 5, 2),
 (13, 'sono forte', 'dai cina ammettilo', 'cristian lo sappiamo che nn 6 uno a cui piace perdere xo io sn piu forte mi disp....................magari ti rifai intanto............ :p', '2009-09-23 13:57:53', 11, 5, 2),
 (14, 'uvaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'per la mia cara uvetta marcia....', 'come ti dicevo io combattero fino all''ultimo...e devo dire che mi sto divertendo un mondo nel sfidarmi con uno forte come te....davvero!!!!!!  :) :) :)', '2009-09-25 11:25:55', 13, 6, 2),
-(15, 'per cristian', 'uva schiacciata ci batte', 'Nn devi essere molto contento di sfidare il paky perchè tanto ci batte tutti...', '2009-09-25 16:26:12', 10, 6, 2),
+(15, 'per cristian', 'uva schiacciata ci batte', 'Nn devi essere molto contento di sfidare il paky perchÃ¨ tanto ci batte tutti...', '2009-09-25 16:26:12', 10, 6, 2),
 (16, 'il paki nn vince !!', '......', 'nn so il perche ma nn vincera  :p', '2009-09-25 18:11:16', 15, 6, 2),
 (17, 'Ma quanto...', NULL, 'semplicemente scandaloso...:^) :^) 57 punti', '2009-09-29 14:01:26', 14, 7, 2),
 (18, 'mi dispiace', NULL, 'lo so che siete invidiosi :)ma come ha affermato il pecoraio IO VINCERO hahahahhahhahhahahahhahahah :p :p :p :p', '2009-10-01 13:53:15', 11, 7, 2),
 (20, 'mi e andata male', NULL, 'nn preoccupatevi e solo un incidente di percorso capita a tutti :) tanto succedera anche a despy e a radici prima o poi................va be la prossima giornata recupero', '2009-10-08 13:34:23', 11, 8, 2),
 (21, 'x alex', NULL, 'secondo me alex tu 6 l''unico che nn dovrebbe dire agli altri che sono scarsi visto la squadra che hai li...... :) :p :)', '2009-10-15 14:05:35', 11, 8, 2),
 (22, 'per quello che si crede forte', 'per alex', 'ha ragione non credere di essere fortissimo......guarda la squadra che hai li.....invece di pensare chi vincera il campionato pensa come mandare avanti la tua squadra  :p :p :) :p :p', '2009-10-16 14:15:29', 13, 8, 2),
-(23, 'a si?', NULL, 'secondo voi i sto facendo il gradasso o te pakki....chi è partito a dire vinco io vinco io .... è?                           \r\ne te cri nn parlare alle spalle in un modo e in faccia in un altro perche oggi sei stato te a dire che il pakki nn vinceva\r\n', '2009-10-16 19:00:33', 15, 8, 2),
+(23, 'a si?', NULL, 'secondo voi i sto facendo il gradasso o te pakki....chi Ã¨ partito a dire vinco io vinco io .... Ã¨?                           \r\ne te cri nn parlare alle spalle in un modo e in faccia in un altro perche oggi sei stato te a dire che il pakki nn vinceva\r\n', '2009-10-16 19:00:33', 15, 8, 2),
 (25, 'nn ho detto di essere forte', NULL, 'io nn faccio il gradasso a differenza tua...pakki .\r\nnn ho detto di essere forte ma ho detto che per me (parere) tu nn vinci punto e basta\r\n', '2009-10-16 19:03:53', 15, 8, 2),
-(26, 'puzzate tutti', NULL, 'ma bona dire chi è il più forte... tanto vince il cio... ', '2009-10-16 19:57:00', 10, 8, 2),
+(26, 'puzzate tutti', NULL, 'ma bona dire chi Ã¨ il piÃ¹ forte... tanto vince il cio... ', '2009-10-16 19:57:00', 10, 8, 2),
 (29, 'alex', 'per alex', 'ma guarda che io ho scritto quella conferenza solo per fare due risate dai cavolo....se te la sei presa cosi tanto non so cosa dirti.....e poi anche il paki ha scritto solo quella conferenza per fare 2 risate...un po come fate voi con me per farmi incazzare.....dai su con la vita non prendertela.....  *-)', '2009-10-17 12:25:28', 13, 8, 2),
-(30, 'per radici', 'non fare il furbo', 'a proposito un altra cosa.... radici Doni l''aveva prenotato alex come mai tu l''hai preso al posto suo??è una cosa impossibile visto che lui e piu indietro di te.....guarda che fai la stessa fine del piccoli ti togliamo dall''amministrazione...e possiamo sta pur tranquillo basta dirlo al fiste :@a  ', '2009-10-17 12:27:57', 13, 8, 2),
-(31, 'per china', NULL, 'cazzo me ne frega di barare... ha fatto tutto il pc perchè se vinco cosa ottengo??? Sta zitto se nn sai le robe...', '2009-10-17 13:01:00', 10, 8, 2),
+(30, 'per radici', 'non fare il furbo', 'a proposito un altra cosa.... radici Doni l''aveva prenotato alex come mai tu l''hai preso al posto suo??Ã¨ una cosa impossibile visto che lui e piu indietro di te.....guarda che fai la stessa fine del piccoli ti togliamo dall''amministrazione...e possiamo sta pur tranquillo basta dirlo al fiste :@a  ', '2009-10-17 12:27:57', 13, 8, 2),
+(31, 'per china', NULL, 'cazzo me ne frega di barare... ha fatto tutto il pc perchÃ¨ se vinco cosa ottengo??? Sta zitto se nn sai le robe...', '2009-10-17 13:01:00', 10, 8, 2),
 (33, 'per alex', NULL, 'dimmi chi vuoi togliere dei tuoi centrocampisti che ti rimetto doni... ', '2009-10-17 13:21:11', 10, 8, 2),
 (34, 'per radici', NULL, 'toglimi dabo che lo ho preso al posto di doni', '2009-10-17 14:55:35', 15, 8, 2),
 (35, 'x tutti', NULL, 'dai nn prendtevi male x 1 cazzo di conferenza io l''ho fatta solo x scherzare!!!!!! l'' alex puo pensare quello k ha voglia senza fare tanti blemipro..... ', '2009-10-17 21:06:30', 11, 0, 2),
 (37, 'cazzo che sfiga', NULL, 'uff... avevo amauri e tiribocchi in panchina e hanno segnato... giornata no... teoria del paky giusta...', '2009-10-19 19:24:35', 10, 9, 2),
 (38, 'SI DA'' ALLA FUGA!!!', NULL, 'E si da alla fuga.... +30 dal secondo=D...\r\nTt grz a Maicon!!!', '2009-10-19 20:16:13', 16, 9, 2),
-(39, 'ahaha', NULL, 'in questo caso si può dire... il primo prende il volo... e che volo... cn qulle orecchie... hihi', '2009-10-19 20:29:07', 10, 9, 2),
+(39, 'ahaha', NULL, 'in questo caso si puÃ² dire... il primo prende il volo... e che volo... cn qulle orecchie... hihi', '2009-10-19 20:29:07', 10, 9, 2),
 (40, 'FINALMENTE', NULL, 'ecco che dopo 8 giornate si schioda incredibilmente dalla ultima posizione  ;) ', '2009-10-20 16:00:55', 14, 9, 2),
 (41, 'grande cio', NULL, 'esatto gli ultimi saranno i primi XD', '2009-10-20 19:41:33', 15, 9, 2),
 (42, 'uvaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'uva arrivo!!!!!!!', 'pakiiiiiiiii sto arrivando il mio obbiettivo sei tu ;) .....wueeeeeeuuuuuuuuuuuuuuu eurhvbgiebrvuiheibvwiuvbwiubviwiu ;) .....wueeeeeeuuuuuuuuuuuuuuu eurhvbgiebrvuiheibvwiuvbwiubviwiu', '2009-10-22 12:52:29', 13, 9, 2),
@@ -1852,7 +1852,7 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 (115, 'Gianluca', 'Curci', 'P', 16),
 (116, 'Alfonso', 'De Lucia', 'P', 8),
 (117, 'Morgan', 'De Sanctis', 'P', 17),
-(118, 'Vincent', 'Degrè', 'P', NULL),
+(118, 'Vincent', 'DegrÃ¨', 'P', NULL),
 (119, 'Nelson De Jesus Silva', 'Dida', 'P', 1),
 (120, 'Alexander Marangao', 'Doni', 'P', 5),
 (121, 'Vincenzo', 'Fiorillo', 'P', 14),
@@ -2304,7 +2304,7 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 (717, 'Nsereko', 'Savio', 'C', 6),
 (718, 'Blerim', 'Dzemaili', 'C', 11),
 (719, 'Simone', 'Pesce', 'C', 9),
-(720, 'Santos Batista Júnior', 'Mozart', 'C', 8),
+(720, 'Santos Batista JÃºnior', 'Mozart', 'C', 8),
 (721, 'Rene', 'Krhin', 'C', 18),
 (722, 'Riccardo', 'Perpetuini', 'C', 13),
 (723, 'Dusan', 'Basta', 'C', 7),
@@ -2327,7 +2327,7 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 (816, 'Emanuele', 'Calaio''', 'A', 16),
 (817, 'Leandro Ruben', 'Caruso', 'A', NULL),
 (818, 'Antonio', 'Cassano', 'A', 14),
-(819, 'Josè Ignacio', 'Castillo', 'A', 6),
+(819, 'JosÃ¨ Ignacio', 'Castillo', 'A', 6),
 (820, 'Andrea', 'Catellani', 'A', NULL),
 (821, 'Simone', 'Cavalli', 'A', NULL),
 (822, 'Edinson', 'Cavani', 'A', 2),
@@ -2567,7 +2567,7 @@ CREATE TABLE IF NOT EXISTS `lega` (
 --
 
 INSERT INTO `lega` (`idLega`, `nomeLega`, `capitano`, `numTrasferimenti`, `numSelezioni`, `minFormazione`, `premi`) VALUES
-(1, 'Alzano Sopra', 1, 15, 2, 10, 'Per poter partecipare ad ogni giornata ogni partecipante deve versare la quota di 1€. Siccome i partecipanti sono 8 avremo 1€ a gionata per 8 partecipanti = 8€ a giornata. Le giornate del campionato sono 38 quindi facendo un pò ci calcoli avremo 8€ a giornata per 38 giornate = 304€. Da questi 304€ vengono detratti 30€ utilizzati per l''acquisto del dominio quindi il montepremi finale è di &lt;strong&gt;274€&lt;/strong&gt; che viene suddiviso secondo la seguente tabella:\r\n&lt;table id=&quot;rosa&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;\r\n	&lt;tbody&gt;\r\n		&lt;tr&gt;\r\n			&lt;th class=&quot;tableimg&quot;&gt;&amp;nbsp;&lt;/th&gt;\r\n			&lt;th&gt;Posizione&lt;/th&gt;\r\n						&lt;th&gt;Premio&lt;/th&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;oro&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-oro.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;1° classificato&lt;/td&gt;\r\n						&lt;td class=&quot;ruolo&quot;&gt;116€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;argento&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-argento.png&quot; /&gt;&lt;/td&gt;\r\n\r\n			&lt;td&gt;2° classificato&lt;/td&gt;\r\n						&lt;td&gt;70€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;bronzo&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-bronzo.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;3° classificato&lt;/td&gt;\r\n						&lt;td&gt;50€&lt;/td&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;legno&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-legno.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;4° classificato&lt;/td&gt;\r\n						&lt;td&gt;38€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;'),
+(1, 'Alzano Sopra', 1, 15, 2, 10, 'Per poter partecipare ad ogni giornata ogni partecipante deve versare la quota di 1Â€. Siccome i partecipanti sono 8 avremo 1Â€ a gionata per 8 partecipanti = 8Â€ a giornata. Le giornate del campionato sono 38 quindi facendo un pÃ² ci calcoli avremo 8Â€ a giornata per 38 giornate = 304Â€. Da questi 304Â€ vengono detratti 30Â€ utilizzati per l''acquisto del dominio quindi il montepremi finale Ã¨ di &lt;strong&gt;274Â€&lt;/strong&gt; che viene suddiviso secondo la seguente tabella:\r\n&lt;table id=&quot;rosa&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;\r\n	&lt;tbody&gt;\r\n		&lt;tr&gt;\r\n			&lt;th class=&quot;tableimg&quot;&gt;&amp;nbsp;&lt;/th&gt;\r\n			&lt;th&gt;Posizione&lt;/th&gt;\r\n						&lt;th&gt;Premio&lt;/th&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;oro&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-oro.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;1Â° classificato&lt;/td&gt;\r\n						&lt;td class=&quot;ruolo&quot;&gt;116Â€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;argento&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-argento.png&quot; /&gt;&lt;/td&gt;\r\n\r\n			&lt;td&gt;2Â° classificato&lt;/td&gt;\r\n						&lt;td&gt;70Â€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;bronzo&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-bronzo.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;3Â° classificato&lt;/td&gt;\r\n						&lt;td&gt;50Â€&lt;/td&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;legno&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-legno.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;4Â° classificato&lt;/td&gt;\r\n						&lt;td&gt;38Â€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;'),
 (2, 'uva town', 1, 15, 3, 10, NULL);
 
 -- --------------------------------------------------------
@@ -2579,7 +2579,7 @@ INSERT INTO `lega` (`idLega`, `nomeLega`, `capitano`, `numTrasferimenti`, `numSe
 DROP TABLE IF EXISTS `punteggio`;
 CREATE TABLE IF NOT EXISTS `punteggio` (
   `punteggio` float NOT NULL,
-  `penalità` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `penalitÃ ` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `idGiornata` int(11) NOT NULL,
   `idUtente` int(11) NOT NULL,
   `idLega` int(11) NOT NULL,
@@ -2591,7 +2591,7 @@ CREATE TABLE IF NOT EXISTS `punteggio` (
 -- Dump dei dati per la tabella `punteggio`
 --
 
-INSERT INTO `punteggio` (`punteggio`, `penalità`, `idGiornata`, `idUtente`, `idLega`) VALUES
+INSERT INTO `punteggio` (`punteggio`, `penalitÃ `, `idGiornata`, `idUtente`, `idLega`) VALUES
 (0, NULL, 1, 1, 1),
 (0, NULL, 1, 2, 1),
 (0, NULL, 1, 3, 1),
@@ -5570,7 +5570,7 @@ CREATE TABLE IF NOT EXISTS `utente` (
 --
 
 INSERT INTO `utente` (`idUtente`, `nome`, `nomeProp`, `cognome`, `mail`, `abilitaMail`, `username`, `password`, `amministratore`, `idLega`) VALUES
-(1, 'Un pò di figa qua?', 'Jack-ass', 'Bauer', 'francesco.bertocchi@gmail.com', 1, 'ToMasTurbato', '32fd1899fa0d0cb4f541c617800aa667', 2, 1),
+(1, 'Un pÃ² di figa qua?', 'Jack-ass', 'Bauer', 'francesco.bertocchi@gmail.com', 1, 'ToMasTurbato', '32fd1899fa0d0cb4f541c617800aa667', 2, 1),
 (2, 'FC Rocco', 'Stefano', 'Sonzogni', 'stefano788@gmail.com', 1, 'Fiste788', '08b5411f848a2581a41672a759c87380', 2, 1),
 (3, 'Riki e i suoi amiki', 'Riccardo', 'Zambelli', 'bornintheusa@hotmail.it', 1, 'riki', 'c8c773394c9a1678f1841aec3afbe778', 0, 1),
 (4, 'Barcollo Ma Non Mollo', 'Patrick', 'Skeggia', 'rossi.patrick@gmail.com', 1, 'reds10', '1e48c4420b7073bc11916c6c1de226bb', 0, 1),
@@ -9849,7 +9849,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettag
 --
 DROP TABLE IF EXISTS `dettpuntmassimi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettpuntmassimi` AS select `punteggio`.`idLega` AS `idLega`,`punteggio`.`idGiornata` AS `idGiornata`,max(`punteggio`.`punteggio`) AS `punteggio` from `punteggio` group by `punteggio`.`idLega`,`punteggio`.`idGiornata`;
+CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettpuntmassimi` AS select `punteggio`.`idLega` AS `idLega`,`punteggio`.`idGiornata` AS `idGiornata`,max(`punteggio`.`punteggio`) AS `punteggio` from `punteggio` group by `punteggio`.`idLega`,`punteggio`.`idGiornata`;
 
 -- --------------------------------------------------------
 
@@ -9867,7 +9867,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocat
 --
 DROP TABLE IF EXISTS `giocatoristatistiche`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocatoristatistiche` AS select `giocatore`.`idGioc` AS `idGioc`,`giocatore`.`cognome` AS `cognome`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub`,sum(`voto`.`presenza`) AS `presenze`,sum(`voto`.`valutato`) AS `presenzeVoto`,round((sum(`voto`.`punti`) / sum(`voto`.`valutato`)),2) AS `avgPunti`,round((sum(`voto`.`voto`) / sum(`voto`.`valutato`)),2) AS `avgVoti`,sum(`voto`.`gol`) AS `gol`,sum(`voto`.`golSub`) AS `golSubiti`,sum(`voto`.`assist`) AS `assist`,sum(`voto`.`ammonizioni`) AS `ammonizioni`,sum(`voto`.`espulsioni`) AS `espulsioni` from ((`giocatore` left join `voto` on((`giocatore`.`idGioc` = `voto`.`idGioc`))) left join `club` on((`club`.`idClub` = `giocatore`.`club`))) group by `giocatore`.`idGioc`;
+CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocatoristatistiche` AS select `giocatore`.`idGioc` AS `idGioc`,`giocatore`.`cognome` AS `cognome`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub`,sum(`voto`.`presenza`) AS `presenze`,sum(`voto`.`valutato`) AS `presenzeVoto`,round((sum(`voto`.`punti`) / sum(`voto`.`valutato`)),2) AS `avgPunti`,round((sum(`voto`.`voto`) / sum(`voto`.`valutato`)),2) AS `avgVoti`,sum(`voto`.`gol`) AS `gol`,sum(`voto`.`golSub`) AS `golSubiti`,sum(`voto`.`assist`) AS `assist`,sum(`voto`.`ammonizioni`) AS `ammonizioni`,sum(`voto`.`espulsioni`) AS `espulsioni` from ((`giocatore` left join `voto` on((`giocatore`.`idGioc` = `voto`.`idGioc`))) left join `club` on((`club`.`idClub` = `giocatore`.`club`))) group by `giocatore`.`idGioc`;
 
 -- --------------------------------------------------------
 
@@ -9876,4 +9876,4 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `gi
 --
 DROP TABLE IF EXISTS `giornatevinte`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giornatevinte` AS select `punteggio`.`idUtente` AS `idUtente`,count(`punteggio`.`idUtente`) AS `giornateVinte` from (`punteggio` join `dettpuntmassimi` on(((`punteggio`.`idGiornata` = `dettpuntmassimi`.`idGiornata`) and (`punteggio`.`punteggio` = `dettpuntmassimi`.`punteggio`)))) group by `punteggio`.`idUtente`;
+CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giornatevinte` AS select `punteggio`.`idUtente` AS `idUtente`,count(`punteggio`.`idUtente`) AS `giornateVinte` from (`punteggio` join `dettpuntmassimi` on(((`punteggio`.`idGiornata` = `dettpuntmassimi`.`idGiornata`) and (`punteggio`.`punteggio` = `dettpuntmassimi`.`punteggio`)))) group by `punteggio`.`idUtente`;
