@@ -56,7 +56,7 @@ define ("TMPDIR",'tmp/');				 //docs/voti => VOTIDIR
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL
 define ("JSURL",FULLURL.'js/');					//js => JSURL
 define ("IMGSURL",FULLURL.'imgs/');				//img => IMGSURL
-define ("UPLOADIMGURL",FULLURL.UPLOADDIR);			//uploadimg => UPLOADIMGURL
+define ("UPLOADIMGURL",FULLURL.'uploadimg/');			//uploadimg => UPLOADIMGURL
 
 if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost')
 {

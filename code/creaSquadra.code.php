@@ -132,8 +132,8 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 					$squadraObj->setSquadraGiocatoreByArray($filterLega,$giocatori,$squadra);
 					$dbObj->commit();
 					$filterId = $squadra;
-					$message[0] = 0;
-					$message[1] = "Squadra creata correttamente";
+					$message['level'] = 0;
+					$message['text'] = "Squadra creata correttamente";
 					$mailContent->assign('username',$_POST['usernamenew']);
 					$mailContent->assign('squadra',$_POST['nome']);
 					$mailContent->assign('password',$password);

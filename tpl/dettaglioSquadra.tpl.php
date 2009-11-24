@@ -1,15 +1,17 @@
 <?php $r = 'Por.'; ?>
-<div>
-	<a title="<?php echo $this->squadraDett['nome']; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '-original.jpg'; ?>" class="fancybox column">
-		<img alt="<?php echo $this->squadraDett['idUtente']; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett['nome']; ?>" />
-	</a>
-	<?php if($this->squadraDett['idUtente'] == $_SESSION['idSquadra']): ?>
-	<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
-		<h4 class="no-margin">Carica il tuo logo:</h4>
-		<input class="upload" name="userfile" type="file" /><br />
-		<input type="submit" class="submit" value="Invia file" />
-	</form>
-	<?php endif; ?>
+<div id="headerSquadra">
+	<div class="column last">
+		<a title="<?php echo $this->squadraDett['nome']; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '-original.jpg'; ?>" class="fancybox column">
+			<img alt="<?php echo $this->squadraDett['idUtente']; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett['nome']; ?>" />
+		</a>
+		<?php if($this->squadraDett['idUtente'] == $_SESSION['idSquadra']): ?>
+		<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
+			<h4 class="no-margin">Carica il tuo logo:</h4>
+			<input class="upload" name="userfile" type="file" /><br />
+			<input type="submit" class="submit" value="Invia file" />
+		</form>
+		<?php endif; ?>
+	</div>
 	<h2 id="nomeSquadra"><?php echo $this->squadraDett['nome']; ?></h2>
 	<div id="datiSquadra">
 		<p>
@@ -81,7 +83,7 @@
 			<?php endif; ?>
 	</div>
 </div>
-<h3 style="clear:both;">Giocatori</h3>
+<h3>Giocatori</h3>
 <table id="rosa" cellpadding="0" cellspacing="0">
 	<tbody>
 		<tr>
@@ -117,3 +119,18 @@
 		<?php endif;?>
 	</tbody>
 </table>
+<script type="text/javascript">
+	$(document).ready(function() { 
+		$(".fancybox").fancybox({
+			'zoomSpeedIn': 500,
+			'zoomSpeedOut' : 500,
+			'imageScale' : true,
+			'zoomOpacity' : true,
+			'overlayShow' : true,
+			'overlayOpacity' : 0.6,
+			'centerOnScroll' : true,
+			'padding' : 0,
+			'hideOnContentClick' : true
+			})
+	}); 
+</script>

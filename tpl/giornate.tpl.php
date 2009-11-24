@@ -14,14 +14,4 @@
 	<?php endforeach; ?>
 	</table>
 	<input type="submit" name="submit" value="Invia" class="submit dark" />
-	<script type="text/javascript">
-		$(document).ready(function() {
-			list =$("input"); 
-			list.each( function(i) {  
-				$(this).datepicker({
-				defaultDate: new Date(list[i].value)
-				});
-			});
-		});
-	</script>
 </form>

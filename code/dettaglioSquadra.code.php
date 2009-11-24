@@ -2,7 +2,7 @@
 require_once(INCDIR . 'utente.db.inc.php');
 require_once(INCDIR . 'punteggio.db.inc.php');
 require_once(INCDIR . 'giocatore.db.inc.php');
-require_once(CODEDIR . 'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE IL DOWNLOAD
+require_once(CODEDIR . 'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE L'UPLOAD
 
 $utenteObj = new utente();
 $punteggioObj = new punteggio();

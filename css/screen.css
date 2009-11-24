@@ -312,9 +312,14 @@ em {
 	width: 150px;
 	height: 25px;
 }
-#formupload {
-	float: left;
-	width: 100%;
+#dettaglioSquadra h3 {
+	clear:both;
+	margin:0;
+}
+#headerSquadra {
+	float:left;
+	width:100%;
+	margin:0 0 10px;
 }
 #formupload .upload {
 	height: 25px;
@@ -322,10 +327,6 @@ em {
 }
 #formupload .submit {
 	margin: 8px 0 0 0;
-}
-#datiSquadra {
-	float: right;
-	width: 300px;
 }
 .logo {
 	margin: 0 auto;
