@@ -80,7 +80,7 @@ class utente
 			$data['abilitaMess'] = '1';
 		foreach($data as $key => $val)
 		{
-			if(!empty($val))
+			if(!empty($val) || $key == 'amministratore')
 			{
 				if($key == 'passwordnew')
 				{

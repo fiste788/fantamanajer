@@ -81,7 +81,7 @@
 	</div>
 	<fieldset class="column no-margin div-submit">
 		<?php if($this->button == 'Cancella'): ?>
-			<input id="elimina" onclick="return FALSE;" type="submit" name="button2" class="submit dark" value="<?php if(isset($this->button)) echo $this->button; ?>" />
+			<input id="elimina" onclick="return false;" type="submit" name="button2" class="submit dark" value="<?php if(isset($this->button)) echo $this->button; ?>" />
 		<?php else: ?>
 			<input type="submit" name="button" class="submit dark" value="<?php if(isset($this->button)) echo $this->button; ?>" />
 		<?php endif; ?>
@@ -90,9 +90,9 @@
 			<script type="text/javascript">
 				$("#elimina").click(function () {
 					$("#dialog").dialog({
-						resizable: FALSE,
+						resizable: false,
 						height:140,
-						modal: TRUE,
+						modal: true,
 						overlay: {
 							backgroundColor: '#000',
 							opacity: 0.5

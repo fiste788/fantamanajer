@@ -20,6 +20,7 @@
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" language="javascript" type="text/javascript"></script>
+		<script type="text/javascript">if(jQuery.browser.msie && jQuery.browser.version<7) window.location="error_docs/not_supported.html";</script>
 		<?php if(!empty($this->js)): ?>
 		<?php foreach($this->js as $key => $val): ?>
 		<?php if(is_array($val)): ?>
