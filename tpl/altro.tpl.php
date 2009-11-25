@@ -19,6 +19,11 @@
 		<img class="logo column last" alt="->" src="<?php echo IMGSURL . 'download.png'; ?>" title="Download" />
 		<div>Scarica i voti di ogni giornata per controllare da te il punteggio ottenuto</div>
 	</div>
+	<div class="box-squadra column last">
+		<h3><a href="<?php echo $this->linksObj->getLink('feed'); ?>">Eventi</a></h3>
+		<img class="logo column last" alt="->" src="<?php echo IMGSURL . 'eventi.png'; ?>" title="Eventi" />
+		<div>Guarda tutto quello che succede al FantaManajer e seguilo grazie ai feed</div>
+	</div>
 	<?php if(!STAGIONEFINITA): ?>
 	<div class="box-squadra column last">
 		<h3><a href="<?php echo $this->linksObj->getLink('formazione'); ?>">Formazione</a></h3>
