@@ -1,5 +1,5 @@
 <?php if(isset($this->lega)): ?>
-<form class="column last" name="newsletter" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
+<form class="column last" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
 	<fieldset class="column last">
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>">
 		<div class="formbox">
@@ -15,8 +15,8 @@
 				<?php endforeach; ?>
 			</select>
 			<div class="selectAll column">
-				<a href="#" onclick="setSelectOptions(TRUE)">Seleziona tutto</a> /
-				<a href="#" onclick="setSelectOptions(FALSE)">Deseleziona tutto</a>
+				<a href="#" onclick="setSelectOptions(true)">Seleziona tutto</a> /
+				<a href="#" onclick="setSelectOptions(false)">Deseleziona tutto</a>
 			</div>
 		</div>
 		<?php else: ?>
@@ -59,7 +59,7 @@
 		<input type="submit" name="button" class="column submit dark" value="Invia" />
 	</fieldset>
 	<script language="javascript" type="text/javascript">
-		<!--
+		// <![CDATA[
 			function ismaxlength(obj,maxLenght){
 			var mlength=maxLenght;
 			if (obj.getAttribute && obj.value.length>mlength) {
@@ -81,7 +81,9 @@
 			}
 		return TRUE;
 		}
-		-->
+		// ]]>
 	</script>
 </form>
+<?php else: ?>
+	<span>Seleziona la lega</span>
 <?php endif; ?>

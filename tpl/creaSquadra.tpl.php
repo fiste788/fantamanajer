@@ -1,6 +1,6 @@
 <?php $j = 0; ?>
 <?php if($this->lega != NULL && isset($this->id) && isset($this->action)): ?>
-<form id="creaSquadra" class="column" name="creaSquadra" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
+<form class="column" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
 	<fieldset class="column no-margin">
 		<input type="hidden" name="a" value="<?php if(isset($this->action)) echo $this->action; ?>" />
 		<input type="hidden" name="id" value="<?php if(isset($this->id)) echo $this->id; ?>" />
@@ -88,6 +88,7 @@
 			<input class="submit dark" type="reset" value="Annulla" />
 		<?php if($this->button == 'Cancella'): ?>
 			<script type="text/javascript">
+			// <![CDATA[
 				$("#elimina").click(function () {
 					$("#dialog").dialog({
 						resizable: false,
@@ -109,6 +110,7 @@
 						}	
 					});
 				});
+			// ]]>
 			</script>
 		<?php endif; ?>
 	</fieldset>

@@ -100,7 +100,7 @@
 <div id="hidden" class="hidden">&nbsp;</div>
 <a id="clearSelection" class="column hidden">(Cancella selezione)</a>
 <script id="source" type="text/javascript">
-<!--
+// <![CDATA[
 	$(function () {
 		var data = [
 			{
@@ -206,13 +206,13 @@
 					$.extend(true, {}, options, {
 						xaxis: { min: Math.round(area.xaxis.from), max: Math.round(area.xaxis.to) }
 				}));
-				overview.setSelection(area, TRUE);
+				overview.setSelection(area, true);
 				$("#legendcontainer table").attr('cellspacing','0');
 			});
 
 			$("#legendcontainer table").attr('cellspacing','0');
 
 });
--->
+// ]]>
 </script>
 <?php endif; ?>

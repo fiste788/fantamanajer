@@ -61,7 +61,7 @@
 			})
 		});
 	</script>
-	<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_GET['squadra'])); ?>" method="post">
+	<form class="column last" id="acquisti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_GET['squadra'])); ?>" method="post">
 		<fieldset>
 			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
 			<label for="player-old">Giocatore vecchio:</label><select id="player-old" name="lascia">

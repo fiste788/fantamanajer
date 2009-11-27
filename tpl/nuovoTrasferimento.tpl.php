@@ -1,5 +1,5 @@
 <?php if(isset($this->squadra) && $this->squadra != NULL): ?>
-<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
+<form class="column last" id="acquisti" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>" />

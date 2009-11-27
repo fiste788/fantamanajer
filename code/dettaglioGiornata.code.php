@@ -73,8 +73,6 @@ $contenttpl->assign('idGiornata',$filterGiornata);
 $contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
 $operationtpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 $operationtpl->assign('penalità',$penalità);
-$operationtpl->assign('giornPrec',$idPrec);
-$operationtpl->assign('giornSucc',$idSucc);
 $operationtpl->assign('giornate',$giornate);
 $operationtpl->assign('idSquadra',$filterSquadra);
 $operationtpl->assign('idGiornata',$filterGiornata);

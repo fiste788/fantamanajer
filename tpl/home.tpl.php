@@ -6,28 +6,18 @@
 <div id="eventi" class="column" style="clear:both;">
 <h3 class="column">Ultimi eventi</h3>
 	<div class="conf-stampa column last" style="clear:both;">
-		<div class="box2-top-sx column last">
-		<div class="box2-top-dx column last">
-		<div class="box2-bottom-sx column last">
-		<div class="box2-bottom-dx column last">
-		<div class="conf-stampa-content column last">
-			<?php foreach($this->eventi as $key =>$val): ?>
-				<h4>
-				<?php if($val['tipo'] != 2): ?>
-					<a name="evento-<?php echo $val['idEvento']; ?>" href="<?php echo $val['link']; ?>" title="<?php echo $val['content']; ?>">
-				<?php endif;?>
-				<?php echo $val['titolo']; ?>
-				<?php if($val['tipo'] != 2): ?>
-					</a>
-				<?php endif;?>
-				</h4>
-			<?php endforeach; ?>
-			<a class="right" href="<?php echo $this->linksObj->getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
+		<?php foreach($this->eventi as $key =>$val): ?>
+			<h4>
+			<?php if($val['tipo'] != 2): ?>
+				<a name="evento-<?php echo $val['idEvento']; ?>" href="<?php echo $val['link']; ?>" title="<?php echo $val['content']; ?>">
+			<?php endif;?>
+			<?php echo $val['titolo']; ?>
+			<?php if($val['tipo'] != 2): ?>
+				</a>
+			<?php endif;?>
+			</h4>
+		<?php endforeach; ?>
+		<a class="right" href="<?php echo $this->linksObj->getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
 	</div>
 </div>
 <?php endif; ?>
@@ -75,6 +65,7 @@
 <?php if(PARTITEINCORSO == FALSE): ?>
 <div id="countdown">Tempo rimanente per la formazione:<br /><div>&nbsp;</div></div>
 <script type="text/javascript">
+	// <![CDATA[
 	var d = new Date();
 	d.setFullYear(<?php echo $this->dataFine['year'] . ',' . ($this->dataFine['month'] -1) . ',' . $this->dataFine['day']; ?>);
 	d.setHours(<?php echo $this->dataFine['hour'] . ',' . $this->dataFine['minute'] . ',' . $this->dataFine['second']; ?>);
@@ -83,6 +74,7 @@
 		date: d,
 		msgNow:'Tempo scaduto'
 	});
+	// ]]>
 </script>
 <?php endif; ?>
 <?php if(isset($_SESSION['message'])): ?>
@@ -91,10 +83,12 @@
 		<span><?php echo $_SESSION['message'][1]; ?></span>
 	</div>
 	<script type="text/javascript">
+	// <![CDATA[
 	$(document).ready(function() {$('#messaggio').effect('pulsate',{times: 3 }); });
 	$("#messaggio").click(function () {
 		$("div#messaggio").fadeOut("slow");
 	});
+	// ]]>
 	</script>
 <?php unset($_SESSION['message']); endif; ?>
 <?php if($_SESSION['logged'] == TRUE): ?>
@@ -105,7 +99,7 @@
 		<tbody>
 			<tr>
 				<th>Squadra</th>
-				<th width="1px">P.ti</th>
+				<th>P.ti</th>
 			</tr>
 			<?php $i=0; ?>
 			<?php foreach ($this->classifica as $key => $val): ?>

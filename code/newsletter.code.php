@@ -98,4 +98,6 @@ $contenttpl->assign('elencoLeghe',$elencoLeghe);
 $contenttpl->assign('lega',$filterLega);
 if($filterLega != NULL && $filterLega != 0)
 	$contenttpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+$operationtpl->assign('elencoLeghe',$elencoLeghe);
+$operationtpl->assign('lega',$filterLega);
 ?>

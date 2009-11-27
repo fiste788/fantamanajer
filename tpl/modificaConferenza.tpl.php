@@ -1,5 +1,5 @@
-<script language="javascript" type="text/javascript">
-<!--
+<script type="text/javascript">
+// <![CDATA[
 function ismaxlength(obj,maxLenght)
 {
 	var mlength=maxLenght;
@@ -29,9 +29,9 @@ function addEmoticon(insert){
 	obj.selectionEnd = appo;
 	obj.scrollTop = scroll;
 }
--->
+// ]]>
 </script>
-<form name="editConfStampa" method="post" action="<?php echo $this->linksObj->getLink('modificaConferenza',$this->goTo); ?>">
+<form method="post" action="<?php echo $this->linksObj->getLink('modificaConferenza',$this->goTo); ?>">
 	<fieldset class="no-margin">
 			<div class="formbox">
 				<label for="title">Titolo: *</label>

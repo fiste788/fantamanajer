@@ -22,11 +22,11 @@
 	</div>
 <?php endif; ?>
 <?php if($_SESSION['roles'] == '2'): ?>
-<form class="column last" name="selezionaLega" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
-	<input type="hidden" name="p" value="creaSquadra" />
-	<input type="hidden" name="a" value="new" />
-	<input type="hidden" name="id" value="0" />
+<form class="column last" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
+		<input type="hidden" name="p" value="creaSquadra" />
+		<input type="hidden" name="a" value="new" />
+		<input type="hidden" name="id" value="0" />
 		<h3>Seleziona la lega</h3>
 		<select name="lega" onchange="document.selezionaLega.submit();">
 			<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>

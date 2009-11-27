@@ -45,7 +45,7 @@
 </div>
 <?php endif; ?>
 <?php if(isset($this->squadra) && $this->squadra != NULL): ?>
-<form class="column last" id="penalità" name="penalità" action="<?php echo $this->linksObj->getLink('penalita'); ?>" method="post">
+<form class="column last" id="penalità" action="<?php echo $this->linksObj->getLink('penalita'); ?>" method="post">
 	<fieldset class="no-margin">
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>" />
 		<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />

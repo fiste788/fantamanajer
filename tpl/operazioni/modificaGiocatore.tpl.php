@@ -10,19 +10,19 @@
 	</fieldset>
 </form>
 <script type="text/javascript">
-<!--
+// <![CDATA[
 	$("#ricerca select").change(function () {
 		if(this.value != "")
 		{
 			$.ajax({
 				url: 'dettaglioGiocatore/edit/' + this.value + '.html',
 				type: "post",
-				cache: FALSE,
+				cache: false,
 				dataType: "xml",
 				complete: function(xml,text){
 					dettaglio = $("#dettaglioGioc",xml.responseText);
-					$("#dettaglioGioc").empty();
-					$("#dettaglioGioc").html($(dettaglio).html());
+					$("#dettaglioGiocatore").empty();
+					$("#dettaglioGiocatore").html($(dettaglio).html());
 					$("#upload").after('<input type="button" name="button" class="submit dark" value="Modifica" onclick="document.modifica.submit()" />');
 				}
 			});
@@ -32,15 +32,15 @@
 	$.ajax({
 		url: 'dettaglioGiocatore/edit/<?php echo $_POST['idGioc'] ?>.html',
 		type: "post",
-		cache: FALSE,
+		cache: false,
 		dataType: "xml",
 		complete: function(xml,text){
-			dettaglio = $("#dettaglioGioc",xml.responseText);
-			$("#dettaglioGioc").empty();
-			$("#dettaglioGioc").html($(dettaglio).html());
+			dettaglio = $("#dettaglioGiocatore",xml.responseText);
+			$("#dettaglioGiocatore").empty();
+			$("#dettaglioGiocatore").html($(dettaglio).html());
 			$("#upload").after('<input type="button" name="button" class="submit dark" value="Modifica" onclick="document.modifica.submit()" />');
 		}
 	});
 	<?php endif; ?>
--->
+// ]]>
 </script>

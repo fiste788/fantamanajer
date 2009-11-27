@@ -5,10 +5,12 @@
 			<img alt="<?php echo $this->squadraDett['idUtente']; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett['nome']; ?>" />
 		</a>
 		<?php if($this->squadraDett['idUtente'] == $_SESSION['idSquadra']): ?>
-		<form enctype="multipart/form-data" id="formupload" name="uploadlogo" action="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
-			<h4 class="no-margin">Carica il tuo logo:</h4>
-			<input class="upload" name="userfile" type="file" /><br />
-			<input type="submit" class="submit" value="Invia file" />
+		<form enctype="multipart/form-data" id="formupload" action="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
+			<fieldset class="no-margin no-padding">
+				<h4 class="no-margin">Carica il tuo logo:</h4>
+				<input class="upload" name="userfile" type="file" /><br />
+				<input type="submit" class="submit" value="Invia file" />
+			</fieldset>
 		</form>
 		<?php endif; ?>
 	</div>
@@ -42,42 +44,44 @@
 					<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
 					<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a href="">Clicca quì</a></p>
 				<div class="hidden no-margin">
-					<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" name="data" method="post">
-						<?php if(GIORNATA <= 2): ?>
-						<div class="formbox">
-							<label for="nomeSquadra">Nome squadra:</label>
-							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadraDett['nome']; ?>"/>
-						</div>
-						<?php endif; ?>
-						<div class="formbox">
-							<label for="name">Nome:</label>
-							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett['nomeProp']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="surname">Cognome:</label>
-							<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadraDett['cognome']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="username">Username:</label>
-							<input id="username" class="text" type="text" maxlength="15" name="usernamenew"  value="<?php echo $this->squadraDett['username']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="email">E-mail:</label>
-							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett['mail']; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="abilitaMail">Ricevi email:</label>
-							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadraDett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
-						</div>
-						<div class="formbox">
-							<label for="password">Password:</label>
-							<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
-						</div>
-						<div class="formbox">
-							<label for="passwordrepeat">Ripeti Pass:</label>
-							<input id="passwordrepeat" class="text" type="password" maxlength="12" name="passwordnewrepeat"/>
-						</div>
-						<input type="submit" class="submit" value="OK" />
+					<form id="userdata" action="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_GET['squadra'])); ?>" method="post">
+						<fieldset class="no-margin no-padding">
+							<?php if(GIORNATA <= 2): ?>
+							<div class="formbox">
+								<label for="nomeSquadra">Nome squadra:</label>
+								<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadraDett['nome']; ?>"/>
+							</div>
+							<?php endif; ?>
+							<div class="formbox">
+								<label for="name">Nome:</label>
+								<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett['nomeProp']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="surname">Cognome:</label>
+								<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadraDett['cognome']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="username">Username:</label>
+								<input id="username" class="text" type="text" maxlength="15" name="usernamenew"  value="<?php echo $this->squadraDett['username']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="email">E-mail:</label>
+								<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett['mail']; ?>"/>
+							</div>
+							<div class="formbox">
+								<label for="abilitaMail">Ricevi email:</label>
+								<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadraDett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
+							</div>
+							<div class="formbox">
+								<label for="password">Password:</label>
+								<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
+							</div>
+							<div class="formbox">
+								<label for="passwordrepeat">Ripeti Pass:</label>
+								<input id="passwordrepeat" class="text" type="password" maxlength="12" name="passwordnewrepeat"/>
+							</div>
+							<input type="submit" class="submit" value="OK" />
+						</fieldset>
 					</form>
 				</div>
 			<?php endif; ?>

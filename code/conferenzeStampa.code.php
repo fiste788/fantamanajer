@@ -61,8 +61,6 @@ else
 $contenttpl->assign('articoli',$articolo);
 $contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 $operationtpl->assign('idGiornata',$filterGiornata);
-$operationtpl->assign('giornPrec',$idPrec);
-$operationtpl->assign('giornSucc',$idSucc);
 $operationtpl->assign('giornateWithArticoli',$giornateWithArticoli);
 $layouttpl->assign('quickLinks',$quickLinks);
 ?>
