@@ -24,19 +24,19 @@ $linksObj = new links();
 				<span><?php echo $this->loginerror; ?></span>
 			</div>
 		<?php endif; ?>
-			<form class="column last" action="<?php echo $linksObj->getLink('home'); ?>" method="post">
-				<fieldset>
-					<div class="field column">
-						<label for="username">Username:</label>
-						<input class="text" id="username" maxlength="12" type="text" name="username" />
-					</div>
-					<div class="field column">
-						<label for="password">Password:</label>
-						<input class="text" id="password" type="password" maxlength="12" name="password" />
-					</div>
-					<input class="submit" type="submit" name="login" value="" />
-				</fieldset>
-			</form>
+		<form class="column last" action="<?php echo $linksObj->getLink('home'); ?>" method="post">
+			<fieldset>
+				<div class="field column">
+					<label for="username">Username:</label>
+					<input class="text" id="username" maxlength="12" type="text" name="username" />
+				</div>
+				<div class="field column">
+					<label for="password">Password:</label>
+					<input class="text" id="password" type="password" maxlength="12" name="password" />
+				</div>
+				<input class="submit" type="submit" name="login" value="" />
+			</fieldset>
+		</form>
 	<?php elseif($_SESSION['logged']): ?>
 		<div class="field column">
 			<a class="logout right" href="<?php echo $linksObj->getLink('home',array('logout'=>TRUE)); ?>" title="Logout">Logout</a>

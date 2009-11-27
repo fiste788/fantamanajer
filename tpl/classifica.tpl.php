@@ -49,6 +49,7 @@
 	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
 </div>
 <script id="source" type="text/javascript">
+// <![CDATA[
 	var datasets = {
 		<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $key; ?>": {
 			label: "<?php echo $this->squadre[$key]['nome']; ?>",
@@ -66,6 +67,6 @@
 	$(document).ready(function() {
 		$(document).classifica(datasets,medie,squadra);
 	});
-
+// ]]>
 </script>
 <?php endif; ?>

@@ -27,6 +27,7 @@
 	</div>
 <?php endforeach; ?>
 <script type="text/javascript">
+// <![CDATA[
 	$(document).ready(function() { 
 		$(".fancybox").fancybox({
 			'zoomSpeedIn': 500,
@@ -39,5 +40,6 @@
 			'padding' : 0,
 			'hideOnContentClick' : true
 			})
-	}); 
+	});
+// ]]>
 </script>

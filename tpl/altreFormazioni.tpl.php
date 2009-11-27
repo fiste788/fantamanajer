@@ -1,6 +1,5 @@
 <?php $j=0; $i=0; ?>
 <?php $ruo = array(0 => 'Portiere',1 => 'Difensori',2 => 'Centrocampisti',3 => 'Attaccanti'); ?>
-
 	<h3>Giornata <?php echo $this->getGiornata; ?></h3>
 	<?php if($this->formazione != FALSE): ?>
 		<img alt="modulo" id="img-modulo" title="<?php echo substr($this->modulo,2) ?>" src="<?php echo IMGSURL.$this->modulo.'.png' ?>" />
