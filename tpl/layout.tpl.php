@@ -20,6 +20,7 @@
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" language="javascript" type="text/javascript"></script>
+		<script src="<?php echo JSURL . 'ui/effects-pulsate.js'; ?>" language="javascript" type="text/javascript"></script>
 		<script type="text/javascript">if(jQuery.browser.msie && jQuery.browser.version<7) window.location="error_docs/not_supported.html";</script>
 		<?php if(!empty($this->js)): ?>
 		<?php foreach($this->js as $key => $val): ?>
@@ -49,34 +50,44 @@
 			<?php echo $this->navbar ?>
 		</div>
 		<div id="content" class="column last">
-			<?php if(isset($this->message)): ?>
-			<?php switch($this->message['level']): 
-				 case 0: ?>
-				<div id="messaggio" title="Clicca per nascondere" class="messaggio good column last">
-					<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
-				<?php break; case 1: ?>
-				<div id="messaggio" title="Clicca per nascondere" class="messaggio bad column last">
-					<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-				<?php break; case 2: ?>
-				<div id="messaggio" title="Clicca per nascondere" class="messaggio neut column last">
-					<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
-				<?php endswitch; ?>
-					<span><?php echo $this->message['text']; ?></span>
-				</div>
-				<script type="text/javascript">
-					$(document).ready(function(){
-						$("#messaggio").effect("pulsate", { times: 2 }, 1000, function(){
-							$("#messaggio").hover(function () {
-								$(this).fadeTo("fast",0.2);
-							},function () {
-								$(this).fadeTo("fast",1);
+			<?php if(isset($this->message) || isset($this->generalMessage)): ?>
+				<div id="messaggioContainer" title="Clicca per nascondere">
+				<?php if(isset($this->generalMessage)): ?>
+					<div title="Clicca per nascondere" class="messaggio bad column last">
+						<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+						<span><?php echo $this->generalMessage; ?></span>
+					</div>
+				<?php endif; ?>
+				<?php if(isset($this->message)): ?>
+					<?php switch($this->message['level']): 
+						 case 0: ?>
+						<div class="messaggio good column last">
+							<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
+						<?php break; case 1: ?>
+						<div class="messaggio bad column last">
+							<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+						<?php break; case 2: ?>
+						<div class="messaggio neut column last">
+							<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
+						<?php endswitch; ?>
+							<span><?php echo $this->message['text']; ?></span>
+						</div>
+					<?php endif; ?>
+					<script type="text/javascript">
+						$(document).ready(function(){
+							$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
+								$(".messaggio").hover(function () {
+									$(this).fadeTo("fast",0.2);
+								},function () {
+									$(this).fadeTo("fast",1);
+								});
+							});
+							$(".messaggio").click(function () {
+								$(this).fadeOut("slow");
 							});
 						});
-						$("#messaggio").click(function () {
-							$("div#messaggio").fadeOut("slow");
-						});
-					});
-				</script>
+					</script>
+				</div>
 			<?php endif; ?>
 			<div id="<?php echo $this->p; ?>" class="main-content">
 				<?php echo $this->content; ?>

@@ -88,15 +88,15 @@
 	<tbody>
 		<tr>
 			<th>Nome</th>
-			<th class="tdcenter">Ruolo</th>
-			<th class="tdcenter">Club</th>
-			<th class="tdcenter">PG</th>
-			<th class="tdcenter">MVoti</th>
-			<th class="tdcenter">MPunti</th>
-			<th class="tdcenter">Gol</th>
-			<th class="tdcenter">Assist</th>
-			<th class="tdcenter">Ammonizioni</th>
-			<th class="tdcenter">Esplusioni</th>
+			<th class="center">Ruolo</th>
+			<th class="center">Club</th>
+			<th class="center">PG</th>
+			<th class="center">MVoti</th>
+			<th class="center">MPunti</th>
+			<th class="center">Gol</th>
+			<th class="center">Assist</th>
+			<th class="center">Ammonizioni</th>
+			<th class="center">Esplusioni</th>
 		</tr>
 		<?php if(!empty($this->giocatori)): ?>
 			<?php foreach($this->giocatori as $key => $val): ?>
