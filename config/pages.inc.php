@@ -5,7 +5,7 @@
  
 $pages = array();
 	$pages['home'] = array(	'title'=>"Home",
-									'js'=>array('ui'=>array('ui-core','ui-tabs','effects-core','effects-pulsate'),'countdown'=>'countdown'),
+									'js'=>array('countdown'=>'countdown'),
 									'roles'=>-1,
 									'navbar'=>array('key'=>'home','title'=>'Home','order'=>1,'main'=>TRUE));
 									
@@ -20,7 +20,6 @@ $pages = array();
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 								
 	$pages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
-								'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'conferenzeStampa','title'=>'Conferenze stampa','order'=>4,'main'=>TRUE));
 								
@@ -83,17 +82,15 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Eventi'));
 
 	$pages['formazioneBasic'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 										
 	$pages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('ui-core','effects-core','effects-pulsate','ui-draggable','ui-droppable')),
+										'js'=>array('ui'=>array('ui-core','ui-draggable','ui-droppable')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 									
 	$pages['trasferimenti'] = array(	'title'=>"Trasferimenti",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Trasferimenti'));
 										
@@ -106,7 +103,6 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										
 	$pages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'conferenzeStampa','title'=>'Crea o modifica conferenza'));
 							
@@ -115,53 +111,47 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Download'));
 										
 	$pages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
-										'js'=>array('ui'=>array('ui-core','ui-dialog','effects-core','effects-pulsate')),
+										'js'=>array('ui'=>array('ui-core','ui-dialog')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Crea una nuova squadra'));
 										
 	$pages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Nuovo trasferimento'));
 										
 	$pages['inserisciFormazione'] = array(	'title'=>"Inserisci formazione mancante",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione formazioni'));
 										
 	$pages['newsletter'] = array(	'title'=>"Newsletter",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Newsletter'));
 
 	$pages['penalita'] = array(	'title'=>"Penalità",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Penalità'));
 										
 	$pages['impostazioni'] = array(	'title'=>"Impostazioni lega",
-										'js'=>array('markitup'=>array('jquery-markitup','html'),'ui'=>array('effects-core','effects-pulsate')),
+										'js'=>array('markitup'=>array('jquery-markitup','html')),
 										'css'=>array('markitup'),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Impostazioni lega'));
 									
 	$pages['gestioneDatabase'] = array(	'title'=>"Gestione database",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione database'));
 
 	$pages['lanciaScript'] = array(	'title'=>"Lancia script",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate'),'custom'=>array('lanciaScript')),
+										'js'=>array('custom'=>array('lanciaScript')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Lancia script'));
 										
 	$pages['modificaGiocatore'] = array(	'title'=>"Modifica giocatore",
-										'js'=>array('ui'=>array('effects-core','effects-pulsate'),'flot'=>array('ie|excanvas','jquery-flot')),
+										'js'=>array('flot'=>array('ie|excanvas','jquery-flot')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
 										
 	$pages['giornate'] = array(	'title'=>"Giornate",
-										'js'=>array('ui'=>array('ui-core','ui-datepicker','ui-timepicker','effects-core','effects-pulsate')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Giornate'));								
 ?>

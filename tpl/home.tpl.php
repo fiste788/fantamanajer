@@ -1,76 +1,7 @@
-
 <?php if(GIORNATA == 1): ?>
 <h2 class="no-margin center">Ricordati di impostare il nome della squadra!</h2>
 <p class="center">Lo trovi nella pagina rosa e lo puoi cambiare entro la seconda giornata di campionato</p>
 <?php endif; ?>
-<div id="tabs">
-	<ul id="icone" class="ui-tabs-nav column last">
-		<li><a href="#grafica">
-			<img id="grafica-icon" src="<?php echo IMGSURL.'grafica-icon.png' ?>" title="Nuova grafica" alt="1" />
-		</a></li>
-		<li><a href="#effetti">
-			<img id="effetti-icon" src="<?php echo IMGSURL.'effetti-icon.png' ?>" title="Effetti" alt="2" />
-		</a></li>
-		<li><a href="#coming-soon">
-			<img id="coming-soon-icon" src="<?php echo IMGSURL.'coming-soon-icon.png' ?>" title="Coming soon" alt="3" />
-		</a></li>
-		<li><a href="#valid">
-			<img id="valid-icon" src="<?php echo IMGSURL.'valid-icon.png' ?>" title="Valido W3C" alt="4" />
-		</a></li>
-		<li><a href="#rss">
-			<img id="beta-icon" src="<?php echo IMGSURL.'rss-icon.png' ?>" title="Feed RSS" alt="5" />
-		</a></li>
-	</ul>
-	<div id="box-home" class="column last">
-		<div class="box2-top-sx column last">
-		<div class="box2-top-dx column last">
-		<div class="box2-bottom-sx column last">
-		<div class="box2-bottom-dx column last">
-		<div class="box-content column last">
-			<div id="grafica" class="ui-tabs-panel">
-				<img class="column" src="<?php echo IMGSURL.'grafica.png'; ?>" alt="Nuova Grafica" />
-				<h2>Nuova Grafica</h2>
-				<p>FantaManajer 2.0 introduce una nuovissima grafica in stile web 2.0. Nuove icone, nuovi sfondi per rendere più piacevole la navigazione</p>
-			</div>
-			<div id="effetti" class="ui-tabs-panel">
-				<img class="column" src="<?php echo IMGSURL.'effetti.png'; ?>" alt="Effetti" />
-				<h2>Effetti</h2>
-				<p>Grazie alle librerie di jQuery (noto framework javascript) sono stati aggiunti diversi effetti per rendere il nuovo FantaManajer più accattivante. Popup, trasparenze e animazioni e molto altro...</p>
-			</div>
-			<div id="coming-soon" class="ui-tabs-panel">
-				<img class="column" src="<?php echo IMGSURL.'coming-soon.png'; ?>" alt="Coming soon" />
-				<h2>Coming soon</h2>
-				<p>Per la prossima stagione verrà implementato un metodo del tutto nuovo per la settare la formazione. Esso consistera in dei riquadri con il nome del giocatore che sarà possibile trascinare sul campo e mettere il giocatore nella posizione desiderata. E ci sarà anche un'interfaccia di amministrazione per gli admin</p>
-			</div>
-			<div id="valid" class="ui-tabs-panel">
-				<img class="column" src="<?php echo IMGSURL.'valid.png'; ?>" alt="Valido W3C"/>
-				<h2>Valido W3C</h2>
-				<p>Da questa versione l'intero sito è stato validato secondo gli standard web del W3C. Questo consiste nel non avere errori nelle pagine e una maggiore integrazione cross-browser (nessuna differenza tra i browser)</p>
-			</div>
-			<div id="rss" class="ui-tabs-panel">
-				<img class="column" src="<?php echo IMGSURL.'rss.png'; ?>" alt="RSS"/>
-				<h2>Feed RSS</h2>
-				<p>Nel FantaManajer 2.0 sono stati introdotti gli eventi con la possibilità di estrarre i feed RSS per aggiungerli alle tue pagine personali come iGoogle o Netvibes. Aggiungi il seguente link per abbonarti al feed RSS del FantaManajer http://www.fantamanajer.it/rss.php</p>
-			</div>
-		</div>
-	</div>
-	</div>
-	</div>
-	</div>
-	</div>
-</div>
-<script type="text/javascript">
-	$(document).ready( function() {
-		$('#tabs').tabs({
-			event:'mouseover',
-			cache:true,
-			show: function(ui)
-			{
-				if(jQuery.browser.msie)
-					$(".panel").removeAttr('style');
-			}, fx: { opacity: 'toggle',duration:300 } }).tabs('rotate', 5000,false);
-	});
-</script>
 <?php if($this->eventi != FALSE) :?>
 <div id="eventi" class="column" style="clear:both;">
 <h3 class="column">Ultimi eventi</h3>

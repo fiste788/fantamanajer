@@ -5,7 +5,7 @@
 			<div class="riga column last">
 		<?php endif; ?>
 		<?php $i++; ?>		
-		<div class="conf-stampa column<?php if($i % 2 == 0) echo ' last'; ?>">
+		<div class="box column<?php if($i % 2 == 0) echo ' last'; ?>">
 			<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val['idSquadra']): ?>
 				<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
 					<img src="<?php echo IMGSURL . 'edit.png'; ?>" alt="m" title="Modifica" />
