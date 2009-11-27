@@ -1,4 +1,4 @@
-<?php $i=0; ?>
+<?php $i = 0; ?>
 <?php if(isset($this->articoli) && !empty($this->articoli)):?>
 	<?php foreach($this->articoli as $key => $val): ?>
 		<?php if($i % 2 == 0): ?>

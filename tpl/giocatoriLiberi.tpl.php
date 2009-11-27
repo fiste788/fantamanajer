@@ -1,6 +1,7 @@
 <?php if($this->validFilter): ?>
 	<?php if(!PARTITEINCORSO || !STAGIONEFINITA): ?>
-		<form name="acq" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_SESSION['idSquadra'])); ?>" method="post">
+		<form action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_SESSION['idSquadra'])); ?>" method="post">
+			<fieldset class="no-margin no-padding">
 	<?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
@@ -40,6 +41,7 @@
 	</table>
 	<?php if(!PARTITEINCORSO || !STAGIONEFINITA && $_SESSION['legaView'] == $_SESSION['idLega']): ?><p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
 		<input type="submit" class="submit" value="Acquista" />
+		</fieldset>
 	</form>
 	<?php endif; ?>
 <?php else: ?>

@@ -84,7 +84,5 @@ $contenttpl->assign('ruoli',$ruo);
 $contenttpl->assign('ruoliPlurale',$ruoplu);
 $operationtpl->assign('idGioc',$filterId);
 $operationtpl->assign('elencoGiocatori',$elencoGiocatori);
-$operationtpl->assign('giocPrec',$idPrec);
-$operationtpl->assign('giocSucc',$idSucc);
 $layouttpl->assign('quickLinks',$quickLinks);
 ?>

@@ -239,6 +239,10 @@ label {
 #login-center {
 	background: transparent url(../imgs/bg-content.png) repeat;
 }
+#login fieldset {
+	padding: 0;
+	margin:0;
+}
 #login .submit {
 	background: transparent url(../imgs/login-button.png);
 	width:22px;
@@ -331,8 +335,8 @@ a.logout, a.logout:hover, a.logout:visited {
 	float:left;
 }
 .selected .son {
-	padding-left:0;
-	padding-right:0;
+	padding-left:0 !important;
+	padding-right:0 !important;
 }
 .selected div {
 	background: transparent url(../imgs/roundedborders.png) no-repeat right 0;
@@ -545,6 +549,9 @@ row:hover a {
 }
 #modificaConferenza #emoticons {
 	margin: 0 0 0 130px;
+}
+#emoticons .emoticon {
+	margin: 0;
 }
 #modificaConferenza .emoticon:hover {
 	cursor: pointer;

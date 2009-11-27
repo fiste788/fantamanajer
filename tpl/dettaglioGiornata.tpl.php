@@ -58,17 +58,17 @@
 					<?php if($val['considerato'] == 1): ?>
 						<tr class="verde">
 							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL.'player-tit.png' ?>"/></a>
+								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png' ?>"/></a>
 							</td>
 					<?php elseif($val['considerato'] == 2): ?>
 						<tr>
 							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['gioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap.png' ?>"/></a>
+								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png' ?>"/></a>
 							</td>
 					<?php else: ?>
 						<tr>
 							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['gioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch.png' ?>"/></a>
+								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png' ?>"/></a>
 							</td>
 					<?php endif; ?>
 							<td><?php echo $val['cognome']; ?></td>
