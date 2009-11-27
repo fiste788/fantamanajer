@@ -42,60 +42,64 @@
 	<?php flush(); ?>
 	<body>
 		<div id="big-container">
-		<div id="header" class="column last">
-			<?php echo $this->header; ?>
-		</div>
-		<?php require('login.tpl.php'); ?>
-		<div id="navbar" class="column last">
-			<?php echo $this->navbar ?>
-		</div>
-		<div id="content" class="column last">
-			<?php if(isset($this->message) || isset($this->generalMessage)): ?>
-				<div id="messaggioContainer" title="Clicca per nascondere">
-				<?php if(isset($this->generalMessage)): ?>
-					<div title="Clicca per nascondere" class="messaggio bad column last">
-						<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-						<span><?php echo $this->generalMessage; ?></span>
-					</div>
-				<?php endif; ?>
-				<?php if(isset($this->message)): ?>
-					<?php switch($this->message['level']): 
-						 case 0: ?>
-						<div class="messaggio good column last">
-							<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
-						<?php break; case 1: ?>
-						<div class="messaggio bad column last">
+			<div id="header" class="column last">
+				<?php echo $this->header; ?>
+			</div>
+			<?php require('login.tpl.php'); ?>
+			<div id="navbar" class="column last">
+				<?php echo $this->navbar ?>
+			</div>
+			<div id="content" class="column last">
+				<?php if(isset($this->message) || isset($this->generalMessage)): ?>
+					<div id="messaggioContainer" title="Clicca per nascondere">
+					<?php if(isset($this->generalMessage)): ?>
+						<div title="Clicca per nascondere" class="messaggio bad column last">
 							<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-						<?php break; case 2: ?>
-						<div class="messaggio neut column last">
-							<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
-						<?php endswitch; ?>
-							<span><?php echo $this->message['text']; ?></span>
+							<span><?php echo $this->generalMessage; ?></span>
 						</div>
 					<?php endif; ?>
-					<script type="text/javascript">
-						$(document).ready(function(){
-							$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
-								$(".messaggio").hover(function () {
-									$(this).fadeTo("fast",0.2);
-								},function () {
-									$(this).fadeTo("fast",1);
+					<?php if(isset($this->message)): ?>
+						<?php switch($this->message['level']): 
+							 case 0: ?>
+							<div class="messaggio good column last">
+								<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
+								<span><?php echo $this->message['text']; ?></span>
+							</div>
+							<?php break; case 1: ?>
+							<div class="messaggio bad column last">
+								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+								<span><?php echo $this->message['text']; ?></span>
+							</div>
+							<?php break; case 2: ?>
+							<div class="messaggio neut column last">
+								<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
+								<span><?php echo $this->message['text']; ?></span>
+							</div>
+							<?php endswitch; ?>
+						<?php endif; ?>
+						<script type="text/javascript">
+							$(document).ready(function(){
+								$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
+									$(".messaggio").hover(function () {
+										$(this).fadeTo("fast",0.2);
+									},function () {
+										$(this).fadeTo("fast",1);
+									});
+								});
+								$(".messaggio").click(function () {
+									$(this).fadeOut("slow");
 								});
 							});
-							$(".messaggio").click(function () {
-								$(this).fadeOut("slow");
-							});
-						});
-					</script>
+						</script>
+					</div>
+				<?php endif; ?>
+				<div id="<?php echo $this->p; ?>" class="main-content">
+					<?php echo $this->content; ?>
 				</div>
-			<?php endif; ?>
-			<div id="<?php echo $this->p; ?>" class="main-content">
-				<?php echo $this->content; ?>
 			</div>
-		</div>
-		<div id="footer">
-			<?php echo $this->footer; ?>
-		</div>
+			<div id="footer">
+				<?php echo $this->footer; ?>
+			</div>
 		</div>
 		<div id="rightBar">
 			<?php if(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] != FALSE): ?>
