@@ -55,16 +55,19 @@
 	<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>
 	<p class="surprise">Quì è possibile indicare il nome del giocatore che volete acquistare. Se il giocatore è stato già selezionato da una squadra inferiore alla tua in classifica allora riceverai un messaggio di errore.<br />Al contrario il giocatore sarà selezionato per la tua squadra.<br />Se il proprietario di una squadra inferiore alla tua seleziona il tuo stesso giocatore il giocatore diventerà suo e una mail ti avviserà dell'accaduto in modo che tu puoi selezionare un nuovo giocatore.<br/>I trasferimenti saranno eseguiti nella nottata del giorno della giornata. Ad esempio se la giornata è il 25-12-2007 alora saranno eseguiti nella notte del 25-12-2007 in modo tale che nella mattinata e nel pomeriggio che mancano all'inizio della giornata voi potrete schierare il nuovo giocatore acquistato.Ora è possibile cambiare il giocatore selezionato 2 sole volte.</p>
 	<script type="text/javascript">
+	// <![CDATA[
 		$(document).ready(function() {
 			$("a.info").click(function() {
 				$("p.surprise").slideToggle();
 			})
 		});
+	// ]]>
 	</script>
 	<form class="column last" id="acquisti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_GET['squadra'])); ?>" method="post">
 		<fieldset>
 			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
-			<label for="player-old">Giocatore vecchio:</label><select id="player-old" name="lascia">
+			<label for="player-old">Giocatore vecchio:</label>
+			<select id="player-old" name="lascia">
 				<option></option>
 				<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 					<optgroup label="<?php echo $valRuoli; ?>">
@@ -76,7 +79,8 @@
 				</optgroup>
 				<?php endforeach; ?>
 			</select>
-			<label for="player-new">Giocatore nuovo:</label><select id="player-new" name="acquista">
+			<label for="player-new">Giocatore nuovo:</label>
+			<select id="player-new" name="acquista">
 				<option></option>
 				<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 					<optgroup label="<?php echo $valRuoli; ?>">

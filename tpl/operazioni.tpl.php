@@ -1,10 +1,4 @@
 <?php if(isset($_GET['squadra'])) $squadra = $_GET['squadra']; else $squadra = $_SESSION['idSquadra']; ?>
-<?php if(isset($this->generalMessage)): ?>	
-	<div id="messaggioGen" class="messaggio bad column last">
-		<img alt="!" src="<?php echo IMGSURL . 'attention-bad-big.png'; ?>" title="Attenzione!" />
-		<span><?php echo $this->generalMessage; ?></span>
-	</div>
-<?php endif; ?>
 <div id="operazioni" class="column last">
 	<ul class="operazioni-content">
 	<?php if(STAGIONEFINITA == FALSE): ?>

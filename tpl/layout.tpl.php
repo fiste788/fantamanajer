@@ -6,7 +6,7 @@
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
 		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
 		<meta name="author" content="Stefano Sonzogni"/>
-		<meta name="keywords" content="fantacalcio,fantamanajer,fantamanger,manageriale fantacalcio,alzano sopra,condominio i pini,bergamo,calcio,piazzetta" />
+		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
 		<link href="<?php echo CSSURL . 'screen.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
@@ -128,12 +128,12 @@
 			// <![CDATA[
 				$(document).ready(function(){
 					$("#click-menu").toggle(function(event){
-							$("#menu").animate({right:'0px'},'slow');
-							$("#click-menu").attr("title","Nascondi menu");
+						$("#menu").animate({right:'0px'},'slow');
+						$("#click-menu").attr("title","Nascondi menu");
 					},
 					function(event){
-							$("#menu").animate({right:'-300px'},'slow');
-							$("#click-menu").attr("title","Mostra menu");
+						$("#menu").animate({right:'-300px'},'slow');
+						$("#click-menu").attr("title","Mostra menu");
 					});
 				});
 			// ]]>

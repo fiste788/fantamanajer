@@ -55,29 +55,29 @@
 				<th class="punt">Punt.</th>
 			</tr>
 			<?php foreach($this->panchinari as $key => $val): ?>
-					<?php if($val['considerato'] == 1): ?>
-						<tr class="verde">
-							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png' ?>"/></a>
-							</td>
-					<?php elseif($val['considerato'] == 2): ?>
-						<tr>
-							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png' ?>"/></a>
-							</td>
-					<?php else: ?>
-						<tr>
-							<td class="tableimg">
-								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png' ?>"/></a>
-							</td>
-					<?php endif; ?>
-							<td><?php echo $val['cognome']; ?></td>
-							<td><?php echo $val['nome']; ?></td>
-							<td><?php echo $val['ruolo']; ?></td>
-							<td><?php echo strtoupper(substr($val['nomeClub'],0,3)); ?></td>
-							<td><?php if($val['titolare']) echo "X";else echo "&nbsp;"; ?></td>
-							<td><?php if(!empty($val['voto'])) echo $val['punti']; else echo "&nbsp;"; ?></td>
-						</tr>
+				<?php if($val['considerato'] == 1): ?>
+					<tr class="verde">
+						<td class="tableimg">
+							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png' ?>"/></a>
+						</td>
+				<?php elseif($val['considerato'] == 2): ?>
+					<tr>
+						<td class="tableimg">
+							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val['idGioc'])); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png' ?>"/></a>
+						</td>
+				<?php else: ?>
+					<tr>
+						<td class="tableimg">
+							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png' ?>"/></a>
+						</td>
+				<?php endif; ?>
+						<td><?php echo $val['cognome']; ?></td>
+						<td><?php echo $val['nome']; ?></td>
+						<td><?php echo $val['ruolo']; ?></td>
+						<td><?php echo strtoupper(substr($val['nomeClub'],0,3)); ?></td>
+						<td><?php if($val['titolare']) echo "X";else echo "&nbsp;"; ?></td>
+						<td><?php if(!empty($val['voto'])) echo $val['punti']; else echo "&nbsp;"; ?></td>
+					</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>

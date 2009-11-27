@@ -77,23 +77,6 @@
 	// ]]>
 </script>
 <?php endif; ?>
-<?php if(isset($_SESSION['message'])): ?>
-	<div id="messaggio" class="messaggio neut column last">
-		<img alt="!" src="<?php if($_SESSION['message'][0] == 0) echo IMGSURL.'lock.png'; else echo IMGSURL.'attention-big.png'; ?>" title="Attenzione!" />
-		<span><?php echo $_SESSION['message'][1]; ?></span>
-	</div>
-	<script type="text/javascript">
-	// <![CDATA[
-	$(document).ready(function() {$('#messaggio').effect('pulsate',{times: 3 }); });
-	$("#messaggio").click(function () {
-		$("div#messaggio").fadeOut("slow");
-	});
-	// ]]>
-	</script>
-<?php unset($_SESSION['message']); endif; ?>
-<?php if($_SESSION['logged'] == TRUE): ?>
-	<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-<?php else: ?>
 	<h2>Classifica</h2>
 	<table id="classifica-home" cellpadding="0" cellspacing="0">
 		<tbody>
@@ -114,7 +97,6 @@
 			<?php $i++; endforeach; ?>
 		</tbody>
 	</table>
-<?php endif; ?>
 </div>
 </div>
 </div>

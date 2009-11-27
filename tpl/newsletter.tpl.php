@@ -11,7 +11,7 @@
 			<label for="selezione">Leghe:</label>
 			<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 				<?php foreach($this->elencoLeghe as $key => $val): ?>
-							<option<?php if(isset($_POST['selezione']) && array_search($val['idLega'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option>
+					<option<?php if(isset($_POST['selezione']) && array_search($val['idLega'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<div class="selectAll column">
@@ -60,9 +60,11 @@
 	</fieldset>
 	<script language="javascript" type="text/javascript">
 		// <![CDATA[
-			function ismaxlength(obj,maxLenght){
+		function ismaxlength(obj,maxLenght)
+		{
 			var mlength=maxLenght;
-			if (obj.getAttribute && obj.value.length>mlength) {
+			if (obj.getAttribute && obj.value.length>mlength)
+			{
 				var cursor = obj.selectionEnd;
 				var scroll = obj.scrollTop;
 				alert("Hai raggiunto il massimo di caratteri consentito")
@@ -70,16 +72,15 @@
 				obj.selectionEnd = cursor;
 				obj.scrollTop = scroll;
 			}
-			 document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
+			document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
 		}
 		function setSelectOptions(do_check)
 		{
 			var selectObject = document.forms['newsletter'].elements['selezione'];
 			var selectCount = selectObject.length;
-			for (var i = 0; i < selectCount; i++) {
+			for (var i = 0; i < selectCount; i++)
 				selectObject.options[i].selected = do_check;
-			}
-		return TRUE;
+			return true;
 		}
 		// ]]>
 	</script>
