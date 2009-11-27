@@ -44,7 +44,7 @@ class trasferimento
 		if($squadraOld == FALSE)
 		{
 			$squadraObj->setSquadraByIdGioc($giocNew,$idLega,$squadra);
-			$squadraObj->unsetSquadraByIdGioc($giocNew,$idLega);
+			$squadraObj->unsetSquadraByIdGioc($giocOld,$idLega);
 		}
 		else
 		{
