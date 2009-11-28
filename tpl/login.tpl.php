@@ -3,27 +3,22 @@ require_once(INCDIR . 'links.inc.php');
 $linksObj = new links(); 
 ?>
 <div id="login" class="right last">
-	<div id="login-left" class="column last"></div>
-	<div id="login-center" class="column last">
+	<div id="login-left" class="right last"></div>
+	<div id="login-center" class="right last">
 	<?php $appo = $_GET; unset($appo['p']); ?>
-		<?php if(count($this->leghe) > 1): ?>
+	<?php if(count($this->leghe) > 1): ?>
 		<form class="column" action="<?php echo $linksObj->getLink($this->p,$appo); ?>" method="post">
-			<div>
+			<fieldset>
 				<label class="lega" for="legaView">Lega:</label>
 				<select id="legaView" onchange="this.form.submit();" name="legaView">
 					<?php foreach($this->leghe as $key=>$value): ?>
 						<option <?php if($_SESSION['legaView'] == $value['idLega']) echo ' selected="selected"'; ?> value="<?php echo $value['idLega']; ?>"><?php echo $value['nomeLega']; ?></option>
 					<?php endforeach; ?>
 				</select>
-			</div>
+			</fieldset>
 		</form>
-		<?php endif; ?>
+	<?php endif; ?>
 	<?php if($_SESSION['logged'] != TRUE): ?>
-		<?php if(isset($this->loginerror)): ?>
-			<div id="messaggio" class="messaggio column last">
-				<span><?php echo $this->loginerror; ?></span>
-			</div>
-		<?php endif; ?>
 		<form class="column last" action="<?php echo $linksObj->getLink('home'); ?>" method="post">
 			<fieldset>
 				<div class="field column">
@@ -39,7 +34,7 @@ $linksObj = new links();
 		</form>
 	<?php elseif($_SESSION['logged']): ?>
 		<div class="field column">
-			<a class="logout right" href="<?php echo $linksObj->getLink('home',array('logout'=>TRUE)); ?>" title="Logout">Logout</a>
+			<a class="logout column" href="<?php echo $linksObj->getLink('home',array('logout'=>TRUE)); ?>" title="Logout">Logout</a>
 		</div>
 	<?php endif; ?>
 	</div>

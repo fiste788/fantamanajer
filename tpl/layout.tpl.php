@@ -15,7 +15,7 @@
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<?php endif; ?>
-		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.css';?>" type="text/css" media="screen, projection"><![endif]-->
+		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.css';?>" type="text/css" media="screen"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
@@ -32,7 +32,7 @@
 		<?php foreach($val as $key2=>$val2): ?>
 		<?php $appo = explode('|',$val2); ?>
 		<?php if(isset($appo[1])): ?>
-		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" language="javascript" type="text/javascript"></script><![endif]-->
+		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" type="text/javascript"></script><![endif]-->
 		<?php else: ?>
 		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
@@ -107,7 +107,7 @@
 				<?php echo $this->footer; ?>
 			</div>
 		</div>
-		<?php if(!empty($this->quickLinks)): ?>
+		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
 		<div id="rightBar">
 			<?php if(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] != FALSE): ?>
 				<a class="quickLinks" href="<?php echo $this->quickLinks['prec']['href']; ?>" title="<?php echo $this->quickLinks['prec']['title']; ?>">&laquo;</a>

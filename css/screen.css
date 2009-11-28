@@ -4,7 +4,6 @@ body {
 	background: #373737 url(../imgs/bg.jpg) no-repeat scroll center top;
 	text-align: center;
 	display: block;
-	overflow-y:scroll;
 	-webkit-text-size-adjust: none;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -232,11 +231,11 @@ label {
 }
 #login-left {
 	width: 5px;
-	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -78px;
+	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -46px;
 }
 #login-right {
 	width: 5px;
-	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -46px;
+	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -78px;
 }
 #login-center {
 	background: transparent url(../imgs/bg-content.png) repeat;
