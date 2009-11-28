@@ -63,40 +63,17 @@ class utente
 		return mysql_fetch_assoc($exe); 
 	}
 	
-	function changeData($data,$id)
+	function changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$idUtente)
 	{
-		$q = "UPDATE utente SET ";
-		if(!isset($data['amministratore']))
-			$data['amministratore'] = '0';
-		elseif($data['amministratore'] == 'on')
-			$data['amministratore'] = '1';
-		if(!isset($data['abilitaMail']))
-			$data['abilitaMail'] = '0';
-		else
-			$data['abilitaMail'] = '1';
-		if(!isset($data['abilitaMess']))
-			$data['abilitaMess'] = '0';
-		elseif($data['abilitaMess'] == 'on')
-			$data['abilitaMess'] = '1';
-		foreach($data as $key => $val)
-		{
-			if(!empty($val) || $key == 'amministratore')
-			{
-				if($key == 'passwordnew')
-				{
-					$key = 'password';
-					$q .= $key . " = '" . md5(trim($val)) . "',";
-				} 
-				else
-				{
-					if($key == 'usernamenew')
-						$key = 'username';
-					$q .= $key . " = '" . trim($val) . "',";
-				}
-			} 
-		}
-		$q = substr($q,0,-1);
-		$q .= " WHERE idUtente = '" . $id . "'";
+		$q = "UPDATE utente SET nome = '" . $nomeSquadra . "', 
+				cognome = '" . $cognome . "', 
+				nomeProp = '" . $nome . "', 
+				mail = '" . $email . "', 
+				abilitaMail = '" . $abilitaMail . "', 
+				amministratore = '" . $amministratore . "'";
+		if(!empty($password))
+			$q .= ", password = '" . $password . "'";
+		$q .= " WHERE idUtente = '" . $idUtente . "'";
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
