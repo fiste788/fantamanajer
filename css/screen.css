@@ -52,9 +52,13 @@ input.submit:hover {
 	background: transparent url(../imgs/button.png) no-repeat scroll center bottom;
 }
 input.text {
-	line-height: 15px;
-	width: 88px;
-	vertical-align: middle;
+	background: transparent;
+	border: 0 none;
+	border-bottom:1px solid #fff;
+	color:#fff;
+	font-size:12px;
+	margin:3px 0;
+	width:88px;
 }
 label {
 	color: #ffffff;
@@ -152,7 +156,6 @@ label {
 .formbox {
 	clear: both;
 	float: left;
-	margin: 4px 0;
 }
 .riga {
 	margin: 0 0 10px;
@@ -229,7 +232,7 @@ label {
 }
 #login-left {
 	width: 5px;
-	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -77px;
+	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -78px;
 }
 #login-right {
 	width: 5px;
@@ -265,12 +268,6 @@ label {
 	font-weight:bold;
 }
 #login .text {
-	background: transparent;
-	border: 0 none;
-	border-bottom:1px solid #fff;
-	color:#fff;
-	font-size:12px;
-	margin:3px 0;
 	width:60px;
 }
 a.logout, a.logout:hover, a.logout:visited {
@@ -368,6 +365,9 @@ a.logout, a.logout:hover, a.logout:visited {
 	padding: 0;
 	margin:0;
 	width: 100%;
+}
+#operazioni .operazione {
+	padding:6px 0 7px 35px;
 }
 #operazioni a.operazioni-title {
 	background: transparent url(../imgs/point.png) no-repeat scroll left center;
@@ -480,11 +480,11 @@ a.logout, a.logout:hover, a.logout:visited {
 #rosa td {
 	vertical-align: middle;
 }
-row:hover {
+.row:hover {
 	background: url(../imgs/bg-row.png) repeat-x left -62px;
 	color: #fff;
 }
-row:hover a {
+.row:hover a {
 	color: #fff;
 }
 .row td {

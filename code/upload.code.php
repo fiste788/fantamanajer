@@ -21,7 +21,7 @@ switch($image_type)
 	case 2: $exts = '.gif'; break;
 	case 3: $exts = '.png'; break;
 }
-if (isset ($_FILES ['userfile']['tmp_name']))
+if (isset ($_FILES ['userfile']['tmp_name']) && !empty($_FILES['userfile']['tmp_name']))
 {
 	$ext = $uploadObj->getExtension($_FILES ['userfile']['name']);
 	if(isset($_SESSION['idSquadra']))

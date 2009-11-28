@@ -107,6 +107,7 @@
 				<?php echo $this->footer; ?>
 			</div>
 		</div>
+		<?php if(!empty($this->quickLinks)): ?>
 		<div id="rightBar">
 			<?php if(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] != FALSE): ?>
 				<a class="quickLinks" href="<?php echo $this->quickLinks['prec']['href']; ?>" title="<?php echo $this->quickLinks['prec']['title']; ?>">&laquo;</a>
@@ -122,6 +123,7 @@
 				<a class="quickLinksDisabled" title="Disabilitato">&raquo;</a>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 			<script type="text/javascript">
