@@ -36,7 +36,7 @@ if(!PARTITEINCORSO)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);
-	$contenttpl->assign('giocatori',$giocatori);
+	$contenttpl->assign('giocatori',array_values($giocatori));
 
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 		
