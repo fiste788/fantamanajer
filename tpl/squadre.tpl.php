@@ -35,7 +35,7 @@
 			'imageScale' : true,
 			'zoomOpacity' : true,
 			'overlayShow' : true,
-			'overlayOpacity' : 0.6,
+			'overlayOpacity' : 0.7,
 			'centerOnScroll' : true,
 			'padding' : 0,
 			'hideOnContentClick' : true

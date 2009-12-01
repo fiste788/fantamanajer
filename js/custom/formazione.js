@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	$("#giocatori .draggable").each(function () {
+		ruolo = $(this).parent().attr("class");
+		$(this).children('a').attr("name",ruolo + ruolo); 
+	});
 				if(typeof(modulo) != "undefined")
 				{
 					ruolo = 'PP';
@@ -206,11 +210,11 @@ $(document).ready(function(){
 							var tagData = ui.draggable.children('a');
 							$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img width="40" src="imgs/foto/' + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
 							$(this).children('div').css('opacity','1');
-							if((ui.draggable).parent().attr('id') == 'giocatori')
+							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
 								$(ui.draggable).addClass('hidden');
 							else
-								$(ui.draggable).remove();
-							$(ui.helper).remove();
+								ui.draggable.remove();
+							ui.helper.remove();
 							list = $("#titolari-field").find("input");
 							list.each(function (i) {
 								$(list[i]).removeAttr('value');
@@ -229,11 +233,11 @@ $(document).ready(function(){
 				activeClass: 'droppable-active',
 				hoverClass: 'droppable-hover',
 				drop: function(ev,ui) {
-							if((ui.draggable).parent().attr('id') == 'giocatori')
+							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
 								$(ui.draggable).addClass('hidden');
 							else
-								$(ui.draggable).remove();
-							$(ui.helper).remove();
+								ui.draggable.remove();
+							ui.helper.remove();
 							$("#giocatori .draggable a[rel=" + ui.draggable.children('a').attr('rel') + "]").parent().removeClass("hidden");
 							list = $("#titolari-field").find("input");
 							list.each(function (i) {
@@ -274,11 +278,11 @@ $(document).ready(function(){
 							var tagData = ui.draggable.children('a');
 							$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="40" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							$(this).children('div').css('opacity','1');
-							if((ui.draggable).parent().attr('id') == 'giocatori')
+							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
 								$(ui.draggable).addClass('hidden');
 							else
-								$(ui.draggable).remove();
-							$(ui.helper).remove();
+								ui.draggable.remove();
+							ui.helper.remove();
 							list = $("#panchina-field").find("input");
 							list.each(function (i) {
 								$(list[i]).removeAttr('value');

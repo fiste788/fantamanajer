@@ -18,7 +18,7 @@ $(".script").click(function () {
 			cache: false,
 			username: "administrator",
 			password: "banana",
-			dataType: "html",
+			dataType: "xml",
 			complete: function(xml,text){
 				var time2 = new Date();
 				var time_end = time2.getTime();

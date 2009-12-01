@@ -11,12 +11,13 @@
 		</div>
 		<div id="giocatori" class="column">
 		<?php foreach($this->giocatori as $key=>$val): ?>
-			<?php if($ruolo != $val['ruolo']) echo '<div style="clear:both;line-height:1px">&nbsp;</div>'; ?>
+			<?php if($ruolo != $val['ruolo']) echo '<div class="' . $val['ruolo'] . '">'; ?>
 			<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val['idGioc'],$this->titolari)) || (!empty($this->panchinari) && in_array($val['idGioc'],$this->panchinari))) echo 'hidden'; ?> <?php echo $val['ruolo']; ?>">
-				<a class="hidden" rel="<?php echo $val['idGioc']; ?>" name="<?php echo $val['ruolo'].$val['ruolo']; ?>"></a>
+				<a class="hidden" rel="<?php echo $val['idGioc']; ?>"></a>
 				<img alt="<?php echo $val['idGioc']; ?>" width="40" src="imgs/foto/<?php echo $val['idGioc']; ?>.jpg" />
 				<p><?php echo $val['cognome'] . ' ' . $val['nome']; ?></p>
 			</div>
+			<?php if((isset($this->giocatori[$key + 1]) && $val['ruolo'] != $this->giocatori[$key + 1]['ruolo']) || !isset($this->giocatori[$key + 1])) echo '</div>'; ?>
 			<?php if($ruolo != $val['ruolo']) $ruolo = $val['ruolo']; ?>
 		<?php $j++; endforeach; ?>
 		</div>

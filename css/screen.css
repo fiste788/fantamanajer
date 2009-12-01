@@ -222,9 +222,21 @@ label {
 	margin: 0 auto;
 	text-align: center;
 	padding:0 6px;
+	position:relative;
 }
 #header {
 	margin:5px 0 8px;
+	height:72px;
+	position:relative;
+}
+#header h1 {
+	padding: 18px 0pt 0pt 10px;
+	font-size: 2px;
+}
+#header a {
+	position: absolute;
+	left: 0pt;
+	top: 0pt;
 }
 /*----------------------------login-------------------------------------------*/
 #login,#login-left,#login-right,#login-center {
@@ -428,7 +440,6 @@ a.logout, a.logout:hover, a.logout:visited {
 	border-bottom: 1px solid #ddd;
 }
 #mex {
-	width: 100%;
 	margin: 0;
 }
 #return {
@@ -704,6 +715,11 @@ a.logout, a.logout:hover, a.logout:visited {
 	font-weight:bold;
 	line-height:14px;
 }
+#giocatori > div{
+	border:0 none !important;
+	background-color:transparent !important;
+	clear:both;
+}
 .P {
 	border: 1px solid #ff0000;
 	background-color: #ffd1d1;
@@ -756,7 +772,7 @@ a.logout, a.logout:hover, a.logout:visited {
 	margin:0;
 }
 #datiSquadra {
-	width:100%;
+	width:auto;
 }
 #nomeSquadra {
 	margin:0;
@@ -894,7 +910,7 @@ img.shield {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #666;
+	background-color: #000;
 	display: none;
 	z-index: 30;
 }
