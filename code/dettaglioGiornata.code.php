@@ -19,13 +19,14 @@ if(isset($_POST['squadra']))
 	$filterSquadra = $_POST['squadra'];
 if(isset($_POST['giornata']))
 	$filterGiornata = $_POST['giornata'];
-	
+
 $giornate = $punteggioObj->getGiornateWithPunt();
 $penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata);
+
 if($penalità != FALSE)
 	$contenttpl->assign('penalità',$penalità);
 if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $giornata > 0 && $filterGiornata <= $giornate)
-{	
+{
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
 	{
 		$formazione = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra);
