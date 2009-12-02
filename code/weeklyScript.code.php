@@ -42,6 +42,18 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 				//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 				if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 					$punteggioObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
+				elseif($lega['punteggioFormazioneDimenticata'] != 0)
+				{
+					$i = 1;
+					$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
+					while($formazione == FALSE && $i < $giornata)
+					{
+						$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
+						$i ++;
+					}
+					$formazioneObj->caricaFormazione(array_values($formazione['elenco']),$formazione['cap'],$giornata,$squadra,$formazione['modulo']);
+					$punteggioObj->calcolaPunti($giornata,$squadra,$lega['idLega'],$lega['punteggioFormazioneDimenticata']);
+				}
 				else
 					$punteggioObj->setPunteggiToZeroByGiornata($squadra,$lega['idLega'],$giornata);
 			}

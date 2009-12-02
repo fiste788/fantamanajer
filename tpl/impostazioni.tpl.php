@@ -26,6 +26,11 @@
 			<?php if(isset($this->default['minFormazione'])): ?><small>Default: <?php echo $this->default['minFormazione']; ?></small><?php endif; ?>
 		</div>
 		<div class="formbox">
+			<label>Percentuale sul punteggio della formazione precedente se si dimentica la formazione</label>
+			<input type="text" name="punteggioFormazioneDimenticata" value="<?php echo $_SESSION['datiLega']['punteggioFormazioneDimenticata']; ?>" />
+			<?php if(isset($this->default['punteggioFormazioneDimenticata'])): ?><small>Default: <?php echo $this->default['punteggioFormazioneDimenticata']; ?></small><?php endif; ?>
+		</div>
+		<div class="formbox">
 			<label>Pagina premi</label>
 			<textarea rows="10" cols="50" name="premi"><?php if(!empty($_SESSION['datiLega']['premi'])) echo $_SESSION['datiLega']['premi']; ?></textarea>
 		</div>

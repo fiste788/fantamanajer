@@ -153,7 +153,7 @@ class punteggio
 		return 0;
 	}
 
-	function calcolaPunti($giornata,$idSquadra,$idLega)
+	function calcolaPunti($giornata,$idSquadra,$idLega,$percentualePunteggio = NULL)
 	{
 		require_once(INCDIR . 'formazione.db.inc.php');
 		require_once(INCDIR . 'voto.db.inc.php');
@@ -171,53 +171,70 @@ class punteggio
 		$datiLega = $legaObj->getLegaById($idLega);
 		if($punteggioOld == '0' || $punteggioOld == NULL)
 		{
-			$cambi = 0;
-			$somma = 0;
-			$flag = 0;
-			$form = $formazioneObj->getFormazioneBySquadraAndGiornata($idSquadra,$giornata);
-			$idForm = $form['id'];
-			$eCap = $form['cap'];
-			// ottengo il capitano che ha preso voto
-			foreach($eCap as $cap)
+			$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($idSquadra,$giornata);
+			if ($formazione != FALSE)
 			{
-				if($votoObj->getPresenzaByIdGioc($cap,$giornata))
-				{ 
-					$flag = 1;
-					break;
-				}
-			}
-			if ($flag != 1)
-				$cap = "";
-			$panch = $form['elenco'];
-			$tito = array_splice($panch,0,11);
-			foreach ($tito as $player)
-			{
-				$presenza = $votoObj->getPresenzaByIdGioc($player,$giornata);
-				if((!$presenza) && ($cambi < 3))
+				$cambi = 0;
+				$somma = 0;
+				$flag = 0;
+				$idFormazione = $formazione['id'];
+				$eCap = $formazione['cap'];
+				// ottengo il capitano che ha preso voto
+				foreach($eCap as $cap)
 				{
-					$sostituto = $this->recurSost($giocatoreObj->getRuoloByIdGioc($player),$panch,$cambi,$giornata);
-					if($sostituto != 0)
-						$player = $sostituto;
+					if($votoObj->getPresenzaByIdGioc($cap,$giornata))
+					{ 
+						$flag = 1;
+						break;
+					}
 				}
-				$schieramentoObj->setConsiderazione($idForm,$player,1);
-				$voto = $votoObj->getVotoByIdGioc($player,$giornata);
-				if($player == $cap && $datiLega['capitano'])
+				if ($flag != 1)
+					$cap = "";
+				$panch = $formazione['elenco'];
+				$tito = array_splice($panch,0,11);
+				foreach ($tito as $player)
 				{
-					$voto *= 2;
-					$schieramentoObj->setConsiderazione($idForm,$cap,2);
+					$presenza = $votoObj->getPresenzaByIdGioc($player,$giornata);
+					if((!$presenza) && ($cambi < 3))
+					{
+						$sostituto = $this->recurSost($giocatoreObj->getRuoloByIdGioc($player),$panch,$cambi,$giornata);
+						if($sostituto != 0)
+							$player = $sostituto;
+					}
+					$schieramentoObj->setConsiderazione($idFormazione,$player,1);
+					$voto = $votoObj->getVotoByIdGioc($player,$giornata);
+					if($player == $cap && $datiLega['capitano'])
+					{
+						$voto *= 2;
+						$schieramentoObj->setConsiderazione($idFormazione,$cap,2);
+					}
+					$somma += $voto;
 				}
-				$somma += $voto;
+				if($punteggioOld == '0')
+					$q = "UPDATE punteggio
+							SET punteggio = '" . $somma . "' 
+							WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
+				else
+					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,idLega) 
+							VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
+				if(DEBUG)
+					echo $q . "<br />";
+				mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				if($percentualePunteggio != NULL)
+				{
+					$puntiDaTogliere = round((($somma / 100) * (100 - $percentualePunteggio)),1);
+					$modulo = ($puntiDaTogliere * 10) % 5;
+					$puntiDaTogliere = (($puntiDaTogliere * 10) - $modulo) / 10;
+					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,penalità,idLega) 
+							VALUES ('" . $giornata . "','" . $idSquadra . "','" . - ($puntiDaTogliere) ."','Formazione non settata','" . $idLega . "')";
+					mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+					if(DEBUG)
+						echo $q . "<br />";
+				}
+				return TRUE;
 			}
-			if($punteggioOld == '0')
-				$q = "UPDATE punteggio
-						SET punteggio = '" . $somma . "' 
-						WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
 			else
-				$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,idLega) 
-						VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
-			if(DEBUG)
-				echo $q . "<br />";
-			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				$this->setPunteggiToZeroByGiornata($idSquadra,$idLega,$giornata);
 		}
 	}
 	
