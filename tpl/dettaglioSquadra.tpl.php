@@ -118,6 +118,7 @@
 			<th class="center">MVoti</th>
 			<th class="center">MPunti</th>
 			<th class="center">Gol</th>
+			<th class="center">Gol subiti</th>
 			<th class="center">Assist</th>
 			<th class="center">Ammonizioni</th>
 			<th class="center">Esplusioni</th>
@@ -134,12 +135,23 @@
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['avgVoti'])) echo $val['avgVoti']; else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['avgPunti'])) echo $val['avgPunti']; else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['golSubiti'])) echo $val['golSubiti']; else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['ammonizioni'])) echo $val['ammonizioni']; else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['espulsioni'])) echo $val['espulsioni']; else echo "&nbsp;"; ?></td>
 			</tr>
 			<?php $r = $val ['ruolo'];  ?>
 			<?php endforeach; ?>
+			<tr>
+				<td colspan="4">Totali</td>
+				<td><?php echo $this->squadraDett['avgVoti']; ?></td>
+				<td><?php echo $this->squadraDett['avgPunti']; ?></td>
+				<td><?php echo $this->squadraDett['totaleGol']; ?></td>
+				<td><?php echo $this->squadraDett['totaleGolSubiti']; ?></td>
+				<td><?php echo $this->squadraDett['totaleAssist']; ?></td>
+				<td><?php echo $this->squadraDett['totaleAmmonizioni']; ?></td>
+				<td><?php echo $this->squadraDett['totaleEspulsioni']; ?></td>
+			</tr>
 		<?php endif;?>
 	</tbody>
 </table>

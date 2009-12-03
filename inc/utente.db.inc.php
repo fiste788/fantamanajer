@@ -55,7 +55,7 @@ class utente
 	function getSquadraById($idUtente)
 	{		
 		$q = "SELECT * 
-				FROM utente 
+				FROM squadrastatistiche 
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)

@@ -69,13 +69,13 @@ else
 	$quickLinks['succ'] = FALSE;
 }
 	
-$contenttpl->assign('idSquadra',$filterSquadra);
-$contenttpl->assign('idGiornata',$filterGiornata);
+$contenttpl->assign('squadra',$filterSquadra);
+$contenttpl->assign('giornata',$filterGiornata);
 $contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
 $operationtpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 $operationtpl->assign('penalità',$penalità);
 $operationtpl->assign('giornate',$giornate);
-$operationtpl->assign('idSquadra',$filterSquadra);
-$operationtpl->assign('idGiornata',$filterGiornata);
+$operationtpl->assign('squadra',$filterSquadra);
+$operationtpl->assign('giornata',$filterGiornata);
 $layouttpl->assign('quickLinks',$quickLinks);
 ?>

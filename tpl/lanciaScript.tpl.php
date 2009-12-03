@@ -30,4 +30,6 @@
 	var imgUrl = "<?php echo IMGSURL; ?>";
 // ]]>
 </script>
-<div id="messaggio" class="messaggio column last" style="display:none;"></div>
+<div id="messaggioContainer">
+	<div id="messaggio" class="messaggio column last" style="display:none;"></div>
+</div>

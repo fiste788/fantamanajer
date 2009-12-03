@@ -3,11 +3,17 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 19 nov, 2009 at 03:13 PM
+-- Generato il: 03 dic, 2009 at 11:54 AM
 -- Versione MySQL: 5.1.36
 -- Versione PHP: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `devfantamanajer`
@@ -19,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Struttura della tabella `articolo`
 --
 
-DROP TABLE IF EXISTS `articolo`;
 CREATE TABLE IF NOT EXISTS `articolo` (
   `idArticolo` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
@@ -82,7 +87,6 @@ INSERT INTO `articolo` (`idArticolo`, `title`, `abstract`, `text`, `insertDate`,
 -- Struttura della tabella `club`
 --
 
-DROP TABLE IF EXISTS `club`;
 CREATE TABLE IF NOT EXISTS `club` (
   `idClub` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nomeClub` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
@@ -122,7 +126,6 @@ INSERT INTO `club` (`idClub`, `nomeClub`, `partitivo`, `determinativo`) VALUES
 --
 -- Struttura Stand-in per le viste `dettagliogiornata`
 --
-DROP VIEW IF EXISTS `dettagliogiornata`;
 CREATE TABLE IF NOT EXISTS `dettagliogiornata` (
 `idFormazione` int(11)
 ,`idPosizione` int(11)
@@ -156,7 +159,6 @@ CREATE TABLE IF NOT EXISTS `dettagliogiornata` (
 --
 -- Struttura Stand-in per le viste `dettpuntmassimi`
 --
-DROP VIEW IF EXISTS `dettpuntmassimi`;
 CREATE TABLE IF NOT EXISTS `dettpuntmassimi` (
 `idLega` int(11)
 ,`idGiornata` int(11)
@@ -168,7 +170,6 @@ CREATE TABLE IF NOT EXISTS `dettpuntmassimi` (
 -- Struttura della tabella `evento`
 --
 
-DROP TABLE IF EXISTS `evento`;
 CREATE TABLE IF NOT EXISTS `evento` (
   `idEvento` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `idUtente` int(11) NOT NULL,
@@ -178,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `idExternal` int(11) DEFAULT NULL,
   PRIMARY KEY (`idEvento`),
   KEY `idExternal` (`idExternal`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1580 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1586 ;
 
 --
 -- Dump dei dati per la tabella `evento`
@@ -1659,7 +1660,13 @@ INSERT INTO `evento` (`idEvento`, `idUtente`, `idLega`, `data`, `tipo`, `idExter
 (1576, 10, 0, '2009-11-11 14:28:26', 4, 62),
 (1577, 2, 0, '2009-11-11 14:32:44', 4, 63),
 (1578, 2, 1, '2009-11-11 14:34:42', 4, 63),
-(1579, 1, 1, '2009-11-11 14:34:42', 4, 65);
+(1579, 1, 1, '2009-11-11 14:34:42', 4, 65),
+(1580, 2, 1, '2009-11-27 13:00:00', 4, 66),
+(1581, 2, 1, '2009-11-27 13:02:48', 4, 67),
+(1582, 2, 1, '2009-11-27 13:02:49', 4, 68),
+(1583, 2, 1, '2009-11-27 13:04:53', 4, 69),
+(1584, 2, 1, '2009-11-27 13:24:27', 4, 69),
+(1585, 2, 1, '2009-11-27 13:24:57', 4, 71);
 
 -- --------------------------------------------------------
 
@@ -1667,7 +1674,6 @@ INSERT INTO `evento` (`idEvento`, `idUtente`, `idLega`, `data`, `tipo`, `idExter
 -- Struttura della tabella `formazione`
 --
 
-DROP TABLE IF EXISTS `formazione`;
 CREATE TABLE IF NOT EXISTS `formazione` (
   `idFormazione` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `idGiornata` int(11) NOT NULL,
@@ -1820,7 +1826,6 @@ INSERT INTO `formazione` (`idFormazione`, `idGiornata`, `idUtente`, `modulo`, `C
 -- Struttura della tabella `giocatore`
 --
 
-DROP TABLE IF EXISTS `giocatore`;
 CREATE TABLE IF NOT EXISTS `giocatore` (
   `idGioc` int(11) unsigned NOT NULL,
   `nome` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1842,7 +1847,7 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 (105, 'Vlada', 'Avramov', 'P', 6),
 (106, 'Emanuele', 'Belardi', 'P', 7),
 (107, 'Benjamin', 'Bizzarri', 'P', 13),
-(108, 'Gianluigi', 'Buffon', 'P', 10),
+(108, 'Gianluigi', 'Buffon', 'P', NULL),
 (109, 'Andrea', 'Campagnolo', 'P', 9),
 (110, 'Luca', 'Castellazzi', 'P', 14),
 (111, 'Antonio', 'Chimenti', 'P', 10),
@@ -1863,7 +1868,7 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 (126, 'Samir', 'Handanovic', 'P', 7),
 (127, 'Gennaro', 'Iezzo', 'P', 17),
 (128, 'Anssi', 'Jaakkola', 'P', NULL),
-(129, 'Soares De Espinola', 'Julio Cesar', 'P', 18),
+(129, 'Soares De Espinola', 'Julio Cesar', 'P', NULL),
 (130, 'Bertagnolli', 'Julio Sergio', 'P', 5),
 (131, 'Zeljko', 'Kalac', 'P', NULL),
 (132, 'Jan', 'Koprivec', 'P', NULL),
@@ -2442,7 +2447,6 @@ INSERT INTO `giocatore` (`idGioc`, `nome`, `cognome`, `ruolo`, `club`) VALUES
 --
 -- Struttura Stand-in per le viste `giocatorisquadra`
 --
-DROP VIEW IF EXISTS `giocatorisquadra`;
 CREATE TABLE IF NOT EXISTS `giocatorisquadra` (
 `idLega` int(11) unsigned
 ,`idUtente` int(11) unsigned
@@ -2457,7 +2461,6 @@ CREATE TABLE IF NOT EXISTS `giocatorisquadra` (
 --
 -- Struttura Stand-in per le viste `giocatoristatistiche`
 --
-DROP VIEW IF EXISTS `giocatoristatistiche`;
 CREATE TABLE IF NOT EXISTS `giocatoristatistiche` (
 `idGioc` int(11) unsigned
 ,`cognome` varchar(30)
@@ -2481,7 +2484,6 @@ CREATE TABLE IF NOT EXISTS `giocatoristatistiche` (
 -- Struttura della tabella `giornata`
 --
 
-DROP TABLE IF EXISTS `giornata`;
 CREATE TABLE IF NOT EXISTS `giornata` (
   `idGiornata` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `dataInizio` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -2506,8 +2508,8 @@ INSERT INTO `giornata` (`idGiornata`, `dataInizio`, `dataFine`) VALUES
 (10, '2009-10-25 22:45:00', '2009-10-31 18:00:00'),
 (11, '2009-11-01 22:45:00', '2009-11-07 18:00:00'),
 (12, '2009-11-08 22:45:00', '2009-11-21 18:00:00'),
-(13, '2008-11-16 22:30:00', '2008-11-22 18:00:00'),
-(14, '2008-11-23 22:30:00', '2008-11-29 18:00:00'),
+(13, '2009-11-22 22:45:00', '2009-11-28 18:00:00'),
+(14, '2009-11-29 22:45:00', '2009-12-04 18:00:00'),
 (15, '2008-11-30 22:30:00', '2008-12-06 18:00:00'),
 (16, '2008-12-07 22:30:00', '2008-12-13 18:00:00'),
 (17, '2008-12-14 22:30:00', '2008-12-20 18:00:00'),
@@ -2539,7 +2541,6 @@ INSERT INTO `giornata` (`idGiornata`, `dataInizio`, `dataFine`) VALUES
 --
 -- Struttura Stand-in per le viste `giornatevinte`
 --
-DROP VIEW IF EXISTS `giornatevinte`;
 CREATE TABLE IF NOT EXISTS `giornatevinte` (
 `idUtente` int(11)
 ,`giornateVinte` bigint(21)
@@ -2550,7 +2551,6 @@ CREATE TABLE IF NOT EXISTS `giornatevinte` (
 -- Struttura della tabella `lega`
 --
 
-DROP TABLE IF EXISTS `lega`;
 CREATE TABLE IF NOT EXISTS `lega` (
   `idLega` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nomeLega` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
@@ -2567,7 +2567,7 @@ CREATE TABLE IF NOT EXISTS `lega` (
 --
 
 INSERT INTO `lega` (`idLega`, `nomeLega`, `capitano`, `numTrasferimenti`, `numSelezioni`, `minFormazione`, `premi`) VALUES
-(1, 'Alzano Sopra', 1, 15, 2, 10, 'Per poter partecipare ad ogni giornata ogni partecipante deve versare la quota di 1. Siccome i partecipanti sono 8 avremo 1 a gionata per 8 partecipanti = 8 a giornata. Le giornate del campionato sono 38 quindi facendo un pò ci calcoli avremo 8 a giornata per 38 giornate = 304. Da questi 304 vengono detratti 30 utilizzati per l''acquisto del dominio quindi il montepremi finale è di &lt;strong&gt;274&lt;/strong&gt; che viene suddiviso secondo la seguente tabella:\r\n&lt;table id=&quot;rosa&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;\r\n	&lt;tbody&gt;\r\n		&lt;tr&gt;\r\n			&lt;th class=&quot;tableimg&quot;&gt;&amp;nbsp;&lt;/th&gt;\r\n			&lt;th&gt;Posizione&lt;/th&gt;\r\n						&lt;th&gt;Premio&lt;/th&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;oro&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-oro.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;1° classificato&lt;/td&gt;\r\n						&lt;td class=&quot;ruolo&quot;&gt;116&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;argento&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-argento.png&quot; /&gt;&lt;/td&gt;\r\n\r\n			&lt;td&gt;2° classificato&lt;/td&gt;\r\n						&lt;td&gt;70&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;bronzo&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-bronzo.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;3° classificato&lt;/td&gt;\r\n						&lt;td&gt;50&lt;/td&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;legno&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-legno.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;4° classificato&lt;/td&gt;\r\n						&lt;td&gt;38&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;'),
+(1, 'Alzano Sopra', 1, 15, 2, 10, 'Per poter partecipare ad ogni giornata ogni partecipante deve versare la quota di 1€. Siccome i partecipanti sono 8 avremo 1€ a gionata per 8 partecipanti = 8€ a giornata. Le giornate del campionato sono 38 quindi facendo un pò ci calcoli avremo 8€ a giornata per 38 giornate = 304€. Da questi 304€ vengono detratti 30€ utilizzati per l''acquisto del dominio quindi il montepremi finale è di &lt;strong&gt;274€&lt;/strong&gt; che viene suddiviso secondo la seguente tabella:\r\n&lt;table id=&quot;rosa&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;\r\n	&lt;tbody&gt;\r\n		&lt;tr&gt;\r\n			&lt;th class=&quot;tableimg&quot;&gt;&amp;nbsp;&lt;/th&gt;\r\n			&lt;th&gt;Posizione&lt;/th&gt;\r\n						&lt;th&gt;Premio&lt;/th&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;oro&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-oro.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;1° classificato&lt;/td&gt;\r\n						&lt;td class=&quot;ruolo&quot;&gt;116€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;argento&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-argento.png&quot; /&gt;&lt;/td&gt;\r\n\r\n			&lt;td&gt;2° classificato&lt;/td&gt;\r\n						&lt;td&gt;70€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;bronzo&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-bronzo.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;3° classificato&lt;/td&gt;\r\n						&lt;td&gt;50€&lt;/td&gt;\r\n\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td class=&quot;tableimg&quot;&gt;&lt;img alt=&quot;legno&quot; src=&quot;http://localhost/fantamanajer-2.5/imgs/cup-legno.png&quot; /&gt;&lt;/td&gt;\r\n			&lt;td&gt;4° classificato&lt;/td&gt;\r\n						&lt;td&gt;38€&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;'),
 (2, 'uva town', 1, 15, 3, 10, NULL);
 
 -- --------------------------------------------------------
@@ -2576,7 +2576,6 @@ INSERT INTO `lega` (`idLega`, `nomeLega`, `capitano`, `numTrasferimenti`, `numSe
 -- Struttura della tabella `punteggio`
 --
 
-DROP TABLE IF EXISTS `punteggio`;
 CREATE TABLE IF NOT EXISTS `punteggio` (
   `punteggio` float NOT NULL,
   `penalità` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -2719,15 +2718,26 @@ INSERT INTO `punteggio` (`punteggio`, `penalità`, `idGiornata`, `idUtente`, `id
 (92.5, NULL, 8, 16, 2),
 (78, NULL, 8, 2, 1),
 (0, NULL, 1, 17, 1),
-(0, NULL, 1, 18, 1);
+(0, NULL, 1, 18, 1),
+(0, NULL, 1, 17, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Struttura Stand-in per le viste `punteggistatistiche`
+--
+CREATE TABLE IF NOT EXISTS `punteggistatistiche` (
+`idUtente` int(11) unsigned
+,`punteggioMax` float
+,`punteggioMin` float
+,`punteggioMed` double(19,2)
+);
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `schieramento`
 --
 
-DROP TABLE IF EXISTS `schieramento`;
 CREATE TABLE IF NOT EXISTS `schieramento` (
   `idFormazione` int(11) NOT NULL,
   `idPosizione` int(11) NOT NULL,
@@ -5038,7 +5048,6 @@ INSERT INTO `schieramento` (`idFormazione`, `idPosizione`, `idGioc`, `considerat
 -- Struttura della tabella `selezione`
 --
 
-DROP TABLE IF EXISTS `selezione`;
 CREATE TABLE IF NOT EXISTS `selezione` (
   `idLega` int(11) unsigned NOT NULL,
   `idSquadra` int(11) unsigned NOT NULL,
@@ -5065,7 +5074,6 @@ INSERT INTO `selezione` (`idLega`, `idSquadra`, `giocOld`, `giocNew`, `numSelezi
 -- Struttura della tabella `squadra`
 --
 
-DROP TABLE IF EXISTS `squadra`;
 CREATE TABLE IF NOT EXISTS `squadra` (
   `idLega` int(11) unsigned NOT NULL,
   `idUtente` int(11) unsigned NOT NULL,
@@ -5103,8 +5111,8 @@ INSERT INTO `squadra` (`idLega`, `idUtente`, `idGioc`) VALUES
 (1, 1, 852),
 (1, 1, 899),
 (1, 1, 902),
-(1, 2, 108),
-(1, 2, 129),
+(1, 2, 130),
+(1, 2, 133),
 (1, 2, 154),
 (1, 2, 220),
 (1, 2, 225),
@@ -5457,10 +5465,33 @@ INSERT INTO `squadra` (`idLega`, `idUtente`, `idGioc`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura Stand-in per le viste `squadrastatistiche`
+--
+CREATE TABLE IF NOT EXISTS `squadrastatistiche` (
+`idUtente` int(11) unsigned
+,`nome` varchar(40)
+,`nomeProp` varchar(15)
+,`cognome` varchar(15)
+,`mail` varchar(30)
+,`abilitaMail` tinyint(1)
+,`username` varchar(15)
+,`password` varchar(35)
+,`amministratore` tinyint(1)
+,`idLega` int(11)
+,`totaleGol` decimal(47,0)
+,`totaleGolSubiti` decimal(47,0)
+,`totaleAssist` decimal(47,0)
+,`totaleAmmonizioni` decimal(47,0)
+,`totaleEspulsioni` decimal(47,0)
+,`avgPunti` double(19,2)
+,`avgVoti` double(19,2)
+);
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `trasferimento`
 --
 
-DROP TABLE IF EXISTS `trasferimento`;
 CREATE TABLE IF NOT EXISTS `trasferimento` (
   `idTrasf` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `idGiocOld` int(11) NOT NULL,
@@ -5471,7 +5502,7 @@ CREATE TABLE IF NOT EXISTS `trasferimento` (
   PRIMARY KEY (`idTrasf`),
   KEY `IdGiocOld` (`idGiocOld`),
   KEY `IdGiocNew` (`idGiocNew`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=66 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=72 ;
 
 --
 -- Dump dei dati per la tabella `trasferimento`
@@ -5541,7 +5572,13 @@ INSERT INTO `trasferimento` (`idTrasf`, `idGiocOld`, `idGiocNew`, `idSquadra`, `
 (62, 102, 108, 10, 12, 0),
 (63, 116, 108, 2, 12, 0),
 (64, 116, 108, 2, 12, 0),
-(65, 108, 116, 1, 12, 0);
+(65, 108, 116, 1, 12, 0),
+(66, 129, 104, 2, 13, 1),
+(67, 108, 159, 2, 13, 1),
+(68, 129, 124, 2, 13, 1),
+(69, 108, 133, 2, 13, 1),
+(70, 108, 133, 2, 13, 1),
+(71, 129, 130, 2, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -5549,7 +5586,6 @@ INSERT INTO `trasferimento` (`idTrasf`, `idGiocOld`, `idGiocNew`, `idSquadra`, `
 -- Struttura della tabella `utente`
 --
 
-DROP TABLE IF EXISTS `utente`;
 CREATE TABLE IF NOT EXISTS `utente` (
   `idUtente` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nome` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
@@ -5570,7 +5606,7 @@ CREATE TABLE IF NOT EXISTS `utente` (
 --
 
 INSERT INTO `utente` (`idUtente`, `nome`, `nomeProp`, `cognome`, `mail`, `abilitaMail`, `username`, `password`, `amministratore`, `idLega`) VALUES
-(1, 'Un pò di figa qua?', 'Jack-ass', 'Bauer', 'francesco.bertocchi@gmail.com', 1, 'ToMasTurbato', '32fd1899fa0d0cb4f541c617800aa667', 2, 1),
+(1, 'Un pò di figa qua?', 'Jack-ass', 'Bauer', 'francesco.bertocchi@gmail.com', 1, 'ToMasTurbato', '32fd1899fa0d0cb4f541c617800aa667', 0, 1),
 (2, 'FC Rocco', 'Stefano', 'Sonzogni', 'stefano788@gmail.com', 1, 'Fiste788', '08b5411f848a2581a41672a759c87380', 2, 1),
 (3, 'Riki e i suoi amiki', 'Riccardo', 'Zambelli', 'bornintheusa@hotmail.it', 1, 'riki', 'c8c773394c9a1678f1841aec3afbe778', 0, 1),
 (4, 'Barcollo Ma Non Mollo', 'Patrick', 'Skeggia', 'rossi.patrick@gmail.com', 1, 'reds10', '1e48c4420b7073bc11916c6c1de226bb', 0, 1),
@@ -5592,7 +5628,6 @@ INSERT INTO `utente` (`idUtente`, `nome`, `nomeProp`, `cognome`, `mail`, `abilit
 -- Struttura della tabella `voto`
 --
 
-DROP TABLE IF EXISTS `voto`;
 CREATE TABLE IF NOT EXISTS `voto` (
   `idGioc` int(11) unsigned NOT NULL,
   `idGiornata` int(11) unsigned NOT NULL,
@@ -9840,7 +9875,7 @@ INSERT INTO `voto` (`idGioc`, `idGiornata`, `valutato`, `punti`, `voto`, `gol`, 
 --
 DROP TABLE IF EXISTS `dettagliogiornata`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettagliogiornata` AS select `schieramento`.`idFormazione` AS `idFormazione`,`schieramento`.`idPosizione` AS `idPosizione`,`formazione`.`idUtente` AS `idUtente`,`schieramento`.`considerato` AS `considerato`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`giocatore`.`cognome` AS `cognome`,`voto`.`idGioc` AS `idGioc`,`voto`.`idGiornata` AS `idGiornata`,`voto`.`valutato` AS `valutato`,`voto`.`punti` AS `punti`,`voto`.`voto` AS `voto`,`voto`.`gol` AS `gol`,`voto`.`golSub` AS `golSub`,`voto`.`golVit` AS `golVit`,`voto`.`golPar` AS `golPar`,`voto`.`assist` AS `assist`,`voto`.`ammonizioni` AS `ammonizioni`,`voto`.`espulsioni` AS `espulsioni`,`voto`.`rigoriSegn` AS `rigoriSegn`,`voto`.`rigoriSub` AS `rigoriSub`,`voto`.`presenza` AS `presenza`,`voto`.`titolare` AS `titolare`,`voto`.`quotazione` AS `quotazione`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub` from (((`schieramento` join `formazione` on((`schieramento`.`idFormazione` = `formazione`.`idFormazione`))) join (`giocatore` join `club` on((`giocatore`.`club` = `club`.`idClub`))) on((`schieramento`.`idGioc` = `giocatore`.`idGioc`))) join `voto` on(((`voto`.`idGioc` = `giocatore`.`idGioc`) and (`voto`.`idGiornata` = `formazione`.`idGiornata`))));
+CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettagliogiornata` AS select `schieramento`.`idFormazione` AS `idFormazione`,`schieramento`.`idPosizione` AS `idPosizione`,`formazione`.`idUtente` AS `idUtente`,`schieramento`.`considerato` AS `considerato`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`giocatore`.`cognome` AS `cognome`,`voto`.`idGioc` AS `idGioc`,`voto`.`idGiornata` AS `idGiornata`,`voto`.`valutato` AS `valutato`,`voto`.`punti` AS `punti`,`voto`.`voto` AS `voto`,`voto`.`gol` AS `gol`,`voto`.`golSub` AS `golSub`,`voto`.`golVit` AS `golVit`,`voto`.`golPar` AS `golPar`,`voto`.`assist` AS `assist`,`voto`.`ammonizioni` AS `ammonizioni`,`voto`.`espulsioni` AS `espulsioni`,`voto`.`rigoriSegn` AS `rigoriSegn`,`voto`.`rigoriSub` AS `rigoriSub`,`voto`.`presenza` AS `presenza`,`voto`.`titolare` AS `titolare`,`voto`.`quotazione` AS `quotazione`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub` from (((`schieramento` join `formazione` on((`schieramento`.`idFormazione` = `formazione`.`idFormazione`))) left join (`giocatore` left join `club` on((`giocatore`.`club` = `club`.`idClub`))) on((`schieramento`.`idGioc` = `giocatore`.`idGioc`))) join `voto` on(((`voto`.`idGioc` = `giocatore`.`idGioc`) and (`voto`.`idGiornata` = `formazione`.`idGiornata`))));
 
 -- --------------------------------------------------------
 
@@ -9877,3 +9912,21 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocat
 DROP TABLE IF EXISTS `giornatevinte`;
 
 CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giornatevinte` AS select `punteggio`.`idUtente` AS `idUtente`,count(`punteggio`.`idUtente`) AS `giornateVinte` from (`punteggio` join `dettpuntmassimi` on(((`punteggio`.`idGiornata` = `dettpuntmassimi`.`idGiornata`) and (`punteggio`.`punteggio` = `dettpuntmassimi`.`punteggio`)))) group by `punteggio`.`idUtente`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura per la vista `punteggistatistiche`
+--
+DROP TABLE IF EXISTS `punteggistatistiche`;
+
+CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `punteggistatistiche` AS select `utente`.`idUtente` AS `idUtente`,max(`punteggio`.`punteggio`) AS `punteggioMax`,min(`punteggio`.`punteggio`) AS `punteggioMin`,round(avg(`punteggio`.`punteggio`),2) AS `punteggioMed` from (`utente` join `punteggio` on((`utente`.`idUtente` = `punteggio`.`idUtente`))) group by `utente`.`idUtente`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura per la vista `squadrastatistiche`
+--
+DROP TABLE IF EXISTS `squadrastatistiche`;
+
+CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `squadrastatistiche` AS select `utente`.`idUtente` AS `idUtente`,`utente`.`nome` AS `nome`,`utente`.`nomeProp` AS `nomeProp`,`utente`.`cognome` AS `cognome`,`utente`.`mail` AS `mail`,`utente`.`abilitaMail` AS `abilitaMail`,`utente`.`username` AS `username`,`utente`.`password` AS `password`,`utente`.`amministratore` AS `amministratore`,`utente`.`idLega` AS `idLega`,sum(`giocatoristatistiche`.`gol`) AS `totaleGol`,sum(`giocatoristatistiche`.`golSubiti`) AS `totaleGolSubiti`,sum(`giocatoristatistiche`.`assist`) AS `totaleAssist`,sum(`giocatoristatistiche`.`ammonizioni`) AS `totaleAmmonizioni`,sum(`giocatoristatistiche`.`espulsioni`) AS `totaleEspulsioni`,round(avg(`giocatoristatistiche`.`avgPunti`),2) AS `avgPunti`,round(avg(`giocatoristatistiche`.`avgVoti`),2) AS `avgVoti` from (`utente` join (`squadra` join `giocatoristatistiche` on((`squadra`.`idGioc` = `giocatoristatistiche`.`idGioc`))) on((`utente`.`idUtente` = `squadra`.`idUtente`))) group by `utente`.`idUtente`;
