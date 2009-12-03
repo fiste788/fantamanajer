@@ -97,6 +97,7 @@ label {
 	padding: 10px;
 	margin:0 0 10px;
 	text-align:center;
+	width:240px;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
 }
@@ -280,7 +281,7 @@ label {
 	font-weight:bold;
 }
 #login .text {
-	width:60px;
+	width:70px;
 }
 a.logout, a.logout:hover, a.logout:visited {
 	background: transparent url(../imgs/logout.png) no-repeat center left;
@@ -293,7 +294,7 @@ a.logout, a.logout:hover, a.logout:visited {
 	background: transparent url(../imgs/bg-content-rounded.png) no-repeat left bottom;
 	text-align: center;
 	width: 960px;
-	padding: 4px 10px 14px;
+	padding: 4px 10px 8px;
 	margin:0 0 10px;
 	clear: both;
 	float: left;
@@ -472,13 +473,11 @@ a.logout, a.logout:hover, a.logout:visited {
 .box .link {
 	float:right;
 	margin-right:0;
+	margin-bottom:0;
 }
 .box .fancybox {
-	width: 100px;
-	height: 105px;
 	display: block;
-	float: left;
-	overflow: hidden;
+	line-height:0;
 }
 .ult {
 	border-top: 1px solid #CCC;
@@ -520,6 +519,11 @@ a.logout, a.logout:hover, a.logout:visited {
 	width: 33%;
 	text-align: center;
 	font-size: 1.5em;
+}
+.penalita h5 {
+	margin: 5px 0;
+	font-size:14px;
+	color:#E6781A;
 }
 #dettaglioGiornata span {
 	color: white;

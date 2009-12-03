@@ -1,7 +1,14 @@
-<h4>Giornata: <span><?php if(isset($this->idGiornata)) echo $this->idGiornata; ?></span></h4>
-<h4>Squadra: <span><?php if(isset($this->idSquadra)) echo $this->squadraDett['nome']; ?></span></h4>
+<h4>Giornata: <span><?php if(isset($this->giornata)) echo $this->giornata; ?></span></h4>
+<h4>Squadra: <span><?php if(isset($this->squadra)) echo $this->squadraDett['nome']; ?></span></h4>
 <h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
 <?php if($this->titolari != FALSE && $this->titolari != NULL): ?>
+	<?php if(isset($this->penalità)): ?>
+		<img class="column" alt="!" src="<?php echo IMGSURL . 'penalita.png'; ?>" />
+		<div class="penalita column last">
+			<h5>Penalità: <?php echo $this->penalità['punteggio'] ?></h5>
+			<h5>Motivazione: <?php echo $this->penalità['penalità'] ?></h5>
+		</div>
+	<?php endif; ?>
 	<table class="column last" cellpadding="0" cellspacing="0">
 		<caption>Titolari</caption>
 		<tbody>

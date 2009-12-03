@@ -1,7 +1,7 @@
 <?php foreach($this->elencosquadre as $key => $val): ?>
 	<div class="box column last">
 	<?php if(file_exists(UPLOADDIR. $val['idUtente'] . '-small.jpg')): ?>
-		<a rel="group" title="<?php echo $val['nome']; ?>" class="fancybox" href="<?php echo UPLOADIMGURL . $val['idUtente'] . '-original.jpg'; ?>" >
+		<a rel="group" title="<?php echo $val['nome']; ?>" class="column fancybox" href="<?php echo UPLOADIMGURL . $val['idUtente'] . '-original.jpg'; ?>" >
 			<img class="logo" alt="<?php echo $val['idUtente']; ?>" src="<?php echo UPLOADIMGURL . $val['idUtente'] . '-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita" />
 		</a>
 	<?php else: ?>
