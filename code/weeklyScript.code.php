@@ -8,6 +8,7 @@ require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 require_once(INCDIR . 'db.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
+require_once(INCDIR . 'backup.inc.php');
 
 $utenteObj = new utente();
 $punteggioObj = new punteggio();
@@ -18,6 +19,8 @@ $legaObj = new lega();
 $mailObj = new mail();
 $dbObj = new db();
 $decryptObj= new decrypt();
+$backupObj= new backup();
+$fileSystemObj = new fileSystem();
 
 $giornata = GIORNATA - 1;
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
@@ -27,6 +30,32 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 	if($path != FALSE)
 	{
+		// PRIMA MI FACCIO UN BACKUP DEL DB
+		$path = 'db';
+		$name = "backup_" . date("Ymd-His");
+		$backupName = $path . '/' . $name;
+		$backupGzipObj = new MySQLDump(DBNAME,$backupName . '.gz',TRUE,FALSE);
+		$backupObj = new MySQLDump(DBNAME,$backupName . '.sql',FALSE,FALSE);
+		if($backupObj->dodump())
+		{
+			if($backupGzipObj->dodump())
+			{
+				$handle = fopen('docs/nomeBackup.txt','r');
+				$fileOld = fgets($handle);
+				unlink($path . '/' . $fileOld);
+				fclose($handle);
+				$handle = fopen('docs/nomeBackup.txt','w');
+				fwrite($handle,$name . '.gz');
+				fclose($handle);
+				$files = $fileSystemObj->getFileIntoFolder($path);
+				rsort($files);
+				if(count($files) > 9)
+				{
+					$lastFile = array_pop($files);
+					unlink($path.'/'.$lastFile);
+				}
+			}
+		}
 		$giocatoreObj->updateTabGiocatore($path,$giornata);
 		if(!$votoObj->checkVotiExist($giornata))
 			$votoObj->importVoti($path,$giornata);
@@ -119,8 +148,6 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 			$message['level'] = 1;
 			$message['text'] = "Errori nell'invio delle mail";
 		}
-		//AGGIORNA LA LISTA GIOCATORI
-		//$giocatoreObj->updateTabGiocatore($giornata);
 	}
 	else
 	{

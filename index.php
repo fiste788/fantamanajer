@@ -107,11 +107,6 @@ if (isset($_GET['p']))
 else
 	$p = 'home';
 
-//Adding the language
-
-if (!isset($_SESSION['lang']))
-	$_SESSION['lang'] = 'it';
-
 //Try login if POSTDATA exists
 require_once(CODEDIR . 'login.code.php');
 
