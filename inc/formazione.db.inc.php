@@ -57,11 +57,11 @@ class formazione
 		$valori = "";
 		foreach($capitano as $key => $val)
 		{
-			if(!empty($val))
-			{
-				$campi .= "," . $key;
+			$campi .= "," . $key;
+			if(empty($val))
+				$valori .= ",NULL";
+			else
 				$valori .= ",'" . $val."'";
-			}
 		}
 		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .") 
 				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
@@ -97,10 +97,12 @@ class formazione
 		mysql_query("START TRANSACTION");
 		$str = "";
 		foreach($capitano as $key => $val)
-			if(!empty($val))
+			if(empty($val))
+				$str .= "," . $key . " = NULL";
+			else
 				$str .= "," . $key . " = '" . $val . "'";
 		$q = "UPDATE formazione 
-				SET Modulo = '" . $modulo . "'" . $str . " 
+				SET modulo = '" . $modulo . "'" . $str . " 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)

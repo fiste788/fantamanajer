@@ -37,7 +37,7 @@ if(!PARTITEINCORSO)
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);
 	$contenttpl->assign('giocatori',array_values($giocatori));
-
+	$contenttpl->assign('giocatoriId',$giocatori);
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 		
 	/* CONTROLLI SULL'INPUT: 
@@ -70,8 +70,10 @@ if(!PARTITEINCORSO)
 				if( !in_array($val,$formazione))
 					$formazione[] = $val;
 				else
-					$err++;
-			}	
+					$err++;	
+			}
+			else
+				$formazione[] = $val;
 		}
 		foreach($_POST['cap'] as $key=>$val)
 		{
@@ -90,9 +92,10 @@ if(!PARTITEINCORSO)
 					$frega++;
 					$err++;
 				}
-			}	
+			}
+			else
+				$capitano[$key] = $val;
 		}
-		echo $err;
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI

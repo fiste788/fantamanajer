@@ -35,13 +35,23 @@ class schieramento
 		if(DEBUG)
 			echo $q . "<br />";
 		$row = mysql_fetch_assoc($exe);
-		if(empty($row['idGioc']))
-			$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
-					VALUES ('" . $idFormazione . "','" . $idGioc . "','" . $pos . "')";
-		elseif($idGioc != $row['idGioc'])
-			$q = "UPDATE schieramento 
-					SET idFormazione='" . $idFormazione . "',idGioc='" . $idGioc . "',idPosizione='" . $pos . "' 
-					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
+		if(!empty($idGioc))
+		{
+			if(empty($row['idGioc']))
+				$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
+						VALUES ('" . $idFormazione . "','" . $idGioc . "','" . $pos . "')";
+			elseif($idGioc != $row['idGioc'])
+				$q = "UPDATE schieramento 
+						SET idFormazione='" . $idFormazione . "',idGioc='" . $idGioc . "',idPosizione='" . $pos . "' 
+						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
+			else
+				return TRUE;
+		}
+		elseif(!empty($row['idGioc']))
+			$q = "DELETE from schieramento 
+						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
+		else
+			return TRUE;
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
