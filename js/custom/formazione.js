@@ -1,4 +1,12 @@
 $(document).ready(function(){
+	$(".remove").live("click",function () {
+		parent = $(this).parent();
+		id = parent.attr('id');
+		appo = id.split('-');
+		livello = appo[1];
+		$(this).parent().empty();
+		$("#capitani-field #"+livello).removeAttr("value");
+	});
 	$("#giocatori .draggable").each(function () {
 		ruolo = $(this).parent().attr("class");
 		$(this).children('a').attr("name",ruolo + ruolo); 
@@ -42,7 +50,8 @@ $(document).ready(function(){
 						appo = title.split('-');
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
-						$("#capitani .droppable[id=cap-" + $(list[i]).attr('id') + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<a class="remove">Rimuovi</a>');
 					});
 				}
 			$(".draggable").draggable({
@@ -312,7 +321,7 @@ $(document).ready(function(){
 				hoverClass: 'droppable-hover',
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
-							$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="40" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="40" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							$(this).children('div').css('opacity','1');
 							list = $("#capitani-field").find("input");
 							list.each(function (i) {
@@ -325,24 +334,30 @@ $(document).ready(function(){
 								appo = id.split('-');
 								$("input[name=cap[" + appo[1] + "]]").attr('value',$(lista[i]).children('a').attr('rel'));
 							});
+							$(this).append('<a class="remove">Rimuovi</a>');
 					}
 				});
 				function checkCapitani()
 				{
 					list = $("#capitani").find(".draggable");
-					listTitolari = $("#campo").find("div.embed");
-					list.each(function (i) {
-						idCap = $(list[i]).children('a').attr('rel');
-						flag = false;
-						listTitolari.each(function (i) {
-							val = $(listTitolari[i]).children('a').attr('rel');
-							if(idCap == val)
-								flag = true;
+					if(list.length > 0)
+					{
+						listTitolari = $("#campo").find("div.embed");
+						list.each(function (i) {
+							idCap = $(list[i]).children('a').attr('rel');
+							flag = false;
+							listTitolari.each(function (i) {
+								val = $(listTitolari[i]).children('a').attr('rel');
+								if(idCap == val)
+									flag = true;
+							});
+							if(!flag) {
+								$(list[i]).parent().empty();
+								$("#capitani-field input[value=" + idCap + "]").removeAttr('value');
+							}
 						});
-						if(!flag) {
-							$(list[i]).remove();
-							$("#capitani-field input[value=" + idCap + "]").removeAttr('value');
-						}
-					});
+					}
+					else
+						$("#capitani-field input").removeAttr('value');
 				}
 			});

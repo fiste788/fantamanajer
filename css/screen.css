@@ -686,8 +686,10 @@ a.logout, a.logout:hover, a.logout:visited {
 }
 #panchina {
 	width:700px;
-	height:100px;
 	display:block;
+}
+#panchina h4, #capitani h4 {
+	margin:0;
 }
 #panchina .droppable, #capitani .droppable{
 	width:100px;
