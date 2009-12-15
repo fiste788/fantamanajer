@@ -46,7 +46,7 @@ class punteggio
 		$i = 1;
 		foreach($classifica as $key => $val)
 		{
-			$pos[$val['idUtente']] = $i;
+			$pos[$val->idUtente] = $i;
 			$i++;
 		}
 		return $pos;
@@ -60,8 +60,8 @@ class punteggio
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			$values = $row['giornateVinte'];
+		while ($row = mysql_fetch_object($exe))
+			$values = $row->giornateVinte;
 		return $values;
 	}
 	
@@ -75,12 +75,10 @@ class punteggio
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			$classifica[$row['idUtente']] = $row;
-		if(isset($classifica))
-			return($classifica);
-		else
-			return NULL;
+		$classifica = NULL;
+		while ($row = mysql_fetch_object($exe))
+			$classifica[$row->idUtente] = $row;
+		return $classifica;
 	}
 	
 	function getAllPunteggiByGiornata($giornata,$idLega)
@@ -92,12 +90,12 @@ class punteggio
 		$i = 0;
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
+		while ($row = mysql_fetch_object($exe))
 		{
-			if(isset($classifica[$row['idUtente']] [$row['idGiornata']]))
-				$classifica[$row['idUtente']] [$row['idGiornata']] += $row['punteggio'];
+			if(isset($classifica[$row->idUtente][$row->idGiornata]))
+				$classifica[$row->idUtente][$row->idGiornata] += $row->punteggio;
 			else
-				$classifica[$row['idUtente']] [$row['idGiornata']] = $row['punteggio'];
+				$classifica[$row->idUtente][$row->idGiornata] = $row->punteggio;
 		}
 		$somme = $this->getClassificaByGiornata($idLega,$giornata);
 		if(isset($somme))
@@ -115,7 +113,6 @@ class punteggio
 				$somme[$key][0] = 0;
 		}
 		return($somme);
-		
 	}
 	
 	
@@ -126,8 +123,8 @@ class punteggio
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			return($row['numGiornate']);
+		while ($row = mysql_fetch_object($exe))
+			return $row->numGiornate;
 	}
 
 	function recurSost($ruolo,&$panch,&$cambi,$giornata)
@@ -146,11 +143,11 @@ class punteggio
 			if(($giocatoreObj->getRuoloByIdGioc($player) == $ruolo) && ($presenza))
 			{
 				array_splice($panch,$i,1);
-				$cambi++;
+				$cambi ++;
 				return $player;
 			}
 		}
-		return 0;
+		return FALSE;
 	}
 
 	function calcolaPunti($giornata,$idSquadra,$idLega,$percentualePunteggio = NULL)
@@ -177,8 +174,8 @@ class punteggio
 				$cambi = 0;
 				$somma = 0;
 				$flag = 0;
-				$idFormazione = $formazione['id'];
-				$eCap = $formazione['cap'];
+				$idFormazione = $formazione->id;
+				$eCap = $formazione->cap;
 				// ottengo il capitano che ha preso voto
 				foreach($eCap as $cap)
 				{
@@ -190,7 +187,7 @@ class punteggio
 				}
 				if ($flag != 1)
 					$cap = "";
-				$panch = $formazione['elenco'];
+				$panch = $formazione->elenco;
 				$tito = array_splice($panch,0,11);
 				foreach ($tito as $player)
 				{
@@ -203,7 +200,7 @@ class punteggio
 					}
 					$schieramentoObj->setConsiderazione($idFormazione,$player,1);
 					$voto = $votoObj->getVotoByIdGioc($player,$giornata);
-					if($player == $cap && $datiLega['capitano'])
+					if($player == $cap && $datiLega->capitano)
 					{
 						$voto *= 2;
 						$schieramentoObj->setConsiderazione($idFormazione,$cap,2);
@@ -273,13 +270,11 @@ class punteggio
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			$val = $row;
-		if(isset($val))
-			return $val;
-		else
-			return FALSE;
-	}
+		$values = FALSE;
+		while ($row = mysql_fetch_object($exe))
+			$values = $row;
+		return $values;
+		}
 	
 	function getPenalitàByLega($idLega)
 	{
@@ -289,12 +284,10 @@ class punteggio
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			$val[$row['idUtente']][$row['idGiornata']] = $row['punteggio'];
-		if(isset($val))
-			return $val;
-		else
-			return FALSE;
+		$values = FALSE;
+		while ($row = mysql_fetch_object($exe))
+			$values[$row->idUtente][$row->idGiornata] = $row->punteggio;
+		return $values;
 	}
 	
 	function setPenalità($punti,$motivo,$idGiornata,$idUtente,$idLega)

@@ -18,26 +18,15 @@ if(isset($_POST['nomeLega']))
 		if($legaObj->updateImpostazioni($_POST))
 		{
 			$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
-			$message['level'] = 0;
-			$message['text'] = "Operazione effettuata correttamente";
+			$message->success("Operazione effettuata correttamente");
 		}
 		else
-		{
-			$message['level'] = 1;
-			$message['text'] = "Errore nell'esecuzione";
-		}
+			$message->error("Errore nell'esecuzione");
 	}
 	elseif($flag == 1)
-	{
-		$message['level'] = 1;
-		$message['text'] = "Non hai compilato tutti i campi";
-	}
+		$message->error("Non hai compilato tutti i campi");
 	else
-	{
-		$message['level'] = 1;
-		$message['text'] = "Tipo di dati incorretto. Controlla i valori numerici";
-	}
-	$layouttpl->assign('message',$message);
+		$message->error("Tipo di dati incorretto. Controlla i valori numerici");
 }
 $default = $legaObj->getDefaultValue();
 $contenttpl->assign('default',$default);

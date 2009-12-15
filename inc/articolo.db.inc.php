@@ -175,7 +175,7 @@ class articolo
 		if(DEBUG)
 			echo $q . "<br />";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		if(isset($values))
 			return $values;
@@ -191,8 +191,8 @@ class articolo
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$values[] = $row['idGiornata'];
+		while($row = mysql_fetch_object($exe))
+			$values[] = $row->idGiornata;
 		if(isset($values))
 			return $values;
 		else
@@ -207,7 +207,7 @@ class articolo
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_fetch_assoc($exe);
+		return mysql_fetch_object($exe);
 	}
 }
 ?>

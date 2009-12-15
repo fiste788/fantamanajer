@@ -7,32 +7,40 @@
 		<h3>Informazioni generali</h3>
 		<div class="formbox">
 			<label for="nomeSquadra">Nome della squadra:</label>
-			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="nomeSquadra" name="nome" type="text" maxlength="40" <?php if(isset($this->datiSquadra['nome'])) $nomeSquadra = $this->datiSquadra['nome']; if(isset($_POST['nome'])) $nomeSquadra = $_POST['nome']; if(isset($nomeSquadra)) echo 'value="' . $nomeSquadra . '"'; ?> />
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="nomeSquadra" name="nome" type="text" maxlength="40" <?php if(isset($this->datiSquadra->nome)) $nomeSquadra = $this->datiSquadra->nome; if(isset($_POST['nome'])) $nomeSquadra = $_POST['nome']; if(isset($nomeSquadra)) echo 'value="' . $nomeSquadra . '"'; ?> />
+		</div>
+		<div class="formbox">
+			<label for="username">Nome:</label>
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="nome" name="nomeUtente" type="text" maxlength="15" <?php if(isset($this->datiSquadra->nomeUtente)) $nome = $this->datiSquadra->nomeUtente; if(isset($_POST['nomeUtente'])) $nome = $_POST['nomeUtente']; if(isset($nome)) echo 'value="'. $nome .'"'; ?> />
+		</div>
+		<div class="formbox">
+			<label for="username">Cognome:</label>
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="cognome" name="cognome" type="text" maxlength="15" <?php if(isset($this->datiSquadra->cognome)) $cognome = $this->datiSquadra->cognome; if(isset($_POST['cognome'])) $cognome = $_POST['cognome']; if(isset($cognome)) echo 'value="'. $cognome .'"'; ?> />
 		</div>
 		<div class="formbox">
 			<label for="username">Username:</label>
-			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($this->datiSquadra['username'])) $username = $this->datiSquadra['username']; if(isset($_POST['usernamenew'])) $username = $_POST['usernamenew']; if(isset($username)) echo 'value="'. $username .'"'; ?> />
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="username" name="usernamenew" type="text" maxlength="15" <?php if(isset($this->datiSquadra->username)) $username = $this->datiSquadra->username; if(isset($_POST['usernamenew'])) $username = $_POST['usernamenew']; if(isset($username)) echo 'value="'. $username .'"'; ?> />
 		</div>
 		<div class="formbox">
 			<label for="email">Email:</label>
-			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="mail" name="mail" type="text" maxlength="30" <?php if(isset($this->datiSquadra['mail'])) $mail = $this->datiSquadra['mail']; if(isset($_POST['mail'])) $mail = $_POST['mail']; if(isset($mail))echo 'value="'. $mail .'"'; ?> />
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="mail" name="mail" type="text" maxlength="30" <?php if(isset($this->datiSquadra->mail)) $mail = $this->datiSquadra->mail; if(isset($_POST['mail'])) $mail = $_POST['mail']; if(isset($mail))echo 'value="'. $mail .'"'; ?> />
 		</div>
 		<div class="formbox">
 			<label for="amministratore">Amministratore?</label>
-			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra['amministratore']) && $this->datiSquadra['amministratore'] != 0) $admin = $this->datiSquadra['amministratore']; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="checkbox" id="amministratore" name="amministratore" type="checkbox" <?php if(isset($this->datiSquadra->amministratore) && $this->datiSquadra->amministratore != 0) $admin = $this->datiSquadra->amministratore; if(isset($_POST['amministratore'])) $admin = $_POST['amministratore']; if(isset($admin)) echo 'checked="checked"'; ?> />
 		</div>
 	</fieldset>
-	<fieldset id="panchinari">
+	<fieldset style="width:220px;" class="column">
 		<h4 class="bold no-margin">Portieri</h4>
 		<hr />
 		<?php for($i = 0;$i < 3; $i++): ?>
 			<select<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> name="giocatore[]">
 				<option></option>
 				<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
-					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome']; ?></option>
+					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]->idGioc; ?>"><?php echo $this->giocatori[$j]->cognome . ' ' . $this->giocatori[$j]->nome; ?></option>
 				<?php endif; ?>
 				<?php foreach($this->portieri as $key => $val): ?>
-					<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val['idGioc']) echo ' selected="selected"'; ?>><?php echo $val['cognome'] ." ". $val['nome']; ?></option>
+					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val->idGioc) echo ' selected="selected"'; ?> value="<?php echo $val->idGioc; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 				<?php endforeach; ?>
 			</select>
 		<?php $j++; endfor; ?>
@@ -42,23 +50,25 @@
 			<select<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> name="giocatore[]">
 				<option></option>
 				<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
-					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome'] . ' ' . $this->giocatori[$j]['nome']; ?></option>
+					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]->idGioc; ?>"><?php echo $this->giocatori[$j]->cognome . ' ' . $this->giocatori[$j]->nome; ?></option>
 				<?php endif; ?>
 				<?php foreach($this->difensori as $key => $val): ?>
-					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val['idGioc']) echo ' selected="selected"'; ?> value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] . ' ' . $val['nome']; ?></option>
+					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val->idGioc) echo ' selected="selected"'; ?> value="<?php echo $val->idGioc; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 				<?php endforeach; ?>
 			</select>
 		<?php $j++; endfor; ?>
+	</fieldset>
+	<fieldset style="width:220px;" class="column last">
 		<h4 class="bold no-margin">Centrocampisti</h4>
 		<hr />
 		<?php for($i = 0;$i < 8; $i++): ?>
 			<select<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> name="giocatore[]">
 				<option></option>
 				<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
-					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome']; ?></option>
+					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]->idGioc; ?>"><?php echo $this->giocatori[$j]->cognome . ' ' . $this->giocatori[$j]->nome; ?></option>
 				<?php endif; ?>
 				<?php foreach($this->centrocampisti as $key => $val): ?>
-					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val['idGioc']) echo ' selected="selected"'; ?> value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] ." ". $val['nome']; ?></option>
+					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val->idGioc) echo ' selected="selected"'; ?> value="<?php echo $val->idGioc; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 				<?php endforeach; ?>
 			</select>
 		<?php $j++; endfor; ?>
@@ -68,10 +78,10 @@
 			<select<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> name="giocatore[]">
 				<option></option>
 				<?php if(isset($this->giocatori) && !empty($this->giocatori)): ?>
-					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]['idGioc']; ?>"><?php echo $this->giocatori[$j]['cognome']. ' ' . $this->giocatori[$j]['nome']; ?></option>
+					<option<?php if(!isset($_POST['giocatore'][$j])) echo ' selected="selected"'; ?> value="<?php echo $this->giocatori[$j]->idGioc; ?>"><?php echo $this->giocatori[$j]->cognome . ' ' . $this->giocatori[$j]->nome; ?></option>
 				<?php endif; ?>
 				<?php foreach($this->attaccanti as $key => $val): ?>
-					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val['idGioc']) echo ' selected="selected"'; ?> value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] ." ". $val['nome']; ?></option>
+					<option<?php if(isset($_POST['giocatore'][$j]) && $_POST['giocatore'][$j] == $val->idGioc) echo ' selected="selected"'; ?> value="<?php echo $val->idGioc; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 				<?php endforeach; ?>
 			</select>
 		<?php $j++; endfor; ?>

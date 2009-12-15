@@ -11,14 +11,14 @@
 		</div>
 		<div id="giocatori" class="column">
 		<?php foreach($this->giocatori as $key=>$val): ?>
-			<?php if($ruolo != $val['ruolo']) echo '<div class="' . $val['ruolo'] . '">'; ?>
-			<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val['idGioc'],$this->titolari)) || (!empty($this->panchinari) && in_array($val['idGioc'],$this->panchinari))) echo 'hidden'; ?> <?php echo $val['ruolo']; ?>">
-				<a class="hidden" rel="<?php echo $val['idGioc']; ?>"></a>
-				<img alt="<?php echo $val['idGioc']; ?>" width="40" src="imgs/foto/<?php echo $val['idGioc']; ?>.jpg" />
-				<p><?php echo $val['cognome'] . ' ' . $val['nome']; ?></p>
+			<?php if($ruolo != $val->ruolo) echo '<div class="' . $val->ruolo . '">'; ?>
+			<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val->idGioc,$this->titolari)) || (!empty($this->panchinari) && in_array($val->idGioc,$this->panchinari))) echo 'hidden'; ?> <?php echo $val->ruolo; ?>">
+				<a class="hidden" rel="<?php echo $val->idGioc; ?>"></a>
+				<img alt="<?php echo $val->idGioc; ?>" width="40" src="<?php echo IMGSURL . "foto/" . $val->idGioc; ?>.jpg" />
+				<p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
 			</div>
-			<?php if((isset($this->giocatori[$key + 1]) && $val['ruolo'] != $this->giocatori[$key + 1]['ruolo']) || !isset($this->giocatori[$key + 1])) echo '</div>'; ?>
-			<?php if($ruolo != $val['ruolo']) $ruolo = $val['ruolo']; ?>
+			<?php if((isset($this->giocatori[$key + 1]) && $val->ruolo != $this->giocatori[$key + 1]->ruolo) || !isset($this->giocatori[$key + 1])) echo '</div>'; ?>
+			<?php if($ruolo != $val->ruolo) $ruolo = $val->ruolo; ?>
 		<?php $j++; endforeach; ?>
 		</div>
 		<div id="panchina" class="column">
@@ -35,17 +35,17 @@
 		</div>
 		<div id="titolari-field">
 			<?php for($i = 0;$i < 11;$i++): ?>
-				<input<?php if(isset($this->titolari[$i])) echo ' value="' . $this->titolari[$i] . '" title="' . $this->giocatoriId[$this->titolari[$i]]['ruolo'] . $this->giocatoriId[$this->titolari[$i]]['ruolo'] . '-' . $this->giocatoriId[$this->titolari[$i]]['cognome'] . ' ' . $this->giocatoriId[$this->titolari[$i]]['nome'] . '"'; ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+				<input<?php if(isset($this->titolari[$i])) echo ' value="' . $this->titolari[$i] . '" title="' . $this->giocatoriId[$this->titolari[$i]]->ruolo . $this->giocatoriId[$this->titolari[$i]]->ruolo . '-' . $this->giocatoriId[$this->titolari[$i]]->cognome . ' ' . $this->giocatoriId[$this->titolari[$i]]->nome . '"'; ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 		</div>
 		<div id="panchina-field">
 			<?php for($i = 0;$i < 7;$i++): ?>
-				<input<?php if(isset($this->panchinari[$i]) && !empty($this->panchinari[$i])) echo ' value="' . $this->panchinari[$i] . '" title="' . $this->giocatoriId[$this->panchinari[$i]]['ruolo'] . $this->giocatoriId[$this->panchinari[$i]]['ruolo'] . '-' . $this->giocatoriId[$this->panchinari[$i]]['cognome'] . ' ' . $this->giocatoriId[$this->panchinari[$i]]['nome'] . '"'; ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
+				<input<?php if(isset($this->panchinari[$i]) && !empty($this->panchinari[$i])) echo ' value="' . $this->panchinari[$i] . '" title="' . $this->giocatoriId[$this->panchinari[$i]]->ruolo . $this->giocatoriId[$this->panchinari[$i]]->ruolo . '-' . $this->giocatoriId[$this->panchinari[$i]]->cognome . ' ' . $this->giocatoriId[$this->panchinari[$i]]->nome . '"'; ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 		</div>
 		<div id="capitani-field">
 			<?php foreach ($this->elencoCap as $key => $val): ?>
-				<input<?php if(isset($this->cap[$val]) && !empty($this->cap[$val])) echo ' value="' . $this->cap[$val] . '" title="' . $this->giocatoriId[$this->cap[$val]]['ruolo'] . $this->giocatoriId[$this->cap[$val]]['ruolo'] . '-' . $this->giocatoriId[$this->cap[$val]]['cognome'] . ' ' . $this->giocatoriId[$this->cap[$val]]['nome'] . '"'; ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
+				<input<?php if(isset($this->cap->$val) && !empty($this->cap->$val)) echo ' value="' . $this->cap->$val . '" title="' . $this->giocatoriId[$this->cap->$val]->ruolo . $this->giocatoriId[$this->cap->$val]->ruolo . '-' . $this->giocatoriId[$this->cap->$val]->cognome . ' ' . $this->giocatoriId[$this->cap->$val]->nome . '"'; ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
 			<?php endforeach; ?>
 		</div>
 		<input name="button" type="submit" class="button" value="Invia" />

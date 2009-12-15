@@ -6,7 +6,7 @@
 		<select name="lega" onchange="this.form.submit();">
 			<?php if($this->lega == NULL): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoLeghe as $key => $val): ?>
-				<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']?>"><?php echo $val['nomeLega']?></option>
+				<option<?php if($this->lega == $val->idLega) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
 			<?php endforeach ?>
 		</select>
 	</fieldset>
@@ -20,7 +20,7 @@
 			<select name="squadra" onchange="this.form.submit();">
 			<?php if($this->squadra == NULL): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoSquadre as $key => $val): ?>
-				<option<?php if($this->squadra == $val['idUtente']) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente']?>"><?php echo $val['nome']?></option>
+				<option<?php if($this->squadra == $val->idUtente) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
 			<?php endforeach ?>
 		<?php endif; ?>
 		</select>

@@ -62,20 +62,10 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 		}
 	}
 	if($mail == 0)
-	{
-		$message['level'] = 0;
-		$message['text'] = "Operazione effettuata correttamente";
-	}
+		$message->success("Operazione effettuata correttamente");
 	else
-	{
-		$message['level'] = 1;
-		$message['text'] = "Errori nell'invio delle mail";
-	}
+		$message->warning("Errori nell'invio delle mail");
 }
 else
-{
-	$message['level'] = 1;
-	$message['text'] = "Non puoi effettuare l'operazione ora";
-}
-$contenttpl->assign('message',$message);
+	$message->error("Non puoi effettuare l'operazione ora");
 ?>

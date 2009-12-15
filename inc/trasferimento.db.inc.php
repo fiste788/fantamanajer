@@ -17,7 +17,7 @@ class trasferimento
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = array();
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		if(!empty($values))
 			return $values;
@@ -62,8 +62,8 @@ class trasferimento
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			echo $q . "<br />";
-		$idTrasferimento = mysql_fetch_assoc($exe);
-		$eventoObj->addEvento('4',$squadra,$idLega,$idTrasferimento['idTrasf']);
+		$idTrasferimento = mysql_fetch_object($exe);
+		$eventoObj->addEvento('4',$squadra,$idLega,$idTrasferimento->idTrasf);
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
 		if($formazione != FALSE)
 		{
@@ -93,8 +93,8 @@ class trasferimento
 			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
 				echo $q . "<br />";
-			$idTrasferimento = mysql_fetch_assoc($exe);
-			$eventoObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento['idTrasf']);
+			$idTrasferimento = mysql_fetch_object($exe);
+			$eventoObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento->idTrasf);
 		}
 		if(isset($err))
 		{
@@ -127,29 +127,29 @@ class trasferimento
 			foreach($selezioni as $key => $val)
 			{
 				mysql_query("START TRANSACTION");
-				$squadreObj->unsetSquadraByIdGioc($val['giocOld'],$val['idLega']);
-				$squadreObj->setSquadraByIdGioc($val['giocNew'],$val['idLega'],$val['idSquadra']);
+				$squadreObj->unsetSquadraByIdGioc($val->giocOld,$val->idLega);
+				$squadreObj->setSquadraByIdGioc($val->giocNew,$val->idLega,$val->idSquadra);
 				$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
-				VALUES ('" . $val['giocOld'] . "' , '" . $val['giocNew'] . "' ,'" . $val['idSquadra'] . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($val['giocOld']) . "')";
+				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idSquadra . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($val->giocOld) . "')";
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
 				echo $q . "<br />";
-				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val['idSquadra'],GIORNATA);
+				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val->idSquadra,GIORNATA);
 				if($formazione != FALSE)
 				{
-					if(in_array($val['giocOld'],$formazione['elenco']))
-						$schieramentoObj->changeGioc($formazione['id'],$val['giocOld'],$val['giocNew']);
-					if(in_array($val['giocOld'],$formazione['cap']))
-						$formazioneObj->changeCap($formazione['id'],$val['giocNew'],array_search($val['giocOld'],$formazione['cap']));
+					if(in_array($val->giocOld,$formazione['elenco']))
+						$schieramentoObj->changeGioc($formazione['id'],$val->giocOld,$val->giocNew);
+					if(in_array($val->giocOld,$formazione['cap']))
+						$formazioneObj->changeCap($formazione['id'],$val->giocNew,array_search($val->giocOld,$formazione['cap']));
 				}
 				$q = "SELECT idTrasf 
 						FROM trasferimento
-						WHERE idGiocOld = '" . $val['giocOld'] . "' AND idGiocNew = '" . $val['giocNew'] . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val['idSquadra'] ."'";
+						WHERE idGiocOld = '" . $val->giocOld . "' AND idGiocNew = '" . $val->giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val->idSquadra . "'";
 				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
 					echo $q . "<br />";
-				$idTrasferimento = mysql_fetch_assoc($exe);
-				$eventiObj->addEvento('4',$val['idSquadra'],$val['idLega'],$idTrasferimento['idTrasf']);
+				$idTrasferimento = mysql_fetch_object($exe);
+				$eventiObj->addEvento('4',$val->idSquadra,$val->idLega,$idTrasferimento->idTrasf);
 				if(isset($err))
 				{
 					mysql_query("ROLLBACK");
@@ -170,7 +170,7 @@ class trasferimento
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			return $row;
 	}
 }

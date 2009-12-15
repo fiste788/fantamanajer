@@ -7,6 +7,7 @@ class lega
 	var $numTrasferimenti;
 	var $numSelezioni;
 	var $minFormazione;
+	var $premi;
 	
 	function getLeghe()
 	{
@@ -15,7 +16,7 @@ class lega
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
+		while ($row = mysql_fetch_object($exe) )
 		  	$values[] = $row;
 		return $values; 
 	}
@@ -28,7 +29,7 @@ class lega
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_fetch_assoc($exe);
+		return mysql_fetch_object($exe);
 	}
 	
 	function updateImpostazioni($impostazioni)
@@ -50,8 +51,8 @@ class lega
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$result[$row['Field']] = $row['Default'];
+		while($row = mysql_fetch_object($exe))
+			$result[$row->Field] = $row->Default;
 		return $result;
 	}
 }

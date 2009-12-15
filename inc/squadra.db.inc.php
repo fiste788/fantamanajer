@@ -55,8 +55,8 @@ class squadra
 		$values = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$values = $row['idUtente'];
+		while($row = mysql_fetch_object($exe))
+			$values = $row->idUtente;
 		return $values;
 	}
 	

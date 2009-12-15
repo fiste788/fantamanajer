@@ -49,23 +49,20 @@ else
 $freeplayer = $giocatoreObj->getFreePlayer($filterRuolo,$_SESSION['legaView']);
 foreach($freeplayer as $key => $val)
 {
-	$freeplayer[$key]['nome'] = $val['nome'];
-	$freeplayer[$key]['cognome'] = $val['cognome'];
-	$freeplayer[$key]['club'] = $val['nomeClub'];
-	if(isset($val['mediaPunti']))
-		$freeplayer[$key]['voti'] = $val['mediaPunti'];
+	if(isset($val->mediaPunti))
+		$freeplayer[$key]->voti = $val->mediaPunti;
 	else
-		$freeplayer[$key]['voti'] = "";
+		$freeplayer[$key]->voti = "";
 		
-	if(isset($val['mediaVoti']))
-		$freeplayer[$key]['votiEff'] = $val['mediaVoti'];
+	if(isset($val->mediaVoti))
+		$freeplayer[$key]->votiEff = $val->mediaVoti;
 	else
-		$freeplayer[$key]['votiEff'] = "";
+		$freeplayer[$key]->votiEff = "";
 	
-	if(isset($val['presenze']))
-		$freeplayer[$key]['partiteGiocate'] = $val['presenze'];
+	if(isset($val->presenze))
+		$freeplayer[$key]->partiteGiocate = $val->presenze;
 	else
-		$freeplayer[$key]['partiteGiocate'] = 0;
+		$freeplayer[$key]->partiteGiocate = 0;
 }
 $sort_arr = array();
 foreach($freeplayer as $uniqid => $row)
@@ -82,7 +79,7 @@ if($filterOrder != NULL)
 $orderBy = array();
 $orderBy[] = array('campo'=>'cognome','default'=>'asc');
 $orderBy[] = array('campo'=>'nome','default'=>'asc');
-$orderBy[] = array('campo'=>'club','default'=>'asc');
+$orderBy[] = array('campo'=>'nomeClub','default'=>'asc');
 $orderBy[] = array('campo'=>'avgPunti','default'=>'desc');
 $orderBy[] = array('campo'=>'avgVoti','default'=>'desc');
 $orderBy[] = array('campo'=>'presenzeVoto','default'=>'desc');

@@ -9,12 +9,12 @@
 		<ul class="column">
 		<?php foreach($this->elencoSquadre as $key => $val): ?>
 			<li>
-				<p class="column last"><?php echo $val['nome']; ?></p>
-				<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val['idUtente'],'lega'=>$this->lega)); ?>">
-					<img src="<?php echo IMGSURL.'cancel.png'; ?>" alt="e" title="Cancella" />
+				<p class="column last"><?php echo $val->nome; ?></p>
+				<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val->idUtente,'lega'=>$this->lega)); ?>">
+					<img src="<?php echo IMGSURL . 'cancel.png'; ?>" alt="e" title="Cancella" />
 				</a>
-				<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val['idUtente'],'lega'=>$this->lega)); ?>">
-					<img src="<?php echo IMGSURL.'edit.png'; ?>" alt="m" title="Modifica" />
+				<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val->idUtente,'lega'=>$this->lega)); ?>">
+					<img src="<?php echo IMGSURL . 'edit.png'; ?>" alt="m" title="Modifica" />
 				</a>
 			</li>
 		<?php endforeach; ?>
@@ -31,7 +31,7 @@
 		<select name="lega" onchange="document.selezionaLega.submit();">
 			<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoLeghe as $key => $val): ?>
-				<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option> 
+				<option<?php if($this->lega == $val->idLega) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option> 
 			<?php endforeach; ?>
 		</select>
 	</fieldset>

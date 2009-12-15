@@ -19,34 +19,6 @@ Included library:
  * langlib.inc.php that defines functions for lang array
 
 */
-
-$session_name = 'fantamanajer';
-@session_name($session_name);
-// strictly, PHP 4 since 4.4.2 would not need a verification
-if (version_compare(PHP_VERSION, '5.1.2', 'lt') && isset($_COOKIE[$session_name]) && eregi("\r|\n", $_COOKIE[$session_name])) 
-	die('attacked');
-
-if (!isset($_COOKIE[$session_name])) 
-{
-	ob_start();
-	$old_display_errors = ini_get('display_errors');
-	$old_error_reporting = error_reporting(E_ALL);
-	ini_set('display_errors', 1);
-	$r = session_start();
-	ini_set('display_errors', $old_display_errors);
-	error_reporting($old_error_reporting);
-	unset($old_display_errors, $old_error_reporting);
-	$session_error = ob_get_contents();
-	ob_end_clean();
-	if ($r !== TRUE || ! empty($session_error)) 
-	{
-		setcookie($session_name, '', 1);
-		die('sessionError');
-	}
-}
-else
-	@session_start();
-	
 /*
  * Prevent XSS attach
  */
@@ -78,12 +50,11 @@ require_once(INCDIR . 'db.inc.php');
 require_once(INCDIR . 'auth.inc.php');
 require_once(INCDIR . 'strings.inc.php');
 require_once(INCDIR . 'links.inc.php');
-
-
+require_once(INCDIR . 'message.inc.php');
 
 //Creating a new db istance
-$dbLink = new db;
-$dbLink->dbConnect();
+$dbObj = new db;
+$message = new message();	
 
 //Creating object for pages
 $layouttpl = new Savant3();
@@ -106,6 +77,33 @@ if (isset($_GET['p']))
 	$p = $_GET['p'];
 else
 	$p = 'home';
+
+$session_name = 'fantamanajer';
+@session_name($session_name);
+// strictly, PHP 4 since 4.4.2 would not need a verification
+if (version_compare(PHP_VERSION, '5.1.2', 'lt') && isset($_COOKIE[$session_name]) && eregi("\r|\n", $_COOKIE[$session_name])) 
+	die('attacked');
+
+if (!isset($_COOKIE[$session_name])) 
+{
+	ob_start();
+	$old_display_errors = ini_get('display_errors');
+	$old_error_reporting = error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	$r = session_start();
+	ini_set('display_errors', $old_display_errors);
+	error_reporting($old_error_reporting);
+	unset($old_display_errors, $old_error_reporting);
+	$session_error = ob_get_contents();
+	ob_end_clean();
+	if ($r !== TRUE || ! empty($session_error)) 
+	{
+		setcookie($session_name, '', 1);
+		die('sessionError');
+	}
+}
+else
+	@session_start();
 
 //Try login if POSTDATA exists
 require_once(CODEDIR . 'login.code.php');
@@ -171,30 +169,27 @@ if(isset($_POST['legaView']))
 
 if(!isset($pages[$p])) 
 {
-	$message['level'] = 1;
-	$message['text'] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
+	$message->error("La pagina " . $p . " non esiste. Sei stato mandato alla home");
 	$p = 'home';
 }
 elseif($pages[$p]['roles'] > $_SESSION['roles']) 
 {
-	$message['level'] = 1;
-	$message['text'] = "Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home";
+	$message->error("Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home");
 	$p = 'home';
 }
 if(isset($_SESSION['message']))
 {
-	$message = $_SESSION['message'];
+	$message = $_SESSION['message'];	
 	unset($_SESSION['message']);
 }
-if(!empty($message))
-	$layouttpl->assign('message',$message);
-
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php'))
 	require(CODEDIR . $p . '.code.php');
 //definisce il file di template utilizzato per visualizzare questa pagina
 $tplfile = TPLDIR . $p . '.tpl.php';
 
+if($message->show)
+	$layouttpl->assign('message',$message);
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbartpl->assign('p',$p);
@@ -268,7 +263,4 @@ if ($layouttpl->isError($result)) {
 	print_r($result,1);
 	echo "</pre>";
 }
-
-$dbLink->dbClose();
-//echo "<pre>".print_r($_SESSION,1)."</pre>";
 ?>

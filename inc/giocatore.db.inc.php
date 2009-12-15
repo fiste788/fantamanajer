@@ -17,8 +17,8 @@ class giocatore
 		$giocatori = array();
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$giocatori[$row['idGioc']] = $row;
+		while($row = mysql_fetch_object($exe))
+			$giocatori[$row->idGioc] = $row;
 		if(isset($giocatori))
 			return $giocatori;
 		else
@@ -35,8 +35,8 @@ class giocatore
 		$giocatori = array();
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$giocatori[$row['idGioc']] = $row;
+		while($row = mysql_fetch_object($exe))
+			$giocatori[$row->idGioc] = $row;
 		if(isset($giocatori))
 			return $giocatori;
 		else
@@ -53,7 +53,7 @@ class giocatore
 		$giocatori = array();
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -78,8 +78,8 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$giocatori[$row['idGioc']] = $row;
+		while($row = mysql_fetch_object($exe))
+			$giocatori[$row->idGioc] = $row;
 		return $giocatori;
 	}
 	
@@ -92,7 +92,7 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$result[] = $row;
 		return $result;
 	}
@@ -105,8 +105,8 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$result[$row['idGioc']] = $row;
+		while($row = mysql_fetch_object($exe))
+			$result[$row->idGioc] = $row;
 		if(isset($result))
 			return $result;
 		else
@@ -126,10 +126,10 @@ class giocatore
 		$data = $votoObj->getAllVotoByIdGioc($idGioc);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$values['dettaglio'] = $row;
 		if(!empty($data))
-			$values['dettaglio']['data'] = $data;
+			$values['dettaglio']->data = $data;
 		return $values;
 	}
 	
@@ -141,7 +141,7 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
+		while ($row = mysql_fetch_object($exe))
 			$elenco[] = $row;
 		if(isset($elenco))
 			return $elenco;
@@ -157,7 +157,7 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -173,8 +173,8 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			return($row['ruolo']);
+		while ($row = mysql_fetch_object($exe))
+			return $row->ruolo;
 	}
 	
 	function getArrayGiocatoriFromDatabase()
@@ -185,10 +185,10 @@ class giocatore
 		$giocatori = array();
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_row($exe))
+		while($row = mysql_fetch_object($exe))
 		{
-			$row[3] = strtoupper(substr($row[3],0,3));
-			$giocatori[$row[0]] = implode(";",$row);
+			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
+			$giocatori[$row->idGioc] = implode(";",$row);
 		}
 		return $giocatori;
 	}
@@ -297,8 +297,8 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$giocatori[$row['idGioc']] = $row;
+		while($row = mysql_fetch_object($exe))
+			$giocatori[$row->idGioc] = $row;
 		return $giocatori;
 	}
 	
@@ -319,10 +319,10 @@ class giocatore
 			array_multisort($sort_arr['idGiornata'] , SORT_DESC , $trasferimenti);
 			foreach($trasferimenti as $key => $val)
 				foreach($giocatori as $key2=>$val2)
-					if($val2['idGioc'] == $val['idGiocNew'])
+					if($val2->idGioc == $val->idGiocNew)
 					{
-						$giocOld = $this->getGiocatoreById($val['idGiocOld']);
-						$giocatori[$key2] = $giocOld[$val['idGiocOld']];
+						$giocOld = $this->getGiocatoreById($val->idGiocOld);
+						$giocatori[$key2] = $giocOld[$val->idGiocOld];
 					}
 			$sort_arr = array();
 			foreach($giocatori as $uniqid => $row)
@@ -331,7 +331,7 @@ class giocatore
 			array_multisort($sort_arr['idGioc'] , SORT_ASC , $giocatori);
 		}
 		foreach($giocatori as $key => $val)
-			$giocatoriByRuolo[$val['ruolo']][] = $val;
+			$giocatoriByRuolo[$val->ruolo][] = $val;
 		return $giocatoriByRuolo;
 	}
 	
@@ -343,7 +343,7 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -358,7 +358,7 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		return $giocatori;
 	}
@@ -381,7 +381,7 @@ class giocatore
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			return 1;
 		return 0;
 	}

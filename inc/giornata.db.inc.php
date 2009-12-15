@@ -7,7 +7,7 @@ class giornata
 	
 	function getGiornataByDate()
 	{
-		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']['minFormazione'] : 0;
+		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
 		$q = "SELECT idGiornata 
 				FROM giornata 
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
@@ -63,7 +63,7 @@ class giornata
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_fetch_assoc($exe);
+		return mysql_fetch_object($exe);
 	}
 	
 	function getNumberGiornate()
@@ -73,8 +73,8 @@ class giornata
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		$valore = mysql_fetch_assoc($exe);
-		return $valore['numeroGiornate'];
+		$values = mysql_fetch_object($exe);
+		return $values->numeroGiornate;
 	}
 	
 	function getAllGiornate()
@@ -84,22 +84,22 @@ class giornata
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$giornate[$row['idGiornata']] = $row;
+		while($row = mysql_fetch_object($exe))
+			$giornate[$row->idGiornata] = $row;
 		return $giornate;
 	}
 	
 	function getTargetCountdown()
 	{
-		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']['minFormazione'] : 0;
+		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
 		$q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE as dataFine
 				FROM giornata
 				WHERE NOW() > dataInizio";
 		if(DEBUG)
 			echo $q . "<br />";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		$valore = mysql_fetch_assoc($exe);
-		return $valore['dataFine'];
+		$values = mysql_fetch_object($exe);
+		return $values->dataFine;
 	}
 	
 	function updateGiornate($giornate)

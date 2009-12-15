@@ -23,13 +23,12 @@ $contenttpl->assign('getGiornata',$giorn);
 
 $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
-$cap = array();
 $formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giorn);
 $formImp = $formazioneObj->getFormazioneExistByGiornata($giorn,$_SESSION['legaView']);
 
 if($formazione != FALSE)
 {
-	$panchinariAr = $formazione['elenco'];
+	$panchinariAr = $formazione->elenco;
 	$titolariAr = array_splice($panchinariAr,0,11);
 	$contenttpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolariAr));
 	if(!empty($panchinariAr))
@@ -38,8 +37,8 @@ if($formazione != FALSE)
 		$contenttpl->assign('panchinari',FALSE);
 }
 $contenttpl->assign('formazioniImpostate',$formImp);
-$contenttpl->assign('modulo',$formazione['modulo']);
-$contenttpl->assign('mod',explode('-',$formazione['modulo']));
-$contenttpl->assign('formazione',$formazione['elenco']);
-$contenttpl->assign('cap',$formazione['cap']);
+$contenttpl->assign('modulo',$formazione->modulo);
+$contenttpl->assign('mod',explode('-',$formazione->modulo));
+$contenttpl->assign('formazione',$formazione->elenco);
+$contenttpl->assign('cap',$formazione->cap);
 ?>

@@ -45,28 +45,27 @@ if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $g
 else
 	$contenttpl->assign('titolari',NULL);
 
-$quickLinks = array();
 if(isset($filterGiornata) && $filterGiornata -1 > 0)
 {
 	$idPrec = $filterGiornata -1;
-	$quickLinks['prec']['href'] = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
-	$quickLinks['prec']['title'] = "Giornata " . $idPrec;
+	$quickLinks->prec->href = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
+	$quickLinks->prec->title = "Giornata " . $idPrec;
 }	
 else
 {
 	$idPrec = FALSE;
-	$quickLinks['prec'] = FALSE;
+	$quickLinks->prec = FALSE;
 }
 if(isset($filterGiornata) && $filterGiornata + 1 <= $giornate)
 {
 	$idSucc = $filterGiornata + 1;
-	$quickLinks['succ']['href'] = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$filterSquadra));
-	$quickLinks['succ']['title'] = "Giornata " . $idSucc;
+	$quickLinks->succ->href = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$filterSquadra));
+	$quickLinks->succ->title = "Giornata " . $idSucc;
 }	
 else
 {
 	$idSucc = FALSE;
-	$quickLinks['succ'] = FALSE;
+	$quickLinks->succ = FALSE;
 }
 	
 $contenttpl->assign('squadra',$filterSquadra);

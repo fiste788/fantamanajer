@@ -1,7 +1,7 @@
 <?php if($_SESSION['roles'] == "2"): ?><h3 class="riga">Amministrazione lega</h3><?php endif; ?>
 <div class="box column last">
 	<img class="column" alt="->" src="<?php echo IMGSURL . 'squadre.png'; ?>" title="Gestione Squadre" />
-	<h3><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$_SESSION['datiLega']['idLega'])); ?>">Gestione squadre</a></h3>
+	<h3><a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$_SESSION['datiLega']->idLega)); ?>">Gestione squadre</a></h3>
 	<div>Crea una nuova squadra o modifica/cancella una esistente</div>
 </div>
 <div class="box column last">

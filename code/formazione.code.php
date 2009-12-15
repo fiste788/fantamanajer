@@ -18,7 +18,7 @@ $val = $utenteObj->getElencoSquadre();
 $contenttpl->assign('elencosquadre',$val);
 	
 if(PARTITEINCORSO == TRUE)
-	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
+	header("Location: " . $contenttpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
 if(isset($formImp[$_SESSION['idSquadra']]) && !PARTITEINCORSO)
@@ -34,7 +34,7 @@ $contenttpl->assign('ruo',$ruo);
 $contenttpl->assign('elencoCap',$elencoCap);
 if(!PARTITEINCORSO)
 {
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);
 	$contenttpl->assign('giocatori',array_values($giocatori));
 	$contenttpl->assign('giocatoriId',$giocatori);
@@ -57,7 +57,7 @@ if(!PARTITEINCORSO)
 				$missing ++;
 				$err ++;
 			}
-			$moduloAr[$giocatori[$val]['ruolo']] = $moduloAr[$giocatori[$val]['ruolo']] + 1; 
+			$moduloAr[$giocatori[$val]->ruolo] = $moduloAr[$giocatori[$val]->ruolo] + 1; 
 			if( !in_array($val,$formazione))
 				$formazione[] = $val;
 			else
@@ -101,37 +101,28 @@ if(!PARTITEINCORSO)
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 		{
 			unset($_POST);
-			if(!$issetform)
+			if(!$formazione)
 			{
 				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
 				$eventoObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
 				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
-			$message['level'] = 0;
-			$message['text'] = 'Formazione caricata correttamente';
+			$message->success('Formazione caricata correttamente');
 		}
 		else
-		{
-			$message['leve'] = 1;
-			$message['text'] = 'Hai inserito dei valori multipli';
-		}
+			$message->error('Hai inserito dei valori multipli');
 		if ($missing > 0)
-		{
-			$message['level'] = 1;
-			$message['text'] = 'Valori mancanti';
+			$message->error('Valori mancanti');
 		}
 		if ($frega > 0)
-		{
-			$message['level'] = 1;
-			$message['text'] = 'Stai cercando di fregarmi?';
-		}
+			$message->error('Stai cercando di fregarmi?');
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
-	if($issetform)
+	$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
+	if($formazione)
 	{
-		$modulo = $issetform['modulo'];
-		$panchinariAr = $issetform['elenco'];
+		$modulo = $formazione->modulo;
+		$panchinariAr = $formazione->elenco;
 		$titolariAr = array_splice($panchinariAr,0,11);
 		$i = 0;
 		if(!empty($_POST))
@@ -154,11 +145,9 @@ if(!PARTITEINCORSO)
 			$contenttpl->assign('panchinari',FALSE);
 		else
 			$contenttpl->assign('panchinari',$panchinariAr);
-		$contenttpl->assign('cap',$issetform['cap']);
-		$message['level'] = 2;
-		$message['text'] = 'Hai già impostato la formazione. Se la rinvii quella vecchia verrà sovrascritta';
+		$contenttpl->assign('cap',$formazione->cap);
 	}
-	$contenttpl->assign('issetForm',$issetform);
+	$contenttpl->assign('issetForm',$formazione);
 	if(isset($modulo))
 		$contenttpl->assign('modulo',explode('-',$modulo));
 	else

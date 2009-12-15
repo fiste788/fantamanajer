@@ -11,7 +11,7 @@
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
-				<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><?php echo $this->squadre[$key]['nome']; ?></td>
+				<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><?php echo $this->squadre[$key]->nome; ?></td>
 				<td><?php echo array_sum($val); ?></td>
 			 </tr>
 			<?php $i++;$flag = $key; endforeach; ?>
@@ -31,7 +31,7 @@
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>
 				<td<?php if(isset($this->penalità[$key][$secondKey])) echo ' title="Penalità: ' . $this->penalità[$key][$secondKey] . ' punti" class="rosso"'; ?>>
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]['idUtente'])); ?>"><?php echo $val[$secondKey]; ?></a>
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]->idUtente)); ?>"><?php echo $val[$secondKey]; ?></a>
 				</td>
 				<?php endforeach; ?>
 			</tr>
@@ -50,11 +50,11 @@
 		<input type="hidden" name="giornata" value="<?php echo $this->giornata; ?>" />
 		<div class="formbox">
 			<label for="punti">Punteggio penalità:</label>
-			<input type="text" name="punti" id="punti" class="text"<?php if(isset($this->penalitàSquadra) && $this->penalitàSquadra != FALSE) echo ' value="' . $this->penalitàSquadra['punteggio'] . '"'; ?> />
+			<input type="text" name="punti" id="punti" class="text"<?php if(isset($this->penalitàSquadra) && $this->penalitàSquadra != FALSE) echo ' value="' . $this->penalitàSquadra->punteggio . '"'; ?> />
 		</div>
 		<div class="formbox">
 			<label for="motivo">Motivazione penalità:</label>
-			<input type="text" name="motivo" id="motivo" class="text"<?php if(isset($this->penalitàSquadra) && $this->penalitàSquadra != FALSE) echo ' value="' . $this->penalitàSquadra['penalità'] . '"'; ?> />
+			<input type="text" name="motivo" id="motivo" class="text"<?php if(isset($this->penalitàSquadra) && $this->penalitàSquadra != FALSE) echo ' value="' . $this->penalitàSquadra->penalità . '"'; ?> />
 		</div>
 	</fieldset>
 	<fieldset class="no-margin">

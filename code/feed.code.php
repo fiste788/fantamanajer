@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR.'evento.db.inc.php');
+require_once(INCDIR . 'evento.db.inc.php');
 $eventoObj = new evento();
 
 $filterEvento = NULL;

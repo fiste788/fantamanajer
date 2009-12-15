@@ -43,43 +43,43 @@ if(isset($_POST))
 								{
 									if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) )
 									{
-										$message['level'] = 0;
-										$message['text'] = 'Upload effettuato correttamente';
-										unlink($path.$name.'-temp.'.$ext);
+										$message->level = 0;
+										$message->text = 'Upload effettuato correttamente';
+										unlink($path . $name . '-temp.' . $ext);
 									}
 									else
 									{
-										$message['level'] = 1;
-										$message['text'] = 'Problemi nel ridimensionamento';
+										$message->level = 1;
+										$message->text = 'Problemi nel ridimensionamento';
 									}
 								}
 								else
 								{
-									$nameimg=$path.$name.".".$ext;
+									$nameimg = $path . $name . "." . $ext;
 									if(file_exists($nameimg))
 										unlink($nameimg);
-									rename($path.$name.'-temp.'.$ext,$nameimg);
-									$message['level'] = 0;
-									$message['text'] = 'Upload effettuato correttamente';
+									rename($path . $name . '-temp.' . $ext,$nameimg);
+									$message->level = 0;
+									$message->text = 'Upload effettuato correttamente';
 								}
 								
 								break;
-				case 1: 	$message['level'] = 1;
-							$message['text'] = 'Nessun file selezionato'; break;
-				case 2: 	$message['level'] = 1;
-							$message['text'] = 'File troppo grande'; break;
-				case 3: 	$message['level'] = 1;
-							$message['text'] = 'Tipo di file non supportato'; break;
-				case 4: 	$message['level'] = 1;
-							$message['text'] = 'Errore nell\'upload del file'; break;
+				case 1: 	$message->level = 1;
+							$message->text = 'Nessun file selezionato'; break;
+				case 2: 	$message->level = 1;
+							$message->text = 'File troppo grande'; break;
+				case 3: 	$message->level = 1;
+							$message->text = 'Tipo di file non supportato'; break;
+				case 4: 	$message->level = 1;
+							$message->text = 'Errore nell\'upload del file'; break;
 		}
 	}
 
 	if(!empty($_POST['nome']) && !empty($_POST['nome']))
 	{
 		$giocatoreObj->aggiornaGiocatore($_POST['idGioc'],$_POST['cognome'],$_POST['nome']);
-		$message['level'] = 0;
-		$message['text'] = 'Giocatore rinominato correttamente';
+		$message->level = 0;
+		$message->text = 'Giocatore rinominato correttamente';
 	}
 }
 if(isset($message))

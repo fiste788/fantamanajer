@@ -28,7 +28,7 @@ if(isset($_POST['punti']) && isset($_POST['motivo']) && !empty($_POST['punti']) 
 	{	
 		$squadraDett = $utenteObj->getSquadraById($filterSquadra);
 		$punteggioObj->setPenalità(abs($_POST['punti']),addslashes(stripslashes($_POST['motivo'])),$filterGiornata,$filterSquadra,$filterLega);
-		if($squadraDett['abilitaMail'] == 1)
+		if($squadraDett->abilitaMail == 1)
 		{
 			$mailContent->assign('punti',$_POST['punti']);
 			$mailContent->assign('motivo',$_POST['motivo']);
@@ -37,24 +37,17 @@ if(isset($_POST['punti']) && isset($_POST['motivo']) && !empty($_POST['punti']) 
 			$mailContent->assign('autore',$squadraDett);
 			$object = "Penalità!";
 			//$mailContent->display(MAILTPLDIR.'mailPenalita.tpl.php');
-			$mailObj->sendEmail($squadraDett['mail'],$mailContent->fetch(MAILTPLDIR . 'mailPenalita.tpl.php'),$object);
+			$mailObj->sendEmail($squadraDett->mail,$mailContent->fetch(MAILTPLDIR . 'mailPenalita.tpl.php'),$object);
 		}
-		$message['level'] = 0;
-		$message['text'] = "Penalità aggiunta correttamente";
+		$message->success("Penalità aggiunta correttamente");
 	}
 	else
-	{
-		$message['level'] = 1;
-		$message['text'] = "Il punteggio deve essere numerico e non 0";
-	}
-	$layouttpl->assign('message',$message);
+		$message->error("Il punteggio deve essere numerico e non 0");
 }
 elseif(isset($_POST['submit']) && $_POST['submit'] == 'Cancella')
 {
 	$punteggioObj->unsetPenalità($filterSquadra,$filterGiornata);
-	$message['level'] = 0;
-	$message['text'] = "Penalità cancellata correttamente";	
-	$layouttpl->assign('message',$message);
+	$message->success("Penalità cancellata correttamente");	
 }
 if($filterLega != NULL)
 {

@@ -16,8 +16,8 @@ class voto
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			return($row['punti']);
+		while ($row = mysql_fetch_object($exe))
+			return $row->punti;
 	}
 	
 	function getAllVotoByIdGioc($idGioc)
@@ -28,8 +28,8 @@ class voto
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			$values[$row['idGiornata']] = $row;
+		while ($row = mysql_fetch_object($exe))
+			$values[$row->idGiornata] = $row;
 		return $values;
 	}
 
@@ -41,8 +41,8 @@ class voto
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			if($row['punti'] <> 0 && $row['voto'] <> 0)
+		while ($row = mysql_fetch_object($exe))
+			if($row->punti <> 0 && $row->voto <> 0)
 				return TRUE;
 		return FALSE;
 	}
@@ -56,7 +56,7 @@ class voto
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			return $row;
 	}
 	
@@ -64,6 +64,7 @@ class voto
 	{
 		require_once(INCDIR.'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
+		
 		$percorso = "./docs/voti/csv/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
 		if($fileSystemObj->scaricaVotiCsv($giorn))
 		{
@@ -100,8 +101,8 @@ class voto
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$values[] = $row['idGiornata'];
+		while($row = mysql_fetch_object($exe))
+			$values[] = $row->idGiornata;
 		return in_array($giornata,$values);
 	}
 	

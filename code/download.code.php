@@ -1,6 +1,6 @@
 <?php 
-require_once(INCDIR.'fileSystem.inc.php');
-include_once(INCDIR."createZip.inc.php");
+require_once(INCDIR . 'fileSystem.inc.php');
+include_once(INCDIR . 'createZip.inc.php');
 
 $fileObj = new fileSystem();
 

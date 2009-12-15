@@ -19,8 +19,8 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$values[$row['idUtente']] = $row;
+		while ($row = mysql_fetch_object($exe) )
+			$values[$row->idUtente] = $row;
 		return $values; 
 	}
 	
@@ -31,8 +31,8 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$values[$row['idUtente']] = $row;
+		while ($row = mysql_fetch_object($exe) )
+			$values[$row->idUtente] = $row;
 		return $values; 
 	}
 	
@@ -44,8 +44,8 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
-			$values[$row['idUtente']] = $row;
+		while ($row = mysql_fetch_object($exe))
+			$values[$row->idUtente] = $row;
 		if(isset($values))
 			return $values;
 		else
@@ -60,7 +60,7 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_fetch_assoc($exe); 
+		return mysql_fetch_object($exe); 
 	}
 	
 	function changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$idUtente)
@@ -86,8 +86,8 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$values[$row['idLega']][$row['idUtente']] = $row['mail'];
+		while ($row = mysql_fetch_object($exe) )
+			$values[$row->idLega][$row->idUtente] = $row->mail;
 		return $values; 
 	}
 	
@@ -99,8 +99,8 @@ class utente
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$values[$row['idLega']][$row['idUtente']] = $row['mail'];
+		while ($row = mysql_fetch_object($exe) )
+			$values[$row->idLega][$row->idUtente] = $row->mail;
 		return $values; 
 	}
 	

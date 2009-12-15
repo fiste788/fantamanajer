@@ -22,24 +22,15 @@ $elencoLeghe = $legaObj->getLeghe();
 
 if(isset($_POST['button']))
 {
-	$error = FALSE;
 	unset($_POST['lega']);
 	foreach($_POST as $key => $val)
 	{
 		if(empty($val))
-		{
-			$error = TRUE;
-			$message['level'] = 1;
-			$message['text'] = "Non hai compilato tutti i campi";
-		}
+			$message->error("Non hai compilato tutti i campi");
 	}
 	if(!isset($_POST['selezione']) || !isset($_POST['type']))
-	{
-		$error = TRUE;
-		$message['level'] = 1;
-		$message['text'] = "Non hai compilato tutti i campi";
-	}
-	if(!$error)
+		$message->error("Non hai compilato tutti i campi");
+	if(!$message->show)
 	{
 		$mailContent->assign('object',$_POST['object']);
 		$mailContent->assign('text',nl2br($_POST['text']));
@@ -83,16 +74,11 @@ if(isset($_POST['button']))
 				$idArticolo = $articoloObj->add($articoloObj);
 				$eventiObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
 			}
-			$message['level'] = 0;
-			$message['text'] = 'Mail inviate correttamente';
+			$message->success('Mail inviate correttamente');
 		}
 		else
-		{
-			$message['level'] = 1;
-			$message['text'] = 'Problemi nell\'invio delle mail';
-		}
+			$message->error('Problemi nell\'invio delle mail');
 	}
-	$layouttpl->assign('message',$message);
 }
 $contenttpl->assign('elencoLeghe',$elencoLeghe);
 $contenttpl->assign('lega',$filterLega);

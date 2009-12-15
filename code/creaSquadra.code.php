@@ -51,15 +51,11 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 			if($utenteObj->deleteSquadra($filterId))
 			{
 				$squadraObj->unsetSquadraGiocatoreByIdSquadra($filterId);
-				$message['level'] = 0;
-				$message['text'] = "Cancellazione effettuata correttamente";
+				$message->success("Cancellazione effettuata correttamente");
 				unset($_POST);
 			}
 			else
-			{
-				$message['level'] = 1;
-				$message['text'] = "Hai già eliminato questa squadra";
-			}
+				$message->warning("Hai già eliminato questa squadra");
 		}
 		elseif($filterAction == 'edit' || $filterAction == 'new')
 		{
@@ -70,34 +66,21 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				{
 					if(in_array($val,$giocatori))
 					{
-						$message['level'] = 1;
-						$message['text'] = "Hai immesso un giocatore più di una volta";
+						$message->error("Hai immesso un giocatore più di una volta");
 						break;
 					}
 					else
 						$giocatori[] = $val;
 				}
 				else
-				{
-					$message['level'] = 1;
-					$message['text'] = "Non hai compilato tutti i giocatori";
-				}
+					$message->error("Non hai compilato tutti i giocatori");
 			}
 			if(!$mailObj->checkEmailAddress($_POST['mail']))
-			{
-				$message['level'] = 1;
-				$message['text'] = "Mail non corretta";
-			}
+				$message->error("Mail non corretta");
 			if($utenteObj->getSquadraByUsername(addslashes(stripslashes(trim($_POST['usernamenew']))),$filterId) != FALSE)
-			{
-				$message['level'] = 1;
-				$message['text'] = "Un altro utente con questo username è già presente";
-			}
+				$message->error("Un altro utente con questo username è già presente");
 			if($utenteObj->getSquadraByNome(addslashes(stripslashes(trim($_POST['nome']))),$filterId) != FALSE)
-			{
-				$message['level'] = 1;
-				$message['text'] = "Il nome della squadra è già presente";
-			}
+				$message->error("Il nome della squadra è già presente");
 			if(!isset($message))
 			{
 				//tutto giusto
@@ -121,8 +104,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 					unset($_POST);
 					$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
 					$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($filterId));
-					$message['level'] = 0;
-					$message['text'] = "Squadra modificata correttamente";
+					$message->success("Squadra modificata correttamente");
 				}
 				else
 				{
@@ -132,8 +114,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 					$squadraObj->setSquadraGiocatoreByArray($filterLega,$giocatori,$squadra);
 					$dbObj->commit();
 					$filterId = $squadra;
-					$message['level'] = 0;
-					$message['text'] = "Squadra creata correttamente";
+					$message->success("Squadra creata correttamente");
 					$mailContent->assign('username',$_POST['usernamenew']);
 					$mailContent->assign('squadra',$_POST['nome']);
 					$mailContent->assign('password',$password);
@@ -141,15 +122,13 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 					$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
 					$object = "Benvenuto nel FantaManajer!";
 					//$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
-					$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR.'mailBenvenuto.tpl.php'),$object);
+					$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR . 'mailBenvenuto.tpl.php'),$object);
 					unset($_POST);
 				}
 			}
 		}
 	}
 }
-if(isset($message))
-	$layouttpl->assign('message',$message);
 
 if(isset($filterAction))
 {

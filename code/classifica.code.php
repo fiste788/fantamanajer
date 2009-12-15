@@ -4,7 +4,6 @@ require_once(INCDIR . 'utente.db.inc.php');
 
 $punteggioObj = new punteggio();
 $utenteObj = new utente();
-
 $giornata = GIORNATA;
 if(isset($_POST['giornata']))
 	$giornata = $_POST['giornata'];
