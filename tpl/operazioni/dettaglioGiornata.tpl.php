@@ -12,7 +12,7 @@
 		<select name="squad" onchange="this.form.submit();">
 			<?php if(!isset($this->squadra)): ?><option></option><?php endif; ?>
 			<?php foreach($this->squadre as $key => $val): ?>
-				<option<?php if($this->squadra == $val['idUtente']) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente']?>"><?php echo $val['nome']?></option>
+				<option<?php if($this->squadra == $val->idUtente) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
 			<?php endforeach; ?>
 		</select>
 	</fieldset>

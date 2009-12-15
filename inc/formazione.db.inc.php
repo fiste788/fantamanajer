@@ -18,29 +18,29 @@ class formazione
 		$flag = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
+		while ($row = mysql_fetch_object($exe))
 		{
-			$elenco[$row['idPosizione']] = $row['idGioc'];
+			$elenco[$row->idPosizione] = $row->idGioc;
 			if(!$flag)
 			{
-				$idFormazione = $row['idFormazione'];
-				$idSquadra = $row['idUtente'];
-				$idGiornata = $row['idGiornata'];
-				$modulo = $row['modulo'];
-				$cap['C'] = $row['C'];
-				$cap['VC'] = $row['VC'];
-				$cap['VVC'] = $row['VVC'];
+				$idFormazione = $row->idFormazione;
+				$idSquadra = $row->idUtente;
+				$idGiornata = $row->idGiornata;
+				$modulo = $row->modulo;
+				$cap->C = $row->C;
+				$cap->VC = $row->VC;
+				$cap->VVC = $row->VVC;
 				$flag = TRUE;
 			}
 		}
 		if($flag)
 		{
-			$formazione['id'] = $idFormazione;
-			$formazione['idSquadra'] = $idSquadra;
-			$formazione['idGiornata'] = $idGiornata;
-			$formazione['elenco'] = $elenco;
-			$formazione['modulo'] = $modulo;
-			$formazione['cap'] = $cap;
+			$formazione->id = $idFormazione;
+			$formazione->idSquadra = $idSquadra;
+			$formazione->idGiornata = $idGiornata;
+			$formazione->elenco = $elenco;
+			$formazione->modulo = $modulo;
+			$formazione->cap = $cap;
 			return $formazione;
 		}
 		else
@@ -74,8 +74,8 @@ class formazione
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$idFormazione = $row['idFormazione'];
+		while($row = mysql_fetch_object($exe))
+			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
 		if(isset($err))
@@ -113,8 +113,8 @@ class formazione
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
-			$idFormazione = $row['idFormazione'];
+		while($row = mysql_fetch_object($exe))
+			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
 		if(isset($err))
@@ -137,22 +137,22 @@ class formazione
 		$flag = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
+		while ($row = mysql_fetch_object($exe))
 		{
-			$elenco[$row['idPosizione']] = $row['idGioc'];
-			$idFormazione = $row['idFormazione'];
-			$modulo = $row['modulo'];
-			$cap['C'] = $row['C'];
-			$cap['VC'] = $row['VC'];
-			$cap['VVC'] = $row['VVC'];
+			$elenco[$row->idPosizione] = $row->idGioc;
+			$idFormazione = $row->idFormazione;
+			$modulo = $row->modulo;
+			$cap->C = $row->C;
+			$cap->VC = $row->VC;
+			$cap->VVC = $row->VVC;
 			$flag = TRUE;
 		}
 		if($flag)
 		{
-			$formazione['id'] = $idFormazione;
-			$formazione['elenco'] = $elenco;
-			$formazione['modulo'] = $modulo;
-			$formazione['cap'] = $cap;
+			$formazione->id = $idFormazione;
+			$formazione->elenco = $elenco;
+			$formazione->modulo = $modulo;
+			$formazione->cap = $cap;
 			return $formazione;
 		}
 		else
@@ -167,10 +167,10 @@ class formazione
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe))
+		while ($row = mysql_fetch_object($exe))
 		{
-			$val[$row['idUtente']]['idUtente'] = $row['idUtente'];
-			$val[$row['idUtente']]['nome'] = $row['nome'];
+			$val[$row->idUtente]->idUtente = $row->idUtente;
+			$val[$row->idUtente]->nome = $row->nome;
 		}
 		if (!isset($val))
 			return FALSE;

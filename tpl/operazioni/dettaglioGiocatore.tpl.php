@@ -6,7 +6,7 @@
 		<select name="id" onchange="this.form.submit();">
 			<?php if($this->elencoGiocatori != FALSE): ?>
 			<?php foreach ($this->elencoGiocatori as $key => $val): ?>
-				<option <?php if($key == $this->idGioc) echo "selected=\"selected\""; ?> value="<?php echo $key;?>"><?php echo $val['cognome']." ".$val['nome']; ?></option>
+				<option<?php if($key == $this->idGioc) echo ' selected="selected"'; ?> value="<?php echo $key;?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 			<?php endforeach; ?>
 			<?php endif; ?>
 		</select>

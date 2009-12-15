@@ -62,22 +62,22 @@
 							<span><?php echo $this->generalMessage; ?></span>
 						</div>
 					<?php endif; ?>
-					<?php if(isset($this->message)): ?>
-						<?php switch($this->message['level']): 
+					<?php if($this->message->show): ?>
+						<?php switch($this->message->level): 
 							 case 0: ?>
 							<div class="messaggio good column last">
 								<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
-								<span><?php echo $this->message['text']; ?></span>
+								<span><?php echo $this->message->text; ?></span>
 							</div>
 							<?php break; case 1: ?>
-							<div class="messaggio bad column last">
-								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-								<span><?php echo $this->message['text']; ?></span>
-							</div>
-							<?php break; case 2: ?>
 							<div class="messaggio neut column last">
 								<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
-								<span><?php echo $this->message['text']; ?></span>
+								<span><?php echo $this->message->text; ?></span>
+							</div>
+							<?php break; case 2: ?>
+							<div class="messaggio bad column last">
+								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+								<span><?php echo $this->message->text; ?></span>
 							</div>
 							<?php endswitch; ?>
 						<?php endif; ?>
@@ -109,17 +109,17 @@
 		</div>
 		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
 		<div id="rightBar">
-			<?php if(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] != FALSE): ?>
-				<a class="quickLinks" href="<?php echo $this->quickLinks['prec']['href']; ?>" title="<?php echo $this->quickLinks['prec']['title']; ?>">&laquo;</a>
-			<?php elseif(isset($this->quickLinks['prec']) && $this->quickLinks['prec'] == FALSE): ?>
+			<?php if(isset($this->quickLinks->prec) && $this->quickLinks->prec != FALSE): ?>
+				<a class="quickLinks" href="<?php echo $this->quickLinks->prec->href; ?>" title="<?php echo $this->quickLinks->prec->title; ?>">&laquo;</a>
+			<?php elseif(isset($this->quickLinks->prec) && $this->quickLinks->prec == FALSE): ?>
 				<a class="quickLinksDisabled" title="Disabilitato">&laquo;</a>
 			<?php endif; ?>
 			<?php if(!empty($this->operation)): ?>
 				<a title="Mostra menu" id="click-menu"><span>M</span><span>E</span><span>N</span><span>U</span></a>
 			<?php endif; ?>
-			<?php if(isset($this->quickLinks['succ']) && $this->quickLinks['succ'] != FALSE): ?>
-				<a class="quickLinks" href="<?php echo $this->quickLinks['succ']['href']; ?>" title="<?php echo $this->quickLinks['succ']['title']; ?>">&raquo;</a>
-			<?php elseif(isset($this->quickLinks['succ']) && $this->quickLinks['succ'] == FALSE): ?>
+			<?php if(isset($this->quickLinks->succ) && $this->quickLinks->succ != FALSE): ?>
+				<a class="quickLinks" href="<?php echo $this->quickLinks->succ->href; ?>" title="<?php echo $this->quickLinks->succ->title; ?>">&raquo;</a>
+			<?php elseif(isset($this->quickLinks->succ) && $this->quickLinks->succ == FALSE): ?>
 				<a class="quickLinksDisabled" title="Disabilitato">&raquo;</a>
 			<?php endif; ?>
 		</div>

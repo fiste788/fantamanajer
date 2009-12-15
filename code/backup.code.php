@@ -25,22 +25,15 @@ if($backupObj->dodump())
 		if(count($files) > 9)
 		{
 			$lastFile = array_pop($files);
-			unlink($path.'/'.$lastFile);
+			unlink($path . '/' . $lastFile);
 		}
-		$message['level'] = 0;
-		$message['text'] = "Operazione effettuata correttamente";
+		$message->success("Operazione effettuata correttamente");
 	}
 	else
-	{
-		$message['level'] = 1;
-		$message['text'] = "Si sono verificati degli errori nel backup compresso";	
-	}
+		$message->error("Si sono verificati degli errori nel backup compresso");	
 }
 else
-{
-	$message['level'] = 1;
-	$message['text'] = "Si sono verificati degli errori";	
-}
+	$message->error("Si sono verificati degli errori");	
 //ob_end_clean();
 $contenttpl->assign('message',$message);
 ?>

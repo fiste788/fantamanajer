@@ -12,14 +12,10 @@ $dataGiornata = $giorn[0];
 if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 'superadmin')
 {
 	$trasferimentoObj->doTransfertBySelezione();
-	$message['level'] = 0;
-	$message['text'] = "Operazione effettuata correttamente";
+	$message->success("Operazione effettuata correttamente");
 	
 }
 else
-{
-	$message['level'] = 1;
-	$message['text'] = "Non puoi effettuare l'operazione ora";
-}
+	$message->warning("Non puoi effettuare l'operazione ora");
 $layouttpl->assign('message',$message);
 ?>

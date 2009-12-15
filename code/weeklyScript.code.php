@@ -139,26 +139,13 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 			unset($mailContent);
 		}
 		if($mail == 0)
-		{
-			$message['level'] = 0;
-			$message['text'] = "Operazione effettuata correttamente";
-		}
+			$message->success("Operazione effettuata correttamente");
 		else
-		{
-			$message['level'] = 1;
-			$message['text'] = "Errori nell'invio delle mail";
-		}
+			$message->error("Errori nell'invio delle mail");
 	}
 	else
-	{
-		$message['level'] = 1;
-		$message['text'] = "Problema nel recupero dei voti dalla gazzetta";
-	}
+		$message->error("Problema nel recupero dei voti dalla gazzetta");
 }
 else
-{
-	$message['level'] = 1;
-	$message['text'] = "Non puoi effettuare l'operazione ora";
-}
-$contenttpl->assign('message',$message);
+	$message->error("Non puoi effettuare l'operazione ora");
 ?>

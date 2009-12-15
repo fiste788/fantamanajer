@@ -1,24 +1,24 @@
 <?php $r = 'Por.'; ?>
 <div id="headerSquadra">
 	<div class="column last">
-		<a title="<?php echo $this->squadraDett['nome']; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '-original.jpg'; ?>" class="fancybox column">
-			<img alt="<?php echo $this->squadraDett['idUtente']; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett['idUtente'] . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett['nome']; ?>" />
+		<a title="<?php echo $this->squadraDett->nome; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett->idUtente . '-original.jpg'; ?>" class="fancybox column">
+			<img alt="<?php echo $this->squadraDett->idUtente; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett->idUtente . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nome; ?>" />
 		</a>
 	</div>
-	<h2 id="nomeSquadra"><?php echo $this->squadraDett['nome']; ?></h2>
+	<h2 id="nomeSquadra"><?php echo $this->squadraDett->nome; ?></h2>
 	<div id="datiSquadra">
 		<div id="mostraDati">
 			<p>
 				<span class="bold">Proprietario:</span>
-				<?php echo $this->squadraDett['nomeProp'] . " " . $this->squadraDett['cognome']; ?>
+				<?php echo $this->squadraDett->nomeProp . " " . $this->squadraDett->cognome; ?>
 			</p>
 			<p>
 				<span class="bold">Username:</span>
-				<?php echo $this->squadraDett['username']; ?>
+				<?php echo $this->squadraDett->username; ?>
 			</p>
 			<p>
 				<span class="bold">E-mail:</span>
-				<?php echo $this->squadraDett['mail']; ?>
+				<?php echo $this->squadraDett->mail; ?>
 			</p>
 			<p>
 				<span class="bold">Media punti:</span>
@@ -33,7 +33,7 @@
 				<?php echo $this->max; ?>
 			</p>
 		</div>
-		<?php if($this->squadraDett['idUtente'] == $_SESSION['idSquadra']): ?>
+		<?php if($this->squadraDett->idUtente == $_SESSION['idSquadra']): ?>
 		<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
 		<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a id="qui">Clicca quì</a></p>
 		<div id="datiNascosti" class="hidden no-margin">
@@ -42,19 +42,19 @@
 					<div class="column">
 						<div class="formbox">
 							<label for="name">Nome:</label>
-							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett['nomeProp']; ?>"/>
+							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett->nomeProp; ?>"/>
 						</div>
 						<div class="formbox">
 							<label for="surname">Cognome:</label>
-							<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadraDett['cognome']; ?>"/>
+							<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadraDett->cognome; ?>"/>
 						</div>
 						<div class="formbox">
 							<label for="email">E-mail:</label>
-							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett['mail']; ?>"/>
+							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett->mail; ?>"/>
 						</div>
 						<div class="formbox">
 							<label for="abilitaMail">Ricevi email:</label>
-							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadraDett['abilitaMail'] == 1) echo ' checked="checked"' ?>/>
+							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadraDett->abilitaMail == 1) echo ' checked="checked"' ?>/>
 						</div>
 					</div>
 					<div class="column">
@@ -125,32 +125,32 @@
 		</tr>
 		<?php if(!empty($this->giocatori)): ?>
 			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if(empty($val['idClub'])) echo 'rosso'; else echo 'row'; ?>">
-				<td title="" class="name<?php if($val['ruolo'] != $r) echo ' ult'; ?>">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val['idGioc'])); ?>"><?php echo $val['cognome'] . ' ' . $val['nome']; ?></a>
+			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; else echo 'row'; ?>">
+				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['ruolo']; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['club'])) echo strtoupper(substr($val['club'],0,3)); else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php echo $val['presenze'] . " (" . $val['presenzeVoto'] . ")"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['avgVoti'])) echo $val['avgVoti']; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['avgPunti'])) echo $val['avgPunti']; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['gol'])) echo $val['gol']; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['golSubiti'])) echo $val['golSubiti']; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['assist'])) echo $val['assist']; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['ammonizioni'])) echo $val['ammonizioni']; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val['ruolo'] != $r) echo ' ult'; ?>"><?php if(!empty($val['espulsioni'])) echo $val['espulsioni']; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php echo $val->ruolo; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->club)) echo strtoupper(substr($val->club,0,3)); else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php echo $val->presenze . " (" . $val->presenzeVoto . ")"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->avgVoti)) echo $val->avgVoti; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->avgPunti)) echo $val->avgPunti; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->gol)) echo $val->gol; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->golSubiti)) echo $val->golSubiti; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->assist)) echo $val->assist; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->ammonizioni)) echo $val->ammonizioni; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->espulsioni)) echo $val->espulsioni; else echo "&nbsp;"; ?></td>
 			</tr>
-			<?php $r = $val ['ruolo'];  ?>
+			<?php $r = $val->ruolo; ?>
 			<?php endforeach; ?>
 			<tr>
 				<td colspan="4">Totali</td>
-				<td><?php echo $this->squadraDett['avgVoti']; ?></td>
-				<td><?php echo $this->squadraDett['avgPunti']; ?></td>
-				<td><?php echo $this->squadraDett['totaleGol']; ?></td>
-				<td><?php echo $this->squadraDett['totaleGolSubiti']; ?></td>
-				<td><?php echo $this->squadraDett['totaleAssist']; ?></td>
-				<td><?php echo $this->squadraDett['totaleAmmonizioni']; ?></td>
-				<td><?php echo $this->squadraDett['totaleEspulsioni']; ?></td>
+				<td><?php echo $this->squadraDett->avgVoti; ?></td>
+				<td><?php echo $this->squadraDett->avgPunti; ?></td>
+				<td><?php echo $this->squadraDett->totaleGol; ?></td>
+				<td><?php echo $this->squadraDett->totaleGolSubiti; ?></td>
+				<td><?php echo $this->squadraDett->totaleAssist; ?></td>
+				<td><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
+				<td><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
 			</tr>
 		<?php endif;?>
 	</tbody>

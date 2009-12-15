@@ -118,7 +118,6 @@ if(!isset($formImp[$squadra]))
 			{
 				unset($_POST);
 				$id = $formazioneObj->caricaFormazione($formazione,$capitano,$giornata,$squadra,$mod);
-				$message[0] = 0;
 				if($votiObj->checkVotiExist($giornata))
 				{
 					$punteggiObj->calcolaPunti($giornata,$squadra,$lega);
@@ -131,31 +130,23 @@ if(!isset($formImp[$squadra]))
 				   	$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($squadra,$giornata);
 				   	//$mailContent->display(TPLDIR.'mail.tpl.php');
 				  	$mailObj->sendEmail($squadraDett['nomeProp'] . " " . $squadraDett['cognome'] . "<" . $squadraDett['mail']. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object);
-					$message[1] = 'Formazione caricata correttamente e punteggio calcolato';
+					$message->success('Formazione caricata correttamente e punteggio calcolato');
 				}
 				else
-					$message[1] = 'Formazione caricata correttamente';
+					$message->success('Formazione caricata correttamente');
+				$_SESSION['message'] = $message;
 				header("Location: ".$contenttpl->linksObj->getLink('areaAmministrativa'));
 			}
 		  	else
-		  	{
-				$message[0] = 1;
-				$message[1] = 'Hai inserito dei valori multipli';
-			}
+				$message->error('Hai inserito dei valori multipli');
 			if ($missing > 0)
-		  	{
-				$message[0] = 1;
-				$message[1] = 'Valori mancanti';
-			}
-			$_SESSION['message'] = $message;
+				$message->error('Valori mancanti');
 		}
 	}
 }
 else
 {
 	$contenttpl->assign('formImp',TRUE);
-	$message[0] = 1;
-	$message[1] = 'La formazione per questa squadra è già impostata';
-	$_SESSION['message'] = $message;
+	$message->warning('La formazione per questa squadra è già impostata');
 }
 ?>

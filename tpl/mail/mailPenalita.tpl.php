@@ -197,7 +197,7 @@
 									</div>
 									</div>
 									<p class="column last" style="width:100%">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a>
+									Per domande o chiarimenti contatta l'amministratore di lega all'indirizzo <a href="mailto:<?php echo $this->autore->mail; ?>"><?php echo $this->autore->mail; ?></a>
 								</div>
 							</div>
 						</div>

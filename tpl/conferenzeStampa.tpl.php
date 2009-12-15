@@ -6,21 +6,21 @@
 		<?php endif; ?>
 		<?php $i++; ?>		
 		<div class="box column<?php if($i % 2 == 0) echo ' last'; ?>">
-			<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val['idSquadra']): ?>
-				<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val['idArticolo'])); ?>">
+			<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val->idSquadra): ?>
+				<a class="column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val->idArticolo)); ?>">
 					<img src="<?php echo IMGSURL . 'edit.png'; ?>" alt="m" title="Modifica" />
 				</a>
-					<a class="column" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'cancel','id'=>$val['idArticolo'])); ?>">
+					<a class="column" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'cancel','id'=>$val->idArticolo)); ?>">
 					<img src="<?php echo IMGSURL . 'cancel.png'; ?>" alt="e" title="Cancella" />
 				</a>
 			<?php endif; ?>
 			<em>
-				<span class="column last"><?php echo $this->squadre[$val['idSquadra']]['username']; ?></span>
-				<span class="right"><?php echo $val['insertDate']; ?></span>
+				<span class="column last"><?php echo $this->squadre[$val->idSquadra]->username; ?></span>
+				<span class="right"><?php echo $val->insertDate; ?></span>
 			</em>
-			<h3 class="title"><?php echo $val['title']; ?></h3>
-			<?php if(isset($val['abstract'])): ?><div class="abstract"><?php echo $val['abstract']; ?></div><?php endif; ?>
-			<div class="text"><?php echo nl2br($val['text']); ?></div>
+			<h3 class="title"><?php echo $val->title; ?></h3>
+			<?php if(isset($val->abstract)): ?><div class="abstract"><?php echo $val->abstract; ?></div><?php endif; ?>
+			<div class="text"><?php echo nl2br($val->text); ?></div>
 		</div>
 		<?php if($i % 2 == 0 || $i == count($this->articoli)): ?>
 			</div>

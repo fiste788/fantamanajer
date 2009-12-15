@@ -10,7 +10,7 @@
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
-				<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><?php echo $this->squadre[$key]['nome']; ?></td>
+				<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><?php echo $this->squadre[$key]->nome; ?></td>
 				<td><?php echo array_sum($val); ?></td>
 			 </tr>
 			<?php $i++;$flag = $key; endforeach; ?>
@@ -30,7 +30,7 @@
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>
 				<td<?php if(isset($this->penalità[$key][$secondKey])) echo ' title="Penalità: ' . $this->penalità[$key][$secondKey] . ' punti" class="rosso"'; ?>>
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]['idUtente'])); ?>"><?php echo $val[$secondKey]; ?></a>
+					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]->idUtente)); ?>"><?php echo $val[$secondKey]; ?></a>
 				</td>
 				<?php endforeach; ?>
 			</tr>
@@ -52,7 +52,7 @@
 // <![CDATA[
 	var datasets = {
 		<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>"<?php echo $key; ?>": {
-			label: "<?php echo $this->squadre[$key]['nome']; ?>",
+			label: "<?php echo $this->squadre[$key]->nome; ?>",
 			data: [<?php foreach($val as $secondKey=>$secondVal): ?><?php echo '['.$secondKey.','.$val[$secondKey].']'; if(count($secondVal)-$secondKey != $secondKey-1) echo ','; endforeach; ?>]
 		}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 		<?php endforeach; ?>
@@ -60,10 +60,10 @@
 	var medie = {
 		<?php $i=0; foreach($this->classificaDett as $key => $val): $i++; ?>
 		<?php $media = array_sum($this->classificaDett[$key])/count($this->classificaDett[$key]); ?>
-		"<?php echo $key; ?>" : {label: "Media <?php echo $this->squadre[$key]['nome']; ?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]); ?>,<?php echo $media; ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
+		"<?php echo $key; ?>" : {label: "Media <?php echo $this->squadre[$key]->nome; ?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]); ?>,<?php echo $media; ?>]]}<?php if(count($this->classificaDett) != $i) echo ",\n"; ?>
 		<?php endforeach; ?>
 	};
-	var squadra = {val:<?php if($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) echo $this->squadre[$_SESSION['idSquadra']]['idUtente'];else echo 'false'; ?>};
+	var squadra = {val:<?php if($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) echo $this->squadre[$_SESSION['idSquadra']]->idUtente;else echo 'false'; ?>};
 	$(document).ready(function() {
 		$(document).classifica(datasets,medie,squadra);
 	});

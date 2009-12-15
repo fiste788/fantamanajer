@@ -74,33 +74,20 @@ if($trasferiti != FALSE)
 							$numTrasferimenti = count($trasferimenti);
 							foreach($ruoli as $key => $val)
 								$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer($key,$_SESSION['idLega']));
-							$message['level'] = 0;
-							$message['text'] = 'Trasferimento effettuato correttamente';
+							$message->success('Trasferimento effettuato correttamente');
 						}
 						else
-						{
-							$message['level'] = 1;
-							$message['text'] = 'I giocatori devono avere lo stesso ruolo';
-						}
+							$message->warning('I giocatori devono avere lo stesso ruolo');
 					}
 					else
-					{
-						$message['level'] = 1;
-						$message['text'] = 'Il giocatore non è libero';
-					}
+						$message->error('Il giocatore non è libero');
 				}
 				elseif($appo == 1)
-				{
-					$message['level'] = 1;
-					$message['text'] = 'Non hai compilato correttamente';
-				}
+					$message->error('Non hai compilato correttamente');
 			}
 		}
 		else
-		{
-			$message['level'] = 2;
-			$message['text'] = 'Hai raggiunto il limite di trasferimenti';
-		}
+			$message->error('Hai raggiunto il limite di trasferimenti');
 	}
 	if($numTrasferiti == count($trasferiti))
 	{
@@ -117,7 +104,7 @@ if($trasferiti != FALSE)
  */   
 if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 {
-	if($numTrasferimenti <$_SESSION['datiLega']['numTrasferimenti'] )
+	if($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti )
 	{
 		$selezione = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);
 
@@ -134,8 +121,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 		if(isset($_POST['submit']) && $_POST['submit'] == 'Cancella acq.')
 		{
 			$selezioneObj->unsetSelezioneByIdSquadra($_SESSION['idSquadra']);
-			$message['level'] = 0;
-			$message['text'] = 'Cancellazione eseguita con successo';
+			$message->success('Cancellazione eseguita con successo');
 			$acquisto = NULL;
 			$lasciato = NULL;
 		}
@@ -148,11 +134,11 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 		{
-			if($lasciatoDett[$lasciato]['ruolo'] == $acquistoDett[$acquisto]['ruolo'])
+			if($lasciatoDett[$lasciato]->ruolo == $acquistoDett[$acquisto]->ruolo)
 			{
 				if(isset($_POST['acquista']) && !empty($_POST['acquista']) && isset($_POST['lascia']) && !empty($_POST['lascia']) && ($selezione['giocNew'] != $acquisto || $selezione['giocOld'] != $lasciato))
 				{
-					if($numSelezioni < $_SESSION['datiLega']['numSelezioni'])
+					if($numSelezioni < $_SESSION['datiLega']->numSelezioni)
 					{	
 						$filterSquadraOld = $selezioneObj->checkFree($acquisto,$_SESSION['idLega']);
 						if($filterSquadraOld != FALSE)
@@ -166,14 +152,13 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 							if($posSquadraNew > $posSquadraOld)
 							{
 								$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
-								$mailContent->assign('giocatore',$acquistoDett[$acquisto]['nome'] . ' ' . $acquistoDett[$acquisto]['cognome']);
-								$appo = $squadre[$acquistoDett[$acquisto]['idSquadraAcquisto']];
-								$mailObj->sendEmail($squadre[$appo]['mail'],$mailContent->fetch(MAILTPLDIR.'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
+								$mailContent->assign('giocatore',$acquistoDett[$acquisto]->nome . ' ' . $acquistoDett[$acquisto]->cognome);
+								$appo = $squadre[$acquistoDett[$acquisto]->idSquadraAcquisto];
+								$mailObj->sendEmail($squadre[$appo]->mail,$mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
 							}
 							else
 							{
-								$message['level'] = 1;
-								$message['text'] = 'Un altra squadra inferiore di te ha già selezionato questo giocatore';
+								$message->warning('Un altra squadra inferiore di te ha già selezionato questo giocatore');
 								$acquisto = NULL;
 								$lasciato = NULL;
 								$flag = 1;
@@ -183,34 +168,23 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 						{
 							$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
 							$eventoObj->addEvento('2',$_SESSION['idSquadra'],$_SESSION['idLega']);
-							$message['level'] = 0;
-							$message['text'] = 'Operazione eseguita con successo';
+							$message->success('Operazione eseguita con successo');
 						}
 					}
 					else
 					{
 						$flag = 1;
-						$message['level'] = 2;
-						$message['text'] = 'Hai già cambiato ' . $_SESSION['datiLega']['numSelezioni'] . ' volte il tuo acquisto';
+						$message->warning('Hai già cambiato ' . $_SESSION['datiLega']->numSelezioni . ' volte il tuo acquisto');
 					}
 			
 				}
 				elseif($selezione['giocNew'] == $acquisto && $selezione['giocOld'] == $lasciato)
-				{
-					$messagge['level'] = 2;
-					$message['text'] = 'Hai già selezionato questi giocatori per l\'acquisto';
-				}
+					$messagge->warning('Hai già selezionato questi giocatori per l\'acquisto');
 				else
-				{
-					$message['level'] = 1;
-					$message['text'] = 'Non hai compilato correttamente';
-				}
+					$message->error('Non hai compilato correttamente');
 			}
 			else
-			{
-				$message['level'] = 1;
-				$message['text'] = 'I giocatori devono avere lo stesso ruolo';
-			}
+				$message->error('I giocatori devono avere lo stesso ruolo');
 		}
 		if($flag == 1)
 		{
@@ -225,13 +199,8 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 			$contenttpl->assign('isset',$giocatoreAcquistatoOld);
 	}
 	else
-	{
-		$message['level'] = 2;
-		$message['text'] = 'Hai raggiunto il limite di trasferimenti';
-	}
+		$message->error('Hai raggiunto il limite di trasferimenti');
 }
-if(isset($message))
-	$layouttpl->assign('message',$message);
 $contenttpl->assign('ruoli',$ruoli);
 $contenttpl->assign('squadra',$filterSquadra);
 $contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));

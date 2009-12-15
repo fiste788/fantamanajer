@@ -27,10 +27,9 @@ if(isset($_POST['submit']))
 	{
 		$articoloObj->delete($articoloObj);
 		$eventoObj->deleteEventoByIdExternalAndTipo($filterId,'1');
-		$message['level'] = 0;
-		$message['text'] = 'Cancellazione effettuata con successo';
-		$_SESSION['message'] = $messaggio;
-		header("Location: ".$contenttpl->linksObj->getLink('conferenzeStampa'));
+		$message->success('Cancellazione effettuata con successo');
+		$_SESSION['message'] = $message;
+		header("Location: " . $contenttpl->linksObj->getLink('conferenzeStampa'));
 	}
 
 	if($filterAction == 'new' || $filterAction == 'edit')
@@ -49,49 +48,43 @@ if(isset($_POST['submit']))
 			}
 			else
 			{
-				$articoloObj->setinsertdate($articolo[0]['insertDate']);
-				$articoloObj->setidgiornata($articolo[0]['idGiornata']);
+				$articoloObj->setinsertdate($articolo[0]->insertDate);
+				$articoloObj->setidgiornata($articolo[0]->idGiornata);
 			}
 			$articoloObj->setidsquadra($_SESSION['idSquadra']);
 			$articoloObj->setidlega($_SESSION['idLega']);
 			if($filterAction == 'new')
 			{
 				$idArticolo = $articoloObj->add($articoloObj);
-				$message['level'] = 0;
-				$message['text'] = "Inserimento completato con successo!";
+				$message->success("Inserimento completato con successo");
 				$eventoObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
 			}
 			else
 			{
 				$articoloObj->setidArticolo($filterId);
 				$articoloObj->update($articoloObj);
-				$message['level'] = 0;
-				$message['text'] = "Modifica effettuata con successo!";
+				$message->success("Modifica effettuata con successo");
 			}
 			$_SESSION['message'] = $message;
 			header("Location: ". $contenttpl->linksObj->getLink('conferenzeStampa'));
 		}
 		else
-		{
-			$messaggio['level'] = 1;
-			$messaggio['text'] = "Non hai compilato correttamente tutti i campi";
-			$layouttpl->assign('message',$message);
-		}
+			$message->error("Non hai compilato correttamente tutti i campi");
 	}
 }
 $title = "";
 $abstract = "";
 $text = "";
 if(isset($articolo))
-	$title = $articolo[0]['title'];
+	$title = $articolo[0]->title;
 if(isset($_POST['title']))
 	$title = $_POST['title'];
 if(isset($articolo))
-	$abstract = $articolo[0]['abstract'];
+	$abstract = $articolo[0]->abstract;
 if(isset($_POST['abstract']))
 	$abstract = $_POST['abstract'];
 if(isset($articolo))
-	$text = $articolo[0]['text'];
+	$text = $articolo[0]->text;
 if(isset($_POST['text']))
 	$text = $_POST['text'];
 switch($filterAction)

@@ -12,10 +12,10 @@
 		<?php foreach($this->trasferimenti as $key => $val): ?>
 		<tr class="row">
 			<td><?php echo $i + 1; ?></td>
-			<td><?php echo $val['cognomeNew'] . " " . $val['nomeNew']; ?></td>
-			<td><?php echo $val['cognomeOld'] . " " . $val['nomeOld']; ?></td>
-			<td><?php echo $val['idGiornata']; ?></td>
-			<td><?php if($val['obbligato']) echo "X";else echo "&nbsp;" ?></td>
+			<td><?php echo $val->cognomeNew . " " . $val->nomeNew; ?></td>
+			<td><?php echo $val->cognomeOld . " " . $val->nomeOld; ?></td>
+			<td><?php echo $val->idGiornata; ?></td>
+			<td><?php if($val->obbligato) echo "X";else echo "&nbsp;" ?></td>
 		</tr>
 		<?php $i++; ?>
 		<?php endforeach; ?>
@@ -24,22 +24,22 @@
 <?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
 	<p>Non ha effettuato alcun trasferimento</p>
 <?php endif; ?>
-<?php if(isset($this->trasferiti) && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti']): ?>
+<?php if(isset($this->trasferiti) && $this->numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti): ?>
 	<p>Uno o più dei tuoi giocatori non sono più presenti nella lista della gazzetta. Dalla form sottostante potrai selezionarne subito un altro e fare un trasferimento immediato
-	<?php if(count($this->trasferiti) > ($_SESSION['datiLega']['numTrasferimenti'] - $this->numTrasferimenti) && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti']): ?><br /><strong>Attenzione!</strong> Ti rimangono solo <?php echo ($_SESSION['datiLega']['numTrasferimenti'] - $this->numTrasferimenti); ?> trasferimento/i e i giocatori da sostituire sono <?php echo count($this->trasferiti); ?>. Compila solo <?php echo ($_SESSION['datiLega']['numTrasferimenti'] - $this->numTrasferimenti); ?> giocatore/i a tua scelta.<?php endif; ?></p>
+	<?php if(count($this->trasferiti) > ($_SESSION['datiLega']->numTrasferimenti - $this->numTrasferimenti) && $this->numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti): ?><br /><strong>Attenzione!</strong> Ti rimangono solo <?php echo ($_SESSION['datiLega']->numTrasferimenti - $this->numTrasferimenti); ?> trasferimento/i e i giocatori da sostituire sono <?php echo count($this->trasferiti); ?>. Compila solo <?php echo ($_SESSION['datiLega']->numTrasferimenti - $this->numTrasferimenti); ?> giocatore/i a tua scelta.<?php endif; ?></p>
 	<form class="column last" id="acquisti" name="edit-trasferimenti" action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_GET['squadra'])); ?>" method="post">
 	<?php foreach($this->trasferiti as $key => $val): ?>
 		<fieldset>
 			<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />
 			<label for="player-old">Giocatore vecchio:</label>
 			<select disabled="disabled" id="player-old" name="lascia[]">
-				<option selected="selected" value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
+				<option selected="selected" value="<?php echo $val->idGioc; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 			</select>
 			<label for="player-new">Giocatore nuovo:</label>
 			<select id="player-new" name="acquista[]">
 				<option></option>
-					<?php foreach($this->freePlayerByRuolo[$val['idGioc']] as $key => $val): ?>
-						<option value="<?php echo $val['idGioc']; ?>"><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
+					<?php foreach($this->freePlayerByRuolo[$val->idGioc] as $key => $val): ?>
+						<option value="<?php echo $val->idGioc; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 					<?php endforeach; ?>
 			</select>
 		</fieldset>
@@ -49,7 +49,7 @@
 		</fieldset>
 	</form>
 <?php else: ?>
-	<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] && PARTITEINCORSO == FALSE && GIORNATA != 1): ?>
+	<?php if($_SESSION['logged'] && $_SESSION['idSquadra'] == $this->squadra && $this->numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti && PARTITEINCORSO == FALSE && GIORNATA != 1): ?>
 	<br />
 	<h3>Acquista un giocatore</h3>
 	<a class="info" href="#info"><span>Clicca quì per informazioni</span></a>
@@ -72,8 +72,8 @@
 				<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 					<optgroup label="<?php echo $valRuoli; ?>">
 					<?php foreach($this->giocSquadra as $key => $val): ?>
-						<?php if($val['ruolo'] == $keyRuoli): ?>
-							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val['idGioc']) echo ' selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
+						<?php if($val->ruolo == $keyRuoli): ?>
+							<option value="<?php echo $val->idGioc; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val->idGioc) echo ' selected="selected"'; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
@@ -85,8 +85,8 @@
 				<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 					<optgroup label="<?php echo $valRuoli; ?>">
 					<?php foreach($this->freePlayer as $key => $val): ?>
-						<?php if($val['ruolo'] == $keyRuoli): ?>
-							<option value="<?php echo $val['idGioc']; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val['idGioc']) echo '  selected="selected"'; ?>><?php echo $val['cognome'] . " " . $val['nome']; ?></option>
+						<?php if($val->ruolo == $keyRuoli): ?>
+							<option value="<?php echo $val->idGioc; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val->idGioc) echo '  selected="selected"'; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>

@@ -1,5 +1,5 @@
 <?php if(isset($this->lega)): ?>
-<form class="column last" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
+<form name="newsletter" class="column last" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
 	<fieldset class="column last">
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>">
 		<div class="formbox">
@@ -11,7 +11,7 @@
 			<label for="selezione">Leghe:</label>
 			<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 				<?php foreach($this->elencoLeghe as $key => $val): ?>
-					<option<?php if(isset($_POST['selezione']) && array_search($val['idLega'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option>
+					<option<?php if(isset($_POST['selezione']) && array_search($val->idLega,$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<div class="selectAll column">
@@ -28,14 +28,14 @@
 			<?php else: ?>
 			<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 				<?php foreach($this->elencoSquadre as $key => $val): ?>
-					<option<?php if(isset($_POST['selezione']) && array_search($val['idUtente'],$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val['idUtente']; ?>"><?php echo $val['nome']; ?></option>
+					<option<?php if(isset($_POST['selezione']) && array_search($val->idUtente,$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
 				<?php endforeach; ?>
 			<?php endif; ?>
 			</select>
 			<?php if($this->elencoSquadre != FALSE): ?>
 			<div class="selectAll column">
-				<a href="#" onclick="setSelectOptions(TRUE)">Seleziona tutto</a> /
-				<a href="#" onclick="setSelectOptions(FALSE)">Deseleziona tutto</a>
+				<a onclick="setSelectOptions(true)">Seleziona tutto</a> /
+				<a onclick="setSelectOptions(false)">Deseleziona tutto</a>
 			</div>
 			<?php endif; ?>
 		</div>
@@ -72,7 +72,7 @@
 				obj.selectionEnd = cursor;
 				obj.scrollTop = scroll;
 			}
-			document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length
+			document.getElementById(obj.name + 'Cont').value = mlength - obj.value.length;
 		}
 		function setSelectOptions(do_check)
 		{

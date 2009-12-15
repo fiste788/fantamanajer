@@ -5,7 +5,7 @@
 			<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>
 				<option<?php if(isset($this->lega) && $this->lega == 0) echo ' selected="selected"'; ?> value="0">Tutte le leghe</option>
 			<?php foreach($this->elencoLeghe as $key => $val): ?>
-				<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']; ?>"><?php echo $val['nomeLega']; ?></option>
+				<option<?php if($this->lega == $val->idLega) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
 			<?php endforeach;?>
 		</select>
 	</fieldset>

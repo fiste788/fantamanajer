@@ -1,5 +1,5 @@
 <div id="cardPlayer" class="column last">
-	<img class="column" alt="<?php echo $this->dettaglioGioc['dettaglio']['cognome'] . ' ' . $this->dettaglioGioc['dettaglio']['nome']; ?>" src="<?php echo $this->pathFoto; ?>"/>
+	<img class="column" alt="<?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?>" src="<?php echo $this->pathFoto; ?>"/>
 	<div id="datiGioc" class="column last">
 		<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 		<div id="formData">
@@ -14,16 +14,16 @@
 			</div>
 		</div>
 		<?php else: ?>
-			<h3><?php echo $this->dettaglioGioc['dettaglio']['cognome'] . ' ' . $this->dettaglioGioc['dettaglio']['nome']; ?></h3>
+			<h3><?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?></h3>
 		<?php endif; ?>
-		<img title="<?php echo $this->dettaglioGioc['dettaglio']['nomeClub']?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']['nomeClub']; ?>" src="<?php echo $this->pathClub; ?>"/>
-		<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']['ruolo']]; ?></p>
+		<img title="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
+		<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']->ruolo]; ?></p>
 		<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
-		<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']['presenze'] . " (" . $this->dettaglioGioc['dettaglio']['presenzeVoto'] . ")"; ?></p>
-		<p>Gol: <?php if($this->dettaglioGioc['dettaglio']['ruolo'] != 'P') echo $this->dettaglioGioc['dettaglio']['gol']; else echo $this->dettaglioGioc['dettaglio']['golSubiti']; ?></p>
-		<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']['assist']; ?></p>
-		<p>Media voti: <?php if(!empty($this->dettaglioGioc['dettaglio']['avgVoti'])) echo $this->dettaglioGioc['dettaglio']['avgVoti']; ?></p>
-		<p>Media punti: <?php if(!empty($this->dettaglioGioc['dettaglio']['avgPunti'])) echo $this->dettaglioGioc['dettaglio']['avgPunti']; ?></p>
+		<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']->presenze . " (" . $this->dettaglioGioc['dettaglio']->presenzeVoto . ")"; ?></p>
+		<p>Gol: <?php if($this->dettaglioGioc['dettaglio']->ruolo != 'P') echo $this->dettaglioGioc['dettaglio']->gol; else echo $this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
+		<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']->assist; ?></p>
+		<p>Media voti: <?php if(!empty($this->dettaglioGioc['dettaglio']->avgVoti)) echo $this->dettaglioGioc['dettaglio']->avgVoti; ?></p>
+		<p>Media punti: <?php if(!empty($this->dettaglioGioc['dettaglio']->avgPunti)) echo $this->dettaglioGioc['dettaglio']->avgPunti; ?></p>
 	</div>
 	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 	<div class="uploadleft column last">
@@ -31,7 +31,7 @@
 	</div>
 	<?php endif; ?>
 </div>
-<?php if(isset($this->dettaglioGioc['dettaglio']['data'])): ?>
+<?php if(isset($this->dettaglioGioc['dettaglio']->data)): ?>
 <table style="width:100px;clear:both;" class="column last" cellpadding="0" cellspacing="0">
 	<tr>
 		<th>Giornata</th>
@@ -56,40 +56,40 @@
 	</tr>
 </table>
 <div id="tabGiocatore" class="column last">
-	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['dettaglio']['data']) * 40; ?>px;margin:0;">
+	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->dettaglioGioc['dettaglio']->data) * 40; ?>px;margin:0;">
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
 			<th><?php echo $key; ?></th>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
-			<td><?php echo $val['punti']; ?></td>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
+			<td><?php echo $val->punti; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
-			<td><?php if($val['voto'] != '0') echo $val['voto']; else echo "&nbsp;"; ?></td>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
+			<td><?php if($val->voto != '0') echo $val->voto; else echo "&nbsp;"; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
-			<td><?php echo $val['gol']; ?></td>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
+			<td><?php echo $val->gol; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
-			<td><?php echo $val['assist']; ?></td>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
+			<td><?php echo $val->assist; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
-			<td><?php echo $val['ammonizioni']; ?></td>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
+			<td><?php echo $val->ammonizioni; ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>
-		<?php foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): ?>
-			<td><?php echo $val['espulsioni']; ?></td>
+		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
+			<td><?php echo $val->espulsioni; ?></td>
 		<?php endforeach; ?>
 		</tr>
 	</table>
@@ -104,12 +104,12 @@
 	$(function () {
 		var data = [
 			{
-			label: "Voto <?php echo $this->dettaglioGioc['dettaglio']['cognome'] ." ". $this->dettaglioGioc['dettaglio']['nome']; ?>",
-			data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): $i++; ?><?php if($val['punti'] != '0') echo '['.$key.','.$val['punti'].']'; if($val['punti'] != '0' && count($this->dettaglioGioc['dettaglio']['data']) != $i) echo ','; endforeach; ?>]
+			label: "Voto <?php echo $this->dettaglioGioc['dettaglio']->cognome ." ". $this->dettaglioGioc['dettaglio']->nome; ?>",
+			data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): $i++; ?><?php if($val->punti != '0') echo '[' . $key . ',' . $val->punti . ']'; if($val->punti != '0' && count($this->dettaglioGioc['dettaglio']->data) != $i) echo ','; endforeach; ?>]
 			},
 			{
-			label: "Punteggio <?php echo $this->dettaglioGioc['dettaglio']['cognome'] ." ". $this->dettaglioGioc['dettaglio']['nome']; ?>",
-			data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']['data'] as $key => $val): $i++; ?><?php if($val['voto'] != '0') echo '['.$key.','.$val['voto'].']'; if($val['voto'] != '0' && count($this->dettaglioGioc['dettaglio']['data']) != $i) echo ','; endforeach; ?>]
+			label: "Punteggio <?php echo $this->dettaglioGioc['dettaglio']->cognome ." ". $this->dettaglioGioc['dettaglio']->nome; ?>",
+			data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): $i++; ?><?php if($val->voto != '0') echo '[' . $key . ',' . $val->voto . ']'; if($val->voto != '0' && count($this->dettaglioGioc['dettaglio']->data) != $i) echo ','; endforeach; ?>]
 			}
 		];
 			
