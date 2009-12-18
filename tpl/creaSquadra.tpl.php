@@ -10,11 +10,11 @@
 			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="nomeSquadra" name="nome" type="text" maxlength="40" <?php if(isset($this->datiSquadra->nome)) $nomeSquadra = $this->datiSquadra->nome; if(isset($_POST['nome'])) $nomeSquadra = $_POST['nome']; if(isset($nomeSquadra)) echo 'value="' . $nomeSquadra . '"'; ?> />
 		</div>
 		<div class="formbox">
-			<label for="username">Nome:</label>
-			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="nome" name="nomeUtente" type="text" maxlength="15" <?php if(isset($this->datiSquadra->nomeUtente)) $nome = $this->datiSquadra->nomeUtente; if(isset($_POST['nomeUtente'])) $nome = $_POST['nomeUtente']; if(isset($nome)) echo 'value="'. $nome .'"'; ?> />
+			<label for="nome">Nome:</label>
+			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="nome" name="nomeProp" type="text" maxlength="15" <?php if(isset($this->datiSquadra->nomeProp)) $nome = $this->datiSquadra->nomeProp; if(isset($_POST['nomeProp'])) $nome = $_POST['nomeProp']; if(isset($nome)) echo 'value="'. $nome .'"'; ?> />
 		</div>
 		<div class="formbox">
-			<label for="username">Cognome:</label>
+			<label for="cognome">Cognome:</label>
 			<input<?php if($this->button == 'Cancella') echo ' disabled="disabled"'; ?> class="text" id="cognome" name="cognome" type="text" maxlength="15" <?php if(isset($this->datiSquadra->cognome)) $cognome = $this->datiSquadra->cognome; if(isset($_POST['cognome'])) $cognome = $_POST['cognome']; if(isset($cognome)) echo 'value="'. $cognome .'"'; ?> />
 		</div>
 		<div class="formbox">

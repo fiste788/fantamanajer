@@ -52,6 +52,22 @@ class utente
 			return FALSE; 
 	}
 	
+	function getElencoSquadreByLegaOptions($idLega)
+	{		
+		$q = "SELECT idUtente,nome 
+				FROM utente 
+				WHERE idLega = '" . $idLega . "'";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
+		while ($row = mysql_fetch_object($exe))
+			$values[$row->idUtente] = $row->nome;
+		if(isset($values))
+			return $values;
+		else
+			return FALSE; 
+	}
+	
 	function getSquadraById($idUtente)
 	{		
 		$q = "SELECT * 
@@ -130,18 +146,18 @@ class utente
 		return $values; 
 	}
 	
-	function addSquadra($username,$name,$admin,$password,$email,$idLega)
+	function addSquadra($username,$nomeSquadra,$nome,$cognome,$admin,$password,$email,$idLega)
 	{
 		require_once(INCDIR . 'punteggio.db.inc.php');
 		$punteggioObj = new punteggio();
-		$q = "INSERT INTO utente (nome,username,password,mail,amministratore,idLega) 
-				VALUES ('" . $name . "','" . $username . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
+		$q = "INSERT INTO utente (nome,username,nomeProp,cognome,password,mail,amministratore,idLega) 
+				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
 		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$q = "SELECT idUtente 
 				FROM utente 
-				WHERE nome = '" . $name . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
+				WHERE nome = '" . $nomeSquadra . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";

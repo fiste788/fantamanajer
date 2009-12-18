@@ -238,6 +238,7 @@ class punteggio
 	function setPunteggiToZero($idUtente,$idLega)
 	{
 		$giornateWithPunt = $this->getGiornateWithPunt();
+		echo $giornateWithPunt;
 		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
 		for($i = 1; $i <= $giornateWithPunt; $i++)
@@ -246,8 +247,9 @@ class punteggio
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
 			if(DEBUG)
 				echo $q . "<br />";
-			return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		}
+		return TRUE;
 	}
 	
 	function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)

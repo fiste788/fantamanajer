@@ -13,7 +13,6 @@ $legaObj = new lega();
 $mailObj = new mail();
 $stringObj = new string(NULL);
 $mailContent = new Savant3();
-$dbObj = new db();
 
 $filterAction = NULL;
 $filterId = NULL;
@@ -33,15 +32,16 @@ if(isset($_POST['lega']))
 	$filterLega = $_POST['lega'];
 if($_SESSION['roles'] == '1')
 	$filterLega = $_SESSION['idLega'];
-
+echo "<pre>".print_r($_POST,1)."</pre>";
 if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 {
 	if(!isset($_POST['button']))
 	{
 		if($filterAction == 'cancel' || $filterAction == 'edit')
 		{
+			$squadraDett = $utenteObj->getSquadraById($filterId);
 			$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
-			$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($filterId));
+			$contenttpl->assign('datiSquadra',$squadraDett);
 		}
 	}
 	else
@@ -59,6 +59,30 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 		}
 		elseif($filterAction == 'edit' || $filterAction == 'new')
 		{
+			foreach($_POST as $key=>$val)
+			{
+				if($key != 'id')
+					if(empty($val))
+						$message->error("Non hai compilato tutti i campi");
+			}
+			if(!$message->show)
+			{
+				if(isset($_POST['mail']))
+				{
+					if(!$mailObj->checkEmailAddress($_POST['mail']))
+						$message->error("Mail non corretta");
+					else
+						$email = $_POST['mail'];
+				}
+				if(isset($_POST['nome']))
+				{
+					$nomeSquadra = addslashes(stripslashes(trim($_POST['nome'])));
+					if($utenteObj->getSquadraByNome(addslashes(stripslashes(trim($_POST['nome']))),$filterId) != FALSE)
+						$message->error("Il nome della squadra è già presente");
+				}
+				else
+					$nomeSquadra = addslashes(stripslashes(trim($squadraDett->nome)));
+			}
 			$giocatori = array();
 			foreach($_POST['giocatore'] as $key => $val)
 			{
@@ -75,28 +99,20 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				else
 					$message->error("Non hai compilato tutti i giocatori");
 			}
-			if(!$mailObj->checkEmailAddress($_POST['mail']))
-				$message->error("Mail non corretta");
 			if($utenteObj->getSquadraByUsername(addslashes(stripslashes(trim($_POST['usernamenew']))),$filterId) != FALSE)
 				$message->error("Un altro utente con questo username è già presente");
-			if($utenteObj->getSquadraByNome(addslashes(stripslashes(trim($_POST['nome']))),$filterId) != FALSE)
-				$message->error("Il nome della squadra è già presente");
-			if(!isset($message))
+			if(!$message->show)
 			{
-				//tutto giusto
-				if(isset($_POST['amministratore']))
-					$amministratore = '1';
+				if(isset($_POST['amministratore']) && $_POST['amministratore'] == "on")
+					$amministratore = 1;
 				else
-					$amministratore = '0';
+					$amministratore = 0;
+				$abilitaMail = 1;
+				$nome = addslashes(stripslashes(trim($_POST['nomeProp'])));
+				$cognome = addslashes(stripslashes(trim($_POST['cognome'])));
 				if($filterAction == 'edit')
 				{
-					$campi = array('nome'=>'','usernamenew'=>'','mail'=>'','amministratore'=>'');
-					foreach($_POST as $key => $val)
-					{
-						if(isset($campi[$key]))
-							$data[$key] = addslashes(stripslashes(trim($val)));
-					}
-					$utenteObj->changeData($data,$filterId);
+					$utenteObj->changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,"",$amministratore,$filterId);
 					$giocatoriOld = array_keys($giocatoreObj->getGiocatoriByIdSquadra($filterId));
 					foreach($giocatori as $key => $val)
 						if(!in_array($val,$giocatoriOld))
@@ -110,7 +126,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				{
 					$password = $stringObj->createRandomPassword();
 					$dbObj->startTransaction();
-					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),addslashes(stripslashes(trim($_POST['nome']))),$amministratore,$password,addslashes(stripslashes(trim($_POST['mail']))),$filterLega);
+					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),$nomeSquadra,$nome,$cognome,$amministratore,$password,$email,$filterLega);
 					$squadraObj->setSquadraGiocatoreByArray($filterLega,$giocatori,$squadra);
 					$dbObj->commit();
 					$filterId = $squadra;

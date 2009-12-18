@@ -6,7 +6,6 @@ require_once(INCDIR . 'formazione.db.inc.php');
 require_once(INCDIR . 'voto.db.inc.php');
 require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
-require_once(INCDIR . 'db.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
 require_once(INCDIR . 'backup.inc.php');
 
@@ -17,7 +16,6 @@ $formazioneObj = new formazione();
 $votoObj = new voto();
 $legaObj = new lega();
 $mailObj = new mail();
-$dbObj = new db();
 $decryptObj= new decrypt();
 $backupObj= new backup();
 $fileSystemObj = new fileSystem();

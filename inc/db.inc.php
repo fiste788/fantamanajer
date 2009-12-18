@@ -7,16 +7,21 @@ class db
 	{
 		if(!isset($this->link))
 		{
-			if(DBTYPE == "mysql")
-			{
-				$this->link = mysql_connect(DBHOST,DBUSER,DBPASS);
-				if(!$this->link)
-					die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-				if(!mysql_select_db(DBNAME))
-					die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-				mysql_query("SET NAMES utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
-				mysql_query("SET CHARACTER SET utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
-			}
+			$this->connect();
+		}
+	}
+	
+	private function connect()
+	{
+		if(DBTYPE == "mysql")
+		{
+			$this->link = mysql_connect(DBHOST,DBUSER,DBPASS);
+			if(!$this->link)
+				die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+			if(!mysql_select_db(DBNAME))
+				die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+			mysql_query("SET NAMES utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
+			mysql_query("SET CHARACTER SET utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
 		}
 	}
 	

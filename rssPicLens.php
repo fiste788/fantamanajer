@@ -4,8 +4,7 @@
 	require_once(INCDIR . 'db.inc.php');
 
 	//Creating a new db istance
-	$dblink = new db;
-	$dblink->dbConnect();
+	$dbObj = new db;
 	$utenteObj = new utente();
 	$squadre = $utenteObj->getAllSquadre();
 	//echo "<pre>".print_r($squadre,1)."</pre>";

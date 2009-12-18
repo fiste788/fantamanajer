@@ -13,6 +13,7 @@ $mailContent = new Savant3();
 $filterGiornata = GIORNATA;
 $filterSquadra = NULL;
 $filterLega = NULL;
+
 if(isset($_POST['giornata']))
 	$filterGiornata = $_POST['giornata'];
 if(isset($_POST['squadra']))
@@ -61,12 +62,11 @@ if($filterLega != NULL)
 	if($elencoSquadre != FALSE)
 	{
 		$classificaDett = $punteggioObj->getAllPunteggiByGiornata($filterGiornata,$filterLega);
-		$squadre = $utenteObj->getElencoSquadre();
 		foreach($classificaDett as $key => $val)
 			$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 		$contenttpl->assign('penalità',$punteggioObj->getPenalitàByLega($filterLega));
 		$contenttpl->assign('classificaDett',$classificaDett);
-		$contenttpl->assign('squadre',$squadre);
+		$contenttpl->assign('squadre',$elencoSquadre);
 		if(isset($squadra))
 			$contenttpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
 	}
