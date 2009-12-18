@@ -35,5 +35,5 @@ if($backupObj->dodump())
 else
 	$message->error("Si sono verificati degli errori");	
 //ob_end_clean();
-$contenttpl->assign('message',$message);
+$contentTpl->assign('message',$message);
 ?>

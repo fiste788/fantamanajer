@@ -29,17 +29,17 @@ if($_SESSION['logged'] == TRUE)
 	{
 		$squadra = $dettaglio['dettaglio']->idUtente;
 		$elencoGiocatori = $giocatoreObj->getGiocatoriByIdSquadra($squadra);
-		$contenttpl->assign('idsquadra',$squadra);
+		$contentTpl->assign('idsquadra',$squadra);
 		$dettaglioSquadra= $utenteObj->getSquadraById($squadra);
-		$operationtpl->assign('label',$dettaglioSquadra->nome);
-		$contenttpl->assign('label',$dettaglioSquadra->nome);
+		$operationTpl->assign('label',$dettaglioSquadra->nome);
+		$contentTpl->assign('label',$dettaglioSquadra->nome);
 	}
 	else			// carico giocatori liberi
 	{
 		$ruolo = $dettaglio['dettaglio']->ruolo;
 		$elencoGiocatori = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['datiLega']->idLega);
-		$operationtpl->assign('label',$ruoplu[$ruolo] . " liberi");
-		$contenttpl->assign('label',$ruoplu[$ruolo] . " liberi");
+		$operationTpl->assign('label',$ruoplu[$ruolo] . " liberi");
+		$contentTpl->assign('label',$ruoplu[$ruolo] . " liberi");
 	}
 
 }
@@ -47,15 +47,15 @@ else			// carico giocatori del club
 {
 	$club = $dettaglio['dettaglio']->nomeClub;
 	$elencoGiocatori = $giocatoreObj->getGiocatoriByIdClub($dettaglio['dettaglio']->idClub);
-	$operationtpl->assign('label',$club);
-	$contenttpl->assign('label',$club);
+	$operationTpl->assign('label',$club);
+	$contentTpl->assign('label',$club);
 }
 $keys = array_keys($elencoGiocatori);
 
 if(isset($keys[array_search($filterId,$keys) - 1]))
 {
 	$idPrec = $keys[array_search($filterId,$keys) - 1];
-	$quickLinks->prec->href = $contenttpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idPrec));
+	$quickLinks->prec->href = $contentTpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idPrec));
 	$quickLinks->prec->title = $elencoGiocatori[$idPrec]->cognome . ' ' . $elencoGiocatori[$idPrec]->nome;
 }
 else
@@ -66,7 +66,7 @@ else
 if(isset($keys[array_search($filterId,$keys) + 1]))
 {
 	$idSucc = $keys[array_search($filterId,$keys) + 1];
-	$quickLinks->succ->href = $contenttpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idSucc));
+	$quickLinks->succ->href = $contentTpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idSucc));
 	$quickLinks->succ->title = $elencoGiocatori[$idSucc]->cognome . ' ' . $elencoGiocatori[$idSucc]->nome;
 }
 else
@@ -75,12 +75,12 @@ else
 	$quickLinks->succ = FALSE;
 }
 
-$contenttpl->assign('dettaglioGioc',$dettaglio);
-$contenttpl->assign('pathFoto',IMGSURL . $pathfoto);
-$contenttpl->assign('pathClub',IMGSURL . $pathclub);
-$contenttpl->assign('ruoli',$ruo);
-$contenttpl->assign('ruoliPlurale',$ruoplu);
-$operationtpl->assign('idGioc',$filterId);
-$operationtpl->assign('elencoGiocatori',$elencoGiocatori);
-$layouttpl->assign('quickLinks',$quickLinks);
+$contentTpl->assign('dettaglioGioc',$dettaglio);
+$contentTpl->assign('pathFoto',IMGSURL . $pathfoto);
+$contentTpl->assign('pathClub',IMGSURL . $pathclub);
+$contentTpl->assign('ruoli',$ruo);
+$contentTpl->assign('ruoliPlurale',$ruoplu);
+$operationTpl->assign('idGioc',$filterId);
+$operationTpl->assign('elencoGiocatori',$elencoGiocatori);
+$layoutTpl->assign('quickLinks',$quickLinks);
 ?>

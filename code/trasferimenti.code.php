@@ -42,10 +42,10 @@ if($trasferiti != FALSE)
 {
 	$appo = 1;
 	$numTrasferiti = 0;
-	$contenttpl->assign('trasferiti',$trasferiti);
+	$contentTpl->assign('trasferiti',$trasferiti);
 	foreach($trasferiti as $key => $val)
 		$freePlayerByRuolo[$val['idGioc']] = $giocatoreObj->getFreePlayer($val['ruolo'],$_SESSION['idLega']);
-	$contenttpl->assign('freePlayerByRuolo',$freePlayerByRuolo);
+	$contentTpl->assign('freePlayerByRuolo',$freePlayerByRuolo);
 	foreach($trasferiti as $masterKey => $masterVal)
 	{
 		if($numTrasferimenti < $_SESSION['datiLega']['numTrasferimenti'] )
@@ -91,8 +91,8 @@ if($trasferiti != FALSE)
 	}
 	if($numTrasferiti == count($trasferiti))
 	{
-		unset($contenttpl->generalMessage);
-		unset($contenttpl->trasferiti);
+		unset($contentTpl->generalMessage);
+		unset($contentTpl->trasferiti);
 		unset($_POST);
 	}
 }
@@ -191,22 +191,22 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 			$acquisto = $selezione['giocNew'];
 			$lasciato = $selezione['giocOld'];
 		}
-		$contenttpl->assign('giocAcquisto',$acquisto);
-		$contenttpl->assign('giocLasciato',$lasciato);
+		$contentTpl->assign('giocAcquisto',$acquisto);
+		$contentTpl->assign('giocLasciato',$lasciato);
 	
 		$giocatoreAcquistatoOld = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);	
 		if(!empty($giocatoreAcquistatoOld))
-			$contenttpl->assign('isset',$giocatoreAcquistatoOld);
+			$contentTpl->assign('isset',$giocatoreAcquistatoOld);
 	}
 	else
 		$message->error('Hai raggiunto il limite di trasferimenti');
 }
-$contenttpl->assign('ruoli',$ruoli);
-$contenttpl->assign('squadra',$filterSquadra);
-$contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));
-$contenttpl->assign('freePlayer',$playerFree);
-$contenttpl->assign('trasferimenti',$trasferimenti);
-$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
-$operationtpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
-$operationtpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('ruoli',$ruoli);
+$contentTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));
+$contentTpl->assign('freePlayer',$playerFree);
+$contentTpl->assign('trasferimenti',$trasferimenti);
+$contentTpl->assign('numTrasferimenti',$numTrasferimenti);
+$operationTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$operationTpl->assign('squadra',$filterSquadra);
 ?>

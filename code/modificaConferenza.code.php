@@ -18,7 +18,7 @@ if($filterAction == 'edit' || $filterAction == 'cancel')
 {
 	$articoloObj->setidArticolo($filterId);
 	$articolo = $articoloObj->select($articoloObj,'=','*');
-	$contenttpl->assign('articolo',$articolo);
+	$contentTpl->assign('articolo',$articolo);
 }
 
 if(isset($_POST['submit']))
@@ -29,7 +29,7 @@ if(isset($_POST['submit']))
 		$eventoObj->deleteEventoByIdExternalAndTipo($filterId,'1');
 		$message->success('Cancellazione effettuata con successo');
 		$_SESSION['message'] = $message;
-		header("Location: " . $contenttpl->linksObj->getLink('conferenzeStampa'));
+		header("Location: " . $contentTpl->linksObj->getLink('conferenzeStampa'));
 	}
 
 	if($filterAction == 'new' || $filterAction == 'edit')
@@ -66,7 +66,7 @@ if(isset($_POST['submit']))
 				$message->success("Modifica effettuata con successo");
 			}
 			$_SESSION['message'] = $message;
-			header("Location: ". $contenttpl->linksObj->getLink('conferenzeStampa'));
+			header("Location: ". $contentTpl->linksObj->getLink('conferenzeStampa'));
 		}
 		else
 			$message->error("Non hai compilato correttamente tutti i campi");
@@ -98,11 +98,11 @@ $goTo = array('a'=>$filterAction);
 if($filterId != NULL) 
 	$goTo['id'] = $filterId;
 
-$contenttpl->assign('action',$filterAction);
-$contenttpl->assign('title',$title);
-$contenttpl->assign('abstract',$abstract);
-$contenttpl->assign('text',$text);
-$contenttpl->assign('emoticons',$emoticonObj->emoticon);
-$contenttpl->assign('button',$button);
-$contenttpl->assign('goTo',$goTo);
+$contentTpl->assign('action',$filterAction);
+$contentTpl->assign('title',$title);
+$contentTpl->assign('abstract',$abstract);
+$contentTpl->assign('text',$text);
+$contentTpl->assign('emoticons',$emoticonObj->emoticon);
+$contentTpl->assign('button',$button);
+$contentTpl->assign('goTo',$goTo);
 ?>

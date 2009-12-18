@@ -31,18 +31,18 @@ if(isset($_POST['giorn']) && !empty($_POST['giorn']))
 if($_SESSION['usertype'] == 'admin')
 	$lega = $_SESSION['idLega'];
 
-$contenttpl->assign('elencoleghe',$legheObj->getLeghe());
-$contenttpl->assign('lega',$lega);
-$contenttpl->assign('mod',$mod);
-$contenttpl->assign('modulo',explode('-',$mod));
-$contenttpl->assign('giornata',$giornata);
+$contentTpl->assign('elencoleghe',$legheObj->getLeghe());
+$contentTpl->assign('lega',$lega);
+$contentTpl->assign('mod',$mod);
+$contentTpl->assign('modulo',explode('-',$mod));
+$contentTpl->assign('giornata',$giornata);
 if($lega != NULL)
 {
 	$squadre = $utenteObj->getElencoSquadreByLega($lega);
-	$contenttpl->assign('elencosquadre',$squadre);
+	$contentTpl->assign('elencosquadre',$squadre);
 	if(!isset($squadre[$squadra]))
 		$squadra = NULL;
-	$contenttpl->assign('squadra',$squadra);
+	$contentTpl->assign('squadra',$squadra);
 }
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata($giornata);
@@ -50,12 +50,12 @@ $missing = 0;
 $cap = "";
 if(!isset($formImp[$squadra]))
 {	
-	$contenttpl->assign('formImp',FALSE);
+	$contentTpl->assign('formImp',FALSE);
 	if($squadra != NULL)
 	{
 		$giocatori = $giocatoreObj->getGiocatoriBySquadraAndGiornata($squadra,$giornata);
-		$contenttpl->assign('giocatori',$giocatori);
-		$contenttpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
+		$contentTpl->assign('giocatori',$giocatori);
+		$contentTpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
 		
 		//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 			
@@ -135,7 +135,7 @@ if(!isset($formImp[$squadra]))
 				else
 					$message->success('Formazione caricata correttamente');
 				$_SESSION['message'] = $message;
-				header("Location: ".$contenttpl->linksObj->getLink('areaAmministrativa'));
+				header("Location: ".$contentTpl->linksObj->getLink('areaAmministrativa'));
 			}
 		  	else
 				$message->error('Hai inserito dei valori multipli');
@@ -146,7 +146,7 @@ if(!isset($formImp[$squadra]))
 }
 else
 {
-	$contenttpl->assign('formImp',TRUE);
+	$contentTpl->assign('formImp',TRUE);
 	$message->warning('La formazione per questa squadra è già impostata');
 }
 ?>

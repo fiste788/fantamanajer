@@ -40,8 +40,8 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 		if($filterAction == 'cancel' || $filterAction == 'edit')
 		{
 			$squadraDett = $utenteObj->getSquadraById($filterId);
-			$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
-			$contenttpl->assign('datiSquadra',$squadraDett);
+			$contentTpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
+			$contentTpl->assign('datiSquadra',$squadraDett);
 		}
 	}
 	else
@@ -118,8 +118,8 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 						if(!in_array($val,$giocatoriOld))
 							$squadraObj->updateGiocatore($val,$giocatoriOld[$key],$filterId);
 					unset($_POST);
-					$contenttpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
-					$contenttpl->assign('datiSquadra',$utenteObj->getSquadraById($filterId));
+					$contentTpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
+					$contentTpl->assign('datiSquadra',$utenteObj->getSquadraById($filterId));
 					$message->success("Squadra modificata correttamente");
 				}
 				else
@@ -155,24 +155,24 @@ if(isset($filterAction))
 		case 'cancel': $button = 'Cancella'; break; 
 	}
 }
-$contenttpl->assign('portieri',$giocatoreObj->getFreePlayer('P',$filterLega));
-$contenttpl->assign('difensori',$giocatoreObj->getFreePlayer('D',$filterLega));
-$contenttpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C',$filterLega));
-$contenttpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A',$filterLega));
-$contenttpl->assign('lega',$filterLega);
-$contenttpl->assign('id',$filterId);
-$contenttpl->assign('action',$filterAction);
+$contentTpl->assign('portieri',$giocatoreObj->getFreePlayer('P',$filterLega));
+$contentTpl->assign('difensori',$giocatoreObj->getFreePlayer('D',$filterLega));
+$contentTpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C',$filterLega));
+$contentTpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A',$filterLega));
+$contentTpl->assign('lega',$filterLega);
+$contentTpl->assign('id',$filterId);
+$contentTpl->assign('action',$filterAction);
 $goTo = array();
 if($filterAction != NULL && $filterAction == 'cancel' || $filterAction == 'new')
 	$goTo = array('a'=>'new','id'=>'0','lega'=>$filterLega);
 elseif($filterAction != NULL)
 	$goTo = array('a'=>'edit','id'=>$filterId,'lega'=>$filterLega);
-$contenttpl->assign('goTo',$goTo);
-$contenttpl->assign('button',$button);
+$contentTpl->assign('goTo',$goTo);
+$contentTpl->assign('button',$button);
 if($filterLega != NULL)
-	$operationtpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
-$operationtpl->assign('elencoLeghe',$legaObj->getLeghe());
-$operationtpl->assign('lega',$filterLega);
-$operationtpl->assign('id',$filterId);
-$operationtpl->assign('action',$filterAction);
+	$operationTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+$operationTpl->assign('elencoLeghe',$legaObj->getLeghe());
+$operationTpl->assign('lega',$filterLega);
+$operationTpl->assign('id',$filterId);
+$operationTpl->assign('action',$filterAction);
 ?>

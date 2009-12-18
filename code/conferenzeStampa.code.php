@@ -38,7 +38,7 @@ else
 if(isset($giornateWithArticoli[$key + 1]))
 {
 	$idPrec = $giornateWithArticoli[$key + 1];
-	$quickLinks->prec->href = $contenttpl->linksObj->getLink('conferenzeStampa',array('giornata'=>$idPrec));
+	$quickLinks->prec->href = $contentTpl->linksObj->getLink('conferenzeStampa',array('giornata'=>$idPrec));
 	$quickLinks->prec->title = "Giornata " . $idPrec;
 }
 else
@@ -49,7 +49,7 @@ else
 if(isset($giornateWithArticoli[$key -1]))
 {
 	$idSucc = $giornateWithArticoli[$key - 1];
-	$quickLinks->succ->href = $contenttpl->linksObj->getLink('conferenzeStampa',array('giornata'=>$idSucc));
+	$quickLinks->succ->href = $contentTpl->linksObj->getLink('conferenzeStampa',array('giornata'=>$idSucc));
 	$quickLinks->succ->title = "Giornata " . $idSucc;
 }
 else
@@ -58,9 +58,9 @@ else
 	$quickLinks->succ = FALSE;
 }
 
-$contenttpl->assign('articoli',$articolo);
-$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
-$operationtpl->assign('idGiornata',$filterGiornata);
-$operationtpl->assign('giornateWithArticoli',$giornateWithArticoli);
-$layouttpl->assign('quickLinks',$quickLinks);
+$contentTpl->assign('articoli',$articolo);
+$contentTpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$operationTpl->assign('idGiornata',$filterGiornata);
+$operationTpl->assign('giornateWithArticoli',$giornateWithArticoli);
+$layoutTpl->assign('quickLinks',$quickLinks);
 ?>

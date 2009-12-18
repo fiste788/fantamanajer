@@ -83,6 +83,6 @@ if(isset($_POST))
 	}
 }
 if(isset($message))
-	$layouttpl->assign('message',$message);
-$operationtpl->assign('giocatori',$giocatoreObj->getAllGiocatori());
+	$layoutTpl->assign('message',$message);
+$operationTpl->assign('giocatori',$giocatoreObj->getAllGiocatori());
 ?>

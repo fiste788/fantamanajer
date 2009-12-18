@@ -17,5 +17,5 @@ if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 's
 }
 else
 	$message->warning("Non puoi effettuare l'operazione ora");
-$layouttpl->assign('message',$message);
+$layoutTpl->assign('message',$message);
 ?>

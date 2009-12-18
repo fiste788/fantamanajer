@@ -51,6 +51,6 @@ if (isset ($_FILES ['userfile']['tmp_name']) && !empty($_FILES['userfile']['tmp_
 			case 4: $message['level'] = 1;
 					$message['text'] = "Errore nell'upload del file"; break;
 	}
-	$layouttpl->assign('message',$message);
+	$layoutTpl->assign('message',$message);
 }
 ?>
