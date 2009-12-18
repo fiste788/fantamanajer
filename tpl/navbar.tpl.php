@@ -16,6 +16,7 @@ foreach($this->pages as $key=>$val)
 } 
 if ($flag)
 	unset ($appo['dettaglioSquadra']['pages'][0]);
+
 if($_SESSION['logged'] != TRUE)
 	unset ($appo['dettaglioSquadra']);
 $sort_arr = array();

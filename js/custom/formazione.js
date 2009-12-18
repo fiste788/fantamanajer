@@ -22,17 +22,23 @@ $(document).ready(function(){
 					list.each(function (i) {
 						current = $(list[i]);
 						title = current.attr('title');
-						appo = title.split('-');
-						ruoloGioc = appo[0];
-						nomeGioc = appo[1];
-						if(ruoloGioc != ruolo)
+						if(title != "")
 						{
-							j++;
-							k = 0;
+							appo = title.split('-');
+							ruoloGioc = appo[0];
+							nomeGioc = appo[1];
+							if(ruoloGioc != ruolo)
+							{
+								j++;
+								k = 0;
+							}
+							if(appo[2])
+								$("#campo div.droppable[id=" +ruoloGioc+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							else
+								$("#campo div.droppable[id=" +ruoloGioc+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
+							ruolo = ruoloGioc;
+							k++;
 						}
-						$("#campo div.droppable[id=" +ruoloGioc+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
-						ruolo = ruoloGioc;
-						k++;
 					});
 					list = $("#panchina-field").find("input[value!='']");
 					list.each(function (i) {
@@ -41,7 +47,10 @@ $(document).ready(function(){
 						appo = title.split('-');
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
-						$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						if(appo[2])
+							$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="imgs/foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						else
+							$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 					});
 					list = $("#capitani-field").find("input[value!='']");
 					list.each(function (i) {
@@ -50,7 +59,10 @@ $(document).ready(function(){
 						appo = title.split('-');
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
-						$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						if(appo[2])
+							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+						else
+							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 						$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<a class="remove">Rimuovi</a>');
 					});
 				}
@@ -217,7 +229,13 @@ $(document).ready(function(){
 				hoverClass: 'droppable-hover',
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
-							$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img width="40" src="imgs/foto/' + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
+							if(ui.draggable.children('img').length > 0)
+								$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img height="50" src="imgs/foto/' + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
+							else
+								$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><p>' + ui.draggable.children('p').text() + '</p></div>');
+							var exist = $("#panchina-field input[value=" + $(ui.draggable).children('a').attr('rel') + "]");
+							if(exist.length > 0)
+								exist.removeAttr("value");
 							$(this).children('div').css('opacity','1');
 							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
 								$(ui.draggable).addClass('hidden');
@@ -247,6 +265,10 @@ $(document).ready(function(){
 							else
 								ui.draggable.remove();
 							ui.helper.remove();
+							var exist = $("#titolari-field input[value=" + $(ui.draggable).children('a').attr('rel') + "]");
+							if(exist.length > 0)
+								exist.removeAttr("value");
+							
 							$("#giocatori .draggable a[rel=" + ui.draggable.children('a').attr('rel') + "]").parent().removeClass("hidden");
 							list = $("#titolari-field").find("input");
 							list.each(function (i) {
@@ -285,7 +307,14 @@ $(document).ready(function(){
 				drop: function(ev,ui) {
 							ui.draggable.removeClass('embed');
 							var tagData = ui.draggable.children('a');
-							$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="40" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							if(ui.draggable.children('img').length > 0)
+								$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							else
+								$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							var exist = $("#titolari-field input[value=" + $(ui.draggable).children('a').attr('rel') + "]");
+							if(exist.length > 0)
+								exist.removeAttr("value");
+							
 							$(this).children('div').css('opacity','1');
 							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
 								$(ui.draggable).addClass('hidden');
@@ -313,15 +342,24 @@ $(document).ready(function(){
 						n++;
 					});
 					if(n == 0)
+					{
 						var tagData = $(draggable).children('a').attr('name');
 						if((tagData == "PP" || tagData == "DD") && $(draggable).parent().parent().attr('id') == 'campo')
-							return true;
+						{
+							var exist = $("#capitani-field input[value=" + $(draggable).children('a').attr('rel') + "]");
+							if(exist.length == 0)
+								return true;
+						}
+					}
 				},
 				activeClass: 'droppable-active',
 				hoverClass: 'droppable-hover',
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
-							$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="40" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							if(ui.draggable.children('img').length > 0)
+								$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="imgs/foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+							else
+								$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							$(this).children('div').css('opacity','1');
 							list = $("#capitani-field").find("input");
 							list.each(function (i) {
@@ -339,7 +377,7 @@ $(document).ready(function(){
 				});
 				function checkCapitani()
 				{
-					list = $("#capitani").find(".draggable");
+					list = $("#capitani").find(".giocatore");
 					if(list.length > 0)
 					{
 						listTitolari = $("#campo").find("div.embed");

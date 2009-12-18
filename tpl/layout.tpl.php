@@ -65,19 +65,31 @@
 					<?php if($this->message->show): ?>
 						<?php switch($this->message->level): 
 							 case 0: ?>
-							<div class="messaggio good column last">
-								<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
-								<span><?php echo $this->message->text; ?></span>
+							<div class="messaggio success column last">
+								<div class="column last top"></div>
+								<div class="column last middle">
+									<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
+									<span><?php echo $this->message->text; ?></span>
+								</div>
+								<div class="column last bottom"></div>
 							</div>
 							<?php break; case 1: ?>
-							<div class="messaggio neut column last">
-								<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
-								<span><?php echo $this->message->text; ?></span>
+							<div class="messaggio warning column last">
+								<div class="column last top"></div>
+								<div class="column last middle">
+									<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
+									<span><?php echo $this->message->text; ?></span>
+								</div>
+								<div class="column last bottom"></div>
 							</div>
 							<?php break; case 2: ?>
-							<div class="messaggio bad column last">
-								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-								<span><?php echo $this->message->text; ?></span>
+							<div class="messaggio error column last">
+								<div class="column last top"></div>
+								<div class="column last middle">
+									<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+									<span><?php echo $this->message->text; ?></span>
+								</div>
+								<div class="column last bottom"></div>
 							</div>
 							<?php endswitch; ?>
 						<?php endif; ?>

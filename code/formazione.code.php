@@ -44,7 +44,7 @@ if(!PARTITEINCORSO)
 	I VALORI NON DEVONO ESSERE DOPPI 
 	IL CAPITANO FACOLTATIVO
 	*/
-	if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
+	if(isset($_POST) && !empty($_POST) && isset($_POST['submit']))
 	{
 		$formazione = array();
 		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
@@ -57,7 +57,8 @@ if(!PARTITEINCORSO)
 				$missing ++;
 				$err ++;
 			}
-			$moduloAr[$giocatori[$val]->ruolo] = $moduloAr[$giocatori[$val]->ruolo] + 1; 
+			if(isset($giocatori[$val]))
+				$moduloAr[$giocatori[$val]->ruolo] = $moduloAr[$giocatori[$val]->ruolo] + 1; 
 			if( !in_array($val,$formazione))
 				$formazione[] = $val;
 			else
@@ -114,7 +115,6 @@ if(!PARTITEINCORSO)
 			$message->error('Hai inserito dei valori multipli');
 		if ($missing > 0)
 			$message->error('Valori mancanti');
-		}
 		if ($frega > 0)
 			$message->error('Stai cercando di fregarmi?');
 	}
@@ -124,22 +124,26 @@ if(!PARTITEINCORSO)
 		$modulo = $formazione->modulo;
 		$panchinariAr = $formazione->elenco;
 		$titolariAr = array_splice($panchinariAr,0,11);
+	}
+	if(!empty($_POST))
+	{
 		$i = 0;
-		if(!empty($_POST))
+		$j = 0;
+		foreach($_POST['gioc'] as $key=>$val)
 		{
-			foreach($_POST['gioc'] as $key=>$val)
-			{
-				$titolariAr[$i] = $val;
-				$i++;
-			}
-			foreach($_POST['panch'] as $key=>$val)
-			{
-				$panchinariAr[$i] = $val;
-				$i++;
-			}
-			foreach($_POST['cap'] as $key=>$val)
-				$capitano[$key] = $val;
+			$titolariAr[$i] = $val;
+			$i++;
 		}
+		foreach($_POST['panch'] as $key=>$val)
+		{
+			$panchinariAr[$j] = $val;
+			$j++;
+		}
+		foreach($_POST['cap'] as $key=>$val)
+			$capitano[$key] = $val;
+	}
+	if($formazione || !empty($_POST))
+	{
 		$contenttpl->assign('titolari',$titolariAr);
 		if(empty($panchinariAr))
 			$contenttpl->assign('panchinari',FALSE);

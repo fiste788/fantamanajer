@@ -53,24 +53,29 @@ require_once(INCDIR . 'links.inc.php');
 require_once(INCDIR . 'message.inc.php');
 
 //Creating a new db istance
-$dbObj = new db;
+$dbObj = new db();
+$linksObj = new links();
 $message = new message();	
 
-//Creating object for pages
-$layouttpl = new Savant3();
-$headertpl = new Savant3();
-$footertpl = new Savant3();
-$contenttpl = new Savant3();
-$operationtpl = new Savant3();
-$navbartpl = new Savant3();
+$options = array(
+  'template_path' => TPLDIR
+);
 
-//Creating linksObj in object pages
-$linksObj = new links();
+//Creating object for pages
+$layouttpl = new Savant3($options);
+$headertpl = new Savant3($options);
 $headertpl->assign('linksObj',$linksObj);
+$headertpl->setPluginConf('image',array('imageDir'=>'fantamanajer-2.5/imgs/'));
+$headertpl->plugin('image');
+$footertpl = new Savant3($options);
 $footertpl->assign('linksObj',$linksObj);
+$contenttpl = new Savant3($options);
 $contenttpl->assign('linksObj',$linksObj);
-$operationtpl->assign('linksObj',$linksObj);
+$navbartpl = new Savant3($options);
 $navbartpl->assign('linksObj',$linksObj);
+$operationtpl = new Savant3();
+$operationtpl->addPath('template',TPLDIR . 'operazioni/');
+$operationtpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
 if (isset($_GET['p']))
@@ -186,10 +191,11 @@ if(isset($_SESSION['message']))
 if (file_exists(CODEDIR . $p . '.code.php'))
 	require(CODEDIR . $p . '.code.php');
 //definisce il file di template utilizzato per visualizzare questa pagina
-$tplfile = TPLDIR . $p . '.tpl.php';
+$tplfile = $p . '.tpl.php';
 
 if($message->show)
 	$layouttpl->assign('message',$message);
+	
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbartpl->assign('p',$p);
@@ -214,14 +220,14 @@ if(isset($pages[$p]['js']))
  * PRODUZIONE HEADER
  * il require include il file con il codice per l'header, incluso il nome del file template
  */
-$header = $headertpl->fetch(TPLDIR . 'header.tpl.php');
+$header = $headertpl->fetch('header.tpl.php');
 
 /**
  * PRODUZIONE FOOTER
  * il require include il file con il codice per il'footer, incluso il nome del file del file template
  */
 //$footertpl->assign('p',$p);
-$footer = $footertpl->fetch(TPLDIR . 'footer.tpl.php');
+$footer = $footertpl->fetch('footer.tpl.php');
 
 /**
  * PRODUZIONE MENU
@@ -229,7 +235,7 @@ $footer = $footertpl->fetch(TPLDIR . 'footer.tpl.php');
  */
 
 // $navbartpl->assign('p',$p);
-$navbar = $navbartpl->fetch(TPLDIR . 'navbar.tpl.php');
+$navbar = $navbartpl->fetch('navbar.tpl.php');
 /**
  * PRODUZIONE CONTENT
  * Esegue la fetch del template per l'area content
@@ -239,7 +245,7 @@ $operation = "";
 if($_SESSION['logged'])
 	$operation .= $operationtpl->fetch(TPLDIR . "operazioni.tpl.php");
 if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
-		$operation .= $operationtpl->fetch(TPLDIR . "operazioni/" . $p . ".tpl.php");
+		$operation .= $operationtpl->fetch($p . ".tpl.php");
 
 /**
  * COMPOSIZIONE PAGINA
@@ -255,7 +261,8 @@ $layouttpl->assign('navbar', $navbar);
  * Output Pagina
  */
 
-$result = $layouttpl->display(TPLDIR . 'layout.tpl.php');
+$layouttpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
+$result = $layouttpl->display('layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
 if ($layouttpl->isError($result)) {

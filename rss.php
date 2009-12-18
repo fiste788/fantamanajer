@@ -5,8 +5,7 @@
 	require_once(INCDIR . 'emoticon.inc.php');
 
 	//Creating a new db istance
-	$dblink = new db;
-	$dblink->dbConnect();
+	$dbObj = new db;
 	$eventoObj = new evento();
 	$emoticonObj = new emoticon();
 	$eventi = $eventoObj->getEventi(1,NULL,0,50);
