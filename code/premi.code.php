@@ -3,5 +3,5 @@ require_once(INCDIR.'punteggio.db.inc.php');
 
 $punteggioObj = new punteggio();
 
-$contenttpl->assign('classifica',$punteggioObj->getClassificaByGiornata($_SESSION['idLega'],GIORNATA));
+$contentTpl->assign('classifica',$punteggioObj->getClassificaByGiornata($_SESSION['idLega'],GIORNATA));
 ?>

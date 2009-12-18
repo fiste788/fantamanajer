@@ -19,7 +19,7 @@ if(isset($_POST['query']) && !empty($_POST['query']))
 	{
 		$dbObj->rollback();
 		$message->error('Query non valida: ' . $err);
-		$contenttpl->assign('sql',$_POST['query']);
+		$contentTpl->assign('sql',$_POST['query']);
 	}
 }
 if(isset($_GET['action']))
@@ -52,11 +52,11 @@ if(isset($_GET['action']))
 			{
 				$dbObj->rollback();
 				$message->error('Errore nella sincronizzazione: ' . $err);
-				$contenttpl->assign('sql',$sql);
+				$contentTpl->assign('sql',$sql);
 			}
 		}
 	}
 }
 if(isset($message->text))
-	$layouttpl->assign('message',$message);
+	$layoutTpl->assign('message',$message);
 ?>

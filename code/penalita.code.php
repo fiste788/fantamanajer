@@ -53,29 +53,29 @@ elseif(isset($_POST['submit']) && $_POST['submit'] == 'Cancella')
 if($filterLega != NULL)
 {
 	$elencoSquadre = $utenteObj->getElencoSquadreByLega($filterLega);
-	$contenttpl->assign('elencoSquadre',$elencoSquadre);
-	$contenttpl->assign('squadra',$filterSquadra);
-	$contenttpl->assign('lega',$filterLega);
-	$operationtpl->assign('elencoSquadre',$elencoSquadre);
-	$operationtpl->assign('squadra',$filterSquadra);
-	$operationtpl->assign('lega',$filterLega);
+	$contentTpl->assign('elencoSquadre',$elencoSquadre);
+	$contentTpl->assign('squadra',$filterSquadra);
+	$contentTpl->assign('lega',$filterLega);
+	$operationTpl->assign('elencoSquadre',$elencoSquadre);
+	$operationTpl->assign('squadra',$filterSquadra);
+	$operationTpl->assign('lega',$filterLega);
 	if($elencoSquadre != FALSE)
 	{
 		$classificaDett = $punteggioObj->getAllPunteggiByGiornata($filterGiornata,$filterLega);
 		foreach($classificaDett as $key => $val)
 			$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
-		$contenttpl->assign('penalità',$punteggioObj->getPenalitàByLega($filterLega));
-		$contenttpl->assign('classificaDett',$classificaDett);
-		$contenttpl->assign('squadre',$elencoSquadre);
+		$contentTpl->assign('penalità',$punteggioObj->getPenalitàByLega($filterLega));
+		$contentTpl->assign('classificaDett',$classificaDett);
+		$contentTpl->assign('squadre',$elencoSquadre);
 		if(isset($squadra))
-			$contenttpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
+			$contentTpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
 	}
 }
-$contenttpl->assign('giornata',$filterGiornata);
+$contentTpl->assign('giornata',$filterGiornata);
 if(isset($filterSquadra))
-	$contenttpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
-$operationtpl->assign('elencoLeghe',$legaObj->getLeghe());
-$operationtpl->assign('lega',$filterLega);
-$operationtpl->assign('giornata',$filterGiornata);
-$operationtpl->assign('giornate',$punteggioObj->getGiornateWithPunt());
+	$contentTpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
+$operationTpl->assign('elencoLeghe',$legaObj->getLeghe());
+$operationTpl->assign('lega',$filterLega);
+$operationTpl->assign('giornata',$filterGiornata);
+$operationTpl->assign('giornate',$punteggioObj->getGiornateWithPunt());
 ?>

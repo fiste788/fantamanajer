@@ -15,11 +15,11 @@ foreach($classificaDett as $key => $val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 	
 $giornate = $punteggioObj->getGiornateWithPunt();
-$contenttpl->assign('giornate',$giornate);
-$contenttpl->assign('classificaDett',$classificaDett);
-$contenttpl->assign('penalità',$punteggioObj->getPenalitàByLega($_SESSION['legaView']));
-$contenttpl->assign('squadre',$squadre);
+$contentTpl->assign('giornate',$giornate);
+$contentTpl->assign('classificaDett',$classificaDett);
+$contentTpl->assign('penalità',$punteggioObj->getPenalitàByLega($_SESSION['legaView']));
+$contentTpl->assign('squadre',$squadre);
 
-$operationtpl->assign('getGiornata',$giornata);
-$operationtpl->assign('giornate',$giornate);
+$operationTpl->assign('getGiornata',$giornata);
+$operationTpl->assign('giornate',$giornate);
 ?>

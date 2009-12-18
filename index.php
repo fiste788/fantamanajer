@@ -43,14 +43,14 @@ foreach($_GET as $key=>$val)
 	else
 		$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 }
-require_once('config/config.inc.php');
-require_once('config/Savant3.php');
-require_once('config/pages.inc.php');
-require_once(INCDIR . 'db.inc.php');
-require_once(INCDIR . 'auth.inc.php');
-require_once(INCDIR . 'strings.inc.php');
-require_once(INCDIR . 'links.inc.php');
-require_once(INCDIR . 'message.inc.php');
+require('config/config.inc.php');
+require('config/Savant3.php');
+require('config/pages.inc.php');
+require(INCDIR . 'db.inc.php');
+require(INCDIR . 'auth.inc.php');
+require(INCDIR . 'strings.inc.php');
+require(INCDIR . 'links.inc.php');
+require(INCDIR . 'message.inc.php');
 
 //Creating a new db istance
 $dbObj = new db();
@@ -62,20 +62,20 @@ $options = array(
 );
 
 //Creating object for pages
-$layouttpl = new Savant3($options);
-$headertpl = new Savant3($options);
-$headertpl->assign('linksObj',$linksObj);
-$headertpl->setPluginConf('image',array('imageDir'=>'fantamanajer-2.5/imgs/'));
-$headertpl->plugin('image');
-$footertpl = new Savant3($options);
-$footertpl->assign('linksObj',$linksObj);
-$contenttpl = new Savant3($options);
-$contenttpl->assign('linksObj',$linksObj);
-$navbartpl = new Savant3($options);
-$navbartpl->assign('linksObj',$linksObj);
-$operationtpl = new Savant3();
-$operationtpl->addPath('template',TPLDIR . 'operazioni/');
-$operationtpl->assign('linksObj',$linksObj);
+$layoutTpl = new Savant3($options);
+$headerTpl = new Savant3($options);
+$headerTpl->assign('linksObj',$linksObj);
+$headerTpl->setPluginConf('image',array('imageDir'=>'fantamanajer-2.5/imgs/'));
+$headerTpl->plugin('image');
+$footerTpl = new Savant3($options);
+$footerTpl->assign('linksObj',$linksObj);
+$contentTpl = new Savant3($options);
+$contentTpl->assign('linksObj',$linksObj);
+$navbarTpl = new Savant3($options);
+$navbarTpl->assign('linksObj',$linksObj);
+$operationTpl = new Savant3();
+$operationTpl->addPath('template',TPLDIR . 'operazioni/');
+$operationTpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
 if (isset($_GET['p']))
@@ -127,7 +127,7 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['legaView'] = 1;
 }
 
-require_once(INCDIR . 'lega.db.inc.php');
+require(INCDIR . 'lega.db.inc.php');
 $legaObj = new lega();
 
 /**
@@ -136,20 +136,20 @@ $legaObj = new lega();
 
 if ($_SESSION['logged'])
 {
-	require_once(INCDIR . 'giocatore.db.inc.php');
-	require_once(INCDIR . 'trasferimento.db.inc.php');
+	require(INCDIR . 'giocatore.db.inc.php');
+	require(INCDIR . 'trasferimento.db.inc.php');
 	
 	$giocatoreObj = new giocatore();
 	$trasferimentoObj = new trasferimento();
 	$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
 	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
-		$layouttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 
 /**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
-require_once(INCDIR . 'giornata.db.inc.php');
+require(INCDIR . 'giornata.db.inc.php');
 
 $giornataObj = new giornata();
 $giornata = $giornataObj->getGiornataByDate();
@@ -160,7 +160,7 @@ define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
 
 $leghe = $legaObj->getLeghe();
-$layouttpl->assign('leghe',$leghe);
+$layoutTpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
 	$_SESSION['legaView'] = $leghe[0]['idLega'];
 if(isset($_POST['legaView']))
@@ -194,23 +194,23 @@ if (file_exists(CODEDIR . $p . '.code.php'))
 $tplfile = $p . '.tpl.php';
 
 if($message->show)
-	$layouttpl->assign('message',$message);
+	$layoutTpl->assign('message',$message);
 	
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
-$navbartpl->assign('p',$p);
-$navbartpl->assign('pages',$pages);
+$navbarTpl->assign('p',$p);
+$navbarTpl->assign('pages',$pages);
 /**
  *
  * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
  *
  */
-$layouttpl->assign('title',$pages[$p]['title']);
-$layouttpl->assign('p',$p);
+$layoutTpl->assign('title',$pages[$p]['title']);
+$layoutTpl->assign('p',$p);
 if(isset($pages[$p]['css']))
- 	$layouttpl->assign('css', $pages[$p]['css']);
+ 	$layoutTpl->assign('css', $pages[$p]['css']);
 if(isset($pages[$p]['js']))
-	$layouttpl->assign('js', $pages[$p]['js']);
+	$layoutTpl->assign('js', $pages[$p]['js']);
 
 /**
  * GENERAZIONE LAYOUT
@@ -220,52 +220,52 @@ if(isset($pages[$p]['js']))
  * PRODUZIONE HEADER
  * il require include il file con il codice per l'header, incluso il nome del file template
  */
-$header = $headertpl->fetch('header.tpl.php');
+$header = $headerTpl->fetch('header.tpl.php');
 
 /**
  * PRODUZIONE FOOTER
  * il require include il file con il codice per il'footer, incluso il nome del file del file template
  */
 //$footertpl->assign('p',$p);
-$footer = $footertpl->fetch('footer.tpl.php');
+$footer = $footerTpl->fetch('footer.tpl.php');
 
 /**
  * PRODUZIONE MENU
  * il require include il file con il codice per il menu, incluso il nome del file del file template
  */
 
-// $navbartpl->assign('p',$p);
-$navbar = $navbartpl->fetch('navbar.tpl.php');
+// $navbarTpl->assign('p',$p);
+$navbar = $navbarTpl->fetch('navbar.tpl.php');
 /**
  * PRODUZIONE CONTENT
  * Esegue la fetch del template per l'area content
  */
-$content = $contenttpl->fetch($tplfile);
+$content = $contentTpl->fetch($tplfile);
 $operation = "";
 if($_SESSION['logged'])
-	$operation .= $operationtpl->fetch(TPLDIR . "operazioni.tpl.php");
+	$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
 if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
-		$operation .= $operationtpl->fetch($p . ".tpl.php");
+	$operation .= $operationTpl->fetch($p . ".tpl.php");
 
 /**
  * COMPOSIZIONE PAGINA
  */
 
-$layouttpl->assign('header', $header);
-$layouttpl->assign('footer', $footer);
-$layouttpl->assign('content', $content);
-$layouttpl->assign('operation', $operation);
-$layouttpl->assign('navbar', $navbar);
+$layoutTpl->assign('header', $header);
+$layoutTpl->assign('footer', $footer);
+$layoutTpl->assign('content', $content);
+$layoutTpl->assign('operation', $operation);
+$layoutTpl->assign('navbar', $navbar);
 
 /**
  * Output Pagina
  */
 
-$layouttpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
-$result = $layouttpl->display('layout.tpl.php');
+$layoutTpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
+$result = $layoutTpl->display('layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
-if ($layouttpl->isError($result)) {
+if ($layoutTpl->isError($result)) {
 	echo "There was an error displaying the template. <pre>";
 	print_r($result,1);
 	echo "</pre>";

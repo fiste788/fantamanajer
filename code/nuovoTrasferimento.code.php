@@ -46,19 +46,19 @@ else
 	
 $ruoli = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 
-$contenttpl->assign('trasferimenti',$trasferimenti);
-$contenttpl->assign('numTrasferimenti',$numTrasferimenti);
-$contenttpl->assign('ruoli',$ruoli);
-$contenttpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));
-$contenttpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($filterSquadra,$filterLega));
-$contenttpl->assign('squadra',$filterSquadra);
-$contenttpl->assign('lega',$filterLega);
-$operationtpl->assign('squadra',$filterSquadra);
-$operationtpl->assign('elencoLeghe',$legaObj->getLeghe());
-$operationtpl->assign('lega',$filterLega);
+$contentTpl->assign('trasferimenti',$trasferimenti);
+$contentTpl->assign('numTrasferimenti',$numTrasferimenti);
+$contentTpl->assign('ruoli',$ruoli);
+$contentTpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));
+$contentTpl->assign('freePlayer',$giocatoreObj->getGiocatoriNotSquadra($filterSquadra,$filterLega));
+$contentTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('lega',$filterLega);
+$operationTpl->assign('squadra',$filterSquadra);
+$operationTpl->assign('elencoLeghe',$legaObj->getLeghe());
+$operationTpl->assign('lega',$filterLega);
 if($filterLega != NULL)
 {
-	$operationtpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
-	$contenttpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+	$operationTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+	$contentTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
 }
 ?>

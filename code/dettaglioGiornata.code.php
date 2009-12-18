@@ -24,31 +24,31 @@ $giornate = $punteggioObj->getGiornateWithPunt();
 $penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata);
 
 if($penalità != FALSE)
-	$contenttpl->assign('penalità',$penalità);
+	$contentTpl->assign('penalità',$penalità);
 if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $giornata > 0 && $filterGiornata <= $giornate)
 {
 	if($formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
 	{
 		$formazione = $giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra);
 		$titolari = array_splice($formazione,0,11);
-		$contenttpl->assign('somma',$punteggioObj->getPunteggi($filterSquadra,$filterGiornata));
-		$contenttpl->assign('titolari',$titolari);
-		$contenttpl->assign('panchinari',$formazione);
+		$contentTpl->assign('somma',$punteggioObj->getPunteggi($filterSquadra,$filterGiornata));
+		$contentTpl->assign('titolari',$titolari);
+		$contentTpl->assign('panchinari',$formazione);
 	}
 	else
 	{
-		$contenttpl->assign('tirolari',FALSE);
-		$contenttpl->assign('panchinari',FALSE);
-		$contenttpl->assign('somma',0);
+		$contentTpl->assign('tirolari',FALSE);
+		$contentTpl->assign('panchinari',FALSE);
+		$contentTpl->assign('somma',0);
 	}
 }
 else
-	$contenttpl->assign('titolari',NULL);
+	$contentTpl->assign('titolari',NULL);
 
 if(isset($filterGiornata) && $filterGiornata -1 > 0)
 {
 	$idPrec = $filterGiornata -1;
-	$quickLinks->prec->href = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
+	$quickLinks->prec->href = $contentTpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
 	$quickLinks->prec->title = "Giornata " . $idPrec;
 }	
 else
@@ -59,7 +59,7 @@ else
 if(isset($filterGiornata) && $filterGiornata + 1 <= $giornate)
 {
 	$idSucc = $filterGiornata + 1;
-	$quickLinks->succ->href = $contenttpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$filterSquadra));
+	$quickLinks->succ->href = $contentTpl->linksObj->getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$filterSquadra));
 	$quickLinks->succ->title = "Giornata " . $idSucc;
 }	
 else
@@ -68,13 +68,13 @@ else
 	$quickLinks->succ = FALSE;
 }
 	
-$contenttpl->assign('squadra',$filterSquadra);
-$contenttpl->assign('giornata',$filterGiornata);
-$contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
-$operationtpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
-$operationtpl->assign('penalità',$penalità);
-$operationtpl->assign('giornate',$giornate);
-$operationtpl->assign('squadra',$filterSquadra);
-$operationtpl->assign('giornata',$filterGiornata);
-$layouttpl->assign('quickLinks',$quickLinks);
+$contentTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('giornata',$filterGiornata);
+$contentTpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
+$operationTpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$operationTpl->assign('penalità',$penalità);
+$operationTpl->assign('giornate',$giornate);
+$operationTpl->assign('squadra',$filterSquadra);
+$operationTpl->assign('giornata',$filterGiornata);
+$layoutTpl->assign('quickLinks',$quickLinks);
 ?>

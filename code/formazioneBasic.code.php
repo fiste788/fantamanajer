@@ -15,31 +15,31 @@ if(isset($_POST['squadra']))
 	$squadra = $_POST['squadra'];
 if(isset($_POST['mod']))
 	$mod = $_POST['mod'];
-$contenttpl->assign('squadra',$squadra);
+$contentTpl->assign('squadra',$squadra);
 
 $val = $utenteObj->getElencoSquadre();
-$contenttpl->assign('elencosquadre',$val);
+$contentTpl->assign('elencosquadre',$val);
 	
 if(TIMEOUT == FALSE)
-	header("Location: ".$contenttpl->linksObj->getLink('altreFormazioni'));
+	header("Location: ".$contentTpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
 if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
 	unset($formImp[$_SESSION['idSquadra']]);
-$contenttpl->assign('formazioniImpostate',$formImp);
+$contentTpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
 $frega = 0;
 $ruo = array('P','D','C','A');
 $elencocap = array('C','VC','VVC');
-$contenttpl->assign('ruo',$ruo);
-$contenttpl->assign('elencocap',$elencocap);
+$contentTpl->assign('ruo',$ruo);
+$contentTpl->assign('elencocap',$elencocap);
 if(TIMEOUT)
 {
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	foreach($ruo as $key => $val)
 		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
-	$contenttpl->assign('giocatori',$giocatori);
+	$contentTpl->assign('giocatori',$giocatori);
 
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
 		
@@ -127,7 +127,7 @@ if(TIMEOUT)
 			$message[0] = 1;
 			$message[1] = 'Stai cercando di fregarmi?';
 		}
-		$contenttpl->assign('message',$message);
+		$contentTpl->assign('message',$message);
 	}
 	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	if($issetform)
@@ -155,18 +155,18 @@ if(TIMEOUT)
 			foreach($_POST['cap'] as $key=>$val)
 				$capitano[$key] = $val;
 		}
-		$contenttpl->assign('titolari',$titolariAr);
+		$contentTpl->assign('titolari',$titolariAr);
 		if(empty($panchinariAr))
-			$contenttpl->assign('panchinari',FALSE);
+			$contentTpl->assign('panchinari',FALSE);
 		else
-			$contenttpl->assign('panchinari',$panchinariAr);
-		$contenttpl->assign('cap',$issetform['cap']);
+			$contentTpl->assign('panchinari',$panchinariAr);
+		$contentTpl->assign('cap',$issetform['cap']);
 	}
-	$contenttpl->assign('issetForm',$issetform);
-	$contenttpl->assign('mod',$mod);
+	$contentTpl->assign('issetForm',$issetform);
+	$contentTpl->assign('mod',$mod);
 	if($mod != NULL)
-		$contenttpl->assign('modulo',explode('-',$mod));
+		$contentTpl->assign('modulo',explode('-',$mod));
 	else
-		$contenttpl->assign('modulo',NULL);
+		$contentTpl->assign('modulo',NULL);
 }
 ?>

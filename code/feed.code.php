@@ -8,6 +8,6 @@ if(isset($_POST['evento']))
 	
 $eventi = $eventoObj->getEventi($_SESSION['legaView'],$filterEvento,0,25);
 
-$contenttpl->assign('eventi',$eventi);
-$operationtpl->assign('evento',$filterEvento);
+$contentTpl->assign('eventi',$eventi);
+$operationTpl->assign('evento',$filterEvento);
 ?>

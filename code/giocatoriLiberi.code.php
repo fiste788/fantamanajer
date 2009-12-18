@@ -42,9 +42,9 @@ $filterSuff = $_SESSION['userNavigationData']['freeplayer']['suff'];
 $filterPartite = $_SESSION['userNavigationData']['freeplayer']['partite'];
 
 if(is_numeric($filterSuff) && is_numeric($filterPartite))
-	$contenttpl->assign('validFilter',TRUE);
+	$contentTpl->assign('validFilter',TRUE);
 else
-	$contenttpl->assign('validFilter',FALSE);
+	$contentTpl->assign('validFilter',FALSE);
 
 $freeplayer = $giocatoreObj->getFreePlayer($filterRuolo,$_SESSION['legaView']);
 foreach($freeplayer as $key => $val)
@@ -87,24 +87,24 @@ $orderBy[] = array('campo'=>'presenzeVoto','default'=>'desc');
 foreach($orderBy as $key => $val)
 {
 	if(!isset($v) || $filterOrder != $val['campo'])
-		$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
+		$link[$val['campo']] = $contentTpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 	elseif($order == $val['campo'])
 	{
 		if($filterVersus == 'asc')
-			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
+			$link[$val['campo']] = $contentTpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 		else
-			$link[$val['campo']] = $contenttpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
+			$link[$val['campo']] = $contentTpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 	}
 }
 
-$contenttpl->assign('order',$filterOrder);
-$contenttpl->assign('v',$filterVersus);
-$contenttpl->assign('link',$link);
-$contenttpl->assign('freeplayer',$freeplayer);
-$contenttpl->assign('suff',$filterSuff);
-$contenttpl->assign('partite',$filterPartite);
-$operationtpl->assign('ruolo',$filterRuolo);
-$operationtpl->assign('suff',$filterSuff);
-$operationtpl->assign('partite',$filterPartite);
-$operationtpl->assign('ruoli',$ruoli);
+$contentTpl->assign('order',$filterOrder);
+$contentTpl->assign('v',$filterVersus);
+$contentTpl->assign('link',$link);
+$contentTpl->assign('freeplayer',$freeplayer);
+$contentTpl->assign('suff',$filterSuff);
+$contentTpl->assign('partite',$filterPartite);
+$operationTpl->assign('ruolo',$filterRuolo);
+$operationTpl->assign('suff',$filterSuff);
+$operationTpl->assign('partite',$filterPartite);
+$operationTpl->assign('ruoli',$ruoli);
 ?>

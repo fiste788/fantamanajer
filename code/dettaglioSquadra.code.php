@@ -22,9 +22,9 @@ foreach($classifica as $key => $val)
 {
 	if($filterSquadra == $val->idUtente)
 	{
-		$contenttpl->assign('media',substr($classifica[$key]->punteggioMed,0,5));
-		$contenttpl->assign('min',$classifica[$key]->punteggioMin);
-		$contenttpl->assign('max',$classifica[$key]->punteggioMax);
+		$contentTpl->assign('media',substr($classifica[$key]->punteggioMed,0,5));
+		$contentTpl->assign('min',$classifica[$key]->punteggioMin);
+		$contentTpl->assign('max',$classifica[$key]->punteggioMax);
 	}
 }
 if(isset($_POST['submit']))
@@ -85,12 +85,12 @@ if(isset($_POST['submit']))
 		$utenteObj->changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$_SESSION['idSquadra']);
 		$message->success("Dati modificati correttamente");
 	}
-	$layouttpl->assign('message',$message);
+	$layoutTpl->assign('message',$message);
 }
 if(isset($elencoSquadre[$filterSquadra - 1]))
 {
 	$idPrec = $filterSquadra - 1;
-	$quickLinks->prec->href = $contenttpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idPrec));
+	$quickLinks->prec->href = $contentTpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idPrec));
 	$quickLinks->prec->title = $elencoSquadre[$idPrec]->nome;
 }	
 else
@@ -99,17 +99,17 @@ else
 if(isset($elencoSquadre[$filterSquadra + 1]))
 {
 	$idSucc = $filterSquadra + 1;
-	$quickLinks->succ->href = $contenttpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idSucc));
+	$quickLinks->succ->href = $contentTpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idSucc));
 	$quickLinks->succ->title = $elencoSquadre[$idSucc]->nome;
 }	
 else
 	$quickLinks->succ = FALSE;
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 
-$contenttpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra));
-$contenttpl->assign('squadra',$filterSquadra);
-$contenttpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
-$contenttpl->assign('classifica',$classifica);
-$operationtpl->assign('elencoSquadre',$elencoSquadre);
-$layouttpl->assign('quickLinks',$quickLinks);
+$contentTpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra));
+$contentTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
+$contentTpl->assign('classifica',$classifica);
+$operationTpl->assign('elencoSquadre',$elencoSquadre);
+$layoutTpl->assign('quickLinks',$quickLinks);
 ?>

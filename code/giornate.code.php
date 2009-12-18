@@ -24,5 +24,5 @@ if(isset($_POST['submit']))
 	else
 		$message->error("Non hai compiulato tutti i campi");
 }
-$contenttpl->assign('giornate',$giornate);
+$contentTpl->assign('giornate',$giornate);
 ?>

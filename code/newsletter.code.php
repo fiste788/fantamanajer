@@ -80,10 +80,10 @@ if(isset($_POST['button']))
 			$message->error('Problemi nell\'invio delle mail');
 	}
 }
-$contenttpl->assign('elencoLeghe',$elencoLeghe);
-$contenttpl->assign('lega',$filterLega);
+$contentTpl->assign('elencoLeghe',$elencoLeghe);
+$contentTpl->assign('lega',$filterLega);
 if($filterLega != NULL && $filterLega != 0)
-	$contenttpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
-$operationtpl->assign('elencoLeghe',$elencoLeghe);
-$operationtpl->assign('lega',$filterLega);
+	$contentTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+$operationTpl->assign('elencoLeghe',$elencoLeghe);
+$operationTpl->assign('lega',$filterLega);
 ?>

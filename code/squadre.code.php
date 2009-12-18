@@ -11,9 +11,9 @@ if(isset($_GET['squadra']))
 
 $elencoSquadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 
-$contenttpl->assign('squadra',$squadra);
-$contenttpl->assign('elencosquadre',$elencoSquadre);
-$contenttpl->assign('posizioni',$punteggioObj->getPosClassifica($_SESSION['legaView']));
-$contenttpl->assign('ultimaGiornata',$punteggioObj->getGiornateWithPunt());
+$contentTpl->assign('squadra',$squadra);
+$contentTpl->assign('elencosquadre',$elencoSquadre);
+$contentTpl->assign('posizioni',$punteggioObj->getPosClassifica($_SESSION['legaView']));
+$contentTpl->assign('ultimaGiornata',$punteggioObj->getGiornateWithPunt());
 
 ?>

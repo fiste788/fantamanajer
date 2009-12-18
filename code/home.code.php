@@ -13,8 +13,8 @@ $eventoObj = new evento();
 $giornataObj = new giornata();
 $emoticonObj = new emoticon();
 
-$contenttpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
-$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$contentTpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
+$contentTpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
 $classifica = $punteggioObj->getAllPunteggiByGiornata($punteggioObj->getGiornateWithPunt(),$_SESSION['legaView']);
 foreach($classifica as $key => $val)
 	$sum[$key] = array_sum($classifica[$key]);
@@ -40,14 +40,14 @@ if((GIORNATA -1) != 0)
 else
 	foreach($classifica as $key => $val)
 		$diff[$key] = 0;	
-$contenttpl->assign('classifica',$sum);
-$contenttpl->assign('differenza',$diff);
+$contentTpl->assign('classifica',$sum);
+$contentTpl->assign('differenza',$diff);
 $articoloObj->setidlega($_SESSION['legaView']);
 $articolo = $articoloObj->select($articoloObj,'=','*',0,1,'insertDate');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
 		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,IMGSURL . 'emoticons/');
-$contenttpl->assign('articoli',$articolo);
+$contentTpl->assign('articoli',$articolo);
 $eventi = $eventoObj->getEventi($_SESSION['legaView'],NULL,0,5);
-$contenttpl->assign('eventi',$eventi);
+$contentTpl->assign('eventi',$eventi);
 ?>

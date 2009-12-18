@@ -29,5 +29,5 @@ if(isset($_POST['nomeLega']))
 		$message->error("Tipo di dati incorretto. Controlla i valori numerici");
 }
 $default = $legaObj->getDefaultValue();
-$contenttpl->assign('default',$default);
+$contentTpl->assign('default',$default);
 ?>
