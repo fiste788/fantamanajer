@@ -42,20 +42,21 @@ class evento
 		
 		$ruoli = array("articoli" =>
 					array (
-    					'P'=> "il",
-    					'D'=> "il",
-    					'C'=> "il",
-    					'A'=> "l'"),
+						'P'=> "il",
+						'D'=> "il",
+						'C'=> "il",
+						'A'=> "l'"),
 				"nome" =>
 				array (
-    				'P'=> "portiere",
-    				'D'=> "difensore",
-    				'C'=> "centrocampista",
-    				'A'=> "attaccante"
+					'P'=> "portiere",
+					'D'=> "difensore",
+					'C'=> "centrocampista",
+					'A'=> "attaccante"
 		));
 		$q = "SELECT evento.idEvento,evento.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
-				FROM evento LEFT JOIN utente ON evento.idUtente = utente.idUtente 
-				WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
+				FROM evento LEFT JOIN utente ON evento.idUtente = utente.idUtente ";
+		if($idLega != NULL)
+			$q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
 		if($tipo != NULL)
 		  $q .= " AND tipo = '" . $tipo . "'";
 		$q .= " ORDER BY data DESC 

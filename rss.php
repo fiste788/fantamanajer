@@ -8,7 +8,7 @@
 	$dbObj = new db;
 	$eventoObj = new evento();
 	$emoticonObj = new emoticon();
-	$eventi = $eventoObj->getEventi(1,NULL,0,50);
+	$eventi = $eventoObj->getEventi($_GET['lega'],NULL,0,50);
 	//echo "<pre>".print_r($eventi,1)."</pre>";
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML
@@ -21,7 +21,7 @@
 	echo "<channel>\n";
 	echo "<title>FantaManajer</title>\n";
 	echo "<link>http://www.fantamanajer.it/</link>\n";
-	$data = explode(' ',$eventi[0]['data']);
+	$data = explode(' ',$eventi[0]->data);
 	$giorno = explode('-',$data[0]);
 	$tempo = explode(':',$data[1]);
 	echo "<lastBuildDate>" . date("r",mktime($tempo[0],$tempo[1],$tempo[2],$giorno[1],$giorno[2],$giorno[0])) . "</lastBuildDate>\n";
@@ -34,15 +34,15 @@
 	//echo "<pre>".print_r($eventi,1)."</pre>";
 	foreach($eventi as $key=>$val)
 	{
-		$val['content'] = $emoticonObj->replaceEmoticon($val['content'],IMGSURL.'emoticons/');
+		$val->content = $emoticonObj->replaceEmoticon($val->content,IMGSURL.'emoticons/');
 		echo "<item>\n";
-		echo "<title><![CDATA[" . $val['titolo'] . "]]></title>\n";
-		echo "<pubDate>" . $val['pubData'] . "</pubDate>\n";
-		if(!empty($val['link'])) 
-			echo "<link><![CDATA[" . substr(FULLURL,0,-1).$val['link'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.$val['link'] . "#" . array_shift($val['idExternal']) . "]]></guid>\n";
+		echo "<title><![CDATA[" . $val->titolo . "]]></title>\n";
+		echo "<pubDate>" . $val->pubData . "</pubDate>\n";
+		if(!empty($val->link)) 
+			echo "<link><![CDATA[" . substr(FULLURL,0,-1) . $val->link . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.$val->link . "#" . array_shift($val->idExternal) . "]]></guid>\n";
 		else
-			echo "<link><![CDATA[" . FULLURL.'feed.html#evento-'.$val['idEvento'] . "]]></link>\n" . "<guid><![CDATA[" . FULLURL.'index.php?p=viewFeed#evento-'.$val['idEvento'] . "]]></guid>\n";
-		echo "<description><![CDATA[" . $val['content'] . "]]></description>\n";
+			echo "<link><![CDATA[" . FULLURL . 'feed.html#evento-' . $val->idEvento . "]]></link>\n" . "<guid><![CDATA[" . FULLURL . 'index.php?p=viewFeed#evento-' . $val->idEvento . "]]></guid>\n";
+		echo "<description><![CDATA[" . $val->content . "]]></description>\n";
 		echo "</item>\n";
 	}
 	echo "</channel>\n</rss>";

@@ -449,6 +449,18 @@ a.logout, a.logout:hover, a.logout:visited {
 	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -180px;
 }
 /*------------------------------------------------------------------------------*/
+#bestPlayer {
+	clear:both;
+	float:left;
+}
+#bestPlayer .column {
+	width:200px;
+	text-align:center;
+}
+#bestPlayer p {
+	margin:0;
+	text-align:left;
+}
 #dettaglioSquadra h3 {
 	clear:both;
 	margin:0;

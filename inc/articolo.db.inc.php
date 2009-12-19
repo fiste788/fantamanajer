@@ -109,7 +109,7 @@ class articolo
 		$perc = "";
 		if(strtolower($equal) == "like")
 			$perc = "%";
-		$q = "SELECT " . $field . " FROM articolo"; 
+		$q = "SELECT " . $field . " FROM articolo INNER JOIN utente ON articolo.idSquadra = utente.idUtente"; 
 		if($equal != NULL)
 		{
 			$q .= " WHERE";
