@@ -17,7 +17,7 @@
 		<?php endif; ?>
 		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.css';?>" type="text/css" media="screen"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
-		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php'; ?>" />
+		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
 		<script src="<?php echo JSURL . 'ui/effects-pulsate.js'; ?>" type="text/javascript"></script>

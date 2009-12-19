@@ -74,19 +74,19 @@ if(!isset($formImp[$squadra]))
 				{
 					if((strpos($key,'cap') === FALSE) && (strpos($key,'panch') === FALSE))	//CONTROLLO SE È UNA SELECT RELATIVA AL CAPITANO
 					{	
-		       			 if(empty($val))
+						 if(empty($val))
 						{
 							$missing ++;
 							$err ++;
 						}
-						if( !in_array($val,$formazione))	
-		        				$formazione[] = $val;		
+						if( !in_array($val,$formazione))
+							$formazione[] = $val;
 						else
 							$err++;
 					}
 					if(strpos($key,'panch') !== FALSE)
 					{
-		      			if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
+						if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
 						{	
 							if( !in_array($val,$formazione))
 								$formazione[] = $val;
@@ -102,7 +102,7 @@ if(!isset($formImp[$squadra]))
 							{
 								if(strpos($key,'Por') !== FALSE)
 									$pos = 0;
-		                        else
+								else
 									$pos = $key{4} + 1;  
 								$capitano[$val] = $formazione[$pos];
 							}	

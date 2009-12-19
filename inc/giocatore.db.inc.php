@@ -382,8 +382,23 @@ class giocatore
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))
-			return 1;
-		return 0;
+			return TRUE;
+		return FALSE;
+	}
+	
+	function getBestPlayerByGiornataAndRuolo($idGiornata,$ruolo)
+	{
+		$q = "SELECT *
+				FROM giocatore INNER JOIN voto ON giocatore.idGioc = voto.idGioc INNER JOIN club ON giocatore.club = club.idClub
+				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
+				ORDER BY punti DESC , voto DESC
+				LIMIT 0 , 5";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
+		while($row = mysql_fetch_object($exe))
+			$values[] = $row;
+		return $values;
 	}
 }
 ?>

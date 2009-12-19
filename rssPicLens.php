@@ -20,13 +20,13 @@
 	echo "<atom:icon>" . IMGSURL . "header.png</atom:icon>\n";
 	foreach($squadre as $key=>$val)
 	{
-		if(file_exists(UPLOADDIR . $val['idUtente'] . '-original.jpg'))
+		if(file_exists(UPLOADDIR . $val->idUtente . '-original.jpg'))
 		{
 		echo "<item>\n";
-		echo "<title><![CDATA[" . $val['nome'] . "]]></title>\n";
-		echo "<link><![CDATA[" . UPLOADDIR . $val['idUtente'] . "-original.jpg]]></link>\n";
-		echo "<media:thumbnail url=\"" . FULLURL . UPLOADDIR . $val['idUtente'] . ".jpg\" />\n";
-		echo "<media:content url=\"" . FULLURL . UPLOADDIR . $val['idUtente'] . "-original.jpg\" />\n";
+		echo "<title><![CDATA[" . $val->nome . "]]></title>\n";
+		echo "<link><![CDATA[" . UPLOADIMGURL . $val->idUtente . "-original.jpg]]></link>\n";
+		echo "<media:thumbnail url=\"" . UPLOADIMGURL . $val->idUtente . ".jpg\" />\n";
+		echo "<media:content url=\"" . UPLOADIMGURL . $val->idUtente . "-original.jpg\" />\n";
 		echo "</item>\n";
 		}
 	}

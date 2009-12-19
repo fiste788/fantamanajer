@@ -38,7 +38,7 @@
 	<div>Chiedi maggiori informazioni agli sviluppatori del FantaManajer attraverso le mail</div>
 </div>
 <div class="box column last">
-	<h3><a target="_blank" href="http://trac2.assembla.com/fantamanajer/wiki">Progetto</a></h3>	
+	<h3><a target="_blank" href="http://trac6.assembla.com/fantamanajer/wiki">Progetto</a></h3>	
 	<img class="column" alt="->" src="<?php echo IMGSURL . 'progetto.png'; ?>" title="Progetto" />
 	<div>Per saperne di più sul FantaManajer, e per aiutarci a migliorarlo</div>
 </div>
