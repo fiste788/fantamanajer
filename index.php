@@ -57,24 +57,17 @@ $dbObj = new db();
 $linksObj = new links();
 $message = new message();	
 
-$options = array(
-  'template_path' => TPLDIR
-);
-
 //Creating object for pages
-$layoutTpl = new Savant3($options);
-$headerTpl = new Savant3($options);
+$layoutTpl = new Savant3(array('template_path' => TPLDIR));
+$headerTpl = new Savant3(array('template_path' => TPLDIR));
 $headerTpl->assign('linksObj',$linksObj);
-$headerTpl->setPluginConf('image',array('imageDir'=>'fantamanajer-2.5/imgs/'));
-$headerTpl->plugin('image');
-$footerTpl = new Savant3($options);
+$footerTpl = new Savant3(array('template_path' => TPLDIR));
 $footerTpl->assign('linksObj',$linksObj);
-$contentTpl = new Savant3($options);
+$contentTpl = new Savant3(array('template_path' => TPLDIR));
 $contentTpl->assign('linksObj',$linksObj);
-$navbarTpl = new Savant3($options);
+$navbarTpl = new Savant3(array('template_path' => TPLDIR));
 $navbarTpl->assign('linksObj',$linksObj);
-$operationTpl = new Savant3();
-$operationTpl->addPath('template',TPLDIR . 'operazioni/');
+$operationTpl = new Savant3(array('template_path' => TPLDIR . 'operazioni/'));
 $operationTpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
