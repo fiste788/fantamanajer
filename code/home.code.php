@@ -29,6 +29,6 @@ if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
 		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,IMGSURL . 'emoticons/');
 $contentTpl->assign('articoli',$articolo);
-$eventi = $eventoObj->getEventi(NULL,NULL,0,5);
+$eventi = $eventoObj->getEventi(NULL,NULL,0,7);
 $contentTpl->assign('eventi',$eventi);
 ?>

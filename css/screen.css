@@ -408,7 +408,9 @@ a.logout, a.logout:hover, a.logout:visited {
 	width: 100%;
 }
 #operazioni .operazione {
-	padding:6px 0 7px 35px;
+	padding:4px 0 5px 35px;
+	margin:2px 0;
+	font-size:14px;
 }
 #operazioni a.operazioni-title {
 	background: transparent url(../imgs/point.png) no-repeat scroll left center;
@@ -424,37 +426,57 @@ a.logout, a.logout:hover, a.logout:visited {
 	float: left;
 	margin-bottom: 0;
 }
-.operazioni-content li, .operazioni-content li {
+.operazioni-content li {
 	clear: both;
 }
-#operazioni .imp-formazione {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -120px;
-}
-#operazioni .see-freeplayer {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -90px;
+#operazioni .new-stampa {
+	background: transparent url(../imgs/operation.png) no-repeat scroll left -120px;
 }
 #operazioni .see-premi {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -30px;
+	background: transparent url(../imgs/operation.png) no-repeat scroll left -90px;
 }
-#operazioni .see-transfert {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -60px;
-}
-#operazioni .new-stampa {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left 0px;
-}
-#operazioni .admin-area {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -150px;
+#operazioni .see-freeplayer {
+	background: transparent url(../imgs/operation.png) no-repeat scroll left -30px;
 }
 #operazioni .download {
-	background: transparent url(../imgs/operazioni.png) no-repeat scroll left -180px;
+	background: transparent url(../imgs/operation.png) no-repeat scroll left -60px;
+}
+#operazioni .imp-formazione {
+	background: transparent url(../imgs/operation.png) no-repeat scroll left 0px;
+}
+#operazioni .see-transfert {
+	background: transparent url(../imgs/operation.png) no-repeat scroll left -150px;
+}
+#operazioni .admin-area {
+	background: transparent url(../imgs/operation.png) no-repeat scroll left -180px;
 }
 /*------------------------------------------------------------------------------*/
+#home #eventi {
+	width:230px
+}
+#home #eventi a{
+	font-size:12px;
+}
+#home #confStampa {
+	clear:both;
+}
+#eventi h3 {
+	margin:0 0 5px;
+}
+#eventi span {
+	font-size:10px;
+	color:#ddd;
+}
+#home ul {
+	list-style-type: none;
+	margin:0;
+}
 #bestPlayer {
 	clear:both;
 	float:left;
 }
 #bestPlayer .column {
-	width:200px;
+	width:170px;
 	text-align:center;
 }
 #bestPlayer p {
@@ -502,6 +524,10 @@ a.logout, a.logout:hover, a.logout:visited {
 #img-modulo {
 	float: left;
 	margin: 0 10px;
+}
+#conferenzeStampa .box {
+	width: 445px;
+	padding: 10px;
 }
 .box {
 	width: 455px;
@@ -593,6 +619,19 @@ a.logout, a.logout:hover, a.logout:visited {
 	font-weight: bold;
 	margin: 0;
 	padding: 5px 0 0;
+}
+#conferenzeStampa .edit {
+	width:20px;
+	height:20px;
+	display:block;
+	background: transparent url(../imgs/operation.png)no-repeat left -230px;
+}
+
+#conferenzeStampa .remove {
+	width:20px;
+	height:20px;
+	display:block;
+	background: transparent url(../imgs/operation.png)no-repeat left -210px;
 }
 #modificaConferenza .text {
 	width: 200px;
@@ -920,7 +959,10 @@ a.logout, a.logout:hover, a.logout:visited {
 	width:220px;
 }
 #countdown {
-	font-size:16px;
+	width:230px;
+	font-size:13px;
+	text-align:center;
+	margin:0 0 10px;
 }
 #countdown .number {
 	font-size: 26px;

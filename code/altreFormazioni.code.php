@@ -7,38 +7,44 @@ $utenteObj = new utente();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
 
-$squadra = $_SESSION['idSquadra'];
-$giorn = GIORNATA;
+$filterSquadra = $_SESSION['idSquadra'];
+$filterGiornata = GIORNATA;
 if(isset($_GET['squadra']))
-	$squadra = $_GET['squadra'];
-if(isset($_GET['giorn']))
-  $giorn = $_GET['giorn'];
+	$filterSquadra = $_GET['squadra'];
+if(isset($_GET['giornata']))
+  $filterDiorn = $_GET['giornata'];
 if(isset($_POST['squadra']))
-	$squadra = $_POST['squadra'];
-if(isset($_POST['giorn']))
-	$giorn = $_POST['giorn'];
+	$filterSquadra = $_POST['squadra'];
+if(isset($_POST['giornata']))
+	$filterGiornata = $_POST['giornata'];
 
-$contentTpl->assign('squadra',$squadra);
-$contentTpl->assign('getGiornata',$giorn);
 
-$val = $utenteObj->getElencoSquadre();
-$contentTpl->assign('elencosquadre',$val);
-$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giorn);
-$formImp = $formazioneObj->getFormazioneExistByGiornata($giorn,$_SESSION['legaView']);
+$moduloAr = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
+$ruo = array('P','D','C','A');
+$elencoCap = array('C','VC','VVC');
+$contentTpl->assign('ruo',$ruo);
+$contentTpl->assign('elencoCap',$elencoCap);
+
+$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata);
+$formImp = $formazioneObj->getFormazioneExistByGiornata($filterGiornata,$_SESSION['legaView']);
 
 if($formazione != FALSE)
 {
+	$giocatori = $giocatoreObj->getGiocatoriByArray($formazione->elenco);
+	foreach($giocatori as $key=>$val)
+		$giocatoriNew[$val->idGioc] = $val;
+	$contentTpl->assign('giocatoriId',$giocatoriNew);
 	$panchinariAr = $formazione->elenco;
 	$titolariAr = array_splice($panchinariAr,0,11);
-	$contentTpl->assign('titolari',$giocatoreObj->getGiocatoriByArray($titolariAr));
-	if(!empty($panchinariAr))
-		$contentTpl->assign('panchinari',$giocatoreObj->getGiocatoriByArray($panchinariAr));
-	else
-		$contentTpl->assign('panchinari',FALSE);
+	$contentTpl->assign('titolari',$titolariAr);
+	$contentTpl->assign('panchinari',$panchinariAr);
+	$contentTpl->assign('modulo',explode('-',$formazione->modulo));
+	$contentTpl->assign('formazione',$formazione->elenco);
+	$contentTpl->assign('cap',$formazione->cap);
 }
-$contentTpl->assign('formazioniImpostate',$formImp);
-$contentTpl->assign('modulo',$formazione->modulo);
-$contentTpl->assign('mod',explode('-',$formazione->modulo));
-$contentTpl->assign('formazione',$formazione->elenco);
-$contentTpl->assign('cap',$formazione->cap);
+$contentTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('giornata',$filterGiornata);
+$operationTpl->assign('formazioniImpostate',$formImp);
+$operationTpl->assign('squadra',$filterSquadra);
+$operationTpl->assign('giornata',$filterGiornata);
 ?>

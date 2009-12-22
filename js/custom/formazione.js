@@ -1,12 +1,4 @@
 $(document).ready(function(){
-	$(".remove").live("click",function () {
-		parent = $(this).parent();
-		id = parent.attr('id');
-		appo = id.split('-');
-		livello = appo[1];
-		$(this).parent().empty();
-		$("#capitani-field #"+livello).removeAttr("value");
-	});
 	$("#giocatori .draggable").each(function () {
 		ruolo = $(this).parent().attr("class");
 		$(this).children('a').attr("name",ruolo + ruolo); 
@@ -63,9 +55,20 @@ $(document).ready(function(){
 							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="imgs/foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
 							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
-						$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<a class="remove">Rimuovi</a>');
+						if(edit)
+							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<a class="remove">Rimuovi</a>');
 					});
 				}
+			if(edit)
+			{
+			$(".remove").live("click",function () {
+		parent = $(this).parent();
+		id = parent.attr('id');
+		appo = id.split('-');
+		livello = appo[1];
+		$(this).parent().empty();
+		$("#capitani-field #"+livello).removeAttr("value");
+	});
 			$(".draggable").draggable({
 				helper:"clone",opacity:0.5,revert:true
 			});
@@ -375,6 +378,7 @@ $(document).ready(function(){
 							$(this).append('<a class="remove">Rimuovi</a>');
 					}
 				});
+			}
 				function checkCapitani()
 				{
 					list = $("#capitani").find(".giocatore");

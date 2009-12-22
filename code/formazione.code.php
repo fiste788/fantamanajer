@@ -157,6 +157,4 @@ if(!PARTITEINCORSO)
 	else
 		$contentTpl->assign('modulo',NULL);
 }
-if(isset($message))
-	$layoutTpl->assign('message',$message);
 ?>
