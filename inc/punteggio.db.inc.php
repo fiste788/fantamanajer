@@ -139,7 +139,7 @@ class punteggio
 		for($i = 0;$i < $num;$i++)
 		{
 			$player = $panch[$i];
-			$presenza = $votoObj->getPresenzabyIdGioc($player,$giornata);
+			$presenza = $votoObj->getPresenzaByIdGioc($player,$giornata);
 			if(($giocatoreObj->getRuoloByIdGioc($player) == $ruolo) && ($presenza))
 			{
 				array_splice($panch,$i,1);

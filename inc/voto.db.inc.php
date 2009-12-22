@@ -35,16 +35,14 @@ class voto
 
 	function getPresenzaByIdGioc($idGioc,$giornata)
 	{
-		$q = "SELECT voto,punti 
+		$q = "SELECT valutato 
 				FROM voto 
 				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
-			if($row->punti <> 0 && $row->voto <> 0)
-				return TRUE;
-		return FALSE;
+			return $row->valutato;
 	}
 
 	function getMedieVoto($idGioc)
