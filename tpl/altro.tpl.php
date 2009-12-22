@@ -1,7 +1,7 @@
 <?php if($_SESSION['logged'] == TRUE): ?>
 	<div class="box column last">
 		<h3><a href="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_SESSION['idSquadra'])); ?>">Trasferimenti</a></h3>	
-		<img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-other.png'; ?>" title="Trasferimenti" />
+		<img class="column" alt="->" src="<?php echo IMGSURL . 'transfert.png'; ?>" title="Trasferimenti" />
 		<div>Vedi i trasferimenti effettuati dalla tua e dalle altre squadre e seleziona il tuo acquisto</div>
 	</div>
 	<div class="box column last">

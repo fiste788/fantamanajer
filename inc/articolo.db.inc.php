@@ -122,49 +122,49 @@ class articolo
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " title ". $equal . " '" . $perc . $articolo->title . $perc . "'";
+				$q .= " articolo.title ". $equal . " '" . $perc . $articolo->title . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->abstract))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " abstract ". $equal . " '" . $perc . $articolo->abstract . $perc . "'";
+				$q .= " articolo.abstract ". $equal . " '" . $perc . $articolo->abstract . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->text))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " text ". $equal . " '" . $perc . $articolo->text . $perc . "'";
+				$q .= " articolo.text ". $equal . " '" . $perc . $articolo->text . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->insertDate))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " insertDate ". $equal . " '" . $perc . $articolo->insertDate . $perc . "'";
+				$q .= " articolo.insertDate ". $equal . " '" . $perc . $articolo->insertDate . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->idSquadra))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " idSquadra ". $equal . " '" . $perc . $articolo->idSquadra . $perc . "'";
+				$q .= " articolo.idSquadra ". $equal . " '" . $perc . $articolo->idSquadra . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->idGiornata))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " idGiornata ". $equal . " '" . $perc . $articolo->idGiornata . $perc . "'";
+				$q .= " articolo.idGiornata ". $equal . " '" . $perc . $articolo->idGiornata . $perc . "'";
 				$flag++;
 			}
 			if(!empty($articolo->idLega))
 			{
 				if($flag != 0)
 					$q .= ' AND';
-				$q .= " idLega ". $equal . " '" . $perc . $articolo->idLega . $perc . "'";
+				$q .= " articolo.idLega ". $equal . " '" . $perc . $articolo->idLega . $perc . "'";
 				$flag++;
 			}
 		}

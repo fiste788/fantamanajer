@@ -99,6 +99,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Giocatori liberi'));
 										
 	$pages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
+										'js'=>array('ui'=>array('ui-core','ui-draggable','ui-droppable')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										

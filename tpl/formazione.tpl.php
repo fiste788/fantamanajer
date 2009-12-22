@@ -57,15 +57,16 @@
 	</fieldset>
 </form>
 <?php endif; ?>
-<?php if(!empty($this->modulo)): ?>
 <script type="text/javascript">
 // <![CDATA[
+	<?php if(!empty($this->modulo)): ?>
 	var modulo = Array();
 	modulo['PP'] = <?php echo $this->modulo[0]; ?>;
 	modulo['DD'] = <?php echo $this->modulo[1]; ?>;
 	modulo['CC'] = <?php echo $this->modulo[2]; ?>;
 	modulo['AA'] = <?php echo $this->modulo[3]; ?>;
+	<?php endif; ?>
+	var edit = true;
 // ]]>
 </script>
-<?php endif; ?>
 <script type="text/javascript" src="<?php echo JSURL . 'custom/formazione.js'; ?>"></script>
