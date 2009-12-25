@@ -22,7 +22,7 @@
 				<th class="punt">Punt.</th>
 			</tr>
 			<?php foreach($this->titolari as $key => $val): ?>
-					<?php if($val->considerato == 0 || ($val->voto == "" && $val->considerato > 0)): ?>
+					<?php if($val->considerato == 0): ?>
 						<tr class="rosso">
 							<td class="tableimg">
 								<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/></a>
@@ -43,7 +43,7 @@
 							<td><?php echo $val->ruolo; ?></td>
 							<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
 							<td><?php if($val->titolare) echo "X";else echo "&nbsp;"; ?></td>
-							<td><?php if(!empty($val->voto)) echo $val->punti; else echo "&nbsp;"; ?></td>
+							<td><?php if(!empty($val->punti)) echo $val->punti; else echo "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
 		</tbody>
