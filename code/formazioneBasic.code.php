@@ -1,43 +1,39 @@
 <?php
-require_once(INCDIR."utente.inc.php");
-require_once(INCDIR."formazione.inc.php");
-require_once(INCDIR."eventi.inc.php");
-require_once(INCDIR."giocatore.inc.php");
+require_once(INCDIR . "utente.db.inc.php");
+require_once(INCDIR . "formazione.db.inc.php");
+require_once(INCDIR . "evento.db.inc.php");
+require_once(INCDIR . "giocatore.db.inc.php");
 
 $utenteObj = new utente();
-$eventiObj = new eventi();
 $formazioneObj = new formazione();
+$eventoObj = new evento();
 $giocatoreObj = new giocatore();
 
-$mod = NULL;
-$squadra = NULL;
+$filterMod = NULL;
+$filterSquadra = NULL;
 if(isset($_POST['squadra']))
-	$squadra = $_POST['squadra'];
+	$filterSquadra = $_POST['squadra'];
 if(isset($_POST['mod']))
-	$mod = $_POST['mod'];
-$contentTpl->assign('squadra',$squadra);
-
-$val = $utenteObj->getElencoSquadre();
-$contentTpl->assign('elencosquadre',$val);
+	$filterMod = $_POST['mod'];
 	
-if(TIMEOUT == FALSE)
+if(PARTITEINCORSO)
 	header("Location: ".$contentTpl->linksObj->getLink('altreFormazioni'));
 
 $formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
-if(isset($formImp[$_SESSION['idSquadra']]) && (TIMEOUT))
+if(isset($formImp[$_SESSION['idSquadra']]) && (!PARTITEINCORSO))
 	unset($formImp[$_SESSION['idSquadra']]);
 $contentTpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
 $frega = 0;
-$ruo = array('P','D','C','A');
+$ruoliKey = array('P','D','C','A');
+$ruo = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 $elencocap = array('C','VC','VVC');
-$contentTpl->assign('ruo',$ruo);
-$contentTpl->assign('elencocap',$elencocap);
-if(TIMEOUT)
+
+if(!PARTITEINCORSO)
 {
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
-	foreach($ruo as $key => $val)
+	$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	foreach($ruoliKey as $key => $val)
 		$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
 	$contentTpl->assign('giocatori',$giocatori);
 
@@ -53,7 +49,7 @@ if(TIMEOUT)
 		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
 		$err = 0;
 		
-		foreach($ruo as $ruolo)
+		foreach($ruoliKey as $ruolo)
 		{
 			foreach($_POST[$ruolo] as $key=>$val)
 			{
@@ -104,42 +100,31 @@ if(TIMEOUT)
 			unset($_POST);
 			if(!$issetform)
 			{
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$filterMod);
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$mod);
-			$message[0] = 0;
-			$message[1] = 'Formazione caricata correttamente';
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$filterMod);
+			$message->success('Formazione caricata correttamente');
 		}
 		else
-		{
-			$message[0] = 1;
-			$message[1] = 'Hai inserito dei valori multipli';
-		}
+			$message->error('Hai inserito dei valori multipli');
 		if ($missing > 0)
-		{
-			$message[0] = 1;
-			$message[1] = 'Valori mancanti';
-		}
+			$message->error('Valori mancanti');
 		if ($frega > 0)
-		{
-			$message[0] = 1;
-			$message[1] = 'Stai cercando di fregarmi?';
-		}
-		$contentTpl->assign('message',$message);
+			$message->error('Stai cercando di fregarmi?');
 	}
-	$issetform = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
-	if($issetform)
+	$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	if($formazione)
 	{
 		if(empty($_POST))
-			$mod = $issetform['modulo'];
-		$panchinariAr = $issetform['elenco'];
+			$filterMod = $formazione->modulo;
+		$panchinariAr = $formazione->elenco;
 		$titolariAr = array_splice($panchinariAr,0,11);
 		$i = 0;
 		if(!empty($_POST))
 		{
-			foreach($ruo as $ruolo)
+			foreach($ruoliKey as $ruolo)
 			{
 				foreach($_POST[$ruolo] as $key=>$val)
 				{
@@ -160,13 +145,23 @@ if(TIMEOUT)
 			$contentTpl->assign('panchinari',FALSE);
 		else
 			$contentTpl->assign('panchinari',$panchinariAr);
-		$contentTpl->assign('cap',$issetform['cap']);
+		$contentTpl->assign('cap',$formazione->cap);
 	}
-	$contentTpl->assign('issetForm',$issetform);
-	$contentTpl->assign('mod',$mod);
-	if($mod != NULL)
-		$contentTpl->assign('modulo',explode('-',$mod));
-	else
-		$contentTpl->assign('modulo',NULL);
+	$contentTpl->assign('issetForm',$formazione);
+	
 }
+if($filterMod != NULL)
+	$modulo = explode('-',$filterMod);
+else
+	$modulo = NULL;
+	
+$contentTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('mod',$filterMod);
+$contentTpl->assign('modulo',$modulo);
+$contentTpl->assign('ruo',$ruo);
+$contentTpl->assign('ruoliKey',$ruoliKey);
+$contentTpl->assign('elencocap',$elencocap);
+$operationTpl->assign('squadra',$filterSquadra);
+$operationTpl->assign('mod',$filterMod);
+$operationTpl->assign('modulo',$modulo);
 ?>

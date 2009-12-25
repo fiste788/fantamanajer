@@ -21,7 +21,7 @@ $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($filterId,$_SESSION['legaV
 $pathfoto = 'foto/' . $dettaglio['dettaglio']->idGioc . '.jpg';
 $pathclub = 'clubs/' . $dettaglio['dettaglio']->idClub . '.png';
 if(!@file(IMGSURL . $pathfoto))
-	$pathfoto = 'foto/nophoto.jpg';
+	$pathfoto = 'no-photo.png';
 
 if($_SESSION['logged'] == TRUE)
 {
@@ -55,7 +55,7 @@ $keys = array_keys($elencoGiocatori);
 if(isset($keys[array_search($filterId,$keys) - 1]))
 {
 	$idPrec = $keys[array_search($filterId,$keys) - 1];
-	$quickLinks->prec->href = $contentTpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idPrec));
+	$quickLinks->prec->href = $contentTpl->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$idPrec));
 	$quickLinks->prec->title = $elencoGiocatori[$idPrec]->cognome . ' ' . $elencoGiocatori[$idPrec]->nome;
 }
 else
@@ -66,7 +66,7 @@ else
 if(isset($keys[array_search($filterId,$keys) + 1]))
 {
 	$idSucc = $keys[array_search($filterId,$keys) + 1];
-	$quickLinks->succ->href = $contentTpl->linksObj->getLink('dettaglioGiocatore',array('id'=>$idSucc));
+	$quickLinks->succ->href = $contentTpl->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$idSucc));
 	$quickLinks->succ->title = $elencoGiocatori[$idSucc]->cognome . ' ' . $elencoGiocatori[$idSucc]->nome;
 }
 else

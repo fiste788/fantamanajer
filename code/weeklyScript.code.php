@@ -8,6 +8,7 @@ require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
 require_once(INCDIR . 'backup.inc.php');
+require_once(INCDIR . 'fileSystem.inc.php');
 
 $utenteObj = new utente();
 $punteggioObj = new punteggio();
@@ -17,7 +18,6 @@ $votoObj = new voto();
 $legaObj = new lega();
 $mailObj = new mail();
 $decryptObj= new decrypt();
-$backupObj= new backup();
 $fileSystemObj = new fileSystem();
 
 $giornata = GIORNATA - 1;
@@ -146,4 +146,5 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 }
 else
 	$message->error("Non puoi effettuare l'operazione ora");
+$contentTpl->assign('message',$message);
 ?>

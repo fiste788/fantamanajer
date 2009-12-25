@@ -4,11 +4,11 @@ require_once(INCDIR . 'utente.db.inc.php');
 
 $punteggioObj = new punteggio();
 $utenteObj = new utente();
-$giornata = GIORNATA;
+$filterGiornata = GIORNATA;
 if(isset($_POST['giornata']))
-	$giornata = $_POST['giornata'];
+	$filterGiornata = $_POST['giornata'];
 
-$classificaDett = $punteggioObj->getAllPunteggiByGiornata($giornata,$_SESSION['legaView']);
+$classificaDett = $punteggioObj->getAllPunteggiByGiornata($filterGiornata,$_SESSION['legaView']);
 $squadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 
 foreach($classificaDett as $key => $val)
@@ -20,6 +20,6 @@ $contentTpl->assign('classificaDett',$classificaDett);
 $contentTpl->assign('penalità',$punteggioObj->getPenalitàByLega($_SESSION['legaView']));
 $contentTpl->assign('squadre',$squadre);
 
-$operationTpl->assign('getGiornata',$giornata);
+$operationTpl->assign('getGiornata',$filterGiornata);
 $operationTpl->assign('giornate',$giornate);
 ?>

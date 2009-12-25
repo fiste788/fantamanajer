@@ -1,10 +1,36 @@
 FileETag None
 AddType image/x-icon .ico
+<IfModule mod_headers.c>
+	Header unset ETag
+	<FilesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
+		Header set Cache-Control "max-age=2592000, public"
+	</FilesMatch>
+	<FilesMatch "\\.(css)$">
+		Header set Cache-Control "max-age=604800, public"
+	</FilesMatch>
+	<FilesMatch "\\.(js)$">
+		Header set Cache-Control "max-age=216000, private"
+	</FilesMatch>
+	<FilesMatch "\\.(xml|txt)$">
+		Header set Cache-Control "max-age=216000, public, must-revalidate"
+	</FilesMatch>
+	<FilesMatch "\\.(html|htm|php)$">
+		Header set Cache-Control "max-age=1, private, must-revalidate"
+	</FilesMatch>
+</IfModule>
 
-#AuthName "Inserisci username e password"
-#AuthType Basic
-#AuthUserFile /var/www/vhosts/fantamanajer.it/httpdocs/.htpasswd
-#Require valid-user
+<IfModule mod_expires.c>  
+	ExpiresActive On  
+	ExpiresDefault "access plus 1 seconds"  
+	ExpiresByType text/html "access plus 1 seconds"  
+	ExpiresByType image/gif "access plus 2592000 seconds"  
+	ExpiresByType image/jpeg "access plus 2592000 seconds"  
+	ExpiresByType image/png "access plus 2592000 seconds"  
+	ExpiresByType image/ico "access plus 10 years"
+	ExpiresByType text/css "access plus 604800 seconds"  
+	ExpiresByType text/javascript "access plus 216000 seconds"  
+	ExpiresByType application/x-javascript "access plus 216000 seconds"  
+</IfModule>
 
 ErrorDocument 400 /error_docs/bad_request.html
 ErrorDocument 401 /error_docs/unauthorized.html
@@ -29,23 +55,23 @@ ErrorDocument 502 /error_docs/bad_gateway.html
 	RewriteEngine On
 	RewriteRule ^home.html$ index.php?p=home
 	RewriteRule ^home/(.*).html$ index.php?p=home&logout=TRUE
-	RewriteRule ^rosa.html$ index.php?p=rosa
-	RewriteRule ^rosa/(.*).html$ index.php?p=rosa&squadra=$1
+	RewriteRule ^squadre.html$ index.php?p=squadre
+	RewriteRule ^dettaglioSquadra/(.*).html$ index.php?p=dettaglioSquadra&squadra=$1
 	RewriteRule ^dettaglioGiocatore.html$ index.php?p=dettaglioGiocatore
 	RewriteRule ^dettaglioGiocatore/(.*)/(.*).html$ index.php?p=dettaglioGiocatore&edit=$1&id=$2
 	RewriteRule ^trasferimenti.html$ index.php?p=trasferimenti
 	RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squad=$1
 	RewriteRule ^giocatoriLiberi.html$ index.php?p=giocatoriLiberi
 	RewriteRule ^conferenzeStampa.html$ index.php?p=conferenzeStampa
-	RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giorn=$1
+	RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giornata=$1
 	RewriteRule ^classifica.html$ index.php?p=classifica
 	RewriteRule ^dettaglioGiornata.html$ index.php?p=dettaglioGiornata
-	RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giorn=$1&squad=$2
+	RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giornata=$1&squadra=$2
 	RewriteRule ^premi.html$ index.php?p=premi
 	RewriteRule ^contatti.html$ index.php?p=contatti
 	RewriteRule ^formazione.html$ index.php?p=formazione
 	RewriteRule ^altreFormazioni.html$ index.php?p=altreFormazioni
-	RewriteRule ^altreFormazioni/(.*)/(.*).html$ index.php?p=altreFormazioni&giorn=$1&squadra=$2
+	RewriteRule ^altreFormazioni/(.*)/(.*).html$ index.php?p=altreFormazioni&giornata=$1&squadra=$2
 	RewriteRule ^modificaConferenza/(.*)/(.*).html$ index.php?p=modificaConferenza&a=$1&id=$2
 	RewriteRule ^altro.html$ index.php?p=altro
 	RewriteRule ^feed.html$ index.php?p=feed
@@ -67,3 +93,10 @@ ErrorDocument 502 /error_docs/bad_gateway.html
 	RewriteRule ^download.html$ index.php?p=download
 	RewriteRule ^impostazioni.html$ index.php?p=impostazioni
 </IfModule>
+<FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html>
+	AuthName "Inserisci username e password"
+	AuthType Basic
+	AuthUserFile htpasswd/fantamanajer/.htpasswd
+	require valid-user
+</FilesMatch>
+
