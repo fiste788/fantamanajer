@@ -13,14 +13,14 @@
 			<div id="panchina" class="column">
 				<h3>Panchinari</h3>
 				<?php for($i = 0;$i < 7;$i++): ?>
-					<div style="background:url(imgs/<?php echo $i + 1; ?>.png) no-repeat 50% 50%;" id="panch-<?php echo $i; ?>" class="droppable"></div>
+					<div id="panch-<?php echo $i; ?>" class="droppable"></div>
 				<?php endfor; ?>
 			</div>
 		</div>
 		<div id="capitani" class="column">
 			<h3>Capitani</h3>
 			<?php foreach ($this->elencoCap as $key => $val): ?>
-				<div id="cap-<?php echo $val; ?>" class="droppable" style="background:url(imgs/<?php echo $val; ?>.png) no-repeat 50% 50%;"></div>
+				<div id="cap-<?php echo $val; ?>" class="droppable"></div>
 			<?php endforeach; ?>
 		</div>
 		<div id="giocatori" class="column">

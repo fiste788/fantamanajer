@@ -9,12 +9,12 @@
 		<div id="<?php echo $ruolo ?>" class="column">
 			<?php foreach($giocatori as $key=>$val): ?>
 			<?php if($key == 0): ?>
-				<?php if(file_exists(IMGDIR . 'foto/' . $val->idGioc . '.jpg')): ?>
+				<?php if(@file(IMGSURL . 'foto/' . $val->idGioc . '.jpg')!= FALSE): ?>
 					<img src="<?php echo IMGSURL . 'foto/' . $val->idGioc . '.jpg'; ?>" />
 				<?php else: ?>
 					<img src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
 				<?php endif; ?>
-				<h4><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></h4>
+				<h4><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a></h4>
 			<?php else: ?>
 				<p><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></p>
 			<?php endif; ?>

@@ -5,7 +5,7 @@
 	<div>Crea una nuova squadra o modifica/cancella una esistente</div>
 </div>
 <div class="box column last">
-	<img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-other.png'; ?>" title="Gestione trasferimenti" />
+	<img class="column" alt="->" src="<?php echo IMGSURL . 'transfert.png'; ?>" title="Gestione trasferimenti" />
 	<h3><a href="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>">Gestione trasferimenti</a></h3>
 	<div>Effettua un nuovo trasferimento o uno scambio</div>
 </div>

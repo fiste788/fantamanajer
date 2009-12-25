@@ -112,7 +112,7 @@ label {
 	background:url(../imgs/message.png) no-repeat left -10px;
 }
 .success .top {
-	background:url(../imgs/success.png) no-repeat left 0;
+	background:url(../imgs/message.png) no-repeat left 0;
 }
 .success .middle{
 	color:#00bb00;
@@ -763,6 +763,36 @@ a.logout, a.logout:hover, a.logout:visited {
 #giocatori {
 	width:370px;
 }
+#formazione #panch-0 {
+	background:url(../imgs/1.png) no-repeat 50% 50%;
+}
+#formazione #panch-1 {
+	background:url(../imgs/2.png) no-repeat 50% 50%;
+}
+#formazione #panch-2 {
+	background:url(../imgs/3.png) no-repeat 50% 50%;
+}
+#formazione #panch-3 {
+	background:url(../imgs/4.png) no-repeat 50% 50%;
+}
+#formazione #panch-4 {
+	background:url(../imgs/5.png) no-repeat 50% 50%;
+}
+#formazione #panch-5 {
+	background:url(../imgs/6.png) no-repeat 50% 50%;
+}
+#formazione #panch-6 {
+	background:url(../imgs/7.png) no-repeat 50% 50%;
+}
+#formazione #cap-C {
+	background:url(../imgs/c.png) no-repeat 50% 50%;
+}
+#formazione #cap-VC {
+	background:url(../imgs/vc.png) no-repeat 50% 50%;
+}
+#formazione #cap-VVC {
+	background:url(../imgs/vvc.png) no-repeat 50% 50%;
+}
 #formazione .submit {
 	float:left;
 	margin:10px
@@ -913,8 +943,8 @@ a.logout, a.logout:hover, a.logout:visited {
 	text-align: center;
 }
 #tabGiocatore {
-	width: 510px;
-	height: 190px;
+	width: 840px;
+	height: 208px;
 	overflow: auto;
 }
 #tabGiocatore table {

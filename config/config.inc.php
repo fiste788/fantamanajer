@@ -11,13 +11,15 @@ $proto = "http://";						//protocol
 $host = $_SERVER['SERVER_NAME'];				//server name
 
 $hostArray = explode('.',$host);
-if(in_array('develop',$hostArray))
-{
-	$hostArray[0] = 'static';
-	define ("DEVELOP",TRUE);
-}
+if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost')
+	define ("LOCAL",TRUE);
 else
-	define ("DEVELOP",FALSE);
+{
+	if($hostArray[0] == 'fantamanajer')
+		array_unshift($hostArray, 'static');
+	$hostArray[0] = 'static';
+	define ("LOCAL",FALSE);
+}
 $host = implode('.',$hostArray);
 define('DEBUG',FALSE);
 
@@ -36,10 +38,19 @@ define ("FULLPATH",$doc_root.$sitepath.'/');			//fullpath example: c:/xammp/htdo
 define ("FULLURL",$proto.$host.$sitepath.'/');			//fullurl example: http://localhost/sportravelanguage/config/
 
 								//absolute paths for:
-define ("CSSDIR",FULLPATH.'css/');				//css => CSSDIR
-define ("JSDIR",FULLPATH.'js/');				//js => JSDIR
-define ("IMGDIR",FULLPATH.'imgs/');				//img => IMGDIR
-define ("UPLOADDIR",FULLPATH.'uploadimg/');		//uploadimg => UPLOADDIR
+if(!LOCAL)
+{
+	$array = explode("/",FULLPATH);
+	array_pop($array);
+	array_pop($array);
+	define("FULLSTATICPATH",implode("/",$array) . "/subdomains/static/httpdocs/");
+}
+else
+	define("FULLSTATICPATH",FULLPATH);
+define ("CSSDIR",FULLSTATICPATH.'css/');				//css => CSSDIR
+define ("JSDIR",FULLSTATICPATH.'js/');				//js => JSDIR
+define ("IMGDIR",FULLSTATICPATH.'imgs/');				//img => IMGDIR
+define ("UPLOADDIR",FULLSTATICPATH.'uploadimg/');		//uploadimg => UPLOADDIR
 
 								//relative paths for:
 define ("CODEDIR",'code/');					//code => CODEDIR
@@ -78,7 +89,7 @@ else
 	define ("DBUSER","developer");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","mysql13.aziendeitalia.com:3306");					//database host => DBHOST
-	define ("MODREWRITE",FALSE);
-	error_reporting(E_ALL);
+	define ("MODREWRITE",TRUE);
+	error_reporting(0);
 }
 ?>
