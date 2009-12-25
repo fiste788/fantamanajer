@@ -179,7 +179,7 @@
 									<p>FantaManajer è un sito che ti permette di gestire la tua lega del fantacalcio creata con i tuoi amici<br />
 									Dal sito è possibile settare la tua formazione e si occuperà lui di scaricare i punteggi e calcolare il tuo voto!</p><br />
 									<div>
-										Sei stato iscritto dall'amministratore della lega: <strong><?php echo $this->lega['nomeLega']; ?></strong><br />
+										Sei stato iscritto dall'amministratore della lega: <strong><?php echo $this->lega->nomeLega; ?></strong><br />
 										Ecco quì i dati per accedere.<br />
 										Username: <strong><?php echo $this->username; ?></strong><br />
 										Password: <strong><?php echo $this->password; ?></strong><br />
@@ -187,7 +187,7 @@
 										Clicca <a style="color: #ff9900;text-decoration:none;font-weight:bold;	cursor:pointer;" href="http://www.fantamanajer.it">quì</a> per accedere al sito.<br />
 									</div>
 									<p style="float:left;margin:0;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a style="color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="color: #ff9900;text-decoration:none;font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
+									Per domande o chiarimenti contatta <?php if($this->autore->amministratore != '2'): ?>l'amministratore di lega all'indirizzo <a style="color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore->mail; ?>"><?php echo $this->autore->mail; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="color: #ff9900;text-decoration:none;font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
 								</div>
 							</div>
 						</div>

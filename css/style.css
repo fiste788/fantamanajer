@@ -1,14 +1,15 @@
 body {
 	font-family: sans-serif;
-	background-color: #272727;
+	background: #373737 url(../imgs/bg.jpg) no-repeat scroll center top;
 	text-align: center;
-	padding: 10px 11px;
+	padding: 0 11px;
 	display: block;
 	min-width: 960px;
+	overflow-x:hidden;
 	-webkit-text-size-adjust: none;
 }
 h1, h2, h3, h4, h5, h6 {
-	color: #ff9900;
+	color: #00a2ff;
 }
 .right {
 	float: right;
@@ -22,7 +23,7 @@ p {
 	margin-left: 0;
 }
 #big-container {
-	width: 981px;
+	width: 980px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -39,10 +40,10 @@ p {
 	text-align: center;
 }
 a, a:link, a:visited, a:hover {
-	color: #ff9900;
+	color: #00a2ff;
 	text-decoration: none;
-	font-weight: bold;
 	cursor: pointer;
+	font-weight:bold;
 }
 .max-large {
 	width: 100%;
@@ -99,41 +100,78 @@ input.dark:hover {
 	width: 280px;
 	text-align: center;
 }
+#header {
+	margin:5px 0 8px;
+}
 /*----------------------------login-------------------------------------------*/
 #login {
-	height: 130px;
-	width: 230px;
+	height: 32px;
 }
-#loginform {
-	padding: 10px 20px;
-	width: 190px;
-	float: right;
-	height: 110px;
+#login-left {
+	height: 32px;
+	width: 5px;
+	background: transparent url(../imgs/bg-header-left.png) no-repeat left 0;
+}
+#login-right {
+	height: 40px;
+	width: 5px;
+	background: transparent url(../imgs/bg-header-right.png) no-repeat right 0;
+}
+#login-center {
+	height: 32px;
+	background: transparent url(../imgs/bg-content.png) repeat;
 }
 #login .messaggio {
-	width: 115px;
-	margin-right: 0;
+	border:0 none;
+	margin: 5px;
+	padding:0;
+	width:auto !important;
+}
+#login .messaggio span{
+	font-size:12px;
+	color:#FF9900;
 }
 #login .messaggio img {
 	float: none;
 	margin: 0 auto;
 }
-#login .box-top-sx, #login .box-top-dx, #login .box-bottom-sx, #login .box-bottom-dx {
-	height: 130px;
-}
-#login h3, #login .field {
-	margin: 0 0 7px;
-}
 #login .submit {
-	display: block;
-	clear: both;
+	background: transparent url(../imgs/login-button.png);
+	width:22px;
+	height:20px;
+	margin:5px 0 5px 5px;
+}
+#login select {
+	margin:2px 1px;
+	width:120px;
+	padding:0;
+}
+#login .lega {
+	margin:6px 3px 0 0;
+}
+#login .field {
+	margin:2px 0;
+}
+#login label {
+	width:auto;
+	margin: 3px 3px 0 8px;
+	font-weight:bold;
+}
+#login .text {
+	background: transparent;
+	border: 0 none;
+	border-bottom:1px solid #fff;
+	color:#fff;
+	font-size:12px;
+	margin:3px 0;
+	width:60px;
 }
 a.logout, a.logout:hover, a.logout:visited {
 	background: transparent url(../imgs/logout.png) no-repeat center left;
 	color: #fff;
 	font-weight: normal;
 	padding: 0 10px 0 25px;
-	margin: 0 0 110px;
+	margin: 3px 0 0;
 }
 em {
 	background-color: transparent;
@@ -161,10 +199,12 @@ em {
 }
 /*---------------------navbar------------------------*/
 #navbar {
-	padding: 10px 10px 0 15px;
+	padding: 0;
+	background: transparent url(../imgs/bg-navbar.png) no-repeat;
+	padding:0 0 0 15px;
 	clear: both;
-	margin: -30px 0 0;
-	height: 37px;
+	height: 23px;
+	width:100%;
 }
 #navbar ul {
 	list-style-type: none;
@@ -172,42 +212,47 @@ em {
 	margin: 0;
 	float: left;
 }
-#navbar ul li a {
-	background: transparent url(../imgs/tabs.png) no-repeat scroll left -111px;
-	line-height: 37px;
-	height: 37px;
-	padding: 0 23px;
-	display: block;
-	color: #cccccc;
-	font-weight: normal;
+#navbar li {
 	float: left;
-	margin: 0 1px 0 0;
+	margin:0 10px;
 }
-#navbar ul li a:hover {
-	color: #fff1ba;
+#navbar a {
+	color:#fff;
+	font-size:12px;
+	display:block;
+	padding:2px 8px 3px;
+	font-weight:normal;
 }
-#navbar ul li {
-	background: #1e1e1e url(../imgs/tabs.png) no-repeat scroll right -74px;
-	display: block;
-	padding: 0px;
-	width: auto;
-	float: left;
+#navbar .selected a {
+	background: #00a2ff;
+	font-weight:bold;
+	float:left;
 }
-#navbar ul li.selected a {
-	background: transparent url(../imgs/tabs.png) no-repeat scroll left 0px;
-	color: #ff9900;
+#navbar .selected .son {
+	padding-left:0;
+	padding-right:0;
 }
-#navbar ul li.selected {
-	background: #383838 url(../imgs/tabs.png) no-repeat scroll right -37px;
+#navbar .selected div {
+	background: transparent url(../imgs/bg-selected-right.png) no-repeat right top;
+	padding:0 7px 0 0;
+	float:left;
+	display:block;
+}
+#navbar .selected {
+	background: transparent url(../imgs/bg-selected-left.png) no-repeat left top;
+	padding:0 0 0 7px;
 }
 /*---------------------------------content------------------------------*/
 #content {
-	background: #383838;
+	background: transparent url(../imgs/bg-content.png) repeat;
 	width: 100%;
 	text-align: justify;
 	color: #fff;
 	clear: both;
 	min-width: 960px;
+	position:relative;
+	overflow-x:hidden;
+	overflow-y:visible;
 }
 #content #content-top-sx {
 	background: transparent url(../imgs/content-top-sx.png) no-repeat scroll left top;
@@ -225,12 +270,11 @@ em {
 	width: 100%;
 }
 #content-container {
-	width: 100%;
+	width: 950px;
+	padding:15px;
 }
 .main-content {
-	width: 610px;
-	float: left;
-	padding: 0 0 15px 15px;
+	width: 100%;
 }
 /*----------box-content---------------------------*/
 #operazioni, #operazioni-other {
@@ -317,8 +361,6 @@ em {
 #squadradett {
 	float: right;
 	width: 300px;
-	margin: -50px 0 0;
-	padding: 0 15px 15px;
 }
 .logo {
 	margin: 0 auto;
@@ -566,7 +608,7 @@ tr.row:hover {
 }
 #punteggidett caption {
 	font-weight: bold;
-	color: #ff9900;
+	color: #00a2ff;
 	font-size: 14px;
 	background-color: transparent;
 }
@@ -731,11 +773,38 @@ label {
 	float: left;
 }
 #tab_classifica {
-	width: 284px;
+	width:630px;
 	overflow: auto;
 }
+#classifica-container .legend {
+	width:14px;
+	height:14px;
+	display:block;
+	border:1px solid #fff;
+	margin:1px 6px;
+	float:left;
+}
+#classifica-container .squadra {
+	vertical-align: middle;
+} 
 #tab_classifica td, #tab_classifica th {
 	text-align: center;
+}
+#click-menu {
+	position:absolute;
+	right:0;
+	top:0;
+	width:5px;
+	z-index:2;
+	height:100%;
+}
+#menu {
+	background: url(../imgs/bg-content.png) repeat;
+	position:fixed;
+	right:-300px;
+	top:25px;
+	width:300px;
+	display:block;
 }
 .tickLabel {
 	color: #aaa;
@@ -776,31 +845,6 @@ p.surprise {
 .fieldset select {
 	margin-right: 5px;
 }
-.legend {
-	clear: both;
-}
-#placeholder {
-	margin: 20px 0 0;
-}
-#legendcontainer {
-	clear: both;
-	width: 100%;
-	margin: 0 0 10px 0;
-}
-#legendcontainer table {
-	width: 100%;
-	border-spacing: 0;
-}
-.legendColorBox, .legendLabel {
-	float: left;
-	height: 20px;
-}
-.legendColorBox div {
-	width: 14px;
-}
-.legendLabel {
-	width: 240px;
-}
 #option, #choices, #option .formbox {
 	clear: both;
 	width: 100%;
@@ -825,12 +869,49 @@ p.surprise {
 	margin-bottom: 0;
 }
 #giocatori {
-	clear: both;
+	width:370px;
+}
+.fasciaCap {
+	position:absolute;
+	top:0px;
+	right:0px;
+	background: transparent url(../imgs/fascia-cap.png) no-repeat;
+	width:22px;
+	height:22px;
+}
+#panchina {
+	width:700px;
+	height:100px;
+	display:block;
+}
+#panchina .droppable, #capitani .droppable{
+	width:100px;
+	height:86px;
+	padding:7px 0;
+	display:block;
+	float:left;
 }
 .giocatore {
-	width: 100px;
+	width: 70px;
 	color: #000;
 	cursor: pointer;
+	text-align:center;
+	padding:4px;
+	float:left;
+	margin:3px 5px;
+	height:76px;
+	overflow:hidden;
+	-moz-border-radius:10px;
+}
+.giocatore span{
+	position:absolute;
+	top:5px;
+	left:5px;
+}
+.giocatore p{
+	margin:0;
+	font-weight:bold;
+	line-height:14px;
 }
 .P {
 	border: 1px solid #ff0000;
@@ -849,19 +930,17 @@ p.surprise {
 	background-color: #d0f1ff;
 }
 #campo {
-	width: 600px;
-	height: 400px;
+	width: 554px;
+	height:644px;
+	background:transparent url(../imgs/campo.png) no-repeat -3px -3px;
 	text-align: center;
 }
 #campo .droppable {
-	height: 60px;
-	width: 600px;
-}
-.droppable {
-	border: 1px solid #fff;
+	height: 140px;
 }
 .droppable-hover {
 	background-color: #fff3d1;
+	opacity:0.5;
 }
 #banner {
 	width: 100%;

@@ -1,0 +1,13 @@
+@font-face {  
+	  font-family: Blue2;  
+	  src: url(fonts/bluehight.eot); /* IE */  
+	  src: local("Blue Highway"), url(fonts/bluehigh.ttf) format("truetype"); /* non-IE */ 
+	  font: normal ; 
+	}  
+	
+	@font-face {  
+	  font-family: Blue2;  
+	  src: url(fonts/bluebold.eot); /* IE */  
+	  src: local("Blue Highway"), url(fonts/bluebold.ttf) format("truetype"); /* non-IE */  
+	  font: bold;
+	}  

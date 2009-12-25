@@ -1,84 +1,81 @@
 <?php
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'leghe.inc.php');
-require_once(INCDIR.'mail.inc.php');
-require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
+require_once(INCDIR . 'mail.inc.php');
 
 $utenteObj = new utente();
-$legheObj = new leghe();
+$legaObj = new lega();
+$punteggioObj = new punteggio();
 $mailObj = new mail();
-$punteggiObj = new punteggi();
 $mailContent = new Savant3();
 
-$giornata = GIORNATA;
-$squadra = NULL;
-$lega = NULL;
-if(isset($_POST['giorn']))
-	$giornata = $_POST['giorn'];
-if(isset($_POST['lega']))
-	$lega = $_POST['lega'];
-if(isset($_POST['squad']))
-	$squadra = $_POST['squad'];
-if($_SESSION['usertype'] == 'admin')
-	$lega = $_SESSION['idLega'];
+$filterGiornata = GIORNATA;
+$filterSquadra = NULL;
+$filterLega = NULL;
 
-$contenttpl->assign('elencoleghe',$legheObj->getLeghe());
-$contenttpl->assign('lega',$lega);
-$contenttpl->assign('giornata',$giornata);
-$contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());
-if(isset($squadra))
-	$contenttpl->assign('penalitàSquadra',$punteggiObj->getPenalitàBySquadraAndGiornata($squadra,$giornata));
+if(isset($_POST['giornata']))
+	$filterGiornata = $_POST['giornata'];
+if(isset($_POST['squadra']))
+	$filterSquadra = $_POST['squadra'];
+if(isset($_POST['lega']))
+	$filterLega = $_POST['lega'];
+if($_SESSION['roles'] == '1')
+	$filterLega = $_SESSION['idLega'];
 
 if(isset($_POST['punti']) && isset($_POST['motivo']) && !empty($_POST['punti']) && !empty($_POST['motivo']) && isset($_POST['submit']) && $_POST['submit'] == 'OK')
 {
 	if(is_numeric($_POST['punti']))
 	{	
-		$squadraDett = $utenteObj->getSquadraById($squadra);
-		$punteggiObj->setPenalità(abs($_POST['punti']),addslashes(stripslashes($_POST['motivo'])),$giornata,$squadra,$lega);
-		if($squadraDett['abilitaMail'] == 1)
+		$squadraDett = $utenteObj->getSquadraById($filterSquadra);
+		$punteggioObj->setPenalità(abs($_POST['punti']),addslashes(stripslashes($_POST['motivo'])),$filterGiornata,$filterSquadra,$filterLega);
+		if($squadraDett->abilitaMail == 1)
 		{
 			$mailContent->assign('punti',$_POST['punti']);
 			$mailContent->assign('motivo',$_POST['motivo']);
-			$mailContent->assign('lega',$legheObj->getLegaById($lega));
-			$mailContent->assign('giornata',$giornata);
+			$mailContent->assign('lega',$legaObj->getLegaById($filterLega));
+			$mailContent->assign('giornata',$filterGiornata);
 			$mailContent->assign('autore',$squadraDett);
 			$object = "Penalità!";
 			//$mailContent->display(MAILTPLDIR.'mailPenalita.tpl.php');
-			$mailObj->sendEmail($squadraDett['mail'],$mailContent->fetch(MAILTPLDIR.'mailPenalita.tpl.php'),$object);
+			$mailObj->sendEmail($squadraDett->mail,$mailContent->fetch(MAILTPLDIR . 'mailPenalita.tpl.php'),$object);
 		}
-		$message[0] = 0;
-		$message[1] = "Penalità aggiunta correttamente";
+		$message->success("Penalità aggiunta correttamente");
 	}
 	else
-	{
-		$message[0] = 0;
-		$message[1] = "Il punteggio deve essere numerico";
-	}
-	$contenttpl->assign('messaggio',$message);
+		$message->error("Il punteggio deve essere numerico e non 0");
 }
 elseif(isset($_POST['submit']) && $_POST['submit'] == 'Cancella')
 {
-	$punteggiObj->unsetPenalità($squadra,$giornata);
-	$message[0] = 0;
-	$message[1] = "Penalità cancellata correttamente";	
-	$contenttpl->assign('messaggio',$message);
+	$punteggioObj->unsetPenalità($filterSquadra,$filterGiornata);
+	$message->success("Penalità cancellata correttamente");	
 }
-if($lega != NULL)
+if($filterLega != NULL)
 {
-	$elencoSquadre = $utenteObj->getElencoSquadreByLega($lega);
-	$contenttpl->assign('elencosquadre',$elencoSquadre);
-	$contenttpl->assign('squadra',$squadra);
+	$elencoSquadre = $utenteObj->getElencoSquadreByLega($filterLega);
+	$contentTpl->assign('elencoSquadre',$elencoSquadre);
+	$contentTpl->assign('squadra',$filterSquadra);
+	$contentTpl->assign('lega',$filterLega);
+	$operationTpl->assign('elencoSquadre',$elencoSquadre);
+	$operationTpl->assign('squadra',$filterSquadra);
+	$operationTpl->assign('lega',$filterLega);
 	if($elencoSquadre != FALSE)
 	{
-		$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$lega);
-		$squadre = $utenteObj->getElencoSquadre();
+		$classificaDett = $punteggioObj->getAllPunteggiByGiornata($filterGiornata,$filterLega);
 		foreach($classificaDett as $key => $val)
 			$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
-		$contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($lega));
-		$contenttpl->assign('classificaDett',$classificaDett);
-		$contenttpl->assign('squadre',$squadre);
+		$contentTpl->assign('penalità',$punteggioObj->getPenalitàByLega($filterLega));
+		$contentTpl->assign('classificaDett',$classificaDett);
+		$contentTpl->assign('squadre',$elencoSquadre);
 		if(isset($squadra))
-			$contenttpl->assign('penalitàSquadra',$punteggiObj->getPenalitàBySquadraAndGiornata($squadra,$giornata));
+			$contentTpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
 	}
 }
+$contentTpl->assign('giornata',$filterGiornata);
+if(isset($filterSquadra))
+	$contentTpl->assign('penalitàSquadra',$punteggioObj->getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));
+$operationTpl->assign('elencoLeghe',$legaObj->getLeghe());
+$operationTpl->assign('lega',$filterLega);
+$operationTpl->assign('giornata',$filterGiornata);
+$operationTpl->assign('giornate',$punteggioObj->getGiornateWithPunt());
 ?>

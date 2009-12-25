@@ -14,28 +14,27 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 		{
 			$q = "SELECT idUtente,nome,nomeProp,cognome,mail,amministratore,idLega FROM utente WHERE username='" . $_POST['username'] . "';";
 			$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
-			$valore  = mysql_fetch_array($exe);
-			$navbartpl->assign('loginok',$formsObj->string);
+			$values  = mysql_fetch_object($exe);
+			$navbarTpl->assign('loginok',$formsObj->string);
 			$_SESSION['userid'] = $_POST['username'];
 			$_SESSION['logged'] = TRUE;
-			if($valore['amministratore'] == 2)
+			$_SESSION['roles'] = $values->amministratore;
+			if($values->amministratore == 2)
 				$_SESSION['usertype'] = 'superadmin';
-			elseif($valore['amministratore'] == 1)
+			elseif($values->amministratore == 1)
 				$_SESSION['usertype'] = 'admin';
 			else
 				$_SESSION['usertype'] = 'user';
-			$_SESSION['idLega'] = $valore['idLega'];
-			$_SESSION['legaView'] = $valore['idLega'];
-			$_SESSION['idSquadra'] = $valore['idUtente'];
-			$_SESSION['nomeSquadra'] = $valore['nome'];
-			$_SESSION['nomeProprietario'] = $valore['nomeProp'] . " " . $valore['cognome'];
-			$_SESSION['email'] = $valore['mail'];
+			$_SESSION['idLega'] = $values->idLega;
+			$_SESSION['legaView'] = $values->idLega;
+			$_SESSION['idSquadra'] = $values->idUtente;
+			$_SESSION['nomeSquadra'] = $values->nome;
+			$_SESSION['nomeProprietario'] = $values->nomeProp . " " . $values->cognome;
+			$_SESSION['email'] = $values->mail;
 		}
-		else
-			$layouttpl->assign('loginerror',"Errore nel login");
 	}
 	else
-		$layouttpl->assign('loginerror',"Errore nel login");
+		$message->warning("Errore nel login");
 }
 else
 {

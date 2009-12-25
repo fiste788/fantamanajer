@@ -1,20 +1,13 @@
 <?php 
-require_once(INCDIR.'eventi.inc.php');
+require_once(INCDIR . 'evento.db.inc.php');
+$eventoObj = new evento();
 
-$eventiObj = new eventi();
-	
-
-$evento = 0;
-$eventi = $eventiObj->getEventi($_SESSION['idLega'],NULL,0,25);
+$filterEvento = NULL;
 if(isset($_POST['evento']))
-{
-	if($_POST['evento']!= 0)
-	{
-		$evento = $_POST['evento'];
-		$eventi = $eventiObj->getEventi($_SESSION['idLega'],$evento,0,25);
-	}
-}
+	$filterEvento = $_POST['evento'];
+	
+$eventi = $eventoObj->getEventi($_SESSION['legaView'],$filterEvento,0,25);
 
-$contenttpl->assign('evento',$evento);
-$contenttpl->assign('eventi',$eventi);
+$contentTpl->assign('eventi',$eventi);
+$operationTpl->assign('evento',$filterEvento);
 ?>

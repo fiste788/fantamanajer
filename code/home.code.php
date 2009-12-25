@@ -1,53 +1,34 @@
 <?php 
-require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'utente.inc.php');
-require_once(INCDIR.'articolo.inc.php');
-require_once(INCDIR.'emoticon.inc.php');
-require_once(INCDIR.'eventi.inc.php');
-require_once(INCDIR.'giornata.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDIR . 'articolo.db.inc.php');
+require_once(INCDIR . 'evento.db.inc.php');
+require_once(INCDIR . 'giornata.db.inc.php');
+require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDIR . 'emoticon.inc.php');
 
-$articoloObj = new articolo();
+$punteggioObj = new punteggio();
 $utenteObj = new utente();
-$eventiObj = new eventi();
-$punteggiObj = new punteggi();
-$emoticonObj = new emoticon();
+$articoloObj = new articolo();
+$eventoObj = new evento();
 $giornataObj = new giornata();
+$giocatoreObj = new giocatore();
+$emoticonObj = new emoticon();
 
-$contenttpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
-$contenttpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
-$classifica = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt(),$_SESSION['legaView']);
-foreach($classifica as $key => $val)
-	$sum[$key] = array_sum($classifica[$key]);
-if((GIORNATA -1) != 0)
-{
-	$classificaPrec = $punteggiObj->getAllPunteggiByGiornata($punteggiObj->getGiornateWithPunt() - 1,$_SESSION['legaView']);
-	foreach($classificaPrec as $key => $val)
-		$prevSum[$key] = array_sum($classificaPrec[$key]);
-
-	foreach($prevSum as $key => $val)
-		$indexPrevSum[] = $key;
-	foreach($sum as $key => $val)
-		$indexSum[] = $key;
-	
-	foreach($indexSum as $key => $val)
-	{
-		if($val == $indexPrevSum[$key])
-			$diff[$key] = 0;
-		else
-			$diff[$key] = (array_search($val,$indexPrevSum)) - $key;
-	}
-}
-else
-	foreach($classifica as $key => $val)
-		$diff[$key] = 0;	
-$contenttpl->assign('classifica',$sum);
-$contenttpl->assign('differenza',$diff);
-$articoloObj->setidlega($_SESSION['legaView']);
-$articolo = $articoloObj->select($articoloObj,'=','*',0,1,'insertDate');
+$ruo = array('P','D','C','A');
+$giornata = $punteggioObj->getGiornateWithPunt();
+foreach ($ruo as $ruolo)
+	$bestPlayer[$ruolo] = $giocatoreObj->getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
+$articolo = $articoloObj->select($articoloObj,NULL,'*',0,1,'insertDate');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
-		$articolo[$key]['text'] = $emoticonObj->replaceEmoticon($val['text'],IMGSURL.'emoticons/');
-$contenttpl->assign('articoli',$articolo);
-$eventi = $eventiObj->getEventi($_SESSION['legaView'],NULL,0,5);
-$contenttpl->assign('eventi',$eventi);
+		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,IMGSURL . 'emoticons/');
+$eventi = $eventoObj->getEventi(NULL,NULL,0,5);
+
+$contentTpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
+$contentTpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$contentTpl->assign('giornata',$giornata);
+$contentTpl->assign('bestPlayer',$bestPlayer);
+$contentTpl->assign('articoli',$articolo);
+$contentTpl->assign('eventi',$eventi);
 ?>

@@ -19,6 +19,62 @@ Included library:
  * langlib.inc.php that defines functions for lang array
 
 */
+/*
+ * Prevent XSS attach
+ */
+
+foreach($_POST as $key=>$val)
+{
+	if(is_array($val))
+	{
+		foreach($val as $key2=>$val2)
+			$_POST[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
+	}
+	else
+		$_POST[$key] = stripslashes(addslashes(htmlspecialchars($val)));
+}	
+foreach($_GET as $key=>$val)
+{
+	if(is_array($val))
+	{
+		foreach($val as $key2=>$val2)
+			$_GET[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
+	}
+	else
+		$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
+}
+require('config/config.inc.php');
+require('config/Savant3.php');
+require('config/pages.inc.php');
+require(INCDIR . 'db.inc.php');
+require(INCDIR . 'auth.inc.php');
+require(INCDIR . 'strings.inc.php');
+require(INCDIR . 'links.inc.php');
+require(INCDIR . 'message.inc.php');
+
+//Creating a new db istance
+$dbObj = new db();
+$linksObj = new links();
+$message = new message();	
+
+//Creating object for pages
+$layoutTpl = new Savant3(array('template_path' => TPLDIR));
+$headerTpl = new Savant3(array('template_path' => TPLDIR));
+$headerTpl->assign('linksObj',$linksObj);
+$footerTpl = new Savant3(array('template_path' => TPLDIR));
+$footerTpl->assign('linksObj',$linksObj);
+$contentTpl = new Savant3(array('template_path' => TPLDIR));
+$contentTpl->assign('linksObj',$linksObj);
+$navbarTpl = new Savant3(array('template_path' => TPLDIR));
+$navbarTpl->assign('linksObj',$linksObj);
+$operationTpl = new Savant3(array('template_path' => TPLDIR . 'operazioni/'));
+$operationTpl->assign('linksObj',$linksObj);
+
+//If no page have been required give the default page (home.php and home.tpl.php)
+if (isset($_GET['p']))
+	$p = $_GET['p'];
+else
+	$p = 'home';
 
 $session_name = 'fantamanajer';
 @session_name($session_name);
@@ -46,93 +102,26 @@ if (!isset($_COOKIE[$session_name]))
 }
 else
 	@session_start();
-	
-/*
- * Prevent XSS attach
- */
-
-foreach($_POST as $key=>$val)
-{
-	if(is_array($val))
-	{
-		foreach($val as $key2=>$val2)
-			$_POST[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
-	}
-	else
-		$_POST[$key] = stripslashes(addslashes(htmlspecialchars($val)));
-}	
-foreach($_GET as $key=>$val)
-{
-	if(is_array($val))
-	{
-		foreach($val as $key2=>$val2)
-			$_GET[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
-	}
-	else
-		$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
-}
-require_once 'config/config.inc.php';
-require_once 'config/Savant3.php';
-require_once 'config/pages.inc.php';
-require_once INCDIR.'db.inc.php';
-require_once INCDIR.'auth.inc.php';
-require_once INCDIR.'strings.inc.php';
-require_once INCDIR.'links.inc.php';
-
-
-
-//Creating a new db istance
-$dbLink = new db;
-$dbLink->dbConnect();
-
-//Creating object for pages
-$layouttpl = new Savant3();
-$headertpl = new Savant3();
-$footertpl = new Savant3();
-$contenttpl = new Savant3();
-$navbartpl = new Savant3();
-
-//Creating linksObj in object pages
-$linksObj = new links();
-$headertpl->assign('linksObj',$linksObj);
-$footertpl->assign('linksObj',$linksObj);
-$contenttpl->assign('linksObj',$linksObj);
-$navbartpl->assign('linksObj',$linksObj);
-
-//If no page have been required give the default page (home.php and home.tpl.php)
-if (isset($_GET['p']))
-	$p = $_GET['p'];
-else
-	$p = 'home';
-
-
-//Adding the language
-
-if (!isset($_SESSION['lang']))
-	$_SESSION['lang'] = 'it';
-
-/*
-require_once(LANGDIR.$_SESSION['lang'].'/general.lang.php');
-$sesslang = $_SESSION['lang'];
-*/
 
 //Try login if POSTDATA exists
-require_once(CODEDIR.'login.code.php');
+require_once(CODEDIR . 'login.code.php');
 
-if(isset($_POST['username']) && $_SESSION['logged'] == TRUE)
-	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('rosa',array('squadra'=>$_SESSION['idSquadra']))));
+if(isset($_POST['username']) && $_SESSION['logged'])
+	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
 	$_SESSION['userid'] = 1000;
+	$_SESSION['roles'] = -1;
 	$_SESSION['usertype'] = 'guest';
 	$_SESSION['logged'] = FALSE;
 	$_SESSION['idSquadra'] = FALSE;
 	$_SESSION['idLega'] = 1;
+	$_SESSION['legaView'] = 1;
 }
 
-require_once(INCDIR.'leghe.inc.php');
-$legheObj = new leghe();
+require(INCDIR . 'lega.db.inc.php');
+$legaObj = new lega();
 
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
@@ -140,38 +129,31 @@ $legheObj = new leghe();
 
 if ($_SESSION['logged'])
 {
-	require_once(INCDIR.'giocatore.inc.php');
-	require_once(INCDIR.'trasferimenti.inc.php');
+	require(INCDIR . 'giocatore.db.inc.php');
+	require(INCDIR . 'trasferimento.db.inc.php');
 	
 	$giocatoreObj = new giocatore();
-	$trasferimentiObj = new trasferimenti();
-	$_SESSION['datiLega'] = $legheObj->getLegaById($_SESSION['idLega']);
-	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentiObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
-		$contenttpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+	$trasferimentoObj = new trasferimento();
+	$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
+	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
+		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 
 /**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
-require_once(INCDIR.'giornata.inc.php');
+require(INCDIR . 'giornata.db.inc.php');
 
 $giornataObj = new giornata();
-$timeout = $giornataObj->getIdGiornataByDate();
-$giornata = $timeout;
-if($timeout == FALSE)
-	$giornata = $giornataObj->getIdGiornataByDateSecondary();	
-else 
-	$timeout = TRUE;
-if($giornata > ($giornataObj->getNumberGiornate()-1))
-	$timeout = -1;
+$giornata = $giornataObj->getGiornataByDate();
 
-define("GIORNATA",$giornata);
-define("TIMEOUT",$timeout);
-$contenttpl->assign('giornata',GIORNATA);
-$contenttpl->assign('timeout',TIMEOUT);
+define("GIORNATA",$giornata['idGiornata']);
+define("PARTITEINCORSO",$giornata['partiteInCorso']);
+define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
-$leghe = $legheObj->getLeghe();
-$headertpl->assign('leghe',$leghe);
+
+$leghe = $legaObj->getLeghe();
+$layoutTpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
 	$_SESSION['legaView'] = $leghe[0]['idLega'];
 if(isset($_POST['legaView']))
@@ -182,135 +164,46 @@ if(isset($_POST['legaView']))
  * essere caricato per visualizzare la pagina corretta
  *
  */
-$adminpages = array_merge($adminpages,$userpages);
-$superadminpages = array_merge($superadminpages,$adminpages);
-if ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "superadmin")
+
+if(!isset($pages[$p])) 
 {
-	if(array_key_exists($p,$superadminpages))
-	{
-		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
-			require(CODEDIR.$p.'.code.php');
-		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
-	}
-	else
-	{
-		$_SESSION['message'][0] = 1;
-		$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
-		$p = 'home';
-		//INCLUDE IL FILE DI CODICE PER LA PAGINA
-		if (file_exists(CODEDIR.$p.'.code.php'))
-				require(CODEDIR.$p.'.code.php');
-		//definisce il file di template utilizzato per visualizzare questa pagina
-		$tplfile = TPLDIR.$p.'.tpl.php';
-	}
-	$layouttpl->assign('pages',$superadminpages[$p]);
+	$message->error("La pagina " . $p . " non esiste. Sei stato mandato alla home");
+	$p = 'home';
 }
-elseif ($_SESSION['logged'] == TRUE && $_SESSION['usertype'] == "admin")
+elseif($pages[$p]['roles'] > $_SESSION['roles']) 
 {
-	if(array_key_exists($p,$adminpages))
-	{
-		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
-			require(CODEDIR.$p.'.code.php');
-		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
-	}
-	else
-	{
-		if(array_key_exists($p, $superadminpages))
-		{
-			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario essere amministratori di sistema per vedere la pagina " . strtolower($superadminpages[$p]['title']) . ". Sei stato mandato alla home";
-		}
-		else
-		{
-			$_SESSION['message'][0] = 1;
-			$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
-		}
-		$p = 'home';
-		//INCLUDE IL FILE DI CODICE PER LA PAGINA
-		if (file_exists(CODEDIR.$p.'.code.php'))
-				require(CODEDIR.$p.'.code.php');
-		//definisce il file di template utilizzato per visualizzare questa pagina
-		$tplfile = TPLDIR.$p.'.tpl.php';
-	}
-	$layouttpl->assign('pages',$adminpages[$p]);
+	$message->error("Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home");
+	$p = 'home';
 }
-elseif ($_SESSION['logged'] == TRUE)
+if(isset($_SESSION['message']))
 {
-	$_SESSION['import']=0;
-	if(array_key_exists($p,$userpages))
-	{
-		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
-			require(CODEDIR.$p.'.code.php');
-		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
-	}
-	else
-	{
-		if(array_key_exists($p, $superadminpages))
-		{
-			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario essere amministratori di sistema per vedere la pagina " . strtolower($superadminpages[$p]['title']) . ". Sei stato mandato alla home";
-		}
-		elseif(array_key_exists($p, $adminpages))
-		{
-			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario essere amministratori per vedere la pagina " . strtolower($adminpages[$p]['title']) . ". Sei stato mandato alla home";
-		}
-		else
-		{
-			$_SESSION['message'][0] = 1;
-			$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
-		}
-		$p = 'home';
-		//INCLUDE IL FILE DI CODICE PER LA PAGINA
-		if (file_exists(CODEDIR.$p.'.code.php'))
-				require(CODEDIR.$p.'.code.php');
-		//definisce il file di template utilizzato per visualizzare questa pagina
-		$tplfile = TPLDIR.$p.'.tpl.php';
-	}
-	$layouttpl->assign('pages',$userpages[$p]);
+	$message = $_SESSION['message'];	
+	unset($_SESSION['message']);
 }
-else
-{
-	if(array_key_exists($p,$guestpages))
-	{
-		if (file_exists(CODEDIR.$p.'.code.php'))			//Including code file for this page
-			require(CODEDIR.$p.'.code.php');
-		$tplfile = TPLDIR.$p.'.tpl.php';				//Definition of template file
-	}
-	else
-	{
-		if(array_key_exists($p, $superadminpages))
-		{
-			$_SESSION['message'][0] = 0;
-			$_SESSION['message'][1] = "È necessario loggarsi per vedere la pagina " . strtolower($superadminpages[$p]['title']) . ". Sei stato mandato alla home";
-		}
-		else
-		{
-			$_SESSION['message'][0] = 1;
-			$_SESSION['message'][1] = "La pagina " . $p . " non esiste. Sei stato mandato alla home";
-		}
-		$p = 'home';
-		//INCLUDE IL FILE DI CODICE PER LA PAGINA
-		if (file_exists(CODEDIR.$p.'.code.php'))
-			require(CODEDIR.$p.'.code.php');
-		//definisce il file di template utilizzato per visualizzare questa pagina
-		$tplfile = TPLDIR.$p.'.tpl.php';
-	}
-	$layouttpl->assign('pages',$guestpages[$p]);
-}
+//INCLUDE IL FILE DI CODICE PER LA PAGINA
+if (file_exists(CODEDIR . $p . '.code.php'))
+	require(CODEDIR . $p . '.code.php');
+//definisce il file di template utilizzato per visualizzare questa pagina
+$tplfile = $p . '.tpl.php';
+
+if($message->show)
+	$layoutTpl->assign('message',$message);
+	
+
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
-$navbartpl->assign('p',$p);
-$headertpl->assign('p',$p);
+$navbarTpl->assign('p',$p);
+$navbarTpl->assign('pages',$pages);
 /**
  *
  * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
  *
  */
-// $header->assign('title',$lang['title']);
-// $layouttpl->assign('styles', $styles);
-// $layouttpl->assign('meta', $lang['description']);
-// $layouttpl->assign('meta', $lang['keywords']);
-// $layouttpl->assign('js', $js);
+$layoutTpl->assign('title',$pages[$p]['title']);
+$layoutTpl->assign('p',$p);
+if(isset($pages[$p]['css']))
+ 	$layoutTpl->assign('css', $pages[$p]['css']);
+if(isset($pages[$p]['js']))
+	$layoutTpl->assign('js', $pages[$p]['js']);
 
 /**
  * GENERAZIONE LAYOUT
@@ -320,50 +213,54 @@ $headertpl->assign('p',$p);
  * PRODUZIONE HEADER
  * il require include il file con il codice per l'header, incluso il nome del file template
  */
-$header=$headertpl->fetch(TPLDIR.'header.tpl.php');
+$header = $headerTpl->fetch('header.tpl.php');
 
 /**
  * PRODUZIONE FOOTER
  * il require include il file con il codice per il'footer, incluso il nome del file del file template
  */
 //$footertpl->assign('p',$p);
-$footer=$footertpl->fetch(TPLDIR.'footer.tpl.php');
+$footer = $footerTpl->fetch('footer.tpl.php');
 
 /**
  * PRODUZIONE MENU
  * il require include il file con il codice per il menu, incluso il nome del file del file template
  */
 
-// $navbartpl->assign('p',$p);
-$navbar=$navbartpl->fetch(TPLDIR.'navbar.tpl.php');
+// $navbarTpl->assign('p',$p);
+$navbar = $navbarTpl->fetch('navbar.tpl.php');
 /**
  * PRODUZIONE CONTENT
  * Esegue la fetch del template per l'area content
  */
-$content=$contenttpl->fetch($tplfile);
+$content = $contentTpl->fetch($tplfile);
+$operation = "";
+if($_SESSION['logged'])
+	$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
+if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
+	$operation .= $operationTpl->fetch($p . ".tpl.php");
 
 /**
  * COMPOSIZIONE PAGINA
  */
 
-$layouttpl->assign('header', $header);
-$layouttpl->assign('footer', $footer);
-$layouttpl->assign('content', $content);
-$layouttpl->assign('navbar', $navbar);
+$layoutTpl->assign('header', $header);
+$layoutTpl->assign('footer', $footer);
+$layoutTpl->assign('content', $content);
+$layoutTpl->assign('operation', $operation);
+$layoutTpl->assign('navbar', $navbar);
 
 /**
  * Output Pagina
  */
 
-$result = $layouttpl->display(TPLDIR.'layout.tpl.php');
+$layoutTpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
+$result = $layoutTpl->display('layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
-if ($layouttpl->isError($result)) {
+if ($layoutTpl->isError($result)) {
 	echo "There was an error displaying the template. <pre>";
 	print_r($result,1);
 	echo "</pre>";
 }
-
-$dbLink->dbClose();
-//echo "<pre>".print_r($_SESSION,1)."</pre>";
 ?>

@@ -1,23 +1,25 @@
 <?php 
-require_once(INCDIR.'punteggi.inc.php');
-require_once(INCDIR.'utente.inc.php');
+require_once(INCDIR . 'punteggio.db.inc.php');
+require_once(INCDIR . 'utente.db.inc.php');
 
-$punteggiObj = new punteggi();
+$punteggioObj = new punteggio();
 $utenteObj = new utente();
+$filterGiornata = GIORNATA;
+if(isset($_POST['giornata']))
+	$filterGiornata = $_POST['giornata'];
 
-$giornata = GIORNATA;
-if(isset($_POST['giorn']))
-	$giornata = $_POST['giorn'];
-
-$classificaDett = $punteggiObj->getAllPunteggiByGiornata($giornata,$_SESSION['legaView']);
+$classificaDett = $punteggioObj->getAllPunteggiByGiornata($filterGiornata,$_SESSION['legaView']);
 $squadre = $utenteObj->getElencoSquadreByLega($_SESSION['legaView']);
 
 foreach($classificaDett as $key => $val)
 	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
 	
-$contenttpl->assign('giornate',$punteggiObj->getGiornateWithPunt());
-$contenttpl->assign('classificaDett',$classificaDett);
-$contenttpl->assign('penalità',$punteggiObj->getPenalitàByLega($_SESSION['legaView']));
-$contenttpl->assign('squadre',$squadre);
-$contenttpl->assign('getGiornata',$giornata);
+$giornate = $punteggioObj->getGiornateWithPunt();
+$contentTpl->assign('giornate',$giornate);
+$contentTpl->assign('classificaDett',$classificaDett);
+$contentTpl->assign('penalità',$punteggioObj->getPenalitàByLega($_SESSION['legaView']));
+$contentTpl->assign('squadre',$squadre);
+
+$operationTpl->assign('getGiornata',$filterGiornata);
+$operationTpl->assign('giornate',$giornate);
 ?>

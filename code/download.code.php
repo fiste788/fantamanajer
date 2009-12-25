@@ -1,18 +1,17 @@
 <?php 
-require_once(INCDIR.'fileSystem.inc.php');
-include_once(INCDIR."createZip.inc.php");
-define ("TOZIP","all");
+require_once(INCDIR . 'fileSystem.inc.php');
+include_once(INCDIR . 'createZip.inc.php');
 
 $fileObj = new fileSystem();
 
 $filesVoti = $fileObj->getFileIntoFolder(VOTIDIR);
 sort($filesVoti); 
 
-$contenttpl->assign('filesVoti',$filesVoti);
+$contentTpl->assign('filesVoti',$filesVoti);
 
 if(isset($_POST['giornata']) && !empty($_POST['giornata']))
 {
-	if($_POST['giornata'] == TOZIP)
+	if($_POST['giornata'] == "all")
 	{
 		$createZip = new createZip();
 		$path = $createZip->createZipFromDir(VOTIDIR,'voti');
