@@ -35,5 +35,6 @@ if($backupObj->dodump())
 else
 	$message->error("Si sono verificati degli errori");	
 //ob_end_clean();
+$contentTpl->assign('images',$fileSystemObj->getFileIntoFolder(IMGDIR . 'foto/'));
 $contentTpl->assign('message',$message);
 ?>

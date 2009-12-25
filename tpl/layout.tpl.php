@@ -20,7 +20,6 @@
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
 		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
-		<script src="<?php echo JSURL . 'ui/effects-pulsate.js'; ?>" type="text/javascript"></script>
 		<script type="text/javascript">
 		// <![CDATA[
 		if(jQuery.browser.msie && jQuery.browser.version<7) window.location="error_docs/not_supported.html";
