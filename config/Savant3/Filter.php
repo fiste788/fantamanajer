@@ -40,7 +40,7 @@ abstract class Savant3_Filter {
 	* 
 	*/
 	
-	protected $Savant = null;
+	protected $Savant = NULL;
 	
 	
 	/**
@@ -56,7 +56,7 @@ abstract class Savant3_Filter {
 	* 
 	*/
 	
-	public function __construct($conf = null)
+	public function __construct($conf = NULL)
 	{
 		settype($conf, 'array');
 		foreach ($conf as $key => $val) {

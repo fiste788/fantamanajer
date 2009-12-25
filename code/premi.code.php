@@ -1,7 +1,7 @@
 <?php 
-require_once(INCDIR.'punteggi.inc.php');
+require_once(INCDIR.'punteggio.db.inc.php');
 
-$punteggiObj = new punteggi();
+$punteggioObj = new punteggio();
 
-$contenttpl->assign('classifica',$punteggiObj->getClassifica($_SESSION['idLega']));
+$contentTpl->assign('classifica',$punteggioObj->getClassificaByGiornata($_SESSION['idLega'],GIORNATA));
 ?>

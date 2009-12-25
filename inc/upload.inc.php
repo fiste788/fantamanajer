@@ -19,7 +19,7 @@
  *							img  - the array that contains the mime of the file images allowed
  *							vid  - the array that contains the mime of the file videos allowed
  *							doc  - the array that contains the mime of the file documents allowed
- 							path - the url where the file is upload. is if null the file is upload in the default folder
+ 							path - the url where the file is upload. is if NULL the file is upload in the default folder
  							name - the name of the file
  *				return: 	1 for no file select
  *							2 for file dimension over the maximum allowed

@@ -1,37 +1,51 @@
 <?php 
-$home = array('home');
-$laTuaSquadra = array('rosa');
-$leSquadre = array('rosa');
-$conferenzeStampa = array('conferenzeStampa','modificaConferenza');
-$classifica = array('classifica','dettaglioGiornata');
-$altro = array('contatti','formazione','altreFormazioni','giocatoriLiberi','premi','trasferimenti','altro','linkUtili','feed','dettaglioGiocatore','download');
-$areaAmministrativa = array('areaAmministrativa','inserisciFormazione','nuovoTrasferimento','creaSquadra','lanciaScript','gestioneDatabase','newsletter','penalita','modificaGiocatore','impostazioni','giornate');
-$allpages = array_merge($home,$laTuaSquadra,$leSquadre,$conferenzeStampa,$classifica,$altro);
- ?>
+$flag = FALSE;
+foreach($this->pages as $key=>$val)
+{
+	if($val['roles'] <= $_SESSION['roles'])
+	{
+		if(isset($val['navbar']['main']))
+			$appo[$val['navbar']['key']] = $val['navbar'];
+		if($key == 'dettaglioSquadra' && $this->p == 'dettaglioSquadra' && $_GET['squadra'] != $_SESSION['idSquadra'])
+		{
+			$appo['squadre']['pages'][] = $this->p;
+			$flag = TRUE;
+		}
+		$appo[$val['navbar']['key']]['pages'][] = $key;
+	}
+} 
+if ($flag)
+	unset ($appo['dettaglioSquadra']['pages'][0]);
+
+if($_SESSION['logged'] != TRUE)
+	unset ($appo['dettaglioSquadra']);
+$sort_arr = array();
+foreach($appo as $uniqid => $row)
+	foreach($row as $key => $value)
+		$sort_arr[$key][$uniqid] = $value;
+array_multisort($sort_arr['order'] , SORT_ASC , $appo);
+?>
 <ul>
-	<li<?php if(in_array($this->p,$home)) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('home'); ?>" title="Home">Home</a>
-	</li>
-	<?php if($_SESSION['logged']): ?>
-	<li<?php if(in_array($this->p,$laTuaSquadra) && isset($_GET['squadra']) && $_GET['squadra'] == $_SESSION['idSquadra']) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('rosa',array('squadra'=>$_SESSION['idSquadra'])); ?>" title="La tua squadra">La tua squadra</a>
-	</li>
-	<?php endif; ?>
-	<li<?php if(in_array($this->p,$leSquadre) && !isset($_GET['squadra']) || (in_array($this->p,$leSquadre) && isset($_GET['squadra']) && $_SESSION['idSquadra'] != $_GET['squadra'])) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('rosa'); ?>" title="Le squadre">Le squadre</a>
-	</li>
-	<li<?php if(in_array($this->p,$conferenzeStampa)) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('conferenzeStampa'); ?>" title="Conferenze stampa">Conferenze stampa</a>
-	</li>
-	<li<?php if(in_array($this->p,$classifica)) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('classifica'); ?>" title="Classifica">Classifica</a>
-	</li>
-	<li<?php if(in_array($this->p,$altro)) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('altro'); ?>" title="Altro...">Altro...</a>
-	</li>
-	<?php if($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'superadmin'): ?>
-	<li<?php if(in_array($this->p,$areaAmministrativa)) echo ' class="selected"'; ?>>
-		<a href="<?php echo $this->linksObj->getLink('areaAmministrativa'); ?>" title="Area amministrativa">Area amministrativa</a>
-	</li>
-	<?php endif; ?>
+	<?php foreach($appo as $key=>$val):
+		$selected = FALSE;
+		//echo "<pre>" . print_r($val,1) . "</pre>";
+		if(in_array($this->p,$val['pages'])) $selected = TRUE;
+			if($selected): ?>
+				<li class="selected">
+			<?php else: ?>
+				<li>
+			<?php endif; ?>
+			<div>
+				<?php if($key == 'dettaglioSquadra'): ?>
+				<a href="<?php echo $this->linksObj->getLink($key,array('squadra'=>$_SESSION['idSquadra'])); ?>"><?php echo $val['title']; ?></a>
+				<?php else: ?>
+				<a href="<?php echo $this->linksObj->getLink($key); ?>"><?php echo $val['title']; ?></a>
+				<?php endif; ?>
+				<?php if($selected && !isset($this->pages[$this->p]['navbar']['main'])): ?>
+					<a class="son"> > </a>
+					<a><?php echo $this->pages[$this->p]['navbar']['title']; ?></a>
+				<?php endif; ?>
+			</div>
+			</li>
+	<?php endforeach; ?>
 </ul>

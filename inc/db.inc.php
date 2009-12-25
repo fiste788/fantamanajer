@@ -1,46 +1,34 @@
 <?php
-
-/*
-db.inc.php:
-A class to interact with database.
-
-Biblion
-
-Last modify: 31-02-2007 14:26
-Modify Log:
-
-
-To Do:
-*/
-
 class db
 {
-	var $link;	
-	/*
-	DbConnect is  method that give a connection to a database.
+	var $link;
 	
-	Files needed: noone
+	function __construct()
+	{
+		if(!isset($this->link))
+		{
+			$this->connect();
+		}
+	}
 	
-	*/
-	
-	function DbConnect()
+	private function connect()
 	{
 		if(DBTYPE == "mysql")
 		{
 			$this->link = mysql_connect(DBHOST,DBUSER,DBPASS);
 			if(!$this->link)
-			{
-				echo MYSQL_ERRNO()." ".MYSQL_ERROR();
-			}
-			mysql_select_db(DBNAME);
-			mysql_query("SET NAMES utf8;") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-			mysql_query("SET CHARACTER SET utf8;") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+			if(!mysql_select_db(DBNAME))
+				die(MYSQL_ERRNO()." ".MYSQL_ERROR());
+			mysql_query("SET NAMES utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
+			mysql_query("SET CHARACTER SET utf8") or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
 		}
 	}
 	
-	function DbClose()
+	function __destruct()
 	{
-		mysql_close($this->link);
+		if(isset($this->link))
+			mysql_close($this->link);
 	}
 	
 	function DbOptimize()
@@ -49,24 +37,24 @@ class db
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		$result = "";
 		while($row = mysql_fetch_row($exe)) 
-			$result .= $row[0].',';
+			$result .= $row[0] . ',';
 		$q = "OPTIMIZE TABLE ";
 		$q .= $result;
 		$q = substr($q,0,-1);
 		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);;
 	}
 	
-	function startTransaction()
+	public function startTransaction()
 	{
 		mysql_query("START TRANSACTION");
 	}
 	
-	function commit()
+	public function commit()
 	{
 		mysql_query("COMMIT");
 	}
 	
-	function rollback()
+	public function rollback()
 	{
 		mysql_query("ROLLBACK");
 	}

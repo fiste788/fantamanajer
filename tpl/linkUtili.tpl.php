@@ -1,10 +1,3 @@
-<div class="titolo-pagina">
-	<div class="column logo-tit">
-		<img align="left" src="<?php echo IMGSURL.'conf-stampa-big.png'; ?>" alt="->" />
-	</div>
-	<h2 class="column">Link utili</h2>
-</div>
-<div id="confStampa" class="main-content">
 <p>In questa pagina vogliamo ringraziare tutti i servizi/siti che permettono al FantaManajer di esistere.<br />Eccone la lista:</p>
 <ul>
 	<li>
@@ -36,19 +29,3 @@
 		<p>Ci ha aiutato concedendoci il suo account di 110mb con già il servizio mail attivo</p>
 	</li>
 </ul>
-</div>
-<?php if($_SESSION['logged'] == TRUE): ?>
-	<div id="squadradett" class="column last">
-		<div class="box2-top-sx column last">
-		<div class="box2-top-dx column last">
-		<div class="box2-bottom-sx column last">
-		<div class="box2-bottom-dx column last">
-		<div class="box-content column last">
-			<?php require (TPLDIR.'operazioni.tpl.php'); ?>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
-	</div>
-	<?php endif; ?>

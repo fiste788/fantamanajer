@@ -135,7 +135,7 @@ class Savant3_Filter_trimwhitespace extends Savant3_Filter {
 		for ($i = 0; $i < $count; $i++) {
 			// does the search-string exist in the buffer?
 			$pos = strpos($buffer, $search, $pos);
-			if ($pos !== false) {
+			if ($pos !== FALSE) {
 				// replace the search-string
 				$buffer = substr_replace($buffer, $replace[$i], $pos, $len);
 			} else {
