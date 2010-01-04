@@ -31,7 +31,6 @@
 	echo "<managingEditor>sonzogni.stefano@gmail.com (Sonzogni Stefano)</managingEditor>\n";
 	echo "<webMaster>sonzogni.stefano@gmail.com (Sonzogni Stefano)</webMaster>\n";
 	echo "<language>IT-it</language>\n";
-	//echo "<pre>".print_r($eventi,1)."</pre>";
 	foreach($eventi as $key=>$val)
 	{
 		$val->content = $emoticonObj->replaceEmoticon($val->content,IMGSURL.'emoticons/');

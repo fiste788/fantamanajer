@@ -6,7 +6,7 @@
 	</li>
 	<li>
 		<h3 class="column">
-			<a class="script" id="acquistaGioc"><img class="column" alt="->" src="<?php echo IMGSURL . 'transfert-big.png'; ?>" />Trasferimenti</a>
+			<a class="script" id="acquistaGioc"><img class="column" alt="->" src="<?php echo IMGSURL . 'transfert.png'; ?>" />Trasferimenti</a>
 		</h3>
 	</li>
 	<li>
@@ -16,7 +16,7 @@
 	</li>
 	<li>
 		<h3>
-			<a class="script" id="uploadFtp"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png'; ?>" />Aggiorna versione</a>
+			<a class="script" id="minify"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png'; ?>" />Comprimi contenuto statico</a>
 		</h3>
 	</li>
 	<li>

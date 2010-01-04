@@ -32,7 +32,7 @@ if(isset($_POST['lega']))
 	$filterLega = $_POST['lega'];
 if($_SESSION['roles'] == '1')
 	$filterLega = $_SESSION['idLega'];
-echo "<pre>".print_r($_POST,1)."</pre>";
+
 if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 {
 	if(!isset($_POST['button']))

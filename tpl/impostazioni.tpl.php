@@ -38,12 +38,4 @@
 	<fieldset>
 		<input type="submit" class="submit dark" value="OK" />
 	</fieldset>
-	<script type="text/javascript">
-	// <![CDATA[
-		mySettings['namespace'] = 'html';
-		$(document).ready(function() {
-     		 $("textarea").markItUp(mySettings);
-  		 });
-  	// ]]>
-	</script>
 </form>

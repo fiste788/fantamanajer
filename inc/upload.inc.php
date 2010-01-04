@@ -68,9 +68,9 @@ class upload
 				}
 				if (is_uploaded_file ($_FILES ["userfile"] ["tmp_name"]))		
 				{
-						$path = FULLPATH . $upload_dir . $filename;
+						$path = $upload_dir . $filename;
 						move_uploaded_file ($_FILES ["userfile"] ["tmp_name"],  $path)
-						or die("errore creazione");
+						or die("errore creazione: " . $path);
 				} 
 				else 
 				{

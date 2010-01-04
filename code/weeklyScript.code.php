@@ -26,7 +26,7 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 {
 	$path = $decryptObj->decryptCdfile($giornata);
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-	if($path != FALSE)
+	if($path != FALSE || $votoObj->checkVotiExist($giornata))
 	{
 		// PRIMA MI FACCIO UN BACKUP DEL DB
 		$path = 'db';
@@ -54,22 +54,24 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 				}
 			}
 		}
-		$giocatoreObj->updateTabGiocatore($path,$giornata);
 		if(!$votoObj->checkVotiExist($giornata))
+		{
+			$giocatoreObj->updateTabGiocatore($path,$giornata);
 			$votoObj->importVoti($path,$giornata);
+		}
 		$leghe = $legaObj->getLeghe();
 		$mail = 0;
 		foreach($leghe as $lega)
 		{
-			$squadre = $utenteObj->getElencoSquadreByLega($lega['idLega']);
+			$squadre = $utenteObj->getElencoSquadreByLega($lega->idLega);
 			$dbObj->startTransaction();
 			foreach($squadre as $key =>$val)
 			{
-				$squadra = $val['idUtente'];
+				$squadra = $val->idUtente;
 				//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 				if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
-					$punteggioObj->calcolaPunti($giornata,$squadra,$lega['idLega']);
-				elseif($lega['punteggioFormazioneDimenticata'] != 0)
+					$punteggioObj->calcolaPunti($giornata,$squadra,$lega->idLega);
+				elseif($lega->punteggioFormazioneDimenticata != 0)
 				{
 					$i = 1;
 					$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
@@ -78,16 +80,16 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 						$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
 						$i ++;
 					}
-					$formazioneObj->caricaFormazione(array_values($formazione['elenco']),$formazione['cap'],$giornata,$squadra,$formazione['modulo']);
-					$punteggioObj->calcolaPunti($giornata,$squadra,$lega['idLega'],$lega['punteggioFormazioneDimenticata']);
+					$formazioneObj->caricaFormazione(array_values($formazione->elenco),$formazione->cap,$giornata,$squadra,$formazione->modulo);
+					$punteggioObj->calcolaPunti($giornata,$squadra,$lega->idLega,$lega->punteggioFormazioneDimenticata);
 				}
 				else
-					$punteggioObj->setPunteggiToZeroByGiornata($squadra,$lega['idLega'],$giornata);
+					$punteggioObj->setPunteggiToZeroByGiornata($squadra,$lega->idLega,$giornata);
 			}
 			$dbObj->commit();
 		
 			//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
-			$classifica = $punteggioObj->getAllPunteggiByGiornata($giornata,$lega['idLega']);
+			$classifica = $punteggioObj->getAllPunteggiByGiornata($giornata,$lega->idLega);
 			$appo2 = $classifica;
 			foreach($appo2 as $key => $val)
 			{
@@ -113,24 +115,24 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 			
 			foreach ($squadre as $key => $val)
 			{
-				if(!empty($val['mail']) && $val['abilitaMail'] == 1)
+				if(!empty($val->mail) && $val->abilitaMail == 1)
 				{
 					$mailContent = new Savant3();
 					$mailContent->assign('classifica',$sum);
 					$mailContent->assign('differenza',$diff);
 					$mailContent->assign('squadre',$squadre);
 					$mailContent->assign('giornata',$giornata);
-					$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($val['idUtente'],$giornata);
+					$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($val->idUtente,$giornata);
 					if($penalità != FALSE)
 						$mailContent->assign('penalità',$penalità);
-					$mailContent->assign('squadra',$val['nome']);
-					$mailContent->assign('somma',$punteggioObj->getPunteggi($val['idUtente'],$giornata));
-					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val['idUtente']));
+					$mailContent->assign('squadra',$val->nome);
+					$mailContent->assign('somma',$punteggioObj->getPunteggi($val->idUtente,$giornata));
+					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val->idUtente));
 					
 					//MANDO LA MAIL
-					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val['idUtente'],$giornata);
+					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val->idUtente,$giornata);
 					//$mailContent->display(MAILTPLDIR.'mail.tpl.php');
-					if(!$mailObj->sendEmail($val['nomeProp'] . " " . $val['cognome'] . "<" . $val['mail']. ">",$mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php'),$object))
+					if(!$mailObj->sendEmail($val->nomeProp . " " . $val->cognome . "<" . $val->mail . ">",$mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php'),$object))
 						$mail++ ;
 				}
 			}

@@ -132,7 +132,7 @@
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php echo $val->ruolo; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->club)) echo strtoupper(substr($val->club,0,3)); else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->nomeClub)) echo strtoupper(substr($val->nomeClub,0,3)); else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php echo $val->presenze . " (" . $val->presenzeVoto . ")"; ?></td>
 				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->avgVoti)) echo $val->avgVoti; else echo "&nbsp;"; ?></td>
 				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->avgPunti)) echo $val->avgPunti; else echo "&nbsp;"; ?></td>
@@ -157,20 +157,3 @@
 		<?php endif;?>
 	</tbody>
 </table>
-<script type="text/javascript">
-// <![CDATA[
-	$(document).ready(function() { 
-		$(".fancybox").fancybox({
-			'zoomSpeedIn': 500,
-			'zoomSpeedOut' : 500,
-			'imageScale' : true,
-			'zoomOpacity' : true,
-			'overlayShow' : true,
-			'overlayOpacity' : 0.7,
-			'centerOnScroll' : true,
-			'padding' : 0,
-			'hideOnContentClick' : true
-			})
-	});
-// ]]>
-</script>

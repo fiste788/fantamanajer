@@ -1,12 +1,4 @@
 <?php
-/*
-config.inc.php:
-Config is a configuration file with definitions, database connection parameters and error notification.
-
-FantaManajer
-To do:
-*/
-
 $proto = "http://";						//protocol
 $host = $_SERVER['SERVER_NAME'];				//server name
 
@@ -34,8 +26,8 @@ if (isset($_SERVER['DOCUMENT_ROOT']))
 $cwd = str_replace('\\','/',getcwd());				//get currently used directory(if under windows replace \\ with /)
 $doc_root = str_replace($sitepath,'',$cwd);			//example c:/xammp/htdocs
 
-define ("FULLPATH",$doc_root.$sitepath.'/');			//fullpath example: c:/xammp/htdocs/sportravelanguage/config/
-define ("FULLURL",$proto.$host.$sitepath.'/');			//fullurl example: http://localhost/sportravelanguage/config/
+define ("FULLPATH",$doc_root . $sitepath . '/');			//fullpath example: c:/xammp/htdocs/sportravelanguage/config/
+define ("FULLURL",$proto . $host . $sitepath . '/');			//fullurl example: http://localhost/sportravelanguage/config/
 
 								//absolute paths for:
 if(!LOCAL)
@@ -47,20 +39,16 @@ if(!LOCAL)
 }
 else
 	define("FULLSTATICPATH",FULLPATH);
-define ("CSSDIR",FULLSTATICPATH.'css/');				//css => CSSDIR
-define ("JSDIR",FULLSTATICPATH.'js/');				//js => JSDIR
-define ("IMGDIR",FULLSTATICPATH.'imgs/');				//img => IMGDIR
-define ("UPLOADDIR",FULLSTATICPATH.'uploadimg/');		//uploadimg => UPLOADDIR
-
+define ("CSSDIR",FULLSTATICPATH . 'css/');				//css => CSSDIR
+define ("JSDIR",FULLSTATICPATH . 'js/');				//js => JSDIR
+define ("IMGDIR",FULLSTATICPATH . 'imgs/');				//img => IMGDIR
+define ("UPLOADDIR",FULLSTATICPATH . 'uploadimg/');		//uploadimg => UPLOADDIR
 								//relative paths for:
 define ("CODEDIR",'code/');					//code => CODEDIR
 define ("TPLDIR",'tpl/');					//tpl => TPLDIR
-define ("LANGDIR",'lang/');					//lang => LANGDIR
 define ("INCDIR",'inc/');					//inc => INCDIR
-define ("TMPUPLOAD",'tmpupl/');					//tmpupl => TMPUPLOAD				//uploadimg => UPLOADDIR
 define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
-define ("ADMINTPLDIR",'admintpl/');				//admintpl => ADMINTPLDIR
-define ("MAILTPLDIR",TPLDIR.'mail/');
+define ("MAILTPLDIR",TPLDIR . 'mail/');
 define ("VOTIDIR",'docs/voti/csv/');				 //docs/voti => VOTIDIR
 define ("TMPDIR",'tmp/');				 //docs/voti => VOTIDIR
 
@@ -73,8 +61,8 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 {
 	//database access:
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","devfantamanajer");					//database name => DBNAME
-	define ("DBUSER","developer");					//database username => DBUSER
+	define ("DBNAME","fantamanajer");					//database name => DBNAME
+	define ("DBUSER","fantamanajer");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","localhost");					//database host => DBHOST
 	//modrewrite

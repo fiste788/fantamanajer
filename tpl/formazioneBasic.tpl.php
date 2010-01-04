@@ -1,7 +1,3 @@
-<?php
-echo "<pre>".print_r($this->elencocap,1)."</pre>";
-echo "<pre>".print_r($this->giocatori,1)."</pre>";
-?>
 <?php $j =0; $k = 0; ?>
 <?php if(!PARTITEINCORSO): ?>
 	<h3>Giornata <?php echo GIORNATA; ?></h3>

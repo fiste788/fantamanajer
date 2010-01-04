@@ -5,7 +5,6 @@
  
 $pages = array();
 	$pages['home'] = array(	'title'=>"Home",
-									'js'=>array('countdown'=>'countdown'),
 									'roles'=>-1,
 									'navbar'=>array('key'=>'home','title'=>'Home','order'=>1,'main'=>TRUE));
 									
@@ -15,7 +14,7 @@ $pages = array();
 								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
 								
 	$pages['classifica'] = array(	'title'=>"Classifica",
-								'js'=>array('flot'=>array('ie|excanvas','jquery-flot'),'custom'=>'classifica'),
+								'js'=>array('flot'=>array('ie|excanvas','jquery-flot')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 								
@@ -69,6 +68,10 @@ $pages = array();
 									'roles'=>-1,
 									'navbar'=>array('key'=>'altro','title'=>'Script'));
 	
+	$pages['minify'] = array(	'title'=>"Minify css and js",
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Script'));
+	
 	$pages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Script'));
@@ -81,12 +84,13 @@ $pages = array();
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Eventi'));
 
-	$pages['formazioneBasic'] = array(	'title'=>"Formazione", 
+	$pages['formazioneBasic'] = array(	'title'=>"Formazione",
+										'js'=>array('custom'=>'createFormazione'), 
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 										
 	$pages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('ui-core','ui-draggable','ui-droppable')),
+										'js'=>array('ui'=>array('ui.core','ui-draggable','ui-droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 									
@@ -153,6 +157,8 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
 										
 	$pages['giornate'] = array(	'title'=>"Giornate",
+										'css'=>array('ui.datepicker'),
+										'js'=>array('ui'=>array('ui.core','ui.datepicker')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Giornate'));								
 ?>

@@ -3,11 +3,13 @@ require_once(INCDIR . "utente.db.inc.php");
 require_once(INCDIR . "formazione.db.inc.php");
 require_once(INCDIR . "evento.db.inc.php");
 require_once(INCDIR . "giocatore.db.inc.php");
+require_once(INCDIR . "punteggio.db.inc.php");
 
 $utenteObj = new utente();
 $formazioneObj = new formazione();
 $eventoObj = new evento();
 $giocatoreObj = new giocatore();
+$punteggioObj = new punteggio();
 
 $squadra = NULL;
 if(isset($_POST['squadra']))
@@ -34,7 +36,7 @@ $contentTpl->assign('ruo',$ruo);
 $contentTpl->assign('elencoCap',$elencoCap);
 if(!PARTITEINCORSO)
 {
-	$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$formazioneOld = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
 	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);
 	$contentTpl->assign('giocatori',array_values($giocatori));
 	$contentTpl->assign('giocatoriId',$giocatori);
@@ -102,7 +104,7 @@ if(!PARTITEINCORSO)
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 		{
 			unset($_POST);
-			if(!$formazione)
+			if(!$formazioneOld)
 			{
 				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
 				$eventoObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
@@ -124,6 +126,7 @@ if(!PARTITEINCORSO)
 		$modulo = $formazione->modulo;
 		$panchinariAr = $formazione->elenco;
 		$titolariAr = array_splice($panchinariAr,0,11);
+		$contentTpl->assign('cap',$formazione->cap);
 	}
 	if(!empty($_POST))
 	{
@@ -149,7 +152,6 @@ if(!PARTITEINCORSO)
 			$contentTpl->assign('panchinari',FALSE);
 		else
 			$contentTpl->assign('panchinari',$panchinariAr);
-		$contentTpl->assign('cap',$formazione->cap);
 	}
 	$contentTpl->assign('issetForm',$formazione);
 	if(isset($modulo))

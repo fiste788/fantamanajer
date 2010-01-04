@@ -86,6 +86,10 @@ label {
 .first {
 	margin-top: 0 !important;
 }
+a.neutral {
+	color:#fff !important;
+	font-weight:normal !important;
+}
 #messaggioContainer {
 	top: 10px;
 	right: 10px;
@@ -206,6 +210,9 @@ label {
 }
 .nowrap {
 	white-space: nowrap;
+}
+.tdcenter {
+	text-align:center;
 }
 #rightBar {
 	position:fixed;

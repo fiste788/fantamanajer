@@ -2,20 +2,23 @@ FileETag None
 AddType image/x-icon .ico
 <IfModule mod_headers.c>
 	Header unset ETag
+	Header unset Cookie
+	Header unset Vary
+	Header always unset Set-Cookie 
 	<FilesMatch "\\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
-		Header set Cache-Control "max-age=2592000, public"
+		Header set Cache-Control "public, max-age=31536000"
 	</FilesMatch>
 	<FilesMatch "\\.(css)$">
-		Header set Cache-Control "max-age=604800, public"
+		Header set Cache-Control "private, max-age=31536000"
 	</FilesMatch>
 	<FilesMatch "\\.(js)$">
-		Header set Cache-Control "max-age=216000, private"
+		Header set Cache-Control "private, max-age=31536000"
 	</FilesMatch>
 	<FilesMatch "\\.(xml|txt)$">
-		Header set Cache-Control "max-age=216000, public, must-revalidate"
+		Header set Cache-Control "public, max-age=216000, must-revalidate"
 	</FilesMatch>
 	<FilesMatch "\\.(html|htm|php)$">
-		Header set Cache-Control "max-age=1, private, must-revalidate"
+		Header set Cache-Control "private, max-age=1, must-revalidate"
 	</FilesMatch>
 </IfModule>
 
@@ -23,13 +26,13 @@ AddType image/x-icon .ico
 	ExpiresActive On  
 	ExpiresDefault "access plus 1 seconds"  
 	ExpiresByType text/html "access plus 1 seconds"  
-	ExpiresByType image/gif "access plus 2592000 seconds"  
-	ExpiresByType image/jpeg "access plus 2592000 seconds"  
-	ExpiresByType image/png "access plus 2592000 seconds"  
-	ExpiresByType image/ico "access plus 10 years"
-	ExpiresByType text/css "access plus 604800 seconds"  
-	ExpiresByType text/javascript "access plus 216000 seconds"  
-	ExpiresByType application/x-javascript "access plus 216000 seconds"  
+	ExpiresByType image/gif "access plus 1 years"  
+	ExpiresByType image/jpeg "access plus 1 years"  
+	ExpiresByType image/png "access plus 1 years"  
+	ExpiresByType image/ico "access plus 1 years"
+	ExpiresByType text/css "access plus 1 years"  
+	ExpiresByType text/javascript "access plus 1 years"  
+	ExpiresByType application/x-javascript "access plus 1 years"  
 </IfModule>
 
 ErrorDocument 400 /error_docs/bad_request.html
@@ -53,6 +56,13 @@ ErrorDocument 502 /error_docs/bad_gateway.html
 </IfModule>
 <IfModule mod_rewrite.c>
 	RewriteEngine On
+	# if requested subdomain is not "www" 
+rewriteCond %{HTTP_HOST} !^(www\.)?example\.com [NC] 
+# and we have not already rewritten this request to the subdomain's subfolder  
+# extract requested subdomain to %2 
+rewriteCond %{HTTP_HOST} ^(www\.)?([^.]+)\.example\.com 
+# rewrite the request to the subdomain's subfolder 
+rewriteRule (.*) /%2/$1 [L] 
 	RewriteRule ^home.html$ index.php?p=home
 	RewriteRule ^home/(.*).html$ index.php?p=home&logout=TRUE
 	RewriteRule ^squadre.html$ index.php?p=squadre
