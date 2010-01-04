@@ -19,6 +19,7 @@ $contentTpl->assign('giornate',$giornate);
 $contentTpl->assign('classificaDett',$classificaDett);
 $contentTpl->assign('penalità',$punteggioObj->getPenalitàByLega($_SESSION['legaView']));
 $contentTpl->assign('squadre',$squadre);
+$contentTpl->assign('posizioni',$punteggioObj->getPosClassificaGiornata($_SESSION['legaView']));
 
 $operationTpl->assign('getGiornata',$filterGiornata);
 $operationTpl->assign('giornate',$giornate);

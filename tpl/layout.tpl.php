@@ -8,39 +8,17 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
-		<link href="<?php echo CSSURL . 'screen.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
-		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . 'screen.min.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . 'print.min.css' ?>" media="print" rel="stylesheet" type="text/css" />
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<?php endif; ?>
-		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.css';?>" type="text/css" media="screen"><![endif]-->
+		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css';?>" type="text/css" media="screen"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
-		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
-		<script type="text/javascript">
-		// <![CDATA[
-		if(jQuery.browser.msie && jQuery.browser.version<7) window.location="error_docs/not_supported.html";
-		// ]]>
-		</script>
-		<?php if(!empty($this->js)): ?>
-		<?php foreach($this->js as $key => $val): ?>
-		<?php if(is_array($val)): ?>
-		<?php foreach($val as $key2=>$val2): ?>
-		<?php $appo = explode('|',$val2); ?>
-		<?php if(isset($appo[1])): ?>
-		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" type="text/javascript"></script><![endif]-->
-		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
-		<?php endif; ?>
-		<?php endforeach; ?>
-		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
-		<?php endif; ?>
-		<?php endforeach; ?>
-		<?php endif; ?>
 	</head>
 	<?php flush(); ?>
 	<body>
@@ -56,9 +34,13 @@
 				<?php if(isset($this->message) || isset($this->generalMessage)): ?>
 					<div id="messaggioContainer" title="Clicca per nascondere">
 					<?php if(isset($this->generalMessage)): ?>
-						<div title="Clicca per nascondere" class="messaggio bad column last">
-							<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-							<span><?php echo $this->generalMessage; ?></span>
+						<div title="Clicca per nascondere" class="messaggio error column last">
+							<div class="column last top"></div>
+							<div class="column last middle">
+								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+								<span><?php echo $this->generalMessage; ?></span>
+							</div>
+							<div class="column last bottom"></div>
 						</div>
 					<?php endif; ?>
 					<?php if($this->message->show): ?>
@@ -92,22 +74,6 @@
 							</div>
 							<?php endswitch; ?>
 						<?php endif; ?>
-						<script type="text/javascript">
-							// <![CDATA[
-							$(document).ready(function(){
-								$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
-									$(".messaggio").hover(function () {
-										$(this).fadeTo("fast",0.2);
-									},function () {
-										$(this).fadeTo("fast",1);
-									});
-								});
-								$(".messaggio").click(function () {
-									$(this).fadeOut("slow");
-								});
-							});
-							// ]]>
-						</script>
 					</div>
 				<?php endif; ?>
 				<div id="<?php echo $this->p; ?>" class="main-content">
@@ -137,37 +103,34 @@
 		<?php endif; ?>
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
-			<script type="text/javascript">
-			// <![CDATA[
-				$(document).ready(function(){
-					$("#click-menu").toggle(function(event){
-						$("#menu").animate({right:'0px'},'slow');
-						$("#click-menu").attr("title","Nascondi menu");
-					},
-					function(event){
-						$("#menu").animate({right:'-300px'},'slow');
-						$("#click-menu").attr("title","Mostra menu");
-					});
-				});
-			// ]]>
-			</script>
-			<?php endif; ?>
-			<?php if((substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') || $_SERVER['SERVER_NAME'] != 'localhost' && !DEVELOP ): ?>
-			<script type="text/javascript">
-			// <![CDATA[
-				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-				document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-			// ]]>
-			</script>
-			<script type="text/javascript">
-				// <![CDATA[
-				try {
-					var pageTracker = _gat._getTracker("UA-3016148-1");
-					pageTracker._setDomainName("www.fantamanajer.it");
-					pageTracker._trackPageview();
-				} catch(err) {}
-				// ]]>
-			</script>
+		<?php endif; ?>
+		<script src="<?php echo JSURL . 'jquery/jquery.min.js'; ?>" type="text/javascript"></script>
+		<script type="text/javascript">
+		// <![CDATA[
+		if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
+		// ]]>
+		</script>
+		<?php if(!empty($this->js)): ?>
+		<?php foreach($this->js as $key => $val): ?>
+		<?php if(is_array($val)): ?>
+		<?php foreach($val as $key2=>$val2): ?>
+		<?php $appo = explode('|',$val2); ?>
+		<?php if(isset($appo[1])): ?>
+		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" type="text/javascript"></script><![endif]-->
+		<?php else: ?>
+		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+		<?php endif; ?>
+		<?php endforeach; ?>
+		<?php else: ?>
+		<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
+		<?php endif; ?>
+		<?php endforeach; ?>
+		<?php endif; ?>
+		<?php if(file_exists(JSDIR . 'pages/' . $this->p . '.js')): ?>
+			<script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+		<?php endif; ?>
+		<?php if((substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') || $_SERVER['SERVER_NAME'] != 'localhost' && !DEVELOP ): ?>
+		<script src="<?php echo JSURL . 'custom/googleAnalytics.min.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 	</body>
 </html>

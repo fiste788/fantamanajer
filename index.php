@@ -124,22 +124,6 @@ require(INCDIR . 'lega.db.inc.php');
 $legaObj = new lega();
 
 /**
- * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
- */
-
-if ($_SESSION['logged'])
-{
-	require(INCDIR . 'giocatore.db.inc.php');
-	require(INCDIR . 'trasferimento.db.inc.php');
-	
-	$giocatoreObj = new giocatore();
-	$trasferimentoObj = new trasferimento();
-	$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
-	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']['numTrasferimenti'] )
-		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
-}
-
-/**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
 require(INCDIR . 'giornata.db.inc.php');
@@ -185,10 +169,24 @@ if (file_exists(CODEDIR . $p . '.code.php'))
 	require(CODEDIR . $p . '.code.php');
 //definisce il file di template utilizzato per visualizzare questa pagina
 $tplfile = $p . '.tpl.php';
+$layoutTpl->assign('message',$message);
 
-if($message->show)
-	$layoutTpl->assign('message',$message);
+
+/**
+ * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
+ */
+
+if ($_SESSION['logged'])
+{
+	require_once(INCDIR . 'giocatore.db.inc.php');
+	require_once(INCDIR . 'trasferimento.db.inc.php');
 	
+	$giocatoreObj = new giocatore();
+	$trasferimentoObj = new trasferimento();
+	$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
+	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
+		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+}
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbarTpl->assign('p',$p);

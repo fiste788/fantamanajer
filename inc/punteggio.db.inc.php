@@ -52,6 +52,22 @@ class punteggio
 		return $pos;
 	}
 	
+	function getPosClassificaGiornata($idLega)
+	{
+		$q = "SELECT *
+				FROM punteggio 
+				WHERE idLega = '" . $idLega . "' AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
+		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		if(DEBUG)
+			echo $q . "<br />";
+		while ($row = mysql_fetch_object($exe))
+			$values[$row->idGiornata][] = $row;
+		foreach($values as $giornata=>$pos)
+			foreach($pos as $key=>$val)
+				$appo[$giornata][$val->idUtente] = $key + 1;
+		return $appo;
+	}
+	
 	function getGiornateVinte($idUtente)
 	{
 		$q = "SELECT giornateVinte 

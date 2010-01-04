@@ -41,6 +41,34 @@ class fileSystem
 		}
 	}
 	
+	function getFileIntoFolderRecursively($directory, $recursive) 
+	{
+		$array_items = array();
+		if ($handle = opendir($directory)) 
+		{
+			while (false !== ($file = readdir($handle))) 
+			{
+				if ($file != "." && $file != ".." && $file != '.svn') 
+				{
+					if (is_dir($directory. "/" . $file)) 
+					{
+						if($recursive) 
+							$array_items = array_merge($array_items, $this->getFileIntoFolderRecursively($directory. "/" . $file, $recursive));
+						$file = $directory . "/" . $file;
+						$array_items[] = preg_replace("/\/\//si", "/", $file);
+					} 
+					else
+					{
+						$file = $directory . "/" . $file;
+						$array_items[] = preg_replace("/\/\//si", "/", $file);
+					}
+				}
+			}
+			closedir($handle);
+		}
+		return $array_items;
+	}
+	
 	function returnArray($path,$sep=";") 
 	{
 		if(!file_exists($path)) 

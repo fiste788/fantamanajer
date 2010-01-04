@@ -19,7 +19,7 @@ $ruo = array('P','D','C','A');
 $giornata = $punteggioObj->getGiornateWithPunt();
 foreach ($ruo as $ruolo)
 	$bestPlayer[$ruolo] = $giocatoreObj->getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
-$articolo = $articoloObj->select($articoloObj,NULL,'*',0,1,'insertDate');
+$articolo = $articoloObj->select($articoloObj,NULL,'*',0,2,'insertDate');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
 		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,IMGSURL . 'emoticons/');

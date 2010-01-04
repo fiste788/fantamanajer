@@ -1,7 +1,7 @@
 <h4>Giornata: <span><?php if(isset($this->giornata)) echo $this->giornata; ?></span></h4>
 <h4>Squadra: <span><?php if(isset($this->squadra)) echo $this->squadraDett->nome; ?></span></h4>
 <h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
-<?php if($this->titolari != FALSE && $this->titolari != NULL): ?>
+<?php if(isset($this->titolari) && 	$this->titolari != FALSE && $this->titolari != NULL): ?>
 	<?php if(isset($this->penalità)): ?>
 		<img class="column" alt="!" src="<?php echo IMGSURL . 'penalita.png'; ?>" />
 		<div class="penalita column last">
@@ -65,12 +65,12 @@
 				<?php if($val->considerato == 1): ?>
 					<tr class="verde">
 						<td class="tableimg">
-							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val->idGioc)); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png' ?>"/></a>
+							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png' ?>"/></a>
 						</td>
 				<?php elseif($val->considerato == 2): ?>
 					<tr>
 						<td class="tableimg">
-							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('id'=>$val->idGioc)); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png' ?>"/></a>
+							<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png' ?>"/></a>
 						</td>
 				<?php else: ?>
 					<tr>
@@ -83,13 +83,13 @@
 						<td><?php echo $val->ruolo; ?></td>
 						<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
 						<td><?php if($val->titolare) echo "X";else echo "&nbsp;"; ?></td>
-						<td><?php if(!empty($val->voto)) echo $val->punti; else echo "&nbsp;"; ?></td>
+						<td><?php if(!empty($val->punti)) echo $val->punti; else echo "&nbsp;"; ?></td>
 					</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
 	<?php endif; ?>
-<?php elseif($this->formazione == FALSE): ?>
+<?php elseif(isset($this->formazione) && $this->formazione == FALSE): ?>
 	<span class="column" style="clear:both;">Formazione non settata</span>
 <?php else: ?>
 	<span class="column" style="clear:both;">Parametri mancanti o errati</span>

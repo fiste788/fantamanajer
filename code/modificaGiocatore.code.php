@@ -77,9 +77,9 @@ if(isset($_POST))
 
 	if(!empty($_POST['nome']) && !empty($_POST['nome']))
 	{
-		$giocatoreObj->aggiornaGiocatore($_POST['idGioc'],$_POST['cognome'],$_POST['nome']);
+		$giocatoreObj->aggiornaGiocatore($_POST['idGioc'],addslashes($_POST['cognome']),addslashes($_POST['nome']));
 		$message->level = 0;
-		$message->text = 'Giocatore rinominato correttamente';
+		$message->success("Giocatore modificato correttamente");
 	}
 }
 if(isset($message))

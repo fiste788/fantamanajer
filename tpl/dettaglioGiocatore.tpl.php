@@ -3,14 +3,14 @@
 	<div id="datiGioc" class="column last">
 		<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 		<div id="formData">
-			<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']['idGioc'] ?>" />
+			<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']->idGioc; ?>" />
 			<div>
 				<label for="cognome">Cognome:</label>
-				<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['cognome'])) echo $this->dettaglioGioc['dettaglio']['cognome']; ?>" />
+				<input id="cognome" type="text" name="cognome" value="<?php if(isset($this->dettaglioGioc['dettaglio']->cognome)) echo $this->dettaglioGioc['dettaglio']->cognome; ?>" />
 			</div>
 			<div>
 				<label for="nome">Nome:</label>
-				<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc['dettaglio']['nome'])) echo $this->dettaglioGioc['dettaglio']['nome']; ?>" />
+				<input id="nome" type="text" name="nome" value="<?php if(isset($this->dettaglioGioc['dettaglio']->nome)) echo $this->dettaglioGioc['dettaglio']->nome; ?>" />
 			</div>
 		</div>
 		<?php else: ?>
@@ -20,7 +20,7 @@
 		<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']->ruolo]; ?></p>
 		<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
 		<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']->presenze . " (" . $this->dettaglioGioc['dettaglio']->presenzeVoto . ")"; ?></p>
-		<p>Gol: <?php if($this->dettaglioGioc['dettaglio']->ruolo != 'P') echo $this->dettaglioGioc['dettaglio']->gol; else echo $this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
+		<p>Gol: <?php if($this->dettaglioGioc['dettaglio']->ruolo != 'P') echo $this->dettaglioGioc['dettaglio']->gol; elseif($this->dettaglioGioc['dettaglio']->golSubiti== 0) echo $this->dettaglioGioc['dettaglio']->golSubiti; else echo "-".$this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
 		<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']->assist; ?></p>
 		<p>Media voti: <?php if(!empty($this->dettaglioGioc['dettaglio']->avgVoti)) echo $this->dettaglioGioc['dettaglio']->avgVoti; ?></p>
 		<p>Media punti: <?php if(!empty($this->dettaglioGioc['dettaglio']->avgPunti)) echo $this->dettaglioGioc['dettaglio']->avgPunti; ?></p>
@@ -74,7 +74,7 @@
 		</tr>
 		<tr>
 		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
-			<td><?php echo $val->gol; ?></td>
+			<td><?php if($this->dettaglioGioc['dettaglio']->ruolo!="P") echo $val->gol; elseif ($val->golSub == 0) echo $val->golSub; else echo "-".$val->golSub ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>

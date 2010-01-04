@@ -3,7 +3,7 @@ require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 
 $fileSystemObj = new fileSystem();
-$path = 'db';
+$path = DBDIR;
 $name = "backup_" . date("Ymd-His");
 $backupName = $path . '/' . $name;
 $backupGzipObj = new MySQLDump(DBNAME,$backupName . '.gz',TRUE,FALSE);
@@ -35,6 +35,5 @@ if($backupObj->dodump())
 else
 	$message->error("Si sono verificati degli errori");	
 //ob_end_clean();
-$contentTpl->assign('images',$fileSystemObj->getFileIntoFolder(IMGDIR . 'foto/'));
 $contentTpl->assign('message',$message);
 ?>

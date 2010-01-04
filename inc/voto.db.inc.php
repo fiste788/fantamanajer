@@ -24,15 +24,16 @@ class voto
 	{
 		$q = "SELECT * 
 				FROM voto 
-				WHERE idGioc = '" . $idGioc . "'";
+				WHERE idGioc = '" . $idGioc . "' AND valutato = 1";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$values=false;
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
 			$values[$row->idGiornata] = $row;
 		return $values;
 	}
-
+	
 	function getPresenzaByIdGioc($idGioc,$giornata)
 	{
 		$q = "SELECT valutato 

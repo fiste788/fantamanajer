@@ -14,7 +14,7 @@ class selezione
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while($row = mysql_fetch_assoc($exe))
+		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		if(isset($values))
 			return $values;
@@ -30,7 +30,7 @@ class selezione
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_fetch_assoc($exe);
+		return mysql_fetch_object($exe);
 	}
 	
 	function unsetSelezioneByIdSquadra($idSquadra)
@@ -52,10 +52,10 @@ class selezione
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = array();
-		while($row = mysql_fetch_assoc($exe))
-			$values[] = $row;
+		while($row = mysql_fetch_object($exe))
+			$values = $row;
 		if(!empty($values))
-			return $values['idSquadra'];
+			return $values->idSquadra;
 		else
 			return FALSE;
 	}
@@ -70,12 +70,12 @@ class selezione
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = array();
-		while($row = mysql_fetch_assoc($exe))
-			$values[] = $row;
+		while($row = mysql_fetch_object($exe))
+			$values = $row;
 		if(!empty($values))
 		{
 			$q = "UPDATE selezione 
-					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values[0]['numSelezioni'] - 1) . "' 
+					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values->numSelezioni - 1) . "' 
 					WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
 			if(DEBUG)
 				echo $q . "<br />";
@@ -88,12 +88,12 @@ class selezione
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = array();
-		while($row = mysql_fetch_assoc($exe))
-			$values[] = $row;
+		while($row = mysql_fetch_object($exe))
+			$values = $row;
 		if(!empty($values))
 		{
 			$q = "UPDATE selezione 
-					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values[0]['numSelezioni']+1) . "' 
+					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values->numSelezioni + 1) . "' 
 					WHERE idSquadra = '" . $idSquadra . "'";
 			if(DEBUG)
 				echo $q . "<br />";
@@ -125,8 +125,8 @@ class selezione
 		$val = NULL;
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$val = $row['numSelezioni'];
+		while ($row = mysql_fetch_object($exe) )
+			$val = $row->numSelezioni;
 		return $val;
 	}
 	

@@ -9875,7 +9875,7 @@ INSERT INTO `voto` (`idGioc`, `idGiornata`, `valutato`, `punti`, `voto`, `gol`, 
 --
 DROP TABLE IF EXISTS `dettagliogiornata`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettagliogiornata` AS select `schieramento`.`idFormazione` AS `idFormazione`,`schieramento`.`idPosizione` AS `idPosizione`,`formazione`.`idUtente` AS `idUtente`,`schieramento`.`considerato` AS `considerato`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`giocatore`.`cognome` AS `cognome`,`voto`.`idGioc` AS `idGioc`,`voto`.`idGiornata` AS `idGiornata`,`voto`.`valutato` AS `valutato`,`voto`.`punti` AS `punti`,`voto`.`voto` AS `voto`,`voto`.`gol` AS `gol`,`voto`.`golSub` AS `golSub`,`voto`.`golVit` AS `golVit`,`voto`.`golPar` AS `golPar`,`voto`.`assist` AS `assist`,`voto`.`ammonizioni` AS `ammonizioni`,`voto`.`espulsioni` AS `espulsioni`,`voto`.`rigoriSegn` AS `rigoriSegn`,`voto`.`rigoriSub` AS `rigoriSub`,`voto`.`presenza` AS `presenza`,`voto`.`titolare` AS `titolare`,`voto`.`quotazione` AS `quotazione`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub` from (((`schieramento` join `formazione` on((`schieramento`.`idFormazione` = `formazione`.`idFormazione`))) left join (`giocatore` left join `club` on((`giocatore`.`club` = `club`.`idClub`))) on((`schieramento`.`idGioc` = `giocatore`.`idGioc`))) join `voto` on(((`voto`.`idGioc` = `giocatore`.`idGioc`) and (`voto`.`idGiornata` = `formazione`.`idGiornata`))));
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `dettagliogiornata` AS select `schieramento`.`idFormazione` AS `idFormazione`,`schieramento`.`idPosizione` AS `idPosizione`,`formazione`.`idUtente` AS `idUtente`,`schieramento`.`considerato` AS `considerato`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`giocatore`.`cognome` AS `cognome`,`voto`.`idGioc` AS `idGioc`,`voto`.`idGiornata` AS `idGiornata`,`voto`.`valutato` AS `valutato`,`voto`.`punti` AS `punti`,`voto`.`voto` AS `voto`,`voto`.`gol` AS `gol`,`voto`.`golSub` AS `golSub`,`voto`.`golVit` AS `golVit`,`voto`.`golPar` AS `golPar`,`voto`.`assist` AS `assist`,`voto`.`ammonizioni` AS `ammonizioni`,`voto`.`espulsioni` AS `espulsioni`,`voto`.`rigoriSegn` AS `rigoriSegn`,`voto`.`rigoriSub` AS `rigoriSub`,`voto`.`presenza` AS `presenza`,`voto`.`titolare` AS `titolare`,`voto`.`quotazione` AS `quotazione`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub` from (((`schieramento` join `formazione` on((`schieramento`.`idFormazione` = `formazione`.`idFormazione`))) left join (`giocatore` left join `club` on((`giocatore`.`club` = `club`.`idClub`))) on((`schieramento`.`idGioc` = `giocatore`.`idGioc`))) join `voto` on(((`voto`.`idGioc` = `giocatore`.`idGioc`) and (`voto`.`idGiornata` = `formazione`.`idGiornata`))));
 
 -- --------------------------------------------------------
 
@@ -9884,7 +9884,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettag
 --
 DROP TABLE IF EXISTS `dettpuntmassimi`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettpuntmassimi` AS select `punteggio`.`idLega` AS `idLega`,`punteggio`.`idGiornata` AS `idGiornata`,max(`punteggio`.`punteggio`) AS `punteggio` from `punteggio` group by `punteggio`.`idLega`,`punteggio`.`idGiornata`;
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `dettpuntmassimi` AS select `punteggio`.`idLega` AS `idLega`,`punteggio`.`idGiornata` AS `idGiornata`,max(`punteggio`.`punteggio`) AS `punteggio` from `punteggio` group by `punteggio`.`idLega`,`punteggio`.`idGiornata`;
 
 -- --------------------------------------------------------
 
@@ -9893,7 +9893,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `dettpu
 --
 DROP TABLE IF EXISTS `giocatorisquadra`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocatorisquadra` AS select `squadra`.`idLega` AS `idLega`,`squadra`.`idUtente` AS `idUtente`,`giocatore`.`idGioc` AS `idGioc`,`giocatore`.`nome` AS `nome`,`giocatore`.`cognome` AS `cognome`,`giocatore`.`ruolo` AS `ruolo`,`giocatore`.`club` AS `club` from (`squadra` join `giocatore` on((`squadra`.`idGioc` = `giocatore`.`idGioc`)));
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `giocatorisquadra` AS select `squadra`.`idLega` AS `idLega`,`squadra`.`idUtente` AS `idUtente`,`giocatore`.`idGioc` AS `idGioc`,`giocatore`.`nome` AS `nome`,`giocatore`.`cognome` AS `cognome`,`giocatore`.`ruolo` AS `ruolo`,`giocatore`.`club` AS `club` from (`squadra` join `giocatore` on((`squadra`.`idGioc` = `giocatore`.`idGioc`)));
 
 -- --------------------------------------------------------
 
@@ -9902,7 +9902,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocat
 --
 DROP TABLE IF EXISTS `giocatoristatistiche`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocatoristatistiche` AS select `giocatore`.`idGioc` AS `idGioc`,`giocatore`.`cognome` AS `cognome`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub`,sum(`voto`.`presenza`) AS `presenze`,sum(`voto`.`valutato`) AS `presenzeVoto`,round((sum(`voto`.`punti`) / sum(`voto`.`valutato`)),2) AS `avgPunti`,round((sum(`voto`.`voto`) / sum(`voto`.`valutato`)),2) AS `avgVoti`,sum(`voto`.`gol`) AS `gol`,sum(`voto`.`golSub`) AS `golSubiti`,sum(`voto`.`assist`) AS `assist`,sum(`voto`.`ammonizioni`) AS `ammonizioni`,sum(`voto`.`espulsioni`) AS `espulsioni` from ((`giocatore` left join `voto` on((`giocatore`.`idGioc` = `voto`.`idGioc`))) left join `club` on((`club`.`idClub` = `giocatore`.`club`))) group by `giocatore`.`idGioc`;
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `giocatoristatistiche` AS select `giocatore`.`idGioc` AS `idGioc`,`giocatore`.`cognome` AS `cognome`,`giocatore`.`nome` AS `nome`,`giocatore`.`ruolo` AS `ruolo`,`club`.`idClub` AS `idClub`,`club`.`nomeClub` AS `nomeClub`,sum(`voto`.`presenza`) AS `presenze`,sum(`voto`.`valutato`) AS `presenzeVoto`,round((sum(`voto`.`punti`) / sum(`voto`.`valutato`)),2) AS `avgPunti`,round((sum(`voto`.`voto`) / sum(`voto`.`valutato`)),2) AS `avgVoti`,sum(`voto`.`gol`) AS `gol`,sum(`voto`.`golSub`) AS `golSubiti`,sum(`voto`.`assist`) AS `assist`,sum(`voto`.`ammonizioni`) AS `ammonizioni`,sum(`voto`.`espulsioni`) AS `espulsioni` from ((`giocatore` left join `voto` on((`giocatore`.`idGioc` = `voto`.`idGioc`))) left join `club` on((`club`.`idClub` = `giocatore`.`club`))) group by `giocatore`.`idGioc`;
 
 -- --------------------------------------------------------
 
@@ -9911,7 +9911,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giocat
 --
 DROP TABLE IF EXISTS `giornatevinte`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giornatevinte` AS select `punteggio`.`idUtente` AS `idUtente`,count(`punteggio`.`idUtente`) AS `giornateVinte` from (`punteggio` join `dettpuntmassimi` on(((`punteggio`.`idGiornata` = `dettpuntmassimi`.`idGiornata`) and (`punteggio`.`punteggio` = `dettpuntmassimi`.`punteggio`)))) group by `punteggio`.`idUtente`;
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `giornatevinte` AS select `punteggio`.`idUtente` AS `idUtente`,count(`punteggio`.`idUtente`) AS `giornateVinte` from (`punteggio` join `dettpuntmassimi` on(((`punteggio`.`idGiornata` = `dettpuntmassimi`.`idGiornata`) and (`punteggio`.`punteggio` = `dettpuntmassimi`.`punteggio`)))) group by `punteggio`.`idUtente`;
 
 -- --------------------------------------------------------
 
@@ -9920,7 +9920,7 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `giorna
 --
 DROP TABLE IF EXISTS `punteggistatistiche`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `punteggistatistiche` AS select `utente`.`idUtente` AS `idUtente`,max(`punteggio`.`punteggio`) AS `punteggioMax`,min(`punteggio`.`punteggio`) AS `punteggioMin`,round(avg(`punteggio`.`punteggio`),2) AS `punteggioMed` from (`utente` join `punteggio` on((`utente`.`idUtente` = `punteggio`.`idUtente`))) group by `utente`.`idUtente`;
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `punteggistatistiche` AS select `utente`.`idUtente` AS `idUtente`,max(`punteggio`.`punteggio`) AS `punteggioMax`,min(`punteggio`.`punteggio`) AS `punteggioMin`,round(avg(`punteggio`.`punteggio`),2) AS `punteggioMed` from (`utente` join `punteggio` on((`utente`.`idUtente` = `punteggio`.`idUtente`))) group by `utente`.`idUtente`;
 
 -- --------------------------------------------------------
 
@@ -9929,4 +9929,4 @@ CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `punteg
 --
 DROP TABLE IF EXISTS `squadrastatistiche`;
 
-CREATE ALGORITHM=MERGE DEFINER=`developer`@`%` SQL SECURITY DEFINER VIEW `squadrastatistiche` AS select `utente`.`idUtente` AS `idUtente`,`utente`.`nome` AS `nome`,`utente`.`nomeProp` AS `nomeProp`,`utente`.`cognome` AS `cognome`,`utente`.`mail` AS `mail`,`utente`.`abilitaMail` AS `abilitaMail`,`utente`.`username` AS `username`,`utente`.`password` AS `password`,`utente`.`amministratore` AS `amministratore`,`utente`.`idLega` AS `idLega`,sum(`giocatoristatistiche`.`gol`) AS `totaleGol`,sum(`giocatoristatistiche`.`golSubiti`) AS `totaleGolSubiti`,sum(`giocatoristatistiche`.`assist`) AS `totaleAssist`,sum(`giocatoristatistiche`.`ammonizioni`) AS `totaleAmmonizioni`,sum(`giocatoristatistiche`.`espulsioni`) AS `totaleEspulsioni`,round(avg(`giocatoristatistiche`.`avgPunti`),2) AS `avgPunti`,round(avg(`giocatoristatistiche`.`avgVoti`),2) AS `avgVoti` from (`utente` join (`squadra` join `giocatoristatistiche` on((`squadra`.`idGioc` = `giocatoristatistiche`.`idGioc`))) on((`utente`.`idUtente` = `squadra`.`idUtente`))) group by `utente`.`idUtente`;
+CREATE ALGORITHM=MERGE DEFINER=`fantamanajer`@`%` SQL SECURITY DEFINER VIEW `squadrastatistiche` AS select `utente`.`idUtente` AS `idUtente`,`utente`.`nome` AS `nome`,`utente`.`nomeProp` AS `nomeProp`,`utente`.`cognome` AS `cognome`,`utente`.`mail` AS `mail`,`utente`.`abilitaMail` AS `abilitaMail`,`utente`.`username` AS `username`,`utente`.`password` AS `password`,`utente`.`amministratore` AS `amministratore`,`utente`.`idLega` AS `idLega`,sum(`giocatoristatistiche`.`gol`) AS `totaleGol`,sum(`giocatoristatistiche`.`golSubiti`) AS `totaleGolSubiti`,sum(`giocatoristatistiche`.`assist`) AS `totaleAssist`,sum(`giocatoristatistiche`.`ammonizioni`) AS `totaleAmmonizioni`,sum(`giocatoristatistiche`.`espulsioni`) AS `totaleEspulsioni`,round(avg(`giocatoristatistiche`.`avgPunti`),2) AS `avgPunti`,round(avg(`giocatoristatistiche`.`avgVoti`),2) AS `avgVoti` from (`utente` join (`squadra` join `giocatoristatistiche` on((`squadra`.`idGioc` = `giocatoristatistiche`.`idGioc`))) on((`utente`.`idUtente` = `squadra`.`idUtente`))) group by `utente`.`idUtente`;
