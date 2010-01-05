@@ -14,7 +14,7 @@ $pages = array();
 								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
 								
 	$pages['classifica'] = array(	'title'=>"Classifica",
-								'js'=>array('flot'=>array('ie|excanvas','jquery-flot')),
+								'js'=>array('flot'=>array('ie|excanvas','jquery.flot')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 								
@@ -36,7 +36,7 @@ $pages = array();
 								'navbar'=>array('key'=>'areaAmministrativa','title'=>'Area amministrativa','order'=>7,'main'=>TRUE));
 								
 	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
-								'js'=>array('flot'=>array('ie|excanvas','jquery-flot')),
+								'js'=>array('flot'=>array('ie|excanvas','jquery.flot')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'altro','title'=>'Dettaglio giocatore'));
 									
@@ -90,7 +90,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 										
 	$pages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('ui.core','ui-draggable','ui-droppable'),'custom'=>'createFormazione'),
+										'js'=>array('ui'=>array('ui.core','ui.draggable','ui.droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 									
@@ -103,7 +103,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Giocatori liberi'));
 										
 	$pages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
-										'js'=>array('ui'=>array('ui-core','ui-draggable','ui-droppable')),
+										'js'=>array('ui'=>array('ui.core','ui.draggable','ui.droppable')),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										
@@ -116,7 +116,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Download'));
 										
 	$pages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
-										'js'=>array('ui'=>array('ui-core','ui-dialog')),
+										'js'=>array('ui'=>array('ui.core','ui.dialog')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Crea una nuova squadra'));
 										
@@ -137,7 +137,7 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Penalità'));
 										
 	$pages['impostazioni'] = array(	'title'=>"Impostazioni lega",
-										'js'=>array('markitup'=>array('jquery-markitup','html')),
+										'js'=>array('markitup'=>array('jquery.markitup','html')),
 										'css'=>array('markitup'),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Impostazioni lega'));
@@ -152,7 +152,7 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Lancia script'));
 										
 	$pages['modificaGiocatore'] = array(	'title'=>"Modifica giocatore",
-										'js'=>array('flot'=>array('ie|excanvas','jquery-flot')),
+										'js'=>array('flot'=>array('ie|excanvas','jquery.flot')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
 										

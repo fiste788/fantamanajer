@@ -94,125 +94,26 @@
 		</tr>
 	</table>
 </div>
-<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;overflow:hidden;">&nbsp;</div>
-<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
-<div id="hidden" class="hidden">&nbsp;</div>
-<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
+<div id="grafico">
+	<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;overflow:hidden;">&nbsp;</div>
+	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
+	<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+	<div id="hidden" class="hidden">&nbsp;</div>
+	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
+</div>
 <script id="source" type="text/javascript">
 // <![CDATA[
-	$(function () {
-		var data = [
+		var datasets = {
+			"voto":
 			{
 			label: "Voto <?php echo $this->dettaglioGioc['dettaglio']->cognome ." ". $this->dettaglioGioc['dettaglio']->nome; ?>",
 			data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): $i++; ?><?php if($val->punti != '0') echo '[' . $key . ',' . $val->punti . ']'; if($val->punti != '0' && count($this->dettaglioGioc['dettaglio']->data) != $i) echo ','; endforeach; ?>]
-			},
+			},"punti":
 			{
 			label: "Punteggio <?php echo $this->dettaglioGioc['dettaglio']->cognome ." ". $this->dettaglioGioc['dettaglio']->nome; ?>",
 			data: [<?php $i = 0; foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): $i++; ?><?php if($val->voto != '0') echo '[' . $key . ',' . $val->voto . ']'; if($val->voto != '0' && count($this->dettaglioGioc['dettaglio']->data) != $i) echo ','; endforeach; ?>]
 			}
-		];
-			
-		var options = {
-			lines: { show: true },
-			points: { show: true },
-			grid: { backgroundColor: null,hoverable:true,tickColor: '#aaa',color:'#aaa' },
-			legend: { noColumns: 1, container: $("#legendcontainer"),backgroundColor: null },
-			xaxis: { tickDecimals: 0 },
-			yaxis: { min: 0 },
-			shadowSize: 2,
-			selection: { mode: null }
 		};
-
-		// hard-code color indices to prevent them from shifting as
-		// countries are turned on/off
-
-
-		var placeholder = $.plot($("#placeholder"), data, options);
-
-
-			var overview = $.plot($("#overview"), data, {
-				lines: { show: true, lineWidth: 1 },
-				shadowSize: 0,
-				xaxis: { tickDecimals: 0 },
-				yaxis: { min: 0},
-				selection: { mode: "x" },
-				legend: { show:false },
-				grid: {tickColor: '#aaa',color:'#aaa',borderWidth:1}
-			});
-			
-			function showTooltip(x, y,color, contents) {
-				var arrayColor = color.substring(4);
-				arrayColor = arrayColor.replace(')','');
-				arrayColor = arrayColor.split(',');
-				for (var i=0;i<arrayColor.length;i++)
-				{
-					arrayColor[i] = arrayColor[i]*1 + 120;
-					if(arrayColor[i] > 255)
-						arrayColor[i] = 255;
-				}
-				colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
-				$('<div id="tooltip">' + contents + '</div>').css( {
-					position: 'absolute',
-					display: 'none',
-					top: y + 5,
-					left: x + 5,
-					border: '1px solid '+color,
-					padding: '2px',
-					'background-color': colorLight,
-					color: '#000',
-					opacity: 0.60
-				}).appendTo("body").fadeIn(200);
-			};
-			
-			var previousPoint = null;
-			$("#placeholder").bind("plothover", function (event, pos, item) {
-		
-				if (item) {
-					if (previousPoint != item.datapoint) {
-						previousPoint = item.datapoint;
-						
-						$("#tooltip").remove();
-						var x = item.datapoint[0].toFixed(2),
-						y = item.datapoint[1].toFixed(2);
-						
-						showTooltip(item.pageX, item.pageY,item.series.color,
-						item.series.label + ": giornata " + Math.round(x) + " = " + Math.round(y*10)/10 + " punti");
-					}
-				}
-				else {
-					$("#tooltip").remove();
-					previousPoint = null;
-				}
-			});
-
-			$("#clearSelection").bind("click",function () {
-				overview.clearSelection();
-				$("#hidden").removeAttr('val1');
-				$("#hidden").removeAttr('val2');
-				var placeholder = $.plot($("#placeholder"), data, options);
-				$("#clearSelection").addClass('hidden');
-				$("#selection").empty();
-			});
-
-			$("#overview").bind("plotselected", function (event, area) {
-				$("#legendcontainer table").remove();
-				$("#hidden").attr('val1',area.xaxis.from);
-				$("#hidden").attr('val2',area.xaxis.to);
-				$("#clearSelection").removeClass('hidden');
-				$("#selection").text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from) + " alla " + Math.round(area.xaxis.to));
-				// do the zooming
-				plot = $.plot($("#placeholder"), data,
-					$.extend(true, {}, options, {
-						xaxis: { min: Math.round(area.xaxis.from), max: Math.round(area.xaxis.to) }
-				}));
-				overview.setSelection(area, true);
-				$("#legendcontainer table").attr('cellspacing','0');
-			});
-
-			$("#legendcontainer table").attr('cellspacing','0');
-
-});
 // ]]>
 </script>
 <?php endif; ?>

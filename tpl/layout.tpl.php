@@ -8,8 +8,8 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
-		<link href="<?php echo CSSURL . 'screen.min.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
-		<link href="<?php echo CSSURL . 'print.min.css' ?>" media="print" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . 'screen.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -104,7 +104,7 @@
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
-		<script src="<?php echo JSURL . 'jquery/jquery.min.js'; ?>" type="text/javascript"></script>
+		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
 		<script type="text/javascript">
 		// <![CDATA[
 		if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";

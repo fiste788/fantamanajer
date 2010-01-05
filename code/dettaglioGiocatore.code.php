@@ -20,7 +20,7 @@ $ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
 $pathfoto = 'foto/' . $dettaglio['dettaglio']->idGioc . '.jpg';
 $pathclub = 'clubs/' . $dettaglio['dettaglio']->idClub . '.png';
-if(!@file(IMGSURL . $pathfoto))
+if(!file_exists(IMGDIR . $pathfoto))
 	$pathfoto = 'no-photo.png';
 
 if($_SESSION['logged'] == TRUE)
