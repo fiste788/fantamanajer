@@ -1,6 +1,6 @@
 <?php $r = 'Por.'; ?>
 <div id="headerSquadra">
-	<?php if(@file(UPLOADIMGURL . $this->squadraDett->idUtente . '.jpg')): ?>
+	<?php if(file_exists(UPLOADDIR . $this->squadraDett->idUtente . '.jpg')): ?>
 	<div class="column last">
 		<a title="<?php echo $this->squadraDett->nome; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett->idUtente . '-original.jpg'; ?>" class="fancybox column">
 			<img alt="<?php echo $this->squadraDett->idUtente; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett->idUtente . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nome; ?>" />
@@ -83,29 +83,6 @@
 				</fieldset>
 			</form>
 		</div>
-		<script type="text/javascript">
-		// <![CDATA[
-			$(document).ready(function() { 
-				$("#qui").toggle(
-				function(event){
-					$("#mostraDati").css("display","none");
-					$("#datiNascosti").fadeIn(function () {
-						if(jQuery.browser.msie)
-							$(this).removeAttr("filter");
-					});
-					$("#qui").attr("title","Nascondi menu");
-				},
-				function(event){
-					$("#datiNascosti").css("display","none");
-					$("#mostraDati").fadeIn(function () {
-						if(jQuery.browser.msie)
-							$(this).removeAttr("filter");
-					});
-					$("#qui").attr("title","Mostra menu");
-				});
-			});
-		// ]]>
-		</script>
 		<?php endif; ?>
 	</div>
 </div>

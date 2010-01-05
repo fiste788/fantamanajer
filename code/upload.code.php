@@ -31,26 +31,15 @@ if (isset ($_FILES ['userfile']['tmp_name']) && !empty($_FILES['userfile']['tmp_
 			case 0: if($uploadObj->resize($name , $path , $width_thumb , $height_thumb , $path . $name . '-temp.' . $ext, $image_type) && 
 						$uploadObj->resize($name . '-med' , $path , $width_med_thumb , $height_med_thumb , $path . $name . '-temp.' . $ext, $image_type) && 
 						$uploadObj->resize($name . '-original' , $path , $width_large_thumb , $height_large_thumb , $path . $name . '-temp.' . $ext, $image_type))
-					{
-						$message['level'] = 0;
-						$message['text'] = "Upload effettuato correttamente, Potrebbe essere necessario ricaricare la pagina per problemi di cache. Premi Ctrl+R";
-					}
+							$message->success("Upload effettuato correttamente, Potrebbe essere necessario ricaricare la pagina per problemi di cache. Premi Ctrl+R");
 					else
-					{
-						$message['level'] = 1;
-						$message['text'] = "Problemi nel ridimensionamento";
-					}
+						$message->warning("Problemi nel ridimensionamento");
 					unlink($path . $name . '-temp.' . $ext);
 					break;
-			case 1: $message['level'] = 1;
-					$message['text'] = "Nessun file selezionato"; break;
-			case 2: $message['level'] = 1;
-					$message['text'] = "File troppo grande"; break;
-			case 3: $message['level'] = 1;
-					$message['text'] = "Tipo di file non supportato"; break;
-			case 4: $message['level'] = 1;
-					$message['text'] = "Errore nell'upload del file"; break;
+			case 1: $message->error("Nessun file selezionato"); break;
+			case 2: $message->warning("File troppo grande"); break;
+			case 3: $message->warning("Tipo di file non supportato"); break;
+			case 4: $message->error("Errore nell'upload del file"); break;
 	}
-	$layoutTpl->assign('message',$message);
 }
 ?>
