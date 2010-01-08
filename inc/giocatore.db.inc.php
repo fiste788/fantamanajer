@@ -188,7 +188,7 @@ class giocatore
 		while($row = mysql_fetch_object($exe))
 		{
 			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
-			$giocatori[$row->idGioc] = implode(";",$row);
+			$giocatori[$row->idGioc] = implode(";",get_object_vars($row));
 		}
 		return $giocatori;
 	}
