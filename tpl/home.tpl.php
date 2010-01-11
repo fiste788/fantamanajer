@@ -40,7 +40,7 @@
 	<div class="column last" style="clear:both;">
 		<ul>
 		<?php foreach($this->eventi as $key =>$val): ?>
-			<li>
+			<li class="eventoHome">
 				<span><?php echo $val->data; ?></span>
 				<a<?php if($val->tipo != 2) echo ' href="' . $val->link . '"'; ?> title="<?php echo $val->content; ?>"><?php echo $val->titolo; ?></a>
 			</li>

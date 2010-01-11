@@ -52,9 +52,9 @@
 				}
 			});
 			if(k == 0)
-				$(placeholder).css("display","none");
+				$("#grafico").css("display","none");
 			else
-				$(placeholder).css("display","block");
+				$("#grafico").css("display","block");
 			if (k == 1)
 				data.push(medie[j]);
 

@@ -24,33 +24,33 @@ $giornata = GIORNATA - 1;
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
+	$giornata = 17;
 	$path = $decryptObj->decryptCdfile($giornata);
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 	if($path != FALSE || $votoObj->checkVotiExist($giornata))
 	{
 		// PRIMA MI FACCIO UN BACKUP DEL DB
-		$path = 'db';
 		$name = "backup_" . date("Ymd-His");
-		$backupName = $path . '/' . $name;
+		$backupName = DBDIR . $name;
 		$backupGzipObj = new MySQLDump(DBNAME,$backupName . '.gz',TRUE,FALSE);
 		$backupObj = new MySQLDump(DBNAME,$backupName . '.sql',FALSE,FALSE);
 		if($backupObj->dodump())
 		{
 			if($backupGzipObj->dodump())
 			{
-				$handle = fopen('docs/nomeBackup.txt','r');
+				$handle = fopen(DOCSDIR . 'nomeBackup.txt','r');
 				$fileOld = fgets($handle);
-				unlink($path . '/' . $fileOld);
+				unlink(DBDIR . trim($fileOld));
 				fclose($handle);
-				$handle = fopen('docs/nomeBackup.txt','w');
+				$handle = fopen(DOCSDIR . 'nomeBackup.txt','w');
 				fwrite($handle,$name . '.gz');
 				fclose($handle);
-				$files = $fileSystemObj->getFileIntoFolder($path);
+				$files = $fileSystemObj->getFileIntoFolder(DBDIR);
 				rsort($files);
 				if(count($files) > 9)
 				{
 					$lastFile = array_pop($files);
-					unlink($path.'/'.$lastFile);
+					unlink(DBDIR . $lastFile);
 				}
 			}
 		}
@@ -132,8 +132,8 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 					//MANDO LA MAIL
 					$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val->idUtente,$giornata);
 					//$mailContent->display(MAILTPLDIR.'mail.tpl.php');
-					if(!$mailObj->sendEmail($val->nomeProp . " " . $val->cognome . "<" . $val->mail . ">",$mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php'),$object))
-						$mail++ ;
+					//if(!$mailObj->sendEmail($val->nomeProp . " " . $val->cognome . "<" . $val->mail . ">",$mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php'),$object))
+					//	$mail++ ;
 				}
 			}
 			unset($mailContent);
@@ -147,6 +147,6 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 		$message->error("Problema nel recupero dei voti dalla gazzetta");
 }
 else
-	$message->error("Non puoi effettuare l'operazione ora");
+	$message->warning("Non puoi effettuare l'operazione ora");
 $contentTpl->assign('message',$message);
 ?>
