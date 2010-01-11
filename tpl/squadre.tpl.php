@@ -2,7 +2,7 @@
 	<div class="box column last">
 	<?php if(file_exists(UPLOADDIR . $val->idUtente . '-med.jpg')): ?>
 		<a rel="group" title="<?php echo $val->nome; ?>" class="column fancybox" href="<?php echo UPLOADIMGURL . $val->idUtente . '-original.jpg'; ?>" >
-			<img class="logo" alt="<?php echo $val->idUtente; ?>" src="<?php echo UPLOADIMGURL . $val->idUtente . '-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita" />
+			<img alt="<?php echo $val->idUtente; ?>" src="<?php echo UPLOADIMGURL . $val->idUtente . '-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita" />
 		</a>
 	<?php else: ?>
 		<img class="logo column last" alt="<?php echo $val->idUtente; ?>" src="<?php echo IMGSURL . 'no-foto.png'; ?>" title="<?php echo $val->nome; ?>" />

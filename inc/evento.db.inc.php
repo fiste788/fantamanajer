@@ -107,7 +107,7 @@ class evento
 									$selected = $player[$values[$key]->idExternal];
 									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' ('.$selected->nomeClub . ') inserito nella lista giocatori';
 									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' ora fa parte della rosa ' . $selected->partitivo . ' ' . $selected->nomeClub . ', pertanto e\' stato inserito nella lista giocatori';
-									$values[$key]->link = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]['idExternal']));
+									$values[$key]->link = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
 									break;
 								case 6: 
 									$player = $giocatoreObj->getGiocatoreById($values[$key]->idExternal);

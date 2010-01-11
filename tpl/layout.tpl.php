@@ -31,7 +31,7 @@
 				<?php echo $this->navbar ?>
 			</div>
 			<div id="content" class="column last">
-				<?php if(isset($this->message) || isset($this->generalMessage)): ?>
+				<?php if($this->message->show || isset($this->generalMessage)): ?>
 					<div id="messaggioContainer" title="Clicca per nascondere">
 					<?php if(isset($this->generalMessage)): ?>
 						<div title="Clicca per nascondere" class="messaggio error column last">
@@ -49,7 +49,7 @@
 							<div class="messaggio success column last">
 								<div class="column last top"></div>
 								<div class="column last middle">
-									<img alt="OK" src="<?php echo IMGSURL . 'ok.png'; ?>" />
+									<img alt="OK" height="56" src="<?php echo IMGSURL . 'ok.png'; ?>" width="56" />
 									<span><?php echo $this->message->text; ?></span>
 								</div>
 								<div class="column last bottom"></div>
@@ -58,7 +58,7 @@
 							<div class="messaggio warning column last">
 								<div class="column last top"></div>
 								<div class="column last middle">
-									<img alt="!" src="<?php echo IMGSURL . 'attention.png'; ?>" title="Attenzione!" />
+									<img alt="!" height="56" src="<?php echo IMGSURL . 'attention.png'; ?>" width="56" />
 									<span><?php echo $this->message->text; ?></span>
 								</div>
 								<div class="column last bottom"></div>
@@ -67,7 +67,7 @@
 							<div class="messaggio error column last">
 								<div class="column last top"></div>
 								<div class="column last middle">
-									<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
+									<img alt="!" height="56" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" width="56" />
 									<span><?php echo $this->message->text; ?></span>
 								</div>
 								<div class="column last bottom"></div>

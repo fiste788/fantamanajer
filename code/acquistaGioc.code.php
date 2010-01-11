@@ -5,7 +5,7 @@ $trasferimentoObj = new trasferimento();
 $giornataObj = new giornata();
 
 $today = date("Y-m-d");
-$date = $giornataObj->getDataByGiornata($giornataObj->getIdGiornataByDate());
+$date = $giornataObj->getDataByGiornata($giornataObj->getGiornataByDate());
 $giorn = explode(' ',$date[2]);
 $dataGiornata = $giorn[0];
 
@@ -17,5 +17,5 @@ if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 's
 }
 else
 	$message->warning("Non puoi effettuare l'operazione ora");
-$layoutTpl->assign('message',$message);
+$contentTpl->assign('message',$message);
 ?>

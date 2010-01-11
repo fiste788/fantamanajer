@@ -50,6 +50,7 @@ define ("INCDIR",'inc/');					//inc => INCDIR
 define ("DBDIR",'db/');				//admincode => ADMINCODEDIR
 define ("MAILTPLDIR",TPLDIR . 'mail/');
 define ("VOTIDIR",'docs/voti/csv/');				 //docs/voti => VOTIDIR
+define ("DOCSDIR",'docs/');
 define ("TMPDIR",'tmp/');				 //docs/voti => VOTIDIR
 
 define ("CSSURL",FULLURL.'css/');				//css => CSSURL

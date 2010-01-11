@@ -27,7 +27,7 @@
 	echo "<lastBuildDate>" . date("r",mktime($tempo[0],$tempo[1],$tempo[2],$giorno[1],$giorno[2],$giorno[0])) . "</lastBuildDate>\n";
 	echo "<description>Lista degli eventi del FantaManajer</description>\n";
 	echo "<copyright>Copyright 2008 www.fantamanajer.it</copyright>\n";
-	echo "<atom:link href=\"" . FULLURL . 'rss.php' . "\" rel=\"self\" type=\"application/atom+xml\" />\n";
+	echo "<atom:link href=\"" . FULLURL . 'rss.php?lega=' . $_GET['lega'] . "\" rel=\"self\" type=\"application/atom+xml\" />\n";
 	echo "<managingEditor>sonzogni.stefano@gmail.com (Sonzogni Stefano)</managingEditor>\n";
 	echo "<webMaster>sonzogni.stefano@gmail.com (Sonzogni Stefano)</webMaster>\n";
 	echo "<language>IT-it</language>\n";
