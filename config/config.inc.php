@@ -41,7 +41,6 @@ if(!LOCAL)
 	define("DBHOST","mysql13.aziendeitalia.com:3306");
 	
 	define("MODREWRITE",TRUE);
-	define("DEBUG",FALSE);
 	error_reporting(0);
 }
 else
@@ -58,7 +57,6 @@ else
 	define("DBHOST","localhost");
 	
 	define("MODREWRITE",FALSE);
-	define("DEBUG",TRUE); 
 	error_reporting(E_ALL);
 }
 

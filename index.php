@@ -105,6 +105,10 @@ else
 	
 if(!LOCAL && $_SESSION['roles'] == 2)
 	define("DEBUG",TRUE);
+elseif(LOCAL)
+	define("DEBUG",TRUE);
+else
+	define("DEBUG",FALSE);
 
 ob_start();
 //Try login if POSTDATA exists
@@ -123,8 +127,6 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['idLega'] = 1;
 	$_SESSION['legaView'] = 1;
 }
-if($_SESSION['roles'] == 2)
-	define("DEBUG",TRUE);
 
 require(INCDIR . 'lega.db.inc.php');
 $legaObj = new lega();
