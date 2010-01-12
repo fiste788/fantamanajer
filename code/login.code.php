@@ -15,7 +15,6 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 			$q = "SELECT idUtente,nome,nomeProp,cognome,mail,amministratore,idLega FROM utente WHERE username='" . $_POST['username'] . "';";
 			$exe = mysql_query($q) or die(MYSQL_ERRNO()." ".MYSQL_ERROR());
 			$values  = mysql_fetch_object($exe);
-			$navbarTpl->assign('loginok',$formsObj->string);
 			$_SESSION['userid'] = $_POST['username'];
 			$_SESSION['logged'] = TRUE;
 			$_SESSION['roles'] = $values->amministratore;

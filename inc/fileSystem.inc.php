@@ -8,7 +8,7 @@ class fileSystem
 		{
 			while (FALSE !== ($file = readdir($handle)))
 			{ 
-				if ($file != "." && $file != ".." && $file != ".svn" && is_dir($folder.'/'.$file)) 
+				if ($file != "." && $file != ".." && $file != ".svn" && is_dir($folder . '/' . $file)) 
 					$output[] = $file;
 			} 
 			closedir($handle); 
@@ -16,7 +16,7 @@ class fileSystem
 		}
 		else
 		{
-			return "La cartella ".$folder." non esiste";
+			return "La cartella " . $folder . " non esiste";
 			die;
 		}
 	}
@@ -36,7 +36,7 @@ class fileSystem
 		}
 		else
 		{
-			return "La cartella ".$folder." non esiste";
+			return "La cartella " . $folder . " non esiste";
 			die;
 		}
 	}
@@ -50,10 +50,10 @@ class fileSystem
 			{
 				if ($file != "." && $file != ".." && $file != '.svn') 
 				{
-					if (is_dir($directory. "/" . $file)) 
+					if (is_dir($directory . "/" . $file)) 
 					{
 						if($recursive) 
-							$array_items = array_merge($array_items, $this->getFileIntoFolderRecursively($directory. "/" . $file, $recursive));
+							$array_items = array_merge($array_items, $this->getFileIntoFolderRecursively($directory . "/" . $file, $recursive));
 						$file = $directory . "/" . $file;
 						$array_items[] = preg_replace("/\/\//si", "/", $file);
 					} 
@@ -69,7 +69,7 @@ class fileSystem
 		return $array_items;
 	}
 	
-	function returnArray($path,$sep=";") 
+	function returnArray($path,$sep = ";") 
 	{
 		if(!file_exists($path)) 
 			die("File non esistente");
@@ -100,7 +100,7 @@ class fileSystem
 	function scaricaVotiCsv($giornata)
 	{
 		$nomeFile = str_pad($giornata,2,"0",STR_PAD_LEFT);
-		$percorso = "./docs/voti/csv/Giornata" . $nomeFile . ".csv";
+		$percorso = DOCSDIR . "Giornata" . $nomeFile . ".csv";
 		$percorsoXml = "./docs/voti/xml/Giornata" . $nomeFile . ".xml";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
 		if (file_exists($percorso))
@@ -177,7 +177,7 @@ class fileSystem
 	function writeXmlVotiDecript($tree,$percorso) 
 	{
 		$xml = new XmlWriter();
-		$ruoli=array("P","D","C","A");
+		$ruoli = array("P","D","C","A");
 		$xml->openURI($percorso);
 		$xml->startDocument("1.0");
 		$xml->startElement("players");
@@ -241,9 +241,9 @@ class fileSystem
 	
 	function getLastBackup()
 	{
-		$nomeBackup = @file_get_contents("http://www.fantamanajer.it/docs/nomeBackup.txt");
-		if(!empty($nomeBackup) && file('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup) != FALSE)
-			return implode(gzfile('http://administrator:banana@www.fantamanajer.it/db/' . $nomeBackup));
+		$nomeBackup = @file_get_contents("http://static.fantamanajer.it/docs/nomeBackup.txt");
+		if(!empty($nomeBackup) && file('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup) != FALSE)
+			return implode(gzfile('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup));
 		else
 			return FALSE;
 	}

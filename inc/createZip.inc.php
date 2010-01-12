@@ -185,7 +185,7 @@ class createZip {
 		}
 		//then send the headers to foce download the zip file
 		header("Content-type: application/zip");
-		header("Content-Disposition: attachment; filename=".basename($newName).";" );
+		header("Content-Disposition: attachment; filename=" . basename($newName) . ";" );
 		header("Pragma: no-cache");
 		header("Expires: 0");
 		readfile("$archiveName");

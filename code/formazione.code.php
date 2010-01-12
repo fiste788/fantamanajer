@@ -11,10 +11,10 @@ $eventoObj = new evento();
 $giocatoreObj = new giocatore();
 $punteggioObj = new punteggio();
 
-$squadra = NULL;
+$filterSquadra = NULL;
 if(isset($_POST['squadra']))
-	$squadra = $_POST['squadra'];
-$contentTpl->assign('squadra',$squadra);
+	$filterSquadra = $_POST['squadra'];
+$contentTpl->assign('squadra',$filterSquadra);
 
 $val = $utenteObj->getElencoSquadre();
 $contentTpl->assign('elencosquadre',$val);
