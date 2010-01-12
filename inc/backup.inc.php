@@ -275,7 +275,7 @@ class MySQLDump {
 				$data .= "-- \n\n";
 				$exe = mysql_query('SHOW CREATE VIEW ' . $record[0]);
 				while ( $row = mysql_fetch_array($exe) ) 
-					$data .= $row['Create View'];
+					$data .= str_replace("CREATE","CREATE OR REPLACE",$row['Create View']);
 				$data .= ";\n\n-- --------------------------------------------------------\n\n";
 				$this->saveToFile($this->file,$data);
 			}

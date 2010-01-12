@@ -103,6 +103,7 @@ if (!isset($_COOKIE[$session_name]))
 else
 	@session_start();
 
+ob_start();
 //Try login if POSTDATA exists
 require_once(CODEDIR . 'login.code.php');
 
@@ -119,6 +120,8 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['idLega'] = 1;
 	$_SESSION['legaView'] = 1;
 }
+if($_SESSION['roles'] == 2)
+	define("DEBUG",TRUE);
 
 require(INCDIR . 'lega.db.inc.php');
 $legaObj = new lega();
@@ -187,7 +190,8 @@ if ($_SESSION['logged'])
 	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
 		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
-
+$debug = ob_get_contents();
+ob_end_clean();
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbarTpl->assign('p',$p);
 $navbarTpl->assign('pages',$pages);
@@ -202,6 +206,7 @@ if(isset($pages[$p]['css']))
  	$layoutTpl->assign('css', $pages[$p]['css']);
 if(isset($pages[$p]['js']))
 	$layoutTpl->assign('js', $pages[$p]['js']);
+$layoutTpl->assign('debug',$debug);
 
 /**
  * GENERAZIONE LAYOUT

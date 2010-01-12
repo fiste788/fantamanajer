@@ -53,5 +53,6 @@
 	modulo['AA'] = <?php echo $this->modulo[3]; ?>;
 	<?php endif; ?>
 	var edit = false;
+	var imgsUrl = '<?php echo IMGSURL; ?>';
 // ]]>
 </script>

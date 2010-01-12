@@ -1,5 +1,4 @@
-<?php if(PARTITEINCORSO == FALSE): ?>
-<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
+<form class="right last" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<h3 class="no-margin">Guarda le altre formazioni</h3>
 		<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
@@ -7,7 +6,7 @@
 			<select name="squadra" disabled="disabled">
 				<option>Nessuna form. impostata</option>
 		<?php else:?>
-			<select name="squadra" onchange="document.formazione_other.submit();">
+			<select name="squadra" onchange="this.form.submit();">
 			<?php foreach($this->formazioniImpostate as $key => $val): ?>
 				<option<?php if($this->squadra == $val->idUtente) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
 			<?php endforeach; ?>
@@ -23,4 +22,3 @@
 		</select>
 	</fieldset>
 </form>
-<?php endif; ?>

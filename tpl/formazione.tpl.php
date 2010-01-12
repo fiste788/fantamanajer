@@ -1,5 +1,5 @@
 <?php $j =0; $k = 0; $ruolo = ""; ?>
-<?php  if(!PARTITEINCORSO): ?>
+<?php if(!PARTITEINCORSO): ?>
 <h3>Giornata <?php echo GIORNATA; ?></h3>
 <form action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
 	<fieldset class="no-margin no-padding">
@@ -30,7 +30,7 @@
 			<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val->idGioc,$this->titolari)) || (!empty($this->panchinari) && in_array($val->idGioc,$this->panchinari))) echo 'hidden'; ?> <?php echo $val->ruolo; ?>">
 				<a class="hidden" rel="<?php echo $val->idGioc; ?>"></a>
 				<?php if(file_exists(IMGDIR . 'foto/' . $val->idGioc . '.jpg')): ?>
-				<img alt="<?php echo $val->idGioc; ?>" height="50" src="<?php echo IMGSURL . "foto/" . $val->idGioc; ?>.jpg" />
+					<img alt="<?php echo $val->idGioc; ?>" height="50" src="<?php echo IMGSURL . 'foto/' . $val->idGioc; ?>.jpg" />
 				<?php endif; ?>
 				<p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
 			</div>
@@ -67,5 +67,6 @@
 	modulo['AA'] = <?php echo $this->modulo[3]; ?>;
 	<?php endif; ?>
 	var edit = true;
+	var imgsUrl = '<?php echo IMGSURL; ?>';
 // ]]>
 </script>

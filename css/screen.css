@@ -217,6 +217,19 @@ a.neutral {
 .tdcenter {
 	text-align:center;
 }
+#debug {
+	background: transparent url(../imgs/bg-content.png);
+	text-align:left;
+	padding:10px;
+	display:none;
+	font-size:10px;
+}
+#debugShow {
+	position:fixed;
+	right:20px;
+	background: transparent url(../imgs/bg-content.png);
+	padding:10px;
+}
 #rightBar {
 	position:fixed;
 	right:0;
