@@ -19,7 +19,7 @@ $articoloObj->setidlega($_SESSION['legaView']);
 $articolo = $articoloObj->select($articoloObj,'=','*');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
-		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,IMGSURL.'emoticons/');
+		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,EMOTICONSURL);
 
 $giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['legaView']);
 if($giornateWithArticoli != FALSE)

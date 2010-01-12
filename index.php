@@ -67,7 +67,7 @@ $contentTpl = new Savant3(array('template_path' => TPLDIR));
 $contentTpl->assign('linksObj',$linksObj);
 $navbarTpl = new Savant3(array('template_path' => TPLDIR));
 $navbarTpl->assign('linksObj',$linksObj);
-$operationTpl = new Savant3(array('template_path' => TPLDIR . 'operazioni/'));
+$operationTpl = new Savant3(array('template_path' => OPERATIONTPLDIR));
 $operationTpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
@@ -102,6 +102,9 @@ if (!isset($_COOKIE[$session_name]))
 }
 else
 	@session_start();
+	
+if(!LOCAL && $_SESSION['roles'] == 2)
+	define("DEBUG",TRUE);
 
 ob_start();
 //Try login if POSTDATA exists
@@ -240,7 +243,7 @@ $content = $contentTpl->fetch($tplfile);
 $operation = "";
 if($_SESSION['logged'])
 	$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
-if(file_exists(TPLDIR . "operazioni/" . $p . ".tpl.php"))
+if(file_exists(OPERATIONTPLDIR . $p . ".tpl.php"))
 	$operation .= $operationTpl->fetch($p . ".tpl.php");
 
 /**

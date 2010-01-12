@@ -15,13 +15,13 @@ if(isset($_POST['edit']))
 	$filterEdit = $_POST['edit'];
 
 $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante');
-$ruoplu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
+$ruoPlu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
-$pathfoto = 'foto/' . $dettaglio['dettaglio']->idGioc . '.jpg';
-$pathclub = 'clubs/' . $dettaglio['dettaglio']->idClub . '.png';
-if(!file_exists(IMGDIR . $pathfoto))
-	$pathfoto = 'no-photo.png';
+$pathFoto = PLAYERSDIR . $dettaglio['dettaglio']->idGioc . '.jpg';
+$pathClub = CLUBSDIR . $dettaglio['dettaglio']->idClub . '.png';
+if(!file_exists($pathFoto))
+	$pathFoto = 'no-photo.png';
 
 if($_SESSION['logged'] == TRUE)
 {
@@ -38,8 +38,8 @@ if($_SESSION['logged'] == TRUE)
 	{
 		$ruolo = $dettaglio['dettaglio']->ruolo;
 		$elencoGiocatori = $giocatoreObj->getFreePlayer($ruolo,$_SESSION['datiLega']->idLega);
-		$operationTpl->assign('label',$ruoplu[$ruolo] . " liberi");
-		$contentTpl->assign('label',$ruoplu[$ruolo] . " liberi");
+		$operationTpl->assign('label',$ruoPlu[$ruolo] . " liberi");
+		$contentTpl->assign('label',$ruoPlu[$ruolo] . " liberi");
 	}
 
 }
@@ -76,9 +76,9 @@ else
 }
 
 $contentTpl->assign('dettaglioGioc',$dettaglio);
-$contentTpl->assign('pathFoto',IMGSURL . $pathfoto);
-$contentTpl->assign('pathClub',IMGSURL . $pathclub);
+$contentTpl->assign('pathFoto',$pathFoto);
+$contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('ruoli',$ruo);
-$contentTpl->assign('ruoliPlurale',$ruoplu);
+$contentTpl->assign('ruoliPlurale',$ruoPlu);
 $operationTpl->assign('idGioc',$filterId);
 $operationTpl->assign('elencoGiocatori',$elencoGiocatori);

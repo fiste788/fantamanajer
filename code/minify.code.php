@@ -12,8 +12,8 @@ foreach($cssFiles as $key=>$val)
 		$array = explode('.',$val);
 		$ext = array_pop($array);
 		if($ext == 'css') 
-			if($array[count($array)-1] != 'min')
-			file_put_contents(implode('.',$array) . '.min.' . $ext , cssmin::minify(file_get_contents($val)));
+			if($array[count($array) - 1] != 'min')
+				file_put_contents(implode('.',$array) . '.min.' . $ext , cssmin::minify(file_get_contents($val)));
 	}
 }
 $jsFiles = $fileSystemObj->getFileIntoFolderRecursively(JSDIR,TRUE);
@@ -24,8 +24,8 @@ foreach($jsFiles as $key=>$val)
 		$array = explode('.',$val);
 		$ext = array_pop($array);
 		if($ext == 'js') 
-			if($array[count($array)-1] != 'min')
-			file_put_contents(implode('.',$array) . '.min.' . $ext,JSMin::minify(file_get_contents($val)));
+			if($array[count($array) - 1] != 'min')
+				file_put_contents(implode('.',$array) . '.min.' . $ext,JSMin::minify(file_get_contents($val)));
 	}
 }
 $message->success("Js e css compressi con successo");	

@@ -14,7 +14,6 @@ if(isset($_POST))
 		$vid = array();
 		$doc = array();
 		$size = 500000;		//set the max size for the upload file
-		$path = 'imgs/foto/' ;
 		$width_thumb = 160;
 		$height_thumb = 200;
 		$image_type = 1;
@@ -29,60 +28,48 @@ if(isset($_POST))
 		if(isset($_POST['idGioc']))
 			$name = $_POST['idGioc'];
 
-		switch($uploadObj -> uploadFile ($size , $img , $vid , $doc, $path , $name.'-temp'))
+		switch($uploadObj -> uploadFile ($size , $img , $vid , $doc, PLAYERSDIR , $name.'-temp'))
 		{
-				case 0: 	switch (strtolower($uploadObj->getExtension($path.$name.'-temp.'.$ext)))			//switch for get the extension
+				case 0: 	switch (strtolower($uploadObj->getExtension(PLAYERSDIR . $name . '-temp.' . $ext)))			//switch for get the extension
 								{
-										case 'jpg' : $image = imagecreatefromjpeg($path.$name.'-temp.'.$ext); break;
-										case 'gif' : $image = imagecreatefromgif($path.$name.'-temp.'.$ext); break;
-										case 'png' : $image = imagecreatefrompng($path.$name.'-temp.'.$ext); break;
+										case 'jpg' : $image = imagecreatefromjpeg(PLAYERSDIR . $name . '-temp.' . $ext); break;
+										case 'gif' : $image = imagecreatefromgif(PLAYERSDIR . $name . '-temp.' . $ext); break;
+										case 'png' : $image = imagecreatefrompng(PLAYERSDIR . $name . '-temp.' . $ext); break;
 										default : die("File non supportato");
 								}		
 								$width = imagesx ($image);
 								if($width > $width_thumb)
 								{
-									if($uploadObj -> resize($name , $path , $width_thumb , $height_thumb , $path.$name.'-temp.'.$ext, $image_type) )
+									if($uploadObj -> resize($name , PLAYERSDIR , $width_thumb , $height_thumb , PLAYERSDIR . $name . '-temp.' . $ext, $image_type) )
 									{
-										$message->level = 0;
-										$message->text = 'Upload effettuato correttamente';
-										unlink($path . $name . '-temp.' . $ext);
+										$message->success('Upload effettuato correttamente');
+										unlink(PLAYERSDIR . $name . '-temp.' . $ext);
 									}
 									else
-									{
-										$message->level = 1;
-										$message->text = 'Problemi nel ridimensionamento';
-									}
+										$message->waring('Problemi nel ridimensionamento');
 								}
 								else
 								{
-									$nameimg = $path . $name . "." . $ext;
+									$nameimg = PLAYERSDIR . $name . "." . $ext;
 									if(file_exists($nameimg))
 										unlink($nameimg);
-									rename($path . $name . '-temp.' . $ext,$nameimg);
-									$message->level = 0;
-									$message->text = 'Upload effettuato correttamente';
+									rename(PLAYERSDIR . $name . '-temp.' . $ext,$nameimg);
+									$message->success('Upload effettuato correttamente');
 								}
 								
 								break;
-				case 1: 	$message->level = 1;
-							$message->text = 'Nessun file selezionato'; break;
-				case 2: 	$message->level = 1;
-							$message->text = 'File troppo grande'; break;
-				case 3: 	$message->level = 1;
-							$message->text = 'Tipo di file non supportato'; break;
-				case 4: 	$message->level = 1;
-							$message->text = 'Errore nell\'upload del file'; break;
+				case 1: 	$message->warning('Nessun file selezionato'); break;
+				case 2: 	$message->warning('File troppo grande'); break;
+				case 3: 	$message->warning('Tipo di file non supportato'); break;
+				case 4: 	$message->error('Errore nell\'upload del file'); break;
 		}
 	}
 
 	if(!empty($_POST['nome']) && !empty($_POST['nome']))
 	{
 		$giocatoreObj->aggiornaGiocatore($_POST['idGioc'],addslashes($_POST['cognome']),addslashes($_POST['nome']));
-		$message->level = 0;
 		$message->success("Giocatore modificato correttamente");
 	}
 }
-if(isset($message))
-	$layoutTpl->assign('message',$message);
 $operationTpl->assign('giocatori',$giocatoreObj->getAllGiocatori());
 ?>
