@@ -10,7 +10,7 @@
 			<?php foreach($giocatori as $key=>$val): ?>
 			<?php if($key == 0): ?>
 				<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
-					<?php if(@file(IMGSURL . 'foto/' . $val->idGioc . '.jpg') != FALSE): ?>
+					<?php if(file_exists(IMGSURL . 'foto/' . $val->idGioc . '.jpg')): ?>
 						<img height="180" width="140" alt="<?php echo $val->cognome . ' ' . $val->nome; ?>" src="<?php echo IMGSURL . 'foto/' . $val->idGioc . '.jpg'; ?>" />
 					<?php else: ?>
 						<img height="180" width="140" alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />

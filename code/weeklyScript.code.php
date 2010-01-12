@@ -24,7 +24,6 @@ $giornata = GIORNATA - 1;
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
-	$giornata = 17;
 	$path = $decryptObj->decryptCdfile($giornata);
 	//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 	if($path != FALSE || $votoObj->checkVotiExist($giornata))

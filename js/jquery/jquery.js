@@ -12,8 +12,9 @@ $(document).ready(function(){
 	$(".messaggio").click(function () {
 		$(this).fadeOut("slow");
 	});
-});
-$(document).ready(function(){
+	$("#debugShow").click(function(){
+		$("#debug").slideToggle();
+	});
 	$("#click-menu").toggle(function(event){
 		$("#menu").animate({right:'0px'},'slow');
 		$("#click-menu").attr("title","Nascondi menu");

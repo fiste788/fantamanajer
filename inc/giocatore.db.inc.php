@@ -137,16 +137,14 @@ class giocatore
 	{
 		$q = "SELECT *
 				FROM dettagliogiornata 
-				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "'";
+				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "' ORDER BY idPosizione";
 		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		if(DEBUG)
 			echo $q . "<br />";
+		$elenco = FALSE;
 		while ($row = mysql_fetch_object($exe))
 			$elenco[] = $row;
-		if(isset($elenco))
-			return $elenco;
-		else
-			return FALSE;
+		return $elenco;
 	}
 	
 	function getGiocatoriByIdSquadraWithStats($idUtente)

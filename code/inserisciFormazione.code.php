@@ -1,18 +1,18 @@
 <?php
-require_once(INCDIR."utente.inc.php");
-require_once(INCDIR."formazione.inc.php");
-require_once(INCDIR."leghe.inc.php");
-require_once(INCDIR."giocatore.inc.php");
-require_once(INCDIR."punteggi.inc.php");
-require_once(INCDIR."voti.inc.php");
-require_once(INCDIR.'mail.inc.php');
+require_once(INCDIR . "utente.db.inc.php");
+require_once(INCDIR . "formazione.db.inc.php");
+require_once(INCDIR . "lega.db.inc.php");
+require_once(INCDIR . "giocatore.db.inc.php");
+require_once(INCDIR . "punteggio.db.inc.php");
+require_once(INCDIR . "voto.db.inc.php");
+require_once(INCDIR . 'mail.inc.php');
 
-$legheObj = new leghe();
+$legaObj = new lega();
 $utenteObj = new utente();
 $formazioneObj = new formazione();
 $giocatoreObj = new giocatore();
-$punteggiObj = new punteggi();
-$votiObj = new voti();
+$punteggioObj = new punteggio();
+$votoObj = new voto();
 $mailObj = new mail();
 $mailContent = new Savant3();
 
@@ -31,7 +31,7 @@ if(isset($_POST['giorn']) && !empty($_POST['giorn']))
 if($_SESSION['usertype'] == 'admin')
 	$lega = $_SESSION['idLega'];
 
-$contentTpl->assign('elencoleghe',$legheObj->getLeghe());
+$contentTpl->assign('elencoleghe',$legaObj->getLeghe());
 $contentTpl->assign('lega',$lega);
 $contentTpl->assign('mod',$mod);
 $contentTpl->assign('modulo',explode('-',$mod));
@@ -120,10 +120,10 @@ if(!isset($formImp[$squadra]))
 				$id = $formazioneObj->caricaFormazione($formazione,$capitano,$giornata,$squadra,$mod);
 				if($votiObj->checkVotiExist($giornata))
 				{
-					$punteggiObj->calcolaPunti($giornata,$squadra,$lega);
+					$punteggioObj->calcolaPunti($giornata,$squadra,$lega);
 					$squadraDett = $utenteObj->getSquadraById($squadra);
 					$mailContent->assign('giornata',$giornata);
-					$mailContent->assign('squadra',$squadraDett['nome']);
+					$mailContent->assign('squadra',$squadraDett->nome);
 					$mailContent->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
 					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$squadra));
 					

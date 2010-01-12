@@ -33,23 +33,24 @@ if(isset($_GET['action']))
 	{
 		$sql = $fileSystemObj->getLastBackup();
 		if(!$sql)
-		{
 			$message->warning('Errore nel recupero dell\'ultimo backup');
-		}
 		else
 		{
 			$querys = explode(";\n",$sql);
 			$dbObj->startTransaction();
 			array_pop($querys);
+			$err = "";
 			foreach($querys as $key=>$val)
-				mysql_query($val) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . " " . $val;
-			if(!isset($err))
+				if(!empty($val))
+					mysql_query($val) or $err .= MYSQL_ERRNO() . " - " . MYSQL_ERROR() . " " . $val . "\n\n";
+			if(empty($err))
 			{
 				$dbObj->commit();
 				$message->success('Sincronizzazione eseguita con successo');
 			}
 			else
 			{
+				echo $err;
 				$dbObj->rollback();
 				$message->error('Errore nella sincronizzazione: ' . $err);
 				$contentTpl->assign('sql',$sql);
@@ -57,6 +58,4 @@ if(isset($_GET['action']))
 		}
 	}
 }
-if(isset($message->text))
-	$layoutTpl->assign('message',$message);
 ?>

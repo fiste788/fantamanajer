@@ -13,7 +13,6 @@ else
 	define ("LOCAL",FALSE);
 }
 $host = implode('.',$hostArray);
-define('DEBUG',FALSE);
 
 $tmp = explode('/',$_SERVER['PHP_SELF']);			//website path(example: for "http://www.test.us/one/jpg/one.jpg" it takes "/one/jpg/one.jpg")
 array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)
@@ -63,22 +62,24 @@ if( substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] 
 	//database access:
 	define ("DBTYPE","mysql");					//database type => DBTYPE
 	define ("DBNAME","fantamanajer");					//database name => DBNAME
-	define ("DBUSER","fantamanajer");					//database username => DBUSER
+	define ("DBUSER","fantamanajerUser");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","localhost");					//database host => DBHOST
 	//modrewrite
 	define ("MODREWRITE",FALSE);
 	// Comunica gli errori semplici di esecuzione 
 	error_reporting(E_ALL);					//activation of error reporting(to be disactivated at the end of the script)
+	define('DEBUG',TRUE);
 }
 else
 {
 	define ("DBTYPE","mysql");					//database type => DBTYPE
-	define ("DBNAME","devfantamanajer");					//database name => DBNAME
-	define ("DBUSER","developer");					//database username => DBUSER
+	define ("DBNAME","fantamanajer");					//database name => DBNAME
+	define ("DBUSER","fantamanajerUser");					//database username => DBUSER
 	define ("DBPASS","banana");						//database password => DBPASS
 	define ("DBHOST","mysql13.aziendeitalia.com:3306");					//database host => DBHOST
 	define ("MODREWRITE",TRUE);
 	error_reporting(0);
+	define('DEBUG',FALSE);
 }
 ?>

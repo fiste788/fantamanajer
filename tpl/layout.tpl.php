@@ -22,6 +22,13 @@
 	</head>
 	<?php flush(); ?>
 	<body>
+		<?php if(DEBUG): ?>
+		<div id="debugShow">Debug</div>
+		<div id="debug">
+			<h3>Debug</h3>
+			<?php echo $this->debug; ?>
+		</div>
+		<?php endif; ?>
 		<div id="big-container">
 			<div id="header" class="column last">
 				<?php echo $this->header; ?>
