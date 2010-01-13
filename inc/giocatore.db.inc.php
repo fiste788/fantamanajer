@@ -188,7 +188,6 @@ class giocatore
 			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
 			$giocatori[$row->idGioc] = implode(";",get_object_vars($row));
 		}
-		echo "<pre>" . print_r($giocatori,1) . "</pre>";
 		return $giocatori;
 	}
 
@@ -205,8 +204,6 @@ class giocatore
 		$ruoli = array("P","D","C","A");
 		$playersOld = $this->getArrayGiocatoriFromDatabase();
 		$players = $fileSystemObj->returnArray($path,";");
-		echo $path;
-		echo "<pre>".print_r($players,1)."</pre>";
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$details)
 		{
@@ -243,7 +240,6 @@ class giocatore
 		if(count($daInserire) != 0)
 		{
 			$rowtoinsert = "";
-			print_r($daInserire);
 			foreach($daInserire as $key => $pezzi)
 			{
 				$esprex = "/[A-Z`]*\s?[A-Z`]{2,}/";
