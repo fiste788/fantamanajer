@@ -138,7 +138,6 @@ require(INCDIR . 'giornata.db.inc.php');
 
 $giornataObj = new giornata();
 $giornata = $giornataObj->getGiornataByDate();
-
 define("GIORNATA",$giornata['idGiornata']);
 define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);
@@ -156,7 +155,6 @@ if(isset($_POST['legaView']))
  * essere caricato per visualizzare la pagina corretta
  *
  */
-
 if(!isset($pages[$p])) 
 {
 	$message->error("La pagina " . $p . " non esiste. Sei stato mandato alla home");

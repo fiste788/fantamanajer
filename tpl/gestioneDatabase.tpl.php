@@ -1,6 +1,6 @@
 <ul>
 	<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase',array('action'=>'optimize')); ?>">Ottimizza</a></li>
-	<?php if(substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost'): ?>
+	<?php if(LOCAL): ?>
 	<li><a href="<?php echo $this->linksObj->getLink('gestioneDatabase',array('action'=>'sincronize')); ?>">Sincronizza</a></li>
 	<?php endif; ?>
 </ul>
