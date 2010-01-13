@@ -53,11 +53,10 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 				}
 			}
 		}
-		if(!$votoObj->checkVotiExist($giornata))
-		{
+		if($path != FALSE)
 			$giocatoreObj->updateTabGiocatore($path,$giornata);
+		if(!$votoObj->checkVotiExist($giornata))
 			$votoObj->importVoti($path,$giornata);
-		}
 		$leghe = $legaObj->getLeghe();
 		$mail = 0;
 		foreach($leghe as $lega)
