@@ -32,6 +32,7 @@ if(isset($_GET['action']))
 	if($_GET['action'] == 'sincronize')
 	{
 		$sql = $fileSystemObj->getLastBackup();
+		echo "b" . $sql;
 		if(!$sql)
 			$message->warning('Errore nel recupero dell\'ultimo backup');
 		else
