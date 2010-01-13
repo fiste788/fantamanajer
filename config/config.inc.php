@@ -52,7 +52,7 @@ else
 	
 	define("DBTYPE","mysql");
 	define("DBNAME","fantamanajer");
-	define("DBUSER","fantamanajer");
+	define("DBUSER","fantamanajerUser");
 	define("DBPASS","banana");
 	define("DBHOST","localhost");
 	
