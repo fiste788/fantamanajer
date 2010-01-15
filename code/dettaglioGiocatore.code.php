@@ -19,9 +19,11 @@ $ruoPlu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Att
 
 $dettaglio = $giocatoreObj->getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
 $pathFoto = PLAYERSDIR . $dettaglio['dettaglio']->idGioc . '.jpg';
-$pathClub = CLUBSDIR . $dettaglio['dettaglio']->idClub . '.png';
+$pathClub = CLUBSURL . $dettaglio['dettaglio']->idClub . '.png';
 if(!file_exists($pathFoto))
-	$pathFoto = 'no-photo.png';
+	$pathFoto = IMGSURL . 'no-photo.png';
+else
+	$pathFoto = PLAYERSURL . $dettaglio['dettaglio']->idGioc . '.jpg';
 
 if($_SESSION['logged'] == TRUE)
 {
