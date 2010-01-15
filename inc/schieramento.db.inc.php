@@ -1,5 +1,5 @@
 <?php 
-class schieramento
+class schieramento extends dbTable
 {
 	var $idFormazione;
 	var $idPosizione;
@@ -13,7 +13,7 @@ class schieramento
 				WHERE idFormazione = '" . $idFormazione . "' AND idGioc = '" . $idGioc . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function changeGioc($idFormazione,$idGiocOld,$idGiocNew)
@@ -23,7 +23,7 @@ class schieramento
 				WHERE idGioc = '" . $idGiocOld . "' AND idFormazione = '" . $idFormazione . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function setGiocatore($idFormazione,$idGioc,$pos)

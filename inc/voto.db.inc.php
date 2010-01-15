@@ -1,5 +1,5 @@
 <?php 
-class voto
+class voto extends dbTable
 {
 	var $idGioc;
 	var $idGiornata;
@@ -13,7 +13,7 @@ class voto
 		$q = "SELECT punti 
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -25,7 +25,7 @@ class voto
 		$q = "SELECT * 
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND valutato = 1";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$values=false;
 		if(DEBUG)
 			echo $q . "<br />";
@@ -39,7 +39,7 @@ class voto
 		$q = "SELECT valutato 
 				FROM voto 
 				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -52,7 +52,7 @@ class voto
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND punti <> 0 AND voto <> 0 
 				GROUP BY idGioc";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))
@@ -83,7 +83,7 @@ class voto
 				$q .= implode(',',$voti);
 				if(DEBUG)
 					echo $q . "<br />";
-				return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				return mysql_query($q) or self::sqlError($q);
 			}
 			else
 				return FALSE;
@@ -97,7 +97,7 @@ class voto
 		$values = array();
 		$q = "SELECT DISTINCT(idGiornata)
 				FROM voto";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))
@@ -133,7 +133,7 @@ class voto
 		}
 		$q = "INSERT INTO voto (idGioc,idGiornata,valutato,punti,voto,gol,golSub,golVit,golPar,assist,ammonizioni,espulsioni,rigoriSegn,rigoriSub,presenza,titolare,quotazione) VALUES ";  
 		$q .= implode(',',$rows);
-		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or self::sqlError($q);
 	}
 }
 ?>

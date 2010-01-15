@@ -1,5 +1,5 @@
 <?php 
-class trasferimento
+class trasferimento extends dbTable
 {
 	var $idTrasf;
 	var $idGiocOld;
@@ -13,7 +13,7 @@ class trasferimento
 		$q = "SELECT idGiocOld,t1.nome as nomeOld,t1.cognome as cognomeOld,idGiocNew,t2.nome as nomeNew,t2.cognome as cognomeNew, idGiornata, obbligato 
 				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimento.idGiocOld 
 				WHERE trasferimento.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = array();
@@ -40,7 +40,7 @@ class trasferimento
 		$giocatoreObj = new giocatore();
 		
 		$squadraOld = $squadraObj->getSquadraByIdGioc($giocNew,$idLega);
-		mysql_query("START TRANSACTION");
+		self::startTransaction();
 		if($squadraOld == FALSE)
 		{
 			$squadraObj->setSquadraByIdGioc($giocNew,$idLega,$squadra);
@@ -98,11 +98,11 @@ class trasferimento
 		}
 		if(isset($err))
 		{
-			mysql_query("ROLLBACK");
-			die("Errore nella transazione: <br />" . $err);
+			self::rollback();
+			self::sqlError("Errore nella transazione: <br />" . $err);
 		}
 		else
-			mysql_query("COMMIT");
+			self::commit();
 	}
 	
 	function doTransfertBySelezione()
@@ -126,7 +126,7 @@ class trasferimento
 		{
 			foreach($selezioni as $key => $val)
 			{
-				mysql_query("START TRANSACTION");
+				self::startTransaction();
 				$squadreObj->unsetSquadraByIdGioc($val->giocOld,$val->idLega);
 				$squadreObj->setSquadraByIdGioc($val->giocNew,$val->idLega,$val->idSquadra);
 				$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
@@ -152,11 +152,11 @@ class trasferimento
 				$eventiObj->addEvento('4',$val->idSquadra,$val->idLega,$idTrasferimento->idTrasf);
 				if(isset($err))
 				{
-					mysql_query("ROLLBACK");
-					die("Errore nella transazione: <br />" . $err);
+					self::rollback();
+					self::sqlError("Errore nella transazione: <br />" . $err);
 				}
 				else
-					mysql_query("COMMIT");
+					self::commit();
 			}
 			$selezioneObj->svuota();
 		}
@@ -167,7 +167,7 @@ class trasferimento
 		$q = "SELECT * 
 				FROM trasferimento 
 				WHERE idTrasf = '" . $id . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))

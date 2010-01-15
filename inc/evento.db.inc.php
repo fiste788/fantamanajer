@@ -1,5 +1,5 @@
 <?php
-class evento
+class evento extends dbTable
 {
 	var $idEvento;
 	var $idUtente;
@@ -14,7 +14,7 @@ class evento
 				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
@@ -23,7 +23,7 @@ class evento
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
@@ -61,7 +61,7 @@ class evento
 		  $q .= " AND tipo = '" . $tipo . "'";
 		$q .= " ORDER BY data DESC 
 				LIMIT " . $min . "," . $max . ";";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))

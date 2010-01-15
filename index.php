@@ -47,7 +47,7 @@ require('config/config.inc.php');
 require('config/Savant3.php');
 require('config/pages.inc.php');
 require(INCDIR . 'db.inc.php');
-require(INCDIR . 'auth.inc.php');
+require(INCDIR . 'dbTable.inc.php');
 require(INCDIR . 'strings.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
@@ -115,7 +115,7 @@ ob_start();
 require_once(CODEDIR . 'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'])
-	header('Location: '. str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
+	header('Location: ' . str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
@@ -146,7 +146,7 @@ define("STAGIONEFINITA",$giornata['stagioneFinita']);
 $leghe = $legaObj->getLeghe();
 $layoutTpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
-	$_SESSION['legaView'] = $leghe[0]['idLega'];
+	$_SESSION['legaView'] = $leghe[0]->idLega;
 if(isset($_POST['legaView']))
 	$_SESSION['legaView'] = $_POST['legaView'];
 /**

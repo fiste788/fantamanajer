@@ -1,5 +1,5 @@
 <?php
-class punteggio
+class punteggio extends dbTable
 {
 	var $punteggio;
 	var $penalità;
@@ -12,7 +12,7 @@ class punteggio
 		$q = "SELECT * 
 				FROM punteggio 
 				WHERE idGiornata = '" . $giornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		if(mysql_num_rows($exe) > 0)
@@ -26,7 +26,7 @@ class punteggio
 		$q = "SELECT punteggio 
 				FROM punteggio 
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$punteggio = NULL;
@@ -57,7 +57,7 @@ class punteggio
 		$q = "SELECT *
 				FROM punteggio 
 				WHERE idLega = '" . $idLega . "' AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -73,7 +73,7 @@ class punteggio
 		$q = "SELECT giornateVinte 
 				FROM giornatevinte 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -88,7 +88,7 @@ class punteggio
 				WHERE punteggio.idGiornata <= '" . $idGiornata . "' AND punteggio.idLega = '" . $idLega . "'
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$classifica = NULL;
@@ -102,7 +102,7 @@ class punteggio
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
 				FROM punteggio RIGHT JOIN utente ON punteggio.idUtente = utente.idUtente 
 				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND utente.idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$i = 0;
 		if(DEBUG)
 			echo $q . "<br />";
@@ -136,7 +136,7 @@ class punteggio
 	{
 		$q = "SELECT COUNT(DISTINCT(idGiornata)) as numGiornate
 				FROM punteggio";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -232,7 +232,7 @@ class punteggio
 							VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
 				if(DEBUG)
 					echo $q . "<br />";
-				mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				mysql_query($q) or self::sqlError($q);
 				if($percentualePunteggio != NULL)
 				{
 					$puntiDaTogliere = round((($somma / 100) * (100 - $percentualePunteggio)),1);
@@ -240,7 +240,7 @@ class punteggio
 					$puntiDaTogliere = (($puntiDaTogliere * 10) - $modulo) / 10;
 					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,penalità,idLega) 
 							VALUES ('" . $giornata . "','" . $idSquadra . "','" . - ($puntiDaTogliere) ."','Formazione non settata','" . $idLega . "')";
-					mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+					mysql_query($q) or self::sqlError($q);
 					if(DEBUG)
 						echo $q . "<br />";
 				}
@@ -263,7 +263,7 @@ class punteggio
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
 			if(DEBUG)
 				echo $q . "<br />";
-			mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			mysql_query($q) or self::sqlError($q);
 		}
 		return TRUE;
 	}
@@ -277,7 +277,7 @@ class punteggio
 			return TRUE;
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function getPenalitàBySquadraAndGiornata($idUtente,$idGiornata)
@@ -285,7 +285,7 @@ class punteggio
 		$q = "SELECT punteggio,penalità 
 				FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = FALSE;
@@ -299,7 +299,7 @@ class punteggio
 		$q = "SELECT *
 				FROM punteggio
 				WHERE punteggio < 0 AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = FALSE;
@@ -318,14 +318,14 @@ class punteggio
 					VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function unsetPenalità($idUtente,$idGiornata)
 	{
 		$q = "DELETE FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
-		return  mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return  mysql_query($q) or self::sqlError($q);
 	}
 }
 ?>
