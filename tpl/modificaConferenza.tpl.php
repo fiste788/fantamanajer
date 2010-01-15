@@ -13,7 +13,7 @@
 		<?php if($this->action != 'cancel'): ?>
 			<div id="emoticons">
 			<?php foreach($this->emoticons as $key => $val):?>
-				<img class="emoticon" src="<?php echo IMGSURL . 'emoticons/' . $val['name'] . '.png'; ?>" title="<?php echo $val['title']; ?>" alt="<?php echo $val['cod']; ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod'])); ?>');return ismaxlength(document.getElementById('text'), 1000);" />
+				<img class="emoticon" src="<?php echo EMOTICONSURL . $val['name'] . '.png'; ?>" title="<?php echo $val['title']; ?>" alt="<?php echo $val['cod']; ?>" onclick="addEmoticon('<?php echo addslashes(stripslashes($val['cod'])); ?>');return ismaxlength(document.getElementById('text'), 1000);" />
 			<?php endforeach; ?>
 			</div>			
 		<?php endif;?>
