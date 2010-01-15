@@ -1,5 +1,5 @@
 <?php 
-class articolo
+class articolo extends dbTable
 {
 	var $idArticolo;
 	var $title;
@@ -72,11 +72,11 @@ class articolo
 				VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "' , '" . $articolo->idLega . "')";
 		if(DEBUG)
 			echo $q . "<br />";
-		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or self::sqlError($q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
 				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "' AND idLega = '" . $articolo->idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$data = mysql_fetch_assoc($exe);
@@ -90,7 +90,7 @@ class articolo
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function delete($articolo)
@@ -100,7 +100,7 @@ class articolo
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function select($articolo , $equal , $field, $start = NULL , $end = NULL, $order = NULL)
@@ -174,7 +174,7 @@ class articolo
 			$q .= " LIMIT ".$start.','.$end;
 		if(DEBUG)
 			echo $q . "<br />";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		if(isset($values))
@@ -188,7 +188,7 @@ class articolo
 		$q = "SELECT DISTINCT idGiornata 
 				FROM articolo
 				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))
@@ -204,7 +204,7 @@ class articolo
 		$q = "SELECT * 
 				FROM articolo 
 				WHERE idArticolo = '" . $id . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_fetch_object($exe);

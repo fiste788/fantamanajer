@@ -34,29 +34,14 @@ class db
 	function DbOptimize()
 	{
 		$q = "SHOW TABLES";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$result = "";
 		while($row = mysql_fetch_row($exe)) 
 			$result .= $row[0] . ',';
 		$q = "OPTIMIZE TABLE ";
 		$q .= $result;
 		$q = substr($q,0,-1);
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);;
-	}
-	
-	public function startTransaction()
-	{
-		mysql_query("START TRANSACTION");
-	}
-	
-	public function commit()
-	{
-		mysql_query("COMMIT");
-	}
-	
-	public function rollback()
-	{
-		mysql_query("ROLLBACK");
+		return mysql_query($q) or self::sqlError($q);;
 	}
 }
 ?>

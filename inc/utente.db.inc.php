@@ -1,5 +1,5 @@
 <?php 
-class utente
+class utente extends dbTable
 {
 	var $idSquadra;
 	var $nome;
@@ -11,12 +11,29 @@ class utente
 	var $amministratore;
 	var $idLega;
 	
+	function login($username, $password)
+	{
+		$q = "SELECT username, password FROM utente WHERE username LIKE '" . $username . "';";
+		$exe = mysql_query($q) or self::sqlError($q);
+		$valore  = mysql_fetch_assoc($exe);
+		if($valore['password'] == md5($password))
+			return TRUE;
+		else
+			return FALSE;
+	}
+	
+	function logout()
+	{
+		foreach($_SESSION as $key => $val)
+			unset($_SESSION[$key]);
+	}
+	
 	function getElencoSquadre()
 	{		
 		$q = "SELECT utente.*,giornateVinte 
 				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe) )
@@ -28,7 +45,7 @@ class utente
 	{		
 		$q = "SELECT * 
 				FROM utente";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe) )
@@ -41,7 +58,7 @@ class utente
 		$q = "SELECT utente.*,giornateVinte 
 				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -57,7 +74,7 @@ class utente
 		$q = "SELECT idUtente,nome 
 				FROM utente 
 				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -73,7 +90,7 @@ class utente
 		$q = "SELECT * 
 				FROM squadrastatistiche 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_fetch_object($exe); 
@@ -92,14 +109,14 @@ class utente
 		$q .= " WHERE idUtente = '" . $idUtente . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function getAllEmail()
 	{
 		$q = "SELECT mail,idUtente,idLega 
 				FROM utente";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe) )
@@ -112,7 +129,7 @@ class utente
 		$q = "SELECT mail,idUtente,idLega 
 				FROM utente
 				WHERE abilitaMail <> 0";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe) )
@@ -125,11 +142,11 @@ class utente
 		$q = "SELECT mail,idUtente 
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$values[$row['idUtente']] = $row['mail'];
+		while ($row = mysql_fetch_object($exe) )
+			$values[$row->idUtente] = $row->mail;
 		return $values; 
 	}
 	
@@ -138,11 +155,11 @@ class utente
 		$q = "SELECT mail,idUtente
 				FROM utente
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$values[$row['idUtente']] = $row['mail'];
+		while ($row = mysql_fetch_object($exe) )
+			$values[$row->idUtente] = $row->mail;
 		return $values; 
 	}
 	
@@ -152,17 +169,17 @@ class utente
 		$punteggioObj = new punteggio();
 		$q = "INSERT INTO utente (nome,username,nomeProp,cognome,password,mail,amministratore,idLega) 
 				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
-		mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$q = "SELECT idUtente 
 				FROM utente 
 				WHERE nome = '" . $nomeSquadra . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$val = $row['idUtente'];
+		while ($row = mysql_fetch_object($exe) )
+			$val = $row->idUtente;
 		$punteggioObj->setPunteggiToZero($val,$idLega);
 		return $val;
 	}
@@ -172,7 +189,7 @@ class utente
 		$q = "DELETE 
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		if(mysql_affected_rows() == 0)
@@ -186,12 +203,12 @@ class utente
 		$q = "SELECT idLega 
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$val = -1;
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
-			$val = $row['idLega'];
+		while ($row = mysql_fetch_object($exe) )
+			$val = $row->idLega;
 		return $val;
 	}
 	
@@ -200,11 +217,11 @@ class utente
 		$q = "SELECT * 
 				FROM utente 
 				WHERE username LIKE '" . $username . "' AND idUtente <> '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$val = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
-		while ($row = mysql_fetch_assoc($exe) )
+		while ($row = mysql_fetch_object($exe) )
 			$val = $row;
 		return $val;
 	}
@@ -214,11 +231,11 @@ class utente
 		$q = "SELECT * 
 				FROM utente 
 				WHERE nome LIKE '" . $nome . "' AND idUtente <> '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$val = FALSE;
-		while ($row = mysql_fetch_assoc($exe) )
+		while ($row = mysql_fetch_object($exe) )
 			$val = $row;
 		return $val;
 	}

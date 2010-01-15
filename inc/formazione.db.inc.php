@@ -1,5 +1,5 @@
 <?php
-class formazione
+class formazione extends dbTable
 {
 	var $idFormazione;
 	var $idGiornata;
@@ -14,7 +14,7 @@ class formazione
 		$q = "SELECT formazione.idFormazione,idUtente,idGiornata,idGioc,idPosizione,modulo,C,VC,VVC 
 				FROM formazione INNER JOIN schieramento ON formazione.idFormazione = schieramento.idFormazione 
 				WHERE formazione.idFormazione = '" . $id . "' ORDER BY idPosizione";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
@@ -53,6 +53,7 @@ class formazione
 		
 		$schieramentoObj = new schieramento();
 		
+		self::startTransaction();
 		$campi = "";
 		$valori = "";
 		foreach($capitano as $key => $val)
@@ -80,11 +81,11 @@ class formazione
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
 		if(isset($err))
 		{
-			mysql_query("ROLLBACK");
-			die("Errore nella transazione: <br />" . $err);
+			self::rollback();
+			self::sqlError("Errore nella transazione: <br />" . $err);
 		}
 		else
-			mysql_query("COMMIT");
+			self::commit();
 		return $idFormazione;
 	}
 	
@@ -94,7 +95,7 @@ class formazione
 		
 		$schieramentoObj = new schieramento();
 		
-		mysql_query("START TRANSACTION");
+		self::startTransaction();
 		$str = "";
 		foreach($capitano as $key => $val)
 			if(empty($val))
@@ -119,11 +120,11 @@ class formazione
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
 		if(isset($err))
 		{
-			mysql_query("ROLLBACK");
-			die("Errore nella transazione: <br />" . $err);
+			self::rollback();
+			self::sqlError("Errore nella transazione: <br />" . $err);
 		}
 		else
-			mysql_query("COMMIT");
+			self::commit();
 		return $idFormazione;
 	}
 	
@@ -133,7 +134,7 @@ class formazione
 				FROM formazione INNER JOIN schieramento ON formazione.idFormazione = schieramento.idFormazione 
 				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "' 
 				ORDER BY idPosizione";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
@@ -164,7 +165,7 @@ class formazione
 		$q = "SELECT utente.idUtente,nome 
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.idUtente 
 				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe))
@@ -185,7 +186,7 @@ class formazione
 				WHERE idFormazione = '" . $idFormazione . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 }
 ?>

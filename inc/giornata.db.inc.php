@@ -1,5 +1,5 @@
 <?php
-class giornata 
+class giornata extends dbTable
 {
 	var $idGiornata;
 	var $dataInizio;
@@ -11,7 +11,7 @@ class giornata
 		$q = "SELECT idGiornata 
 				FROM giornata 
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
 		$valore = mysql_fetch_assoc($exe);
@@ -22,7 +22,7 @@ class giornata
 			$q = "SELECT MIN( idGiornata -1 ) as idGiornata
 				FROM giornata
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
-			$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+			$exe = mysql_query($q) or self::sqlError($q);
 			if(DEBUG)
 				echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
 			$valore = mysql_fetch_assoc($exe);
@@ -37,7 +37,7 @@ class giornata
 		$q = "SELECT dataInizio,idGiornata 
 				FROM giornata 
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
 		$value = mysql_fetch_assoc($exe);
@@ -60,7 +60,7 @@ class giornata
 		$q = "SELECT * 
 				FROM giornata 
 				WHERE idGiornata = '" . $giornata . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
 		return mysql_fetch_object($exe);
@@ -70,7 +70,7 @@ class giornata
 	{
 		$q = "SELECT COUNT(idGiornata) as numeroGiornate
 				FROM giornata";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
 		$values = mysql_fetch_object($exe);
@@ -81,7 +81,7 @@ class giornata
 	{
 		$q = "SELECT * 
 				FROM giornata";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
 		while($row = mysql_fetch_object($exe))
@@ -97,7 +97,7 @@ class giornata
 				WHERE NOW() > dataInizio";
 		if(DEBUG)
 			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$values = mysql_fetch_object($exe);
 		return $values->dataFine;
 	}
@@ -112,7 +112,7 @@ class giornata
 				$q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE idGiornata = '" . $key . "'";
 				if(DEBUG)
 					echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
-				$bool *= mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+				$bool *= mysql_query($q) or self::sqlError($q);
 			}
 		}
 		return $bool;

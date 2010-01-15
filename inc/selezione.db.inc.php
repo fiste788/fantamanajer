@@ -1,5 +1,5 @@
 <?php 
-class selezione
+class selezione extends dbTable
 {
 	var $idLega;
 	var $idSquadra;
@@ -11,7 +11,7 @@ class selezione
 	{
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))
@@ -27,7 +27,7 @@ class selezione
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
 				WHERE idSquadra = '" . $idSquadra . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_fetch_object($exe);
@@ -40,7 +40,7 @@ class selezione
 				WHERE idSquadra = '" . $idSquadra . "';";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function checkFree($idGioc,$idLega)
@@ -48,7 +48,7 @@ class selezione
 		$q = "SELECT idSquadra 
 				FROM selezione 
 				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		$values = array();
@@ -62,7 +62,7 @@ class selezione
 	
 	function updateGioc($giocNew,$giocOld,$idLega,$idSquadra)
 	{
-		mysql_query("START TRANSACTION");
+		self::startTransaction();
 		$q = "SELECT numSelezioni 
 				FROM selezione 
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
@@ -109,11 +109,11 @@ class selezione
 		}
 		if(isset($err))
 		{
-			mysql_query("ROLLBACK");
-			die("Errore nella transazione: <br />" . $err);
+			self::rollback();
+			self::sqlError("Errore nella transazione: <br />" . $err);
 		}
 		else
-			mysql_query("COMMIT");
+			self::commit();
 	}
 	
 	function getNumberSelezioni($idUtente)
@@ -121,7 +121,7 @@ class selezione
 		$q = "SELECT numSelezioni 
 				FROM selezione 
 				WHERE idSquadra = '" . $idUtente . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$val = NULL;
 		if(DEBUG)
 			echo $q . "<br />";
@@ -135,7 +135,7 @@ class selezione
 		$q = "TRUNCATE TABLE selezione";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 }
 ?>

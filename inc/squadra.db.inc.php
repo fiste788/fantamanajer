@@ -1,5 +1,5 @@
 <?php 
-class squadra
+class squadra extends dbTable
 {
 	var $idLega;
 	var $idUtente;
@@ -13,7 +13,7 @@ class squadra
 		$q .= implode(',',$row);
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function unsetSquadraGiocatoreByIdSquadra($idUtente)
@@ -23,7 +23,7 @@ class squadra
 				WHERE idUtente = '" . $idUtente . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function updateGiocatore($giocatoreNew,$giocatoreOld,$idUtente)
@@ -33,7 +33,7 @@ class squadra
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function updateGiocatoreSquadra($idGioc,$idLega,$idUtente)
@@ -43,7 +43,7 @@ class squadra
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function getSquadraByIdGioc($idGioc,$idLega)
@@ -51,7 +51,7 @@ class squadra
 		$q = "SELECT idUtente
 				FROM squadra 
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		$values = FALSE;
 		if(DEBUG)
 			echo $q . "<br />";
@@ -66,7 +66,7 @@ class squadra
 				VALUES ('" . $idLega . "','" . $idUtente . "','" . $idGioc . "')";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function unsetSquadraByIdGioc($idGioc,$idLega)
@@ -76,7 +76,7 @@ class squadra
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 }
 ?>

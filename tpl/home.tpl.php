@@ -7,6 +7,7 @@
 	<h3>Migliori giocatori giornata <?php echo $this->giornata; ?></h3>
 	<?php foreach($this->bestPlayer as $ruolo=>$giocatori): ?>
 		<div id="<?php echo $ruolo ?>" class="column">
+			<?php if($giocatori != FALSE): ?>
 			<?php foreach($giocatori as $key=>$val): ?>
 			<?php if($key == 0): ?>
 				<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
@@ -21,6 +22,7 @@
 				<a class="neutral" href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a><br />
 			<?php endif; ?>
 			<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 	<?php endforeach; ?>
 </div>

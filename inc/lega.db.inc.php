@@ -1,5 +1,5 @@
 <?php 
-class lega
+class lega extends dbTable
 {
 	var $idLega;
 	var $nomeLega;
@@ -13,7 +13,7 @@ class lega
 	{
 		$q = "SELECT * 
 				FROM lega";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while ($row = mysql_fetch_object($exe) )
@@ -26,7 +26,7 @@ class lega
 		$q = "SELECT * 
 				FROM lega
 				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		return mysql_fetch_object($exe);
@@ -41,14 +41,14 @@ class lega
 		$q .= " WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		if(DEBUG)
 			echo $q . "<br />";
-		return mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	function getDefaultValue()
 	{
 		$q = "SHOW COLUMNS
 				FROM lega";
-		$exe = mysql_query($q) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			echo $q . "<br />";
 		while($row = mysql_fetch_object($exe))
