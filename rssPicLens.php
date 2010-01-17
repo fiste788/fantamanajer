@@ -1,7 +1,8 @@
 <?php
 	require_once('config/config.inc.php');
-	require_once(INCDIR . 'utente.db.inc.php');
 	require_once(INCDIR . 'db.inc.php');
+	require_once(INCDIR . 'dbTable.inc.php');
+	require_once(INCDIR . 'utente.db.inc.php');
 
 	//Creating a new db istance
 	$dbObj = new db;
@@ -24,9 +25,9 @@
 		{
 		echo "<item>\n";
 		echo "<title><![CDATA[" . $val->nome . "]]></title>\n";
-		echo "<link><![CDATA[" . UPLOADIMGURL . $val->idUtente . "-original.jpg]]></link>\n";
-		echo "<media:thumbnail url=\"" . UPLOADIMGURL . $val->idUtente . ".jpg\" />\n";
-		echo "<media:content url=\"" . UPLOADIMGURL . $val->idUtente . "-original.jpg\" />\n";
+		echo "<link><![CDATA[" . UPLOADURL . $val->idUtente . "-original.jpg]]></link>\n";
+		echo "<media:thumbnail url=\"" . UPLOADURL . $val->idUtente . ".jpg\" />\n";
+		echo "<media:content url=\"" . UPLOADURL . $val->idUtente . "-original.jpg\" />\n";
 		echo "</item>\n";
 		}
 	}
