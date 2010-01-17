@@ -1,7 +1,8 @@
 <?php
 	require_once('config/config.inc.php');
-	require_once(INCDIR . 'evento.db.inc.php');
 	require_once(INCDIR . 'db.inc.php');
+	require_once(INCDIR . 'dbTable.inc.php');
+	require_once(INCDIR . 'evento.db.inc.php');
 	require_once(INCDIR . 'emoticon.inc.php');
 
 	//Creating a new db istance
@@ -33,7 +34,7 @@
 	echo "<language>IT-it</language>\n";
 	foreach($eventi as $key=>$val)
 	{
-		$val->content = $emoticonObj->replaceEmoticon($val->content,IMGSURL.'emoticons/');
+		$val->content = $emoticonObj->replaceEmoticon($val->content,EMOTICONSURL);
 		echo "<item>\n";
 		echo "<title><![CDATA[" . $val->titolo . "]]></title>\n";
 		echo "<pubDate>" . $val->pubData . "</pubDate>\n";

@@ -106,20 +106,20 @@ class evento extends dbTable
 									$player = $giocatoreObj->getGiocatoreById($values[$key]->idExternal);
 									$selected = $player[$values[$key]->idExternal];
 									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' (' . $selected->nomeClub . ') inserito nella lista giocatori';
-									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' ora fa parte della rosa ' . $selected->partitivo . ' ' . $selected->nomeClub . ', pertanto è stato inserito nella lista giocatori';
+									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' ora fa parte della rosa ' . $selected->partitivo . ' ' . $selected->nomeClub . ', pertanto Ã¨ stato inserito nella lista giocatori';
 									$values[$key]->link = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
 									break;
 								case 6: 
 									$player = $giocatoreObj->getGiocatoreById($values[$key]->idExternal);
 									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' non fa più parte della lista giocatori';
-									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' non è più un giocatore militante in Serie A';
+									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' non fa piÃ¹ parte della lista giocatori';
+									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' non Ã¨ piÃ¹ un giocatore militante in Serie A';
 									$values[$key]->link = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
 									break;
 								case 7: 
 									$player = $giocatoreObj->getGiocatoreById($values[$key]->idExternal);
 									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' è stato ingaggiato dalla squadra ' . $selected->partitivo . ' ' . $selected->nomeClub;
+									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' Ã¨ stato ingaggiato dalla squadra ' . $selected->partitivo . ' ' . $selected->nomeClub;
 									$values[$key]->content = '';
 									$values[$key]->link = $linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
 									break;
@@ -128,7 +128,7 @@ class evento extends dbTable
 			return $values;
 		}
 		else
-			return FALSE;
+			return FALSE ;
 	}
 }
 ?>
