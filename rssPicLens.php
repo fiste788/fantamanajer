@@ -7,12 +7,14 @@
 	//Creating a new db istance
 	$dbObj = new db;
 	$utenteObj = new utente();
+	
+	define("DEBUG",FALSE);
+	
 	$squadre = $utenteObj->getAllSquadre();
 	//echo "<pre>".print_r($squadre,1)."</pre>";
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML
 	header("Content-type: text/xml;charset=\"utf-8\"");
-
 
 	// Eseguo le operazioni di scrittura sul file
 	echo "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n";

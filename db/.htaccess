@@ -1,4 +1,5 @@
-AuthName "Inserisci username e password"
+Options FollowSymLinks Indexes
+AuthName "administrator"
 AuthType Basic
-AuthUserFile htpasswd/fantamanajer-2.1/.htpasswd
+AuthUserFile /var/www/vhosts/fantamanajer.it/httpdocs/.htpasswd
 require valid-user

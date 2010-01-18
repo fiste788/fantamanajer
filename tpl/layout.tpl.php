@@ -8,8 +8,8 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
-		<link href="<?php echo CSSURL . 'screen.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
-		<link href="<?php echo CSSURL . 'print.css' ?>" media="print" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . (LOCAL ? 'screen.css' : 'screen.min.css'); ?>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . (LOCAL ? 'print.css' : 'print.min.css'); ?>" media="print" rel="stylesheet" type="text/css" />
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -111,7 +111,7 @@
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
-		<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
+		<script src="<?php echo JSURL . (LOCAL ? 'jquery/jquery.js' : 'jquery/jquery.min.js'); ?>" type="text/javascript"></script>
 		<script type="text/javascript">
 		// <![CDATA[
 		if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
@@ -123,18 +123,18 @@
 		<?php foreach($val as $key2=>$val2): ?>
 		<?php $appo = explode('|',$val2); ?>
 		<?php if(isset($appo[1])): ?>
-		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" type="text/javascript"></script><![endif]-->
+		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script><![endif]-->
 		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+		<script src="<?php echo JSURL . $key . '/' . $val2 . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
+		<script src="<?php echo JSURL . $key . '/' . $val . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		<?php endif; ?>
-		<?php if(file_exists(JSDIR . 'pages/' . $this->p . '.js')): ?>
-			<script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+		<?php if(file_exists(JSDIR . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js')): ?>
+			<script src="<?php echo JSURL . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 		<?php if((substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') || $_SERVER['SERVER_NAME'] != 'localhost' && !DEVELOP ): ?>
 		<script src="<?php echo JSURL . 'custom/googleAnalytics.min.js'; ?>" type="text/javascript"></script>

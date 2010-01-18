@@ -5,6 +5,8 @@
 	require_once(INCDIR . 'evento.db.inc.php');
 	require_once(INCDIR . 'emoticon.inc.php');
 
+	define("DEBUG",FALSE);	
+	
 	//Creating a new db istance
 	$dbObj = new db;
 	$eventoObj = new evento();

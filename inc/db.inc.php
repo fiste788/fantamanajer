@@ -43,5 +43,20 @@ class db
 		$q = substr($q,0,-1);
 		return mysql_query($q) or self::sqlError($q);;
 	}
+	
+	public static function startTransaction()
+	{
+		mysql_query("START TRANSACTION");
+	}
+	
+	public static function commit()
+	{
+		mysql_query("COMMIT");
+	}
+	
+	public static function rollback()
+	{
+		mysql_query("ROLLBACK");
+	}
 }
 ?>
