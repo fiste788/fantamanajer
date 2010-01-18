@@ -56,7 +56,7 @@
 						</div>
 						<div class="formbox">
 							<label for="abilitaMail">Ricevi email:</label>
-							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php if($this->squadraDett->abilitaMail == 1) echo ' checked="checked"' ?>/>
+							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php echo ($this->squadraDett->abilitaMail == 1) ? ' checked="checked"' : ''; ?>/>
 						</div>
 					</div>
 					<div class="column">
@@ -108,16 +108,16 @@
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
 					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php echo $val->ruolo; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->nomeClub)) echo strtoupper(substr($val->nomeClub,0,3)); else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php echo $val->presenze . " (" . $val->presenzeVoto . ")"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->avgVoti)) echo $val->avgVoti; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->avgPunti)) echo $val->avgPunti; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->gol)) echo $val->gol; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->golSubiti)) echo $val->golSubiti; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->assist)) echo $val->assist; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->ammonizioni)) echo $val->ammonizioni; else echo "&nbsp;"; ?></td>
-				<td class="tdcenter<?php if($val->ruolo != $r) echo ' ult'; ?>"><?php if(!empty($val->espulsioni)) echo $val->espulsioni; else echo "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->presenze . " (" . $val->presenzeVoto . ")"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->avgVoti)) ? $val->avgVoti : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->avgPunti)) ? $val->avgPunti : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->gol)) ? $val->gol : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->golSubiti)) ? $val->golSubiti : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->assist)) ? $val->assist : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->ammonizioni)) ? $val->ammonizioni : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->espulsioni)) ? $val->espulsioni : "&nbsp;"; ?></td>
 			</tr>
 			<?php $r = $val->ruolo; ?>
 			<?php endforeach; ?>

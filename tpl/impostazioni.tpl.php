@@ -6,9 +6,9 @@
 		</div>
 		<div class="formbox">
 			<label>Capitano doppio</label>
-			<input type="radio" name="capitano" value="1"<?php if($_SESSION['datiLega']->capitano) echo ' checked="checked"'; ?> />Si
-			<input type="radio" name="capitano" value="0"<?php if(!$_SESSION['datiLega']->capitano) echo ' checked="checked"'; ?> />No
-			<?php if(isset($this->default['capitano'])): ?><small>Default: <?php if($this->default['capitano'] == 1) echo "Si"; else echo "No"; ?></small><?php endif; ?>
+			<input type="radio" name="capitano" value="1"<?php echo ($_SESSION['datiLega']->capitano) ? ' checked="checked"' : ''; ?> />Si
+			<input type="radio" name="capitano" value="0"<?php echo (!$_SESSION['datiLega']->capitano) ? ' checked="checked"' : ''; ?> />No
+			<?php if(isset($this->default['capitano'])): ?><small>Default: <?php echo ($this->default['capitano'] == 1) ? "Si" : "No"; ?></small><?php endif; ?>
 		</div>
 		<div class="formbox">
 			<label>Numero max trasferimenti</label>
@@ -32,7 +32,7 @@
 		</div>
 		<div class="formbox">
 			<label>Pagina premi</label>
-			<textarea rows="10" cols="50" name="premi"><?php if(!empty($_SESSION['datiLega']->premi)) echo $_SESSION['datiLega']->premi; ?></textarea>
+			<textarea rows="10" cols="50" name="premi"><?php echo (!empty($_SESSION['datiLega']->premi)) ? $_SESSION['datiLega']->premi : ''; ?></textarea>
 		</div>
 	</fieldset>
 	<fieldset>

@@ -9,8 +9,8 @@
 		<?php foreach($this->giornate as $key=>$val): ?>
 			<tr>
 				<td><?php echo $val->idGiornata; ?></td>
-				<td><input class="end" type="text" name="dataInizio[<?php echo $val->idGiornata; ?>]" value="<?php if(isset($_POST['dataInizio'][$val->idGiornata])) echo $_POST['dataInizio'][$val->idGiornata]; else echo $val->dataInizio; ?>" /></td>
-				<td><input class="start" type="text" name="dataFine[<?php echo $val->idGiornata; ?>]" value="<?php if(isset($_POST['dataFine'][$val->idGiornata])) echo $_POST['dataFine'][$val->idGiornata]; else echo $val->dataFine; ?>" /></td>
+				<td><input class="end" type="text" name="dataInizio[<?php echo $val->idGiornata; ?>]" value="<?php echo (isset($_POST['dataInizio'][$val->idGiornata])) ? $_POST['dataInizio'][$val->idGiornata] : $val->dataInizio; ?>" /></td>
+				<td><input class="start" type="text" name="dataFine[<?php echo $val->idGiornata; ?>]" value="<?php echo (isset($_POST['dataFine'][$val->idGiornata])) ? $_POST['dataFine'][$val->idGiornata] : $val->dataFine; ?>" /></td>
 			</tr>
 		<?php endforeach; ?>
 		</table>

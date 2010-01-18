@@ -15,7 +15,7 @@
 			<td><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocNew)); ?>"><?php echo $val->cognomeNew . " " . $val->nomeNew; ?></a></td>
 			<td><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocOld)); ?>"><?php echo $val->cognomeOld . " " . $val->nomeOld; ?></a></td>
 			<td><?php echo $val->idGiornata; ?></td>
-			<td><?php if($val->obbligato) echo "X";else echo "&nbsp;" ?></td>
+			<td><?php echo ($val->obbligato) ? "X" : "&nbsp;" ?></td>
 		</tr>
 		<?php $i++; ?>
 		<?php endforeach; ?>
@@ -64,7 +64,7 @@
 					<optgroup label="<?php echo $valRuoli; ?>">
 					<?php foreach($this->giocSquadra as $key => $val): ?>
 						<?php if($val->ruolo == $keyRuoli): ?>
-							<option value="<?php echo $val->idGioc; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val->idGioc) echo ' selected="selected"'; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
+							<option value="<?php echo $val->idGioc; ?>"<?php echo (isset($this->giocLasciato) && $this->giocLasciato == $val->idGioc) ? ' selected="selected"' : ''; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>
@@ -77,7 +77,7 @@
 					<optgroup label="<?php echo $valRuoli; ?>">
 					<?php foreach($this->freePlayer as $key => $val): ?>
 						<?php if($val->ruolo == $keyRuoli): ?>
-							<option value="<?php echo $val->idGioc; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val->idGioc) echo '  selected="selected"'; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
+							<option value="<?php echo $val->idGioc; ?>"<?php echo (isset($this->giocAcquisto) && $this->giocAcquisto == $val->idGioc) ? '  selected="selected"' : ''; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</optgroup>

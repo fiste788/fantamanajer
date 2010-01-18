@@ -2,11 +2,11 @@
 	<fieldset class="no-margin">
 		<div class="formbox">
 			<label for="title">Titolo: *</label>
-			<input<?php if($this->action == 'cancel') echo ' disabled="disabled"'; ?> class="text" type="text" maxlength="30" name="title" id="title" <?php if(isset($this->title)) echo ' value="' . $this->title .'"'; ?> />
+			<input<?php echo ($this->action == 'cancel') ? ' disabled="disabled"' : ''; ?> class="text" type="text" maxlength="30" name="title" id="title" <?php if(isset($this->title)) echo ' value="' . $this->title .'"'; ?> />
 		</div>
 		<div class="formbox">
 			<label for="abstract">Sottotitolo:</label>
-			<textarea class="column"<?php if($this->action == 'cancel') echo ' disabled="disabled"'; ?> rows="3" cols="80" onkeyup="return ismaxlength(this, 75);" name="abstract" id="abstract"><?php if(isset($this->abstract)) echo $this->abstract; ?></textarea>
+			<textarea class="column"<?php echo ($this->action == 'cancel') ? ' disabled="disabled"' : ''; ?> rows="3" cols="80" onkeyup="return ismaxlength(this, 75);" name="abstract" id="abstract"><?php echo (isset($this->abstract)) ? $this->abstract : ''; ?></textarea>
 			<input class="column text disabled" id="abstractCont" type="text" disabled="disabled" value="<?php if(isset($this->abstract)) echo 75 - mb_strlen($this->abstract,'UTF-8'); else echo '75';  ?>" />
 		</div>
 		<div class="formbox">
@@ -18,7 +18,7 @@
 			</div>			
 		<?php endif;?>
 		<label for="text">Testo: *</label>
-		<textarea class="column"<?php if($this->action == 'cancel') echo ' disabled="disabled"'; ?> rows="12" cols="80" onkeyup="return ismaxlength(this, 1000);" name="text" id="text"><?php if(isset($this->text)) echo trim($this->text); ?></textarea>
+		<textarea class="column"<?php echo ($this->action == 'cancel') ? ' disabled="disabled"' : ''; ?> rows="12" cols="80" onkeyup="return ismaxlength(this, 1000);" name="text" id="text"><?php echo (isset($this->text)) ? trim($this->text) : ''; ?></textarea>
 		<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($this->text)) echo 1000-mb_strlen($this->text);else echo '1000'; ?>" />
 		</div>
 	</fieldset>

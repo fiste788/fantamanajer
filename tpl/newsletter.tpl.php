@@ -4,14 +4,14 @@
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>">
 		<div class="formbox">
 			<label for="oggetto">Oggetto:</label>
-			<input class="text" id="oggetto" type="text" name="object" maxlength="30"<?php if(isset($_POST['object'])) echo ' value="' . $_POST['object'] .'"'; ?> />
+			<input class="text" id="oggetto" type="text" name="object" maxlength="30"<?php echo (isset($_POST['object'])) ? ' value="' . $_POST['object'] .'"' : ''; ?> />
 		</div>
 		<?php if($this->lega == 0): ?>
 		<div class="formbox">
 			<label for="selezione">Leghe:</label>
 			<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 				<?php foreach($this->elencoLeghe as $key => $val): ?>
-					<option<?php if(isset($_POST['selezione']) && array_search($val->idLega,$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
+					<option<?php echo (isset($_POST['selezione']) && array_search($val->idLega,$_POST['selezione']) !== FALSE) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<div class="selectAll column">
@@ -28,7 +28,7 @@
 			<?php else: ?>
 			<select id="selezione" name="selezione[]" multiple="multiple" size="6" class="column newsletterBox">
 				<?php foreach($this->elencoSquadre as $key => $val): ?>
-					<option<?php if(isset($_POST['selezione']) && array_search($val->idUtente,$_POST['selezione']) !== FALSE) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
+					<option<?php echo (isset($_POST['selezione']) && array_search($val->idUtente,$_POST['selezione']) !== FALSE) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
 				<?php endforeach; ?>
 			<?php endif; ?>
 			</select>
@@ -42,17 +42,17 @@
 		<?php endif; ?>
 		<div class="formbox">
 			<label for="testo">Testo:</label>
-			<textarea class="column" id="testo" rows="15" cols="50" name="text" onkeyup="return ismaxlength(this, 1000);"><?php if(isset($_POST['text'])) echo $_POST['text']; ?></textarea>
-			<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php if(isset($_POST['text'])) echo 1000 - mb_strlen($_POST['text']);else echo '1000'; ?>" />
+			<textarea class="column" id="testo" rows="15" cols="50" name="text" onkeyup="return ismaxlength(this, 1000);"><?php echo (isset($_POST['text'])) ? $_POST['text'] : ''; ?></textarea>
+			<input class="column text disabled" id="textCont" type="text" disabled="disabled" value="<?php echo (isset($_POST['text'])) ? 1000 - mb_strlen($_POST['text']) : '1000'; ?>" />
 		</div>
 		<div class="formbox">
 			<label>Tipologia:</label>
-			<input class="column radio" type="radio" value="C" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'C') echo ' checked="checked"'; ?>><label>Comunicazione</label>
-			<input class="column radio" type="radio" value="N" name="type"<?php if(isset($_POST['type']) && $_POST['type'] == 'N') echo ' checked="checked"'; ?>><label>Newsletter</label>
+			<input class="column radio" type="radio" value="C" name="type"<?php echo (isset($_POST['type']) && $_POST['type'] == 'C') ? ' checked="checked"' : ''; ?>><label>Comunicazione</label>
+			<input class="column radio" type="radio" value="N" name="type"<?php echo (isset($_POST['type']) && $_POST['type'] == 'N') ? ' checked="checked"' : ''; ?>><label>Newsletter</label>
 		</div>
 		<div class="formbox">
 			<label>Crea conferenza:</label>
-			<input class="column checkbox" type="checkbox" name="conferenza"<?php if(isset($_POST['conferenza'])) echo ' checked="checked"'; ?>>
+			<input class="column checkbox" type="checkbox" name="conferenza"<?php echo (isset($_POST['conferenza'])) ? ' checked="checked"' : ''; ?>>
 		</div>
 	</fieldset>
 	<fieldset class="column last">
