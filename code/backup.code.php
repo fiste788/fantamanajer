@@ -13,7 +13,8 @@ if($backupObj->dodump())
 	{
 		$handle = fopen(DOCSDIR . 'nomeBackup.txt','r');
 		$fileOld = fgets($handle);
-		unlink(DBDIR . $fileOld);
+		if(file_exists(DBDIR . $fileOld))
+			unlink(DBDIR . $fileOld);
 		fclose($handle);
 		$handle = fopen(DOCSDIR . 'nomeBackup.txt','w');
 		fwrite($handle,$name . '.gz');
