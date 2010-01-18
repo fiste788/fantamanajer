@@ -25,17 +25,17 @@
 		</div>
 		<div id="titolari-field">
 			<?php for($i = 0;$i < 11;$i++): ?>
-				<input<?php if(isset($this->titolari[$i]) && !empty($this->titolari[$i])){ echo ' value="' . $this->titolari[$i] . '" title="' . $this->giocatoriId[$this->titolari[$i]]->ruolo . $this->giocatoriId[$this->titolari[$i]]->ruolo . '-' . $this->giocatoriId[$this->titolari[$i]]->cognome . ' ' . $this->giocatoriId[$this->titolari[$i]]->nome;if(file_exists(IMGDIR . 'foto/' . $this->titolari[$i] . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+				<input<?php if(isset($this->titolari[$i]) && !empty($this->titolari[$i])){ echo ' value="' . $this->titolari[$i] . '" title="' . $this->giocatoriId[$this->titolari[$i]]->ruolo . $this->giocatoriId[$this->titolari[$i]]->ruolo . '-' . $this->giocatoriId[$this->titolari[$i]]->cognome . ' ' . $this->giocatoriId[$this->titolari[$i]]->nome;if(file_exists(PLAYERSDIR . $this->titolari[$i] . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 		</div>
 		<div id="panchina-field">
 			<?php for($i = 0;$i < 7;$i++): ?>
-				<input<?php if(isset($this->panchinari[$i]) && !empty($this->panchinari[$i])){ echo ' value="' . $this->panchinari[$i] . '" title="' . $this->giocatoriId[$this->panchinari[$i]]->ruolo . $this->giocatoriId[$this->panchinari[$i]]->ruolo . '-' . $this->giocatoriId[$this->panchinari[$i]]->cognome . ' ' . $this->giocatoriId[$this->panchinari[$i]]->nome;if(file_exists(IMGDIR . 'foto/' . $this->panchinari[$i] . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
+				<input<?php if(isset($this->panchinari[$i]) && !empty($this->panchinari[$i])){ echo ' value="' . $this->panchinari[$i] . '" title="' . $this->giocatoriId[$this->panchinari[$i]]->ruolo . $this->giocatoriId[$this->panchinari[$i]]->ruolo . '-' . $this->giocatoriId[$this->panchinari[$i]]->cognome . ' ' . $this->giocatoriId[$this->panchinari[$i]]->nome;if(file_exists(PLAYERSDIR . $this->panchinari[$i] . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 		</div>
 		<div id="capitani-field">
 			<?php foreach ($this->elencoCap as $key => $val): ?>
-				<input<?php if(isset($this->cap->$val) && !empty($this->cap->$val)){ echo ' value="' . $this->cap->$val . '" title="' . $this->giocatoriId[$this->cap->$val]->ruolo . $this->giocatoriId[$this->cap->$val]->ruolo . '-' . $this->giocatoriId[$this->cap->$val]->cognome . ' ' . $this->giocatoriId[$this->cap->$val]->nome;if(file_exists(IMGDIR . 'foto/' . $this->cap->$val . '.jpg')) echo '-1"'; else echo '"';} ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
+				<input<?php if(isset($this->cap->$val) && !empty($this->cap->$val)){ echo ' value="' . $this->cap->$val . '" title="' . $this->giocatoriId[$this->cap->$val]->ruolo . $this->giocatoriId[$this->cap->$val]->ruolo . '-' . $this->giocatoriId[$this->cap->$val]->cognome . ' ' . $this->giocatoriId[$this->cap->$val]->nome;if(file_exists(PLAYERSDIR . $this->cap->$val . '.jpg')) echo '-1"'; else echo '"';} ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
 			<?php endforeach; ?>
 		</div>
 	</fieldset>
@@ -53,6 +53,6 @@
 	modulo['AA'] = <?php echo $this->modulo[3]; ?>;
 	<?php endif; ?>
 	var edit = false;
-	var imgsUrl = '<?php echo IMGSURL; ?>';
+	var imgsUrl = '<?php echo PLAYERSURL; ?>';
 // ]]>
 </script>
