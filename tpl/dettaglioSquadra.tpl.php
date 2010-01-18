@@ -2,8 +2,8 @@
 <div id="headerSquadra">
 	<?php if(file_exists(UPLOADDIR . $this->squadraDett->idUtente . '.jpg')): ?>
 	<div class="column last">
-		<a title="<?php echo $this->squadraDett->nome; ?>" href="<?php echo UPLOADIMGURL . $this->squadraDett->idUtente . '-original.jpg'; ?>" class="fancybox column">
-			<img alt="<?php echo $this->squadraDett->idUtente; ?>" src="<?php echo UPLOADIMGURL . $this->squadraDett->idUtente . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nome; ?>" />
+		<a title="<?php echo $this->squadraDett->nome; ?>" href="<?php echo UPLOADURL . $this->squadraDett->idUtente . '-original.jpg'; ?>" class="fancybox column">
+			<img alt="<?php echo $this->squadraDett->idUtente; ?>" src="<?php echo UPLOADURL . $this->squadraDett->idUtente . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nome; ?>" />
 		</a>
 	</div>
 	<?php endif; ?>

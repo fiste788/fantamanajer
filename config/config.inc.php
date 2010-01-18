@@ -25,8 +25,7 @@ if(!LOCAL)
 	$hostStaticArray[0] = 'static';
 	$hostStatic = implode('.',$hostStaticArray);
 	$host = implode('.',$hostArray);
-	$array = explode("/",FULLPATH);
-	array_pop($array);
+	$array = explode("/",$doc_root . $sitepath);
 	array_pop($array);
 	
 	define("FULLPATH",$doc_root . $sitepath . '/');
@@ -75,7 +74,7 @@ define("CODEDIR",'code/');
 define("TPLDIR",'tpl/');
 define("INCDIR",'inc/');
 define("MAILTPLDIR",TPLDIR . 'mail/');
-define("OPERATIONTPLDIR",TPLDIR . 'operation/');
+define("OPERATIONTPLDIR",TPLDIR . 'operazioni/');
 
 define("CSSURL",FULLSTATICURL . 'css/');
 define("IMGSURL",FULLSTATICURL . 'imgs/');

@@ -136,8 +136,17 @@
 		<?php if(file_exists(JSDIR . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js')): ?>
 			<script src="<?php echo JSURL . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
-		<?php if((substr($_SERVER['REMOTE_ADDR'],0,7) != '192.168' && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') || $_SERVER['SERVER_NAME'] != 'localhost' && !DEVELOP ): ?>
-		<script src="<?php echo JSURL . 'custom/googleAnalytics.min.js'; ?>" type="text/javascript"></script>
+		<?php if(!LOCAL): ?>
+		<script type="text/javascript">
+		// <![CDATA[
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		// ]]>
+		</script>
+		<script type="text/javascript">
+		// <![CDATA[
+		try {var pageTracker = _gat._getTracker("UA-3016148-1");pageTracker._setDomainName("www.fantamanajer.it");pageTracker._trackPageview();}catch(err){}
+		// ]]>
+		</script>
 		<?php endif; ?>
 	</body>
 </html>

@@ -25,7 +25,7 @@ $(document).ready(function(){
 								k = 0;
 							}
 							if(appo[2])
-								$("#campo div.droppable[id=" +ruoloGioc+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="' + imgsUrl + 'foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+								$("#campo div.droppable[id=" +ruoloGioc+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 							else
 								$("#campo div.droppable[id=" +ruoloGioc+"]").append('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-80) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 							ruolo = ruoloGioc;
@@ -40,7 +40,7 @@ $(document).ready(function(){
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
 						if(appo[2])
-							$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + 'foto/' + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
 							$("#panchina .droppable[id=panch-" + i + "]").append('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 					});
@@ -52,7 +52,7 @@ $(document).ready(function(){
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
 						if(appo[2])
-							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + 'foto/' + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
 							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 						if(edit)
@@ -233,7 +233,7 @@ $(document).ready(function(){
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
 							if(ui.draggable.children('img').length > 0)
-								$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img height="50" src="' + imgsUrl + 'foto/' + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
+								$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img height="50" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
 							else
 								$(this).append('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><p>' + ui.draggable.children('p').text() + '</p></div>');
 							var exist = $("#panchina-field input[value=" + $(ui.draggable).children('a').attr('rel') + "]");
@@ -311,7 +311,7 @@ $(document).ready(function(){
 							ui.draggable.removeClass('embed');
 							var tagData = ui.draggable.children('a');
 							if(ui.draggable.children('img').length > 0)
-								$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="' + imgsUrl + 'foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+								$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							else
 								$(this).append('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							var exist = $("#titolari-field input[value=" + $(ui.draggable).children('a').attr('rel') + "]");
@@ -360,7 +360,7 @@ $(document).ready(function(){
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
 							if(ui.draggable.children('img').length > 0)
-								$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="' + imgsUrl + 'foto/' +tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+								$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							else
 								$(this).append('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							$(this).children('div').css('opacity','1');
