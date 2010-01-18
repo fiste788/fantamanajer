@@ -10,7 +10,7 @@
 		    <optgroup label="<?php echo $valRuoli; ?>">
 				<?php foreach($this->giocSquadra as $key => $val): ?>
 					<?php if($val->ruolo == $keyRuoli): ?>
-						<option value="<?php echo $val->idGioc; ?>"<?php if(isset($this->giocLasciato) && $this->giocLasciato == $val->idGioc) echo ' selected="selected"'; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
+						<option value="<?php echo $val->idGioc; ?>"<?php echo (isset($this->giocLasciato) && $this->giocLasciato == $val->idGioc) ? ' selected="selected"' : ''; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</optgroup>
@@ -23,7 +23,7 @@
 			<optgroup label="<?php echo $valRuoli; ?>">
 				<?php foreach($this->freePlayer as $key => $val): ?>
 					<?php if($val->ruolo == $keyRuoli): ?>
-						<option value="<?php echo $val->idGioc; ?>"<?php if(isset($this->giocAcquisto) && $this->giocAcquisto == $val->idGioc) echo ' selected="selected"'; ?>><?php echo $val->cognome . " " . $val->nome; ?> - <?php if(!empty($val->idUtente)) echo substr($this->elencoSquadre[$val->idUtente]->nome,0,18); else echo "Libero"; ?></option>
+						<option value="<?php echo $val->idGioc; ?>"<?php echo (isset($this->giocAcquisto) && $this->giocAcquisto == $val->idGioc) ? ' selected="selected"' : ''; ?>><?php echo $val->cognome . " " . $val->nome; ?> - <?php echo (!empty($val->idUtente)) ? substr($this->elencoSquadre[$val->idUtente]->nome,0,18) : "Libero"; ?></option>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</optgroup>

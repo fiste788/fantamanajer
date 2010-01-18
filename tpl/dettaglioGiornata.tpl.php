@@ -1,6 +1,6 @@
-<h4>Giornata: <span><?php if(isset($this->giornata)) echo $this->giornata; ?></span></h4>
-<h4>Squadra: <span><?php if(isset($this->squadra)) echo $this->squadraDett->nome; ?></span></h4>
-<h4>Punteggio: <span><?php if(isset($this->somma)) echo $this->somma; ?></span></h4>
+<h4>Giornata: <span><?php echo (isset($this->giornata)) ? $this->giornata : ''; ?></span></h4>
+<h4>Squadra: <span><?php echo (isset($this->squadra)) ? $this->squadraDett->nome : ''; ?></span></h4>
+<h4>Punteggio: <span><?php echo (isset($this->somma)) ? $this->somma : ''; ?></span></h4>
 <?php if(isset($this->titolari) && 	$this->titolari != FALSE && $this->titolari != NULL): ?>
 	<?php if(isset($this->penalità)): ?>
 		<img class="column" alt="!" src="<?php echo IMGSURL . 'penalita.png'; ?>" />
@@ -39,11 +39,11 @@
 							</td>
 					<?php endif; ?>		
 							<td><?php echo $val->cognome; ?></td>
-							<td><?php echo $val->nome; if($val->considerato == 2) echo '<span id="cap">(C)</span>'; ?></td>
+							<td><?php echo ($val->considerato == 2) ? $val->nome . '<span id="cap">(C)</span>' : $val->nome; ?></td>
 							<td><?php echo $val->ruolo; ?></td>
 							<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-							<td><?php if($val->titolare) echo "X";else echo "&nbsp;"; ?></td>
-							<td><?php if(!empty($val->punti)) echo $val->punti; else echo "&nbsp;"; ?></td>
+							<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
+							<td><?php echo (!empty($val->punti)) ? $val->punti : "&nbsp;"; ?></td>
 						</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -82,8 +82,8 @@
 						<td><?php echo $val->nome; ?></td>
 						<td><?php echo $val->ruolo; ?></td>
 						<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-						<td><?php if($val->titolare) echo "X";else echo "&nbsp;"; ?></td>
-						<td><?php if(!empty($val->punti)) echo $val->punti; else echo "&nbsp;"; ?></td>
+						<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
+						<td><?php echo (!empty($val->punti)) ? $val->punti : "&nbsp;"; ?></td>
 					</tr>
 			<?php endforeach; ?>
 		</tbody>

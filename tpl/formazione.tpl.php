@@ -29,13 +29,13 @@
 			<?php if($ruolo != $val->ruolo) echo '<div class="' . $val->ruolo . '">'; ?>
 			<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val->idGioc,$this->titolari)) || (!empty($this->panchinari) && in_array($val->idGioc,$this->panchinari))) echo 'hidden'; ?> <?php echo $val->ruolo; ?>">
 				<a class="hidden" rel="<?php echo $val->idGioc; ?>"></a>
-				<?php if(file_exists(PLAYERSDIR . 'foto/' . $val->idGioc . '.jpg')): ?>
+				<?php if(file_exists(PLAYERSDIR . $val->idGioc . '.jpg')): ?>
 					<img alt="<?php echo $val->idGioc; ?>" height="50" src="<?php echo PLAYERSURL . $val->idGioc; ?>.jpg" />
 				<?php endif; ?>
 				<p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
 			</div>
 			<?php if((isset($this->giocatori[$key + 1]) && $val->ruolo != $this->giocatori[$key + 1]->ruolo) || !isset($this->giocatori[$key + 1])) echo '</div>'; ?>
-			<?php if($ruolo != $val->ruolo) $ruolo = $val->ruolo; ?>
+			<?php $ruolo = ($ruolo != $val->ruolo) ? $val->ruolo : $ruolo; ?>
 		<?php $j++; endforeach; ?>
 		</div>
 		<div id="titolari-field">

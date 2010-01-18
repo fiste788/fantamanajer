@@ -12,7 +12,7 @@ $linksObj = new links();
 				<label class="lega" for="legaView">Lega:</label>
 				<select id="legaView" onchange="this.form.submit();" name="legaView">
 					<?php foreach($this->leghe as $key=>$value): ?>
-						<option <?php if($_SESSION['legaView'] == $value->idLega) echo ' selected="selected"'; ?> value="<?php echo $value->idLega; ?>"><?php echo $value->nomeLega; ?></option>
+						<option <?php echo ($_SESSION['legaView'] == $value->idLega) ? ' selected="selected"' : ''; ?> value="<?php echo $value->idLega; ?>"><?php echo $value->nomeLega; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</fieldset>
