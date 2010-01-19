@@ -161,7 +161,7 @@
 	<?php $i = 0; ?>
 	<body style="float:left;border:0;font-weight:inherit;font-style:inherit;font-size:12px;font-family:sans-serif;vertical-align:baseline;margin:0;padding:0;line-height:1.5;background:#272727;font-size:75%;	color:#fff;font-family:sans-serif;margin: 0;text-align:center;padding: 10px 11px;display:block;">
 		<a style="float:left;margin:0;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;border:0 none;" class="linkheader column last" title="Home" href="http://www.fantamanajer.it/home.html">
-			<img style="border:0 none;" border="0" alt="Header-logo" src="<?php echo IMGSURL.'header-logo.png'; ?>" />
+			<img style="border:0 none;" border="0" alt="Header-logo" src="<?php echo IMGSURL . 'header.png'; ?>" />
 		</a>
 		<div style="-moz-border-radius:10px;float:left;background:#383838;width:840px;text-align:justify;color:#fff;clear:both;margin:0" id="content" class="column last">
 			<div style="float:left;margin:0;background:transparent url(<?php echo IMGSURL; ?>content-top-sx.png) no-repeat scroll left top;width:100%;" id="content-top-sx" class="column last">
@@ -181,19 +181,19 @@
 								<div style="background: transparent url(<?php echo IMGSURL; ?>box2-bottom-dx.png) no-repeat bottom right;float:left;margin:0;" class="box2-bottom-dx column last">
 								<div style="padding:10px;width:380px;text-align:center;float:left;margin:0;" class="box-content column last">
 								<?php if ($formazione != FALSE): ?>
-									<h3 style="color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px"><?php echo $this->squadre[$squadra]['nome']; ?></h3>
+									<h3 style="color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px"><?php echo $this->squadre[$squadra]->nome; ?></h3>
 									<h4 style="color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px">Titolari</h4><hr />
 									<table style="border-collapse:separate;border-spacing:0;margin:0 0 1.4em 0;width:100%;clear:both;">
 									<?php foreach($formazione as $key => $val): ?>
 										<tr>
-										<?php if($this->cap[$squadra]['C'] == $val['idGioc']) : ?>
+										<?php if($this->cap[$squadra]->C == $val->idGioc) : ?>
 											<td style="padding:4px 10px 4px 0pt;width:20px;text-align:left;font-weight:400;border-bottom:1px solid #ddd;" class="tableimg"><img style="margin: 0px 3px -4px;" alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-cap2.png' ?>"/></td>
 										<?php else: ?>
 											<td style="padding:4px 10px 4px 0pt;width:20px;text-align:left;font-weight:400;border-bottom:1px solid #ddd;" class="tableimg"><img style="margin: 0px 3px -4px;" alt="Titolare" title="Titolare" src="<?php echo IMGSURL.'player-tit2.png' ?>"/></td>
 										<?php endif; ?>
-											<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val['cognome']; ?></td>
-											<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val['nome']; ?></td>
-											<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php if(array_search($val['idGioc'],$this->cap[$squadra]) != FALSE)  echo array_search($val['idGioc'],$this->cap[$squadra]); else echo '&nbsp;'; ?></td>
+											<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val->cognome; ?></td>
+											<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val->nome; ?></td>
+											<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php if(array_search($val->idGioc,$this->cap[$squadra]) != FALSE)  echo array_search($val->idGioc,$this->cap[$squadra]); else echo '&nbsp;'; ?></td>
 										</tr>
 									<?php endforeach; ?>
 									</table>
@@ -202,15 +202,15 @@
 										<table style="border-collapse:separate;border-spacing:0;margin:0 0 1.4em 0;width:100%;clear:both;">
 										<?php foreach ($this->panchinari[$squadra] as $key => $val): ?>
 											<tr>
-												<td style="padding:4px 10px 4px 0pt;width:20px;text-align:left;font-weight:400;border-bottom:1px solid #ddd;" class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL.'player-panch2.png' ?>"/></td>
-												<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val['cognome']; ?></td>
-												<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val['nome']; ?></td>
+												<td style="padding:4px 10px 4px 0pt;width:20px;text-align:left;font-weight:400;border-bottom:1px solid #ddd;" class="tableimg"><img alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch2.png' ?>"/></td>
+												<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val->cognome; ?></td>
+												<td style="padding:4px 10px 4px 0pt;text-align:left;font-weight:400;border-bottom:1px solid #ddd;"><?php echo $val->nome; ?></td>
 											</tr>
 										<?php endforeach; ?>
 										</table>
 									<?php endif; ?>
 								<?php else: ?>
-									<h3 style="color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px"><?php echo $this->squadre[$squadra][1]; ?></h3>
+									<h3 style="color:#ff9900;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;font-size:16px"><?php echo $this->squadre[$squadra]->nome; ?></h3>
 									Non ha settato la formazione.
 								<?php endif; ?>
 								</div>
@@ -225,7 +225,7 @@
 								<?php endif; ?>
 							<?php endforeach; ?>
 							<p style="font-size:12px;clear:both;float:left;width:100%;" class="column last">Si prega di non rispondere a questa mail in quanto non verrà presa in considerazione.<br /> 
-									Per domande o chiarimenti contatta <?php if($this->autore['amministratore'] != '2'): ?>l'amministratore di lega all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore['mail']; ?>"><?php echo $this->autore['mail']; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
+									Per domande o chiarimenti contatta <?php if($this->autore->amministratore != '2'): ?>l'amministratore di lega all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:<?php echo $this->autore->mail; ?>"><?php echo $this->autore->mail; ?></a> o <?php endif; ?>gli amministratori all'indirizzo <a style="font-size:12px;color: #ff9900;text-decoration:none;	font-weight:bold;cursor:pointer;" href="mailto:admin@fantamanajer.it">admin@fantamanajer.it</a></p>
 							</div>
 						</div>
 					</div>

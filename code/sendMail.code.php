@@ -11,6 +11,8 @@ $giocatoreObj = new giocatore();
 $legaObj = new lega();
 $mailObj = new mail();
 
+$logger->start("MAIL FORMAZIONE");
+
 $today = date("Y-m-d");
 $date = $giornataObj->getDataByGiornata($giornata);
 $giorn = explode(' ',$date[2]);
@@ -28,7 +30,7 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 		$titolariName = array();
 		$panchinariName = array();
 		$capitani = array();
-		foreach ($squadre as $key => $val)
+		foreach ($squadre as $key=>$val)
 		{
 			$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val->idUtente,$giornata);
 			if($formazione != FALSE)
@@ -52,12 +54,15 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 				$mailContent->assign('titolari',$titolariName);
 				$mailContent->assign('panchinari',$panchinariName);
 				$mailContent->assign('cap',$cap);
-
+				
+				$logger->info("Sending mail to: " . $val->mail);
 				//$mailContent->display(MAILTPLDIR.'mailFormazioni.tpl.php');
 				//MANDO LA MAIL
 				$object = "Formazioni giornata: ". $giornata ;
 				if($mailObj->sendEmail($val->nomeProp . " " . $val->cognome . "<" . $val->mail . ">",$mailContent->fetch(MAILTPLDIR .'mailFormazioni.tpl.php'),$object))
 					$mail++;
+				else
+					$logger->warning("Error in sending mail to: " . $val->mail);
 			}
 		}
 	}
@@ -67,6 +72,10 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 		$message->warning("Errori nell'invio delle mail");
 }
 else
+{
 	$message->warning("Non puoi effettuare l'operazione ora");
+	$logger->waring("Is not time to run it");
+}
+$logger->end("MAIL FORMAZIONE");
 $contentTpl->assign("message",$message);
 ?>

@@ -8,7 +8,7 @@
 		<?php else:?>
 			<select name="squadra" onchange="this.form.submit();">
 			<?php foreach($this->formazioniImpostate as $key => $val): ?>
-				<option<?php if($this->squadra == $val->idUtente) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
+				<option<?php echo ($this->squadra == $val->idUtente) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
 			<?php endforeach; ?>
 		<?php endif; ?>
 		</select>
@@ -17,7 +17,7 @@
 		<h3 class="no-margin">Guarda la formazione della giornata</h3>
 		<select name="giornata" onchange="this.form.submit();">
 			<?php for($j = GIORNATA ; $j  > 0 ; $j--): ?>
-				<option<?php if($this->giornata == $j) echo ' selected="selected"'; ?>><?php echo $j; ?></option>
+				<option<?php echo ($this->giornata == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>
 			<?php endfor; ?>
 		</select>
 	</fieldset>

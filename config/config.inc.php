@@ -74,6 +74,7 @@ define("JSDIR",'js/');
 define("CODEDIR",'code/');
 define("TPLDIR",'tpl/');
 define("INCDIR",'inc/');
+define("AJAXDIR",'ajax/');
 define("MAILTPLDIR",TPLDIR . 'mail/');
 define("OPERATIONTPLDIR",TPLDIR . 'operazioni/');
 
@@ -88,4 +89,5 @@ define("DOCSURL",FULLSTATICURL . 'docs/');
 define("VOTIURL",DOCSURL . 'voti/csv/');
 
 define("JSURL",FULLURL . 'js/');
+define("AJAXURL",FULLURL . 'ajax/');
 ?>
