@@ -28,7 +28,7 @@ $(".script").click(function () {
 					var classe = $(risp).attr('class');
 					$("#messaggio div").remove();
 					$("#messaggio").css('display','none');
-					if(typeof(classe) != "undefined")
+					if(typeof(classe) != "undefined" && classe != null)
 					{	
 						$("#messaggio").addClass(classe);
 						var img = "";
@@ -48,7 +48,7 @@ $(".script").click(function () {
 						$("#messaggio").css('display','none');
 						$("#messaggio").addClass("error");
 						img = '<img src="' + imgUrl + 'attention-bad.png">';
-						$("#messaggio").append('<div class="column last top"></div><div class="column last middle" title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Errore scononsciuto</span></div><div class="column last bottom"></div>').fadeIn("slow", function() {
+						$("#messaggio").append('<div class="column last top"></div><div class="column last middle" title="Tempo di esecuzione: ' + (time_end-time_start) + 'ms">' + img + '<span>Errore non definito nello script</span></div><div class="column last bottom"></div>').fadeIn("slow", function() {
 							if(jQuery.browser.msie)
 								$("#messaggio").removeAttr('style');
 						});
