@@ -5,7 +5,7 @@
 		<select id="lega" name="lega">
 			<?php if(!isset($this->mod)): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoleghe as $key => $val): ?>
-				<option<?php if($this->lega == $val['idLega']) echo ' selected="selected"'; ?> value="<?php echo $val['idLega']?>"><?php echo $val['nomeLega']?></option>
+				<option<?php echo ($this->lega == $val['idLega']) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
 			<?php endforeach ?>
 		</select>
 	</fieldset>
@@ -16,7 +16,7 @@
 		<select id="giorn" name="giorn">
 			<?php if(!isset($this->giornata)): ?><option></option><?php endif; ?>
 			<?php for($i = GIORNATA ; $i > 0 ; $i--): ?>
-				<option<?php if($this->giornata == $i) echo ' selected="selected"'; ?> value="<?php echo $i ?>"><?php echo $i ?></option>
+				<option<?php echo ($this->giornata == $i) ? ' selected="selected"' : ''; ?> value="<?php echo $i ?>"><?php echo $i ?></option>
 			<?php endfor; ?>
 		</select>
 	</fieldset>

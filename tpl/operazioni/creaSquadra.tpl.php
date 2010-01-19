@@ -31,7 +31,7 @@
 		<select name="lega" onchange="document.selezionaLega.submit();">
 			<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoLeghe as $key => $val): ?>
-				<option<?php if($this->lega == $val->idLega) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option> 
+				<option<?php echo ($this->lega == $val->idLega) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option> 
 			<?php endforeach; ?>
 		</select>
 	</fieldset>

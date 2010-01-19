@@ -16,7 +16,7 @@ class logger
 		$this->timeEnd = 0;
 		$this->text = "";
 		$this->level = -1;
-		$this->link = fopen(LOGSDIR . 'fantamanajer.log','a+');
+		$this->link = fopen(LOGSDIR . date("Ymd") . '.log','a+');
 	}
 	
 	function __destruct()

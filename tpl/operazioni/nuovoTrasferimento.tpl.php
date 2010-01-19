@@ -6,14 +6,14 @@
 		<select id="legaSelect" name="lega">
 			<?php if($this->lega == NULL): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoLeghe as $key => $val): ?>
-				<option<?php if($this->lega == $val->idLega) echo ' selected="selected"'; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
+				<option<?php echo ($this->lega == $val->idLega) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
 			<?php endforeach ?>
 		</select>
 	</fieldset>
 	<?php endif; ?>
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Seleziona la squadra:</h3>
-		<select id="squadraSelect" <?php if(!isset($this->elencoSquadre)) echo 'disabled="disabled"'; ?> onchange="this.form.submit();" name="squadra">
+		<select id="squadraSelect" <?php echo (!isset($this->elencoSquadre)) ? 'disabled="disabled"' : ''; ?> onchange="this.form.submit();" name="squadra">
 			<?php if($this->squadra == NULL): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoSquadre as $key => $val): ?>
 				<option<?php if($this->squadra == $val->idUtente) echo ' selected="selected"'; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
@@ -22,18 +22,5 @@
 	</fieldset>
 </form>
 <script type="text/javascript">
-	$("#legaSelect").change(function () {
-		var id = $("#legaSelect option:selected").attr('value');
-		$.getJSON("<?php echo FULLURL; ?>code/ajax/squadre.php?idLega=" + id,
-        function(data,textStatus){
-        	if(textStatus = "success") {
-	        	$("#squadraSelect").empty();
-	        	$("#squadraSelect").removeAttr("disabled");
-	        	$("#squadraSelect").append("<option></option>");
-				$.each(data, function(i,item){
-					$("#squadraSelect").append('<option value="' + i + '">' + item + '</option>');
-				});
-			}
-		});
-	});
+	var url = '<?php echo AJAXURL; ?>';
 </script>

@@ -1,0 +1,5 @@
+Options FollowSymLinks Indexes
+AuthName "administrator"
+AuthType Basic
+AuthUserFile /var/www/vhosts/fantamanajer.it/httpdocs/.htpasswd
+require valid-user

@@ -5,7 +5,7 @@
 		<select name="giornata" onchange="this.form.submit();">
 		<?php if($this->giornateWithArticoli != FALSE): ?>
 			<?php foreach ($this->giornateWithArticoli as $key => $val): ?>
-				<option<?php if($val == $this->idGiornata) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
+				<option<?php echo ($val == $this->idGiornata) ? ' selected="selected"' : ''; ?>><?php echo $val; ?></option>
 			<?php endforeach; ?>
 		<?php endif; ?>
 		</select>

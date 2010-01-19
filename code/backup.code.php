@@ -20,12 +20,12 @@ if($backupObj->dodump())
 	$fileOld = fgets($handle);
 	if(file_exists(DBDIR . $fileOld))
 	{
-		unlink(DBDIR . $fileOld);
+		unlink(DBDIR . $fileOld . '.sql');
 		$logger->info("Deleting " . DBDIR . $fileOld);
 	}
 	fclose($handle);
 	$handle = fopen(DOCSDIR . 'nomeBackup.txt','w');
-	fwrite($handle,$name . '.sql.gz');
+	fwrite($handle,$name);
 	fclose($handle);
 	$files = $fileSystemObj->getFileIntoFolder(DBDIR);
 	rsort($files);

@@ -10,7 +10,7 @@
 		<h3 class="no-margin">Seleziona il ruolo:</h3>
 		<select name="ruolo" onchange="this.form.submit();">
 			<?php foreach($this->ruoli as $key => $val): ?>
-				<option<?php if($this->ruolo == $key) echo ' selected="selected"'; ?> value="<?php echo $key?>"><?php echo $val; ?></option>
+				<option<?php echo ($this->ruolo == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key?>"><?php echo $val; ?></option>
 			<?php endforeach ?>
 		</select>
 		<div class="field column last">

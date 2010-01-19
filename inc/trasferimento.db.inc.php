@@ -157,6 +157,7 @@ class trasferimento extends dbTable
 			}
 			$selezioneObj->svuota();
 		}
+		return TRUE;
 	}
 	
 	function getTrasferimentoById($id)
