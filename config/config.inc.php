@@ -67,7 +67,8 @@ define("UPLOADDIR",FULLSTATICPATH . 'uploadimg/');
 define("DBDIR",FULLSTATICPATH . 'db/');
 define("DOCSDIR",FULLSTATICPATH . 'docs/');
 define("VOTIDIR",DOCSDIR . 'voti/csv/');
-define("TMPDIR",'/tmp/');
+define("LOGSDIR",FULLSTATICPATH . 'logs/');
+define("TMPDIR",sys_get_temp_dir() . '/');
 
 define("JSDIR",'js/');
 define("CODEDIR",'code/');

@@ -203,7 +203,7 @@ class createZip {
 			$fileContents = file_get_contents($dir . $val);
 			$this->addFile($fileContents,$dirzip . $val);
 		}
-		$fileName = TMPDIR . microtime() . ".zip";
+		$fileName = tempnam(TMPDIR,"voti");
 		$fd = fopen($fileName,"wb");
 		$out = fwrite($fd,$this->getZippedfile());
 		fclose($fd);

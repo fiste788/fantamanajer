@@ -51,11 +51,13 @@ require(INCDIR . 'dbTable.inc.php');
 require(INCDIR . 'strings.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
+require(INCDIR . 'logger.inc.php');
 
 //Creating a new db istance
 $dbObj = new db();
 $linksObj = new links();
-$message = new message();	
+$message = new message();
+$logger = new logger();	
 
 //Creating object for pages
 $layoutTpl = new Savant3(array('template_path' => TPLDIR));
