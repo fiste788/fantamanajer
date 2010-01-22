@@ -16,13 +16,13 @@
 		<?php else: ?>
 			<h3><?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?></h3>
 		<?php endif; ?>
-		<?php if($this->dettaglioGioc['dettaglio']->club != NULL): ?>
+		<?php if($this->dettaglioGioc['dettaglio']->nomeClub != NULL): ?>
 			<img height="82" width="50" title="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
 		<?php endif; ?>
 		<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']->ruolo]; ?></p>
 		<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
 		<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']->presenze . " (" . $this->dettaglioGioc['dettaglio']->presenzeVoto . ")"; ?></p>
-		<p>Gol: <?php echo ($this->dettaglioGioc['dettaglio']->ruolo != 'P') ? $this->dettaglioGioc['dettaglio']->gol : ($this->dettaglioGioc['dettaglio']->golSubiti == 0) ? $this->dettaglioGioc['dettaglio']->golSubiti : "-" . $this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
+		<p>Gol: <?php if($this->dettaglioGioc['dettaglio']->ruolo != 'P') echo $this->dettaglioGioc['dettaglio']->gol;elseif($this->dettaglioGioc['dettaglio']->golSubiti == 0) echo $this->dettaglioGioc['dettaglio']->golSubiti;else "-" . $this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
 		<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']->assist; ?></p>
 		<p>Media voti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgVoti)) ? $this->dettaglioGioc['dettaglio']->avgVoti : ''; ?></p>
 		<p>Media punti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgPunti)) ? $this->dettaglioGioc['dettaglio']->avgPunti : ''; ?></p>
@@ -76,7 +76,7 @@
 		</tr>
 		<tr>
 		<?php foreach($this->dettaglioGioc['dettaglio']->data as $key => $val): ?>
-			<td><?php echo ($this->dettaglioGioc['dettaglio']->ruolo != "P") ? $val->gol : ($val->golSub == 0) ? $val->golSub : "-".$val->golSub ?></td>
+			<td><?php if($this->dettaglioGioc['dettaglio']->ruolo != "P") echo $val->gol;elseif($val->golSub == 0) echo $val->golSub;else echo "-" . $val->golSub ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<tr>

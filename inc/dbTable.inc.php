@@ -3,8 +3,9 @@ class dbTable
 {
 	protected static function sqlError($q)
 	{
-		ob_end_flush();
-		die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		ob_end_flush();	
+		FB::error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		die();
 	}
 	
 	protected static function startTransaction()

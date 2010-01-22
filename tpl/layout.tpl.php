@@ -9,7 +9,6 @@
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
 		<link href="<?php echo CSSURL . (LOCAL ? 'screen.css' : 'screen.min.css'); ?>" media="screen" rel="stylesheet" type="text/css" />
-		<link href="<?php echo CSSURL . (LOCAL ? 'print.css' : 'print.min.css'); ?>" media="print" rel="stylesheet" type="text/css" />
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -22,13 +21,6 @@
 	</head>
 	<?php flush(); ?>
 	<body>
-		<?php if(DEBUG): ?>
-		<div id="debugShow">Debug</div>
-		<div id="debug">
-			<h3>Debug</h3>
-			<?php echo $this->debug; ?>
-		</div>
-		<?php endif; ?>
 		<div id="big-container">
 			<div id="header" class="column last">
 				<?php echo $this->header; ?>

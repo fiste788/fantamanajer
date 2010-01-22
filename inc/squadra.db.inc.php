@@ -12,7 +12,7 @@ class squadra extends dbTable
 			$row[] = "('" . $idLega . "','" . $idUtente . "','" . $val . "')";
 		$q .= implode(',',$row);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -22,7 +22,7 @@ class squadra extends dbTable
 				FROM squadra 
 				WHERE idUtente = '" . $idUtente . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -32,7 +32,7 @@ class squadra extends dbTable
 				SET idGioc = '" . $giocatoreNew . "' 
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -42,7 +42,7 @@ class squadra extends dbTable
 				SET idUtente = '" . $idUtente . "' 
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -54,7 +54,7 @@ class squadra extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = FALSE;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values = $row->idUtente;
 		return $values;
@@ -65,7 +65,7 @@ class squadra extends dbTable
 		$q = "INSERT INTO squadra 
 				VALUES ('" . $idLega . "','" . $idUtente . "','" . $idGioc . "')";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -75,7 +75,7 @@ class squadra extends dbTable
 				FROM squadra 
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 }

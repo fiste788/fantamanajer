@@ -13,7 +13,7 @@ class selezione extends dbTable
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		if(isset($values))
@@ -29,7 +29,7 @@ class selezione extends dbTable
 				WHERE idSquadra = '" . $idSquadra . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_fetch_object($exe);
 	}
 	
@@ -39,7 +39,7 @@ class selezione extends dbTable
 				SET giocOld = NULL,giocNew = NULL 
 				WHERE idSquadra = '" . $idSquadra . "';";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -50,7 +50,7 @@ class selezione extends dbTable
 				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$values = array();
 		while($row = mysql_fetch_object($exe))
 			$values = $row;
@@ -68,7 +68,7 @@ class selezione extends dbTable
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$values = array();
 		while($row = mysql_fetch_object($exe))
 			$values = $row;
@@ -78,7 +78,7 @@ class selezione extends dbTable
 					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values->numSelezioni - 1) . "' 
 					WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		$q = "SELECT numSelezioni 
@@ -86,7 +86,7 @@ class selezione extends dbTable
 				WHERE giocNew IS NOT NULL AND idSquadra = '" . $idSquadra . "'  LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$values = array();
 		while($row = mysql_fetch_object($exe))
 			$values = $row;
@@ -96,7 +96,7 @@ class selezione extends dbTable
 					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values->numSelezioni + 1) . "' 
 					WHERE idSquadra = '" . $idSquadra . "'";
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		else
@@ -104,7 +104,7 @@ class selezione extends dbTable
 			$q = "INSERT INTO selezione 
 					VALUES ('" . $idLega . "','" . $idSquadra . "','" . $giocOld . "','" . $giocNew . "','1')";
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;	
 		}
 		if(isset($err))
@@ -124,7 +124,7 @@ class selezione extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = NULL;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$val = $row->numSelezioni;
 		return $val;
@@ -134,7 +134,7 @@ class selezione extends dbTable
 	{
 		$q = "TRUNCATE TABLE selezione";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 }

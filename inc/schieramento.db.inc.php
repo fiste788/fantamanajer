@@ -12,7 +12,7 @@ class schieramento extends dbTable
 				SET considerato = '" . $val . "'
 				WHERE idFormazione = '" . $idFormazione . "' AND idGioc = '" . $idGioc . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -22,7 +22,7 @@ class schieramento extends dbTable
 				SET idGioc = '" . $idGiocNew . "' 
 				WHERE idGioc = '" . $idGiocOld . "' AND idFormazione = '" . $idFormazione . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -33,7 +33,7 @@ class schieramento extends dbTable
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$row = mysql_fetch_assoc($exe);
 		if(!empty($idGioc))
 		{
@@ -53,7 +53,7 @@ class schieramento extends dbTable
 		else
 			return TRUE;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 	}
 }

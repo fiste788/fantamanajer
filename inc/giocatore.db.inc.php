@@ -16,7 +16,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[$row->idGioc] = $row;
 		if(isset($giocatori))
@@ -34,7 +34,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[$row->idGioc] = $row;
 		if(isset($giocatori))
@@ -52,7 +52,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
@@ -77,7 +77,7 @@ class giocatore extends dbTable
 				ORDER BY cognome,nome";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[$row->idGioc] = $row;
 		return $giocatori;
@@ -91,7 +91,7 @@ class giocatore extends dbTable
 				ORDER BY FIELD(idGioc,'" . implode("','",$giocatori) . "')";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$result[] = $row;
 		return $result;
@@ -104,7 +104,7 @@ class giocatore extends dbTable
 				WHERE idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$result[$row->idGioc] = $row;
 		if(isset($result))
@@ -125,7 +125,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$data = $votoObj->getAllVotoByIdGioc($idGioc);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values['dettaglio'] = $row;
 		if(!empty($data))
@@ -140,7 +140,7 @@ class giocatore extends dbTable
 				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "' ORDER BY idPosizione";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$elenco = FALSE;
 		while ($row = mysql_fetch_object($exe))
 			$elenco[] = $row;
@@ -154,7 +154,7 @@ class giocatore extends dbTable
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
@@ -170,7 +170,7 @@ class giocatore extends dbTable
 				WHERE idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			return $row->ruolo;
 	}
@@ -182,7 +182,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 		{
 			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
@@ -228,7 +228,7 @@ class giocatore extends dbTable
 				foreach($clubs[$key] as $single)
 					$eventoObj->addEvento('7',0,0,$single);
 				if(DEBUG)
-					echo $q . "<br />";
+					FB::log($q);
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			}
 		}
@@ -259,7 +259,7 @@ class giocatore extends dbTable
 			}
 			$q = rtrim("INSERT INTO giocatore(idGioc,cognome,nome,ruolo,club) VALUES " . $rowtoinsert,",");
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		if(count($daTogliere) != 0)
@@ -271,7 +271,7 @@ class giocatore extends dbTable
 					SET club = NULL 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		if(isset($err))
@@ -294,7 +294,7 @@ class giocatore extends dbTable
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[$row->idGioc] = $row;
 		return $giocatori;
@@ -340,7 +340,7 @@ class giocatore extends dbTable
 				WHERE idUtente = '" . $idUtente . "' AND (club IS NULL OR club = '')";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		if(isset($giocatori))
@@ -355,7 +355,7 @@ class giocatore extends dbTable
 				FROM giocatore";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giocatori[] = $row;
 		return $giocatori;
@@ -367,7 +367,7 @@ class giocatore extends dbTable
 				SET cognome = '" . $cognome . "', nome = '" . $nome . "'
 				WHERE idGioc = '" . $id . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -378,7 +378,7 @@ class giocatore extends dbTable
 				WHERE idGioc = '" . $idGioc . "' AND club IS NULL";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			return TRUE;
 		return FALSE;
@@ -394,7 +394,7 @@ class giocatore extends dbTable
 				LIMIT 0 , 5";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		return $values;

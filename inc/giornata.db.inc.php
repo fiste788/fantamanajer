@@ -13,7 +13,7 @@ class giornata extends dbTable
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+			FB::log($q);
 		$valore = mysql_fetch_assoc($exe);
 		if (!empty($valore))
 			$valore['partiteInCorso'] = FALSE;
@@ -39,7 +39,7 @@ class giornata extends dbTable
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+			FB::log($q);
 		$value = mysql_fetch_assoc($exe);
 		if(!empty($value))
 		{
@@ -62,7 +62,7 @@ class giornata extends dbTable
 				WHERE idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+			FB::log($q);
 		return mysql_fetch_object($exe);
 	}
 	
@@ -72,7 +72,7 @@ class giornata extends dbTable
 				FROM giornata";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+			FB::log($q);
 		$values = mysql_fetch_object($exe);
 		return $values->numeroGiornate;
 	}
@@ -83,7 +83,7 @@ class giornata extends dbTable
 				FROM giornata";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$giornate[$row->idGiornata] = $row;
 		return $giornate;
@@ -96,7 +96,7 @@ class giornata extends dbTable
 				FROM giornata
 				WHERE NOW() > dataInizio";
 		if(DEBUG)
-			echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+			FB::log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = mysql_fetch_object($exe);
 		return $values->dataFine;
@@ -111,7 +111,7 @@ class giornata extends dbTable
 			{
 				$q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE idGiornata = '" . $key . "'";
 				if(DEBUG)
-					echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+					FB::log($q);
 				$bool *= mysql_query($q) or self::sqlError($q);
 			}
 		}

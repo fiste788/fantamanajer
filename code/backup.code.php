@@ -17,11 +17,11 @@ if($backupObj->dodump())
 	$logger->info("Backup " . $backupName . ".sql.gz created succesfully");
 
 	$handle = fopen(DOCSDIR . 'nomeBackup.txt','r');
-	$fileOld = fgets($handle);
-	if(file_exists(DBDIR . $fileOld))
+	$fileOld = DBDIR . fgets($handle) . '.sql';
+	if(file_exists($fileOld))
 	{
-		unlink(DBDIR . $fileOld . '.sql');
-		$logger->info("Deleting " . DBDIR . $fileOld);
+		unlink($fileOld);
+		$logger->info("Deleting " . $fileOld );
 	}
 	fclose($handle);
 	$handle = fopen(DOCSDIR . 'nomeBackup.txt','w');
