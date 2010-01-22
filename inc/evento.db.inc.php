@@ -13,7 +13,7 @@ class evento extends dbTable
 		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal) 
 				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -22,7 +22,7 @@ class evento extends dbTable
 		$q = "DELETE 
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -63,7 +63,7 @@ class evento extends dbTable
 				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
 		if(isset($values))

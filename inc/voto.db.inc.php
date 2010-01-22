@@ -15,7 +15,7 @@ class voto extends dbTable
 				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			return $row->punti;
 	}
@@ -28,7 +28,7 @@ class voto extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values=false;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			$values[$row->idGiornata] = $row;
 		return $values;
@@ -41,7 +41,7 @@ class voto extends dbTable
 				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			return $row->valutato;
 	}
@@ -54,7 +54,7 @@ class voto extends dbTable
 				GROUP BY idGioc";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			return $row;
 	}
@@ -82,7 +82,7 @@ class voto extends dbTable
 				}
 				$q .= implode(',',$voti);
 				if(DEBUG)
-					echo $q . "<br />";
+					FB::log($q);
 				return mysql_query($q) or self::sqlError($q);
 			}
 			else
@@ -99,7 +99,7 @@ class voto extends dbTable
 				FROM voto";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row->idGiornata;
 		return in_array($giornata,$values);

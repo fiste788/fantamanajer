@@ -52,12 +52,18 @@ require(INCDIR . 'strings.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
+require(INCDIR . "fb.php");
+
+$p = new FirePHP();
+$p->registerErrorHandler("E_WARNING");
+$p->registerExceptionHandler();
+
 
 //Creating a new db istance
 $dbObj = new db();
 $linksObj = new links();
 $message = new message();
-$logger = new logger();	
+$logger = new logger();
 
 //Creating object for pages
 $layoutTpl = new Savant3(array('template_path' => TPLDIR));
@@ -105,9 +111,7 @@ if (!isset($_COOKIE[$session_name]))
 else
 	@session_start();
 	
-if(!LOCAL && $_SESSION['roles'] == 2)
-	define("DEBUG",TRUE);
-elseif(LOCAL)
+if(LOCAL || $_SESSION['roles'] == 2)
 	define("DEBUG",TRUE);
 else
 	define("DEBUG",FALSE);
@@ -172,18 +176,23 @@ if(isset($_SESSION['message']))
 	$message = $_SESSION['message'];	
 	unset($_SESSION['message']);
 }
+if(DEBUG)
+	FB::group($p . '.code.php');
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php'))
 	require(CODEDIR . $p . '.code.php');
 //definisce il file di template utilizzato per visualizzare questa pagina
 $tplfile = $p . '.tpl.php';
+if(DEBUG)
+	FB::groupEnd();
 $layoutTpl->assign('message',$message);
 
 
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
  */
-
+if(DEBUG)
+	FB::group("Giocatori trasferiti");
 if ($_SESSION['logged'])
 {
 	require_once(INCDIR . 'giocatore.db.inc.php');
@@ -195,8 +204,9 @@ if ($_SESSION['logged'])
 	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
 		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
-$debug = ob_get_contents();
-ob_end_clean();
+if(DEBUG)
+	FB::groupEnd();
+
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbarTpl->assign('p',$p);
 $navbarTpl->assign('pages',$pages);
@@ -211,7 +221,6 @@ if(isset($pages[$p]['css']))
  	$layoutTpl->assign('css', $pages[$p]['css']);
 if(isset($pages[$p]['js']))
 	$layoutTpl->assign('js', $pages[$p]['js']);
-$layoutTpl->assign('debug',$debug);
 
 /**
  * GENERAZIONE LAYOUT
@@ -258,10 +267,10 @@ $layoutTpl->assign('content', $content);
 $layoutTpl->assign('operation', $operation);
 $layoutTpl->assign('navbar', $navbar);
 
+ob_end_clean();
 /**
  * Output Pagina
  */
-
 $layoutTpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 $result = $layoutTpl->display('layout.tpl.php');
 // now test the result of the display() call.  if there was an

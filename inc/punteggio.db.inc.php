@@ -14,7 +14,7 @@ class punteggio extends dbTable
 				WHERE idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		if(mysql_num_rows($exe) > 0)
 			return FALSE;
 		else
@@ -28,7 +28,7 @@ class punteggio extends dbTable
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$punteggio = NULL;
 		if(mysql_num_rows($exe) > 0)
 		{
@@ -59,7 +59,7 @@ class punteggio extends dbTable
 				WHERE idLega = '" . $idLega . "' AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			$values[$row->idGiornata][] = $row;
 		foreach($values as $giornata=>$pos)
@@ -75,7 +75,7 @@ class punteggio extends dbTable
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			$values = $row->giornateVinte;
 		return $values;
@@ -90,7 +90,7 @@ class punteggio extends dbTable
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$classifica = NULL;
 		while ($row = mysql_fetch_object($exe))
 			$classifica[$row->idUtente] = $row;
@@ -105,7 +105,7 @@ class punteggio extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$i = 0;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 		{
 			if(isset($classifica[$row->idUtente][$row->idGiornata]))
@@ -138,7 +138,7 @@ class punteggio extends dbTable
 				FROM punteggio";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			return $row->numGiornate;
 	}
@@ -231,7 +231,7 @@ class punteggio extends dbTable
 					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,idLega) 
 							VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
 				if(DEBUG)
-					echo $q . "<br />";
+					FB::log($q);
 				mysql_query($q) or self::sqlError($q);
 				if($percentualePunteggio != NULL)
 				{
@@ -242,7 +242,7 @@ class punteggio extends dbTable
 							VALUES ('" . $giornata . "','" . $idSquadra . "','" . - ($puntiDaTogliere) ."','Formazione non settata','" . $idLega . "')";
 					mysql_query($q) or self::sqlError($q);
 					if(DEBUG)
-						echo $q . "<br />";
+						FB::log($q);
 				}
 				return TRUE;
 			}
@@ -262,7 +262,7 @@ class punteggio extends dbTable
 			$q = "INSERT INTO punteggio (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			mysql_query($q) or self::sqlError($q);
 		}
 		return TRUE;
@@ -276,7 +276,7 @@ class punteggio extends dbTable
 		else
 			return TRUE;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -287,7 +287,7 @@ class punteggio extends dbTable
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$values = FALSE;
 		while ($row = mysql_fetch_object($exe))
 			$values = $row;
@@ -301,7 +301,7 @@ class punteggio extends dbTable
 				WHERE punteggio < 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$values = FALSE;
 		while ($row = mysql_fetch_object($exe))
 			$values[$row->idUtente][$row->idGiornata] = $row->punteggio;
@@ -317,7 +317,7 @@ class punteggio extends dbTable
 			$q = "INSERT INTO punteggio (punteggio,penalità,idGiornata,idUtente,idLega) 
 					VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	

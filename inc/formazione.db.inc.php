@@ -17,7 +17,7 @@ class formazione extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 		{
 			$elenco[$row->idPosizione] = $row->idGioc;
@@ -68,13 +68,13 @@ class formazione extends dbTable
 				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$q = "SELECT idFormazione 
 				FROM formazione 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
@@ -107,13 +107,13 @@ class formazione extends dbTable
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$q = "SELECT idFormazione 
 				FROM formazione 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
@@ -137,7 +137,7 @@ class formazione extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 		{
 			$elenco[$row->idPosizione] = $row->idGioc;
@@ -167,7 +167,7 @@ class formazione extends dbTable
 				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 		{
 			$val[$row->idUtente]->idUtente = $row->idUtente;
@@ -185,7 +185,7 @@ class formazione extends dbTable
 				SET " . $cap . " = '" . $idGiocNew . "'
 				WHERE idFormazione = '" . $idFormazione . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 }

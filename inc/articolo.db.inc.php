@@ -71,14 +71,14 @@ class articolo extends dbTable
 		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata, idLega) 
 				VALUES ('" . $articolo->title . "' , '" . $articolo->abstract . "' , '" . $articolo->text . "' , '" . $articolo->insertDate . "' , '" . $articolo->idSquadra . "' , '" . $articolo->idGiornata . "' , '" . $articolo->idLega . "')";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		mysql_query($q) or self::sqlError($q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
 				WHERE title = '" . $articolo->title . "' AND abstract = '" . $articolo->abstract . "' AND text = '" . $articolo->text . "' AND insertDate = '" . $articolo->insertDate . "' AND idSquadra = '" . $articolo->idSquadra . "' AND idGiornata = '" . $articolo->idGiornata . "' AND idLega = '" . $articolo->idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$data = mysql_fetch_assoc($exe);
 		return $data['idArticolo'];
 	}
@@ -89,7 +89,7 @@ class articolo extends dbTable
 				SET title = '" . $articolo->title . "' , abstract = '" . $articolo->abstract . "' , text = '" . $articolo->text . "' , insertDate = '" . $articolo->insertDate . "' , idSquadra = '" . $articolo->idSquadra . "' , idGiornata = '" . $articolo->idGiornata . "' , idLega = '" . $articolo->idLega . "'  
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -99,7 +99,7 @@ class articolo extends dbTable
 				FROM articolo 
 				WHERE idArticolo = '" . $articolo->idArticolo . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -173,7 +173,7 @@ class articolo extends dbTable
 		if($start != NULL || $end != NULL)
 			$q .= " LIMIT ".$start.','.$end;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
@@ -190,7 +190,7 @@ class articolo extends dbTable
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row->idGiornata;
 		if(isset($values))
@@ -206,7 +206,7 @@ class articolo extends dbTable
 				WHERE idArticolo = '" . $id . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_fetch_object($exe);
 	}
 }

@@ -790,34 +790,34 @@ a.logout, a.logout:hover, a.logout:visited {
 	width:370px;
 }
 #formazione #panch-0 {
-	background:url(../imgs/1.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat 0px 50%;
 }
 #formazione #panch-1 {
-	background:url(../imgs/2.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -95px 50%;
 }
 #formazione #panch-2 {
-	background:url(../imgs/3.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -190px 50%;
 }
 #formazione #panch-3 {
-	background:url(../imgs/4.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -285px 50%;
 }
 #formazione #panch-4 {
-	background:url(../imgs/5.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -380px 50%;
 }
 #formazione #panch-5 {
-	background:url(../imgs/6.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -475px 50%;
 }
 #formazione #panch-6 {
-	background:url(../imgs/7.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -570px 50%;
 }
 #formazione #cap-C {
-	background:url(../imgs/c.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -665px 50%;
 }
 #formazione #cap-VC {
-	background:url(../imgs/vc.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -760px 50%;
 }
 #formazione #cap-VVC {
-	background:url(../imgs/vvc.png) no-repeat 50% 50%;
+	background:url(../imgs/panchina.png) no-repeat -855px 50%;
 }
 #formazione .submit {
 	float:left;

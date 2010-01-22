@@ -28,7 +28,7 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 			$_SESSION['legaView'] = $dettagliUtente->idLega;
 			$_SESSION['idSquadra'] = $dettagliUtente->idUtente;
 			$_SESSION['nomeSquadra'] = $dettagliUtente->nome;
-			$_SESSION['nomeProprietario'] = $dettagliUtente->nomeProp . " " . $values->cognome;
+			$_SESSION['nomeProprietario'] = $dettagliUtente->nomeProp . " " . $dettagliUtente->cognome;
 			$_SESSION['email'] = $dettagliUtente->mail;
 		}
 	}

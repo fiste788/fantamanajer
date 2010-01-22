@@ -15,7 +15,7 @@ class lega extends dbTable
 				FROM lega";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 		  	$values[] = $row;
 		return $values; 
@@ -28,7 +28,7 @@ class lega extends dbTable
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_fetch_object($exe);
 	}
 	
@@ -40,7 +40,7 @@ class lega extends dbTable
 		$q = substr($q,0,-1);
 		$q .= " WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -50,7 +50,7 @@ class lega extends dbTable
 				FROM lega";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			$result[$row->Field] = $row->Default;
 		return $result;

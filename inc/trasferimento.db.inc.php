@@ -15,7 +15,7 @@ class trasferimento extends dbTable
 				WHERE trasferimento.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$values = FALSE;
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row;
@@ -52,13 +52,13 @@ class trasferimento extends dbTable
 				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($giocOld) . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$q = "SELECT idTrasf 
 						FROM trasferimento
 						WHERE idGiocOld = '" . $giocOld . "' AND idGiocNew = '" . $giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $squadra ."'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$idTrasferimento = mysql_fetch_object($exe);
 		$eventoObj->addEvento('4',$squadra,$idLega,$idTrasferimento->idTrasf);
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
@@ -83,13 +83,13 @@ class trasferimento extends dbTable
 					VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($giocNew) . "')";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			$q = "SELECT idTrasf 
 						FROM trasferimento
 						WHERE idGiocOld = '" . $giocNew . "' AND idGiocNew = '" . $giocOld . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $squadraOld ."'";
 			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 			$idTrasferimento = mysql_fetch_object($exe);
 			$eventoObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento->idTrasf);
 		}
@@ -130,7 +130,7 @@ class trasferimento extends dbTable
 				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idSquadra . "','" . GIORNATA . "','" . $giocatoreObj->checkOutLista($val->giocOld) . "')";
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
-				echo $q . "<br />";
+				FB::log($q);
 				$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val->idSquadra,GIORNATA);
 				if($formazione != FALSE)
 				{
@@ -144,7 +144,7 @@ class trasferimento extends dbTable
 						WHERE idGiocOld = '" . $val->giocOld . "' AND idGiocNew = '" . $val->giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val->idSquadra . "'";
 				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
-					echo $q . "<br />";
+					FB::log($q);
 				$idTrasferimento = mysql_fetch_object($exe);
 				$eventoObj->addEvento('4',$val->idSquadra,$val->idLega,$idTrasferimento->idTrasf);
 				if(isset($err))
@@ -167,7 +167,7 @@ class trasferimento extends dbTable
 				WHERE idTrasf = '" . $id . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while($row = mysql_fetch_object($exe))
 			return $row;
 	}

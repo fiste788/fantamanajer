@@ -35,7 +35,7 @@ class utente extends dbTable
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$values[$row->idUtente] = $row;
 		return $values; 
@@ -47,7 +47,7 @@ class utente extends dbTable
 				FROM utente";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$values[$row->idUtente] = $row;
 		return $values; 
@@ -60,7 +60,7 @@ class utente extends dbTable
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			$values[$row->idUtente] = $row;
 		if(isset($values))
@@ -76,7 +76,7 @@ class utente extends dbTable
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe))
 			$values[$row->idUtente] = $row->nome;
 		if(isset($values))
@@ -92,7 +92,7 @@ class utente extends dbTable
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_fetch_object($exe); 
 	}
 	
@@ -108,7 +108,7 @@ class utente extends dbTable
 			$q .= ", password = '" . $password . "'";
 		$q .= " WHERE idUtente = '" . $idUtente . "'";
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -118,7 +118,7 @@ class utente extends dbTable
 				FROM utente";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$values[$row->idLega][$row->idUtente] = $row->mail;
 		return $values; 
@@ -131,7 +131,7 @@ class utente extends dbTable
 				WHERE abilitaMail <> 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$values[$row->idLega][$row->idUtente] = $row->mail;
 		return $values; 
@@ -144,7 +144,7 @@ class utente extends dbTable
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$values[$row->idUtente] = $row->mail;
 		return $values; 
@@ -157,7 +157,7 @@ class utente extends dbTable
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$values[$row->idUtente] = $row->mail;
 		return $values; 
@@ -171,13 +171,13 @@ class utente extends dbTable
 				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
 		mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$q = "SELECT idUtente 
 				FROM utente 
 				WHERE nome = '" . $nomeSquadra . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$val = $row->idUtente;
 		$punteggioObj->setPunteggiToZero($val,$idLega);
@@ -191,7 +191,7 @@ class utente extends dbTable
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		if(mysql_affected_rows() == 0)
 			return FALSE;
 		else
@@ -206,7 +206,7 @@ class utente extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = -1;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$val = $row->idLega;
 		return $val;
@@ -220,7 +220,7 @@ class utente extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = FALSE;
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		while ($row = mysql_fetch_object($exe) )
 			$val = $row;
 		return $val;
@@ -233,7 +233,7 @@ class utente extends dbTable
 				WHERE nome LIKE '" . $nome . "' AND idUtente <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
-			echo $q . "<br />";
+			FB::log($q);
 		$val = FALSE;
 		while ($row = mysql_fetch_object($exe) )
 			$val = $row;
