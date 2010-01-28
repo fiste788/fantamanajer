@@ -27,7 +27,7 @@ if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 's
 else
 {
 	$message->warning("Non puoi effettuare l'operazione ora");
-	$logger->waring("Is not time to run it");
+	$logger->warning("Is not time to run it");
 }
 $logger->end("ACQUISTA GIOCATORI");
 $contentTpl->assign('message',$message);
