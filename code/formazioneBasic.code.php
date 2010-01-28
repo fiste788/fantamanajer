@@ -46,7 +46,8 @@ if(!PARTITEINCORSO)
 	if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 	{
 		$formazione = array();
-		$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
+		$capitano = array();
+		//$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
 		$err = 0;
 		
 		foreach($ruoliKey as $ruolo)
@@ -78,11 +79,13 @@ if(!PARTITEINCORSO)
 		{
 			if(!empty($val))
 			{
-				$ruoloGioc = $giocatoreObj->getRuoloByIdGioc($val);
+				$appo = explode('-',$key);
+				$idGioc = $_POST[$appo[0]][$appo[1]];
+				$ruoloGioc = $giocatoreObj->getRuoloByIdGioc($idGioc);
 				if( $ruoloGioc == 'P' || $ruoloGioc == 'D' )
 				{
-					if( !in_array($val,$capitano))
-						$capitano[$key] = $val;		
+					if(!array_key_exists($val,$capitano))
+						$capitano[$val] = $idGioc;		
 					else
 						$err++;
 				}
@@ -98,7 +101,7 @@ if(!PARTITEINCORSO)
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
 		{
 			unset($_POST);
-			if(!$issetform)
+			if(!$formazione)
 			{
 				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$filterMod);
 				$eventiObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
@@ -121,6 +124,7 @@ if(!PARTITEINCORSO)
 			$filterMod = $formazione->modulo;
 		$panchinariAr = $formazione->elenco;
 		$titolariAr = array_splice($panchinariAr,0,11);
+		$capitano = get_object_vars($formazione->cap);
 		$i = 0;
 		if(!empty($_POST))
 		{
@@ -138,14 +142,20 @@ if(!PARTITEINCORSO)
 				$i++;
 			}
 			foreach($_POST['cap'] as $key=>$val)
-				$capitano[$key] = $val;
+			{
+				if(!empty($val))
+				{
+					$appo = explode('-',$key);
+					$capitano[$val] = $_POST[$appo[0]][$appo[1]];
+				}
+			}
 		}
 		$contentTpl->assign('titolari',$titolariAr);
 		if(empty($panchinariAr))
 			$contentTpl->assign('panchinari',FALSE);
 		else
 			$contentTpl->assign('panchinari',$panchinariAr);
-		$contentTpl->assign('cap',$formazione->cap);
+		$contentTpl->assign('cap',$capitano);
 	}
 	$contentTpl->assign('issetForm',$formazione);
 	

@@ -74,7 +74,7 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 else
 {
 	$message->warning("Non puoi effettuare l'operazione ora");
-	$logger->waring("Is not time to run it");
+	$logger->warning("Is not time to run it");
 }
 $logger->end("MAIL FORMAZIONE");
 $contentTpl->assign("message",$message);
