@@ -90,7 +90,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 										
 	$pages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('ui.core','ui.draggable','ui.droppable'),'custom'=>'createFormazione'),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 									
@@ -103,7 +103,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Giocatori liberi'));
 										
 	$pages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
-										'js'=>array('ui'=>array('ui.core','ui.draggable','ui.droppable'),'custom'=>'createFormazione'),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										
@@ -116,7 +116,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Download'));
 										
 	$pages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
-										'js'=>array('ui'=>array('ui.core','ui.dialog')),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.dialog')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Crea una nuova squadra'));
 										
@@ -156,7 +156,7 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
 										
 	$pages['giornate'] = array(	'title'=>"Giornate",
-										'css'=>array('ui.datepicker'),
+										'css'=>array('jquery.ui.datepicker'),
 										'js'=>array('ui'=>array('ui.core','ui.datepicker')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Giornate'));								
