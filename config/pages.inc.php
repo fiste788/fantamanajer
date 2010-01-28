@@ -90,7 +90,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 										
 	$pages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
 									
@@ -103,7 +103,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Giocatori liberi'));
 										
 	$pages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										
