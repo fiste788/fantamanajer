@@ -1,8 +1,8 @@
-<form class="column last" name="datiFormazione" action="<?php echo $this->linksObj->getLink('inserisciFormazione'); ?>" method="post">
+<form class="column last" action="<?php echo $this->linksObj->getLink('inserisciFormazione'); ?>" method="post">
 	<?php if($_SESSION['usertype'] == 'superadmin'): ?>
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Seleziona la lega:</h3>
-		<select id="lega" name="lega">
+		<select id="legaSelect" name="lega">
 			<?php if(!isset($this->mod)): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoleghe as $key => $val): ?>
 				<option<?php echo ($this->lega == $val->idLega) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option>
@@ -22,7 +22,7 @@
 	</fieldset>
 	<fieldset id="modulo" class="no-margin fieldset">
 		<h3 class="no-margin">Seleziona il modulo:</h3>
-		<select id="mod" name="mod" onchange="this.form.submit()">
+		<select id="mod" name="mod">
 			<?php if(!isset($this->mod)): ?><option></option><?php endif; ?>
 			<option value="1-4-4-2"<?php if ($this->mod == '1-4-4-2') echo ' selected="selected"'; ?>>4-4-2</option>
 			<option value="1-3-5-2"<?php if ($this->mod == '1-3-5-2') echo ' selected="selected"'; ?>>3-5-2</option>
@@ -33,21 +33,19 @@
 			<option value="1-5-3-2"<?php if ($this->mod == '1-5-3-2') echo ' selected="selected"'; ?>>5-3-2</option>
 		</select>
 	</fieldset>
-	<?php if(isset($this->lega) && $this->lega != NULL): ?>
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Seleziona la squadra:</h3>
-		<?php if(!$this->elencosquadre): ?>
-			<select disabled="disabled" name="squadra">
-				<option value="NULL">Nessuna squadra presente</option>
-		<?php else: ?>
-			<select name="squadra">
+			<select id="squadraSelect"<?php if(!isset($this->elencosquadre)) echo ' disabled="disabled"'; ?> name="squadra"  onchange="this.form.submit()">
 			<?php if($this->squadra == NULL): ?><option></option><?php endif; ?>
-			<?php foreach($this->elencosquadre as $key => $val): ?>
-				<option <?php echo ($this->squadra == $val->idUtente) ? ' selected="selected"' : '' ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
-			<?php endforeach ?>
-		<?php endif; ?>
+			<?php if(isset($this->elencosquadre)): ?>
+				<?php foreach($this->elencosquadre as $key => $val): ?>
+					<option <?php echo ($this->squadra == $val->idUtente) ? ' selected="selected"' : '' ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
+				<?php endforeach ?>
+			<?php endif; ?>
 		</select>
 		<input type="submit" class="submit" value="OK" />
-	</fieldset>
-	<?php endif; ?>			
+	</fieldset>		
 </form>
+<script type="text/javascript">
+	var url = '<?php echo AJAXURL; ?>';
+</script>
