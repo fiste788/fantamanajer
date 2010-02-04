@@ -16,142 +16,183 @@ $votoObj = new voto();
 $mailObj = new mail();
 $mailContent = new Savant3();
 
-$squadra = NULL;
-$giornata = NULL;
-$lega = NULL;
-$mod = NULL;
+$filterSquadra = NULL;
+$filterGiornata = NULL;
+$filterLega = NULL;
+$filterMod = NULL;
 if(isset($_POST['lega']) && !empty($_POST['lega']))
-	$lega = $_POST['lega'];
+	$filterLega = $_POST['lega'];
 if(isset($_POST['squadra']) && !empty($_POST['squadra']))
-	$squadra = $_POST['squadra'];
+	$filterSquadra = $_POST['squadra'];
 if(isset($_POST['mod']) && !empty($_POST['mod']))
-	$mod = $_POST['mod'];
+	$filterMod = $_POST['mod'];
 if(isset($_POST['giornata']) && !empty($_POST['giornata']))
-	$giornata = $_POST['giornata'];
+	$filterGiornata = $_POST['giornata'];
 if($_SESSION['usertype'] == 'admin')
-	$lega = $_SESSION['idLega'];
+	$filterLega = $_SESSION['idLega'];
 
-$elencoLeghe = $legaObj->getLeghe();
-$contentTpl->assign('elencoleghe',$elencoLeghe);
-$operationTpl->assign('elencoleghe',$elencoLeghe);
-$contentTpl->assign('lega',$lega);
-$operationTpl->assign('lega',$lega);
-$contentTpl->assign('mod',$mod);
-$operationTpl->assign('mod',$mod);
-$contentTpl->assign('modulo',explode('-',$mod));
-$contentTpl->assign('giornata',$giornata);
-$operationTpl->assign('giornata',$giornata);
-if($lega != NULL)
-{
-	$squadre = $utenteObj->getElencoSquadreByLega($lega);
-	$operationTpl->assign('elencosquadre',$squadre);
-	if(!isset($squadre[$squadra]))
-		$squadra = NULL;
-	$contentTpl->assign('squadra',$squadra);
-	$operationTpl->assign('squadra',$squadra);
-	$formImp = $formazioneObj->getFormazioneExistByGiornata($giornata,$lega);
-}
 $missing = 0;
-$cap = "";
-if(!isset($formImp[$squadra]))
-{	
-	$contentTpl->assign('formImp',FALSE);
-	if($squadra != NULL)
+$frega = 0;
+$ruoliKey = array('P','D','C','A');
+$ruo = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
+$elencocap = array('C','VC','VVC');
+
+if($filterLega != NULL)
+{
+	$squadre = $utenteObj->getElencoSquadreByLega($filterLega);
+	$operationTpl->assign('elencosquadre',$squadre);
+}
+
+$formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$filterLega);
+
+foreach($ruoliKey as $key => $val)
+	$giocatori[$val] =	$giocatoreObj->getGiocatoriByIdSquadraAndRuolo($filterSquadra,$val);
+$contentTpl->assign('giocatori',$giocatori);
+FB::log($_POST);
+	if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 	{
-		$giocatori = $giocatoreObj->getGiocatoriBySquadraAndGiornata($squadra,$giornata);
-		$contentTpl->assign('giocatori',$giocatori);
-		$contentTpl->assign('err',0); //ERR=0 COME SE NULL ERR=1  C'È VALORE ERR=2 NON C'È ERRORE 3 VALORE MANCANTE
+		FB::log("APSSO");
+		$formazione = array();
+		$capitano = array();
+		//$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
+		$err = 0;
 		
-		//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
-			
-		/* CONTROLLI SULL'INPUT: 
-		I VALORI NON DEVONO ESSERE DOPPI 
-		IL CAPITANO FACOLTATIVO
-		*/
-		if( isset($_POST) && !empty($_POST) && isset($_POST['button']))
+		foreach($ruoliKey as $ruolo)
 		{
-			$formazione = array();
-			$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
-			$err = 2;
-			foreach($_POST as $key => $val)
+			foreach($_POST[$ruolo] as $key=>$val)
 			{
-				if(strpos($key,'Por') !== FALSE || strpos($key,'Dif') !== FALSE || strpos($key,'Cen') !== FALSE || strpos($key,'Att') !== FALSE || strpos($key,'panch') !== FALSE)
+				if(empty($val))
 				{
-					if((strpos($key,'cap') === FALSE) && (strpos($key,'panch') === FALSE))	//CONTROLLO SE È UNA SELECT RELATIVA AL CAPITANO
-					{	
-						 if(empty($val))
-						{
-							$missing ++;
-							$err ++;
-						}
-						if( !in_array($val,$formazione))
-							$formazione[] = $val;
-						else
-							$err++;
-					}
-					if(strpos($key,'panch') !== FALSE)
-					{
-						if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
-						{	
-							if( !in_array($val,$formazione))
-								$formazione[] = $val;
-							else
-								$err++;
-						}	
-					}
-					if(strpos($key,'cap') !== FALSE)
-					{
-						if($val != '')		//SE NON È SETTATO LO SALTO E NON LO INSERISCO NELL'ARRAY
-						{		
-							if( $capitano[$val] == NULL)
-							{
-								if(strpos($key,'Por') !== FALSE)
-									$pos = 0;
-								else
-									$pos = $key{4} + 1;  
-								$capitano[$val] = $formazione[$pos];
-							}	
-							else
-								$err++;
-						}		
-					}
+					$missing ++;
+					$err ++;
 				}
+				if( !in_array($val,$formazione))
+					$formazione[] = $val;		
+				else
+					$err++;
 			}
-			//echo "<pre>".print_r($formazione,1)."</pre>";
-			//echo "<pre>".print_r($capitano,1)."</pre>";
-			if ($err == 2)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
+		}
+		foreach($_POST['panch'] as $key=>$val)
+		{
+			if(!empty($val))
 			{
-				unset($_POST);
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,$giornata,$squadra,$mod);
-				if($votiObj->checkVotiExist($giornata))
+				if( !in_array($val,$formazione))
+					$formazione[] = $val;		
+				else
+					$err++;
+			}	
+		}
+		foreach($_POST['cap'] as $key=>$val)
+		{
+			if(!empty($val))
+			{
+				$appo = explode('-',$key);
+				$idGioc = $_POST[$appo[0]][$appo[1]];
+				$ruoloGioc = $giocatoreObj->getRuoloByIdGioc($idGioc);
+				if( $ruoloGioc == 'P' || $ruoloGioc == 'D' )
 				{
-					$punteggioObj->calcolaPunti($giornata,$squadra,$lega);
-					$squadraDett = $utenteObj->getSquadraById($squadra);
-					$mailContent->assign('giornata',$giornata);
+					if(!array_key_exists($val,$capitano))
+						$capitano[$val] = $idGioc;		
+					else
+						$err++;
+				}
+				else
+				{
+					$frega++;
+					$err++;
+				}
+			}	
+		}
+		//echo "<pre>".print_r($formazione,1)."</pre>";
+		//echo "<pre>".print_r($capitano,1)."</pre>";
+		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
+		{
+			unset($_POST);
+			if(!$formImp)
+				$id = $formazioneObj->caricaFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
+			else
+				$id = $formazioneObj->updateFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
+			if($votoObj->checkVotiExist($filterGiornata))
+				{
+					$punteggioObj->calcolaPunti($filterGiornata,$filterSquadra,$filterLega);
+					$squadraDett = $utenteObj->getSquadraById($filterSquadra);
+					/*$mailContent->assign('giornata',$filterGiornata);
 					$mailContent->assign('squadra',$squadraDett->nome);
 					$mailContent->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
 					$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$squadra));
 					
 				   	$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggiObj->getPunteggi($squadra,$giornata);
 				   	//$mailContent->display(TPLDIR.'mail.tpl.php');
-				  	$mailObj->sendEmail($squadraDett['nomeProp'] . " " . $squadraDett['cognome'] . "<" . $squadraDett['mail']. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object);
+				  	$mailObj->sendEmail($squadraDett['nomeProp'] . " " . $squadraDett['cognome'] . "<" . $squadraDett['mail']. ">",$mailContent->fetch(TPLDIR.'mail.tpl.php'),$object);*/
 					$message->success('Formazione caricata correttamente e punteggio calcolato');
 				}
 				else
 					$message->success('Formazione caricata correttamente');
 				$_SESSION['message'] = $message;
 				header("Location: ".$contentTpl->linksObj->getLink('areaAmministrativa'));
-			}
-		  	else
-				$message->error('Hai inserito dei valori multipli');
-			if ($missing > 0)
-				$message->error('Valori mancanti');
+			$message->success('Formazione caricata correttamente');
 		}
+		else
+			$message->error('Hai inserito dei valori multipli');
+		if ($missing > 0)
+			$message->error('Valori mancanti');
+		if ($frega > 0)
+			$message->error('Stai cercando di fregarmi?');
 	}
-}
+	$titolariAr = array();
+	$panchinariAr = array();
+	$capitano = array();
+		$i = 0;
+		if(!empty($_POST) && isset($_POST['button']) && $_POST['button'] == 'Invia')
+		{
+			foreach($ruoliKey as $ruolo)
+			{
+				foreach($_POST[$ruolo] as $key=>$val)
+				{
+					$titolariAr[$i] = $val;
+					$i++;
+				}
+			}
+			foreach($_POST['panch'] as $key=>$val)
+			{
+				$panchinariAr[$i] = $val;
+				$i++;
+			}
+			foreach($_POST['cap'] as $key=>$val)
+			{
+				if(!empty($val))
+				{
+					$appo = explode('-',$key);
+					$capitano[$val] = $_POST[$appo[0]][$appo[1]];
+				}
+			}
+		}
+		$contentTpl->assign('titolari',$titolariAr);
+		if(empty($panchinariAr))
+			$contentTpl->assign('panchinari',FALSE);
+		else
+			$contentTpl->assign('panchinari',$panchinariAr);
+		$contentTpl->assign('cap',$capitano);
+	
+if($filterMod != NULL)
+	$modulo = explode('-',$filterMod);
 else
-{
-	$contentTpl->assign('formImp',TRUE);
-	$message->warning('La formazione per questa squadra è già impostata');
-}
+	$modulo = NULL;
+	
+$elencoLeghe = $legaObj->getLeghe();
+$contentTpl->assign('elencoleghe',$elencoLeghe);
+$operationTpl->assign('elencoleghe',$elencoLeghe);
+$contentTpl->assign('lega',$filterLega);
+$operationTpl->assign('lega',$filterLega);
+$contentTpl->assign('mod',$filterMod);
+$operationTpl->assign('mod',$filterMod);
+$contentTpl->assign('modulo',explode('-',$filterMod));
+$contentTpl->assign('giornata',$filterGiornata);
+$operationTpl->assign('giornata',$filterGiornata);
+$contentTpl->assign('formazioniImpostate',$formImp);
+$contentTpl->assign('squadra',$filterSquadra);
+$operationTpl->assign('squadra',$filterSquadra);
+$contentTpl->assign('ruo',$ruo);
+$contentTpl->assign('ruoliKey',$ruoliKey);
+$contentTpl->assign('elencocap',$elencocap);
 ?>
