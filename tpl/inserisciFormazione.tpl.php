@@ -51,4 +51,3 @@
 				</fieldset>
 			</form>
 	<?php endif; ?>
-</div>

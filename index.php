@@ -52,7 +52,7 @@ require(INCDIR . 'strings.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
-require(INCDIR . "fb.php");
+require(INCDIR . 'fb.php');
 
 $p = new FirePHP();
 $p->registerErrorHandler("E_WARNING");

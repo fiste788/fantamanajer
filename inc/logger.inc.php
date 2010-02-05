@@ -16,12 +16,6 @@ class logger
 		$this->timeEnd = 0;
 		$this->text = "";
 		$this->level = -1;
-		$this->link = fopen(LOGSDIR . date("Ymd") . '.log','a+');
-	}
-	
-	function __destruct()
-	{
-		fclose($this->link); 
 	}
 	
 	public function error($text)
@@ -53,7 +47,9 @@ class logger
 		
 	private function log($text,$level)
 	{
+		$this->link = fopen(LOGSDIR . date("Ymd") . '.log','a+');
 		fputs($this->link,date("[D M j G:i:s Y]") . " [" . $level . '] ' . $text . "\n");
+		fclose($this->link);
 	}
 }
 ?>
