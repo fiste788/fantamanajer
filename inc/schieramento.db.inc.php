@@ -34,24 +34,33 @@ class schieramento extends dbTable
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			FB::log($q);
-		$row = mysql_fetch_assoc($exe);
+		$row = mysql_fetch_object($exe);
 		if(!empty($idGioc))
 		{
-			if(empty($row['idGioc']))
+			if(empty($row->idGioc))
 				$q = "INSERT INTO schieramento(idFormazione,idGioc,idPosizione) 
 						VALUES ('" . $idFormazione . "','" . $idGioc . "','" . $pos . "')";
-			elseif($idGioc != $row['idGioc'])
+			elseif($idGioc != $row->idGioc)
 				$q = "UPDATE schieramento 
 						SET idFormazione='" . $idFormazione . "',idGioc='" . $idGioc . "',idPosizione='" . $pos . "' 
 						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 			else
 				return TRUE;
 		}
-		elseif(!empty($row['idGioc']))
-			$q = "DELETE from schieramento 
+		elseif(!empty($row->idGioc))
+			$q = "DELETE FROM schieramento 
 						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		else
 			return TRUE;
+		if(DEBUG)
+			FB::log($q);
+		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+	}
+	
+	function unsetGiocatore($idFormazione,$pos)
+	{
+		$q = "DELETE FROM schieramento
+					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		if(DEBUG)
 			FB::log($q);
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;

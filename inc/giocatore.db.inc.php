@@ -328,6 +328,7 @@ class giocatore extends dbTable
 					$sort_arr[$key][$uniqid] = $value;
 			array_multisort($sort_arr['idGioc'] , SORT_ASC , $giocatori);
 		}
+		$giocatoriByRuolo = array();
 		foreach($giocatori as $key => $val)
 			$giocatoriByRuolo[$val->ruolo][] = $val;
 		return $giocatoriByRuolo;

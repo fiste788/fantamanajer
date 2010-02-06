@@ -79,6 +79,8 @@ class formazione extends dbTable
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
+		for ($i = $key + 2; $i <= 18 ; $i++)
+			$schieramentoObj->unsetGiocatore($idFormazione,$i);
 		if(isset($err))
 		{
 			self::rollback();
@@ -118,6 +120,8 @@ class formazione extends dbTable
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
+		for ($i = $key + 2; $i <= 18 ; $i++)
+			$schieramentoObj->unsetGiocatore($idFormazione,$i);
 		if(isset($err))
 		{
 			self::rollback();
