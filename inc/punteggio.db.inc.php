@@ -101,7 +101,8 @@ class punteggio extends dbTable
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
 				FROM punteggio RIGHT JOIN utente ON punteggio.idUtente = utente.idUtente 
-				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND utente.idLega = '" . $idLega . "'";
+				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND utente.idLega = '" . $idLega . "'
+				ORDER BY idGiornata";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$i = 0;
 		if(DEBUG)
@@ -325,6 +326,13 @@ class punteggio extends dbTable
 	{
 		$q = "DELETE FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
+		return  mysql_query($q) or self::sqlError($q);
+	}
+	
+	function unsetPunteggio($idUtente,$idGiornata)
+	{
+		$q = "DELETE FROM punteggio
+				WHERE punteggio > 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		return  mysql_query($q) or self::sqlError($q);
 	}
 }

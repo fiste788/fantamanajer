@@ -105,7 +105,7 @@ class utente extends dbTable
 				abilitaMail = '" . $abilitaMail . "', 
 				amministratore = '" . $amministratore . "'";
 		if(!empty($password))
-			$q .= ", password = '" . $password . "'";
+			$q .= ", password = '" . md5($password) . "'";
 		$q .= " WHERE idUtente = '" . $idUtente . "'";
 		if(DEBUG)
 			FB::log($q);

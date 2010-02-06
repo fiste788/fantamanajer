@@ -242,8 +242,8 @@ class fileSystem
 	function getLastBackup()
 	{
 		$nomeBackup = @file_get_contents("http://static.fantamanajer.it/docs/nomeBackup.txt");
-		if(!empty($nomeBackup) && file('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup) != FALSE)
-			return implode(gzfile('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup));
+		if(!empty($nomeBackup) && file('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup . '.sql.gz') != FALSE)
+			return implode(gzfile('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup . '.sql.gz'));
 		else
 			return FALSE;
 	}

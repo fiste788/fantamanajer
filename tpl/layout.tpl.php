@@ -104,11 +104,11 @@
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
 		<script src="<?php echo JSURL . (LOCAL ? 'jquery/jquery.js' : 'jquery/jquery.min.js'); ?>" type="text/javascript"></script>
-		<script type="text/javascript">
-		// <![CDATA[
-		if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
-		// ]]>
-		</script>
+<script type="text/javascript">
+// <![CDATA[
+if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
+// ]]>
+</script>
 		<?php if(!empty($this->js)): ?>
 		<?php foreach($this->js as $key => $val): ?>
 		<?php if(is_array($val)): ?>
@@ -129,16 +129,16 @@
 			<script src="<?php echo JSURL . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 		<?php if(!LOCAL): ?>
-		<script type="text/javascript">
-		// <![CDATA[
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		// ]]>
-		</script>
-		<script type="text/javascript">
-		// <![CDATA[
-		try {var pageTracker = _gat._getTracker("UA-3016148-1");pageTracker._setDomainName("www.fantamanajer.it");pageTracker._trackPageview();}catch(err){}
-		// ]]>
-		</script>
+<script type="text/javascript">
+// <![CDATA[
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+// ]]>
+</script>
+<script type="text/javascript">
+// <![CDATA[
+try {var pageTracker = _gat._getTracker("UA-3016148-1");pageTracker._setDomainName("www.fantamanajer.it");pageTracker._trackPageview();}catch(err){}
+// ]]>
+</script>
 		<?php endif; ?>
 	</body>
 </html>
