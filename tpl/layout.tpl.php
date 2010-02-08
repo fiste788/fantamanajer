@@ -131,12 +131,7 @@ if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/n
 		<?php if(!LOCAL): ?>
 <script type="text/javascript">
 // <![CDATA[
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-// ]]>
-</script>
-<script type="text/javascript">
-// <![CDATA[
-try {var pageTracker = _gat._getTracker("UA-3016148-1");pageTracker._setDomainName("www.fantamanajer.it");pageTracker._trackPageview();}catch(err){}
+$.trackPage("UA-3016148-1");
 // ]]>
 </script>
 		<?php endif; ?>
