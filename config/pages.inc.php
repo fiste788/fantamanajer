@@ -14,7 +14,7 @@ $pages = array();
 								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
 								
 	$pages['classifica'] = array(	'title'=>"Classifica",
-								'js'=>array('flot'=>array('ie|excanvas','jquery.flot')),
+								'js'=>array('flot'=>array('ie|excanvas','jquery.flot','jquery.flot.selection')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 								
