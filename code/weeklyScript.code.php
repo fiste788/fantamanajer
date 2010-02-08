@@ -27,7 +27,7 @@ if(!empty($backup))
 	
 	$giornata = GIORNATA - 1;
 	//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-	if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggiObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
+	if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggioObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 	{
 		$logger->info("Starting decript file day " . $giornata);
 		$path = $decryptObj->decryptCdfile($giornata);
