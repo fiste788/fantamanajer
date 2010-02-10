@@ -8,13 +8,13 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
-		<link href="<?php echo CSSURL . (LOCAL ? 'screen.css' : 'screen.min.css'); ?>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . 'combined.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<?php endif; ?>
-		<!--[if IE]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css';?>" type="text/css" media="screen"><![endif]-->
+		<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css'; ?>" type="text/css" media="screen"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
@@ -103,35 +103,40 @@
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
-		<script src="<?php echo JSURL . (LOCAL ? 'jquery/jquery.js' : 'jquery/jquery.min.js'); ?>" type="text/javascript"></script>
-<script type="text/javascript">
-// <![CDATA[
-if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
-// ]]>
-</script>
-		<?php if(!empty($this->js)): ?>
-		<?php foreach($this->js as $key => $val): ?>
-		<?php if(is_array($val)): ?>
-		<?php foreach($val as $key2=>$val2): ?>
-		<?php $appo = explode('|',$val2); ?>
-		<?php if(isset($appo[1])): ?>
-		<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script><![endif]-->
-		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val2 . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
-		<?php endif; ?>
-		<?php endforeach; ?>
-		<?php else: ?>
-		<script src="<?php echo JSURL . $key . '/' . $val . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
-		<?php endif; ?>
-		<?php endforeach; ?>
-		<?php endif; ?>
-		<?php if(file_exists(JSDIR . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js')): ?>
-			<script src="<?php echo JSURL . 'pages/' . $this->p . (LOCAL ? '' : '.min') . '.js'; ?>" type="text/javascript"></script>
+		<?php if(LOCAL): ?>
+			<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
+			<script src="<?php echo JSURL . 'ui/jquery.effects.core.js'; ?>" type="text/javascript"></script>
+			<script src="<?php echo JSURL . 'ui/jquery.effects.pulsate.js'; ?>" type="text/javascript"></script>
+			<script src="<?php echo JSURL . 'custom/all.js'; ?>" type="text/javascript"></script>
+			<?php if(!empty($this->js)): ?>
+			<?php foreach($this->js as $key => $val): ?>
+			<?php if(is_array($val)): ?>
+			<?php foreach($val as $key2=>$val2): ?>
+			<?php $appo = explode('|',$val2); ?>
+			<?php if(isset($appo[1])): ?>
+			<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" type="text/javascript"></script><![endif]-->
+			<?php else: ?>
+			<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+			<?php endif; ?>
+			<?php endforeach; ?>
+			<?php else: ?>
+			<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
+			<?php endif; ?>
+			<?php endforeach; ?>
+			<?php endif; ?>
+			<?php if(file_exists(JSDIR . 'pages/' . $this->p  . '.js')): ?>
+				<script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+			<?php endif; ?>
 		<?php endif; ?>
 		<?php if(!LOCAL): ?>
+		<script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
+		<?php if(file_exists(JSDIR . 'pages/' . $this->p . '.min.js')): ?>
+			<script src="<?php echo JSURL . 'pages/' . $this->p . '.min.js'; ?>" type="text/javascript"></script>
+		<?php endif; ?>
 <script type="text/javascript">
 // <![CDATA[
 $.trackPage("UA-3016148-1");
+if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
 // ]]>
 </script>
 		<?php endif; ?>

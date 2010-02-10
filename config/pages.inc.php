@@ -137,8 +137,6 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Penalità'));
 										
 	$pages['impostazioni'] = array(	'title'=>"Impostazioni lega",
-										'js'=>array('markitup'=>array('jquery.markitup','html')),
-										'css'=>array('markitup'),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Impostazioni lega'));
 									
@@ -156,8 +154,8 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
 										
 	$pages['giornate'] = array(	'title'=>"Giornate",
-										'css'=>array('jquery.ui.datepicker'),
-										'js'=>array('ui'=>array('ui.core','ui.datepicker')),
+										'css'=>array('ui.datepicker'),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.datepicker')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Giornate'));								
 ?>
