@@ -55,11 +55,11 @@ $(document).ready(function(){
 							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
 							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
-						if(edit)
+						if(typeof(edit) != "undefined" && edit)
 							$("#capitani .droppable[id=cap-" + current.attr('id') + "]").append('<a class="remove">Rimuovi</a>');
 					});
 				}
-			if(edit)
+			if(typeof(edit) != "undefined" && edit)
 			{
 			$(".remove").live("click",function () {
 		parent = $(this).parent();
