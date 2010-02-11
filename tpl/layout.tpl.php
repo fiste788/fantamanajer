@@ -8,7 +8,7 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
-		<link href="<?php echo CSSURL . 'combined.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -129,9 +129,9 @@
 			<?php endif; ?>
 		<?php endif; ?>
 		<?php if(!LOCAL): ?>
-		<script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
+		<script src="<?php echo JSURL . 'combined/combined.js?v=' . VERSION; ?>" type="text/javascript"></script>
 		<?php if(file_exists(JSDIR . 'combined/' . $this->p . '.js')): ?>
-			<script src="<?php echo JSURL . 'combined/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+			<script src="<?php echo JSURL . 'combined/' . $this->p . '.js?v=' . VERSION; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 <script type="text/javascript">
 // <![CDATA[
