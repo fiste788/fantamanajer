@@ -76,6 +76,7 @@ foreach($fileSystemObj->getFileIntoFolderRecursively(CSSDIR,TRUE) as $key=>$val)
 	}
 }
 file_put_contents(CSSDIR . 'combined.css' , cssmin::minify($cssContent));
+file_put_contents(DOCSDIR . 'staticVersion.txt' , VERSION + 1);
 
 $message->success("Js e css compressi con successo");	
 $contentTpl->assign('message',$message);
