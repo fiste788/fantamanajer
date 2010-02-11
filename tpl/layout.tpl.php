@@ -130,8 +130,8 @@
 		<?php endif; ?>
 		<?php if(!LOCAL): ?>
 		<script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
-		<?php if(file_exists(JSDIR . 'pages/' . $this->p . '.min.js')): ?>
-			<script src="<?php echo JSURL . 'pages/' . $this->p . '.min.js'; ?>" type="text/javascript"></script>
+		<?php if(file_exists(JSDIR . 'combined/' . $this->p . '.js')): ?>
+			<script src="<?php echo JSURL . 'combined/' . $this->p . '.js'; ?>" type="text/javascript"></script>
 		<?php endif; ?>
 <script type="text/javascript">
 // <![CDATA[
