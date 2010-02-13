@@ -66,11 +66,11 @@ foreach($fileSystemObj->getFileIntoFolderRecursively(CSSDIR,TRUE) as $key=>$val)
 				if($nomeFile != 'combined')
 				{
 					if($nomeFile == 'ui')
-						file_put_contents(implode('.',$array) . '.min.' . $ext , cssmin::minify(file_get_contents($val)));
+						file_put_contents(implode('/',$appo) . '/' . implode('.',$array) . '.min.' . $ext , cssmin::minify(file_get_contents($val)));
 					elseif($nomeFile != 'ie')
 						$cssContent .= file_get_contents($val);
 					else
-						file_put_contents(implode('.',$array) . '.min.' . $ext , cssmin::minify(file_get_contents($val)));
+						file_put_contents(implode('/',$appo) . '/' . implode('.',$array) . '.min.' . $ext , cssmin::minify(file_get_contents($val)));
 				}
 			}
 	}
