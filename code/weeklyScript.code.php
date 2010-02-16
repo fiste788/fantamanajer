@@ -9,6 +9,7 @@ require_once(INCDIR . 'mail.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
 require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
+require_once(INCDIR . 'swiftMailer/swift_required.php');
 
 $utenteObj = new utente();
 $punteggioObj = new punteggio();
@@ -16,7 +17,9 @@ $giocatoreObj = new giocatore();
 $formazioneObj = new formazione();
 $votoObj = new voto();
 $legaObj = new lega();
-$mailObj = new mail();
+//$transportObj = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
+$transportObj = Swift_MailTransport::newInstance();
+$mailerObj = Swift_Mailer::newInstance($transportObj);
 $decryptObj= new decrypt();
 $fileSystemObj = new fileSystem();
 
@@ -54,6 +57,7 @@ if(!empty($backup))
 				$squadre = $utenteObj->getElencoSquadreByLega($lega->idLega);
 				$logger->info("Calculating points for league " . $lega->idLega);
 				$dbObj->startTransaction();
+				$sum = array();
 				foreach($squadre as $key =>$val)
 				{
 					$logger->info("Elaborating team " . $val->idUtente);
@@ -80,53 +84,43 @@ if(!empty($backup))
 			
 				//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
 				$classifica = $punteggioObj->getAllPunteggiByGiornata($giornata,$lega->idLega);
-				$appo2 = $classifica;
-				foreach($appo2 as $key => $val)
-				{
-					array_pop($appo2[$key]);
-					$prevSum[$key] = array_sum($appo2[$key]);
-				} 
 				foreach($classifica as $key => $val)
 					$sum[$key] = array_sum($classifica[$key]);
-				arsort($prevSum);
-			
-				foreach($prevSum as $key => $val)
-					$indexPrevSum[] = $key;
-				foreach($sum as $key => $val)
-					$indexSum[] = $key;
-				
-				foreach($indexSum as $key => $val)
-				{
-					if($val == $indexPrevSum[$key])
-						$diff[] = 0;
-					else
-						$diff[] = (array_search($val,$indexPrevSum))- $key;
-				}
 				
 				foreach ($squadre as $key => $val)
 				{
 					if(!empty($val->mail) && $val->abilitaMail == 1)
 					{
 						$mailContent = new Savant3();
+						$mailContent->assign('linksObj',$contentTpl->linksObj);
 						$mailContent->assign('classifica',$sum);
-						$mailContent->assign('differenza',$diff);
 						$mailContent->assign('squadre',$squadre);
 						$mailContent->assign('giornata',$giornata);
 						$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($val->idUtente,$giornata);
 						if($penalità != FALSE)
 							$mailContent->assign('penalità',$penalità);
-						$mailContent->assign('squadra',$val->nome);
+						$mailContent->assign('utente',$val);
 						$mailContent->assign('somma',$punteggioObj->getPunteggi($val->idUtente,$giornata));
 						$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val->idUtente));
 						
 						$logger->info("Sendig mail to: " . $val->mail);
 						//MANDO LA MAIL
 						$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val->idUtente,$giornata);
-						//$mailContent->display(MAILTPLDIR.'mail.tpl.php');
-					/*	if(!$mailObj->sendEmail($val->nomeProp . " " . $val->cognome . "<" . $val->mail . ">",$mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php'),$object))
+						
+						$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
+						$mailMessageObj = Swift_Message::newInstance();
+						$mailMessageObj->setSubject($object);
+						$mailMessageObj->setFrom(array("noreply@fantamanajer.it"=>"FantaManajer"));
+						$mailMessageObj->setTo(array($val->mail=>$val->nomeProp . " " . $val->cognome));
+						$fetchMail = $mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php');
+						$mailMessageObj->setBody($fetchMail,'text/html');
+						if(!$mailerObj->send($mailMessageObj)) 
+						{
 							$mail++;
+							$logger->warning("Error in sending mail to: " . $val->mail);
+						}
 						else
-							$logger->warning("Error in sending mail to: " . $val->mail);*/
+							$logger->info("Mail send succesfully to: " . $val->mail);
 					}
 				}
 			}

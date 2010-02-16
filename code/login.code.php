@@ -10,9 +10,7 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 {
 	if( (!empty($_POST['username'])) && (!empty($_POST['password'])) )
 	{
-		$formsObj = new string($_POST['username']);											//create a new string object
-		$formsObj->stringCleaner();																				//slashes added and special characters corrected
-		if($authObj->login($_POST['username'],$_POST['password']))									//login
+		if($authObj->login($_POST['username'],$_POST['password']))
 		{
 			$dettagliUtente = $authObj->getSquadraByUsername($_POST['username'],0);
 			$_SESSION['userid'] = $_POST['username'];

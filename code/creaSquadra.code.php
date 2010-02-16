@@ -11,7 +11,6 @@ $squadraObj = new squadra();
 $giocatoreObj = new giocatore();
 $legaObj = new lega();
 $mailObj = new mail();
-$stringObj = new string(NULL);
 $mailContent = new Savant3();
 
 $filterAction = NULL;
@@ -124,7 +123,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				}
 				else
 				{
-					$password = $stringObj->createRandomPassword();
+					$password = $utenteObj->createRandomPassword();
 					$dbObj->startTransaction();
 					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),$nomeSquadra,$nome,$cognome,$amministratore,$password,$email,$filterLega);
 					$squadraObj->setSquadraGiocatoreByArray($filterLega,$giocatori,$squadra);
