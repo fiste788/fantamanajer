@@ -14,7 +14,8 @@ $pages = array();
 								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
 								
 	$pages['classifica'] = array(	'title'=>"Classifica",
-								'js'=>array('flot'=>array('ie|excanvas','jquery.flot','jquery.flot.selection')),
+								'ieHack'=>array('flot'=>'excanvas'),
+								'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
 								
@@ -36,7 +37,8 @@ $pages = array();
 								'navbar'=>array('key'=>'areaAmministrativa','title'=>'Area amministrativa','order'=>7,'main'=>TRUE));
 								
 	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
-								'js'=>array('flot'=>array('ie|excanvas','jquery.flot')),
+								'ieHack'=>array('flot'=>'excanvas'),
+								'js'=>array('flot'=>array('jquery.flot','jquery.flow.selection')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'altro','title'=>'Dettaglio giocatore'));
 									
@@ -149,7 +151,8 @@ $pages = array();
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Lancia script'));
 										
 	$pages['modificaGiocatore'] = array(	'title'=>"Modifica giocatore",
-										'js'=>array('flot'=>array('ie|excanvas','jquery.flot')),
+										'ieHack'=>array('flot'=>'excanvas'),
+										'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
 										'roles'=>2,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
 										

@@ -44,20 +44,14 @@ foreach($_GET as $key=>$val)
 		$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 }
 require('config/config.inc.php');
-require('config/Savant3.php');
 require('config/pages.inc.php');
+require(INCDIR . 'savant/Savant3.php');
 require(INCDIR . 'db.inc.php');
 require(INCDIR . 'dbTable.inc.php');
-require(INCDIR . 'strings.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
-require(INCDIR . 'fb.php');
-
-$p = new FirePHP();
-$p->registerErrorHandler("E_WARNING");
-$p->registerExceptionHandler();
-
+require(INCDIR . 'firePhp/fb.php');
 
 //Creating a new db istance
 $dbObj = new db();
@@ -221,6 +215,8 @@ if(isset($pages[$p]['css']))
  	$layoutTpl->assign('css', $pages[$p]['css']);
 if(isset($pages[$p]['js']))
 	$layoutTpl->assign('js', $pages[$p]['js']);
+if(isset($pages[$p]['ieHack']))
+	$layoutTpl->assign('ieHack', $pages[$p]['ieHack']);
 
 /**
  * GENERAZIONE LAYOUT

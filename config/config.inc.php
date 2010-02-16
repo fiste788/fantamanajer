@@ -15,6 +15,7 @@ if (isset($_SERVER['DOCUMENT_ROOT']))
 $cwd = str_replace('\\','/',getcwd());				//get currently used directory(if under windows replace \\ with /)
 $doc_root = str_replace($sitepath,'',$cwd);			//example /var/www/
 
+define ("PROTO",$proto);
 define ("LOCAL",$local);
 
 if(!LOCAL)

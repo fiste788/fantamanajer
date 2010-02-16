@@ -103,6 +103,11 @@
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
+		<?php if(isset($this->ieHack)): ?>
+			<?php foreach($this->ieHack as $key=>$val): ?>
+				<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $val; ?>" type="text/javascript"></script><![endif]-->
+			<?php endforeach; ?>
+		<?php endif; ?>
 		<?php if(LOCAL): ?>
 			<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
 			<script src="<?php echo JSURL . 'ui/jquery.effects.core.js'; ?>" type="text/javascript"></script>
@@ -112,12 +117,7 @@
 			<?php foreach($this->js as $key => $val): ?>
 			<?php if(is_array($val)): ?>
 			<?php foreach($val as $key2=>$val2): ?>
-			<?php $appo = explode('|',$val2); ?>
-			<?php if(isset($appo[1])): ?>
-			<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $appo[1] . '.js'; ?>" type="text/javascript"></script><![endif]-->
-			<?php else: ?>
 			<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
-			<?php endif; ?>
 			<?php endforeach; ?>
 			<?php else: ?>
 			<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
@@ -127,8 +127,7 @@
 			<?php if(file_exists(JSDIR . 'pages/' . $this->p  . '.js')): ?>
 				<script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
 			<?php endif; ?>
-		<?php endif; ?>
-		<?php if(!LOCAL): ?>
+		<?php else: ?>
 		<script src="<?php echo JSURL . 'combined/combined.js?v=' . VERSION; ?>" type="text/javascript"></script>
 		<?php if(file_exists(JSDIR . 'combined/' . $this->p . '.js')): ?>
 			<script src="<?php echo JSURL . 'combined/' . $this->p . '.js?v=' . VERSION; ?>" type="text/javascript"></script>
