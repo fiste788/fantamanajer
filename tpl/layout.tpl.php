@@ -134,8 +134,7 @@
 		<?php endif; ?>
 <script type="text/javascript">
 // <![CDATA[
-$.trackPage("UA-3016148-1");
-if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
+$.trackPage("UA-3016148-1");if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
 // ]]>
 </script>
 		<?php endif; ?>

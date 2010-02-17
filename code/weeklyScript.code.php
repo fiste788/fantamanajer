@@ -86,7 +86,6 @@ if(!empty($backup))
 				$classifica = $punteggioObj->getAllPunteggiByGiornata($giornata,$lega->idLega);
 				foreach($classifica as $key => $val)
 					$sum[$key] = array_sum($classifica[$key]);
-				
 				foreach ($squadre as $key => $val)
 				{
 					if(!empty($val->mail) && $val->abilitaMail == 1)
@@ -105,8 +104,7 @@ if(!empty($backup))
 						
 						$logger->info("Sendig mail to: " . $val->mail);
 						//MANDO LA MAIL
-						$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val->idUtente,$giornata);
-						
+						$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val->idUtente,$giornata);						
 						$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 						$mailMessageObj = Swift_Message::newInstance();
 						$mailMessageObj->setSubject($object);
