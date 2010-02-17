@@ -5,7 +5,7 @@
 			<img <?php $appo = getimagesize(UPLOADDIR . $val->idUtente . '-med.jpg'); echo $appo[3]; ?> alt="<?php echo $val->idUtente; ?>" src="<?php echo UPLOADURL . $val->idUtente . '-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita" />
 		</a>
 	<?php else: ?>
-		<img height="75" width="100" class="logo column last" alt="<?php echo $val->idUtente; ?>" src="<?php echo IMGSURL . 'no-foto.png'; ?>" title="<?php echo $val->nome; ?>" />
+		<img height="93" width="124" class="logo column last" alt="<?php echo $val->idUtente; ?>" src="<?php echo IMGSURL . 'no-foto.png'; ?>" title="<?php echo $val->nome; ?>" />
 	<?php endif; ?>
 		<h3><a href="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$val->idUtente)); ?>" title="Maggiori informazioni"><?php echo $val->nome; ?></a></h3>	
 		<div class="column data">
