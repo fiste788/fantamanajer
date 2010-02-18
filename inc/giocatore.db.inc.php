@@ -12,7 +12,7 @@ class giocatore extends dbTable
 		$q = "SELECT idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatorisquadra
 				WHERE idUtente = '" . $idUtente . "'
-				ORDER BY idGioc ASC";
+				ORDER BY ruolo DESC,cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		if(DEBUG)
@@ -30,7 +30,7 @@ class giocatore extends dbTable
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
 				FROM giocatore
 				WHERE club = '" . $idClub . "'
-				ORDER BY giocatore.idGioc ASC";
+				ORDER BY giocatore.ruolo DESC,giocatore.cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		if(DEBUG)
@@ -151,7 +151,8 @@ class giocatore extends dbTable
 	{
 		$q = "SELECT *
 				FROM giocatoristatistiche INNER JOIN squadra on giocatoristatistiche.idGioc = squadra.idGioc
-				WHERE idUtente = '" . $idUtente . "'";
+				WHERE idUtente = '" . $idUtente . "'
+				ORDER BY ruolo DESC,cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
@@ -308,6 +309,7 @@ class giocatore extends dbTable
 		
 		$giocatori = $this->getGiocatoriByIdSquadra($idUtente);
 		$trasferimenti = $trasferimentoObj->getTrasferimentiByIdSquadra($idUtente,$idGiornata);
+		FB::info($trasferimenti);
 		if($trasferimenti != FALSE)
 		{
 			$sort_arr = array();
@@ -322,15 +324,17 @@ class giocatore extends dbTable
 						$giocOld = $this->getGiocatoreById($val->idGiocOld);
 						$giocatori[$key2] = $giocOld[$val->idGiocOld];
 					}
+			FB::info($giocatori);
 			$sort_arr = array();
 			foreach($giocatori as $uniqid => $row)
 				foreach($row as $key => $value)
 					$sort_arr[$key][$uniqid] = $value;
-			array_multisort($sort_arr['idGioc'] , SORT_ASC , $giocatori);
+			array_multisort($sort_arr['cognome'] , SORT_ASC , $giocatori);
 		}
 		$giocatoriByRuolo = array();
 		foreach($giocatori as $key => $val)
 			$giocatoriByRuolo[$val->ruolo][] = $val;
+			FB::log($giocatoriByRuolo);
 		return $giocatoriByRuolo;
 	}
 	
