@@ -11,7 +11,7 @@
 				<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>
 					<select name="<?php echo $this->ruoliKey[$j] . '[' . $i . ']'; ?>">
 						<option></option>
-						<?php foreach($val as $key3=>$val3): ?>
+						<?php foreach($this->giocatori[$this->ruoliKey[$j]] as $key3=>$val3): ?>
 							<option value="<?php echo $val3->idGioc; ?>"<?php if(isset($this->titolari[$k]) && $val3->idGioc == $this->titolari[$k]) {$selected = $val3->idGioc; echo ' selected="selected"';} ?>><?php echo $val3->cognome . " " . $val3->nome; ?></option>
 						<?php endforeach; ?>
 					</select>
