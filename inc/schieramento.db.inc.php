@@ -42,10 +42,12 @@ class schieramento extends dbTable
 						VALUES ('" . $idFormazione . "','" . $idGioc . "','" . $pos . "')";
 			elseif($idGioc != $row->idGioc)
 				$q = "UPDATE schieramento 
-						SET idFormazione='" . $idFormazione . "',idGioc='" . $idGioc . "',idPosizione='" . $pos . "' 
+						SET idFormazione='" . $idFormazione . "',idGioc='" . $idGioc . "',idPosizione='" . $pos . "',considerato='0' 
 						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 			else
-				return TRUE;
+				$q = "UPDATE schieramento 
+						SET considerato='0' 
+						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		}
 		elseif(!empty($row->idGioc))
 			$q = "DELETE FROM schieramento 
