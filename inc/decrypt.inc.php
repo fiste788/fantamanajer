@@ -34,7 +34,8 @@ class decrypt
 		$fileSystemObj = new fileSystem();
 		
 		$percorso = VOTIDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
-		if (file_exists($percorso))
+		$percorsoContent = file_get_contents($percorso);
+		if (file_exists($percorso) && !empty($percorsoContent))
 			return $percorso;
 		$site = "http://magic.gazzetta.it";
 		$content = $fileSystemObj->contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/?s=26f93e16fd6fc65929fd435a0cf17e372f23a6b422");
@@ -43,7 +44,10 @@ class decrypt
 			$search = "";
 			$content = preg_replace("/\n/","",$content);
 			preg_match("/Giornata $giornata(.*?)<a href=\"(.+?)\"/i",$content,$matches);
-			$url = ($site . $matches[2]);
+			if(strpos($matches[2],$site) === FALSE)
+				$url = ($site . $matches[2]);
+			else
+				$url = $matches[2];
 			
 			$decrypt = "2A 68 6C 34 35 6A 6E 31 32 64 66 67 46 46 44 52 38 73 78 63 33 33 64 65 72 66 76 2A";
 			$explode_xor = explode(" ", $decrypt);
@@ -51,6 +55,7 @@ class decrypt
 	
 			$scriviFile = fopen($percorso,"w");
 			$stringa = "";
+			FB::log($url);
 			if (!$p_file = fopen($url,"r"))
 				return FALSE;
 			else
@@ -62,8 +67,10 @@ class decrypt
 					$linea = fgets($p_file, 2);
 					$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
 					$i++;
+					
 					$stringa .= chr($xor2);
 				}
+				FB::log($stringa);
 				$pezzi = explode("\n",$stringa);
 				array_pop($pezzi);
 				foreach($pezzi as $key=>$val)
@@ -77,7 +84,11 @@ class decrypt
 				fclose($scriviFile);
 				fclose($p_file);
 			}
-			return $percorso;
+			$fileContent = trim(file_get_contents($percorso));
+			if(!empty($fileContent))
+				return $percorso;
+			else
+				return FALSE;
 		}
 		else
 			return FALSE;
