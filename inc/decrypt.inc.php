@@ -34,32 +34,31 @@ class decrypt
 		$fileSystemObj = new fileSystem();
 		
 		$percorso = VOTIDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
-		$percorsoContent = file_get_contents($percorso);
+		$percorsoContent = trim(file_get_contents($percorso));
 		if (file_exists($percorso) && !empty($percorsoContent))
 			return $percorso;
 		$site = "http://magic.gazzetta.it";
-		$content = $fileSystemObj->contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/?s=26f93e16fd6fc65929fd435a0cf17e372f23a6b422");
+		$content = $fileSystemObj->contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/");
 		if(!empty($content))
 		{
 			$search = "";
 			$content = preg_replace("/\n/","",$content);
 			preg_match("/Giornata $giornata(.*?)<a href=\"(.+?)\"/i",$content,$matches);
 			if(strpos($matches[2],$site) === FALSE)
-				$url = ($site . $matches[2]);
+				$url = $site . htmlspecialchars_decode($matches[2]);
 			else
 				$url = $matches[2];
+			$url = htmlspecialchars_decode($url);
 			
 			$decrypt = "2A 68 6C 34 35 6A 6E 31 32 64 66 67 46 46 44 52 38 73 78 63 33 33 64 65 72 66 76 2A";
 			$explode_xor = explode(" ", $decrypt);
-			$i = 0;
-	
-			$scriviFile = fopen($percorso,"w");
-			$stringa = "";
-			FB::log($url);
+			
 			if (!$p_file = fopen($url,"r"))
 				return FALSE;
 			else
 			{
+				$i = 0;
+				$stringa = "";
 				while(!feof($p_file))
 				{
 					if ($i == 28)
@@ -70,7 +69,7 @@ class decrypt
 					
 					$stringa .= chr($xor2);
 				}
-				FB::log($stringa);
+				$scriviFile = fopen($percorso,"w");
 				$pezzi = explode("\n",$stringa);
 				array_pop($pezzi);
 				foreach($pezzi as $key=>$val)
