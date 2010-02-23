@@ -23,7 +23,7 @@ $mailerObj = Swift_Mailer::newInstance($transportObj);
 $decryptObj= new decrypt();
 $fileSystemObj = new fileSystem();
 
-$backup = $fileSystemObj->contenutoCurl(FULLURL . $contentTpl->linksObj->getLink('backup'));
+$backup = $fileSystemObj->contenutoCurl(str_replace("http://","http://administrator:banana@",FULLURL . $contentTpl->linksObj->getLink('backup')));
 if(!empty($backup))
 {
 	$logger->start("WEEKLY SCRIPT");

@@ -89,6 +89,7 @@ class fileSystem
 		$handler = curl_init();
 		curl_setopt($handler, CURLOPT_URL, $url);
 		curl_setopt($handler, CURLOPT_HEADER, FALSE);
+		curl_setopt($handler, CURLOPT_COOKIESESSION, TRUE);
 		ob_start();
 		curl_exec($handler);
 		curl_close($handler);
