@@ -33,10 +33,11 @@ class decrypt
 		require_once(INCDIR . 'fileSystem.inc.php');
 		$fileSystemObj = new fileSystem();
 		
-		$percorso = VOTIDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
-		$percorsoContent = trim(file_get_contents($percorso));
-		if (file_exists($percorso) && !empty($percorsoContent))
-			return $percorso;
+		$percorsoCsv = VOTICSVDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
+		$percorsoXml = VOTIXMLDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".xml";
+		$percorsoContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
+		if (!empty($percorsoContent))
+			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
 		$content = $fileSystemObj->contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/");
 		if(!empty($content))
@@ -69,7 +70,7 @@ class decrypt
 					
 					$stringa .= chr($xor2);
 				}
-				$scriviFile = fopen($percorso,"w");
+				$scriviFile = fopen($percorsoCsv,"w");
 				$pezzi = explode("\n",$stringa);
 				array_pop($pezzi);
 				foreach($pezzi as $key=>$val)
@@ -82,8 +83,9 @@ class decrypt
 				fwrite($scriviFile,join("\n",$pezzi));
 				fclose($scriviFile);
 				fclose($p_file);
+				$fileSystemObj->writeXmlVotiDecript($pezzi,$percorsoXml);
 			}
-			$fileContent = trim(file_get_contents($percorso));
+			$fileContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
 			if(!empty($fileContent))
 				return $percorso;
 			else

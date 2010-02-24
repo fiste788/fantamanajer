@@ -111,7 +111,6 @@ class voto extends dbTable
 		$fileSystemObj = new fileSystem();
 		
 		$players = $fileSystemObj->returnArray($path,";");
-		$fileSystemObj->writeXmlVotiDecript($players,str_replace("csv","xml",$path));
 		foreach($players as $id=>$stats)
 		{
 			$valutato = $stats[6];	//1=valutato,0=senzavoto
