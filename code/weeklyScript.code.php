@@ -17,20 +17,18 @@ $giocatoreObj = new giocatore();
 $formazioneObj = new formazione();
 $votoObj = new voto();
 $legaObj = new lega();
-//$transportObj = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
 $transportObj = Swift_MailTransport::newInstance();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
 $decryptObj= new decrypt();
 $fileSystemObj = new fileSystem();
 
-$backup = $fileSystemObj->contenutoCurl(str_replace("http://","http://administrator:banana@",FULLURL . $contentTpl->linksObj->getLink('backup')));
-if(!empty($backup))
+$giornata = GIORNATA - 1;
+$logger->start("WEEKLY SCRIPT");
+//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
+if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggioObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
-	$logger->start("WEEKLY SCRIPT");
-	
-	$giornata = GIORNATA - 1;
-	//CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-	if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggioObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
+	$backup = $fileSystemObj->contenutoCurl(FULLURLAUTH . $contentTpl->linksObj->getLink('backup'));
+	if(!empty($backup))
 	{
 		$logger->info("Starting decript file day " . $giornata);
 		$path = $decryptObj->decryptCdfile($giornata);
@@ -135,14 +133,14 @@ if(!empty($backup))
 	}
 	else
 	{
-		$message->warning("Non puoi effettuare l'operazione ora");
-		$logger->warning("Is not time to run it");
+		$message->warning("Non riesco a creare il backup");
+		$logger->warning("Error while creating backup");
 	}
 }
 else
 {
-	$message->warning("Non riesco a creare il backup");
-	$logger->warning("Error while creating backup");
+	$message->warning("Non puoi effettuare l'operazione ora");
+	$logger->warning("Is not time to run it");
 }
 $logger->end("WEEKLY SCRIPT");
 $contentTpl->assign('message',$message);

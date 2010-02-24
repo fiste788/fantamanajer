@@ -255,7 +255,6 @@ class punteggio extends dbTable
 	function setPunteggiToZero($idUtente,$idLega)
 	{
 		$giornateWithPunt = $this->getGiornateWithPunt();
-		echo $giornateWithPunt;
 		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
 		for($i = 1; $i <= $giornateWithPunt; $i++)

@@ -101,8 +101,8 @@ class fileSystem
 	function scaricaVotiCsv($giornata)
 	{
 		$nomeFile = str_pad($giornata,2,"0",STR_PAD_LEFT);
-		$percorso = DOCSDIR . "Giornata" . $nomeFile . ".csv";
-		$percorsoXml = "./docs/voti/xml/Giornata" . $nomeFile . ".xml";
+		$percorso = VOTICSVDIR . "Giornata" . $nomeFile . ".csv";
+		$percorsoXml = VOTIXMLDIR . "Giornata" . $nomeFile . ".xml";
 		$array = array("P"=>"por","D"=>"dif","C"=>"cen","A"=>"att");
 		if (file_exists($percorso))
 			unlink($percorso);

@@ -31,7 +31,9 @@ if(!LOCAL)
 	
 	define("FULLPATH",$doc_root . $sitepath . '/');
 	define("FULLURL",$proto . $host . $sitepath . '/');
+	define("FULLURLAUTH",$proto . "administrator:banana@" . $host . $sitepath . '/');
 	define("FULLSTATICURL",$proto . $hostStatic . $sitepath . '/');
+	define("FULLSTATICURLAUTH",$proto . "administrator:banana@" .  $hostStatic . $sitepath . '/');
 	define("FULLSTATICPATH",implode("/",$array) . "/subdomains/static/httpdocs/");
 	
 	define("DBTYPE","mysql");
@@ -47,6 +49,7 @@ else
 {
 	define("FULLPATH",$doc_root . $sitepath . '/');
 	define("FULLURL",$proto . $host . $sitepath . '/');
+	define("FULLURLAUTH",$proto . "administrator:banana@" . $host . $sitepath . '/');
 	define("FULLSTATICURL",FULLURL);
 	define("FULLSTATICPATH",FULLPATH);
 	
@@ -67,7 +70,9 @@ define("CLUBSDIR",IMGSDIR . 'clubs/');
 define("UPLOADDIR",FULLSTATICPATH . 'uploadimg/');
 define("DBDIR",FULLSTATICPATH . 'db/');
 define("DOCSDIR",FULLSTATICPATH . 'docs/');
-define("VOTIDIR",DOCSDIR . 'voti/csv/');
+define("VOTIDIR",DOCSDIR . 'voti/');
+define("VOTICSVDIR",VOTIDIR . 'csv/');
+define("VOTIXMLDIR",VOTIDIR . 'xml/');
 define("LOGSDIR",FULLSTATICPATH . 'logs/');
 define("TMPDIR",sys_get_temp_dir() . '/');
 
