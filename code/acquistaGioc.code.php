@@ -3,11 +3,11 @@ require_once(INCDIR . 'trasferimento.db.inc.php');
 
 $trasferimentoObj = new trasferimento();
 $giornataObj = new giornata();
-
 $logger->start("ACQUISTA GIOCATORI");
 $today = date("Y-m-d");
-$date = $giornataObj->getDataByGiornata($giornataObj->getGiornataByDate());
-$giorn = explode(' ',$date[2]);
+$giornataCurrent = $giornataObj->getGiornataByDate();
+$date = $giornataObj->getDataByGiornata($giornataCurrent['idGiornata']);
+$giorn = explode(' ',$date->dataFine);
 $dataGiornata = $giorn[0];
 
 if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 'superadmin')

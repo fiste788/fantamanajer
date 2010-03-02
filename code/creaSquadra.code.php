@@ -4,7 +4,6 @@ require_once(INCDIR . 'squadra.db.inc.php');
 require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
-require_once(INCDIR . 'strings.inc.php');
 
 $utenteObj = new utente();
 $squadraObj = new squadra();
