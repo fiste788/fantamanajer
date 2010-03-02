@@ -87,7 +87,7 @@ class decrypt
 			}
 			$fileContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
 			if(!empty($fileContent))
-				return $percorso;
+				return $percorsoCsv;
 			else
 				return FALSE;
 		}
