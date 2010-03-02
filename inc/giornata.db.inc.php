@@ -24,7 +24,7 @@ class giornata extends dbTable
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or self::sqlError($q);
 			if(DEBUG)
-				echo $q . " (" . __FUNCTION__ . " at line " . __LINE__ . ")<br />";
+				FB::log($q);
 			$valore = mysql_fetch_assoc($exe);
 			$valore['partiteInCorso'] = TRUE;
 		}

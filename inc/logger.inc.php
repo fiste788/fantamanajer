@@ -18,34 +18,34 @@ class logger
 		$this->level = -1;
 	}
 	
-	public static function error($text)
+	public function error($text)
 	{
 		return $this->log($text,self::LEVEL_ERROR);
 	}
 	
-	public static function warning($text)
+	public function warning($text)
 	{
 		return $this->log($text,self::LEVEL_WARNING);
 	}
 	
-	public static function info($text)
+	public function info($text)
 	{
 		return $this->log($text,self::LEVEL_INFO);
 	}
 
-	public static function start($text)
+	public function start($text)
 	{
 		$this->timeStart = microtime(TRUE);
 		return $this->log(">>>>>>>>>> START " . $text . " >>>>>>>>>",self::LEVEL_INFO);
 	}
 	
-	public static function end($text)
+	public function end($text)
 	{
 		$this->timeEnd = microtime(TRUE);
 		return $this->log("<<<<<<<<<< END " . $text . " (" . ($this->timeEnd - $this->timeStart) . " ms) <<<<<<<<<",self::LEVEL_INFO);
 	}
 		
-	private static function log($text,$level)
+	private function log($text,$level)
 	{
 		$this->link = fopen(LOGSDIR . date("Ymd") . '.log','a+');
 		fputs($this->link,date("[D M j G:i:s Y]") . " [" . $level . '] ' . $text . "\n");
