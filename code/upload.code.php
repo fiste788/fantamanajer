@@ -1,6 +1,5 @@
 <?php
 require_once(INCDIR . 'upload.inc.php');
-$uploadObj = new upload();
 
 //set type of file supported
 $img = array ("image/gif" , "image/png" , "image/pjpeg" , "image/jpeg");
@@ -22,14 +21,14 @@ switch($image_type)
 }
 if (isset ($_FILES ['userfile']['tmp_name']) && !empty($_FILES['userfile']['tmp_name']))
 {
-	$ext = $uploadObj->getExtension($_FILES ['userfile']['name']);
+	$ext = upload::getExtension($_FILES ['userfile']['name']);
 	if(isset($_SESSION['idSquadra']))
 		$name = $_SESSION['idSquadra'];
-	switch( $uploadObj->uploadFile ($size , $img , $vid , $doc, UPLOADDIR , $name . '-temp'))
+	switch( upload::uploadFile($size , $img , $vid , $doc, UPLOADDIR , $name . '-temp'))
 	{
-			case 0: if($uploadObj->resize($name , UPLOADDIR , $width_thumb , $height_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type) && 
-						$uploadObj->resize($name . '-med' , UPLOADDIR , $width_med_thumb , $height_med_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type) && 
-						$uploadObj->resize($name . '-original' , UPLOADDIR , $width_large_thumb , $height_large_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type))
+			case 0: if(upload::resize($name , UPLOADDIR , $width_thumb , $height_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type) && 
+						upload::resize($name . '-med' , UPLOADDIR , $width_med_thumb , $height_med_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type) && 
+						upload::resize($name . '-original' , UPLOADDIR , $width_large_thumb , $height_large_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type))
 							$message->success("Upload effettuato correttamente, Potrebbe essere necessario ricaricare la pagina per problemi di cache. Premi Ctrl+R");
 					else
 						$message->warning("Problemi nel ridimensionamento");

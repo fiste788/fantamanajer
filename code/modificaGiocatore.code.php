@@ -9,7 +9,6 @@ if(isset($_POST))
 	if(!empty($_FILES ['userfile']['tmp_name']))
 	{
 		require_once(INCDIR . 'upload.inc.php');	
-		$uploadObj = new upload();
 		$img = array ("image/gif" , "image/png" , "image/pjpeg" , "image/jpeg");
 		$vid = array();
 		$doc = array();
@@ -24,13 +23,13 @@ if(isset($_POST))
 			case 3: $exts = '.png'; break;
 			default:die("Parametro mancante o errato");
 		}
-		$ext = $uploadObj -> getExtension($_FILES ['userfile']['name']);
+		$ext = upload::getExtension($_FILES ['userfile']['name']);
 		if(isset($_POST['idGioc']))
 			$name = $_POST['idGioc'];
 
-		switch($uploadObj -> uploadFile ($size , $img , $vid , $doc, PLAYERSDIR , $name.'-temp'))
+		switch(upload::uploadFile($size , $img , $vid , $doc, PLAYERSDIR , $name.'-temp'))
 		{
-				case 0: 	switch (strtolower($uploadObj->getExtension(PLAYERSDIR . $name . '-temp.' . $ext)))			//switch for get the extension
+				case 0: 	switch (strtolower(upload::getExtension(PLAYERSDIR . $name . '-temp.' . $ext)))			//switch for get the extension
 								{
 										case 'jpg' : $image = imagecreatefromjpeg(PLAYERSDIR . $name . '-temp.' . $ext); break;
 										case 'gif' : $image = imagecreatefromgif(PLAYERSDIR . $name . '-temp.' . $ext); break;
@@ -40,7 +39,7 @@ if(isset($_POST))
 								$width = imagesx ($image);
 								if($width > $width_thumb)
 								{
-									if($uploadObj -> resize($name , PLAYERSDIR , $width_thumb , $height_thumb , PLAYERSDIR . $name . '-temp.' . $ext, $image_type) )
+									if(upload::resize($name , PLAYERSDIR , $width_thumb , $height_thumb , PLAYERSDIR . $name . '-temp.' . $ext, $image_type) )
 									{
 										$message->success('Upload effettuato correttamente');
 										unlink(PLAYERSDIR . $name . '-temp.' . $ext);

@@ -16,7 +16,7 @@ class voto extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			return $row->punti;
 	}
 	
@@ -29,7 +29,7 @@ class voto extends dbTable
 		$values=false;
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idGiornata] = $row;
 		return $values;
 	}
@@ -42,7 +42,7 @@ class voto extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			return $row->valutato;
 	}
 
@@ -55,17 +55,16 @@ class voto extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			return $row;
 	}
 	
 	function recuperaVoti($giorn)
 	{
 		require_once(INCDIR.'fileSystem.inc.php');
-		$fileSystemObj = new fileSystem();
 		
 		$percorso = "./docs/voti/csv/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
-		if($fileSystemObj->scaricaVotiCsv($giorn))
+		if(fileSystem::scaricaVotiCsv($giorn))
 		{
 			if($this->checkVotiExist($giorn))
 				return TRUE;
@@ -108,9 +107,8 @@ class voto extends dbTable
 	function importVoti($path,$giornata)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
-		$fileSystemObj = new fileSystem();
 		
-		$players = $fileSystemObj->returnArray($path,";");
+		$players = fileSystem::returnArray($path,";");
 		foreach($players as $id=>$stats)
 		{
 			$valutato = $stats[6];	//1=valutato,0=senzavoto

@@ -2,14 +2,12 @@
 require_once(INCDIR . 'fileSystem.inc.php');
 include_once(INCDIR . 'createZip.inc.php');
 
-$fileSystemObj = new fileSystem();
-FB::log($_POST);
 if(isset($_POST['type']))
 {
 	if($_POST['type'] == 'csv')
-		$filesVoti = $fileSystemObj->getFileIntoFolder(str_replace('/ajax','',VOTICSVDIR));
+		$filesVoti = fileSystem::getFileIntoFolder(str_replace('/ajax','',VOTICSVDIR));
 	else
-		$filesVoti = $fileSystemObj->getFileIntoFolder(str_replace('/ajax','',VOTIXMLDIR));
+		$filesVoti = fileSystem::getFileIntoFolder(str_replace('/ajax','',VOTIXMLDIR));
 	sort($filesVoti); 
 	
 	$contentTpl->assign('filesVoti',$filesVoti);

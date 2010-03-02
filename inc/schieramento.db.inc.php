@@ -34,7 +34,7 @@ class schieramento extends dbTable
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			FB::log($q);
-		$row = mysql_fetch_object($exe);
+		$row = mysql_fetch_object($exe,__CLASS__);
 		if(!empty($idGioc))
 		{
 			if(empty($row->idGioc))

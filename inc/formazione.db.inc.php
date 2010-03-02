@@ -18,7 +18,7 @@ class formazione extends dbTable
 		$flag = FALSE;
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$elenco[$row->idPosizione] = $row->idGioc;
 			if(!$flag)
@@ -75,7 +75,7 @@ class formazione extends dbTable
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
@@ -116,7 +116,7 @@ class formazione extends dbTable
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
 			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
@@ -142,7 +142,7 @@ class formazione extends dbTable
 		$flag = FALSE;
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$elenco[$row->idPosizione] = $row->idGioc;
 			$idFormazione = $row->idFormazione;
@@ -172,7 +172,7 @@ class formazione extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$val[$row->idUtente]->idUtente = $row->idUtente;
 			$val[$row->idUtente]->nome = $row->nome;

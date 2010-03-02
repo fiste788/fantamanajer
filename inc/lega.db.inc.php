@@ -7,7 +7,6 @@ class lega extends dbTable
 	var $numTrasferimenti;
 	var $numSelezioni;
 	var $minFormazione;
-	var $premi;
 	
 	function getLeghe()
 	{
@@ -16,7 +15,7 @@ class lega extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe) )
+		while ($row = mysql_fetch_object($exe,__CLASS__) )
 		  	$values[] = $row;
 		return $values; 
 	}
@@ -29,7 +28,7 @@ class lega extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		return mysql_fetch_object($exe);
+		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
 	function updateImpostazioni($impostazioni)
@@ -51,7 +50,7 @@ class lega extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$result[$row->Field] = $row->Default;
 		return $result;
 	}

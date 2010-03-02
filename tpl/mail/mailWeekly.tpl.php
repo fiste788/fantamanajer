@@ -30,29 +30,33 @@
 						</tr>
 						<?php $panch = $this->formazione;$tito = array_splice($panch,0,11);?>
 	            	<?php foreach($tito as $key => $val): ?>
-						<?php if($val->considerato == 0): ?>
-							<tr>
-								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/></a>
-								</td>
+	            		<tr>
+						<?php if($val->considerato == 0): ?>	
+							<td>
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/>
+								</a>
+							</td>
 						<?php elseif($val->considerato == 2): ?>
-							<tr>
-								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/></a>
-								</td>
+							<td>
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<img style="border:0 none" alt="Capitano" title="Capitano" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/>
+								</a>
+							</td>
 						<?php else: ?>
-							<tr>
-								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/></a>
-								</td>
+							<td>
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
+								</a>
+							</td>
 						<?php endif; ?>		
-								<td><?php echo $val->cognome; ?></td>
-								<td><?php echo ($val->considerato == 2) ? $val->nome . '<span id="cap">(C)</span>' : $val->nome; ?></td>
-								<td><?php echo $val->ruolo; ?></td>
-								<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-								<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
-								<td style="text-align:right"><?php if(!empty($val->punti) && $val->considerato == 2) echo $val->punti * 2;elseif(!empty($val->punti)) echo $val->punti;else echo "&nbsp;"; ?></td>
-							</tr>
+							<td><?php echo $val->cognome; ?></td>
+							<td><?php echo ($val->considerato == 2) ? $val->nome . '<span id="cap">(C)</span>' : $val->nome; ?></td>
+							<td><?php echo $val->ruolo; ?></td>
+							<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
+							<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
+							<td style="text-align:right"><?php if(!empty($val->punti) && $val->considerato == 2) echo $val->punti * 2;elseif(!empty($val->punti)) echo $val->punti;else echo "&nbsp;"; ?></td>
+						</tr>
 				<?php endforeach; ?>
 					</tbody>
 				</table>
@@ -71,29 +75,33 @@
 							<th style="text-align:left;" width="5%">P.ti</th>
 						</tr>
 						<?php foreach($panch as $key => $val): ?>
+						<tr>
 						<?php if($val->considerato == 1): ?>
-							<tr>
-								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/></a>
-								</td>
+							<td>
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
+								</a>
+							</td>
 						<?php elseif($val->considerato == 2): ?>
-							<tr>
-								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/></a>
-								</td>
+							<td>
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/>
+								</a>
+							</td>
 						<?php else: ?>
-							<tr>
-								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><img style="border:0 none" alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png'; ?>"/></a>
-								</td>
+							<td>
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<img style="border:0 none" alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png'; ?>"/>
+								</a>
+							</td>
 						<?php endif; ?>
-								<td><?php echo $val->cognome; ?></td>
-								<td><?php echo $val->nome; ?></td>
-								<td><?php echo $val->ruolo; ?></td>
-								<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-								<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
-								<td style="text-align:right"><?php echo (!empty($val->punti)) ? $val->punti : "&nbsp;"; ?></td>
-							</tr>
+							<td><?php echo $val->cognome; ?></td>
+							<td><?php echo $val->nome; ?></td>
+							<td><?php echo $val->ruolo; ?></td>
+							<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
+							<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
+							<td style="text-align:right"><?php echo (!empty($val->punti)) ? $val->punti : "&nbsp;"; ?></td>
+						</tr>
 				<?php endforeach; ?>
 					</tbody>
 				</table>

@@ -64,7 +64,7 @@ class evento extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		if(isset($values))
 		{

@@ -63,7 +63,7 @@ class giornata extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		return mysql_fetch_object($exe);
+		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
 	function getNumberGiornate()
@@ -84,7 +84,7 @@ class giornata extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giornate[$row->idGiornata] = $row;
 		return $giornate;
 	}
@@ -98,7 +98,7 @@ class giornata extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
-		$values = mysql_fetch_object($exe);
+		$values = mysql_fetch_object($exe,__CLASS__);
 		return $values->dataFine;
 	}
 	

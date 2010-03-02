@@ -1,7 +1,6 @@
 <?php 
 require_once(INCDIR . 'fileSystem.inc.php');
 
-$fileSystemObj = new fileSystem();
 $result = NULL;
 if(isset($_POST['query']) && !empty($_POST['query']))
 {
@@ -26,12 +25,12 @@ if(isset($_GET['action']))
 {
 	if($_GET['action'] == 'optimize')
 	{
-		if($dbObj->DbOptimize())
+		if(dbObj::dbOptimize())
 			$message->success('Database ottimizzato con successo');
 	}	
 	if($_GET['action'] == 'sincronize')
 	{
-		$sql = $fileSystemObj->getLastBackup();
+		$sql = fileSystem::getLastBackup();
 		echo "b" . $sql;
 		if(!$sql)
 			$message->warning('Errore nel recupero dell\'ultimo backup');

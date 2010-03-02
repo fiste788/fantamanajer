@@ -5,7 +5,6 @@ require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'formazione.db.inc.php');
 require_once(INCDIR . 'voto.db.inc.php');
 require_once(INCDIR . 'lega.db.inc.php');
-require_once(INCDIR . 'mail.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
 require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
@@ -19,19 +18,17 @@ $votoObj = new voto();
 $legaObj = new lega();
 $transportObj = Swift_MailTransport::newInstance();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
-$decryptObj= new decrypt();
-$fileSystemObj = new fileSystem();
 
 $giornata = GIORNATA - 1;
 $logger->start("WEEKLY SCRIPT");
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
 if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggioObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
-	$backup = $fileSystemObj->contenutoCurl(FULLURLAUTH . $contentTpl->linksObj->getLink('backup'));
+	$backup = fileSystem::contenutoCurl(FULLURLAUTH . $contentTpl->linksObj->getLink('backup'));
 	if(!empty($backup))
 	{
 		$logger->info("Starting decript file day " . $giornata);
-		$path = $decryptObj->decryptCdfile($giornata);
+		$path = decrypt::decryptCdfile($giornata);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 		if($path != FALSE || $votoObj->checkVotiExist($giornata))
 		{

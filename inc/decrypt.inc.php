@@ -28,10 +28,9 @@ class decrypt
 	27	costo
 	
 */
-	function decryptCdfile($giornata)
+	static function decryptCdfile($giornata)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
-		$fileSystemObj = new fileSystem();
 		
 		$percorsoCsv = VOTICSVDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
 		$percorsoXml = VOTIXMLDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".xml";
@@ -39,7 +38,7 @@ class decrypt
 		if (!empty($percorsoContent))
 			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
-		$content = $fileSystemObj->contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/");
+		$content = fileSystem::contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/");
 		if(!empty($content))
 		{
 			$search = "";
@@ -76,6 +75,7 @@ class decrypt
 				foreach($pezzi as $key=>$val)
 				{
 					$pieces = explode("|",$val);
+					$pezziXml[$key] = $pieces;
 					$pezzi[$key] = join(";",$pieces);
 					if($pieces[4] == 0) 
 						unset($pezzi[$key]);
@@ -83,7 +83,7 @@ class decrypt
 				fwrite($scriviFile,join("\n",$pezzi));
 				fclose($scriviFile);
 				fclose($p_file);
-				$fileSystemObj->writeXmlVotiDecript($pezzi,$percorsoXml);
+				fileSystem::writeXmlVotiDecript($pezziXml,$percorsoXml);
 			}
 			$fileContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
 			if(!empty($fileContent))

@@ -10,18 +10,6 @@ class articolo extends dbTable
 	var $idGiornata;
 	var $idLega;
 	
-	function articolo()
-	{
-		$this->idArticolo = NULL;
-		$this->title = NULL;
-		$this->abstract = NULL;
-		$this->text = NULL;
-		$this->insertDate = NULL;
-		$this->idSquadra = NULL;
-		$this->idGiornata = NULL;
-		$this->idLega = NULL;
-	}
-	
 	function setFromRow($row)
 	{
 		$this->idArticolo = $row['idArticolo'];
@@ -175,7 +163,7 @@ class articolo extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		if(isset($values))
 			return $values;
@@ -207,7 +195,7 @@ class articolo extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		return mysql_fetch_object($exe);
+		return mysql_fetch_object($exe,__CLASS__);
 	}
 }
 ?>

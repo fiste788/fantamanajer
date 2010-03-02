@@ -17,7 +17,7 @@ class trasferimento extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$values = FALSE;
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		return $values;
 	}
@@ -59,7 +59,7 @@ class trasferimento extends dbTable
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			FB::log($q);
-		$idTrasferimento = mysql_fetch_object($exe);
+		$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
 		$eventoObj->addEvento('4',$squadra,$idLega,$idTrasferimento->idTrasf);
 		$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
 		if($formazione != FALSE)
@@ -90,7 +90,7 @@ class trasferimento extends dbTable
 			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
 				FB::log($q);
-			$idTrasferimento = mysql_fetch_object($exe);
+			$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
 			$eventoObj->addEvento('4',$squadraOld,$idLega,$idTrasferimento->idTrasf);
 		}
 		if(isset($err))
@@ -145,7 +145,7 @@ class trasferimento extends dbTable
 				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
 					FB::log($q);
-				$idTrasferimento = mysql_fetch_object($exe);
+				$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
 				$eventoObj->addEvento('4',$val->idSquadra,$val->idLega,$idTrasferimento->idTrasf);
 				if(isset($err))
 				{
@@ -168,7 +168,7 @@ class trasferimento extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			return $row;
 	}
 }

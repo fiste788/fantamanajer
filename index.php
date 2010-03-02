@@ -52,6 +52,8 @@ require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
 require(INCDIR . 'firePhp/fb.php');
+require(INCDIR . 'lega.db.inc.php');
+require(INCDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
 $dbObj = new db();
@@ -128,13 +130,12 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['legaView'] = 1;
 }
 
-require(INCDIR . 'lega.db.inc.php');
 $legaObj = new lega();
 
 /**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
-require(INCDIR . 'giornata.db.inc.php');
+
 
 $giornataObj = new giornata();
 $giornata = $giornataObj->getGiornataByDate();
