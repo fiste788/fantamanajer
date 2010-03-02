@@ -31,7 +31,7 @@ class db
 			mysql_close($this->link);
 	}
 	
-	function DbOptimize()
+	static function dbOptimize()
 	{
 		$q = "SHOW TABLES";
 		$exe = mysql_query($q) or self::sqlError($q);

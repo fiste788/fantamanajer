@@ -55,7 +55,7 @@ class squadra extends dbTable
 		$values = FALSE;
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row->idUtente;
 		return $values;
 	}

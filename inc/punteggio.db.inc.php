@@ -60,7 +60,7 @@ class punteggio extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idGiornata][] = $row;
 		foreach($values as $giornata=>$pos)
 			foreach($pos as $key=>$val)
@@ -76,7 +76,7 @@ class punteggio extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row->giornateVinte;
 		return $values;
 	}
@@ -92,7 +92,7 @@ class punteggio extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$classifica = NULL;
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$classifica[$row->idUtente] = $row;
 		return $classifica;
 	}
@@ -107,7 +107,7 @@ class punteggio extends dbTable
 		$i = 0;
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			if(isset($classifica[$row->idUtente][$row->idGiornata]))
 				$classifica[$row->idUtente][$row->idGiornata] += $row->punteggio;
@@ -289,7 +289,7 @@ class punteggio extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$values = FALSE;
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
 		return $values;
 		}
@@ -303,7 +303,7 @@ class punteggio extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$values = FALSE;
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idUtente][$row->idGiornata] = $row->punteggio;
 		return $values;
 	}

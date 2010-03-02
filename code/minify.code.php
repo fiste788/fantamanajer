@@ -2,8 +2,6 @@
 require_once(INCDIR . 'min.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 
-$fileSystemObj = new fileSystem();
-
 $jsFiles = array();
 $cssContent = "";
 //$cssFiles = $fileSystemObj->getFileIntoFolderRecursively(CSSDIR,TRUE);
@@ -51,7 +49,7 @@ foreach($pages as $key=>$val)
 		file_put_contents(JSDIR . 'combined/' . $key . '.js' , JSMin::minify($jsContent));
 }
 
-foreach($fileSystemObj->getFileIntoFolderRecursively(CSSDIR,TRUE) as $key=>$val)
+foreach(fileSystem::getFileIntoFolderRecursively(CSSDIR,TRUE) as $key=>$val)
 {
 	if(is_file($val))
 	{

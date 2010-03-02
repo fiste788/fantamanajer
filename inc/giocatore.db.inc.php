@@ -5,7 +5,7 @@ class giocatore extends dbTable
 	var $nome;
 	var $cognome;
 	var $ruolo;
-	var $club;	//è l'id del club nella tabella club
+	var $club;
 	
 	function getGiocatoriByIdSquadra($idUtente)
 	{
@@ -17,7 +17,7 @@ class giocatore extends dbTable
 		$giocatori = array();
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[$row->idGioc] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -35,7 +35,7 @@ class giocatore extends dbTable
 		$giocatori = array();
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[$row->idGioc] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -53,7 +53,7 @@ class giocatore extends dbTable
 		$giocatori = array();
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -78,8 +78,9 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[$row->idGioc] = $row;
+			FB::log($giocatori);
 		return $giocatori;
 	}
 	
@@ -92,7 +93,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$result[] = $row;
 		return $result;
 	}
@@ -105,7 +106,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$result[$row->idGioc] = $row;
 		if(isset($result))
 			return $result;
@@ -126,7 +127,7 @@ class giocatore extends dbTable
 		$data = $votoObj->getAllVotoByIdGioc($idGioc);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values['dettaglio'] = $row;
 		if(!empty($data))
 			$values['dettaglio']->data = $data;
@@ -142,7 +143,7 @@ class giocatore extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$elenco = FALSE;
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$elenco[] = $row;
 		return $elenco;
 	}
@@ -156,7 +157,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -172,7 +173,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe))
+		while ($row = mysql_fetch_object($exe,__CLASS__))
 			return $row->ruolo;
 	}
 	
@@ -184,7 +185,7 @@ class giocatore extends dbTable
 		$giocatori = array();
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
 			$giocatori[$row->idGioc] = implode(";",get_object_vars($row));
@@ -200,11 +201,10 @@ class giocatore extends dbTable
 		
 		$decryptObj = new decrypt();
 		$eventoObj = new evento();
-		$fileSystemObj = new fileSystem();
 		
 		$ruoli = array("P","D","C","A");
 		$playersOld = $this->getArrayGiocatoriFromDatabase();
-		$players = $fileSystemObj->returnArray($path,";");
+		$players = fileSystem::returnArray($path,";");
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$details)
 		{
@@ -296,7 +296,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[$row->idGioc] = $row;
 		return $giocatori;
 	}
@@ -324,7 +324,6 @@ class giocatore extends dbTable
 						$giocOld = $this->getGiocatoreById($val->idGiocOld);
 						$giocatori[$key2] = $giocOld[$val->idGiocOld];
 					}
-			FB::info($giocatori);
 			$sort_arr = array();
 			foreach($giocatori as $uniqid => $row)
 				foreach($row as $key => $value)
@@ -334,7 +333,6 @@ class giocatore extends dbTable
 		$giocatoriByRuolo = array();
 		foreach($giocatori as $key => $val)
 			$giocatoriByRuolo[$val->ruolo][] = $val;
-			FB::log($giocatoriByRuolo);
 		return $giocatoriByRuolo;
 	}
 	
@@ -346,7 +344,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[] = $row;
 		if(isset($giocatori))
 			return $giocatori;
@@ -361,7 +359,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[] = $row;
 		return $giocatori;
 	}
@@ -384,7 +382,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			return TRUE;
 		return FALSE;
 	}
@@ -400,7 +398,7 @@ class giocatore extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		return $values;
 	}

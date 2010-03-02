@@ -196,8 +196,7 @@ class createZip {
 		$dirzip = $namearchive . "/";
 		$this->addDirectory($dirzip);
 
-		$fileSystemObj = new fileSystem();
-		$files = $fileSystemObj->getFileIntoFolder($dir);
+		$files = fileSystem::getFileIntoFolder($dir);
 		foreach($files as $key=>$val)
 		{
 			$fileContents = file_get_contents($dir . $val);

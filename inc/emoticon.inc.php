@@ -1,9 +1,9 @@
 <?php
 class emoticon
 {
-	var $emoticon;
+	var $emoticon = array();
 	
-	function emoticon()
+	function __construct()
 	{
 		$this->emoticon[] = array('name'=>'andy','cod'=>':^)','title'=>'Scioccato');
 		$this->emoticon[] = array('name'=>'angry','cod'=>':@','title'=>'Arrabbiato');

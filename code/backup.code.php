@@ -2,8 +2,6 @@
 require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 
-$fileSystemObj = new fileSystem();
-
 $logger->start("BACKUP");
 $name = date("YmdHis");
 $backupName = DBDIR . $name;
@@ -27,7 +25,7 @@ if($backupObj->dodump())
 	$handle = fopen(DOCSDIR . 'nomeBackup.txt','w');
 	fwrite($handle,$name);
 	fclose($handle);
-	$files = $fileSystemObj->getFileIntoFolder(DBDIR);
+	$files = fileSystem::getFileIntoFolder(DBDIR);
 	rsort($files);
 	if(count($files) > 9)
 	{

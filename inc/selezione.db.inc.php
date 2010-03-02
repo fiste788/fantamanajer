@@ -14,7 +14,7 @@ class selezione extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		if(isset($values))
 			return $values;
@@ -30,7 +30,7 @@ class selezione extends dbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
-		return mysql_fetch_object($exe);
+		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
 	function unsetSelezioneByIdSquadra($idSquadra)
@@ -52,7 +52,7 @@ class selezione extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$values = array();
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
 		if(!empty($values))
 			return $values->idSquadra;
@@ -70,7 +70,7 @@ class selezione extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$values = array();
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
 		if(!empty($values))
 		{
@@ -88,7 +88,7 @@ class selezione extends dbTable
 		if(DEBUG)
 			FB::log($q);
 		$values = array();
-		while($row = mysql_fetch_object($exe))
+		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
 		if(!empty($values))
 		{
@@ -125,7 +125,7 @@ class selezione extends dbTable
 		$val = NULL;
 		if(DEBUG)
 			FB::log($q);
-		while ($row = mysql_fetch_object($exe) )
+		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row->numSelezioni;
 		return $val;
 	}
