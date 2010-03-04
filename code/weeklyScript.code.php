@@ -16,7 +16,7 @@ $mailerObj = Swift_Mailer::newInstance($transportObj);
 $giornata = GIORNATA - 1;
 $logger->start("WEEKLY SCRIPT");
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
+if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
 	$backup = fileSystem::contenutoCurl(FULLURLAUTH . Links::getLink('backup'));
 	if(!empty($backup))
@@ -80,7 +80,7 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punt
 					if(!empty($val->mail) && $val->abilitaMail == 1)
 					{
 						$mailContent = new Savant3();
-						$mailContent->assign('linksObj',Links);
+						//$mailContent->assign('linksObj',Links);
 						$mailContent->assign('classifica',$sum);
 						$mailContent->assign('squadre',$squadre);
 						$mailContent->assign('giornata',$giornata);
@@ -93,7 +93,7 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punt
 						
 						$logger->info("Sendig mail to: " . $val->mail);
 						//MANDO LA MAIL
-						$object = "Giornata: ". $giornata . " - Punteggio: " . Punteggio::getPunteggi($val->idUtente,$giornata);						
+						$object = "Giornata: " . $giornata . " - Punteggio: " . Punteggio::getPunteggi($val->idUtente,$giornata);						
 						$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 						$mailMessageObj = Swift_Message::newInstance();
 						$mailMessageObj->setSubject($object);

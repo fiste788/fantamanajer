@@ -11,7 +11,7 @@ $dataGiornata = $giorn[0];
 if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 'superadmin')
 {
 	$logger->info("Starting do transfer");
-	if($trasferimentoObj->doTransfertBySelezione())
+	if(Trasferimento::doTransfertBySelezione())
 	{
 		$message->success("Operazione effettuata correttamente");
 		$logger->info("Trasnfert finished successfully");

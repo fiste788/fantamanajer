@@ -12,7 +12,7 @@
 				<?php endif; ?>
 				<div style="float:left;width:50%;">
 					<h3>
-						<a style="color:#00a2ff;text-decoration:none;" href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('altreFormazione',array('giornata'=>GIORNATA,'squadra'=>$squadra)); ?>"><?php echo $this->squadre[$squadra]->nome; ?></a>
+						<a style="color:#00a2ff;text-decoration:none;" href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('altreFormazione',array('giornata'=>GIORNATA,'squadra'=>$squadra)); ?>"><?php echo $this->squadre[$squadra]->nome; ?></a>
 					</h3>
 				<?php if ($formazione != FALSE): ?>
 					<h4 style="color:#00a2ff;text-decoration:none;">Titolari</h4>
@@ -21,20 +21,19 @@
 						<tr>
 						<?php if($this->cap[$squadra]->C == $val->idGioc) : ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 									<img style="border:0 none" alt="Capitano" title="Capitano" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/>
 								</a>
 							</td>
 						<?php else: ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 									<img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
 								</a>
 							</td>
 						<?php endif; ?>
 							<td style="text-align:left;"><?php echo $val->cognome; ?></td>
 							<td style="text-align:left;"><?php echo $val->nome; ?></td>
-							<?php FB::log($this->cap); ?>
 							<td style="text-align:left;"><?php if(array_search($val->idGioc,get_object_vars($this->cap[$squadra])) != FALSE)  echo array_search($val->idGioc,get_object_vars($this->cap[$squadra])); else echo '&nbsp;'; ?></td>
 						</tr>
 					<?php endforeach; ?>
@@ -45,7 +44,7 @@
 						<?php foreach($this->panchinari[$squadra] as $key => $val): ?>
 							<tr>
 								<td>
-									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+									<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 										<img style="border:0 none" alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png'; ?>"/>
 									</a>
 								</td>
