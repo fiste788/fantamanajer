@@ -46,13 +46,11 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 		}
 		$mailContent = new Savant3();
 		$mailContent->assign('squadre',$squadre);
-		$mailContent->assign('linksObj',$contentTpl->linksObj);
 		$mailContent->assign('titolari',$titolariName);
 		$mailContent->assign('panchinari',$panchinariName);
 		$mailContent->assign('cap',$cap);
 		$mailContent->assign('giornata',GIORNATA);
 		
-		$logger->info("Sending mail to: " . $val->mail);
 		$object = "Formazioni giornata: " . GIORNATA ;
 		$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 		$mailMessageObj = Swift_Message::newInstance();
@@ -64,6 +62,7 @@ if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'supe
 		{
 			if(isset($val->mail) && $val->abilitaMail == 1)
 			{
+				$logger->info("Sending mail to: " . $val->mail);
 				$mailMessageObj->setTo(array($val->mail=>$val->nomeProp . " " . $val->cognome));
 				if(!$mailerObj->send($mailMessageObj)) 
 				{
