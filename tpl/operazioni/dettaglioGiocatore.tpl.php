@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo $this->linksObj->getLink('dettaglioGiocatore'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('dettaglioGiocatore'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<input type="hidden" value="<?php echo $_GET['p'];?>" />
 		<input type="hidden" value="<?php echo $_GET['edit'];?>" name="edit" />

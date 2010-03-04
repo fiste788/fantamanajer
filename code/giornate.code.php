@@ -1,8 +1,7 @@
 <?php 
 require_once(INCDIR . 'giornata.db.inc.php');
 
-$giornataObj = new giornata();
-$giornate = $giornataObj->getAllGiornate();
+$giornate = Giornata::getAllGiornate();
 if(isset($_POST['submit']))
 {
 	if(count($_POST['dataFine']) == count($giornate) && count($_POST['dataInizio']) == count($giornate))
@@ -13,10 +12,10 @@ if(isset($_POST['submit']))
 		foreach($_POST['dataFine'] as $key=>$val)
 			if(!empty($val) && $val != $giornate[$key]->dataFine)
 				$date[$key]['dataFine'] = $val;
-		if(isset($date) && $giornataObj->updateGiornate($date))
+		if(isset($date) && Giornata::updateGiornate($date))
 		{
 			$message->success("Operazione effettuata con successo");
-			$giornate = $giornataObj->getAllGiornate();
+			$giornate = Giornata::getAllGiornate();
 		}
 		else
 			$message->error("Errore nell'esecuzione. Controlla il formato delle date");

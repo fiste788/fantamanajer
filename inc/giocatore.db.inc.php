@@ -1,5 +1,5 @@
 <?php 
-class giocatore extends dbTable
+class Giocatore extends DbTable
 {
 	var $idGioc;
 	var $nome;
@@ -7,7 +7,7 @@ class giocatore extends dbTable
 	var $ruolo;
 	var $club;
 	
-	function getGiocatoriByIdSquadra($idUtente)
+	public static function getGiocatoriByIdSquadra($idUtente)
 	{
 		$q = "SELECT idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatorisquadra
@@ -25,7 +25,7 @@ class giocatore extends dbTable
 			return FALSE;
 	}
 	
-	function getGiocatoriByIdClub($idClub)
+	public static function getGiocatoriByIdClub($idClub)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
 				FROM giocatore
@@ -43,7 +43,7 @@ class giocatore extends dbTable
 			return FALSE;
 	}
 	
-	function getGiocatoriByIdSquadraAndRuolo($idUtente,$ruolo)
+	public static function getGiocatoriByIdSquadraAndRuolo($idUtente,$ruolo)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
@@ -61,7 +61,7 @@ class giocatore extends dbTable
 			return FALSE;
 	}
 	
-	function getFreePlayer($ruolo,$idLega)
+	public static function getFreePlayer($ruolo,$idLega)
 	{				
 		$q = "SELECT giocatoristatistiche.*
 				FROM giocatoristatistiche
@@ -84,7 +84,7 @@ class giocatore extends dbTable
 		return $giocatori;
 	}
 	
-	function getGiocatoriByArray($giocatori)
+	public static function getGiocatoriByArray($giocatori)
 	{
 		$q = "SELECT idGioc,cognome,nome,ruolo 
 				FROM giocatore 
@@ -98,7 +98,7 @@ class giocatore extends dbTable
 		return $result;
 	}
 	
-	function getGiocatoreById($idGioc)
+	public static function getGiocatoreById($idGioc)
 	{
 		$q = "SELECT idGioc,cognome,nome,ruolo,nomeClub,partitivo 
 				FROM giocatore LEFT JOIN club ON giocatore.club=club.idClub
@@ -114,17 +114,17 @@ class giocatore extends dbTable
 			return FALSE;
 	}
 	
-	function getGiocatoreByIdWithStats($idGioc,$idLega = NULL)
+	public static function getGiocatoreByIdWithStats($idGioc,$idLega = NULL)
 	{
 		require_once(INCDIR . 'voto.db.inc.php');
-		$votoObj = new voto();
+		
 		$q = "SELECT giocatoristatistiche.*,idLega,idUtente
 				FROM (SELECT * 
 						FROM squadra 
 						WHERE idLega='" . $idLega . "') AS squad RIGHT JOIN giocatoristatistiche ON squad.idGioc = giocatoristatistiche.idGioc
 				WHERE giocatoristatistiche.idGioc ='" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		$data = $votoObj->getAllVotoByIdGioc($idGioc);
+		$data = Voto::getAllVotoByIdGioc($idGioc);
 		if(DEBUG)
 			FB::log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
@@ -134,7 +134,7 @@ class giocatore extends dbTable
 		return $values;
 	}
 	
-	function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
+	public static function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
 	{
 		$q = "SELECT *
 				FROM dettagliogiornata
@@ -148,7 +148,7 @@ class giocatore extends dbTable
 		return $elenco;
 	}
 	
-	function getGiocatoriByIdSquadraWithStats($idUtente)
+	public static function getGiocatoriByIdSquadraWithStats($idUtente)
 	{
 		$q = "SELECT *
 				FROM giocatoristatistiche INNER JOIN squadra on giocatoristatistiche.idGioc = squadra.idGioc
@@ -165,7 +165,7 @@ class giocatore extends dbTable
 			return FALSE;
 	}
 	
-	function getRuoloByIdGioc($idGioc)
+	public static function getRuoloByIdGioc($idGioc)
 	{
 		$q="SELECT ruolo 
 				FROM giocatore 
@@ -177,7 +177,7 @@ class giocatore extends dbTable
 			return $row->ruolo;
 	}
 	
-	function getArrayGiocatoriFromDatabase()
+	public static function getArrayGiocatoriFromDatabase()
 	{
 		$q = "SELECT giocatore.idGioc, cognome, ruolo, nomeClub  
 				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub WHERE giocatore.club IS NOT NULL";
@@ -193,17 +193,14 @@ class giocatore extends dbTable
 		return $giocatori;
 	}
 
-	function updateTabGiocatore($path,$giornata)
+	public static function updateTabGiocatore($path,$giornata)
 	{
 		require_once(INCDIR . 'decrypt.inc.php');
 		require_once(INCDIR . 'evento.db.inc.php');
 		require_once(INCDIR . 'fileSystem.inc.php');
 		
-		$decryptObj = new decrypt();
-		$eventoObj = new evento();
-		
 		$ruoli = array("P","D","C","A");
-		$playersOld = $this->getArrayGiocatoriFromDatabase();
+		$playersOld = self::getArrayGiocatoriFromDatabase();
 		$players = fileSystem::returnArray($path,";");
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$details)
@@ -227,7 +224,7 @@ class giocatore extends dbTable
 						SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
 						WHERE idGioc IN ('" . $giocatori . "')";
 				foreach($clubs[$key] as $single)
-					$eventoObj->addEvento('7',0,0,$single);
+					Evento::addEvento('7',0,0,$single);
 				if(DEBUG)
 					FB::log($q);
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
@@ -256,7 +253,7 @@ class giocatore extends dbTable
 				$nome = ucwords(strtolower((addslashes($nome))));
 				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $club . "%')),";
 				if(!empty($playersOld))
-					$eventoObj->addEvento('5',0,0,$pezzi[0]);
+					Evento::addEvento('5',0,0,$pezzi[0]);
 			}
 			$q = rtrim("INSERT INTO giocatore(idGioc,cognome,nome,ruolo,club) VALUES " . $rowtoinsert,",");
 			if(DEBUG)
@@ -266,7 +263,7 @@ class giocatore extends dbTable
 		if(count($daTogliere) != 0)
 		{
 			foreach($daTogliere as $id => $val)
-				$eventoObj->addEvento('6',0,0,$id);
+				Evento::addEvento('6',0,0,$id);
 			$stringaDaTogliere = join("','",array_keys($daTogliere));
 			$q = "UPDATE giocatore 
 					SET club = NULL 
@@ -287,7 +284,7 @@ class giocatore extends dbTable
 		}	
 	}
 
-	function getGiocatoriNotSquadra($idUtente,$idLega)
+	public static function getGiocatoriNotSquadra($idUtente,$idLega)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore LEFT JOIN squadra ON giocatore.idGioc = squadra.idGioc
@@ -301,14 +298,12 @@ class giocatore extends dbTable
 		return $giocatori;
 	}
 	
-	function getGiocatoriBySquadraAndGiornata($idUtente,$idGiornata)
+	public static function getGiocatoriBySquadraAndGiornata($idUtente,$idGiornata)
 	{
 		require_once(INCDIR . 'trasferimento.db.inc.php');
 		
-		$trasferimentoObj = new trasferimento();
-		
-		$giocatori = $this->getGiocatoriByIdSquadra($idUtente);
-		$trasferimenti = $trasferimentoObj->getTrasferimentiByIdSquadra($idUtente,$idGiornata);
+		$giocatori = self::getGiocatoriByIdSquadra($idUtente);
+		$trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($idUtente,$idGiornata);
 		FB::info($trasferimenti);
 		if($trasferimenti != FALSE)
 		{
@@ -321,7 +316,7 @@ class giocatore extends dbTable
 				foreach($giocatori as $key2=>$val2)
 					if($val2->idGioc == $val->idGiocNew)
 					{
-						$giocOld = $this->getGiocatoreById($val->idGiocOld);
+						$giocOld = self::getGiocatoreById($val->idGiocOld);
 						$giocatori[$key2] = $giocOld[$val->idGiocOld];
 					}
 			$sort_arr = array();
@@ -336,7 +331,7 @@ class giocatore extends dbTable
 		return $giocatoriByRuolo;
 	}
 	
-	function getGiocatoriTrasferiti($idUtente)
+	public static function getGiocatoriTrasferiti($idUtente)
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
 				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
@@ -352,7 +347,7 @@ class giocatore extends dbTable
 			return FALSE;
 	}
 	
-	function getAllGiocatori()
+	public static function getAllGiocatori()
 	{
 		$q = "SELECT * 
 				FROM giocatore";
@@ -364,7 +359,7 @@ class giocatore extends dbTable
 		return $giocatori;
 	}
 	
-	function aggiornaGiocatore($id,$cognome,$nome)
+	public static function aggiornaGiocatore($id,$cognome,$nome)
 	{
 		$q = "UPDATE giocatore
 				SET cognome = '" . $cognome . "', nome = '" . $nome . "'
@@ -374,7 +369,7 @@ class giocatore extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function checkOutLista($idGioc)
+	public static function checkOutLista($idGioc)
 	{
 		$q = "SELECT club
 				FROM giocatore
@@ -387,7 +382,7 @@ class giocatore extends dbTable
 		return FALSE;
 	}
 	
-	function getBestPlayerByGiornataAndRuolo($idGiornata,$ruolo)
+	public static function getBestPlayerByGiornataAndRuolo($idGiornata,$ruolo)
 	{
 		$values = FALSE;
 		$q = "SELECT *

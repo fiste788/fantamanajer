@@ -1,12 +1,12 @@
 <?php 
-class schieramento extends dbTable
+class Schieramento extends DbTable
 {
 	var $idFormazione;
 	var $idPosizione;
 	var $idGioc;
 	var $considerazione;	//0 = non ha giocato, 1 = giocato, 2 = capitano
 	
-	function setConsiderazione($idFormazione,$idGioc,$val)
+	public static function setConsiderazione($idFormazione,$idGioc,$val)
 	{
 		$q = "UPDATE schieramento 
 				SET considerato = '" . $val . "'
@@ -16,7 +16,7 @@ class schieramento extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function changeGioc($idFormazione,$idGiocOld,$idGiocNew)
+	public static function changeGioc($idFormazione,$idGiocOld,$idGiocNew)
 	{
 		$q = "UPDATE schieramento 
 				SET idGioc = '" . $idGiocNew . "' 
@@ -26,7 +26,7 @@ class schieramento extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function setGiocatore($idFormazione,$idGioc,$pos)
+	public static function setGiocatore($idFormazione,$idGioc,$pos)
 	{
 		$q = "SELECT idGioc
 					FROM schieramento
@@ -59,7 +59,7 @@ class schieramento extends dbTable
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 	}
 	
-	function unsetGiocatore($idFormazione,$pos)
+	public static function unsetGiocatore($idFormazione,$pos)
 	{
 		$q = "DELETE FROM schieramento
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";

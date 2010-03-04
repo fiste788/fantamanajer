@@ -3,16 +3,14 @@
 //page you want login to appear.
 require(INCDIR . 'utente.db.inc.php');
 
-$authObj = new utente();
-
 //if postdata exists
 if( (isset($_POST['username'])) && (isset($_POST['password'])))
 {
 	if( (!empty($_POST['username'])) && (!empty($_POST['password'])) )
 	{
-		if($authObj->login($_POST['username'],$_POST['password']))
+		if(Utente::login($_POST['username'],$_POST['password']))
 		{
-			$dettagliUtente = $authObj->getSquadraByUsername($_POST['username'],0);
+			$dettagliUtente = Utente::getSquadraByUsername($_POST['username'],0);
 			$_SESSION['userid'] = $_POST['username'];
 			$_SESSION['logged'] = TRUE;
 			$_SESSION['roles'] = $dettagliUtente->amministratore;
@@ -36,6 +34,6 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 else
 {
 	if( (isset($_GET['logout'])) && ($_GET['logout'] == TRUE) )
-		$authObj->logout();
+		Utente::logout();
 }
 ?>

@@ -6,44 +6,38 @@ require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 require_once(INCDIR . 'swiftMailer/swift_required.php');
 
-$utenteObj = new utente();
-$formazioneObj = new formazione();
-$giocatoreObj = new giocatore();
-$legaObj = new lega();
-$mailObj = new mail();
 $transportObj = Swift_MailTransport::newInstance();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
 
 $logger->start("MAIL FORMAZIONE");
 
 $today = date("Y-m-d");
-$date = $giornataObj->getDataByGiornata(GIORNATA);
+$date = Giornata::getDataByGiornata(GIORNATA);
 FB::log($date);
 $giorn = explode(' ',$date->dataFine);
 $dataGiornata = $giorn[0];
 
 if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'superadmin')
 {
-	$leghe = $legaObj->getLeghe();
+	$leghe = Lega::getLeghe();
 	$mail = 0;
 	foreach($leghe as $lega)
 	{
-		$squadre = $utenteObj->getElencoSquadreByLega($lega->idLega);
+		$squadre = Utente::getElencoSquadreByLega($lega->idLega);
 		$titolariName = array();
 		$panchinariName = array();
 		$capitani = array();
 		foreach ($squadre as $key=>$val)
 		{
-			$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($val->idUtente,GIORNATA);
-			FB::log($formazione);
+			$formazione = Formazione::getFormazioneBySquadraAndGiornata($val->idUtente,GIORNATA);
 			if($formazione != FALSE)
 			{
 				$titolari = array_slice($formazione->elenco,0,11);
 				$panchinari = array_slice($formazione->elenco,11,18);
 				$cap[$key] = $formazione->cap;
-				$titolariName[$key] = $giocatoreObj->getGiocatoriByArray($titolari);
+				$titolariName[$key] = Giocatore::getGiocatoriByArray($titolari);
 				if(count($panchinari) > 0)
-					$panchinariName[$key] = $giocatoreObj->getGiocatoriByArray($panchinari);
+					$panchinariName[$key] = Giocatore::getGiocatoriByArray($panchinari);
 				else
 					$panchinariName[$key] = FALSE;
 			}

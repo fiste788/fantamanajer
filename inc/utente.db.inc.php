@@ -1,5 +1,5 @@
 <?php 
-class utente extends dbTable
+class Utente extends DbTable
 {
 	var $idSquadra;
 	var $nome;
@@ -11,7 +11,7 @@ class utente extends dbTable
 	var $amministratore;
 	var $idLega;
 	
-	function login($username, $password)
+	public static function login($username, $password)
 	{
 		$q = "SELECT username, password FROM utente WHERE username LIKE '" . $username . "';";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -22,13 +22,13 @@ class utente extends dbTable
 			return FALSE;
 	}
 	
-	function logout()
+	public static function logout()
 	{
 		foreach($_SESSION as $key => $val)
 			unset($_SESSION[$key]);
 	}
 	
-	function getElencoSquadre()
+	public static function getElencoSquadre()
 	{		
 		$q = "SELECT utente.*,giornateVinte 
 				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
@@ -41,7 +41,7 @@ class utente extends dbTable
 		return $values; 
 	}
 	
-	function getAllSquadre()
+	public static function getAllSquadre()
 	{		
 		$q = "SELECT * 
 				FROM utente";
@@ -53,7 +53,7 @@ class utente extends dbTable
 		return $values; 
 	}
 	
-	function getElencoSquadreByLega($idLega)
+	public static function getElencoSquadreByLega($idLega)
 	{		
 		$q = "SELECT utente.*,giornateVinte 
 				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
@@ -69,7 +69,7 @@ class utente extends dbTable
 			return FALSE; 
 	}
 	
-	function getElencoSquadreByLegaOptions($idLega)
+	public static function getElencoSquadreByLegaOptions($idLega)
 	{		
 		$q = "SELECT idUtente,nome 
 				FROM utente 
@@ -85,7 +85,7 @@ class utente extends dbTable
 			return FALSE; 
 	}
 	
-	function getSquadraById($idUtente)
+	public static function getSquadraById($idUtente)
 	{		
 		$q = "SELECT * 
 				FROM squadrastatistiche 
@@ -96,7 +96,7 @@ class utente extends dbTable
 		return mysql_fetch_object($exe,__CLASS__); 
 	}
 	
-	function changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$idUtente)
+	public static function changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$idUtente)
 	{
 		$q = "UPDATE utente SET nome = '" . $nomeSquadra . "', 
 				cognome = '" . $cognome . "', 
@@ -112,7 +112,7 @@ class utente extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function getAllEmail()
+	public static function getAllEmail()
 	{
 		$q = "SELECT mail,idUtente,idLega 
 				FROM utente";
@@ -124,7 +124,7 @@ class utente extends dbTable
 		return $values; 
 	}
 	
-	function getAllEmailAbilitate()
+	public static function getAllEmailAbilitate()
 	{
 		$q = "SELECT mail,idUtente,idLega 
 				FROM utente
@@ -137,7 +137,7 @@ class utente extends dbTable
 		return $values; 
 	}
 	
-	function getAllEmailByLega($idLega)
+	public static function getAllEmailByLega($idLega)
 	{
 		$q = "SELECT mail,idUtente 
 				FROM utente
@@ -150,7 +150,7 @@ class utente extends dbTable
 		return $values; 
 	}
 	
-	function getAllEmailAbilitateByLega($idLega)
+	public static function getAllEmailAbilitateByLega($idLega)
 	{
 		$q = "SELECT mail,idUtente
 				FROM utente
@@ -163,10 +163,10 @@ class utente extends dbTable
 		return $values; 
 	}
 	
-	function addSquadra($username,$nomeSquadra,$nome,$cognome,$admin,$password,$email,$idLega)
+	public static function addSquadra($username,$nomeSquadra,$nome,$cognome,$admin,$password,$email,$idLega)
 	{
 		require_once(INCDIR . 'punteggio.db.inc.php');
-		$punteggioObj = new punteggio();
+
 		$q = "INSERT INTO utente (nome,username,nomeProp,cognome,password,mail,amministratore,idLega) 
 				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
 		mysql_query($q) or self::sqlError($q);
@@ -180,11 +180,11 @@ class utente extends dbTable
 			FB::log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row->idUtente;
-		$punteggioObj->setPunteggiToZero($val,$idLega);
+		Punteggio::setPunteggiToZero($val,$idLega);
 		return $val;
 	}
 	
-	function deleteSquadra($idUtente)
+	public static function deleteSquadra($idUtente)
 	{
 		$q = "DELETE 
 				FROM utente 
@@ -198,7 +198,7 @@ class utente extends dbTable
 			return TRUE;
 	}
 	
-	function getLegaByIdSquadra($idUtente)
+	public static function getLegaByIdSquadra($idUtente)
 	{
 		$q = "SELECT idLega 
 				FROM utente 
@@ -212,7 +212,7 @@ class utente extends dbTable
 		return $val;
 	}
 	
-	function getSquadraByUsername($username,$idUtente)
+	public static function getSquadraByUsername($username,$idUtente)
 	{
 		$q = "SELECT * 
 				FROM utente 
@@ -226,7 +226,7 @@ class utente extends dbTable
 		return $val;
 	}
 	
-	function getSquadraByNome($nome,$idUtente)
+	public static function getSquadraByNome($nome,$idUtente)
 	{
 		$q = "SELECT * 
 				FROM utente 
@@ -240,10 +240,9 @@ class utente extends dbTable
 		return $val;
 	}
 	
-	function createRandomPassword() 
+	public static function createRandomPassword() 
 	{
 		$chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-		//srand((double)microtime()*1000000);
 		$i = 0;
 		$pass = '' ;
 		while ($i <= 7) 

@@ -57,22 +57,16 @@ require(INCDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
 $dbObj = new db();
-$linksObj = new links();
 $message = new message();
 $logger = new logger();
 
 //Creating object for pages
 $layoutTpl = new Savant3(array('template_path' => TPLDIR));
 $headerTpl = new Savant3(array('template_path' => TPLDIR));
-$headerTpl->assign('linksObj',$linksObj);
 $footerTpl = new Savant3(array('template_path' => TPLDIR));
-$footerTpl->assign('linksObj',$linksObj);
 $contentTpl = new Savant3(array('template_path' => TPLDIR));
-$contentTpl->assign('linksObj',$linksObj);
 $navbarTpl = new Savant3(array('template_path' => TPLDIR));
-$navbarTpl->assign('linksObj',$linksObj);
 $operationTpl = new Savant3(array('template_path' => OPERATIONTPLDIR));
-$operationTpl->assign('linksObj',$linksObj);
 
 //If no page have been required give the default page (home.php and home.tpl.php)
 if (isset($_GET['p']))
@@ -117,7 +111,7 @@ ob_start();
 require_once(CODEDIR . 'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'])
-	header('Location: ' . str_replace('&amp;','&',$linksObj->getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
+	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
@@ -130,21 +124,17 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['legaView'] = 1;
 }
 
-$legaObj = new lega();
-
 /**
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
 
-
-$giornataObj = new giornata();
-$giornata = $giornataObj->getGiornataByDate();
+$giornata = Giornata::getGiornataByDate();
 define("GIORNATA",$giornata['idGiornata']);
 define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
 
-$leghe = $legaObj->getLeghe();
+$leghe = Lega::getLeghe();
 $layoutTpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
 	$_SESSION['legaView'] = $leghe[0]->idLega;
@@ -193,10 +183,8 @@ if ($_SESSION['logged'])
 	require_once(INCDIR . 'giocatore.db.inc.php');
 	require_once(INCDIR . 'trasferimento.db.inc.php');
 	
-	$giocatoreObj = new giocatore();
-	$trasferimentoObj = new trasferimento();
-	$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
-	if($giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
+	$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
+	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
 		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 if(DEBUG)

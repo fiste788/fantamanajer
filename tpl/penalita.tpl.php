@@ -17,7 +17,7 @@
 			<?php $i++;$flag = $key; endforeach; ?>
 		</tbody>
 	</table>
-	<div id="tab_classifica" class="column last"  style="height:<?php echo (27 * (count($this->classificaDett) +1)) +18; ?>px">
+	<div id="tab_classifica" class="column last" style="height:<?php echo (27 * (count($this->classificaDett) +1)) +18; ?>px">
 	<?php $appo = array_keys($this->classificaDett); $i = $appo[0]; ?>
 	<?php if(key($this->classificaDett[$flag]) != 0): ?>
 	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
@@ -31,7 +31,7 @@
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>
 				<td<?php echo (isset($this->penalità[$key][$secondKey])) ? ' title="Penalità: ' . $this->penalità[$key][$secondKey] . ' punti" class="rosso"' : ''; ?>>
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]->idUtente)); ?>"><?php echo $val[$secondKey]; ?></a>
+					<a href="<?php echo Links::getLink('dettaglioGiornata',array('giornata'=>$secondKey,'squadra'=>$this->squadre[$key]->idUtente)); ?>"><?php echo $val[$secondKey]; ?></a>
 				</td>
 				<?php endforeach; ?>
 			</tr>
@@ -43,7 +43,7 @@
 </div>
 <?php endif; ?>
 <?php if(isset($this->squadra) && $this->squadra != NULL): ?>
-<form class="column last" id="penalità" action="<?php echo $this->linksObj->getLink('penalita'); ?>" method="post">
+<form class="column last" id="penalità" action="<?php echo Links::getLink('penalita'); ?>" method="post">
 	<fieldset class="no-margin">
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>" />
 		<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>" />

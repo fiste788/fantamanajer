@@ -1,4 +1,4 @@
-<form action="<?php echo $this->linksObj->getLink('giornate'); ?>" method="post">
+<form action="<?php echo Links::getLink('giornate'); ?>" method="post">
 	<fieldset class="no-margin no-padding">
 		<table cellpadding="0" cellspacing="0">
 			<tr>

@@ -1,5 +1,5 @@
 <?php 
-class lega extends dbTable
+class Lega extends DbTable
 {
 	var $idLega;
 	var $nomeLega;
@@ -8,7 +8,7 @@ class lega extends dbTable
 	var $numSelezioni;
 	var $minFormazione;
 	
-	function getLeghe()
+	public static function getLeghe()
 	{
 		$q = "SELECT * 
 				FROM lega";
@@ -20,7 +20,7 @@ class lega extends dbTable
 		return $values; 
 	}
 	
-	function getLegaById($idLega)
+	public static function getLegaById($idLega)
 	{
 		$q = "SELECT * 
 				FROM lega
@@ -31,7 +31,7 @@ class lega extends dbTable
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
-	function updateImpostazioni($impostazioni)
+	public static function updateImpostazioni($impostazioni)
 	{
 		$q = "UPDATE lega SET ";
 		foreach ($impostazioni as $key=>$val)
@@ -43,7 +43,7 @@ class lega extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function getDefaultValue()
+	public static function getDefaultValue()
 	{
 		$q = "SHOW COLUMNS
 				FROM lega";

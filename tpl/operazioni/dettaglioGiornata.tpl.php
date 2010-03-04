@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo $this->linksObj->getLink('dettaglioGiornata'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('dettaglioGiornata'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
 		<input type="hidden" name="p" value="<?php echo $_GET['p'];?>" />
 		<h3 class="no-margin">Seleziona la giornata</h3>

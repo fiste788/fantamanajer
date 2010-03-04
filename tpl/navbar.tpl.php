@@ -37,9 +37,9 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 			<?php endif; ?>
 			<div>
 				<?php if($key == 'dettaglioSquadra'): ?>
-				<a href="<?php echo $this->linksObj->getLink($key,array('squadra'=>$_SESSION['idSquadra'])); ?>"><?php echo $val['title']; ?></a>
+				<a href="<?php echo Links::getLink($key,array('squadra'=>$_SESSION['idSquadra'])); ?>"><?php echo $val['title']; ?></a>
 				<?php else: ?>
-				<a href="<?php echo $this->linksObj->getLink($key); ?>"><?php echo $val['title']; ?></a>
+				<a href="<?php echo Links::getLink($key); ?>"><?php echo $val['title']; ?></a>
 				<?php endif; ?>
 				<?php if($selected && !isset($this->pages[$this->p]['navbar']['main'])): ?>
 					<a class="son"> > </a>

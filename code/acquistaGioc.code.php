@@ -1,12 +1,10 @@
 <?php 
 require_once(INCDIR . 'trasferimento.db.inc.php');
 
-$trasferimentoObj = new trasferimento();
-$giornataObj = new giornata();
 $logger->start("ACQUISTA GIOCATORI");
 $today = date("Y-m-d");
-$giornataCurrent = $giornataObj->getGiornataByDate();
-$date = $giornataObj->getDataByGiornata($giornataCurrent['idGiornata']);
+$giornataCurrent = Giornata::getGiornataByDate();
+$date = Giornata::getDataByGiornata($giornataCurrent['idGiornata']);
 $giorn = explode(' ',$date->dataFine);
 $dataGiornata = $giorn[0];
 

@@ -1,8 +1,6 @@
 <?php 
 require_once(INCDIR . 'giocatore.db.inc.php');
 
-$giocatoreObj = new giocatore();
-
 $filterOrder = NULL;
 $filterVersus = NULL;
 $ruoli = array('P' => 'Portieri', 'D' => 'Difensori', 'C' => 'Centrocampisti', 'A' =>'Attaccanti');
@@ -46,7 +44,7 @@ if(is_numeric($filterSuff) && is_numeric($filterPartite))
 else
 	$contentTpl->assign('validFilter',FALSE);
 
-$freeplayer = $giocatoreObj->getFreePlayer($filterRuolo,$_SESSION['legaView']);
+$freeplayer = Giocatore::getFreePlayer($filterRuolo,$_SESSION['legaView']);
 foreach($freeplayer as $key => $val)
 {
 	if(isset($val->mediaPunti))
@@ -87,13 +85,13 @@ $orderBy[] = array('campo'=>'presenzeVoto','default'=>'desc');
 foreach($orderBy as $key => $val)
 {
 	if(!isset($v) || $filterOrder != $val['campo'])
-		$link[$val['campo']] = $contentTpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
+		$link[$val['campo']] = Links::getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>$val['default'],'ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 	elseif($order == $val['campo'])
 	{
 		if($filterVersus == 'asc')
-			$link[$val['campo']] = $contentTpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
+			$link[$val['campo']] = Links::getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'desc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 		else
-			$link[$val['campo']] = $contentTpl->linksObj->getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
+			$link[$val['campo']] = Links::getLink('giocatoriLiberi',array('order'=>$val['campo'],'v'=>'asc','ruolo'=>$filterRuolo,'suff'=>$filterSuff,'partite'=>$filterPartite));
 	}
 }
 

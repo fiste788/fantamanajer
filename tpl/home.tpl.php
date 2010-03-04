@@ -10,16 +10,16 @@
 			<?php if($giocatori != FALSE): ?>
 			<?php foreach($giocatori as $key=>$val): ?>
 			<?php if($key == 0): ?>
-				<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+				<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 					<?php if(file_exists(PLAYERSDIR . $val->idGioc . '.jpg')): ?>
 						<img height="180" width="140" alt="<?php echo $val->cognome . ' ' . $val->nome; ?>" src="<?php echo PLAYERSURL . $val->idGioc . '.jpg'; ?>" />
 					<?php else: ?>
 						<img height="180" width="140" alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
 					<?php endif; ?>
 				</a>
-				<h4><a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a></h4>
+				<h4><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a></h4>
 			<?php else: ?>
-				<a class="neutral" href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a><br />
+				<a class="neutral" href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a><br />
 			<?php endif; ?>
 			<?php endforeach; ?>
 			<?php endif; ?>
@@ -48,7 +48,7 @@
 			</li>
 		<?php endforeach; ?>
 		</ul>
-		<a class="right" href="<?php echo $this->linksObj->getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
+		<a class="right" href="<?php echo Links::getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
 	</div>
 </div>
 <?php endif; ?>
@@ -58,8 +58,8 @@
 	<?php foreach($this->articoli as $key => $val): ?>
 		<div class="box column<?php if($i % 2 == 0) echo ' last'; ?>">
 			<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val->idSquadra): ?>
-				<a class="edit column last" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'edit','id'=>$val->idArticolo)); ?>" title="Modifica"></a>
-				<a class="remove column" href="<?php echo $this->linksObj->getLink('modificaConferenza',array('a'=>'cancel','id'=>$val->idArticolo)); ?>" title="Cancella"></a>
+				<a class="edit column last" href="<?php echo Links::getLink('modificaConferenza',array('a'=>'edit','id'=>$val->idArticolo)); ?>" title="Modifica"></a>
+				<a class="remove column" href="<?php echo Links::getLink('modificaConferenza',array('a'=>'cancel','id'=>$val->idArticolo)); ?>" title="Cancella"></a>
 			<?php endif; ?>
 			<em>
 				<span class="column last"><?php echo $val->username; ?></span>

@@ -1,4 +1,4 @@
-<form class="column last" name="form_modulo" action="<?php echo $this->linksObj->getLink('formazioneBasic'); ?>" method="post">
+<form class="column last" name="form_modulo" action="<?php echo Links::getLink('formazioneBasic'); ?>" method="post">
 	<fieldset id="modulo" class="no-margin fieldset">
 		<h3 class="no-margin">Seleziona il modulo:</h3>
 		<select name="mod" onchange="this.form.submit();">
@@ -13,7 +13,7 @@
 		</select>
 	</fieldset>
 </form>
-<form class="right last" name="formazione_other" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
+<form class="right last" name="formazione_other" action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 	  <input type="hidden" name="p" value="formazioniAll" />
 		<h3 class="no-margin">Guarda le altre formazioni</h3>

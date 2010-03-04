@@ -4,8 +4,6 @@ require_once(INCDIR . "evento.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
 $articoloObj = new articolo();
-$eventoObj = new evento();
-$emoticonObj = new emoticon();
 
 $filterAction = NULL;
 $filterId = NULL;
@@ -26,7 +24,7 @@ if(isset($_POST['submit']))
 	if($filterAction == 'cancel')
 	{
 		$articoloObj->delete($articoloObj);
-		$eventoObj->deleteEventoByIdExternalAndTipo($filterId,'1');
+		Evento::deleteEventoByIdExternalAndTipo($filterId,'1');
 		$message->success('Cancellazione effettuata con successo');
 		$_SESSION['message'] = $message;
 		header("Location: " . $contentTpl->linksObj->getLink('conferenzeStampa'));
@@ -66,7 +64,7 @@ if(isset($_POST['submit']))
 				$message->success("Modifica effettuata con successo");
 			}
 			$_SESSION['message'] = $message;
-			header("Location: ". $contentTpl->linksObj->getLink('conferenzeStampa'));
+			header("Location: " . $contentTpl->linksObj->getLink('conferenzeStampa'));
 		}
 		else
 			$message->error("Non hai compilato correttamente tutti i campi");
@@ -102,7 +100,7 @@ $contentTpl->assign('action',$filterAction);
 $contentTpl->assign('title',$title);
 $contentTpl->assign('abstract',$abstract);
 $contentTpl->assign('text',$text);
-$contentTpl->assign('emoticons',$emoticonObj->emoticon);
+$contentTpl->assign('emoticons',Emoticon::$emoticon);
 $contentTpl->assign('button',$button);
 $contentTpl->assign('goTo',$goTo);
 ?>

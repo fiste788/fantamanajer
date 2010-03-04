@@ -3,9 +3,7 @@ require_once(INCDIR . "articolo.db.inc.php");
 require_once(INCDIR . "utente.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
-$emoticonObj = new emoticon();
-$articoloObj = new articolo();
-$utenteObj = new utente();
+$articoloObj = new Articolo();
 
 $filterGiornata = GIORNATA;
 if (!empty($_GET['giornata']))
@@ -19,7 +17,7 @@ $articoloObj->setidlega($_SESSION['legaView']);
 $articolo = $articoloObj->select($articoloObj,'=','*');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
-		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,EMOTICONSURL);
+		$articolo[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
 
 $giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['legaView']);
 if($giornateWithArticoli != FALSE)
@@ -38,7 +36,7 @@ else
 if(isset($giornateWithArticoli[$key + 1]))
 {
 	$idPrec = $giornateWithArticoli[$key + 1];
-	$quickLinks->prec->href = $contentTpl->linksObj->getLink('conferenzeStampa',array('giornata'=>$idPrec));
+	$quickLinks->prec->href = Links::getLink('conferenzeStampa',array('giornata'=>$idPrec));
 	$quickLinks->prec->title = "Giornata " . $idPrec;
 }
 else
@@ -49,7 +47,7 @@ else
 if(isset($giornateWithArticoli[$key -1]))
 {
 	$idSucc = $giornateWithArticoli[$key - 1];
-	$quickLinks->succ->href = $contentTpl->linksObj->getLink('conferenzeStampa',array('giornata'=>$idSucc));
+	$quickLinks->succ->href = Links::getLink('conferenzeStampa',array('giornata'=>$idSucc));
 	$quickLinks->succ->title = "Giornata " . $idSucc;
 }
 else
@@ -59,7 +57,7 @@ else
 }
 
 $contentTpl->assign('articoli',$articolo);
-$contentTpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$contentTpl->assign('squadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
 $operationTpl->assign('idGiornata',$filterGiornata);
 $operationTpl->assign('giornateWithArticoli',$giornateWithArticoli);
 $layoutTpl->assign('quickLinks',$quickLinks);

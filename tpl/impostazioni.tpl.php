@@ -1,4 +1,4 @@
-<form action="<?php echo $this->linksObj->getLink('impostazioni'); ?>" method="post">
+<form action="<?php echo Links::getLink('impostazioni'); ?>" method="post">
 	<fieldset>
 		<div class="formbox">
 			<label>Nome lega</label>

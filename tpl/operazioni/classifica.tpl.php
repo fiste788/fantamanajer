@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo $this->linksObj->getLink('classifica'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('classifica'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Guarda la classifica alla giornata</h3>
 		<select name="giornata" onchange="this.form.submit();">

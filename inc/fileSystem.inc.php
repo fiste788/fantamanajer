@@ -1,7 +1,7 @@
 <?php 
-class fileSystem
+class FileSystem
 {
-	static function getDirIntoFolder($folder) 
+	public static function getDirIntoFolder($folder) 
 	{
 		$output = array();
 		if ($handle = opendir($folder)) 
@@ -21,7 +21,7 @@ class fileSystem
 		}
 	}
 	
-	static function getFileIntoFolder($folder) 
+	public static function getFileIntoFolder($folder) 
 	{
 		$output = array();
 		if ($handle = opendir($folder)) 
@@ -41,7 +41,7 @@ class fileSystem
 		}
 	}
 	
-	static function getFileIntoFolderRecursively($directory, $recursive) 
+	public static function getFileIntoFolderRecursively($directory, $recursive) 
 	{
 		$array_items = array();
 		if ($handle = opendir($directory)) 
@@ -69,7 +69,7 @@ class fileSystem
 		return $array_items;
 	}
 	
-	static function returnArray($path,$sep = ";") 
+	public static function returnArray($path,$sep = ";") 
 	{
 		if(!file_exists($path)) 
 			die("File non esistente");
@@ -84,7 +84,7 @@ class fileSystem
 		return $playersOk;
 	}
 	
-	static function contenutoCurl($url)
+	public static function contenutoCurl($url)
 	{
 		$handler = curl_init();
 		curl_setopt($handler, CURLOPT_URL, $url);
@@ -98,7 +98,7 @@ class fileSystem
 		return $string;
 	}
 	
-	static function scaricaVotiCsv($giornata)
+	public static function scaricaVotiCsv($giornata)
 	{
 		$nomeFile = str_pad($giornata,2,"0",STR_PAD_LEFT);
 		$percorso = VOTICSVDIR . "Giornata" . $nomeFile . ".csv";
@@ -127,7 +127,6 @@ class fileSystem
 			preg_match_all('#<tr[^>]*>(.*?)</tr>#mis', $matches[1],$keywords);
 			$keywords = $keywords[1];
 			unset($keywords[0]);
-			print $keywords;
 			foreach($keywords as $key)
 			{
 				preg_match_all("#<td[^>]*>(.*?)</td>#mis",$key,$player);
@@ -145,12 +144,12 @@ class fileSystem
 				}
 			}
 		}
-		$this->writeXmlVoti($xmlArray,$percorsoXml);
+		self::writeXmlVoti($xmlArray,$percorsoXml);
 		fclose($handle);
 		return TRUE;
 	}
 	
-	static function writeXmlVoti($tree,$percorso) 
+	protected static function writeXmlVoti($tree,$percorso) 
 	{
 		$xml = new XmlWriter();
 		$xml->openURI($percorso);
@@ -175,7 +174,7 @@ class fileSystem
 		$xml->endDocument();
 	}
 	
-	static function writeXmlVotiDecript($tree,$percorso) 
+	public static function writeXmlVotiDecript($tree,$percorso) 
 	{
 		$xml = new XmlWriter();
 		$ruoli = array("P","D","C","A");
@@ -209,7 +208,7 @@ class fileSystem
 		$xml->endDocument();
 	}
 	
-	static function scaricaLista($percorso)
+	public static function scaricaLista($percorso)
 	{
 		if(file_exists($percorso))
 			unlink($percorso);
@@ -240,7 +239,7 @@ class fileSystem
 		fclose($handle);
 	}
 	
-	static function getLastBackup()
+	public static function getLastBackup()
 	{
 		$nomeBackup = @file_get_contents("http://static.fantamanajer.it/docs/nomeBackup.txt");
 		if(!empty($nomeBackup) && file('http://administrator:banana@static.fantamanajer.it/db/' . $nomeBackup . '.sql.gz') != FALSE)

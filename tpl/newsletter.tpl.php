@@ -1,5 +1,5 @@
 <?php if(isset($this->lega)): ?>
-<form name="newsletter" class="column last" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
+<form name="newsletter" class="column last" action="<?php echo Links::getLink('newsletter'); ?>" method="post">
 	<fieldset class="column last">
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>">
 		<div class="formbox">

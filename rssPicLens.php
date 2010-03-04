@@ -6,12 +6,10 @@
 
 	//Creating a new db istance
 	$dbObj = new db;
-	$utenteObj = new utente();
 	
 	define("DEBUG",FALSE);
 	
-	$squadre = $utenteObj->getAllSquadre();
-	//echo "<pre>".print_r($squadre,1)."</pre>";
+	$squadre = Utente::getAllSquadre();
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML
 	header("Content-type: text/xml;charset=\"utf-8\"");

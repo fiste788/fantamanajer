@@ -9,9 +9,7 @@
 	
 	//Creating a new db istance
 	$dbObj = new db;
-	$eventoObj = new evento();
-	$emoticonObj = new emoticon();
-	$eventi = $eventoObj->getEventi($_GET['lega'],NULL,0,50);
+	$eventi = Evento::getEventi($_GET['lega'],NULL,0,50);
 	//echo "<pre>".print_r($eventi,1)."</pre>";
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML
@@ -36,7 +34,7 @@
 	echo "<language>IT-it</language>\n";
 	foreach($eventi as $key=>$val)
 	{
-		$val->content = $emoticonObj->replaceEmoticon($val->content,EMOTICONSURL);
+		$val->content = Emoticon::replaceEmoticon($val->content,EMOTICONSURL);
 		echo "<item>\n";
 		echo "<title><![CDATA[" . $val->titolo . "]]></title>\n";
 		echo "<pubDate>" . $val->pubData . "</pubDate>\n";

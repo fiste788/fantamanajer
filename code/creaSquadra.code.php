@@ -5,11 +5,6 @@ require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
-$utenteObj = new utente();
-$squadraObj = new squadra();
-$giocatoreObj = new giocatore();
-$legaObj = new lega();
-$mailObj = new mail();
 $mailContent = new Savant3();
 
 $filterAction = NULL;
@@ -37,8 +32,8 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 	{
 		if($filterAction == 'cancel' || $filterAction == 'edit')
 		{
-			$squadraDett = $utenteObj->getSquadraById($filterId);
-			$contentTpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
+			$squadraDett = Utente::getSquadraById($filterId);
+			$contentTpl->assign('giocatori',array_values(Giocatore::getGiocatoriByIdSquadra($filterId)));
 			$contentTpl->assign('datiSquadra',$squadraDett);
 		}
 	}
@@ -48,7 +43,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 		{
 			if($utenteObj->deleteSquadra($filterId))
 			{
-				$squadraObj->unsetSquadraGiocatoreByIdSquadra($filterId);
+				Squadra::unsetSquadraGiocatoreByIdSquadra($filterId);
 				$message->success("Cancellazione effettuata correttamente");
 				unset($_POST);
 			}
@@ -67,7 +62,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 			{
 				if(isset($_POST['mail']))
 				{
-					if(!$mailObj->checkEmailAddress($_POST['mail']))
+					if(!Mail::checkEmailAddress($_POST['mail']))
 						$message->error("Mail non corretta");
 					else
 						$email = $_POST['mail'];
@@ -75,7 +70,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				if(isset($_POST['nome']))
 				{
 					$nomeSquadra = addslashes(stripslashes(trim($_POST['nome'])));
-					if($utenteObj->getSquadraByNome(addslashes(stripslashes(trim($_POST['nome']))),$filterId) != FALSE)
+					if(Utente::getSquadraByNome(addslashes(stripslashes(trim($_POST['nome']))),$filterId) != FALSE)
 						$message->error("Il nome della squadra è già presente");
 				}
 				else
@@ -97,7 +92,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				else
 					$message->error("Non hai compilato tutti i giocatori");
 			}
-			if($utenteObj->getSquadraByUsername(addslashes(stripslashes(trim($_POST['usernamenew']))),$filterId) != FALSE)
+			if(Utente::getSquadraByUsername(addslashes(stripslashes(trim($_POST['usernamenew']))),$filterId) != FALSE)
 				$message->error("Un altro utente con questo username è già presente");
 			if(!$message->show)
 			{
@@ -110,30 +105,30 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				$cognome = addslashes(stripslashes(trim($_POST['cognome'])));
 				if($filterAction == 'edit')
 				{
-					$utenteObj->changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,"",$amministratore,$filterId);
-					$giocatoriOld = array_keys($giocatoreObj->getGiocatoriByIdSquadra($filterId));
+					Utente::changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,"",$amministratore,$filterId);
+					$giocatoriOld = array_keys(Giocatore::getGiocatoriByIdSquadra($filterId));
 					foreach($giocatori as $key => $val)
 						if(!in_array($val,$giocatoriOld))
-							$squadraObj->updateGiocatore($val,$giocatoriOld[$key],$filterId);
+							Squadra::updateGiocatore($val,$giocatoriOld[$key],$filterId);
 					unset($_POST);
-					$contentTpl->assign('giocatori',array_values($giocatoreObj->getGiocatoriByIdSquadra($filterId)));
-					$contentTpl->assign('datiSquadra',$utenteObj->getSquadraById($filterId));
+					$contentTpl->assign('giocatori',array_values(Giocatore::getGiocatoriByIdSquadra($filterId)));
+					$contentTpl->assign('datiSquadra',Utente::getSquadraById($filterId));
 					$message->success("Squadra modificata correttamente");
 				}
 				else
 				{
-					$password = $utenteObj->createRandomPassword();
+					$password = Utente::createRandomPassword();
 					$dbObj->startTransaction();
-					$squadra = $utenteObj->addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),$nomeSquadra,$nome,$cognome,$amministratore,$password,$email,$filterLega);
-					$squadraObj->setSquadraGiocatoreByArray($filterLega,$giocatori,$squadra);
+					$squadra = Utente::addSquadra(addslashes(stripslashes(trim($_POST['usernamenew']))),$nomeSquadra,$nome,$cognome,$amministratore,$password,$email,$filterLega);
+					Squadra::setSquadraGiocatoreByArray($filterLega,$giocatori,$squadra);
 					$dbObj->commit();
 					$filterId = $squadra;
 					$message->success("Squadra creata correttamente");
 					$mailContent->assign('username',$_POST['usernamenew']);
 					$mailContent->assign('squadra',$_POST['nome']);
 					$mailContent->assign('password',$password);
-					$mailContent->assign('lega',$legaObj->getLegaById($filterLega));
-					$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
+					$mailContent->assign('lega',Lega::getLegaById($filterLega));
+					$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idSquadra']));
 					$object = "Benvenuto nel FantaManajer!";
 					//$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
 					$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR . 'mailBenvenuto.tpl.php'),$object);
@@ -153,10 +148,10 @@ if(isset($filterAction))
 		case 'cancel': $button = 'Cancella'; break; 
 	}
 }
-$contentTpl->assign('portieri',$giocatoreObj->getFreePlayer('P',$filterLega));
-$contentTpl->assign('difensori',$giocatoreObj->getFreePlayer('D',$filterLega));
-$contentTpl->assign('centrocampisti',$giocatoreObj->getFreePlayer('C',$filterLega));
-$contentTpl->assign('attaccanti',$giocatoreObj->getFreePlayer('A',$filterLega));
+$contentTpl->assign('portieri',Giocatore::getFreePlayer('P',$filterLega));
+$contentTpl->assign('difensori',Giocatore::getFreePlayer('D',$filterLega));
+$contentTpl->assign('centrocampisti',Giocatore::getFreePlayer('C',$filterLega));
+$contentTpl->assign('attaccanti',Giocatore::getFreePlayer('A',$filterLega));
 $contentTpl->assign('lega',$filterLega);
 $contentTpl->assign('id',$filterId);
 $contentTpl->assign('action',$filterAction);
@@ -168,8 +163,8 @@ elseif($filterAction != NULL)
 $contentTpl->assign('goTo',$goTo);
 $contentTpl->assign('button',$button);
 if($filterLega != NULL)
-	$operationTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
-$operationTpl->assign('elencoLeghe',$legaObj->getLeghe());
+	$operationTpl->assign('elencoSquadre',Utente::getElencoSquadreByLega($filterLega));
+$operationTpl->assign('elencoLeghe',Lega::getLeghe());
 $operationTpl->assign('lega',$filterLega);
 $operationTpl->assign('id',$filterId);
 $operationTpl->assign('action',$filterAction);

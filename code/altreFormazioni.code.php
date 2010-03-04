@@ -3,10 +3,6 @@ require_once(INCDIR . "utente.db.inc.php");
 require_once(INCDIR . "formazione.db.inc.php");
 require_once(INCDIR . "giocatore.db.inc.php");
 
-$utenteObj = new utente();
-$formazioneObj = new formazione();
-$giocatoreObj = new giocatore();
-
 $filterSquadra = $_SESSION['idSquadra'];
 $filterGiornata = GIORNATA;
 if(isset($_GET['squadra']))
@@ -25,12 +21,12 @@ $elencoCap = array('C','VC','VVC');
 $contentTpl->assign('ruo',$ruo);
 $contentTpl->assign('elencoCap',$elencoCap);
 
-$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata);
-$formImp = $formazioneObj->getFormazioneExistByGiornata($filterGiornata,$_SESSION['legaView']);
+$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata);
+$formImp = Formazione::getFormazioneExistByGiornata($filterGiornata,$_SESSION['legaView']);
 
 if($formazione != FALSE)
 {
-	$giocatori = $giocatoreObj->getGiocatoriByArray($formazione->elenco);
+	$giocatori = Giocatore::getGiocatoriByArray($formazione->elenco);
 	foreach($giocatori as $key=>$val)
 		$giocatoriNew[$val->idGioc] = $val;
 	$contentTpl->assign('giocatoriId',$giocatoriNew);
