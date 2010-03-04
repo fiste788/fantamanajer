@@ -1,5 +1,5 @@
 <?php
-class dbTable
+class DbTable
 {
 	protected static function sqlError($q)
 	{

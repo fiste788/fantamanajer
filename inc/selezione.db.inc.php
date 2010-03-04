@@ -1,5 +1,5 @@
 <?php 
-class selezione extends dbTable
+class Selezione extends DbTable
 {
 	var $idLega;
 	var $idSquadra;
@@ -7,7 +7,7 @@ class selezione extends dbTable
 	var $giocNew;
 	var $numSelezioni;
 	
-	function getSelezioni()
+	public static function getSelezioni()
 	{
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
@@ -22,7 +22,7 @@ class selezione extends dbTable
 			return FALSE;
 	}
 	
-	function getSelezioneByIdSquadra($idSquadra)
+	public static function getSelezioneByIdSquadra($idSquadra)
 	{
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
@@ -33,7 +33,7 @@ class selezione extends dbTable
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
-	function unsetSelezioneByIdSquadra($idSquadra)
+	public static function unsetSelezioneByIdSquadra($idSquadra)
 	{
 		$q = "UPDATE selezione 
 				SET giocOld = NULL,giocNew = NULL 
@@ -43,7 +43,7 @@ class selezione extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function checkFree($idGioc,$idLega)
+	public static function checkFree($idGioc,$idLega)
 	{
 		$q = "SELECT idSquadra 
 				FROM selezione 
@@ -60,7 +60,7 @@ class selezione extends dbTable
 			return FALSE;
 	}
 	
-	function updateGioc($giocNew,$giocOld,$idLega,$idSquadra)
+	public static function updateGioc($giocNew,$giocOld,$idLega,$idSquadra)
 	{
 		self::startTransaction();
 		$q = "SELECT numSelezioni 
@@ -116,7 +116,7 @@ class selezione extends dbTable
 			self::commit();
 	}
 	
-	function getNumberSelezioni($idUtente)
+	public static function getNumberSelezioni($idUtente)
 	{
 		$q = "SELECT numSelezioni 
 				FROM selezione 
@@ -130,7 +130,7 @@ class selezione extends dbTable
 		return $val;
 	}
 	
-	function svuota()
+	public static function svuota()
 	{
 		$q = "TRUNCATE TABLE selezione";
 		if(DEBUG)

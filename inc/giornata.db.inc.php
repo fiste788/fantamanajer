@@ -1,11 +1,11 @@
 <?php
-class giornata extends dbTable
+class Giornata extends DbTable
 {
 	var $idGiornata;
 	var $dataInizio;
 	var $dataFine;
 	
-	function getGiornataByDate()
+	public static function getGiornataByDate()
 	{
 		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
 		$q = "SELECT idGiornata 
@@ -28,11 +28,11 @@ class giornata extends dbTable
 			$valore = mysql_fetch_assoc($exe);
 			$valore['partiteInCorso'] = TRUE;
 		}
-		$valore['stagioneFinita'] = $valore['idGiornata'] > ($this->getNumberGiornate() - 1) ? TRUE : FALSE;
+		$valore['stagioneFinita'] = $valore['idGiornata'] > (self::getNumberGiornate() - 1) ? TRUE : FALSE;
 		return $valore;
 	}
 	
-	function checkDay($day)
+	public static function checkDay($day)
 	{
 		$q = "SELECT dataInizio,idGiornata 
 				FROM giornata 
@@ -55,7 +55,7 @@ class giornata extends dbTable
 			return FALSE;
 	}
 	
-	function getDataByGiornata($giornata)
+	public static function getDataByGiornata($giornata)
 	{
 		$q = "SELECT * 
 				FROM giornata 
@@ -66,7 +66,7 @@ class giornata extends dbTable
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
-	function getNumberGiornate()
+	public static function getNumberGiornate()
 	{
 		$q = "SELECT COUNT(idGiornata) as numeroGiornate
 				FROM giornata";
@@ -77,7 +77,7 @@ class giornata extends dbTable
 		return $values->numeroGiornate;
 	}
 	
-	function getAllGiornate()
+	public static function getAllGiornate()
 	{
 		$q = "SELECT * 
 				FROM giornata";
@@ -89,7 +89,7 @@ class giornata extends dbTable
 		return $giornate;
 	}
 	
-	function getTargetCountdown()
+	public static function getTargetCountdown()
 	{
 		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
 		$q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE as dataFine
@@ -102,7 +102,7 @@ class giornata extends dbTable
 		return $values->dataFine;
 	}
 	
-	function updateGiornate($giornate)
+	public static function updateGiornate($giornate)
 	{
 		$bool = TRUE;
 		foreach($giornate as $key => $val)

@@ -5,24 +5,18 @@ require_once(INCDIR . "evento.db.inc.php");
 require_once(INCDIR . "giocatore.db.inc.php");
 require_once(INCDIR . "punteggio.db.inc.php");
 
-$utenteObj = new utente();
-$formazioneObj = new formazione();
-$eventoObj = new evento();
-$giocatoreObj = new giocatore();
-$punteggioObj = new punteggio();
-
 $filterSquadra = NULL;
 if(isset($_POST['squadra']))
 	$filterSquadra = $_POST['squadra'];
 $contentTpl->assign('squadra',$filterSquadra);
 
-$val = $utenteObj->getElencoSquadre();
+$val = Utente::getElencoSquadre();
 $contentTpl->assign('elencosquadre',$val);
 	
 if(PARTITEINCORSO == TRUE)
-	header("Location: " . $contentTpl->linksObj->getLink('altreFormazioni'));
+	header("Location: " . Links::getLink('altreFormazioni'));
 
-$formImp = $formazioneObj->getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
+$formImp = Formazione::getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
 if(isset($formImp[$_SESSION['idSquadra']]) && !PARTITEINCORSO)
 	unset($formImp[$_SESSION['idSquadra']]);
 $contentTpl->assign('formazioniImpostate',$formImp);
@@ -36,8 +30,8 @@ $contentTpl->assign('ruo',$ruo);
 $contentTpl->assign('elencoCap',$elencoCap);
 if(!PARTITEINCORSO)
 {
-	$formazioneOld = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
-	$giocatori = $giocatoreObj->getGiocatoriByIdSquadra($_SESSION['idSquadra']);
+	$formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$giocatori = Giocatore::getGiocatoriByIdSquadra($_SESSION['idSquadra']);
 	$contentTpl->assign('giocatori',array_values($giocatori));
 	$contentTpl->assign('giocatoriId',$giocatori);
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
@@ -82,7 +76,7 @@ if(!PARTITEINCORSO)
 		{
 			if(!empty($val))
 			{
-				$ruoloGioc = $giocatoreObj->getRuoloByIdGioc($val);
+				$ruoloGioc = Giocatore::getRuoloByIdGioc($val);
 				if( $ruoloGioc == 'P' || $ruoloGioc == 'D' )
 				{
 					if( !in_array($val,$capitano))
@@ -106,11 +100,11 @@ if(!PARTITEINCORSO)
 			unset($_POST);
 			if(!$formazioneOld)
 			{
-				$id = $formazioneObj->caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
-				$eventoObj->addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
+				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
+				Evento::addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = $formazioneObj->updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
+				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
 			$message->success('Formazione caricata correttamente');
 		}
 		else
@@ -120,7 +114,7 @@ if(!PARTITEINCORSO)
 		if ($frega > 0)
 			$message->error('Stai cercando di fregarmi?');
 	}
-	$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
+	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
 	if($formazione)
 	{
 		$modulo = $formazione->modulo;

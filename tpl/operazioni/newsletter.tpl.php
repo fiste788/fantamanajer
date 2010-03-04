@@ -1,4 +1,4 @@
-<form class="right last" action="<?php echo $this->linksObj->getLink('newsletter'); ?>" method="post">
+<form class="right last" action="<?php echo Links::getLink('newsletter'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<h3 class="no-margin">Seleziona la lega</h3>
 			<select name="lega" onchange="this.form.submit();">

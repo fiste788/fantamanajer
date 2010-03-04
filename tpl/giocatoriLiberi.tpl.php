@@ -1,6 +1,6 @@
 <?php if($this->validFilter): ?>
 	<?php if(!PARTITEINCORSO || !STAGIONEFINITA): ?>
-		<form action="<?php echo $this->linksObj->getLink('trasferimenti',array('squadra'=>$_SESSION['idSquadra'])); ?>" method="post">
+		<form action="<?php echo Links::getLink('trasferimenti',array('squadra'=>$_SESSION['idSquadra'])); ?>" method="post">
 			<fieldset class="no-margin no-padding">
 	<?php endif; ?>
 	<table cellpadding="0" cellspacing="0">
@@ -19,7 +19,7 @@
 			<tr>
 				<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val->idGioc; ?>" /></td><?php endif; ?>
 				<td class="tableimg">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 				<?php if($val->voti >= $this->suff && $val->presenzeVoto >= $this->partite ||GIORNATA == 1): ?>
 					<img alt="Verde" title="Verde" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
 				<?php elseif($val->voti >= $this->suff || $val->presenzeVoto >= $this->partite): ?>

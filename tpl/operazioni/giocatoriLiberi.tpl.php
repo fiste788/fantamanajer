@@ -1,4 +1,4 @@
-<form id="freeplayeropt" class="column last" action="<?php echo $this->linksObj->getLink('giocatoriLiberi'); ?>" method="post">
+<form id="freeplayeropt" class="column last" action="<?php echo Links::getLink('giocatoriLiberi'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<input type="hidden" name="p" value="<?php echo $_GET['p'];?>" />
 		<?php if(isset($this->order)): ?>

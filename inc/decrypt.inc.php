@@ -1,5 +1,5 @@
 <?php 
-class decrypt
+class Decrypt
 {
 /*campi file .rcs
 	0	cod
@@ -28,7 +28,7 @@ class decrypt
 	27	costo
 	
 */
-	static function decryptCdfile($giornata)
+	public static function decryptCdfile($giornata)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
 		

@@ -1,11 +1,11 @@
 <?php 
-class squadra extends dbTable
+class Squadra extends DbTable
 {
 	var $idLega;
 	var $idUtente;
 	var $idGioc;
 	
-	function setSquadraGiocatoreByArray($idLega,$giocatori,$idUtente)
+	public static function setSquadraGiocatoreByArray($idLega,$giocatori,$idUtente)
 	{
 		$q = "INSERT INTO squadra VALUES ";
 		foreach($giocatori as $key => $val)
@@ -16,7 +16,7 @@ class squadra extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function unsetSquadraGiocatoreByIdSquadra($idUtente)
+	public static function unsetSquadraGiocatoreByIdSquadra($idUtente)
 	{
 		$q = "DELETE 
 				FROM squadra 
@@ -26,7 +26,7 @@ class squadra extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function updateGiocatore($giocatoreNew,$giocatoreOld,$idUtente)
+	public static function updateGiocatore($giocatoreNew,$giocatoreOld,$idUtente)
 	{
 		$q = "UPDATE squadra 
 				SET idGioc = '" . $giocatoreNew . "' 
@@ -36,7 +36,7 @@ class squadra extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function updateGiocatoreSquadra($idGioc,$idLega,$idUtente)
+	public static function updateGiocatoreSquadra($idGioc,$idLega,$idUtente)
 	{
 		$q = "UPDATE squadra 
 				SET idUtente = '" . $idUtente . "' 
@@ -46,7 +46,7 @@ class squadra extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function getSquadraByIdGioc($idGioc,$idLega)
+	public static function getSquadraByIdGioc($idGioc,$idLega)
 	{
 		$q = "SELECT idUtente
 				FROM squadra 
@@ -60,7 +60,7 @@ class squadra extends dbTable
 		return $values;
 	}
 	
-	function setSquadraByIdGioc($idGioc,$idLega,$idUtente)
+	public static function setSquadraByIdGioc($idGioc,$idLega,$idUtente)
 	{
 		$q = "INSERT INTO squadra 
 				VALUES ('" . $idLega . "','" . $idUtente . "','" . $idGioc . "')";
@@ -69,7 +69,7 @@ class squadra extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function unsetSquadraByIdGioc($idGioc,$idLega)
+	public static function unsetSquadraByIdGioc($idGioc,$idLega)
 	{
 		$q = "DELETE
 				FROM squadra 

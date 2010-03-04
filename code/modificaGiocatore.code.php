@@ -2,8 +2,6 @@
 require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'utente.db.inc.php');
 
-$giocatoreObj = new giocatore();
-$utenteObj = new utente();
 if(isset($_POST))
 {
 	if(!empty($_FILES ['userfile']['tmp_name']))
@@ -66,9 +64,9 @@ if(isset($_POST))
 
 	if(!empty($_POST['nome']) && !empty($_POST['nome']))
 	{
-		$giocatoreObj->aggiornaGiocatore($_POST['idGioc'],addslashes($_POST['cognome']),addslashes($_POST['nome']));
+		Giocatore::aggiornaGiocatore($_POST['idGioc'],addslashes($_POST['cognome']),addslashes($_POST['nome']));
 		$message->success("Giocatore modificato correttamente");
 	}
 }
-$operationTpl->assign('giocatori',$giocatoreObj->getAllGiocatori());
+$operationTpl->assign('giocatori',Giocatore::getAllGiocatori());
 ?>

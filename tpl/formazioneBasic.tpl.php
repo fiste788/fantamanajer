@@ -2,7 +2,7 @@
 <?php if(!PARTITEINCORSO): ?>
 	<h3>Giornata <?php echo GIORNATA; ?></h3>
 	<?php if(isset($this->mod) && $this->mod != NULL): ?>
-		<form id="form-formazione" name="formazione" action="<?php echo $this->linksObj->getLink('formazioneBasic'); ?>" method="post">
+		<form id="form-formazione" name="formazione" action="<?php echo Links::getLink('formazioneBasic'); ?>" method="post">
 			<fieldset id="titolari">
 			<input type="hidden" name="mod" value="<?php echo $this->mod; ?>" />
 			<h3 class="center">Titolare</h3>

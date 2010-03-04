@@ -7,26 +7,20 @@ require_once(INCDIR . 'giornata.db.inc.php');
 require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'emoticon.inc.php');
 
-$punteggioObj = new punteggio();
-$utenteObj = new utente();
 $articoloObj = new articolo();
-$eventoObj = new evento();
-$giornataObj = new giornata();
-$giocatoreObj = new giocatore();
-$emoticonObj = new emoticon();
 
 $ruo = array('P','D','C','A');
-$giornata = $punteggioObj->getGiornateWithPunt();
+$giornata = Punteggio::getGiornateWithPunt();
 foreach ($ruo as $ruolo)
-	$bestPlayer[$ruolo] = $giocatoreObj->getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
+	$bestPlayer[$ruolo] = Giocatore::getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
 $articolo = $articoloObj->select($articoloObj,NULL,'*',0,2,'insertDate');
 if($articolo != FALSE)
 	foreach ($articolo as $key => $val)
-		$articolo[$key]->text = $emoticonObj->replaceEmoticon($val->text,EMOTICONSURL);
-$eventi = $eventoObj->getEventi(NULL,NULL,0,5);
+		$articolo[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
+$eventi = Evento::getEventi(NULL,NULL,0,5);
 
-$contentTpl->assign('dataFine',date_parse($giornataObj->getTargetCountdown()));
-$contentTpl->assign('squadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$contentTpl->assign('dataFine',date_parse(Giornata::getTargetCountdown()));
+$contentTpl->assign('squadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
 $contentTpl->assign('giornata',$giornata);
 $contentTpl->assign('bestPlayer',$bestPlayer);
 $contentTpl->assign('articoli',$articolo);

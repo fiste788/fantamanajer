@@ -1,5 +1,5 @@
 <?php
-class logger
+class Logger
 {
 	const LEVEL_INFO = 'info';
 	const LEVEL_WARNING = 'warning';

@@ -1,5 +1,5 @@
 <?php 
-class articolo extends dbTable
+class Articolo extends DbTable
 {
 	var $idArticolo;
 	var $title;

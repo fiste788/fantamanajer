@@ -1,15 +1,15 @@
 <?php
-class formazione extends dbTable
+class Formazione extends DbTable
 {
 	var $idFormazione;
 	var $idGiornata;
 	var $idUtente;
 	var $modulo;
-	var $C;
-	var $VC;
-	var $VVC;
+	var $c;
+	var $vc;
+	var $vvc;
 	
-	function getFormazioneById($id)
+	public static function getFormazioneById($id)
 	{
 		$q = "SELECT formazione.idFormazione,idUtente,idGiornata,idGioc,idPosizione,modulo,C,VC,VVC 
 				FROM formazione INNER JOIN schieramento ON formazione.idFormazione = schieramento.idFormazione 
@@ -47,11 +47,9 @@ class formazione extends dbTable
 			return FALSE;
 	}
 	
-	function caricaFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
+	public static function caricaFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
 	{
 		require_once(INCDIR . 'schieramento.db.inc.php');
-		
-		$schieramentoObj = new schieramento();
 		
 		self::startTransaction();
 		$campi = "";
@@ -78,9 +76,9 @@ class formazione extends dbTable
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
-			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
+			Schieramento::setGiocatore($idFormazione,$player,$key + 1);
 		for ($i = $key + 2; $i <= 18 ; $i++)
-			$schieramentoObj->unsetGiocatore($idFormazione,$i);
+			Schieramento::unsetGiocatore($idFormazione,$i);
 		if(isset($err))
 		{
 			self::rollback();
@@ -91,11 +89,9 @@ class formazione extends dbTable
 		return $idFormazione;
 	}
 	
-	function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
+	public static function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
 	{
 		require_once(INCDIR . 'schieramento.db.inc.php');
-		
-		$schieramentoObj = new schieramento();
 		
 		self::startTransaction();
 		$str = "";
@@ -119,9 +115,9 @@ class formazione extends dbTable
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
-			$schieramentoObj->setGiocatore($idFormazione,$player,$key + 1);
+			Schieramento::setGiocatore($idFormazione,$player,$key + 1);
 		for ($i = $key + 2; $i <= 18 ; $i++)
-			$schieramentoObj->unsetGiocatore($idFormazione,$i);
+			Schieramento::unsetGiocatore($idFormazione,$i);
 		if(isset($err))
 		{
 			self::rollback();
@@ -132,7 +128,7 @@ class formazione extends dbTable
 		return $idFormazione;
 	}
 	
-	function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
+	public static function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
 	{
 		$q = "SELECT formazione.idFormazione,idGioc,idPosizione,modulo,C,VC,VVC 
 				FROM formazione INNER JOIN schieramento ON formazione.idFormazione = schieramento.idFormazione 
@@ -164,7 +160,7 @@ class formazione extends dbTable
 			return FALSE;
 	}
 	
-	function getFormazioneExistByGiornata($giornata,$idLega)
+	public static function getFormazioneExistByGiornata($giornata,$idLega)
 	{
 		$q = "SELECT utente.idUtente,nome 
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.idUtente 
@@ -183,7 +179,7 @@ class formazione extends dbTable
 			return $val;
 	}
 	
-	function changeCap($idFormazione,$idGiocNew,$cap)
+	public static function changeCap($idFormazione,$idGiocNew,$cap)
 	{
 		$q = "UPDATE formazione 
 				SET " . $cap . " = '" . $idGiocNew . "'

@@ -1,7 +1,7 @@
 <?php 
-class mail
+class Mail
 {
-	function checkEmailAddress($email) 
+	public static function checkEmailAddress($email) 
 	{
 		if(preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/',$email))
 			return TRUE;
@@ -9,7 +9,7 @@ class mail
     		return FALSE; 
 	}
   
-	function sendEmail($email,$body,$object)
+	public static function sendEmail($email,$body,$object)
 	{
 		$html = "MIME-Version: 1.0\r\n";
 		$html .= "Content-type: text/html; charset=UTF-8\r\n";
@@ -23,7 +23,7 @@ class mail
 		return @mail($email,$object, $body,$html);
 	}
 	
-	function sendEmailToVodafone($num,$body)
+	public static function sendEmailToVodafone($num,$body)
 	{
 		$html = "MIME-Version: 1.0\r\n";
 		$html .= "Content-type: text/html; charset=UTF-8\r\n";

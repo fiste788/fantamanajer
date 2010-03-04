@@ -5,11 +5,7 @@ require_once(INCDIR . 'articolo.db.inc.php');
 require_once(INCDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 	
-$utenteObj = new utente();
-$legaObj = new lega();
-$articoloObj = new articolo();
-$eventoObj = new evento();
-$mailObj = new mail();
+$articoloObj = new Articolo();
 $mailContent = new Savant3();
 
 $filterLega = NULL;
@@ -18,7 +14,7 @@ if(isset($_POST['lega']))
 if($_SESSION['roles'] == '1')
 	$filterLega = $_SESSION['idLega'];
 
-$elencoLeghe = $legaObj->getLeghe();
+$elencoLeghe = Lega::getLeghe();
 
 if(isset($_POST['button']))
 {
@@ -36,31 +32,31 @@ if(isset($_POST['button']))
 		$mailContent->assign('text',nl2br($_POST['text']));
 		$mailContent->assign('date',date("d-m-Y"));
 		$mailContent->assign('type',$_POST['type']);
-		$mailContent->assign('autore',$utenteObj->getSquadraById($_SESSION['idSquadra']));
+		$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idSquadra']));
 		
 		if($_POST['type'] == 'C')
 		{
 			$object = 'Comunicazione: ';
 			if($filterLega == 0)
-				$email = $utenteObj->getAllEmail();
+				$email = Utente::getAllEmail();
 			else
-				$email = $utenteObj->getAllEmailByLega($filterLega);
+				$email = Utente::getAllEmailByLega($filterLega);
 		}
 		else
 		{
 			$object = 'Newsletter: ';
 			if($filterLega == 0)
-				$email = $utenteObj->getAllEmailAbilitate();
+				$email = Utente::getAllEmailAbilitate();
 			else
-				$email = $utenteObj->getAllEmailAbilitateByLega($filterLega);
+				$email = Utente::getAllEmailAbilitateByLega($filterLega);
 		}
 		$object .= $_POST['object'];
 		$bool = TRUE;
 		if($filterLega == 0)
 			foreach($_POST['selezione'] as $key => $val)
-				$bool *= $mailObj->sendEmail(implode(",",$email[$val]),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
+				$bool *= Mail::sendEmail(implode(",",$email[$val]),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
 		else
-				$bool *= $mailObj->sendEmail(implode(",",array_intersect_key($email,array_flip($_POST['selezione']))),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
+				$bool *= Mail::sendEmail(implode(",",array_intersect_key($email,array_flip($_POST['selezione']))),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
 		if($bool)
 		{
 			if(isset($_POST['conferenza']))
@@ -83,7 +79,7 @@ if(isset($_POST['button']))
 $contentTpl->assign('elencoLeghe',$elencoLeghe);
 $contentTpl->assign('lega',$filterLega);
 if($filterLega != NULL && $filterLega != 0)
-	$contentTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($filterLega));
+	$contentTpl->assign('elencoSquadre',Utente::getElencoSquadreByLega($filterLega));
 $operationTpl->assign('elencoLeghe',$elencoLeghe);
 $operationTpl->assign('lega',$filterLega);
 ?>

@@ -1,7 +1,7 @@
 <?php
-class links
+class Links
 {
-	function getLink($page,$arrayParam = NULL)
+	public static function getLink($page,$arrayParam = NULL)
 	{
 		if(MODREWRITE)
 		{

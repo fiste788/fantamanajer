@@ -1,7 +1,7 @@
 <?php $j =0; $k = 0; ?>	
 <h3>Giornata <?php echo GIORNATA; ?></h3>
 <?php if(isset($this->squadra) && $this->squadra != NULL && isset($this->mod) && $this->mod != NULL && isset($this->giornata) && $this->giornata != NULL): ?>	
-	<form id="form-formazione" action="<?php echo $this->linksObj->getLink('inserisciFormazione'); ?>" method="post">
+	<form id="form-formazione" action="<?php echo Links::getLink('inserisciFormazione'); ?>" method="post">
 		<fieldset id="titolari">
 		<input type="hidden" name="mod" value="<?php echo $this->mod; ?>">
 		<input type="hidden" name="lega" value="<?php echo $this->lega; ?>">

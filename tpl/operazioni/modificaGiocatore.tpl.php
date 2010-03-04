@@ -1,4 +1,4 @@
-<form class="column last" id="ricerca" action="<?php echo $this->linksObj->getLink('modificaGiocatore'); ?>" method="post">
+<form class="column last" id="ricerca" action="<?php echo Links::getLink('modificaGiocatore'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<h3 class="no-margin">Seleziona il giocatore</h3>
 		<select name="ricercaGioc" id="ricercaGioc">

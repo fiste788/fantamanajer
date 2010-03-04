@@ -1,4 +1,4 @@
-<form class="right last" action="<?php echo $this->linksObj->getLink('altreFormazioni'); ?>" method="post">
+<form class="right last" action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<h3 class="no-margin">Guarda le altre formazioni</h3>
 		<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />

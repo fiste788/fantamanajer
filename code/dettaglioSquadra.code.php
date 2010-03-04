@@ -5,19 +5,14 @@ require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 require_once(CODEDIR . 'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE L'UPLOAD
 
-$utenteObj = new utente();
-$punteggioObj = new punteggio();
-$giocatoreObj = new giocatore();
-$mailObj = new mail();
-
 $filterSquadra = NULL;
 if(isset($_GET['squadra']))
 	$filterSquadra = $_GET['squadra'];
 	
-$squadraDett = $utenteObj->getSquadraById($filterSquadra);
+$squadraDett = Utente::getSquadraById($filterSquadra);
 
-$classifica = $punteggioObj->getClassificaByGiornata($squadraDett->idLega,GIORNATA);
-$elencoSquadre = $utenteObj->getElencoSquadre($squadraDett->idLega);
+$classifica = Punteggio::getClassificaByGiornata($squadraDett->idLega,GIORNATA);
+$elencoSquadre = Utente::getElencoSquadre($squadraDett->idLega);
 foreach($classifica as $key => $val)
 {
 	if($filterSquadra == $val->idUtente)
@@ -54,7 +49,7 @@ if(isset($_POST['submit']))
 		}
 		if(isset($_POST['mail']))
 		{
-			if(!$mailObj->checkEmailAddress($_POST['mail']))
+			if(!Mail::checkEmailAddress($_POST['mail']))
 				$message->error("Mail non corretta");
 			else
 				$email = $_POST['mail'];
@@ -62,7 +57,7 @@ if(isset($_POST['submit']))
 		if(isset($_POST['nomeSquadra']))
 		{
 			$nomeSquadra = addslashes(stripslashes(trim($nomeSquadra)));
-			if($utenteObj->getSquadraByNome($nomeSquadra,$filterSquadra) != FALSE)
+			if(Utente::getSquadraByNome($nomeSquadra,$filterSquadra) != FALSE)
 				$message->error("Il nome della squadra è già presente");
 		}
 		else
@@ -82,7 +77,7 @@ if(isset($_POST['submit']))
 			$abilitaMail = 0;
 		$nome = addslashes(stripslashes(trim($_POST['nomeProp'])));
 		$cognome = addslashes(stripslashes(trim($_POST['cognome'])));
-		$utenteObj->changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$_SESSION['idSquadra']);
+		Utente::changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$_SESSION['idSquadra']);
 		$message->success("Dati modificati correttamente");
 	}
 	$layoutTpl->assign('message',$message);
@@ -90,7 +85,7 @@ if(isset($_POST['submit']))
 if(isset($elencoSquadre[$filterSquadra - 1]))
 {
 	$idPrec = $filterSquadra - 1;
-	$quickLinks->prec->href = $contentTpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idPrec));
+	$quickLinks->prec->href = Links::getLink('dettaglioSquadra',array('squadra'=>$idPrec));
 	$quickLinks->prec->title = $elencoSquadre[$idPrec]->nome;
 }	
 else
@@ -99,16 +94,16 @@ else
 if(isset($elencoSquadre[$filterSquadra + 1]))
 {
 	$idSucc = $filterSquadra + 1;
-	$quickLinks->succ->href = $contentTpl->linksObj->getLink('dettaglioSquadra',array('squadra'=>$idSucc));
+	$quickLinks->succ->href = Links::getLink('dettaglioSquadra',array('squadra'=>$idSucc));
 	$quickLinks->succ->title = $elencoSquadre[$idSucc]->nome;
 }	
 else
 	$quickLinks->succ = FALSE;
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 
-$contentTpl->assign('giocatori',$giocatoreObj->getGiocatoriByIdSquadraWithStats($filterSquadra));
+$contentTpl->assign('giocatori',Giocatore::getGiocatoriByIdSquadraWithStats($filterSquadra));
 $contentTpl->assign('squadra',$filterSquadra);
-$contentTpl->assign('squadraDett',$utenteObj->getSquadraById($filterSquadra));
+$contentTpl->assign('squadraDett',Utente::getSquadraById($filterSquadra));
 $contentTpl->assign('classifica',$classifica);
 $operationTpl->assign('elencoSquadre',$elencoSquadre);
 $layoutTpl->assign('quickLinks',$quickLinks);

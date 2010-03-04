@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo $this->linksObj->getLink('nuovoTrasferimento'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('nuovoTrasferimento'); ?>" method="post">
 	<?php if($_SESSION['roles'] == '2'): ?>
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Seleziona la lega:</h3>

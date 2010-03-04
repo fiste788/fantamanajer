@@ -7,13 +7,6 @@ require_once(INCDIR . "punteggio.db.inc.php");
 require_once(INCDIR . "voto.db.inc.php");
 require_once(INCDIR . 'mail.inc.php');
 
-$legaObj = new lega();
-$utenteObj = new utente();
-$formazioneObj = new formazione();
-$giocatoreObj = new giocatore();
-$punteggioObj = new punteggio();
-$votoObj = new voto();
-$mailObj = new mail();
 $mailContent = new Savant3();
 
 $filterSquadra = NULL;
@@ -39,13 +32,13 @@ $elencocap = array('C','VC','VVC');
 
 if($filterLega != NULL)
 {
-	$squadre = $utenteObj->getElencoSquadreByLega($filterLega);
+	$squadre = Utente::getElencoSquadreByLega($filterLega);
 	$operationTpl->assign('elencosquadre',$squadre);
 }
 
-$formImp = $formazioneObj->getFormazioneExistByGiornata($filterGiornata,$filterLega);
+$formImp = Formazione::getFormazioneExistByGiornata($filterGiornata,$filterLega);
 
-$giocatori = $giocatoreObj->getGiocatoriBySquadraAndGiornata($filterSquadra,$filterGiornata);
+$giocatori = Giocatore::getGiocatoriBySquadraAndGiornata($filterSquadra,$filterGiornata);
 $contentTpl->assign('giocatori',$giocatori);
 
 if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
@@ -86,7 +79,7 @@ if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 		{
 			$appo = explode('-',$key);
 			$idGioc = $_POST[$appo[0]][$appo[1]];
-			$ruoloGioc = $giocatoreObj->getRuoloByIdGioc($idGioc);
+			$ruoloGioc = Giocatore::getRuoloByIdGioc($idGioc);
 			if( $ruoloGioc == 'P' || $ruoloGioc == 'D' )
 			{
 				if(!array_key_exists($val,$capitano))
@@ -105,15 +98,15 @@ if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 	{
 		unset($_POST);
 		if(!$formImp)
-			$id = $formazioneObj->caricaFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
+			$id = Formazione::caricaFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
 		else
-			$id = $formazioneObj->updateFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
-		if($votoObj->checkVotiExist($filterGiornata))
+			$id = Formazione::updateFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
+		if(Voto::checkVotiExist($filterGiornata))
 		{
-			$punteggioObj->unsetPenalità($filterSquadra,$filterGiornata);
-			$punteggioObj->unsetPunteggio($filterSquadra,$filterGiornata);
-			$punteggioObj->calcolaPunti($filterGiornata,$filterSquadra,$filterLega);
-			$squadraDett = $utenteObj->getSquadraById($filterSquadra);
+			Punteggio::unsetPenalità($filterSquadra,$filterGiornata);
+			Punteggio::unsetPunteggio($filterSquadra,$filterGiornata);
+			Punteggio::calcolaPunti($filterGiornata,$filterSquadra,$filterLega);
+			$squadraDett = Utente::getSquadraById($filterSquadra);
 			/*$mailContent->assign('giornata',$filterGiornata);
 			$mailContent->assign('squadra',$squadraDett->nome);
 			$mailContent->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));
@@ -127,7 +120,7 @@ if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 		else
 			$message->success('Formazione caricata correttamente');
 		$_SESSION['message'] = $message;
-		header("Location: ".$contentTpl->linksObj->getLink('areaAmministrativa'));
+		header("Location: " . $contentTpl->linksObj->getLink('areaAmministrativa'));
 	}
 	else
 		$message->error('Hai inserito dei valori multipli');
@@ -176,7 +169,7 @@ if($filterMod != NULL)
 else
 	$modulo = NULL;
 	
-$elencoLeghe = $legaObj->getLeghe();
+$elencoLeghe = Lega::getLeghe();
 $contentTpl->assign('elencoleghe',$elencoLeghe);
 
 $contentTpl->assign('lega',$filterLega);

@@ -1,5 +1,5 @@
 <?php
-class message
+class Message
 {
 	const LEVEL_SUCCESS = 0;
 	const LEVEL_WARNING = 1;
@@ -27,7 +27,7 @@ class message
 		return $this->createMessage($text,self::LEVEL_SUCCESS);
 	}
 	
-	private function createMessage($text,$level)
+	protected function createMessage($text,$level)
 	{
 		$this->text = $text;
 		$this->level = $level;

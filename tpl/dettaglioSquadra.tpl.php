@@ -39,7 +39,7 @@
 		<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
 		<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a id="qui">Clicca quì</a></p>
 		<div id="datiNascosti" class="hidden no-margin">
-			<form enctype="multipart/form-data" id="userdata" action="<?php echo $this->linksObj->getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
+			<form enctype="multipart/form-data" id="userdata" action="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
 				<fieldset class="column no-margin no-padding">
 					<div class="column">
 						<div class="formbox">
@@ -106,7 +106,7 @@
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; else echo 'row'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
-					<a href="<?php echo $this->linksObj->getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
+					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></td>

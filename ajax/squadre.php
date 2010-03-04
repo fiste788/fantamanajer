@@ -7,6 +7,5 @@
 	define("DEBUG",FALSE);
 
 	$dbObj = new db;
-	$utenteObj = new utente();
-	echo json_encode($utenteObj->getElencoSquadreByLegaOptions($_GET['idLega']));
+	echo json_encode(Utente::getElencoSquadreByLegaOptions($_GET['idLega']));
 ?>

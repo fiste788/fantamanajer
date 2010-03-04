@@ -1,5 +1,5 @@
 <?php
-class punteggio extends dbTable
+class Punteggio extends DbTable
 {
 	var $punteggio;
 	var $penalità;
@@ -7,7 +7,7 @@ class punteggio extends dbTable
 	var $idUtente;
 	var $idLega;
 	
-	function checkPunteggi($giornata)
+	public static function checkPunteggi($giornata)
 	{
 		$q = "SELECT * 
 				FROM punteggio 
@@ -21,7 +21,7 @@ class punteggio extends dbTable
 			return TRUE;
 	}
 
-	function getPunteggi($idUtente,$idGiornata)
+	public static function getPunteggi($idUtente,$idGiornata)
 	{
 		$q = "SELECT punteggio 
 				FROM punteggio 
@@ -39,9 +39,9 @@ class punteggio extends dbTable
 		return $punteggio;
 	}
 	
-	function getPosClassifica($idLega)
+	public static function getPosClassifica($idLega)
 	{
-		$classifica = $this->getClassificaByGiornata($idLega,GIORNATA);
+		$classifica = self::getClassificaByGiornata($idLega,GIORNATA);
 		$pos = array();
 		$i = 1;
 		foreach($classifica as $key => $val)
@@ -52,7 +52,7 @@ class punteggio extends dbTable
 		return $pos;
 	}
 	
-	function getPosClassificaGiornata($idLega)
+	public static function getPosClassificaGiornata($idLega)
 	{
 		$q = "SELECT *
 				FROM punteggio 
@@ -68,7 +68,7 @@ class punteggio extends dbTable
 		return $appo;
 	}
 	
-	function getGiornateVinte($idUtente)
+	public static function getGiornateVinte($idUtente)
 	{
 		$q = "SELECT giornateVinte 
 				FROM giornatevinte 
@@ -81,7 +81,7 @@ class punteggio extends dbTable
 		return $values;
 	}
 	
-	function getClassificaByGiornata($idLega,$idGiornata)
+	public static function getClassificaByGiornata($idLega,$idGiornata)
 	{
 		$q = "SELECT utente.idUtente, nome, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
 				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.idUtente) LEFT JOIN giornatevinte ON punteggio.idUtente = giornatevinte.idUtente
@@ -97,7 +97,7 @@ class punteggio extends dbTable
 		return $classifica;
 	}
 	
-	function getAllPunteggiByGiornata($giornata,$idLega)
+	public static function getAllPunteggiByGiornata($giornata,$idLega)
 	{
 		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
 				FROM punteggio RIGHT JOIN utente ON punteggio.idUtente = utente.idUtente 
@@ -114,7 +114,7 @@ class punteggio extends dbTable
 			else
 				$classifica[$row->idUtente][$row->idGiornata] = $row->punteggio;
 		}
-		$somme = $this->getClassificaByGiornata($idLega,$giornata);
+		$somme = self::getClassificaByGiornata($idLega,$giornata);
 		if(isset($somme))
 		{
 			foreach($somme as $key=>$val)
@@ -133,7 +133,7 @@ class punteggio extends dbTable
 	}
 	
 	
-	function getGiornateWithPunt()
+	public static function getGiornateWithPunt()
 	{
 		$q = "SELECT COUNT(DISTINCT(idGiornata)) as numGiornate
 				FROM punteggio";
@@ -144,7 +144,7 @@ class punteggio extends dbTable
 			return $row->numGiornate;
 	}
 
-	function recurSost($ruolo,&$panch,&$cambi,$giornata)
+	protected static function recurSost($ruolo,&$panch,&$cambi,$giornata)
 	{
 		require_once(INCDIR . 'voto.db.inc.php');
 		require_once(INCDIR . 'giocatore.db.inc.php');
@@ -167,7 +167,7 @@ class punteggio extends dbTable
 		return FALSE;
 	}
 
-	function calcolaPunti($giornata,$idSquadra,$idLega,$percentualePunteggio = NULL)
+	public static function calcolaPunti($giornata,$idSquadra,$idLega,$percentualePunteggio = NULL)
 	{
 		require_once(INCDIR . 'formazione.db.inc.php');
 		require_once(INCDIR . 'voto.db.inc.php');
@@ -175,17 +175,12 @@ class punteggio extends dbTable
 		require_once(INCDIR . 'schieramento.db.inc.php');
 		require_once(INCDIR . 'lega.db.inc.php');
 
-		$formazioneObj = new formazione();
-		$votoObj = new voto();
-		$giocatoreObj = new giocatore();
-		$schieramentoObj = new schieramento();
-		$legaObj = new lega();
 		// Se i punti di quella squadra e giornata ci sono già, esce
-		$punteggioOld = $this->getPunteggi($idSquadra,$giornata);
-		$datiLega = $legaObj->getLegaById($idLega);
+		$punteggioOld = self::getPunteggi($idSquadra,$giornata);
+		$datiLega = Lega::getLegaById($idLega);
 		if($punteggioOld == '0' || $punteggioOld == NULL)
 		{
-			$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($idSquadra,$giornata);
+			$formazione = Formazione::getFormazioneBySquadraAndGiornata($idSquadra,$giornata);
 			if ($formazione != FALSE)
 			{
 				$cambi = 0;
@@ -208,19 +203,19 @@ class punteggio extends dbTable
 				$tito = array_splice($panch,0,11);
 				foreach ($tito as $player)
 				{
-					$presenza = $votoObj->getPresenzaByIdGioc($player,$giornata);
+					$presenza = Voto::getPresenzaByIdGioc($player,$giornata);
 					if((!$presenza) && ($cambi < 3))
 					{
-						$sostituto = $this->recurSost($giocatoreObj->getRuoloByIdGioc($player),$panch,$cambi,$giornata);
+						$sostituto = self::recurSost(Giocatore::getRuoloByIdGioc($player),$panch,$cambi,$giornata);
 						if($sostituto != 0)
 							$player = $sostituto;
 					}
-					$schieramentoObj->setConsiderazione($idFormazione,$player,1);
-					$voto = $votoObj->getVotoByIdGioc($player,$giornata);
+					Schieramento::setConsiderazione($idFormazione,$player,1);
+					$voto = Voto::getVotoByIdGioc($player,$giornata);
 					if($player == $cap && $datiLega->capitano)
 					{
 						$voto *= 2;
-						$schieramentoObj->setConsiderazione($idFormazione,$cap,2);
+						Schieramento::setConsiderazione($idFormazione,$cap,2);
 					}
 					$somma += $voto;
 				}
@@ -248,13 +243,13 @@ class punteggio extends dbTable
 				return TRUE;
 			}
 			else
-				$this->setPunteggiToZeroByGiornata($idSquadra,$idLega,$giornata);
+				self::setPunteggiToZeroByGiornata($idSquadra,$idLega,$giornata);
 		}
 	}
 	
-	function setPunteggiToZero($idUtente,$idLega)
+	public static function setPunteggiToZero($idUtente,$idLega)
 	{
-		$giornateWithPunt = $this->getGiornateWithPunt();
+		$giornateWithPunt = self::getGiornateWithPunt();
 		if(empty($giornateWithPunt))
 			$giornateWithPunt = 0;
 		for($i = 1; $i <= $giornateWithPunt; $i++)
@@ -268,9 +263,9 @@ class punteggio extends dbTable
 		return TRUE;
 	}
 	
-	function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)
+	public static function setPunteggiToZeroByGiornata($idUtente,$idLega,$idGiornata)
 	{
-		if($this->getPunteggi($idUtente,$idGiornata) != '0')
+		if(self::getPunteggi($idUtente,$idGiornata) != '0')
 			$q = "INSERT INTO punteggio (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		else
@@ -280,7 +275,7 @@ class punteggio extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function getPenalitàBySquadraAndGiornata($idUtente,$idGiornata)
+	public static function getPenalitàBySquadraAndGiornata($idUtente,$idGiornata)
 	{
 		$q = "SELECT punteggio,penalità 
 				FROM punteggio
@@ -292,9 +287,9 @@ class punteggio extends dbTable
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
 		return $values;
-		}
+	}
 	
-	function getPenalitàByLega($idLega)
+	public static function getPenalitàByLega($idLega)
 	{
 		$q = "SELECT *
 				FROM punteggio
@@ -308,9 +303,9 @@ class punteggio extends dbTable
 		return $values;
 	}
 	
-	function setPenalità($punti,$motivo,$idGiornata,$idUtente,$idLega)
+	public static function setPenalità($punti,$motivo,$idGiornata,$idUtente,$idLega)
 	{
-		if($this->getPenalitàBySquadraAndGiornata($idUtente,$idGiornata) != FALSE)
+		if(self::getPenalitàBySquadraAndGiornata($idUtente,$idGiornata) != FALSE)
 			$q = "UPDATE punteggio SET punteggio = '" . (-$punti) . "', penalità = '" . $motivo . "'
 					WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND punteggio < 0"; 
 		else
@@ -321,14 +316,14 @@ class punteggio extends dbTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function unsetPenalità($idUtente,$idGiornata)
+	public static function unsetPenalità($idUtente,$idGiornata)
 	{
 		$q = "DELETE FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		return  mysql_query($q) or self::sqlError($q);
 	}
 	
-	function unsetPunteggio($idUtente,$idGiornata)
+	public static function unsetPunteggio($idUtente,$idGiornata)
 	{
 		$q = "DELETE FROM punteggio
 				WHERE punteggio > 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";

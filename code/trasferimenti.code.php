@@ -7,13 +7,6 @@ require_once(INCDIR . 'punteggio.db.inc.php');
 require_once(INCDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
-$trasferimentoObj = new trasferimento();
-$utenteObj = new utente();
-$giocatoreObj = new giocatore();
-$selezioneObj = new selezione();
-$punteggioObj = new punteggio();
-$eventoObj = new evento();
-$mailObj = new mail();
 $mailContentObj = new Savant3();
 
 $filterSquadra = $_SESSION['idSquadra'];
@@ -28,14 +21,14 @@ if(isset($_POST['squadra']))
 
 $ruoli = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 
-$trasferimenti = $trasferimentoObj->getTrasferimentiByIdSquadra($filterSquadra);
+$trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($filterSquadra);
 $numTrasferimenti = count($trasferimenti);
 $playerFree = array();
 foreach($ruoli as $key => $val)
-	$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer($key,$_SESSION['legaView']));
+	$playerFree = array_merge($playerFree,Giocatore::getFreePlayer($key,$_SESSION['legaView']));
 
-$trasferiti = $giocatoreObj->getGiocatoriTrasferiti($_SESSION['idSquadra']);
-$selezione = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);
+$trasferiti = Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']);
+$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idSquadra']);
 /*
  * Quì effettuo il trasferimento diretto
  */ 
@@ -45,7 +38,7 @@ if($trasferiti != FALSE)
 	$numTrasferiti = 0;
 	$contentTpl->assign('trasferiti',$trasferiti);
 	foreach($trasferiti as $key => $val)
-		$freePlayerByRuolo[$val->idGioc] = $giocatoreObj->getFreePlayer($val->ruolo,$_SESSION['idLega']);
+		$freePlayerByRuolo[$val->idGioc] = Giocatore::getFreePlayer($val->ruolo,$_SESSION['idLega']);
 	$contentTpl->assign('freePlayerByRuolo',$freePlayerByRuolo);
 	foreach($trasferiti as $masterKey => $masterVal)
 	{
@@ -55,26 +48,26 @@ if($trasferiti != FALSE)
 			{
 				if(isset($_POST['acquista'][$masterKey]) && !empty($_POST['acquista'][$masterKey]) )
 				{
-					$giocatoreAcquistato = $giocatoreObj->getGiocatoreById($_POST['acquista'][$masterKey]);
+					$giocatoreAcquistato = Giocatore::getGiocatoreById($_POST['acquista'][$masterKey]);
 					$flag = 0;
 					foreach($playerFree as $key => $val)
 						if($val->idGioc == $_POST['acquista'][$masterKey])
 							$flag = 1;
 					if($flag != 0)
 					{
-						$giocatoreLasciato = $giocatoreObj->getGiocatoreById($masterVal->idGioc);
+						$giocatoreLasciato = Giocatore::getGiocatoreById($masterVal->idGioc);
 						if($giocatoreAcquistato[$_POST['acquista'][$masterKey]]->ruolo == $giocatoreLasciato[$masterVal->idGioc]->ruolo)
 						{
-							$trasferimentoObj->transfer($masterVal->idGioc,$_POST['acquista'][$masterKey],$filterSquadra,$_SESSION['idLega']);
+							Trasferimento::transfer($masterVal->idGioc,$_POST['acquista'][$masterKey],$filterSquadra,$_SESSION['idLega']);
 							$appo = 0;
 							$numTrasferiti ++;
-							$selezione = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);
+							$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idSquadra']);
 							if($selezione->giocOld == $masterVal->idGioc);
-								$selezioneObj->unsetSelezioneByIdSquadra($filterSquadra);
-							$trasferimenti = $trasferimentoObj->getTrasferimentiByIdSquadra($filterSquadra);
+								Selezione::unsetSelezioneByIdSquadra($filterSquadra);
+							$trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($filterSquadra);
 							$numTrasferimenti = count($trasferimenti);
 							foreach($ruoli as $key => $val)
-								$playerFree = array_merge($playerFree,$giocatoreObj->getFreePlayer($key,$_SESSION['idLega']));
+								$playerFree = array_merge($playerFree,Giocatore::getFreePlayer($key,$_SESSION['idLega']));
 							$message->success('Trasferimento effettuato correttamente');
 						}
 						else
@@ -119,17 +112,17 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'Cancella acq.')
 		{
-			$selezioneObj->unsetSelezioneByIdSquadra($_SESSION['idSquadra']);
+			Selezione::unsetSelezioneByIdSquadra($_SESSION['idSquadra']);
 			$message->success('Cancellazione eseguita con successo');
 			$acquisto = NULL;
 			$lasciato = NULL;
 		}
 	
 		if($acquisto != NULL)
-			$acquistoDett = $giocatoreObj->getGiocatoreById($acquisto);
+			$acquistoDett = Giocatore::getGiocatoreById($acquisto);
 		if($lasciato != NULL)
-			$lasciatoDett = $giocatoreObj->getGiocatoreById($lasciato);
-		$numSelezioni = $selezioneObj->getNumberSelezioni($filterSquadra);
+			$lasciatoDett = Giocatore::getGiocatoreById($lasciato);
+		$numSelezioni = Selezione::getNumberSelezioni($filterSquadra);
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'OK')
 		{
@@ -141,21 +134,21 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 					{
 						if($numSelezioni < $_SESSION['datiLega']->numSelezioni)
 						{	
-							$filterSquadraOld = $selezioneObj->checkFree($acquisto,$_SESSION['idLega']);
+							$filterSquadraOld = Selezione::checkFree($acquisto,$_SESSION['idLega']);
 							if($filterSquadraOld != FALSE)
 							{
-								$classifica = $punteggioObj->getClassificaByGiornata($_SESSION['idLega'],GIORNATA);
-								$squadre = $filterSquadraObj->getElencoSquadre();
+								$classifica = Punteggio::getClassificaByGiornata($_SESSION['idLega'],GIORNATA);
+								$squadre = Utente::getElencoSquadre();
 								foreach ($classifica as $key => $val)
 									$classificaNew[$key] = $val[0];
 								$posSquadraOld =  array_search($filterSquadraOld,$classificaNew);
 								$posSquadraNew = array_search($_SESSION['idSquadra'],$classificaNew);
 								if($posSquadraNew > $posSquadraOld)
 								{
-									$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
+									Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
 									$mailContent->assign('giocatore',$acquistoDett[$acquisto]->nome . ' ' . $acquistoDett[$acquisto]->cognome);
 									$appo = $squadre[$acquistoDett[$acquisto]->idSquadraAcquisto];
-									$mailObj->sendEmail($squadre[$appo]->mail,$mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
+									Mail::sendEmail($squadre[$appo]->mail,$mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
 								}
 								else
 								{
@@ -167,8 +160,8 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 							}
 							else
 							{
-								$selezioneObj->updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
-								$eventoObj->addEvento('2',$_SESSION['idSquadra'],$_SESSION['idLega']);
+								Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
+								Evento::addEvento('2',$_SESSION['idSquadra'],$_SESSION['idLega']);
 								$message->success('Operazione eseguita con successo');
 							}
 						}
@@ -195,7 +188,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 		$contentTpl->assign('giocAcquisto',$acquisto);
 		$contentTpl->assign('giocLasciato',$lasciato);
 	
-		$giocatoreAcquistatoOld = $selezioneObj->getSelezioneByIdSquadra($_SESSION['idSquadra']);	
+		$giocatoreAcquistatoOld = Selezione::getSelezioneByIdSquadra($_SESSION['idSquadra']);	
 		if(!empty($giocatoreAcquistatoOld))
 			$contentTpl->assign('isset',$giocatoreAcquistatoOld);
 	}
@@ -204,10 +197,10 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 }
 $contentTpl->assign('ruoli',$ruoli);
 $contentTpl->assign('squadra',$filterSquadra);
-$contentTpl->assign('giocSquadra',$giocatoreObj->getGiocatoriByIdSquadra($filterSquadra));
+$contentTpl->assign('giocSquadra',Giocatore::getGiocatoriByIdSquadra($filterSquadra));
 $contentTpl->assign('freePlayer',$playerFree);
 $contentTpl->assign('trasferimenti',$trasferimenti);
 $contentTpl->assign('numTrasferimenti',$numTrasferimenti);
-$operationTpl->assign('elencoSquadre',$utenteObj->getElencoSquadreByLega($_SESSION['legaView']));
+$operationTpl->assign('elencoSquadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
 $operationTpl->assign('squadra',$filterSquadra);
 ?>

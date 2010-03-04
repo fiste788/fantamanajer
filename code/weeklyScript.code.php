@@ -10,46 +10,40 @@ require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 require_once(INCDIR . 'swiftMailer/swift_required.php');
 
-$utenteObj = new utente();
-$punteggioObj = new punteggio();
-$giocatoreObj = new giocatore();
-$formazioneObj = new formazione();
-$votoObj = new voto();
-$legaObj = new lega();
 $transportObj = Swift_MailTransport::newInstance();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
 
 $giornata = GIORNATA - 1;
 $logger->start("WEEKLY SCRIPT");
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $punteggioObj->checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
+if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
 {
-	$backup = fileSystem::contenutoCurl(FULLURLAUTH . $contentTpl->linksObj->getLink('backup'));
+	$backup = fileSystem::contenutoCurl(FULLURLAUTH . Links::getLink('backup'));
 	if(!empty($backup))
 	{
 		$logger->info("Starting decript file day " . $giornata);
 		$path = decrypt::decryptCdfile($giornata);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-		if($path != FALSE || $votoObj->checkVotiExist($giornata))
+		if($path != FALSE || Voto::checkVotiExist($giornata))
 		{
 			if($path != FALSE)
 			{
 				$logger->info("File with point created succefully");
 				$logger->info("Updating table players");
-				$giocatoreObj->updateTabGiocatore($path,$giornata);
+				Giocatore::updateTabGiocatore($path,$giornata);
 			}
 			else
 				$logger->info("Points already exists in database");
-			if(!$votoObj->checkVotiExist($giornata))
+			if(!Voto::checkVotiExist($giornata))
 			{
 				$logger->info("Importing points");
-				$votoObj->importVoti($path,$giornata);
+				Voto::importVoti($path,$giornata);
 			}
-			$leghe = $legaObj->getLeghe();
+			$leghe = Lega::getLeghe();
 			$mail = 0;
 			foreach($leghe as $lega)
 			{
-				$squadre = $utenteObj->getElencoSquadreByLega($lega->idLega);
+				$squadre = Utente::getElencoSquadreByLega($lega->idLega);
 				$logger->info("Calculating points for league " . $lega->idLega);
 				$dbObj->startTransaction();
 				$sum = array();
@@ -58,27 +52,27 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 					$logger->info("Elaborating team " . $val->idUtente);
 					$squadra = $val->idUtente;
 					//CALCOLO I PUNTI SE C'È LA FORMAZIONE
-					if($formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
-						$punteggioObj->calcolaPunti($giornata,$squadra,$lega->idLega);
-					elseif($lega->punteggioFormazioneDimenticata != 0)
+					if(Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
+						Punteggio::calcolaPunti($giornata,$squadra,$lega->idLega);
+					elseif(Lega::punteggioFormazioneDimenticata != 0)
 					{
 						$i = 1;
-						$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
+						$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
 						while($formazione == FALSE && $i < $giornata)
 						{
-							$formazione = $formazioneObj->getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
+							$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
 							$i ++;
 						}
-						$formazioneObj->caricaFormazione(array_values($formazione->elenco),$formazione->cap,$giornata,$squadra,$formazione->modulo);
-						$punteggioObj->calcolaPunti($giornata,$squadra,$lega->idLega,$lega->punteggioFormazioneDimenticata);
+						Formazione::caricaFormazione(array_values($formazione->elenco),$formazione->cap,$giornata,$squadra,$formazione->modulo);
+						Punteggio::calcolaPunti($giornata,$squadra,$lega->idLega,$lega->punteggioFormazioneDimenticata);
 					}
 					else
-						$punteggioObj->setPunteggiToZeroByGiornata($squadra,$lega->idLega,$giornata);
+						Punteggio::setPunteggiToZeroByGiornata($squadra,$lega->idLega,$giornata);
 				}
 				$dbObj->commit();
 			
 				//ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
-				$classifica = $punteggioObj->getAllPunteggiByGiornata($giornata,$lega->idLega);
+				$classifica = Punteggio::getAllPunteggiByGiornata($giornata,$lega->idLega);
 				foreach($classifica as $key => $val)
 					$sum[$key] = array_sum($classifica[$key]);
 				foreach ($squadre as $key => $val)
@@ -86,20 +80,20 @@ if( (($giornataObj->checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && $pun
 					if(!empty($val->mail) && $val->abilitaMail == 1)
 					{
 						$mailContent = new Savant3();
-						$mailContent->assign('linksObj',$contentTpl->linksObj);
+						$mailContent->assign('linksObj',Links);
 						$mailContent->assign('classifica',$sum);
 						$mailContent->assign('squadre',$squadre);
 						$mailContent->assign('giornata',$giornata);
-						$penalità = $punteggioObj->getPenalitàBySquadraAndGiornata($val->idUtente,$giornata);
+						$penalità = Punteggio::getPenalitàBySquadraAndGiornata($val->idUtente,$giornata);
 						if($penalità != FALSE)
 							$mailContent->assign('penalità',$penalità);
 						$mailContent->assign('utente',$val);
-						$mailContent->assign('somma',$punteggioObj->getPunteggi($val->idUtente,$giornata));
-						$mailContent->assign('formazione',$giocatoreObj->getVotiGiocatoriByGiornataAndSquadra($giornata,$val->idUtente));
+						$mailContent->assign('somma',Punteggio::getPunteggi($val->idUtente,$giornata));
+						$mailContent->assign('formazione',Giocatore::getVotiGiocatoriByGiornataAndSquadra($giornata,$val->idUtente));
 						
 						$logger->info("Sendig mail to: " . $val->mail);
 						//MANDO LA MAIL
-						$object = "Giornata: ". $giornata . " - Punteggio: " . $punteggioObj->getPunteggi($val->idUtente,$giornata);						
+						$object = "Giornata: ". $giornata . " - Punteggio: " . Punteggio::getPunteggi($val->idUtente,$giornata);						
 						$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 						$mailMessageObj = Swift_Message::newInstance();
 						$mailMessageObj->setSubject($object);

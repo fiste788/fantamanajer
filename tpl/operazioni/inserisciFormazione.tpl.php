@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo $this->linksObj->getLink('inserisciFormazione'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('inserisciFormazione'); ?>" method="post">
 	<?php if($_SESSION['usertype'] == 'superadmin'): ?>
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Seleziona la lega:</h3>

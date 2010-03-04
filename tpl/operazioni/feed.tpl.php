@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo $this->linksObj->getLink('feed'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('feed'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
 		<h3 class="no-margin">Seleziona il tipo di evento:</h3>
 		<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />

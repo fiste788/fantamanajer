@@ -1,5 +1,5 @@
 <?php 
-class voto extends dbTable
+class Voto extends DbTable
 {
 	var $idGioc;
 	var $idGiornata;
@@ -8,7 +8,7 @@ class voto extends dbTable
 	var $gol;
 	var $assist;
 	
-	function getVotoByIdGioc($idGioc,$giornata)
+	public static function getVotoByIdGioc($idGioc,$giornata)
 	{
 		$q = "SELECT punti 
 				FROM voto 
@@ -20,7 +20,7 @@ class voto extends dbTable
 			return $row->punti;
 	}
 	
-	function getAllVotoByIdGioc($idGioc)
+	public static function getAllVotoByIdGioc($idGioc)
 	{
 		$q = "SELECT * 
 				FROM voto 
@@ -34,7 +34,7 @@ class voto extends dbTable
 		return $values;
 	}
 	
-	function getPresenzaByIdGioc($idGioc,$giornata)
+	public static function getPresenzaByIdGioc($idGioc,$giornata)
 	{
 		$q = "SELECT valutato 
 				FROM voto 
@@ -46,7 +46,7 @@ class voto extends dbTable
 			return $row->valutato;
 	}
 
-	function getMedieVoto($idGioc)
+	public static function getMedieVoto($idGioc)
 	{
 		$q = "SELECT AVG(voto) as mediaPunti,AVG(punti) as mediaVoti,count(voto) as presenze 
 				FROM voto 
@@ -59,14 +59,14 @@ class voto extends dbTable
 			return $row;
 	}
 	
-	function recuperaVoti($giorn)
+	public static function recuperaVoti($giorn)
 	{
 		require_once(INCDIR.'fileSystem.inc.php');
 		
 		$percorso = "./docs/voti/csv/Giornata" . str_pad($giorn,2,"0",STR_PAD_LEFT) . ".csv";
-		if(fileSystem::scaricaVotiCsv($giorn))
+		if(FileSystem::scaricaVotiCsv($giorn))
 		{
-			if($this->checkVotiExist($giorn))
+			if(self::checkVotiExist($giorn))
 				return TRUE;
 			$q = "INSERT INTO voto(idGioc,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
 			$content = file($percorso);
@@ -91,7 +91,7 @@ class voto extends dbTable
 			return FALSE;
 	}
 	
-	function checkVotiExist($giornata)
+	public static function checkVotiExist($giornata)
 	{
 		$values = array();
 		$q = "SELECT DISTINCT(idGiornata)
@@ -104,7 +104,7 @@ class voto extends dbTable
 		return in_array($giornata,$values);
 	}
 	
-	function importVoti($path,$giornata)
+	public static function importVoti($path,$giornata)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
 		

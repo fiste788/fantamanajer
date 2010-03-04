@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo $this->linksObj->getLink('modificaConferenza',$this->goTo); ?>">
+<form method="post" action="<?php echo Links::getLink('modificaConferenza',$this->goTo); ?>">
 	<fieldset class="no-margin">
 		<div class="formbox">
 			<label for="title">Titolo: *</label>

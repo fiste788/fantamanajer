@@ -1,6 +1,6 @@
 <?php $j = 0; ?>
 <?php if($this->lega != NULL && isset($this->id) && isset($this->action)): ?>
-<form class="column" action="<?php echo $this->linksObj->getLink('creaSquadra',$this->goTo); ?>" method="post">
+<form class="column" action="<?php echo Links::getLink('creaSquadra',$this->goTo); ?>" method="post">
 	<fieldset class="column no-margin">
 		<input type="hidden" name="a" value="<?php if(isset($this->action)) echo $this->action; ?>" />
 		<input type="hidden" name="id" value="<?php if(isset($this->id)) echo $this->id; ?>" />

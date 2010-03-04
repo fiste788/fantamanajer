@@ -28,7 +28,7 @@
  *				output:	no visual output
  */
 							
-class upload	
+class Upload	
 {
 	static function uploadFile ($size , $img , $vid , $doc , $upload_dir , $name)	
 	{
@@ -63,7 +63,7 @@ class upload
 			}
 			else
 			{
-				$extension = $this->getExtension($_FILES ["userfile"] ["name"]);
+				$extension = self::getExtension($_FILES ["userfile"] ["name"]);
 				$filename = $name . '.' . $extension;
 			}
 			if (is_uploaded_file ($_FILES ["userfile"] ["tmp_name"]))		
@@ -98,7 +98,7 @@ class upload
 			
 	static function resize($new_name , $destination_path , $width_thumb , $height_thumb , $source_path , $image_type)
 	{
-			switch (strtolower($this -> getExtension($source_path)))			//switch for get the extension
+			switch (strtolower(self::getExtension($source_path)))			//switch for get the extension
 			{
 					case 'jpg' : $image = imagecreatefromjpeg($source_path); break;
 					case 'gif' : $image = imagecreatefromgif($source_path); break;
@@ -129,7 +129,7 @@ class upload
 	static function createReflex($sourcePath,$gradientColor,$newName,$image_type)
 	{
 		$size = getimagesize($sourcePath);  
-		switch (strtolower($this -> getExtension($sourcePath)))			//switch for get the extension
+		switch (strtolower(self::getExtension($sourcePath)))			//switch for get the extension
 		{
 			case 'jpg' : $imgImport = imagecreatefromjpeg($sourcePath); break;
 			case 'gif' : $imgImport = imagecreatefromgif($sourcePath); break;

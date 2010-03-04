@@ -1,8 +1,6 @@
 <?php 
 require_once(INCDIR . "lega.db.inc.php");
 
-$legaObj = new lega();
-
 if(isset($_POST['nomeLega']))
 {
 	$flag = 0;
@@ -15,9 +13,9 @@ if(isset($_POST['nomeLega']))
 	{
 		$_POST['nomeLega'] = trim(addslashes(stripslashes($_POST['nomeLega'])));
 		$_POST['premi'] = trim(addslashes(stripslashes($_POST['premi'])));
-		if($legaObj->updateImpostazioni($_POST))
+		if(Lega::updateImpostazioni($_POST))
 		{
-			$_SESSION['datiLega'] = $legaObj->getLegaById($_SESSION['idLega']);
+			$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
 			$message->success("Operazione effettuata correttamente");
 		}
 		else
@@ -28,6 +26,6 @@ if(isset($_POST['nomeLega']))
 	else
 		$message->error("Tipo di dati incorretto. Controlla i valori numerici");
 }
-$default = $legaObj->getDefaultValue();
+$default = Lega::getDefaultValue();
 $contentTpl->assign('default',$default);
 ?>

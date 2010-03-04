@@ -6,7 +6,7 @@
  * @author Rochak Chauhan
  */
 
-class createZip {
+class CreateZip {
 
 	public $compressedData = array();
 	public $centralDirectory = array(); // central directory

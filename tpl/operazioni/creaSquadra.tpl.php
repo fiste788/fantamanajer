@@ -10,10 +10,10 @@
 		<?php foreach($this->elencoSquadre as $key => $val): ?>
 			<li>
 				<p class="column last"><?php echo $val->nome; ?></p>
-				<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'cancel','id'=>$val->idUtente,'lega'=>$this->lega)); ?>">
+				<a class="right last" href="<?php echo Links::getLink('creaSquadra',array('a'=>'cancel','id'=>$val->idUtente,'lega'=>$this->lega)); ?>">
 					<img src="<?php echo IMGSURL . 'cancel.png'; ?>" alt="e" title="Cancella" />
 				</a>
-				<a class="right last" href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'edit','id'=>$val->idUtente,'lega'=>$this->lega)); ?>">
+				<a class="right last" href="<?php echo Links::getLink('creaSquadra',array('a'=>'edit','id'=>$val->idUtente,'lega'=>$this->lega)); ?>">
 					<img src="<?php echo IMGSURL . 'edit.png'; ?>" alt="m" title="Modifica" />
 				</a>
 			</li>
@@ -22,7 +22,7 @@
 	</div>
 <?php endif; ?>
 <?php if($_SESSION['roles'] == '2'): ?>
-<form class="column last" action="<?php echo $this->linksObj->getLink('creaSquadra'); ?>" method="post">
+<form class="column last" action="<?php echo Links::getLink('creaSquadra'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
 		<input type="hidden" name="p" value="creaSquadra" />
 		<input type="hidden" name="a" value="new" />
