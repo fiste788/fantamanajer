@@ -3,23 +3,18 @@ require_once(INCDIR . "articolo.db.inc.php");
 require_once(INCDIR . "utente.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
-$articoloObj = new Articolo();
-
 $filterGiornata = GIORNATA;
 if (!empty($_GET['giornata']))
 	$filterGiornata = $_GET['giornata'];
 if (!empty($_POST['giornata']))
 	$filterGiornata = $_POST['giornata'];
 
-$articoloObj->setidgiornata($filterGiornata);
-$articoloObj->setidlega($_SESSION['legaView']);
-
-$articolo = $articoloObj->select($articoloObj,'=','*');
+$articoli = Articolo::getArticoliByGiornataAndLega($filterGiornata,$_SESSION['legaView']);
 if($articolo != FALSE)
-	foreach ($articolo as $key => $val)
-		$articolo[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
+	foreach ($articoli as $key => $val)
+		$articoli[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
 
-$giornateWithArticoli = $articoloObj->getGiornateArticoliExist($_SESSION['legaView']);
+$giornateWithArticoli = Articolo::getGiornateArticoliExist($_SESSION['legaView']);
 if($giornateWithArticoli != FALSE)
 {
 	rsort($giornateWithArticoli);
@@ -56,7 +51,7 @@ else
 	$quickLinks->succ = FALSE;
 }
 
-$contentTpl->assign('articoli',$articolo);
+$contentTpl->assign('articoli',$articoli);
 $contentTpl->assign('squadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
 $operationTpl->assign('idGiornata',$filterGiornata);
 $operationTpl->assign('giornateWithArticoli',$giornateWithArticoli);

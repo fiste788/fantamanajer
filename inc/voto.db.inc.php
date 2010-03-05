@@ -3,10 +3,21 @@ class Voto extends DbTable
 {
 	var $idGioc;
 	var $idGiornata;
-	var $votoUff;
+	var $valutato;
+	var $punti;
 	var $voto;
 	var $gol;
+	var $golSub;
+	var $golVit;
+	var $golPar;
 	var $assist;
+	var $ammonizioni;
+	var $espulsioni;
+	var $rigoriSegn;
+	var $rigoriSub;
+	var $presenza;
+	var $titolare;
+	var $quotazione;
 	
 	public static function getVotoByIdGioc($idGioc,$giornata)
 	{

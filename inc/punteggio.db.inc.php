@@ -191,7 +191,7 @@ class Punteggio extends DbTable
 				// ottengo il capitano che ha preso voto
 				foreach($eCap as $cap)
 				{
-					if($votoObj->getPresenzaByIdGioc($cap,$giornata))
+					if(Voto::getPresenzaByIdGioc($cap,$giornata))
 					{ 
 						$flag = 1;
 						break;

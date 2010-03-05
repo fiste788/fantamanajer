@@ -7,6 +7,8 @@ class Lega extends DbTable
 	var $numTrasferimenti;
 	var $numSelezioni;
 	var $minFormazione;
+	var $premi;
+	var $punteggioFormazioneDimenticata;
 	
 	public static function getLeghe()
 	{

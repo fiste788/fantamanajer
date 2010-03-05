@@ -41,7 +41,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 	{
 		if($filterAction == 'cancel')
 		{
-			if($utenteObj->deleteSquadra($filterId))
+			if(Utente::deleteSquadra($filterId))
 			{
 				Squadra::unsetSquadraGiocatoreByIdSquadra($filterId);
 				$message->success("Cancellazione effettuata correttamente");

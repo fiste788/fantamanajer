@@ -120,7 +120,7 @@ if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 		else
 			$message->success('Formazione caricata correttamente');
 		$_SESSION['message'] = $message;
-		header("Location: " . $contentTpl->linksObj->getLink('areaAmministrativa'));
+		header("Location: " . Links::getLink('areaAmministrativa'));
 	}
 	else
 		$message->error('Hai inserito dei valori multipli');
