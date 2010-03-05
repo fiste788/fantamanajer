@@ -4,7 +4,10 @@ require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'articolo.db.inc.php');
 require_once(INCDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
-	
+require_once(INCDIR . 'swiftMailer/swift_required.php');
+
+$transportObj = Swift_MailTransport::newInstance();
+$mailerObj = Swift_Mailer::newInstance($transportObj);
 $articoloObj = new Articolo();
 $mailContent = new Savant3();
 
@@ -33,7 +36,7 @@ if(isset($_POST['button']))
 		$mailContent->assign('date',date("d-m-Y"));
 		$mailContent->assign('type',$_POST['type']);
 		$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idSquadra']));
-		
+		$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 		if($_POST['type'] == 'C')
 		{
 			$object = 'Comunicazione: ';
@@ -52,11 +55,21 @@ if(isset($_POST['button']))
 		}
 		$object .= $_POST['object'];
 		$bool = TRUE;
-		if($filterLega == 0)
-			foreach($_POST['selezione'] as $key => $val)
-				$bool *= Mail::sendEmail(implode(",",$email[$val]),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
-		else
-				$bool *= Mail::sendEmail(implode(",",array_intersect_key($email,array_flip($_POST['selezione']))),$mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php'),$object);
+		
+		$mailMessageObj = Swift_Message::newInstance();
+		$mailMessageObj->setSubject($object);
+		$mailMessageObj->setFrom(array("noreply@fantamanajer.it"=>"FantaManajer"));
+		$fetchMail = $mailContent->fetch(MAILTPLDIR . 'mailNewsletter.tpl.php');
+		$mailMessageObj->setBody($fetchMail,'text/html');
+		$emailFiltered = array_intersect_key($email,array_flip($_POST['selezione']));
+		$emailOk = array();
+		foreach($emailFiltered as $key => $val)
+			$emailOk = array_merge($emailOk,$val);
+		
+		foreach($emailOk as $key => $val){
+			$mailMessageObj->setTo($val);
+			$bool *= $mailerObj->send($mailMessageObj);
+		}
 		if($bool)
 		{
 			if(isset($_POST['conferenza']))

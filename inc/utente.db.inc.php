@@ -114,52 +114,52 @@ class Utente extends DbTable
 	
 	public static function getAllEmail()
 	{
-		$q = "SELECT mail,idUtente,idLega 
+		$q = "SELECT mail,idUtente,idLega,nomeProp,cognome
 				FROM utente";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idLega][$row->idUtente] = $row->mail;
+			$values[$row->idLega][$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
 	public static function getAllEmailAbilitate()
 	{
-		$q = "SELECT mail,idUtente,idLega 
+		$q = "SELECT mail,idUtente,idLega,nomeProp,cognome
 				FROM utente
 				WHERE abilitaMail <> 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idLega][$row->idUtente] = $row->mail;
+			$values[$row->idLega][$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
 	public static function getAllEmailByLega($idLega)
 	{
-		$q = "SELECT mail,idUtente 
+		$q = "SELECT mail,idUtente,nomeProp,cognome
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idUtente] = $row->mail;
+			$values[$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
 	public static function getAllEmailAbilitateByLega($idLega)
 	{
-		$q = "SELECT mail,idUtente
+		$q = "SELECT mail,idUtente,nomeProp,cognome
 				FROM utente
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		if(DEBUG)
 			FB::log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idUtente] = $row->mail;
+			$values[$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
