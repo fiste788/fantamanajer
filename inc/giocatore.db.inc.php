@@ -179,7 +179,7 @@ class Giocatore extends DbTable
 	
 	public static function getArrayGiocatoriFromDatabase()
 	{
-		$q = "SELECT giocatore.idGioc, cognome, ruolo, nomeClub  
+		$q = "SELECT giocatore.*, nomeClub  
 				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub WHERE giocatore.club IS NOT NULL";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
@@ -201,7 +201,11 @@ class Giocatore extends DbTable
 		
 		$ruoli = array("P","D","C","A");
 		$playersOld = self::getArrayGiocatoriFromDatabase();
+		
 		$players = fileSystem::returnArray($path,";");
+		FB::info($path);
+		FB::info($players);
+		FB::info($playersOld);
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$details)
 		{
@@ -209,7 +213,7 @@ class Giocatore extends DbTable
 			{
 				$clubNew = substr($details[3],1,3);
 				$pieces = explode(";",$playersOld[$key]);
-				$clubOld = $pieces[3];
+				$clubOld = $pieces[5];
 				if($clubNew != $clubOld)
 					$clubs[$clubNew][] = $key;
 			}

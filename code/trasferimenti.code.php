@@ -7,8 +7,6 @@ require_once(INCDIR . 'punteggio.db.inc.php');
 require_once(INCDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
-$mailContentObj = new Savant3();
-
 $filterSquadra = $_SESSION['idSquadra'];
 $acquisto = NULL;
 $lasciato = NULL;

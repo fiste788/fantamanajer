@@ -184,7 +184,7 @@ class FileSystem
 		foreach($tree as $id=>$node) 
 		{
 			$xml->startElement("player");
-			$xml->writeElement("id",$id);
+			$xml->writeElement("id",$node[0]);
 			$xml->writeElement("nome",trim($node[2],'"'));
 			$xml->writeElement("club",substr(trim($node[3],'"'),0,3));
 			$xml->writeElement("ruolo",$ruoli[$node[5]]);
