@@ -19,7 +19,7 @@ if(PARTITEINCORSO == TRUE)
 $formImp = Formazione::getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
 if(isset($formImp[$_SESSION['idSquadra']]) && !PARTITEINCORSO)
 	unset($formImp[$_SESSION['idSquadra']]);
-$contentTpl->assign('formazioniImpostate',$formImp);
+$operationTpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
 $frega = 0;

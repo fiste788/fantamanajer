@@ -123,7 +123,7 @@ class Trasferimento extends DbTable
 				{
 					if(in_array($val->giocOld,$formazione->elenco))
 						Schieramento::changeGioc($formazione->id,$val->giocOld,$val->giocNew);
-					if(in_array($val->giocOld,$formazione->cap))
+					if(in_array($val->giocOld,get_object_vars($formazione->cap)))
 						Formazione::changeCap($formazione->id,$val->giocNew,array_search($val->giocOld,$formazione->cap));
 				}
 				$q = "SELECT idTrasf 
@@ -142,7 +142,7 @@ class Trasferimento extends DbTable
 				else
 					self::commit();
 			}
-			$selezioneObj->svuota();
+			Selezione::svuota();
 		}
 		return TRUE;
 	}
