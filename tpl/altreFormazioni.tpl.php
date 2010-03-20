@@ -1,7 +1,7 @@
 <?php $j =0; $k = 0; $ruolo = ""; ?>
 <?php if(isset($this->formazione)): ?>
 <h3>Giornata <?php echo GIORNATA; ?></h3>
-<form action="<?php echo $this->linksObj->getLink('formazione'); ?>" method="post">
+<form action="<?php echo Links::getLink('formazione'); ?>" method="post">
 	<fieldset class="no-margin no-padding">
 		<div class="column last" style="width:564px">
 			<div id="campo" class="column">
