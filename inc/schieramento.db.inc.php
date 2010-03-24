@@ -4,7 +4,21 @@ class Schieramento extends DbTable
 	var $idFormazione;
 	var $idPosizione;
 	var $idGioc;
-	var $considerazione;	//0 = non ha giocato, 1 = giocato, 2 = capitano
+	var $considerato;	//0 = non ha giocato, 1 = giocato, 2 = capitano
+	
+	public static function getSchieramentoById($idFormazione)
+	{
+		$q = "SELECT * 
+				FROM schieramento 
+				WHERE idFormazione = '" . $idFormazione . "'
+				ORDER BY idPosizione";
+		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		if(DEBUG)
+			FB::log($q);
+		while($row = mysql_fetch_object($exe,__CLASS__))
+			$values[] = $row;
+		return $values;
+	}
 	
 	public static function setConsiderazione($idFormazione,$idGioc,$val)
 	{
