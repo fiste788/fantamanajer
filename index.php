@@ -69,10 +69,7 @@ $navbarTpl = new Savant3(array('template_path' => TPLDIR));
 $operationTpl = new Savant3(array('template_path' => OPERATIONTPLDIR));
 
 //If no page have been required give the default page (home.php and home.tpl.php)
-if (isset($_GET['p']))
-	$p = $_GET['p'];
-else
-	$p = 'home';
+$p = isset($_GET['p']) ? $_GET['p'] : 'home';
 
 $session_name = 'fantamanajer';
 @session_name($session_name);
@@ -100,11 +97,8 @@ if (!isset($_COOKIE[$session_name]))
 }
 else
 	@session_start();
-	
-if(LOCAL || $_SESSION['roles'] == 2)
-	define("DEBUG",TRUE);
-else
-	define("DEBUG",FALSE);
+
+define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
 
 ob_start();
 //Try login if POSTDATA exists
@@ -184,7 +178,7 @@ if ($_SESSION['logged'])
 	require_once(INCDIR . 'trasferimento.db.inc.php');
 	
 	$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
-	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count($trasferimentoObj->getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
+	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
 		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 if(DEBUG)

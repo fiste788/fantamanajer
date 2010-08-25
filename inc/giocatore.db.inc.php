@@ -203,9 +203,6 @@ class Giocatore extends DbTable
 		$playersOld = self::getArrayGiocatoriFromDatabase();
 		
 		$players = fileSystem::returnArray($path,";");
-		FB::info($path);
-		FB::info($players);
-		FB::info($playersOld);
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$details)
 		{
@@ -244,15 +241,14 @@ class Giocatore extends DbTable
 			$rowtoinsert = "";
 			foreach($daInserire as $key => $pezzi)
 			{
-				$esprex = "/[A-Z`]*\s?[A-Z`]{2,}/";
+				$esprex = "/[A-Z']*\s?[A-Z']{2,}/";
 				$id = $pezzi[0];
 				$nominativo = trim($pezzi[2],'"');
 				$club = substr(trim($pezzi[3],'"'),0,3);
 				$ruolo = $ruoli[$pezzi[5]];
 				preg_match ($esprex,$nominativo,$ass);
-				$cognome = $ass[0];
+				$cognome = (!empty($ass)) ? $ass[0] : $nominativo;
 				$nome = trim(substr($nominativo,strlen($cognome)));
-				
 				$cognome = ucwords(strtolower((addslashes($cognome))));
 				$nome = ucwords(strtolower((addslashes($nome))));
 				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $club . "%')),";

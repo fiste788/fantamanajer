@@ -177,5 +177,6 @@
 	$.fn.classifica.squadra = "";
 })(jQuery);
 $(document).ready(function() {
+	if(typeof(datasets) != "undefined")
 		$(document).classifica(datasets,medie,squadra);
 	});

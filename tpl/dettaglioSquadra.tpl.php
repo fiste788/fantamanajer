@@ -24,15 +24,15 @@
 			</p>
 			<p>
 				<span class="bold">Media punti:</span>
-				<?php echo $this->media; ?>
+				<?php echo (isset($this->media)) ? $this->media : 0; ?>
 			</p>
 			<p>
 				<span class="bold">Punti min:</span>
-				<?php echo $this->min; ?>
+				<?php echo (isset($this->min)) ? $this->media : 0; ?>
 			</p>
 			<p>
 				<span class="bold">Punti max:</span>
-				<?php echo $this->max; ?>
+				<?php echo (isset($this->max)) ? $this->media : 0; ?>
 			</p>
 		</div>
 		<?php if($this->squadraDett->idUtente == $_SESSION['idSquadra']): ?>
@@ -63,7 +63,7 @@
 						<?php if(GIORNATA <= 2): ?>
 						<div class="formbox">
 							<label for="nomeSquadra">Nome squadra:</label>
-							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadraDett['nome']; ?>"/>
+							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadraDett->nome; ?>"/>
 						</div>
 						<?php endif; ?>
 						<div class="formbox">
@@ -86,23 +86,23 @@
 		<?php endif; ?>
 	</div>
 </div>
-<h3>Giocatori</h3>
-<table id="rosa" cellpadding="0" cellspacing="0">
-	<tbody>
-		<tr>
-			<th>Nome</th>
-			<th class="center">Ruolo</th>
-			<th class="center">Club</th>
-			<th class="center">PG</th>
-			<th class="center">MVoti</th>
-			<th class="center">MPunti</th>
-			<th class="center">Gol</th>
-			<th class="center">Gol subiti</th>
-			<th class="center">Assist</th>
-			<th class="center">Ammonizioni</th>
-			<th class="center">Esplusioni</th>
-		</tr>
-		<?php if(!empty($this->giocatori)): ?>
+<?php if(!empty($this->giocatori)): ?>
+	<h3>Giocatori</h3>
+	<table id="rosa" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<th>Nome</th>
+				<th class="center">Ruolo</th>
+				<th class="center">Club</th>
+				<th class="center">PG</th>
+				<th class="center">MVoti</th>
+				<th class="center">MPunti</th>
+				<th class="center">Gol</th>
+				<th class="center">Gol subiti</th>
+				<th class="center">Assist</th>
+				<th class="center">Ammonizioni</th>
+				<th class="center">Esplusioni</th>
+			</tr>
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; else echo 'row'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
@@ -131,6 +131,6 @@
 				<td><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
 				<td><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
 			</tr>
-		<?php endif;?>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+<?php endif;?>

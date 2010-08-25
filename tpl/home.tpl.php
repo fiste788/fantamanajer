@@ -2,7 +2,7 @@
 <?php if(GIORNATA == 1): ?>
 <h2 class="no-margin center">Ricordati di impostare il nome della squadra!</h2>
 <p class="center">Lo trovi nella pagina rosa e lo puoi cambiare entro la seconda giornata di campionato</p>
-<?php endif; ?>
+<?php else: ?>
 <div id="bestPlayer">
 	<h3>Migliori giocatori giornata <?php echo $this->giornata; ?></h3>
 	<?php foreach($this->bestPlayer as $ruolo=>$giocatori): ?>
@@ -26,6 +26,7 @@
 		</div>
 	<?php endforeach; ?>
 </div>
+<?php endif; ?>
 <?php if(PARTITEINCORSO == FALSE): ?>
 	<div id="countdown" class="column last">Tempo rimanente per la formazione:<br /><div>&nbsp;</div></div>
 	<script type="text/javascript">

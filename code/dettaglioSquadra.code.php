@@ -13,13 +13,15 @@ $squadraDett = Utente::getSquadraById($filterSquadra);
 
 $classifica = Punteggio::getClassificaByGiornata($squadraDett->idLega,GIORNATA);
 $elencoSquadre = Utente::getElencoSquadre($squadraDett->idLega);
-foreach($classifica as $key => $val)
-{
-	if($filterSquadra == $val->idUtente)
+if($classifica != NULL) {
+	foreach($classifica as $key => $val)
 	{
-		$contentTpl->assign('media',substr($classifica[$key]->punteggioMed,0,5));
-		$contentTpl->assign('min',$classifica[$key]->punteggioMin);
-		$contentTpl->assign('max',$classifica[$key]->punteggioMax);
+		if($filterSquadra == $val->idUtente)
+		{
+			$contentTpl->assign('media',substr($classifica[$key]->punteggioMed,0,5));
+			$contentTpl->assign('min',$classifica[$key]->punteggioMin);
+			$contentTpl->assign('max',$classifica[$key]->punteggioMax);
+		}
 	}
 }
 if(isset($_POST['submit']))
