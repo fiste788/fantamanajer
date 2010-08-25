@@ -21,11 +21,11 @@
 				<td class="tableimg">
 					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 				<?php if($val->voti >= $this->suff && $val->presenzeVoto >= $this->partite ||GIORNATA == 1): ?>
-					<img alt="Verde" title="Verde" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
+					<img width="21" height="21" alt="Verde" title="Verde" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
 				<?php elseif($val->voti >= $this->suff || $val->presenzeVoto >= $this->partite): ?>
-					<img alt="Giallo" title="Giallo" src="<?php echo IMGSURL . 'player-panch.png'; ?>"/>
+					<img width="21" height="21" alt="Giallo" title="Giallo" src="<?php echo IMGSURL . 'player-panch.png'; ?>"/>
 				<?php else: ?>
-					<img alt="Rosso" title="Rosso" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/>
+					<img width="21" height="21" alt="Rosso" title="Rosso" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/>
 				<?php endif; ?>
 					</a>
 				</td>

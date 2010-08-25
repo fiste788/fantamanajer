@@ -2,7 +2,7 @@
 	<div class="elencoSquadre last">
 		<?php if($this->action != 'new'): ?>
 			<h4>
-				<a href="<?php echo $this->linksObj->getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$this->lega)); ?>">Crea una squadra</a>
+				<a href="<?php echo Links::getLink('creaSquadra',array('a'=>'new','id'=>'0','lega'=>$this->lega)); ?>">Crea una squadra</a>
 			</h4>
 		<?php endif; ?>
 		<h3>Elenco squadre</h3>

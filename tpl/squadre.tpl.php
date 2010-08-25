@@ -10,8 +10,10 @@
 		<h3><a href="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$val->idUtente)); ?>" title="Maggiori informazioni"><?php echo $val->nome; ?></a></h3>	
 		<div class="column data">
 			<div>Proprietario: <?php echo $val->username; ?></div>
-			<div>Pos. in classifica: <?php echo $this->posizioni[$val->idUtente]; ?></div>
-			<div>Giornate vinte: <?php echo $val->giornateVinte; ?></div>
+			<?php if(!empty($this->posizioni)): ?>
+				<div>Pos. in classifica: <?php echo $this->posizioni[$val->idUtente]; ?></div>
+			<?php endif; ?>
+			<div>Giornate vinte: <?php echo ($val->giornateVinte != NULL) ? $val->giornateVinte : 0; ?></div>
 		</div>
 		<ul class="column link">
 			<li>
@@ -20,9 +22,11 @@
 			<li>
 				<a href="<?php echo Links::getLink('altreFormazioni',array('squadra'=>$val->idUtente,'giornata'=>GIORNATA)); ?>" title="Formazione">Formazione</a>
 			</li>
+			<?php if(GIORNATA > 1): ?>
 			<li>
 				<a href="<?php echo Links::getLink('dettaglioGiornata',array('giornata'=>$this->ultimaGiornata,'squadra'=>$val->idUtente)); ?>" title="Ultima giornata">Ultima giornata</a>
 			</li>
+			<?php endif; ?>
 		</ul>
 	</div>
 <?php endforeach; ?>

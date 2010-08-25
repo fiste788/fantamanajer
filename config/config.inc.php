@@ -3,7 +3,7 @@ $proto = "http://";						//protocol
 $host = $_SERVER['SERVER_NAME'];				//server name
 
 $hostArray = explode('.',$host);
-$local = (substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost') ? TRUE:FALSE;
+$local = (substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost');
 
 $tmp = explode('/',$_SERVER['PHP_SELF']);			//website path(example: for "http://www.dominio.it/one/jpg/one.jpg" it takes "/one/jpg/one.jpg")
 array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)

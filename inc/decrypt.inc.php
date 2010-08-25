@@ -38,7 +38,7 @@ class Decrypt
 		if (!empty($percorsoContent))
 			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
-		$content = fileSystem::contenutoCurl($site . "/magiccampionato/09-10/free/download/cd/");
+		$content = FileSystem::contenutoCurl($site . "/magiccampionato/10-11/free/download/cd/?");
 		if(!empty($content))
 		{
 			$search = "";
@@ -50,7 +50,7 @@ class Decrypt
 				$url = $matches[2];
 			$url = htmlspecialchars_decode($url);
 			
-			$decrypt = "2A 68 6C 34 35 6A 6E 31 32 64 66 67 46 46 44 52 38 73 78 63 33 33 64 65 72 66 76 2A";
+			$decrypt = "72 2A 67 66 64 34 56 42 48 34 34 46 46 35 52 38 73 78 2A 63 33 33 66 34 66 45 45 32";
 			$explode_xor = explode(" ", $decrypt);
 			
 			if (!$p_file = fopen($url,"r"))
@@ -61,7 +61,7 @@ class Decrypt
 				$stringa = "";
 				while(!feof($p_file))
 				{
-					if ($i == 28)
+					if ($i == count($explode_xor))
 						$i = 0;
 					$linea = fgets($p_file, 2);
 					$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
@@ -69,6 +69,7 @@ class Decrypt
 					
 					$stringa .= chr($xor2);
 				}
+				FB::log($stringa);
 				$scriviFile = fopen($percorsoCsv,"w");
 				$pezzi = explode("\n",$stringa);
 				array_pop($pezzi);
@@ -83,7 +84,7 @@ class Decrypt
 				fwrite($scriviFile,join("\n",$pezzi));
 				fclose($scriviFile);
 				fclose($p_file);
-				fileSystem::writeXmlVotiDecript($pezziXml,$percorsoXml);
+				FileSystem::writeXmlVotiDecript($pezziXml,$percorsoXml);
 			}
 			$fileContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
 			if(!empty($fileContent))
