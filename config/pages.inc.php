@@ -74,6 +74,10 @@ $pages = array();
 									'roles'=>-1,
 									'navbar'=>array('key'=>'altro','title'=>'Script'));
 	
+  $pages['updateOrariGiornata'] = array(	'title'=>"Aggiorna orari giornata corrente",
+									'roles'=>-1,
+									'navbar'=>array('key'=>'altro','title'=>'Script'));
+	
 	$pages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Script'));
