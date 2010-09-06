@@ -24,6 +24,11 @@
 			<a class="script" id="sendMail"><img class="column" alt="->" src="<?php echo IMGSURL . 'contatti.png'; ?>" />Manda mail formazione</a>
 		</h3>
 	</li>
+	<li>
+		<h3>
+			<a class="script" id="updateOrariGiornata"><img class="column" alt="->" src="<?php echo IMGSURL . 'update.png'; ?>" />Aggiorna Orari giornata corrente</a>
+		</h3>
+	</li>	
 </ul>
 <script type="text/javascript">
 // <![CDATA[

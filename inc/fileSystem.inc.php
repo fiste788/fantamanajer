@@ -247,5 +247,18 @@ class FileSystem
 		else
 			return FALSE;
 	}
+	
+	public static function scaricaOrariGiornata($giornata)
+	{
+    $contenuto=self::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/campionato-classifica?p_p_id=BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC_numeroGiornata=$giornata");
+    preg_match_all('#<div class\=\"chart_box chart_box.*?<strong>(.*?)<\/strong>#mis',$contenuto,$matches); 
+    $orari=$matches[1];
+    foreach($orari as $one)
+      $timestamp[]=strtotime(str_replace('/', '-', $one));
+    asort($timestamp); 
+    $orario['inizioPartite']=array_shift($timestamp); 
+    $orario['finePartite']= array_pop($timestamp); 
+    return $orario; 
+  }
 }
 ?>
