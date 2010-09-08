@@ -93,6 +93,7 @@ if(!PARTITEINCORSO)
 			else
 				$capitano[$key] = $val;
 		}
+		$jolly = (isset($_POST['jolly'])) ? 1 : 0;
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
@@ -100,11 +101,11 @@ if(!PARTITEINCORSO)
 			unset($_POST);
 			if(!$formazioneOld)
 			{
-				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
+				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr),$jolly);
 				Evento::addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr));
+				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr),$jolly);
 			$message->success('Formazione caricata correttamente');
 		}
 		else
@@ -121,6 +122,7 @@ if(!PARTITEINCORSO)
 		$panchinariAr = $formazione->elenco;
 		$titolariAr = array_splice($panchinariAr,0,11);
 		$contentTpl->assign('cap',$formazione->cap);
+		$contentTpl->assign('jolly',$formazione->jolly);
 	}
 	if(!empty($_POST))
 	{
@@ -148,6 +150,7 @@ if(!PARTITEINCORSO)
 			$contentTpl->assign('panchinari',$panchinariAr);
 	}
 	$contentTpl->assign('issetForm',$formazione);
+	$contentTpl->assign('usedJolly',Formazione::usedJolly($_SESSION['idSquadra']));
 	if(isset($modulo))
 		$contentTpl->assign('modulo',explode('-',$modulo));
 	else

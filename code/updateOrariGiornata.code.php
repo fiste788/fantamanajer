@@ -1,4 +1,8 @@
 <?php
 require_once(INCDIR . 'giornata.db.inc.php');
-Giornata::updateOrariGiornata();
+
+if(Giornata::updateOrariGiornata())
+	$message->success("Operazione effettuata correttamente");
+else
+	$message->warning("Errori nell'aggiornamento delle giornate");
 ?>

@@ -104,7 +104,7 @@ class Giornata extends DbTable
 	
 	public static function updateGiornate($giornate)
 	{
-    $bool = TRUE;
+		$bool = TRUE;
 		foreach($giornate as $key => $val)
 		{
 			foreach($val as $key2 => $val2)
@@ -118,28 +118,27 @@ class Giornata extends DbTable
 		return $bool;
 	}
 	
-	public static function updateOrariGiornata()
+	private static function getArrayOrari($giornata) 
 	{
-    require_once(INCDIR . 'fileSystem.inc.php');
-    $giornata=GIORNATA;
-    $orari=FileSystem::scaricaOrariGiornata($giornata); 
-    $calendario[$giornata]['dataFine']=date('Y-m-d H:i:s',$orari['inizioPartite']);
-    $calendario[$giornata+1]['dataInizio']=date('Y-m-d H:i:s',$orari['finePartite']+2*3600);
-    self::updateGiornate($calendario);
-  }
+		$orari = FileSystem::scaricaOrariGiornata($giornata);
+		$calendario[$giornata]['dataFine'] = date('Y-m-d H:i:s',$orari['inizioPartite']);
+		$calendario[$giornata + 1]['dataInizio'] = date('Y-m-d H:i:s',$orari['finePartite'] + (2 * 3600));
+		return $calendario;
+	}
 	
-  public static function updateCalendario()
-  {
-    require_once(INCDIR . 'fileSystem.inc.php');
-    $calendario[1]['dataInizio']="2010-08-01 00:00:00";
-    for($giornata=1;$giornata<=38;$giornata++)
-    {
-      $orari=FileSystem::scaricaOrariGiornata($giornata); 
-      $calendario[$giornata]['dataFine']=date('Y-m-d H:i:s',$orari['inizioPartite']);
-      $calendario[$giornata+1]['dataInizio']=date('Y-m-d H:i:s',$orari['finePartite']+2*3600);
-    }
-    $calendario[39]['dataFine']="2011-07-31 23:59:59";
-    self::updateGiornate($calendario);
-  } 
+	public static function updateOrariGiornata($giornata = GIORNATA)
+	{
+		return self::updateGiornate(self::getArrayOrari($giornata));
+	} 
+	
+	public static function updateCalendario()
+	{
+		require_once(INCDIR . 'fileSystem.inc.php');
+		$calendario[1]['dataInizio'] = "2010-08-01 00:00:00";
+		for($giornata = 1;$giornata <= 38;$giornata++)
+			$calendario = array_merge($calendario,self::getArrayOrari($giornata))
+		$calendario[39]['dataFine'] = "2011-07-31 23:59:59";
+		return self::updateGiornate($calendario);
+	} 
 }
 ?>

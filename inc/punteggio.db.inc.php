@@ -219,6 +219,8 @@ class Punteggio extends DbTable
 					}
 					$somma += $voto;
 				}
+				if($formazione->jolly == 1)
+					$somma *= 2;
 				if($punteggioOld == '0')
 					$q = "UPDATE punteggio
 							SET punteggio = '" . $somma . "' 

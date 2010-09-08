@@ -80,7 +80,6 @@ class Giocatore extends DbTable
 			FB::log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giocatori[$row->idGioc] = $row;
-			FB::log($giocatori);
 		return $giocatori;
 	}
 	
