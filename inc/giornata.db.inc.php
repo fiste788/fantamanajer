@@ -136,7 +136,7 @@ class Giornata extends DbTable
 		require_once(INCDIR . 'fileSystem.inc.php');
 		$calendario[1]['dataInizio'] = "2010-08-01 00:00:00";
 		for($giornata = 1;$giornata <= 38;$giornata++)
-			$calendario = array_merge($calendario,self::getArrayOrari($giornata))
+			$calendario = array_merge($calendario,self::getArrayOrari($giornata));
 		$calendario[39]['dataFine'] = "2011-07-31 23:59:59";
 		return self::updateGiornate($calendario);
 	} 
