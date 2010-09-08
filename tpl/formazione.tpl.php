@@ -53,6 +53,12 @@
 				<input<?php if(isset($this->cap->$val) && !empty($this->cap->$val)){ echo ' value="' . $this->cap->$val . '" title="' . $this->giocatoriId[$this->cap->$val]->ruolo . $this->giocatoriId[$this->cap->$val]->ruolo . '-' . $this->giocatoriId[$this->cap->$val]->cognome . ' ' . $this->giocatoriId[$this->cap->$val]->nome;if(file_exists(PLAYERSDIR . $this->cap->$val . '.jpg')) echo '-1"'; else echo '"';} ?> id="<?php echo $val; ?>" type="hidden" name="cap[<?php echo $val; ?>]" />
 			<?php endforeach; ?>
 		</div>
+		<?php if($_SESSION['datiLega']->jolly && (!$this->usedJolly || (isset($this->jolly) && $this->jolly == 1))): ?>
+		<div class="formbox">
+			<label for="jolly">Jolly:</label>
+			<input type="checkbox" class="checkbox" name="jolly" id="jolly" <?php if(isset($this->jolly) && $this->jolly == 1) echo ' checked="checked"'; ?> />
+		</div>
+		<?php endif; ?>
 		<input name="submit" type="submit" class="submit" value="Invia" />
 	</fieldset>
 </form>

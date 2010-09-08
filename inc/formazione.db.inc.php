@@ -8,6 +8,7 @@ class Formazione extends DbTable
 	var $c;
 	var $vc;
 	var $vvc;
+	var $jolly;
 	
 	public static function getFormazioneById($id)
 	{
@@ -30,6 +31,7 @@ class Formazione extends DbTable
 				$cap->C = $row->C;
 				$cap->VC = $row->VC;
 				$cap->VVC = $row->VVC;
+				$jolly = $row->jolly;
 				$flag = TRUE;
 			}
 		}
@@ -41,13 +43,14 @@ class Formazione extends DbTable
 			$formazione->elenco = $elenco;
 			$formazione->modulo = $modulo;
 			$formazione->cap = $cap;
+			$formazione->jolly = $jolly;
 			return $formazione;
 		}
 		else
 			return FALSE;
 	}
 	
-	public static function caricaFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
+	public static function caricaFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo,$jolly)
 	{
 		require_once(INCDIR . 'schieramento.db.inc.php');
 		
@@ -62,8 +65,8 @@ class Formazione extends DbTable
 			else
 				$valori .= ",'" . $val."'";
 		}
-		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .") 
-				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ")";
+		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .",jolly) 
+				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ",'" . $jolly . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
 			FB::log($q);
@@ -89,7 +92,7 @@ class Formazione extends DbTable
 		return $idFormazione;
 	}
 	
-	public static function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo)
+	public static function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo,$jolly)
 	{
 		require_once(INCDIR . 'schieramento.db.inc.php');
 		
@@ -101,7 +104,7 @@ class Formazione extends DbTable
 			else
 				$str .= "," . $key . " = '" . $val . "'";
 		$q = "UPDATE formazione 
-				SET modulo = '" . $modulo . "'" . $str . " 
+				SET modulo = '" . $modulo . "'" . $str . " , jolly = '" . $jolly . "' 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		if(DEBUG)
@@ -130,7 +133,7 @@ class Formazione extends DbTable
 	
 	public static function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
 	{
-		$q = "SELECT formazione.idFormazione,idGioc,idPosizione,modulo,C,VC,VVC 
+		$q = "SELECT formazione.idFormazione,idGioc,idPosizione,modulo,C,VC,VVC,jolly 
 				FROM formazione INNER JOIN schieramento ON formazione.idFormazione = schieramento.idFormazione 
 				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "' 
 				ORDER BY idPosizione";
@@ -146,6 +149,7 @@ class Formazione extends DbTable
 			$cap->C = $row->C;
 			$cap->VC = $row->VC;
 			$cap->VVC = $row->VVC;
+			$jolly = $row->jolly;
 			$flag = TRUE;
 		}
 		if($flag)
@@ -154,6 +158,7 @@ class Formazione extends DbTable
 			$formazione->elenco = $elenco;
 			$formazione->modulo = $modulo;
 			$formazione->cap = $cap;
+			$formazione->jolly = $jolly;
 			return $formazione;
 		}
 		else
@@ -187,6 +192,17 @@ class Formazione extends DbTable
 		if(DEBUG)
 			FB::log($q);
 		return mysql_query($q) or self::sqlError($q);
+	}
+	
+	public static function usedJolly($idUtente) 
+	{
+		$q = "SELECT jolly 
+				FROM formazione
+				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = '" . $idUtente . "' AND jolly = '1'";
+		if(DEBUG)
+			FB::log($q);
+		$exe = mysql_query($q) or self::sqlError($q);
+		return (mysql_num_rows($exe) == 1);
 	}
 }
 ?>

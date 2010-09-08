@@ -56,9 +56,9 @@ if(isset($_POST['submit']))
 			else
 				$email = $_POST['mail'];
 		}
-		if(isset($_POST['nomeSquadra']))
+		if(isset($_POST['nome']))
 		{
-			$nomeSquadra = addslashes(stripslashes(trim($nomeSquadra)));
+			$nomeSquadra = addslashes(stripslashes(trim($_POST['nome'])));
 			if(Utente::getSquadraByNome($nomeSquadra,$filterSquadra) != FALSE)
 				$message->error("Il nome della squadra è già presente");
 		}

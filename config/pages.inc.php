@@ -74,7 +74,7 @@ $pages = array();
 									'roles'=>-1,
 									'navbar'=>array('key'=>'altro','title'=>'Script'));
 	
-  $pages['updateOrariGiornata'] = array(	'title'=>"Aggiorna orari giornata corrente",
+	$pages['updateOrariGiornata'] = array(	'title'=>"Aggiorna orari giornata corrente",
 									'roles'=>-1,
 									'navbar'=>array('key'=>'altro','title'=>'Script'));
 	

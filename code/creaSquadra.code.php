@@ -107,9 +107,16 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 				{
 					Utente::changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,"",$amministratore,$filterId);
 					$giocatoriOld = array_keys(Giocatore::getGiocatoriByIdSquadra($filterId));
-					foreach($giocatori as $key => $val)
-						if(!in_array($val,$giocatoriOld))
-							Squadra::updateGiocatore($val,$giocatoriOld[$key],$filterId);
+					if(!empty($giocatoriOld)) 
+					{
+						foreach($giocatori as $key => $val)
+						{
+							if(!in_array($val,$giocatoriOld))
+								Squadra::updateGiocatore($val,$giocatoriOld[$key],$filterId);
+						}
+					}
+					else
+						Squadra::setSquadraGiocatoreByArray($filterLega,$giocatori,$filterId);
 					unset($_POST);
 					$contentTpl->assign('giocatori',array_values(Giocatore::getGiocatoriByIdSquadra($filterId)));
 					$contentTpl->assign('datiSquadra',Utente::getSquadraById($filterId));

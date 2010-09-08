@@ -6,7 +6,6 @@ require_once(INCDIR . 'formazione.db.inc.php');
 require_once(INCDIR . 'voto.db.inc.php');
 require_once(INCDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
-require_once(INCDIR . 'giornata.db.inc.php');
 require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 require_once(INCDIR . 'swiftMailer/swift_required.php');
@@ -18,13 +17,13 @@ $giornata = GIORNATA - 1;
 //$giornata = 0;
 $logger->start("WEEKLY SCRIPT");
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-/*if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
-{*/
+if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2')
+{
 	$backup = fileSystem::contenutoCurl(FULLURLAUTH . Links::getLink('backup'));
 	if(!empty($backup))
 	{
-    $logger->info("Updating end of this gameweek and start of next gameweek");
-    Giornata::updateOrariGiornata();
+		$logger->info("Updating end of this gameweek and start of next gameweek");
+		Giornata::updateOrariGiornata();
 		$logger->info("Starting decript file day " . $giornata);
 		$path = Decrypt::decryptCdfile($giornata);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
@@ -133,12 +132,12 @@ $logger->start("WEEKLY SCRIPT");
 		$message->warning("Non riesco a creare il backup");
 		$logger->warning("Error while creating backup");
 	}
-/*}
+}
 else
 {
 	$message->warning("Non puoi effettuare l'operazione ora");
 	$logger->warning("Is not time to run it");
-}*/
+}
 $logger->end("WEEKLY SCRIPT");
 $contentTpl->assign('message',$message);
 ?>
