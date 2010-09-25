@@ -30,9 +30,9 @@ class Giornata extends DbTable
 		return $valore;
 	}
 	
-	public static function checkDay($day)
+	public static function checkDay($day,$type = 'dataInizio',$offset = 1)
 	{
-		$q = "SELECT dataInizio,idGiornata 
+		$q = "SELECT dataInizio,dataFine,idGiornata 
 				FROM giornata 
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -40,10 +40,10 @@ class Giornata extends DbTable
 		$value = mysql_fetch_assoc($exe);
 		if(!empty($value))
 		{
-			$array = explode(" ",$value['dataInizio']);
+			$array = explode(" ",$value[$type]);
 			$data = explode("-",$array[0]);
-			$data2dayAfter = date ("Y-m-d", mktime(0,0,0,$data[1],$data[2] + 1,$data[0]));
-			if($day == $data2dayAfter)
+			$dataConfronto = date ("Y-m-d", mktime(0,0,0,$data[1],$data[2] + ($offset),$data[0]));
+			if($day == $dataConfronto)
 				return $value['idGiornata'];
 			else
 				return FALSE;
@@ -129,7 +129,11 @@ class Giornata extends DbTable
 
 		$calendario[1]['dataInizio'] = "2010-08-01 00:00:00";
 		for($giornata = 1;$giornata <= 38;$giornata++)
-			$calendario = array_merge($calendario,self::getArrayOrari($giornata));
+		{
+			$appo = self::getArrayOrari($giornata);
+			$calendario[$giornata] = array_merge($calendario[$giornata],$appo[$giornata]);
+			$calendario[$giornata + 1] = array_merge($calendario[$giornata],$appo[$giornata + 1]);
+		}
 		$calendario[39]['dataFine'] = "2011-07-31 23:59:59";
 		return self::updateGiornate($calendario);
 	} 

@@ -3,7 +3,6 @@ require_once(INCDIR . 'punteggio.db.inc.php');
 require_once(INCDIR . 'utente.db.inc.php');
 require_once(INCDIR . 'articolo.db.inc.php');
 require_once(INCDIR . 'evento.db.inc.php');
-require_once(INCDIR . 'giornata.db.inc.php');
 require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'emoticon.inc.php');
 

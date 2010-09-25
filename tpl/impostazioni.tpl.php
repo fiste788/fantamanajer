@@ -31,6 +31,12 @@
 			<?php if(isset($this->default['punteggioFormazioneDimenticata'])): ?><small>Default: <?php echo $this->default['punteggioFormazioneDimenticata']; ?></small><?php endif; ?>
 		</div>
 		<div class="formbox">
+			<label>Uso del jolly per raddoppiare il punteggio una volta a girone</label>
+			<input type="radio" name="jolly" value="1"<?php echo ($_SESSION['datiLega']->jolly) ? ' checked="checked"' : ''; ?> />Si
+			<input type="radio" name="jolly" value="0"<?php echo (!$_SESSION['datiLega']->jolly) ? ' checked="checked"' : ''; ?> />No
+			<?php if(isset($this->default['jolly'])): ?><small>Default: <?php echo ($this->default['jolly'] == 1) ? "Si" : "No"; ?></small><?php endif; ?>
+		</div>
+		<div class="formbox">
 			<label>Pagina premi</label>
 			<textarea rows="10" cols="50" name="premi"><?php echo (!empty($_SESSION['datiLega']->premi)) ? $_SESSION['datiLega']->premi : ''; ?></textarea>
 		</div>

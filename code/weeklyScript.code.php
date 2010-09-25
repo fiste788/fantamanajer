@@ -22,8 +22,6 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 	$backup = fileSystem::contenutoCurl(FULLURLAUTH . Links::getLink('backup'));
 	if(!empty($backup))
 	{
-		$logger->info("Updating end of this gameweek and start of next gameweek");
-		Giornata::updateOrariGiornata();
 		$logger->info("Starting decript file day " . $giornata);
 		$path = Decrypt::decryptCdfile($giornata);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB

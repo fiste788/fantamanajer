@@ -109,6 +109,7 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 		<?php if(LOCAL): ?>
+			<script src="<?php echo JSURL . 'font/font.js'; ?>" type="text/javascript"></script>
 			<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
 			<script src="<?php echo JSURL . 'ui/jquery.effects.core.js'; ?>" type="text/javascript"></script>
 			<script src="<?php echo JSURL . 'ui/jquery.effects.pulsate.js'; ?>" type="text/javascript"></script>

@@ -54,7 +54,7 @@
 			<?php endforeach; ?>
 		</div>
 		<?php if($_SESSION['datiLega']->jolly && (!$this->usedJolly || (isset($this->jolly) && $this->jolly == 1))): ?>
-		<div class="formbox">
+		<div class="column">
 			<label for="jolly">Jolly:</label>
 			<input type="checkbox" class="checkbox" name="jolly" id="jolly" <?php if(isset($this->jolly) && $this->jolly == 1) echo ' checked="checked"'; ?> />
 		</div>

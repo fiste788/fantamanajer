@@ -28,7 +28,7 @@
 		<input type="hidden" name="a" value="new" />
 		<input type="hidden" name="id" value="0" />
 		<h3>Seleziona la lega</h3>
-		<select name="lega" onchange="document.selezionaLega.submit();">
+		<select name="lega" onchange="this.form.submit();">
 			<?php if(!isset($this->lega)): ?><option></option><?php endif; ?>
 			<?php foreach($this->elencoLeghe as $key => $val): ?>
 				<option<?php echo ($this->lega == $val->idLega) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idLega; ?>"><?php echo $val->nomeLega; ?></option> 

@@ -97,7 +97,7 @@ if(isset($_POST) && !empty($_POST) && isset($_POST['button']))
 	if($err == 0)
 	{
 		unset($_POST);
-		if(!$formImp)
+		if(!isset($formImp[$filterSquadra]))
 			$id = Formazione::caricaFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);
 		else
 			$id = Formazione::updateFormazione($formazione,$capitano,$filterGiornata,$filterSquadra,$filterMod);

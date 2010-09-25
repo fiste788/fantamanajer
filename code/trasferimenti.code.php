@@ -135,13 +135,8 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 							$filterSquadraOld = Selezione::checkFree($acquisto,$_SESSION['idLega']);
 							if($filterSquadraOld != FALSE)
 							{
-								$classifica = Punteggio::getClassificaByGiornata($_SESSION['idLega'],GIORNATA);
-								$squadre = Utente::getElencoSquadre();
-								foreach ($classifica as $key => $val)
-									$classificaNew[$key] = $val[0];
-								$posSquadraOld =  array_search($filterSquadraOld,$classificaNew);
-								$posSquadraNew = array_search($_SESSION['idSquadra'],$classificaNew);
-								if($posSquadraNew > $posSquadraOld)
+								$posizioni = Punteggio::getPosClassifica($_SESSION['idLega']);
+								if($posizioni[$_SESSION['idSquadra'] > $posizioni[$filterSquadraOld])
 								{
 									Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
 									$mailContent->assign('giocatore',$acquistoDett[$acquisto]->nome . ' ' . $acquistoDett[$acquisto]->cognome);

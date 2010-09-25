@@ -1,6 +1,6 @@
 <?php $j = 0; ?>
 <?php if($this->lega != NULL && isset($this->id) && isset($this->action)): ?>
-<form class="column" action="<?php echo Links::getLink('creaSquadra',$this->goTo); ?>" method="post">
+<form id="creaSq" class="column" action="<?php echo Links::getLink('creaSquadra',$this->goTo); ?>" method="post">
 	<fieldset class="column no-margin">
 		<input type="hidden" name="a" value="<?php if(isset($this->action)) echo $this->action; ?>" />
 		<input type="hidden" name="id" value="<?php if(isset($this->id)) echo $this->id; ?>" />
@@ -96,33 +96,10 @@
 			<input type="submit" name="button" class="submit dark" value="<?php echo (isset($this->button)) ? $this->button : ''; ?>" />
 		<?php endif; ?>
 			<input class="submit dark" type="reset" value="Annulla" />
-		<?php if($this->button == 'Cancella'): ?>
-			<script type="text/javascript">
-			// <![CDATA[
-				$("#elimina").click(function () {
-					$("#dialog").dialog({
-						resizable: false,
-						height:140,
-						modal: true,
-						overlay: {
-							backgroundColor: '#000',
-							opacity: 0.5
-						},
-						buttons: {
-							'Elimina squadra': function() {
-								$(".div-submit").append('<input style="display:none;" id="eliminaConf" type="hidden" name="button" class="submit dark" value="<?php if(isset($button)) echo $button; ?>" />');
-								$("#creaSq").submit();
-								$(this).dialog('close');
-							},
-							Annulla: function() {
-								$(this).dialog('close');
-							}
-						}	
-					});
-				});
-			// ]]>
-			</script>
-		<?php endif; ?>
+		<script type="text/javascript">
+			var flagCancella = <?php echo ($this->button == 'Cancella') ? 1 : 0; ?>;
+			var button = <?php echo (isset($button)) ? $button : "''"; ?>;
+		</script>
 	</fieldset>
 </form>
 <?php else: ?>
