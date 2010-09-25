@@ -157,7 +157,6 @@ $tplfile = $p . '.tpl.php';
 $firePHP->groupEnd();
 $layoutTpl->assign('message',$message);
 
-
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
  */

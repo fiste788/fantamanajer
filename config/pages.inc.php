@@ -122,7 +122,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Download'));
 										
 	$pages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.dialog')),
+										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.button','jquery.ui.mouse','jquery.ui.position','jquery.ui.dialog')),
 										'roles'=>1,
 										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Crea una nuova squadra'));
 										

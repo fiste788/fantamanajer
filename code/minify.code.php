@@ -6,6 +6,7 @@ $jsFiles = array();
 $cssContent = "";
 //$cssFiles = $fileSystemObj->getFileIntoFolderRecursively(CSSDIR,TRUE);
 $jsFiles = array();
+$jsContent .= file_get_contents(JSDIR . 'font/font.js');
 $jsContent = file_get_contents(JSDIR . 'jquery/jquery.js');
 $jsContent .= file_get_contents(JSDIR . 'ui/jquery.effects.core.js');
 $jsContent .= file_get_contents(JSDIR . 'ui/jquery.effects.pulsate.js');
