@@ -38,7 +38,7 @@ $pages = array();
 								
 	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
 								'ieHack'=>array('flot'=>'excanvas'),
-								'js'=>array('flot'=>array('jquery.flot','jquery.flow.selection')),
+								'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'altro','title'=>'Dettaglio giocatore'));
 									

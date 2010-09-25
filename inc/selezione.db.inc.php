@@ -12,8 +12,7 @@ class Selezione extends DbTable
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		if(isset($values))
@@ -28,8 +27,7 @@ class Selezione extends DbTable
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
 				WHERE idSquadra = '" . $idSquadra . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
@@ -38,8 +36,7 @@ class Selezione extends DbTable
 		$q = "UPDATE selezione 
 				SET giocOld = NULL,giocNew = NULL 
 				WHERE idSquadra = '" . $idSquadra . "';";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -49,8 +46,7 @@ class Selezione extends DbTable
 				FROM selezione 
 				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
@@ -67,8 +63,7 @@ class Selezione extends DbTable
 				FROM selezione 
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
@@ -78,15 +73,14 @@ class Selezione extends DbTable
 					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values->numSelezioni - 1) . "' 
 					WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
 			if(DEBUG)
-				FB::log($q);
+				FirePHP::getInstance(true)->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		$q = "SELECT numSelezioni 
 				FROM selezione 
 				WHERE giocNew IS NOT NULL AND idSquadra = '" . $idSquadra . "'  LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
@@ -96,7 +90,7 @@ class Selezione extends DbTable
 					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values->numSelezioni + 1) . "' 
 					WHERE idSquadra = '" . $idSquadra . "'";
 			if(DEBUG)
-				FB::log($q);
+				FirePHP::getInstance(true)->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
 		else
@@ -104,7 +98,7 @@ class Selezione extends DbTable
 			$q = "INSERT INTO selezione 
 					VALUES ('" . $idLega . "','" . $idSquadra . "','" . $giocOld . "','" . $giocNew . "','1')";
 			if(DEBUG)
-				FB::log($q);
+				FirePHP::getInstance(true)->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;	
 		}
 		if(isset($err))
@@ -123,8 +117,7 @@ class Selezione extends DbTable
 				WHERE idSquadra = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = NULL;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row->numSelezioni;
 		return $val;
@@ -133,8 +126,7 @@ class Selezione extends DbTable
 	public static function svuota()
 	{
 		$q = "TRUNCATE TABLE selezione";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 }

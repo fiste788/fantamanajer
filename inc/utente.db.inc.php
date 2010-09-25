@@ -34,8 +34,7 @@ class Utente extends DbTable
 				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$values[$row->idUtente] = $row;
 		return $values; 
@@ -46,8 +45,7 @@ class Utente extends DbTable
 		$q = "SELECT * 
 				FROM utente";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$values[$row->idUtente] = $row;
 		return $values; 
@@ -59,8 +57,7 @@ class Utente extends DbTable
 				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idUtente] = $row;
 		if(isset($values))
@@ -75,8 +72,7 @@ class Utente extends DbTable
 				FROM utente 
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idUtente] = $row->nome;
 		if(isset($values))
@@ -91,8 +87,7 @@ class Utente extends DbTable
 				FROM squadrastatistiche 
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__); 
 	}
 	
@@ -107,8 +102,7 @@ class Utente extends DbTable
 		if(!empty($password))
 			$q .= ", password = '" . md5($password) . "'";
 		$q .= " WHERE idUtente = '" . $idUtente . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -117,8 +111,7 @@ class Utente extends DbTable
 		$q = "SELECT mail,idUtente,idLega,nomeProp,cognome
 				FROM utente";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$values[$row->idLega][$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
@@ -130,8 +123,7 @@ class Utente extends DbTable
 				FROM utente
 				WHERE abilitaMail <> 0";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$values[$row->idLega][$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
@@ -143,8 +135,7 @@ class Utente extends DbTable
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$values[$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
@@ -156,8 +147,7 @@ class Utente extends DbTable
 				FROM utente
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$values[$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
@@ -170,14 +160,12 @@ class Utente extends DbTable
 		$q = "INSERT INTO utente (nome,username,nomeProp,cognome,password,mail,amministratore,idLega) 
 				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
 		mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$q = "SELECT idUtente 
 				FROM utente 
 				WHERE nome = '" . $nomeSquadra . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row->idUtente;
 		Punteggio::setPunteggiToZero($val,$idLega);
@@ -190,8 +178,7 @@ class Utente extends DbTable
 				FROM utente 
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		if(mysql_affected_rows() == 0)
 			return FALSE;
 		else
@@ -205,8 +192,7 @@ class Utente extends DbTable
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = -1;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row->idLega;
 		return $val;
@@ -219,8 +205,7 @@ class Utente extends DbTable
 				WHERE username LIKE '" . $username . "' AND idUtente <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = FALSE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row;
 		return $val;
@@ -232,8 +217,7 @@ class Utente extends DbTable
 				FROM utente 
 				WHERE nome LIKE '" . $nome . "' AND idUtente <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$val = FALSE;
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row;

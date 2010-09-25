@@ -9,6 +9,7 @@ $jsFiles = array();
 $jsContent = file_get_contents(JSDIR . 'jquery/jquery.js');
 $jsContent .= file_get_contents(JSDIR . 'ui/jquery.effects.core.js');
 $jsContent .= file_get_contents(JSDIR . 'ui/jquery.effects.pulsate.js');
+$jsContent .= file_get_contents(JSDIR . 'uniform/jquery.uniform.js');
 $jsContent .= file_get_contents(JSDIR . 'custom/all.js');
 if(!LOCAL)
 	$jsContent .= file_get_contents(JSDIR . 'googleAnalytics/googleAnalytics.js');

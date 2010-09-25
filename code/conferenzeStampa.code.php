@@ -10,7 +10,7 @@ if (!empty($_POST['giornata']))
 	$filterGiornata = $_POST['giornata'];
 
 $articoli = Articolo::getArticoliByGiornataAndLega($filterGiornata,$_SESSION['legaView']);
-if($articolo != FALSE)
+if($articoli != FALSE)
 	foreach ($articoli as $key => $val)
 		$articoli[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
 

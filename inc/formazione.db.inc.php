@@ -17,8 +17,7 @@ class Formazione extends DbTable
 				WHERE formazione.idFormazione = '" . $id . "' ORDER BY idPosizione";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$elenco[$row->idPosizione] = $row->idGioc;
@@ -68,14 +67,12 @@ class Formazione extends DbTable
 		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .",jolly) 
 				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ",'" . $jolly . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$q = "SELECT idFormazione 
 				FROM formazione 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
@@ -107,14 +104,12 @@ class Formazione extends DbTable
 				SET modulo = '" . $modulo . "'" . $str . " , jolly = '" . $jolly . "' 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$q = "SELECT idFormazione 
 				FROM formazione 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$idFormazione = $row->idFormazione;
 		foreach($formazione as $key => $player)
@@ -139,8 +134,7 @@ class Formazione extends DbTable
 				ORDER BY idPosizione";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$elenco[$row->idPosizione] = $row->idGioc;
@@ -171,8 +165,7 @@ class Formazione extends DbTable
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.idUtente 
 				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$val[$row->idUtente]->idUtente = $row->idUtente;
@@ -189,8 +182,7 @@ class Formazione extends DbTable
 		$q = "UPDATE formazione 
 				SET " . $cap . " = '" . $idGiocNew . "'
 				WHERE idFormazione = '" . $idFormazione . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -199,8 +191,7 @@ class Formazione extends DbTable
 		$q = "SELECT jolly 
 				FROM formazione
 				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = '" . $idUtente . "' AND jolly = '1'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		return (mysql_num_rows($exe) == 1);
 	}

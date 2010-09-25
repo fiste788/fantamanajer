@@ -8,41 +8,27 @@ Fantamanager
 
 To Do:
 -Require meta.lang.php
--Setup sessions
-
-
-Included library:
- * Savant2.php that add the library for the template system
- * config.inc.php that contain the general configuration of the website
- * dblib.inc.php that defines database access function
- * authlib.inc.php that includes function to define the authorization
- * langlib.inc.php that defines functions for lang array
 
 */
+
 /*
  * Prevent XSS attach
  */
 
-foreach($_POST as $key=>$val)
+function preventAttach($array) 
 {
-	if(is_array($val))
+	foreach($array as $key=>$val) 
 	{
-		foreach($val as $key2=>$val2)
-			$_POST[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
+		if(is_array($val))
+			$_array[$key][] = preventAttach($val);
+		else
+			$_array[$key] = stripslashes(addslashes(htmlspecialchars($val)));
 	}
-	else
-		$_POST[$key] = stripslashes(addslashes(htmlspecialchars($val)));
-}	
-foreach($_GET as $key=>$val)
-{
-	if(is_array($val))
-	{
-		foreach($val as $key2=>$val2)
-			$_GET[$key][$key2] = stripslashes(addslashes(htmlspecialchars($val2)));
-	}
-	else
-		$_GET[$key] = stripslashes(addslashes(htmlspecialchars($val)));
+	return $array;
 }
+$_GET = preventAttach($_GET);
+$_POST = preventAttach($_POST);
+
 require('config/config.inc.php');
 require('config/pages.inc.php');
 require(INCDIR . 'savant/Savant3.php');
@@ -51,7 +37,8 @@ require(INCDIR . 'dbTable.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
-require(INCDIR . 'firePhp/fb.php');
+//require(INCDIR . 'firePhp/fb.php');
+require(INCDIR . 'FirePHPCore/FirePHP.class.php');
 require(INCDIR . 'lega.db.inc.php');
 require(INCDIR . 'giornata.db.inc.php');
 
@@ -99,8 +86,12 @@ else
 	@session_start();
 
 define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
+$firePHP = FirePHP::getInstance(true);
+$firePHP->setEnabled(DEBUG);
+$firePHP->registerErrorHandler(FALSE);
 
 ob_start();
+
 //Try login if POSTDATA exists
 require_once(CODEDIR . 'login.code.php');
 
@@ -155,34 +146,32 @@ if(isset($_SESSION['message']))
 	$message = $_SESSION['message'];	
 	unset($_SESSION['message']);
 }
-if(DEBUG)
-	FB::group($p . '.code.php');
+
+$firePHP->group($p . '.code.php');
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php'))
 	require(CODEDIR . $p . '.code.php');
 //definisce il file di template utilizzato per visualizzare questa pagina
 $tplfile = $p . '.tpl.php';
-if(DEBUG)
-	FB::groupEnd();
+
+$firePHP->groupEnd();
 $layoutTpl->assign('message',$message);
 
 
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
  */
-if(DEBUG)
-	FB::group("Giocatori trasferiti");
+$firePHP->group("Giocatori trasferiti");
 if ($_SESSION['logged'])
 {
 	require_once(INCDIR . 'giocatore.db.inc.php');
 	require_once(INCDIR . 'trasferimento.db.inc.php');
-	
+
 	$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
 	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
 		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
-if(DEBUG)
-	FB::groupEnd();
+$firePHP->groupEnd();
 
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbarTpl->assign('p',$p);
@@ -246,7 +235,9 @@ $layoutTpl->assign('content', $content);
 $layoutTpl->assign('operation', $operation);
 $layoutTpl->assign('navbar', $navbar);
 
-ob_end_clean();
+$ob = ob_get_contents();
+if($ob != "")
+	$firePHP->warn($ob);
 /**
  * Output Pagina
  */

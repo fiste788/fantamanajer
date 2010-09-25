@@ -11,8 +11,7 @@ class Squadra extends DbTable
 		foreach($giocatori as $key => $val)
 			$row[] = "('" . $idLega . "','" . $idUtente . "','" . $val . "')";
 		$q .= implode(',',$row);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -21,8 +20,7 @@ class Squadra extends DbTable
 		$q = "DELETE 
 				FROM squadra 
 				WHERE idUtente = '" . $idUtente . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -31,8 +29,7 @@ class Squadra extends DbTable
 		$q = "UPDATE squadra 
 				SET idGioc = '" . $giocatoreNew . "' 
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -41,8 +38,7 @@ class Squadra extends DbTable
 		$q = "UPDATE squadra 
 				SET idUtente = '" . $idUtente . "' 
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -53,8 +49,7 @@ class Squadra extends DbTable
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = FALSE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row->idUtente;
 		return $values;
@@ -64,8 +59,7 @@ class Squadra extends DbTable
 	{
 		$q = "INSERT INTO squadra 
 				VALUES ('" . $idLega . "','" . $idUtente . "','" . $idGioc . "')";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -74,8 +68,7 @@ class Squadra extends DbTable
 		$q = "DELETE
 				FROM squadra 
 				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 }

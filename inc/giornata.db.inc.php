@@ -12,8 +12,7 @@ class Giornata extends DbTable
 				FROM giornata 
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$valore = mysql_fetch_assoc($exe);
 		if (!empty($valore))
 			$valore['partiteInCorso'] = FALSE;
@@ -23,12 +22,11 @@ class Giornata extends DbTable
 				FROM giornata
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or self::sqlError($q);
-			if(DEBUG)
-				FB::log($q);
+			FirePHP::getInstance()->log($q);
 			$valore = mysql_fetch_assoc($exe);
 			$valore['partiteInCorso'] = TRUE;
 		}
-		$valore['stagioneFinita'] = $valore['idGiornata'] > (self::getNumberGiornate() - 1) ? TRUE : FALSE;
+		$valore['stagioneFinita'] = $valore['idGiornata'] > (self::getNumberGiornate() - 1);
 		return $valore;
 	}
 	
@@ -38,8 +36,7 @@ class Giornata extends DbTable
 				FROM giornata 
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$value = mysql_fetch_assoc($exe);
 		if(!empty($value))
 		{
@@ -61,8 +58,7 @@ class Giornata extends DbTable
 				FROM giornata 
 				WHERE idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
@@ -71,8 +67,7 @@ class Giornata extends DbTable
 		$q = "SELECT COUNT(idGiornata) as numeroGiornate
 				FROM giornata";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = mysql_fetch_object($exe);
 		return $values->numeroGiornate;
 	}
@@ -82,8 +77,7 @@ class Giornata extends DbTable
 		$q = "SELECT * 
 				FROM giornata";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$giornate[$row->idGiornata] = $row;
 		return $giornate;
@@ -95,8 +89,7 @@ class Giornata extends DbTable
 		$q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE as dataFine
 				FROM giornata
 				WHERE NOW() > dataInizio";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = mysql_fetch_object($exe,__CLASS__);
 		return $values->dataFine;
@@ -110,8 +103,7 @@ class Giornata extends DbTable
 			foreach($val as $key2 => $val2)
 			{
 				$q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE idGiornata = '" . $key . "'";
-				if(DEBUG)
-					FB::log($q);
+				FirePHP::getInstance()->log($q);
 				$bool *= mysql_query($q) or self::sqlError($q);
 			}
 		}
@@ -134,6 +126,7 @@ class Giornata extends DbTable
 	public static function updateCalendario()
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
+
 		$calendario[1]['dataInizio'] = "2010-08-01 00:00:00";
 		for($giornata = 1;$giornata <= 38;$giornata++)
 			$calendario = array_merge($calendario,self::getArrayOrari($giornata));

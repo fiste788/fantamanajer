@@ -58,7 +58,7 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 						//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 						if(Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 							Punteggio::calcolaPunti($giornata,$squadra,$lega->idLega);
-						elseif(Lega::punteggioFormazioneDimenticata != 0)
+						elseif($lega->punteggioFormazioneDimenticata != 0)
 						{
 							$i = 1;
 							$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);

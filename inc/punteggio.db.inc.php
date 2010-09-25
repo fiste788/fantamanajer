@@ -13,8 +13,7 @@ class Punteggio extends DbTable
 				FROM punteggio 
 				WHERE idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		if(mysql_num_rows($exe) > 0)
 			return FALSE;
 		else
@@ -27,8 +26,7 @@ class Punteggio extends DbTable
 				FROM punteggio 
 				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$punteggio = NULL;
 		if(mysql_num_rows($exe) > 0)
 		{
@@ -58,8 +56,7 @@ class Punteggio extends DbTable
 				FROM punteggio 
 				WHERE idLega = '" . $idLega . "' AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idGiornata][] = $row;
 		foreach($values as $giornata=>$pos)
@@ -74,8 +71,7 @@ class Punteggio extends DbTable
 				FROM giornatevinte 
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row->giornateVinte;
 		return $values;
@@ -89,8 +85,7 @@ class Punteggio extends DbTable
 				GROUP BY idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$classifica = NULL;
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$classifica[$row->idUtente] = $row;
@@ -105,8 +100,7 @@ class Punteggio extends DbTable
 				ORDER BY idGiornata";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$i = 0;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			if(isset($classifica[$row->idUtente][$row->idGiornata]))
@@ -138,8 +132,7 @@ class Punteggio extends DbTable
 		$q = "SELECT COUNT(DISTINCT(idGiornata)) as numGiornate
 				FROM punteggio";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe))
 			return $row->numGiornate;
 	}
@@ -229,7 +222,7 @@ class Punteggio extends DbTable
 					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,idLega) 
 							VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
 				if(DEBUG)
-					FB::log($q);
+					FirePHP::getInstance(true)->log($q);
 				mysql_query($q) or self::sqlError($q);
 				if($percentualePunteggio != NULL)
 				{
@@ -240,7 +233,7 @@ class Punteggio extends DbTable
 							VALUES ('" . $giornata . "','" . $idSquadra . "','" . - ($puntiDaTogliere) ."','Formazione non settata','" . $idLega . "')";
 					mysql_query($q) or self::sqlError($q);
 					if(DEBUG)
-						FB::log($q);
+						FirePHP::getInstance(true)->log($q);
 				}
 				return TRUE;
 			}
@@ -259,7 +252,7 @@ class Punteggio extends DbTable
 			$q = "INSERT INTO punteggio (punteggio,idGiornata,idUtente,idLega) 
 					VALUES('0','" . $i . "','" . $idUtente . "','" . $idLega . "')";
 			if(DEBUG)
-				FB::log($q);
+				FirePHP::getInstance(true)->log($q);
 			mysql_query($q) or self::sqlError($q);
 		}
 		return TRUE;
@@ -272,8 +265,7 @@ class Punteggio extends DbTable
 					VALUES('0','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
 		else
 			return TRUE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -283,8 +275,7 @@ class Punteggio extends DbTable
 				FROM punteggio
 				WHERE punteggio < 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = FALSE;
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
@@ -297,8 +288,7 @@ class Punteggio extends DbTable
 				FROM punteggio
 				WHERE punteggio < 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = FALSE;
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idUtente][$row->idGiornata] = $row->punteggio;
@@ -313,8 +303,7 @@ class Punteggio extends DbTable
 		else
 			$q = "INSERT INTO punteggio (punteggio,penalità,idGiornata,idUtente,idLega) 
 					VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	

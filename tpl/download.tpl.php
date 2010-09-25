@@ -1,4 +1,4 @@
-<form action="<?php echo $this->linksObj->getLink('download'); ?>" method="post">
+<form action="<?php echo Links::getLink('download'); ?>" method="post">
 	<fieldset class="no-margin no-padding">
 		<select<?php echo (!isset($this->filesVoti)) ? ' disabled="disabled"' : ''; ?> id="giornataSelect" name="giornata">
 			<option></option>

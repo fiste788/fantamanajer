@@ -13,7 +13,9 @@ $squadraDett = Utente::getSquadraById($filterSquadra);
 
 $classifica = Punteggio::getClassificaByGiornata($squadraDett->idLega,GIORNATA);
 $elencoSquadre = Utente::getElencoSquadre($squadraDett->idLega);
-if($classifica != NULL) {
+
+if($classifica != NULL) 
+{
 	foreach($classifica as $key => $val)
 	{
 		if($filterSquadra == $val->idUtente)

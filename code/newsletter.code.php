@@ -8,7 +8,6 @@ require_once(INCDIR . 'swiftMailer/swift_required.php');
 
 $transportObj = Swift_MailTransport::newInstance();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
-$articoloObj = new Articolo();
 $mailContent = new Savant3();
 
 $filterLega = NULL;
@@ -65,7 +64,7 @@ if(isset($_POST['button']))
 		$emailOk = array();
 		foreach($emailFiltered as $key => $val)
 			$emailOk = array_merge($emailOk,$val);
-		
+
 		foreach($emailOk as $key => $val){
 			$mailMessageObj->setTo($val);
 			$bool *= $mailerObj->send($mailMessageObj);
@@ -74,14 +73,8 @@ if(isset($_POST['button']))
 		{
 			if(isset($_POST['conferenza']))
 			{
-				$articoloObj->settitle(addslashes(stripslashes($_POST['object'])));
-				$articoloObj->settext(addslashes(stripslashes($_POST['text'])));
-				$articoloObj->setinsertdate(date("Y-m-d H:i:s"));
-				$articoloObj->setidgiornata(GIORNATA);
-				$articoloObj->setidsquadra($_SESSION['idSquadra']);
-				$articoloObj->setidlega($_SESSION['idLega']);
-				$idArticolo = $articoloObj->add($articoloObj);
-				$eventiObj->addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
+				Articolo::addArticolo($_POST['object'],"",$_POST['text'],$_SESSION['idSquadra'],GIORNATA,$_SESSION['idLega'])
+				Evento::addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
 			}
 			$message->success('Mail inviate correttamente');
 		}
