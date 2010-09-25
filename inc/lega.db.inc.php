@@ -16,8 +16,7 @@ class Lega extends DbTable
 		$q = "SELECT * 
 				FROM lega";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 		  	$values[] = $row;
 		return $values; 
@@ -29,8 +28,7 @@ class Lega extends DbTable
 				FROM lega
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
@@ -41,8 +39,7 @@ class Lega extends DbTable
 			$q .= $key . " = '" . $val . "',";
 		$q = substr($q,0,-1);
 		$q .= " WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -51,8 +48,7 @@ class Lega extends DbTable
 		$q = "SHOW COLUMNS
 				FROM lega";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$result[$row->Field] = $row->Default;
 		return $result;

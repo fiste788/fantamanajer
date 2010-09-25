@@ -4,7 +4,8 @@ $("#legaSelect").change(function () {
 		function(data,textStatus){ 
 			if(textStatus = "success") { 
 				$("#squadraSelect").empty(); 
-				$("#squadraSelect").removeAttr("disabled"); 
+				$("#squadraSelect").removeAttr("disabled");
+				$("#uniform-squadraSelect").removeClass("disabled");  
 				$("#squadraSelect").append("<option></option>"); 
 				$.each(data, function(i,item){ 
 					$("#squadraSelect").append('<option value="' + i + '">' + item + '</option>'); 

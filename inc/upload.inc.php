@@ -30,7 +30,7 @@
 							
 class Upload	
 {
-	static function uploadFile ($size , $img , $vid , $doc , $upload_dir , $name)	
+	public static function uploadFile ($size , $img , $vid , $doc , $upload_dir , $name)	
 	{
 			if (trim ($_FILES["userfile"] ["tmp_name"] == ""))	
 			{
@@ -79,7 +79,7 @@ class Upload
 			return 0;
 	}
 	
-	private static function getExtension($filename)
+	public static function getExtension($filename)
 	{
 		$fields = explode('.',$filename);
 		return strtolower(end($fields));

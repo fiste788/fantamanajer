@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$("select, input:text, input:radio, input:checkbox").uniform();
 	$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
 		$(".messaggio").hover(function () {
 			$(this).fadeTo("fast",0.2);

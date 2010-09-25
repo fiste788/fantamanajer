@@ -113,6 +113,7 @@
 			<script src="<?php echo JSURL . 'ui/jquery.effects.core.js'; ?>" type="text/javascript"></script>
 			<script src="<?php echo JSURL . 'ui/jquery.effects.pulsate.js'; ?>" type="text/javascript"></script>
 			<script src="<?php echo JSURL . 'custom/all.js'; ?>" type="text/javascript"></script>
+			<script src="<?php echo JSURL . 'uniform/jquery.uniform.js'; ?>" type="text/javascript"></script>
 			<?php if(!empty($this->js)): ?>
 			<?php foreach($this->js as $key => $val): ?>
 			<?php if(is_array($val)): ?>

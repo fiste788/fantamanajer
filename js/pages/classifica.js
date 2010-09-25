@@ -32,10 +32,16 @@
 		$.each(datasets, function(key, val) {
 			rigaSquadra = choiceContainer.find("#squadra-"+key.replace(/ /g,''));
 			rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '"></div>');
-			rigaSquadra.prepend('<input checked="checked" style="margin:2px 0 0;float:left;padding:0" class="checkall checkbox" type="checkbox" name="' + key + '" checked="checked" />');
+			input = $('<input style="margin:2px 0 0;float:left;padding:0" class="checkall checkbox" type="checkbox" name="' + key + '" />');
+			if(squadra['val'] == "" || key == squadra['val'].toString())
+				input.attr('checked','checked');
+				
+			rigaSquadra.prepend(input);
+			input.uniform();
 		});
-		if(squadra['val'] != "")
-			choiceContainer.find("input[name!='" + squadra['val'] + "']").removeAttr('checked');
+		
+//			choiceContainer.find("input[name!='" + squadra['val'] + "']").removeAttr('checked');
+		//$.uniform.update();
 		choiceContainer.find("input").click(plotAccordingToChoices);
 		var placeholder = $("#placeholder");
 		function plotAccordingToChoices() {
@@ -179,4 +185,4 @@
 $(document).ready(function() {
 	if(typeof(datasets) != "undefined")
 		$(document).classifica(datasets,medie,squadra);
-	});
+});

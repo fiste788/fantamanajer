@@ -12,8 +12,7 @@ class Evento extends DbTable
 	{
 		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal) 
 				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -21,8 +20,7 @@ class Evento extends DbTable
 	{
 		$q = "DELETE 
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -56,8 +54,7 @@ class Evento extends DbTable
 		$q .= " ORDER BY data DESC 
 				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		if(isset($values))

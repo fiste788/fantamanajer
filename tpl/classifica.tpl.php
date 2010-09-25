@@ -1,11 +1,11 @@
 <?php $i = 1; ?>
 <div id="classifica-container" class="column last">
-	<table cellpadding="0" cellspacing="0" class="column last no-margin" style="width:316px;overflow:hidden;">
+	<table cellpadding="0" cellspacing="0" class="column last no-margin" style="width:356px;overflow:hidden;">
 		<tbody>
 			<tr>
-				<th style="width:20px">P.</th>
+				<th style="width:10px">P.</th>
 				<th class="nowrap" style="width:180px">Nome</th>
-				<th style="width:70px">Punti tot</th>
+				<th style="width:30px">P.ti tot</th>
 			</tr>
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
@@ -16,10 +16,10 @@
 			<?php $i++;$flag = $key; endforeach; ?>
 		</tbody>
 	</table>
-	<div id="tab_classifica" class="column last"  style="height:<?php echo (27 * (count($this->classificaDett) +1)) +18; ?>px">
+	<div id="tab_classifica" class="column last"  style="height:<?php echo (27 * (count($this->classificaDett) + 1)) + 18; ?>px">
 	<?php $appo = array_keys($this->classificaDett); $i = $appo[0]; ?>
 	<?php if(key($this->classificaDett[$flag]) != 0): ?>
-	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i])*50; ?>px;margin:0;">
+	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->classificaDett[$i]) * 50; ?>px;margin:0;">
 		<tbody>
 			<tr>
 				<?php foreach($this->classificaDett[$flag] as $key => $val): ?>

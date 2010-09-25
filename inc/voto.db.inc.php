@@ -25,8 +25,7 @@ class Voto extends DbTable
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			return $row->punti;
 	}
@@ -37,9 +36,8 @@ class Voto extends DbTable
 				FROM voto 
 				WHERE idGioc = '" . $idGioc . "' AND valutato = 1";
 		$exe = mysql_query($q) or self::sqlError($q);
-		$values=false;
-		if(DEBUG)
-			FB::log($q);
+		$values = FALSE;
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idGiornata] = $row;
 		return $values;
@@ -51,8 +49,7 @@ class Voto extends DbTable
 				FROM voto 
 				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			return $row->valutato;
 	}
@@ -64,8 +61,7 @@ class Voto extends DbTable
 				WHERE idGioc = '" . $idGioc . "' AND punti <> 0 AND voto <> 0 
 				GROUP BY idGioc";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			return $row;
 	}
@@ -108,8 +104,7 @@ class Voto extends DbTable
 		$q = "SELECT DISTINCT(idGiornata)
 				FROM voto";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row->idGiornata;
 		return in_array($giornata,$values);

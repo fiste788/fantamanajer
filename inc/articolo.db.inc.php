@@ -13,15 +13,13 @@ class Articolo extends DbTable
 	public static function addArticolo($title,$abstract,$text,$idUtente,$idGiornata,$idLega) {
 		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata, idLega) 
 				VALUES ('" . $title . "' , '" . $abstract . "' , '" . $text . "' , '" . date("Y-m-d H:i:s") . "' , '" . $idUtente . "' , '" . $idGiornata . "' , '" . $idLega . "')";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		mysql_query($q) or self::sqlError($q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
 				WHERE title = '" . $title . "' AND abstract = '" . $abstract . "' AND text = '" . $text . "' AND idSquadra = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$data = mysql_fetch_object($exe);
 		return $data->idArticolo;
 	}
@@ -31,8 +29,7 @@ class Articolo extends DbTable
 		$q = "UPDATE articolo 
 				SET title = '" . $title . "' , abstract = '" . $abstract . "' , text = '" . $text . "' , idSquadra = '" . $idUtente . "', idLega = '" . $idLega . "'  
 				WHERE idArticolo = '" . $idArticolo . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -41,8 +38,7 @@ class Articolo extends DbTable
 		$q = "DELETE 
 				FROM articolo 
 				WHERE idArticolo = '" . $idArticolo . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -52,8 +48,7 @@ class Articolo extends DbTable
 				FROM articolo INNER JOIN utente ON articolo.idSquadra = utente.idUtente 
 				WHERE idGiornata = '" . $idGiornata . "' AND articolo.idLega = '" . $idLega . "'"; 
 		$values = FALSE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idArticolo] = $row;
@@ -67,8 +62,7 @@ class Articolo extends DbTable
 				ORDER BY insertDate DESC
 				LIMIT 0," . $number . ""; 
 		$values = FALSE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idArticolo] = $row;
@@ -81,8 +75,7 @@ class Articolo extends DbTable
 				FROM articolo
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = FALSE;
 		while($row = mysql_fetch_object($exe))
 			$values[] = $row->idGiornata;
@@ -95,8 +88,7 @@ class Articolo extends DbTable
 				FROM articolo 
 				WHERE idArticolo = '" . $idArticolo . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 }

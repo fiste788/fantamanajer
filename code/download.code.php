@@ -5,9 +5,9 @@ include_once(INCDIR . 'createZip.inc.php');
 if(isset($_POST['type']))
 {
 	if($_POST['type'] == 'csv')
-		$filesVoti = fileSystem::getFileIntoFolder(str_replace('/ajax','',VOTICSVDIR));
+		$filesVoti = FileSystem::getFileIntoFolder(str_replace('/ajax','',VOTICSVDIR));
 	else
-		$filesVoti = fileSystem::getFileIntoFolder(str_replace('/ajax','',VOTIXMLDIR));
+		$filesVoti = FileSystem::getFileIntoFolder(str_replace('/ajax','',VOTIXMLDIR));
 	sort($filesVoti); 
 	
 	$contentTpl->assign('filesVoti',$filesVoti);

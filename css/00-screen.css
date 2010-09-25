@@ -50,7 +50,13 @@ input.submit {
 input.submit:hover {
 	background: transparent url(../imgs/button.png) no-repeat scroll center bottom;
 }
-input.text {
+option,optgroup {
+	background:#fff;
+}
+input,input:focus {
+	background:#fff;
+}
+/*input.text {
 	background: transparent;
 	border: 0 none;
 	border-bottom:1px solid #fff;
@@ -58,7 +64,7 @@ input.text {
 	font-size:12px;
 	margin:3px 0;
 	width:88px;
-}
+}*/
 label {
 	color: #ffffff;
 	float: left;
@@ -188,6 +194,7 @@ a.neutral {
 .formbox {
 	clear: both;
 	float: left;
+	margin: 2px 0;
 }
 .riga {
 	margin: 0 0 10px;
@@ -207,11 +214,11 @@ a.neutral {
 .fieldset select {
 	margin-right: 5px;
 }
+.nowrap {
+	white-space:nowrap;
+}
 .hidden {
 	display: none;
-}
-.nowrap {
-	white-space: nowrap;
 }
 .tdcenter {
 	text-align:center;
@@ -314,11 +321,11 @@ a.neutral {
 	height:20px;
 	margin:5px 0 5px 5px;
 }
-#login select {
+/*#login select {
 	margin:5px 1px;
 	width:120px;
 	padding:0;
-}
+}*/
 #login .lega {
 	margin:6px 3px 0 0;
 }
@@ -733,12 +740,17 @@ a.logout, a.logout:hover, a.logout:visited {
 	float: left;
 }
 #tab_classifica {
-	width:630px;
+	width:590px;
 	overflow: auto;
 }
 #classifica-container .squadra {
 	vertical-align: middle;
+	white-space:nowrap;
 } 
+#classifica-container .checker {
+	float:left;
+	margin:0;
+}
 #tab_classifica td, #tab_classifica th {
 	text-align: center;
 }

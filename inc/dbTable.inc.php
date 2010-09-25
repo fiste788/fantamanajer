@@ -1,10 +1,11 @@
 <?php
+
 class DbTable
 {
 	protected static function sqlError($q)
 	{
 		ob_end_flush();	
-		FB::error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		FirePHP::getInstance()->error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
 		die();
 	}
 	

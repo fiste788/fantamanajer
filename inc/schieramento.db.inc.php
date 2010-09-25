@@ -13,8 +13,7 @@ class Schieramento extends DbTable
 				WHERE idFormazione = '" . $idFormazione . "'
 				ORDER BY idPosizione";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		return $values;
@@ -25,8 +24,7 @@ class Schieramento extends DbTable
 		$q = "UPDATE schieramento 
 				SET considerato = '" . $val . "'
 				WHERE idFormazione = '" . $idFormazione . "' AND idGioc = '" . $idGioc . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -35,8 +33,7 @@ class Schieramento extends DbTable
 		$q = "UPDATE schieramento 
 				SET idGioc = '" . $idGiocNew . "' 
 				WHERE idGioc = '" . $idGiocOld . "' AND idFormazione = '" . $idFormazione . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
@@ -46,8 +43,7 @@ class Schieramento extends DbTable
 					FROM schieramento
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$row = mysql_fetch_object($exe,__CLASS__);
 		if(!empty($idGioc))
 		{
@@ -68,8 +64,7 @@ class Schieramento extends DbTable
 						WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		else
 			return TRUE;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 	}
 	
@@ -77,8 +72,7 @@ class Schieramento extends DbTable
 	{
 		$q = "DELETE FROM schieramento
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 	}
 }

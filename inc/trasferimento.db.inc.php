@@ -14,8 +14,7 @@ class Trasferimento extends DbTable
 				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimento.idGiocOld 
 				WHERE trasferimento.idSquadra = '" . $idSquadra . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$values = FALSE;
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
@@ -45,14 +44,12 @@ class Trasferimento extends DbTable
 		$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idSquadra,idGiornata,obbligato) 
 				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "','" . Giocatore::checkOutLista($giocOld) . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$q = "SELECT idTrasf 
 						FROM trasferimento
 						WHERE idGiocOld = '" . $giocOld . "' AND idGiocNew = '" . $giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $squadra ."'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
 		Evento::addEvento('4',$squadra,$idLega,$idTrasferimento->idTrasf);
 		$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,GIORNATA);
@@ -77,13 +74,13 @@ class Trasferimento extends DbTable
 					VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "','" . Giocatore::checkOutLista($giocNew) . "')";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
-				FB::log($q);
+				FirePHP::getInstance(true)->log($q);
 			$q = "SELECT idTrasf 
 						FROM trasferimento
 						WHERE idGiocOld = '" . $giocNew . "' AND idGiocNew = '" . $giocOld . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $squadraOld ."'";
 			$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
-				FB::log($q);
+				FirePHP::getInstance(true)->log($q);
 			$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
 			Evento::addEvento('4',$squadraOld,$idLega,$idTrasferimento->idTrasf);
 		}
@@ -117,7 +114,7 @@ class Trasferimento extends DbTable
 				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idSquadra . "','" . GIORNATA . "','" . Giocatore::checkOutLista($val->giocOld) . "')";
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
-					FB::log($q);
+					FirePHP::getInstance(true)->log($q);
 				$formazione = Formazione::getFormazioneBySquadraAndGiornata($val->idSquadra,GIORNATA);
 				if($formazione != FALSE)
 				{
@@ -131,7 +128,7 @@ class Trasferimento extends DbTable
 						WHERE idGiocOld = '" . $val->giocOld . "' AND idGiocNew = '" . $val->giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idSquadra = '" . $val->idSquadra . "'";
 				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
-					FB::log($q);
+					FirePHP::getInstance(true)->log($q);
 				$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
 				Evento::addEvento('4',$val->idSquadra,$val->idLega,$idTrasferimento->idTrasf);
 				if(isset($err))
@@ -153,8 +150,7 @@ class Trasferimento extends DbTable
 				FROM trasferimento 
 				WHERE idTrasf = '" . $id . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		if(DEBUG)
-			FB::log($q);
+		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			return $row;
 	}
