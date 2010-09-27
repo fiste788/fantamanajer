@@ -20,12 +20,13 @@ define ("LOCAL",$local);
 
 if(!LOCAL)
 {
-	if($hostArray[0] != 'www')
-		array_unshift($hostArray, 'www');
-	$hostStaticArray = $hostArray;
-	$hostStaticArray[0] = 'static';
-	$hostStatic = implode('.',$hostStaticArray);
 	$host = implode('.',$hostArray);
+	$hostStaticArray = $hostArray;
+	if($hostStaticArray[0] == 'www')
+		$hostStaticArray[0] = 'static';
+	else
+		array_unshift($hostStaticArray, 'static');
+	$hostStatic = implode('.',$hostStaticArray);
 	$array = explode("/",$doc_root . $sitepath);
 	array_pop($array);
 	
