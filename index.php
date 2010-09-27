@@ -37,7 +37,6 @@ require(INCDIR . 'dbTable.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
-//require(INCDIR . 'firePhp/fb.php');
 require(INCDIR . 'FirePHPCore/FirePHP.class.php');
 require(INCDIR . 'lega.db.inc.php');
 require(INCDIR . 'giornata.db.inc.php');
@@ -46,6 +45,7 @@ require(INCDIR . 'giornata.db.inc.php');
 $dbObj = new db();
 $message = new message();
 $logger = new logger();
+$firePHP = FirePHP::getInstance(true);
 
 //Creating object for pages
 $layoutTpl = new Savant3(array('template_path' => TPLDIR));
