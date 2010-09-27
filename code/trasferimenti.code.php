@@ -136,7 +136,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 							if($filterSquadraOld != FALSE)
 							{
 								$posizioni = Punteggio::getPosClassifica($_SESSION['idLega']);
-								if($posizioni[$_SESSION['idSquadra'] > $posizioni[$filterSquadraOld])
+								if($posizioni[$_SESSION['idSquadra']] > $posizioni[$filterSquadraOld])
 								{
 									Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
 									$mailContent->assign('giocatore',$acquistoDett[$acquisto]->nome . ' ' . $acquistoDett[$acquisto]->cognome);
