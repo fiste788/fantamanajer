@@ -2,16 +2,10 @@
 require_once(INCDIR . 'min.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 
-$jsFiles = array();
-$cssContent = "";
-//$cssFiles = $fileSystemObj->getFileIntoFolderRecursively(CSSDIR,TRUE);
-$jsFiles = array();
-$jsContent .= file_get_contents(JSDIR . 'font/font.js');
-$jsContent = file_get_contents(JSDIR . 'jquery/jquery.js');
-$jsContent .= file_get_contents(JSDIR . 'ui/jquery.effects.core.js');
-$jsContent .= file_get_contents(JSDIR . 'ui/jquery.effects.pulsate.js');
-$jsContent .= file_get_contents(JSDIR . 'uniform/jquery.uniform.js');
-$jsContent .= file_get_contents(JSDIR . 'custom/all.js');
+$jsContent = "";
+foreach($generalJs as $val)
+	$jsContent .= file_get_contents(JSDIR . $val);
+
 if(!LOCAL)
 	$jsContent .= file_get_contents(JSDIR . 'googleAnalytics/googleAnalytics.js');
 	

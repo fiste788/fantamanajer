@@ -45,7 +45,18 @@ require(INCDIR . 'giornata.db.inc.php');
 $dbObj = new db();
 $message = new message();
 $logger = new logger();
-$firePHP = FirePHP::getInstance(true);
+
+$generalJs = array();
+$generalJs[] = 'font/font.js';
+$generalJs[] = 'jquery/jquery.js';
+$generalJs[] = 'ui/jquery.effects.core.js';
+$generalJs[] = 'ui/jquery.effects.pulsate.js';
+$generalJs[] = 'uniform/jquery.uniform.js';
+$generalJs[] = 'custom/all.js';
+
+$generalCss = array();
+$generalCss[] = '00-screen.css';
+$generalCss[] = 'uniform.css';
 
 //Creating object for pages
 $layoutTpl = new Savant3(array('template_path' => TPLDIR));
@@ -54,9 +65,6 @@ $footerTpl = new Savant3(array('template_path' => TPLDIR));
 $contentTpl = new Savant3(array('template_path' => TPLDIR));
 $navbarTpl = new Savant3(array('template_path' => TPLDIR));
 $operationTpl = new Savant3(array('template_path' => OPERATIONTPLDIR));
-
-//If no page have been required give the default page (home.php and home.tpl.php)
-$p = isset($_GET['p']) ? $_GET['p'] : 'home';
 
 $session_name = 'fantamanajer';
 @session_name($session_name);
@@ -85,8 +93,12 @@ if (!isset($_COOKIE[$session_name]))
 else
 	@session_start();
 
+
+//If no page have been required give the default page (home.php and home.tpl.php)
+$p = isset($_GET['p']) ? $_GET['p'] : 'home';
+
 define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
-$firePHP = FirePHP::getInstance(true);
+$firePHP = FirePHP::getInstance(TRUE);
 $firePHP->setEnabled(DEBUG);
 $firePHP->registerErrorHandler(FALSE);
 
@@ -182,6 +194,8 @@ $navbarTpl->assign('pages',$pages);
  */
 $layoutTpl->assign('title',$pages[$p]['title']);
 $layoutTpl->assign('p',$p);
+$layoutTpl->assign('generalJs',$generalJs);
+$layoutTpl->assign('generalCss',$generalCss);
 if(isset($pages[$p]['css']))
  	$layoutTpl->assign('css', $pages[$p]['css']);
 if(isset($pages[$p]['js']))
@@ -237,6 +251,7 @@ $layoutTpl->assign('navbar', $navbar);
 $ob = ob_get_contents();
 if($ob != "")
 	$firePHP->warn($ob);
+	
 /**
  * Output Pagina
  */

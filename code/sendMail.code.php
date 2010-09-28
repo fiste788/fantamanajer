@@ -13,7 +13,6 @@ $logger->start("MAIL FORMAZIONE");
 
 $today = date("Y-m-d");
 $date = Giornata::getDataByGiornata(GIORNATA);
-FB::log($date);
 $giorn = explode(' ',$date->dataFine);
 $dataGiornata = $giorn[0];
 

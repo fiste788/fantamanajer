@@ -6,10 +6,7 @@ if(isset($_POST['nomeLega']))
 	$flag = 0;
 	foreach($_POST as $key=>$val)
 		if($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val))
-		{
-			FB::log($key);
 			$flag = 1;
-		}
 	if(!is_numeric($_POST['numTrasferimenti']) || !is_numeric($_POST['numSelezioni']) || !is_numeric($_POST['minFormazione']) )
 		$flag = 2;
 	if($flag == 0)

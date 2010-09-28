@@ -87,8 +87,6 @@ class Voto extends DbTable
 					$voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[4] . "','" . $pezzi[10] . "','" . $pezzi[5] . "','" . $pezzi[9] . "','" . $pezzi[6] . "','" . $pezzi[7] . "','" . $pezzi[8] . "')";
 				}
 				$q .= implode(',',$voti);
-				if(DEBUG)
-					FB::log($q);
 				return mysql_query($q) or self::sqlError($q);
 			}
 			else

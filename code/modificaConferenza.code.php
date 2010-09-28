@@ -53,7 +53,7 @@ if(isset($_POST['submit']))
 $title = "";
 $abstract = "";
 $text = "";
-FB::log($articolo);
+
 if(isset($articolo))
 	$title = $articolo->title;
 if(isset($_POST['title']))
