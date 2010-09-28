@@ -69,7 +69,6 @@ class Decrypt
 					
 					$stringa .= chr($xor2);
 				}
-				FB::log($stringa);
 				$scriviFile = fopen($percorsoCsv,"w");
 				$pezzi = explode("\n",$stringa);
 				array_pop($pezzi);

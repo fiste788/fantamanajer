@@ -28,11 +28,11 @@
 			</p>
 			<p>
 				<span class="bold">Punti min:</span>
-				<?php echo (isset($this->min)) ? $this->media : 0; ?>
+				<?php echo (isset($this->min)) ? $this->min : 0; ?>
 			</p>
 			<p>
 				<span class="bold">Punti max:</span>
-				<?php echo (isset($this->max)) ? $this->media : 0; ?>
+				<?php echo (isset($this->max)) ? $this->max : 0; ?>
 			</p>
 		</div>
 		<?php if($this->squadraDett->idUtente == $_SESSION['idSquadra']): ?>

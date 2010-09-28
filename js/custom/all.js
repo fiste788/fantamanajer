@@ -1,5 +1,26 @@
+$(window).resize(function() {
+	var width = $("body").width();
+	var element = $("#topRightBar");
+	if(element.length > 0)
+	{
+		if(width < 1172)
+			$("#login").css("margin-right",(1172 - width - 90) + ((width - 992) / 2) + "px");
+		else
+			$("#login").css("margin-right","0px");
+	}
+});
 $(document).ready(function(){
-	$("select, input:text, input:radio, input:checkbox").uniform();
+	var width = $("body").width();
+	var element = $("#topRightBar");
+	if(element.length > 0)
+	{
+		if(width < 1172)
+			$("#login").css("margin-right",(1172 - width - 90) + ((width - 992) / 2) + "px");
+		else
+			$("#login").css("margin-right","0px");
+	}
+	$("#menu").css("top","-" + $("#menu").height() + "px");
+	$("select, input:text, input:radio, input:checkbox, textarea").uniform();
 	$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
 		$(".messaggio").hover(function () {
 			$(this).fadeTo("fast",0.2);
@@ -13,12 +34,14 @@ $(document).ready(function(){
 	$("#debugShow").click(function(){
 		$("#debug").slideToggle();
 	});
-	$("#click-menu").toggle(function(event){
-		$("#menu").animate({right:'0px'},'slow');
-		$("#click-menu").attr("title","Nascondi menu");
+	$("#click-menu").toggle(
+	function(event){
+		$("#menu").animate({right:'0px',top:'0px'},'slow');
+		$("#topRightBar").attr("title","Nascondi menu");
 	},
 	function(event){
-		$("#menu").animate({right:'-300px'},'slow');
-		$("#click-menu").attr("title","Mostra menu");
+		$("#menu").animate({right:'-' + $("#menu").width() + 'px',top:'-' + $("#menu").height() + 'px'},'slow');
+		$("#topRightBar").attr("title","Mostra menu");
 	});
 });
+;

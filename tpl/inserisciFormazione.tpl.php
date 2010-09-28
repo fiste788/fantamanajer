@@ -8,7 +8,7 @@
 		<input type="hidden" name="giornata" value="<?php echo $this->giornata; ?>">
 		<input type="hidden" name="squadra" value="<?php echo $this->squadra; ?>">
 		<h3 class="center">Titolare</h3>
-		<?php FB::info($this->giocatori);foreach($this->giocatori as $key => $val): ?>
+		<?php foreach($this->giocatori as $key => $val): ?>
 			<h4 class="bold no-margin"><?php echo $this->ruo[$this->ruoliKey[$j]]; ?></h4><hr />
 			<?php for($i = 0; $i < $this->modulo[$j] ; $i++): ?>
 				<select name="<?php echo $this->ruoliKey[$j] . '[' . $i . ']'; ?>">

@@ -8,7 +8,13 @@
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<meta name="robots" content="index,follow" />
-		<link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />
+		<?php if(LOCAL): ?>
+			<?php foreach($this->generalCss as $key => $val): ?>
+				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
+			<?php endforeach; ?>
+		<?php else: ?>
+			<link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />
+		<?php endif; ?>
 		<?php if(isset($this->css)): ?>
 		<?php foreach($this->css as $key => $val): ?>
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -84,22 +90,22 @@
 			</div>
 		</div>
 		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
-		<div id="rightBar">
-			<?php if(isset($this->quickLinks->prec) && $this->quickLinks->prec != FALSE): ?>
-				<a class="quickLinks" href="<?php echo $this->quickLinks->prec->href; ?>" title="<?php echo $this->quickLinks->prec->title; ?>">&laquo;</a>
-			<?php elseif(isset($this->quickLinks->prec) && $this->quickLinks->prec == FALSE): ?>
-				<a class="quickLinksDisabled" title="Disabilitato">&laquo;</a>
-			<?php endif; ?>
-			<?php if(!empty($this->operation)): ?>
-				<a title="Mostra menu" id="click-menu"><span>M</span><span>E</span><span>N</span><span>U</span></a>
-			<?php endif; ?>
-			<?php if(isset($this->quickLinks->succ) && $this->quickLinks->succ != FALSE): ?>
-				<a class="quickLinks" href="<?php echo $this->quickLinks->succ->href; ?>" title="<?php echo $this->quickLinks->succ->title; ?>">&raquo;</a>
-			<?php elseif(isset($this->quickLinks->succ) && $this->quickLinks->succ == FALSE): ?>
-				<a class="quickLinksDisabled" title="Disabilitato">&raquo;</a>
-			<?php endif; ?>
+		<div id="topRightBar"<?php if(!empty($this->operation)) echo  'class="active"'; ?>>
+			<div>
+				<?php if(!empty($this->operation)): ?>
+				<div title="Mostra menu" id="click-menu">
+					<span>Menu</span>
+				</div>
+				<?php endif; ?>
+				<?php if(isset($this->quickLinks->prec) && $this->quickLinks->prec != FALSE): ?>
+					<a class="back" href="<?php echo $this->quickLinks->prec->href; ?>" title="<?php echo $this->quickLinks->prec->title; ?>">&nbsp;</a>
+				<?php endif; ?>
+				<?php if(isset($this->quickLinks->succ) && $this->quickLinks->succ != FALSE): ?>
+					<a class="next" href="<?php echo $this->quickLinks->succ->href; ?>" title="<?php echo $this->quickLinks->succ->title; ?>">&nbsp;</a>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>	
 		</div>
-		<?php endif; ?>
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
@@ -109,21 +115,18 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 		<?php if(LOCAL): ?>
-			<script src="<?php echo JSURL . 'font/font.js'; ?>" type="text/javascript"></script>
-			<script src="<?php echo JSURL . 'jquery/jquery.js'; ?>" type="text/javascript"></script>
-			<script src="<?php echo JSURL . 'ui/jquery.effects.core.js'; ?>" type="text/javascript"></script>
-			<script src="<?php echo JSURL . 'ui/jquery.effects.pulsate.js'; ?>" type="text/javascript"></script>
-			<script src="<?php echo JSURL . 'custom/all.js'; ?>" type="text/javascript"></script>
-			<script src="<?php echo JSURL . 'uniform/jquery.uniform.js'; ?>" type="text/javascript"></script>
-			<?php if(!empty($this->js)): ?>
-			<?php foreach($this->js as $key => $val): ?>
-			<?php if(is_array($val)): ?>
-			<?php foreach($val as $key2=>$val2): ?>
-			<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+			<?php foreach($this->generalJs as $key => $val): ?>
+				<script src="<?php echo JSURL . $val; ?>" type="text/javascript"></script>
 			<?php endforeach; ?>
-			<?php else: ?>
-			<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
-			<?php endif; ?>
+			<?php if(isset($this->js)): ?>
+			<?php foreach($this->js as $key => $val): ?>
+				<?php if(is_array($val)): ?>
+					<?php foreach($val as $key2=>$val2): ?>
+						<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
+				<?php endif; ?>
 			<?php endforeach; ?>
 			<?php endif; ?>
 			<?php if(file_exists(JSDIR . 'pages/' . $this->p  . '.js')): ?>

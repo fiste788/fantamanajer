@@ -27,7 +27,7 @@ if(!LOCAL)
 	else
 		array_unshift($hostStaticArray, 'static');
 	$hostStatic = implode('.',$hostStaticArray);
-	$array = explode("/",$doc_root . $sitepath);
+	$array = explode("/",$doc_root);
 	array_pop($array);
 	
 	define("FULLPATH",$doc_root . $sitepath . '/');

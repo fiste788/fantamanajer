@@ -236,17 +236,48 @@ a.neutral {
 	background: transparent url(../imgs/bg-content.png);
 	padding:10px;
 }
-#rightBar {
+#click-menu {
+	width:100%;
+	height:100%;
+}
+#topRightBar {
 	position:fixed;
 	right:0;
-	top:40%;
-	width:23px;
+	top:0;
+	width:85px;
+	height:85px;
 	z-index:4;
-	background:#00a2ff;
+	text-indent:9999px;
+	position:fixed;
+	background:transparent url(../imgs/menu-inactive.png);
 	text-align:center;
 }
-#rightBar .quickLinksDisabled {
-	background:#bbb;
+#topRightBar.active {
+	background:transparent url(../imgs/menu.png);
+}
+#topRightBar>div {
+	position:relative;
+	width:100%;
+	height:100%;
+	cursor:pointer;
+}
+.back {
+	left:0;
+	top:0;
+}
+.next {
+	bottom:0;
+	right:0;
+}
+.back,.next {
+	background:transparent url(../imgs/quick.png) no-repeat top right;
+	position:absolute;
+	height:25px;
+	width:25px;
+	display:block;
+	text-indent:0px;
+	z-index:5;
+	outline-color: #ff2285;
 }
 #rightBar a {
 	color:#fff;
@@ -262,18 +293,22 @@ a.neutral {
 #menu {
 	border-color:#00a2ff;
 	border-style:solid;
-	border-width: 5px 0px 5px 5px; 
-	background: #585858;
+	border-width: 0px 0px 5px 5px; 
+	background: url("../imgs/bg-content.png") repeat scroll 0 0 transparent;
 	position:fixed;
 	right:-300px;
-	top:25px;
+	top:0px;
 	width:285px;
 	display:block;
-	padding:10px 0 10px 10px;
+	padding:35px 0 15px 5px;
 	z-index:3;
+	text-shadow:0 0 20px #fff;
+	-moz-border-radius:0 0 0 35px;
+	border-radius: 0 0 0 35px;
 }
 #menu h3 {
 	margin-bottom:5px;
+	color:#fff;
 }
 #big-container {
 	width: 980px;
@@ -297,15 +332,21 @@ a.neutral {
 	top: 0pt;
 }
 /*----------------------------login-------------------------------------------*/
-#login,#login-left,#login-right,#login-center {
-	height: 32px;
+#login-left,#login-right,#login-center {
+	height: 28px;
+	padding: 2px 0;
+}
+#login {
+	width:585px;
 }
 #login-left {
 	width: 5px;
+	overflow:hidden;
 	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -46px;
 }
 #login-right {
 	width: 5px;
+	overflow:hidden;
 	background: transparent url(../imgs/roundedborders.png) no-repeat -2px -78px;
 }
 #login-center {
@@ -321,11 +362,9 @@ a.neutral {
 	height:20px;
 	margin:5px 0 5px 5px;
 }
-/*#login select {
-	margin:5px 1px;
-	width:120px;
-	padding:0;
-}*/
+#login select {
+	width:180px;
+}
 #login .lega {
 	margin:6px 3px 0 0;
 }
@@ -433,19 +472,20 @@ a.logout, a.logout:hover, a.logout:visited {
 #operazioni,#operazioni-other {
 	text-align: left;
 	padding: 0;
-	margin:0;
+	margin:0 0 15px;
 	width: 100%;
 }
 #operazioni .operazione {
 	padding:4px 0 5px 35px;
 	margin:2px 0;
+	color: #fff;
 	font-size:14px;
 }
 #operazioni a.operazioni-title {
 	background: transparent url(../imgs/point.png) no-repeat scroll left center;
 	padding: 8px 0 8px 45px;
 	margin: 0 0 5px 0;
-	color: #ff9900;
+	color: #fff;
 	font-size: 1.5em;
 	outline: none;
 }
