@@ -3,12 +3,10 @@
 	require_once(INCDIR . 'db.inc.php');
 	require_once(INCDIR . 'dbTable.inc.php');
 	require_once(INCDIR . 'utente.db.inc.php');
-
-	//Creating a new db istance
-	$dbObj = new db;
+	require_once(INCDIR . 'FirePHPCore/FirePHP.class.php');
 	
-	define("DEBUG",FALSE);
-	
+	$firePHP = FirePHP::getInstance(TRUE);
+	$dbObj = new db;	
 	$squadre = Utente::getAllSquadre();
 	
 	// Modifico l'intestazione e il tipo di documento da PHP a XML

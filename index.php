@@ -47,7 +47,7 @@ $message = new message();
 $logger = new logger();
 
 $generalJs = array();
-$generalJs[] = 'font/font.js';
+//$generalJs[] = 'font/font.js';
 $generalJs[] = 'jquery/jquery.js';
 $generalJs[] = 'ui/jquery.effects.core.js';
 $generalJs[] = 'ui/jquery.effects.pulsate.js';

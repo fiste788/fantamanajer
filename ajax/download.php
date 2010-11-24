@@ -6,8 +6,7 @@
 	require_once('../' . INCDIR . 'FirePHPCore/FirePHP.class.php');
 	
 	$firePHP = FirePHP::getInstance(TRUE);
-	$firePHP->setEnabled(FALSE);
-	
+		
 	if($_GET['type'] == 'csv')
 		$filesVoti = FileSystem::getFileIntoFolder(str_replace('/ajax','',VOTICSVDIR));
 	else

@@ -4,6 +4,7 @@ $host = $_SERVER['SERVER_NAME'];				//server name
 
 $hostArray = explode('.',$host);
 $local = (substr($_SERVER['REMOTE_ADDR'],0,7) == '192.168' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['SERVER_NAME'] == 'localhost');
+$develop = ($hostArray[0] == 'develop');
 
 $tmp = explode('/',$_SERVER['PHP_SELF']);			//website path(example: for "http://www.dominio.it/one/jpg/one.jpg" it takes "/one/jpg/one.jpg")
 array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)
@@ -17,6 +18,7 @@ $doc_root = str_replace($sitepath,'',$cwd);			//example /var/www/
 
 define ("PROTO",$proto);
 define ("LOCAL",$local);
+define ("DEVELOP",$develop);
 
 if(!LOCAL)
 {
@@ -24,8 +26,9 @@ if(!LOCAL)
 	$hostStaticArray = $hostArray;
 	if($hostStaticArray[0] == 'www')
 		$hostStaticArray[0] = 'static';
-	else
+	elseif($hostStaticArray[0] != 'develop')
 		array_unshift($hostStaticArray, 'static');
+	
 	$hostStatic = implode('.',$hostStaticArray);
 	$array = explode("/",$doc_root);
 	array_pop($array);
@@ -37,14 +40,28 @@ if(!LOCAL)
 	define("FULLSTATICURLAUTH",$proto . "administrator:banana@" .  $hostStatic . $sitepath . '/');
 	define("FULLSTATICPATH",implode("/",$array) . "/subdomains/static/httpdocs/");
 	
-	define("DBTYPE","mysql");
-	define("DBNAME","fantamanajer");
-	define("DBUSER","fantamanajerUser");
-	define("DBPASS","banana");
-	define("DBHOST","mysql13.aziendeitalia.com:3306");
-	
-	define("MODREWRITE",TRUE);
-	error_reporting(0);
+	if(!DEVELOP)
+	{
+		define("DBTYPE","mysql");
+		define("DBNAME","fantamanajer");
+		define("DBUSER","fantamanajerUser");
+		define("DBPASS","banana");
+		define("DBHOST","mysql13.aziendeitalia.com:3306");
+		
+		define("MODREWRITE",TRUE);
+		error_reporting(E_ALL);
+	}
+	else
+	{
+		define("DBTYPE","mysql");
+		define("DBNAME","fantamanajer");
+		define("DBUSER","fantamanajerUser");
+		define("DBPASS","banana");
+		define("DBHOST","mysql13.aziendeitalia.com:3306");
+		
+		define("MODREWRITE",FALSE);
+		error_reporting(E_ALL);
+	}
 }
 else
 {
