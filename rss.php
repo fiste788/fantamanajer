@@ -4,10 +4,9 @@
 	require_once(INCDIR . 'dbTable.inc.php');
 	require_once(INCDIR . 'evento.db.inc.php');
 	require_once(INCDIR . 'emoticon.inc.php');
-
-	define("DEBUG",FALSE);	
+	require_once(INCDIR . 'FirePHPCore/FirePHP.class.php');
 	
-	//Creating a new db istance
+	$firePHP = FirePHP::getInstance(TRUE);
 	$dbObj = new db;
 	$eventi = Evento::getEventi($_GET['lega'],NULL,0,50);
 	//echo "<pre>".print_r($eventi,1)."</pre>";

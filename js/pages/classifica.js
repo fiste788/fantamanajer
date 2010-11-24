@@ -122,7 +122,7 @@
 			var previousPoint = null;
 			$("#placeholder").bind("plothover", function (event, pos, item) {
 				if (item) {
-					if (previousPoint != item.datapoint) {
+					if (!previousPoint || (previousPoint[0] != item.datapoint[0]) || (previousPoint[1] != item.datapoint[1])) { 
 						previousPoint = item.datapoint;
 						$("#tooltip").remove();
 						var x = item.datapoint[0].toFixed(2),

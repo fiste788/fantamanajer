@@ -5,7 +5,7 @@
 			<tr>
 				<th style="width:10px">P.</th>
 				<th class="nowrap" style="width:180px">Nome</th>
-				<th style="width:30px">P.ti tot</th>
+				<th style="width:35px">P.ti tot</th>
 			</tr>
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
