@@ -112,6 +112,7 @@ class Giornata extends DbTable
 	
 	private static function getArrayOrari($giornata) 
 	{
+		require_once(INCDIR . 'fileSystem.inc.php');
 		$orari = FileSystem::scaricaOrariGiornata($giornata);
 		$calendario[$giornata]['dataFine'] = date('Y-m-d H:i:s',$orari['inizioPartite']);
 		$calendario[$giornata + 1]['dataInizio'] = date('Y-m-d H:i:s',$orari['finePartite'] + (2 * 3600));

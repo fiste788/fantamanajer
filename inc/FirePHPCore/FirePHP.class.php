@@ -77,7 +77,7 @@ class FirePHP {
      *
      * @var string
      */
-    const VERSION = '0.3';    // @pinf replace '0.3' with '%%package.version%%'
+    const VERSION = '0.0.0master1010251614';    
 
     /**
      * Firebug LOG level
@@ -87,7 +87,7 @@ class FirePHP {
      * @var string
      */
     const LOG = 'LOG';
-  
+    
     /**
      * Firebug INFO level
      *

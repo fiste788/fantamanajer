@@ -1,6 +1,6 @@
 <?php
 $logger->start("UPDATE ORARI");
-if(Giornata::checkDay(date("Y-m-d"),'dataFine',-2) != FALSE)
+if(Giornata::checkDay(date("Y-m-d"),'dataFine',-2) != FALSE || $_SESSION['usertype'] == 'superadmin')
 {
 	$logger->info("Updating end of this gameweek and start of next gameweek");
 	if(Giornata::updateOrariGiornata())
