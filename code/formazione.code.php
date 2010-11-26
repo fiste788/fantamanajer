@@ -93,7 +93,7 @@ if(!PARTITEINCORSO)
 			else
 				$capitano[$key] = $val;
 		}
-		$jolly = (isset($_POST['jolly'])) ? 1 : 0;
+		$jolly = isset($_POST['jolly']);
 		//echo "<pre>".print_r($formazione,1)."</pre>";
 		//echo "<pre>".print_r($capitano,1)."</pre>";
 		if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI

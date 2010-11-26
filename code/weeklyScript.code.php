@@ -24,6 +24,7 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 	{
 		$logger->info("Starting decript file day " . $giornata);
 		$path = Decrypt::decryptCdfile($giornata);
+		FirePHP::getInstance()->log($path);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 		if($path != FALSE || Voto::checkVotiExist($giornata))
 		{
@@ -31,7 +32,9 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 			{
 				$logger->info("File with point created succefully");
 				$logger->info("Updating table players");
-				Giocatore::updateTabGiocatore($path,$giornata);
+				$result = Giocatore::updateTabGiocatore($path,$giornata);
+				if($result != TRUE)
+					$logger->error($result);
 			}
 			else
 				$logger->info("Points already exists in database");

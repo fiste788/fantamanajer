@@ -64,8 +64,12 @@ class Formazione extends DbTable
 			else
 				$valori .= ",'" . $val."'";
 		}
+		if($jolly)
+			$jolly = "'1'";
+		else
+			$jolly = "NULL";
 		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .",jolly) 
-				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . ",'" . $jolly . "')";
+				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . "," . $jolly . ")";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		$q = "SELECT idFormazione 
@@ -100,8 +104,12 @@ class Formazione extends DbTable
 				$str .= "," . $key . " = NULL";
 			else
 				$str .= "," . $key . " = '" . $val . "'";
+		if($jolly)
+			$jolly = "'1'";
+		else
+			$jolly = "NULL";
 		$q = "UPDATE formazione 
-				SET modulo = '" . $modulo . "'" . $str . " , jolly = '" . $jolly . "' 
+				SET modulo = '" . $modulo . "'" . $str . " , jolly = " . $jolly . " 
 				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);

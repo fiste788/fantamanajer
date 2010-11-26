@@ -337,7 +337,7 @@ a.neutral {
 	padding: 2px 0;
 }
 #login {
-	width:585px;
+	width:605px;
 }
 #login-left {
 	width: 5px;
@@ -603,7 +603,7 @@ a.logout, a.logout:hover, a.logout:visited {
 	padding: 10px;
 }
 .box .data {
-	width: 195px;
+	width: 194px;
 }
 .box .link {
 	float:right;

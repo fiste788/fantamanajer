@@ -166,10 +166,12 @@ class Giocatore extends DbTable
 			return $row->ruolo;
 	}
 	
-	public static function getArrayGiocatoriFromDatabase()
+	public static function getArrayGiocatoriFromDatabase($all = FALSE)
 	{
 		$q = "SELECT giocatore.*, nomeClub  
-				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub WHERE giocatore.club IS NOT NULL";
+				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub";
+		if($all)
+			 $q .= " WHERE giocatore.club IS NOT NULL";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$giocatori = array();
@@ -218,6 +220,7 @@ class Giocatore extends DbTable
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			}
 		}
+		$playersOld = self::getArrayGiocatoriFromDatabase(TRUE);
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
 		$daTogliere = array_diff_key($playersOld, $players);  
 		$daInserire = array_diff_key($players,$playersOld);
@@ -259,8 +262,9 @@ class Giocatore extends DbTable
 		}
 		if(isset($err))
 		{
+			FirePHP::getInstance()->error($err);
 			self::rollback();
-			return FALSE;
+			return $err;
 		}
 		else
 		{
