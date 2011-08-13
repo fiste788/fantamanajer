@@ -66,7 +66,7 @@ class Giocatore extends DbTable
 					FROM giocatore
 					INNER JOIN club ON giocatore.club = club.idClub
 					WHERE ruolo = '" . $ruolo . "'
-					AND club <> ''
+					AND status=1
 					AND giocatore.idGioc NOT IN (
 						SELECT idGioc
 						FROM squadra
@@ -94,7 +94,7 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoreById($idGioc)
 	{
-		$q = "SELECT idGioc,cognome,nome,ruolo,nomeClub,partitivo 
+		$q = "SELECT idGioc,cognome,nome,ruolo,nomeClub,partitivo,determinativo 
 				FROM giocatore LEFT JOIN club ON giocatore.club=club.idClub
 				WHERE idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -171,7 +171,7 @@ class Giocatore extends DbTable
 		$q = "SELECT giocatore.*, nomeClub  
 				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub";
 		if($all)
-			 $q .= " WHERE giocatore.club IS NOT NULL";
+			 $q .= " WHERE giocatore.status=1";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$giocatori = array();
@@ -180,7 +180,7 @@ class Giocatore extends DbTable
 			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
 			$giocatori[$row->idGioc] = implode(";",get_object_vars($row));
 		}
-		return $giocatori;
+		return $giocatori;                
 	}
 
 	public static function updateTabGiocatore($path,$giornata)
@@ -191,7 +191,6 @@ class Giocatore extends DbTable
 		
 		$ruoli = array("P","D","C","A");
 		$playersOld = self::getArrayGiocatoriFromDatabase();
-		
 		$players = fileSystem::returnArray($path,";");
 		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
 		foreach($players as $key=>$details)
@@ -200,7 +199,8 @@ class Giocatore extends DbTable
 			{
 				$clubNew = substr($details[3],1,3);
 				$pieces = explode(";",$playersOld[$key]);
-				$clubOld = $pieces[5];
+				$clubOld = $pieces[6];
+				//FirePHP::getInstance()->log($clubOld."->".$clubNew);
 				if($clubNew != $clubOld)
 					$clubs[$clubNew][] = $key;
 			}
@@ -212,7 +212,7 @@ class Giocatore extends DbTable
 			{
 				$giocatori = join("','",$clubs[$key]);
 				$q = "UPDATE giocatore 
-						SET club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
+						SET status=1,club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
 						WHERE idGioc IN ('" . $giocatori . "')";
 				foreach($clubs[$key] as $single)
 					Evento::addEvento('7',0,0,$single);
@@ -220,18 +220,19 @@ class Giocatore extends DbTable
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			}
 		}
-		$playersOld = self::getArrayGiocatoriFromDatabase(TRUE);
 		// aggiunge i giocatori nuovi e rimuove quelli vecchi
-		$daTogliere = array_diff_key($playersOld, $players);  
-		$daInserire = array_diff_key($players,$playersOld);
-
-		// aggiunge nuovi giocatori
+		$daTogliere = array_diff_key(self::getArrayGiocatoriFromDatabase(TRUE), $players);  
+		$daInserire = array_diff_key($players,self::getArrayGiocatoriFromDatabase());  
+		FirePHP::getInstance()->log($daTogliere);
+		FirePHP::getInstance()->log($daInserire);
+				// aggiunge nuovi giocatori
 		if(count($daInserire) != 0)
 		{
 			$rowtoinsert = "";
 			foreach($daInserire as $key => $pezzi)
 			{
 				$esprex = "/[A-Z']*\s?[A-Z']{2,}/";
+				
 				$id = $pezzi[0];
 				$nominativo = trim($pezzi[2],'"');
 				$club = substr(trim($pezzi[3],'"'),0,3);
@@ -241,11 +242,11 @@ class Giocatore extends DbTable
 				$nome = trim(substr($nominativo,strlen($cognome)));
 				$cognome = ucwords(strtolower((addslashes($cognome))));
 				$nome = ucwords(strtolower((addslashes($nome))));
-				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $club . "%')),";
+				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $club . "%'),1),";
 				if(!empty($playersOld))
 					Evento::addEvento('5',0,0,$pezzi[0]);
 			}
-			$q = rtrim("INSERT INTO giocatore(idGioc,cognome,nome,ruolo,club) VALUES " . $rowtoinsert,",");
+			$q = rtrim("INSERT INTO giocatore(idGioc,cognome,nome,ruolo,club,status) VALUES " . $rowtoinsert,",");
 			FirePHP::getInstance()->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
@@ -255,7 +256,7 @@ class Giocatore extends DbTable
 				Evento::addEvento('6',0,0,$id);
 			$stringaDaTogliere = join("','",array_keys($daTogliere));
 			$q = "UPDATE giocatore 
-					SET club = NULL 
+					SET status = 0 
 					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
 			FirePHP::getInstance()->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;

@@ -112,7 +112,7 @@ class Voto extends DbTable
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
 		
-		$players = fileSystem::returnArray($path,";");
+		$players = fileSystem::returnArray($path,";",TRUE);  //true per intestazione
 		foreach($players as $id=>$stats)
 		{
 			$valutato = $stats[6];	//1=valutato,0=senzavoto

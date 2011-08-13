@@ -69,12 +69,14 @@ class FileSystem
 		return $array_items;
 	}
 	
-	public static function returnArray($path,$sep = ";") 
+	public static function returnArray($path,$sep = ";",$riga_intest=FALSE) 
 	{
 		if(!file_exists($path)) 
 			die("File non esistente");
 		$content = trim(file_get_contents($path));
 		$players = explode("\n",$content);
+		if($riga_intest)		//se esiste tolgo la riga descrittiva d'intestazione
+			array_shift($riga_intest);
 		foreach ($players as $key => $val) 
 		{
 			$par = explode($sep,$val);

@@ -10,6 +10,12 @@
 		</h3>
 	</li>
 	<li>
+		<h3 class="column">
+			<a class="script" id="updateGiocatori"><img class="column" alt="->" src="<?php echo IMGSURL . 'update.png'; ?>" />Aggiorna lista giocatori</a>
+		</h3>
+	</li>
+
+	<li>
 		<h3>
 			<a class="script" id="weeklyScript"><img class="column" alt="->" src="<?php echo IMGSURL . 'other-big.png'; ?>" />WeeklyScript</a>
 		</h3>

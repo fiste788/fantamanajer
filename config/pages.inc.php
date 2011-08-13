@@ -82,7 +82,11 @@ $pages = array();
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Script'));
 										
-	$pages['updateGioc'] = array(	'title'=>"Aggiorna lista giocatori",
+	$pages['updateGiocatori'] = array(	'title'=>"Aggiorna lista giocatori",
+										'roles'=>-1,
+										'navbar'=>array('key'=>'altro','title'=>'Script'));
+
+	$pages['creaCalendario'] = array(	'title'=>"crea calendario",
 										'roles'=>-1,
 										'navbar'=>array('key'=>'altro','title'=>'Script'));
 									
