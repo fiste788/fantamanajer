@@ -103,14 +103,14 @@ class Evento extends DbTable
 								case 6: 
 									$player = Giocatore::getGiocatoreById($values[$key]->idExternal);
 									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' non fa più parte della lista giocatori';
-									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' non è più un giocatore militante in Serie A';
+									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' (ex '.$selected->nomeClub.') non fa più parte della lista giocatori';
+									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' non è più un giocatore '.$selected->partitivo.' '.$selected->nomeClub;
 									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
 									break;
 								case 7: 
 									$player = Giocatore::getGiocatoreById($values[$key]->idExternal);
 									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' è stato ingaggiato dalla squadra ' . $selected->partitivo . ' ' . $selected->nomeClub;
+									$values[$key]->titolo =  $selected->determinativo.' '.$selected->nomeClub. ' ha ingaggiato '.$selected->nome . ' ' . $selected->cognome;
 									$values[$key]->content = '';
 									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
 									break;

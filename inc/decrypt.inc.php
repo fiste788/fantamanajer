@@ -1,4 +1,4 @@
-<?php 
+<?php                  
 class Decrypt
 {
 /*campi file .rcs
@@ -25,20 +25,42 @@ class Decrypt
 	20  boh
 	23	presenza
 	24	titolare
+	25  votopolitico portiere
 	27	costo
 	
 */
+	// per calcolare la chiave di decrypt...da lanciare manualmente
+	public static function calculateKey()
+	{
+		$pathcript="C:\Users\Shane\Downloads\mcc00.rcs";	//file criptato .rcs
+		$pathencript="C:\Users\Shane\Downloads\mcc00.txt";	//file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
+		$cript=file_get_contents($pathcript);
+		$encript=file_get_contents($pathencript);
+		$ris="";                    	
+		for($i=0;$i<28;$i++)
+		{
+			$xor1=hexdec(bin2hex($cript[$i]));
+			$xor2=hexdec(bin2hex($encript[$i]));	
+			if($i!=0)
+				$ris=$ris.'-';
+			$ris=$ris.dechex($xor1 ^ $xor2);               
+		}
+		
+		FirePHP::getInstance()->log($ris);
+		return $ris;
+	}
 	public static function decryptCdfile($giornata)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
-		
+		//$decrypt=self::calculateKey();die();
 		$percorsoCsv = VOTICSVDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
 		$percorsoXml = VOTIXMLDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".xml";
 		$percorsoContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
-		if (!empty($percorsoContent))
+		if (!empty($percorsoContent)&&($giornata!=0))
 			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
-		$content = FileSystem::contenutoCurl($site . "/magiccampionato/10-11/free/download/cd/?");
+		$content = FileSystem::contenutoCurl($site . "/magiccampionato/11-12/free/download/cd/?");
+
 		if(!empty($content))
 		{
 			$search = "";
@@ -50,10 +72,9 @@ class Decrypt
 					$url = $site . htmlspecialchars_decode($matches[2]);
 				else
 					$url = $matches[2];
-				$url = htmlspecialchars_decode($url);
-			
-				$decrypt = "72 2A 67 66 64 34 56 42 48 34 34 46 46 35 52 38 73 78 2A 63 33 33 66 34 66 45 45 32";
-				$explode_xor = explode(" ", $decrypt);
+				$url = htmlspecialchars_decode($url);			    
+				$decrypt = "33-34-35-2A-6D-33-34-35-33-34-47-46-44-2A-52-33-32-34-72-66-65-73-64-53-44-46-34-33";
+				$explode_xor = explode("-", $decrypt);
 				if (!$p_file = fopen($url,"r"))
 					return FALSE;
 				else
@@ -71,10 +92,12 @@ class Decrypt
 							$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
 							$i++;
 							$stringa .= chr($xor2);
-						}
+						}                                
 						$scriviFile = fopen($percorsoCsv,"w");
 						$pezzi = explode("\n",$stringa);
 						array_pop($pezzi);
+						/*<<inserire le descrizio
+						die();  */
 						foreach($pezzi as $key=>$val)
 						{
 							$pieces = explode("|",$val);
