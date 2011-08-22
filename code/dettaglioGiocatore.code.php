@@ -73,11 +73,11 @@ else
 	$idSucc = FALSE;
 	$quickLinks->succ = FALSE;
 }
-
 $contentTpl->assign('dettaglioGioc',$dettaglio);
 $contentTpl->assign('pathFoto',$pathFoto);
 $contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('ruoli',$ruo);
 $contentTpl->assign('ruoliPlurale',$ruoPlu);
 $operationTpl->assign('idGioc',$filterId);
+FirePHP::getInstance()->log($elencoGiocatori);
 $operationTpl->assign('elencoGiocatori',$elencoGiocatori);

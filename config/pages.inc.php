@@ -12,6 +12,11 @@ $pages = array();
 								'js'=>array('fancybox'=>'fancybox'),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
+
+	$pages['clubs'] = array(	'title'=>"Clubs di A", 
+								'js'=>array('fancybox'=>'fancybox'),
+								'roles'=>-1,
+								'navbar'=>array('key'=>'clubs','title'=>'Serie A','order'=>5,'main'=>TRUE));
 								
 	$pages['classifica'] = array(	'title'=>"Classifica",
 								'ieHack'=>array('flot'=>'excanvas'),
@@ -31,10 +36,15 @@ $pages = array();
 								'js'=>array('fancybox'=>'fancybox'),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'dettaglioSquadra','title'=>'La tua squadra','order'=>2,'main'=>TRUE));
+
+	$pages['dettaglioClub'] = array(	'title'=>"Club", 
+								'js'=>array('fancybox'=>'fancybox'),
+								'roles'=>-1,
+								'navbar'=>array('key'=>'clubs','title'=>'Club'));
 								
 	$pages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
 								'roles'=>1,
-								'navbar'=>array('key'=>'areaAmministrativa','title'=>'Area amministrativa','order'=>7,'main'=>TRUE));
+								'navbar'=>array('key'=>'areaAmministrativa','title'=>'AreaAdmim','order'=>7,'main'=>TRUE));
 								
 	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
 								'ieHack'=>array('flot'=>'excanvas'),
