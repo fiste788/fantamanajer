@@ -45,7 +45,7 @@ class Giocatore extends DbTable
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
 				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
-				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND club IS NOT NULL
+				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND giocatore.status=1
 				ORDER BY giocatore.idGioc ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
@@ -138,7 +138,23 @@ class Giocatore extends DbTable
 			$elenco[] = $row;
 		return $elenco;
 	}
-	
+
+	public static function getGiocatoriByIdClubWithStats($idClub)
+	{
+		$q = "SELECT *
+				FROM giocatoristatistiche
+				WHERE idClub = '" . $idClub . "'
+				ORDER BY ruolo DESC,cognome ASC";
+		$exe = mysql_query($q) or self::sqlError($q);
+		FirePHP::getInstance()->log($q);
+		while($row = mysql_fetch_object($exe,__CLASS__))
+			$giocatori[] = $row;
+		if(isset($giocatori))
+			return $giocatori;
+		else
+			return FALSE;
+	}
+		
 	public static function getGiocatoriByIdSquadraWithStats($idUtente)
 	{
 		$q = "SELECT *
@@ -323,7 +339,7 @@ class Giocatore extends DbTable
 	{
 		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
 				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
-				WHERE idUtente = '" . $idUtente . "' AND (club IS NULL OR club = '')";
+				WHERE idUtente = '" . $idUtente . "' AND status = 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
