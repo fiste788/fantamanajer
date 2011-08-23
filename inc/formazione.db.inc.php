@@ -56,13 +56,15 @@ class Formazione extends DbTable
 		self::startTransaction();
 		$campi = "";
 		$valori = "";
-		foreach($capitano as $key => $val)
-		{
-			$campi .= "," . $key;
-			if(empty($val))
-				$valori .= ",NULL";
-			else
-				$valori .= ",'" . $val."'";
+		if(capitano != NULL) {
+			foreach($capitano as $key => $val)
+			{
+				$campi .= "," . $key;
+				if(empty($val))
+					$valori .= ",NULL";
+				else
+					$valori .= ",'" . $val."'";
+			}
 		}
 		if($jolly)
 			$jolly = "'1'";

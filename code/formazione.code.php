@@ -30,7 +30,7 @@ $contentTpl->assign('ruo',$ruo);
 $contentTpl->assign('elencoCap',$elencoCap);
 if(!PARTITEINCORSO)
 {
-	$formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
 	$giocatori = Giocatore::getGiocatoriByIdSquadra($_SESSION['idSquadra']);
 	$contentTpl->assign('giocatori',array_values($giocatori));
 	$contentTpl->assign('giocatoriId',$giocatori);
@@ -116,6 +116,13 @@ if(!PARTITEINCORSO)
 			$message->error('Stai cercando di fregarmi?');
 	}
 	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
+	$i = 0;
+	while($formazione == FALSE && $i < GIORNATA)
+	{
+		$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA - $i);
+		$i ++;
+	}
+	$firePHP->log($formazione);
 	if($formazione)
 	{
 		$modulo = $formazione->modulo;

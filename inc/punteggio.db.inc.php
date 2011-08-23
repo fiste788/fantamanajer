@@ -59,10 +59,13 @@ class Punteggio extends DbTable
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 			$values[$row->idGiornata][] = $row;
-		foreach($values as $giornata=>$pos)
-			foreach($pos as $key=>$val)
-				$appo[$giornata][$val->idUtente] = $key + 1;
-		return $appo;
+		if(isset($values)) {
+			foreach($values as $giornata=>$pos)
+				foreach($pos as $key=>$val)
+					$appo[$giornata][$val->idUtente] = $key + 1;
+			return $appo;
+		}else
+		    return null;
 	}
 	
 	public static function getGiornateVinte($idUtente)
