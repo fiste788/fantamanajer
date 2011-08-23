@@ -5,7 +5,7 @@
 		<select name="club" onchange="this.form.submit();">
 			<?php if($this->elencoClub != FALSE): ?>
 			<?php foreach ($this->elencoClub as $key => $val): ?>
-				<option<?php echo ($key == $this->idClub) ? ' selected="selected"' : ''; ?> value="<?php FirePHP::getInstance()->log($key);echo $key;?>"><?php echo $val->nomeClub ?></option>
+				<option<?php echo ($key == $this->idClub) ? ' selected="selected"' : ''; ?> value="<?php echo $key;?>"><?php echo $val->nomeClub ?></option>
 			<?php endforeach; ?>
 			<?php endif; ?>
 		</select>

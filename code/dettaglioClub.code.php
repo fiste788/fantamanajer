@@ -5,12 +5,10 @@ require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
 $filterClub = NULL;
-if(isset($_POST['club']))
-	$filterClub = $_POST['club'];
 if(isset($_GET['club']))
 	$filterClub = $_GET['club'];
 	
-$clubdett = Club::getClubById($filterClub);
+$clubdett = Club::getClubByIdWithStats($filterClub);
 $elencoClub = Club::getElencoClub();
 
 if(isset($elencoClub[$filterClub - 1]))
@@ -31,11 +29,9 @@ if(isset($elencoClub[$filterClub + 1]))
 else
 	$quickLinks->succ = FALSE;
 
-$giocatori=Giocatore::getGiocatoriByIdClubWithStats($filterClub);
-FirePHP::getInstance()->log($clubdett);
-FirePHP::getInstance()->log($elencoClub);
-$pathClub = CLUBSURL .$filterclub. '.png';
-FirePHP::getInstance()->log($pathClub);
+$giocatori = Giocatore::getGiocatoriByIdClubWithStats($filterClub);
+$pathClub = CLUBSURL . $filterClub . '.png';
+
 $contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('giocatori',$giocatori);
 $contentTpl->assign('club',$filterClub);
@@ -46,4 +42,5 @@ $operationTpl->assign('elencoClub',$elencoClub);
 $operationTpl->assign('idClub',$filterClub);
 
 $layoutTpl->assign('quickLinks',$quickLinks);
+
 ?>

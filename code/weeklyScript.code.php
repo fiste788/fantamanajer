@@ -68,7 +68,10 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 								$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
 								$i ++;
 							}
-							Formazione::caricaFormazione(array_values($formazione->elenco),$formazione->cap,$giornata,$squadra,$formazione->modulo);
+							if($lega->capitanoFormazioneDimenticata == 1)
+								Formazione::caricaFormazione(array_values($formazione->elenco),$formazione->cap,$giornata,$squadra,$formazione->modulo);
+							else
+							    Formazione::caricaFormazione(array_values($formazione->elenco),NULL,$giornata,$squadra,$formazione->modulo);
 							Punteggio::calcolaPunti($giornata,$squadra,$lega->idLega,$lega->punteggioFormazioneDimenticata);
 						}
 						else

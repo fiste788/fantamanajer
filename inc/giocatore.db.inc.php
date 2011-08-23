@@ -6,6 +6,7 @@ class Giocatore extends DbTable
 	var $cognome;
 	var $ruolo;
 	var $club;
+	var $status;
 	
 	public static function getGiocatoriByIdSquadra($idUtente)
 	{
@@ -66,7 +67,7 @@ class Giocatore extends DbTable
 					FROM giocatore
 					INNER JOIN club ON giocatore.club = club.idClub
 					WHERE ruolo = '" . $ruolo . "'
-					AND status=1
+					AND status = 1
 					AND giocatore.idGioc NOT IN (
 						SELECT idGioc
 						FROM squadra
@@ -95,7 +96,7 @@ class Giocatore extends DbTable
 	public static function getGiocatoreById($idGioc)
 	{
 		$q = "SELECT idGioc,cognome,nome,ruolo,nomeClub,partitivo,determinativo 
-				FROM giocatore LEFT JOIN club ON giocatore.club=club.idClub
+				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub
 				WHERE idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -115,7 +116,7 @@ class Giocatore extends DbTable
 				FROM (SELECT * 
 						FROM squadra 
 						WHERE idLega='" . $idLega . "') AS squad RIGHT JOIN giocatoristatistiche ON squad.idGioc = giocatoristatistiche.idGioc
-				WHERE giocatoristatistiche.idGioc ='" . $idGioc . "'";
+				WHERE giocatoristatistiche.idGioc = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$data = Voto::getAllVotoByIdGioc($idGioc);
 		FirePHP::getInstance()->log($q);
@@ -187,7 +188,7 @@ class Giocatore extends DbTable
 		$q = "SELECT giocatore.*, nomeClub  
 				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub";
 		if($all)
-			 $q .= " WHERE giocatore.status=1";
+			 $q .= " WHERE giocatore.status = 1";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$giocatori = array();
@@ -228,7 +229,7 @@ class Giocatore extends DbTable
 			{
 				$giocatori = join("','",$clubs[$key]);
 				$q = "UPDATE giocatore 
-						SET status=1,club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%') 
+						SET status = 1,club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%')
 						WHERE idGioc IN ('" . $giocatori . "')";
 				foreach($clubs[$key] as $single)
 					Evento::addEvento('7',0,0,$single);
@@ -374,7 +375,7 @@ class Giocatore extends DbTable
 	{
 		$q = "SELECT club
 				FROM giocatore
-				WHERE idGioc = '" . $idGioc . "' AND club IS NULL";
+				WHERE idGioc = '" . $idGioc . "' AND status = 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
@@ -395,6 +396,25 @@ class Giocatore extends DbTable
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		return $values;
+	}
+	
+	function getFoto() {
+		require_once(INCDIR . 'fileSystem.inc.php');
+        $gioc = self::getAllGiocatori();
+		foreach($gioc as $key=>$val) {
+			if(!file_exists(PLAYERSDIR . "new/" . $val->idGioc . ".jpg")) {
+				$url = "http://www.gazzetta.it/img/calcio/figurine_panini/" . (($val->nome != NULL) ? str_replace(" ","_",strtoupper($val->nome)) : "") . "_" . str_replace(" ","_",strtoupper($val->cognome)) . ".jpg";
+				echo (($val->nome != NULL) ? str_replace(" ","_",strtoupper($val->nome)) : "") . "_" . str_replace(" ","_",strtoupper($val->cognome));
+				flush();
+				//FirePHP::getInstance()->log($url);
+		    	$fileContents = FileSystem::contenutoCurl($url);
+
+				if(stripos($fileContents,"gazzetta") == FALSE) {
+					$newImg = imagecreatefromstring($fileContents);
+					imagejpeg($newImg, PLAYERSDIR . "new/" . $val->idGioc . ".jpg",100);
+		    	}
+		    }
+		}
 	}
 }
 ?>
