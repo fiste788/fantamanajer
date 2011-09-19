@@ -12,9 +12,9 @@
 			<?php if($key == 0): ?>
 				<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 					<?php if(file_exists(PLAYERSDIR . $val->idGioc . '.jpg')): ?>
-						<img height="180" width="140" alt="<?php echo $val->cognome . ' ' . $val->nome; ?>" src="<?php echo PLAYERSURL . $val->idGioc . '.jpg'; ?>" />
+						<img alt="<?php echo $val->cognome . ' ' . $val->nome; ?>" src="<?php echo PLAYERSURL . $val->idGioc . '.jpg'; ?>" />
 					<?php else: ?>
-						<img height="180" width="140" alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
+						<img alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
 					<?php endif; ?>
 				</a>
 				<h4><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a></h4>

@@ -44,7 +44,7 @@ foreach($pages as $key=>$val)
 	if(!empty($jsContent))
 		file_put_contents(JSDIR . 'combined/' . $key . '.js' , JSMin::minify($jsContent));
 }
-
+$cssContent = "";
 foreach(fileSystem::getFileIntoFolderRecursively(CSSDIR,TRUE) as $key=>$val)
 {
 	if(is_file($val))
