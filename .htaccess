@@ -76,7 +76,7 @@ rewriteRule (.*) /%2/$1 [L]
 	RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giornata=$1
 	RewriteRule ^classifica.html$ index.php?p=classifica
 	RewriteRule ^dettaglioGiornata.html$ index.php?p=dettaglioGiornata
-	RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&giornata=$1&squadra=$2
+	RewriteRule ^dettaglioGiornata/(.*)/(.*).html$ index.php?p=dettaglioGiornata&squadra=$1&giornata=$2
 	RewriteRule ^premi.html$ index.php?p=premi
 	RewriteRule ^contatti.html$ index.php?p=contatti
 	RewriteRule ^formazione.html$ index.php?p=formazione
@@ -104,6 +104,8 @@ rewriteRule (.*) /%2/$1 [L]
 	RewriteRule ^impostazioni.html$ index.php?p=impostazioni
 	RewriteRule ^minify.html$ index.php?p=minify
 	RewriteRule ^updateOrariGiornata.html$ index.php?p=updateOrariGiornata
+	RewriteRule ^clubs.html$ index.php?p=clubs
+	RewriteRule ^dettaglioClub/(.*).html$ index.php?p=dettaglioClub&club=$1
 </IfModule>
 <FilesMatch sendMail.html|weeklyScript.html|acquistaGioc.html|backup.html|updateOrariGiornata.html|minify.html>
 	AuthName "Inserisci username e password"

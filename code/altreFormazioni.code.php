@@ -8,7 +8,7 @@ $filterGiornata = GIORNATA;
 if(isset($_GET['squadra']))
 	$filterSquadra = $_GET['squadra'];
 if(isset($_GET['giornata']))
-  $filterDiorn = $_GET['giornata'];
+  $filterGiornata = $_GET['giornata'];
 if(isset($_POST['squadra']))
 	$filterSquadra = $_POST['squadra'];
 if(isset($_POST['giornata']))
