@@ -15,8 +15,8 @@ if(PARTITEINCORSO)
 	header("Location: " . Links::getLink('altreFormazioni'));
 
 $formImp = Formazione::getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
-if(isset($formImp[$_SESSION['idSquadra']]) && (!PARTITEINCORSO))
-	unset($formImp[$_SESSION['idSquadra']]);
+if(isset($formImp[$_SESSION['idUtente']]) && (!PARTITEINCORSO))
+	unset($formImp[$_SESSION['idUtente']]);
 $contentTpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
@@ -27,9 +27,9 @@ $elencocap = array('C','VC','VVC');
 
 if(!PARTITEINCORSO)
 {
-	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA);
 	foreach($ruoliKey as $key => $val)
-		$giocatori[$val] =	Giocatore::getGiocatoriByIdSquadraAndRuolo($_SESSION['idSquadra'],$val);
+		$giocatori[$val] =	Giocatore::getGiocatoriByIdSquadraAndRuolo($_SESSION['idUtente'],$val);
 	$contentTpl->assign('giocatori',$giocatori);
 
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
@@ -98,11 +98,11 @@ if(!PARTITEINCORSO)
 			unset($_POST);
 			if(!$formazione)
 			{
-				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$filterMod);
-				Evento::addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
+				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente'],$filterMod);
+				Evento::addEvento('3',$_SESSION['idUtente'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],$filterMod);
+				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente'],$filterMod);
 			$message->success('Formazione caricata correttamente');
 		}
 		else
@@ -112,7 +112,7 @@ if(!PARTITEINCORSO)
 		if ($frega > 0)
 			$message->error('Stai cercando di fregarmi?');
 	}
-	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);	
+	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA);
 	if($formazione)
 	{
 		if(empty($_POST))

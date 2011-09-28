@@ -1,7 +1,5 @@
 <div id="cardPlayer" class="column last">
-	<img class="column" height="180" alt="<?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?>" src="<?php echo $this->pathFoto; ?>" width="140" />
-	<div id="datiGioc" class="column last">
-		<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
+	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 		<div id="formData">
 			<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']->idGioc; ?>" />
 			<div>
@@ -13,19 +11,23 @@
 				<input id="nome" type="text" name="nome" value="<?php echo (isset($this->dettaglioGioc['dettaglio']->nome)) ? $this->dettaglioGioc['dettaglio']->nome : ''; ?>" />
 			</div>
 		</div>
-		<?php else: ?>
-			<h3><?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?></h3>
-		<?php endif; ?>
+	<?php else: ?>
+		<h3><?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?></h3>
+	<?php endif; ?>
+	<div id="datiGioc" class="column last">
+		<img class="column" alt="<?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?>" src="<?php echo $this->pathFoto; ?>" />
+		<div class="column">
+			<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']->ruolo]; ?></p>
+			<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
+			<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']->presenze . " (" . $this->dettaglioGioc['dettaglio']->presenzeVoto . ")"; ?></p>
+			<p>Gol: <?php if($this->dettaglioGioc['dettaglio']->ruolo != 'P') echo $this->dettaglioGioc['dettaglio']->gol;elseif($this->dettaglioGioc['dettaglio']->golSubiti == 0) echo $this->dettaglioGioc['dettaglio']->golSubiti;else "-" . $this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
+			<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']->assist; ?></p>
+			<p>Media voti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgVoti)) ? $this->dettaglioGioc['dettaglio']->avgVoti : ''; ?></p>
+			<p>Media punti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgPunti)) ? $this->dettaglioGioc['dettaglio']->avgPunti : ''; ?></p>
+		</div>
 		<?php if($this->dettaglioGioc['dettaglio']->nomeClub != NULL): ?>
 			<img height="82" width="50" title="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
 		<?php endif; ?>
-		<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']->ruolo]; ?></p>
-		<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
-		<p>Presenze: <?php echo $this->dettaglioGioc['dettaglio']->presenze . " (" . $this->dettaglioGioc['dettaglio']->presenzeVoto . ")"; ?></p>
-		<p>Gol: <?php if($this->dettaglioGioc['dettaglio']->ruolo != 'P') echo $this->dettaglioGioc['dettaglio']->gol;elseif($this->dettaglioGioc['dettaglio']->golSubiti == 0) echo $this->dettaglioGioc['dettaglio']->golSubiti;else "-" . $this->dettaglioGioc['dettaglio']->golSubiti; ?></p>
-		<p>Assist: <?php echo $this->dettaglioGioc['dettaglio']->assist; ?></p>
-		<p>Media voti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgVoti)) ? $this->dettaglioGioc['dettaglio']->avgVoti : ''; ?></p>
-		<p>Media punti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgPunti)) ? $this->dettaglioGioc['dettaglio']->avgPunti : ''; ?></p>
 	</div>
 	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 	<div class="uploadleft column last">

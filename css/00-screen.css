@@ -1112,10 +1112,9 @@ a.logout, a.logout:hover, a.logout:visited {
 img.shield {
 	display:block;
 	float:right;
-	clear:both;
 }
 #datiGioc {
-	width:230px;
+	width:500px;
 	text-align:left;
 }
 /* Dialog

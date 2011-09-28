@@ -81,7 +81,7 @@ if(isset($_POST['submit']))
 			$abilitaMail = 0;
 		$nome = addslashes(stripslashes(trim($_POST['nomeProp'])));
 		$cognome = addslashes(stripslashes(trim($_POST['cognome'])));
-		Utente::changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$_SESSION['idSquadra']);
+		Utente::changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$_SESSION['idUtente']);
 		$message->success("Dati modificati correttamente");
 	}
 	$layoutTpl->assign('message',$message);

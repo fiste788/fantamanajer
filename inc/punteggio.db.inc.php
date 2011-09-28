@@ -163,7 +163,7 @@ class Punteggio extends DbTable
 		return FALSE;
 	}
 
-	public static function calcolaPunti($giornata,$idSquadra,$idLega,$percentualePunteggio = NULL)
+	public static function calcolaPunti($giornata,$idUtente,$idLega,$percentualePunteggio = NULL)
 	{
 		require_once(INCDIR . 'formazione.db.inc.php');
 		require_once(INCDIR . 'voto.db.inc.php');
@@ -172,11 +172,11 @@ class Punteggio extends DbTable
 		require_once(INCDIR . 'lega.db.inc.php');
 
 		// Se i punti di quella squadra e giornata ci sono già, esce
-		$punteggioOld = self::getPunteggi($idSquadra,$giornata);
+		$punteggioOld = self::getPunteggi($idUtente,$giornata);
 		$datiLega = Lega::getLegaById($idLega);
 		if($punteggioOld == '0' || $punteggioOld == NULL)
 		{
-			$formazione = Formazione::getFormazioneBySquadraAndGiornata($idSquadra,$giornata);
+			$formazione = Formazione::getFormazioneBySquadraAndGiornata($idUtente,$giornata);
 			if ($formazione != FALSE)
 			{
 				$cambi = 0;
@@ -220,10 +220,10 @@ class Punteggio extends DbTable
 				if($punteggioOld == '0')
 					$q = "UPDATE punteggio
 							SET punteggio = '" . $somma . "' 
-							WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idSquadra . "'";
+							WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "'";
 				else
 					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,idLega) 
-							VALUES ('" . $giornata . "','" . $idSquadra . "','" . $somma . "','" . $idLega . "')";
+							VALUES ('" . $giornata . "','" . $idUtente . "','" . $somma . "','" . $idLega . "')";
 				if(DEBUG)
 					FirePHP::getInstance(true)->log($q);
 				mysql_query($q) or self::sqlError($q);
@@ -233,7 +233,7 @@ class Punteggio extends DbTable
 					$modulo = ($puntiDaTogliere * 10) % 5;
 					$puntiDaTogliere = (($puntiDaTogliere * 10) - $modulo) / 10;
 					$q = "INSERT INTO punteggio (idGiornata,idUtente,punteggio,penalità,idLega) 
-							VALUES ('" . $giornata . "','" . $idSquadra . "','" . - ($puntiDaTogliere) ."','Formazione non settata','" . $idLega . "')";
+							VALUES ('" . $giornata . "','" . $idUtente . "','" . - ($puntiDaTogliere) ."','Formazione non settata','" . $idLega . "')";
 					mysql_query($q) or self::sqlError($q);
 					if(DEBUG)
 						FirePHP::getInstance(true)->log($q);
@@ -241,7 +241,7 @@ class Punteggio extends DbTable
 				return TRUE;
 			}
 			else
-				self::setPunteggiToZeroByGiornata($idSquadra,$idLega,$giornata);
+				self::setPunteggiToZeroByGiornata($idUtente,$idLega,$giornata);
 		}
 	}
 	

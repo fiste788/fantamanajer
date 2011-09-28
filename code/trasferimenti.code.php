@@ -7,7 +7,7 @@ require_once(INCDIR . 'punteggio.db.inc.php');
 require_once(INCDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
-$filterSquadra = $_SESSION['idSquadra'];
+$filterSquadra = $_SESSION['idUtente'];
 $acquisto = NULL;
 $lasciato = NULL;
 $flag = 0;
@@ -25,8 +25,8 @@ $playerFree = array();
 foreach($ruoli as $key => $val)
 	$playerFree = array_merge($playerFree,Giocatore::getFreePlayer($key,$_SESSION['legaView']));
 
-$trasferiti = Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']);
-$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idSquadra']);
+$trasferiti = Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']);
+$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idUtente']);
 /*
  * Quì effettuo il trasferimento diretto
  */ 
@@ -59,7 +59,7 @@ if($trasferiti != FALSE)
 							Trasferimento::transfer($masterVal->idGioc,$_POST['acquista'][$masterKey],$filterSquadra,$_SESSION['idLega']);
 							$appo = 0;
 							$numTrasferiti ++;
-							$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idSquadra']);
+							$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idUtente']);
 							if($selezione->giocOld == $masterVal->idGioc);
 								Selezione::unsetSelezioneByIdSquadra($filterSquadra);
 							$trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($filterSquadra);
@@ -94,7 +94,7 @@ if($trasferiti != FALSE)
 /*
  * Quì seleziono il giocatore per il trasferimento
  */   
-if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
+if($_SESSION['logged'] && $_SESSION['idUtente'] == $filterSquadra)
 {
 	if($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti )
 	{
@@ -110,7 +110,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 
 		if(isset($_POST['submit']) && $_POST['submit'] == 'Cancella acq.')
 		{
-			Selezione::unsetSelezioneByIdSquadra($_SESSION['idSquadra']);
+			Selezione::unsetSelezioneByIdSquadra($_SESSION['idUtente']);
 			$message->success('Cancellazione eseguita con successo');
 			$acquisto = NULL;
 			$lasciato = NULL;
@@ -136,9 +136,9 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 							if($filterSquadraOld != FALSE)
 							{
 								$posizioni = Punteggio::getPosClassifica($_SESSION['idLega']);
-								if($posizioni[$_SESSION['idSquadra']] > $posizioni[$filterSquadraOld])
+								if($posizioni[$_SESSION['idUtente']] > $posizioni[$filterSquadraOld])
 								{
-									Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
+									Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idUtente']);
 									$mailContent->assign('giocatore',$acquistoDett[$acquisto]->nome . ' ' . $acquistoDett[$acquisto]->cognome);
 									$appo = $squadre[$acquistoDett[$acquisto]->idSquadraAcquisto];
 									Mail::sendEmail($squadre[$appo]->mail,$mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'),'Giocatore rubato!');
@@ -153,8 +153,8 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 							}
 							else
 							{
-								Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idSquadra']);
-								Evento::addEvento('2',$_SESSION['idSquadra'],$_SESSION['idLega']);
+								Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idUtente']);
+								Evento::addEvento('2',$_SESSION['idUtente'],$_SESSION['idLega']);
 								$message->success('Operazione eseguita con successo');
 							}
 						}
@@ -181,7 +181,7 @@ if($_SESSION['logged'] && $_SESSION['idSquadra'] == $filterSquadra)
 		$contentTpl->assign('giocAcquisto',$acquisto);
 		$contentTpl->assign('giocLasciato',$lasciato);
 	
-		$giocatoreAcquistatoOld = Selezione::getSelezioneByIdSquadra($_SESSION['idSquadra']);	
+		$giocatoreAcquistatoOld = Selezione::getSelezioneByIdSquadra($_SESSION['idUtente']);
 		if(!empty($giocatoreAcquistatoOld))
 			$contentTpl->assign('isset',$giocatoreAcquistatoOld);
 	}

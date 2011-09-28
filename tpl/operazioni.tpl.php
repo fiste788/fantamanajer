@@ -1,4 +1,4 @@
-<?php $squadra = (isset($_GET['squadra'])) ? $_GET['squadra'] : $_SESSION['idSquadra']; ?>
+<?php $squadra = (isset($_GET['squadra'])) ? $_GET['squadra'] : $_SESSION['idUtente']; ?>
 <div id="operazioni" class="column last">
 	<ul class="operazioni-content">
 	<?php if(STAGIONEFINITA == FALSE): ?>

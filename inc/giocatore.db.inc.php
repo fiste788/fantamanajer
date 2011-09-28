@@ -144,7 +144,7 @@ class Giocatore extends DbTable
 	{
 		$q = "SELECT *
 				FROM giocatoristatistiche
-				WHERE idClub = '" . $idClub . "'
+				WHERE idClub = '" . $idClub . "' AND status = '1'
 				ORDER BY ruolo DESC,cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);

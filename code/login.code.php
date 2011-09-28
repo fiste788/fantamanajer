@@ -22,7 +22,7 @@ if( (isset($_POST['username'])) && (isset($_POST['password'])))
 				$_SESSION['usertype'] = 'user';
 			$_SESSION['idLega'] = $dettagliUtente->idLega;
 			$_SESSION['legaView'] = $dettagliUtente->idLega;
-			$_SESSION['idSquadra'] = $dettagliUtente->idUtente;
+			$_SESSION['idUtente'] = $dettagliUtente->idUtente;
 			$_SESSION['nomeSquadra'] = $dettagliUtente->nome;
 			$_SESSION['nomeProprietario'] = $dettagliUtente->nomeProp . " " . $dettagliUtente->cognome;
 			$_SESSION['email'] = $dettagliUtente->mail;

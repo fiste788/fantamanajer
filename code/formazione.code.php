@@ -17,8 +17,8 @@ if(PARTITEINCORSO == TRUE)
 	header("Location: " . Links::getLink('altreFormazioni'));
 
 $formImp = Formazione::getFormazioneExistByGiornata(GIORNATA,$_SESSION['legaView']);
-if(isset($formImp[$_SESSION['idSquadra']]) && !PARTITEINCORSO)
-	unset($formImp[$_SESSION['idSquadra']]);
+if(isset($formImp[$_SESSION['idUtente']]) && !PARTITEINCORSO)
+	unset($formImp[$_SESSION['idUtente']]);
 $operationTpl->assign('formazioniImpostate',$formImp);
 
 $missing = 0;
@@ -30,8 +30,8 @@ $contentTpl->assign('ruo',$ruo);
 $contentTpl->assign('elencoCap',$elencoCap);
 if(!PARTITEINCORSO)
 {
-	$formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
-	$giocatori = Giocatore::getGiocatoriByIdSquadra($_SESSION['idSquadra']);
+	$formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA);
+	$giocatori = Giocatore::getGiocatoriByIdSquadra($_SESSION['idUtente']);
 	$contentTpl->assign('giocatori',array_values($giocatori));
 	$contentTpl->assign('giocatoriId',$giocatori);
 	//CONTROLLO SE LA FORMAZIONE È GIA SETTATA E IN QUEL CASO LO PASSO ALLA TPL PER VISUALIZZARLO NELLE SELECT
@@ -101,11 +101,11 @@ if(!PARTITEINCORSO)
 			unset($_POST);
 			if(!$formazioneOld)
 			{
-				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr),$jolly);
-				Evento::addEvento('3',$_SESSION['idSquadra'],$_SESSION['idLega'],$id);
+				$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente'],implode('-',$moduloAr),$jolly);
+				Evento::addEvento('3',$_SESSION['idUtente'],$_SESSION['idLega'],$id);
 			}
 			else
-				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idSquadra'],implode('-',$moduloAr),$jolly);
+				$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente'],implode('-',$moduloAr),$jolly);
 			$message->success('Formazione caricata correttamente');
 		}
 		else
@@ -115,11 +115,11 @@ if(!PARTITEINCORSO)
 		if ($frega > 0)
 			$message->error('Stai cercando di fregarmi?');
 	}
-	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA);
+	$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA);
 	$i = 0;
 	while($formazione == FALSE && $i < GIORNATA)
 	{
-		$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idSquadra'],GIORNATA - $i);
+		$formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],GIORNATA - $i);
 		$i ++;
 	}
 	$firePHP->log($formazione);
@@ -157,7 +157,7 @@ if(!PARTITEINCORSO)
 			$contentTpl->assign('panchinari',$panchinariAr);
 	}
 	$contentTpl->assign('issetForm',$formazione);
-	$contentTpl->assign('usedJolly',Formazione::usedJolly($_SESSION['idSquadra']));
+	$contentTpl->assign('usedJolly',Formazione::usedJolly($_SESSION['idUtente']));
 	if(isset($modulo))
 		$contentTpl->assign('modulo',explode('-',$modulo));
 	else

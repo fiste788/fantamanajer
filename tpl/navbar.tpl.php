@@ -6,7 +6,7 @@ foreach($this->pages as $key=>$val)
 	{
 		if(isset($val['navbar']['main']))
 			$appo[$val['navbar']['key']] = $val['navbar'];
-		if($key == 'dettaglioSquadra' && $this->p == 'dettaglioSquadra' && $_GET['squadra'] != $_SESSION['idSquadra'])
+		if($key == 'dettaglioSquadra' && $this->p == 'dettaglioSquadra' && $_GET['squadra'] != $_SESSION['idUtente'])
 		{
 			$appo['squadre']['pages'][] = $this->p;
 			$flag = TRUE;
@@ -37,7 +37,7 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 			<?php endif; ?>
 			<div>
 				<?php if($key == 'dettaglioSquadra'): ?>
-				<a href="<?php echo Links::getLink($key,array('squadra'=>$_SESSION['idSquadra'])); ?>"><?php echo $val['title']; ?></a>
+				<a href="<?php echo Links::getLink($key,array('squadra'=>$_SESSION['idUtente'])); ?>"><?php echo $val['title']; ?></a>
 				<?php else: ?>
 				<a href="<?php echo Links::getLink($key); ?>"><?php echo $val['title']; ?></a>
 				<?php endif; ?>

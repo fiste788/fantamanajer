@@ -28,7 +28,7 @@ if($_SESSION['logged'] == TRUE)
 	{
 		$squadra = $dettaglio['dettaglio']->idUtente;
 		$elencoGiocatori = Giocatore::getGiocatoriByIdSquadra($squadra);
-		$contentTpl->assign('idsquadra',$squadra);
+		$contentTpl->assign('idUtente',$squadra);
 		$dettaglioSquadra= Utente::getSquadraById($squadra);
 		$operationTpl->assign('label',$dettaglioSquadra->nome);
 		$contentTpl->assign('label',$dettaglioSquadra->nome);

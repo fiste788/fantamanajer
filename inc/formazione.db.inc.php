@@ -24,7 +24,7 @@ class Formazione extends DbTable
 			if(!$flag)
 			{
 				$idFormazione = $row->idFormazione;
-				$idSquadra = $row->idUtente;
+				$idUtente = $row->idUtente;
 				$idGiornata = $row->idGiornata;
 				$modulo = $row->modulo;
 				$cap->C = $row->C;
@@ -37,7 +37,7 @@ class Formazione extends DbTable
 		if($flag)
 		{
 			$formazione->id = $idFormazione;
-			$formazione->idSquadra = $idSquadra;
+			$formazione->idUtente = $idUtente;
 			$formazione->idGiornata = $idGiornata;
 			$formazione->elenco = $elenco;
 			$formazione->modulo = $modulo;
@@ -49,14 +49,14 @@ class Formazione extends DbTable
 			return FALSE;
 	}
 	
-	public static function caricaFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo,$jolly)
+	public static function caricaFormazione($formazione,$capitano,$giornata,$idUtente,$modulo,$jolly)
 	{
 		require_once(INCDIR . 'schieramento.db.inc.php');
 		
 		self::startTransaction();
 		$campi = "";
 		$valori = "";
-		if(capitano != NULL) {
+		if($capitano != NULL) {
 			foreach($capitano as $key => $val)
 			{
 				$campi .= "," . $key;
@@ -71,12 +71,12 @@ class Formazione extends DbTable
 		else
 			$jolly = "NULL";
 		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .",jolly) 
-				VALUES (" . $idSquadra . ",'" . $giornata . "','" . $modulo . "'" . $valori . "," . $jolly . ")";
+				VALUES (" . $idUtente . ",'" . $giornata . "','" . $modulo . "'" . $valori . "," . $jolly . ")";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		$q = "SELECT idFormazione 
 				FROM formazione 
-				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
+				WHERE idUtente = '" . $idUtente . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
@@ -95,7 +95,7 @@ class Formazione extends DbTable
 		return $idFormazione;
 	}
 	
-	public static function updateFormazione($formazione,$capitano,$giornata,$idSquadra,$modulo,$jolly)
+	public static function updateFormazione($formazione,$capitano,$giornata,$idUtente,$modulo,$jolly)
 	{
 		require_once(INCDIR . 'schieramento.db.inc.php');
 		
@@ -112,12 +112,12 @@ class Formazione extends DbTable
 			$jolly = "NULL";
 		$q = "UPDATE formazione 
 				SET modulo = '" . $modulo . "'" . $str . " , jolly = " . $jolly . " 
-				WHERE idUtente = '" . $idSquadra . "' AND idGiornata = '" . $giornata . "'";
+				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $giornata . "'";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		$q = "SELECT idFormazione 
 				FROM formazione 
-				WHERE idUtente = '" . $idSquadra . "' AND idGiornata ='" . $giornata . "'";
+				WHERE idUtente = '" . $idUtente . "' AND idGiornata ='" . $giornata . "'";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))

@@ -135,7 +135,7 @@ if($filterLega != NULL && $filterAction != NULL && $filterId != NULL)
 					$mailContent->assign('squadra',$_POST['nome']);
 					$mailContent->assign('password',$password);
 					$mailContent->assign('lega',Lega::getLegaById($filterLega));
-					$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idSquadra']));
+					$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idUtente']));
 					$object = "Benvenuto nel FantaManajer!";
 					//$mailContent->display(MAILTPLDIR.'mailBenvenuto.tpl.php');
 					$mailObj->sendEmail($_POST['mail'],$mailContent->fetch(MAILTPLDIR . 'mailBenvenuto.tpl.php'),$object);

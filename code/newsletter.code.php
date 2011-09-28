@@ -34,7 +34,7 @@ if(isset($_POST['button']))
 		$mailContent->assign('text',nl2br($_POST['text']));
 		$mailContent->assign('date',date("d-m-Y"));
 		$mailContent->assign('type',$_POST['type']);
-		$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idSquadra']));
+		$mailContent->assign('autore',Utente::getSquadraById($_SESSION['idUtente']));
 		$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 		if($_POST['type'] == 'C')
 		{
@@ -73,8 +73,8 @@ if(isset($_POST['button']))
 		{
 			if(isset($_POST['conferenza']))
 			{
-				Articolo::addArticolo($_POST['object'],"",$_POST['text'],$_SESSION['idSquadra'],GIORNATA,$_SESSION['idLega'])
-				Evento::addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
+				Articolo::addArticolo($_POST['object'],"",$_POST['text'],$_SESSION['idUtente'],GIORNATA,$_SESSION['idLega']);
+				Evento::addEvento('1',$_SESSION['idUtente'],$_SESSION['idLega'],$idArticolo);
 			}
 			$message->success('Mail inviate correttamente');
 		}

@@ -22,8 +22,8 @@ switch($image_type)
 if (isset ($_FILES ['userfile']['tmp_name']) && !empty($_FILES['userfile']['tmp_name']))
 {
 	$ext = Upload::getExtension($_FILES ['userfile']['name']);
-	if(isset($_SESSION['idSquadra']))
-		$name = $_SESSION['idSquadra'];
+	if(isset($_SESSION['idUtente']))
+		$name = $_SESSION['idUtente'];
 	switch(Upload::uploadFile($size , $img , $vid , $doc, UPLOADDIR , $name . '-temp'))
 	{
 			case 0: if(Upload::resize($name , UPLOADDIR , $width_thumb , $height_thumb , UPLOADDIR . $name . '-temp.' . $ext, $image_type) && 

@@ -108,7 +108,7 @@ ob_start();
 require_once(CODEDIR . 'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'])
-	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idSquadra']))));
+	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idUtente']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
@@ -116,7 +116,7 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['roles'] = -1;
 	$_SESSION['usertype'] = 'guest';
 	$_SESSION['logged'] = FALSE;
-	$_SESSION['idSquadra'] = FALSE;
+	$_SESSION['idUtente'] = FALSE;
 	$_SESSION['idLega'] = 1;
 	$_SESSION['legaView'] = 1;
 }
@@ -179,7 +179,7 @@ if ($_SESSION['logged'])
 	require_once(INCDIR . 'trasferimento.db.inc.php');
 
 	$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
-	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idSquadra']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idSquadra'])) < $_SESSION['datiLega']->numTrasferimenti )
+	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
 		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 $firePHP->groupEnd();

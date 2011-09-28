@@ -3,7 +3,7 @@ require_once(INCDIR . "utente.db.inc.php");
 require_once(INCDIR . "formazione.db.inc.php");
 require_once(INCDIR . "giocatore.db.inc.php");
 
-$filterSquadra = $_SESSION['idSquadra'];
+$filterSquadra = $_SESSION['idUtente'];
 $filterGiornata = GIORNATA;
 if(isset($_GET['squadra']))
 	$filterSquadra = $_GET['squadra'];

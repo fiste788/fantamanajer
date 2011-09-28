@@ -1,6 +1,6 @@
 <?php ?>
 <html>
-	<body style="font-family:'Trebuchet MS',Arial,sans-serif">
+	<body style="font-family:'Trebuchet MS',Arial,sans-serif;overflow:hidden">
 		<a title="Home" href="<?php echo PROTO . $_SERVER['SERVER_NAME']; ?>">
 			<img style="border:0 none" alt="Header-logo" src="<?php echo IMGSURL . 'header.png'; ?>" />
 		</a>

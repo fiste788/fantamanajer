@@ -2,7 +2,7 @@
 class Selezione extends DbTable
 {
 	var $idLega;
-	var $idSquadra;
+	var $idUtente;
 	var $giocOld;
 	var $giocNew;
 	var $numSelezioni;
@@ -21,28 +21,28 @@ class Selezione extends DbTable
 			return FALSE;
 	}
 	
-	public static function getSelezioneByIdSquadra($idSquadra)
+	public static function getSelezioneByidSquadra($idUtente)
 	{
 		$q = "SELECT * 
 				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
-				WHERE idSquadra = '" . $idSquadra . "'";
+				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
-	public static function unsetSelezioneByIdSquadra($idSquadra)
+	public static function unsetSelezioneByidSquadra($idUtente)
 	{
 		$q = "UPDATE selezione 
 				SET giocOld = NULL,giocNew = NULL 
-				WHERE idSquadra = '" . $idSquadra . "';";
+				WHERE idUtente = '" . $idUtente . "';";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	public static function checkFree($idGioc,$idLega)
 	{
-		$q = "SELECT idSquadra 
+		$q = "SELECT idUtente
 				FROM selezione 
 				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -51,12 +51,12 @@ class Selezione extends DbTable
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values = $row;
 		if(!empty($values))
-			return $values->idSquadra;
+			return $values->idUtente;
 		else
 			return FALSE;
 	}
 	
-	public static function updateGioc($giocNew,$giocOld,$idLega,$idSquadra)
+	public static function updateGioc($giocNew,$giocOld,$idLega,$idUtente)
 	{
 		self::startTransaction();
 		$q = "SELECT numSelezioni 
@@ -78,7 +78,7 @@ class Selezione extends DbTable
 		}
 		$q = "SELECT numSelezioni 
 				FROM selezione 
-				WHERE giocNew IS NOT NULL AND idSquadra = '" . $idSquadra . "'  LOCK IN SHARE MODE";
+				WHERE giocNew IS NOT NULL AND idUtente = '" . $idUtente . "'  LOCK IN SHARE MODE";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		$values = array();
@@ -88,7 +88,7 @@ class Selezione extends DbTable
 		{
 			$q = "UPDATE selezione 
 					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values->numSelezioni + 1) . "' 
-					WHERE idSquadra = '" . $idSquadra . "'";
+					WHERE idUtente = '" . $idUtente . "'";
 			if(DEBUG)
 				FirePHP::getInstance(true)->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
@@ -96,7 +96,7 @@ class Selezione extends DbTable
 		else
 		{
 			$q = "INSERT INTO selezione 
-					VALUES ('" . $idLega . "','" . $idSquadra . "','" . $giocOld . "','" . $giocNew . "','1')";
+					VALUES ('" . $idLega . "','" . $idUtente . "','" . $giocOld . "','" . $giocNew . "','1')";
 			if(DEBUG)
 				FirePHP::getInstance(true)->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;	
@@ -114,7 +114,7 @@ class Selezione extends DbTable
 	{
 		$q = "SELECT numSelezioni 
 				FROM selezione 
-				WHERE idSquadra = '" . $idUtente . "'";
+				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = NULL;
 		FirePHP::getInstance()->log($q);

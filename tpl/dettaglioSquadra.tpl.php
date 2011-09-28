@@ -35,7 +35,7 @@
 				<?php echo (isset($this->max)) ? $this->max : 0; ?>
 			</p>
 		</div>
-		<?php if($this->squadraDett->idUtente == $_SESSION['idSquadra']): ?>
+		<?php if($this->squadraDett->idUtente == $_SESSION['idUtente']): ?>
 		<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
 		<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a id="qui">Clicca quì</a></p>
 		<div id="datiNascosti" class="hidden no-margin">

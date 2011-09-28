@@ -6,18 +6,18 @@ class Articolo extends DbTable
 	var $abstract;
 	var $text;
 	var $insertDate;
-	var $idSquadra;
+	var $idUtente;
 	var $idGiornata;
 	var $idLega;
 	
 	public static function addArticolo($title,$abstract,$text,$idUtente,$idGiornata,$idLega) {
-		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idSquadra, idGiornata, idLega) 
+		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idUtente, idGiornata, idLega)
 				VALUES ('" . $title . "' , '" . $abstract . "' , '" . $text . "' , '" . date("Y-m-d H:i:s") . "' , '" . $idUtente . "' , '" . $idGiornata . "' , '" . $idLega . "')";
 		FirePHP::getInstance()->log($q);
 		mysql_query($q) or self::sqlError($q);
 		$q = "SELECT idArticolo 
 				FROM articolo 
-				WHERE title = '" . $title . "' AND abstract = '" . $abstract . "' AND text = '" . $text . "' AND idSquadra = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND idLega = '" . $idLega . "'";
+				WHERE title = '" . $title . "' AND abstract = '" . $abstract . "' AND text = '" . $text . "' AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$data = mysql_fetch_object($exe);
@@ -27,7 +27,7 @@ class Articolo extends DbTable
 	public static function updateArticolo($idArticolo,$title,$abstract,$text,$idUtente,$idLega)
 	{
 		$q = "UPDATE articolo 
-				SET title = '" . $title . "' , abstract = '" . $abstract . "' , text = '" . $text . "' , idSquadra = '" . $idUtente . "', idLega = '" . $idLega . "'  
+				SET title = '" . $title . "' , abstract = '" . $abstract . "' , text = '" . $text . "' , idUtente = '" . $idUtente . "', idLega = '" . $idLega . "'
 				WHERE idArticolo = '" . $idArticolo . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
@@ -45,7 +45,7 @@ class Articolo extends DbTable
 	public static function getArticoliByGiornataAndLega($idGiornata,$idLega)
 	{
 		$q = "SELECT * 
-				FROM articolo INNER JOIN utente ON articolo.idSquadra = utente.idUtente 
+				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.idUtente
 				WHERE idGiornata = '" . $idGiornata . "' AND articolo.idLega = '" . $idLega . "'"; 
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);
@@ -58,7 +58,7 @@ class Articolo extends DbTable
 	public static function getLastArticoli($number)
 	{
 		$q = "SELECT * 
-				FROM articolo INNER JOIN utente ON articolo.idSquadra = utente.idUtente 
+				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.idUtente
 				ORDER BY insertDate DESC
 				LIMIT 0," . $number . ""; 
 		$values = FALSE;

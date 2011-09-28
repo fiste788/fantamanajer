@@ -34,13 +34,13 @@ if(isset($_POST['submit']))
 		{
 			if($filterAction == 'new')
 			{
-				$idArticolo = Articolo::addArticolo(addslashes(stripslashes($_POST['title'])),addslashes(stripslashes($_POST['abstract'])),addslashes(stripslashes($_POST['text'])),$_SESSION['idSquadra'],GIORNATA,$_SESSION['idLega']);
+				$idArticolo = Articolo::addArticolo(addslashes(stripslashes($_POST['title'])),addslashes(stripslashes($_POST['abstract'])),addslashes(stripslashes($_POST['text'])),$_SESSION['idUtente'],GIORNATA,$_SESSION['idLega']);
 				$message->success("Inserimento completato con successo");
-				Evento::addEvento('1',$_SESSION['idSquadra'],$_SESSION['idLega'],$idArticolo);
+				Evento::addEvento('1',$_SESSION['idUtente'],$_SESSION['idLega'],$idArticolo);
 			}
 			else
 			{
-				Articolo::updateArticolo($filterId,addslashes(stripslashes($_POST['title'])),addslashes(stripslashes($_POST['abstract'])),addslashes(stripslashes($_POST['text'])),$_SESSION['idSquadra'],$_SESSION['idLega']);
+				Articolo::updateArticolo($filterId,addslashes(stripslashes($_POST['title'])),addslashes(stripslashes($_POST['abstract'])),addslashes(stripslashes($_POST['text'])),$_SESSION['idUtente'],$_SESSION['idLega']);
 				$message->success("Modifica effettuata con successo");
 			}
 			$_SESSION['message'] = $message;

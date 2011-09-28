@@ -69,7 +69,7 @@ class FileSystem
 		return $array_items;
 	}
 	
-	public static function returnArray($path,$sep = ";",$riga_intest=FALSE) 
+	public static function returnArray($path,$sep = ";",$riga_intest = FALSE)
 	{
 		if(!file_exists($path)) 
 			die("File non esistente");
