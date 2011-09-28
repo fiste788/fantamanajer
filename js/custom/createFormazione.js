@@ -98,7 +98,6 @@ $(document).ready(function(){
 					$(this).parent().find("div.embed").each(function () {
 						nTot++;
 					});
-					$("#campo").append(nTot + "<br>");
 					$(this).parent().find("div.P").each(function () {
 						nPor++;
 					});
@@ -355,7 +354,7 @@ $(document).ready(function(){
 									    return false;
 								},
 								activeClass: 'droppable-active',
-								hoverClass: 'droppable-hover',
+								hoverClass: 'droppable-hover'
 							});
 							$(this).append(gioc);
 							$(this).children('div').css('opacity','1');
@@ -429,8 +428,8 @@ $(document).ready(function(){
 								activeClass: 'droppable-active',
 								hoverClass: 'droppable-hover2',
 								drop: function(ev,ui) {
-								   id = $(this).children('a').attr('rel');
-								    content = $(this).html();
+									var id = $(this).children('a').attr('rel');
+									var content = $(this).html();
 									$(this).empty();
 									$(this).html(ui.draggable.html());
 									source = ui.draggable.parent().parent().attr('id')

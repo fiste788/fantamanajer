@@ -58,7 +58,7 @@
 	<h3>Ultime news</h3>
 	<?php foreach($this->articoli as $key => $val): ?>
 		<div class="box column<?php if($i % 2 == 0) echo ' last'; ?>">
-			<?php if(isset($_SESSION['idSquadra']) && $_SESSION['idSquadra'] == $val->idSquadra): ?>
+			<?php if(isset($_SESSION['idUtente']) && $_SESSION['idUtente'] == $val->idUtente): ?>
 				<a class="edit column last" href="<?php echo Links::getLink('modificaConferenza',array('a'=>'edit','id'=>$val->idArticolo)); ?>" title="Modifica"></a>
 				<a class="remove column" href="<?php echo Links::getLink('modificaConferenza',array('a'=>'cancel','id'=>$val->idArticolo)); ?>" title="Cancella"></a>
 			<?php endif; ?>

@@ -83,7 +83,7 @@ class Evento extends DbTable
 									foreach($titolari as $key2=>$val2)
 										$values[$key]->content .= $val2->cognome.', ';
 									$values[$key]->content = substr($values[$key]->content,0,-2);
-									$values[$key]->link = Links::getLink('altreFormazioni',array('giorn'=>$values[$key]->idExternal->idGiornata,'squadra'=>$values[$key]->idExternal->idSquadra));break;
+									$values[$key]->link = Links::getLink('altreFormazioni',array('giorn'=>$values[$key]->idExternal->idGiornata,'squadra'=>$values[$key]->idExternal->idUtente));break;
 					case 4: $values[$key]->idExternal = Trasferimento::getTrasferimentoById($val->idExternal);
 									$giocOld = Giocatore::getGiocatoreById($values[$key]->idExternal->idGiocOld);
 									$giocNew = Giocatore::getGiocatoreById($values[$key]->idExternal->idGiocNew);
@@ -91,7 +91,7 @@ class Evento extends DbTable
 									$values[$key]->idExternal->idGiocNew = $giocNew[$values[$key]->idExternal->idGiocNew];
 									$values[$key]->titolo = $val->nome . ' ha effettuato un trasferimento';
 									$values[$key]->content = $val->nome .' ha ceduto il giocatore '. $values[$key]->idExternal->idGiocOld->nome . ' ' . $values[$key]->idExternal->idGiocOld->cognome . ' e ha acquistato ' . $values[$key]->idExternal->idGiocNew->nome . ' ' . $values[$key]->idExternal->idGiocNew->cognome;
-									$values[$key]->link = Links::getLink('trasferimenti',array('squadra'=>$values[$key]->idExternal->idSquadra));
+									$values[$key]->link = Links::getLink('trasferimenti',array('squadra'=>$values[$key]->idExternal->idUtente));
 									unset($giocOld,$giocNew);break;
 								case 5: 
 									$player = Giocatore::getGiocatoreById($values[$key]->idExternal);

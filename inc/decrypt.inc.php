@@ -49,14 +49,14 @@ class Decrypt
 		FirePHP::getInstance()->log($ris);
 		return $ris;
 	}
-	public static function decryptCdfile($giornata)
+	public static function decryptCdfile($giornata,$scostamentoGazzetta = 0)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
 		//$decrypt=self::calculateKey();die();
 		$percorsoCsv = VOTICSVDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
 		$percorsoXml = VOTIXMLDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".xml";
 		$percorsoContent = (file_exists($percorsoCsv)) ? trim(file_get_contents($percorsoCsv)) : "";
-		if (!empty($percorsoContent)&&($giornata!=0))
+		if (!empty($percorsoContent)&&($giornata != 0))
 			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
 		$content = FileSystem::contenutoCurl($site . "/magiccampionato/11-12/free/download/cd/?");
@@ -65,9 +65,13 @@ class Decrypt
 		{
 			$search = "";
 			$content = preg_replace("/\n/","",$content);
-			preg_match("/Giornata $giornata(.*?)<a href=\"(.+?)\"/i",$content,$matches);
+			$giornataGazzetta = ($giornata + $scostamentoGazzetta);
+			preg_match("/Giornata $giornataGazzetta(.*?)<a href=\"(.+?)\"/i",$content,$matches);
+			//echo "<pre>" . print_r($matches,1) . "</pre>";
+			//die();
 			if(isset($matches[2]))
 			{
+			
 				if(strpos($matches[2],$site) === FALSE)
 					$url = $site . htmlspecialchars_decode($matches[2]);
 				else

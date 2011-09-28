@@ -1,7 +1,7 @@
 <?php 
 class Utente extends DbTable
 {
-	var $idSquadra;
+	var $idUtente;
 	var $nome;
 	var $cognome;
 	var $nomeProp;

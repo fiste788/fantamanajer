@@ -70,7 +70,7 @@ rewriteRule (.*) /%2/$1 [L]
 	RewriteRule ^dettaglioGiocatore.html$ index.php?p=dettaglioGiocatore
 	RewriteRule ^dettaglioGiocatore/(.*)/(.*).html$ index.php?p=dettaglioGiocatore&edit=$1&id=$2
 	RewriteRule ^trasferimenti.html$ index.php?p=trasferimenti
-	RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squad=$1
+	RewriteRule ^trasferimenti/(.*).html$ index.php?p=trasferimenti&squadra=$1
 	RewriteRule ^giocatoriLiberi.html$ index.php?p=giocatoriLiberi
 	RewriteRule ^conferenzeStampa.html$ index.php?p=conferenzeStampa
 	RewriteRule ^conferenzeStampa/(.*).html$ index.php?p=conferenzeStampa&giornata=$1

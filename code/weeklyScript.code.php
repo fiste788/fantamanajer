@@ -23,7 +23,7 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 	if(!empty($backup))
 	{
 		$logger->info("Starting decript file day " . $giornata);
-		$path = Decrypt::decryptCdfile($giornata);
+		$path = Decrypt::decryptCdfile($giornata,-1);
 		FirePHP::getInstance()->log($path);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
 		if($path != FALSE || Voto::checkVotiExist($giornata))

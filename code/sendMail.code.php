@@ -15,8 +15,10 @@ $today = date("Y-m-d");
 $date = Giornata::getDataByGiornata(GIORNATA);
 $giorn = explode(' ',$date->dataFine);
 $dataGiornata = $giorn[0];
+$timeGiornata = $giorn[1];
+$difference = Giornata::getTimeDiff($timeGiornata);
 
-if(($today == $dataGiornata && date("H") > 17) || $_SESSION['usertype'] == 'superadmin')
+if(($today == $dataGiornata && $difference < 300) || $_SESSION['usertype'] == 'superadmin')
 {
 	$leghe = Lega::getLeghe();
 	$mail = 0;

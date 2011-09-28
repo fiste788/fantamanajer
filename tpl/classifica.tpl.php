@@ -63,7 +63,7 @@
 		"<?php echo $key; ?>" : {label: "Media <?php echo $this->squadre[$key]->nome; ?> (<?php echo substr($media,0,5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]); ?>,<?php echo $media; ?>]]}<?php echo (count($this->classificaDett) != $i) ? ",\n":""; ?>
 		<?php endforeach; ?>
 	};
-	var squadra = {val:<?php echo ($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) ? $this->squadre[$_SESSION['idSquadra']]->idUtente : 'false'; ?>};
+	var squadra = {val:<?php echo ($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) ? $this->squadre[$_SESSION['idUtente']]->idUtente : 'false'; ?>};
 // ]]>
 </script>
 <?php endif; ?>

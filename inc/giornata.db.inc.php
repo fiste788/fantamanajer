@@ -138,5 +138,15 @@ class Giornata extends DbTable
 		$calendario[39]['dataFine'] = "2011-07-31 23:59:59";
 		return self::updateGiornate($calendario);
 	} 
+	
+	public static function function getTimeDiff($t1,$t2 = date("H:i:s"))
+	{
+		$a1 = explode(":",$t1);
+		$a2 = explode(":",$t2);
+		$time1 = (($a1[0] * 60 * 60) + ($a1[1] * 60) + ($a1[2]));
+		$time2 = (($a2[0] * 60 * 60) + ($a2[1] * 60) + ($a2[2]));
+		$diff = abs($time1 - $time2);
+		return $diff;
+	}
 }
 ?>

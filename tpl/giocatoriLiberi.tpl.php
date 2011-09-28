@@ -1,6 +1,6 @@
 <?php if($this->validFilter): ?>
 	<?php if(!PARTITEINCORSO || !STAGIONEFINITA): ?>
-		<form action="<?php echo Links::getLink('trasferimenti',array('squadra'=>$_SESSION['idSquadra'])); ?>" method="post">
+		<form action="<?php echo Links::getLink('trasferimenti',array('squadra'=>$_SESSION['idUtente'])); ?>" method="post">
 			<fieldset class="no-margin no-padding">
 	<?php endif; ?>
 	<table cellpadding="0" cellspacing="0">

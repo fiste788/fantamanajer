@@ -19,7 +19,7 @@ $pages = array();
 								'navbar'=>array('key'=>'clubs','title'=>'Serie A','order'=>5,'main'=>TRUE));
 								
 	$pages['classifica'] = array(	'title'=>"Classifica",
-								'ieHack'=>array('flot'=>'excanvas'),
+								'ieHack'=>array('flot'=>'excanvas.js'),
 								'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
@@ -47,7 +47,7 @@ $pages = array();
 								'navbar'=>array('key'=>'areaAmministrativa','title'=>'AreaAdmim','order'=>7,'main'=>TRUE));
 								
 	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
-								'ieHack'=>array('flot'=>'excanvas'),
+								'ieHack'=>array('flot'=>'excanvas.js'),
 								'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
 								'roles'=>-1,
 								'navbar'=>array('key'=>'altro','title'=>'Dettaglio giocatore'));
