@@ -25,8 +25,10 @@
 			<p>Media voti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgVoti)) ? $this->dettaglioGioc['dettaglio']->avgVoti : ''; ?></p>
 			<p>Media punti: <?php echo (!empty($this->dettaglioGioc['dettaglio']->avgPunti)) ? $this->dettaglioGioc['dettaglio']->avgPunti : ''; ?></p>
 		</div>
-		<?php if($this->dettaglioGioc['dettaglio']->nomeClub != NULL): ?>
-			<img height="82" width="50" title="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
+		<?php if($this->dettaglioGioc['dettaglio']->nomeClub != NULL): ?>        
+			<a target="_blank" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$this->dettaglioGioc['dettaglio']->idClub)); ?>">
+				<img height="50%" width="60" title="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" class="shield" alt="<?php echo $this->dettaglioGioc['dettaglio']->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
+			</a>
 		<?php endif; ?>
 	</div>
 	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>

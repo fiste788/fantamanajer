@@ -47,13 +47,13 @@
 			<?php endforeach; ?>
 			<tr>
 				<td colspan="4">Totali</td>
-				<td><?php echo $this->clubDett->avgVoti; ?></td>
-				<td><?php echo $this->clubDett->avgPunti; ?></td>
-				<td><?php echo $this->clubDett->totaleGol; ?></td>
-				<td><?php echo $this->clubDett->totaleGolSubiti; ?></td>
-				<td><?php echo $this->clubDett->totaleAssist; ?></td>
-				<td><?php echo $this->clubDett->totaleAmmonizioni; ?></td>
-				<td><?php echo $this->clubDett->totaleEspulsioni; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->avgVoti; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->avgPunti; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->totaleGol; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->totaleGolSubiti; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->totaleAssist; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->totaleAmmonizioni; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->clubDett->totaleEspulsioni; ?></td>
 			</tr>
 		</tbody>
 	</table>
