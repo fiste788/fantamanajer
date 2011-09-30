@@ -109,7 +109,7 @@
 					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
-				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><a target="_blank" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$val->idClub)); ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></a></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->presenze . " (" . $val->presenzeVoto . ")"; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->avgVoti)) ? $val->avgVoti : "&nbsp;"; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->avgPunti)) ? $val->avgPunti : "&nbsp;"; ?></td>
@@ -123,13 +123,13 @@
 			<?php endforeach; ?>
 			<tr>
 				<td colspan="4">Totali</td>
-				<td><?php echo $this->squadraDett->avgVoti; ?></td>
-				<td><?php echo $this->squadraDett->avgPunti; ?></td>
-				<td><?php echo $this->squadraDett->totaleGol; ?></td>
-				<td><?php echo $this->squadraDett->totaleGolSubiti; ?></td>
-				<td><?php echo $this->squadraDett->totaleAssist; ?></td>
-				<td><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
-				<td><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->avgVoti; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->avgPunti; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleGol; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleGolSubiti; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleAssist; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
+				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
 			</tr>
 		</tbody>
 	</table>
