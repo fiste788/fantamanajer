@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
-		<link href="http://fonts.googleapis.com/css?family=Droid+Sans&subset=latin" rel="stylesheet" type="text/css" />
+		<link href="http://fonts.googleapis.com/css?family=Droid+Sans&amp;subset=latin" rel="stylesheet" type="text/css" />
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
 		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
@@ -91,7 +91,7 @@
 			</div>
 		</div>
 		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
-		<div id="topRightBar"<?php if(!empty($this->operation)) echo  'class="active"'; ?>>
+		<div id="topRightBar"<?php if(!empty($this->operation)) echo ' class="active"'; ?>>
 			<div>
 				<?php if(!empty($this->operation)): ?>
 				<div title="Mostra menu" id="click-menu">
@@ -105,8 +105,8 @@
 					<a class="next" href="<?php echo $this->quickLinks->succ->href; ?>" title="<?php echo $this->quickLinks->succ->title; ?>">&nbsp;</a>
 				<?php endif; ?>
 			</div>
-		<?php endif; ?>	
 		</div>
+		<?php endif; ?>	
 		<?php if(!empty($this->operation)): ?>
 			<div id="menu"><?php echo $this->operation; ?></div>
 		<?php endif; ?>
