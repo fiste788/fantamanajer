@@ -126,15 +126,15 @@ if (!isset($_SESSION['logged'])) {
  */
 
 $giornata = Giornata::getGiornataByDate();
-define("GIORNATA",$giornata['idGiornata']);
+define("GIORNATA",$giornata['id']);
 define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
 
-$leghe = Lega::getLeghe();
+$leghe = Lega::getList();
 $layoutTpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
-	$_SESSION['legaView'] = $leghe[0]->idLega;
+	$_SESSION['legaView'] = $leghe[1]->id;
 if(isset($_POST['legaView']))
 	$_SESSION['legaView'] = $_POST['legaView'];
 /**
@@ -178,9 +178,9 @@ if ($_SESSION['logged'])
 	require_once(INCDIR . 'giocatore.db.inc.php');
 	require_once(INCDIR . 'trasferimento.db.inc.php');
 
-	$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
-	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
-		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+	$_SESSION['datiLega'] = $leghe($_SESSION['idLega']);
+	//if(Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
+	//	$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 $firePHP->groupEnd();
 

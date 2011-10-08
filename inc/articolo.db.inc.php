@@ -1,34 +1,27 @@
 <?php 
-class Articolo extends DbTable
+require_once(INCDIR . 'ArticoloTable.db.inc.php');
+
+class Articolo extends ArticoloTable
 {
-	var $idArticolo;
-	var $title;
-	var $abstract;
-	var $text;
-	var $insertDate;
-	var $idUtente;
-	var $idGiornata;
-	var $idLega;
-	
 	public static function addArticolo($title,$abstract,$text,$idUtente,$idGiornata,$idLega) {
 		$q = "INSERT INTO articolo (title , abstract , text , insertDate , idUtente, idGiornata, idLega)
 				VALUES ('" . $title . "' , '" . $abstract . "' , '" . $text . "' , '" . date("Y-m-d H:i:s") . "' , '" . $idUtente . "' , '" . $idGiornata . "' , '" . $idLega . "')";
 		FirePHP::getInstance()->log($q);
 		mysql_query($q) or self::sqlError($q);
-		$q = "SELECT idArticolo 
+		$q = "SELECT id
 				FROM articolo 
 				WHERE title = '" . $title . "' AND abstract = '" . $abstract . "' AND text = '" . $text . "' AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$data = mysql_fetch_object($exe);
-		return $data->idArticolo;
+		return $data->id;
 	}
 	
 	public static function updateArticolo($idArticolo,$title,$abstract,$text,$idUtente,$idLega)
 	{
 		$q = "UPDATE articolo 
 				SET title = '" . $title . "' , abstract = '" . $abstract . "' , text = '" . $text . "' , idUtente = '" . $idUtente . "', idLega = '" . $idLega . "'
-				WHERE idArticolo = '" . $idArticolo . "'";
+				WHERE id = '" . $idArticolo . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
@@ -37,7 +30,7 @@ class Articolo extends DbTable
 	{
 		$q = "DELETE 
 				FROM articolo 
-				WHERE idArticolo = '" . $idArticolo . "'";
+				WHERE id = '" . $idArticolo . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
@@ -45,27 +38,40 @@ class Articolo extends DbTable
 	public static function getArticoliByGiornataAndLega($idGiornata,$idLega)
 	{
 		$q = "SELECT * 
-				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.idUtente
+				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				WHERE idGiornata = '" . $idGiornata . "' AND articolo.idLega = '" . $idLega . "'"; 
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$values[$row->idArticolo] = $row;
+			$values[$row->id] = $row;
+		return $values;
+	}
+	
+	public static function getArticoliByIdUtente($idUtente)
+	{
+		$q = "SELECT *
+				FROM articolo
+				WHERE idUtente = '" . $idUtente . "'";
+		$values = FALSE;
+		FirePHP::getInstance()->log($q);
+		$exe = mysql_query($q) or self::sqlError($q);
+		while($row = mysql_fetch_object($exe,__CLASS__))
+			$values[$row->id] = $row;
 		return $values;
 	}
 
 	public static function getLastArticoli($number)
 	{
 		$q = "SELECT * 
-				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.idUtente
+				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				ORDER BY insertDate DESC
 				LIMIT 0," . $number . ""; 
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$values[$row->idArticolo] = $row;
+			$values[$row->id] = $row;
 		return $values;
 	}
 	
@@ -86,7 +92,7 @@ class Articolo extends DbTable
 	{
 		$q = "SELECT * 
 				FROM articolo 
-				WHERE idArticolo = '" . $idArticolo . "'";
+				WHERE id = '" . $idArticolo . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);

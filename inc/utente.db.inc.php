@@ -1,16 +1,8 @@
 <?php 
-class Utente extends DbTable
+require_once(INCDIR . 'UtenteTable.db.inc.php');
+
+class Utente extends UtenteTable
 {
-	var $idUtente;
-	var $nome;
-	var $cognome;
-	var $nomeProp;
-	var $mail;
-	var $abilitaMail;
-	var $username;
-	var $amministratore;
-	var $idLega;
-	
 	public static function login($username, $password)
 	{
 		$q = "SELECT username, password FROM utente WHERE username LIKE '" . $username . "';";
@@ -31,12 +23,12 @@ class Utente extends DbTable
 	public static function getElencoSquadre()
 	{		
 		$q = "SELECT utente.*,giornateVinte 
-				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
+				FROM utente LEFT JOIN giornatevinte on utente.id = giornatevinte.idUtente
 				WHERE idLega = '" . $_SESSION['idLega'] . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idUtente] = $row;
+			$values[$row->id] = $row;
 		return $values; 
 	}
 	
@@ -47,19 +39,19 @@ class Utente extends DbTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idUtente] = $row;
+			$values[$row->id] = $row;
 		return $values; 
 	}
 	
 	public static function getElencoSquadreByLega($idLega)
 	{		
 		$q = "SELECT utente.*,giornateVinte 
-				FROM utente LEFT JOIN giornatevinte on utente.idUtente = giornatevinte.idUtente
+				FROM utente LEFT JOIN giornatevinte on utente.id = giornatevinte.idUtente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
-			$values[$row->idUtente] = $row;
+			$values[$row->id] = $row;
 		if(isset($values))
 			return $values;
 		else
@@ -68,13 +60,13 @@ class Utente extends DbTable
 	
 	public static function getElencoSquadreByLegaOptions($idLega)
 	{		
-		$q = "SELECT idUtente,nome 
+		$q = "SELECT id,nome
 				FROM utente 
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
-			$values[$row->idUtente] = $row->nome;
+			$values[$row->id] = $row->nome;
 		if(isset($values))
 			return $values;
 		else
@@ -101,55 +93,55 @@ class Utente extends DbTable
 				amministratore = '" . $amministratore . "'";
 		if(!empty($password))
 			$q .= ", password = '" . md5($password) . "'";
-		$q .= " WHERE idUtente = '" . $idUtente . "'";
+		$q .= " WHERE id = '" . $idUtente . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	public static function getAllEmail()
 	{
-		$q = "SELECT mail,idUtente,idLega,nomeProp,cognome
+		$q = "SELECT mail,id,idLega,nomeProp,cognome
 				FROM utente";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idLega][$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
+			$values[$row->idLega][$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
 	public static function getAllEmailAbilitate()
 	{
-		$q = "SELECT mail,idUtente,idLega,nomeProp,cognome
+		$q = "SELECT mail,id,idLega,nomeProp,cognome
 				FROM utente
 				WHERE abilitaMail <> 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idLega][$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
+			$values[$row->idLega][$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
 	public static function getAllEmailByLega($idLega)
 	{
-		$q = "SELECT mail,idUtente,nomeProp,cognome
+		$q = "SELECT mail,id,nomeProp,cognome
 				FROM utente
 				WHERE idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
+			$values[$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
 	public static function getAllEmailAbilitateByLega($idLega)
 	{
-		$q = "SELECT mail,idUtente,nomeProp,cognome
+		$q = "SELECT mail,id,nomeProp,cognome
 				FROM utente
 				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idUtente] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
+			$values[$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
 	
@@ -161,13 +153,13 @@ class Utente extends DbTable
 				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
 		mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
-		$q = "SELECT idUtente 
+		$q = "SELECT id
 				FROM utente 
 				WHERE nome = '" . $nomeSquadra . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$val = $row->idUtente;
+			$val = $row->id;
 		Punteggio::setPunteggiToZero($val,$idLega);
 		return $val;
 	}
@@ -176,7 +168,7 @@ class Utente extends DbTable
 	{
 		$q = "DELETE 
 				FROM utente 
-				WHERE idUtente = '" . $idUtente . "'";
+				WHERE id = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		if(mysql_affected_rows() == 0)
@@ -189,7 +181,7 @@ class Utente extends DbTable
 	{
 		$q = "SELECT idLega 
 				FROM utente 
-				WHERE idUtente = '" . $idUtente . "'";
+				WHERE id = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = -1;
 		FirePHP::getInstance()->log($q);
@@ -202,7 +194,7 @@ class Utente extends DbTable
 	{
 		$q = "SELECT * 
 				FROM utente 
-				WHERE username LIKE '" . $username . "' AND idUtente <> '" . $idUtente . "'";
+				WHERE username LIKE '" . $username . "' AND id <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$val = FALSE;
 		FirePHP::getInstance()->log($q);
@@ -215,7 +207,7 @@ class Utente extends DbTable
 	{
 		$q = "SELECT * 
 				FROM utente 
-				WHERE nome LIKE '" . $nome . "' AND idUtente <> '" . $idUtente . "'";
+				WHERE nome LIKE '" . $nome . "' AND id <> '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$val = FALSE;
@@ -237,6 +229,18 @@ class Utente extends DbTable
 			$i++;
 		}
 		return $pass;
+	}
+	
+	public static function getUtentiByIdLega($idLega)
+	{
+		$q = "SELECT *
+				FROM utente
+				WHERE idLega = '" . $idLega . "'";
+		$exe = mysql_query($q) or self::sqlError($q);
+		FirePHP::getInstance()->log($q);
+		while ($row = mysql_fetch_object($exe,__CLASS__) )
+		  	$values[$row->getId()] = $row;
+		return $values;
 	}
 }
 ?>

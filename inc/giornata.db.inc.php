@@ -1,14 +1,12 @@
 <?php
-class Giornata extends DbTable
+require_once(INCDIR . 'GiornataTable.db.inc.php');
+
+class Giornata extends GiornataTable
 {
-	var $idGiornata;
-	var $dataInizio;
-	var $dataFine;
-	
 	public static function getGiornataByDate()
 	{
 		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-		$q = "SELECT idGiornata 
+		$q = "SELECT id
 				FROM giornata 
 				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -18,7 +16,7 @@ class Giornata extends DbTable
 			$valore['partiteInCorso'] = FALSE;
 		else
 		{
-			$q = "SELECT MIN( idGiornata -1 ) as idGiornata
+			$q = "SELECT MIN( id -1 ) as idGiornata
 				FROM giornata
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or self::sqlError($q);
@@ -26,13 +24,13 @@ class Giornata extends DbTable
 			$valore = mysql_fetch_assoc($exe);
 			$valore['partiteInCorso'] = TRUE;
 		}
-		$valore['stagioneFinita'] = $valore['idGiornata'] > (self::getNumberGiornate() - 1);
+		$valore['stagioneFinita'] = $valore['id'] > (self::getNumberGiornate() - 1);
 		return $valore;
 	}
 	
 	public static function checkDay($day,$type = 'dataInizio',$offset = 1)
 	{
-		$q = "SELECT dataInizio,dataFine,idGiornata 
+		$q = "SELECT dataInizio,dataFine,id
 				FROM giornata 
 				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -64,7 +62,7 @@ class Giornata extends DbTable
 	
 	public static function getNumberGiornate()
 	{
-		$q = "SELECT COUNT(idGiornata) as numeroGiornate
+		$q = "SELECT COUNT(id) as numeroGiornate
 				FROM giornata";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -139,8 +137,9 @@ class Giornata extends DbTable
 		return self::updateGiornate($calendario);
 	} 
 	
-	public static function function getTimeDiff($t1,$t2 = date("H:i:s"))
+	public static function getTimeDiff($t1,$t2)
 	{
+	    $t2 = ($t2) || date("H:i:s");
 		$a1 = explode(":",$t1);
 		$a2 = explode(":",$t2);
 		$time1 = (($a1[0] * 60 * 60) + ($a1[1] * 60) + ($a1[2]));
