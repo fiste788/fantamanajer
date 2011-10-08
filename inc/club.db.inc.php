@@ -1,5 +1,7 @@
 <?php
-class Club extends DbTable
+require_once(INCDIR . 'ClubTable.db.inc.php');
+
+class Club extends ClubTable
 {
 	public static function getClubById($idClub)
 	{		

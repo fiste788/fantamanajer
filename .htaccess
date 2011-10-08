@@ -1,5 +1,6 @@
 FileETag None
 AddType image/x-icon .ico
+AddDefaultCharset UTF-8
 <IfModule mod_headers.c>
 	Header unset ETag
 	Header unset Cookie

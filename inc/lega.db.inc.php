@@ -1,25 +1,17 @@
 <?php 
-class Lega extends DbTable
+require_once(INCDIR . 'BaseLega.db.inc.php');
+
+class Lega extends LegaTable
 {
-	var $idLega;
-	var $nomeLega;
-	var $capitano;
-	var $numTrasferimenti;
-	var $numSelezioni;
-	var $minFormazione;
-	var $premi;
-	var $punteggioFormazioneDimenticata;
-	var $jolly;
-	
 	public static function getLeghe()
 	{
-		$q = "SELECT * 
+		$q = "SELECT *
 				FROM lega";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 		  	$values[] = $row;
-		return $values; 
+		return $values;
 	}
 	
 	public static function getLegaById($idLega)

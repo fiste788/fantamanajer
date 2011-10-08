@@ -1,4 +1,6 @@
 <?php 
+require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
+require_once(INCDIR . 'club.db.inc.php');
 require_once(INCDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'utente.db.inc.php');
 
@@ -14,6 +16,7 @@ if(isset($_POST['edit']))
 $ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante');
 $ruoPlu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 
+$dettaglio = GiocatoreStatistiche::getById($filterId);
 $dettaglio = Giocatore::getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
 $pathFoto = PLAYERSDIR . $dettaglio['dettaglio']->idGioc . '.jpg';
 $pathClub = CLUBSURL . $dettaglio['dettaglio']->idClub . '.png';

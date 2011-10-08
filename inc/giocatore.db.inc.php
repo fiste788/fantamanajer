@@ -1,7 +1,9 @@
 <?php 
-class Giocatore extends DbTable
+require_once(INCDIR . 'GiocatoreTable.db.inc.php');
+
+class Giocatore extends GiocatoreTable
 {
-	var $idGioc;
+	var $id;
 	var $nome;
 	var $cognome;
 	var $ruolo;
@@ -10,7 +12,7 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoriByIdSquadra($idUtente)
 	{
-		$q = "SELECT idGioc, cognome, nome, ruolo, idUtente
+		$q = "SELECT id, cognome, nome, ruolo, idUtente
 				FROM giocatorisquadra
 				WHERE idUtente = '" . $idUtente . "'
 				ORDER BY ruolo DESC,cognome ASC";
@@ -18,7 +20,7 @@ class Giocatore extends DbTable
 		$giocatori = array();
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giocatori[$row->idGioc] = $row;
+			$giocatori[$row->id] = $row;
 		if(isset($giocatori))
 			return $giocatori;
 		else
@@ -27,7 +29,7 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoriByIdClub($idClub)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
+		$q = "SELECT giocatore.id, cognome, nome, ruolo
 				FROM giocatore
 				WHERE club = '" . $idClub . "'
 				ORDER BY giocatore.ruolo DESC,giocatore.cognome ASC";
@@ -35,7 +37,7 @@ class Giocatore extends DbTable
 		$giocatori = array();
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giocatori[$row->idGioc] = $row;
+			$giocatori[$row->id] = $row;
 		if(isset($giocatori))
 			return $giocatori;
 		else
@@ -44,10 +46,10 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoriByIdSquadraAndRuolo($idUtente,$ruolo)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
-				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
+		$q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
+				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGioc
 				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND giocatore.status=1
-				ORDER BY giocatore.idGioc ASC";
+				ORDER BY giocatore.id ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
 		FirePHP::getInstance()->log($q);
@@ -63,12 +65,12 @@ class Giocatore extends DbTable
 	{				
 		$q = "SELECT giocatoristatistiche.*
 				FROM giocatoristatistiche
-				WHERE idGioc IN (SELECT idGioc
+				WHERE idGioc IN (SELECT id
 					FROM giocatore
-					INNER JOIN club ON giocatore.club = club.idClub
+					INNER JOIN club ON giocatore.club = club.id
 					WHERE ruolo = '" . $ruolo . "'
 					AND status = 1
-					AND giocatore.idGioc NOT IN (
+					AND giocatore.id NOT IN (
 						SELECT idGioc
 						FROM squadra
 						WHERE idLega = '" . $idLega . "'))
@@ -82,10 +84,10 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoriByArray($giocatori)
 	{
-		$q = "SELECT idGioc,cognome,nome,ruolo 
+		$q = "SELECT id,cognome,nome,ruolo
 				FROM giocatore 
-				WHERE idGioc IN ('" . implode("','",$giocatori) . "')
-				ORDER BY FIELD(idGioc,'" . implode("','",$giocatori) . "')";
+				WHERE id IN ('" . implode("','",$giocatori) . "')
+				ORDER BY FIELD(id,'" . implode("','",$giocatori) . "')";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
@@ -95,13 +97,13 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoreById($idGioc)
 	{
-		$q = "SELECT idGioc,cognome,nome,ruolo,nomeClub,partitivo,determinativo 
-				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub
-				WHERE idGioc = '" . $idGioc . "'";
+		$q = "SELECT id,cognome,nome,ruolo,nomeClub,partitivo,determinativo
+				FROM giocatore LEFT JOIN club ON giocatore.club = club.id
+				WHERE id = '" . $id . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$result[$row->idGioc] = $row;
+			$result[$row->id] = $row;
 		if(isset($result))
 			return $result;
 		else
@@ -176,7 +178,7 @@ class Giocatore extends DbTable
 	{
 		$q="SELECT ruolo 
 				FROM giocatore 
-				WHERE idGioc = '" . $idGioc . "'";
+				WHERE id = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
@@ -186,7 +188,7 @@ class Giocatore extends DbTable
 	public static function getArrayGiocatoriFromDatabase($all = FALSE)
 	{
 		$q = "SELECT giocatore.*, nomeClub  
-				FROM giocatore LEFT JOIN club ON giocatore.club = club.idClub";
+				FROM giocatore LEFT JOIN club ON giocatore.club = club.id";
 		if($all)
 			 $q .= " WHERE giocatore.status = 1";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -195,7 +197,7 @@ class Giocatore extends DbTable
 		while($row = mysql_fetch_object($exe,__CLASS__))
 		{
 			$row->nomeClub = strtoupper(substr($row->nomeClub,0,3));
-			$giocatori[$row->idGioc] = implode(";",get_object_vars($row));
+			$giocatori[$row->id] = implode(";",get_object_vars($row));
 		}
 		return $giocatori;                
 	}
@@ -229,8 +231,8 @@ class Giocatore extends DbTable
 			{
 				$giocatori = join("','",$clubs[$key]);
 				$q = "UPDATE giocatore 
-						SET status = 1,club = (SELECT idClub FROM club WHERE nomeClub LIKE '" . $key . "%')
-						WHERE idGioc IN ('" . $giocatori . "')";
+						SET status = 1,club = (SELECT id FROM club WHERE nomeClub LIKE '" . $key . "%')
+						WHERE id IN ('" . $giocatori . "')";
 				foreach($clubs[$key] as $single)
 					Evento::addEvento('7',0,0,$single);
 				FirePHP::getInstance()->log($q);
@@ -259,11 +261,11 @@ class Giocatore extends DbTable
 				$nome = trim(substr($nominativo,strlen($cognome)));
 				$cognome = ucwords(strtolower((addslashes($cognome))));
 				$nome = ucwords(strtolower((addslashes($nome))));
-				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT idClub FROM club WHERE nomeClub LIKE '" . $club . "%'),1),";
+				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT id FROM club WHERE nomeClub LIKE '" . $club . "%'),1),";
 				if(!empty($playersOld))
 					Evento::addEvento('5',0,0,$pezzi[0]);
 			}
-			$q = rtrim("INSERT INTO giocatore(idGioc,cognome,nome,ruolo,club,status) VALUES " . $rowtoinsert,",");
+			$q = rtrim("INSERT INTO giocatore(id,cognome,nome,ruolo,club,status) VALUES " . $rowtoinsert,",");
 			FirePHP::getInstance()->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
@@ -274,7 +276,7 @@ class Giocatore extends DbTable
 			$stringaDaTogliere = join("','",array_keys($daTogliere));
 			$q = "UPDATE giocatore 
 					SET status = 0 
-					WHERE idGioc IN ('" . $stringaDaTogliere . "')";
+					WHERE id IN ('" . $stringaDaTogliere . "')";
 			FirePHP::getInstance()->log($q);
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
@@ -293,14 +295,14 @@ class Giocatore extends DbTable
 
 	public static function getGiocatoriNotSquadra($idUtente,$idLega)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo, idUtente
-				FROM giocatore LEFT JOIN squadra ON giocatore.idGioc = squadra.idGioc
+		$q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
+				FROM giocatore LEFT JOIN squadra ON giocatore.id = squadra.idGioc
 				WHERE idLega = '" . $idLega . "' AND idUtente <> '" . $idUtente . "' OR idUtente IS NULL
-				ORDER BY giocatore.idGioc ASC";
+				ORDER BY giocatore.id ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giocatori[$row->idGioc] = $row;
+			$giocatori[$row->id] = $row;
 		return $giocatori;
 	}
 	
@@ -338,8 +340,8 @@ class Giocatore extends DbTable
 	
 	public static function getGiocatoriTrasferiti($idUtente)
 	{
-		$q = "SELECT giocatore.idGioc, cognome, nome, ruolo
-				FROM giocatore INNER JOIN squadra ON giocatore.idGioc = squadra.idGioc
+		$q = "SELECT giocatore.id, cognome, nome, ruolo
+				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGioc
 				WHERE idUtente = '" . $idUtente . "' AND status = 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -366,7 +368,7 @@ class Giocatore extends DbTable
 	{
 		$q = "UPDATE giocatore
 				SET cognome = '" . $cognome . "', nome = '" . $nome . "'
-				WHERE idGioc = '" . $id . "'";
+				WHERE id = '" . $id . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
@@ -375,7 +377,7 @@ class Giocatore extends DbTable
 	{
 		$q = "SELECT club
 				FROM giocatore
-				WHERE idGioc = '" . $idGioc . "' AND status = 0";
+				WHERE id = '" . $idGioc . "' AND status = 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
@@ -387,7 +389,7 @@ class Giocatore extends DbTable
 	{
 		$values = FALSE;
 		$q = "SELECT *
-				FROM giocatore INNER JOIN voto ON giocatore.idGioc = voto.idGioc INNER JOIN club ON giocatore.club = club.idClub
+				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGioc INNER JOIN club ON giocatore.club = club.id
 				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";

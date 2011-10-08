@@ -1,5 +1,7 @@
 <?php
-class Evento extends DbTable
+require_once(INCDIR . 'EventoTable.db.inc.php');
+
+class Evento extends EventoTable
 {
 	var $idEvento;
 	var $idUtente;
@@ -45,8 +47,8 @@ class Evento extends DbTable
 					'C'=> "centrocampista",
 					'A'=> "attaccante"
 		));
-		$q = "SELECT evento.idEvento,evento.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome 
-				FROM evento LEFT JOIN utente ON evento.idUtente = utente.idUtente ";
+		$q = "SELECT evento.id,evento.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome
+				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
 		if($idLega != NULL)
 			$q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
 		if($tipo != NULL)
@@ -64,7 +66,7 @@ class Evento extends DbTable
 				switch($val->tipo)
 				{
 					case 1:
-						$values[$key]->idExternal = Articolo::getArticoloById($val->idExternal);
+						$values[$key]->idExternal = Articolo::getById($val->idExternal);
 						$values[$key]->titolo = $val->nome . ' ha rilasciato una conferenza stampa intitolata '. $values[$key]->idExternal->title;
 						$values[$key]->content = '';
 						if(!empty($values[$key]->idExternal->abstract)) 

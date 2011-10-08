@@ -1,15 +1,8 @@
 <?php
+require_once(INCDIR . 'FormazioneTable.db.inc.php');
+
 class Formazione extends DbTable
 {
-	var $idFormazione;
-	var $idGiornata;
-	var $idUtente;
-	var $modulo;
-	var $c;
-	var $vc;
-	var $vvc;
-	var $jolly;
-	
 	public static function getFormazioneById($id)
 	{
 		$q = "SELECT formazione.idFormazione,idUtente,idGiornata,idGioc,idPosizione,modulo,C,VC,VVC 
