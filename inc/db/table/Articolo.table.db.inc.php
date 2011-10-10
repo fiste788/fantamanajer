@@ -226,7 +226,7 @@ class ArticoloTable extends DbTable
 	 */
 	public function getUtente()
 	{
-	    require_once(INCDIR . 'utente.db.inc.php');
+	    require_once(INCDBDIR . 'utente.db.inc.php');
 	    if(empty($this->utente))
 			$this->utente = Utente::getById($this->getIdUtente());
 		return $this->utente;
@@ -238,7 +238,7 @@ class ArticoloTable extends DbTable
 	 */
 	public function getGiornata()
 	{
-	    require_once(INCDIR . 'giornata.db.inc.php');
+	    require_once(INCDBDIR . 'giornata.db.inc.php');
 	    if(empty($this->giornata))
 			$this->giornata = Giornata::getById($this->getIdGiornata());
 		return $this->giornata;

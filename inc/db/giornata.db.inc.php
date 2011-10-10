@@ -1,5 +1,5 @@
 <?php
-require_once(INCDIR . 'GiornataTable.db.inc.php');
+require_once(TABLEDIR . 'Giornata.table.db.inc.php');
 
 class Giornata extends GiornataTable
 {

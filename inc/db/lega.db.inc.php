@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR . 'BaseLega.db.inc.php');
+require_once(TABLEDIR . 'Lega.table.db.inc.php');
 
 class Lega extends LegaTable
 {

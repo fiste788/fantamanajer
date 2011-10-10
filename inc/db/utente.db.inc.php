@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR . 'UtenteTable.db.inc.php');
+require_once(TABLEDIR . 'Utente.table.db.inc.php');
 
 class Utente extends UtenteTable
 {

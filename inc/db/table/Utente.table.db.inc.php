@@ -250,7 +250,7 @@ class UtenteTable extends DbTable
 	 */
 	public function getArticoli()
 	{
-	    require_once(INCDIR . 'articolo.db.inc.php');
+	    require_once(INCDBDIR . 'articolo.db.inc.php');
 	    if(empty($this->articoli))
 			$this->articoli = Articolo::getByField('idUtente',$this->getId());
 		return $this->articoli;
@@ -258,11 +258,11 @@ class UtenteTable extends DbTable
 	
 	/**
 	 * Getter: id
-	 * @return Articolo[]
+	 * @return Giocatore[]
 	 */
 	public function getGiocatori()
 	{
-	    require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
+	    require_once(INCDBDIR . 'GiocatoreStatisticheTable.db.inc.php');
 	    if(empty($this->giocatori))
 			$this->giocatori = GiocatoreStatistiche::getByField('idUtente',$this->getId());
 		return $this->giocatori;
@@ -274,7 +274,7 @@ class UtenteTable extends DbTable
 	 */
 	public function getEventi()
 	{
-	    require_once(INCDIR . 'evento.db.inc.php');
+	    require_once(INCDBDIR . 'evento.db.inc.php');
 	    if(empty($this->eventi))
 			$this->eventi = Evento::getByField('idUtente',$this->getId());
 		return $this->eventi;
