@@ -6,9 +6,9 @@ class FormazioneTable extends DtTable
 	var $idGiornata;
 	var $idUtente;
 	var $modulo;
-	var $idC;
-	var $idVC;
-	var $idVVC;
+	var $idCapitano;
+	var $idVCapitano;
+	var $idVVCapitano;
 	var $jolly;
 	
 	function __construct() {
@@ -16,9 +16,9 @@ class FormazioneTable extends DtTable
 		$this->idGiornata = $this->getIdGiornata();
 		$this->idUtente = $this->getIdUtente();
 		$this->modulo = $this->getModulo();
-		$this->idC = $this->getIdC();
-		$this->idVC = $this->getIdVC();
-		$this->idVVC = $this->getIdVVC();
+		$this->idCapitano = $this->getIdCapitano();
+		$this->idVCapitano = $this->getIdVCapitano();
+		$this->idVVCapitano = $this->getIdVVCapitano();
 		$this->jolly = $this->getJolly();
 	}
 
@@ -63,33 +63,33 @@ class FormazioneTable extends DtTable
 	}
 
 	/**
-	 * Setter: idC
-	 * @param Int $idC
+	 * Setter: idCapitano
+	 * @param Int $idCapitano
 	 * @return void
 	 */
-	public function setIdC( $idC )
+	public function setIdCapitano( $idCapitano )
 	{
-		$this->idC = (int) $idC;
+		$this->idCapitano = (int) $idCapitano;
 	}
 
 	/**
-	 * Setter: idVC
-	 * @param Int $idVC
+	 * Setter: idVCapitano
+	 * @param Int $idVCapitano
 	 * @return void
 	 */
-	public function setIdVC( $idVC )
+	public function setIdVCapitano( $idVCapitano )
 	{
-		$this->idVC = (int) $idVC;
+		$this->idVCapitano = (int) $idVCapitano;
 	}
 
 	/**
-	 * Setter: idVVC
-	 * @param Int $idVVC
+	 * Setter: idVVCapitano
+	 * @param Int $idVVCapitano
 	 * @return void
 	 */
-	public function setIdVVC( $idVVC )
+	public function setIdVVCapitano( $idVVCapitano )
 	{
-		$this->idVVC = (int) $idVVC;
+		$this->idVVCapitano = (int) $idVVCapitano;
 	}
 
 	/**
@@ -100,6 +100,61 @@ class FormazioneTable extends DtTable
 	public function setJolly( $jolly )
 	{
 		$this->jolly = (boolean) $jolly;
+	}
+	
+	/**
+	 * Setter: utente
+	 * @param Utente $utente
+	 * @return void
+	 */
+	public function setUtente( $utente )
+	{
+	    $this->utente = $utente;
+		$this->setIdUtente($lega->getIdUtente());
+	}
+
+	/**
+	 * Setter: capitano
+	 * @param Giocatore $giocatore
+	 * @return void
+	 */
+	public function setCapitano( $giocatore )
+	{
+	    $this->capitano = $giocatore;
+		$this->setIdCapitano($giocatore->getId());
+	}
+	
+	/**
+	 * Setter: VCapitano
+	 * @param Giocatore $giocatore
+	 * @return void
+	 */
+	public function setVCapitano( $giocatore )
+	{
+	    $this->VCapitano = $giocatore;
+		$this->setIdVCapitano($giocatore->getId());
+	}
+	
+	/**
+	 * Setter: VVCapitano
+	 * @param Giocatore $giocatore
+	 * @return void
+	 */
+	public function setVVCapitano( $giocatore )
+	{
+	    $this->VVCapitano = $giocatore;
+		$this->setIdVVCapitano($giocatore->getId());
+	}
+	
+	/**
+	 * Setter: utente
+	 * @param Giornata $giornata
+	 * @return void
+	 */
+	public function setGiornata( $giornata )
+	{
+	    $this->giornata = $giornata;
+		$this->setIdGiornata($lega->getIdGiornata());
 	}
 
 	/**
@@ -139,30 +194,30 @@ class FormazioneTable extends DtTable
 	}
 
 	/**
-	 * Getter: idC
+	 * Getter: idCapitano
 	 * @return Int
 	 */
-	public function getIdC()
+	public function getIdCapitano()
 	{
-	 	return (int) $this->idC;
+	 	return (int) $this->idCapitano;
 	}
 
 	/**
-	 * Getter: idVC
+	 * Getter: idVCapitano
 	 * @return Int
 	 */
-	public function getIdVC()
+	public function getIdVCapitano()
 	{
-	 	return (int) $this->idVC;
+	 	return (int) $this->idVCapitano;
 	}
 
 	/**
-	 * Getter: idVVC
+	 * Getter: idVVCapitano
 	 * @return Int
 	 */
-	public function getIdVVC()
+	public function getIdVVCapitano()
 	{
-	 	return (int) $this->idVVC;
+	 	return (int) $this->idVVCapitano;
 	}
 
 	/**
@@ -174,5 +229,64 @@ class FormazioneTable extends DtTable
 	 	return (boolean) $this->jolly;
 	}
 
+    /**
+	 * Getter: Utente
+	 * @return Utente
+	 */
+	public function getUtente()
+	{
+	    require_once(INCDBDIR . 'utente.db.inc.php');
+	    if(empty($this->utente))
+			$this->utente = Utente::getById($this->getIdUtente());
+		return $this->utente;
+	}
+
+	/**
+	 * Getter: Giornata
+	 * @return Giornata
+	 */
+	public function getGiornata()
+	{
+	    require_once(INCDBDIR . 'giornata.db.inc.php');
+	    if(empty($this->giornata))
+			$this->giornata = Giornata::getById($this->getIdGiornata());
+		return $this->giornata;
+	}
+	
+	/**
+	 * Getter: Capitano
+	 * @return Giocatore
+	 */
+	public function getCapitano()
+	{
+	    require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
+	    if(empty($this->capitano))
+			$this->capitano = GiocatoreStatistiche::getById($this->getId());
+		return $this->capitano;
+	}
+	
+	/**
+	 * Getter: VCapitano
+	 * @return Giocatore
+	 */
+	public function getVCapitano()
+	{
+	    require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
+	    if(empty($this->VCapitano))
+			$this->VCapitano = GiocatoreStatistiche::getById($this->getId());
+		return $this->VCapitano;
+	}
+	
+	/**
+	 * Getter: VVCapitano
+	 * @return Giocatore
+	 */
+	public function getVVCapitano()
+	{
+	    require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
+	    if(empty($this->VVCapitano))
+			$this->VVCapitano = GiocatoreStatistiche::getById($this->getId());
+		return $this->VVCapitano;
+	}
 }
 ?>

@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR . 'ArticoloTable.db.inc.php');
+require_once(TABLEDIR . 'Articolo.table.db.inc.php');
 
 class Articolo extends ArticoloTable
 {

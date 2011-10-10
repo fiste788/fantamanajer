@@ -33,13 +33,13 @@ require('config/config.inc.php');
 require('config/pages.inc.php');
 require(INCDIR . 'savant/Savant3.php');
 require(INCDIR . 'db.inc.php');
-require(INCDIR . 'dbTable.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
 require(INCDIR . 'FirePHPCore/FirePHP.class.php');
-require(INCDIR . 'lega.db.inc.php');
-require(INCDIR . 'giornata.db.inc.php');
+require(TABLEDIR . 'dbTable.inc.php');
+require(INCDBDIR . 'lega.db.inc.php');
+require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
 $dbObj = new db();
