@@ -96,6 +96,7 @@ define("TMPDIR",sys_get_temp_dir() . '/');
 
 define("JSDIR",'js/');
 define("CODEDIR",'code/');
+define("REQUESTDIR",CODEDIR . 'request/');
 define("TPLDIR",'tpl/');
 define("INCDIR",'inc/');
 define("INCDBDIR",INCDIR . 'db/');

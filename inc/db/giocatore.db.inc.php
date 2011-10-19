@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR . 'GiocatoreTable.db.inc.php');
+require_once(TABLEDIR . 'Giocatore.table.db.inc.php');
 
 class Giocatore extends GiocatoreTable
 {
@@ -31,7 +31,7 @@ class Giocatore extends GiocatoreTable
 	{
 		$q = "SELECT giocatore.id, cognome, nome, ruolo
 				FROM giocatore
-				WHERE club = '" . $idClub . "'
+				WHERE idClub = '" . $idClub . "'
 				ORDER BY giocatore.ruolo DESC,giocatore.cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$giocatori = array();
@@ -47,7 +47,7 @@ class Giocatore extends GiocatoreTable
 	public static function getGiocatoriByIdSquadraAndRuolo($idUtente,$ruolo)
 	{
 		$q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
-				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGioc
+				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND giocatore.status=1
 				ORDER BY giocatore.id ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -67,11 +67,11 @@ class Giocatore extends GiocatoreTable
 				FROM giocatoristatistiche
 				WHERE idGioc IN (SELECT id
 					FROM giocatore
-					INNER JOIN club ON giocatore.club = club.id
+					INNER JOIN club ON giocatore.idClub = club.id
 					WHERE ruolo = '" . $ruolo . "'
 					AND status = 1
 					AND giocatore.id NOT IN (
-						SELECT idGioc
+						SELECT idGiocatore
 						FROM squadra
 						WHERE idLega = '" . $idLega . "'))
 				ORDER BY cognome,nome";
@@ -98,7 +98,7 @@ class Giocatore extends GiocatoreTable
 	public static function getGiocatoreById($idGioc)
 	{
 		$q = "SELECT id,cognome,nome,ruolo,nomeClub,partitivo,determinativo
-				FROM giocatore LEFT JOIN club ON giocatore.club = club.id
+				FROM giocatore LEFT JOIN club ON giocatore.idClub = club.id
 				WHERE id = '" . $id . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -112,13 +112,13 @@ class Giocatore extends GiocatoreTable
 	
 	public static function getGiocatoreByIdWithStats($idGioc,$idLega = NULL)
 	{
-		require_once(INCDIR . 'voto.db.inc.php');
+		require_once(INCDBDIR . 'voto.db.inc.php');
 		
-		$q = "SELECT giocatoristatistiche.*,idLega,idUtente
+		$q = "SELECT view_0_giocatoristatistiche.*,idLega
 				FROM (SELECT * 
 						FROM squadra 
-						WHERE idLega='" . $idLega . "') AS squad RIGHT JOIN giocatoristatistiche ON squad.idGioc = giocatoristatistiche.idGioc
-				WHERE giocatoristatistiche.idGioc = '" . $idGioc . "'";
+						WHERE idLega='" . $idLega . "') AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
+				WHERE view_0_giocatoristatistiche.id = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$data = Voto::getAllVotoByIdGioc($idGioc);
 		FirePHP::getInstance()->log($q);
@@ -161,7 +161,7 @@ class Giocatore extends GiocatoreTable
 	public static function getGiocatoriByIdSquadraWithStats($idUtente)
 	{
 		$q = "SELECT *
-				FROM giocatoristatistiche INNER JOIN squadra on giocatoristatistiche.idGioc = squadra.idGioc
+				FROM giocatoristatistiche INNER JOIN squadra on giocatoristatistiche.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "'
 				ORDER BY ruolo DESC,cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -188,7 +188,7 @@ class Giocatore extends GiocatoreTable
 	public static function getArrayGiocatoriFromDatabase($all = FALSE)
 	{
 		$q = "SELECT giocatore.*, nomeClub  
-				FROM giocatore LEFT JOIN club ON giocatore.club = club.id";
+				FROM giocatore LEFT JOIN club ON giocatore.idClub = club.id";
 		if($all)
 			 $q .= " WHERE giocatore.status = 1";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -341,7 +341,7 @@ class Giocatore extends GiocatoreTable
 	public static function getGiocatoriTrasferiti($idUtente)
 	{
 		$q = "SELECT giocatore.id, cognome, nome, ruolo
-				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGioc
+				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "' AND status = 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -389,7 +389,7 @@ class Giocatore extends GiocatoreTable
 	{
 		$values = FALSE;
 		$q = "SELECT *
-				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGioc INNER JOIN club ON giocatore.club = club.id
+				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore INNER JOIN club ON giocatore.idClub = club.id
 				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";

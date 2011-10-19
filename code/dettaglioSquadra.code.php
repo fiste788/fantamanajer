@@ -1,7 +1,9 @@
 <?php
-require_once(INCDIR . 'utente.db.inc.php');
-require_once(INCDIR . 'punteggio.db.inc.php');
-require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDBDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'punteggio.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
+require_once(VIEWDIR . 'SquadraStatistiche.view.db.inc.php');
+require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 require_once(CODEDIR . 'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE L'UPLOAD
 
@@ -9,23 +11,9 @@ $filterSquadra = NULL;
 if(isset($_GET['squadra']))
 	$filterSquadra = $_GET['squadra'];
 	
-$squadraDett = Utente::getSquadraById($filterSquadra);
+$squadraDett = SquadraStatistiche::getById($filterSquadra);
+$elencoSquadre = Utente::getByField('idLega',$squadraDett->idLega);
 
-$classifica = Punteggio::getClassificaByGiornata($squadraDett->idLega,GIORNATA);
-$elencoSquadre = Utente::getElencoSquadre($squadraDett->idLega);
-
-if($classifica != NULL) 
-{
-	foreach($classifica as $key => $val)
-	{
-		if($filterSquadra == $val->idUtente)
-		{
-			$contentTpl->assign('media',substr($classifica[$key]->punteggioMed,0,5));
-			$contentTpl->assign('min',$classifica[$key]->punteggioMin);
-			$contentTpl->assign('max',$classifica[$key]->punteggioMax);
-		}
-	}
-}
 if(isset($_POST['submit']))
 {
 	foreach($_POST as $key=>$val)
@@ -105,10 +93,9 @@ else
 	$quickLinks->succ = FALSE;
 $ruoli = array('P'=>'Por.','D'=>'Dif.','C'=>'Cen','A'=>'Att.');
 
-$contentTpl->assign('giocatori',Giocatore::getGiocatoriByIdSquadraWithStats($filterSquadra));
+$contentTpl->assign('giocatori',GiocatoreStatistiche::getByField('idUtente',$filterSquadra));
 $contentTpl->assign('squadra',$filterSquadra);
-$contentTpl->assign('squadraDett',Utente::getSquadraById($filterSquadra));
-$contentTpl->assign('classifica',$classifica);
+$contentTpl->assign('squadraDett',$squadraDett);
 $operationTpl->assign('elencoSquadre',$elencoSquadre);
 $layoutTpl->assign('quickLinks',$quickLinks);
 ?>

@@ -1,6 +1,6 @@
 <?php 
-require_once(INCDIR . "articolo.db.inc.php");
-require_once(INCDIR . "utente.db.inc.php");
+require_once(INCDBDIR . "articolo.db.inc.php");
+require_once(INCDBDIR . "utente.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
 $filterGiornata = GIORNATA;
@@ -39,7 +39,7 @@ else
 	$idPrec = FALSE;
 	$quickLinks->prec = FALSE;
 }
-if(isset($giornateWithArticoli[$key -1]))
+if(isset($giornateWithArticoli[$key - 1]))
 {
 	$idSucc = $giornateWithArticoli[$key - 1];
 	$quickLinks->succ->href = Links::getLink('conferenzeStampa',array('giornata'=>$idSucc));
@@ -52,7 +52,7 @@ else
 }
 
 $contentTpl->assign('articoli',$articoli);
-$contentTpl->assign('squadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
+$contentTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
 $operationTpl->assign('idGiornata',$filterGiornata);
 $operationTpl->assign('giornateWithArticoli',$giornateWithArticoli);
 $layoutTpl->assign('quickLinks',$quickLinks);

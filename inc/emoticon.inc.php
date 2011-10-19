@@ -37,7 +37,7 @@ class Emoticon
 	
 	public static function getEmoticons()
 	{
-		return $emoticons;
+		return self::$emoticon;
 	}
 	
 	public static function replaceEmoticon($text,$path)

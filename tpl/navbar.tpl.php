@@ -49,3 +49,8 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 			</li>
 	<?php endforeach; ?>
 </ul>
+<?php if($_SESSION['logged']): ?>
+<div id="account">
+
+</div>
+<?php endif; ?>

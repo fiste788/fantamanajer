@@ -1,5 +1,5 @@
 <?php
-require_once(INCDIR . 'GiocatoreTable.db.inc.php');
+require_once(TABLEDIR . 'Giocatore.table.db.inc.php');
 
 class GiocatoreStatistiche extends GiocatoreTable
 {

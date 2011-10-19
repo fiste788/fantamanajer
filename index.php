@@ -14,7 +14,7 @@ To Do:
 /*
  * Prevent XSS attach
  */
-
+date_default_timezone_set("Europe/Rome");
 function preventAttach($array) 
 {
 	foreach($array as $key=>$val) 
@@ -29,13 +29,16 @@ function preventAttach($array)
 $_GET = preventAttach($_GET);
 $_POST = preventAttach($_POST);
 
+
 require('config/config.inc.php');
 require('config/pages.inc.php');
+require(INCDIR . 'request.inc.php');
 require(INCDIR . 'savant/Savant3.php');
 require(INCDIR . 'db.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
+require(INCDIR . 'ruolo.inc.php');
 require(INCDIR . 'FirePHPCore/FirePHP.class.php');
 require(TABLEDIR . 'dbTable.inc.php');
 require(INCDBDIR . 'lega.db.inc.php');
@@ -45,6 +48,7 @@ require(INCDBDIR . 'giornata.db.inc.php');
 $dbObj = new db();
 $message = new message();
 $logger = new logger();
+$quickLinks = NULL;
 
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
@@ -55,6 +59,11 @@ $generalJs[] = 'uniform/jquery.uniform.js';
 $generalJs[] = 'custom/all.js';
 
 $generalCss = array();
+$generalCss[] = 'boiler.css';
+$generalCss[] = 'typography.css';
+$generalCss[] = 'forms.css';
+$generalCss[] = 'grid.css';
+$generalCss[] = 'layout.css';
 $generalCss[] = '00-screen.css';
 $generalCss[] = 'uniform.css';
 
@@ -93,6 +102,7 @@ if (!isset($_COOKIE[$session_name]))
 else
 	@session_start();
 
+$request = new Request();
 
 //If no page have been required give the default page (home.php and home.tpl.php)
 $p = isset($_GET['p']) ? $_GET['p'] : 'home';
@@ -163,27 +173,37 @@ $firePHP->group($p . '.code.php');
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php'))
 	require(CODEDIR . $p . '.code.php');
+$firePHP->groupEnd();
+
+//INCLUDE IL FILE DI REQUEST PER LA PAGINA
+if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
+    $firePHP->group($p . '.request.code.php');
+	require(REQUESTDIR . $p . '.request.code.php');
+	$firePHP->groupEnd();
+}
+
 //definisce il file di template utilizzato per visualizzare questa pagina
 $tplfile = $p . '.tpl.php';
 
-$firePHP->groupEnd();
+$contentTpl->assign('request',$request);
 $layoutTpl->assign('message',$message);
-
+$layoutTpl->assign('quickLinks',$quickLinks);
 /**
  * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
  */
 $firePHP->group("Giocatori trasferiti");
 if ($_SESSION['logged'])
 {
-	require_once(INCDIR . 'giocatore.db.inc.php');
-	require_once(INCDIR . 'trasferimento.db.inc.php');
+	require_once(INCDBDIR . 'giocatore.db.inc.php');
+	require_once(INCDBDIR . 'trasferimento.db.inc.php');
 
-	$_SESSION['datiLega'] = $leghe($_SESSION['idLega']);
+	$_SESSION['datiLega'] = Lega::getById($_SESSION['idLega']);
 	//if(Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
 	//	$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
 }
 $firePHP->groupEnd();
 
+$headerTpl->assign('dataFine',date_parse(Giornata::getTargetCountdown()->format("Y-m-d H:i:s")));
 //ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
 $navbarTpl->assign('p',$p);
 $navbarTpl->assign('pages',$pages);

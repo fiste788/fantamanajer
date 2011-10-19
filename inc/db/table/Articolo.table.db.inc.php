@@ -65,12 +65,15 @@ class ArticoloTable extends DbTable
 
 	/**
 	 * Setter: insertDate
-	 * @param String $insertDate
+	 * @param Date $insertDate
 	 * @return void
 	 */
 	public function setInsertDate( $insertDate )
 	{
-		$this->insertDate = $insertDate;
+	    if(is_a($this->insertDate,"DateTime"))
+	        $this->insertDate = $insertDate;
+		else
+	 		$this->insertDate = new DateTime($insertDate);
 	}
 
 	/**
@@ -174,11 +177,14 @@ class ArticoloTable extends DbTable
 
 	/**
 	 * Getter: insertDate
-	 * @return String
+	 * @return DateTime
 	 */
 	public function getInsertDate()
 	{
-	 	return $this->insertDate;
+		if(is_a($this->insertDate,"DateTime"))
+			return $this->insertDate;
+		else
+	 		return new DateTime($this->insertDate);
 	}
 
 	/**

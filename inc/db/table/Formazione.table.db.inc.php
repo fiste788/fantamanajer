@@ -1,5 +1,5 @@
 <?php
-class FormazioneTable extends DtTable
+class FormazioneTable extends DbTable
 {
 	const TABLE_NAME = 'formazione';
 	var $id;

@@ -1,8 +1,9 @@
 <?php 
-require_once(INCDIR . "lega.db.inc.php");
+require_once(INCDBDIR . "lega.db.inc.php");
 
-if(isset($_POST['nomeLega']))
+if(isset($_POST['nome']))
 {
+    $lega = Lega::getById($_SESSION['idLega']);
 	$flag = 0;
 	foreach($_POST as $key=>$val)
 		if($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val))
@@ -11,11 +12,19 @@ if(isset($_POST['nomeLega']))
 		$flag = 2;
 	if($flag == 0)
 	{
-		$_POST['nomeLega'] = trim(addslashes(stripslashes($_POST['nomeLega'])));
-		$_POST['premi'] = trim(addslashes(stripslashes($_POST['premi'])));
-		if(Lega::updateImpostazioni($_POST))
+	    if($lega == NULL)
+	        $lega = new Lega();
+		$lega->setNome(trim(addslashes(stripslashes($_POST['nome']))));
+		$lega->setPremi(trim(addslashes(stripslashes($_POST['premi']))));
+		$lega->setCapitano($_POST['capitano']);
+		$lega->setNumTrasferimenti($_POST['numTrasferimenti']);
+		$lega->setNumSelezioni($_POST['numSelezioni']);
+		$lega->setMinFormazione($_POST['minFormazione']);
+		$lega->setPunteggioFormazioneDimenticata($_POST['punteggioFormazioneDimenticata']);
+		$lega->setJolly($_POST['jolly']);
+		if($lega->save())
 		{
-			$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
+			$_SESSION['datiLega'] = Lega::getById($_SESSION['idLega']);
 			$message->success("Operazione effettuata correttamente");
 		}
 		else
@@ -26,6 +35,5 @@ if(isset($_POST['nomeLega']))
 	else
 		$message->error("Tipo di dati incorretto. Controlla i valori numerici");
 }
-$default = Lega::getDefaultValue();
-$contentTpl->assign('default',$default);
+$contentTpl->assign('default',Lega::getDefaultValue());
 ?>

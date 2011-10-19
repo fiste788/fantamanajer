@@ -23,7 +23,7 @@ class Voto extends DbTable
 	{
 		$q = "SELECT punti 
 				FROM voto 
-				WHERE idGioc = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
+				WHERE idGiocatore = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
@@ -34,7 +34,7 @@ class Voto extends DbTable
 	{
 		$q = "SELECT * 
 				FROM voto 
-				WHERE idGioc = '" . $idGioc . "' AND valutato = 1";
+				WHERE idGiocatore = '" . $idGioc . "' AND valutato = 1";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);
@@ -47,7 +47,7 @@ class Voto extends DbTable
 	{
 		$q = "SELECT valutato 
 				FROM voto 
-				WHERE idGioc='" . $idGioc . "' AND idGiornata='" . $giornata . "'";
+				WHERE idGiocatore = '" . $idGioc . "' AND idGiornata='" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
@@ -58,8 +58,8 @@ class Voto extends DbTable
 	{
 		$q = "SELECT AVG(voto) as mediaPunti,AVG(punti) as mediaVoti,count(voto) as presenze 
 				FROM voto 
-				WHERE idGioc = '" . $idGioc . "' AND punti <> 0 AND voto <> 0 
-				GROUP BY idGioc";
+				WHERE idGiocatore = '" . $idGioc . "' AND punti <> 0 AND voto <> 0
+				GROUP BY idGiocatore";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
@@ -75,7 +75,7 @@ class Voto extends DbTable
 		{
 			if(self::checkVotiExist($giorn))
 				return TRUE;
-			$q = "INSERT INTO voto(idGioc,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
+			$q = "INSERT INTO voto(idGiocatore,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
 			$content = file($percorso);
 			if($content != FALSE)
 			{
@@ -132,7 +132,7 @@ class Voto extends DbTable
 			$quotazione = $stats[27];
 			$rows[] = "('" . $id . "','" . $giornata . "','" . $valutato . "','" . $punti . "','" . $voto . "','" . $gol . "','" . $golsub . "','" . $golvit . "','" . $golpar . "','" . $assist . "','" . $ammonizioni . "','" . $espulsioni . "','" . $rigorisegn . "','" . $rigorisub . "','" . $presenza . "','" . $titolare . "','" . $quotazione . "')";
 		}
-		$q = "INSERT INTO voto (idGioc,idGiornata,valutato,punti,voto,gol,golSub,golVit,golPar,assist,ammonizioni,espulsioni,rigoriSegn,rigoriSub,presenza,titolare,quotazione) VALUES ";  
+		$q = "INSERT INTO voto (idGiocatore,idGiornata,valutato,punti,voto,gol,golSubiti,golVittoria,golPareggio,assist,ammonizioni,espulsioni,rigoriSegnati,rigoriSubiti,presenza,titolare,quotazione) VALUES ";
 		$q .= implode(',',$rows);
 		mysql_query($q) or self::sqlError($q);
 	}

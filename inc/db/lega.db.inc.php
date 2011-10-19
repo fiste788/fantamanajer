@@ -3,7 +3,7 @@ require_once(TABLEDIR . 'Lega.table.db.inc.php');
 
 class Lega extends LegaTable
 {
-	public static function getLeghe()
+/*	public static function getLeghe()
 	{
 		$q = "SELECT *
 				FROM lega";
@@ -22,7 +22,7 @@ class Lega extends LegaTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
-	}
+	}*/
 	
 	public static function updateImpostazioni($impostazioni)
 	{

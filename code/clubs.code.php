@@ -1,8 +1,5 @@
 <?php
-require_once(INCDIR . 'club.db.inc.php');
+require_once(INCDBDIR . 'club.db.inc.php');
 
-$elencoClub = Club::getElencoClub();
-FirePHP::getInstance()->log($elencoClub);
-$contentTpl->assign('elencoclub',$elencoClub);
-
+$contentTpl->assign('elencoClub',Club::getList());
 ?>

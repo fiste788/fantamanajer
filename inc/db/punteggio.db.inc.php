@@ -37,19 +37,6 @@ class Punteggio extends DbTable
 		return $punteggio;
 	}
 	
-	public static function getPosClassifica($idLega)
-	{
-		$classifica = self::getClassificaByGiornata($idLega,GIORNATA);
-		$pos = array();
-		$i = 1;
-		foreach($classifica as $key => $val)
-		{
-			$pos[$val->idUtente] = $i;
-			$i++;
-		}
-		return $pos;
-	}
-	
 	public static function getPosClassificaGiornata($idLega)
 	{
 		$q = "SELECT *
@@ -82,16 +69,16 @@ class Punteggio extends DbTable
 	
 	public static function getClassificaByGiornata($idLega,$idGiornata)
 	{
-		$q = "SELECT utente.idUtente, nome, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = utente.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
-				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.idUtente) LEFT JOIN giornatevinte ON punteggio.idUtente = giornatevinte.idUtente
+		$q = "SELECT utente.id, nome, punteggio.*, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = utente.id) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.id) LEFT JOIN view_2_giornatevinte ON punteggio.idUtente = view_2_giornatevinte.idUtente
 				WHERE punteggio.idGiornata <= '" . $idGiornata . "' AND punteggio.idLega = '" . $idLega . "'
-				GROUP BY idUtente
+				GROUP BY utente.id
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$classifica = NULL;
 		while ($row = mysql_fetch_object($exe,__CLASS__))
-			$classifica[$row->idUtente] = $row;
+			$classifica[$row->id] = $row;
 		return $classifica;
 	}
 	

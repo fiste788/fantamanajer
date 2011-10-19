@@ -30,7 +30,7 @@
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; else echo 'row'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
-					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
+					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></td>

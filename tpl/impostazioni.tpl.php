@@ -2,7 +2,7 @@
 	<fieldset>
 		<div class="formbox">
 			<label>Nome lega</label>
-			<input type="text" name="nomeLega" maxlength="15" value="<?php echo $_SESSION['datiLega']->nomeLega; ?>"/>
+			<input type="text" name="nome" maxlength="15" value="<?php echo $_SESSION['datiLega']->nome; ?>"/>
 		</div>
 		<div class="formbox">
 			<label>Capitano doppio</label>
