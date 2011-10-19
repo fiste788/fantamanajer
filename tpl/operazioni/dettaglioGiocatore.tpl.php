@@ -1,7 +1,7 @@
 <form class="column last" action="<?php echo Links::getLink('dettaglioGiocatore'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
 		<input type="hidden" value="<?php echo $_GET['p'];?>" />
-		<input type="hidden" value="<?php echo $_GET['edit'];?>" name="edit" />
+		<input type="hidden" value="<?php echo isset($_GET['edit']) ? $_GET['edit'] : 'view';?>" name="edit" />
 		<h3 class="no-margin">Seleziona il giocatore:</h3>
 		<select name="id" onchange="this.form.submit();">
 			<?php if($this->elencoGiocatori != FALSE): ?>

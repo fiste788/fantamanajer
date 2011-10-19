@@ -10,8 +10,8 @@ class GiornataTable extends DbTable
 	function __construct()
 	{
 		$this->id = $this->getId();
-		$this->dataInizio = $this->dataInizio();
-		$this->dataFine = $this->dataFine();
+		$this->dataInizio = $this->getDataInizio();
+		$this->dataFine = $this->getDataFine();
 	}
 	
 	/**
@@ -26,22 +26,28 @@ class GiornataTable extends DbTable
 
 	/**
 	 * Setter: dataInizio
-	 * @param String $dataInizio
+	 * @param DateTime $dataInizio
 	 * @return void
 	 */
 	public function setDataInizio( $dataInizio )
 	{
-		$this->dataInizio = $dataInizio;
+	    if(is_a($this->dataInizio,"DateTime"))
+	        $this->dataInizio = $dataInizio;
+		else
+	 		$this->dataInizio = new DateTime($dataInizio);
 	}
 
 	/**
 	 * Setter: dataFine
-	 * @param String $dataFine
+	 * @param DateTime $dataFine
 	 * @return void
 	 */
 	public function setDataFine( $dataFine )
 	{
-		$this->dataFine = $dataFine;
+	    if(is_a($this->dataFine,"DateTime"))
+	        $this->dataFine = $dataFine;
+		else
+	 		$this->dataFine = new DateTime($dataFine);
 	}
 
 	/**
@@ -59,7 +65,10 @@ class GiornataTable extends DbTable
 	 */
 	public function getDataInizio()
 	{
-	 	return $this->dataInizio;
+	    if(is_a($this->dataInizio,"DateTime"))
+			return $this->dataInizio;
+		else
+	 		return new DateTime($this->dataInizio);
 	}
 
 	/**
@@ -68,7 +77,10 @@ class GiornataTable extends DbTable
 	 */
 	public function getDataFine()
 	{
-	 	return $this->dataFine;
+	 	if(is_a($this->dataFine,"DateTime"))
+			return $this->dataFine;
+		else
+	 		return new DateTime($this->dataFine);
 	}
 
     /**

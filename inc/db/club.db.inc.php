@@ -1,5 +1,5 @@
 <?php
-require_once(INCDIR . 'ClubTable.db.inc.php');
+require_once(TABLEDIR . 'Club.table.db.inc.php');
 
 class Club extends ClubTable
 {

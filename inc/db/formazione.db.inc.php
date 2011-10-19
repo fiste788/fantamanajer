@@ -1,5 +1,5 @@
 <?php
-require_once(INCDIR . 'FormazioneTable.db.inc.php');
+require_once(TABLEDIR . 'Formazione.table.db.inc.php');
 
 class Formazione extends DbTable
 {

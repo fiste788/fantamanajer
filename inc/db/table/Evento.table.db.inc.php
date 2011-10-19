@@ -5,9 +5,9 @@ class EventoTable extends DbTable
     var $id;
 	var $idUtente;
 	var $idLega;
-	var $data;	//viene settata in automatico nel db con un on_update = CURRENT_TIMESTAMP
-	var $tipo;	//1 = conferenza stampa, 2 = selezione giocatore, 3 = formazione, 4 = trasferimento, 5=ingresso giocatore in lista, 6=uscita giocare dalla lista
-	var $idExternal;	// id da cui prendere i dati dell'evento
+	var $data;
+	var $tipo;
+	var $idExternal;
 	
 	function __construct()
 	{
@@ -51,12 +51,15 @@ class EventoTable extends DbTable
 
 	/**
 	 * Setter: data
-	 * @param String $data
+	 * @param DateTime $data
 	 * @return void
 	 */
 	public function setData( $data )
 	{
-		$this->data = $data;
+	    if(is_a($this->data,"DateTime"))
+	        $this->data = $data;
+		else
+	 		$this->data = new DateTime($data);
 	}
 
 	/**
@@ -131,11 +134,14 @@ class EventoTable extends DbTable
 
 	/**
 	 * Getter: data
-	 * @return String
+	 * @return DateTime
 	 */
 	public function getData()
 	{
-	 	return $this->data;
+	    if(is_a($this->data,"DateTime"))
+			return $this->data;
+		else
+	 		return new DateTime($this->data);
 	}
 
 	/**

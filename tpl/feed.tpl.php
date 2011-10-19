@@ -4,7 +4,7 @@
 		<?php if($val->tipo != 2 && $_SESSION['logged']): ?>
 			<a href="<?php echo $val->link; ?>">
 		<?php endif;?>
-		<?php echo $val->titolo; ?>  <em>(<?php echo $val->data; ?>)</em>
+		<?php echo $val->titolo; ?>  <em>(<?php echo $val->data->format("Y-m-d H:i:s"); ?>)</em>
 		<?php if($val->tipo != 2 && $_SESSION['logged']): ?>
 			</a>
 		<?php endif;?>

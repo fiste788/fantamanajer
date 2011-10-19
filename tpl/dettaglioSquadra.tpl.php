@@ -1,18 +1,18 @@
 <?php $r = 'Por.'; ?>
 <div id="headerSquadra">
-	<?php if(file_exists(UPLOADDIR . $this->squadraDett->idUtente . '.jpg')): ?>
+	<?php if(file_exists(UPLOADDIR . $this->squadraDett->id . '.jpg')): ?>
 	<div class="column last">
-		<a title="<?php echo $this->squadraDett->nome; ?>" href="<?php echo UPLOADURL . $this->squadraDett->idUtente . '-original.jpg'; ?>" class="fancybox column">
-			<img <?php $appo = getimagesize(UPLOADDIR . $this->squadraDett->idUtente . '.jpg'); echo $appo[3]; ?> alt="<?php echo $this->squadraDett->idUtente; ?>" src="<?php echo UPLOADURL . $this->squadraDett->idUtente . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nome; ?>" />
+		<a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '-original.jpg'; ?>" class="fancybox column">
+			<img <?php $appo = getimagesize(UPLOADDIR . $this->squadraDett->id . '.jpg'); echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
 		</a>
 	</div>
 	<?php endif; ?>
-	<h2 id="nomeSquadra"><?php echo $this->squadraDett->nome; ?></h2>
+	<h2 id="nomeSquadra"><?php echo $this->squadraDett->nomeSquadra; ?></h2>
 	<div id="datiSquadra">
 		<div id="mostraDati">
 			<p>
 				<span class="bold">Proprietario:</span>
-				<?php echo $this->squadraDett->nomeProp . " " . $this->squadraDett->cognome; ?>
+				<?php echo $this->squadraDett->nome . " " . $this->squadraDett->cognome; ?>
 			</p>
 			<p>
 				<span class="bold">Username:</span>
@@ -20,22 +20,22 @@
 			</p>
 			<p>
 				<span class="bold">E-mail:</span>
-				<?php echo $this->squadraDett->mail; ?>
+				<?php echo $this->squadraDett->email; ?>
 			</p>
 			<p>
 				<span class="bold">Media punti:</span>
-				<?php echo (isset($this->media)) ? $this->media : 0; ?>
+				<?php echo $this->squadraDett->punteggioMed; ?>
 			</p>
 			<p>
 				<span class="bold">Punti min:</span>
-				<?php echo (isset($this->min)) ? $this->min : 0; ?>
+				<?php echo $this->squadraDett->punteggioMin; ?>
 			</p>
 			<p>
 				<span class="bold">Punti max:</span>
-				<?php echo (isset($this->max)) ? $this->max : 0; ?>
+				<?php echo $this->squadraDett->punteggioMax; ?>
 			</p>
 		</div>
-		<?php if($this->squadraDett->idUtente == $_SESSION['idUtente']): ?>
+		<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
 		<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
 		<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a id="qui">Clicca quì</a></p>
 		<div id="datiNascosti" class="hidden no-margin">
@@ -44,7 +44,7 @@
 					<div class="column">
 						<div class="formbox">
 							<label for="name">Nome:</label>
-							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett->nomeProp; ?>"/>
+							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett->nome; ?>"/>
 						</div>
 						<div class="formbox">
 							<label for="surname">Cognome:</label>
@@ -52,7 +52,7 @@
 						</div>
 						<div class="formbox">
 							<label for="email">E-mail:</label>
-							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett->mail; ?>"/>
+							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett->email; ?>"/>
 						</div>
 						<div class="formbox">
 							<label for="abilitaMail">Ricevi email:</label>
@@ -106,7 +106,7 @@
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if($val->status == 0) echo 'rosso'; else echo 'row'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
-					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
+					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><a target="_blank" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$val->idClub)); ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></a></td>

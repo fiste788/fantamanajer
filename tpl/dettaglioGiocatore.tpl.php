@@ -1,7 +1,7 @@
 <div id="cardPlayer" class="column last">
 	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 		<div id="formData">
-			<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']->idGioc; ?>" />
+			<input type="hidden" name="idGioc" value="<?php echo $this->dettaglioGioc['dettaglio']->id; ?>" />
 			<div>
 				<label for="cognome">Cognome:</label>
 				<input id="cognome" type="text" name="cognome" value="<?php echo (isset($this->dettaglioGioc['dettaglio']->cognome)) ? $this->dettaglioGioc['dettaglio']->cognome : ''; ?>" />

@@ -1,14 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
 	<head>
-		<title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
+	    <meta charset="utf-8">
+	    <title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
 		<link href="http://fonts.googleapis.com/css?family=Droid+Sans&amp;subset=latin" rel="stylesheet" type="text/css" />
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
 		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
 		<meta name="author" content="Stefano Sonzogni"/>
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
-		<meta name="robots" content="index,follow" />
 		<?php if(LOCAL): ?>
 			<?php foreach($this->generalCss as $key => $val): ?>
 				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -22,74 +28,47 @@
 		<?php endforeach; ?>
 		<?php endif; ?>
 		<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css'; ?>" type="text/css" media="screen"><![endif]-->
+		<link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
+		 <script src="<?php echo JSURL ?>/modernizr/modernizr-2.0.6.min.js"></script>
 	</head>
 	<?php flush(); ?>
 	<body>
-		<div id="big-container">
-			<div id="header" class="column last">
+		<nav>
+			<?php echo $this->navbar ?>
+		</nav>
+			<header>
 				<?php echo $this->header; ?>
-			</div>
-			<?php require('login.tpl.php'); ?>
-			<div id="navbar" class="column last">
-				<?php echo $this->navbar ?>
-			</div>
-			<div id="content" class="column last">
-				<?php if($this->message->show || isset($this->generalMessage)): ?>
+			</header>
+		
+		<section id="content">
+
+    <?php if($this->message->show || isset($this->generalMessage)): ?>
 					<div id="messaggioContainer" title="Clicca per nascondere">
 					<?php if(isset($this->generalMessage)): ?>
-						<div title="Clicca per nascondere" class="messaggio error column last">
-							<div class="column last top"></div>
-							<div class="column last middle">
-								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-								<span><?php echo $this->generalMessage; ?></span>
-							</div>
-							<div class="column last bottom"></div>
-						</div>
+						<div title="Clicca per nascondere" class="messaggio error"><?php echo $this->generalMessage; ?></div>
 					<?php endif; ?>
 					<?php if($this->message->show): ?>
-						<?php switch($this->message->level): 
+						<?php switch($this->message->level):
 							 case 0: ?>
-							<div class="messaggio success column last">
-								<div class="column last top"></div>
-								<div class="column last middle">
-									<img alt="OK" height="56" src="<?php echo IMGSURL . 'ok.png'; ?>" width="56" />
-									<span><?php echo $this->message->text; ?></span>
-								</div>
-								<div class="column last bottom"></div>
-							</div>
+							<div class="messaggio success"><?php echo $this->message->text; ?></div>
 							<?php break; case 1: ?>
-							<div class="messaggio warning column last">
-								<div class="column last top"></div>
-								<div class="column last middle">
-									<img alt="!" height="56" src="<?php echo IMGSURL . 'attention.png'; ?>" width="56" />
-									<span><?php echo $this->message->text; ?></span>
-								</div>
-								<div class="column last bottom"></div>
-							</div>
+							<div class="messaggio warning"><?php echo $this->message->text; ?></div>
 							<?php break; case 2: ?>
-							<div class="messaggio error column last">
-								<div class="column last top"></div>
-								<div class="column last middle">
-									<img alt="!" height="56" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" width="56" />
-									<span><?php echo $this->message->text; ?></span>
-								</div>
-								<div class="column last bottom"></div>
-							</div>
+							<div class="messaggio error"><?php echo $this->message->text; ?></div>
 							<?php endswitch; ?>
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-				<div id="<?php echo $this->p; ?>" class="main-content">
+				<div id="<?php echo $this->p; ?>">
 					<?php echo $this->content; ?>
 				</div>
-			</div>
-			<div id="footer">
-				<?php echo $this->footer; ?>
-			</div>
-		</div>
+		</section>
+		<footer>
+			<?php echo $this->footer; ?>
+		</footer>
 		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
 		<div id="topRightBar"<?php if(!empty($this->operation)) echo ' class="active"'; ?>>
 			<div>

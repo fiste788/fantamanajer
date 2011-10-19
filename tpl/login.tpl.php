@@ -8,7 +8,7 @@
 				<label class="lega" for="legaView">Lega:</label>
 				<select id="legaView" onchange="this.form.submit();" name="legaView">
 					<?php foreach($this->leghe as $key=>$value): ?>
-						<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNomeLega(); ?></option>
+						<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>
 					<?php endforeach; ?>
 				</select>
 			</fieldset>

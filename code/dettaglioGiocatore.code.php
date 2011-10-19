@@ -1,8 +1,8 @@
 <?php 
-require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
-require_once(INCDIR . 'club.db.inc.php');
-require_once(INCDIR . 'giocatore.db.inc.php');
-require_once(INCDIR . 'utente.db.inc.php');
+require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
+require_once(INCDBDIR . 'club.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
+require_once(INCDBDIR . 'utente.db.inc.php');
 
 if(isset($_GET['id']))
 	$filterId = $_GET['id'];
@@ -13,24 +13,21 @@ if(isset($_POST['id']))
 if(isset($_POST['edit']))
 	$filterEdit = $_POST['edit'];
 
-$ruo = array('P'=>'Portiere','D'=>'Difensore','C'=>'Centrocampista','A'=>'Attaccante');
-$ruoPlu = array('P'=>'Portieri','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
-
-$dettaglio = GiocatoreStatistiche::getById($filterId);
+//$dettaglio = GiocatoreStatistiche::getById($filterId);
 $dettaglio = Giocatore::getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
-$pathFoto = PLAYERSDIR . $dettaglio['dettaglio']->idGioc . '.jpg';
+$pathFoto = PLAYERSDIR . $dettaglio['dettaglio']->id . '.jpg';
 $pathClub = CLUBSURL . $dettaglio['dettaglio']->idClub . '.png';
 if(!file_exists($pathFoto))
 	$pathFoto = IMGSURL . 'no-photo.png';
 else
-	$pathFoto = PLAYERSURL . $dettaglio['dettaglio']->idGioc . '.jpg';
+	$pathFoto = PLAYERSURL . $dettaglio['dettaglio']->id . '.jpg';
 
 if($_SESSION['logged'] == TRUE)
 {
 	if(!empty($dettaglio['dettaglio']->idUtente))		// carico giocatori della squadra
 	{
 		$squadra = $dettaglio['dettaglio']->idUtente;
-		$elencoGiocatori = Giocatore::getGiocatoriByIdSquadra($squadra);
+		$elencoGiocatori = GiocatoreStatistiche::getByField('idUtente',$squadra);
 		$contentTpl->assign('idUtente',$squadra);
 		$dettaglioSquadra= Utente::getSquadraById($squadra);
 		$operationTpl->assign('label',$dettaglioSquadra->nome);
@@ -40,15 +37,15 @@ if($_SESSION['logged'] == TRUE)
 	{
 		$ruolo = $dettaglio['dettaglio']->ruolo;
 		$elencoGiocatori = Giocatore::getFreePlayer($ruolo,$_SESSION['datiLega']->idLega);
-		$operationTpl->assign('label',$ruoPlu[$ruolo] . " liberi");
-		$contentTpl->assign('label',$ruoPlu[$ruolo] . " liberi");
+		$operationTpl->assign('label',Ruolo::$ruolo['plurale'] . " liberi");
+		$contentTpl->assign('label',Ruolo::$ruolo['plurale'] . " liberi");
 	}
 
 }
 else			// carico giocatori del club
 {
 	$club = $dettaglio['dettaglio']->nomeClub;
-	$elencoGiocatori = Giocatore::getGiocatoriByIdClub($dettaglio['dettaglio']->idClub);
+	$elencoGiocatori = Giocatore::getByField('idClub',$dettaglio['dettaglio']->idClub);
 	$operationTpl->assign('label',$club);
 	$contentTpl->assign('label',$club);
 }
@@ -79,8 +76,5 @@ else
 $contentTpl->assign('dettaglioGioc',$dettaglio);
 $contentTpl->assign('pathFoto',$pathFoto);
 $contentTpl->assign('pathClub',$pathClub);
-$contentTpl->assign('ruoli',$ruo);
-$contentTpl->assign('ruoliPlurale',$ruoPlu);
 $operationTpl->assign('idGioc',$filterId);
-FirePHP::getInstance()->log($elencoGiocatori);
 $operationTpl->assign('elencoGiocatori',$elencoGiocatori);

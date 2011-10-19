@@ -128,7 +128,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										
 	$pages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
-										'roles'=>0,
+										'roles'=>-1,
 										'navbar'=>array('key'=>'conferenzeStampa','title'=>'Crea o modifica conferenza'));
 							
 	$pages['download'] = array(	'title'=>"Area Download",

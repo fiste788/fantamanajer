@@ -2,12 +2,12 @@
 class UtenteTable extends DbTable
 {
 	const TABLE_NAME = "utente";
-
+	protected $PK = array('id');
     var $id;
-	var $nome;
+	var $nomeSquadra;
 	var $cognome;
-	var $nomeProp;
-	var $mail;
+	var $nome;
+	var $email;
 	var $abilitaMail;
 	var $username;
 	var $password;
@@ -20,10 +20,10 @@ class UtenteTable extends DbTable
 	function __construct()
 	{
 		$this->id = $this->getId();
-		$this->nome = $this->getNome();
+		$this->nomeSquadra = $this->getNomeSquadra();
 		$this->cognome = $this->getCognome();
-		$this->nomeProp = $this->getNomeProp();
-		$this->mail = $this->getMail();
+		$this->nome = $this->getNome();
+		$this->email = $this->getEmail();
 		$this->abilitaMail = $this->getAbilitaMail();
 		$this->username = $this->getUsername();
 		$this->password = $this->getPassword();
@@ -42,13 +42,13 @@ class UtenteTable extends DbTable
 	}
 
 	/**
-	 * Setter: nome
-	 * @param String $nome
+	 * Setter: nomeSquadra
+	 * @param String $nomeSquadra
 	 * @return void
 	 */
-	public function setNome( $nome )
+	public function setNomeSquadra( $nomeSquadra )
 	{
-		$this->nome = (string) $nome;
+		$this->nomeSquadra = (string) $nomeSquadra;
 	}
 
 	/**
@@ -62,13 +62,13 @@ class UtenteTable extends DbTable
 	}
 
 	/**
-	 * Setter: nomeProp
-	 * @param String $nomeProp
+	 * Setter: nome
+	 * @param String $nome
 	 * @return void
 	 */
-	public function setNomeProp( $nomeProp )
+	public function setNome( $nome )
 	{
-		$this->nomeProp = (string) $nomeProp;
+		$this->nome = (string) $nome;
 	}
 
 	/**
@@ -152,12 +152,12 @@ class UtenteTable extends DbTable
 	}
 
 	/**
-	 * Getter: nome
+	 * Getter: nomeSquadra
 	 * @return String
 	 */
-	public function getNome()
+	public function getNomeSquadra()
 	{
-	 	return (string) $this->nome;
+	 	return (string) $this->nomeSquadra;
 	}
 
 	/**
@@ -170,21 +170,21 @@ class UtenteTable extends DbTable
 	}
 
 	/**
-	 * Getter: nomeProp
+	 * Getter: nome
 	 * @return String
 	 */
-	public function getNomeProp()
+	public function getNome()
 	{
-	 	return (string) $this->nomeProp;
+	 	return (string) $this->nome;
 	}
 
 	/**
 	 * Getter: mail
 	 * @return String
 	 */
-	public function getMail()
+	public function getEMail()
 	{
-	 	return (string) $this->mail;
+	 	return (string) $this->email;
 	}
 
 	/**
@@ -220,7 +220,7 @@ class UtenteTable extends DbTable
 	 */
 	public function getAmministratore()
 	{
-	 	return (integer) $this->amministratore;
+	 	return (int) $this->amministratore;
 	}
 
 	/**

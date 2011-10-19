@@ -1,9 +1,9 @@
 <?php 
-require_once(INCDIR . 'punteggio.db.inc.php');
-require_once(INCDIR . 'utente.db.inc.php');
-require_once(INCDIR . 'articolo.db.inc.php');
-require_once(INCDIR . 'evento.db.inc.php');
-require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDBDIR . 'punteggio.db.inc.php');
+require_once(INCDBDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'articolo.db.inc.php');
+require_once(INCDBDIR . 'evento.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'emoticon.inc.php');
 
 $ruo = array('P','D','C','A');
@@ -17,7 +17,6 @@ if($articoli != FALSE)
 
 $eventi = Evento::getEventi(NULL,NULL,0,5);
 
-$contentTpl->assign('dataFine',date_parse(Giornata::getTargetCountdown()));
 $contentTpl->assign('squadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
 $contentTpl->assign('giornata',$giornata);
 $contentTpl->assign('bestPlayer',$bestPlayer);

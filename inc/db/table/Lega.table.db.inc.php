@@ -4,7 +4,7 @@ class LegaTable extends DbTable
     const TABLE_NAME = "lega";
     
 	var $id;
-	var $nomeLega;
+	var $nome;
 	var $capitano;
 	var $numTrasferimenti;
 	var $numSelezioni;
@@ -12,11 +12,10 @@ class LegaTable extends DbTable
 	var $premi;
 	var $punteggioFormazioneDimenticata;
 	var $jolly;
-	var $utenti = Array();
 
     public function __construct() {
 		$this->id = $this->getId();
-		$this->nomeLega = $this->getNomeLega();
+		$this->nome = $this->getNome();
 		$this->capitano = $this->getCapitano();
 		$this->numTrasferimenti = $this->getNumTrasferimenti();
 		$this->numSelezioni = $this->getNumSelezioni();
@@ -24,8 +23,8 @@ class LegaTable extends DbTable
 		$this->premi = $this->getPremi();
 		$this->punteggioFormazioneDimenticata = $this->getPunteggioFormazioneDimenticata();
 		$this->jolly = $this->getJolly();
-		//$this->utenti = Utente::getUtentiByIdLega($this->getIdLega());
 	}
+	
 
 	/**
 	 * Setter: id
@@ -38,13 +37,13 @@ class LegaTable extends DbTable
 	}
 
 	/**
-	 * Setter: nomeLega
-	 * @param String $nomeLega
+	 * Setter: nome
+	 * @param String $nome
 	 * @return void
 	 */
-	public function setNomeLega( $nomeLega )
+	public function setNome( $nome )
 	{
-		$this->nomeLega = (string) $nomeLega;
+		$this->nome = (string) $nome;
 	}
 
 	/**
@@ -127,12 +126,12 @@ class LegaTable extends DbTable
 	}
 
 	/**
-	 * Getter: nomeLega
+	 * Getter: nome
 	 * @return String
 	 */
-	public function getNomeLega()
+	public function getNome()
 	{
-	 	return (string) $this->nomeLega;
+	 	return $this->nome;
 	}
 
 	/**

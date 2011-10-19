@@ -1,15 +1,16 @@
 <?php
-require_once(INCDIR . 'EventoTable.db.inc.php');
+require_once(TABLEDIR . 'Evento.table.db.inc.php');
 
 class Evento extends EventoTable
 {
-	var $idEvento;
-	var $idUtente;
-	var $idLega;
-	var $data;	//viene settata in automatico nel db con un on_update = CURRENT_TIMESTAMP
-	var $tipo;	//1 = conferenza stampa, 2 = selezione giocatore, 3 = formazione, 4 = trasferimento, 5=ingresso giocatore in lista, 6=uscita giocare dalla lista
-	var $idExternal;	// id da cui prendere i dati dell'evento
+	const CONFERENZASTAMPA = 1;
+	const SELEZIONEGIOCATORE = 2;
+	const FORMAZIONE = 3;
+	const TRASFERIMENTO = 4;
+	const NUOVOGIOCATORE = 5;
+	const RIMOSSOGIOCATORE = 6;
 	
+	/*
 	function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)
 	{
 		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal) 
@@ -17,7 +18,7 @@ class Evento extends EventoTable
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
-	
+	*/
 	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
 	{
 		$q = "DELETE 
@@ -28,10 +29,10 @@ class Evento extends EventoTable
 	
 	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
-		require_once(INCDIR . 'articolo.db.inc.php');
-		require_once(INCDIR . 'trasferimento.db.inc.php');
-		require_once(INCDIR . 'formazione.db.inc.php');
-		require_once(INCDIR . 'giocatore.db.inc.php');
+		require_once(INCDBDIR . 'articolo.db.inc.php');
+		require_once(INCDBDIR . 'trasferimento.db.inc.php');
+		require_once(INCDBDIR . 'formazione.db.inc.php');
+		require_once(INCDBDIR . 'giocatore.db.inc.php');
 		require_once(INCDIR . 'links.inc.php');
 		
 		$ruoli = array("articoli" =>
@@ -47,7 +48,7 @@ class Evento extends EventoTable
 					'C'=> "centrocampista",
 					'A'=> "attaccante"
 		));
-		$q = "SELECT evento.id,evento.idUtente,data, date_format(data, '%a, %d %b %Y %H:%i:%s +0200') as pubData,tipo,idExternal,utente.nome
+		$q = "SELECT evento.*,utente.nome
 				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
 		if($idLega != NULL)
 			$q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
