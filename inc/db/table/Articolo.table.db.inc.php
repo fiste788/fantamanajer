@@ -125,7 +125,7 @@ class ArticoloTable extends DbTable
 	public function setUtente( $utente )
 	{
 	    $this->utente = $utente;
-		$this->setIdUtente($lega->getIdUtente());
+		$this->setIdUtente($utente->getId());
 	}
 	
 	/**
@@ -248,6 +248,11 @@ class ArticoloTable extends DbTable
 	    if(empty($this->giornata))
 			$this->giornata = Giornata::getById($this->getIdGiornata());
 		return $this->giornata;
+	}
+	
+
+	public function __toString() {
+		return $this->getTitle();
 	}
 }
 ?>

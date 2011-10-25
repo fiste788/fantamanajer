@@ -344,5 +344,9 @@ class VotoTable extends DbTable
 	 	return $this->quotazione;
 	}
 
+	public function __toString() {
+		return $this->getId();
+	}
+
 }
 ?>

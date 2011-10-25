@@ -185,5 +185,10 @@ class EventoTable extends DbTable
 			$this->giornata = Giornata::getById($this->getIdGiornata());
 		return $this->giornata;
 	}
+	
+
+	public function __toString() {
+		return $this->getId();
+	}
 }
 ?>

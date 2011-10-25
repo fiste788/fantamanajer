@@ -103,5 +103,8 @@ class ClubTable extends DbTable
 		return $this->giocatori;
 	}
 
+	public function __toString() {
+		return $this->getNome();
+	}
 }
 ?>

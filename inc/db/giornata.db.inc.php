@@ -3,7 +3,7 @@ require_once(TABLEDIR . 'Giornata.table.db.inc.php');
 
 class Giornata extends GiornataTable
 {
-	public static function getGiornataByDate()
+	public static function getCurrentGiornata()
 	{
 		$minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
 		$q = "SELECT id
@@ -16,7 +16,7 @@ class Giornata extends GiornataTable
 			$valore['partiteInCorso'] = FALSE;
 		else
 		{
-			$q = "SELECT MIN( id -1 ) as idGiornata
+			$q = "SELECT MIN( id - 1 ) as idGiornata
 				FROM giornata
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or self::sqlError($q);
@@ -50,16 +50,6 @@ class Giornata extends GiornataTable
 			return FALSE;
 	}
 	
-	public static function getDataByGiornata($giornata)
-	{
-		$q = "SELECT * 
-				FROM giornata 
-				WHERE idGiornata = '" . $giornata . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		return mysql_fetch_object($exe,__CLASS__);
-	}
-	
 	public static function getNumberGiornate()
 	{
 		$q = "SELECT COUNT(id) as numeroGiornate
@@ -68,17 +58,6 @@ class Giornata extends GiornataTable
 		FirePHP::getInstance()->log($q);
 		$values = mysql_fetch_object($exe);
 		return $values->numeroGiornate;
-	}
-	
-	public static function getAllGiornate()
-	{
-		$q = "SELECT * 
-				FROM giornata";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giornate[$row->idGiornata] = $row;
-		return $giornate;
 	}
 	
 	public static function getTargetCountdown()

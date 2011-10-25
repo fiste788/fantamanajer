@@ -12,8 +12,8 @@
 		<?php foreach($this->trasferimenti as $key => $val): ?>
 		<tr class="row">
 			<td><?php echo $i + 1; ?></td>
-			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocNew)); ?>"><?php echo $val->cognomeNew . " " . $val->nomeNew; ?></a></td>
-			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocOld)); ?>"><?php echo $val->cognomeOld . " " . $val->nomeOld; ?></a></td>
+			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocatoreNew)); ?>"><?php echo $val->getGiocatoreNew()->cognome . " " . $val->getGiocatoreNew()->nome; ?></a></td>
+			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocatoreOld)); ?>"><?php echo $val->getGiocatoreOld()->cognome . " " . $val->getGiocatoreOld()->nome; ?></a></td>
 			<td><?php echo $val->idGiornata; ?></td>
 			<td><?php echo ($val->obbligato) ? "X" : "&nbsp;" ?></td>
 		</tr>

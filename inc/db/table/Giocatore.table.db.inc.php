@@ -147,5 +147,10 @@ class GiocatoreTable extends DbTable
 			$this->club = CLUB::getById($this->getIdClub());
 		return $this->club;
 	}
+	
+
+	public function __toString() {
+		return $this->getCognome() . " " . $this->getNome();
+	}
 }
 ?>

@@ -21,9 +21,8 @@
 		</div>
 	</fieldset>
 	<fieldset class="column">
-		<input class="submit dark" type="submit" name="submit" value="OK" />
-		<input class="submit dark" type="reset" value="Annulla modifiche" />
-		<input class="submit dark" type="submit" name="submit" value="Rimuovi" />
+		<input class="submit" type="submit" name="submit" value="OK" />
+		<input class="submit" type="submit" name="submit" value="Rimuovi" />
 		<p>(*) I campi contrassegnati con l'asterisco sono obbligatori</p>
 	</fieldset>
 </form>

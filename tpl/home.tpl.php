@@ -10,16 +10,16 @@
 			<?php if($giocatori != FALSE): ?>
 			<?php foreach($giocatori as $key=>$val): ?>
 			<?php if($key == 0): ?>
-				<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
-					<?php if(file_exists(PLAYERSDIR . $val->idGioc . '.jpg')): ?>
-						<img alt="<?php echo $val->cognome . ' ' . $val->nome; ?>" src="<?php echo PLAYERSURL . $val->idGioc . '.jpg'; ?>" />
+				<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
+					<?php if(file_exists(PLAYERSDIR . $val->id . '.jpg')): ?>
+						<img alt="<?php echo $val->cognome . ' ' . $val->nome; ?>" src="<?php echo PLAYERSURL . $val->id . '.jpg'; ?>" />
 					<?php else: ?>
 						<img alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
 					<?php endif; ?>
 				</a>
-				<h4><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a></h4>
+				<h4><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a></h4>
 			<?php else: ?>
-				<a class="neutral" href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a><br />
+				<a class="neutral" href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . " " . $val->nome . ": " . $val->punti; ?></a><br />
 			<?php endif; ?>
 			<?php endforeach; ?>
 			<?php endif; ?>
@@ -27,16 +27,6 @@
 	<?php endforeach; ?>
 </div>
 <?php endif; ?>
-<?php if(PARTITEINCORSO == FALSE): ?>
-	<div id="countdown" class="column last">Tempo rimanente per la formazione:<br /><div>&nbsp;</div></div>
-	<script type="text/javascript">
-		// <![CDATA[
-		var d = new Date();
-		d.setFullYear(<?php echo $this->dataFine['year'] . ',' . ($this->dataFine['month'] - 1) . ',' . $this->dataFine['day']; ?>);
-		d.setHours(<?php echo $this->dataFine['hour'] . ',' . $this->dataFine['minute'] . ',' . $this->dataFine['second']; ?>);
-		// ]]>
-	</script>
-	<?php endif; ?>
 <?php if($this->eventi != FALSE): ?>
 <div id="eventi" class="column last">
 	<h3 class="column">Ultimi eventi</h3>
@@ -44,7 +34,7 @@
 		<ul>
 		<?php foreach($this->eventi as $key =>$val): ?>
 			<li class="eventoHome">
-				<span><?php echo $val->data; ?></span>
+				<span><?php echo $val->data->format("Y-m-d H:i:s"); ?></span>
 				<a<?php echo ($val->tipo != 2) ? ' href="' . $val->link . '"' : ''; ?> title="<?php echo $val->content; ?>"><?php echo $val->titolo; ?></a>
 			</li>
 		<?php endforeach; ?>
@@ -64,7 +54,7 @@
 			<?php endif; ?>
 			<em>
 				<span class="column last"><?php echo $val->username; ?></span>
-				<span class="right"><?php echo $val->insertDate; ?></span>
+				<span class="right"><?php echo $val->insertDate->format("Y-m-d H:i:s"); ?></span>
 			</em>
 			<h3 class="title"><?php echo $val->title; ?></h3>
 			<?php if(isset($val->abstract)): ?><div class="abstract"><?php echo $val->abstract; ?></div><?php endif; ?>

@@ -1,12 +1,8 @@
 <?php 
-class Trasferimento extends DbTable
+require_once(TABLEDIR . 'Trasferimento.table.db.inc.php');
+
+class Trasferimento extends TrasferimentoTable
 {
-	var $idTrasf;
-	var $idGiocOld;
-	var $idGiocNew;
-	var $idUtente;
-	var $idGiornata;
-	var $obbligato;
 	
 	public static function getTrasferimentiByIdSquadra($idUtente,$idGiornata = 0)
 	{
@@ -142,17 +138,6 @@ class Trasferimento extends DbTable
 			Selezione::svuota();
 		}
 		return TRUE;
-	}
-	
-	public static function getTrasferimentoById($id)
-	{
-		$q = "SELECT * 
-				FROM trasferimento 
-				WHERE idTrasf = '" . $id . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			return $row;
 	}
 }
 ?>

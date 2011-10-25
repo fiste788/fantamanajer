@@ -63,22 +63,20 @@ class Giocatore extends GiocatoreTable
 	
 	public static function getFreePlayer($ruolo,$idLega)
 	{				
-		$q = "SELECT giocatoristatistiche.*
-				FROM giocatoristatistiche
-				WHERE idGioc IN (SELECT id
-					FROM giocatore
-					INNER JOIN club ON giocatore.idClub = club.id
-					WHERE ruolo = '" . $ruolo . "'
-					AND status = 1
-					AND giocatore.id NOT IN (
+		$q = "SELECT view_0_giocatoristatistiche.*
+				FROM view_0_giocatoristatistiche
+				WHERE id NOT IN (
 						SELECT idGiocatore
 						FROM squadra
-						WHERE idLega = '" . $idLega . "'))
+						WHERE idLega = '" . $idLega . "')";
+		if($ruolo != NULL)
+		    $q .= " AND ruolo = '" . $ruolo . "'";
+		$q .= " AND status = 1
 				ORDER BY cognome,nome";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giocatori[$row->idGioc] = $row;
+			$giocatori[$row->id] = $row;
 		return $giocatori;
 	}
 	
@@ -418,5 +416,6 @@ class Giocatore extends GiocatoreTable
 		    }
 		}
 	}
+	
 }
 ?>

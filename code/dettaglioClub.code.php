@@ -5,17 +5,11 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(VIEWDIR . 'ClubStatistiche.view.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
-
-$filterClub = NULL;
-if(isset($_GET['club']))
-	$filterClub = $_GET['club'];
-if(isset($_POST['club']))
-	$filterClub = $_POST['club'];
 	
-$clubdett = ClubStatistiche::getById($filterClub);
+$clubdett = ClubStatistiche::getById($request->get('id'));
 $elencoClub = Club::getList();
 $keys = array_keys($elencoClub);
-$current = array_search($filterClub,$keys);
+$current = array_search($request->get('id'),$keys);
 if(isset($keys[($idPrec = $current - 1)]))
 {
 	$quickLinks->prec->href = Links::getLink('dettaglioClub',array('club'=>$keys[$idPrec]));
@@ -32,17 +26,14 @@ if(isset($keys[($idSucc = $current + 1)]))
 else
 	$quickLinks->succ = FALSE;
 
-$giocatori = GiocatoreStatistiche::getByField('idClub',$filterClub);
-FirePHP::getInstance(true)->log($giocatori);
+$giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('id'));
 $pathClub = CLUBSURL . $filterClub . '.png';
 
 $contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('giocatori',$giocatori);
-$contentTpl->assign('club',$filterClub);
 $contentTpl->assign('clubDett',$clubdett);
 
 
 $operationTpl->assign('elencoClub',$elencoClub);
-$operationTpl->assign('idClub',$filterClub);
 
 ?>

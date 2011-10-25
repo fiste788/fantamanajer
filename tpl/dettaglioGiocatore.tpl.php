@@ -15,7 +15,7 @@
 		<h3><?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?></h3>
 	<?php endif; ?>
 	<div id="datiGioc" class="column last">
-		<img class="column" alt="<?php echo $this->dettaglioGioc['dettaglio']->cognome . ' ' . $this->dettaglioGioc['dettaglio']->nome; ?>" src="<?php echo $this->pathFoto; ?>" />
+		<img class="column" alt="<?php echo $this->dettaglioGioc; ?>" src="<?php echo $this->pathFoto; ?>" />
 		<div class="column">
 			<p><?php echo $this->ruoli[$this->dettaglioGioc['dettaglio']->ruolo]; ?></p>
 			<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>

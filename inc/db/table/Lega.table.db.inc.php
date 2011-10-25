@@ -199,9 +199,10 @@ class LegaTable extends DbTable
 	
 	/**
 	 * Getter: id
-	 * @return Utenti[]
+	 * @return Utente[]
 	 */
     public function getUtenti() {
+    	require_once(INCDBDIR . 'utente.db.inc.php');
         if(empty($this->utenti))
 			$this->utenti = Utente::getByField('idLega',$this->getId());
 		return $this->utenti;
@@ -231,5 +232,8 @@ class LegaTable extends DbTable
 		return $this->eventi;
 	}
 	
+	public function __toString() {
+		return $this->getNome();
+	}
 }
 ?>

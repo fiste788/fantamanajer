@@ -113,7 +113,11 @@ $pages = array();
 										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
-									
+
+	$pages['utente'] = array(	'title'=>"Modifica utente",
+										'roles'=>0,
+										'navbar'=>array('key'=>'altro','title'=>'Utente'));
+
 	$pages['trasferimenti'] = array(	'title'=>"Trasferimenti",
 										'roles'=>0,
 										'navbar'=>array('key'=>'altro','title'=>'Trasferimenti'));
@@ -128,7 +132,7 @@ $pages = array();
 										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
 										
 	$pages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
-										'roles'=>-1,
+										'roles'=>0,
 										'navbar'=>array('key'=>'conferenzeStampa','title'=>'Crea o modifica conferenza'));
 							
 	$pages['download'] = array(	'title'=>"Area Download",

@@ -314,5 +314,10 @@ class Punteggio extends DbTable
 				WHERE punteggio > 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		return  mysql_query($q) or self::sqlError($q);
 	}
+	
+// da rimuovere
+	public function __toString() {
+		return $this->punteggio;
+	}
 }
 ?>

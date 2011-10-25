@@ -1,24 +1,6 @@
 <?php 
-class Voto extends DbTable
+class Voto extends VotoTable
 {
-	var $idGioc;
-	var $idGiornata;
-	var $valutato;
-	var $punti;
-	var $voto;
-	var $gol;
-	var $golSub;
-	var $golVit;
-	var $golPar;
-	var $assist;
-	var $ammonizioni;
-	var $espulsioni;
-	var $rigoriSegn;
-	var $rigoriSub;
-	var $presenza;
-	var $titolare;
-	var $quotazione;
-	
 	public static function getVotoByIdGioc($idGioc,$giornata)
 	{
 		$q = "SELECT punti 
@@ -136,5 +118,6 @@ class Voto extends DbTable
 		$q .= implode(',',$rows);
 		mysql_query($q) or self::sqlError($q);
 	}
+	
 }
 ?>

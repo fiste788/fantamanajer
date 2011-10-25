@@ -33,7 +33,7 @@ $_POST = preventAttach($_POST);
 require('config/config.inc.php');
 require('config/pages.inc.php');
 require(INCDIR . 'request.inc.php');
-require(INCDIR . 'savant/Savant3.php');
+require(INCDIR . 'Savant.inc.php');
 require(INCDIR . 'db.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
@@ -48,7 +48,14 @@ require(INCDBDIR . 'giornata.db.inc.php');
 $dbObj = new db();
 $message = new message();
 $logger = new logger();
+$request = new Request();
 $quickLinks = NULL;
+
+$ruoli = array();
+$ruoli['P'] = new Ruolo("Portiere","Portieri","POR");
+$ruoli['D'] = new Ruolo("Difensore","Difensori","DIF");
+$ruoli['C'] = new Ruolo("Centrocampista","Centrocampisti","CEN");
+$ruoli['A'] = new Ruolo("Attaccante","Attaccanti","ATT");
 
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
@@ -62,39 +69,26 @@ $generalCss = array();
 $generalCss[] = 'boiler.css';
 $generalCss[] = 'typography.css';
 $generalCss[] = 'forms.css';
+//$generalCss[] = 'buttons.css';
 $generalCss[] = 'grid.css';
 $generalCss[] = 'layout.css';
 $generalCss[] = '00-screen.css';
 $generalCss[] = 'uniform.css';
 
 //Creating object for pages
-$layoutTpl = new Savant3(array('template_path' => TPLDIR));
-$headerTpl = new Savant3(array('template_path' => TPLDIR));
-$footerTpl = new Savant3(array('template_path' => TPLDIR));
-$contentTpl = new Savant3(array('template_path' => TPLDIR));
-$navbarTpl = new Savant3(array('template_path' => TPLDIR));
-$operationTpl = new Savant3(array('template_path' => OPERATIONTPLDIR));
+$layoutTpl = new MySavant3(array('template_path' => TPLDIR));
+$headerTpl = new MySavant3(array('template_path' => TPLDIR));
+$footerTpl = new MySavant3(array('template_path' => TPLDIR));
+$contentTpl = new MySavant3(array('template_path' => TPLDIR));
+$navbarTpl = new MySavant3(array('template_path' => TPLDIR));
+$operationTpl = new MySavant3(array('template_path' => OPERATIONTPLDIR));
 
 $session_name = 'fantamanajer';
 @session_name($session_name);
-// strictly, PHP 4 since 4.4.2 would not need a verification
-if (version_compare(PHP_VERSION, '5.1.2', 'lt') && isset($_COOKIE[$session_name]) && eregi("\r|\n", $_COOKIE[$session_name])) 
-	die('attacked');
 
-if (!isset($_COOKIE[$session_name])) 
-{
-	ob_start();
-	$old_display_errors = ini_get('display_errors');
-	$old_error_reporting = error_reporting(E_ALL);
-	ini_set('display_errors', 1);
+if (!isset($_COOKIE[$session_name])) {
 	$r = session_start();
-	ini_set('display_errors', $old_display_errors);
-	error_reporting($old_error_reporting);
-	unset($old_display_errors, $old_error_reporting);
-	$session_error = ob_get_contents();
-	ob_end_clean();
-	if ($r !== TRUE || ! empty($session_error)) 
-	{
+	if ($r !== TRUE) {
 		setcookie($session_name, '', 1);
 		die('sessionError');
 	}
@@ -102,10 +96,8 @@ if (!isset($_COOKIE[$session_name]))
 else
 	@session_start();
 
-$request = new Request();
-
 //If no page have been required give the default page (home.php and home.tpl.php)
-$p = isset($_GET['p']) ? $_GET['p'] : 'home';
+$p = $request->has('p') ? $request->get('p') : 'home';
 
 define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
 $firePHP = FirePHP::getInstance(TRUE);
@@ -118,7 +110,7 @@ ob_start();
 require_once(CODEDIR . 'login.code.php');
 
 if(isset($_POST['username']) && $_SESSION['logged'])
-	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idUtente']))));
+	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('id'=>$_SESSION['idUtente']))));
 
 //Setting up the default user data
 if (!isset($_SESSION['logged'])) {
@@ -127,7 +119,6 @@ if (!isset($_SESSION['logged'])) {
 	$_SESSION['usertype'] = 'guest';
 	$_SESSION['logged'] = FALSE;
 	$_SESSION['idUtente'] = FALSE;
-	$_SESSION['idLega'] = 1;
 	$_SESSION['legaView'] = 1;
 }
 
@@ -135,7 +126,7 @@ if (!isset($_SESSION['logged'])) {
  * SETTO NEL CONTENTTPL LA GIORNATA
  */
 
-$giornata = Giornata::getGiornataByDate();
+$giornata = Giornata::getCurrentGiornata();
 define("GIORNATA",$giornata['id']);
 define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);
@@ -158,22 +149,16 @@ if(!isset($pages[$p]))
 	$message->error("La pagina " . $p . " non esiste. Sei stato mandato alla home");
 	$p = 'home';
 }
-elseif($pages[$p]['roles'] > $_SESSION['roles']) 
+/*elseif($pages[$p]['roles'] > $_SESSION['roles'])
 {
 	$message->error("Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home");
 	$p = 'home';
-}
+}*/
 if(isset($_SESSION['message']))
 {
 	$message = $_SESSION['message'];	
 	unset($_SESSION['message']);
 }
-
-$firePHP->group($p . '.code.php');
-//INCLUDE IL FILE DI CODICE PER LA PAGINA
-if (file_exists(CODEDIR . $p . '.code.php'))
-	require(CODEDIR . $p . '.code.php');
-$firePHP->groupEnd();
 
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
 if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
@@ -182,10 +167,18 @@ if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')
 	$firePHP->groupEnd();
 }
 
+$firePHP->group($p . '.code.php');
+//INCLUDE IL FILE DI CODICE PER LA PAGINA
+if (file_exists(CODEDIR . $p . '.code.php'))
+	require(CODEDIR . $p . '.code.php');
+$firePHP->groupEnd();
+
 //definisce il file di template utilizzato per visualizzare questa pagina
 $tplfile = $p . '.tpl.php';
 
 $contentTpl->assign('request',$request);
+$contentTpl->assign('ruoli',$ruoli);
+$operationTpl->assign('request',$request);
 $layoutTpl->assign('message',$message);
 $layoutTpl->assign('quickLinks',$quickLinks);
 /**

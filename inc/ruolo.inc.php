@@ -1,8 +1,17 @@
 <?php
 class Ruolo {
-	var $P = array('singolare'=>'Portiere','plurale'=>'Portieri','abbreviazione'=>'POR');
-	var $D = array('singolare'=>'Difensore','plurale'=>'Difensori','abbreviazione'=>'DIF');
-	var $C = array('singolare'=>'Centrocampista','plurale'=>'Centrocampisti','abbreviazione'=>'CEN');
-	var $A = array('singolare'=>'Attaccante','plurale'=>'Attaccanti','abbrevizione'=>'ATT');
+	var $singolare;
+	var $plurale;
+	var $abbreviazione;
+	
+	function __construct($singolare,$plurale,$abbreviazione) {
+		$this->singolare = $singolare;
+		$this->plurale = $plurale;
+		$this->abbreviazione = $abbreviazione;
+	}
+	
+	function __toString() {
+		return $this->singolare;
+	}
 }
 ?>
