@@ -8,8 +8,8 @@ require_once(INCDIR . 'mail.inc.php');
 require_once(CODEDIR . 'upload.code.php');	//IMPORTO IL CODE PER EFFETTUARE L'UPLOAD
 
 $filterSquadra = NULL;
-if(isset($_GET['squadra']))
-	$filterSquadra = $_GET['squadra'];
+if(isset($_GET['id']))
+	$filterSquadra = $_GET['id'];
 	
 $squadraDett = SquadraStatistiche::getById($filterSquadra);
 $elencoSquadre = Utente::getByField('idLega',$squadraDett->idLega);

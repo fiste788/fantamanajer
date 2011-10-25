@@ -1,7 +1,7 @@
 <?php
 require_once(TABLEDIR . 'Formazione.table.db.inc.php');
 
-class Formazione extends DbTable
+class Formazione extends FormazioneTable
 {
 	public static function getFormazioneById($id)
 	{

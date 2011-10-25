@@ -42,5 +42,14 @@ class Articolo extends ArticoloTable
 			$values[] = $row->idGiornata;
 		return $values;
 	}
+	
+	public function check($array,$message) {
+		$post = (object) $array;
+    	if(empty($post->title) || empty($post->text)) {
+			$message->error("Non hai compilato correttamente tutti i campi");
+			return FALSE;
+  		}
+  		return TRUE;
+	}
 }
 ?>

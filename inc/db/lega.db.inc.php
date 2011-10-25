@@ -45,5 +45,19 @@ class Lega extends LegaTable
 			$result[$row->Field] = $row->Default;
 		return $result;
 	}
+	
+	public function check($array,$message) {
+		$post = (object) $array;
+		foreach($array as $key=>$val)
+			if($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val)) {
+				$message->error("Non hai compilato tutti i campi" . $key);
+				return FALSE;
+   			}
+		if(!is_numeric($post->numTrasferimenti) || !is_numeric($post->numSelezioni) || !is_numeric($post->minFormazione)) {
+			$message->error("Tipo di dati incorretto. Controlla i valori numerici");
+            return FALSE;
+  		}
+  		return TRUE;
+	}
 }
 ?>

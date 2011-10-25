@@ -20,6 +20,7 @@ class Utente extends UtenteTable
 			unset($_SESSION[$key]);
 	}
 	
+	/*
 	public static function getElencoSquadre()
 	{		
 		$q = "SELECT utente.*,giornateVinte 
@@ -42,7 +43,7 @@ class Utente extends UtenteTable
 			$values[$row->id] = $row;
 		return $values; 
 	}
-	
+
 	public static function getElencoSquadreByLega($idLega)
 	{		
 		$q = "SELECT utente.*,giornateVinte 
@@ -72,7 +73,7 @@ class Utente extends UtenteTable
 		else
 			return FALSE; 
 	}
-	
+	*/
 	public static function getSquadraById($idUtente)
 	{		
 		$q = "SELECT * 
@@ -231,16 +232,40 @@ class Utente extends UtenteTable
 		return $pass;
 	}
 	
-	public static function getUtentiByIdLega($idLega)
-	{
-		$q = "SELECT *
-				FROM utente
-				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-		  	$values[$row->getId()] = $row;
-		return $values;
+	public function check($array,$message) {
+        require_once(INCDIR . 'mail.inc.php');
+        
+		$post = (object) $array;
+		foreach($_POST as $key=>$val)
+		{
+			if($key != "passwordnew" && $key != "passwordnewrepeat" && empty($val)) {
+				$message->error("Non hai compilato tutti i campi");
+				return FALSE;
+			}
+		}
+		if(!empty($post->passwordnew) && !empty($post->passwordnewrepeat))
+		{
+			if($post->passwordnew == $post->passwordnewrepeat)
+			{
+				if(strlen($post->passwordnew) < 6) {
+					$message->error("La password deve essere lunga almeno 6 caratteri");
+					return FALSE;
+				}
+			}
+			else {
+				$message->error("Le 2 password non corrispondono");
+				return FALSE;
+			}
+		}
+		if(!Mail::checkEmailAddress($post->mail)) {
+			$message->error("Mail non corretta");
+			return FALSE;
+		}
+		if(isset($post->nomeSquadra) && Utente::getSquadraByNome($post->nomeSquadra,$filterSquadra) != FALSE) {
+			$message->error("Il nome della squadra è già presente");
+			return FALSE;
+		}
+		return TRUE;
 	}
 }
 ?>

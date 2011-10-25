@@ -2,8 +2,7 @@
 class UtenteTable extends DbTable
 {
 	const TABLE_NAME = "utente";
-	protected $PK = array('id');
-    var $id;
+	var $id;
 	var $nomeSquadra;
 	var $cognome;
 	var $nome;
@@ -13,9 +12,6 @@ class UtenteTable extends DbTable
 	var $password;
 	var $amministratore;
 	var $idLega;
-	//var $lega;
-//	var $articoli = Array();
-	//var $giocatori = Array();
 	
 	function __construct()
 	{
@@ -278,6 +274,10 @@ class UtenteTable extends DbTable
 	    if(empty($this->eventi))
 			$this->eventi = Evento::getByField('idUtente',$this->getId());
 		return $this->eventi;
+	}
+	
+	public function __toString() {
+		return $this->getUsername();
 	}
 }
 ?>

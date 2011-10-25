@@ -16,32 +16,31 @@ if($request->get('submit') == 'Rimuovi'){
 	} else
 		$message->error("Errore nella cancellazione della conferenza");
 } else {
-	$articolo->setTitle($request->get('title'));
-	$articolo->setAbstract($request->get('abstract'));
-	$articolo->setText($request->get('text'));
-	$articolo->setIdUtente(3);
-	$articolo->setIdGiornata(GIORNATA);
-	$articolo->setIdLega(1);
+    if($articolo->validate()) {
+		$articolo->setIdUtente(3);
+		$articolo->setIdGiornata(GIORNATA);
+		$articolo->setIdLega(1);
 
-	if (!empty($articolo->title) && !empty($articolo->text)) {
-		if(($id = $articolo->save()) != FALSE) {
-		    if(is_null($articolo->getId())) {
-			    $evento = new Evento();
-			    $evento->setTipo(Evento::CONFERENZASTAMPA);
-			    $evento->setData($articolo->getInsertDate());
-			    $evento->setIdUtente($articolo->getIdUtente());
-			    $evento->setIdLega($articolo->getIdLega());
-			    $evento->setIdExternal($id);
-				$evento->save();
-			}
-			$message->success("Inserimento completato con successo");
-		} else
-            $message->error("Errore generico nell'inserimento");
-		$_SESSION['message'] = $message;
-		Request::goToUrl('conferenzeStampa');
+		if (!empty($articolo->title) && !empty($articolo->text)) {
+			if(($id = $articolo->save()) != FALSE) {
+			    if(is_null($articolo->getId())) {
+				    $evento = new Evento();
+				    $evento->setTipo(Evento::CONFERENZASTAMPA);
+				    $evento->setData($articolo->getInsertDate());
+				    $evento->setIdUtente($articolo->getIdUtente());
+				    $evento->setIdLega($articolo->getIdLega());
+				    $evento->setIdExternal($id);
+					$evento->save();
+				}
+				$message->success("Inserimento completato con successo");
+			} else
+	            $message->error("Errore generico nell'inserimento");
+			$_SESSION['message'] = $message;
+			Request::goToUrl('conferenzeStampa');
+		}
+		else
+			$message->error("Non hai compilato correttamente tutti i campi");
 	}
-	else
-		$message->error("Non hai compilato correttamente tutti i campi");
 }
 $contentTpl->assign('articolo',$articolo);
 ?>

@@ -36,53 +36,7 @@
 			</p>
 		</div>
 		<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
-		<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password
-		<?php if(GIORNATA <= 2): ?>. Fino alla seconda giornata imposta quì anche il nome della tua squadra <?php endif; ?><a id="qui">Clicca quì</a></p>
-		<div id="datiNascosti" class="hidden no-margin">
-			<form enctype="multipart/form-data" id="userdata" action="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$_GET['squadra'])); ?>" method="post">
-				<fieldset class="column no-margin no-padding">
-					<div class="column">
-						<div class="formbox">
-							<label for="name">Nome:</label>
-							<input id="name" class="text" type="text" maxlength="15" name="nomeProp" value="<?php echo $this->squadraDett->nome; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="surname">Cognome:</label>
-							<input id="surname" class="text" type="text" maxlength="15" name="cognome"  value="<?php echo $this->squadraDett->cognome; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="email">E-mail:</label>
-							<input id="email" class="text" type="text" maxlength="30" name="mail"  value="<?php echo $this->squadraDett->email; ?>"/>
-						</div>
-						<div class="formbox">
-							<label for="abilitaMail">Ricevi email:</label>
-							<input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php echo ($this->squadraDett->abilitaMail == 1) ? ' checked="checked"' : ''; ?>/>
-						</div>
-					</div>
-					<div class="column">
-						<?php if(GIORNATA <= 2): ?>
-						<div class="formbox">
-							<label for="nomeSquadra">Nome squadra:</label>
-							<input id="nomeSquadra" class="text" type="text" maxlength="30" name="nome"  value="<?php echo $this->squadraDett->nome; ?>"/>
-						</div>
-						<?php endif; ?>
-						<div class="formbox">
-							<label for="password">Password:</label>
-							<input id="password" class="text" type="password" maxlength="12" name="passwordnew"/>
-						</div>
-						<div class="formbox">
-							<label for="passwordrepeat">Ripeti Pass:</label>
-							<input id="passwordrepeat" class="text" type="password" maxlength="12" name="passwordnewrepeat"/>
-						</div>
-					</div>
-					<div class="column">
-						<h4 class="no-margin">Carica il tuo logo:</h4>
-						<input class="upload" name="userfile" type="file" /><br />
-						<input type="submit" class="submit" name="submit" value="OK" />
-					</div>
-				</fieldset>
-			</form>
-		</div>
+			<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
 		<?php endif; ?>
 	</div>
 </div>

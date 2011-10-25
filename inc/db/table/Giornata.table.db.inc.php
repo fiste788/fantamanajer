@@ -94,5 +94,9 @@ class GiornataTable extends DbTable
 			$this->articoli = Articolo::getByField('idGiornata',$this->getId());
 		return $this->articoli;
 	}
+	
+	public function __toString() {
+		return $this->getId();
+	}
 }
 ?>

@@ -72,7 +72,7 @@ class Request
 	 */
 	public function get($key)
 	{
-		return isset($this->_data[$key]) ? $this->_data[$key] : null;
+		return ($this->has($key)) ? $this->_data[$key] : null;
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Request
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function getRawData($var, $key)
+	public function getRawData($var, $key = NULL)
 	{
 		switch(strtolower($var)) {
 			case 'get':
@@ -102,10 +102,10 @@ class Request
 			break;
 		}
 
-		if(isset($array[$key])) {
+		if(!is_null($key) && isset($array[$key])) {
 			return $array[$key];
 		}
-		return null;
+		return $array;
 	}
 
 	/**

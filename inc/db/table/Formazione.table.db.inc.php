@@ -288,5 +288,10 @@ class FormazioneTable extends DbTable
 			$this->VVCapitano = GiocatoreStatistiche::getById($this->getId());
 		return $this->VVCapitano;
 	}
+	
+
+	public function __toString() {
+		return $this->getId();
+	}
 }
 ?>
