@@ -131,21 +131,21 @@ class Formazione extends FormazioneTable
 	
 	public static function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
 	{
-		$q = "SELECT formazione.idFormazione,idGioc,idPosizione,modulo,C,VC,VVC,jolly 
-				FROM formazione INNER JOIN schieramento ON formazione.idFormazione = schieramento.idFormazione 
+		$q = "SELECT formazione.id,idGiocatore,posizione,modulo,idCapitano,idVCapitano,idVVCapitano,jolly
+				FROM formazione INNER JOIN schieramento ON formazione.id = schieramento.idFormazione
 				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "' 
-				ORDER BY idPosizione";
+				ORDER BY posizione";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$flag = FALSE;
 		FirePHP::getInstance()->log($q);
 		while ($row = mysql_fetch_object($exe,__CLASS__))
 		{
-			$elenco[$row->idPosizione] = $row->idGioc;
-			$idFormazione = $row->idFormazione;
+			$elenco[$row->posizione] = $row->idGiocatore;
+			$idFormazione = $row->id;
 			$modulo = $row->modulo;
-			$cap->C = $row->C;
-			$cap->VC = $row->VC;
-			$cap->VVC = $row->VVC;
+			$cap->C = $row->idCapitano;
+			$cap->VC = $row->idVCapitano;
+			$cap->VVC = $row->idVVCapitano;
 			$jolly = $row->jolly;
 			$flag = TRUE;
 		}

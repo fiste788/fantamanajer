@@ -1,32 +1,21 @@
 <?php 
-require_once(INCDIR . 'utente.db.inc.php');
-require_once(INCDIR . 'formazione.db.inc.php');
-require_once(INCDIR . 'punteggio.db.inc.php');
-require_once(INCDIR . 'giocatore.db.inc.php');
-
-$filterSquadra = NULL;
-$filterGiornata = NULL;
-if(isset($_GET['squadra']))
-	$filterSquadra = $_GET['squadra'];
-if(isset($_GET['giornata']))
-	$filterGiornata = $_GET['giornata'];
-if(isset($_POST['squadra']))
-	$filterSquadra = $_POST['squadra'];
-if(isset($_POST['giornata']))
-	$filterGiornata = $_POST['giornata'];
+require_once(INCDBDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'formazione.db.inc.php');
+require_once(INCDBDIR . 'punteggio.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
 
 $giornate = Punteggio::getGiornateWithPunt();
-$penalità = Punteggio::getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata);
+$penalità = Punteggio::getPenalitàBySquadraAndGiornata($request->get('squadra'),$request->get('giornata'));
 
 if($penalità != FALSE)
 	$contentTpl->assign('penalità',$penalità);
-if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $giornata > 0 && $filterGiornata <= $giornate)
+if($request->get('squadra') != NULL && $request->get('giornata') != NULL && $request->get('squadra') > 0 && $giornata > 0 && $request->get('giornata') <= $giornate)
 {
-	if(Formazione::getFormazioneBySquadraAndGiornata($filterSquadra,$filterGiornata) != FALSE)
+	if(Formazione::getFormazioneBySquadraAndGiornata($request->get('squadra'),$request->get('giornata')) != FALSE)
 	{
-		$formazione = Giocatore::getVotiGiocatoriByGiornataAndSquadra($filterGiornata,$filterSquadra);
+		$formazione = Giocatore::getVotiGiocatoriByGiornataAndSquadra($request->get('giornata'),$request->get('squadra'));
 		$titolari = array_splice($formazione,0,11);
-		$contentTpl->assign('somma',Punteggio::getPunteggi($filterSquadra,$filterGiornata));
+		$contentTpl->assign('somma',Punteggio::getPunteggi($request->get('squadra'),$request->get('giornata')));
 		$contentTpl->assign('titolari',$titolari);
 		$contentTpl->assign('panchinari',$formazione);
 	}
@@ -40,10 +29,10 @@ if($filterSquadra != NULL && $filterGiornata != NULL && $filterSquadra > 0 && $g
 else
 	$contentTpl->assign('titolari',NULL);
 
-if(isset($filterGiornata) && $filterGiornata -1 > 0)
+if($request->get('giornata') -1 > 0)
 {
-	$idPrec = $filterGiornata -1;
-	$quickLinks->prec->href = Links::getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$filterSquadra));
+	$idPrec = $request->get('giornata') -1;
+	$quickLinks->prec->href = Links::getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$request->get('squadra')));
 	$quickLinks->prec->title = "Giornata " . $idPrec;
 }	
 else
@@ -51,10 +40,10 @@ else
 	$idPrec = FALSE;
 	$quickLinks->prec = FALSE;
 }
-if(isset($filterGiornata) && $filterGiornata + 1 <= $giornate)
+if($request->get('giornata') + 1 <= $giornate)
 {
-	$idSucc = $filterGiornata + 1;
-	$quickLinks->succ->href = Links::getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$filterSquadra));
+	$idSucc = $request->get('giornata') + 1;
+	$quickLinks->succ->href = Links::getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$request->get('squadra')));
 	$quickLinks->succ->title = "Giornata " . $idSucc;
 }	
 else
@@ -63,13 +52,9 @@ else
 	$quickLinks->succ = FALSE;
 }
 	
-$contentTpl->assign('squadra',$filterSquadra);
-$contentTpl->assign('giornata',$filterGiornata);
-$contentTpl->assign('squadraDett',Utente::getSquadraById($filterSquadra));
-$operationTpl->assign('squadre',Utente::getElencoSquadreByLega($_SESSION['legaView']));
+$contentTpl->assign('squadraDett',Utente::getById($request->get('squadra')));
+$operationTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
 $operationTpl->assign('penalità',$penalità);
 $operationTpl->assign('giornate',$giornate);
-$operationTpl->assign('squadra',$filterSquadra);
-$operationTpl->assign('giornata',$filterGiornata);
 $layoutTpl->assign('quickLinks',$quickLinks);
 ?>

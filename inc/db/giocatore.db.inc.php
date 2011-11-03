@@ -387,14 +387,14 @@ class Giocatore extends GiocatoreTable
 	{
 		$values = FALSE;
 		$q = "SELECT *
-				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore INNER JOIN club ON giocatore.idClub = club.id
+				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore
 				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$values[] = $row;
+			$values[$row->getId()] = $row;
 		return $values;
 	}
 	

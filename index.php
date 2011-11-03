@@ -15,37 +15,23 @@ To Do:
  * Prevent XSS attach
  */
 date_default_timezone_set("Europe/Rome");
-function preventAttach($array) 
-{
-	foreach($array as $key=>$val) 
-	{
-		if(is_array($val))
-			$_array[$key][] = preventAttach($val);
-		else
-			$_array[$key] = stripslashes(addslashes(htmlspecialchars($val)));
-	}
-	return $array;
-}
-$_GET = preventAttach($_GET);
-$_POST = preventAttach($_POST);
-
 
 require('config/config.inc.php');
 require('config/pages.inc.php');
 require(INCDIR . 'request.inc.php');
 require(INCDIR . 'Savant.inc.php');
-require(INCDIR . 'db.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
 require(INCDIR . 'ruolo.inc.php');
 require(INCDIR . 'FirePHPCore/FirePHP.class.php');
+require(INCDBDIR . 'db.inc.php');
 require(TABLEDIR . 'dbTable.inc.php');
 require(INCDBDIR . 'lega.db.inc.php');
 require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
-$dbObj = new db();
+$dbConnection = new db();
 $message = new message();
 $logger = new logger();
 $request = new Request();
@@ -127,6 +113,7 @@ if (!isset($_SESSION['logged'])) {
  */
 
 $giornata = Giornata::getCurrentGiornata();
+
 define("GIORNATA",$giornata['id']);
 define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);

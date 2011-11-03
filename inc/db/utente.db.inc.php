@@ -73,7 +73,7 @@ class Utente extends UtenteTable
 		else
 			return FALSE; 
 	}
-	*/
+
 	public static function getSquadraById($idUtente)
 	{		
 		$q = "SELECT * 
@@ -83,7 +83,7 @@ class Utente extends UtenteTable
 		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__); 
 	}
-	
+	*/
 	public static function changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$idUtente)
 	{
 		$q = "UPDATE utente SET nome = '" . $nomeSquadra . "', 

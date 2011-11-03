@@ -16,7 +16,7 @@ class Giornata extends GiornataTable
 			$valore['partiteInCorso'] = FALSE;
 		else
 		{
-			$q = "SELECT MIN( id - 1 ) as idGiornata
+			$q = "SELECT MIN( id - 1 ) as id
 				FROM giornata
 				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
 			$exe = mysql_query($q) or self::sqlError($q);
