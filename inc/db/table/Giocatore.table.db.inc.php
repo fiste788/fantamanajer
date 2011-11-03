@@ -8,8 +8,16 @@ class GiocatoreTable extends DbTable
 	var $ruolo;
 	var $idClub;
 	var $status;
-	var $club;
-
+	
+    function __construct()
+	{
+		$this->id = $this->getId();
+		$this->nome = $this->getNome();
+		$this->cognome = $this->getCognome();
+		$this->ruolo = $this->getRuolo();
+		$this->idClub = $this->getIdClub();
+		$this->status = $this->getStatus();
+	}
 
 	/**
 	 * Setter: id
@@ -144,7 +152,7 @@ class GiocatoreTable extends DbTable
 	{
 	    require_once(INCDIR . 'club.db.inc.php');
 	    if(empty($this->club))
-			$this->club = CLUB::getById($this->getIdClub());
+			$this->club = Club::getById($this->getIdClub());
 		return $this->club;
 	}
 	

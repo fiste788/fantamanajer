@@ -138,5 +138,9 @@ class GiocatoreStatistiche extends GiocatoreTable
 	{
 	 	return (int) $this->idUtente;
 	}
+	
+	public function __toString() {
+		return $this->getCognome() . " " . $this->getNome();
+	}
 }
 ?>

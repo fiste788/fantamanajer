@@ -3,26 +3,26 @@ abstract class DbTable
 {
 	const TABLE_NAME = "";
 	
-	protected static function sqlError($q)
-	{
-		ob_end_flush();	
-		FirePHP::getInstance()->error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-		die();
-	}
-	
-	protected static function startTransaction()
+	public static function startTransaction()
 	{
 		mysql_query("START TRANSACTION");
 	}
-	
-	protected static function commit()
+
+	public static function commit()
 	{
 		mysql_query("COMMIT");
 	}
-	
-	protected static function rollback()
+
+	public static function rollback()
 	{
 		mysql_query("ROLLBACK");
+	}
+
+	protected static function sqlError($q)
+	{
+		ob_end_flush();
+		FirePHP::getInstance()->error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		die();
 	}
 	
 	public static function getById($id)

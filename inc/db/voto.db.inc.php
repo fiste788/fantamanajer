@@ -1,4 +1,6 @@
 <?php 
+require_once(TABLEDIR . 'Voto.table.db.inc.php');
+
 class Voto extends VotoTable
 {
 	public static function getVotoByIdGioc($idGioc,$giornata)
