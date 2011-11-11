@@ -5,7 +5,12 @@ class SchieramentoTable extends DbTable {
 	var $posizione;
 	var $considerato;	//0 = non ha giocato, 1 = giocato, 2 = capitano
 	
-
+	function __construct() {
+		$this->idFormazione = $this->getIdFormazione();
+		$this->idGiocatore = $this->getIdGiocatore();
+		$this->posizione = $this->getPosizione();
+		$this->considerato = $this->getConsiderato();
+	}
 
 	/**
 	 * Setter: idFormazione

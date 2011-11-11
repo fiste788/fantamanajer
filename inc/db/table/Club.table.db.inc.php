@@ -3,14 +3,14 @@ class ClubTable extends DbTable
 {
 	const TABLE_NAME = 'club';
 	var $id;
-	var $nomeClub;
+	var $nome;
 	var $partitivo;
 	var $determinativo;
 	//var $giocatori = array();
 	
 	function __construct() {
 		$this->id = $this->getId();
-		$this->nomeClub = $this->getNomeClub();
+		$this->nome = $this->getNome();
 		$this->partitivo = $this->getPartitivo();
 		$this->determinativo = $this->getPartitivo();
 	}
@@ -26,13 +26,13 @@ class ClubTable extends DbTable
 	}
 
 	/**
-	 * Setter: nomeClub
-	 * @param String $nomeClub
+	 * Setter: nome
+	 * @param String $nome
 	 * @return void
 	 */
-	public function setNomeClub( $nomeClub )
+	public function setNome( $nome )
 	{
-		$this->nomeClub = $nomeClub;
+		$this->nome = $nome;
 	}
 
 	/**
@@ -65,12 +65,12 @@ class ClubTable extends DbTable
 	}
 
 	/**
-	 * Getter: nomeClub
+	 * Getter: nome
 	 * @return String
 	 */
-	public function getNomeClub()
+	public function getNome()
 	{
-	 	return $this->nomeClub;
+	 	return $this->nome;
 	}
 
 	/**

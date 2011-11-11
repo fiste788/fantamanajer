@@ -37,7 +37,7 @@
 				input.attr('checked','checked');
 				
 			rigaSquadra.prepend(input);
-			input.uniform();
+			//input.uniform();
 		});
 		
 //			choiceContainer.find("input[name!='" + squadra['val'] + "']").removeAttr('checked');

@@ -9,27 +9,9 @@ if($articoli != FALSE)
 		$articoli[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
 
 $giornateWithArticoli = Articolo::getGiornateArticoliExist($_SESSION['legaView']);
-$firePHP->fb($giornateWithArticoli);
-$keys = $giornateWithArticoli;
-$current = array_search($request->get('giornata'),$keys);
-$firePHP->fb($current);
-if(isset($keys[($idPrec = $current - 1)]))
-{
-	$quickLinks->prec->href = Links::getLink('conferenzeStampa',array('giornata'=>$keys[$idPrec]));
-	$quickLinks->prec->title = "Giornata " . $keys[$idPrec];
-}
-else
-	$quickLinks->prec = FALSE;
-if(isset($keys[($idSucc = $current + 1)]))
-{
-	$quickLinks->succ->href = Links::getLink('conferenzeStampa',array('giornata'=>$keys[$idSucc]));
-	$quickLinks->succ->title = "Giornata " . $keys[$idSucc];
-}
-else
-	$quickLinks->succ = FALSE;
+$quickLinks->set('giornata',$giornateWithArticoli,'Giornata ');
 
 $contentTpl->assign('articoli',$articoli);
 $contentTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
 $operationTpl->assign('giornateWithArticoli',$giornateWithArticoli);
-$layoutTpl->assign('quickLinks',$quickLinks);
 ?>
