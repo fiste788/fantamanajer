@@ -130,8 +130,8 @@ class Giocatore extends GiocatoreTable
 	public static function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
 	{
 		$q = "SELECT *
-				FROM dettagliogiornata
-				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "' ORDER BY idPosizione";
+				FROM view_0_formazionestatistiche
+				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "' ORDER BY posizione";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$elenco = FALSE;

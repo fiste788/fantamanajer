@@ -1,17 +1,17 @@
 <?php 
-require_once(INCDIR . 'punteggio.db.inc.php');
-require_once(INCDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'punteggio.db.inc.php');
+require_once(INCDBDIR . 'utente.db.inc.php');
 
-$filterGiornata = GIORNATA;
-if(isset($_POST['giornata']))
-	$filterGiornata = $_POST['giornata'];
+$filterGiornata = ($request->has('idGiornata')) ? $request->get('idGiornata') : GIORNATA;
 
 $classificaDett = Punteggio::getAllPunteggiByGiornata($filterGiornata,$_SESSION['legaView']);
-$squadre = Utente::getElencoSquadreByLega($_SESSION['legaView']);
+$squadre = Utente::getByField('idLega',$_SESSION['legaView']);
+$firePHP->log($classificaDett);
 
-foreach($classificaDett as $key => $val)
-	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); 
+/*foreach($classificaDett as $key => $val)
+	$classificaDett[$key] = array_reverse($classificaDett[$key],TRUE); */
 	
+$firePHP->log($classificaDett);
 $giornate = Punteggio::getGiornateWithPunt();
 $contentTpl->assign('giornate',$giornate);
 $contentTpl->assign('classificaDett',$classificaDett);

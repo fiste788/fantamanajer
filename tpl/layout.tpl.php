@@ -44,27 +44,10 @@
 			</header>
 		
 		<section id="content">
-
-    <?php if($this->message->show || isset($this->generalMessage)): ?>
-					<div id="messaggioContainer" title="Clicca per nascondere">
-					<?php if(isset($this->generalMessage)): ?>
-						<div title="Clicca per nascondere" class="messaggio error"><?php echo $this->generalMessage; ?></div>
-					<?php endif; ?>
-					<?php if($this->message->show): ?>
-						<?php switch($this->message->level):
-							 case 0: ?>
-							<div class="messaggio success"><?php echo $this->message->text; ?></div>
-							<?php break; case 1: ?>
-							<div class="messaggio warning"><?php echo $this->message->text; ?></div>
-							<?php break; case 2: ?>
-							<div class="messaggio error"><?php echo $this->message->text; ?></div>
-							<?php endswitch; ?>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-				<div id="<?php echo $this->p; ?>">
-					<?php echo $this->content; ?>
-				</div>
+			<?php require_once(TPLDIR . "message.tpl.php"); ?>
+			<div id="<?php echo $this->p; ?>">
+				<?php echo $this->content; ?>
+			</div>
 		</section>
 		<footer>
 			<?php echo $this->footer; ?>
@@ -77,11 +60,11 @@
 					<span>Menu</span>
 				</div>
 				<?php endif; ?>
-				<?php if(isset($this->quickLinks->prec) && $this->quickLinks->prec != FALSE): ?>
-					<a class="back" href="<?php echo $this->quickLinks->prec->href; ?>" title="<?php echo $this->quickLinks->prec->title; ?>">&nbsp;</a>
+				<?php if($this->quickLinks->prev != FALSE): ?>
+					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>">&nbsp;</a>
 				<?php endif; ?>
-				<?php if(isset($this->quickLinks->succ) && $this->quickLinks->succ != FALSE): ?>
-					<a class="next" href="<?php echo $this->quickLinks->succ->href; ?>" title="<?php echo $this->quickLinks->succ->title; ?>">&nbsp;</a>
+				<?php if($this->quickLinks->next != FALSE): ?>
+					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>">&nbsp;</a>
 				<?php endif; ?>
 			</div>
 		</div>

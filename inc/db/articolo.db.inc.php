@@ -39,7 +39,7 @@ class Articolo extends ArticoloTable
 		FirePHP::getInstance()->log($q);
 		$values = FALSE;
 		while($row = mysql_fetch_object($exe))
-			$values[] = $row->idGiornata;
+			$values[$row->idGiornata] = $row->idGiornata;
 		return $values;
 	}
 	

@@ -49,8 +49,24 @@ array_multisort($sort_arr['order'] , SORT_ASC , $appo);
 			</li>
 	<?php endforeach; ?>
 </ul>
-<?php if($_SESSION['logged']): ?>
-<div id="account">
+<div id="rightNavbar">
+	<?php if(count($this->leghe) > 1): ?>
+		<?php $appo = $_GET; unset($appo['p']); ?>
+		<form class="entry" action="<?php echo Links::getLink($this->p,$appo); ?>" method="post">
+			<fieldset>
+				<label class="lega" for="legaView">Lega:</label>
+				<select id="legaView" onchange="this.form.submit();" name="legaView">
+					<?php foreach($this->leghe as $key=>$value): ?>
+						<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</fieldset>
+		</form>
+	<?php endif; ?>
+	<?php if($_SESSION['logged']): ?>
+		<div id="account" class="entry">
 
+		</div>
+	<?php endif; ?>
+	<?php require_once(TPLDIR . "login.tpl.php") ?>
 </div>
-<?php endif; ?>

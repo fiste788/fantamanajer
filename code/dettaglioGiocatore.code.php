@@ -14,7 +14,9 @@ if(isset($_POST['edit']))
 	$filterEdit = $_POST['edit'];
 
 //$dettaglio = GiocatoreStatistiche::getById($filterId);
-$dettaglio = Giocatore::getGiocatoreByIdWithStats($filterId,$_SESSION['legaView']);
+if($dettaglio = Giocatore::getGiocatoreByIdWithStats($request->get('id'),$_SESSION['legaView']) === FALSE)
+	Request::send404();
+
 $pathFoto = PLAYERSDIR . $dettaglio['dettaglio']->id . '.jpg';
 $pathClub = CLUBSURL . $dettaglio['dettaglio']->idClub . '.png';
 if(!file_exists($pathFoto))
@@ -29,7 +31,7 @@ if($_SESSION['logged'] == TRUE)
 		$squadra = $dettaglio['dettaglio']->idUtente;
 		$elencoGiocatori = GiocatoreStatistiche::getByField('idUtente',$squadra);
 		$contentTpl->assign('idUtente',$squadra);
-		$dettaglioSquadra= Utente::getSquadraById($squadra);
+		$dettaglioSquadra= Utente::getById($squadra);
 		$operationTpl->assign('label',$dettaglioSquadra->nome);
 		$contentTpl->assign('label',$dettaglioSquadra->nome);
 	}
@@ -37,8 +39,8 @@ if($_SESSION['logged'] == TRUE)
 	{
 		$ruolo = $dettaglio['dettaglio']->ruolo;
 		$elencoGiocatori = Giocatore::getFreePlayer($ruolo,$_SESSION['datiLega']->idLega);
-		$operationTpl->assign('label',Ruolo::$ruolo['plurale'] . " liberi");
-		$contentTpl->assign('label',Ruolo::$ruolo['plurale'] . " liberi");
+		$operationTpl->assign('label',$ruoli[$ruolo]->plurale . " liberi");
+		$contentTpl->assign('label',$ruoli[$ruolo]->plurale . " liberi");
 	}
 
 }
@@ -49,7 +51,8 @@ else			// carico giocatori del club
 	$operationTpl->assign('label',$club);
 	$contentTpl->assign('label',$club);
 }
-$keys = array_keys($elencoGiocatori);
+$quickLinks->set('id',$elencoGiocatori,"");
+/*$keys = array_keys($elencoGiocatori);
 
 if(isset($keys[array_search($filterId,$keys) - 1]))
 {
@@ -72,7 +75,7 @@ else
 {
 	$idSucc = FALSE;
 	$quickLinks->succ = FALSE;
-}
+}*/
 $contentTpl->assign('dettaglioGioc',$dettaglio);
 $contentTpl->assign('pathFoto',$pathFoto);
 $contentTpl->assign('pathClub',$pathClub);

@@ -1,12 +1,8 @@
 <?php
-class Punteggio extends DbTable
+require_once(TABLEDIR . 'Punteggio.table.db.inc.php');
+
+class Punteggio extends PunteggioTable
 {
-	var $punteggio;
-	var $penalità;
-	var $idGiornata;
-	var $idUtente;
-	var $idLega;
-	
 	public static function checkPunteggi($giornata)
 	{
 		$q = "SELECT * 
@@ -69,25 +65,25 @@ class Punteggio extends DbTable
 	
 	public static function getClassificaByGiornata($idLega,$idGiornata)
 	{
-		$q = "SELECT utente.id, nome, punteggio.*, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = utente.id) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
-				FROM (punteggio INNER JOIN utente ON punteggio.idUtente = utente.id) LEFT JOIN view_2_giornatevinte ON punteggio.idUtente = view_2_giornatevinte.idUtente
+		$q = "SELECT punteggio.*, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = punteggio.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
+				FROM punteggio LEFT JOIN view_2_giornatevinte ON punteggio.idUtente = view_2_giornatevinte.idUtente
 				WHERE punteggio.idGiornata <= '" . $idGiornata . "' AND punteggio.idLega = '" . $idLega . "'
-				GROUP BY utente.id
+				GROUP BY punteggio.idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$classifica = NULL;
 		while ($row = mysql_fetch_object($exe,__CLASS__))
-			$classifica[$row->id] = $row;
+			$classifica[$row->idUtente] = $row;
 		return $classifica;
 	}
 	
 	public static function getAllPunteggiByGiornata($giornata,$idLega)
 	{
-		$q = "SELECT utente.idUtente, idGiornata, nome, punteggio
-				FROM punteggio RIGHT JOIN utente ON punteggio.idUtente = utente.idUtente 
-				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND utente.idLega = '" . $idLega . "'
-				ORDER BY idGiornata";
+		$q = "SELECT *
+				FROM punteggio 
+				WHERE (idGiornata <= " . $giornata . " OR idGiornata IS NULL) AND idLega = '" . $idLega . "'
+				ORDER BY idGiornata DESC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$i = 0;
 		FirePHP::getInstance()->log($q);
@@ -99,6 +95,7 @@ class Punteggio extends DbTable
 				$classifica[$row->idUtente][$row->idGiornata] = $row->punteggio;
 		}
 		$somme = self::getClassificaByGiornata($idLega,$giornata);
+		FirePHP::getInstance()->log($somme);
 		if(isset($somme))
 		{
 			foreach($somme as $key=>$val)
@@ -108,7 +105,7 @@ class Punteggio extends DbTable
 		{
 			require_once(INCDIR . 'utente.db.inc.php');
 			$utenteObj = new utente();
-			
+
 			$squadre = $utenteObj->getElencoSquadreByLega($idLega);
 			foreach($squadre as $key => $val)
 				$somme[$key][0] = 0;
@@ -285,21 +282,7 @@ class Punteggio extends DbTable
 		return $values;
 	}
 	
-	public static function setPenalità($punti,$motivo,$idGiornata,$idUtente,$idLega)
-	{
-		if($punti > 0) {
-			if(self::getPenalitàBySquadraAndGiornata($idUtente,$idGiornata) != FALSE)
-				$q = "UPDATE punteggio SET punteggio = '" . (-$punti) . "', penalità = '" . $motivo . "'
-						WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "' AND punteggio < 0"; 
-			else
-				$q = "INSERT INTO punteggio (punteggio,penalità,idGiornata,idUtente,idLega) 
-						VALUES('" . (-$punti) . "','" . $motivo . "','" . $idGiornata . "','" . $idUtente . "','" . $idLega . "')";
-			FirePHP::getInstance()->log($q);
-			return mysql_query($q) or self::sqlError($q);
-		}
-		else
-			return TRUE;
-	}
+
 	
 	public static function unsetPenalità($idUtente,$idGiornata)
 	{
@@ -313,11 +296,6 @@ class Punteggio extends DbTable
 		$q = "DELETE FROM punteggio
 				WHERE punteggio > 0 AND idUtente = '" . $idUtente . "' AND idGiornata = '" . $idGiornata . "'";
 		return  mysql_query($q) or self::sqlError($q);
-	}
-	
-// da rimuovere
-	public function __toString() {
-		return $this->punteggio;
 	}
 }
 ?>

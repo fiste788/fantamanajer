@@ -42,7 +42,7 @@ input.text:focus, input.title:focus,
 textarea:focus {
   border-color:#666;
 }
-select { background-color:#fff; border-width:1px; border-style:solid; }
+/*select { background-color:#fff; border-width:1px; border-style:solid; }*/*
 
 input[type=text], input[type=password], input[type=url], input[type=email],
 input.text, input.title,

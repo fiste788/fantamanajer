@@ -21,6 +21,7 @@ require('config/pages.inc.php');
 require(INCDIR . 'request.inc.php');
 require(INCDIR . 'Savant.inc.php');
 require(INCDIR . 'links.inc.php');
+require(INCDIR . 'quickLinks.inc.php');
 require(INCDIR . 'message.inc.php');
 require(INCDIR . 'logger.inc.php');
 require(INCDIR . 'ruolo.inc.php');
@@ -35,7 +36,7 @@ $dbConnection = new db();
 $message = new message();
 $logger = new logger();
 $request = new Request();
-$quickLinks = NULL;
+$quickLinks = new QuickLinks($request);
 
 $ruoli = array();
 $ruoli['P'] = new Ruolo("Portiere","Portieri","POR");
@@ -121,6 +122,8 @@ define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
 $leghe = Lega::getList();
 $layoutTpl->assign('leghe',$leghe);
+$contentTpl->assign('leghe',$leghe);
+$navbarTpl->assign('leghe',$leghe);
 if(!isset($_SESSION['legaView']))
 	$_SESSION['legaView'] = $leghe[1]->id;
 if(isset($_POST['legaView']))
@@ -132,15 +135,8 @@ if(isset($_POST['legaView']))
  *
  */
 if(!isset($pages[$p])) 
-{
-	$message->error("La pagina " . $p . " non esiste. Sei stato mandato alla home");
-	$p = 'home';
-}
-/*elseif($pages[$p]['roles'] > $_SESSION['roles'])
-{
-	$message->error("Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home");
-	$p = 'home';
-}*/
+	Request::send404();
+
 if(isset($_SESSION['message']))
 {
 	$message = $_SESSION['message'];	

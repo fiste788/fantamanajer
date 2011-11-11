@@ -9,7 +9,7 @@ $penalità = Punteggio::getPenalitàBySquadraAndGiornata($request->get('squadra'
 
 if($penalità != FALSE)
 	$contentTpl->assign('penalità',$penalità);
-if($request->get('squadra') != NULL && $request->get('giornata') != NULL && $request->get('squadra') > 0 && $giornata > 0 && $request->get('giornata') <= $giornate)
+if($request->has('squadra') && $request->has('giornata') && $request->get('squadra') > 0 && $giornata > 0 && $request->get('giornata') <= $giornate)
 {
 	if(Formazione::getFormazioneBySquadraAndGiornata($request->get('squadra'),$request->get('giornata')) != FALSE)
 	{
@@ -19,15 +19,7 @@ if($request->get('squadra') != NULL && $request->get('giornata') != NULL && $req
 		$contentTpl->assign('titolari',$titolari);
 		$contentTpl->assign('panchinari',$formazione);
 	}
-	else
-	{
-		$contentTpl->assign('tirolari',FALSE);
-		$contentTpl->assign('panchinari',FALSE);
-		$contentTpl->assign('somma',0);
-	}
 }
-else
-	$contentTpl->assign('titolari',NULL);
 
 if($request->get('giornata') -1 > 0)
 {
@@ -51,7 +43,7 @@ else
 	$idSucc = FALSE;
 	$quickLinks->succ = FALSE;
 }
-	
+
 $contentTpl->assign('squadraDett',Utente::getById($request->get('squadra')));
 $operationTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
 $operationTpl->assign('penalità',$penalità);

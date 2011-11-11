@@ -5,10 +5,11 @@ class Utente extends UtenteTable
 {
 	public static function login($username, $password)
 	{
-		$q = "SELECT username, password FROM utente WHERE username LIKE '" . $username . "';";
+		$q = "SELECT * FROM utente WHERE username LIKE '" . $username . "'
+				AND password = '" . md5($password) . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		$valore  = mysql_fetch_assoc($exe);
-		if($valore['password'] == md5($password))
+		FirePHP::getInstance()->log($q);
+		if(mysql_num_rows($exe) == 1)
 			return TRUE;
 		else
 			return FALSE;
@@ -18,85 +19,6 @@ class Utente extends UtenteTable
 	{
 		foreach($_SESSION as $key => $val)
 			unset($_SESSION[$key]);
-	}
-	
-	/*
-	public static function getElencoSquadre()
-	{		
-		$q = "SELECT utente.*,giornateVinte 
-				FROM utente LEFT JOIN giornatevinte on utente.id = giornatevinte.idUtente
-				WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->id] = $row;
-		return $values; 
-	}
-	
-	public static function getAllSquadre()
-	{		
-		$q = "SELECT * 
-				FROM utente";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->id] = $row;
-		return $values; 
-	}
-
-	public static function getElencoSquadreByLega($idLega)
-	{		
-		$q = "SELECT utente.*,giornateVinte 
-				FROM utente LEFT JOIN giornatevinte on utente.id = giornatevinte.idUtente
-				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__))
-			$values[$row->id] = $row;
-		if(isset($values))
-			return $values;
-		else
-			return FALSE; 
-	}
-	
-	public static function getElencoSquadreByLegaOptions($idLega)
-	{		
-		$q = "SELECT id,nome
-				FROM utente 
-				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__))
-			$values[$row->id] = $row->nome;
-		if(isset($values))
-			return $values;
-		else
-			return FALSE; 
-	}
-
-	public static function getSquadraById($idUtente)
-	{		
-		$q = "SELECT * 
-				FROM squadrastatistiche 
-				WHERE idUtente = '" . $idUtente . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		return mysql_fetch_object($exe,__CLASS__); 
-	}
-	*/
-	public static function changeData($nomeSquadra,$nome,$cognome,$email,$abilitaMail,$password,$amministratore,$idUtente)
-	{
-		$q = "UPDATE utente SET nome = '" . $nomeSquadra . "', 
-				cognome = '" . $cognome . "', 
-				nomeProp = '" . $nome . "', 
-				mail = '" . $email . "', 
-				abilitaMail = '" . $abilitaMail . "', 
-				amministratore = '" . $amministratore . "'";
-		if(!empty($password))
-			$q .= ", password = '" . md5($password) . "'";
-		$q .= " WHERE id = '" . $idUtente . "'";
-		FirePHP::getInstance()->log($q);
-		return mysql_query($q) or self::sqlError($q);
 	}
 	
 	public static function getAllEmail()
@@ -178,6 +100,7 @@ class Utente extends UtenteTable
 			return TRUE;
 	}
 	
+	/*
 	public static function getLegaByIdSquadra($idUtente)
 	{
 		$q = "SELECT idLega 
@@ -189,7 +112,7 @@ class Utente extends UtenteTable
 		while ($row = mysql_fetch_object($exe,__CLASS__) )
 			$val = $row->idLega;
 		return $val;
-	}
+	}*/
 	
 	public static function getSquadraByUsername($username,$idUtente)
 	{
