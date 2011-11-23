@@ -1,4 +1,6 @@
 <?php
+require_once(TABLEDIR . 'dbTable.inc.php');
+
 class GiocatoreTable extends DbTable
 {
     const TABLE_NAME = "giocatore";
@@ -150,12 +152,23 @@ class GiocatoreTable extends DbTable
 	 */
 	public function getClub()
 	{
-	    require_once(INCDIR . 'club.db.inc.php');
+	    require_once(INCDBDIR . 'club.db.inc.php');
 	    if(empty($this->club))
 			$this->club = Club::getById($this->getIdClub());
 		return $this->club;
 	}
 	
+    /**
+	 * Getter: voto()
+	 * @return Voto
+	 */
+	public function getVoti()
+	{
+	    require_once(INCDBDIR . 'voto.db.inc.php');
+	    if(empty($this->voti))
+			$this->voti = Voto::getByField('idGiocatore',$this->getId());
+		return $this->voti;
+	}
 
 	public function __toString() {
 		return $this->getCognome() . " " . $this->getNome();

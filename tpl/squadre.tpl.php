@@ -7,7 +7,7 @@
 	<?php else: ?>
 		<img height="93" width="124" class="logo column last" alt="<?php echo $val->id; ?>" src="<?php echo IMGSURL . 'no-foto.png'; ?>" title="<?php echo $val->nomeSquadra; ?>" />
 	<?php endif; ?>
-		<h3><a href="<?php echo Links::getLink('dettaglioSquadra',array('id'=>$val->id)); ?>" title="Maggiori informazioni"><?php echo $val->nomeSquadra; ?></a></h3>
+		<h3><a href="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$val->id)); ?>" title="Maggiori informazioni"><?php echo $val->nomeSquadra; ?></a></h3>
 		<div class="column data">
 			<div>Proprietario: <?php echo $val->username; ?></div>
 			<?php if(!empty($this->posizioni)): ?>

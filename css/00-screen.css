@@ -1,5 +1,5 @@
 body {
-	font-family: "Droid Sans",Arial,sans-serif;
+	/*font-family: "Droid Sans",Arial,sans-serif;*/
 	text-align: left;
 	display: block;
 	-webkit-text-size-adjust: none;
@@ -9,9 +9,11 @@ fieldset {
 	border:0 none;
 	padding:10px;
 }
+h1,h2,h3,h4,h5,h6 {
+	margin-top:0;
+}
 h1 a,h2 a,h3 a,h4 a {
 	font-weight:normal !important;
-	font-family:"Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 h1 a {
 	font-size:22px;
@@ -47,4 +49,7 @@ input,textarea,select {
 	font-size:13px !important;
 	line-height: 13px !important;
 	padding:4px !important;
+}
+.hidden{
+	display:none;
 }

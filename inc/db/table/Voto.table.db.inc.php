@@ -1,6 +1,10 @@
 <?php
+require_once(TABLEDIR . 'dbTable.inc.php');
+
 class VotoTable extends DbTable
 {
+    const TABLE_NAME = "voto";
+    var $id;
     var $idGiocatore;
 	var $idGiornata;
 	var $valutato;
@@ -19,334 +23,418 @@ class VotoTable extends DbTable
 	var $titolare;
 	var $quotazione;
 	
+    function __construct() {
+        $this->id = $this->getId();
+        $this->idGiocatore = $this->getIdGiocatore();
+        $this->idGiornata = $this->getIdGiornata();
+        $this->valutato = $this->getValutato();
+        $this->punti = $this->getPunti();
+        $this->voto = $this->getVoto();
+        $this->gol = $this->getGol();
+        $this->golSubiti = $this->getGolSubiti();
+        $this->golVittoria = $this->getGolVittoria();
+        $this->golPareggio = $this->getGolPareggio();
+        $this->assist = $this->getAssist();
+        $this->ammonizioni = $this->getAmmonizioni();
+        $this->espulsioni = $this->getEspulsioni();
+        $this->rigoriSegnati = $this->getRigoriSegnati();
+        $this->rigoriSubiti = $this->getRigoriSubiti();
+        $this->presenza = $this->getPresenza();
+        $this->titolare = $this->getTitolare();
+        $this->quotazione = $this->getQuotazione();
+    }
 
+    public function __toString() {
+		return $this->getId();
+	}
+
+
+    /**
+	 * Setter: id
+	 * @param Int $id
+	 * @return void
+	 */
+	public function setId( $id )
+	{
+		$this->id = (int) $id;
+	}
 
 	/**
 	 * Setter: idGiocatore
-	 * @param String $idGiocatore
+	 * @param Int $idGiocatore
 	 * @return void
 	 */
 	public function setIdGiocatore( $idGiocatore )
 	{
-		$this->idGiocatore = $idGiocatore;
+		$this->idGiocatore = (int) $idGiocatore;
 	}
 
 	/**
 	 * Setter: idGiornata
-	 * @param String $idGiornata
+	 * @param Int $idGiornata
 	 * @return void
 	 */
 	public function setIdGiornata( $idGiornata )
 	{
-		$this->idGiornata = $idGiornata;
+		$this->idGiornata = (int) $idGiornata;
 	}
 
 	/**
 	 * Setter: valutato
-	 * @param String $valutato
+	 * @param Boolean $valutato
 	 * @return void
 	 */
 	public function setValutato( $valutato )
 	{
-		$this->valutato = $valutato;
+		$this->valutato = (boolean) $valutato;
 	}
 
 	/**
 	 * Setter: punti
-	 * @param String $punti
+	 * @param Float $punti
 	 * @return void
 	 */
 	public function setPunti( $punti )
 	{
-		$this->punti = $punti;
+		$this->punti = (float) $punti;
 	}
 
 	/**
 	 * Setter: voto
-	 * @param String $voto
+	 * @param Float $voto
 	 * @return void
 	 */
 	public function setVoto( $voto )
 	{
-		$this->voto = $voto;
+		$this->voto = (float) $voto;
 	}
 
 	/**
 	 * Setter: gol
-	 * @param String $gol
+	 * @param Int $gol
 	 * @return void
 	 */
 	public function setGol( $gol )
 	{
-		$this->gol = $gol;
+		$this->gol = (int) $gol;
 	}
 
 	/**
 	 * Setter: golSubiti
-	 * @param String $golSubiti
+	 * @param Int $golSubiti
 	 * @return void
 	 */
 	public function setGolSubiti( $golSubiti )
 	{
-		$this->golSubiti = $golSubiti;
+		$this->golSubiti = (int) $golSubiti;
 	}
 
 	/**
 	 * Setter: golVittoria
-	 * @param String $golVittoria
+	 * @param Int $golVittoria
 	 * @return void
 	 */
 	public function setGolVittoria( $golVittoria )
 	{
-		$this->golVittoria = $golVittoria;
+		$this->golVittoria = (int) $golVittoria;
 	}
 
 	/**
 	 * Setter: golPareggio
-	 * @param String $golPareggio
+	 * @param Int $golPareggio
 	 * @return void
 	 */
 	public function setGolPareggio( $golPareggio )
 	{
-		$this->golPareggio = $golPareggio;
+		$this->golPareggio = (int) $golPareggio;
 	}
 
 	/**
 	 * Setter: assist
-	 * @param String $assist
+	 * @param Int $assist
 	 * @return void
 	 */
 	public function setAssist( $assist )
 	{
-		$this->assist = $assist;
+		$this->assist = (int) $assist;
 	}
 
 	/**
 	 * Setter: ammonizioni
-	 * @param String $ammonizioni
+	 * @param Int $ammonizioni
 	 * @return void
 	 */
 	public function setAmmonizioni( $ammonizioni )
 	{
-		$this->ammonizioni = $ammonizioni;
+		$this->ammonizioni = (int) $ammonizioni;
 	}
 
 	/**
 	 * Setter: espulsioni
-	 * @param String $espulsioni
+	 * @param Int $espulsioni
 	 * @return void
 	 */
 	public function setEspulsioni( $espulsioni )
 	{
-		$this->espulsioni = $espulsioni;
+		$this->espulsioni = (int) $espulsioni;
 	}
 
 	/**
 	 * Setter: rigoriSegnati
-	 * @param String $rigoriSegnati
+	 * @param Int $rigoriSegnati
 	 * @return void
 	 */
 	public function setRigoriSegnati( $rigoriSegnati )
 	{
-		$this->rigoriSegnati = $rigoriSegnati;
+		$this->rigoriSegnati = (int) $rigoriSegnati;
 	}
 
 	/**
 	 * Setter: rigoriSubiti
-	 * @param String $rigoriSubiti
+	 * @param Int $rigoriSubiti
 	 * @return void
 	 */
 	public function setRigoriSubiti( $rigoriSubiti )
 	{
-		$this->rigoriSubiti = $rigoriSubiti;
+		$this->rigoriSubiti = (int) $rigoriSubiti;
 	}
 
 	/**
 	 * Setter: presenza
-	 * @param String $presenza
+	 * @param Boolean $presenza
 	 * @return void
 	 */
 	public function setPresenza( $presenza )
 	{
-		$this->presenza = $presenza;
+		$this->presenza = (boolean) $presenza;
 	}
 
 	/**
 	 * Setter: titolare
-	 * @param String $titolare
+	 * @param Boolean $titolare
 	 * @return void
 	 */
 	public function setTitolare( $titolare )
 	{
-		$this->titolare = $titolare;
+		$this->titolare = (boolean) $titolare;
 	}
 
 	/**
 	 * Setter: quotazione
-	 * @param String $quotazione
+	 * @param Int $quotazione
 	 * @return void
 	 */
 	public function setQuotazione( $quotazione )
 	{
-		$this->quotazione = $quotazione;
+		$this->quotazione = (int) $quotazione;
+	}
+
+    /**
+	 * Setter: giocatore
+	 * @param Giocatore $giocatore
+	 * @return void
+	 */
+	public function setGiocatore( $giocatore )
+	{
+	    $this->giocatore = $giocatore;
+		$this->idGiocatore = $giocatore->getId();
+	}
+
+    /**
+	 * Setter: giornata
+	 * @param Giornata $giornata
+	 * @return void
+	 */
+	public function setGiornata( $giornata )
+	{
+	    $this->giornata = $giornata;
+		$this->idGiornata = $giornata->getId();
+	}
+
+    /**
+	 * Getter: id
+	 * @return Int
+	 */
+	public function getId()
+	{
+	 	return (int) $this->id;
 	}
 
 	/**
 	 * Getter: idGiocatore
-	 * @return String
+	 * @return Int
 	 */
 	public function getIdGiocatore()
 	{
-	 	return $this->idGiocatore;
+	 	return (int) $this->idGiocatore;
 	}
 
 	/**
 	 * Getter: idGiornata
-	 * @return String
+	 * @return Int
 	 */
 	public function getIdGiornata()
 	{
-	 	return $this->idGiornata;
+	 	return (int) $this->idGiornata;
 	}
 
 	/**
 	 * Getter: valutato
-	 * @return String
+	 * @return Boolean
 	 */
 	public function getValutato()
 	{
-	 	return $this->valutato;
+	 	return (boolean) $this->valutato;
 	}
 
 	/**
 	 * Getter: punti
-	 * @return String
+	 * @return Float
 	 */
 	public function getPunti()
 	{
-	 	return $this->punti;
+	 	return (float) $this->punti;
 	}
 
 	/**
 	 * Getter: voto
-	 * @return String
+	 * @return Float
 	 */
 	public function getVoto()
 	{
-	 	return $this->voto;
+	 	return (float) $this->voto;
 	}
 
 	/**
 	 * Getter: gol
-	 * @return String
+	 * @return Int
 	 */
 	public function getGol()
 	{
-	 	return $this->gol;
+	 	return (int) $this->gol;
 	}
 
 	/**
 	 * Getter: golSubiti
-	 * @return String
+	 * @return Int
 	 */
 	public function getGolSubiti()
 	{
-	 	return $this->golSubiti;
+	 	return (int) $this->golSubiti;
 	}
 
 	/**
 	 * Getter: golVittoria
-	 * @return String
+	 * @return Int
 	 */
 	public function getGolVittoria()
 	{
-	 	return $this->golVittoria;
+	 	return (int) $this->golVittoria;
 	}
 
 	/**
 	 * Getter: golPareggio
-	 * @return String
+	 * @return Int
 	 */
 	public function getGolPareggio()
 	{
-	 	return $this->golPareggio;
+	 	return (int) $this->golPareggio;
 	}
 
 	/**
 	 * Getter: assist
-	 * @return String
+	 * @return Int
 	 */
 	public function getAssist()
 	{
-	 	return $this->assist;
+	 	return (int) $this->assist;
 	}
 
 	/**
 	 * Getter: ammonizioni
-	 * @return String
+	 * @return Int
 	 */
 	public function getAmmonizioni()
 	{
-	 	return $this->ammonizioni;
+	 	return (int) $this->ammonizioni;
 	}
 
 	/**
 	 * Getter: espulsioni
-	 * @return String
+	 * @return Int
 	 */
 	public function getEspulsioni()
 	{
-	 	return $this->espulsioni;
+	 	return (int) $this->espulsioni;
 	}
 
 	/**
 	 * Getter: rigoriSegnati
-	 * @return String
+	 * @return Int
 	 */
 	public function getRigoriSegnati()
 	{
-	 	return $this->rigoriSegnati;
+	 	return (int) $this->rigoriSegnati;
 	}
 
 	/**
 	 * Getter: rigoriSubiti
-	 * @return String
+	 * @return Int
 	 */
 	public function getRigoriSubiti()
 	{
-	 	return $this->rigoriSubiti;
+	 	return (int) $this->rigoriSubiti;
 	}
 
 	/**
 	 * Getter: presenza
-	 * @return String
+	 * @return Boolean
 	 */
 	public function getPresenza()
 	{
-	 	return $this->presenza;
+	 	return (boolean) $this->presenza;
 	}
 
 	/**
 	 * Getter: titolare
-	 * @return String
+	 * @return Boolean
 	 */
 	public function getTitolare()
 	{
-	 	return $this->titolare;
+	 	return (boolean) $this->titolare;
 	}
 
 	/**
 	 * Getter: quotazione
-	 * @return String
+	 * @return Int
 	 */
 	public function getQuotazione()
 	{
-	 	return $this->quotazione;
+	 	return (int) $this->quotazione;
 	}
 
-	public function __toString() {
-		return $this->getId();
+    /**
+	 * Getter: id
+	 * @return Giocatore
+	 */
+	public function getGiocatore()
+	{
+	    require_once(INCDBDIR . 'GiocatoreStatisticheTable.db.inc.php');
+	    if(empty($this->giocatore))
+			$this->giocatore = GiocatoreStatistiche::getByField('id',$this->getIdGiocatore());
+		return $this->giocatore;
 	}
 
+    /**
+	 * Getter: Giornata
+	 * @return Giornata
+	 */
+	public function getGiornata()
+	{
+	    require_once(INCDBDIR . 'giornata.db.inc.php');
+	    if(empty($this->giornata))
+			$this->giornata = Giornata::getById($this->getIdGiornata());
+		return $this->giornata;
+	}
 }
 ?>

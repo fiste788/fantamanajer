@@ -58,6 +58,7 @@ abstract class DbTable
 				FROM " . $c::TABLE_NAME . "
 				WHERE " . $key . " = " . $value;
 		$exe = mysql_query($q) or self::sqlError($q);
+        FirePHP::getInstance()->log($q);
 		$count = mysql_num_rows($exe);
 		if($count == 0)
 		    return NULL;
@@ -138,10 +139,12 @@ abstract class DbTable
 	public function fromArray($array,$raw = FALSE) {
 		$vars = get_object_vars($this);
 		foreach($array as $key=>$value)
-		    if(!$raw && isset($vars[$key]) && method_exists($this,$methodName = 'set' . ucfirst($vars[$key])))
-				$this->$methodName($value);
-    		elseif(isset($vars[$key]))
-		    	$this->$key = $value;
+            if(isset($vars[$key]) && !empty($vars[$key])) {
+                if(!$raw && method_exists($this,$methodName = 'set' . ucfirst($vars[$key])))
+				    $this->$methodName($value);
+                else
+                    $this->$key = $value;
+            }
 	}
 
 	//deve diventare abstract

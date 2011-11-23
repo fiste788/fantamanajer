@@ -1,6 +1,6 @@
 <form class="column last" action="<?php echo Links::getLink('conferenzeStampa'); ?>" method="post">
 	<fieldset class="no-margin fieldset">
-		<h3 class="no-margin">Seleziona la giornata:</h3>
+		<label for="giornata" class="no-margin">Seleziona la giornata:</label>
 		<select name="giornata" onchange="this.form.submit();">
 		<?php if($this->giornateWithArticoli != FALSE): ?>
 			<?php foreach ($this->giornateWithArticoli as $key => $val): ?>

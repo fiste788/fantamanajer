@@ -6,7 +6,7 @@ class Utente extends UtenteTable
 	public static function login($username, $password)
 	{
 		$q = "SELECT * FROM utente WHERE username LIKE '" . $username . "'
-				AND password = '" . md5($password) . "'";
+				AND password = '" . $password . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		if(mysql_num_rows($exe) == 1)
@@ -17,8 +17,7 @@ class Utente extends UtenteTable
 	
 	public static function logout()
 	{
-		foreach($_SESSION as $key => $val)
-			unset($_SESSION[$key]);
+		session_unset();
 	}
 	
 	public static function getAllEmail()
@@ -67,54 +66,8 @@ class Utente extends UtenteTable
 			$values[$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
 		return $values; 
 	}
-	
-	public static function addSquadra($username,$nomeSquadra,$nome,$cognome,$admin,$password,$email,$idLega)
-	{
-		require_once(INCDIR . 'punteggio.db.inc.php');
 
-		$q = "INSERT INTO utente (nome,username,nomeProp,cognome,password,mail,amministratore,idLega) 
-				VALUES ('" . $nomeSquadra . "','" . $username . "','" . $nome . "','" . $cognome . "','" . md5($password) . "','" . $email . "','" . $admin . "','" . $idLega . "')";
-		mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		$q = "SELECT id
-				FROM utente 
-				WHERE nome = '" . $nomeSquadra . "' AND username = '" . $username . "' AND mail = '" . $email . "' AND amministratore = '" . $admin . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$val = $row->id;
-		Punteggio::setPunteggiToZero($val,$idLega);
-		return $val;
-	}
-	
-	public static function deleteSquadra($idUtente)
-	{
-		$q = "DELETE 
-				FROM utente 
-				WHERE id = '" . $idUtente . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		if(mysql_affected_rows() == 0)
-			return FALSE;
-		else
-			return TRUE;
-	}
-	
-	/*
-	public static function getLegaByIdSquadra($idUtente)
-	{
-		$q = "SELECT idLega 
-				FROM utente 
-				WHERE id = '" . $idUtente . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		$val = -1;
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$val = $row->idLega;
-		return $val;
-	}*/
-	
-	public static function getSquadraByUsername($username,$idUtente)
+    public static function getSquadraByUsername($username,$idUtente)
 	{
 		$q = "SELECT * 
 				FROM utente 

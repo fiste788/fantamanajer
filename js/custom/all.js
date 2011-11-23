@@ -1,5 +1,19 @@
 $(document).ready(function(){
-	$("#menu").css("top","-" + $("#menu").height() + "px");
+	var boxNotifiche = $('.boxNotifiche');
+	$('#notifiche').click(function (event) {
+		if(!boxNotifiche.is(':visible'))
+			boxNotifiche.show();
+		else
+			boxNotifiche.hide();
+		event.stopPropagation();
+	});
+	$('body').click(function(event) {
+	    if (!$(event.target).closest('.boxNotifiche').length) {
+	        boxNotifiche.hide();
+	    };
+	});
+
+
 	//$("select, input, textarea").uniform();
 	$("#messaggioContainer").effect("pulsate", { times: 2 }, 1000, function(){
 		$(".messaggio").hover(function () {

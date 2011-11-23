@@ -23,11 +23,11 @@ require(INCDIR . 'Savant.inc.php');
 require(INCDIR . 'links.inc.php');
 require(INCDIR . 'quickLinks.inc.php');
 require(INCDIR . 'message.inc.php');
+require(INCDIR . 'notify.inc.php');
 require(INCDIR . 'logger.inc.php');
 require(INCDIR . 'ruolo.inc.php');
 require(INCDIR . 'FirePHPCore/FirePHP.class.php');
 require(INCDBDIR . 'db.inc.php');
-require(TABLEDIR . 'dbTable.inc.php');
 require(INCDBDIR . 'lega.db.inc.php');
 require(INCDBDIR . 'giornata.db.inc.php');
 
@@ -37,6 +37,7 @@ $message = new message();
 $logger = new logger();
 $request = new Request();
 $quickLinks = new QuickLinks($request);
+$notifiche = array();
 
 $ruoli = array();
 $ruoli['P'] = new Ruolo("Portiere","Portieri","POR");
@@ -70,48 +71,21 @@ $contentTpl = new MySavant3(array('template_path' => TPLDIR));
 $navbarTpl = new MySavant3(array('template_path' => TPLDIR));
 $operationTpl = new MySavant3(array('template_path' => OPERATIONTPLDIR));
 
-$session_name = 'fantamanajer';
-@session_name($session_name);
-
-if (!isset($_COOKIE[$session_name])) {
-	$r = session_start();
-	if ($r !== TRUE) {
-		setcookie($session_name, '', 1);
-		die('sessionError');
-	}
-}
-else
-	@session_start();
-
-//If no page have been required give the default page (home.php and home.tpl.php)
-$p = $request->has('p') ? $request->get('p') : 'home';
-
-define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
 $firePHP = FirePHP::getInstance(TRUE);
-$firePHP->setEnabled(DEBUG);
+$firePHP->setEnabled(LOCAL);
 $firePHP->registerErrorHandler(FALSE);
 
 ob_start();
 
-//Try login if POSTDATA exists
 require_once(CODEDIR . 'login.code.php');
 
-if(isset($_POST['username']) && $_SESSION['logged'])
-	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('id'=>$_SESSION['idUtente']))));
+define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
+$firePHP->setEnabled(DEBUG);
+$firePHP->log($_SESSION);
 
-//Setting up the default user data
-if (!isset($_SESSION['logged'])) {
-	$_SESSION['userid'] = 1000;
-	$_SESSION['roles'] = -1;
-	$_SESSION['usertype'] = 'guest';
-	$_SESSION['logged'] = FALSE;
-	$_SESSION['idUtente'] = FALSE;
-	$_SESSION['legaView'] = 1;
-}
-
-/**
- * SETTO NEL CONTENTTPL LA GIORNATA
- */
+$p = $request->has('p') ? $request->get('p') : '';
+if(empty($p) || !isset($pages[$p]))
+	Request::send404();
 
 $giornata = Giornata::getCurrentGiornata();
 
@@ -119,29 +93,23 @@ define("GIORNATA",$giornata['id']);
 define("PARTITEINCORSO",$giornata['partiteInCorso']);
 define("STAGIONEFINITA",$giornata['stagioneFinita']);
 
-
 $leghe = Lega::getList();
-$layoutTpl->assign('leghe',$leghe);
-$contentTpl->assign('leghe',$leghe);
-$navbarTpl->assign('leghe',$leghe);
-if(!isset($_SESSION['legaView']))
-	$_SESSION['legaView'] = $leghe[1]->id;
 if(isset($_POST['legaView']))
 	$_SESSION['legaView'] = $_POST['legaView'];
+
+if(isset($_SESSION['idLega']))
+	$_SESSION['datiLega'] = $leghe[$_SESSION['idLega']];
+
+if(isset($_SESSION['message'])) {
+	$message = $_SESSION['message'];
+	unset($_SESSION['message']);
+}
+
 /**
  * INIZIALIZZAZIONE VARIABILI CONTENT
  * Questo Switch discrimina tra i vari moduli di codice quello che deve
  * essere caricato per visualizzare la pagina corretta
- *
  */
-if(!isset($pages[$p])) 
-	Request::send404();
-
-if(isset($_SESSION['message']))
-{
-	$message = $_SESSION['message'];	
-	unset($_SESSION['message']);
-}
 
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
 if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
@@ -150,44 +118,25 @@ if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')
 	$firePHP->groupEnd();
 }
 
-$firePHP->group($p . '.code.php');
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
-if (file_exists(CODEDIR . $p . '.code.php'))
-	require(CODEDIR . $p . '.code.php');
-$firePHP->groupEnd();
-
-//definisce il file di template utilizzato per visualizzare questa pagina
-$tplfile = $p . '.tpl.php';
-
-$contentTpl->assign('request',$request);
-$contentTpl->assign('ruoli',$ruoli);
-$operationTpl->assign('request',$request);
-$layoutTpl->assign('message',$message);
-$layoutTpl->assign('quickLinks',$quickLinks);
-/**
- * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
- */
-$firePHP->group("Giocatori trasferiti");
-if ($_SESSION['logged'])
-{
-	require_once(INCDBDIR . 'giocatore.db.inc.php');
-	require_once(INCDBDIR . 'trasferimento.db.inc.php');
-
-	$_SESSION['datiLega'] = Lega::getById($_SESSION['idLega']);
-	//if(Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
-	//	$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+if (file_exists(CODEDIR . $p . '.code.php')) {
+    $firePHP->group($p . '.code.php');
+    require(CODEDIR . $p . '.code.php');
+    $firePHP->groupEnd();
 }
-$firePHP->groupEnd();
+
+require_once(CODEDIR . 'navbar.code.php');
 
 $headerTpl->assign('dataFine',date_parse(Giornata::getTargetCountdown()->format("Y-m-d H:i:s")));
-//ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
-$navbarTpl->assign('p',$p);
+$operationTpl->assign('request',$request);
+$contentTpl->assign('request',$request);
+$contentTpl->assign('ruoli',$ruoli);
+$navbarTpl->assign('request',$request);
+$navbarTpl->assign('notifiche',$notifiche);
 $navbarTpl->assign('pages',$pages);
-/**
- *
- * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
- *
- */
+$navbarTpl->assign('leghe',$leghe);
+$layoutTpl->assign('message',$message);
+$layoutTpl->assign('quickLinks',$quickLinks);
 $layoutTpl->assign('title',$pages[$p]['title']);
 $layoutTpl->assign('p',$p);
 $layoutTpl->assign('generalJs',$generalJs);
@@ -213,20 +162,19 @@ $header = $headerTpl->fetch('header.tpl.php');
  * PRODUZIONE FOOTER
  * il require include il file con il codice per il'footer, incluso il nome del file del file template
  */
-//$footertpl->assign('p',$p);
 $footer = $footerTpl->fetch('footer.tpl.php');
 
 /**
  * PRODUZIONE MENU
  * il require include il file con il codice per il menu, incluso il nome del file del file template
  */
-
-// $navbarTpl->assign('p',$p);
 $navbar = $navbarTpl->fetch('navbar.tpl.php');
 /**
  * PRODUZIONE CONTENT
  * Esegue la fetch del template per l'area content
  */
+
+$tplfile = $p . '.tpl.php';
 $content = $contentTpl->fetch($tplfile);
 $operation = "";
 if($_SESSION['logged'])
@@ -255,9 +203,6 @@ $layoutTpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 $result = $layoutTpl->display('layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
-if ($layoutTpl->isError($result)) {
-	echo "There was an error displaying the template. <pre>";
-	print_r($result,1);
-	echo "</pre>";
-}
+if ($layoutTpl->isError($result))
+	echo "There was an error displaying the template. <pre>" . print_r($result,1) . "</pre>";
 ?>

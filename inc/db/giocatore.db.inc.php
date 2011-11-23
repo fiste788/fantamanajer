@@ -110,21 +110,14 @@ class Giocatore extends GiocatoreTable
 	
 	public static function getGiocatoreByIdWithStats($idGioc,$idLega = NULL)
 	{
-		require_once(INCDBDIR . 'voto.db.inc.php');
-		
 		$q = "SELECT view_0_giocatoristatistiche.*,idLega
 				FROM (SELECT * 
 						FROM squadra 
-						WHERE idLega='" . $idLega . "') AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
+						WHERE idLega = '" . $idLega . "') AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
 				WHERE view_0_giocatoristatistiche.id = '" . $idGioc . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		$data = Voto::getAllVotoByIdGioc($idGioc);
 		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			$values['dettaglio'] = $row;
-		if(!empty($data))
-			$values['dettaglio']->data = $data;
-		return $values;
+		return mysql_fetch_object($exe,__CLASS__);
 	}
 	
 	public static function getVotiGiocatoriByGiornataAndSquadra($giornata,$idUtente)
@@ -336,53 +329,19 @@ class Giocatore extends GiocatoreTable
 		return $giocatoriByRuolo;
 	}
 	
-	public static function getGiocatoriTrasferiti($idUtente)
+	public static function getGiocatoriInattiviByIdUtente($idUtente)
 	{
 		$q = "SELECT giocatore.id, cognome, nome, ruolo
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "' AND status = 0";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
+        $giocatori = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giocatori[] = $row;
-		if(isset($giocatori))
-			return $giocatori;
-		else
-			return FALSE;
-	}
-	
-	public static function getAllGiocatori()
-	{
-		$q = "SELECT * 
-				FROM giocatore";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			$giocatori[] = $row;
+			$giocatori[$row->id] = $row;
 		return $giocatori;
 	}
-	
-	public static function aggiornaGiocatore($id,$cognome,$nome)
-	{
-		$q = "UPDATE giocatore
-				SET cognome = '" . $cognome . "', nome = '" . $nome . "'
-				WHERE id = '" . $id . "'";
-		FirePHP::getInstance()->log($q);
-		return mysql_query($q) or self::sqlError($q);
-	}
-	
-	public static function checkOutLista($idGioc)
-	{
-		$q = "SELECT club
-				FROM giocatore
-				WHERE id = '" . $idGioc . "' AND status = 0";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			return TRUE;
-		return FALSE;
-	}
-	
+
 	public static function getBestPlayerByGiornataAndRuolo($idGiornata,$ruolo)
 	{
 		$values = FALSE;
@@ -400,7 +359,7 @@ class Giocatore extends GiocatoreTable
 	
 	function getFoto() {
 		require_once(INCDIR . 'fileSystem.inc.php');
-        $gioc = self::getAllGiocatori();
+        $gioc = self::getList();
 		foreach($gioc as $key=>$val) {
 			if(!file_exists(PLAYERSDIR . "new/" . $val->idGioc . ".jpg")) {
 				$url = "http://www.gazzetta.it/img/calcio/figurine_panini/" . (($val->nome != NULL) ? str_replace(" ","_",strtoupper($val->nome)) : "") . "_" . str_replace(" ","_",strtoupper($val->cognome)) . ".jpg";

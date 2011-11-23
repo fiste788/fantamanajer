@@ -6,8 +6,8 @@ class Trasferimento extends TrasferimentoTable
 	
 	public static function getTrasferimentiByIdSquadra($idUtente,$idGiornata = 0)
 	{
-		$q = "SELECT idGiocOld,t1.nome as nomeOld,t1.cognome as cognomeOld,idGiocNew,t2.nome as nomeNew,t2.cognome as cognomeNew, idGiornata, obbligato 
-				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocNew = t2.idGioc) ON t1.idGioc = trasferimento.idGiocOld 
+		$q = "SELECT trasferimento.*,t1.nome as nomeOld,t1.cognome as cognomeOld,t2.nome as nomeNew,t2.cognome as cognomeNew
+				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocatoreNew = t2.id) ON t1.id = trasferimento.idGiocatoreOld
 				WHERE trasferimento.idUtente = '" . $idUtente . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -38,7 +38,7 @@ class Trasferimento extends TrasferimentoTable
 			Squadra::updateGiocatoreSquadra($giocOld,$idLega,$squadraOld);
 		}
 		$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idUtente,idGiornata,obbligato)
-				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "','" . Giocatore::checkOutLista($giocOld) . "')";
+				VALUES ('" . $giocOld . "' , '" . $giocNew . "' ,'" . $squadra . "','" . GIORNATA . "','" . Giocatore::getById($giocOld)->getStatus() . "')";
 		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
 		$q = "SELECT idTrasf 
@@ -67,7 +67,7 @@ class Trasferimento extends TrasferimentoTable
 					Formazione::changeCap($formazioneOld->id,$giocOld,array_search($giocNew,$formazioneOld->cap));
 			}
 			$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idUtente,idGiornata,obbligato)
-					VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "','" . Giocatore::checkOutLista($giocNew) . "')";
+					VALUES ('" . $giocNew . "' , '" . $giocOld . "' ,'" . $squadraOld . "','" . GIORNATA . "','" . Giocatore::getById($giocOld)->getStatus() . "')";
 			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 			if(DEBUG)
 				FirePHP::getInstance(true)->log($q);
@@ -107,7 +107,7 @@ class Trasferimento extends TrasferimentoTable
 				Squadra::unsetSquadraByIdGioc($val->giocOld,$val->idLega);
 				Squadra::setSquadraByIdGioc($val->giocNew,$val->idLega,$val->idUtente);
 				$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idUtente,idGiornata,obbligato)
-				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idUtente . "','" . GIORNATA . "','" . Giocatore::checkOutLista($val->giocOld) . "')";
+				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idUtente . "','" . GIORNATA . "','" . Giocatore::getById($giocOld)->getStatus() . "')";
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
 					FirePHP::getInstance(true)->log($q);

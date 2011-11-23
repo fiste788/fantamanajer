@@ -1,4 +1,6 @@
 <?php
+require_once(TABLEDIR . 'dbTable.inc.php');
+
 class LegaTable extends DbTable
 {
     const TABLE_NAME = "lega";

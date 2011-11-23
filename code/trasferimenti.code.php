@@ -1,7 +1,7 @@
 <?php 
 require_once(INCDBDIR . 'trasferimento.db.inc.php');
 require_once(INCDBDIR . 'utente.db.inc.php');
-require_once(INCDBDIR . 'giocatore.db.inc.php');
+require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDBDIR . 'selezione.db.inc.php');
 require_once(INCDBDIR . 'punteggio.db.inc.php');
 require_once(INCDBDIR . 'evento.db.inc.php');
@@ -14,11 +14,11 @@ foreach($trasferimenti as $key=>$val) {
 }
 $playerFree = Giocatore::getFreePlayer(NULL,$_SESSION['legaView']);
 
-$trasferiti = Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']);
-//$selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idUtente']);
+$trasferiti = Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
+$selezione = Selezione::getByField('idUtente',$_SESSION['idUtente']);
 
 
-//$contentTpl->assign('giocSquadra',Giocatore::getByField('idUtente',$request->get('id')));
+$contentTpl->assign('giocatoriSquadra',GiocatoreStatistiche::getByField('idUtente',$request->get('id')));
 $contentTpl->assign('freePlayer',$playerFree);
 $contentTpl->assign('trasferimenti',$trasferimenti);
 $operationTpl->assign('elencoSquadre',Utente::getByField('idLega',$_SESSION['legaView']));

@@ -7,14 +7,6 @@ else
 	$lega = $_SESSION['datiLega'];
 
 if($lega->validate()) {
-	/*$lega->setNome($request->get('nome'));
-	$lega->setPremi($request->get('premi'));
-	$lega->setCapitano($request->get('capitano'));
-	$lega->setNumTrasferimenti($request->get('numTrasferimenti'));
-	$lega->setNumSelezioni($request->get('numSelezioni'));
-	$lega->setMinFormazione($request->get('minFormazione'));
-	$lega->setPunteggioFormazioneDimenticata($request->get('punteggioFormazioneDimenticata'));
-	$lega->setJolly($request->get('jolly'));*/
 	if($lega->save())
 	{
 		if($lega->getId() == $_SESSION['idLega'])
@@ -24,6 +16,6 @@ if($lega->validate()) {
 	else
 		$message->error("Errore nell'esecuzione");
 }
- 	
+
 $contentTpl->assign('lega',$lega)
 ?>
