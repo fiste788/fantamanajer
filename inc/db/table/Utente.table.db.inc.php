@@ -1,4 +1,6 @@
 <?php
+require_once(TABLEDIR . 'dbTable.inc.php');
+
 class UtenteTable extends DbTable
 {
 	const TABLE_NAME = "utente";
@@ -11,6 +13,7 @@ class UtenteTable extends DbTable
 	var $username;
 	var $password;
 	var $amministratore;
+	var $chiave;
 	var $idLega;
 	
 	function __construct()
@@ -24,6 +27,7 @@ class UtenteTable extends DbTable
 		$this->username = $this->getUsername();
 		$this->password = $this->getPassword();
 		$this->amministratore = $this->getAmministratore();
+		$this->chiave = $this->getChiave();
 		$this->idLega = $this->getIdLega();
 	}
 
@@ -115,6 +119,16 @@ class UtenteTable extends DbTable
 	public function setAmministratore( $amministratore )
 	{
 		$this->amministratore = (int) $amministratore;
+	}
+
+	/**
+	 * Setter: chiave
+	 * @param String $chiave
+	 * @return void
+	 */
+	public function setChiave( $chiave )
+	{
+		$this->chiave = $chiave;
 	}
 
 	/**
@@ -217,6 +231,15 @@ class UtenteTable extends DbTable
 	public function getAmministratore()
 	{
 	 	return (int) $this->amministratore;
+	}
+
+	/**
+	 * Getter: chiave
+	 * @return String
+	 */
+	public function getChiave()
+	{
+	 	return $this->chiave;
 	}
 
 	/**

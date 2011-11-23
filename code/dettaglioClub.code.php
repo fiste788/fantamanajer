@@ -11,7 +11,7 @@ $elencoClub = Club::getList();
 
 $quickLinks->set('id',$elencoClub,"");
 $giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('id'));
-$pathClub = CLUBSURL . $filterClub . '.png';
+$pathClub = CLUBSURL . $request->get('id') . '.png';
 
 $contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('giocatori',$giocatori);

@@ -131,35 +131,18 @@ class Formazione extends FormazioneTable
 	
 	public static function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
 	{
-		$q = "SELECT formazione.id,idGiocatore,posizione,modulo,idCapitano,idVCapitano,idVVCapitano,jolly
-				FROM formazione INNER JOIN schieramento ON formazione.id = schieramento.idFormazione
-				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "' 
-				ORDER BY posizione";
+        require_once(INCDBDIR . "schieramento.db.inc.php");
+
+		$q = "SELECT *
+				FROM formazione 
+				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		$flag = FALSE;
 		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__))
-		{
-			$elenco[$row->posizione] = $row->idGiocatore;
-			$idFormazione = $row->id;
-			$modulo = $row->modulo;
-			$cap->C = $row->idCapitano;
-			$cap->VC = $row->idVCapitano;
-			$cap->VVC = $row->idVVCapitano;
-			$jolly = $row->jolly;
-			$flag = TRUE;
-		}
-		if($flag)
-		{
-			$formazione->id = $idFormazione;
-			$formazione->elenco = $elenco;
-			$formazione->modulo = $modulo;
-			$formazione->cap = $cap;
-			$formazione->jolly = $jolly;
-			return $formazione;
-		}
-		else
-			return FALSE;
+		$formazione = mysql_fetch_object($exe,__CLASS__);
+		FirePHP::getInstance()->log($formazione);
+        if(!empty($formazione))
+            $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
+    	return $formazione;
 	}
 	
 	public static function getFormazioneExistByGiornata($giornata,$idLega)

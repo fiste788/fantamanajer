@@ -6,7 +6,7 @@ require_once(VIEWDIR . 'SquadraStatistiche.view.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 
 
-if(($squadraDett =  SquadraStatistiche::getById($request->get('squadra'))) === FALSE)
+if(($squadraDett =  SquadraStatistiche::getById($request->get('squadra'))) == FALSE)
 	Request::send404();
 
 $elencoSquadre = Utente::getByField('idLega',$squadraDett->idLega);

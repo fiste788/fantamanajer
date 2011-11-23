@@ -1,12 +1,8 @@
 <?php 
-class Selezione extends DbTable
+require_once(TABLEDIR . 'Selezione.table.db.inc.php');
+
+class Selezione extends SelezioneTable
 {
-	var $idLega;
-	var $idUtente;
-	var $giocOld;
-	var $giocNew;
-	var $numSelezioni;
-	
 	public static function getSelezioni()
 	{
 		$q = "SELECT * 

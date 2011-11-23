@@ -3,22 +3,12 @@ require_once(TABLEDIR . 'Voto.table.db.inc.php');
 
 class Voto extends VotoTable
 {
-	public static function getVotoByIdGioc($idGioc,$giornata)
-	{
-		$q = "SELECT punti 
-				FROM voto 
-				WHERE idGiocatore = '" . $idGioc . "' AND idGiornata = '" . $giornata . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__))
-			return $row->punti;
-	}
-	
-	public static function getAllVotoByIdGioc($idGioc)
+	public static function getVotiByIdGioc($idGioc)
 	{
 		$q = "SELECT * 
 				FROM voto 
-				WHERE idGiocatore = '" . $idGioc . "' AND valutato = 1";
+				WHERE idGiocatore = '" . $idGioc . "' AND valutato = 1
+                ORDER BY idGiornata ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);

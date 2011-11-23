@@ -68,5 +68,5 @@ if(isset($_POST))
 		$message->success("Giocatore modificato correttamente");
 	}
 }
-$operationTpl->assign('giocatori',Giocatore::getAllGiocatori());
+$operationTpl->assign('giocatori',Giocatore::getList());
 ?>

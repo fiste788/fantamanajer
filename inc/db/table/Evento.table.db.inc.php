@@ -1,4 +1,6 @@
 <?php
+require_once(TABLEDIR . 'dbTable.inc.php');
+
 class EventoTable extends DbTable
 {
 	const TABLE_NAME = 'evento';

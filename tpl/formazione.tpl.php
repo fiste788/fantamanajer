@@ -26,26 +26,27 @@
 		<div id="giocatori" class="column">
 			<h3>Rosa giocatori</h3>
 		<?php foreach($this->giocatori as $key=>$val): ?>
+			<?php if($val->ruolo != $ruolo && $ruolo != "") echo '</div>'; ?>
 			<?php if($ruolo != $val->ruolo) echo '<div class="' . $val->ruolo . '">'; ?>
-			<div class="draggable giocatore <?php if((!empty($this->titolari) && in_array($val->idGioc,$this->titolari)) || (!empty($this->panchinari) && in_array($val->idGioc,$this->panchinari))) echo 'hidden'; ?> <?php echo $val->ruolo; ?>">
-				<a class="hidden" rel="<?php echo $val->idGioc; ?>"></a>
-				<?php if(file_exists(PLAYERSDIR . $val->idGioc . '.jpg')): ?>
-					<img alt="<?php echo $val->idGioc; ?>" height="50" src="<?php echo PLAYERSURL . $val->idGioc; ?>.jpg" />
+			<div class="draggable giocatore <?php echo $val->ruolo; ?>">
+				<a class="hidden" rel="<?php echo $val->id; ?>"></a>
+				<?php if(file_exists(PLAYERSDIR . $val->id . '.jpg')): ?>
+					<img alt="<?php echo $val->id; ?>" height="50" src="<?php echo PLAYERSURL . $val->id; ?>.jpg" />
 				<?php endif; ?>
 				<p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
 			</div>
-			<?php if((isset($this->giocatori[$key + 1]) && $val->ruolo != $this->giocatori[$key + 1]->ruolo) || !isset($this->giocatori[$key + 1])) echo '</div>'; ?>
 			<?php $ruolo = ($ruolo != $val->ruolo) ? $val->ruolo : $ruolo; ?>
 		<?php $j++; endforeach; ?>
+			</div>
 		</div>
 		<div id="titolari-field">
 			<?php for($i = 0;$i < 11;$i++): ?>
-				<input<?php if(isset($this->titolari[$i]) && !empty($this->titolari[$i])){ echo ' value="' . $this->titolari[$i] . '" title="' . $this->giocatoriId[$this->titolari[$i]]->ruolo . $this->giocatoriId[$this->titolari[$i]]->ruolo . '-' . $this->giocatoriId[$this->titolari[$i]]->cognome . ' ' . $this->giocatoriId[$this->titolari[$i]]->nome;if(file_exists(PLAYERSDIR . $this->titolari[$i] . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 		</div>
 		<div id="panchina-field">
-			<?php for($i = 0;$i < 7;$i++): ?>
-				<input<?php if(isset($this->panchinari[$i]) && !empty($this->panchinari[$i])){ echo ' value="' . $this->panchinari[$i] . '" title="' . $this->giocatoriId[$this->panchinari[$i]]->ruolo . $this->giocatoriId[$this->panchinari[$i]]->ruolo . '-' . $this->giocatoriId[$this->panchinari[$i]]->cognome . ' ' . $this->giocatoriId[$this->panchinari[$i]]->nome;if(file_exists(PLAYERSDIR . $this->panchinari[$i] . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
+			<?php for($i = 11;$i < 18;$i++): ?>
+				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panch[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 		</div>
 		<div id="capitani-field">

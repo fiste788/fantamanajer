@@ -27,8 +27,8 @@
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<?php endif; ?>
+        <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
 		<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css'; ?>" type="text/css" media="screen"><![endif]-->
-		<link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
 		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
 		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
@@ -37,41 +37,35 @@
 	<?php flush(); ?>
 	<body>
 		<nav>
-			<?php echo $this->navbar ?>
+			<div class="page"><?php echo $this->navbar ?></div>
 		</nav>
-			<header>
-				<?php echo $this->header; ?>
-			</header>
-		
+		<header>
+			<div class="gradient">
+                <div class="page"><?php echo $this->header; ?></div>
+            </div>
+		</header>
+        <?php if(!empty($this->operation)): ?>
+    		<section id="operation">
+                <div class="page">
+                    <?php if($this->quickLinks->prev != FALSE): ?>
+    					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>">back</a>
+    				<?php endif; ?>
+    				<?php echo $this->operation; ?>
+                    <?php if($this->quickLinks->next != FALSE): ?>
+    					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>">next</a>
+    				<?php endif; ?>
+                </div>
+            </section>
+        <?php endif; ?>
 		<section id="content">
-			<?php require_once(TPLDIR . "message.tpl.php"); ?>
-			<div id="<?php echo $this->p; ?>">
-				<?php echo $this->content; ?>
-			</div>
+            <?php require_once(TPLDIR . "message.tpl.php"); ?>
+    		<div class="page" id="<?php echo $this->p; ?>">
+    			<?php echo $this->content; ?>
+            </div>
 		</section>
 		<footer>
 			<?php echo $this->footer; ?>
 		</footer>
-		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
-		<div id="topRightBar"<?php if(!empty($this->operation)) echo ' class="active"'; ?>>
-			<div>
-				<?php if(!empty($this->operation)): ?>
-				<div title="Mostra menu" id="click-menu">
-					<span>Menu</span>
-				</div>
-				<?php endif; ?>
-				<?php if($this->quickLinks->prev != FALSE): ?>
-					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>">&nbsp;</a>
-				<?php endif; ?>
-				<?php if($this->quickLinks->next != FALSE): ?>
-					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>">&nbsp;</a>
-				<?php endif; ?>
-			</div>
-		</div>
-		<?php endif; ?>	
-		<?php if(!empty($this->operation)): ?>
-			<div id="menu"><?php echo $this->operation; ?></div>
-		<?php endif; ?>
 		<?php if(isset($this->ieHack)): ?>
 			<?php foreach($this->ieHack as $key=>$val): ?>
 				<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $val; ?>" type="text/javascript"></script><![endif]-->

@@ -1,11 +1,11 @@
 <?php $r = 'Por.'; ?>
 <div id="headerClub">
 	<div class="column last">
-		<a title="<?php echo $this->clubDett->nomeClub; ?>" class="fancybox column">
-			<img alt="<?php echo $this->club; ?>" src="<?php echo $this->pathClub; ?>" title="Logo <?php echo $this->clubDett->nomeClub; ?>" />
+		<a title="<?php echo $this->clubDett->nome; ?>" class="fancybox column">
+			<img alt="<?php echo $this->clubDett->id; ?>" src="<?php echo $this->pathClub; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
 		</a>
 	</div>
-	<h2 id="nomeClub"><?php echo $this->clubDett->nomeClub;?></h2>
+	<h2 id="nomeClub"><?php echo $this->clubDett->nome; ?></h2>
 	<div id="datiClub">
 
 	</div>

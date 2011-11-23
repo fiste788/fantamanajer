@@ -1,4 +1,6 @@
 <?php
+require_once(TABLEDIR . 'dbTable.inc.php');
+
 class SchieramentoTable extends DbTable {
     var $idFormazione;
 	var $idGiocatore;
@@ -11,6 +13,10 @@ class SchieramentoTable extends DbTable {
 		$this->posizione = $this->getPosizione();
 		$this->considerato = $this->getConsiderato();
 	}
+
+    function __toString() {
+        return $this->idGiocatore;
+    }
 
 	/**
 	 * Setter: idFormazione

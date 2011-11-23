@@ -14,6 +14,7 @@ $(document).ready(function(){
 					list.each(function (i) {
 						current = $(list[i]);
 						title = current.attr('title');
+						$('a[rel="' + current.val() + '"]').parent().hide();
 						if(title != "")
 						{
 							appo = title.split('-');
@@ -38,6 +39,7 @@ $(document).ready(function(){
 					list.each(function (i) {
 						current = $(list[i]);
 						title = current.attr('title');
+						$('a[rel="' + current.val() + '"]').parent().hide();
 						appo = title.split('-');
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
