@@ -1,5 +1,5 @@
 <?php 
-require_once(INCDIR . 'giocatore.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
 
 $filterOrder = NULL;
 $filterVersus = NULL;

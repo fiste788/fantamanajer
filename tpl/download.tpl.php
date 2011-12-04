@@ -11,7 +11,7 @@
 		</select>
 		<input class="radio" type="radio" name="type" value="csv"<?php echo (isset($_POST['type']) && $_POST['type'] == 'csv') ? ' checked="checked"' : ''; ?> />CSV
 		<input class="radio" type="radio" name="type" value="xml"<?php echo (isset($_POST['type']) && $_POST['type'] == 'xml') ? ' checked="checked"' : ''; ?> />XML
-		<input class="submit dark" type="submit" value="Download"/>
+		<input class="submit dark" type="submit" name="submit" value="Download"/>
 	</fieldset>
 </form>
 <script type="text/javascript">

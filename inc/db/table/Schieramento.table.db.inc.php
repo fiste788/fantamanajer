@@ -2,21 +2,34 @@
 require_once(TABLEDIR . 'dbTable.inc.php');
 
 class SchieramentoTable extends DbTable {
+	const TABLE_NAME = 'schieramento';
+	var $id;
     var $idFormazione;
 	var $idGiocatore;
 	var $posizione;
 	var $considerato;	//0 = non ha giocato, 1 = giocato, 2 = capitano
 	
 	function __construct() {
-		$this->idFormazione = $this->getIdFormazione();
-		$this->idGiocatore = $this->getIdGiocatore();
-		$this->posizione = $this->getPosizione();
-		$this->considerato = $this->getConsiderato();
+		$this->id = is_null($this->id) ? NULL : $this->getId();
+		$this->idFormazione = is_null($this->idFormazione) ? NULL : $this->getIdFormazione();
+		$this->idGiocatore = is_null($this->idGiocatore) ? NULL : $this->getIdGiocatore();
+		$this->posizione = is_null($this->posizione) ? NULL : $this->getPosizione();
+		$this->considerato = is_null($this->considerato) ? NULL : $this->getConsiderato();
 	}
 
     function __toString() {
         return $this->idGiocatore;
     }
+
+	/**
+	 * Setter: id
+	 * @param Int $id
+	 * @return void
+	 */
+	public function setId( $id )
+	{
+		$this->id = (int) $id;
+	}
 
 	/**
 	 * Setter: idFormazione
@@ -78,6 +91,15 @@ class SchieramentoTable extends DbTable {
 	{
 	    $this->giocatore = $giocatore;
 		$this->setIdGiocatore($giocatore->getId());
+	}
+
+	/**
+	 * Getter: id
+	 * @return Int
+	 */
+	public function getId()
+	{
+	 	return (int) $this->id;
 	}
 
 	/**

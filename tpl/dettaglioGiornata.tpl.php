@@ -1,5 +1,3 @@
-<h4>Giornata: <span><?php echo (isset($this->giornata)) ? $this->giornata : ''; ?></span></h4>
-<h4>Squadra: <span><?php echo (isset($this->squadra)) ? $this->squadraDett->nome : ''; ?></span></h4>
 <h4>Punteggio: <span><?php echo (isset($this->somma)) ? $this->somma : ''; ?></span></h4>
 <?php if(isset($this->titolari) && 	$this->titolari != FALSE && $this->titolari != NULL): ?>
 	<?php if(isset($this->penalità)): ?>

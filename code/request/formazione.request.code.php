@@ -5,79 +5,50 @@ require_once(INCDBDIR . "evento.db.inc.php");
 require_once(INCDBDIR . "giocatore.db.inc.php");
 require_once(INCDBDIR . "punteggio.db.inc.php");
 
-if(isset($_POST) && !empty($_POST) && isset($_POST['submit']))
-{
-	$formazione = array();
-	$capitano = array("C" => NULL,"VC" => NULL,"VVC" => NULL);
-	$err = 0;
+$filterUtente = $request->has('utente') ? $request->get('utente') : $_SESSION['idUtente'];
+$filterGiornata = $request->has('giornata') ? $request->get('giornata') : GIORNATA;
 
-	foreach($_POST['gioc'] as $key=>$val)
-	{
-		if(empty($val))
-		{
-			$missing ++;
-			$err ++;
-		}
-		if(isset($giocatori[$val]))
-			$moduloAr[$giocatori[$val]->ruolo] = $moduloAr[$giocatori[$val]->ruolo] + 1;
-		if( !in_array($val,$formazione))
-			$formazione[] = $val;
-		else
-			$err++;
-	}
-	foreach($_POST['panch'] as $key=>$val)
-	{
-		if(!empty($val))
-		{
-			if( !in_array($val,$formazione))
-				$formazione[] = $val;
-			else
-				$err++;
-		}
-		else
-			$formazione[] = $val;
-	}
-	foreach($_POST['cap'] as $key=>$val)
-	{
-		if(!empty($val))
-		{
-			$ruoloGioc = Giocatore::getRuoloByIdGioc($val);
-			if( $ruoloGioc == 'P' || $ruoloGioc == 'D' )
-			{
-				if( !in_array($val,$capitano))
-					$capitano[$key] = $val;
+if(!PARTITEINCORSO)
+{
+	if($filterGiornata == GIORNATA && $filterUtente == $_SESSION['idUtente']) {
+		$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata);
+		if(!$formazione)
+			$formazione = new Formazione();
+		if($formazione->validate()) {
+			$success = TRUE;
+			$giocatoriIds = array();
+			$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
+			$titolari = $request->getRawData('post','gioc');
+			$panchinari = $request->getRawData('post','panch');
+			$giocatoriIds = array_merge($giocatoriIds,$titolari,$panchinari);
+			$giocatori = Giocatore::getByIds($giocatoriIds);
+			foreach($titolari as $key=>$titolare)
+				$modulo[$giocatori[$titolare]->ruolo] += 1;
+			$formazione->setIdGiornata(GIORNATA);
+			$formazione->setIdUtente($_SESSION['idUtente']);
+			$formazione->setModulo(implode($modulo,'-'));
+			$formazione->startTransaction();
+			if(($idFormazione = $formazione->save()) != FALSE) {
+				$schieramenti = Schieramento::getSchieramentoById($idFormazione);
+				foreach($giocatoriIds as $posizione=>$idGiocatore) {
+					$schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
+					if(!is_null($idGiocatore) && !empty($idGiocatore)) {
+						if($schieramento->idGiocatore != $idGiocatore) {
+							$schieramento->setIdFormazione($idFormazione);
+							$schieramento->setPosizione($posizione + 1);
+							$schieramento->setIdGiocatore($idGiocatore);
+							$schieramento->setConsiderato(0);
+							$success = ($success and $schieramento->save());
+						}
+					} else
+						$success = ($success and $schieramento->delete());
+				}
+				if($success)
+					$formazione::commit();
 				else
-					$err++;
+					$formazione::rollback();
 			}
-			else
-			{
-				$frega++;
-				$err++;
-			}
-		}
-		else
-			$capitano[$key] = $val;
-	}
-	$jolly = isset($_POST['jolly']);
-	//echo "<pre>".print_r($formazione,1)."</pre>";
-	//echo "<pre>".print_r($capitano,1)."</pre>";
-	if ($err == 0)	//VUOL DIRE CHE NON CI SONO VALORI DOPPI
-	{
-		unset($_POST);
-		if(!$formazioneOld)
-		{
-			$id = Formazione::caricaFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente'],implode('-',$moduloAr),$jolly);
-			Evento::addEvento('3',$_SESSION['idUtente'],$_SESSION['idLega'],$id);
-		}
-		else
-			$id = Formazione::updateFormazione($formazione,$capitano,GIORNATA,$_SESSION['idUtente'],implode('-',$moduloAr),$jolly);
-		$message->success('Formazione caricata correttamente');
-	}
-	else
-		$message->error('Hai inserito dei valori multipli');
-	if ($missing > 0)
-		$message->error('Valori mancanti');
-	if ($frega > 0)
-		$message->error('Stai cercando di fregarmi?');
+	    }
+}
 }
 ?>

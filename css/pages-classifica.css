@@ -1,0 +1,11 @@
+#classifica .legend {
+	width:11px;
+	height:11px;
+	display:block;
+	float:left;
+	border:1px solid #aaa;
+	margin:2px 5px 0;
+}
+#classifica input {
+	padding:0 !important;
+}

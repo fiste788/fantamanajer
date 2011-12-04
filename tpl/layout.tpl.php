@@ -9,7 +9,6 @@
 	<head>
 	    <meta charset="utf-8">
 	    <title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
-		<link href="http://fonts.googleapis.com/css?family=Droid+Sans&amp;subset=latin" rel="stylesheet" type="text/css" />
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
 		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
@@ -27,6 +26,9 @@
 			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
 		<?php endforeach; ?>
 		<?php endif; ?>
+		<?php if(file_exists(CSSDIR . 'pages-' . $this->p . ".css")): ?>
+			<link href="<?php echo CSSURL . 'pages-' . $this->p . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
+		<?php endif; ?>
         <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
 		<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css'; ?>" type="text/css" media="screen"><![endif]-->
 		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
@@ -37,34 +39,42 @@
 	<?php flush(); ?>
 	<body>
 		<nav>
-			<div class="page"><?php echo $this->navbar ?></div>
+			<div class="page"><?php echo $this->navbar; ?></div>
 		</nav>
 		<header>
 			<div class="gradient">
                 <div class="page"><?php echo $this->header; ?></div>
             </div>
 		</header>
+		<?php require_once(TPLDIR . "message.tpl.php"); ?>
         <?php if(!empty($this->operation)): ?>
     		<section id="operation">
-                <div class="page">
-                    <?php if($this->quickLinks->prev != FALSE): ?>
-    					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>">back</a>
-    				<?php endif; ?>
-    				<?php echo $this->operation; ?>
-                    <?php if($this->quickLinks->next != FALSE): ?>
-    					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>">next</a>
-    				<?php endif; ?>
-                </div>
+				<div class="fix">
+	                <div class="page">
+	                    <?php if($this->quickLinks->prev != FALSE): ?>
+	    					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>">back</a>
+						<?php else: ?>
+							<div class="back inactive">&nbsp;</div>
+						<?php endif; ?>
+	    				<div class="center"><?php echo $this->operation; ?></div>
+	                    <?php if($this->quickLinks->next != FALSE): ?>
+	    					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>">next</a>
+						<?php else: ?>
+							<div class="next inactive">&nbsp;</div>
+	    				<?php endif; ?>
+	                </div>
+				</div>
             </section>
         <?php endif; ?>
 		<section id="content">
-            <?php require_once(TPLDIR . "message.tpl.php"); ?>
     		<div class="page" id="<?php echo $this->p; ?>">
     			<?php echo $this->content; ?>
             </div>
 		</section>
 		<footer>
-			<?php echo $this->footer; ?>
+			<div class="page">
+				<?php echo $this->footer; ?>
+			</div>
 		</footer>
 		<?php if(isset($this->ieHack)): ?>
 			<?php foreach($this->ieHack as $key=>$val): ?>

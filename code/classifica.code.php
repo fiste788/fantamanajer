@@ -2,7 +2,7 @@
 require_once(INCDBDIR . 'punteggio.db.inc.php');
 require_once(INCDBDIR . 'utente.db.inc.php');
 
-$filterGiornata = ($request->has('idGiornata')) ? $request->get('idGiornata') : GIORNATA;
+$filterGiornata = ($request->has('giornata')) ? $request->get('giornata') : GIORNATA;
 
 $classificaDett = Punteggio::getAllPunteggiByGiornata($filterGiornata,$_SESSION['legaView']);
 $squadre = Utente::getByField('idLega',$_SESSION['legaView']);

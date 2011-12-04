@@ -1,0 +1,10 @@
+.articolo {
+	width:100%;
+	margin-bottom: 20px;
+}
+.articolo>em>span {
+	margin-right:10px;
+}
+.articolo h3 {
+	margin-bottom:5px;
+}

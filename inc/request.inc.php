@@ -143,7 +143,7 @@ class Request
 	}
 	
 	public static function goToUrl($link,$array) {
-        header("Location: " . Links::getLink($link,$array));
+        header("Location: " . urldecode(Links::getLink($link,$array)));
 	}
 }
 ?>

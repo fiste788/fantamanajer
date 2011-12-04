@@ -6,7 +6,7 @@ require_once(INCDBDIR . 'utente.db.inc.php');
 require_once(INCDBDIR . 'voto.db.inc.php');
 
 //$dettaglio = GiocatoreStatistiche::getById($filterId);
-if(($giocatore = Giocatore::getGiocatoreByIdWithStats($request->get('id'),$_SESSION['legaView'])) == FALSE)
+if(($giocatore = Giocatore::getGiocatoreByIdWithStats($request->get('giocatore'),$_SESSION['legaView'])) == FALSE)
 	Request::send404();
 
 $giocatore->voti = Voto::getVotiByIdGioc($giocatore->getId());

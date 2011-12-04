@@ -1,0 +1,110 @@
+#formazione fieldset>div {
+	position:relative;
+}
+#formazione .submit {
+	float:left;
+	margin:10px
+}
+#formazione #panchina {
+	width:100%;
+	display:block;
+	float:left;
+}
+#formazione #stadio {
+	width:554px;
+	display:block;
+	float:left;
+	margin:0 10px 0 0;
+}
+#formazione #panchina h3, #capitani h3 {
+	margin:0;
+}
+#formazione .droppable-hover2 {
+	background:url(../imgs/sostituisci.gif) no-repeat 50% 50%;
+}
+#formazione .droppable-hover2 img {
+	display:none;
+}
+#formazione .droppable-hover2 p {
+	padding:30px 0 0;
+}
+#formazione #panchina .droppable,#formazione  #capitani .droppable{
+	width:100px;
+	min-height:95px;
+	padding:7px 0;
+	display:block;
+	float:left;
+	text-align:center;
+}
+#formazione #panchina .draggable,#formazione  #capitani .draggable{
+	margin:auto;
+	float:none;
+	text-align:center;
+}
+#formazione .giocatore {
+	width: 70px;
+	color: #000;
+	cursor: pointer;
+	text-align:center;
+	padding:5px;
+	float:left;
+	margin:3px 5px;
+	height:83px;
+	overflow:hidden;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#formazione .giocatore span{
+	position:absolute;
+	top:5px;
+	left:5px;
+}
+#formazione .giocatore p{
+	margin:0;
+	font-weight:bold;
+	line-height:14px;
+}
+#formazione #giocatori {
+	width:370px;
+	float:left;
+}
+#formazione #giocatori > div{
+	border:0 none !important;
+	background-color:transparent !important;
+	clear:both;
+}
+#formazione .P {
+	border: 1px solid #ff0000;
+	background-color: #ffd1d1;
+}
+#formazione .D {
+	border: 1px solid #009600;
+	background-color: #d4ffd1;
+}
+#formazione .C {
+	border: 1px solid #ffbd00;
+	background-color: #fff3d1;
+}
+#formazione .A {
+	border: 1px solid #00a0ff;
+	background-color: #d0f1ff;
+}
+#formazione #capitani {
+	float:left;
+}
+#formazione #campo {
+	width:100%;
+	height:644px;
+	background:transparent url(../imgs/campo.png) no-repeat -3px -3px;
+	text-align: center;
+	float:left;
+}
+#formazione #campo .droppable {
+	height: 140px;
+}
+#formazione .droppable-hover {
+	background-color: #fff3d1 !important;
+	opacity:0.5;
+	filter: alpha(opacity=50);
+}

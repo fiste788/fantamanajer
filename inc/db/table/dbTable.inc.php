@@ -22,6 +22,7 @@ abstract class DbTable
 	{
 		ob_end_flush();
 		FirePHP::getInstance()->error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		self::rollback();
 		die();
 	}
 	
@@ -39,6 +40,24 @@ abstract class DbTable
 		    return NULL;
 	}
 
+	public static function getByIds($ids)
+	{
+		$keys = implode(array_filter($ids,'strlen'),',');
+	    if($keys != "") {
+		    $c = get_called_class();
+			$q = "SELECT *
+					FROM " . $c::TABLE_NAME . "
+					WHERE id IN (" . $keys . ")";
+			$exe = mysql_query($q) or self::sqlError($q);
+			FirePHP::getInstance()->log($q);
+			$values = array();
+			while ($row = mysql_fetch_object($exe,$c) )
+		  		$values[$row->getId()] = $row;
+			return $values;
+		} else
+		    return NULL;
+	}
+
 	public static function getList()
 	{
 	    $c = get_called_class();
@@ -46,6 +65,7 @@ abstract class DbTable
 				FROM " . $c::TABLE_NAME;
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
+		$values = array();
 		while ($row = mysql_fetch_object($exe,$c) )
 		  	$values[$row->getId()] = $row;
 		return $values;
@@ -72,24 +92,24 @@ abstract class DbTable
 	}
 	
 	public function save() {
-	    $vars = get_object_vars($this);
-	    FirePHP::getInstance()->log($vars);
+	    $vars = array_intersect_key(get_object_vars($this),get_class_vars(get_class($this)));
 	    unset($vars['id']);
 		if($this->getId() == "" || is_null($this->getId())) {
-			foreach($vars as $key=>$value)
-				$values[] = self::valueToSql($value);
+			/*foreach($vars as $key=>$value)
+				$values[] = self::valueToSql($vars[$key]);*/
 			$q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars),", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql",$vars),", ") . ")";
-            FirePHP::getInstance()->log($q);
+			FirePHP::getInstance()->log($q);
 			mysql_query($q) or self::sqlError($q);
 			return mysql_insert_id();
 		} else {
             $q = "UPDATE " . $this::TABLE_NAME . " SET ";
 			foreach($vars as $key=>$value)
-				$values[] = $key . " = " . self::valueToSql($value);
+				$values[] = $key . " = " . self::valueToSql($vars[$key]);
 			$q .= implode($values,", ") . " WHERE id = " . $this->getId();
 			FirePHP::getInstance()->log($q);
-			return mysql_query($q) or self::sqlError($q);
+			mysql_query($q) or self::sqlError($q);
+			return $this->getId();
 		}
 	}
 	
@@ -138,13 +158,14 @@ abstract class DbTable
 	
 	public function fromArray($array,$raw = FALSE) {
 		$vars = get_object_vars($this);
-		foreach($array as $key=>$value)
-            if(isset($vars[$key]) && !empty($vars[$key])) {
-                if(!$raw && method_exists($this,$methodName = 'set' . ucfirst($vars[$key])))
+		foreach($array as $key=>$value) {
+			if(isset($vars[$key]) && !is_null($value)) {
+			    if(!$raw && method_exists($this,$methodName = 'set' . ucfirst($vars[$key])))
 				    $this->$methodName($value);
                 else
                     $this->$key = $value;
             }
+		}
 	}
 
 	//deve diventare abstract

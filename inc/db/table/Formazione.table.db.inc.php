@@ -14,14 +14,14 @@ class FormazioneTable extends DbTable
 	var $jolly;
 	
 	function __construct() {
-		$this->id = $this->getId();
-		$this->idGiornata = $this->getIdGiornata();
-		$this->idUtente = $this->getIdUtente();
-		$this->modulo = $this->getModulo();
-		$this->idCapitano = $this->getIdCapitano();
-		$this->idVCapitano = $this->getIdVCapitano();
-		$this->idVVCapitano = $this->getIdVVCapitano();
-		$this->jolly = $this->getJolly();
+		$this->id = is_null($this->id) ? NULL : $this->getId();
+		$this->idGiornata = is_null($this->idGiornata) ? NULL : $this->getIdGiornata();
+		$this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
+		$this->modulo = is_null($this->modulo) ? NULL : $this->getModulo();
+		$this->idCapitano = is_null($this->idCapitano) ? NULL : $this->getIdCapitano();
+		$this->idVCapitano = is_null($this->idVCapitano) ? NULL : $this->getIdVCapitano();
+		$this->idVVCapitano = is_null($this->idVVCapitano) ? NULL : $this->getIdVVCapitano();
+		$this->jolly = is_null($this->jolly) ? NULL : $this->getJolly();
 	}
 
 	/**

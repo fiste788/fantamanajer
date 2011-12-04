@@ -51,6 +51,8 @@ $generalJs[] = 'jquery/jquery.js';
 $generalJs[] = 'ui/jquery.effects.core.js';
 $generalJs[] = 'ui/jquery.effects.pulsate.js';
 $generalJs[] = 'uniform/jquery.uniform.js';
+$generalJs[] = 'stickypanel/jquery.stickypanel.js';
+$generalJs[] = 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = 'custom/all.js';
 
 $generalCss = array();
@@ -79,13 +81,17 @@ ob_start();
 
 require_once(CODEDIR . 'login.code.php');
 
-define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
+define("DEBUG",(LOCAL || DEVELOP || $_SESSION['roles'] == 2));
 $firePHP->setEnabled(DEBUG);
-$firePHP->log($_SESSION);
 
-$p = $request->has('p') ? $request->get('p') : '';
-if(empty($p) || !isset($pages[$p]))
+$p = $request->has('p') ? $request->get('p') : 'home';
+if(!isset($pages->pages[$p]))
 	Request::send404();
+elseif($pages->pages[$p]->roles > $_SESSION['roles'])
+{
+	$message->error("Non hai l'autorizzazione necessaria");
+	$p = 'home';
+}
 
 $giornata = Giornata::getCurrentGiornata();
 
@@ -110,6 +116,8 @@ if(isset($_SESSION['message'])) {
  * Questo Switch discrimina tra i vari moduli di codice quello che deve
  * essere caricato per visualizzare la pagina corretta
  */
+
+$layoutTpl->assign('title',$pages->pages[$p]->title);
 
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
 if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
@@ -137,16 +145,15 @@ $navbarTpl->assign('pages',$pages);
 $navbarTpl->assign('leghe',$leghe);
 $layoutTpl->assign('message',$message);
 $layoutTpl->assign('quickLinks',$quickLinks);
-$layoutTpl->assign('title',$pages[$p]['title']);
 $layoutTpl->assign('p',$p);
 $layoutTpl->assign('generalJs',$generalJs);
 $layoutTpl->assign('generalCss',$generalCss);
-if(isset($pages[$p]['css']))
- 	$layoutTpl->assign('css', $pages[$p]['css']);
-if(isset($pages[$p]['js']))
-	$layoutTpl->assign('js', $pages[$p]['js']);
-if(isset($pages[$p]['ieHack']))
-	$layoutTpl->assign('ieHack', $pages[$p]['ieHack']);
+if(isset($pages->pages[$p]->css))
+ 	$layoutTpl->assign('css', $pages->pages[$p]->css);
+if(isset($pages->pages[$p]->js))
+	$layoutTpl->assign('js', $pages->pages[$p]->js);
+if(isset($pages->pages[$p]->ieHack))
+	$layoutTpl->assign('ieHack', $pages->pages[$p]->ieHack);
 
 /**
  * GENERAZIONE LAYOUT
@@ -192,8 +199,7 @@ $layoutTpl->assign('content', $content);
 $layoutTpl->assign('operation', $operation);
 $layoutTpl->assign('navbar', $navbar);
 
-$ob = ob_get_contents();
-if($ob != "")
+if(($ob = ob_get_contents()) != "")
 	$firePHP->warn($ob);
 	
 /**

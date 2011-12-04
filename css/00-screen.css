@@ -45,6 +45,9 @@ a, a:link, a:visited, a:hover {
 .formbox label {
 	width:150px;
 }
+label {
+	display:inline-block;
+}
 input,textarea,select {
 	font-size:13px !important;
 	line-height: 13px !important;
@@ -52,4 +55,7 @@ input,textarea,select {
 }
 .hidden{
 	display:none;
+}
+input.small {
+	width:20px;
 }

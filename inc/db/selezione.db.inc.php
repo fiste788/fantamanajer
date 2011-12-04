@@ -20,7 +20,7 @@ class Selezione extends SelezioneTable
 	public static function getSelezioneByidSquadra($idUtente)
 	{
 		$q = "SELECT * 
-				FROM selezione INNER JOIN giocatore ON giocNew = idGioc 
+				FROM selezione INNER JOIN giocatore ON idGiocatoreNew = idGiocatore
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -30,17 +30,17 @@ class Selezione extends SelezioneTable
 	public static function unsetSelezioneByidSquadra($idUtente)
 	{
 		$q = "UPDATE selezione 
-				SET giocOld = NULL,giocNew = NULL 
+				SET idGiocatoreOld = NULL,idGiocatoreNew = NULL
 				WHERE idUtente = '" . $idUtente . "';";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	public static function checkFree($idGioc,$idLega)
+	public static function checkFree($idGiocatore,$idLega)
 	{
 		$q = "SELECT idUtente
 				FROM selezione 
-				WHERE giocNew = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
+				WHERE idGiocatoreNew = '" . $idGiocatore . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
 		$values = array();
