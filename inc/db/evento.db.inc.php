@@ -52,7 +52,7 @@ class Evento extends EventoTable
 				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
 		if($idLega != NULL)
 			$q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
-		if($tipo != NULL)
+		if($tipo != NULL && $tipo != 0)
 		  $q .= " AND tipo = '" . $tipo . "'";
 		$q .= " ORDER BY data DESC 
 				LIMIT " . $min . "," . $max . ";";

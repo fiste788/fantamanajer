@@ -12,6 +12,6 @@ $giornateWithArticoli = Articolo::getGiornateArticoliExist($_SESSION['legaView']
 $quickLinks->set('giornata',$giornateWithArticoli,'Giornata ');
 
 $contentTpl->assign('articoli',$articoli);
-$contentTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
+//$contentTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
 $operationTpl->assign('giornateWithArticoli',$giornateWithArticoli);
 ?>

@@ -137,30 +137,24 @@ class Formazione extends FormazioneTable
 				FROM formazione 
 				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
 		$formazione = mysql_fetch_object($exe,__CLASS__);
-		FirePHP::getInstance()->log($formazione);
         if(!empty($formazione))
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
     	return $formazione;
 	}
 	
-	public static function getFormazioneExistByGiornata($giornata,$idLega)
+	public static function getFormazioneByGiornataAndLega($giornata,$idLega)
 	{
-		$q = "SELECT utente.idUtente,nome 
-				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.idUtente 
+		$q = "SELECT formazione.*
+				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.id
 				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__))
-		{
-			$val[$row->idUtente]->idUtente = $row->idUtente;
-			$val[$row->idUtente]->nome = $row->nome;
+		$values = array();
+		while ($row = mysql_fetch_object($exe,__CLASS__)) {
+			$values[] = $row->idUtente;
 		}
-		if (!isset($val))
-			return FALSE;
-		else
-			return $val;
+		return $values;
 	}
 	
 	public static function changeCap($idFormazione,$idGiocNew,$cap)
@@ -180,6 +174,61 @@ class Formazione extends FormazioneTable
 		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
 		return (mysql_num_rows($exe) == 1);
+	}
+
+	/*public function save() {
+		if(!is_null($this->id))
+			$schieramenti = Schieramento::getByField('idFormazione',$this->id);
+			foreach($schieramenti as $key=>$schieramento) {
+				$schieramento->id
+			}
+	}*/
+
+	public function check($array,$message) {
+		require_once(INCDBDIR . 'giocatore.db.inc.php');
+		$GLOBALS['firePHP']->log($_POST);
+		$post = (object) $array;
+		$formazione = array();
+		$capitano = array();
+		foreach($array['gioc'] as $key=>$val) {
+			if(empty($val)) {
+				$message->error("Non hai compilato correttamente tutti i campi");
+				return FALSE;
+			}
+   			if(!in_array($val,$formazione))
+				$formazione[] = $val;
+			else {
+				$message->error("Giocatore doppio");
+				return FALSE;
+			}
+		}
+		foreach($array['panch'] as $key=>$val) {
+			if(!empty($val)) {
+				if(!in_array($val,$formazione))
+					$formazione[] = $val;
+				else {
+					$message->error("Giocatore doppio");
+					return FALSE;
+				}
+			}
+		}/*
+		foreach($post['cap'] as $key=>$val) {
+			if(!empty($val)) {
+				$giocatore = Giocatore::getById($val);
+				if($giocatore->ruolo == 'P' || $giocatore->ruolo == 'D') {
+					if(!in_array($val,$capitano))
+						$capitano[$key] = $val;
+					else {
+						$message->error("Capitano doppio");
+						return FALSE;
+					}
+				} else {
+					$message->error("Capitano non difensore o portiere");
+					return FALSE;
+				}
+			}
+		}*/
+		return TRUE;
 	}
 }
 ?>

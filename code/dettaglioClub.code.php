@@ -6,12 +6,12 @@ require_once(VIEWDIR . 'ClubStatistiche.view.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 	
-$clubdett = ClubStatistiche::getById($request->get('id'));
+$clubdett = ClubStatistiche::getById($request->get('club'));
 $elencoClub = Club::getList();
 
 $quickLinks->set('id',$elencoClub,"");
-$giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('id'));
-$pathClub = CLUBSURL . $request->get('id') . '.png';
+$giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('club'));
+$pathClub = CLUBSURL . $request->get('club') . '.png';
 
 $contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('giocatori',$giocatori);

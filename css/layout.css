@@ -4,8 +4,8 @@
 }
 body {
     font-family:MuseoSans,sans-serif;
-	background: url(../imgs/bg.jpg) repeat-x center top;
-	min-width:800px;
+	background: #E6EAED url(../imgs/bg.jpg) repeat-x center top;
+	min-width:1000px;
     padding:32px 0 0;
 }
 header{
@@ -14,7 +14,8 @@ header{
     height:120px;
 }
 .page {
-    width:1000px;
+    width:960px;
+	padding:0 10px;
     margin:0 auto;
 }
 header>div {
@@ -41,26 +42,44 @@ header,section#content,footer {
 	float:left;
 	clear:both;
 }
+#countdown {
+	float:right;
+	font-size:16px;
+	text-align:right;
+	padding:8px 0;
+	color:#fff;
+	text-shadow:0 1px 2px rgba(0,0,0,0.6);
+}
+#countdown div {
+	float:right;
+	font-size:40px;
+}
+#countdown .number {
+	width:48px;
+	display:inline-block;
+}
 section#content {
 	width:100%;
+	min-height:400px;
 }
 section#content .page{
 	padding-top:10px;
     padding-bottom:10px;
+	position:relative;
 }
 section#operation {
-    width:100%;
+	width:100%;
     text-align:center;
-    height:40px;
+    height:39px;
     overflow:hidden;
 }
 section#operation form {
-    width:90%;
+    width:100%;
 }
 section#operation label{
     margin:11px;
 }
-section#operation .back {
+section#operation .back, section#operation .back.inactive {
     float:left;
     width:5%;
 }
@@ -68,19 +87,19 @@ section#operation .next {
     float:right;
     width:5%;
 }
+section#operation .center {
+    float:left;
+    width:90%;
+}
+section#operation .top {
+	background: url(../imgs/bg.jpg) no-repeat center -140px;
+	box-shadow:0 2px 3px #aaa;
+	width:100%;
+	z-index:1;
+}
 section fieldset {
     margin:0;
     padding:0;
-}
-#countdown {
-	float:right;
-	font-size:16px;
-	text-align:right;
-	padding:8px 0;
-}
-#countdown div {
-	float:right;
-	font-size:24px;
 }
 nav {
 	position: fixed;
@@ -91,6 +110,8 @@ nav {
 	background:url(../imgs/menu-bg.jpg) repeat-x;
 	height:32px;
 	z-index:5;
+	font-size:12px;
+	line-height:12px;
 	min-width:inherit;
 }
 nav ul {
@@ -101,6 +122,7 @@ nav ul {
 }
 nav li {
 	float:left;
+	position:relative;
 }
 nav li.selected {
 	font-weight:bold;
@@ -108,14 +130,65 @@ nav li.selected {
 }
 nav li.selected a {
 	border-top:2px solid #fff;
-	padding:6px 12px 8px;
+	padding:8px 12px 10px;
 }
 nav li a,#rightNavbar .entry {
-	padding:8px 12px;
+	padding:10px 12px;
 	float:left;
 }
 nav li a:hover,#rightNavbar .entry:hover {
 	background-color:rgba(256,256,256,0.1);
+}
+nav ul li ul.subnav {
+	list-style: none;
+	position: absolute; 
+	left: 0;
+	top: 32px;
+	margin: 0;
+	padding: 0;
+	display: none;
+	float: left;
+	width: 200px;
+}
+nav ul li ul.subnav li{
+	margin: 0;
+	padding: 0;
+	clear: both;
+	width: 100%;
+}
+nav ul li ul.subnav li a {
+	float: left;
+	width:100%;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: #fff;
+	padding:5px 20px;
+	color:#666;
+}
+nav ul li ul.subnav li a:hover {
+	background: #eee;
+}
+#rightNavbar .entry.hover,nav ul a.hover {
+	background-color:#fff;
+	z-index:2;
+	position:relative;
+	box-shadow: 0 0 5px #fff;
+	outline:none;
+}
+nav ul .hover {
+	color:#666;
+}
+#rightNavbar {
+	float:right;
+}
+#rightNavbar fieldset {
+	margin:0;
+	padding:0;
+}
+#rightNavbar select {
+	margin:3px;
 }
 #account {
     float:left;
@@ -130,7 +203,7 @@ nav li a:hover,#rightNavbar .entry:hover {
     min-width:16px;
     padding:2px;
     text-align:center;
-    background-color:#777;
+    background-color:#666;
     display:block;
     font-weight:bold;
     line-height:16px;
@@ -139,10 +212,10 @@ nav li a:hover,#rightNavbar .entry:hover {
 #notifiche>span.active {
     background-color:#c00;
 }
-.boxNotifiche {
+.boxNotifiche, .subnav {
     display:none;
     background: none repeat scroll 0 0 #FFFFFF;
-    box-shadow: 0 0 7px #000;
+    box-shadow: 0 0 5px #eee;
     color: #777;
     min-height: 20px;
     line-height: 20px;
@@ -153,34 +226,26 @@ nav li a:hover,#rightNavbar .entry:hover {
     top: 32px;
     width: 300px;
 }
-#rightNavbar {
-	float:right;
-}
-#rightNavbar fieldset {
-	margin:0;
-	padding:0;
-}
-#rightNavbar select {
-	margin:2px;
-	padding:0 !important;
-}
 footer {
+	background:url(../imgs/menu-bg.jpg) repeat-x;
 	clear:both;
 	float:left;
 	width:100%;
-	height:60px;
+	color:#fff;
 }
-#messaggioContainer {
-	position:fixed;
+footer>div {
+	padding: 20px 0 40px;
+	height:20px;
+}
+#messaggio {
+    border-radius:0 0 5px 5px;
+    border-top:0;
+    box-shadow:0 0 4px #000;
+	position:absolute;
 	top:32px;
 	text-align:center;
 	right:37%;
 	left:37%;
-}
-#messaggioContainer .messaggio {
-    border-radius:0 0 5px 5px;
-    border-top:0;
-    box-shadow:0 0 4px #000;
 }
 #login {
 	float:left;

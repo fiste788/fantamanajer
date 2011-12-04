@@ -2,186 +2,48 @@
 /**
  * Creo un array in cui specifico titolo,js e css dell'head
  */
- 
-$pages = array();
 
-    $pages['home'] = array(	'title'=>"Home",
-									'roles'=>-1);
+require_once(INCDIR . 'pages.inc.php');
 
-									
-	$pages['squadre'] = array(	'title'=>"Squadra", 
-								'js'=>array('fancybox'=>'fancybox'),
-								'roles'=>-1,
-								'navbar'=>array('key'=>'squadre','title'=>'Le squadre','order'=>3,'main'=>TRUE));
-
-	$pages['clubs'] = array(	'title'=>"Clubs di A", 
-								'js'=>array('fancybox'=>'fancybox'),
-								'roles'=>-1,
-								'navbar'=>array('key'=>'clubs','title'=>'Serie A','order'=>5,'main'=>TRUE));
-								
-	$pages['classifica'] = array(	'title'=>"Classifica",
-								'ieHack'=>array('flot'=>'excanvas.js'),
-								'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
-								'roles'=>-1,
-								'navbar'=>array('key'=>'classifica','title'=>'Classifica','order'=>5,'main'=>TRUE));
-								
-	$pages['conferenzeStampa'] = array(	'title'=>"Conferenze stampa",
-								'roles'=>-1,
-								'navbar'=>array('key'=>'conferenzeStampa','title'=>'Conferenze stampa','order'=>4,'main'=>TRUE));
-								
-	$pages['altro'] = array(	'title'=>"Altro...",
-								'roles'=>-1,
-								'navbar'=>array('key'=>'altro','title'=>'Altro...','order'=>6,'main'=>TRUE));
-								
-	$pages['dettaglioSquadra'] = array(	'title'=>"Squadra", 
-								'js'=>array('fancybox'=>'fancybox'),
-								'roles'=>-1);
-
-    $pages['areaAmministrativa'] = array(	'title'=>"Area amministrativa",
-								'roles'=>1,
-								'navbar'=>array('key'=>'areaAmministrativa','title'=>'AreaAdmim','order'=>7,'main'=>TRUE));
-
-
-    $pages['dettaglioClub'] = array(	'title'=>"Club", 
-								'js'=>array('fancybox'=>'fancybox'),
-								'roles'=>-1,
-								'navbar'=>array('key'=>'clubs','title'=>'Club'));
-
-	$pages['dettaglioGiocatore'] = array(	'title'=>"Dettaglio giocatore", 
-								'ieHack'=>array('flot'=>'excanvas.js'),
-								'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
-								'roles'=>-1,
-								'navbar'=>array('key'=>'altro','title'=>'Dettaglio giocatore'));
-									
-	$pages['dettaglioGiornata'] = array(	'title'=>"Dettaglio punteggi",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'classifica','title'=>'Dettaglio giornata'));
-									
-	$pages['premi'] = array(	'title'=>"Premi",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'altro','title'=>'Premi'));
-									
-	$pages['contatti'] = array(	'title'=>"Contatti",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'altro','title'=>'Contatti'));
-									
-	$pages['sendMail'] = array(	'title'=>"Invio mail formazioni",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'altro','title'=>'Script'));
-	
-	$pages['acquistaGioc'] = array(	'title'=>"Acquista giocatori",
-										'roles'=>-1,
-										'navbar'=>array('key'=>'altro','title'=>'Script'));
-	
-	$pages['uploadFtp'] = array(	'title'=>"Upload FTP",
-										'roles'=>-1,
-										'navbar'=>array('key'=>'altro','title'=>'Script','order'=>6));
-										
-	$pages['backup'] = array(	'title'=>"Backup",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'altro','title'=>'Script'));
-	
-	$pages['minify'] = array(	'title'=>"Minify css and js",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'altro','title'=>'Script'));
-	
-	$pages['updateOrariGiornata'] = array(	'title'=>"Aggiorna orari giornata corrente",
-									'roles'=>-1,
-									'navbar'=>array('key'=>'altro','title'=>'Script'));
-	
-	$pages['weeklyScript'] = array(	'title'=>"Calcolo punteggi",
-										'roles'=>-1,
-										'navbar'=>array('key'=>'altro','title'=>'Script'));
-										
-	$pages['updateGiocatori'] = array(	'title'=>"Aggiorna lista giocatori",
-										'roles'=>-1,
-										'navbar'=>array('key'=>'altro','title'=>'Script'));
-
-	$pages['creaCalendario'] = array(	'title'=>"crea calendario",
-										'roles'=>-1,
-										'navbar'=>array('key'=>'altro','title'=>'Script'));
-									
-	$pages['feed'] = array(	'title'=>"Vedi gli eventi",
-										'roles'=>-1,
-										'navbar'=>array('key'=>'altro','title'=>'Eventi'));
-
-	$pages['formazioneBasic'] = array(	'title'=>"Formazione",
-										'js'=>array('custom'=>'createFormazione'), 
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
-										
-	$pages['formazione'] = array(	'title'=>"Formazione", 
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Formazione'));
-
-	$pages['utente'] = array(	'title'=>"Modifica utente",
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Utente'));
-
-	$pages['trasferimenti'] = array(	'title'=>"Trasferimenti",
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Trasferimenti'));
-										
-	$pages['giocatoriLiberi'] = array(	'title'=>"Giocatori liberi",
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Giocatori liberi'));
-										
-	$pages['altreFormazioni'] = array(	'title'=>"Altre formazioni",
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'),
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Altre formazioni'));
-										
-	$pages['modificaConferenza'] = array(	'title'=>"Crea o modifica conferenza",
-										'roles'=>0,
-										'navbar'=>array('key'=>'conferenzeStampa','title'=>'Crea o modifica conferenza'));
-							
-	$pages['download'] = array(	'title'=>"Area Download",
-										'roles'=>0,
-										'navbar'=>array('key'=>'altro','title'=>'Download'));
-										
-	$pages['creaSquadra'] = array(	'title'=>"Crea una nuova squadra",
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.button','jquery.ui.mouse','jquery.ui.position','jquery.ui.dialog')),
-										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Crea una nuova squadra'));
-										
-	$pages['nuovoTrasferimento'] = array(	'title'=>"Nuovo trasferimento",
-										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Nuovo trasferimento'));
-										
-	$pages['inserisciFormazione'] = array(	'title'=>"Inserisci formazione mancante",
-										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione formazioni'));
-										
-	$pages['newsletter'] = array(	'title'=>"Newsletter",
-										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Newsletter'));
-
-	$pages['penalita'] = array(	'title'=>"Penalità",
-										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Penalità'));
-										
-	$pages['impostazioni'] = array(	'title'=>"Impostazioni lega",
-										'roles'=>1,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Impostazioni lega'));
-									
-	$pages['gestioneDatabase'] = array(	'title'=>"Gestione database",
-										'roles'=>2,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Gestione database'));
-
-	$pages['lanciaScript'] = array(	'title'=>"Lancia script",
-										'roles'=>2,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Lancia script'));
-										
-	$pages['modificaGiocatore'] = array(	'title'=>"Modifica giocatore",
-										'ieHack'=>array('flot'=>'excanvas'),
-										'js'=>array('flot'=>array('jquery.flot','jquery.flot.selection')),
-										'roles'=>2,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Modifica giocatore'));
-										
-	$pages['giornate'] = array(	'title'=>"Giornate",
-										'css'=>array('ui.datepicker'),
-										'js'=>array('ui'=>array('jquery.ui.core','jquery.ui.datepicker')),
-										'roles'=>2,
-										'navbar'=>array('key'=>'areaAmministrativa','title'=>'Giornate'));								
+$pages = new Pages();
+$pages->addPage('home','Home',-1,'',0);
+$pages->addPage('squadre','Le squadre',-1,'squadre',1,array('fancybox'=>'fancybox'));
+$pages->addPage('clubs','Clubs di A',-1,'clubs',4);
+$pages->addPage('dettaglioClub','Club',-1,'clubs');
+$pages->addPage('conferenzeStampa','Conferenze stampa',-1,'conferenzeStampa',2);
+$pages->addPage('classifica','Classifica',-1,'classifica',3,array('flot'=>array('jquery.flot','jquery.flot.selection')));
+$pages->addPage('altro',"Altro...",-1,'altro',6);
+$pages->addPage('dettaglioSquadra','Dettaglio squadra',-1,'squadre');
+$pages->addPage('areaAmministrativa','Area admin',1,'areaAmministrativa',7);
+$pages->addPage('dettaglioGiocatore','Dettaglio giocatore',-1,'altro');
+$pages->addPage('dettaglioGiornata','Dettaglio giornata',-1,'classifica');
+$pages->addPage('premi','Premi',-1,'altro',2);
+$pages->addPage('contatti','Contatti',-1,'altro',3);
+$pages->addPage('sendMail','Invio mail formazione',-1,'altro');
+$pages->addPage('trasfert','Lancia trasferimenti',-1,'altro');
+$pages->addPage('backup','Backup',-1,'altro');
+$pages->addPage('minify','Minify',1,'areaAmministrativa');
+$pages->addPage('updateOrariGiornata','Aggiorna orari giornata corrente',-1,'altro');
+$pages->addPage('weeklyScript','Calcolo punteggi',-1,'altro');
+$pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'altro');
+$pages->addPage('feed','Vedi gli eventi',-1,'altro',1);
+$pages->addPage('formazione','Formazione',0,'altro',1,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
+$pages->addPage('formazioneBasic','Formazione',0,'altro');
+$pages->addPage('utente','Modifica informazioni utente',0,'');
+$pages->addPage('trasferimenti','Trasferimenti',0,'altro',2);
+$pages->addPage('giocatoriLiberi','Giocatori liberi',0,'altro',3);
+$pages->addPage('altreFormazioni','Altre formazioni',0,'altro',FALSE,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
+$pages->addPage('modificaConferenza','Nuova conferenza',0,'altro',4);
+$pages->addPage('download','areaDownload',0,'altro');
+$pages->addPage('creaSquadra','Crea una nuova squadra',1,'areaAmministrativa',5,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.button','jquery.ui.mouse','jquery.ui.position','jquery.ui.dialog')));
+$pages->addPage('nuovoTrasferimento','Nuovo trasferimento',1,'areaAmministrativa',6);
+$pages->addPage('inserisciFormazione','Inserisci formazione mancante',1,'areaAmministrativa',7);
+$pages->addPage('newsletter','Newsletter',1,'areaAmministrativa',8);
+$pages->addPage('penalita','Penalità',1,'areaAmministrativa',9);
+$pages->addPage('impostazioni','Impostazioni lega',1,'areaAmministrativa',10);
+$pages->addPage('gestioneDatabase','Gestione database',2,'areaAmministrativa',1);
+$pages->addPage('lanciaScript','Lancia script',2,'areaAmministrativa',2);
+$pages->addPage('modificaGiocatore','Modifica giocatore',2,'areaAmministrativa',3,array('flot'=>array('jquery.flot','jquery.flot.selection')));
+$pages->addPage('giornata','Giornata',2,'areaAmministrativa',4,array('ui'=>array('jquery.ui.core','jquery.ui.datepicker')));
+$pages->finalize();
 ?>

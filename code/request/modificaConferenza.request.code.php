@@ -21,25 +21,21 @@ if($request->get('submit') == 'Rimuovi'){
 		$articolo->setIdGiornata(GIORNATA);
 		$articolo->setIdLega(1);
 
-		if (!empty($articolo->title) && !empty($articolo->text)) {
-			if(($id = $articolo->save()) != FALSE) {
-			    if(is_null($articolo->getId())) {
-				    $evento = new Evento();
-				    $evento->setTipo(Evento::CONFERENZASTAMPA);
-				    $evento->setData($articolo->getInsertDate());
-				    $evento->setIdUtente($articolo->getIdUtente());
-				    $evento->setIdLega($articolo->getIdLega());
-				    $evento->setIdExternal($id);
-					$evento->save();
-				}
-				$message->success("Inserimento completato con successo");
-			} else
-	            $message->error("Errore generico nell'inserimento");
-			$_SESSION['message'] = $message;
-			Request::goToUrl('conferenzeStampa');
-		}
-		else
-			$message->error("Non hai compilato correttamente tutti i campi");
+		if(($id = $articolo->save()) != FALSE) {
+		    if(is_null($articolo->getId())) {
+			    $evento = new Evento();
+			    $evento->setTipo(Evento::CONFERENZASTAMPA);
+			    $evento->setData($articolo->getInsertDate());
+			    $evento->setIdUtente($articolo->getIdUtente());
+			    $evento->setIdLega($articolo->getIdLega());
+			    $evento->setIdExternal($id);
+				$evento->save();
+			}
+			$message->success("Inserimento completato con successo");
+		} else
+            $message->error("Errore generico nell'inserimento");
+		$_SESSION['message'] = $message;
+		Request::goToUrl('conferenzeStampa');
 	}
 }
 $contentTpl->assign('articolo',$articolo);

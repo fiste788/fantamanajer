@@ -1,5 +1,5 @@
 <?php
-require(TABLEDIR . 'dbTable.inc.php');
+require_once(TABLEDIR . 'dbTable.inc.php');
 
 class SelezioneTable extends DbTable {
     const TABLE_NAME = 'selezione';

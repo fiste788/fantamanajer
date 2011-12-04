@@ -20,5 +20,4 @@
 	<?php else: ?>
 		<a class="logout entry" href="<?php echo Links::getLink('home',array('logout'=>TRUE)); ?>" title="Logout">Logout</a>
 	<?php endif; ?>
-	</div>
 </div>

@@ -3,6 +3,14 @@ require_once(TABLEDIR . 'Schieramento.table.db.inc.php');
 
 class Schieramento extends SchieramentoTable
 {
+	public static function getByPosizione($idFormazione,$posizione) {
+		$q = "SELECT *
+				FROM schieramento
+				WHERE idFormazione = '" . $idFormazione . "' AND posizione = '" . $posizione . "'";
+		$exe = mysql_query($q) or self::sqlError($q);
+		FirePHP::getInstance()->log($q);
+		return mysql_fetch_object($exe,__CLASS__);
+	}
 	public static function getSchieramentoById($idFormazione)
 	{
 		$q = "SELECT * 
@@ -11,6 +19,7 @@ class Schieramento extends SchieramentoTable
 				ORDER BY posizione";
 		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		FirePHP::getInstance()->log($q);
+		$values = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		return $values;
@@ -71,6 +80,10 @@ class Schieramento extends SchieramentoTable
 					WHERE idFormazione = '" . $idFormazione . "' AND idPosizione = '" . $pos . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+	}
+
+	public function check($array,$message) {
+		return TRUE;
 	}
 }
 ?>

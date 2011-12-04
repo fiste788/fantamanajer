@@ -1,29 +1,29 @@
 <ul>
-	<?php foreach($this->entries as $key=>$val):
-        if($key != ""):
+	<?php foreach($this->entries->navbar as $key=>$val):
 		$selected = FALSE;
-		if(in_array($this->request->get('p'),$val['pages'])) $selected = TRUE;
+		if(in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) $selected = TRUE;
 			if($selected): ?>
 				<li class="selected">
 			<?php else: ?>
 				<li>
 			<?php endif; ?>
-			<div>
-				<a href="<?php echo Links::getLink($key); ?>"><?php echo $val['title']; ?></a>
-				<?php if($selected && !isset($this->pages[$this->request->get('p')]['navbar']['main'])): ?>
-					<a class="son"> > </a>
-					<a><?php echo $this->pages[$this->request->get('p')]['navbar']['title']; ?></a>
+				<a class="level" href="<?php echo Links::getLink($key); ?>"><?php echo $this->entries->pages[$key]->title; ?></a>
+				<?php if(!empty($val)): ?>
+					<ul class="subnav">
+					<?php foreach($val as $key2=>$val2): ?>
+						<li><a href="<?php echo Links::getLink($val2); ?>"><?php echo $this->entries->pages[$val2]->title; ?></a></li>
+					<?php endforeach; ?>
+					</ul>
 				<?php endif; ?>
-			</div>
 			</li>
-	<?php endif; endforeach; ?>
+	<?php endforeach; ?>
 </ul>
 <div id="rightNavbar">
 	<?php if(count($this->leghe) > 1): ?>
 		<?php $appo = $_GET; unset($appo['p']); ?>
 		<form class="column last" action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
 			<fieldset>
-				<label class="lega" for="legaView">Lega:</label>
+				<label for="legaView">Lega:</label>
 				<select id="legaView" onchange="this.form.submit();" name="legaView">
 					<?php foreach($this->leghe as $key=>$value): ?>
 						<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>

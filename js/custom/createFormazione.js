@@ -26,9 +26,9 @@ $(document).ready(function(){
 								k = 0;
 							}
 							if(appo[2])
-							    gioc = $('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-65) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							    gioc = $('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-70) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 							else
-								gioc = $('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-65) + 'px;top:' + ((140 * j) + 60) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
+								gioc = $('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-70) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 							sobstitution(gioc);
                             $("#campo div.droppable[id=" +ruoloGioc+"]").append(gioc);
 							ruolo = ruoloGioc;
@@ -251,7 +251,7 @@ $(document).ready(function(){
 								exist.removeAttr("value");
 							$(this).children('div').css('opacity','1');
 							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
-								$(ui.draggable).addClass('hidden');
+								$(ui.draggable).hide();
 							else
 								ui.draggable.remove();
 							ui.helper.remove();
@@ -267,7 +267,7 @@ $(document).ready(function(){
 				hoverClass: 'droppable-hover',
 				drop: function(ev,ui) {
 							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
-								$(ui.draggable).addClass('hidden');
+								$(ui.draggable).hide();
 							else
 								ui.draggable.remove();
 							ui.helper.remove();
@@ -275,7 +275,7 @@ $(document).ready(function(){
 							if(exist.length > 0)
 								exist.removeAttr("value");
 							
-							$("#giocatori .draggable a[rel=" + ui.draggable.children('a').attr('rel') + "]").parent().removeClass("hidden");
+							$("#giocatori .draggable a[rel=" + ui.draggable.children('a').attr('rel') + "]").parent().show();
 							$("#giocatori .draggable").draggable({
 								helper:"clone",opacity:0.5,revert:true
 							});
@@ -312,7 +312,7 @@ $(document).ready(function(){
 							
 							$(this).children('div').css('opacity','1');
 							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
-								$(ui.draggable).addClass('hidden');
+								$(ui.draggable).hide();
 							else
 								ui.draggable.remove();
 							ui.helper.remove();
@@ -436,8 +436,8 @@ $(document).ready(function(){
 									$(this).html(ui.draggable.html());
 									source = ui.draggable.parent().parent().attr('id')
 									if(source == 'giocatori') {
-										ui.draggable.addClass('hidden');
-                                        $('#giocatori a[rel=' + id + ']').parent().removeClass('hidden');
+										ui.draggable.hide();
+                                        $('#giocatori a[rel=' + id + ']').parent().show();
 									}
 									else {
 										if(source == 'panchina' || source == 'campo') {
