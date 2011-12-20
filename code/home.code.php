@@ -11,7 +11,7 @@ foreach ($ruoli as $ruolo=>$val) {
 	$bestPlayers[$ruolo] = Giocatore::getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
 	$bestPlayer[$ruolo] = array_pop($bestPlayers[$ruolo]);
 }
-$firePHP->log($bestPlayer);
+
 $articoli = Articolo::getLastArticoli(2);
 if($articoli != FALSE)
 	foreach ($articoli as $key => $val)

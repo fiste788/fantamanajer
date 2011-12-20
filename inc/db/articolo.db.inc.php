@@ -20,7 +20,7 @@ class Articolo extends ArticoloTable
 	{
 		$q = "SELECT * 
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
-				ORDER BY insertDate DESC
+				ORDER BY dataCreazione DESC
 				LIMIT 0," . $number . ""; 
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);

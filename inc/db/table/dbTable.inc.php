@@ -146,46 +146,6 @@ abstract class DbTable
 		    return FALSE;
 	}
 	
-	/*
-	 * Richiama la funzione check specifica della classe e in caso ritorni false setta
-	 * dall'array con valori raw senza fare il cast per mantenere le variabili non corrette
-	 */
-	public function validate() {
-		$return = $this->check($postArray = $GLOBALS['request']->getRawData('post'),$GLOBALS['message']);
-  		$this->fromArray($postArray,$return);
-        return $return;
-	}
-	
-	public function fromArray($array,$raw = FALSE) {
-		$vars = get_object_vars($this);
-		foreach($array as $key=>$value) {
-			if(isset($vars[$key]) && !is_null($value)) {
-			    if(!$raw && method_exists($this,$methodName = 'set' . ucfirst($vars[$key])))
-				    $this->$methodName($value);
-                else
-                    $this->$key = $value;
-            }
-		}
-	}
-
-	//deve diventare abstract
-	public function check($array,$message) {
-		return TRUE;
-	}
-	
 	public abstract function __toString();
-/*
-	public function __get($varName)
-    {
-		if(method_exists($this,$methodName = 'get' . ucfirst($varName)))
-			return $this->$methodName();
-	}
-
-	public function __set($varName,$value)
-	{
-		if(method_exists($this,$methodName = 'set' . ucfirst($varName)))
-			return $this->$methodName($value);
-    }
-*/
 }
 ?>

@@ -28,7 +28,7 @@
 				<th class="center">Esplusioni</th>
 			</tr>
 			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; else echo 'row'; ?>">
+			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
 					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>

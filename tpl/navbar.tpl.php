@@ -21,10 +21,10 @@
 <div id="rightNavbar">
 	<?php if(count($this->leghe) > 1): ?>
 		<?php $appo = $_GET; unset($appo['p']); ?>
-		<form class="column last" action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
+		<form action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
 			<fieldset>
 				<label for="legaView">Lega:</label>
-				<select id="legaView" onchange="this.form.submit();" name="legaView">
+				<select id="legaView" onchange="this.form.submit();" class="medium" name="legaView">
 					<?php foreach($this->leghe as $key=>$value): ?>
 						<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>
 					<?php endforeach; ?>
