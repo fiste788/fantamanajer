@@ -33,8 +33,10 @@ require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
 $dbConnection = new db();
+global $message;
 $message = new message();
 $logger = new logger();
+global $request;
 $request = new Request();
 $quickLinks = new QuickLinks($request);
 $notifiche = array();
@@ -56,14 +58,15 @@ $generalJs[] = 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = 'custom/all.js';
 
 $generalCss = array();
-$generalCss[] = 'boiler.css';
-$generalCss[] = 'typography.css';
-$generalCss[] = 'forms.css';
+//$generalCss[] = 'boiler.css';
+//$generalCss[] = 'typography.css';
+//$generalCss[] = 'forms.css';
 //$generalCss[] = 'buttons.css';
-$generalCss[] = 'grid.css';
+//$generalCss[] = 'grid.css';
+$generalCss[] = 'bootstrap.min.css';
 $generalCss[] = 'layout.css';
 $generalCss[] = '00-screen.css';
-$generalCss[] = 'uniform.css';
+//$generalCss[] = 'uniform.css';
 
 //Creating object for pages
 $layoutTpl = new MySavant3(array('template_path' => TPLDIR));
@@ -73,11 +76,13 @@ $contentTpl = new MySavant3(array('template_path' => TPLDIR));
 $navbarTpl = new MySavant3(array('template_path' => TPLDIR));
 $operationTpl = new MySavant3(array('template_path' => OPERATIONTPLDIR));
 
+global $firePHP;
 $firePHP = FirePHP::getInstance(TRUE);
 $firePHP->setEnabled(LOCAL);
 $firePHP->registerErrorHandler(FALSE);
-
+			   
 ob_start();
+
 
 require_once(CODEDIR . 'login.code.php');
 

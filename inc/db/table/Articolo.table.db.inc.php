@@ -5,24 +5,24 @@ class ArticoloTable extends DbTable
 {
 	const TABLE_NAME = "articolo";
 	var $id;
-	var $title;
-	var $abstract;
-	var $text;
-	var $insertDate;
+	var $titolo;
+	var $sottoTitolo;
+	var $testo;
+	var $dataCreazione;
 	var $idUtente;
 	var $idGiornata;
 	var $idLega;
 	
 	function __construct()
 	{
-		$this->id = $this->getId();
-		$this->title = $this->getTitle();
-		$this->abstract = $this->getAbstract();
-		$this->text = $this->getText();
-		$this->insertDate = $this->getInsertDate();
-		$this->idUtente = $this->getIdUtente();
-		$this->idGiornata = $this->getIdGiornata();
-		$this->idLega = $this->getIdLega();
+		$this->id = is_null($this->id) ? NULL : $this->getId();
+		$this->titolo = is_null($this->titolo) ? NULL : $this->getTitolo();
+		$this->sottoTitolo = is_null($this->sottoTitolo) ? NULL : $this->getSottoTitolo();
+		$this->testo = is_null($this->testo) ? NULL : $this->getTesto();
+		$this->dataCreazione = is_null($this->dataCreazione) ? NULL : $this->getDataCreazione();
+		$this->idUtente = is_null($this->id) ? NULL : $this->getIdUtente();
+		$this->idGiornata = is_null($this->id) ? NULL : $this->getIdGiornata();
+		$this->idLega = is_null($this->id) ? NULL : $this->getIdLega();
 	}
 
 	/**
@@ -36,46 +36,46 @@ class ArticoloTable extends DbTable
 	}
 
 	/**
-	 * Setter: title
-	 * @param String $title
+	 * Setter: titolo
+	 * @param String $titolo
 	 * @return void
 	 */
-	public function setTitle( $title )
+	public function setTitle( $titolo )
 	{
-		$this->title = $title;
+		$this->titolo = $titolo;
 	}
 
 	/**
-	 * Setter: abstract
-	 * @param String $abstract
+	 * Setter: sottoTitolo
+	 * @param String $sottoTitolo
 	 * @return void
 	 */
-	public function setAbstract( $abstract )
+	public function setSottoTitolo( $sottoTitolo )
 	{
-		$this->abstract = $abstract;
+		$this->sottoTitolo = $sottoTitolo;
 	}
 
 	/**
-	 * Setter: text
-	 * @param String $text
+	 * Setter: testo
+	 * @param String $testo
 	 * @return void
 	 */
-	public function setText( $text )
+	public function setTesto( $testo )
 	{
-		$this->text = $text;
+		$this->testo = $testo;
 	}
 
 	/**
-	 * Setter: insertDate
-	 * @param Date $insertDate
+	 * Setter: dataCreazione
+	 * @param Date $dataCreazione
 	 * @return void
 	 */
-	public function setInsertDate( $insertDate )
+	public function setDataCreazione( $dataCreazione )
 	{
-	    if(is_a($this->insertDate,"DateTime"))
-	        $this->insertDate = $insertDate;
+	    if(is_a($this->dataCreazione,"DateTime"))
+	        $this->dataCreazione = $dataCreazione;
 		else
-	 		$this->insertDate = new DateTime($insertDate);
+	 		$this->dataCreazione = new DateTime($dataCreazione);
 	}
 
 	/**
@@ -151,42 +151,39 @@ class ArticoloTable extends DbTable
 	}
 
 	/**
-	 * Getter: title
+	 * Getter: titolo
 	 * @return String
 	 */
-	public function getTitle()
+	public function getTitolo()
 	{
-	 	return $this->title;
+	 	return $this->titolo;
 	}
 
 	/**
-	 * Getter: abstract
+	 * Getter: sottoTitolo
 	 * @return String
 	 */
-	public function getAbstract()
+	public function getSottoTitolo()
 	{
-	 	return $this->abstract;
+	 	return $this->sottoTitolo;
 	}
 
 	/**
-	 * Getter: text
+	 * Getter: testo
 	 * @return String
 	 */
-	public function getText()
+	public function getTesto()
 	{
-	 	return $this->text;
+	 	return $this->testo;
 	}
 
 	/**
-	 * Getter: insertDate
+	 * Getter: dataCreazione
 	 * @return DateTime
 	 */
-	public function getInsertDate()
+	public function getDataCreazione()
 	{
-		if(is_a($this->insertDate,"DateTime"))
-			return $this->insertDate;
-		else
-	 		return new DateTime($this->insertDate);
+		return (is_a($this->dataCreazione,"DateTime")) ? $this->dataCreazione : new DateTime($this->dataCreazione);
 	}
 
 	/**
@@ -254,7 +251,7 @@ class ArticoloTable extends DbTable
 	
 
 	public function __toString() {
-		return $this->getTitle();
+		return $this->getTitolo();
 	}
 }
 ?>

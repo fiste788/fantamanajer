@@ -46,7 +46,8 @@ a, a:link, a:visited, a:hover {
 	width:150px;
 }
 label {
-	display:inline-block;
+	font-weight:bold;
+	cursor:pointer;
 }
 input,textarea,select {
 	font-size:13px !important;
@@ -58,4 +59,7 @@ input,textarea,select {
 }
 input.small {
 	width:20px;
+}
+.column {
+	float:left;
 }

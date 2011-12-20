@@ -20,54 +20,7 @@ class Utente extends UtenteTable
 		session_unset();
 	}
 	
-	public static function getAllEmail()
-	{
-		$q = "SELECT mail,id,idLega,nomeProp,cognome
-				FROM utente";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idLega][$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
-		return $values; 
-	}
-	
-	public static function getAllEmailAbilitate()
-	{
-		$q = "SELECT mail,id,idLega,nomeProp,cognome
-				FROM utente
-				WHERE abilitaMail <> 0";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->idLega][$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
-		return $values; 
-	}
-	
-	public static function getAllEmailByLega($idLega)
-	{
-		$q = "SELECT mail,id,nomeProp,cognome
-				FROM utente
-				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
-		return $values; 
-	}
-	
-	public static function getAllEmailAbilitateByLega($idLega)
-	{
-		$q = "SELECT mail,id,nomeProp,cognome
-				FROM utente
-				WHERE abilitaMail <> 0 AND idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-			$values[$row->id] = array($row->mail=>$row->cognome . ' ' . $row->nomeProp);
-		return $values; 
-	}
-
-    public static function getSquadraByUsername($username,$idUtente)
+	public static function getSquadraByUsername($username,$idUtente)
 	{
 		$q = "SELECT * 
 				FROM utente 
@@ -106,42 +59,6 @@ class Utente extends UtenteTable
 			$i++;
 		}
 		return $pass;
-	}
-	
-	public function check($array,$message) {
-        require_once(INCDIR . 'mail.inc.php');
-        
-		$post = (object) $array;
-		foreach($_POST as $key=>$val)
-		{
-			if($key != "passwordnew" && $key != "passwordnewrepeat" && empty($val)) {
-				$message->error("Non hai compilato tutti i campi");
-				return FALSE;
-			}
-		}
-		if(!empty($post->passwordnew) && !empty($post->passwordnewrepeat))
-		{
-			if($post->passwordnew == $post->passwordnewrepeat)
-			{
-				if(strlen($post->passwordnew) < 6) {
-					$message->error("La password deve essere lunga almeno 6 caratteri");
-					return FALSE;
-				}
-			}
-			else {
-				$message->error("Le 2 password non corrispondono");
-				return FALSE;
-			}
-		}
-		if(!Mail::checkEmailAddress($post->mail)) {
-			$message->error("Mail non corretta");
-			return FALSE;
-		}
-		if(isset($post->nomeSquadra) && Utente::getSquadraByNome($post->nomeSquadra,$filterSquadra) != FALSE) {
-			$message->error("Il nome della squadra è già presente");
-			return FALSE;
-		}
-		return TRUE;
 	}
 }
 ?>
