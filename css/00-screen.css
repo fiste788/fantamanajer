@@ -49,11 +49,6 @@ label {
 	font-weight:bold;
 	cursor:pointer;
 }
-input,textarea,select {
-	font-size:13px !important;
-	line-height: 13px !important;
-	padding:4px !important;
-}
 .hidden{
 	display:none;
 }
@@ -62,4 +57,7 @@ input.small {
 }
 .column {
 	float:left;
+}
+.formbox {
+	padding:6px 0;
 }

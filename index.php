@@ -52,7 +52,8 @@ $generalJs = array();
 $generalJs[] = 'jquery/jquery.js';
 $generalJs[] = 'ui/jquery.effects.core.js';
 $generalJs[] = 'ui/jquery.effects.pulsate.js';
-$generalJs[] = 'uniform/jquery.uniform.js';
+//$generalJs[] = 'uniform/jquery.uniform.js';
+$generalJs[] = 'dropdown/dropdown.js';
 $generalJs[] = 'stickypanel/jquery.stickypanel.js';
 $generalJs[] = 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = 'custom/all.js';
@@ -123,7 +124,7 @@ if(isset($_SESSION['message'])) {
  */
 
 $layoutTpl->assign('title',$pages->pages[$p]->title);
-
+$firePHP->log(REQUESTDIR . $p . '.request.code.php');
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
 if($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
     $firePHP->group($p . '.request.code.php');

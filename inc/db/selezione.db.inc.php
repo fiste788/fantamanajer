@@ -17,10 +17,10 @@ class Selezione extends SelezioneTable
 			return FALSE;
 	}
 	
-	public static function getSelezioneByidSquadra($idUtente)
+	public static function getSelezioneByIdSquadra($idUtente)
 	{
 		$q = "SELECT * 
-				FROM selezione INNER JOIN giocatore ON idGiocatoreNew = idGiocatore
+				FROM selezione INNER JOIN giocatore ON idGiocatoreNew = giocatore.id
 				WHERE idUtente = '" . $idUtente . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -124,6 +124,36 @@ class Selezione extends SelezioneTable
 		$q = "TRUNCATE TABLE selezione";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
+	}
+
+	public function check($array,$message) {
+		require_once(INCDBDIR . 'giocatore.db.inc.php');
+		require_once(INCDBDIR . 'punteggio.db.inc.php');
+		require_once(INCDBDIR . 'utente.db.inc.php');
+		require_once(INCDBDIR . 'trasferimento.db.inc.php');
+
+		$post = (object) $array;
+		$numTrasferimenti = count(Trasferimento::getByField('idUtente',$_SESSION['idUtente']));
+		if($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti ) {
+			$giocatoreNew = Giocatore::getById($post->idGiocatoreNew);
+			$giocatoreOld = Giocatore::getById($post->idGiocatoreOld);
+			$GLOBALS['firePHP']->log($array);
+	    	if($giocatoreOld->ruolo == $giocatoreNew->ruolo) {
+				$numSelezioni = self::getNumberSelezioni($_SESSION['idUtente']);
+				if($numSelezioni > $_SESSION['datiLega']->numSelezioni) {
+					
+				$message->warning('Hai già cambiato ' . $_SESSION['datiLega']->numSelezioni . ' volte il tuo acquisto');
+					return FALSE;
+				}
+			} else {
+				$message->error('I giocatori devono avere lo stesso ruolo');
+				return FALSE;
+			}
+		} else {
+			$message->error('Hai raggiunto il limite di trasferimenti');
+			return FALSE;
+		}
+  		return TRUE;
 	}
 }
 ?>

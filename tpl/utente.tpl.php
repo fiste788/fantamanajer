@@ -1,5 +1,5 @@
-<form enctype="multipart/form-data" id="userdata" action="<?php echo Links::getLink('utente'); ?>" method="post">
-	<fieldset class="column no-margin no-padding">
+<form enctype="multipart/form-data" action="<?php echo Links::getLink('utente'); ?>" method="post">
+	<fieldset>
 		<div class="formbox">
 			<label for="name">Nome:</label>
 			<input id="name" class="text" type="text" maxlength="15" name="nome" value="<?php echo $this->utente->nome; ?>"/>
@@ -30,8 +30,12 @@
 			<label for="passwordrepeat">Ripeti Pass:</label>
 			<input id="passwordrepeat" class="text" type="password" maxlength="12" name="passwordnewrepeat"/>
 		</div>
-		<h4 class="no-margin">Carica il tuo logo:</h4>
-		<input class="upload" name="userfile" type="file" /><br />
-		<input type="submit" class="submit" name="submit" value="OK" />
+		<div class="formbox">
+			<label for="userfile">Carica il tuo logo:</label>
+			<input id="userfile" class="upload" name="userfile" type="file" />
+		</div>
+		<div class="formbox">
+			<input type="submit" class="btn primary" name="submit" value="OK" />
+		</div>
 	</fieldset>
 </form>

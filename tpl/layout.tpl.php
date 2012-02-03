@@ -38,7 +38,7 @@
 	</head>
 	<?php flush(); ?>
 	<body>
-		<nav>
+		<nav id="topbar" class="topbar">
 			<div class="page"><?php echo $this->navbar; ?></div>
 		</nav>
 		<header>

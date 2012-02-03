@@ -2,18 +2,15 @@
 <div id="headerClub">
 	<div class="column last">
 		<a title="<?php echo $this->clubDett->nome; ?>" class="fancybox column">
-			<img alt="<?php echo $this->clubDett->id; ?>" src="<?php echo $this->pathClub; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
+			<img alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->request->get('club') . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
 		</a>
 	</div>
-	<h2 id="nomeClub"><?php echo $this->clubDett->nome; ?></h2>
-	<div id="datiClub">
-
-	</div>
+	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>
 	<h3>Giocatori</h3>
 	<table id="rosa" cellpadding="0" cellspacing="0">
-		<tbody>
+		<thead>
 			<tr>
 				<th>Nome</th>
 				<th class="center">Ruolo</th>
@@ -27,6 +24,8 @@
 				<th class="center">Ammonizioni</th>
 				<th class="center">Esplusioni</th>
 			</tr>
+		</thead>
+		<tbody>
 			<?php foreach($this->giocatori as $key => $val): ?>
 			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">

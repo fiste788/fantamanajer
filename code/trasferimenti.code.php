@@ -18,10 +18,14 @@ $playerFree = Giocatore::getFreePlayer(NULL,$_SESSION['legaView']);
 $trasferiti = Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
 $selezione = Selezione::getByField('idUtente',$_SESSION['idUtente']);
 
+if($request->has('acquista'))
+	$selezione->setIdGiocatoreNew($request->get('acquista'));
+
 $contentTpl->assign('giocatoriSquadra',GiocatoreStatistiche::getByField('idUtente',$filterId));
 $contentTpl->assign('freePlayer',$playerFree);
 $contentTpl->assign('filterId',$filterId);
 $contentTpl->assign('trasferimenti',$trasferimenti);
+$contentTpl->assign('selezione',$selezione);
 $operationTpl->assign('filterId',$filterId);
 $operationTpl->assign('elencoSquadre',Utente::getByField('idLega',$_SESSION['legaView']));
 ?>

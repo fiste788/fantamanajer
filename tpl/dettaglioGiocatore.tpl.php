@@ -1,4 +1,4 @@
-<div id="cardPlayer" class="column last">
+<div id="cardPlayer">
 	<?php if(isset($_GET['edit']) && $_GET['edit'] == 'edit' && $_SESSION['roles'] == '2'): ?>
 		<div id="formData">
 			<input type="hidden" name="idGioc" value="<?php echo $this->giocatore->id; ?>" />

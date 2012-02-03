@@ -14,6 +14,8 @@ $(document).ready(function(){
 					list.each(function (i) {
 						current = $(list[i]);
 						title = current.attr('title');
+						if(typeof(title) == 'undefined')
+							title = "";
 						$('a[rel="' + current.val() + '"]').parent().hide();
 						if(title != "")
 						{

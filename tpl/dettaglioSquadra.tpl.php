@@ -36,14 +36,14 @@
 			</p>
 		</div>
 		<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
-			<p id="mex">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
+			<p class="alert-message block-message info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
 		<?php endif; ?>
 	</div>
 </div>
 <?php if(!empty($this->giocatori)): ?>
 	<h3>Giocatori</h3>
-	<table id="rosa" cellpadding="0" cellspacing="0">
-		<tbody>
+	<table class="tablesorter" id="rosa" cellpadding="0" cellspacing="0">
+		<thead>
 			<tr>
 				<th>Nome</th>
 				<th class="center">Ruolo</th>
@@ -57,10 +57,12 @@
 				<th class="center">Ammonizioni</th>
 				<th class="center">Esplusioni</th>
 			</tr>
+		</thead>
+		<tbody>
 			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if($val->status == 0) echo 'rosso'; else echo 'row'; ?>">
+			<tr class="tr <?php if($val->status == 0) echo 'rosso'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
-					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
+					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','giocatore'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><a target="_blank" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$val->idClub)); ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></a></td>

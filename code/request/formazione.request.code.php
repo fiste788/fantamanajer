@@ -49,6 +49,6 @@ if(!PARTITEINCORSO)
 					$formazione::rollback();
 			}
 	    }
-}
+	}
 }
 ?>

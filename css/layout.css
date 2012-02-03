@@ -109,7 +109,115 @@ section fieldset {
     margin:0;
     padding:0;
 }
-nav {
+nav#topbar {
+	background:url(../imgs/menu-bg.jpg) repeat-x;
+	height:32px;
+}
+nav#topbar li {
+	position:relative;
+	color:#ccc;
+}
+nav#topbar fieldset {
+	padding:0;
+	margin:0;
+}
+nav#topbar form {
+	margin:2px;
+}
+nav#topbar label {
+	color:#ccc;
+	width:auto;
+}
+.topbar div > ul a, .nav a {
+	line-height: 18px;
+	padding: 7px 12px;
+}
+.topbar div > ul, .nav {
+  margin: 0;
+  width: 100%;
+}
+.topbar div > ul .menu-dropdown, .nav .menu-dropdown, .topbar div > ul .dropdown-menu, .nav .dropdown-menu {
+  background-color: #fff;
+}
+.menu-dropdown, .dropdown-menu {
+  background-clip: padding-box;
+  border-radius: 0 0 0 0 ;
+  border-width: 0;
+  box-shadow: 0 0 5px #eee;
+  padding: 0;
+  top: 32px;
+  max-width:none;
+}
+.topbar div > ul .menu-dropdown li a, .nav .menu-dropdown li a, .topbar div > ul .dropdown-menu li a, .nav .dropdown-menu li a {
+  color: #666;
+  text-shadow:none;
+}
+.topbar div>ul a.menu:hover,.nav a.menu:hover,.topbar div>ul li.open .menu,.nav li.open .menu,.topbar div>ul .dropdown-toggle:hover,.nav .dropdown-toggle:hover,.topbar div>ul .dropdown.open .dropdown-toggle,.nav .dropdown.open .dropdown-toggle{
+	background:transparent;
+}
+.topbar div>ul .menu-dropdown li a:hover,.nav .menu-dropdown li a:hover,.topbar div>ul .dropdown-menu li a:hover,.nav .dropdown-menu li a:hover{
+ background:transparent;
+	filter:none;
+	color:#333;
+}
+.topbar .dropdown-menu a:hover,.dropdown-menu a:hover,.topbar .dropdown-menu a.hover,.dropdown-menu a.hover{
+	background:transparent;
+	filter:none;
+	color:#333;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+}
+.topbar .open {
+	background-color:#fff;
+	box-shadow: 0 0 5px #fff;
+	outline:none;
+	color:#666;
+}
+ .topbar .open a:hover {
+color:#666;
+ }
+.open .menu, .dropdown.open .menu, .open .dropdown-toggle, .dropdown.open .dropdown-toggle {
+  background: none;
+  color: #666;
+  text-shadow:none;
+}
+.topbar .right {
+	float:right;
+}
+.topbar li.right .dropdown-menu {
+	right:0;
+}
+#notifiche {
+    padding:6px !important;
+}
+#notifiche>span {
+    border-radius:2px 2px 2px 2px;
+    height:16px;
+    min-width:16px;
+    padding:2px;
+    text-align:center;
+    background-color:#666;
+    display:block;
+    font-weight:bold;
+    line-height:16px;
+    font-size:12px;
+}
+#notifiche>span.active {
+    background-color:#c00;
+	color:#fff;
+}
+a.menu.nopick:after, .dropdown-toggle.nopick:after {
+  border: 0 none;
+  content: none;
+  margin:0px;
+  opacity: 1;
+  text-indent: 0px;
+  vertical-align: top;
+  width: 0;
+}
+/*
+nav#topbar {
 	position: fixed;
 	top:0;
 	left:0;
@@ -122,32 +230,39 @@ nav {
 	line-height:12px;
 	min-width:inherit;
 }
-nav ul {
+nav#topbar ul {
 	list-style-type:none;
 	float:left;
 	padding:0;
 	margin:0;
 }
-nav li {
+nav#topbar li {
 	float:left;
 	position:relative;
+	color:#ddd;
 }
-nav li.selected {
+nav#topbar li.selected {
 	font-weight:bold;
 	color:#fff;
 }
-nav li.selected a {
+nav#topbar li.selected a {
 	border-top:2px solid #fff;
 	padding:5px 12px 7px;
 }
-nav li a,#rightNavbar .entry {
+nav#topbar li a,#rightNavbar .entry {
 	padding:7px 12px;
 	float:left;
+	line-height:1.5;
 }
-nav li a:hover,#rightNavbar .entry:hover {
+nav#topbar li a:hover,#rightNavbar .entry:hover {
 	background-color:rgba(256,256,256,0.1);
 }
-nav ul li ul.subnav {
+nav#topbar .dropdown-menu {
+	border:0 none;
+	border-radius:auto;
+}
+/*
+nav#topbar ul li ul.subnav {
 	list-style: none;
 	position: absolute; 
 	left: 0;
@@ -158,13 +273,13 @@ nav ul li ul.subnav {
 	float: left;
 	width: 200px;
 }
-nav ul li ul.subnav li{
+nav#topbar ul li ul.subnav li{
 	margin: 0;
 	padding: 0;
 	clear: both;
 	width: 100%;
 }
-nav ul li ul.subnav li a {
+nav#topbar ul li ul.subnav li a {
 	float: left;
 	width:100%;
 	-moz-box-sizing: border-box;
@@ -175,7 +290,7 @@ nav ul li ul.subnav li a {
 	padding:5px 20px;
 	color:#666;
 }
-nav ul li ul.subnav li a:hover {
+nav#topbar ul li ul.subnav li a:hover {
 	background: #eee;
 }
 #rightNavbar .entry.hover,nav ul a.hover {
@@ -206,36 +321,12 @@ nav ul .hover {
     float:left;
     position:relative;
 }
-#notifiche {
-    padding:6px !important;
-}
-#notifiche>span {
-    border-radius:2px 2px 2px 2px;
-    height:16px;
-    min-width:16px;
-    padding:2px;
-    text-align:center;
-    background-color:#666;
-    display:block;
-    font-weight:bold;
-    line-height:16px;
-    font-size:12px;
-}
-#notifiche>span.active {
-    background-color:#c00;
-}
-.boxNotifiche, .subnav {
-    display:none;
-    background: none repeat scroll 0 0 #FFFFFF;
-    box-shadow: 0 0 5px #eee;
-    color: #777;
+*/
+.boxNotifiche {
     min-height: 20px;
     line-height: 20px;
-    padding: 10px;
     position: absolute;
-    right: -60px;
     text-align: left;
-    top: 32px;
     width: 300px;
 }
 footer {
@@ -259,19 +350,16 @@ footer>div {
 	right:37%;
 	left:37%;
 }
-#login {
-	float:left;
-}
-#login fieldset {
+
+nav#topbar #login fieldset {
 	margin:0;
-	padding:0;
+	padding:10px 20px;
 }
-#login input.text {
-	width:80px;
-	margin:0px;
-	height:14px;
-	line-height:14px;
-}
-#login label {
+nav#topbar #login label {
 	font-weight:normal;
+	color:#666;
+}
+nav#topbar #login .text {
+	border:1px solid #CCCCCC;
+	color:#808080;
 }
