@@ -6,18 +6,16 @@ require_once(VIEWDIR . 'ClubStatistiche.view.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 	
-$clubdett = ClubStatistiche::getById($request->get('club'));
+if(($clubdett = ClubStatistiche::getById($request->get('club'))) == FALSE)
+	Request::send404();
+
 $elencoClub = Club::getList();
 
 $quickLinks->set('id',$elencoClub,"");
 $giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('club'));
-$pathClub = CLUBSURL . $request->get('club') . '.png';
 
-$contentTpl->assign('pathClub',$pathClub);
 $contentTpl->assign('giocatori',$giocatori);
 $contentTpl->assign('clubDett',$clubdett);
-
-
 $operationTpl->assign('elencoClub',$elencoClub);
 
 ?>

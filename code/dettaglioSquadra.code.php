@@ -5,7 +5,6 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(VIEWDIR . 'SquadraStatistiche.view.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 
-
 if(($squadraDett =  SquadraStatistiche::getById($request->get('squadra'))) == FALSE)
 	Request::send404();
 

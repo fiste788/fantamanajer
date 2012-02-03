@@ -1,0 +1,8 @@
+.box {
+	padding:10px 20px;
+	width:25%;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	text-align:center;
+	float:left;
+}

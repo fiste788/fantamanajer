@@ -1,37 +1,5 @@
-	var boxNotifiche = $('.boxNotifiche');
-	$('#notifiche').click(function (event) {
-		if(!boxNotifiche.is(':visible')) {
-			boxNotifiche.show();
-			$(this).addClass('hover');
-		}
-		else {
-			boxNotifiche.hide();
-			$(this).removeClass('hover');
-		}
-	});
-	$("a.level",$("nav .subnav").parent()).click(function(e) { //When trigger is clicked...
-		e.preventDefault();
-		var subnav = $(this).parent().find("ul.subnav");
-        if(!subnav.is(":visible")) {
-			$(".subnav").hide();
-			$(".hover").removeClass("hover");
-			subnav.show();
-			$(this).addClass("hover");
-		} else {
-			subnav.hide();
-			$(this).removeClass('hover');
-		}
-    });
-	$('body').click(function(event) {
-		if (!$(event.target).next('.subnav').length) {
-			$(".subnav").hide();
-			$("li .hover").removeClass('hover');
-		}
-		if (!$(event.target).parent().next('.boxNotifiche').length) {
-			boxNotifiche.hide();
-			$("#notifiche").removeClass('hover');
-		};
-	});
+	
+	$('#topbar').dropdown();
 	var stickyPanelOptions = {
 		topPadding: 32,
 		afterDetachCSSClass: "top",
