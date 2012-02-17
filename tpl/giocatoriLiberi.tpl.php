@@ -2,7 +2,7 @@
 	<form action="<?php echo Links::getLink('trasferimenti',array('squadra'=>$_SESSION['idUtente'])); ?>" method="post">
 		<fieldset class="no-margin no-padding">
 <?php endif; ?>
-			<table class="tablesorter">
+			<table class="table tablesorter">
 				<thead>
 					<tr>
 						<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><th>Acq.</th><?php endif; ?>
@@ -30,7 +30,7 @@
 			</table>
 <?php if(!PARTITEINCORSO || !STAGIONEFINITA && $_SESSION['legaView'] == $_SESSION['idLega']): ?>
 			<p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
-			<input type="submit" class="btn primary" value="Acquista" />
+			<input type="submit" class="btn-primary" value="Acquista" />
 		</fieldset>
 	</form>
 <?php endif; ?>

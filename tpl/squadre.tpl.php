@@ -10,9 +10,6 @@
 		<h3><a href="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$val->id)); ?>" title="Maggiori informazioni"><?php echo $val->nomeSquadra; ?></a></h3>
 		<div class="data">
 			<div>Proprietario: <?php echo $val->username; ?></div>
-			<?php if(!empty($this->posizioni)): ?>
-				<div>Pos. in classifica: <?php echo $this->posizioni[$val->id]; ?></div>
-			<?php endif; ?>
 			<div>Giornate vinte: <?php echo ($val->giornateVinte != NULL) ? $val->giornateVinte : 0; ?></div>
 		</div>
 		<ul class="link">

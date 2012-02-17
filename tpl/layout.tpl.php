@@ -16,7 +16,7 @@
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<?php if(LOCAL): ?>
 			<?php foreach($this->generalCss as $key => $val): ?>
-				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
+				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/less" />
 			<?php endforeach; ?>
 		<?php else: ?>
 			<link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />
@@ -38,7 +38,7 @@
 	</head>
 	<?php flush(); ?>
 	<body>
-		<nav id="topbar" class="topbar">
+		<nav id="topbar" class="navbar navbar-fixed-top">
 			<div class="page"><?php echo $this->navbar; ?></div>
 		</nav>
 		<header>
@@ -51,24 +51,26 @@
     		<section id="operation">
 				<div class="fix">
 	                <div class="page">
-	                    <?php if($this->quickLinks->prev != FALSE): ?>
-	    					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>">back</a>
-						<?php else: ?>
-							<div class="back inactive">&nbsp;</div>
-						<?php endif; ?>
-	    				<div class="center"><?php echo $this->operation; ?></div>
-	                    <?php if($this->quickLinks->next != FALSE): ?>
-	    					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>">next</a>
-						<?php else: ?>
-							<div class="next inactive">&nbsp;</div>
-	    				<?php endif; ?>
+						<div class="operationContent">
+		                    <?php if($this->quickLinks->prev != FALSE): ?>
+		    					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="icon-arrow-left"></span></a>
+							<?php else: ?>
+								<div class="back">&nbsp;</div>
+							<?php endif; ?>
+		    				<div class="center"><?php echo $this->operation; ?></div>
+		                    <?php if($this->quickLinks->next != FALSE): ?>
+		    					<a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>"><span class="icon-arrow-right"></span></a>
+							<?php else: ?>
+								<div class="next">&nbsp;</div>
+		    				<?php endif; ?>
+						</div>
 	                </div>
 				</div>
             </section>
         <?php endif; ?>
 		<section id="content">
     		<div class="page" id="<?php echo $this->p; ?>">
-    			<?php echo $this->content; ?>
+    			<div class="innerPage"><?php echo $this->content; ?></div>
             </div>
 		</section>
 		<footer>

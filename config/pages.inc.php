@@ -15,7 +15,7 @@ $pages->addPage('classifica','Classifica',-1,'classifica',3,array('flot'=>array(
 $pages->addPage('altro',"Altro...",-1,'altro',6);
 $pages->addPage('dettaglioSquadra','Dettaglio squadra',-1,'squadre',FALSE,array('tablesorter'=>'tablesorter','fancybox'=>'fancybox'));
 $pages->addPage('areaAmministrativa','Area admin',1,'areaAmministrativa',7);
-$pages->addPage('dettaglioGiocatore','Dettaglio giocatore',-1,'altro');
+$pages->addPage('dettaglioGiocatore','Dettaglio giocatore',-1,'altro',FALSE,array('flot'=>array('jquery.flot','jquery.flot.selection')));
 $pages->addPage('dettaglioGiornata','Dettaglio giornata',-1,'classifica');
 $pages->addPage('premi','Premi',-1,'altro',2);
 $pages->addPage('contatti','Contatti',-1,'altro',3);
@@ -23,6 +23,7 @@ $pages->addPage('sendMail','Invio mail formazione',-1,'altro');
 $pages->addPage('trasfert','Lancia trasferimenti',-1,'altro');
 $pages->addPage('backup','Backup',-1,'altro');
 $pages->addPage('minify','Minify',1,'areaAmministrativa');
+$pages->addPage('less2css','Less2css',1,'areaAmministrativa');
 $pages->addPage('updateOrariGiornata','Aggiorna orari giornata corrente',-1,'altro');
 $pages->addPage('weeklyScript','Calcolo punteggi',-1,'altro');
 $pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'altro');

@@ -130,5 +130,6 @@
 	$.fn.grafico.datasets = "";
 })(jQuery);
 $(document).ready(function() {
+	if(typeof(datasets) != "undefined")
 		$(document).grafico(datasets);
 	});

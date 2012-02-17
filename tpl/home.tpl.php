@@ -8,16 +8,16 @@
 		<h3>Migliori giocatori giornata <?php echo $this->giornata; ?></h3>
 		<?php foreach($this->bestPlayer as $ruolo=>$giocatore): ?>
 			<div id="<?php echo $ruolo ?>" class="column">
-				<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$giocatore->id)); ?>">
+				<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','giocatore'=>$giocatore->id)); ?>">
 					<?php if(file_exists(PLAYERSDIR . $giocatore->id . '.jpg')): ?>
-						<img alt="<?php echo $giocatore; ?>" src="<?php echo PLAYERSURL . $giocatore->id . '.jpg'; ?>" />
+						<img class="foto" alt="<?php echo $giocatore; ?>" src="<?php echo PLAYERSURL . $giocatore->id . '.jpg'; ?>" />
 					<?php else: ?>
 						<img alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
 					<?php endif; ?>
 				</a>
-				<h4><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$giocatore->id)); ?>"><?php echo $giocatore . ": " . $giocatore->punti; ?></a></h4>
+				<h4><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','giocatore'=>$giocatore->id)); ?>"><?php echo $giocatore . ": " . $giocatore->punti; ?></a></h4>
 				<?php foreach($this->bestPlayers[$ruolo] as $key=>$val): ?>
-					<a class="neutral" href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val . ": " . $val->punti; ?></a><br />
+					<a class="neutral" href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','giocatore'=>$val->id)); ?>"><?php echo $val . ": " . $val->punti; ?></a><br />
 	            <?php endforeach; ?>
             </div>
 		<?php endforeach; ?>

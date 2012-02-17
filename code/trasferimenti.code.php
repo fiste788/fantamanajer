@@ -8,7 +8,12 @@ require_once(INCDBDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
 $filterId = $request->has('id') ? $request->get('id') : $_SESSION['idUtente'];
-$trasferimenti = Trasferimento::getByField('idUtente',$filterId);
+$trasferimentiAppo = Trasferimento::getByField('idUtente',$filterId);
+if(!is_array($trasferimentiAppo))
+	$trasferimenti[] = $trasferimentiAppo;
+else
+	$trasferimenti = $trasferimentiAppo;
+$firePHP->log($trasferimenti);
 foreach($trasferimenti as $key=>$val) {
 	$val->getGiocatoreOld();
 	$val->getGiocatoreNew();

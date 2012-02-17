@@ -345,7 +345,7 @@ class Giocatore extends GiocatoreTable
 	public static function getBestPlayerByGiornataAndRuolo($idGiornata,$ruolo)
 	{
 		$values = FALSE;
-		$q = "SELECT *
+		$q = "SELECT giocatore.*,punti
 				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore
 				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
 				ORDER BY punti DESC , voto DESC

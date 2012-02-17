@@ -49,11 +49,12 @@ $ruoli['A'] = new Ruolo("Attaccante","Attaccanti","ATT");
 
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
+$generalJs[] = 'less/less-1.2.1.min.js';
 $generalJs[] = 'jquery/jquery.js';
 $generalJs[] = 'ui/jquery.effects.core.js';
 $generalJs[] = 'ui/jquery.effects.pulsate.js';
 //$generalJs[] = 'uniform/jquery.uniform.js';
-$generalJs[] = 'dropdown/dropdown.js';
+$generalJs[] = 'bootstrap/bootstrap-dropdown.js';
 $generalJs[] = 'stickypanel/jquery.stickypanel.js';
 $generalJs[] = 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = 'custom/all.js';
@@ -65,7 +66,7 @@ $generalCss = array();
 //$generalCss[] = 'buttons.css';
 //$generalCss[] = 'grid.css';
 $generalCss[] = 'bootstrap.min.css';
-$generalCss[] = 'layout.css';
+$generalCss[] = 'layout.less';
 $generalCss[] = '00-screen.css';
 //$generalCss[] = 'uniform.css';
 
@@ -81,6 +82,7 @@ global $firePHP;
 $firePHP = FirePHP::getInstance(TRUE);
 $firePHP->setEnabled(LOCAL);
 $firePHP->registerErrorHandler(FALSE);
+
 			   
 ob_start();
 
@@ -190,8 +192,9 @@ $navbar = $navbarTpl->fetch('navbar.tpl.php');
 $tplfile = $p . '.tpl.php';
 $content = $contentTpl->fetch($tplfile);
 $operation = "";
-if($_SESSION['logged'])
-	$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
+
+//if($_SESSION['logged'])
+	//$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
 if(file_exists(OPERATIONTPLDIR . $p . ".tpl.php"))
 	$operation .= $operationTpl->fetch($p . ".tpl.php");
 

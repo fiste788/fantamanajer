@@ -20,6 +20,35 @@
 	<div id="cap-VC" class="droppable"></div>
 	<div id="cap-VVC" class="droppable"></div>
 </div>
+<form action="<?php echo Links::getLink('formazione'); ?>" method="post">
+	<fieldset id="titolari-field">
+
+			<?php for($i = 0;$i < 11;$i++): ?>
+				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+			<?php endfor; ?>
+	</fieldset>
+	<fieldset id="panchina-field">
+			<?php for($i = 11;$i < 18;$i++): ?>
+				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo ($i - 11); ?>" type="hidden" name="panch[<?php echo ($i - 11); ?>]" />
+			<?php endfor; ?>
+		</fieldset>
+		<fieldset id="capitani-field">
+			<input value="<?php echo $this->formazione->idCapitano; ?>" title="<?php if(isset($this->giocatori[$this->formazione->idCapitano])) { echo $this->formazione->giocatori[$this->formazione->idCapitano]->ruolo . $this->giocatori[$this->formazione->idCapitano]->ruolo . '-' . $this->giocatori[$this->formazione->idCapitano];if(file_exists(PLAYERSDIR . $this->formazione->idCapitano . '.jpg')) echo '-1';} ?>" id="C" type="hidden" name="C" />
+			<input value="<?php echo $this->formazione->idVCapitano; ?>" title="<?php if(isset($this->giocatori[$this->formazione->idVCapitano])) { echo $this->formazione->giocatori[$this->formazione->idVCapitano]->ruolo . $this->giocatori[$this->formazione->idVCapitano]->ruolo . '-' . $this->giocatori[$this->formazione->idVCapitano];if(file_exists(PLAYERSDIR . $this->formazione->idVCapitano . '.jpg')) echo '-1';} ?>" id="VC" type="hidden" name="VC" />
+			<input value="<?php echo $this->formazione->idVVCapitano; ?>" title="<?php if(isset($this->giocatori[$this->formazione->idVVCapitano])) { echo $this->formazione->giocatori[$this->formazione->idVVCapitano]->ruolo . $this->giocatori[$this->formazione->idVVCapitano]->ruolo . '-' . $this->giocatori[$this->formazione->idVVCapitano];if(file_exists(PLAYERSDIR . $this->formazione->idVVCapitano . '.jpg')) echo '-1';} ?>" id="VC" type="hidden" name="VVC" />
+		</fieldset>
+		<fieldset>
+		<?php if($_SESSION['datiLega']->jolly && (!$this->usedJolly || (isset($this->jolly) && $this->jolly == 1))): ?>
+		<div class="column">
+			<label for="jolly">Jolly:</label>
+			<input type="checkbox" class="checkbox" name="jolly" id="jolly" <?php if(isset($this->jolly) && $this->jolly == 1) echo ' checked="checked"'; ?> />
+		</div>
+		<?php endif; ?>
+		<?php if($this->giornata == GIORNATA): ?>
+			<input name="submit" type="submit" class="btn-primary right" value="Invia" />
+		<?php endif; ?>
+	</fieldset>
+</form>
 <div id="giocatori">
 	<h3>Rosa giocatori</h3>
 	<?php foreach($this->giocatori as $key=>$val): ?>
@@ -36,35 +65,6 @@
 	<?php $j++; endforeach; ?>
 	</div>
 </div>
-<form action="<?php echo Links::getLink('formazione'); ?>" method="post">
-	<fieldset id="titolari-field">
-	
-			<?php for($i = 0;$i < 11;$i++): ?>
-				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
-			<?php endfor; ?>
-	</fieldset>
-	<fieldset id="panchina-field">
-			<?php for($i = 11;$i < 18;$i++): ?>
-				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo ($i - 11); ?>" type="hidden" name="panch[<?php echo ($i - 11); ?>]" />
-			<?php endfor; ?>
-		</fieldset>
-		<fieldset id="capitani-field">
-			<input value="<?php echo $this->formazione->idCapitano; ?>" title="<?php if(isset($this->formazione->giocatori[$this->formazione->idCapitano])) { $this->formazione->giocatori[$this->formazione->idCapitano]->ruolo . $this->formazione->giocatori[$this->formazione->idCapitano]->ruolo . '-' . $this->formazione->giocatori[$this->formazione->idCapitano];if(file_exists(PLAYERSDIR . $this->formazione->idCapitano . '.jpg')) echo '-1';} ?>" id="C" type="hidden" name="C" />
-			<input value="<?php echo $this->formazione->idVCapitano; ?>" title="<?php if(isset($this->formazione->giocatori[$this->formazione->idVCapitano])) { $this->formazione->giocatori[$this->formazione->idVCapitano]->ruolo . $this->formazione->giocatori[$this->formazione->idVCapitano]->ruolo . '-' . $this->formazione->giocatori[$this->formazione->idVCapitano];if(file_exists(PLAYERSDIR . $this->formazione->idVCapitano . '.jpg')) echo '-1';} ?>" id="VC" type="hidden" name="VC" />
-			<input value="<?php echo $this->formazione->idVVCapitano; ?>" title="<?php if(isset($this->formazione->giocatori[$this->formazione->idVVCapitano])) { $this->formazione->giocatori[$this->formazione->idVVCapitano]->ruolo . $this->formazione->giocatori[$this->formazione->idVVCapitano]->ruolo . '-' . $this->formazione->giocatori[$this->formazione->idVVCapitano];if(file_exists(PLAYERSDIR . $this->formazione->idVVCapitano . '.jpg')) echo '-1';} ?>" id="VC" type="hidden" name="VVC" />
-		</fieldset>
-		<fieldset>
-		<?php if($_SESSION['datiLega']->jolly && (!$this->usedJolly || (isset($this->jolly) && $this->jolly == 1))): ?>
-		<div class="column">
-			<label for="jolly">Jolly:</label>
-			<input type="checkbox" class="checkbox" name="jolly" id="jolly" <?php if(isset($this->jolly) && $this->jolly == 1) echo ' checked="checked"'; ?> />
-		</div>
-		<?php endif; ?>
-		<?php if($this->giornata == GIORNATA): ?>
-			<input name="submit" type="submit" class="submit" value="Invia" />
-		<?php endif; ?>
-	</fieldset>
-</form>
 <script type="text/javascript">
 // <![CDATA[
 	<?php if(!empty($this->modulo)): ?>

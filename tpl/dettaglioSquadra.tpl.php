@@ -36,13 +36,13 @@
 			</p>
 		</div>
 		<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
-			<p class="alert-message block-message info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
+			<p class="alert-message alert-block alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
 		<?php endif; ?>
 	</div>
 </div>
 <?php if(!empty($this->giocatori)): ?>
 	<h3>Giocatori</h3>
-	<table class="tablesorter" id="rosa" cellpadding="0" cellspacing="0">
+	<table class="table tablesorter">
 		<thead>
 			<tr>
 				<th>Nome</th>
@@ -77,6 +77,8 @@
 			</tr>
 			<?php $r = $val->ruolo; ?>
 			<?php endforeach; ?>
+		</tbody>
+		<tfoot>
 			<tr>
 				<td colspan="4">Totali</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->avgVoti; ?></td>
@@ -87,6 +89,6 @@
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
 			</tr>
-		</tbody>
+		</tfoot>
 	</table>
 <?php endif;?>

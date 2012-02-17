@@ -9,7 +9,7 @@
 </div>
 <?php if(!empty($this->giocatori)): ?>
 	<h3>Giocatori</h3>
-	<table id="rosa" cellpadding="0" cellspacing="0">
+	<table class="table">
 		<thead>
 			<tr>
 				<th>Nome</th>

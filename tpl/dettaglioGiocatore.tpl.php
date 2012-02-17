@@ -14,8 +14,8 @@
 	<?php else: ?>
 		<h3><?php echo $this->giocatore->cognome . ' ' . $this->giocatore->nome; ?></h3>
 	<?php endif; ?>
-	<div id="datiGioc" class="column last">
-		<img class="column" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
+	<div id="datiGioc">
+		<img class="foto" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
 		<div class="column">
 			<p><?php echo $this->ruoli[$this->giocatore->ruolo]; ?></p>
 			<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
@@ -26,7 +26,7 @@
 			<p>Media punti: <?php echo (!empty($this->giocatore->avgPunti)) ? $this->giocatore->avgPunti : ''; ?></p>
 		</div>
 		<?php if($this->giocatore->nomeClub != NULL): ?>
-			<a target="_blank" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$this->giocatore->idClub)); ?>">
+			<a class="right" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$this->giocatore->idClub)); ?>">
 				<img height="50%" width="60" title="<?php echo $this->giocatore->nomeClub; ?>" class="shield" alt="<?php echo $this->giocatore->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
 			</a>
 		<?php endif; ?>
@@ -38,7 +38,7 @@
 	<?php endif; ?>
 </div>
 <?php if(isset($this->giocatore->voti) && !empty($this->giocatore->voti)): ?>
-<table style="width:100px;clear:both;" class="column last" cellpadding="0" cellspacing="0">
+<table style="width:100px;clear:both;" class="table column">
 	<tr>
 		<th>Giornata</th>
 	</tr>
@@ -61,8 +61,8 @@
 		<td>Espulsioni</td>
 	</tr>
 </table>
-<div id="tabGiocatore" class="column last">
-	<table class="column last" cellpadding="0" cellspacing="0" style="width:<?php echo count($this->giocatore->voti) * 40; ?>px;margin:0;">
+<div id="tabGiocatore" class="column">
+	<table class="column table" style="width:<?php echo count($this->giocatore->voti) * 40; ?>px;margin:0;">
 		<tr>
 		<?php foreach($this->giocatore->voti as $key => $val): ?>
 			<th><?php echo $val->idGiornata; ?></th>
