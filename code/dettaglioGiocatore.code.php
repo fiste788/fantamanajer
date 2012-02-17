@@ -46,7 +46,7 @@ else			// carico giocatori del club
 	$contentTpl->assign('label',$club);
 }
 
-$quickLinks->set('id',$elencoGiocatori,"");
+$quickLinks->set('giocatore',$elencoGiocatori,"");
 $contentTpl->assign('giocatore',$giocatore);
 $contentTpl->assign('pathFoto',$pathFoto);
 $contentTpl->assign('pathClub',$pathClub);

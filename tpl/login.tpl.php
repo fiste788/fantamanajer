@@ -1,7 +1,7 @@
-<li class="right" id="login">
+<li class="right dropdown" id="login">
 	<?php if(!$_SESSION['logged']): ?>
-		<a class="dropdown-toggle nopick">Login</a>
-		<ul class="dropdown-menu dropdown-right">
+		<a class="dropdown-toggle">Login</a>
+		<ul class="dropdown-menu">
 			<li>
 				<form action="<?php echo Links::getLink('home'); ?>" method="post">
 					<fieldset>
@@ -17,7 +17,7 @@
 							<input type="checkbox" name="remember" />
 							<label for="remember">Ricorda</label>
 						</div>
-						<input class="btn primary right" type="submit" name="login" value="OK" />
+						<input class="btn-primary right" type="submit" name="login" value="OK" />
 					</fieldset>
 				</form>
 			</li>

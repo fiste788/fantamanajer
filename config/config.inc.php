@@ -8,13 +8,16 @@ $develop = ($hostArray[0] == 'develop');
 
 $tmp = explode('/',$_SERVER['PHP_SELF']);			//website path(example: for "http://www.dominio.it/one/jpg/one.jpg" it takes "/one/jpg/one.jpg")
 array_pop($tmp);						//delete the last field of $tmp array (1 => one, 2=> jpg)
-$sitepath = implode('/',$tmp);					//recreate $sitepath with slash (/one/jpg)
 
 if (isset($_SERVER['DOCUMENT_ROOT']))
 	$doc_root = $_SERVER['DOCUMENT_ROOT'];			//document root specified into php.ini file
 
 $cwd = str_replace('\\','/',getcwd());				//get currently used directory(if under windows replace \\ with /)
-$doc_root = str_replace($sitepath,'',$cwd);			//example /var/www/
+$doc_root = str_replace(implode('/',$tmp),'',$cwd);			//example /var/www/
+
+if(end($tmp) == 'ajax')
+	array_pop($tmp);
+$sitepath = implode('/',$tmp);                      //recreate $sitepath with slash (/one/jpg)
 
 define ("SESSION_NAME",'fantamanajer');
 define ("SESSION_TIMEOUT",30);
@@ -72,7 +75,7 @@ else
 	define("FULLURLAUTH",$proto . "administrator:banana@" . $host . $sitepath . '/');
 	define("FULLSTATICURL",FULLURL);
 	define("FULLSTATICPATH",FULLPATH);
-	
+
 	define("DBTYPE","mysql");
 	define("DBNAME","fantamanajer");
 	define("DBUSER","fantamanajerUser");
@@ -96,11 +99,11 @@ define("VOTIXMLDIR",VOTIDIR . 'xml/');
 define("LOGSDIR",FULLSTATICPATH . 'logs/');
 define("TMPDIR",sys_get_temp_dir() . '/');
 
-define("JSDIR",'js/');
-define("CODEDIR",'code/');
+define("JSDIR",FULLPATH . 'js/');
+define("CODEDIR",FULLPATH . 'code/');
 define("REQUESTDIR",CODEDIR . 'request/');
-define("TPLDIR",'tpl/');
-define("INCDIR",'inc/');
+define("TPLDIR",FULLPATH . 'tpl/');
+define("INCDIR",FULLPATH . 'inc/');
 define("INCDBDIR",INCDIR . 'db/');
 define("TABLEDIR",INCDBDIR . 'table/');
 define("VIEWDIR",INCDBDIR . 'view/');

@@ -1,4 +1,9 @@
 $(document).ready(function(){
+/*	$("#giocatori").stickyPanel({
+		topPadding: 82,
+		afterDetachCSSClass: "top",
+		savePanelSpace: true
+	});*/
 	$("#giocatori .draggable").each(function () {
 		ruolo = $(this).parent().attr("class");
 		$(this).children('a').attr("name",ruolo + ruolo); 
@@ -28,9 +33,9 @@ $(document).ready(function(){
 								k = 0;
 							}
 							if(appo[2])
-							    gioc = $('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-70) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="40" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							    gioc = $('<div style="position:absolute;left:' + ((((554-(83 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 83)-83) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="80" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 							else
-								gioc = $('<div style="position:absolute;left:' + ((((554-(70 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 70)-70) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
+								gioc = $('<div style="position:absolute;left:' + ((((554-(83 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 83)-83) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 							sobstitution(gioc);
                             $("#campo div.droppable[id=" +ruoloGioc+"]").append(gioc);
 							ruolo = ruoloGioc;
@@ -46,7 +51,7 @@ $(document).ready(function(){
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
 						if(appo[2])
-							gioc = $('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							gioc = $('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><img width="80" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
 							gioc = $('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc.substr(1) +'"><a rel="'+ current.attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
                         sobstitution(gioc);
@@ -60,7 +65,7 @@ $(document).ready(function(){
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
 						if(appo[2])
-							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img height="50" src="' + imgsUrl + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="80" src="' + imgsUrl + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
 							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 						if(typeof(edit) != "undefined" && edit)
@@ -241,7 +246,7 @@ $(document).ready(function(){
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
 							if(ui.draggable.children('img').length > 0)
-								gioc = $('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img height="50" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
+								gioc = $('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><img width="80" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
 							else
 								gioc = $('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'" /><p>' + ui.draggable.children('p').text() + '</p></div>');
                             sobstitution(gioc);
@@ -301,7 +306,7 @@ $(document).ready(function(){
 							ui.draggable.removeClass('embed');
 							var tagData = ui.draggable.children('a');
 							if(ui.draggable.children('img').length > 0)
-								gioc = $('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+								gioc = $('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="80" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							else
 								gioc = $('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 								
@@ -347,7 +352,7 @@ $(document).ready(function(){
 				drop: function(ev,ui) {
 							var tagData = ui.draggable.children('a');
 							if(ui.draggable.children('img').length > 0)
-								gioc = $('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img height="50" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
+								gioc = $('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><img width="80" src="' + imgsUrl + tagData.attr('rel') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							else
 								gioc = $('<div class="embed '+ui.draggable.attr('class')+'"><a rel="'+tagData.attr('rel') +'" name="'+ tagData.attr('name') +'"  /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
 							gioc.droppable({
@@ -371,7 +376,7 @@ $(document).ready(function(){
 								current = $(lista[i]);
 								id = current.parent().attr('id');
 								appo = id.split('-');
-								$("input[name='cap[" + appo[1] + "]']").attr('value',$(lista[i]).children('a').attr('rel'));
+								$("input[name='" + appo[1] + "']").attr('value',$(lista[i]).children('a').attr('rel'));
 							});
 							$(this).append('<a class="remove">Rimuovi</a>');
 					}

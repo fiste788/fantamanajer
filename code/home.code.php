@@ -9,13 +9,13 @@ require_once(INCDIR . 'emoticon.inc.php');
 $giornata = Punteggio::getGiornateWithPunt();
 foreach ($ruoli as $ruolo=>$val) {
 	$bestPlayers[$ruolo] = Giocatore::getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
-	$bestPlayer[$ruolo] = array_pop($bestPlayers[$ruolo]);
+	$bestPlayer[$ruolo] = array_shift($bestPlayers[$ruolo]);
 }
 
 $articoli = Articolo::getLastArticoli(2);
 if($articoli != FALSE)
 	foreach ($articoli as $key => $val)
-		$articoli[$key]->text = Emoticon::replaceEmoticon($val->text,EMOTICONSURL);
+		$articoli[$key]->text = Emoticon::replaceEmoticon($val->testo,EMOTICONSURL);
 
 $eventi = Evento::getEventi(NULL,NULL,0,5);
 

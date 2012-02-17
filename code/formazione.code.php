@@ -17,6 +17,7 @@ while($formazione == FALSE && $i < GIORNATA) {
 	$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata - $i);
 	$i ++;
 }
+$formazione->jolly = FALSE;
 
 if(GIORNATA != $filterGiornata) {
 	$ids = array();
@@ -27,7 +28,6 @@ if(GIORNATA != $filterGiornata) {
 	$giocatori = GiocatoreStatistiche::getByField('idUtente',$filterUtente);
 
 $modulo = explode('-',$formazione->modulo);
-$firePHP->log($giocatori);
 $contentTpl->assign('formazione',$formazione);
 $contentTpl->assign('giocatori',$giocatori);
 $contentTpl->assign('modulo',$modulo);

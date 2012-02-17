@@ -1,6 +1,6 @@
 <?php $i = 1; ?>
 <div id="classifica-container" class="column last">
-	<table class="column last no-margin" style="width:356px;overflow:hidden;">
+	<table class="column table" style="width:356px;overflow:hidden;">
 		<tbody>
 			<tr>
 				<th style="width:10px">P.</th>
@@ -19,7 +19,7 @@
 	<div id="tab_classifica" class="column last"  style="height:<?php echo (27 * (count($this->classificaDett) + 1)) + 18; ?>px">
 	<?php $appo = array_keys($this->classificaDett); $i = $appo[0]; ?>
 	<?php if(key($this->classificaDett[$flag]) != 0): ?>
-	<table class="column last" style="width:<?php echo count($this->classificaDett[$i]) * 50; ?>px;margin:0;">
+	<table class="column table" style="width:<?php echo count($this->classificaDett[$i]) * 50; ?>px;margin:0;">
 		<tbody>
 			<tr>
 				<?php foreach($this->classificaDett[$flag] as $key => $val): ?>

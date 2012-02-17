@@ -68,11 +68,11 @@ class Evento extends EventoTable
 				{
 					case 1:
 						$values[$key]->idExternal = Articolo::getById($val->idExternal);
-						$values[$key]->titolo = $val->nome . ' ha rilasciato una conferenza stampa intitolata '. $values[$key]->idExternal->title;
+						$values[$key]->titolo = $val->nome . ' ha rilasciato una conferenza stampa intitolata '. $values[$key]->idExternal->titolo;
 						$values[$key]->content = '';
 						if(!empty($values[$key]->idExternal->abstract)) 
-							$values[$key]->content = '<em>' . $values[$key]->idExternal->abstract . '</em><br />';
-						$values[$key]->content .= $values[$key]->idExternal->text;
+							$values[$key]->content = '<em>' . $values[$key]->idExternal->sottoTitolo . '</em><br />';
+						$values[$key]->content .= $values[$key]->idExternal->testo;
 						$values[$key]->link = Links::getLink('conferenzeStampa',array('giorn'=>$values[$key]->idExternal->idGiornata));break;
 					case 2: $values[$key]->titolo = $val->nome . ' ha selezionato un giocatore per l\'acquisto';
 									$values[$key]->content = ' ';break;

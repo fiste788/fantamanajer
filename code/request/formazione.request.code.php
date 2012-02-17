@@ -27,6 +27,13 @@ if(!PARTITEINCORSO)
 			$formazione->setIdGiornata(GIORNATA);
 			$formazione->setIdUtente($_SESSION['idUtente']);
 			$formazione->setModulo(implode($modulo,'-'));
+			$firePHP->log($request);
+			if($request->get('C') != 0)
+				$formazione->setIdCapitano($request->get('C'));
+			if($request->get('VC') != 0)
+				$formazione->setIdVCapitano($request->get('VC'));
+			if($request->get('VVC') != 0)
+				$formazione->setIdVVCapitano($request->get('VVC'));
 			$formazione->startTransaction();
 			if(($idFormazione = $formazione->save()) != FALSE) {
 				$schieramenti = Schieramento::getSchieramentoById($idFormazione);

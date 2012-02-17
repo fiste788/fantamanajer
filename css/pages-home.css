@@ -1,0 +1,27 @@
+#home #bestPlayer > div {
+	width:25%;
+	padding:0 10px;
+	text-align:center;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+}
+#home .foto {
+	float:none;
+	margin-bottom:8px;
+}
+#home h3,#home h4 {
+	margin-bottom:6px;
+}
+#home #bestPlayer {
+	float:left;
+	width:100%;
+	padding:0 0 25px;
+}
+#home #eventi {
+	width:48%;
+	padding-right:2%;
+}
+#home #conferenzeStampa {
+	width:48%;
+	padding-left:2%;
+}

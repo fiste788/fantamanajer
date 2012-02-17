@@ -1,6 +1,6 @@
 <form action="<?php echo Links::getLink('conferenzeStampa'); ?>" method="post">
 	<fieldset>
-		<a href="<?php echo Links::getLink('modificaConferenza'); ?>">Nuova conferenza stampa</a>
+		<a href="<?php echo Links::getLink('modificaConferenza'); ?>"><i class="icon-plus"></i>Nuova conferenza stampa</a>
 		<label for="giornata">Seleziona la giornata:</label>
 		<select name="giornata" onchange="this.form.submit();">
 		<?php if($this->giornateWithArticoli != FALSE): ?>

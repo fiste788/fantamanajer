@@ -11,7 +11,7 @@ if(($clubdett = ClubStatistiche::getById($request->get('club'))) == FALSE)
 
 $elencoClub = Club::getList();
 
-$quickLinks->set('id',$elencoClub,"");
+$quickLinks->set('club',$elencoClub,"");
 $giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('club'));
 
 $contentTpl->assign('giocatori',$giocatori);
