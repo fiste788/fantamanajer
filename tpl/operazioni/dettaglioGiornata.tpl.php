@@ -4,9 +4,9 @@
 		<label for="giornata">Seleziona la giornata:</label>
 		<select name="giornata" onchange="this.form.submit();">
 			<?php if(!$this->request->has('giornata')): ?><option></option><?php endif; ?>
-			<?php for($i = $this->giornate ; $i > 0 ; $i--): ?>
-				<option<?php echo ($this->request->get('giornata') == $i) ? ' selected="selected"' : ''; ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
-			<?php endfor; ?>
+			<?php foreach($this->giornate as $key => $val): ?>
+				<option<?php echo ($this->request->get('giornata') == $val) ? ' selected="selected"' : ''; ?> value="<?php echo $val; ?>"><?php echo $val; ?></option>
+			<?php endforeach; ?>
 		</select>
 		<label for="squadra">Seleziona la squadra:</label>
 		<select name="squadra" onchange="this.form.submit();">

@@ -8,9 +8,9 @@
 			<?php endforeach ?>
 		</select>
 		<label for="sufficenza">Soglia sufficienza:</label>
-		<input id="sufficenza" maxlength="3" name="sufficenza" type="text" class="small" value="<?php echo ($this->validFilter) ? $this->request->get('sufficenza') : 6; ?>" />
+		<input id="sufficenza" maxlength="3" name="sufficenza" type="text" class="small" value="<?php if($this->validFilter) echo $this->defaultSufficenza; ?>" />
 		<label for="partite">Soglia partite:</label>
-		<input id="partite" maxlength="2" name="partite" type="text" class="small" value="<?php echo ($this->validFilter) ? $this->request->get('partite') : (floor((GIORNATA - 1) / 2) + 1); ?>" />
+		<input id="partite" maxlength="2" name="partite" type="text" class="small" value="<?php if($this->validFilter) echo $this->defaultPartite; ?>" />
 		<input class="btn-primary" type="submit" value="OK"/>
 	</fieldset>
 </form>

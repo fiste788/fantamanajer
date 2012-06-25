@@ -16,7 +16,7 @@
 		<meta name="keywords" content="fantamanajer,alzano sopra" />
 		<?php if(LOCAL): ?>
 			<?php foreach($this->generalCss as $key => $val): ?>
-				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/less" />
+				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
 			<?php endforeach; ?>
 		<?php else: ?>
 			<link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />

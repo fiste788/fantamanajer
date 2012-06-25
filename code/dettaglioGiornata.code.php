@@ -4,49 +4,27 @@ require_once(INCDBDIR . 'formazione.db.inc.php');
 require_once(INCDBDIR . 'punteggio.db.inc.php');
 require_once(INCDBDIR . 'giocatore.db.inc.php');
 
-$giornate = Punteggio::getGiornateWithPunt();
-$penalità = Punteggio::getPenalitàBySquadraAndGiornata($request->get('squadra'),$request->get('giornata'));
+$dettaglio = Giocatore::getVotiGiocatoriByGiornataAndSquadra($request->get('giornata'),$request->get('squadra'));
+$formazione = Formazione::getFormazioneBySquadraAndGiornata($request->get('squadra'),$request->get('giornata'));
+if($dettaglio == FALSE && $formazione == FALSE)
+	Request::send404();
 
-if($penalità != FALSE)
-	$contentTpl->assign('penalità',$penalità);
-if($request->has('squadra') && $request->has('giornata') && $request->get('squadra') > 0 && $giornata > 0 && $request->get('giornata') <= $giornate)
-{
-	if(Formazione::getFormazioneBySquadraAndGiornata($request->get('squadra'),$request->get('giornata')) != FALSE)
-	{
-		$formazione = Giocatore::getVotiGiocatoriByGiornataAndSquadra($request->get('giornata'),$request->get('squadra'));
-		$titolari = array_splice($formazione,0,11);
-		$contentTpl->assign('somma',Punteggio::getPunteggi($request->get('squadra'),$request->get('giornata')));
-		$contentTpl->assign('titolari',$titolari);
-		$contentTpl->assign('panchinari',$formazione);
-	}
-}
+$maxGiornate = Punteggio::getGiornateWithPunt();
+for($i = 1;$i <= $maxGiornate;$i++)
+	$giornate[$i] = $i;
 
-if($request->get('giornata') -1 > 0)
-{
-	$idPrec = $request->get('giornata') -1;
-	$quickLinks->prec->href = Links::getLink('dettaglioGiornata',array('giornata'=>$idPrec,'squadra'=>$request->get('squadra')));
-	$quickLinks->prec->title = "Giornata " . $idPrec;
-}	
+if($dettaglio != FALSE)
+	$titolari = array_splice($dettaglio,0,11);
 else
-{
-	$idPrec = FALSE;
-	$quickLinks->prec = FALSE;
-}
-if($request->get('giornata') + 1 <= $giornate)
-{
-	$idSucc = $request->get('giornata') + 1;
-	$quickLinks->succ->href = Links::getLink('dettaglioGiornata',array('giornata'=>$idSucc,'squadra'=>$request->get('squadra')));
-	$quickLinks->succ->title = "Giornata " . $idSucc;
-}	
-else
-{
-	$idSucc = FALSE;
-	$quickLinks->succ = FALSE;
-}
+	$titolari = FALSE;
 
+$quickLinks->set('giornata',$giornate,"",array('squadra'=>$request->get('squadra')));
+
+$contentTpl->assign('somma',Punteggio::getPunteggi($request->get('squadra'),$request->get('giornata')));
+$contentTpl->assign('titolari',$titolari);
+$contentTpl->assign('panchinari',$dettaglio);
+$contentTpl->assign('penalità',Punteggio::getPenalitàBySquadraAndGiornata($request->get('squadra'),$request->get('giornata')));
 $contentTpl->assign('squadraDett',Utente::getById($request->get('squadra')));
 $operationTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
-$operationTpl->assign('penalità',$penalità);
 $operationTpl->assign('giornate',$giornate);
-$layoutTpl->assign('quickLinks',$quickLinks);
 ?>

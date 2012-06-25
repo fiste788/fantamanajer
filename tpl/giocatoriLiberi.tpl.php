@@ -21,9 +21,9 @@
 						<td><?php echo $val->cognome; ?></td>
 						<td><?php echo (!empty($val->nome)) ? $val->nome : "&nbsp;"; ?></td>
 						<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-						<td<?php if($val->avgPunti >= $this->request->get('sufficenza') && GIORNATA != 1) echo ' class="verde"';elseif(GIORNATA != 1)echo ' class="rosso"'; ?>><?php echo (!empty($val->avgPunti)) ? $val->avgPunti : "&nbsp;"; ?></td>
-						<td<?php if($val->avgVoti >= $this->request->get('sufficenza') && GIORNATA != 1)echo ' class="verde"';elseif(GIORNATA != 1)echo ' class="rosso"'; ?>><?php echo (!empty($val->avgVoti)) ? $val->avgVoti : "&nbsp;"; ?></td>
-						<td<?php if($val->presenzeVoto >= $this->request->get('partite') && GIORNATA != 1)echo ' class="verde"';elseif(GIORNATA != 1)echo ' class="rosso"'; ?>><?php echo $val->presenzeVoto; ?></td>
+						<td<?php if($val->avgPunti >= $this->defaultSufficenza && GIORNATA != 1) echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($val->avgPunti)) ? $val->avgPunti : "&nbsp;"; ?></td>
+						<td<?php if($val->avgVoti >= $this->defaultSufficenza && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($val->avgVoti)) ? $val->avgVoti : "&nbsp;"; ?></td>
+						<td<?php if($val->presenzeVoto >= $this->defaultPartite && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo $val->presenzeVoto; ?></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
