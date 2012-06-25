@@ -91,12 +91,12 @@ class Trasferimento extends TrasferimentoTable
 	
 	public static function doTransfertBySelezione()
 	{
-		require_once(INCDIR.'selezione.db.inc.php');
-		require_once(INCDIR.'squadra.db.inc.php');
-		require_once(INCDIR.'evento.db.inc.php');
-		require_once(INCDIR.'formazione.db.inc.php');
-		require_once(INCDIR.'schieramento.db.inc.php');
-		require_once(INCDIR.'giocatore.db.inc.php');
+		require_once(INCDBDIR.'selezione.db.inc.php');
+		require_once(INCDBDIR.'squadra.db.inc.php');
+		require_once(INCDBDIR.'evento.db.inc.php');
+		require_once(INCDBDIR.'formazione.db.inc.php');
+		require_once(INCDBDIR.'schieramento.db.inc.php');
+		require_once(INCDBDIR.'giocatore.db.inc.php');
 		
 		$selezioni = Selezione::getSelezioni();
 		if($selezioni != FALSE)
@@ -106,7 +106,7 @@ class Trasferimento extends TrasferimentoTable
 				self::startTransaction();
 				Squadra::unsetSquadraByIdGioc($val->giocOld,$val->idLega);
 				Squadra::setSquadraByIdGioc($val->giocNew,$val->idLega,$val->idUtente);
-				$q = "INSERT INTO trasferimento (idGiocOld,idGiocNew,idUtente,idGiornata,obbligato)
+				$q = "INSERT INTO trasferimento (idGiocatoreOld,idGiocatoreNew,idUtente,idGiornata,obbligato)
 				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idUtente . "','" . GIORNATA . "','" . Giocatore::getById($giocOld)->getStatus() . "')";
 				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 				if(DEBUG)
@@ -116,8 +116,8 @@ class Trasferimento extends TrasferimentoTable
 				{
 					if(in_array($val->giocOld,$formazione->elenco))
 						Schieramento::changeGioc($formazione->id,$val->giocOld,$val->giocNew);
-					if(in_array($val->giocOld,get_object_vars($formazione->cap)))
-						Formazione::changeCap($formazione->id,$val->giocNew,array_search($val->giocOld,get_object_vars($formazione->cap)));
+					//if(in_array($val->giocOld,get_object_vars($formazione->cap)))
+					//	Formazione::changeCap($formazione->id,$val->giocNew,array_search($val->giocOld,get_object_vars($formazione->cap)));
 				}
 				$q = "SELECT idTrasf 
 						FROM trasferimento

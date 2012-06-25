@@ -1,7 +1,7 @@
 <?php $i = 0; ?>
 <?php if($this->trasferimenti != FALSE): ?>
 <table class="table">
-	<tbody>
+	<thead>
 		<tr>
 			<th>N.</th>
 			<th>Giocatore nuovo</th>
@@ -9,6 +9,8 @@
 			<th>Giornata</th>
 			<th>Obbligato</th>
 		</tr>
+	</thead>
+	<tbody>
 		<?php foreach($this->trasferimenti as $key => $val): ?>
 		<tr>
 			<td><?php echo $i + 1; ?></td>

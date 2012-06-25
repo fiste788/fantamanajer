@@ -36,7 +36,7 @@
 			</p>
 		</div>
 		<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
-			<p class="alert-message alert-block alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
+			<p class="alert-message alert alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo Links::getLink('utente') ?>">Clicca quì</a></p>
 		<?php endif; ?>
 	</div>
 </div>

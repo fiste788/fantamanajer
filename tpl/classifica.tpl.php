@@ -1,12 +1,14 @@
 <?php $i = 1; ?>
 <div id="classifica-container" class="column last">
 	<table class="column table" style="width:356px;overflow:hidden;">
-		<tbody>
+		<thead>
 			<tr>
 				<th style="width:10px">P.</th>
 				<th class="nowrap" style="width:180px">Nome</th>
 				<th style="width:35px">P.ti tot</th>
 			</tr>
+		</thead>
+		<tbody>
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
@@ -20,12 +22,14 @@
 	<?php $appo = array_keys($this->classificaDett); $i = $appo[0]; ?>
 	<?php if(key($this->classificaDett[$flag]) != 0): ?>
 	<table class="column table" style="width:<?php echo count($this->classificaDett[$i]) * 50; ?>px;margin:0;">
-		<tbody>
+		<thead>
 			<tr>
 				<?php foreach($this->classificaDett[$flag] as $key => $val): ?>
 					<th style="width:35px"><?php echo $key; ?></th>
 				<?php endforeach; ?>
 			</tr>
+		</thead>
+		<tbody>
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 			<?php foreach($val as $secondKey=>$secondVal): ?>

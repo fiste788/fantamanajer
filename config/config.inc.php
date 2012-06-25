@@ -87,6 +87,8 @@ else
 }
 
 define("CSSDIR",FULLSTATICPATH . 'css/');
+define("LESSDIR",CSSDIR . 'less/');
+define("CACHEDIR",CSSDIR . 'cache/');
 define("IMGSDIR",FULLSTATICPATH . 'imgs/');
 define("PLAYERSDIR",IMGSDIR . 'foto/');
 define("CLUBSDIR",IMGSDIR . 'clubs/');

@@ -1,32 +1,21 @@
 <?php 
-require_once(INCDIR . 'trasferimento.db.inc.php');
+require_once(INCDBDIR . 'trasferimento.db.inc.php');
 
 $logger->start("ACQUISTA GIOCATORI");
-$today = date("Y-m-d");
-$giornataCurrent = Giornata::getGiornataByDate();
-$date = Giornata::getDataByGiornata($giornataCurrent['idGiornata']);
-$giorn = explode(' ',$date->dataFine);
-$dataGiornata = $giorn[0];
-
-if(($today == $dataGiornata && date("H") == '00') || $_SESSION['usertype'] == 'superadmin')
-{
+if(Giornata::checkDay(($data = date("Y-m-d")),'dataFine') || $_SESSION['usertype'] == 'superadmin') {
 	$logger->info("Starting do transfer");
-	if(Trasferimento::doTransfertBySelezione())
-	{
+	if(Trasferimento::doTransfertBySelezione()) {
 		$message->success("Operazione effettuata correttamente");
 		$logger->info("Trasnfert finished successfully");
-	}
-	else
-	{
+	} else {
 		$message->error("Errore nell'eseguire i trasferimenti");
 		$logger->error("Error while doing transfer");
 	}
-}
-else
-{
+} else {
 	$message->warning("Non puoi effettuare l'operazione ora");
 	$logger->warning("Is not time to run it");
 }
+
 $logger->end("ACQUISTA GIOCATORI");
 $contentTpl->assign('message',$message);
 ?>

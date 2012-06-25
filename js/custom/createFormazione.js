@@ -65,9 +65,9 @@ $(document).ready(function(){
 						ruoloGioc = appo[0];
 						nomeGioc = appo[1];
 						if(appo[2])
-							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="80" src="' + imgsUrl + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
+							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><img width="80" src="' + imgsUrl + $(list[i]).attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
 						else
-							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc.substr(1) +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
+							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc +'"><a rel="'+ $(list[i]).attr('value') +'" name="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
 						if(typeof(edit) != "undefined" && edit)
 							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<a class="remove">Rimuovi</a>');
 					});

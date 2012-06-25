@@ -49,7 +49,6 @@ $ruoli['A'] = new Ruolo("Attaccante","Attaccanti","ATT");
 
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
-$generalJs[] = 'less/less-1.2.1.min.js';
 $generalJs[] = 'jquery/jquery.js';
 $generalJs[] = 'ui/jquery.effects.core.js';
 $generalJs[] = 'ui/jquery.effects.pulsate.js';
@@ -65,9 +64,9 @@ $generalCss = array();
 //$generalCss[] = 'forms.css';
 //$generalCss[] = 'buttons.css';
 //$generalCss[] = 'grid.css';
-$generalCss[] = 'bootstrap.min.css';
-$generalCss[] = 'layout.less';
-$generalCss[] = '00-screen.css';
+$generalCss[] = 'bootstrap';
+$generalCss[] = 'layout';
+$generalCss[] = 'style';
 //$generalCss[] = 'uniform.css';
 
 //Creating object for pages
@@ -140,6 +139,9 @@ if (file_exists(CODEDIR . $p . '.code.php')) {
     require(CODEDIR . $p . '.code.php');
     $firePHP->groupEnd();
 }
+
+if(LOCAL)
+	require_once(CODEDIR . 'less2css.code.php');
 
 require_once(CODEDIR . 'navbar.code.php');
 

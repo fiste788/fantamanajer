@@ -1,8 +1,19 @@
+.clearfix { *zoom:1; }
+.clearfix:before, .clearfix:after {
+  display:table;
+  content:"";
+}
+.clearfix:after { clear:both; }
+@font-face {
+  font-family:"MuseoSans";
+  src:url("fonts/MuseoSans_500.otf") format("opentype");
+}
 body {
   font-family:MuseoSans, sans-serif;
-  background:#e6eaed url(../imgs/bg.jpg) repeat-x center top;
+  background:#e6eaed url("../imgs/bg.jpg") repeat-x center top;
   min-width:1000px;
   padding:40px 0 0;
+  margin:0;
 }
 header {
   background:url(../imgs/bg-page.png) no-repeat center top;
@@ -95,11 +106,13 @@ section#operation .next, section#operation .back {
   width:5%;
   height:38px;
   padding:11px;
+  -webkit-box-sizing:border-box;
   -moz-box-sizing:border-box;
   box-sizing:border-box;
 }
 section#operation .operationContent {
   padding:2px 0;
+  -webkit-box-sizing:border-box;
   -moz-box-sizing:border-box;
   box-sizing:border-box;
   float:left;
@@ -123,6 +136,8 @@ section#operation .center {
 }
 section#operation .top {
   background:url(../imgs/bg.jpg) no-repeat center -140px;
+  -webkit-box-shadow:0 2px 3px #aaaaaa;
+  -moz-box-shadow:0 2px 3px #aaaaaa;
   box-shadow:0 2px 3px #aaaaaa;
   width:100%;
   z-index:1;
@@ -170,7 +185,9 @@ nav#topbar ul:first-child {
 }
 #notifiche { height:19px; }
 #notifiche > span {
-  border-radius:2px 2px 2px 2px;
+  -webkit-border-radius:2px;
+  -moz-border-radius:2px;
+  border-radius:2px;
   height:16px;
   min-width:16px;
   padding:2px;
