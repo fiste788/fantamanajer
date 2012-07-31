@@ -21,7 +21,7 @@
 		</div>
 	</fieldset>
 	<fieldset>
-		<input class="btn-primary" type="submit" name="submit" value="OK" />
+		<input class="btn btn-primary" type="submit" name="submit" value="OK" />
 		<input class="btn" type="submit" name="submit" value="Rimuovi" />
 		<p class="help-block">(*) I campi contrassegnati con l'asterisco sono obbligatori</p>
 	</fieldset>

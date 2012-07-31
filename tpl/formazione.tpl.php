@@ -1,11 +1,12 @@
 <?php $j =0; $k = 0; $ruolo = ""; ?>
+<?php if(!STAGIONEFINITA || $this->giornata != GIORNATA): ?>
 <h3>Giornata <?php echo $this->giornata; ?></h3>
 <div id="stadio">
 	<div id="campo">
-		<div id="PP" class="droppable"></div>
-		<div id="DD" class="droppable"></div>
-		<div id="CC" class="droppable"></div>
-		<div id="AA" class="droppable"></div>
+		<div id="P" class="droppable"></div>
+		<div id="D" class="droppable"></div>
+		<div id="C" class="droppable"></div>
+		<div id="A" class="droppable"></div>
 	</div>
 	<div id="panchina">
 		<h3>Panchinari</h3>
@@ -22,14 +23,13 @@
 </div>
 <form action="<?php echo Links::getLink('formazione'); ?>" method="post">
 	<fieldset id="titolari-field">
-
 			<?php for($i = 0;$i < 11;$i++): ?>
-				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
+				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" data-ruolo="' .  $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '" data-nome="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome . '" data-has-image="' . file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg') . '"';} ?> id="gioc-<?php echo $i; ?>" type="hidden" name="gioc[<?php echo $i; ?>]" />
 			<?php endfor; ?>
 	</fieldset>
 	<fieldset id="panchina-field">
 			<?php for($i = 11;$i < 18;$i++): ?>
-				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" title="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '-' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome;if(file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg')) echo '-1"'; else echo '"';} ?> id="panchField-<?php echo ($i - 11); ?>" type="hidden" name="panch[<?php echo ($i - 11); ?>]" />
+				<input<?php if(isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])){ echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '" data-ruolo="' .  $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->ruolo . '" data-nome="' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->cognome . ' ' . $this->giocatori[$this->formazione->giocatori[$i]->idGiocatore]->nome . '" data-has-image="' . file_exists(PLAYERSDIR . $this->formazione->giocatori[$i]->idGiocatore . '.jpg') . '"';} ?> id="panchField-<?php echo ($i - 11); ?>" type="hidden" name="panch[<?php echo ($i - 11); ?>]" />
 			<?php endfor; ?>
 		</fieldset>
 		<fieldset id="capitani-field">
@@ -54,10 +54,9 @@
 	<?php foreach($this->giocatori as $key=>$val): ?>
 		<?php if($val->ruolo != $ruolo && $ruolo != "") echo '</div>'; ?>
 		<?php if($ruolo != $val->ruolo) echo '<div class="' . $val->ruolo . '">'; ?>
-		<div class="draggable giocatore <?php echo $val->ruolo; ?>">
-			<a class="hidden" rel="<?php echo $val->id; ?>"></a>
+		<div data-player-id="<?php echo $val->id; ?>" class="draggable giocatore <?php echo $val->ruolo; ?>">
 			<?php if(file_exists(PLAYERSDIR . $val->id . '.jpg')): ?>
-				<img alt="<?php echo $val->id; ?>" height="50" src="<?php echo PLAYERSURL . $val->id; ?>.jpg" />
+				<img alt="<?php echo $val->id; ?>" src="<?php echo PLAYERSURL . $val->id; ?>.jpg" />
 			<?php endif; ?>
 			<p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
 		</div>
@@ -69,12 +68,15 @@
 // <![CDATA[
 	<?php if(!empty($this->modulo)): ?>
 	var modulo = Array();
-	modulo['PP'] = <?php echo $this->modulo[0]; ?>;
-	modulo['DD'] = <?php echo $this->modulo[1]; ?>;
-	modulo['CC'] = <?php echo $this->modulo[2]; ?>;
-	modulo['AA'] = <?php echo $this->modulo[3]; ?>;
+	modulo['P'] = <?php echo $this->modulo[0]; ?>;
+	modulo['D'] = <?php echo $this->modulo[1]; ?>;
+	modulo['C'] = <?php echo $this->modulo[2]; ?>;
+	modulo['A'] = <?php echo $this->modulo[3]; ?>;
 	<?php endif; ?>
 	var edit = true;
 	var imgsUrl = '<?php echo PLAYERSURL; ?>';
 // ]]>
 </script>
+<?php else: ?>
+<p>La stagione è finita. Non puoi settare la formazione ora</p>
+<?php endif; ?>

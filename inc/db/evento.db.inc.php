@@ -27,7 +27,7 @@ class Evento extends EventoTable
 		return mysql_query($q) or self::sqlError($q);
 	}
 	
-	function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
+	public static function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
 		require_once(INCDBDIR . 'articolo.db.inc.php');
 		require_once(INCDBDIR . 'trasferimento.db.inc.php');
