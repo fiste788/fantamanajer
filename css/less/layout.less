@@ -1,12 +1,19 @@
 @import "variables.less";
 @import "mixins.less";
 
+
 @font-face {
-    font-family: "MuseoSans";
-    src: url("fonts/MuseoSans_500.otf") format("opentype");
+    font-family:"Open Sans";
+  src:url("fonts/OpenSans-Bold.ttf") format("truetype");
+  font-style:"bold";
+}
+@font-face {
+    font-family:"Open Sans";
+  src:url("fonts/OpenSans-Regular.ttf") format("truetype");
+  font-style:"normal";
 }
 body {
-  font-family:MuseoSans, sans-serif;
+  font-family:Open Sans, sans-serif;
   background:#e6eaed url("@{imgsPath}bg.jpg") repeat-x center top;
   min-width:1000px;
   padding:40px 0 0;

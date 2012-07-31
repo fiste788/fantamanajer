@@ -14,10 +14,10 @@
 							<input class="text" id="password" type="password" maxlength="12" name="password" />
 						</div>
 						<div class="field column">
-							<input type="checkbox" name="remember" />
+							<input id="remember" type="checkbox" name="remember" />
 							<label for="remember">Ricorda</label>
 						</div>
-						<input class="btn-primary right" type="submit" name="login" value="OK" />
+						<input class="btn btn-primary right" type="submit" name="login" value="OK" />
 					</fieldset>
 				</form>
 			</li>

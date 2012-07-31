@@ -94,8 +94,7 @@ $firePHP->setEnabled(DEBUG);
 $p = $request->has('p') ? $request->get('p') : 'home';
 if(!isset($pages->pages[$p]))
 	Request::send404();
-elseif($pages->pages[$p]->roles > $_SESSION['roles'])
-{
+elseif($pages->pages[$p]->roles > $_SESSION['roles']) {
 	$message->error("Non hai l'autorizzazione necessaria");
 	$p = 'home';
 }
