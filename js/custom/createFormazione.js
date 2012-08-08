@@ -1,13 +1,4 @@
 $(document).ready(function(){
-/*	$("#giocatori").stickyPanel({
-		topPadding: 82,
-		afterDetachCSSClass: "top",
-		savePanelSpace: true
-	});*/
-	$("#giocatori .draggable").each(function () {
-		ruolo = $(this).parent().attr("class");
-		$(this).data('ruolo',ruolo);
-	});
 				if(typeof(modulo) != "undefined")
 				{
 					var ruolo = 'P';
@@ -16,48 +7,40 @@ $(document).ready(function(){
 					var title = "";
 					var current = "";
 					var list = $("#titolari-field").find("input");
-					list.each(function (i) {
-						var current = $(list[i]);
-						$('.giocatore[data-player-id="' + current.val() + '"]').hide();
-						var ruoloGioc = current.data('ruolo');
-						var nomeGioc = current.data('nome');
+					list.each(function (i,ele) {
+						var current = $(ele);
+						var gioc = $('.giocatore#' + current.val());
+						var ruoloGioc = gioc.data('ruolo');
 						if(ruoloGioc != ruolo) {
 							j++;
 							k = 0;
 						}
-						if(current.data('has-image'))
-						    var gioc = $('<div style="position:absolute;left:' + ((((554-(83 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 83)-83) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc +'" data-player-id="'+ current.val() +'" data-ruolo="'+ ruoloGioc +'" ><img width="80" src="' + imgsUrl + current.attr('value') + '.jpg" /><p>' + nomeGioc + '</p></div>');
-						else
-							var gioc = $('<div style="position:absolute;left:' + ((((554-(83 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 83)-83) + 'px;top:' + ((140 * j) + 65) + 'px" class="embed giocatore draggable ui-draggable '+ ruoloGioc +'" data-player-id="'+ current.val() +'" data-ruolo="'+ ruoloGioc +'" ><p>' + nomeGioc + '</p></div>');
+						gioc.css('left',((((554-(82 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 82)-82) + 'px');
+						gioc.css('top',((161 * j) + 23) + 'px');
 						sobstitution(gioc);
-                          $("#campo div.droppable[id=" +ruoloGioc+"]").append(gioc);
+                        $("#campo .droppable#" + ruoloGioc).append(gioc);
 						ruolo = ruoloGioc;
 						k++;
 					});
 					list = $("#panchina-field").find("input[value!='']");
-					list.each(function (i) {
-						var current = $(list[i]);
-						$('.giocatore[data-player-id="' + current.val() + '"]').hide();
-						var ruoloGioc = current.data('ruolo');
-						var nomeGioc = current.data('nome');
-						if(current.data('has-image'))
-							var gioc = $('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc +'" data-player-id="'+ current.val() +'" data-ruolo="'+ ruoloGioc +'" ><img width="80" src="' + imgsUrl + current.val() + '.jpg" /><p>' + nomeGioc + '</p></div>');
-						else
-							var gioc = $('<div class="embed giocatore draggable ui-draggable '+ ruoloGioc +'" data-player-id="'+ current.val() +'" data-ruolo="'+ ruoloGioc +'" ><p>' + nomeGioc + '</p></div>');
-                        sobstitution(gioc);
-                        $("#panchina .droppable[id='panch-" + i + "']").append(gioc);
+					list.each(function (i,ele) {
+						var current = $(ele);
+						var giocOld = $('.giocatore#' + current.val());
+						var gioc = giocOld.clone();
+						giocOld.remove();
+						sobstitution(gioc);
+                        $("#panchina .droppable#panch-" + i).append(gioc);
 					});
 					list = $("#capitani-field").find("input[value!='']");
-					list.each(function (i) {
-						var current = $(list[i]);
-						var ruoloGioc = current.data('ruolo');
-						var nomeGioc = current.data('nome');
-						if(current.data('has-image'))
-							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc +'" data-player-id="'+ $(list[i]).val() +'" data-ruolo="'+ ruoloGioc +'" /><img width="80" src="' + imgsUrl + $(list[i]).val() + '.jpg" /><p>' + nomeGioc + '</p></div>');
-						else
-							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<div class="embed giocatore '+ ruoloGioc +'" data-player-id="'+ $(list[i]).val() +'" data-ruolo="'+ ruoloGioc +'" /><p>' + nomeGioc + '</p></div>');
+					list.each(function (i,ele) {
+						var current = $(ele);
+						var giocOld = $('.giocatore#' + current.val());
+						var gioc = giocOld.clone();
+						var div = $("#capitani .droppable[id='cap-" + current.attr('id') + "']");
+                        div.append(gioc);
 						if(typeof(edit) != "undefined" && edit)
-							$("#capitani .droppable[id='cap-" + current.attr('id') + "']").append('<a class="remove">Rimuovi</a>');
+							div.append('<a class="remove">Rimuovi</a>');
+
 					});
 				}
 			if(typeof(edit) != "undefined" && edit) {
@@ -70,42 +53,24 @@ $(document).ready(function(){
 					$("#capitani-field #"+livello).removeAttr("value");
 				});
 				$(".draggable").draggable({
-					helper:"clone",opacity:0.5,revert:true
+					helper:"clone",opacity:0.5,revert:true,appendTo:"#stadio"
 				});
 				var data = new Array();
-				data['PP'] = 1;
-				data['DD'] = 5;
-				data['CC'] = 5;
-				data['AA'] = 3;
+				data['P'] = 1;
+				data['D'] = 5;
+				data['C'] = 5;
+				data['A'] = 3;
 			$('#campo .droppable').droppable({
 				accept: function(draggable) {
 					var ruolo = $(this).attr('id');
 					if($(draggable).data('ruolo') == ruolo) {
-					var nPor = 0;
-					var nDif = 0;
-					var nCen = 0;
-					var nAtt = 0;
-					var nTot = 0;
-					var n = 0;
 
-					$(this).find("div").each(function () {
-						n++;
-					});
-					$(this).parent().find("div.embed").each(function () {
-						nTot++;
-					});
-					$(this).parent().find("div.P").each(function () {
-						nPor++;
-					});
-					$(this).parent().find("div.D").each(function () {
-						nDif++;
-					});
-					$(this).parent().find("div.C").each(function () {
-						nCen++;
-					});
-					$(this).parent().find("div.A").each(function () {
-						nAtt++;
-					});
+					var n = $(this).find("div").length;
+					var nTot = $(this).parent().find("div.giocatore").length;
+					var nPor = $(this).parent().find("div.P").length;
+					var nDif = $(this).parent().find("div.D").length;
+					var nCen = $(this).parent().find("div.C").length;
+					var nAtt = $(this).parent().find("div.A").length;
 						if(nDif <= 2)
 						{
 							data['D'] = 5;
@@ -231,161 +196,88 @@ $(document).ready(function(){
 				activeClass: 'droppable-active',
 				hoverClass: 'droppable-hover',
 				drop: function(ev,ui) {
-							var tagData = ui.draggable;
-							if(ui.draggable.children('img').length > 0)
-								var gioc = $('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'" data-player-id="'+tagData.data('player-id') +'" ruolo="'+ tagData.data('ruolo') +'"><img width="80" src="' + imgsUrl + tagData.data('player-id') + '.jpg" /><p>' + ui.draggable.children('p').text() + '</p></div>');
-							else
-								var gioc = $('<div style="'+ ui.helper.attr('style') +'" class="embed '+ui.draggable.attr('class')+'" data-player-id="'+tagData.data('player-id') +'" ruolo="'+ tagData.data('ruolo') +'"><p>' + ui.draggable.children('p').text() + '</p></div>');
-                            sobstitution(gioc);
-							$(this).append(gioc);
-
-
-							var exist = $("#panchina-field input[value=" + $(ui.draggable).data('player-id') + "]");
-							if(exist.length > 0)
-								exist.removeAttr("value");
-							$(this).children('div').css('opacity','1');
-							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
-								$(ui.draggable).hide();
-							else
-								ui.draggable.remove();
-							ui.helper.remove();
-							$("#campo .draggable").draggable({
-								helper:"clone",opacity:0.5,revert:true
-							});
-							reloadFields();
-							checkCapitani();
+						var gioc = ui.draggable
+						gioc.css('top',ui.helper.css('top'));
+						gioc.css('left',ui.helper.css('left'));
+						ui.helper.remove();
+						//sobstitution(gioc);
+						$(this).append(gioc);
+						reloadFields();
+						checkCapitani();
 					}
 				});
 				$('#giocatori').droppable({
-				activeClass: 'droppable-active',
-				hoverClass: 'droppable-hover',
-				drop: function(ev,ui) {
-							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
-								$(ui.draggable).hide();
-							else
-								ui.draggable.remove();
-							ui.helper.remove();
-							var exist = $("#titolari-field input[value=" + $(ui.draggable).data('player-id') + "]");
-							if(exist.length > 0)
-								exist.removeAttr("value");
-
-							$("#giocatori .giocatore[data-player-id=" + ui.draggable.data('player-id') + "]").show();
-							$("#giocatori .draggable").draggable({
-								helper:"clone",opacity:0.5,revert:true
-							});
+					accept: function(draggable) {
+						return $(this).find("#" + draggable.attr('id')).length == 0;
+					},
+					activeClass: 'droppable-active',
+					hoverClass: 'droppable-hover',
+					drop: function(ev,ui) {
+						ui.helper.remove();
+						ui.draggable.css('top',0);
+						ui.draggable.css('left',0);
+						$("#giocatori .ruoli." + ui.draggable.data('ruolo')).append(ui.draggable);
 						reloadFields();
 						checkCapitani();
 					}
 				});
 
 				$('#panchina .droppable').droppable({
-				accept: function(draggable) {
-					var n = 0;
-					$(this).find("div").each(function () {
-						n++;
-					});
-					if(n== 0)
-						return true;
-				},
-				activeClass: 'droppable-active',
-				hoverClass: 'droppable-hover',
-				drop: function(ev,ui) {
-							ui.draggable.removeClass('embed');
-							var tagData = ui.draggable;
-							if(ui.draggable.children('img').length > 0)
-								var gioc = $('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'" data-player-id="'+tagData.data('player-id') +'" data-ruolo="'+ tagData.data('ruolo') +'"><img width="80" src="' + imgsUrl + tagData.data('player-id') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
-							else
-								var gioc = $('<div style="margin:auto;float:none;" class="embed '+ui.draggable.attr('class')+'" data-player-id="'+tagData.data('player-id') +'" data-ruolo="'+ tagData.data('ruolo') +'"><p>' + $(ui.draggable).children('p').text() + '</p></div>');
-
-                            sobstitution(gioc);
-							$(this).append(gioc);
-
-							var exist = $("#titolari-field input[value=" + $(ui.draggable).data('player-id') + "]");
-							if(exist.length > 0)
-								exist.removeAttr("value");
-
-							$(this).children('div').css('opacity','1');
-							if((ui.draggable).parent().parent().attr('id') == 'giocatori')
-								$(ui.draggable).hide();
-							else
-								ui.draggable.remove();
-							ui.helper.remove();
-							$("#panchina .draggable").draggable({
-								helper:"clone",opacity:0.5,revert:true
-							});
-							reloadFields();
-							checkCapitani();
+					accept: function(draggable) {
+						return $(this).find(".giocatore").length == 0;
+					},
+					activeClass: 'droppable-active',
+					hoverClass: 'droppable-hover',
+					drop: function(ev,ui) {
+						var gioc = ui.draggable
+						ui.helper.remove();
+						//sobstitution(gioc);
+						$(this).append(gioc);
+						reloadFields();
+						checkCapitani();
 					}
 				});
 				$('#capitani .droppable').droppable({
-				accept: function(draggable) {
-					var n = 0;
-					$(this).find("div").each(function () {
-						n++;
-					});
-					if(n == 0)
-					{
-						var tagData = $(draggable).attr('name');
-						if((tagData == "P" || tagData == "D") && $(draggable).parent().parent().attr('id') == 'campo')
-						{
-							var exist = $("#capitani-field input[value=" + $(draggable).data('player-id') + "]");
-							if(exist.length == 0)
-								return true;
+					accept: function(draggable) {
+						if($(this).find("div").length == 0) {
+							var ruolo = $(draggable).data('ruolo');
+							if((ruolo == "P" || ruolo == "D") && isInCampo(draggable)) {
+								var exist = $("#capitani-field input[value=" + $(draggable).attr('id') + "]");
+								if(exist.length == 0)
+									return true;
+							}
 						}
-					}
-				},
-				activeClass: 'droppable-active',
-				hoverClass: 'droppable-hover',
-				drop: function(ev,ui) {
-							var tagData = ui.draggable;
-							if(ui.draggable.children('img').length > 0)
-								var gioc = $('<div class="embed '+ui.draggable.attr('class')+'" data-player-id="'+tagData.data('player-id') +'" data-ruolo="'+ tagData.data('ruolo') +'"><img width="80" src="' + imgsUrl + tagData.data('player-id') + '.jpg" /><p>' + $(ui.draggable).children('p').text() + '</p></div>');
-							else
-								var gioc = $('<div class="embed '+ui.draggable.attr('class')+'" data-player-id="'+tagData.data('player-id') +'" data-ruolo="'+ tagData.data('ruolo') +'"><p>' + $(ui.draggable).children('p').text() + '</p></div>');
-							gioc.droppable({
-			                    accept: function(draggable) {
-									if($(draggable).hasClass("giocatore"))
-									    return true;
-									else
-									    return false;
-								},
-								activeClass: 'droppable-active',
-								hoverClass: 'droppable-hover'
-							});
-							$(this).append(gioc);
-							$(this).children('div').css('opacity','1');
-							var list = $("#capitani-field").find("input");
-							list.each(function (i) {
-								$(list[i]).removeAttr('value');
-							});
-							var lista = $("#capitani").find("div.embed");
-							lista.each(function (i) {
-								var current = $(lista[i]);
-								var id = current.parent().attr('id');
-								var appo = id.split('-');
-								$("input[name='" + appo[1] + "']").val($(lista[i]).data('player-id'));
-							});
-							$(this).append('<a class="remove">Rimuovi</a>');
-					}
-				});
+					},
+					activeClass: 'droppable-active',
+					hoverClass: 'droppable-hover',
+					drop: function(ev,ui) {
+								var gioc = ui.draggable.clone();
+								ui.helper.remove();
+								$(this).empty();
+								$(this).append(gioc);
+								var list = $("#capitani-field").find("input");
+								list.each(function (i) {
+									$(list[i]).removeAttr('value');
+								});
+								var lista = $("#capitani").find(".giocatore");
+								lista.each(function (i,ele) {
+									var id = $(ele).parent().attr('id');
+									var appo = id.split('-');
+									$("input[name='" + appo[1] + "']").val($(ele).attr('id'));
+								});
+								$(this).append('<a class="remove">Rimuovi</a>');
+						}
+					});
 
-			}
-				function checkCapitani()
-				{
+				}
+				function checkCapitani() {
 					var list = $("#capitani").find(".giocatore");
-					if(list.length > 0)
-					{
-						var listTitolari = $("#campo").find("div.embed");
-						list.each(function (i) {
-							var idCap = $(list[i]).data('player-id');
-							var flag = false;
-							listTitolari.each(function (i) {
-								var val = $(listTitolari[i]).data('player-id');
-								if(idCap == val)
-									flag = true;
-							});
-							if(!flag) {
-								$(list[i]).parent().empty();
+					if(list.length > 0) {
+						var listTitolari = $("#campo").find(".giocatore");
+						list.each(function (i,ele) {
+							var idCap = $(ele).attr('id');
+							if($("#campo #" + idCap).length == 0) {
+								$(ele).parent().empty();
 								$("#capitani-field input[value=" + idCap + "]").removeAttr('value');
 							}
 						});
@@ -395,61 +287,64 @@ $(document).ready(function(){
 				}
 				function reloadFields() {
                     var list = $("#titolari-field").find("input");
-					list.each(function (i) {
-						$(list[i]).removeAttr('value');
+					list.each(function (i,ele) {
+						$(ele).removeAttr('value');
 					});
-					var lista = $("#campo").find("div.embed");
-					lista.each(function (i) {
-						$("input[name='gioc[" + i + "]']").attr('value',$(lista[i]).data('player-id'));
+					var lista = $("#campo").find(".giocatore");
+					lista.each(function (i,ele) {
+						$("input[name='gioc[" + i + "]']").attr('value',$(ele).attr('id'));
 					});
 					list = $("#panchina-field").find("input");
-					list.each(function (i) {
-						$(list[i]).removeAttr('value');
+					list.each(function (i,ele) {
+						$(ele).removeAttr('value');
 					});
 					lista = $("#panchina").find("div.embed");
-					lista.each(function (i) {
-						$("input[name='panch[" + i + "]']").attr('value',$(lista[i]).data('player-id'));
+					lista.each(function (i,ele) {
+						$("input[name='panch[" + i + "]']").attr('value',$(ele).attr('id'));
 					});
+					$(".draggable").draggable({
+						helper:"clone",opacity:0.5,revert:true,appendTo:"#stadio"
+					});
+					$("#panchina .giocatore, #campo .giocatore").each(function(i,ele) {
+						sobstitution(ele);
+					});
+				}
+				function isInCampo(dom) {
+					return $(dom).parents().filter("#campo").length > 0
 				}
 				function sobstitution(gioc) {
                     $(gioc).droppable({
                                 greedy: true,
 			                    accept: function(draggable) {
-									var ruolo = $(this).data('ruolo');
-									if($(draggable).hasClass("giocatore") && $(draggable).data('ruolo') == ruolo)
-									    return true;
-									else
-									    return false;
+									return ($(draggable).hasClass("giocatore") && $(draggable).data('ruolo') == $(this).data('ruolo'))
 								},
 								activeClass: 'droppable-active',
 								hoverClass: 'droppable-hover2',
 								drop: function(ev,ui) {
-									var id = $(this).data('player-id');
-									var content = $(this).html();
-									$(this).empty();
-									$(this).html(ui.draggable.html());
-									$(this).attr('data-player-id',ui.draggable.data('player-id'));
-									var source = ui.draggable.parent().parent().attr('id');
-									if(source == 'giocatori') {
-										ui.draggable.hide();
-                                        $('#giocatori .giocatore[data-player-id=' + id + ']').show();
+									var inCampoGioc1 = isInCampo(ui.draggable);
+									var inCampoGioc2 = isInCampo(this);
+									var gioc1 = ui.draggable;
+									var gioc2 = $(this).clone();
+									
+									if(inCampoGioc1) {
+										gioc2.css('left',gioc1.css('left'));
+										gioc2.css('top',gioc1.css('top'));
 									}
-									else {
-										if(source == 'panchina' || source == 'campo') {
-											ui.draggable.empty();
-											ui.draggable.html(content);
-											ui.draggable.attr('data-player-id',id);
-										} else {
-											ui.draggable.remove();
-		  								}
+									if(inCampoGioc2) {
+										ui.draggable.css('left',$(this).css('left'));
+										ui.draggable.css('top',$(this).css('top'));
 									}
+
+									/*ui.draggable.droppable({
+
+									})*/
+									gioc1.replaceWith(gioc2);
+									$(this).replaceWith(ui.draggable);
 									ui.helper.remove();
-									$("#campo .draggable").draggable({
-										helper:"clone",opacity:0.5,revert:true
-									});
 									reloadFields();
 									checkCapitani();
 								}
 							});
 				}
+					
 			});
