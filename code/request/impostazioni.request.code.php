@@ -7,8 +7,7 @@ else
 	$lega = $_SESSION['datiLega'];
 
 if($lega->validate()) {
-	if($lega->save())
-	{
+	if($lega->save()) {
 		if($lega->getId() == $_SESSION['idLega'])
 			$_SESSION['datiLega'] = $lega;
 		$message->success("Operazione effettuata correttamente");

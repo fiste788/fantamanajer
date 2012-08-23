@@ -16,7 +16,7 @@ foreach($generalCss as $key=>$val) {
 		file_put_contents($cache_fname, serialize($new_cache));
 		file_put_contents($css_fname, $new_cache['compiled']);
 	}
-	//lessc::ccompile(CSSDIR . 'less/' . $val . '.less', CSSDIR . $val . '.css');
+	lessc::ccompile(CSSDIR . 'less/' . $val . '.less', CSSDIR . $val . '.css');
 	$generalCss[$key] = $val . '.css';
 }
 ?>

@@ -27,6 +27,9 @@ if(GIORNATA != $filterGiornata) {
 } else
 	$giocatori = GiocatoreStatistiche::getByField('idUtente',$filterUtente);
 
+for($i = 1; $i <= GIORNATA; $i++)
+	$giornate[$i] = $i;
+$quickLinks->set('giornata',$giornate,'Giornata ');
 $modulo = explode('-',$formazione->modulo);
 $contentTpl->assign('formazione',$formazione);
 $contentTpl->assign('giocatori',$giocatori);

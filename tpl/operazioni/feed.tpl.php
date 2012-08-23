@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('feed'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('feed'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="p" value="<?php echo $this->request->get('p'); ?>" />
 		<label for="evento">Seleziona il tipo di evento:</label>

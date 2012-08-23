@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('trasferimenti'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('trasferimenti'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="p" value="<?php echo $this->request->get('p'); ?>" />
 		<label for="id" class="no-margin">Seleziona la squadra:</label>

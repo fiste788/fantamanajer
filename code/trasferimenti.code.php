@@ -13,7 +13,7 @@ if(!is_array($trasferimentiAppo))
 	$trasferimenti[] = $trasferimentiAppo;
 else
 	$trasferimenti = $trasferimentiAppo;
-$firePHP->log($trasferimenti);
+
 foreach($trasferimenti as $key=>$val) {
 	$val->getGiocatoreOld();
 	$val->getGiocatoreNew();
@@ -22,7 +22,8 @@ $playerFree = Giocatore::getFreePlayer(NULL,$_SESSION['legaView']);
 
 $trasferiti = Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
 $selezione = Selezione::getByField('idUtente',$_SESSION['idUtente']);
-
+if(empty($selezione))
+	$selezione = new Selezione();
 if($request->has('acquista'))
 	$selezione->setIdGiocatoreNew($request->get('acquista'));
 

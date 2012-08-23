@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('newsletter'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('newsletter'); ?>" method="post">
 	<fieldset>
 		<label for="lega">Seleziona la lega</label>
 		<select name="lega" onchange="this.form.submit();">

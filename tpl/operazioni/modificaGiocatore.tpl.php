@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('modificaGiocatore'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('modificaGiocatore'); ?>" method="post">
 	<fieldset>
 		<label for="giocatore">Seleziona il giocatore</h3>
 		<select name="giocatore">

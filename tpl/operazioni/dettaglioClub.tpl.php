@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('dettaglioClub'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('dettaglioClub'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" value="<?php echo $_GET['p']; ?>" />
 		<label for="club">Seleziona il club:</label>

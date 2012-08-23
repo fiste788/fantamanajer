@@ -1,10 +1,10 @@
 <?php 
-require_once(INCDBDIR . 'trasferimento.db.inc.php');
+require_once(INCDBDIR . 'selezione.db.inc.php');
 
 $logger->start("ACQUISTA GIOCATORI");
 if(Giornata::checkDay(($data = date("Y-m-d")),'dataFine') || $_SESSION['usertype'] == 'superadmin') {
 	$logger->info("Starting do transfer");
-	if(Trasferimento::doTransfertBySelezione()) {
+	if(Selezione::doTransfertBySelezione()) {
 		$message->success("Operazione effettuata correttamente");
 		$logger->info("Trasnfert finished successfully");
 	} else {

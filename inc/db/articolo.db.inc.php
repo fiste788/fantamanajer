@@ -3,6 +3,27 @@ require_once(TABLEDIR . 'Articolo.table.db.inc.php');
 
 class Articolo extends ArticoloTable
 {
+	public function save() {
+		if(($id = parent::save()) != FALSE) {
+		    if(is_null($this->getId()) || $this->getId() == '') {
+			    $evento = new Evento();
+			    $evento->setTipo(Evento::CONFERENZASTAMPA);
+			    $evento->setData($this->getDataCreazione());
+			    $evento->setIdUtente($this->getIdUtente());
+			    $evento->setIdLega($this->getIdLega());
+			    $evento->setIdExternal($id);
+				return $evento->save();
+			} else
+				return TRUE;
+		}
+	}
+
+	public function delete() {
+		$id = $this->getId();
+		if(parent::delete())
+			Evento::deleteEventoByIdExternalAndTipo($id,Evento::CONFERENZASTAMPA);
+	}
+
 	public static function getArticoliByGiornataAndLega($idGiornata,$idLega)
 	{
 		$q = "SELECT articolo.*,utente.username
@@ -46,7 +67,7 @@ class Articolo extends ArticoloTable
 	public function check($array,$message) {
 		$post = (object) $array;
 		$GLOBALS['firePHP']->log($array);
-    	if(empty($post->title) || empty($post->text)) {
+    	if(empty($post->titolo) || empty($post->testo)) {
 			$message->error("Non hai compilato correttamente tutti i campi");
 			return FALSE;
   		}

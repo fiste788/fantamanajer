@@ -2,7 +2,7 @@
 	<?php foreach($this->articoli as $key => $val): ?>
 		<div class="articolo">
 			<?php if($_SESSION['logged'] && $_SESSION['idUtente'] == $val->idUtente): ?>
-				<a class="edit column last" href="<?php echo Links::getLink('modificaConferenza',array('id'=>$val->id)); ?>" title="Modifica">M</a>
+				<a class="icon-edit column last" href="<?php echo Links::getLink('modificaConferenza',array('id'=>$val->id)); ?>" title="Modifica">&nbsp;</a>
 			<?php endif; ?>
 			<em>
 				<span class="right"><?php echo $val->dataCreazione->format("Y-m-d H:i:s"); ?></span>

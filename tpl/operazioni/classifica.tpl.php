@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('classifica'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('classifica'); ?>" method="post">
 	<fieldset>
 		<label for="giornata">Guarda la classifica alla giornata</label>
 		<select id="giornata" name="giornata" onchange="this.form.submit();">

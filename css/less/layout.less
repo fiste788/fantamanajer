@@ -152,6 +152,13 @@ section fieldset {
 }
 nav#topbar {
   background:url(@{imgsPath}menu-bg.jpg) repeat-x;
+  .nav>li>a {
+	color:#eee;
+	text-shadow:none;
+  }
+  .nav li.dropdown.open > .dropdown-toggle {
+	background-color:transparent;
+  }
   #login fieldset {
     margin:0;
     padding:10px 20px;

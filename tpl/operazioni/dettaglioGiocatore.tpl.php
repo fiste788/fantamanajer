@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('dettaglioGiocatore'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('dettaglioGiocatore'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" value="<?php echo $this->request->get('p'); ?>" />
 		<input type="hidden" value="<?php echo $this->request->has('edit') ? $this->request->get('edit') : 'view';?>" name="edit" />

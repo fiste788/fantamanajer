@@ -212,7 +212,7 @@ class SelezioneTable extends DbTable {
 	{
 	    require_once(INCDBDIR . 'giocatore.db.inc.php');
 	    if(empty($this->giocatoreNew))
-			$this->giocatoreNew = Giocatore::getById($this->getId());
+			$this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
 		return $this->giocatoreNew;
 	}
 
@@ -224,7 +224,7 @@ class SelezioneTable extends DbTable {
 	{
 	    require_once(INCDBDIR . 'giocatore.db.inc.php');
 	    if(empty($this->giocatoreOld))
-			$this->giocatoreOld = Giocatore::getById($this->getId());
+			$this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
 		return $this->giocatoreOld;
 	}
 }
