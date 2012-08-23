@@ -292,15 +292,15 @@ $(document).ready(function(){
 					});
 					var lista = $("#campo").find(".giocatore");
 					lista.each(function (i,ele) {
-						$("input[name='gioc[" + i + "]']").attr('value',$(ele).attr('id'));
+						$("input[name='titolari[" + i + "]']").attr('value',$(ele).attr('id'));
 					});
 					list = $("#panchina-field").find("input");
 					list.each(function (i,ele) {
 						$(ele).removeAttr('value');
 					});
-					lista = $("#panchina").find("div.embed");
+					lista = $("#panchina").find(".giocatore");
 					lista.each(function (i,ele) {
-						$("input[name='panch[" + i + "]']").attr('value',$(ele).attr('id'));
+						$("input[name='panchinari[" + i + "]']").attr('value',$(ele).attr('id'));
 					});
 					$(".draggable").draggable({
 						helper:"clone",opacity:0.5,revert:true,appendTo:"#stadio"

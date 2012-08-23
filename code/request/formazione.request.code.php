@@ -15,45 +15,18 @@ if(!PARTITEINCORSO)
 		if(!$formazione)
 			$formazione = new Formazione();
 		if($formazione->validate()) {
-			$success = TRUE;
-			$giocatoriIds = array();
-			$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
-			$titolari = $request->getRawData('post','gioc');
-			$panchinari = $request->getRawData('post','panch');
-			$giocatoriIds = array_merge($giocatoriIds,$titolari,$panchinari);
-			$giocatori = Giocatore::getByIds($giocatoriIds);
-			foreach($titolari as $key=>$titolare)
-				$modulo[$giocatori[$titolare]->ruolo] += 1;
+			$titolari = $request->getRawData('post','titolari');
+			$panchinari = $request->getRawData('post','panchinari');
 			$formazione->setIdGiornata(GIORNATA);
 			$formazione->setIdUtente($_SESSION['idUtente']);
-			$formazione->setModulo(implode($modulo,'-'));
-			$firePHP->log($request);
 			if($request->get('C') != 0)
 				$formazione->setIdCapitano($request->get('C'));
 			if($request->get('VC') != 0)
 				$formazione->setIdVCapitano($request->get('VC'));
 			if($request->get('VVC') != 0)
 				$formazione->setIdVVCapitano($request->get('VVC'));
-			$formazione->startTransaction();
-			if(($idFormazione = $formazione->save()) != FALSE) {
-				$schieramenti = Schieramento::getSchieramentoById($idFormazione);
-				foreach($giocatoriIds as $posizione=>$idGiocatore) {
-					$schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
-					if(!is_null($idGiocatore) && !empty($idGiocatore)) {
-						if($schieramento->idGiocatore != $idGiocatore) {
-							$schieramento->setIdFormazione($idFormazione);
-							$schieramento->setPosizione($posizione + 1);
-							$schieramento->setIdGiocatore($idGiocatore);
-							$schieramento->setConsiderato(0);
-							$success = ($success and $schieramento->save());
-						}
-					} else
-						$success = ($success and $schieramento->delete());
-				}
-				if($success)
-					$formazione::commit();
-				else
-					$formazione::rollback();
+			if($formazione->save(array('titolari'=>$titolari,'panchinari'=>$panchinari))) {
+				$message->success('Formazione caricata correttamente');
 			}
 	    }
 	}
