@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 		<label for="squadra">Guarda le altre formazioni</label>

@@ -6,15 +6,13 @@ class Selezione extends SelezioneTable
 	public static function getSelezioni()
 	{
 		$q = "SELECT * 
-				FROM selezione INNER JOIN giocatore ON giocNew = idGioc";
+				FROM selezione";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
+		$values = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
-		if(isset($values))
-			return $values;
-		else
-			return FALSE;
+		return $values;
 	}
 	
 	public static function getSelezioneByIdSquadra($idUtente)
@@ -154,6 +152,24 @@ class Selezione extends SelezioneTable
 			return FALSE;
 		}
   		return TRUE;
+	}
+
+	public static function doTransfertBySelezione()
+	{
+		require_once(INCDBDIR.'trasferimento.db.inc.php');
+		
+		$selezioni = self::getSelezioni();
+		foreach($selezioni as $key => $val) {
+			$trasferimento = new Trasferimento();
+			$trasferimento->setIdGiocatoreOld($val->idGiocatoreOld);
+			$trasferimento->setIdGiocatoreNew($val->idGiocatoreNew);
+			$trasferimento->setIdUtente($val->idUtente);
+			$trasferimento->setIdGiornata(GIORNATA);
+			$trasferimento->setObbligato(($val->getGiocatoreOld()->getStatus() == 1) ? '0' : '1');
+			$trasferimento->save();
+		}
+		Selezione::svuota();
+		return TRUE;
 	}
 }
 ?>

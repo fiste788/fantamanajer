@@ -158,7 +158,6 @@ abstract class DbTable
 
 	public function fromArray($array,$raw = FALSE) {
 		$vars = get_object_vars($this);
-		$GLOBALS['firePHP']->log($vars);
 		foreach($array as $key=>$value) {
 			if(array_key_exists($key,$vars) && !is_null($value)) {
 			    if(!$raw && method_exists($this,$methodName = 'set' . ucfirst($vars[$key])))
@@ -171,6 +170,6 @@ abstract class DbTable
 
 	//public abstract function check($array,$message);
 	
-	public abstract function __toString();
+	//public abstract function __toString();
 }
 ?>

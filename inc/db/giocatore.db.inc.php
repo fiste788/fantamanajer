@@ -287,7 +287,7 @@ class Giocatore extends GiocatoreTable
 	public static function getGiocatoriNotSquadra($idUtente,$idLega)
 	{
 		$q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
-				FROM giocatore LEFT JOIN squadra ON giocatore.id = squadra.idGioc
+				FROM giocatore LEFT JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idLega = '" . $idLega . "' AND idUtente <> '" . $idUtente . "' OR idUtente IS NULL
 				ORDER BY giocatore.id ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -303,8 +303,7 @@ class Giocatore extends GiocatoreTable
 		
 		$giocatori = self::getGiocatoriByIdSquadra($idUtente);
 		$trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($idUtente,$idGiornata);
-		if($trasferimenti != FALSE)
-		{
+		if(!empty($trasferimenti)) {
 			$sort_arr = array();
 			foreach($trasferimenti as $uniqid => $row)
 				foreach($row as $key=>$value)
@@ -312,8 +311,7 @@ class Giocatore extends GiocatoreTable
 			array_multisort($sort_arr['idGiornata'] , SORT_DESC , $trasferimenti);
 			foreach($trasferimenti as $key => $val)
 				foreach($giocatori as $key2=>$val2)
-					if($val2->idGioc == $val->idGiocNew)
-					{
+					if($val2->idGioc == $val->idGiocNew) {
 						$giocOld = self::getGiocatoreById($val->idGiocOld);
 						$giocatori[$key2] = $giocOld[$val->idGiocOld];
 					}

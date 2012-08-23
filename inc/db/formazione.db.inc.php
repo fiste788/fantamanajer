@@ -3,6 +3,39 @@ require_once(TABLEDIR . 'Formazione.table.db.inc.php');
 
 class Formazione extends FormazioneTable
 {
+	public function save() {
+		require_once(INCDBDIR . "schieramento.db.inc.php");
+
+		$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
+		$titolari = $request->getRawData('post','gioc');
+		$panchinari = $request->getRawData('post','panch');
+		$giocatoriIds = array_merge($giocatoriIds,$titolari,$panchinari);
+		$giocatori = Giocatore::getByIds($giocatoriIds);
+		foreach($titolari as $key=>$titolare)
+			$modulo[$giocatori[$titolare]->ruolo] += 1;
+		$this->setModulo(implode($modulo,'-'));
+		if(($idFormazione = parent::save()) != FALSE) {
+			$schieramenti = Schieramento::getSchieramentoById($idFormazione);
+			foreach($giocatoriIds as $posizione=>$idGiocatore) {
+				$schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
+				if(!is_null($idGiocatore) && !empty($idGiocatore)) {
+					if($schieramento->idGiocatore != $idGiocatore) {
+						$schieramento->setIdFormazione($idFormazione);
+						$schieramento->setPosizione($posizione + 1);
+						$schieramento->setIdGiocatore($idGiocatore);
+						$schieramento->setConsiderato(0);
+						$success = ($success and $schieramento->save());
+					}
+				} else
+					$success = ($success and $schieramento->delete());
+			}
+			if($success)
+				$formazione::commit();
+			else
+				$formazione::rollback();
+		}
+	}
+
 	public static function getFormazioneById($id)
 	{
 		$q = "SELECT formazione.idFormazione,idUtente,idGiornata,idGioc,idPosizione,modulo,C,VC,VVC 

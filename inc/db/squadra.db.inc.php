@@ -27,7 +27,7 @@ class Squadra extends DbTable
 	public static function updateGiocatore($giocatoreNew,$giocatoreOld,$idUtente)
 	{
 		$q = "UPDATE squadra 
-				SET idGioc = '" . $giocatoreNew . "' 
+				SET idGiocatore = '" . $giocatoreNew . "'
 				WHERE idGioc = '" . $giocatoreOld . "' AND idUtente = '" . $idUtente . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
@@ -37,7 +37,7 @@ class Squadra extends DbTable
 	{
 		$q = "UPDATE squadra 
 				SET idUtente = '" . $idUtente . "' 
-				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
+				WHERE idGiocatore = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
@@ -46,7 +46,7 @@ class Squadra extends DbTable
 	{
 		$q = "SELECT idUtente
 				FROM squadra 
-				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
+				WHERE idGiocatore = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$values = FALSE;
 		FirePHP::getInstance()->log($q);
@@ -67,7 +67,7 @@ class Squadra extends DbTable
 	{
 		$q = "DELETE
 				FROM squadra 
-				WHERE idGioc = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
+				WHERE idGiocatore = '" . $idGioc . "' AND idLega = '" . $idLega . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}

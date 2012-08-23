@@ -9,7 +9,6 @@ elseif(($articolo = Articolo::getById($request->get('id'))) === FALSE)
 
 if($request->get('submit') == 'Rimuovi'){
 	if($articolo->delete()) {
-		Evento::deleteEventoByIdExternalAndTipo($request->get('id'),Evento::CONFERENZASTAMPA);
 		$message->success('Cancellazione effettuata con successo');
 		$_SESSION['message'] = $message;
 		Request::goToUrl('conferenzeStampa');
@@ -17,25 +16,17 @@ if($request->get('submit') == 'Rimuovi'){
 		$message->error("Errore nella cancellazione della conferenza");
 } else {
     if($articolo->validate()) {
-		$articolo->setIdUtente(3);
+		$articolo->setIdUtente($_SESSION['idUtente']);
 		$articolo->setIdGiornata(GIORNATA);
 		$articolo->setIdLega(1);
+		$articolo->setDataCreazione('now');
 
-		if(($id = $articolo->save()) != FALSE) {
-		    if(is_null($articolo->getId())) {
-			    $evento = new Evento();
-			    $evento->setTipo(Evento::CONFERENZASTAMPA);
-			    $evento->setData($articolo->getInsertDate());
-			    $evento->setIdUtente($articolo->getIdUtente());
-			    $evento->setIdLega($articolo->getIdLega());
-			    $evento->setIdExternal($id);
-				$evento->save();
-			}
+		if($articolo->save())
 			$message->success("Inserimento completato con successo");
-		} else
+		else
             $message->error("Errore generico nell'inserimento");
 		$_SESSION['message'] = $message;
-		Request::goToUrl('conferenzeStampa');
+		//Request::goToUrl('conferenzeStampa');
 	}
 }
 $contentTpl->assign('articolo',$articolo);

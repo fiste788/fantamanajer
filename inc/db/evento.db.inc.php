@@ -87,13 +87,13 @@ class Evento extends EventoTable
 										$values[$key]->content .= $val2->cognome.', ';
 									$values[$key]->content = substr($values[$key]->content,0,-2);
 									$values[$key]->link = Links::getLink('altreFormazioni',array('giorn'=>$values[$key]->idExternal->idGiornata,'squadra'=>$values[$key]->idExternal->idUtente));break;
-					case 4: $values[$key]->idExternal = Trasferimento::getTrasferimentoById($val->idExternal);
-									$giocOld = Giocatore::getGiocatoreById($values[$key]->idExternal->idGiocOld);
-									$giocNew = Giocatore::getGiocatoreById($values[$key]->idExternal->idGiocNew);
-									$values[$key]->idExternal->idGiocOld = $giocOld[$values[$key]->idExternal->idGiocOld];
-									$values[$key]->idExternal->idGiocNew = $giocNew[$values[$key]->idExternal->idGiocNew];
+					case 4: $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
+									$giocOld = Giocatore::getById($values[$key]->idExternal->idGiocatoreOld);
+									$giocNew = Giocatore::getById($values[$key]->idExternal->idGiocatoreNew);
+									$values[$key]->idExternal->idGiocatoreOld = $giocOld->id;
+									$values[$key]->idExternal->idGiocatoreNew = $giocNew->id;
 									$values[$key]->titolo = $val->nome . ' ha effettuato un trasferimento';
-									$values[$key]->content = $val->nome .' ha ceduto il giocatore '. $values[$key]->idExternal->idGiocOld->nome . ' ' . $values[$key]->idExternal->idGiocOld->cognome . ' e ha acquistato ' . $values[$key]->idExternal->idGiocNew->nome . ' ' . $values[$key]->idExternal->idGiocNew->cognome;
+									$values[$key]->content = $val->nome .' ha ceduto il giocatore '. $giocOld . ' e ha acquistato ' . $giocNew;
 									$values[$key]->link = Links::getLink('trasferimenti',array('squadra'=>$values[$key]->idExternal->idUtente));
 									unset($giocOld,$giocNew);break;
 								case 5: 

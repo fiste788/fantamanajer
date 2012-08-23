@@ -1,10 +1,10 @@
 <?php
-require_once(INCDIR . "utente.db.inc.php");
-require_once(INCDIR . "formazione.db.inc.php");
-require_once(INCDIR . "lega.db.inc.php");
-require_once(INCDIR . "giocatore.db.inc.php");
-require_once(INCDIR . "punteggio.db.inc.php");
-require_once(INCDIR . "voto.db.inc.php");
+require_once(INCDBDIR . "utente.db.inc.php");
+require_once(INCDBDIR . "formazione.db.inc.php");
+require_once(INCDBDIR . "lega.db.inc.php");
+require_once(INCDBDIR . "giocatore.db.inc.php");
+require_once(INCDBDIR . "punteggio.db.inc.php");
+require_once(INCDBDIR . "voto.db.inc.php");
 require_once(INCDIR . 'mail.inc.php');
 
 $mailContent = new Savant3();

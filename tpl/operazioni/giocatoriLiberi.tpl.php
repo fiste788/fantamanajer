@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('giocatoriLiberi'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('giocatoriLiberi'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="p" value="<?php echo $this->request->get('p');?>" />
 		<label for="ruolo">Seleziona il ruolo:</label>
@@ -11,6 +11,6 @@
 		<input id="sufficenza" maxlength="3" name="sufficenza" type="text" class="small" value="<?php if($this->validFilter) echo $this->defaultSufficenza; ?>" />
 		<label for="partite">Soglia partite:</label>
 		<input id="partite" maxlength="2" name="partite" type="text" class="small" value="<?php if($this->validFilter) echo $this->defaultPartite; ?>" />
-		<input class="btn-primary" type="submit" value="OK"/>
+		<input class="btn btn-primary" type="submit" value="OK"/>
 	</fieldset>
 </form>

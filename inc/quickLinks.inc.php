@@ -21,8 +21,9 @@ class QuickLinks
 				$params = array_merge(array($param=>$keys[$idPrec]),$other);
 			else
 				$params = array($param=>$keys[$idPrec]);
+			$this->prev = new stdClass();
 			$this->prev->href = Links::getLink($this->request->get('p'),$params);
-			$this->prev->title = $title . ($array) ? $array[$keys[$idPrec]] : $keys[$idPrec];
+			$this->prev->title = $title . ((!empty($array)) ? $array[$keys[$idPrec]] : $keys[$idPrec]);
 		}
 		if(isset($keys[($idSucc = $current + 1)]))
 		{
@@ -30,8 +31,9 @@ class QuickLinks
 				$params = array_merge(array($param=>$keys[$idSucc]),$other);
 			else
 				$params = array($param=>$keys[$idSucc]);
+			$this->next = new stdClass();
 			$this->next->href = Links::getLink($this->request->get('p'),$params);
-			$this->next->title = $title . ($array) ? $array[$keys[$idSucc]] : $keys[$idSucc];
+			$this->next->title = $title . (!empty($array) ? $array[$keys[$idSucc]] : $keys[$idSucc]);
 		}
 	}
 }

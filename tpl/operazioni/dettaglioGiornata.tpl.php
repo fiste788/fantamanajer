@@ -1,4 +1,4 @@
-<form action="<?php echo Links::getLink('dettaglioGiornata'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('dettaglioGiornata'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="p" value="<?php echo $this->request->get('p');?>" />
 		<label for="giornata">Seleziona la giornata:</label>

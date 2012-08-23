@@ -29,8 +29,8 @@
 				</tbody>
 			</table>
 <?php if(!PARTITEINCORSO || !STAGIONEFINITA && $_SESSION['legaView'] == $_SESSION['idLega']): ?>
-			<p>Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
-			<input type="submit" class="btn-primary" value="Acquista" />
+			<p class="alert-message alert alert-info">Se clicchi sul bottone sottostante selezionerai il giocatore per l'acquisto che comunque non avverrà subito e che può essere annullato. Nella pagina che ti apparirà dopo aver cliccato sul bottone ci sono altre informazioni</p>
+			<input type="submit" class="btn btn-primary" value="Acquista" />
 		</fieldset>
 	</form>
 <?php endif; ?>

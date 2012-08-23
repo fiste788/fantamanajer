@@ -1,7 +1,7 @@
-<form action="<?php echo Links::getLink('formazione'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('formazione'); ?>" method="post">
 	<fieldset>
 		<input type="hidden" name="p" value="formazione" />
-		<label for="squadra">Guarda le altre formazioni</label>
+		<label for="squadra">Guarda altre formazioni</label>
 		<?php if(empty($this->formazioniPresenti)): ?>
 			<select name="utente" disabled="disabled">
 				<option>Nessuna form. impostata</option>
@@ -12,7 +12,7 @@
 			<?php endforeach;?>
 		<?php endif; ?>
 		</select>
-		<label for="giornata">Guarda la formazione della giornata</label>
+		<label for="giornata">Guarda formazione alla giornata</label>
 		<select id="giornata" name="giornata" onchange="this.form.submit();">
 			<?php for($j = GIORNATA ; $j  > 0 ; $j--): ?>
 				<option <?php echo ($this->giornata == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>

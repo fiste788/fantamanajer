@@ -3,7 +3,61 @@ require_once(TABLEDIR . 'Trasferimento.table.db.inc.php');
 
 class Trasferimento extends TrasferimentoTable
 {
-	
+	public function save() {
+		self::startTransaction();
+		if(($id = parent::save()) != FALSE) {
+			require_once(INCDBDIR . 'squadra.db.inc.php');
+			require_once(INCDBDIR . 'formazione.db.inc.php');
+			require_once(INCDBDIR . 'evento.db.inc.php');
+
+			$idLega = $this->getUtente()->getIdLega();
+			Squadra::unsetSquadraByIdGioc($this->getIdGiocatoreOld(),$idLega);
+			Squadra::setSquadraByIdGioc($this->getIdGiocatoreNew(),$idLega,$this->getIdUtente());
+			$formazione = Formazione::getFormazioneBySquadraAndGiornata($this->getIdUtente(),GIORNATA);
+			if($formazione != FALSE) {
+				//if(in_array($val->idGiocatoreOld,$formazione->elenco))
+				//	Schieramento::changeGioc($formazione->id,$val->idGiocatoreOld,$val->idGiocatoreNew);
+				//if(in_array($val->giocOld,get_object_vars($formazione->cap)))
+				//	Formazione::changeCap($formazione->id,$val->giocNew,array_search($val->giocOld,get_object_vars($formazione->cap)));
+			}
+			$evento = new Evento();
+		    $evento->setTipo(Evento::TRASFERIMENTO);
+		    $evento->setIdUtente($this->getIdUtente());
+		    $evento->setIdLega($idLega);
+		    $evento->setIdExternal($id);
+			if($evento->save() != FALSE)
+				return TRUE;
+		}
+		if(isset($err)) {
+			self::rollback();
+			self::sqlError("Errore nella transazione: <br />" . $err);
+		}
+		else
+			self::commit();
+	}
+
+	public function check($array,$message) {
+		$post = (object) $array;
+    	$trasferimenti = self::getByField('idUtente',$post->idUtente);
+		$numTrasferimenti = count($trasferimenti);
+
+		if($numTrasferimenti >= $_SESSION['datiLega']->numTrasferimenti) {
+			$message->error("Hai raggiunto il limite di trasferimenti");
+			return FALSE;
+		}
+		if(empty($post->idGiocatoreNew) || empty($post->idGiocatoreOld))  {
+			$message->error("Non hai compilato correttamente tutti i campi");
+			return FALSE;
+		}
+		$giocatoreAcquistato = Giocatore::getById($post->idGiocatoreNew);
+		$giocatoreLasciato = Giocatore::getById($post->idGiocatoreOld);
+		if($giocatoreAcquistato->getRuolo() != $giocatoreLasciato->getRuolo()) {
+			$message->error("I giocatori devono avere lo stesso ruolo");
+			return FALSE;
+  		}
+  		return TRUE;
+	}
+
 	public static function getTrasferimentiByIdSquadra($idUtente,$idGiornata = 0)
 	{
 		$q = "SELECT trasferimento.*,t1.nome as nomeOld,t1.cognome as cognomeOld,t2.nome as nomeNew,t2.cognome as cognomeNew
@@ -11,7 +65,7 @@ class Trasferimento extends TrasferimentoTable
 				WHERE trasferimento.idUtente = '" . $idUtente . "' AND idGiornata > '" . $idGiornata . "'";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
-		$values = FALSE;
+		$values = array();
 		while($row = mysql_fetch_object($exe,__CLASS__))
 			$values[] = $row;
 		return $values;
@@ -89,55 +143,6 @@ class Trasferimento extends TrasferimentoTable
 			self::commit();
 	}
 	
-	public static function doTransfertBySelezione()
-	{
-		require_once(INCDBDIR.'selezione.db.inc.php');
-		require_once(INCDBDIR.'squadra.db.inc.php');
-		require_once(INCDBDIR.'evento.db.inc.php');
-		require_once(INCDBDIR.'formazione.db.inc.php');
-		require_once(INCDBDIR.'schieramento.db.inc.php');
-		require_once(INCDBDIR.'giocatore.db.inc.php');
-		
-		$selezioni = Selezione::getSelezioni();
-		if($selezioni != FALSE)
-		{
-			foreach($selezioni as $key => $val)
-			{
-				self::startTransaction();
-				Squadra::unsetSquadraByIdGioc($val->giocOld,$val->idLega);
-				Squadra::setSquadraByIdGioc($val->giocNew,$val->idLega,$val->idUtente);
-				$q = "INSERT INTO trasferimento (idGiocatoreOld,idGiocatoreNew,idUtente,idGiornata,obbligato)
-				VALUES ('" . $val->giocOld . "' , '" . $val->giocNew . "' ,'" . $val->idUtente . "','" . GIORNATA . "','" . Giocatore::getById($giocOld)->getStatus() . "')";
-				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-				if(DEBUG)
-					FirePHP::getInstance(true)->log($q);
-				$formazione = Formazione::getFormazioneBySquadraAndGiornata($val->idUtente,GIORNATA);
-				if($formazione != FALSE)
-				{
-					if(in_array($val->giocOld,$formazione->elenco))
-						Schieramento::changeGioc($formazione->id,$val->giocOld,$val->giocNew);
-					//if(in_array($val->giocOld,get_object_vars($formazione->cap)))
-					//	Formazione::changeCap($formazione->id,$val->giocNew,array_search($val->giocOld,get_object_vars($formazione->cap)));
-				}
-				$q = "SELECT idTrasf 
-						FROM trasferimento
-						WHERE idGiocOld = '" . $val->giocOld . "' AND idGiocNew = '" . $val->giocNew . "' AND idGiornata = '" . GIORNATA . "' AND idUtente = '" . $val->idUtente . "'";
-				$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-				if(DEBUG)
-					FirePHP::getInstance(true)->log($q);
-				$idTrasferimento = mysql_fetch_object($exe,__CLASS__);
-				Evento::addEvento('4',$val->idUtente,$val->idLega,$idTrasferimento->idTrasf);
-				if(isset($err))
-				{
-					self::rollback();
-					self::sqlError("Errore nella transazione: <br />" . $err);
-				}
-				else
-					self::commit();
-			}
-			Selezione::svuota();
-		}
-		return TRUE;
-	}
+	
 }
 ?>
