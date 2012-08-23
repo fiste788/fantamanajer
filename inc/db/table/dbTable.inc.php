@@ -91,7 +91,7 @@ abstract class DbTable
   		}
 	}
 	
-	public function save() {
+	public function save($parameters = NULL) {
 	    $vars = array_intersect_key(get_object_vars($this),get_class_vars(get_class($this)));
 	    unset($vars['id']);
 		if($this->getId() == "" || is_null($this->getId())) {

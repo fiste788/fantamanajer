@@ -3,17 +3,21 @@ require_once(TABLEDIR . 'Formazione.table.db.inc.php');
 
 class Formazione extends FormazioneTable
 {
-	public function save() {
+	public function save($parameters = NULL) {
 		require_once(INCDBDIR . "schieramento.db.inc.php");
 
+		$titolari = $parameters['titolari'];
+		$panchinari = $parameters['panchinari'];
+	FirePHP::getInstance()->log($panchinari);
+		$success = TRUE;
+		$giocatoriIds = array();
 		$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
-		$titolari = $request->getRawData('post','gioc');
-		$panchinari = $request->getRawData('post','panch');
 		$giocatoriIds = array_merge($giocatoriIds,$titolari,$panchinari);
 		$giocatori = Giocatore::getByIds($giocatoriIds);
 		foreach($titolari as $key=>$titolare)
 			$modulo[$giocatori[$titolare]->ruolo] += 1;
 		$this->setModulo(implode($modulo,'-'));
+		self::startTransaction();
 		if(($idFormazione = parent::save()) != FALSE) {
 			$schieramenti = Schieramento::getSchieramentoById($idFormazione);
 			foreach($giocatoriIds as $posizione=>$idGiocatore) {
@@ -30,10 +34,16 @@ class Formazione extends FormazioneTable
 					$success = ($success and $schieramento->delete());
 			}
 			if($success)
-				$formazione::commit();
-			else
-				$formazione::rollback();
+				self::commit();
+			else {
+				self::rollback();
+				return FALSE;
+			}
+		} else {
+			self::rollback();
+			return FALSE;
 		}
+		return TRUE;
 	}
 
 	public static function getFormazioneById($id)
@@ -223,7 +233,7 @@ class Formazione extends FormazioneTable
 		$post = (object) $array;
 		$formazione = array();
 		$capitano = array();
-		foreach($array['gioc'] as $key=>$val) {
+		foreach($array['titolari'] as $key=>$val) {
 			if(empty($val)) {
 				$message->error("Non hai compilato correttamente tutti i campi");
 				return FALSE;
@@ -235,7 +245,7 @@ class Formazione extends FormazioneTable
 				return FALSE;
 			}
 		}
-		foreach($array['panch'] as $key=>$val) {
+		foreach($array['panchinari'] as $key=>$val) {
 			if(!empty($val)) {
 				if(!in_array($val,$formazione))
 					$formazione[] = $val;

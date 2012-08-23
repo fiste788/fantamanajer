@@ -11,6 +11,16 @@ class Schieramento extends SchieramentoTable
 		FirePHP::getInstance()->log($q);
 		return mysql_fetch_object($exe,__CLASS__);
 	}
+
+	public static function getByIdAndGiocatore($idFormazione,$idGiocatore) {
+		$q = "SELECT *
+				FROM schieramento
+				WHERE idFormazione = '" . $idFormazione . "' AND idGiocatore = '" . $idGiocatore . "'";
+		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		FirePHP::getInstance()->log($q);
+		return mysql_fetch_object($exe,__CLASS__);
+	}
+
 	public static function getSchieramentoById($idFormazione)
 	{
 		$q = "SELECT * 

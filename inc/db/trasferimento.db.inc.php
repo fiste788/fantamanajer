@@ -3,7 +3,7 @@ require_once(TABLEDIR . 'Trasferimento.table.db.inc.php');
 
 class Trasferimento extends TrasferimentoTable
 {
-	public function save() {
+	public function save($parameters = NULL) {
 		self::startTransaction();
 		if(($id = parent::save()) != FALSE) {
 			require_once(INCDBDIR . 'squadra.db.inc.php');
@@ -15,10 +15,18 @@ class Trasferimento extends TrasferimentoTable
 			Squadra::setSquadraByIdGioc($this->getIdGiocatoreNew(),$idLega,$this->getIdUtente());
 			$formazione = Formazione::getFormazioneBySquadraAndGiornata($this->getIdUtente(),GIORNATA);
 			if($formazione != FALSE) {
-				//if(in_array($val->idGiocatoreOld,$formazione->elenco))
-				//	Schieramento::changeGioc($formazione->id,$val->idGiocatoreOld,$val->idGiocatoreNew);
-				//if(in_array($val->giocOld,get_object_vars($formazione->cap)))
-				//	Formazione::changeCap($formazione->id,$val->giocNew,array_search($val->giocOld,get_object_vars($formazione->cap)));
+				$schieramento = Schieramento::getByIdAndGiocatore($formazione->getId(),$val->getIdGiocatoreOld());
+				if($schieramento != FALSE) {
+					$schieramento->setIdGiocatore($val->idGiocatoreNew);
+					$schieramento->save();
+				}
+				if($val->getIdGiocatoreOld() == $formazione->getIdCapitano())
+					$formazione->setIdCapitano($val->getIdGiocatoreNew());
+				if($val->getIdGiocatoreOld() == $formazione->getIdVCapitano())
+					$formazione->setIdVCapitano($val->getIdGiocatoreNew());
+				if($val->getIdGiocatoreOld() == $formazione->getIdVVCapitano())
+					$formazione->setIdVVCapitano($val->getIdGiocatoreNew());
+				$formazione->save();
 			}
 			$evento = new Evento();
 		    $evento->setTipo(Evento::TRASFERIMENTO);
