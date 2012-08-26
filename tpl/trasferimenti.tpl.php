@@ -23,7 +23,7 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<?php elseif($this->squadra != NULL && $this->squadra != ''): ?>
+<?php else: ?>
 	<p>Non ha effettuato alcun trasferimento</p>
 <?php endif; ?>
 <?php if($_SESSION['logged'] && $_SESSION['idUtente'] == $this->filterId && count($this->trasferimenti) < $_SESSION['datiLega']->numTrasferimenti && PARTITEINCORSO == FALSE && GIORNATA != 1): ?>

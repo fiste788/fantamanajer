@@ -1,8 +1,9 @@
 <?php
-require_once(INCDIR . 'utente.db.inc.php');
-require_once(INCDIR . 'formazione.db.inc.php');
-require_once(INCDIR . 'giocatore.db.inc.php');
-require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDBDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'formazione.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
+require_once(INCDBDIR . 'lega.db.inc.php');
+require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 require_once(INCDIR . 'swiftMailer/swift_required.php');
 
@@ -12,66 +13,52 @@ $mailerObj = Swift_Mailer::newInstance($transportObj);
 $logger->start("MAIL FORMAZIONE");
 
 $today = date("Y-m-d");
-$date = Giornata::getDataByGiornata(GIORNATA);
-$giorn = explode(' ',$date->dataFine);
+$date = Giornata::getById(GIORNATA);
+$firePHP->log($date);
+$giorn = explode(' ',$date->dataFine->date);
 $dataGiornata = $giorn[0];
 $timeGiornata = $giorn[1];
 $difference = Giornata::getTimeDiff($timeGiornata);
 
-if(($today == $dataGiornata && $difference < 300) || $_SESSION['usertype'] == 'superadmin')
-{
-	$leghe = Lega::getLeghe();
+if(($today == $dataGiornata && $difference < 300) || $_SESSION['usertype'] == 'superadmin') {
+	$leghe = Lega::getList();
 	$mail = 0;
-	foreach($leghe as $lega)
-	{
-		$squadre = Utente::getElencoSquadreByLega($lega->idLega);
-		$titolariName = array();
-		$panchinariName = array();
-		$capitani = array();
-		foreach ($squadre as $key=>$val)
-		{
-			$formazione = Formazione::getFormazioneBySquadraAndGiornata($val->idUtente,GIORNATA);
-			if($formazione != FALSE)
-			{
-				$titolari = array_slice($formazione->elenco,0,11);
-				$panchinari = array_slice($formazione->elenco,11,18);
-				$cap[$key] = $formazione->cap;
-				$titolariName[$key] = Giocatore::getGiocatoriByArray($titolari);
-				if(count($panchinari) > 0)
-					$panchinariName[$key] = Giocatore::getGiocatoriByArray($panchinari);
-				else
-					$panchinariName[$key] = FALSE;
+	foreach($leghe as $lega) {
+		$squadre = Utente::getByField('idLega',$lega->id);
+		$formazioni = array();
+		foreach ($squadre as $key=>$squadra) {
+			$formazione = Formazione::getFormazioneBySquadraAndGiornata($key,GIORNATA);
+			
+			if($formazione != FALSE) {
+				$giocatori[$key] = GiocatoreStatistiche::getByField('idUtente',$key);
+				$formazioni[$key] = $formazione;
 			}
-			else
-				$titolariName[$key] = $panchinariName[$key] = $cap[$key] = FALSE;
 		}
-		$mailContent = new Savant3();
+		
+		$mailContent = new MySavant3(array('template_path' => MAILTPLDIR));
 		$mailContent->assign('squadre',$squadre);
-		$mailContent->assign('titolari',$titolariName);
-		$mailContent->assign('panchinari',$panchinariName);
-		$mailContent->assign('cap',$cap);
+		$mailContent->assign('formazione',$formazioni);
+		$mailContent->assign('giocatori',$giocatori);
+		//$mailContent->assign('cap',$cap);
 		$mailContent->assign('giornata',GIORNATA);
 		
 		$object = "Formazioni giornata: " . GIORNATA ;
-		$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
+		//$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 		$mailMessageObj = Swift_Message::newInstance();
 		$mailMessageObj->setSubject($object);
 		$mailMessageObj->setFrom(array("noreply@fantamanajer.it"=>"FantaManajer"));
-		$fetchMail = $mailContent->fetch(MAILTPLDIR . 'mailFormazioni.tpl.php');
+		$fetchMail = $mailContent->fetch('mailFormazioni.tpl.php');
+		
 		$mailMessageObj->setBody($fetchMail,'text/html');
-		foreach ($squadre as $key => $val)
-		{
-			if(isset($val->mail) && $val->abilitaMail == 1)
-			{
-				$logger->info("Sending mail to: " . $val->mail);
-				$mailMessageObj->setTo(array($val->mail=>$val->nomeProp . " " . $val->cognome));
-				if(!$mailerObj->send($mailMessageObj)) 
-				{
+		foreach ($squadre as $key => $squadra) {
+			if(!is_null($squadra->getEmail()) && $squadra->getAbilitaMail()) {
+				$logger->info("Sending mail to: " . $squadra->getEmail());
+				$mailMessageObj->setTo(array($squadra->getEmail()=>$squadra->getNome() . " " . $squadra->getCognome()));
+				if(!$mailerObj->send($mailMessageObj))  {
 					$mail++;
-					$logger->warning("Error in sending mail to: " . $val->mail);
-				}
-				else
-					$logger->info("Mail send succesfully to: " . $val->mail);
+					$logger->warning("Error in sending mail to: " . $squadra->getEmail());
+				} else
+					$logger->info("Mail send succesfully to: " . $squadra->getEmail());
 			}
 		}
 	}
@@ -79,9 +66,7 @@ if(($today == $dataGiornata && $difference < 300) || $_SESSION['usertype'] == 's
 		$message->success("Operazione effettuata correttamente");
 	else
 		$message->warning("Errori nell'invio delle mail");
-}
-else
-{
+} else {
 	$message->warning("Non puoi effettuare l'operazione ora");
 	$logger->warning("Is not time to run it");
 }

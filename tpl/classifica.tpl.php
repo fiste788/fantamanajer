@@ -12,7 +12,7 @@
 			<?php foreach($this->classificaDett as $key => $val): ?>
 			<tr>
 				<td><?php echo $i; ?></td>
-				<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><?php echo $this->squadre[$key]->nomeSquadra; ?></td>
+				<td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><a href="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$key)) ?>"><?php echo $this->squadre[$key]->nomeSquadra; ?></a></td>
 				<td><?php echo array_sum($val); ?></td>
 			 </tr>
 			<?php $i++;$flag = $key; endforeach; ?>

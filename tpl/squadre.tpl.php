@@ -10,14 +10,14 @@
 		<h3><a href="<?php echo Links::getLink('dettaglioSquadra',array('squadra'=>$val->id)); ?>" title="Maggiori informazioni"><?php echo $val->nomeSquadra; ?></a></h3>
 		<div class="data">
 			<div>Proprietario: <?php echo $val->username; ?></div>
-			<div>Giornate vinte: <?php echo ($val->giornateVinte != NULL) ? $val->giornateVinte : 0; ?></div>
+			<div>Giornate vinte: <?php echo (isset($val->giornateVinte) && $val->giornateVinte != NULL) ? $val->giornateVinte : 0; ?></div>
 		</div>
 		<ul class="link">
 			<li>
 				<a href="<?php echo Links::getLink('trasferimenti',array('id'=>$val->id)); ?>" title="Trasferimenti">Trasferimenti</a>
 			</li>
 			<li>
-				<a href="<?php echo Links::getLink('altreFormazioni',array('squadra'=>$val->id,'giornata'=>GIORNATA)); ?>" title="Formazione">Formazione</a>
+				<a href="<?php echo Links::getLink('formazione',array('squadra'=>$val->id,'giornata'=>GIORNATA)); ?>" title="Formazione">Formazione</a>
 			</li>
 			<?php if(GIORNATA > 1): ?>
 			<li>

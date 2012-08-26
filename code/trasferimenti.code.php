@@ -1,6 +1,7 @@
 <?php 
 require_once(INCDBDIR . 'trasferimento.db.inc.php');
 require_once(INCDBDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDBDIR . 'selezione.db.inc.php');
 require_once(INCDBDIR . 'punteggio.db.inc.php');
@@ -9,14 +10,18 @@ require_once(INCDIR . 'mail.inc.php');
 
 $filterId = $request->has('id') ? $request->get('id') : $_SESSION['idUtente'];
 $trasferimentiAppo = Trasferimento::getByField('idUtente',$filterId);
-if(!is_array($trasferimentiAppo))
+
+if(!is_array($trasferimentiAppo) && !is_null($trasferimentiAppo))
 	$trasferimenti[] = $trasferimentiAppo;
 else
 	$trasferimenti = $trasferimentiAppo;
 
-foreach($trasferimenti as $key=>$val) {
-	$val->getGiocatoreOld();
-	$val->getGiocatoreNew();
+
+if($trasferimenti != FALSE) {
+	foreach($trasferimenti as $key=>$val) {
+		$val->getGiocatoreOld();
+		$val->getGiocatoreNew();
+	}
 }
 $playerFree = Giocatore::getFreePlayer(NULL,$_SESSION['legaView']);
 

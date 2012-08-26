@@ -32,18 +32,18 @@ class Decrypt
 	// per calcolare la chiave di decrypt...da lanciare manualmente
 	public static function calculateKey()
 	{
-		$pathcript="C:\Users\Shane\Downloads\mcc00.rcs";	//file criptato .rcs
-		$pathencript="C:\Users\Shane\Downloads\mcc00.txt";	//file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
-		$cript=file_get_contents($pathcript);
-		$encript=file_get_contents($pathencript);
-		$ris="";                    	
-		for($i=0;$i<28;$i++)
+		$pathcript = DOCSDIR . "mcc00.rcs";	//file criptato .rcs
+		$pathencript = DOCSDIR . "mcc00.txt";	//file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
+		$cript = file_get_contents($pathcript);
+		$encript = file_get_contents($pathencript);
+		$ris = "";
+		for($i = 0;$i < 28;$i++)
 		{
-			$xor1=hexdec(bin2hex($cript[$i]));
-			$xor2=hexdec(bin2hex($encript[$i]));	
+			$xor1 = hexdec(bin2hex($cript[$i]));
+			$xor2 = hexdec(bin2hex($encript[$i]));
 			if($i!=0)
-				$ris=$ris.'-';
-			$ris=$ris.dechex($xor1 ^ $xor2);               
+				$ris .= '-';
+			$ris .= dechex($xor1 ^ $xor2);
 		}
 		
 		FirePHP::getInstance()->log($ris);
@@ -52,6 +52,8 @@ class Decrypt
 	public static function decryptCdfile($giornata,$scostamentoGazzetta = 0)
 	{
 		require_once(INCDIR . 'fileSystem.inc.php');
+		require_once(INCDIR . 'phpQuery.inc.php');
+		
 		//$decrypt=self::calculateKey();die();
 		$percorsoCsv = VOTICSVDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".csv";
 		$percorsoXml = VOTIXMLDIR . "Giornata" . str_pad($giornata,2,"0",STR_PAD_LEFT) . ".xml";
@@ -59,37 +61,40 @@ class Decrypt
 		if (!empty($percorsoContent)&&($giornata != 0))
 			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
-		$content = FileSystem::contenutoCurl($site . "/magiccampionato/11-12/free/download/cd/?");
-
-		if(!empty($content))
-		{
+		$content = FileSystem::contenutoCurl($site . "/magiccampionato/12-13/free/download/cd/?");
+        FirePHP::getInstance()->log("sono qui");
+        
+		if(!empty($content)) {
+            FirePHP::getInstance()->log("content c'è");
 			$search = "";
-			$content = preg_replace("/\n/","",$content);
+			//$content = preg_replace("/\n/","",$content);
 			$giornataGazzetta = ($giornata + $scostamentoGazzetta);
-			preg_match("/Giornata $giornataGazzetta(.*?)<a href=\"(.+?)\"/i",$content,$matches);
+			phpQuery::newDocument($content);
+//			echo $content;
+			$ul = pq("#elenco_download");
+			$li = pq("li:contains(Giornata $giornataGazzetta)",$ul);
+			$a = pq("a",$li);
+			
+			preg_match("/Giornata $giornataGazzetta(.*?)<a (.*?)href=\"(.+?)\"/i",$content,$matches);
 			//echo "<pre>" . print_r($matches,1) . "</pre>";
 			//die();
-			if(isset($matches[2]))
-			{
-			
-				if(strpos($matches[2],$site) === FALSE)
-					$url = $site . htmlspecialchars_decode($matches[2]);
-				else
-					$url = $matches[2];
-				$url = htmlspecialchars_decode($url);			    
+			$url = $a->attr("href");
+			if($url != "") {
+                FirePHP::getInstance()->log("pure qui");
+				if(strpos($url,$site) === FALSE)
+					$url = $site . $url;
+				$url = htmlspecialchars_decode($url);
 				$decrypt = "33-34-35-2A-6D-33-34-35-33-34-47-46-44-2A-52-33-32-34-72-66-65-73-64-53-44-46-34-33";
+				$decript = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
 				$explode_xor = explode("-", $decrypt);
 				if (!$p_file = fopen($url,"r"))
 					return FALSE;
-				else
-				{
+				else {
 					$i = 0;
 					$stringa = "";
 					$votiContent = file_get_contents($url);
-					if(!empty($votiContent))
-					{
-						while(!feof($p_file))
-						{
+					if(!empty($votiContent)) {
+						while(!feof($p_file)) {
 							if ($i == count($explode_xor))
 								$i = 0;
 							$linea = fgets($p_file, 2);
@@ -102,8 +107,7 @@ class Decrypt
 						array_pop($pezzi);
 						/*<<inserire le descrizio
 						die();  */
-						foreach($pezzi as $key=>$val)
-						{
+						foreach($pezzi as $key=>$val) {
 							$pieces = explode("|",$val);
 							$pezziXml[$key] = $pieces;
 							$pezzi[$key] = join(";",$pieces);

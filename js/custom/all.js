@@ -6,6 +6,7 @@
 		afterDetachCSSClass: "top",
 		savePanelSpace: true
 	});
+	//$('#operation .fix').affix({offset:40})
 	var messaggio = $("#messaggio");
 	messaggio.effect("pulsate", { times: 2 }, 1000, function(){
 		messaggio.hover(function () {

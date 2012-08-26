@@ -16,8 +16,9 @@ $i = 0;
 while($formazione == FALSE && $i < GIORNATA) {
 	$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata - $i);
 	$i ++;
+	if($formazione != FALSE)
+		$formazione->jolly = FALSE;
 }
-$formazione->jolly = FALSE;
 
 if(GIORNATA != $filterGiornata) {
 	$ids = array();
@@ -29,9 +30,11 @@ if(GIORNATA != $filterGiornata) {
 
 for($i = 1; $i <= GIORNATA; $i++)
 	$giornate[$i] = $i;
+
 $quickLinks->set('giornata',$giornate,'Giornata ');
-$modulo = explode('-',$formazione->modulo);
-$contentTpl->assign('formazione',$formazione);
+$modulo = ($formazione != FALSE) ? explode('-',$formazione->modulo) : NULL;
+if($formazione != FALSE)
+	$contentTpl->assign('formazione',$formazione);
 $contentTpl->assign('giocatori',$giocatori);
 $contentTpl->assign('modulo',$modulo);
 $contentTpl->assign('usedJolly',Formazione::usedJolly($filterUtente));

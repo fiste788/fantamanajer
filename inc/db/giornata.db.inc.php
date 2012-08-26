@@ -28,7 +28,7 @@ class Giornata extends GiornataTable
 		return $valore;
 	}
 	
-	public static function checkDay($day,$type = 'dataInizio',$offset = 1)
+	public static function checkDay($day,$type = 'dataInizio',$offsetDay = 1)
 	{
 		$q = "SELECT dataInizio,dataFine,id
 				FROM giornata 
@@ -116,9 +116,8 @@ class Giornata extends GiornataTable
 		return self::updateGiornate($calendario);
 	} 
 	
-	public static function getTimeDiff($t1,$t2)
-	{
-	    $t2 = ($t2) || date("H:i:s");
+	public static function getTimeDiff($t1,$t2 = NULL) {
+	    $t2 = (is_null($t2)) ? date("H:i:s") : $t2;
 		$a1 = explode(":",$t1);
 		$a2 = explode(":",$t2);
 		$time1 = (($a1[0] * 60 * 60) + ($a1[1] * 60) + ($a1[2]));

@@ -5,17 +5,22 @@
 			<li>
 				<form action="<?php echo Links::getLink('home'); ?>" method="post">
 					<fieldset>
-						<div class="field column">
-							<label for="username">Username:</label>
-							<input class="text" id="username" maxlength="12" type="text" name="username" />
+						<div class="control-group">
+							<label class="control-label" for="username">Username:</label>
+							<div class="controls">
+								<input class="text" id="username" maxlength="12" type="text" name="username" />
+							</div>
 						</div>
-						<div class="field column">
-							<label for="password">Password:</label>
-							<input class="text" id="password" type="password" maxlength="12" name="password" />
+						<div class="control-group">
+							<label class="control-label" for="password">Password:</label>
+							<div class="controls">
+								<input class="text" id="password" type="password" maxlength="12" name="password" />
+							</div>
 						</div>
-						<div class="field column">
-							<input id="remember" type="checkbox" name="remember" />
-							<label for="remember">Ricorda</label>
+						<div class="control-group">
+							<label class="checkbox" for="remember">
+								<input id="remember" type="checkbox" name="remember" />Ricorda
+							</label>
 						</div>
 						<input class="btn btn-primary right" type="submit" name="login" value="OK" />
 					</fieldset>
