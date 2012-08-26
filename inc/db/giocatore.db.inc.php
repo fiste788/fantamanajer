@@ -12,8 +12,8 @@ class Giocatore extends GiocatoreTable
 	
 	public static function getGiocatoriByIdSquadra($idUtente)
 	{
-		$q = "SELECT id, cognome, nome, ruolo, idUtente
-				FROM giocatorisquadra
+		$q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
+				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "'
 				ORDER BY ruolo DESC,cognome ASC";
 		$exe = mysql_query($q) or self::sqlError($q);
@@ -178,7 +178,7 @@ class Giocatore extends GiocatoreTable
 	
 	public static function getArrayGiocatoriFromDatabase($all = FALSE)
 	{
-		$q = "SELECT giocatore.*, nomeClub  
+		$q = "SELECT giocatore.*, club.nome  
 				FROM giocatore LEFT JOIN club ON giocatore.idClub = club.id";
 		if($all)
 			 $q .= " WHERE giocatore.status = 1";
@@ -196,7 +196,7 @@ class Giocatore extends GiocatoreTable
 	public static function updateTabGiocatore($path,$giornata)
 	{
 		require_once(INCDIR . 'decrypt.inc.php');
-		require_once(INCDIR . 'evento.db.inc.php');
+		require_once(INCDBDIR . 'evento.db.inc.php');
 		require_once(INCDIR . 'fileSystem.inc.php');
 		
 		$ruoli = array("P","D","C","A");
@@ -299,7 +299,7 @@ class Giocatore extends GiocatoreTable
 	
 	public static function getGiocatoriBySquadraAndGiornata($idUtente,$idGiornata)
 	{
-		require_once(INCDIR . 'trasferimento.db.inc.php');
+		require_once(INCDBDIR . 'trasferimento.db.inc.php');
 		
 		$giocatori = self::getGiocatoriByIdSquadra($idUtente);
 		$trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($idUtente,$idGiornata);
@@ -311,10 +311,8 @@ class Giocatore extends GiocatoreTable
 			array_multisort($sort_arr['idGiornata'] , SORT_DESC , $trasferimenti);
 			foreach($trasferimenti as $key => $val)
 				foreach($giocatori as $key2=>$val2)
-					if($val2->idGioc == $val->idGiocNew) {
-						$giocOld = self::getGiocatoreById($val->idGiocOld);
-						$giocatori[$key2] = $giocOld[$val->idGiocOld];
-					}
+					if($val2->id == $val->idGiocatoreNew)
+						$giocatori[$key2] = self::getById($val->idGiocatoreOld);
 			$sort_arr = array();
 			foreach($giocatori as $uniqid => $row)
 				foreach($row as $key => $value)

@@ -8,7 +8,6 @@ class Formazione extends FormazioneTable
 
 		$titolari = $parameters['titolari'];
 		$panchinari = $parameters['panchinari'];
-	FirePHP::getInstance()->log($panchinari);
 		$success = TRUE;
 		$giocatoriIds = array();
 		$modulo = array('P'=>0,'D'=>0,'C'=>0,'A'=>0);
@@ -85,93 +84,6 @@ class Formazione extends FormazioneTable
 			return FALSE;
 	}
 	
-	public static function caricaFormazione($formazione,$capitano,$giornata,$idUtente,$modulo,$jolly)
-	{
-		require_once(INCDIR . 'schieramento.db.inc.php');
-		
-		self::startTransaction();
-		$campi = "";
-		$valori = "";
-		if($capitano != NULL) {
-			foreach($capitano as $key => $val)
-			{
-				$campi .= "," . $key;
-				if(empty($val))
-					$valori .= ",NULL";
-				else
-					$valori .= ",'" . $val."'";
-			}
-		}
-		if($jolly)
-			$jolly = "'1'";
-		else
-			$jolly = "NULL";
-		$q = "INSERT INTO formazione (idUtente,idGiornata,modulo" . $campi .",jolly) 
-				VALUES (" . $idUtente . ",'" . $giornata . "','" . $modulo . "'" . $valori . "," . $jolly . ")";
-		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		FirePHP::getInstance()->log($q);
-		$q = "SELECT idFormazione 
-				FROM formazione 
-				WHERE idUtente = '" . $idUtente . "' AND idGiornata ='" . $giornata . "'";
-		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			$idFormazione = $row->idFormazione;
-		foreach($formazione as $key => $player)
-			Schieramento::setGiocatore($idFormazione,$player,$key + 1);
-		for ($i = $key + 2; $i <= 18 ; $i++)
-			Schieramento::unsetGiocatore($idFormazione,$i);
-		if(isset($err))
-		{
-			self::rollback();
-			self::sqlError("Errore nella transazione: <br />" . $err);
-		}
-		else
-			self::commit();
-		return $idFormazione;
-	}
-	
-	public static function updateFormazione($formazione,$capitano,$giornata,$idUtente,$modulo,$jolly)
-	{
-		require_once(INCDIR . 'schieramento.db.inc.php');
-		
-		self::startTransaction();
-		$str = "";
-		foreach($capitano as $key => $val)
-			if(empty($val))
-				$str .= "," . $key . " = NULL";
-			else
-				$str .= "," . $key . " = '" . $val . "'";
-		if($jolly)
-			$jolly = "'1'";
-		else
-			$jolly = "NULL";
-		$q = "UPDATE formazione 
-				SET modulo = '" . $modulo . "'" . $str . " , jolly = " . $jolly . " 
-				WHERE idUtente = '" . $idUtente . "' AND idGiornata = '" . $giornata . "'";
-		mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		FirePHP::getInstance()->log($q);
-		$q = "SELECT idFormazione 
-				FROM formazione 
-				WHERE idUtente = '" . $idUtente . "' AND idGiornata ='" . $giornata . "'";
-		$exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			$idFormazione = $row->idFormazione;
-		foreach($formazione as $key => $player)
-			Schieramento::setGiocatore($idFormazione,$player,$key + 1);
-		for ($i = $key + 2; $i <= 18 ; $i++)
-			Schieramento::unsetGiocatore($idFormazione,$i);
-		if(isset($err))
-		{
-			self::rollback();
-			self::sqlError("Errore nella transazione: <br />" . $err);
-		}
-		else
-			self::commit();
-		return $idFormazione;
-	}
-	
 	public static function getFormazioneBySquadraAndGiornata($idUtente,$giornata)
 	{
         require_once(INCDBDIR . "schieramento.db.inc.php");
@@ -216,20 +128,15 @@ class Formazione extends FormazioneTable
 				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = '" . $idUtente . "' AND jolly = '1'";
 		FirePHP::getInstance()->log($q);
 		$exe = mysql_query($q) or self::sqlError($q);
+		FirePHP::getInstance()->log($_SESSION);
 		return (mysql_num_rows($exe) == 1);
+		
 	}
 
-	/*public function save() {
-		if(!is_null($this->id))
-			$schieramenti = Schieramento::getByField('idFormazione',$this->id);
-			foreach($schieramenti as $key=>$schieramento) {
-				$schieramento->id
-			}
-	}*/
 
 	public function check($array,$message) {
 		require_once(INCDBDIR . 'giocatore.db.inc.php');
-		$GLOBALS['firePHP']->log($_POST);
+		
 		$post = (object) $array;
 		$formazione = array();
 		$capitano = array();
@@ -254,8 +161,12 @@ class Formazione extends FormazioneTable
 					return FALSE;
 				}
 			}
-		}/*
-		foreach($post['cap'] as $key=>$val) {
+		}
+		$cap = array();
+		$cap[] = $array['C'];
+		$cap[] = $array['VC'];
+		$cap[] = $array['VVC'];
+		foreach($cap as $key=>$val) {
 			if(!empty($val)) {
 				$giocatore = Giocatore::getById($val);
 				if($giocatore->ruolo == 'P' || $giocatore->ruolo == 'D') {
@@ -270,7 +181,7 @@ class Formazione extends FormazioneTable
 					return FALSE;
 				}
 			}
-		}*/
+		}
 		return TRUE;
 	}
 }

@@ -87,8 +87,7 @@ class Punteggio extends PunteggioTable
 		$exe = mysql_query($q) or self::sqlError($q);
 		$i = 0;
 		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__))
-		{
+		while ($row = mysql_fetch_object($exe,__CLASS__)) {
 			if(isset($classifica[$row->idUtente][$row->idGiornata]))
 				$classifica[$row->idUtente][$row->idGiornata] += $row->punteggio;
 			else
@@ -96,17 +95,14 @@ class Punteggio extends PunteggioTable
 		}
 		$somme = self::getClassificaByGiornata($idLega,$giornata);
 		FirePHP::getInstance()->log($somme);
-		if(isset($somme))
-		{
+		if(isset($somme)){
 			foreach($somme as $key=>$val)
 				$somme[$key] = $classifica[$key];
-		}
-		else
-		{
-			require_once(INCDIR . 'utente.db.inc.php');
-			$utenteObj = new utente();
+		} else {
+			require_once(INCDBDIR . 'utente.db.inc.php');
+			
 
-			$squadre = $utenteObj->getElencoSquadreByLega($idLega);
+			$squadre = Utente::getByField('idLega',$idLega);
 			foreach($squadre as $key => $val)
 				$somme[$key][0] = 0;
 		}

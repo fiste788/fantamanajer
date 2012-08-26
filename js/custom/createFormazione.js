@@ -348,3 +348,8 @@ $(document).ready(function(){
 				}
 					
 			});
+			$("#giocatori").stickyPanel({
+		topPadding: 84,
+		afterDetachCSSClass: "top",
+		savePanelSpace: true
+	});

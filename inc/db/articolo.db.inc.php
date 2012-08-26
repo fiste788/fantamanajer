@@ -3,7 +3,7 @@ require_once(TABLEDIR . 'Articolo.table.db.inc.php');
 
 class Articolo extends ArticoloTable
 {
-	public function save() {
+	public function save($parameters = NULL) {
 		if(($id = parent::save()) != FALSE) {
 		    if(is_null($this->getId()) || $this->getId() == '') {
 			    $evento = new Evento();

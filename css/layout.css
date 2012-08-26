@@ -220,10 +220,12 @@ nav#topbar #legaSelect select {
 nav#topbar #login label {
   font-weight: normal;
   color: #666666;
+  float: left;
 }
 nav#topbar #login .text {
   border: 1px solid #cccccc;
   color: #808080;
+  margin: 0;
 }
 nav#topbar li.right {
   float: right;

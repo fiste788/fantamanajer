@@ -50,11 +50,12 @@ $ruoli['A'] = new Ruolo("Attaccante","Attaccanti","ATT");
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
 $generalJs[] = 'jquery/jquery.js';
-$generalJs[] = 'ui/jquery.effects.core.js';
-$generalJs[] = 'ui/jquery.effects.pulsate.js';
+$generalJs[] = 'ui/jquery.ui.effect.js';
+$generalJs[] = 'ui/jquery.ui.effect-pulsate.js';
 //$generalJs[] = 'uniform/jquery.uniform.js';
 $generalJs[] = 'bootstrap/bootstrap-dropdown.js';
 $generalJs[] = 'stickypanel/jquery.stickypanel.js';
+//$generalJs[] = 'bootstrap/bootstrap-affix.js';
 $generalJs[] = 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = 'custom/all.js';
 

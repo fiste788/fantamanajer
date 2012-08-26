@@ -71,13 +71,13 @@ if(!LOCAL)
 else
 {
 	define("FULLPATH",$doc_root . $sitepath . '/');
-	define("FULLURL",$proto . $host . $sitepath . '/');
+	define("FULLURL",$proto . $host . ":" . $_SERVER['SERVER_PORT'] . $sitepath . '/');
 	define("FULLURLAUTH",$proto . "administrator:banana@" . $host . $sitepath . '/');
 	define("FULLSTATICURL",FULLURL);
 	define("FULLSTATICPATH",FULLPATH);
 
 	define("DBTYPE","mysql");
-	define("DBNAME","fantamanajer");
+	define("DBNAME","fantamanajer-vuoto");
 	define("DBUSER","fantamanajerUser");
 	define("DBPASS","banana");
 	define("DBHOST","localhost");

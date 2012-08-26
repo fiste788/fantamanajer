@@ -7,9 +7,14 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(INCDIR . 'emoticon.inc.php');
 
 $giornata = Punteggio::getGiornateWithPunt();
-foreach ($ruoli as $ruolo=>$val) {
-	$bestPlayers[$ruolo] = Giocatore::getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
-	$bestPlayer[$ruolo] = array_shift($bestPlayers[$ruolo]);
+$bestPlayer = NULL;
+$bestPlayers = NULL;
+    
+if($giornata > 0) {
+    foreach ($ruoli as $ruolo=>$val) {
+        $bestPlayers[$ruolo] = Giocatore::getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
+        $bestPlayer[$ruolo] = array_shift($bestPlayers[$ruolo]);
+    }
 }
 
 $articoli = Articolo::getLastArticoli(2);
