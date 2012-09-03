@@ -41,6 +41,7 @@
 	</div>
 </div>
 <?php if(!empty($this->giocatori)): ?>
+<div class="clear">
 	<h3>Giocatori</h3>
 	<table class="table tablesorter">
 		<thead>
@@ -91,4 +92,5 @@
 			</tr>
 		</tfoot>
 	</table>
+</div>
 <?php endif;?>

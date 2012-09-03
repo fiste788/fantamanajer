@@ -60,5 +60,14 @@ class Utente extends UtenteTable
 		}
 		return $pass;
 	}
+
+	public function check($array,$message) {
+		$post = (object) $array;
+    	/*if(empty($post->titolo) || empty($post->testo)) {
+			$message->error("Non hai compilato correttamente tutti i campi");
+			return FALSE;
+  		}*/
+  		return TRUE;
+	}
 }
 ?>

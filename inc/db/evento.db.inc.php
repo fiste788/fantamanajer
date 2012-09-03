@@ -9,6 +9,7 @@ class Evento extends EventoTable
 	const TRASFERIMENTO = 4;
 	const NUOVOGIOCATORE = 5;
 	const RIMOSSOGIOCATORE = 6;
+	const CAMBIOCLUB = 6;
 	
 	/*
 	function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)

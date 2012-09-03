@@ -35,9 +35,9 @@ require(INCDBDIR . 'giornata.db.inc.php');
 $dbConnection = new db();
 global $message;
 $message = new message();
-$logger = new logger();
 global $request;
 $request = new Request();
+$logger = new logger();
 $quickLinks = new QuickLinks($request);
 $notifiche = array();
 
@@ -66,6 +66,7 @@ $generalCss = array();
 //$generalCss[] = 'buttons.css';
 //$generalCss[] = 'grid.css';
 $generalCss[] = 'bootstrap';
+$generalCss[] = 'responsive';
 $generalCss[] = 'layout';
 $generalCss[] = 'style';
 //$generalCss[] = 'uniform.css';

@@ -9,7 +9,7 @@
 	<head>
 	    <meta charset="utf-8">
 	    <title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,0">
 		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
 		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
 		<meta name="author" content="Stefano Sonzogni"/>
@@ -38,19 +38,19 @@
 	</head>
 	<?php flush(); ?>
 	<body>
-		<nav id="topbar" class="navbar navbar-fixed-top">
-			<div class="page"><?php echo $this->navbar; ?></div>
+		<nav id="topbar" class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner"><?php echo $this->navbar; ?></div>
 		</nav>
 		<header>
 			<div class="gradient">
-                <div class="page"><?php echo $this->header; ?></div>
+                <div class="container"><?php echo $this->header; ?></div>
             </div>
 		</header>
 		<?php require_once(TPLDIR . "message.tpl.php"); ?>
         <?php if(!empty($this->operation)): ?>
     		<section id="operation">
 				<div class="fix">
-	                <div class="page">
+	                <div class="container">
 						<div class="operationContent">
 		                    <?php if($this->quickLinks->prev != FALSE): ?>
 		    					<a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="icon-arrow-left"></span></a>
@@ -69,12 +69,12 @@
             </section>
         <?php endif; ?>
 		<section id="content">
-    		<div class="page" id="<?php echo $this->p; ?>">
+    		<div class="container" id="<?php echo $this->p; ?>">
     			<div class="innerPage"><?php echo $this->content; ?></div>
             </div>
 		</section>
 		<footer>
-			<div class="page">
+			<div class="container">
 				<?php echo $this->footer; ?>
 			</div>
 		</footer>

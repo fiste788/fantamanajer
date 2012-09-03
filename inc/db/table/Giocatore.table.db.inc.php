@@ -89,7 +89,7 @@ class GiocatoreTable extends DbTable
 	public function setClub( $club )
 	{
 	    $this->club = $club;
-		$this->setIdClub = $club->getIdClub();
+		$this->setIdClub($club->getId());
 	}
 
 	/**
