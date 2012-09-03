@@ -25,12 +25,6 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-body {
-  text-align: left;
-  display: block;
-  -webkit-text-size-adjust: none;
-  font-size: 13px;
-}
 fieldset {
   border: 0 none;
   padding: 10px;
@@ -79,6 +73,9 @@ a:hover {
 }
 .formbox label {
   width: 150px;
+}
+.clear {
+  clear: both;
 }
 label {
   font-weight: bold;

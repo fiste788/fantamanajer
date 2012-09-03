@@ -9,38 +9,46 @@ $(document).ready(function(){
 					var list = $("#titolari-field").find("input");
 					list.each(function (i,ele) {
 						var current = $(ele);
-						var gioc = $('.giocatore#' + current.val());
-						var ruoloGioc = gioc.data('ruolo');
-						if(ruoloGioc != ruolo) {
-							j++;
-							k = 0;
+						var id = current.val();
+						if(id != "") {
+							var gioc = $('.giocatore#' + id);
+							var ruoloGioc = gioc.data('ruolo');
+							if(ruoloGioc != ruolo) {
+								j++;
+								k = 0;
+							}
+							gioc.css('left',((((554-(82 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 82)-82) + 'px');
+							gioc.css('top',((161 * j) + 23) + 'px');
+							sobstitution(gioc);
+	                        $("#campo .droppable#" + ruoloGioc).append(gioc);
+							ruolo = ruoloGioc;
+							k++;
 						}
-						gioc.css('left',((((554-(82 * modulo[ruoloGioc])) / (modulo[ruoloGioc] + 1 )) * (k+1)) + ((k+1) * 82)-82) + 'px');
-						gioc.css('top',((161 * j) + 23) + 'px');
-						sobstitution(gioc);
-                        $("#campo .droppable#" + ruoloGioc).append(gioc);
-						ruolo = ruoloGioc;
-						k++;
 					});
 					list = $("#panchina-field").find("input[value!='']");
 					list.each(function (i,ele) {
 						var current = $(ele);
-						var giocOld = $('.giocatore#' + current.val());
-						var gioc = giocOld.clone();
-						giocOld.remove();
-						sobstitution(gioc);
-                        $("#panchina .droppable#panch-" + i).append(gioc);
+						var id = current.val();
+						if(id != "") {
+							var giocOld = $('.giocatore#' + id);
+							var gioc = giocOld.clone();
+							giocOld.remove();
+							sobstitution(gioc);
+	                        $("#panchina .droppable#panch-" + i).append(gioc);
+						}
 					});
 					list = $("#capitani-field").find("input[value!='']");
 					list.each(function (i,ele) {
 						var current = $(ele);
-						var giocOld = $('.giocatore#' + current.val());
-						var gioc = giocOld.clone();
-						var div = $("#capitani .droppable[id='cap-" + current.attr('id') + "']");
-                        div.append(gioc);
-						if(typeof(edit) != "undefined" && edit)
-							div.append('<a class="remove">Rimuovi</a>');
-
+						var id = current.val();
+						if(id != "") {
+							var giocOld = $('.giocatore#' + id);
+							var gioc = giocOld.clone();
+							var div = $("#capitani .droppable[id='cap-" + current.attr('id') + "']");
+	                        div.append(gioc);
+							if(typeof(edit) != "undefined" && edit)
+								div.append('<a class="remove">Rimuovi</a>');
+						}
 					});
 				}
 			if(typeof(edit) != "undefined" && edit) {

@@ -15,9 +15,10 @@
 body {
   font-family:Open Sans, sans-serif;
   background:#e6eaed url("@{imgsPath}bg.jpg") repeat-x center top;
-  min-width:1000px;
-  padding:40px 0 0;
-  margin:0;
+  text-align:left;
+  padding-top:40px;
+  -webkit-text-size-adjust:none;
+  font-size:13px;
 }
 header {
   background:url(@{imgsPath}bg-page.png) no-repeat center top;
@@ -240,4 +241,50 @@ nav#topbar {
   text-align:center;
   right:37%;
   left:37%;
+}
+@media (min-width: 768px) and (max-width: 980px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+  header {
+  	margin-top: -20px;
+  }
+}
+
+/* Tablet
+------------------------- */
+@media (max-width: 768px) {
+  body {
+    padding-top: 0;
+	overflow-x:hidden;
+  }
+  header {
+  	margin-top: -20px;
+  }
+  header {
+    margin-top:   -20px; /* Offset bottom margin on .navbar */
+    margin-right: -20px;
+    margin-left:  -20px;
+	width:110%;
+  }
+
+  header > div {
+    padding:0 20px;
+  }
+  footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (max-width: 480px) {
+  /* Remove padding above jumbotron */
+  body {
+    padding-top: 0;
+  }
+  header {
+  	margin-top: -20px;
+  }
 }

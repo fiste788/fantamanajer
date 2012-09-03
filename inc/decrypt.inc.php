@@ -32,13 +32,12 @@ class Decrypt
 	// per calcolare la chiave di decrypt...da lanciare manualmente
 	public static function calculateKey()
 	{
-		$pathcript = DOCSDIR . "mcc00.rcs";	//file criptato .rcs
-		$pathencript = DOCSDIR . "mcc00.txt";	//file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
+		$pathcript = DOCSDIR . "mcc01.rcs";	//file criptato .rcs
+		$pathencript = DOCSDIR . "mcc01.txt";	//file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
 		$cript = file_get_contents($pathcript);
 		$encript = file_get_contents($pathencript);
 		$ris = "";
-		for($i = 0;$i < 28;$i++)
-		{
+		for($i = 0;$i < 28;$i++) {
 			$xor1 = hexdec(bin2hex($cript[$i]));
 			$xor2 = hexdec(bin2hex($encript[$i]));
 			if($i!=0)
@@ -62,30 +61,33 @@ class Decrypt
 			return $percorsoCsv;
 		$site = "http://magic.gazzetta.it";
 		$content = FileSystem::contenutoCurl($site . "/magiccampionato/12-13/free/download/cd/?");
-        FirePHP::getInstance()->log("sono qui");
         
 		if(!empty($content)) {
-            FirePHP::getInstance()->log("content c'è");
 			$search = "";
 			//$content = preg_replace("/\n/","",$content);
 			$giornataGazzetta = ($giornata + $scostamentoGazzetta);
+			FirePHP::getInstance()->log($giornata);
+			FirePHP::getInstance()->log($giornataGazzetta);
 			phpQuery::newDocument($content);
 //			echo $content;
 			$ul = pq("#elenco_download");
 			$li = pq("li:contains(Giornata $giornataGazzetta)",$ul);
 			$a = pq("a",$li);
 			
-			preg_match("/Giornata $giornataGazzetta(.*?)<a (.*?)href=\"(.+?)\"/i",$content,$matches);
+			//preg_match("/Giornata $giornataGazzetta(.*?)<a (.*?)href=\"(.+?)\"/i",$content,$matches);
 			//echo "<pre>" . print_r($matches,1) . "</pre>";
 			//die();
 			$url = $a->attr("href");
 			if($url != "") {
-                FirePHP::getInstance()->log("pure qui");
+                FirePHP::getInstance()->log("url: $url");
 				if(strpos($url,$site) === FALSE)
 					$url = $site . $url;
 				$url = htmlspecialchars_decode($url);
 				$decrypt = "33-34-35-2A-6D-33-34-35-33-34-47-46-44-2A-52-33-32-34-72-66-65-73-64-53-44-46-34-33";
 				$decript = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
+				$decript = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
+				
+				
 				$explode_xor = explode("-", $decrypt);
 				if (!$p_file = fopen($url,"r"))
 					return FALSE;
@@ -93,11 +95,14 @@ class Decrypt
 					$i = 0;
 					$stringa = "";
 					$votiContent = file_get_contents($url);
+					file_put_contents(VOTIDIR . 'appo.txt',$votiContent);
 					if(!empty($votiContent)) {
 						while(!feof($p_file)) {
 							if ($i == count($explode_xor))
 								$i = 0;
 							$linea = fgets($p_file, 2);
+							FirePHP::getInstance()->log($linea);
+							die();
 							$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
 							$i++;
 							$stringa .= chr($xor2);

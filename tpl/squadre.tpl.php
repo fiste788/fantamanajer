@@ -17,7 +17,7 @@
 				<a href="<?php echo Links::getLink('trasferimenti',array('id'=>$val->id)); ?>" title="Trasferimenti">Trasferimenti</a>
 			</li>
 			<li>
-				<a href="<?php echo Links::getLink('formazione',array('squadra'=>$val->id,'giornata'=>GIORNATA)); ?>" title="Formazione">Formazione</a>
+				<a href="<?php echo Links::getLink('formazione',array('utente'=>$val->id,'giornata'=>GIORNATA)); ?>" title="Formazione">Formazione</a>
 			</li>
 			<?php if(GIORNATA > 1): ?>
 			<li>

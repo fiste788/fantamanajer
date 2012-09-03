@@ -8,6 +8,7 @@
 	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>
+<div class="clear">
 	<h3>Giocatori</h3>
 	<table class="table">
 		<thead>
@@ -56,4 +57,5 @@
 			</tr>
 		</tbody>
 	</table>
+</div>
 <?php endif;?>

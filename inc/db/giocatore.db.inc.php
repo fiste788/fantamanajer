@@ -1,15 +1,19 @@
 <?php 
 require_once(TABLEDIR . 'Giocatore.table.db.inc.php');
 
-class Giocatore extends GiocatoreTable
-{
-	var $id;
-	var $nome;
-	var $cognome;
-	var $ruolo;
-	var $club;
-	var $status;
-	
+class Giocatore extends GiocatoreTable {
+
+	public function save($numEvento = NULL) {
+		require_once(INCDBDIR . 'evento.db.inc.php');
+		if(parent::save() && !is_null($numEvento)) {
+			$evento = new Evento();
+			$evento->setIdExternal($this->id);
+			$evento->setTipo($numEvento);
+			return $evento->save();
+		}
+		return TRUE;
+	}
+
 	public static function getGiocatoriByIdSquadra($idUtente)
 	{
 		$q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
@@ -193,95 +197,47 @@ class Giocatore extends GiocatoreTable
 		return $giocatori;                
 	}
 
-	public static function updateTabGiocatore($path,$giornata)
-	{
-		require_once(INCDIR . 'decrypt.inc.php');
+	public static function updateTabGiocatore($path,$giornata) {
+		require_once(INCDBDIR . 'club.db.inc.php');
 		require_once(INCDBDIR . 'evento.db.inc.php');
+		require_once(INCDIR . 'decrypt.inc.php');
 		require_once(INCDIR . 'fileSystem.inc.php');
 		
 		$ruoli = array("P","D","C","A");
-		$playersOld = self::getArrayGiocatoriFromDatabase();
-		$players = fileSystem::returnArray($path,";");
-		// aggiorna eventuali cambi di club dei Giocatori-> Es.Turbato Tomas  da Juveterranova a Spartak Foligno
-		foreach($players as $key=>$details)
-		{
-			if(array_key_exists($key,$playersOld))
-			{
-				$clubNew = substr($details[3],1,3);
-				$pieces = explode(";",$playersOld[$key]);
-				$clubOld = $pieces[6];
-				//FirePHP::getInstance()->log($clubOld."->".$clubNew);
-				if($clubNew != $clubOld)
-					$clubs[$clubNew][] = $key;
-			}
-		}
-		if(isset($clubs))
-		{
-			self::startTransaction();
-			foreach($clubs as $key => $val)
-			{
-				$giocatori = join("','",$clubs[$key]);
-				$q = "UPDATE giocatore 
-						SET status = 1,club = (SELECT id FROM club WHERE nomeClub LIKE '" . $key . "%')
-						WHERE id IN ('" . $giocatori . "')";
-				foreach($clubs[$key] as $single)
-					Evento::addEvento('7',0,0,$single);
-				FirePHP::getInstance()->log($q);
-				mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-			}
-		}
-		// aggiunge i giocatori nuovi e rimuove quelli vecchi
-		$daTogliere = array_diff_key(self::getArrayGiocatoriFromDatabase(TRUE), $players);  
-		$daInserire = array_diff_key($players,self::getArrayGiocatoriFromDatabase());  
-		FirePHP::getInstance()->log($daTogliere);
-		FirePHP::getInstance()->log($daInserire);
-				// aggiunge nuovi giocatori
-		if(count($daInserire) != 0)
-		{
-			$rowtoinsert = "";
-			foreach($daInserire as $key => $pezzi)
-			{
+		$giocatoriOld = self::getList();
+		$giocatoriNew = fileSystem::returnArray($path,"|");
+		self::startTransaction();
+		foreach($giocatoriNew as $id=>$giocatoreNew) {
+			if(array_key_exists($id,$giocatoriOld)) {
+				$clubNew = substr($giocatoreNew[3],1,3);
+				if($giocatoriOld[$id]->getIdClub() != $clubNew) {
+					$giocatoriOld[$id]->setIdClub($clubNew);
+					$giocatoriOld[$id]->setStatus(TRUE);
+					$giocatoriOld[$id]->save(EVENTO::CAMBIOCLUB);
+				}
+			} else {
+				$giocatoreOld = new Giocatore();
+				$giocatoreOld->setId($giocatoreNew[0]);
+				$giocatoreOld->setRuolo($ruoli[$pezzi[5]]);
+				$giocatoreOld->setClub(Club::getByField('nome',trim($giocatoreNew[3],'"')));
 				$esprex = "/[A-Z']*\s?[A-Z']{2,}/";
-				
-				$id = $pezzi[0];
-				$nominativo = trim($pezzi[2],'"');
-				$club = substr(trim($pezzi[3],'"'),0,3);
-				$ruolo = $ruoli[$pezzi[5]];
+				$nominativo = trim($giocatoreNew[2],'"');
 				preg_match ($esprex,$nominativo,$ass);
-				$cognome = (!empty($ass)) ? $ass[0] : $nominativo;
-				$nome = trim(substr($nominativo,strlen($cognome)));
-				$cognome = ucwords(strtolower((addslashes($cognome))));
-				$nome = ucwords(strtolower((addslashes($nome))));
-				$rowtoinsert .=  "('" .$id. "','" . $cognome . "','" . $nome . "','" . $ruolo . "',(SELECT id FROM club WHERE nomeClub LIKE '" . $club . "%'),1),";
-				if(!empty($playersOld))
-					Evento::addEvento('5',0,0,$pezzi[0]);
+				$cognome = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $nominativo)));
+				$nome = ucwords(strtolower(trim(substr($nominativo,strlen($cognome)))));
+				$giocatoreOld->setCognome($cognome);
+				$giocatoreOld->setNome($nome);
+				$giocatoreOld->save(EVENTO::NUOVOGIOCATORE);
 			}
-			$q = rtrim("INSERT INTO giocatore(id,cognome,nome,ruolo,club,status) VALUES " . $rowtoinsert,",");
-			FirePHP::getInstance()->log($q);
-			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
 		}
-		if(count($daTogliere) != 0)
-		{
-			foreach($daTogliere as $id => $val)
-				Evento::addEvento('6',0,0,$id);
-			$stringaDaTogliere = join("','",array_keys($daTogliere));
-			$q = "UPDATE giocatore 
-					SET status = 0 
-					WHERE id IN ('" . $stringaDaTogliere . "')";
-			FirePHP::getInstance()->log($q);
-			mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+		foreach($giocatoriOld as $id=>$giocatoreOld) {
+			if(!array_key_exists($id,$giocatoriNew)) {
+				$giocatoriOld[$id]->setStatus(FALSE);
+				$giocatoriOld->save(EVENTO::RIMOSSOGIOCATORE);
+			}
 		}
-		if(isset($err))
-		{
-			FirePHP::getInstance()->error($err);
-			self::rollback();
-			return $err;
-		}
-		else
-		{
-			self::commit();
-			return TRUE;
-		}	
+		self::commit();
+		return TRUE;
 	}
 
 	public static function getGiocatoriNotSquadra($idUtente,$idLega)
@@ -357,7 +313,7 @@ class Giocatore extends GiocatoreTable
 		require_once(INCDIR . 'fileSystem.inc.php');
         $gioc = self::getList();
 		foreach($gioc as $key=>$val) {
-			if(!file_exists(PLAYERSDIR . "new/" . $val->idGioc . ".jpg")) {
+			if(!file_exists(PLAYERSDIR . "new/" . $val->id . ".jpg")) {
 				$url = "http://www.gazzetta.it/img/calcio/figurine_panini/" . (($val->nome != NULL) ? str_replace(" ","_",strtoupper($val->nome)) : "") . "_" . str_replace(" ","_",strtoupper($val->cognome)) . ".jpg";
 				echo (($val->nome != NULL) ? str_replace(" ","_",strtoupper($val->nome)) : "") . "_" . str_replace(" ","_",strtoupper($val->cognome));
 				flush();
@@ -366,7 +322,7 @@ class Giocatore extends GiocatoreTable
 
 				if(stripos($fileContents,"gazzetta") == FALSE) {
 					$newImg = imagecreatefromstring($fileContents);
-					imagejpeg($newImg, PLAYERSDIR . "new/" . $val->idGioc . ".jpg",100);
+					imagejpeg($newImg, PLAYERSDIR . "new/" . $val->id . ".jpg",100);
 		    	}
 		    }
 		}

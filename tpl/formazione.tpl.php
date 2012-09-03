@@ -1,6 +1,6 @@
 <?php $j =0; $k = 0; $ruolo = ""; ?>
 <?php if(!STAGIONEFINITA || $this->giornata != GIORNATA): ?>
-<div id="giocatori">
+<div id="giocatori" <?php if($this->squadra != $_SESSION['idUtente']) echo 'style="display:none"'; ?>>
 	<?php foreach($this->giocatori as $key=>$val): ?>
 		<?php if($val->ruolo != $ruolo && $ruolo != "") echo '</div>'; ?>
 		<?php if($ruolo != $val->ruolo) echo '<div class="ruoli ' . $val->ruolo . '">'; ?>

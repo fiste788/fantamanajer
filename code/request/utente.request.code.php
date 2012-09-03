@@ -6,8 +6,8 @@ if(($utente = Utente::getById($_SESSION['idUtente'])) == FALSE)
 	Request::send404();
 
 //$utente->form = new UtenteForm();
-$utenteForm = new UtenteForm($utente);
-if($utenteForm->validate()) {
+//$utente = new UtenteForm($utente);
+if($utente->validate()) {
 	$utente->setAbilitaMail($request->get('abilitaMail') == 'on');
     $passwordnew = $request->get('passwordnew');
     if(!empty($passwordnew))

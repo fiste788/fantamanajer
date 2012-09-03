@@ -1,10 +1,10 @@
 <?php 
-require_once(INCDIR . 'utente.db.inc.php');
-require_once(INCDIR . 'punteggio.db.inc.php');
-require_once(INCDIR . 'giocatore.db.inc.php');
-require_once(INCDIR . 'formazione.db.inc.php');
-require_once(INCDIR . 'voto.db.inc.php');
-require_once(INCDIR . 'lega.db.inc.php');
+require_once(INCDBDIR . 'utente.db.inc.php');
+require_once(INCDBDIR . 'punteggio.db.inc.php');
+require_once(INCDBDIR . 'giocatore.db.inc.php');
+require_once(INCDBDIR . 'formazione.db.inc.php');
+require_once(INCDBDIR . 'voto.db.inc.php');
+require_once(INCDBDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
 require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
@@ -23,48 +23,41 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 	if(!empty($backup))
 	{
 		$logger->info("Starting decript file day " . $giornata);
-		$path = Decrypt::decryptCdfile($giornata,-1);
+		//$path = Decrypt::decryptCdfile($giornata,0);
+		$path = DOCSDIR . 'mcc01.txt';
 		FirePHP::getInstance()->log($path);
 		//RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
-		if($path != FALSE || Voto::checkVotiExist($giornata))
-		{
-			if($path != FALSE)
-			{
+		if($path != FALSE || Voto::checkVotiExist($giornata)) {
+			if($path != FALSE) {
 				$logger->info("File with point created succefully");
 				$logger->info("Updating table players");
 				$result = Giocatore::updateTabGiocatore($path,$giornata);
 				if($result != TRUE)
 					$logger->error($result);
-			}
-			else
+			} else
 				$logger->info("Points already exists in database");
 			if($giornata > 0) {
-				if(!Voto::checkVotiExist($giornata))
-				{
+				if(!Voto::checkVotiExist($giornata)) {
 					$logger->info("Importing points");
 					Voto::importVoti($path,$giornata);
 				}
 				$leghe = Lega::getLeghe();
 				$mail = 0;
-				foreach($leghe as $lega)
-				{
+				foreach($leghe as $lega) {
 					$squadre = Utente::getElencoSquadreByLega($lega->idLega);
 					$logger->info("Calculating points for league " . $lega->idLega);
 					$dbObj->startTransaction();
 					$sum = array();
-					foreach($squadre as $key =>$val)
-					{
+					foreach($squadre as $key =>$val) {
 						$logger->info("Elaborating team " . $val->idUtente);
 						$squadra = $val->idUtente;
 						//CALCOLO I PUNTI SE C'È LA FORMAZIONE
 						if(Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata) != FALSE)
 							Punteggio::calcolaPunti($giornata,$squadra,$lega->idLega);
-						elseif($lega->punteggioFormazioneDimenticata != 0)
-						{
+						elseif($lega->punteggioFormazioneDimenticata != 0) {
 							$i = 1;
 							$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
-							while($formazione == FALSE && $i < $giornata)
-							{
+							while($formazione == FALSE && $i < $giornata) {
 								$formazione = Formazione::getFormazioneBySquadraAndGiornata($squadra,$giornata - $i);
 								$i ++;
 							}
@@ -83,10 +76,8 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 					$classifica = Punteggio::getAllPunteggiByGiornata($giornata,$lega->idLega);
 					foreach($classifica as $key => $val)
 						$sum[$key] = array_sum($classifica[$key]);
-					foreach ($squadre as $key => $val)
-					{
-						if(!empty($val->mail) && $val->abilitaMail == 1)
-						{
+					foreach ($squadre as $key => $val) {
+						if(!empty($val->mail) && $val->abilitaMail == 1) {
 							$mailContent = new Savant3();
 							//$mailContent->assign('linksObj',Links);
 							$mailContent->assign('classifica',$sum);
@@ -109,12 +100,10 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 							$mailMessageObj->setTo(array($val->mail=>$val->nomeProp . " " . $val->cognome));
 							$fetchMail = $mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php');
 							$mailMessageObj->setBody($fetchMail,'text/html');
-							if(!$mailerObj->send($mailMessageObj)) 
-							{
+							if(!$mailerObj->send($mailMessageObj))  {
 								$mail++;
 								$logger->warning("Error in sending mail to: " . $val->mail);
-							}
-							else
+							}else
 								$logger->info("Mail send succesfully to: " . $val->mail);
 						}
 					}
@@ -124,21 +113,15 @@ if( ((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
 				$message->success("Operazione effettuata correttamente");
 			else
 				$message->error("Errori nell'invio delle mail");
-		}
-		else
-		{
+		} else {
 			$message->error("Problema nel recupero dei voti dalla gazzetta");
 			$logger->error("I can't retrieve data from gazzetta");
 		}
-	}
-	else
-	{
+	} else {
 		$message->warning("Non riesco a creare il backup");
 		$logger->warning("Error while creating backup");
 	}
-}
-else
-{
+}else {
 	$message->warning("Non puoi effettuare l'operazione ora");
 	$logger->warning("Is not time to run it");
 }
