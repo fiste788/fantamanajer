@@ -1,27 +1,24 @@
-#home #bestPlayer > div {
-	width:25%;
-	padding:0 10px;
-	text-align:center;
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
+#home #best-player {
+    text-align:center;
+    padding:0 0 25px;
 }
 #home .foto {
-	float:none;
-	margin-bottom:8px;
+    float:none;
+    margin-bottom:8px;
 }
 #home h3,#home h4 {
-	margin-bottom:6px;
+    margin-bottom:6px;
 }
-#home #bestPlayer {
-	float:left;
-	width:100%;
-	padding:0 0 25px;
+#home h4 {
+    text-align:center;
 }
-#home #eventi {
-	width:48%;
-	padding-right:2%;
+#home .all {
+    width:100%;
+    text-align: right;
 }
-#home #conferenzeStampa {
-	width:48%;
-	padding-left:2%;
+#home .foto-container {
+    height:200px;
+    display:block;
+    vertical-align:middle;
+    line-height:200px
 }

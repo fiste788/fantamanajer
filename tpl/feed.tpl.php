@@ -1,18 +1,17 @@
-<?php if($this->eventi != FALSE): ?>
-	<?php foreach($this->eventi as $key =>$val): ?>
-		<h4>
-		<?php if($val->tipo != 2 && $_SESSION['logged']): ?>
-			<a href="<?php echo $val->link; ?>">
-		<?php endif;?>
-		<?php echo $val->titolo; ?>  <em>(<?php echo $val->data->format("Y-m-d H:i:s"); ?>)</em>
-		<?php if($val->tipo != 2 && $_SESSION['logged']): ?>
-			</a>
-		<?php endif;?>
-		</h4>
-		<?php if(isset($val->content)): ?>
-			<p><?php echo nl2br($val->content); ?></p>
-		<?php endif; ?>
-	<?php endforeach; ?>
+<?php if ($this->eventi != FALSE): ?>
+    <?php foreach ($this->eventi as $evento): ?>
+        <div class="evento">
+            <em><?php echo $evento->data->format("Y-m-d H:i:s"); ?></em>
+            <h4>
+                <a href="<?php echo ($evento->tipo != 2 && $_SESSION['logged']) ? $val->link : '#' ?>">
+                    <?php echo $evento->titolo; ?>
+                </a>
+            </h4>
+            <?php if (isset($evento->content)): ?>
+                <p><?php echo nl2br($evento->content); ?></p>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
 <?php else: ?>
-	<p>Nessun evento</p>
+    <p>Nessun evento</p>
 <?php endif; ?>

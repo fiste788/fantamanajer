@@ -1,10 +1,6 @@
 <?php $r = 'Por.'; ?>
 <div id="headerClub">
-	<div class="column last">
-		<a title="<?php echo $this->clubDett->nome; ?>" class="fancybox column">
-			<img alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->request->get('club') . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
-		</a>
-	</div>
+	<img class="logo left" alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->request->get('club') . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
 	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>
@@ -27,7 +23,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($this->giocatori as $key => $val): ?>
+			<?php foreach($this->giocatori as $val): ?>
 			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
 					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>

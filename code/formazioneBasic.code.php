@@ -6,23 +6,22 @@ require_once(INCDBDIR . "giocatore.db.inc.php");
 
 $filterUtente = $request->has('utente') ? $request->get('utente') : $_SESSION['idUtente'];
 $filterGiornata = $request->has('giornata') ? $request->get('giornata') : GIORNATA;
-$filterModulo = $request->has('modulo') ? $request->get('modulo') : '1-4-4-2';
+$filterModulo = $request->has('modulo') ? $request->get('modulo') : NULL;
 
 $ruoliKey = array('P','D','C','A');
 $ruo = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');
 $elencocap = array('C','VC','VVC');
 
-$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata);
 $formazioniPresenti = Formazione::getFormazioneByGiornataAndLega($filterGiornata,$_SESSION['legaView']);
-$firePHP->log($formazione);
-$i = 0;
-while($formazione == FALSE && $i < GIORNATA) {
-	$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata - $i);
-	$i ++;
-	if($formazione != FALSE)
+$formazione = Formazione::getLastFormazione($filterUtente,$filterGiornata);
+if($formazione != FALSE) {
+	if(is_null($filterModulo))
+		$filterModulo = $formazione->modulo;
+	if($formazione->idGiornata != GIORNATA)
 		$formazione->jolly = FALSE;
-}
-
+} 
+if(is_null($filterModulo))
+	$filterModulo = '1-4-4-2';
 foreach($ruoliKey as $key => $val)
 	$giocatori[$val] =	Giocatore::getGiocatoriByIdSquadraAndRuolo($_SESSION['idUtente'],$val);
 		

@@ -29,30 +29,31 @@ if(!LOCAL)
 {
 	$host = implode('.',$hostArray);
 	$hostStaticArray = $hostArray;
-	if($hostStaticArray[0] == 'www')
+	/*if($hostStaticArray[0] == 'www')
 		$hostStaticArray[0] = 'static';
 	elseif($hostStaticArray[0] != 'develop')
 		array_unshift($hostStaticArray, 'static');
-	
+	*/
 	$hostStatic = implode('.',$hostStaticArray);
 	$array = explode("/",$doc_root);
 	array_pop($array);
-	
+
 	define("FULLPATH",$doc_root . $sitepath . '/');
 	define("FULLURL",$proto . $host . $sitepath . '/');
 	define("FULLURLAUTH",$proto . "administrator:banana@" . $host . $sitepath . '/');
 	define("FULLSTATICURL",$proto . $hostStatic . $sitepath . '/');
 	define("FULLSTATICURLAUTH",$proto . "administrator:banana@" .  $hostStatic . $sitepath . '/');
-	define("FULLSTATICPATH",implode("/",$array) . "/subdomains/static/httpdocs/");
-	
+	//define("FULLSTATICPATH",implode("/",$array) . "/subdomains/static/httpdocs/");
+	define("FULLSTATICPATH",FULLPATH);
+
 	if(!DEVELOP)
 	{
 		define("DBTYPE","mysql");
-		define("DBNAME","fantamanajer");
-		define("DBUSER","fantamanajerUser");
-		define("DBPASS","banana");
-		define("DBHOST","mysql13.aziendeitalia.com:3306");
-		
+		define("DBNAME","fantaman_fantamanajer");
+		define("DBUSER","fantaman_user");
+		define("DBPASS","B@n@n@2");
+		define("DBHOST","leonardo.ldn.kgix.net:3306");
+
 		define("MODREWRITE",TRUE);
 		error_reporting(E_ALL);
 	}
@@ -63,7 +64,7 @@ if(!LOCAL)
 		define("DBUSER","fantamanajerUser");
 		define("DBPASS","banana");
 		define("DBHOST","mysql13.aziendeitalia.com:3306");
-		
+
 		define("MODREWRITE",FALSE);
 		error_reporting(E_ALL);
 	}
@@ -71,7 +72,7 @@ if(!LOCAL)
 else
 {
 	define("FULLPATH",$doc_root . $sitepath . '/');
-	define("FULLURL",$proto . $host . ":" . $_SERVER['SERVER_PORT'] . $sitepath . '/');
+	define("FULLURL",$proto . $host . (($_SERVER['SERVER_PORT'] != 80) ? ":" . $_SERVER['SERVER_PORT'] : '') . $sitepath . '/');
 	define("FULLURLAUTH",$proto . "administrator:banana@" . $host . $sitepath . '/');
 	define("FULLSTATICURL",FULLURL);
 	define("FULLSTATICPATH",FULLPATH);
@@ -81,7 +82,7 @@ else
 	define("DBUSER","fantamanajerUser");
 	define("DBPASS","banana");
 	define("DBHOST","localhost");
-	
+
 	define("MODREWRITE",FALSE);
 	error_reporting(E_ALL);
 }
@@ -108,6 +109,7 @@ define("TPLDIR",FULLPATH . 'tpl/');
 define("INCDIR",FULLPATH . 'inc/');
 define("INCDBDIR",INCDIR . 'db/');
 define("TABLEDIR",INCDBDIR . 'table/');
+define("MODELDIR",TABLEDIR . 'model/');
 define("VIEWDIR",INCDBDIR . 'view/');
 define("AJAXDIR",'ajax/');
 define("MAILTPLDIR",TPLDIR . 'mail/');

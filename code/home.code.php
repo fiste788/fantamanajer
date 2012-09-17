@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(INCDBDIR . 'punteggio.db.inc.php');
 require_once(INCDBDIR . 'utente.db.inc.php');
 require_once(INCDBDIR . 'articolo.db.inc.php');
@@ -9,7 +9,7 @@ require_once(INCDIR . 'emoticon.inc.php');
 $giornata = Punteggio::getGiornateWithPunt();
 $bestPlayer = NULL;
 $bestPlayers = NULL;
-    
+
 if($giornata > 0) {
     foreach ($ruoli as $ruolo=>$val) {
         $bestPlayers[$ruolo] = Giocatore::getBestPlayerByGiornataAndRuolo($giornata,$ruolo);
@@ -17,7 +17,7 @@ if($giornata > 0) {
     }
 }
 
-$articoli = Articolo::getLastArticoli(2);
+$articoli = Articolo::getLastArticoli(1);
 if($articoli != FALSE)
 	foreach ($articoli as $key => $val)
 		$articoli[$key]->text = Emoticon::replaceEmoticon($val->testo,EMOTICONSURL);

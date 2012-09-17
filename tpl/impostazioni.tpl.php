@@ -45,6 +45,16 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">Capitano doppio se si dimentica la formazione</label>
+			<div class="controls">
+				<input type="hidden" name="capitanoFormazioneDimenticata" value="0"/>
+				<label class="checkbox">
+					<input type="checkbox" name="capitanoFormazioneDimenticata" value="1"<?php echo ($this->lega->capitanoFormazioneDimenticata) ? ' checked="checked"' : ''; ?> />Si
+				</label>
+				<?php if(isset($this->default['capitanoFormazioneDimenticata'])): ?><span class="help-inline">Default: <?php echo ($this->default['capitanoFormazioneDimenticata'] == 1) ? "Si" : "No"; ?></span><?php endif; ?>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">Uso del jolly per raddoppiare il punteggio una volta a girone</label>
 			<div class="controls">
 				<input type="hidden" name="jolly" value="0"/>

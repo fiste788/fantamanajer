@@ -1,63 +1,66 @@
-<?php 
+<?php
+
 require_once(TABLEDIR . 'Lega.table.db.inc.php');
 
-class Lega extends LegaTable
-{
-/*	public static function getLeghe()
-	{
-		$q = "SELECT *
+class Lega extends LegaTable {
+
+    public static function getDefaultValue() {
+        $q = "SHOW COLUMNS
 				FROM lega";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while ($row = mysql_fetch_object($exe,__CLASS__) )
-		  	$values[] = $row;
-		return $values;
-	}
-	
-	public static function getLegaById($idLega)
-	{
-		$q = "SELECT * 
-				FROM lega
-				WHERE idLega = '" . $idLega . "'";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		return mysql_fetch_object($exe,__CLASS__);
-	}*/
-	
-	public static function updateImpostazioni($impostazioni)
-	{
-		$q = "UPDATE lega SET ";
-		foreach ($impostazioni as $key=>$val)
-			$q .= $key . " = '" . $val . "',";
-		$q = substr($q,0,-1);
-		$q .= " WHERE idLega = '" . $_SESSION['idLega'] . "'";
-		FirePHP::getInstance()->log($q);
-		return mysql_query($q) or self::sqlError($q);
-	}
-	
-	public static function getDefaultValue()
-	{
-		$q = "SHOW COLUMNS
-				FROM lega";
-		$exe = mysql_query($q) or self::sqlError($q);
-		FirePHP::getInstance()->log($q);
-		while($row = mysql_fetch_object($exe,__CLASS__))
-			$result[$row->Field] = $row->Default;
-		return $result;
-	}
-	
-	public function check($array,$message) {
-		$post = (object) $array;
-		foreach($array as $key=>$val)
-			if($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val)) {
-				$message->error("Non hai compilato tutti i campi" . $key);
-				return FALSE;
-   			}
-		if(!is_numeric($post->numTrasferimenti) || !is_numeric($post->numSelezioni) || !is_numeric($post->minFormazione)) {
-			$message->error("Tipo di dati incorretto. Controlla i valori numerici");
+        $exe = mysql_query($q) or self::sqlError($q);
+        FirePHP::getInstance()->log($q);
+        while ($row = mysql_fetch_object($exe, __CLASS__))
+            $result[$row->Field] = $row->Default;
+        return $result;
+    }
+
+    public function check($array, $message) {
+        $post = (object) $array;
+        foreach ($array as $key => $val)
+            if ($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val)) {
+                $message->error("Non hai compilato tutti i campi" . $key);
+                return FALSE;
+            }
+        if (!is_numeric($post->numTrasferimenti) || !is_numeric($post->numSelezioni) || !is_numeric($post->minFormazione)) {
+            $message->error("Tipo di dati incorretto. Controlla i valori numerici");
             return FALSE;
-  		}
-  		return TRUE;
-	}
+        }
+        return TRUE;
+    }
+
+    /**
+     * Getter: id
+     * @return Utente[]
+     */
+    public function getUtenti() {
+        require_once(INCDBDIR . 'utente.db.inc.php');
+        if (empty($this->utenti))
+            $this->utenti = Utente::getByField('idLega', $this->getId());
+        return $this->utenti;
+    }
+
+    /**
+     * Getter: id
+     * @return Articolo[]
+     */
+    public function getArticoli() {
+        require_once(INCDIR . 'articolo.db.inc.php');
+        if (empty($this->articoli))
+            $this->articoli = Articolo::getByField('idLega', $this->getId());
+        return $this->articoli;
+    }
+
+    /**
+     * Getter: id
+     * @return Evento[]
+     */
+    public function getEventi() {
+        require_once(INCDIR . 'evento.db.inc.php');
+        if (empty($this->eventi))
+            $this->eventi = Evento::getByField('idLega', $this->getId());
+        return $this->eventi;
+    }
+
 }
+
 ?>

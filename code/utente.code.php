@@ -1,8 +1,7 @@
 <?php 
 require_once(INCDBDIR . "utente.db.inc.php");
-/*require_once(INCDBDIR . "giocatore.db.inc.php");
-Giocatore::getFoto();
-die();*/
+require_once(INCDBDIR . "giocatore.db.inc.php");
+
 if(($utente = Utente::getById($_SESSION['idUtente'])) === FALSE)
 	Request::send404();
 

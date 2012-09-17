@@ -1,8 +1,10 @@
-<a class="column" title="Home" href="<?php echo Links::getLink('home'); ?>">
-	<h1>FantaManajer</h1>
-</a>
+<div class="span4 hidden-phone">
+    <a title="Home" href="<?php echo Links::getLink('home'); ?>">
+        <h1>FantaManajer</h1>
+    </a>
+</div>
 <?php if(!PARTITEINCORSO && !STAGIONEFINITA): ?>
-	<div id="countdown">Tempo rimanente per la formazione<br />
+	<div class="hidden-phone" id="countdown">Tempo rimanente per la formazione<br />
 		<div><?php echo $this->dataFine['year'] . '-' . ($this->dataFine['month'] - 1) . '-' . $this->dataFine['day'] . ' ' . $this->dataFine['hour'] . ':' . $this->dataFine['minute'] . ':' . $this->dataFine['second']; ?></div>
 	</div>
 	<script type="text/javascript">

@@ -11,22 +11,27 @@
 		<caption>Titolari</caption>
 		<thead>
 			<tr>
-				<th class="cognome">Nome</th>
-				<th class="ruolo">Ruolo</th>
-				<th class="club">Club</th>
-				<th class="club">Titolare</th>
-				<th class="punt">Punt.</th>
+				<th>Nome</th>
+				<th>Ruolo</th>
+				<th>Club</th>
+				<th class="hidden-phone">Tit</th>
+                <th class="hidden-phone">Amm</th>
+                <th class="hidden-phone">Esp</th>
+                <th class="hidden-phone">Gol</th>
+				<th>Punt.</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($this->titolari as $key => $val): ?>
-				<tr<?php echo ($val->considerato == 0) ? ' class="alert-error"' : '' ?>">
-					<td><?php echo $val; ?></td>
-					<td><?php echo ($val->considerato == 2) ? $val->nome . '<span id="cap">(C)</span>' : $val->nome; ?></td>
-					<td><?php echo $val->ruolo; ?></td>
-					<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-					<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
-					<td><?php if(!empty($val->punti))  echo ($val->considerato == '2') ? $val->punti * 2 : $val->punti; else "&nbsp;"; ?></td>
+			<?php foreach($this->titolari as $key => $giocatore): ?>
+				<tr<?php echo ($giocatore->considerato == 0) ? ' class="alert-error"' : '' ?>>
+					<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('id'=>$giocatore->idGiocatore)); ?>"><?php echo ($giocatore->considerato == 2) ? $giocatore . '<span id="cap">(C)</span>' : $giocatore; ?></a></td>
+					<td><?php echo $giocatore->ruolo; ?></td>
+					<td><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
+					<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif ?></td>
+                    <td class="hidden-phone"><?php echo ($giocatore->ammonizioni != 0) ? $giocatore->ammonizioni : "&nbsp;"; ?></td>
+                    <td class="hidden-phone"><?php echo ($giocatore->espulsioni != 0) ? $giocatore->espulsioni : "&nbsp;"; ?></td>
+                    <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : "&nbsp;"; ?></td>
+					<td><?php if(!empty($giocatore->punti)) echo ($giocatore->considerato == '2') ? $giocatore->punti * 2 : $giocatore->punti; else "&nbsp;"; ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -36,21 +41,27 @@
 			<caption>Panchinari</caption>
 			<thead>
 				<tr>
-					<th class="cognome">Nome</th>
-					<th class="ruolo">Ruolo</th>
-					<th class="club">Club</th>
-					<th class="club">Titolare</th>
-					<th class="punt">Punt.</th>
+					<th>Nome</th>
+					<th>Ruolo</th>
+					<th>Club</th>
+					<th class="hidden-phone">Titolare</th>
+                    <th class="hidden-phone">Ammonizioni</th>
+                    <th class="hidden-phone">Espulsioni</th>
+                    <th class="hidden-phone">Gol</th>
+					<th>Punt.</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($this->panchinari as $key => $val): ?>
-					<tr<?php echo ($val->considerato == 1) ? ' class="alert-success"' : '' ?>">
-						<td><?php echo $val; ?></td>
-						<td><?php echo $val->ruolo; ?></td>
-						<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-						<td><?php echo ($val->titolare) ? "X" : "&nbsp;"; ?></td>
-						<td><?php echo (!empty($val->punti)) ? $val->punti : "&nbsp;"; ?></td>
+				<?php foreach($this->panchinari as $key => $giocatore): ?>
+					<tr<?php echo ($giocatore->considerato == 1) ? ' class="alert-success"' : '' ?>>
+						<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('id'=>$giocatore->idGiocatore)); ?>"><?php echo $giocatore; ?></a></td>
+						<td><?php echo $giocatore->ruolo; ?></td>
+						<td><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
+						<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif ?></td>
+                        <td class="hidden-phone"><?php echo ($giocatore->ammonizioni != 0) ? $giocatore->ammonizioni : "&nbsp;"; ?></td>
+                        <td class="hidden-phone"><?php echo ($giocatore->espulsioni != 0) ? $giocatore->espulsioni : "&nbsp;"; ?></td>
+                        <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : "&nbsp;"; ?></td>
+						<td><?php echo (!empty($giocatore->punti)) ? $giocatore->punti : "&nbsp;"; ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

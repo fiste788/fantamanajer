@@ -9,12 +9,12 @@ class Evento extends EventoTable
 	const TRASFERIMENTO = 4;
 	const NUOVOGIOCATORE = 5;
 	const RIMOSSOGIOCATORE = 6;
-	const CAMBIOCLUB = 6;
-	
+	const CAMBIOCLUB = 7;
+
 	/*
 	function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)
 	{
-		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal) 
+		$q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal)
 				VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
@@ -22,12 +22,12 @@ class Evento extends EventoTable
 	*/
 	function deleteEventoByIdExternalAndTipo($idExternal,$tipo)
 	{
-		$q = "DELETE 
+		$q = "DELETE
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
 		FirePHP::getInstance()->log($q);
 		return mysql_query($q) or self::sqlError($q);
 	}
-	
+
 	public static function getEventi($idLega,$tipo = NULL,$min = 0,$max = 10)
 	{
 		require_once(INCDBDIR . 'articolo.db.inc.php');
@@ -35,7 +35,7 @@ class Evento extends EventoTable
 		require_once(INCDBDIR . 'formazione.db.inc.php');
 		require_once(INCDBDIR . 'giocatore.db.inc.php');
 		require_once(INCDIR . 'links.inc.php');
-		
+
 		$ruoli = array("articoli" =>
 					array (
 						'P'=> "il",
@@ -52,10 +52,10 @@ class Evento extends EventoTable
 		$q = "SELECT evento.*,utente.nome
 				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
 		if($idLega != NULL)
-			$q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = '0')";
+			$q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = NULL)";
 		if($tipo != NULL && $tipo != 0)
 		  $q .= " AND tipo = '" . $tipo . "'";
-		$q .= " ORDER BY data DESC 
+		$q .= " ORDER BY data DESC
 				LIMIT " . $min . "," . $max . ";";
 		$exe = mysql_query($q) or self::sqlError($q);
 		FirePHP::getInstance()->log($q);
@@ -71,7 +71,7 @@ class Evento extends EventoTable
 						$values[$key]->idExternal = Articolo::getById($val->idExternal);
 						$values[$key]->titolo = $val->nome . ' ha rilasciato una conferenza stampa intitolata '. $values[$key]->idExternal->titolo;
 						$values[$key]->content = '';
-						if(!empty($values[$key]->idExternal->abstract)) 
+						if(!empty($values[$key]->idExternal->abstract))
 							$values[$key]->content = '<em>' . $values[$key]->idExternal->sottoTitolo . '</em><br />';
 						$values[$key]->content .= $values[$key]->idExternal->testo;
 						$values[$key]->link = Links::getLink('conferenzeStampa',array('giorn'=>$values[$key]->idExternal->idGiornata));break;
@@ -97,26 +97,25 @@ class Evento extends EventoTable
 									$values[$key]->content = $val->nome .' ha ceduto il giocatore '. $giocOld . ' e ha acquistato ' . $giocNew;
 									$values[$key]->link = Links::getLink('trasferimenti',array('squadra'=>$values[$key]->idExternal->idUtente));
 									unset($giocOld,$giocNew);break;
-								case 5: 
-									$player = Giocatore::getGiocatoreById($values[$key]->idExternal);
-									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' (' . $selected->nomeClub . ') inserito nella lista giocatori';
-									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' ora fa parte della rosa ' . $selected->partitivo . ' ' . $selected->nomeClub . ', pertanto è stato inserito nella lista giocatori';
-									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
+								case self::NUOVOGIOCATORE:
+									$player = Giocatore::getById($values[$key]->idExternal);
+									//$selected = $player[$values[$key]->idExternal];
+									$values[$key]->titolo =  $player->nome . ' ' . $player->cognome . ' (' . $player->getClub()->getNome() . ') inserito nella lista giocatori';
+									$values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' ora fa parte della rosa ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome . ', pertanto è stato inserito nella lista giocatori';
+									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$player->id));
+
 									break;
-								case 6: 
-									$player = Giocatore::getGiocatoreById($values[$key]->idExternal);
-									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->nome . ' ' . $selected->cognome . ' (ex '.$selected->nomeClub.') non fa più parte della lista giocatori';
-									$values[$key]->content = ucwords($ruoli['articoli'][$selected->ruolo]) . ' ' . $ruoli['nome'][$selected->ruolo] . ' ' . $selected->nome . ' ' . $selected->cognome . ' non è più un giocatore '.$selected->partitivo.' '.$selected->nomeClub;
-									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
+								case self::RIMOSSOGIOCATORE:
+									$player = Giocatore::getById($values[$key]->idExternal);
+									$values[$key]->titolo =  $player . ' (ex ' . $player->getClub()->nome . ') non fa più parte della lista giocatori';
+									$values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' non è più un giocatore ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome;
+									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$player->id));
 									break;
-								case 7: 
-									$player = Giocatore::getGiocatoreById($values[$key]->idExternal);
-									$selected = $player[$values[$key]->idExternal];
-									$values[$key]->titolo =  $selected->determinativo.' '.$selected->nomeClub. ' ha ingaggiato '.$selected->nome . ' ' . $selected->cognome;
+								case self::CAMBIOCLUB:
+									$player = Giocatore::getById($values[$key]->idExternal);
+									$values[$key]->titolo =  $player->getClub()->determinativo.' '.$player->getclub()->nome . ' ha ingaggiato '. $player;
 									$values[$key]->content = '';
-									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$values[$key]->idExternal));
+									$values[$key]->link = Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$player->id));
 									break;
 				}
 			}

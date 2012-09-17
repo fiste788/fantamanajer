@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(INCDBDIR . "articolo.db.inc.php");
 require_once(INCDBDIR . "utente.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
@@ -9,7 +9,7 @@ if($articoli != FALSE)
 	foreach ($articoli as $key => $val)
 		$articoli[$key]->text = Emoticon::replaceEmoticon($val->testo,EMOTICONSURL);
 
-$giornateWithArticoli = Articolo::getGiornateArticoliExist($_SESSION['legaView']);
+$giornateWithArticoli = array_unique(array_merge(array(GIORNATA),Articolo::getGiornateArticoliExist($_SESSION['legaView'])));
 $quickLinks->set('giornata',$giornateWithArticoli,'Giornata ');
 $contentTpl->assign('articoli',$articoli);
 $operationTpl->assign('giornata',$filterGiornata);

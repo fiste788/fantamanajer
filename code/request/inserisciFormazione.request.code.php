@@ -20,7 +20,7 @@ if(!PARTITEINCORSO)
 	if($formazione->validate()) {
 		$titolari = $request->getRawData('post','titolari');
 		$panchinari = $request->getRawData('post','panchinari');
-		$formazione->setIdGiornata(GIORNATA);
+		$formazione->setIdGiornata($filterGiornata);
 		$formazione->setIdUtente($_SESSION['idUtente']);
 			if($request->get('C') != 0)
 				$formazione->setIdCapitano($request->get('C'));
@@ -32,7 +32,7 @@ if(!PARTITEINCORSO)
 			if(Voto::checkVotiExist($filterGiornata)) {
 				Punteggio::unsetPenalità($filterSquadra,$filterGiornata);
 				Punteggio::unsetPunteggio($filterSquadra,$filterGiornata);
-				Punteggio::calcolaPunti($filterGiornata,$filterSquadra,$filterLega);
+				Punteggio::calcolaPunti($formazione);
 				/*$mailContent->assign('giornata',$filterGiornata);
 			$mailContent->assign('squadra',$squadraDett->nome);
 			$mailContent->assign('somma',$punteggiObj->getPunteggi($squadra,$giornata));

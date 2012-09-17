@@ -25,6 +25,13 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+article,
+details,
+figcaption,
+figure,
+hgroup {
+  margin: 0;
+}
 fieldset {
   border: 0 none;
   padding: 10px;
@@ -58,6 +65,7 @@ p {
 }
 em {
   background-color: transparent;
+  color: #777;
 }
 a,
 a:link,
@@ -66,6 +74,12 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+a {
+  -webkit-transition: all 0.2s linear 0s;
+  -moz-transition: all 0.2s linear 0s;
+  -o-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
 .formbox {
   clear: both;
   float: left;
@@ -73,6 +87,17 @@ a:hover {
 }
 .formbox label {
   width: 150px;
+}
+.center {
+  text-align: center;
+}
+ul.inline li {
+  display: inline;
+  margin: 0 15px 0 0;
+}
+ul.no-dotted {
+  list-style-type: none;
+  margin: 0;
 }
 .clear {
   clear: both;
@@ -105,8 +130,26 @@ form {
   -webkit-box-shadow: 0 0 8px #aaaaaa;
   -moz-box-shadow: 0 0 8px #aaaaaa;
   box-shadow: 0 0 8px #aaaaaa;
+}
+.foto.left {
   float: left;
-  margin-right: 10px;
+  margin-right: 20px;
+}
+.logo.left {
+  float: left;
+  margin-right: 20px;
+}
+#grafico {
+  margin: 0 auto;
+  width: 724px;
+  clear: both;
+}
+#grafico #overview {
+  float: left;
+  cursor: pointer;
+}
+#grafico #placeholder {
+  width: 100%;
 }
 table .headerSortUp,
 table .headerSortDown {

@@ -1,4 +1,4 @@
-<li class="right dropdown" id="login">
+<li class="pull-right dropdown" id="login">
 	<?php if(!$_SESSION['logged']): ?>
 		<a class="dropdown-toggle">Login</a>
 		<ul class="dropdown-menu">
