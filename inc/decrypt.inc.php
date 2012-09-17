@@ -84,8 +84,8 @@ class Decrypt
 					$url = $site . $url;
 				$url = htmlspecialchars_decode($url);
 				$decrypt = "33-34-35-2A-6D-33-34-35-33-34-47-46-44-2A-52-33-32-34-72-66-65-73-64-53-44-46-34-33";
-				$decript = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
-				$decript = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
+				$decrypt = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
+				$decrypt = "38-38-36-21-6a-36-35-38-39-33-4a-49-4f-50-2b-31-37-39-68-6a-75-79-72-47-54-59-35-34";
 				
 				
 				$explode_xor = explode("-", $decrypt);
@@ -95,14 +95,11 @@ class Decrypt
 					$i = 0;
 					$stringa = "";
 					$votiContent = file_get_contents($url);
-					file_put_contents(VOTIDIR . 'appo.txt',$votiContent);
 					if(!empty($votiContent)) {
 						while(!feof($p_file)) {
 							if ($i == count($explode_xor))
 								$i = 0;
 							$linea = fgets($p_file, 2);
-							FirePHP::getInstance()->log($linea);
-							die();
 							$xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
 							$i++;
 							$stringa .= chr($xor2);

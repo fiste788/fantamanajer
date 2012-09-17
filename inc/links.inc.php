@@ -1,20 +1,13 @@
 <?php
-class Links
-{
-	public static function getLink($page,$arrayParam = NULL)
-	{
-		if(MODREWRITE)
-		{
+class Links {
+	public static function getLink($page,$arrayParam = NULL) {
+		if(MODREWRITE) {
 			$link = '/' . $page;
 			if($arrayParam != NULL)
 				$link .= '/' . implode('/',$arrayParam);
-			$link .= '.html';
-		}
-		else
-		{
+		} else {
 			$link = 'index.php?p='.$page;
-			if($arrayParam != NULL)
-			{
+			if($arrayParam != NULL) {
 				foreach($arrayParam as $key => $val)
 					$link .= '&amp;' . $key . "=" . $val;
 			}

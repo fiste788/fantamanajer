@@ -4,13 +4,15 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	</a>
+
+    <a class="brand hidden-desktop" href="/">FantaManajer</a>
 	<div class="nav-collapse">
 
 		<ul class="nav">
 			<?php foreach($this->entries->navbar as $key=>$val): ?>
 				<?php if($this->entries->pages[$key]->roles <= $_SESSION['roles']): ?>
-					<li<?php if(!empty($val) || in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) { echo ' class="'; if(!empty($val)) echo 'dropdown'; if(in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) echo ' selected'; echo '"';} ?>>
-						<a class="level<?php if(!empty($val)) echo " dropdown-toggle"; ?>" href="<?php echo (empty($val)) ? Links::getLink($key) : '#'; ?>"><?php echo $this->entries->pages[$key]->title; ?></a>
+					<li<?php if(!empty($val) || in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) { echo ' class="'; if(!empty($val)) echo 'dropdown'; if(in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) echo ' active'; echo '"';} ?>>
+						<a class="level<?php if(!empty($val)) echo " dropdown-toggle"; ?>" href="<?php echo Links::getLink($key) ?>"><?php echo $this->entries->pages[$key]->title; ?></a>
 						<?php if(!empty($val)): ?>
 							<ul class="dropdown-menu subnav">
 							<?php foreach($val as $key2=>$val2): ?>
@@ -25,27 +27,26 @@
 			<?php require_once(TPLDIR . "login.tpl.php") ?>
 
 			<?php if($_SESSION['logged']): ?>
-			<li id="account" class="right dropdown">
-
+			<li id="account" class="pull-right dropdown">
 		            <a id="notifiche" <?php if(!empty($this->notifiche)) echo ' class="dropdown-toggle nopick"'; ?>>
 		                <span<?php if(!empty($this->notifiche)) echo ' class="active"'; ?> title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
 		            </a>
 		            <?php if(!empty($this->notifiche)): ?>
-		                <div class="boxNotifiche dropdown-menu">
+		                <ul class="boxNotifiche dropdown-menu">
 		                <?php foreach($this->notifiche as $key=>$val): ?>
-		                    <a href="<?php echo $val->link; ?>"><?php echo $val->text; ?></a>
+                            <li><a href="<?php echo $val->link; ?>"><?php echo $val->text; ?></a></li>
 		                <?php endforeach; ?>
-		                </div>
+		                </ul>
 		            <?php endif; ?>
 				</li>
 			<?php endif; ?>
 
 			<?php if(count($this->leghe) > 1): ?>
-			<li id="legaSelect" class="right">
+			<li id="legaSelect" class="pull-right">
 				<?php $appo = $_GET; unset($appo['p']); ?>
 				<form action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
 					<fieldset>
-						<select id="legaView" onchange="this.form.submit();" class="medium" name="legaView">
+						<select id="legaView" onchange="this.form.submit();" class="input-medium" name="legaView">
 							<?php foreach($this->leghe as $key=>$value): ?>
 								<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>
 							<?php endforeach; ?>

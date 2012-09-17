@@ -1,6 +1,9 @@
 @import "variables.less";
 @import "mixins.less";
 
+article, details, figcaption, figure, hgroup {
+    margin:0
+}
 fieldset {
   border:0 none;
   padding:10px;
@@ -25,15 +28,18 @@ h4 a {
   font-size:16px;
 }
 p {
-  font-size:12px;
+  font-size:12px
 }
 em {
   background-color:transparent;
+  color:#777;
 }
 a, a:link, a:visited, a:hover {
-  
   text-decoration:none;
   cursor:pointer;
+}
+a {
+  .transition(all 0.2s linear 0s);
 }
 .formbox {
   clear:both;
@@ -43,8 +49,19 @@ a, a:link, a:visited, a:hover {
     width:150px;
   }
 }
+.center {
+  text-align:center;
+}
+ul.inline li {
+  display:inline;
+  margin:0 15px 0 0;
+}
+ul.no-dotted {
+  list-style-type:none;
+  margin:0;
+}
 .clear {
-	clear:both;
+  clear:both;
 }
 label {
   font-weight:bold;
@@ -68,8 +85,26 @@ form {
 .foto {
   .rotate(-2deg);
   .box-shadow(0 0 8px #aaaaaa);
+}
+.foto.left {
   float:left;
-  margin-right:10px;
+  margin-right:20px;
+}
+.logo.left {
+    float:left;
+    margin-right:20px;
+}
+#grafico {
+    margin: 0 auto;
+    width:724px;
+    clear:both;
+    #overview {
+        float:left;
+        cursor:pointer;
+    }
+    #placeholder {
+        width:100%;
+    }
 }
 table {
   .headerSortUp, .headerSortDown {
@@ -101,7 +136,7 @@ table {
     border-right:4px solid transparent;
     border-top:4px solid #000000;
     visibility:visible;
-	.box-shadow(none);
+    .box-shadow(none);
     .opacity(60);
   }
 }

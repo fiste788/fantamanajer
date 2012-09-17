@@ -1,9 +1,14 @@
 <?php
-require_once(INCDIR . 'min.inc.php');
+require_once(INCDIR . 'jsmin.inc.php');
+require_once(INCDIR . 'cssmin.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
 require_once(INCDIR . 'lessc.inc.php');
 
-$jsContent = "";
+$jsContent = "var LOCAL = " . ((LOCAL) ? 'true' : 'false') . ";";
+$jsContent .= "var FULLURL = '" . FULLURL . "';";
+$jsContent .= "var JSURL = '" . JSURL . "';";
+$jsContent .= "var AJAXURL = '" . AJAXURL . "';";
+$jsContent .= "var IMGSURL = '" . IMGSURL . "';";
 foreach($generalJs as $val)
 	$jsContent .= file_get_contents(JSDIR . $val);
 
@@ -11,26 +16,15 @@ if(!LOCAL)
 	$jsContent .= file_get_contents(JSDIR . 'googleAnalytics/googleAnalytics.js');
 
 file_put_contents(JSDIR . 'combined/combined.js' , JSMin::minify($jsContent));
-
-foreach($pages as $key=>$val) {
+foreach($pages->pages as $key=>$page) {
 	$jsContent = "";
-	if(isset($val['js']) && !empty($val['js'])) {
-		foreach($val['js'] as $directory=>$file) {
+	if(isset($page->js) && !empty($page->js)) {
+		foreach($page->js as $directory=>$file) {
 			if(is_array($file)) {
-				foreach($file as $val) {
-					$appo = explode('|',$val);
-					if(isset($appo[1]))
-						$jsContent .= file_get_contents(JSDIR . $directory . '/' . $appo[1] . '.js');
-					else
-						$jsContent .= file_get_contents(JSDIR . $directory . '/' . $val . '.js');
-				}
-			} else {
-				$appo = explode('|',$file);
-				if(isset($appo[1]))
-					$jsContent .= file_get_contents(JSDIR . $directory . '/' . $appo[1] . '.js');
-				else
-					$jsContent .= file_get_contents(JSDIR . $directory . '/' . $file . '.js');
-			}
+				foreach($file as $val)
+					$jsContent .= file_get_contents(JSDIR . $directory . '/' . $val . '.js');
+			} else
+				$jsContent .= file_get_contents(JSDIR . $directory . '/' . $file . '.js');
 		}
 	}
 	if(file_exists(JSDIR . 'pages/' . $key . '.js'))

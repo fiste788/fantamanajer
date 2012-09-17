@@ -5,7 +5,7 @@
 		<label for="giocatore">Seleziona il giocatore:</label>
 		<select name="giocatore" onchange="this.form.submit();">
 			<?php foreach ($this->elencoGiocatori as $key => $val): ?>
-				<option<?php echo ($key == $this->request->get('giocatore')) ? ' selected="selected"' : ''; ?> value="<?php echo $key;?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
+				<option<?php echo ($key == $this->request->get('id')) ? ' selected="selected"' : ''; ?> value="<?php echo $key;?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
 			<?php endforeach; ?>
 		</select>
 	</fieldset>

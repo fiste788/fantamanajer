@@ -41,6 +41,3 @@
 		<input type="submit" class="btn btn-primary" value="OK" />
 	</fieldset>		
 </form>
-<script type="text/javascript">
-	var url = '<?php echo AJAXURL; ?>';
-</script>

@@ -1,26 +1,54 @@
 <?php
-require_once(TABLEDIR . 'dbTable.inc.php');
 
-class SelezioneTable extends DbTable {
+require_once(MODELDIR . 'Selezione.model.db.inc.php');
+
+class SelezioneTable extends SelezioneModel {
+
     const TABLE_NAME = 'selezione';
-    var $id;
-    var $idLega;
-	var $idUtente;
-	var $idGiocatoreOld;
-	var $idGiocatoreNew;
-	var $numSelezioni;
-	
-    function __construct() {
-        $this->id = $this->getId();
-        $this->idLega = $this->getIdLega();
-        $this->idUtente = $this->getIdUtente();
-        $this->idGiocatoreOld = $this->getIdGiocatoreOld();
-        $this->idGiocatoreNew = $this->getIdGiocatoreNew();
-        $this->numSelezioni = $this->getNumSelezioni();
-    }
 
-    public function __toString() {
-        return $this->id;
+    /**
+     *
+     * @var int
+     */
+    var $id;
+
+    /**
+     *
+     * @var int
+     */
+    var $idLega;
+
+    /**
+     *
+     * @var int
+     */
+    var $idUtente;
+
+    /**
+     *
+     * @var int
+     */
+    var $idGiocatoreOld;
+
+    /**
+     *
+     * @var int
+     */
+    var $idGiocatoreNew;
+
+    /**
+     *
+     * @var int
+     */
+    var $numSelezioni;
+
+    public function __construct() {
+        $this->id = is_null($this->id) ? NULL : $this->getId();
+        $this->idLega = is_null($this->idLega) ? NULL : $this->getIdLega();
+        $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
+        $this->idGiocatoreOld = is_null($this->idGiocatoreOld) ? NULL : $this->getIdGiocatoreOld();
+        $this->idGiocatoreNew = is_null($this->idGiocatoreNew) ? NULL : $this->getIdGiocatoreNew();
+        $this->numSelezioni = is_null($this->numSelezioni) ? NULL : $this->getNumSelezioni();
     }
 
     /**
@@ -28,9 +56,8 @@ class SelezioneTable extends DbTable {
      * @param Int $id
      * @return void
      */
-    public function setId( $id )
-    {
-    	$this->id = (int) $id;
+    public function setId($id) {
+        $this->id = (int) $id;
     }
 
     /**
@@ -38,9 +65,8 @@ class SelezioneTable extends DbTable {
      * @param Int $idLega
      * @return void
      */
-    public function setIdLega( $idLega )
-    {
-    	$this->idLega = (int) $idLega;
+    public function setIdLega($idLega) {
+        $this->idLega = (int) $idLega;
     }
 
     /**
@@ -48,9 +74,8 @@ class SelezioneTable extends DbTable {
      * @param Int $idUtente
      * @return void
      */
-    public function setIdUtente( $idUtente )
-    {
-    	$this->idUtente = (int) $idUtente;
+    public function setIdUtente($idUtente) {
+        $this->idUtente = (int) $idUtente;
     }
 
     /**
@@ -58,9 +83,8 @@ class SelezioneTable extends DbTable {
      * @param Int $idGiocatoreOld
      * @return void
      */
-    public function setIdGiocatoreOld( $idGiocatoreOld )
-    {
-    	$this->idGiocatoreOld = (int) $idGiocatoreOld;
+    public function setIdGiocatoreOld($idGiocatoreOld) {
+        $this->idGiocatoreOld = (int) $idGiocatoreOld;
     }
 
     /**
@@ -68,9 +92,8 @@ class SelezioneTable extends DbTable {
      * @param Int $idGiocatoreNew
      * @return void
      */
-    public function setIdGiocatoreNew( $idGiocatoreNew )
-    {
-    	$this->idGiocatoreNew = (int) $idGiocatoreNew;
+    public function setIdGiocatoreNew($idGiocatoreNew) {
+        $this->idGiocatoreNew = (int) $idGiocatoreNew;
     }
 
     /**
@@ -78,154 +101,150 @@ class SelezioneTable extends DbTable {
      * @param Int $numSelezioni
      * @return void
      */
-    public function setNumSelezioni( $numSelezioni )
-    {
-    	$this->numSelezioni = (int) $numSelezioni;
+    public function setNumSelezioni($numSelezioni) {
+        $this->numSelezioni = (int) $numSelezioni;
     }
 
     /**
-	 * Setter: lega
-	 * @param Lega $lega
-	 * @return void
-	 */
-	public function setLega( $lega )
-	{
-	    $this->lega = $lega;
-		$this->idLega = $lega->getIdLega();
-	}
+     * Setter: lega
+     * @param Lega $lega
+     * @return void
+     */
+    public function setLega($lega) {
+        $this->lega = $lega;
+        $this->idLega = $lega->getIdLega();
+    }
 
-	/**
-	 * Setter: giocatore
-	 * @param Giocatore $giocatore
-	 * @return void
-	 */
-	public function setGiocatoreOld( $giocatoreOld )
-	{
-	    $this->giocatoreOld = $giocatoreOld;
-		$this->setIdGiocatoreOld($giocatoreOld->getId());
-	}
+    /**
+     * Setter: giocatore
+     * @param Giocatore $giocatore
+     * @return void
+     */
+    public function setGiocatoreOld($giocatoreOld) {
+        $this->giocatoreOld = $giocatoreOld;
+        $this->setIdGiocatoreOld($giocatoreOld->getId());
+    }
 
-	/**
-	 * Setter: giocatore
-	 * @param Giocatore $giocatore
-	 * @return void
-	 */
-	public function setGiocatoreNew( $giocatoreNew )
-	{
-	    $this->giocatoreNew = $giocatoreNew;
-		$this->setIdGiocatoreNew($giocatoreNew->getId());
-	}
+    /**
+     * Setter: giocatore
+     * @param Giocatore $giocatore
+     * @return void
+     */
+    public function setGiocatoreNew($giocatoreNew) {
+        $this->giocatoreNew = $giocatoreNew;
+        $this->setIdGiocatoreNew($giocatoreNew->getId());
+    }
 
-	/**
-	 * Setter: utente
-	 * @param Utente $utente
-	 * @return void
-	 */
-	public function setUtente( $utente )
-	{
-	    $this->utente = $utente;
-		$this->setIdUtente($utente->getId());
-	}
+    /**
+     * Setter: utente
+     * @param Utente $utente
+     * @return void
+     */
+    public function setUtente($utente) {
+        $this->utente = $utente;
+        $this->setIdUtente($utente->getId());
+    }
 
     /**
      * Getter: id
      * @return Int
      */
-    public function getId()
-    {
-     	return (int) $this->id;
+    public function getId() {
+        return (int) $this->id;
     }
 
     /**
      * Getter: idLega
      * @return Int
      */
-    public function getIdLega()
-    {
-     	return (int) $this->idLega;
+    public function getIdLega() {
+        return (int) $this->idLega;
     }
 
     /**
      * Getter: idUtente
      * @return Int
      */
-    public function getIdUtente()
-    {
-     	return (int) $this->idUtente;
+    public function getIdUtente() {
+        return (int) $this->idUtente;
     }
 
     /**
      * Getter: idGiocatoreOld
      * @return Int
      */
-    public function getIdGiocatoreOld()
-    {
-     	return (int) $this->idGiocatoreOld;
+    public function getIdGiocatoreOld() {
+        return (int) $this->idGiocatoreOld;
     }
 
     /**
      * Getter: idGiocatoreNew
      * @return Int
      */
-    public function getIdGiocatoreNew()
-    {
-     	return (int) $this->idGiocatoreNew;
+    public function getIdGiocatoreNew() {
+        return (int) $this->idGiocatoreNew;
     }
 
     /**
      * Getter: numSelezioni
      * @return Int
      */
-    public function getNumSelezioni()
-    {
-     	return (int) $this->numSelezioni;
+    public function getNumSelezioni() {
+        return (int) $this->numSelezioni;
     }
 
     /**
-	 * Getter: Lega
-	 * @return Lega
-	 */
-	public function getLega()
-	{
-	    require_once(INCDIR . 'lega.db.inc.php');
-	    if(empty($this->lega))
-			$this->lega = Lega::getById($this->getIdLega());
-		return $this->lega;
-	}
+     * Getter: Lega
+     * @return Lega
+     */
+    public function getLega() {
+        require_once(INCDIR . 'lega.db.inc.php');
+        if (empty($this->lega))
+            $this->lega = Lega::getById($this->getIdLega());
+        return $this->lega;
+    }
 
     /**
-	 * Getter: utente
-	 * @return Utente
-	 */
+     * Getter: utente
+     * @return Utente
+     */
     public function getUtente() {
-    	require_once(INCDBDIR . 'utente.db.inc.php');
-        if(empty($this->utente))
-			$this->utente = Utente::getById($this->getIdUtente());
-		return $this->utente;
-	}
+        require_once(INCDBDIR . 'utente.db.inc.php');
+        if (empty($this->utente))
+            $this->utente = Utente::getById($this->getIdUtente());
+        return $this->utente;
+    }
 
     /**
-	 * Getter: id
-	 * @return Giocatore
-	 */
-	public function getGiocatoreNew()
-	{
-	    require_once(INCDBDIR . 'giocatore.db.inc.php');
-	    if(empty($this->giocatoreNew))
-			$this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
-		return $this->giocatoreNew;
-	}
+     * Getter: id
+     * @return Giocatore
+     */
+    public function getGiocatoreNew() {
+        require_once(INCDBDIR . 'giocatore.db.inc.php');
+        if (empty($this->giocatoreNew))
+            $this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
+        return $this->giocatoreNew;
+    }
 
     /**
-	 * Getter: id
-	 * @return Giocatore
-	 */
-	public function getGiocatoreOld()
-	{
-	    require_once(INCDBDIR . 'giocatore.db.inc.php');
-	    if(empty($this->giocatoreOld))
-			$this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
-		return $this->giocatoreOld;
-	}
+     * Getter: id
+     * @return Giocatore
+     */
+    public function getGiocatoreOld() {
+        require_once(INCDBDIR . 'giocatore.db.inc.php');
+        if (empty($this->giocatoreOld))
+            $this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
+        return $this->giocatoreOld;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->id;
+    }
+
 }
+
 ?>

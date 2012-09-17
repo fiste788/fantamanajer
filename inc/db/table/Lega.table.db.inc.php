@@ -1,241 +1,262 @@
 <?php
-require_once(TABLEDIR . 'dbTable.inc.php');
 
-class LegaTable extends DbTable
-{
+require_once(MODELDIR . 'Lega.model.db.inc.php');
+
+class LegaTable extends LegaModel {
+
     const TABLE_NAME = "lega";
-    
-	var $id;
-	var $nome;
-	var $capitano;
-	var $numTrasferimenti;
-	var $numSelezioni;
-	var $minFormazione;
-	var $premi;
-	var $punteggioFormazioneDimenticata;
-	var $jolly;
+
+    /**
+     *
+     * @var int
+     */
+    public $id;
+
+    /**
+     *
+     * @var string
+     */
+    public $nome;
+
+    /**
+     *
+     * @var boolean
+     */
+    public $capitano;
+
+    /**
+     *
+     * @var int
+     */
+    public $numTrasferimenti;
+
+    /**
+     *
+     * @var int
+     */
+    public $numSelezioni;
+
+    /**
+     *
+     * @var int
+     */
+    public $minFormazione;
+
+    /**
+     *
+     * @var string
+     */
+    public $premi;
+
+    /**
+     *
+     * @var int
+     */
+    public $punteggioFormazioneDimenticata;
+
+    /**
+     *
+     * @var boolean
+     */
+    public $capitanoFormazioneDimenticata;
+
+    /**
+     *
+     * @var boolean
+     */
+    public $jolly;
 
     public function __construct() {
-		$this->id = $this->getId();
-		$this->nome = $this->getNome();
-		$this->capitano = $this->getCapitano();
-		$this->numTrasferimenti = $this->getNumTrasferimenti();
-		$this->numSelezioni = $this->getNumSelezioni();
-		$this->minFormazione = $this->getMinFormazione();
-		$this->premi = $this->getPremi();
-		$this->punteggioFormazioneDimenticata = $this->getPunteggioFormazioneDimenticata();
-		$this->jolly = $this->getJolly();
-	}
-	
+        $this->id = is_null($this->id) ? NULL : $this->getId();
+        $this->nome = is_null($this->nome) ? NULL : $this->getNome();
+        $this->capitano = is_null($this->capitano) ? NULL : $this->isCapitano();
+        $this->numTrasferimenti = is_null($this->numTrasferimenti) ? NULL : $this->getNumTrasferimenti();
+        $this->numSelezioni = is_null($this->numSelezioni) ? NULL : $this->getNumSelezioni();
+        $this->minFormazione = is_null($this->minFormazione) ? NULL : $this->getMinFormazione();
+        $this->premi = is_null($this->premi) ? NULL : $this->getPremi();
+        $this->punteggioFormazioneDimenticata = is_null($this->punteggioFormazioneDimenticata) ? NULL : $this->getPunteggioFormazioneDimenticata();
+        $this->capitanoFormazioneDimenticata = is_null($this->capitanoFormazioneDimenticata) ? NULL : $this->isCapitanoFormazioneDimenticata();
+        $this->jolly = is_null($this->jolly) ? NULL : $this->isJolly();
+    }
 
-	/**
-	 * Setter: id
-	 * @param Int $id
-	 * @return void
-	 */
-	public function setId( $id )
-	{
-		$this->id = (int) $id;
-	}
+    /**
+     * Setter: id
+     * @param int $id
+     * @return void
+     */
+    public function setId($id) {
+        $this->id = (int) $id;
+    }
 
-	/**
-	 * Setter: nome
-	 * @param String $nome
-	 * @return void
-	 */
-	public function setNome( $nome )
-	{
-		$this->nome = (string) $nome;
-	}
+    /**
+     * Setter: nome
+     * @param String $nome
+     * @return void
+     */
+    public function setNome($nome) {
+        $this->nome = (string) $nome;
+    }
 
-	/**
-	 * Setter: capitano
-	 * @param Boolean $capitano
-	 * @return void
-	 */
-	public function setCapitano( $capitano )
-	{
-		$this->capitano = (boolean) $capitano;
-	}
+    /**
+     * Setter: capitano
+     * @param Boolean $capitano
+     * @return void
+     */
+    public function setCapitano($capitano) {
+        $this->capitano = (boolean) $capitano;
+    }
 
-	/**
-	 * Setter: numTrasferimenti
-	 * @param Int $numTrasferimenti
-	 * @return void
-	 */
-	public function setNumTrasferimenti( $numTrasferimenti )
-	{
-		$this->numTrasferimenti = (int) $numTrasferimenti;
-	}
+    /**
+     * Setter: numTrasferimenti
+     * @param Int $numTrasferimenti
+     * @return void
+     */
+    public function setNumTrasferimenti($numTrasferimenti) {
+        $this->numTrasferimenti = (int) $numTrasferimenti;
+    }
 
-	/**
-	 * Setter: numSelezioni
-	 * @param Int $numSelezioni
-	 * @return void
-	 */
-	public function setNumSelezioni( $numSelezioni )
-	{
-		$this->numSelezioni = (int) $numSelezioni;
-	}
+    /**
+     * Setter: numSelezioni
+     * @param Int $numSelezioni
+     * @return void
+     */
+    public function setNumSelezioni($numSelezioni) {
+        $this->numSelezioni = (int) $numSelezioni;
+    }
 
-	/**
-	 * Setter: minFormazione
-	 * @param Int $minFormazione
-	 * @return void
-	 */
-	public function setMinFormazione( $minFormazione )
-	{
-		$this->minFormazione = (int) $minFormazione;
-	}
+    /**
+     * Setter: minFormazione
+     * @param Int $minFormazione
+     * @return void
+     */
+    public function setMinFormazione($minFormazione) {
+        $this->minFormazione = (int) $minFormazione;
+    }
 
-	/**
-	 * Setter: premi
-	 * @param String $premi
-	 * @return void
-	 */
-	public function setPremi( $premi )
-	{
-		$this->premi = (string) $premi;
-	}
+    /**
+     * Setter: premi
+     * @param String $premi
+     * @return void
+     */
+    public function setPremi($premi) {
+        $this->premi = (string) $premi;
+    }
 
-	/**
-	 * Setter: punteggioFormazioneDimenticata
-	 * @param Int $punteggioFormazioneDimenticata
-	 * @return void
-	 */
-	public function setPunteggioFormazioneDimenticata( $punteggioFormazioneDimenticata )
-	{
-		$this->punteggioFormazioneDimenticata = (int) $punteggioFormazioneDimenticata;
-	}
+    /**
+     * Setter: punteggioFormazioneDimenticata
+     * @param Int $punteggioFormazioneDimenticata
+     * @return void
+     */
+    public function setPunteggioFormazioneDimenticata($punteggioFormazioneDimenticata) {
+        $this->punteggioFormazioneDimenticata = (int) $punteggioFormazioneDimenticata;
+    }
 
-	/**
-	 * Setter: jolly
-	 * @param Boolean $jolly
-	 * @return void
-	 */
-	public function setJolly( $jolly )
-	{
-		$this->jolly = (boolean) $jolly;
-	}
+    /**
+     * Setter: capitanoFormazioneDimenticata
+     * @param Boolean $capitanoFormazioneDimenticata
+     * @return void
+     */
+    public function setCapitanoFormazioneDimenticata($capitanoFormazioneDimenticata) {
+        $this->capitanoFormazioneDimenticata = (boolean) $capitanoFormazioneDimenticata;
+    }
 
-	/**
-	 * Getter: id
-	 * @return Int
-	 */
-	public function getId()
-	{
-	 	return (int) $this->id;
-	}
+    /**
+     * Setter: jolly
+     * @param Boolean $jolly
+     * @return void
+     */
+    public function setJolly($jolly) {
+        $this->jolly = (boolean) $jolly;
+    }
 
-	/**
-	 * Getter: nome
-	 * @return String
-	 */
-	public function getNome()
-	{
-	 	return $this->nome;
-	}
+    /**
+     * Getter: id
+     * @return Int
+     */
+    public function getId() {
+        return (int) $this->id;
+    }
 
-	/**
-	 * Getter: capitano
-	 * @return Boolean
-	 */
-	public function getCapitano()
-	{
-	 	return (boolean) $this->capitano;
-	}
+    /**
+     * Getter: nome
+     * @return String
+     */
+    public function getNome() {
+        return $this->nome;
+    }
 
-	/**
-	 * Getter: numTrasferimenti
-	 * @return Int
-	 */
-	public function getNumTrasferimenti()
-	{
-	 	return (int) $this->numTrasferimenti;
-	}
+    /**
+     * Getter: capitano
+     * @return Boolean
+     */
+    public function isCapitano() {
+        return (boolean) $this->capitano;
+    }
 
-	/**
-	 * Getter: numSelezioni
-	 * @return Int
-	 */
-	public function getNumSelezioni()
-	{
-	 	return (int) $this->numSelezioni;
-	}
+    /**
+     * Getter: numTrasferimenti
+     * @return Int
+     */
+    public function getNumTrasferimenti() {
+        return (int) $this->numTrasferimenti;
+    }
 
-	/**
-	 * Getter: minFormazione
-	 * @return Int
-	 */
-	public function getMinFormazione()
-	{
-	 	return (int) $this->minFormazione;
-	}
+    /**
+     * Getter: numSelezioni
+     * @return Int
+     */
+    public function getNumSelezioni() {
+        return (int) $this->numSelezioni;
+    }
 
-	/**
-	 * Getter: premi
-	 * @return String
-	 */
-	public function getPremi()
-	{
-	 	return (string) $this->premi;
-	}
+    /**
+     * Getter: minFormazione
+     * @return Int
+     */
+    public function getMinFormazione() {
+        return (int) $this->minFormazione;
+    }
 
-	/**
-	 * Getter: punteggioFormazioneDimenticata
-	 * @return Int
-	 */
-	public function getPunteggioFormazioneDimenticata()
-	{
-	 	return (int) $this->punteggioFormazioneDimenticata;
-	}
+    /**
+     * Getter: premi
+     * @return String
+     */
+    public function getPremi() {
+        return (string) $this->premi;
+    }
 
-	/**
-	 * Getter: jolly
-	 * @return Boolean
-	 */
-	public function getJolly()
-	{
-	 	return (boolean) $this->jolly;
-	}
-	
-	/**
-	 * Getter: id
-	 * @return Utente[]
-	 */
-    public function getUtenti() {
-    	require_once(INCDBDIR . 'utente.db.inc.php');
-        if(empty($this->utenti))
-			$this->utenti = Utente::getByField('idLega',$this->getId());
-		return $this->utenti;
-	}
-	
-	/**
-	 * Getter: id
-	 * @return Articolo[]
-	 */
-	public function getArticoli()
-	{
-		require_once(INCDIR . 'articolo.db.inc.php');
-		if(empty($this->articoli))
-			$this->articoli = Articolo::getByField('idLega',$this->getId());
-		return $this->articoli;
-	}
+    /**
+     * Getter: punteggioFormazioneDimenticata
+     * @return Int
+     */
+    public function getPunteggioFormazioneDimenticata() {
+        return (int) $this->punteggioFormazioneDimenticata;
+    }
 
-    	/**
-	 * Getter: id
-	 * @return Evento[]
-	 */
-	public function getEventi()
-	{
-		require_once(INCDIR . 'eventi.db.inc.php');
-		if(empty($this->eventi))
-			$this->eventi = Evento::getByField('idLega',$this->getId());
-		return $this->eventi;
-	}
-	
-	public function __toString() {
-		return $this->getNome();
-	}
+    /**
+     * Getter: capitanoFormazioneDimenticata
+     * @return boolean
+     */
+    public function isCapitanoFormazioneDimenticata() {
+        return (boolean) $this->capitanoFormazioneDimenticata;
+    }
+
+    /**
+     * Getter: jolly
+     * @return Boolean
+     */
+    public function isJolly() {
+        return (boolean) $this->jolly;
+    }
+
+    /**
+     * toString
+     * @return string
+     */
+    public function __toString() {
+        return $this->getNome();
+    }
+
 }
+
 ?>

@@ -14,10 +14,10 @@
 		<?php foreach($this->trasferimenti as $key => $val): ?>
 		<tr>
 			<td><?php echo $i + 1; ?></td>
-			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','giocatore'=>$val->idGiocatoreNew)); ?>"><?php echo $val->getGiocatoreNew()->cognome . " " . $val->getGiocatoreNew()->nome; ?></a></td>
-			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','giocatore'=>$val->idGiocatoreOld)); ?>"><?php echo $val->getGiocatoreOld()->cognome . " " . $val->getGiocatoreOld()->nome; ?></a></td>
+			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocatoreNew)); ?>"><?php echo $val->getGiocatoreNew()->cognome . " " . $val->getGiocatoreNew()->nome; ?></a></td>
+			<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGiocatoreOld)); ?>"><?php echo $val->getGiocatoreOld()->cognome . " " . $val->getGiocatoreOld()->nome; ?></a></td>
 			<td><?php echo $val->idGiornata; ?></td>
-			<td><?php echo ($val->obbligato) ? "X" : "&nbsp;" ?></td>
+			<td><?php if($val->isObbligato()): ?><i class="icon-ok"></i><?php endif; ?></td>
 		</tr>
 		<?php $i++; ?>
 		<?php endforeach; ?>

@@ -1,8 +1,13 @@
-.box {
-	padding:10px 20px;
-	width:25%;
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
-	text-align:center;
-	float:left;
+#squadre {
+    text-align:center;
+}
+@media (max-width: 768px) {
+    #squadre .span3 img {
+        float:left;
+    }
+}
+@media (max-width: 480px) {
+    #squadre .span3 img {
+        float:none;
+    }
 }

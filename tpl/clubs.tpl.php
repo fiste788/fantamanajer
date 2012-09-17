@@ -1,5 +1,5 @@
-<?php foreach($this->elencoClub as $key => $val): ?>
-	<a class="column" style="width:140px;text-align:center;margin:25px;" href="<?php echo Links::getLink('dettaglioClub',array('club'=>$val->id)); ?>" class="column" title="Rosa <?php echo $val->partitivo." ".$val->nome; ?>">
-		<img alt="<?php echo $val; ?>" src="<?php echo CLUBSURL . $val->id . '.png'; ?>" />
-	</a>
+<?php foreach ($this->elencoClub as $club): ?>
+    <a class="club" href="<?php echo Links::getLink('dettaglioClub', array('club' => $club->id)); ?>" title="Rosa <?php echo $club->partitivo . " " . $club->nome ?>">
+        <img alt="<?php echo $club ?>" src="<?php echo CLUBSURL . $club->id . '.png' ?>" />
+    </a>
 <?php endforeach; ?>

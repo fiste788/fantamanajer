@@ -6,9 +6,8 @@
 				<thead>
 					<tr>
 						<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><th>Acq.</th><?php endif; ?>
-						<th>Cognome</th>
 						<th>Nome</th>
-						<th>Club</th>
+						<th class="hidden-phone">Club</th>
 						<th>M. p.ti</th>
 						<th>M. voti</th>
 						<th>Partite</th>
@@ -18,9 +17,8 @@
 					<?php foreach($this->freeplayer as $key => $val): ?>
 					<tr>
 						<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val->id; ?>" /></td><?php endif; ?>
-						<td><?php echo $val->cognome; ?></td>
-						<td><?php echo (!empty($val->nome)) ? $val->nome : "&nbsp;"; ?></td>
-						<td><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
+						<td><?php echo $val; ?></td>
+						<td class="hidden-phone"><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
 						<td<?php if($val->avgPunti >= $this->defaultSufficenza && GIORNATA != 1) echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($val->avgPunti)) ? $val->avgPunti : "&nbsp;"; ?></td>
 						<td<?php if($val->avgVoti >= $this->defaultSufficenza && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($val->avgVoti)) ? $val->avgVoti : "&nbsp;"; ?></td>
 						<td<?php if($val->presenzeVoto >= $this->defaultPartite && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo $val->presenzeVoto; ?></td>

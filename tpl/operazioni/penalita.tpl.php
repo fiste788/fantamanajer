@@ -27,6 +27,3 @@
 		<input type="submit" class="submit" value="OK" />
 	</fieldset>
 </form>
-<script type="text/javascript">
-	var url = '<?php echo AJAXURL; ?>';
-</script>

@@ -15,11 +15,13 @@
 		<h3><?php echo $this->giocatore->cognome . ' ' . $this->giocatore->nome; ?></h3>
 	<?php endif; ?>
 	<div id="datiGioc">
-		<img class="foto" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
+        <figure>
+            <img class="foto left" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
+        </figure>
 		<div class="column">
 			<p><?php echo $this->ruoli[$this->giocatore->ruolo]; ?></p>
 			<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
-			<p>Presenze: <?php echo $this->giocatore->presenze . " (" . $this->giocatore->presenzeVoto . ")"; ?></p>
+			<p>Presenze: <?php echo $this->giocatore->presente . " (" . $this->giocatore->presenzeVoto . ")"; ?></p>
 			<p>Gol: <?php if($this->giocatore->ruolo != 'P') echo $this->giocatore->gol; elseif($this->giocatore->golSubiti == 0) echo $this->giocatore->golSubiti; else "-" . $this->giocatore->golSubiti; ?></p>
 			<p>Assist: <?php echo $this->giocatore->assist; ?></p>
 			<p>Media voti: <?php echo (!empty($this->giocatore->avgVoti)) ? $this->giocatore->avgVoti : ''; ?></p>
@@ -100,12 +102,12 @@
 		</tr>
 	</table>
 </div>
-<div id="grafico">
-	<div id="placeholder" class="column last" style="width:950px;height:300px;clear:both;overflow:hidden;">&nbsp;</div>
-	<div id="overview" class="column " style="width:200px;height:100px;clear:both;cursor:pointer;">&nbsp;</div>
-	<p class="column" style="width:720px;">Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
-	<div id="hidden" class="hidden">&nbsp;</div>
-	<a id="clearSelection" class="column hidden">(Cancella selezione)</a>
+<div id="grafico" class="hidden-phone">
+	<div id="placeholder" style="height:300px;"></div>
+    <div id="overview" style="width:200px;height:100px;"></div>
+    <p>Seleziona sulla miniatura una parte di grafico per ingrandirla. Per questa funzionalità si consiglia di usare browser come Safari, Firefox o Opera invece di altri meno performanti come Internet Explorer</p><p class="column" id="selection">&nbsp;</p>
+    <div id="hidden" class="hidden"></div>
+    <a id="clearSelection" class="hidden">(Cancella selezione)</a>
 </div>
 <script id="source" type="text/javascript">
 // <![CDATA[
