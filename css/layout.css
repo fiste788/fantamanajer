@@ -27,15 +27,17 @@
 }
 @font-face {
   font-family: "Open Sans";
-  src: url('fonts/opensans-bold-webfont.eot');
-  src: url('fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-bold-webfont.woff') format('woff'), url('fonts/opensans-bold-webfont.ttf') format('truetype');
-  font-style: "bold";
+  src: url('fonts/opensans-regular-webfont.eot');
+  src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-regular-webfont.ttf') format('truetype'), url('fonts/opensans-regular-webfont.svg#OpenSansRegular') format('svg');
+  font-style: normal;
+  font-weight: normal;
 }
 @font-face {
   font-family: "Open Sans";
-  src: url('fonts/opensans-regular-webfont.eot');
-  src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-regular-webfont.ttf') format('truetype');
-  font-style: "normal";
+  src: url('fonts/opensans-semibold-webfont.eot');
+  src: url('fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-semibold-webfont.woff') format('woff'), url('fonts/opensans-semibold-webfont.ttf') format('truetype'), url('fonts/opensans-semibold-webfont.svg#OpenSansSemibold') format('svg');
+  font-weight: bold;
+  font-style: normal;
 }
 body {
   font-family: Open Sans, sans-serif;
@@ -146,13 +148,10 @@ section#operation .container {
 }
 section#operation .next,
 section#operation .back {
-  display: table-row;
+  display: table-cell;
   width: 5%;
-  height: 38px;
-  padding: 11px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  height: 30px;
+  vertical-align: middle;
 }
 section#operation .operation-content {
   padding: 2px 0;
@@ -183,6 +182,7 @@ section#operation select {
 section#operation .center {
   display: table-cell;
   width: 90%;
+  vertical-align: middle;
 }
 section#operation .top {
   background: url(../imgs/bg.jpg) no-repeat center -140px;
@@ -296,12 +296,11 @@ nav#topbar a {
   border-top: 0;
   box-shadow: 0 0 4px #000000;
   position: absolute;
-  top: 40px;
   text-align: center;
-  right: 37%;
-  left: 37%;
+  right: 25%;
+  left: 25%;
 }
-@media (min-width: 768px) and (max-width: 980px) {
+@media (min-width: 768px) and (max-width: 979px) {
   body {
     padding-top: 0;
   }
@@ -315,8 +314,14 @@ nav#topbar a {
   nav#topbar li.pull-right {
     float: none;
   }
+  .boxNotifiche {
+    width: auto;
+  }
+  #messaggio {
+    margin-top: -20px;
+  }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   body {
     padding-top: 0;
     overflow-x: hidden;
@@ -354,6 +359,9 @@ nav#topbar a {
   footer p {
     margin: 0;
   }
+  nav#topbar li.pull-right {
+    float: none;
+  }
 }
 @media (max-width: 480px) {
   body {
@@ -369,5 +377,8 @@ nav#topbar a {
   .table th,
   .table td {
     padding: 4px 5px;
+  }
+  #content {
+    min-height: auto !important;
   }
 }

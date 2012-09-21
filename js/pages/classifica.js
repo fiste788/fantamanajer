@@ -219,7 +219,7 @@
 })(jQuery);
 var activeClassifica = false;
 function enableClassifica() {
-    if(!$.isViewport('phone') && !activeClassifica) {
+    if(($.isViewport('tablet') || $.isViewport('desktop')) && !activeClassifica) {
         activeClassifica = true;
         Modernizr.load({
             test: Modernizr.canvas,

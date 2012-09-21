@@ -6,7 +6,7 @@
 		</a>
 		<div>
 			<h3>
-				<a style="color:#00a2ff;text-decoration:none;" href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiornata',array('giornata'=>$this->giornata,'squadra'=>$this->utente->idUtente)); ?>">Punteggio: <?php echo $this->somma; ?></a>
+				<a style="color:#00a2ff;text-decoration:none;" href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiornata',array('giornata'=>$this->giornata,'squadra'=>$this->utente->id)); ?>">Punteggio: <?php echo $this->somma; ?></a>
 			</h3>
 			<?php if($this->formazione != FALSE): ?>
 				<?php if(isset($this->penalità)): ?>
@@ -31,7 +31,7 @@
 						<?php $panch = $this->formazione;$tito = array_splice($panch,0,11);?>
 	            	<?php foreach($tito as $key => $val): ?>
 	            		<tr>
-						<?php if($val->considerato == 0): ?>	
+						<?php if($val->considerato == 0): ?>
 							<td>
 								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
 									<img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/>
@@ -49,7 +49,7 @@
 									<img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
 								</a>
 							</td>
-						<?php endif; ?>		
+						<?php endif; ?>
 							<td><?php echo $val->cognome; ?></td>
 							<td><?php echo ($val->considerato == 2) ? $val->nome . '<span id="cap">(C)</span>' : $val->nome; ?></td>
 							<td><?php echo $val->ruolo; ?></td>

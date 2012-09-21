@@ -3,9 +3,9 @@
     <table class="column table" style="width:300px;overflow:hidden;">
         <thead>
             <tr>
-                <th style="width:10px">P.</th>
-                <th class="nowrap" style="width:180px">Nome</th>
-                <th style="width:35px">P.ti tot</th>
+                <th>P.</th>
+                <th class="nowrap">Nome</th>
+                <th class="nowrap">P.ti tot</th>
             </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@ $i = $appo[0]; ?>
     	var datasets = {
         <?php $i = 0;
         foreach ($this->classificaDett as $key => $val): $i++; ?>"<?php echo $key; ?>": {
-                        label: "<?php echo $this->squadre[$key]->nome; ?>",
+                        label: "<?php echo $this->squadre[$key]->nomeSquadra; ?>",
                         data: [<?php foreach ($val as $secondKey => $secondVal): ?><?php echo '[' . $secondKey . ',' . $val[$secondKey] . ']';
             echo (count($secondVal) - $secondKey != $secondKey - 1) ? ',' : '';
         endforeach; ?>]
@@ -73,7 +73,7 @@ $i = $appo[0]; ?>
     <?php $i = 0;
     foreach ($this->classificaDett as $key => $val): $i++; ?>
         <?php $media = array_sum($this->classificaDett[$key]) / count($this->classificaDett[$key]); ?>
-                    "<?php echo $key; ?>" : {label: "Media <?php echo $this->squadre[$key]->nome; ?> (<?php echo substr($media, 0, 5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]); ?>,<?php echo $media; ?>]]}<?php echo (count($this->classificaDett) != $i) ? ",\n" : ""; ?>
+                    "<?php echo $key; ?>" : {label: "Media <?php echo $this->squadre[$key]->nomeSquadra; ?> (<?php echo substr($media, 0, 5); ?>)",data: [[1,<?php echo $media; ?>],[<?php echo count($this->classificaDett[$key]); ?>,<?php echo $media; ?>]]}<?php echo (count($this->classificaDett) != $i) ? ",\n" : ""; ?>
     <?php endforeach; ?>
             };
             var squadra = {val:<?php echo ($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) ? $this->squadre[$_SESSION['idUtente']]->id : 'false'; ?>};

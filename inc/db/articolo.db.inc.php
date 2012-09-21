@@ -38,11 +38,11 @@ class Articolo extends ArticoloTable {
     }
 
     public static function getLastArticoli($number) {
-        $q = "SELECT *
+        $q = "SELECT articolo.*,utente.username
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				ORDER BY dataCreazione DESC
 				LIMIT 0," . $number . "";
-        $values = FALSE;
+        $values = array();
         FirePHP::getInstance()->log($q);
         $exe = mysql_query($q) or self::sqlError($q);
         while ($row = mysql_fetch_object($exe, __CLASS__))

@@ -13,7 +13,7 @@ if(!$_SESSION['logged']) {
 	elseif(isset($_COOKIE['auth_username']) && isset($_COOKIE['auth_key']))
 		$auth->renewLogin($_COOKIE['auth_username'], $_COOKIE['auth_key']);
 }else {
-	if($request->has('logout') && (boolean) $request->get('logout'))
+	if($request->has('logout'))
 		$auth->logout();
 }
 ?>
