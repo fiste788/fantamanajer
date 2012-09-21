@@ -1,14 +1,15 @@
+
 var activeCountdown = false;
 var activeWell = false;
 var activeStickpanel = false;
 $.isViewport = function(viewportName) {
-    return $("html").hasClass("is" + viewportName.charAt(0).toUpperCase() + viewportName.slice(1));
+    return $("html").hasClass("is" + viewportName);
 }
-syze.sizes(480, 768, 980, 1200).names({
-    480:'Phone',
-    768:'Tablet',
-    980:'Desktop',
-    1200:'LargeDesktop'
+syze.sizes(320,480, 768, 980).names({
+    320:'small-phone',
+    480:'phone',
+    768:'tablet',
+    980:'desktop'
 });
 $('.dropdown-toggle').dropdown();
 //$('#operation .fix').affix({offset:40})
@@ -23,11 +24,11 @@ if(messaggio.length) {
         $(this).stop().fadeTo("fast",1);
     });
     messaggio.click(function () {
-        $(this).stop().fadeOut("slow");
+        $(this).unbind().stop().fadeOut("slow");
     });
 }
 function enableWell() {
-    if(!$.isViewport('phone') && !activeWell) {
+    if($.isViewport('desktop') && !activeWell) {
         activeWell = true;
         var well = $(".well");
         if(well.length) {
@@ -40,10 +41,10 @@ function enableWell() {
     }
 }
 function enableStickpanel() {
-    if(!$.isViewport('tablet') && !$.isViewport("phone") && !activeStickpanel) {
+    if($.isViewport("desktop") && !activeStickpanel) {
         activeStickpanel = true;
         $("#operation .fix").stickyPanel({
-            topPadding: 40,
+            topPadding: 41,
             afterDetachCSSClass: "top",
             savePanelSpace: true
         });
@@ -84,9 +85,9 @@ function enableCountdown() {
 enableStickpanel();
 enableWell();
 enableCountdown();
-$(window).bind("exitViewportTablet exitViewportPhone", enableStickpanel);
-$(window).bind("enterViewportDesktop enterViewportLargeDesktop", enableWell);
+$(window).bind("enterViewportDesktop", enableStickpanel);
+$(window).bind("exitViewportDesktop", disableStickpanel);
+$(window).bind("enterViewportDesktop", enableWell);
 $(window).bind("exitViewportPhone", enableCountdown);
-$(window).bind("exitViewportDesktop exitViewportLargeDesktop", disableStickpanel);
 if(!LOCAL)
     $.trackPage("UA-3016148-1");

@@ -4,10 +4,8 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	</a>
-
     <a class="brand hidden-desktop" href="/">FantaManajer</a>
 	<div class="nav-collapse">
-
 		<ul class="nav">
 			<?php foreach($this->entries->navbar as $key=>$val): ?>
 				<?php if($this->entries->pages[$key]->roles <= $_SESSION['roles']): ?>
@@ -27,9 +25,10 @@
 			<?php require_once(TPLDIR . "login.tpl.php") ?>
 
 			<?php if($_SESSION['logged']): ?>
-			<li id="account" class="pull-right dropdown">
-		            <a id="notifiche" <?php if(!empty($this->notifiche)) echo ' class="dropdown-toggle nopick"'; ?>>
-		                <span<?php if(!empty($this->notifiche)) echo ' class="active"'; ?> title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
+                <li id="account" class="pull-right dropdown">
+                    <a id="notifiche" <?php if(!empty($this->notifiche)) echo ' class="dropdown-toggle nopick"'; ?>>
+                        <div class="hidden-desktop">Notifiche: <span class="badge badge-important"><?php echo count($this->notifiche); ?></span></div>
+		                <span class="visible-desktop<?php if(!empty($this->notifiche)) echo ' active'; ?>" title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
 		            </a>
 		            <?php if(!empty($this->notifiche)): ?>
 		                <ul class="boxNotifiche dropdown-menu">
@@ -44,8 +43,9 @@
 			<?php if(count($this->leghe) > 1): ?>
 			<li id="legaSelect" class="pull-right">
 				<?php $appo = $_GET; unset($appo['p']); ?>
-				<form action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
+				<form class="form-inline" action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
 					<fieldset>
+                        <label for="legaView" class="hidden-desktop">Seleziona la lega</label>
 						<select id="legaView" onchange="this.form.submit();" class="input-medium" name="legaView">
 							<?php foreach($this->leghe as $key=>$value): ?>
 								<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>

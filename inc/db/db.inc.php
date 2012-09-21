@@ -16,6 +16,7 @@ class Db {
                 die(MYSQL_ERRNO() . " " . MYSQL_ERROR());
             if (!mysql_select_db(DBNAME, $this->link))
                 die(MYSQL_ERRNO() . " " . MYSQL_ERROR());
+            mysql_query("SET TIME_ZONE = '+1:00'", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
             mysql_query("SET NAMES utf8", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
             mysql_query("SET CHARACTER SET utf8", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
         }

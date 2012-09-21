@@ -19,6 +19,34 @@ class Utente extends UtenteTable {
         session_unset();
     }
 
+    public function save($parameters = NULL) {
+        if (isset($_FILES['logo'])) {
+            $logo = (object) $_FILES['logo'];
+            FirePHP::getInstance()->log($logo);
+            $allowedExts = array("jpg", "jpeg", "gif", "png");
+            $extension = 'jpg';
+
+            if ((($logo->type == "image/gif")
+                    || ($logo->type == "image/jpeg")
+                    || ($logo->type == "image/pjpeg"))
+                    && ($logo->size < 200000)
+                    && in_array($extension, $allowedExts)) {
+                if (!$logo->error) {
+                    $filename = UPLOADDIR . $logo->name;
+                    $tmpfilename = UPLOADDIR . $logo->tmp_name;
+                    if (file_exists($filename))
+                        unlink($filename);
+                    else {
+                        if(move_uploaded_file($tmpfilename, $filename))
+                            FirePHP::getInstance()->log("caricato");
+                    }
+                }
+            } else
+                FirePHP::getInstance()->log("non valido");
+        }
+        parent::save($parameters);
+    }
+
     public static function getSquadraByUsername($username, $idUtente) {
         $q = "SELECT *
 				FROM utente

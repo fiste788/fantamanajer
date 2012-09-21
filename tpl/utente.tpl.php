@@ -19,9 +19,10 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="abilitaMail">Ricevi email:</label>
+            <label class="control-label" for="mailAbilitata">Ricevi email:</label>
             <div class="controls">
-                <input id="abilitaMail" class="checkbox" type="checkbox" name="abilitaMail"<?php echo ($this->utente->abilitaMail) ? ' checked="checked"' : '' ?>/>
+                <input type="hidden" name="mailAbilitata" value="0"/>
+                <input id="mailAbilitata" value="1" class="checkbox" type="checkbox" name="mailAbilitata"<?php echo ($this->utente->isMailAbilitata()) ? ' checked="checked"' : '' ?>/>
             </div>
         </div>
         <?php if (GIORNATA <= 2): ?>
@@ -45,9 +46,9 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="userfile">Carica il tuo logo:</label>
+            <label class="control-label" for="logo">Carica il tuo logo:</label>
             <div class="controls">
-                <input id="userfile" class="upload" name="userfile" type="file" />
+                <input id="logo" class="upload" name="logo" type="file" />
             </div>
         </div>
         <div class="control-group">

@@ -5,9 +5,8 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(INCDBDIR . 'lega.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
-require_once(INCDIR . 'swiftMailer/swift_required.php');
 
-$transportObj = Swift_MailTransport::newInstance();
+$transportObj = Mail::getDefaultTransport();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
 
 $logger->start("MAIL FORMAZIONE");
@@ -28,27 +27,27 @@ if(($today == $dataGiornata && $difference < 300) || $_SESSION['usertype'] == 's
 		$formazioni = array();
 		foreach ($squadre as $key=>$squadra) {
 			$formazione = Formazione::getFormazioneBySquadraAndGiornata($key,GIORNATA);
-			
+
 			if($formazione != FALSE) {
 				$giocatori[$key] = GiocatoreStatistiche::getByField('idUtente',$key);
 				$formazioni[$key] = $formazione;
 			}
 		}
-		
+
 		$mailContent = new MySavant3(array('template_path' => MAILTPLDIR));
 		$mailContent->assign('squadre',$squadre);
 		$mailContent->assign('formazione',$formazioni);
 		$mailContent->assign('giocatori',$giocatori);
 		//$mailContent->assign('cap',$cap);
 		$mailContent->assign('giornata',GIORNATA);
-		
+
 		$object = "Formazioni giornata: " . GIORNATA ;
 		//$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
 		$mailMessageObj = Swift_Message::newInstance();
 		$mailMessageObj->setSubject($object);
-		$mailMessageObj->setFrom(array("noreply@fantamanajer.it"=>"FantaManajer"));
+		$mailMessageObj->setFrom(array(MAILFROM=>"FantaManajer"));
 		$fetchMail = $mailContent->fetch('mailFormazioni.tpl.php');
-		
+
 		$mailMessageObj->setBody($fetchMail,'text/html');
 		foreach ($squadre as $key => $squadra) {
 			if(!is_null($squadra->getEmail()) && $squadra->getAbilitaMail()) {

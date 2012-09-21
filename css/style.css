@@ -44,6 +44,9 @@ h5,
 h6 {
   margin-top: 0;
 }
+select {
+  line-height: 24px;
+}
 h1 a {
   font-weight: normal !important;
   font-size: 22px;
@@ -139,6 +142,9 @@ form {
   float: left;
   margin-right: 20px;
 }
+.nowrap {
+  white-space: nowrap;
+}
 #grafico {
   margin: 0 auto;
   width: 724px;
@@ -188,4 +194,12 @@ table .headerSortUp:after {
   box-shadow: none;
   opacity: 0.6;
   filter: alpha(opacity=60);
+}
+@media (max-width: 480px) {
+  .visible-small-phone {
+    display: inherit !important;
+  }
+  .hidden-small-phone {
+    display: none !important;
+  }
 }

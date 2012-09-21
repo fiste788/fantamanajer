@@ -1,5 +1,4 @@
 <?php
-
 require_once(INCDBDIR . 'utente.db.inc.php');
 require_once(INCDBDIR . 'punteggio.db.inc.php');
 require_once(INCDBDIR . 'giocatore.db.inc.php');
@@ -9,9 +8,9 @@ require_once(INCDBDIR . 'lega.db.inc.php');
 require_once(INCDIR . 'decrypt.inc.php');
 require_once(INCDIR . 'backup.inc.php');
 require_once(INCDIR . 'fileSystem.inc.php');
-require_once(INCDIR . 'swiftMailer/swift_required.php');
+require_once(INCDIR . 'mail.inc.php');
 
-$transportObj = Swift_MailTransport::newInstance();
+$transportObj = Mail::getDefaultTransport();
 $mailerObj = Swift_Mailer::newInstance($transportObj);
 
 $giornata = GIORNATA - 1;
@@ -58,7 +57,7 @@ if (((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
                         $sum[$key] = array_sum($val);
                     foreach ($utenti as $key => $squadra) {
                         if (!empty($squadra->email) && $squadra->isMailAbilitata()) {
-                            $mailContent = new Savant3();
+                            $mailContent = new MySavant3(array('template_path' => MAILTPLDIR));
                             //$mailContent->assign('linksObj',Links);
                             $mailContent->assign('classifica', $sum);
                             $mailContent->assign('squadre', $utenti);
@@ -77,9 +76,9 @@ if (((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggi
                             $mailContent->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
                             $mailMessageObj = Swift_Message::newInstance();
                             $mailMessageObj->setSubject($object);
-                            $mailMessageObj->setFrom(array("noreply@fantamanajer.it" => "FantaManajer"));
+                            $mailMessageObj->setFrom(array(MAILFROM => "FantaManajer"));
                             $mailMessageObj->setTo(array($squadra->getEmail() => $squadra->getNome() . " " . $squadra->getCognome()));
-                            $fetchMail = $mailContent->fetch(MAILTPLDIR . 'mailWeekly.tpl.php');
+                            $fetchMail = $mailContent->fetch('mailWeekly.tpl.php');
                             $mailMessageObj->setBody($fetchMail, 'text/html');
                             if (!$mailerObj->send($mailMessageObj)) {
                                 $mail++;

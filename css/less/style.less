@@ -11,6 +11,9 @@ fieldset {
 h1, h2, h3, h4, h5, h6 {
   margin-top:0;
 }
+select {
+    line-height:24px;
+}
 h1 a {
   font-weight:normal !important;
   font-size:22px;
@@ -94,6 +97,9 @@ form {
     float:left;
     margin-right:20px;
 }
+.nowrap {
+    white-space:nowrap;
+}
 #grafico {
     margin: 0 auto;
     width:724px;
@@ -139,4 +145,12 @@ table {
     .box-shadow(none);
     .opacity(60);
   }
+}
+
+// Phones only
+@media (max-width: 480px) {
+  // Show
+  .visible-small-phone     { display: inherit !important; } // Use inherit to restore previous behavior
+  // Hide
+  .hidden-small-phone      { display: none !important; }
 }

@@ -55,7 +55,7 @@
     display: none !important;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .hidden-desktop {
     display: inherit !important;
   }

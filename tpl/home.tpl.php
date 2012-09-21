@@ -55,13 +55,15 @@
             <?php foreach ($this->articoli as $key => $articolo): ?>
                 <article id="news">
                     <header>
-                        <span><?php echo $articolo->dataCreazione->format("Y-m-d H:i:s"); ?></span>
-                        <span class="right">
-                            <?php echo $articolo->username; ?>
-                            <?php if ($_SESSION['logged'] && $_SESSION['idUtente'] == $articolo->idUtente): ?>
-                                <a class="icon-edit" href="<?php echo Links::getLink('modificaConferenza', array('id' => $articolo->id)); ?>" title="Modifica">&nbsp;</a>
-                            <?php endif; ?>
-                        </span>
+                        <em>
+                            <span><?php FirePHP::getInstance()->log($articolo); echo $articolo->dataCreazione->format("Y-m-d H:i:s"); ?></span>
+                            <span class="right">
+                                <?php echo $articolo->username; ?>
+                                <?php if ($_SESSION['logged'] && $_SESSION['idUtente'] == $articolo->idUtente): ?>
+                                    <a class="icon-edit" href="<?php echo Links::getLink('modificaConferenza', array('id' => $articolo->id)); ?>" title="Modifica">&nbsp;</a>
+                                <?php endif; ?>
+                            </span>
+                        </em>
                         <h4 class="title"><?php echo $articolo->titolo; ?></h4>
                     </header>
                     <?php if (isset($articolo->sottoTitolo)): ?><div class="abstract"><?php echo $articolo->sottoTitolo; ?></div><?php endif; ?>

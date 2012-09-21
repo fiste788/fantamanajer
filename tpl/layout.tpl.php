@@ -8,7 +8,7 @@
     <head>
         <meta charset="utf-8">
         <title>FantaManajer<?php if (isset($this->title)) echo " - " . $this->title; ?></title>
-        <meta name="viewport" content="width=device-width,initial-scale=1,0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
         <meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
         <meta name="author" content="Stefano Sonzogni"/>
@@ -43,12 +43,12 @@
         <nav id="topbar" class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner"><?php echo $this->navbar; ?></div>
         </nav>
+        <?php require_once(TPLDIR . "message.tpl.php"); ?>
         <header>
             <div class="gradient">
                 <div class="container"><?php echo $this->header; ?></div>
             </div>
         </header>
-        <?php require_once(TPLDIR . "message.tpl.php"); ?>
         <?php if (!empty($this->operation)): ?>
             <section id="operation">
                 <div class="fix">
