@@ -16,7 +16,14 @@ class Db {
                 die(MYSQL_ERRNO() . " " . MYSQL_ERROR());
             if (!mysql_select_db(DBNAME, $this->link))
                 die(MYSQL_ERRNO() . " " . MYSQL_ERROR());
-            mysql_query("SET TIME_ZONE = '+1:00'", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
+            $now = new DateTime();
+			$mins = $now->getOffset() / 60;
+			$sgn = ($mins < 0 ? -1 : 1);
+    		$mins = abs($mins);
+    		$hrs = floor($mins / 60);
+    		$mins -= $hrs * 60;
+			$offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
+            mysql_query("SET TIME_ZONE = '" . $offset . "'", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
             mysql_query("SET NAMES utf8", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
             mysql_query("SET CHARACTER SET utf8", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
         }
