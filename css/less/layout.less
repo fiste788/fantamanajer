@@ -191,7 +191,6 @@ section fieldset {
   padding:0;
 }
 nav#topbar {
-  background:url(@{imgsPath}menu-bg.jpg) repeat-x;
   .nav>li>a {
 	color:#eee;
 	text-shadow:none;
@@ -288,14 +287,15 @@ nav#topbar {
   /* Remove any padding from the body */
   body {
     padding-top: 0;
+    > header {
+      margin-top: -20px;
+    }
   }
   body.debug:before {
     background: none repeat scroll 0 0 rgba(255, 255, 0, 0.9);
     content: "Tablet media query (768 < 979) fired";
   }
-  body > header {
-    margin-top: -20px;
-  }
+  body
   nav#topbar li.pull-right {
     float:none;
   }
@@ -312,21 +312,22 @@ nav#topbar {
 @media (max-width: 767px) {
   body {
     padding-top: 0;
-      overflow-x:hidden;
+    overflow-x:hidden;
+    background-image:none;
+    >header {
+      margin-top: -20px;
+      margin-right: -20px;
+      margin-left:  -20px;
+      width:100%;
+      padding-right:40px;
+      > div {
+        padding:0 20px;
+      }
+    }
   }
-  body.debug::before{
+  body.debug:before{
     content: "Mobile media query (0 < 768) fired";
     background: rgba(255,0,0, 0.8);
-  }
-  body>header {
-    margin-top: -20px;
-    margin-right: -20px;
-    margin-left:  -20px;
-    width:100%;
-    padding-right:40px;
-    > div {
-      padding:0 20px;
-    }
   }
   nav#topbar li.pull-right {
     float:none;
@@ -354,13 +355,12 @@ nav#topbar {
 @media (max-width: 480px) {
   body {
     padding-top: 0;
+    >header {
+      margin-top: -20px;
+    }
   }
-  body.debug::before{
+  .debug::before{
     content: "Mobile media query (0 < 480) fired";
-    background: rgba(255,0,0, 0.8);
-  }
-  body > header {
-    margin-top: -20px;
   }
   .table {
     th,  td {

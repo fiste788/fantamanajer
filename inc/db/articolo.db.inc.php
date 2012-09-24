@@ -22,7 +22,7 @@ class Articolo extends ArticoloTable {
     public function delete() {
         $id = $this->getId();
         if (parent::delete())
-            Evento::deleteEventoByIdExternalAndTipo($id, Evento::CONFERENZASTAMPA);
+            return Evento::deleteEventoByIdExternalAndTipo($id, Evento::CONFERENZASTAMPA);
     }
 
     public static function getArticoliByGiornataAndLega($idGiornata, $idLega) {

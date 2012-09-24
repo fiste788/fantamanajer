@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(INCDBDIR . "articolo.db.inc.php");
 require_once(INCDBDIR . "evento.db.inc.php");
 
@@ -26,7 +26,7 @@ if($request->get('submit') == 'Rimuovi'){
 		else
             $message->error("Errore generico nell'inserimento");
 		$_SESSION['message'] = $message;
-		//Request::goToUrl('conferenzeStampa');
+		Request::goToUrl('conferenzeStampa');
 	}
 }
 $contentTpl->assign('articolo',$articolo);
