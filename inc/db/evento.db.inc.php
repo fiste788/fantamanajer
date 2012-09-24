@@ -22,11 +22,11 @@ class Evento extends EventoTable {
       }
      */
 
-    function deleteEventoByIdExternalAndTipo($idExternal, $tipo) {
+    public static function deleteEventoByIdExternalAndTipo($idExternal, $tipo) {
         $q = "DELETE
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
         FirePHP::getInstance()->log($q);
-        return mysql_query($q) or self::sqlError($q);
+        return mysql_query($q);
     }
 
     /**

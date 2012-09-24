@@ -63,8 +63,8 @@ $generalJs[] = 'stickyPanel/jquery.stickyPanel.js';
 $generalJs[] = 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = 'googleAnalytics/googleAnalytics.js';
 $generalJs[] = 'custom/all.js';
-$generalJs[] = 'social/facebook.js';
-$generalJs[] = 'social/googleplus.js';
+//$generalJs[] = 'social/facebook.js';
+//$generalJs[] = 'social/googleplus.js';
 
 $generalCss = array();
 //$generalCss[] = 'boiler.css';

@@ -134,8 +134,9 @@ class Request {
         die();
     }
 
-    public static function goToUrl($link, $array) {
+    public static function goToUrl($link, $array = NULL) {
         header("Location: " . urldecode(Links::getLink($link, $array)));
+        die();
     }
 
 }

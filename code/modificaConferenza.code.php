@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(INCDBDIR . "articolo.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
