@@ -5,8 +5,10 @@
         <div class="span3 well">
             <div>
                 <figure>
-                    <?php if (file_exists(UPLOADDIR . $squadra->id . '-med.jpg')): ?>
-                        <img alt="<?php echo $squadra->id; ?>" src="<?php echo UPLOADURL . $squadra->id . '-med.jpg'; ?>" title="Clicca per vedere l'immagine ingrandita" />
+                    <?php if (file_exists(UPLOADDIR . 'thumb-small/' . $squadra->id . '.jpg')): ?>
+                        <a rel="group" href="<?php echo UPLOADURL . $squadra->id . '.jpg' ?>" class="fancybox" title="<?php echo $squadra->nomeSquadra ?>">
+                            <img alt="<?php echo $squadra->id; ?>" src="<?php echo UPLOADURL . 'thumb-small/' . $squadra->id . '.jpg'; ?>" />
+                        </a>
                     <?php else: ?>
                         <img height="93" width="124" class="logo" alt="<?php echo $squadra->id; ?>" src="<?php echo IMGSURL . 'no-foto.png'; ?>" title="<?php echo $squadra->nomeSquadra; ?>" />
                     <?php endif; ?>

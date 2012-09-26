@@ -25,6 +25,12 @@ class Articolo extends ArticoloTable {
             return Evento::deleteEventoByIdExternalAndTipo($id, Evento::CONFERENZASTAMPA);
     }
 
+    /**
+     *
+     * @param int $idGiornata
+     * @param int $idLega
+     * @return Articolo[]
+     */
     public static function getArticoliByGiornataAndLega($idGiornata, $idLega) {
         $q = "SELECT articolo.*,utente.username
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id

@@ -282,6 +282,7 @@ nav#topbar {
   text-align:center;
   right:25%;
   left:25%;
+  padding:8px 10px;
 }
 @media (min-width: 768px) and (max-width: 979px) {
   /* Remove any padding from the body */
@@ -315,6 +316,7 @@ nav#topbar {
     overflow-x:hidden;
     background-image:none;
     >header {
+      display:none;
       margin-top: -20px;
       margin-right: -20px;
       margin-left:  -20px;
@@ -328,6 +330,16 @@ nav#topbar {
   body.debug:before{
     content: "Mobile media query (0 < 768) fired";
     background: rgba(255,0,0, 0.8);
+  }
+  #messaggio {
+    width:100%;
+    position:relative;
+    .border-radius(0);
+    margin: -20px 0 -20px;
+    padding-right:30px;
+    left:0;
+    right:0;
+    .box-shadow(none);
   }
   nav#topbar li.pull-right {
     float:none;
@@ -359,7 +371,7 @@ nav#topbar {
       margin-top: -20px;
     }
   }
-  .debug::before{
+  body.debug::before{
     content: "Mobile media query (0 < 480) fired";
   }
   .table {

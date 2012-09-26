@@ -6,10 +6,12 @@ require_once(INCDIR . "emoticon.inc.php");
 $filterGiornata = ($request->has('giornata')) ? $request->get('giornata') : GIORNATA;
 $articoli = Articolo::getArticoliByGiornataAndLega($filterGiornata,$_SESSION['legaView']);
 if($articoli != FALSE)
-	foreach ($articoli as $key => $val)
-		$articoli[$key]->text = Emoticon::replaceEmoticon($val->testo,EMOTICONSURL);
+	foreach ($articoli as $articolo)
+		$articolo->setTesto(Emoticon::replaceEmoticon($articolo->testo,EMOTICONSURL));
 
 $giornateWithArticoli = array_unique(array_merge(array(GIORNATA),Articolo::getGiornateArticoliExist($_SESSION['legaView'])));
+rsort($giornateWithArticoli);
+$giornateWithArticoli = array_combine($giornateWithArticoli, $giornateWithArticoli);
 $quickLinks->set('giornata',$giornateWithArticoli,'Giornata ');
 $contentTpl->assign('articoli',$articoli);
 $operationTpl->assign('giornata',$filterGiornata);

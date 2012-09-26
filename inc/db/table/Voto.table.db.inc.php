@@ -118,7 +118,7 @@ class VotoTable extends VotoModel {
         $this->id = is_null($this->id) ? NULL : $this->getId();
         $this->idGiocatore = is_null($this->idGiocatore) ? NULL : $this->getIdGiocatore();
         $this->idGiornata = is_null($this->idGiornata) ? NULL : $this->getIdGiornata();
-        $this->valutato = is_null($this->valutato) ? NULL : $this->getValutato();
+        $this->valutato = is_null($this->valutato) ? NULL : $this->isValutato();
         $this->punti = is_null($this->punti) ? NULL : $this->getPunti();
         $this->voto = is_null($this->voto) ? NULL : $this->getVoto();
         $this->gol = is_null($this->gol) ? NULL : $this->getGol();
@@ -164,11 +164,11 @@ class VotoTable extends VotoModel {
 
     /**
      * Setter: valutato
-     * @param Integer $valutato
+     * @param boolean $valutato
      * @return void
      */
     public function setValutato($valutato) {
-        $this->valutato = (int) $valutato;
+        $this->valutato = (boolean) $valutato;
     }
 
     /**
@@ -345,7 +345,7 @@ class VotoTable extends VotoModel {
      * Getter: valutato
      * @return Boolean
      */
-    public function getValutato() {
+    public function isValutato() {
         return (boolean) $this->valutato;
     }
 

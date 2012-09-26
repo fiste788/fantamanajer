@@ -300,6 +300,11 @@ class Giocatore extends GiocatoreTable {
         }
     }
 
+    /**
+     *
+     * @param type $giornata
+     * @return Voto
+     */
     public function getVotoByGiornata($giornata) {
         require_once(INCDBDIR . 'voto.db.inc.php');
         return Voto::getByGiocatoreAndGiornata($this->getId(), $giornata);

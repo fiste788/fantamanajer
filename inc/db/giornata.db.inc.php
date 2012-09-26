@@ -70,7 +70,7 @@ class Giornata extends GiornataTable {
         $bool = TRUE;
         foreach ($giornate as $key => $val) {
             foreach ($val as $key2 => $val2) {
-                $q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE idGiornata = '" . $key . "'";
+                $q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE id = '" . $key . "'";
                 FirePHP::getInstance()->log($q);
                 $bool *= mysql_query($q) or self::sqlError($q);
             }
@@ -95,13 +95,13 @@ class Giornata extends GiornataTable {
     public static function updateCalendario() {
         require_once(INCDIR . 'fileSystem.inc.php');
 
-        $calendario[1]['dataInizio'] = "2010-08-01 00:00:00";
+        $calendario[1]['dataInizio'] = "2012-08-01 00:00:00";
         for ($giornata = 1; $giornata <= 38; $giornata++) {
             $appo = self::getArrayOrari($giornata);
             $calendario[$giornata] = array_merge($calendario[$giornata], $appo[$giornata]);
             $calendario[$giornata + 1] = array_merge($calendario[$giornata], $appo[$giornata + 1]);
         }
-        $calendario[39]['dataFine'] = "2011-07-31 23:59:59";
+        $calendario[39]['dataFine'] = "2013-07-31 23:59:59";
         return self::updateGiornate($calendario);
     }
 
