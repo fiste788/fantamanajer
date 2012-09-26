@@ -123,7 +123,7 @@
 						<?php $i = 0; ?>
 						<?php foreach ($this->classifica as $key => $val): ?>
 							<tr>
-								<td><?php echo $this->squadre[$key]->nome; ?></td>
+								<td><?php echo $this->squadre[$key]->nomeSquadra; ?></td>
 								<td style="text-align:right;"><?php echo $val; ?></td>
 							</tr>
 						<?php $i++; endforeach; ?>

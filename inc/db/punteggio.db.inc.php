@@ -17,7 +17,7 @@ class Punteggio extends PunteggioTable {
     }
 
     /**
-     * @param Utente $utente 
+     * @param Utente $utente
      * @param int $idGiornata
      * @return Punteggio
      */
@@ -145,6 +145,12 @@ class Punteggio extends PunteggioTable {
         return FALSE;
     }
 
+    /**
+     *
+     * @param Utente $utente
+     * @param int $giornata
+     * @return boolean
+     */
     public static function calcolaPunti($utente, $giornata) {
         require_once(INCDBDIR . 'utente.db.inc.php');
         require_once(INCDBDIR . 'formazione.db.inc.php');
@@ -184,7 +190,7 @@ class Punteggio extends PunteggioTable {
             foreach ($titolari as $schieramento) {
                 $giocatore = $schieramento->getGiocatore();
                 $voto = $giocatore->getVotoByGiornata($giornata);
-                if ((!$voto->isPresente()) && ($cambi < 3)) {
+                if ((!$voto->isValutato()) && ($cambi < 3)) {
                     $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
                     if ($sostituto != FALSE) {
                         if ($schieramento->getConsiderato() != 0) {
@@ -207,6 +213,13 @@ class Punteggio extends PunteggioTable {
                     $somma += $punti;
                 }
             }
+            foreach($panchinari as $schieramento) {
+                if($schieramento->getConsiderato() != 0) {
+                    $schieramento->setConsiderato(0);
+                    $schieramento->save();
+                }
+            }
+
             if ($formazione->jolly == 1)
                 $somma *= 2;
             if (!$punteggio)

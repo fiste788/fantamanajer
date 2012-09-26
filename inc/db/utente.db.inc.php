@@ -20,31 +20,27 @@ class Utente extends UtenteTable {
     }
 
     public function save($parameters = NULL) {
+        require_once(INCDIR . 'ImageWorkshop.php');
         if (isset($_FILES['logo'])) {
             $logo = (object) $_FILES['logo'];
-            FirePHP::getInstance()->log($logo);
-            $allowedExts = array("jpg", "jpeg", "gif", "png");
-            $extension = 'jpg';
 
-            if ((($logo->type == "image/gif")
-                    || ($logo->type == "image/jpeg")
-                    || ($logo->type == "image/pjpeg"))
-                    && ($logo->size < 200000)
-                    && in_array($extension, $allowedExts)) {
-                if (!$logo->error) {
-                    $filename = UPLOADDIR . $logo->name;
-                    $tmpfilename = UPLOADDIR . $logo->tmp_name;
-                    if (file_exists($filename))
-                        unlink($filename);
-                    else {
-                        if(move_uploaded_file($tmpfilename, $filename))
-                            FirePHP::getInstance()->log("caricato");
-                    }
-                }
-            } else
-                FirePHP::getInstance()->log("non valido");
+            $filename = $this->getId() . '.jpg';
+            $filepath = UPLOADDIR . $filename;
+            if (file_exists($filepath))
+                unlink($filepath);
+            if (move_uploaded_file($logo->tmp_name, $filepath)) {
+                $image = new PHPImageWorkshop\ImageWorkshop(array('imageFromPath' => $filepath));
+                if ($image->getHeight() > 215)
+                    $image->resizeInPixel(NULL, 215, TRUE);
+                $image->save(UPLOADDIR . 'thumb/', $filename, TRUE, NULL, 80);
+                $thumb = new PHPImageWorkshop\ImageWorkshop(array('imageFromPath' => $filepath));
+                if ($thumb->getHeight() > 93)
+                    $thumb->resizeInPixel(NULL, 93, TRUE);
+                $thumb->save(UPLOADDIR . 'thumb-small/', $filename, TRUE, NULL, 80);
+                FirePHP::getInstance()->log("caricato");
+            }
         }
-        parent::save($parameters);
+        return parent::save($parameters);
     }
 
     public static function getSquadraByUsername($username, $idUtente) {
@@ -102,6 +98,22 @@ class Utente extends UtenteTable {
           $message->error("Non hai compilato correttamente tutti i campi");
           return FALSE;
           } */
+        if (isset($_FILES['logo'])) {
+            $logo = (object) $_FILES['logo'];
+            $allowedTypes = array("image/jpeg", "image/pjpeg", "image/gif", "image/png");
+            if (!in_array($logo->type, $allowedTypes)) {
+                $message->error("File non valido");
+                return FALSE;
+            }
+            if ($logo->size > 1000000) {
+                $message->error("File più grande di 1MB");
+                return FALSE;
+            }
+            if ($logo->error) {
+                $message->error("Errore generico upload file");
+                return FALSE;
+            }
+        }
         return TRUE;
     }
 

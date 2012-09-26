@@ -22,7 +22,7 @@ $pages->addPage('dettaglioGiornata','Dettaglio giornata',-1,'classifica');
 $pages->addPage('premi','Premi',-1,'altro',FALSE);
 $pages->addPage('contatti','Contatti',-1,'altro',3);
 $pages->addPage('sendMail','Invio mail formazione',-1,'altro');
-$pages->addPage('acquistaGioc','Lancia trasferimenti',-1,'altro');
+$pages->addPage('doTransfert','Lancia trasferimenti',-1,'altro');
 $pages->addPage('backup','Backup',-1,'altro');
 $pages->addPage('minify','Minify',1,'areaAmministrativa');
 $pages->addPage('less2css','Less2css',1,'areaAmministrativa');

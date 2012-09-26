@@ -74,7 +74,7 @@
             modulo['C'] = <?php echo $this->modulo[2]; ?>;
             modulo['A'] = <?php echo $this->modulo[3]; ?>;
     <?php endif; ?>
-        var edit = true;
+        var edit = <?php echo($_SESSION['idUtente'] == $this->squadra) ? "true" : "false" ?>;
         // ]]>
     </script>
 <?php else: ?>

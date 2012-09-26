@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    if(typeof(modulo) != "undefined")
-    {
+    if(typeof(modulo) != "undefined") {
         var ruolo = 'P';
         var j = 0;
         var k = 0;

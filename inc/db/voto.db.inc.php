@@ -4,6 +4,12 @@ require_once(TABLEDIR . 'Voto.table.db.inc.php');
 
 class Voto extends VotoTable {
 
+    /**
+     *
+     * @param type $idGiocatore
+     * @param type $idGiornata
+     * @return Voto
+     */
     public static function getByGiocatoreAndGiornata($idGiocatore, $idGiornata) {
         $q = "SELECT *
 				FROM voto

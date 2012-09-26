@@ -77,6 +77,7 @@ $generalCss[] = 'bootstrap/responsive';
 $generalCss[] = 'layout';
 $generalCss[] = 'style';
 $generalCss[] = 'pages';
+$generalCss[] = 'fancybox';
 //$generalCss[] = 'uniform.css';
 //Creating object for pages
 $layoutTpl = new MySavant3(array('template_path' => TPLDIR));
