@@ -25,7 +25,7 @@
                 <link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
             <?php endforeach; ?>
         <?php else: ?>
-            <link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />
+            <link href="<?php echo CSSURL . 'combined.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
         <?php endif; ?>
         <?php if (isset($this->css)): ?>
             <?php foreach ($this->css as $key => $val): ?>
@@ -34,6 +34,7 @@
         <?php endif; ?>
         <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
+        <link href="<?php echo IMGSURL . 'apple-touch-icon-precomposed.png' ?>" rel="apple-touch-icon" />
         <link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
         <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
         <script src="<?php echo JSURL ?>modernizr/modernizr.min.js"></script>
@@ -106,9 +107,9 @@
                 <script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
             <?php endif; ?>
         <?php else: ?>
-            <script src="<?php echo JSURL . 'combined/combined.js?v=' . VERSION; ?>" type="text/javascript"></script>
+            <script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
             <?php if (file_exists(JSDIR . 'combined/' . $this->p . '.js')): ?>
-                <script src="<?php echo JSURL . 'combined/' . $this->p . '.js?v=' . VERSION; ?>" type="text/javascript"></script>
+                <script src="<?php echo JSURL . 'combined/' . $this->p . '.js'; ?>" type="text/javascript"></script>
             <?php endif; ?>
         <?php endif; ?>
     </body>

@@ -2,7 +2,7 @@
 <div id="headerSquadra">
 	<?php if(file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
     	<a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
-        	<img <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg'); echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
+        	<img class="img-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg'); echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
         </a>
 	<?php endif; ?>
 	<h2 id="nomeSquadra"><?php echo $this->squadraDett->nomeSquadra; ?></h2>

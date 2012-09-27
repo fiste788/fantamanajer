@@ -4,7 +4,7 @@ require_once(INCDBDIR . "utente.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
 $filterGiornata = ($request->has('giornata')) ? $request->get('giornata') : GIORNATA;
-$articoli = Articolo::getArticoliByGiornataAndLega($filterGiornata,$_SESSION['legaView']);
+$articoli = $currentLega->getArticoliByGiornata($filterGiornata);
 if($articoli != FALSE)
 	foreach ($articoli as $articolo)
 		$articolo->setTesto(Emoticon::replaceEmoticon($articolo->testo,EMOTICONSURL));

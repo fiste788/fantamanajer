@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(INCDBDIR . 'utente.db.inc.php');
 require_once(INCDBDIR . 'formazione.db.inc.php');
 require_once(INCDBDIR . 'punteggio.db.inc.php');
@@ -26,6 +26,6 @@ $contentTpl->assign('titolari',$titolari);
 $contentTpl->assign('panchinari',$dettaglio);
 $contentTpl->assign('penalità',Punteggio::getPenalitàBySquadraAndGiornata($request->get('squadra'),$request->get('giornata')));
 $contentTpl->assign('squadraDett',$utente);
-$operationTpl->assign('squadre',Utente::getByField('idLega',$_SESSION['legaView']));
+$operationTpl->assign('squadre',$currentLega->getUtenti());
 $operationTpl->assign('giornate',$giornate);
 ?>

@@ -27,7 +27,7 @@
 			<?php if($_SESSION['logged']): ?>
                 <li id="account" class="pull-right dropdown">
                     <a id="notifiche" <?php if(!empty($this->notifiche)) echo ' class="dropdown-toggle nopick"'; ?>>
-                        <div class="hidden-desktop">Notifiche: <span class="badge badge-important"><?php echo count($this->notifiche); ?></span></div>
+                        <div class="hidden-desktop">Notifiche: <span class="badge<?php if(count($this->notifiche) > 0) echo ' badge-important' ?>"><?php echo count($this->notifiche); ?></span></div>
 		                <span class="visible-desktop<?php if(!empty($this->notifiche)) echo ' active'; ?>" title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
 		            </a>
 		            <?php if(!empty($this->notifiche)): ?>
