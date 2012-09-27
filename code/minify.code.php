@@ -48,7 +48,6 @@ foreach($generalCss as $key=>$val) {
 	$cssContent .= file_get_contents($css_fname);
 }
 file_put_contents(CSSDIR . 'combined.css' , cssmin::minify($cssContent));
-file_put_contents(DOCSDIR . 'staticVersion.txt' , VERSION + 1);
 
 $message->success("Js e css compressi con successo");
 $contentTpl->assign('message',$message);

@@ -44,9 +44,21 @@ class Lega extends LegaTable {
      * @return Articolo[]
      */
     public function getArticoli() {
-        require_once(INCDIR . 'articolo.db.inc.php');
+        require_once(INCDBDIR . 'articolo.db.inc.php');
         if (empty($this->articoli))
             $this->articoli = Articolo::getByField('idLega', $this->getId());
+        return $this->articoli;
+    }
+
+    /**
+     *
+     * @param int $idGiornata
+     * @return Articolo[]
+     */
+    public function getArticoliByGiornata($idGiornata) {
+        require_once(INCDBDIR . 'articolo.db.inc.php');
+        if (empty($this->articoli))
+            $this->articoli = Articolo::getArticoliByGiornataAndLega($idGiornata, $this->id);
         return $this->articoli;
     }
 

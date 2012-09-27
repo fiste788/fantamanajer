@@ -10,7 +10,7 @@
     </div>
     <div class="span6 right">
         <a href="http://www.w3.org/html/logo/">
-            <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-graphics-semantics.png" width="197" height="64" alt="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics" title="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics">
+            <img src="<?php echo IMGSURL . "html5-badge-h-css3-graphics-semantics.png" ?>" width="197" height="64" alt="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics" title="HTML5 Powered with CSS3 / Styling, Graphics, 3D &amp; Effects, and Semantics">
         </a>
     </div>
 </div>

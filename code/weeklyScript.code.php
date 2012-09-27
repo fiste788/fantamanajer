@@ -17,12 +17,11 @@ $giornata = GIORNATA - 1;
 //$giornata = 0;
 $logger->start("WEEKLY SCRIPT");
 //CONTROLLO SE È IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-if (((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 17 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2') {
+if (((Giornata::checkDay(date("Y-m-d")) != FALSE) && date("H") >= 16 && Punteggio::checkPunteggi($giornata)) || $_SESSION['roles'] == '2') {
     $backup = fileSystem::contenutoCurl(FULLURLAUTH . Links::getLink('backup'));
     if (!empty($backup)) {
         $logger->info("Starting decript file day " . $giornata);
         $path = Decrypt::decryptCdfile($giornata, 0);
-        FirePHP::getInstance()->log($path);
         //RECUPERO I VOTI DAL SITO DELLA GAZZETTA E LI INSERISCO NEL DB
         if ($path != FALSE || Voto::checkVotiExist($giornata)) {
             if ($path != FALSE) {

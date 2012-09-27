@@ -126,8 +126,4 @@ define("VOTIURL", DOCSURL . 'voti/csv/');
 define("JSURL", FULLURL . 'js/');
 define("AJAXURL", FULLURL . 'ajax/');
 
-if (file_exists(DOCSDIR . 'staticVersion.txt'))
-    define("VERSION", file_get_contents(DOCSDIR . 'staticVersion.txt'));
-else
-    define("VERSION", 1);
 ?>

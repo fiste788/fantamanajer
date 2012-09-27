@@ -118,6 +118,7 @@ define("STAGIONEFINITA", $giornata['stagioneFinita']);
 $leghe = Lega::getList();
 if (isset($_POST['legaView']))
     $_SESSION['legaView'] = $_POST['legaView'];
+$currentLega = Lega::getById($_SESSION['legaView']);
 
 if (isset($_SESSION['idLega']))
     $_SESSION['datiLega'] = $leghe[$_SESSION['idLega']];
