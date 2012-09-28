@@ -8,20 +8,20 @@
 						<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><th>Acq.</th><?php endif; ?>
 						<th>Nome</th>
 						<th class="hidden-phone">Club</th>
-						<th>M. p.ti</th>
-						<th>M. voti</th>
+                        <th><abbr title="Media punti">MP</abbr></th>
+                        <th><abbr title="Media voti">M. voti</abbr></th>
 						<th>Partite</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($this->freeplayer as $key => $val): ?>
+					<?php foreach($this->freeplayer as $giocatore): ?>
 					<tr>
-						<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $val->id; ?>" /></td><?php endif; ?>
-						<td><?php echo $val; ?></td>
-						<td class="hidden-phone"><?php echo strtoupper(substr($val->nomeClub,0,3)); ?></td>
-						<td<?php if($val->avgPunti >= $this->defaultSufficenza && GIORNATA != 1) echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($val->avgPunti)) ? $val->avgPunti : "&nbsp;"; ?></td>
-						<td<?php if($val->avgVoti >= $this->defaultSufficenza && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($val->avgVoti)) ? $val->avgVoti : "&nbsp;"; ?></td>
-						<td<?php if($val->presenzeVoto >= $this->defaultPartite && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo $val->presenzeVoto; ?></td>
+						<?php if(!PARTITEINCORSO && GIORNATA != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $giocatore->id; ?>" /></td><?php endif; ?>
+                        <td><a href="<?php Links::getLink('dettaglioGiocatore', array('id'=>$giocatore->getId())) ?>"><?php echo $giocatore; ?></a></td>
+						<td class="hidden-phone"><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
+						<td<?php if($giocatore->avgPunti >= $this->defaultSufficenza && GIORNATA != 1) echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($giocatore->avgPunti)) ? $giocatore->avgPunti : "&nbsp;"; ?></td>
+						<td<?php if($giocatore->avgVoti >= $this->defaultSufficenza && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo (!empty($giocatore->avgVoti)) ? $giocatore->avgVoti : "&nbsp;"; ?></td>
+						<td<?php if($giocatore->presenzeVoto >= $this->defaultPartite && GIORNATA != 1)echo ' class="alert-success"';elseif(GIORNATA != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->presenzeVoto; ?></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>

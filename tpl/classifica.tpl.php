@@ -5,7 +5,7 @@
             <tr>
                 <th>P.</th>
                 <th class="nowrap">Nome</th>
-                <th class="nowrap">P.ti tot</th>
+                <th class="nowrap"><abbr title="Punti totali">PTot</abbr></th>
             </tr>
         </thead>
         <tbody>
