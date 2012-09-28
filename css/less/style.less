@@ -1,0 +1,156 @@
+@import "bootstrap/variables.less";
+@import "bootstrap/mixins.less";
+
+article, details, figcaption, figure, hgroup {
+    margin:0
+}
+fieldset {
+  border:0 none;
+  padding:10px;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin-top:0;
+}
+select {
+    line-height:24px;
+}
+h1 a {
+  font-weight:normal !important;
+  font-size:22px;
+}
+h2 a {
+  font-weight:normal !important;
+  font-size:20px;
+}
+h3 a {
+  font-weight:normal !important;
+  font-size:18px;
+}
+h4 a {
+  font-weight:normal !important;
+  font-size:16px;
+}
+p {
+  font-size:12px
+}
+em {
+  background-color:transparent;
+  color:#777;
+}
+a, a:link, a:visited, a:hover {
+  text-decoration:none;
+  cursor:pointer;
+}
+a {
+  .transition(all 0.2s linear 0s);
+}
+.formbox {
+  clear:both;
+  float:left;
+  padding:6px 0;
+  label {
+    width:150px;
+  }
+}
+.center {
+  text-align:center;
+}
+ul.inline li {
+  display:inline;
+  margin:0 15px 0 0;
+}
+ul.no-dotted {
+  list-style-type:none;
+  margin:0;
+}
+.clear {
+  clear:both;
+}
+label {
+  font-weight:bold;
+  cursor:pointer;
+}
+.hidden {
+  display:none;
+}
+input.small {
+  width:20px;
+}
+.column {
+  float:left;
+}
+form {
+  margin:0;
+}
+.right {
+  float:right;
+}
+.foto {
+  .rotate(-2deg);
+  .box-shadow(0 0 8px #aaaaaa);
+}
+.foto.left {
+  float:left;
+  margin-right:20px;
+}
+.logo.left {
+    float:left;
+    margin-right:20px;
+}
+.nowrap {
+    white-space:nowrap;
+}
+#grafico {
+    margin: 0 auto;
+    width:724px;
+    clear:both;
+    #overview {
+        float:left;
+        cursor:pointer;
+    }
+    #placeholder {
+        width:100%;
+    }
+}
+table {
+  .headerSortUp, .headerSortDown {
+    background-color:rgba(141,192,219,0.25);
+    text-shadow:0 1px 1px rgba(255,255,255,0.75);
+  }
+  .headerSortDown:after, .headerSortDown:hover:after {
+    visibility:visible;
+	.opacity(60);
+  }
+  .header {
+    cursor:pointer;
+  }
+  .header:after {
+    content:"";
+    float:right;
+    margin-top:7px;
+    border-width:0 4px 4px;
+    border-style:solid;
+    border-color:#000000 transparent;
+    visibility:hidden;
+  }
+  .header:hover:after {
+    visibility:visible;
+  }
+  .headerSortUp:after {
+    border-bottom:none;
+    border-left:4px solid transparent;
+    border-right:4px solid transparent;
+    border-top:4px solid #000000;
+    visibility:visible;
+    .box-shadow(none);
+    .opacity(60);
+  }
+}
+
+// Phones only
+@media (max-width: 480px) {
+  // Show
+  .visible-small-phone     { display: inherit !important; } // Use inherit to restore previous behavior
+  // Hide
+  .hidden-small-phone      { display: none !important; }
+}

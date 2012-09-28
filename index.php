@@ -1,212 +1,182 @@
 <?php
+
 /*
-index.php:
-This is the main page. It switch every page of the website.
-In this page I setup the not-logged user details and I create every page sending data to template.
+  index.php:
+  This is the main page. It switch every page of the website.
+  In this page I setup the not-logged user details and I create every page sending data to template.
 
-Fantamanager
+  Fantamanager
 
-To Do:
--Require meta.lang.php
+  To Do:
+  -Require meta.lang.php
 
-*/
+ */
 
 /*
  * Prevent XSS attach
  */
-
-function preventAttach($array) 
-{
-	foreach($array as $key=>$val) 
-	{
-		if(is_array($val))
-			$_array[$key][] = preventAttach($val);
-		else
-			$_array[$key] = stripslashes(addslashes(htmlspecialchars($val)));
-	}
-	return $array;
-}
-$_GET = preventAttach($_GET);
-$_POST = preventAttach($_POST);
+date_default_timezone_set("Europe/Rome");
 
 require('config/config.inc.php');
 require('config/pages.inc.php');
-require(INCDIR . 'savant/Savant3.php');
-require(INCDIR . 'db.inc.php');
-require(INCDIR . 'dbTable.inc.php');
+require(INCDIR . 'request.inc.php');
+require(INCDIR . 'Savant.inc.php');
 require(INCDIR . 'links.inc.php');
+require(INCDIR . 'quickLinks.inc.php');
 require(INCDIR . 'message.inc.php');
+require(INCDIR . 'notify.inc.php');
 require(INCDIR . 'logger.inc.php');
+require(INCDIR . 'ruolo.inc.php');
 require(INCDIR . 'FirePHPCore/FirePHP.class.php');
-require(INCDIR . 'lega.db.inc.php');
-require(INCDIR . 'giornata.db.inc.php');
+require(INCDBDIR . 'db.inc.php');
+require(INCDBDIR . 'lega.db.inc.php');
+require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
-$dbObj = new db();
+$dbConnection = new db();
+global $message;
 $message = new message();
+global $request;
+$request = new Request();
 $logger = new logger();
+$quickLinks = new QuickLinks($request);
+$notifiche = array();
+
+$ruoli = array();
+$ruoli['P'] = new Ruolo("Portiere", "Portieri", "POR");
+$ruoli['D'] = new Ruolo("Difensore", "Difensori", "DIF");
+$ruoli['C'] = new Ruolo("Centrocampista", "Centrocampisti", "CEN");
+$ruoli['A'] = new Ruolo("Attaccante", "Attaccanti", "ATT");
 
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
 $generalJs[] = 'jquery/jquery.js';
-$generalJs[] = 'ui/jquery.effects.core.js';
-$generalJs[] = 'ui/jquery.effects.pulsate.js';
-$generalJs[] = 'uniform/jquery.uniform.js';
+$generalJs[] = 'syze/syze.js';
+$generalJs[] = 'ui/jquery.ui.effect.js';
+$generalJs[] = 'ui/jquery.ui.effect-pulsate.js';
+//$generalJs[] = 'uniform/jquery.uniform.js';
+$generalJs[] = 'bootstrap/bootstrap-transition.js';
+$generalJs[] = 'bootstrap/bootstrap-collapse.js';
+$generalJs[] = 'bootstrap/bootstrap-dropdown.js';
+$generalJs[] = 'stickyPanel/jquery.stickyPanel.js';
+//$generalJs[] = 'bootstrap/bootstrap-affix.js';
+$generalJs[] = 'countdown/jquery.jcountdown1.3.js';
+$generalJs[] = 'googleAnalytics/googleAnalytics.js';
 $generalJs[] = 'custom/all.js';
+//$generalJs[] = 'social/facebook.js';
+//$generalJs[] = 'social/googleplus.js';
 
 $generalCss = array();
-$generalCss[] = '00-screen.css';
-$generalCss[] = 'uniform.css';
-
+//$generalCss[] = 'boiler.css';
+//$generalCss[] = 'typography.css';
+//$generalCss[] = 'forms.css';
+//$generalCss[] = 'buttons.css';
+//$generalCss[] = 'grid.css';
+$generalCss[] = 'bootstrap/bootstrap';
+$generalCss[] = 'bootstrap/responsive';
+$generalCss[] = 'layout';
+$generalCss[] = 'style';
+$generalCss[] = 'pages';
+$generalCss[] = 'fancybox';
+//$generalCss[] = 'uniform.css';
 //Creating object for pages
-$layoutTpl = new Savant3(array('template_path' => TPLDIR));
-$headerTpl = new Savant3(array('template_path' => TPLDIR));
-$footerTpl = new Savant3(array('template_path' => TPLDIR));
-$contentTpl = new Savant3(array('template_path' => TPLDIR));
-$navbarTpl = new Savant3(array('template_path' => TPLDIR));
-$operationTpl = new Savant3(array('template_path' => OPERATIONTPLDIR));
+$layoutTpl = new MySavant3(array('template_path' => TPLDIR));
+$headerTpl = new MySavant3(array('template_path' => TPLDIR));
+$footerTpl = new MySavant3(array('template_path' => TPLDIR));
+$contentTpl = new MySavant3(array('template_path' => TPLDIR));
+$navbarTpl = new MySavant3(array('template_path' => TPLDIR));
+$operationTpl = new MySavant3(array('template_path' => OPERATIONTPLDIR));
 
-$session_name = 'fantamanajer';
-@session_name($session_name);
-// strictly, PHP 4 since 4.4.2 would not need a verification
-if (version_compare(PHP_VERSION, '5.1.2', 'lt') && isset($_COOKIE[$session_name]) && eregi("\r|\n", $_COOKIE[$session_name])) 
-	die('attacked');
-
-if (!isset($_COOKIE[$session_name])) 
-{
-	ob_start();
-	$old_display_errors = ini_get('display_errors');
-	$old_error_reporting = error_reporting(E_ALL);
-	ini_set('display_errors', 1);
-	$r = session_start();
-	ini_set('display_errors', $old_display_errors);
-	error_reporting($old_error_reporting);
-	unset($old_display_errors, $old_error_reporting);
-	$session_error = ob_get_contents();
-	ob_end_clean();
-	if ($r !== TRUE || ! empty($session_error)) 
-	{
-		setcookie($session_name, '', 1);
-		die('sessionError');
-	}
-}
-else
-	@session_start();
-
-
-//If no page have been required give the default page (home.php and home.tpl.php)
-$p = isset($_GET['p']) ? $_GET['p'] : 'home';
-
-define("DEBUG",(LOCAL || $_SESSION['roles'] == 2));
+global $firePHP;
 $firePHP = FirePHP::getInstance(TRUE);
-$firePHP->setEnabled(DEBUG);
+$firePHP->setEnabled(LOCAL);
 $firePHP->registerErrorHandler(FALSE);
+
 
 ob_start();
 
-//Try login if POSTDATA exists
+
 require_once(CODEDIR . 'login.code.php');
 
-if(isset($_POST['username']) && $_SESSION['logged'])
-	header('Location: ' . str_replace('&amp;','&',Links::getLink('dettaglioSquadra',array('squadra'=>$_SESSION['idUtente']))));
+define("DEBUG", (LOCAL || DEVELOP || $_SESSION['roles'] == 2));
+$firePHP->setEnabled(DEBUG);
 
-//Setting up the default user data
-if (!isset($_SESSION['logged'])) {
-	$_SESSION['userid'] = 1000;
-	$_SESSION['roles'] = -1;
-	$_SESSION['usertype'] = 'guest';
-	$_SESSION['logged'] = FALSE;
-	$_SESSION['idUtente'] = FALSE;
-	$_SESSION['idLega'] = 1;
-	$_SESSION['legaView'] = 1;
+$p = $request->has('p') ? $request->get('p') : 'home';
+if (!isset($pages->pages[$p]))
+    Request::send404();
+elseif ($pages->pages[$p]->roles > $_SESSION['roles']) {
+    $message->error("Non hai l'autorizzazione necessaria");
+    $p = 'home';
 }
 
-/**
- * SETTO NEL CONTENTTPL LA GIORNATA
- */
+$giornata = Giornata::getCurrentGiornata();
 
-$giornata = Giornata::getGiornataByDate();
-define("GIORNATA",$giornata['idGiornata']);
-define("PARTITEINCORSO",$giornata['partiteInCorso']);
-define("STAGIONEFINITA",$giornata['stagioneFinita']);
+define("GIORNATA", $giornata['id']);
+define("PARTITEINCORSO", $giornata['partiteInCorso']);
+define("STAGIONEFINITA", $giornata['stagioneFinita']);
 
+$leghe = Lega::getList();
+if (isset($_POST['legaView']))
+    $_SESSION['legaView'] = $_POST['legaView'];
+$currentLega = Lega::getById($_SESSION['legaView']);
 
-$leghe = Lega::getLeghe();
-$layoutTpl->assign('leghe',$leghe);
-if(!isset($_SESSION['legaView']))
-	$_SESSION['legaView'] = $leghe[0]->idLega;
-if(isset($_POST['legaView']))
-	$_SESSION['legaView'] = $_POST['legaView'];
+if (isset($_SESSION['idLega']))
+    $_SESSION['datiLega'] = $leghe[$_SESSION['idLega']];
+
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
+
 /**
  * INIZIALIZZAZIONE VARIABILI CONTENT
  * Questo Switch discrimina tra i vari moduli di codice quello che deve
  * essere caricato per visualizzare la pagina corretta
- *
  */
-if(!isset($pages[$p])) 
-{
-	$message->error("La pagina " . $p . " non esiste. Sei stato mandato alla home");
-	$p = 'home';
-}
-elseif($pages[$p]['roles'] > $_SESSION['roles']) 
-{
-	$message->error("Non hai l'autorizzazione necessaria per vedere la pagina " . strtolower($pages[$p]['title']) . ". Sei stato mandato alla home");
-	$p = 'home';
-}
-if(isset($_SESSION['message']))
-{
-	$message = $_SESSION['message'];	
-	unset($_SESSION['message']);
+$layoutTpl->assign('title', $pages->pages[$p]->title);
+$firePHP->log(REQUESTDIR . $p . '.request.code.php');
+//INCLUDE IL FILE DI REQUEST PER LA PAGINA
+if ($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
+    $firePHP->group($p . '.request.code.php');
+    require(REQUESTDIR . $p . '.request.code.php');
+    $firePHP->groupEnd();
 }
 
-$firePHP->group($p . '.code.php');
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
-if (file_exists(CODEDIR . $p . '.code.php'))
-	require(CODEDIR . $p . '.code.php');
-//definisce il file di template utilizzato per visualizzare questa pagina
-$tplfile = $p . '.tpl.php';
-
-$firePHP->groupEnd();
-$layoutTpl->assign('message',$message);
-
-/**
- * Eseguo i controlli per sapere se ci sono messaggi da comunicare all'utente e setto in sessione i dati di lega
- */
-$firePHP->group("Giocatori trasferiti");
-if ($_SESSION['logged'])
-{
-	require_once(INCDIR . 'giocatore.db.inc.php');
-	require_once(INCDIR . 'trasferimento.db.inc.php');
-
-	$_SESSION['datiLega'] = Lega::getLegaById($_SESSION['idLega']);
-	if(Giocatore::getGiocatoriTrasferiti($_SESSION['idUtente']) != FALSE && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
-		$layoutTpl->assign('generalMessage','Un tuo giocatore non è più nella lista! Vai alla pagina trasferimenti');
+if (file_exists(CODEDIR . $p . '.code.php')) {
+    $firePHP->group($p . '.code.php');
+    require(CODEDIR . $p . '.code.php');
+    $firePHP->groupEnd();
 }
-$firePHP->groupEnd();
 
-//ASSEGNO ALLA NAVBAR LA PAGINA IN CUI SIAMO
-$navbarTpl->assign('p',$p);
-$navbarTpl->assign('pages',$pages);
-/**
- *
- * INIZIALIZZAZIONE VARIABILI HEAD (<html><head>...</head><body>
- *
- */
-$layoutTpl->assign('title',$pages[$p]['title']);
-$layoutTpl->assign('p',$p);
-$layoutTpl->assign('generalJs',$generalJs);
-$layoutTpl->assign('generalCss',$generalCss);
-if(isset($pages[$p]['css']))
- 	$layoutTpl->assign('css', $pages[$p]['css']);
-if(isset($pages[$p]['js']))
-	$layoutTpl->assign('js', $pages[$p]['js']);
-if(isset($pages[$p]['ieHack']))
-	$layoutTpl->assign('ieHack', $pages[$p]['ieHack']);
+if (LOCAL)
+    require_once(CODEDIR . 'less2css.code.php');
+
+require_once(CODEDIR . 'navbar.code.php');
+
+$headerTpl->assign('dataFine', date_parse(Giornata::getTargetCountdown()->format("Y-m-d H:i:s")));
+$operationTpl->assign('request', $request);
+$contentTpl->assign('request', $request);
+$contentTpl->assign('ruoli', $ruoli);
+$navbarTpl->assign('request', $request);
+$navbarTpl->assign('notifiche', $notifiche);
+$navbarTpl->assign('pages', $pages);
+$navbarTpl->assign('leghe', $leghe);
+$layoutTpl->assign('message', $message);
+$layoutTpl->assign('quickLinks', $quickLinks);
+$layoutTpl->assign('p', $p);
+$layoutTpl->assign('generalJs', $generalJs);
+$layoutTpl->assign('generalCss', $generalCss);
+if (isset($pages->pages[$p]->css))
+    $layoutTpl->assign('css', $pages->pages[$p]->css);
+if (isset($pages->pages[$p]->js))
+    $layoutTpl->assign('js', $pages->pages[$p]->js);
+if (isset($pages->pages[$p]->ieHack))
+    $layoutTpl->assign('ieHack', $pages->pages[$p]->ieHack);
 
 /**
  * GENERAZIONE LAYOUT
  */
-
 /**
  * PRODUZIONE HEADER
  * il require include il file con il codice per l'header, incluso il nome del file template
@@ -217,51 +187,45 @@ $header = $headerTpl->fetch('header.tpl.php');
  * PRODUZIONE FOOTER
  * il require include il file con il codice per il'footer, incluso il nome del file del file template
  */
-//$footertpl->assign('p',$p);
 $footer = $footerTpl->fetch('footer.tpl.php');
 
 /**
  * PRODUZIONE MENU
  * il require include il file con il codice per il menu, incluso il nome del file del file template
  */
-
-// $navbarTpl->assign('p',$p);
 $navbar = $navbarTpl->fetch('navbar.tpl.php');
 /**
  * PRODUZIONE CONTENT
  * Esegue la fetch del template per l'area content
  */
+$tplfile = $p . '.tpl.php';
 $content = $contentTpl->fetch($tplfile);
 $operation = "";
-if($_SESSION['logged'])
-	$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
-if(file_exists(OPERATIONTPLDIR . $p . ".tpl.php"))
-	$operation .= $operationTpl->fetch($p . ".tpl.php");
+
+//if($_SESSION['logged'])
+//$operation .= $operationTpl->fetch(TPLDIR . "operazioni.tpl.php");
+if (file_exists(OPERATIONTPLDIR . $p . ".tpl.php"))
+    $operation .= $operationTpl->fetch($p . ".tpl.php");
 
 /**
  * COMPOSIZIONE PAGINA
  */
-
 $layoutTpl->assign('header', $header);
 $layoutTpl->assign('footer', $footer);
 $layoutTpl->assign('content', $content);
 $layoutTpl->assign('operation', $operation);
 $layoutTpl->assign('navbar', $navbar);
 
-$ob = ob_get_contents();
-if($ob != "")
-	$firePHP->warn($ob);
-	
+if (($ob = ob_get_contents()) != "")
+    $firePHP->warn($ob);
+
 /**
  * Output Pagina
  */
-$layoutTpl->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
+$layoutTpl->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
 $result = $layoutTpl->display('layout.tpl.php');
 // now test the result of the display() call.  if there was an
 // error, this will tell you all about it.
-if ($layoutTpl->isError($result)) {
-	echo "There was an error displaying the template. <pre>";
-	print_r($result,1);
-	echo "</pre>";
-}
+if ($layoutTpl->isError($result))
+    echo "There was an error displaying the template. <pre>" . print_r($result, 1) . "</pre>";
 ?>

@@ -22,7 +22,7 @@
 	</div>
 <?php endif; ?>
 <?php if($_SESSION['roles'] == '2'): ?>
-<form class="column last" action="<?php echo Links::getLink('creaSquadra'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('creaSquadra'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
 		<input type="hidden" name="p" value="creaSquadra" />
 		<input type="hidden" name="a" value="new" />

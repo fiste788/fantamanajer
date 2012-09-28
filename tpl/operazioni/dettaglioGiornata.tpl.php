@@ -1,19 +1,23 @@
-<form class="column last" action="<?php echo Links::getLink('dettaglioGiornata'); ?>" method="post">
-	<fieldset class="no-margin fieldset max-large">
-		<input type="hidden" name="p" value="<?php echo $_GET['p'];?>" />
-		<h3 class="no-margin">Seleziona la giornata</h3>
-		<select name="giornata" onchange="this.form.submit();">
-			<?php if(!isset($this->giornata)): ?><option></option><?php endif; ?>
-			<?php for($i = $this->giornate ; $i > 0 ; $i--): ?>
-				<option<?php echo ($this->giornata == $i) ? ' selected="selected"' : ''; ?> value="<?php echo $i?>"><?php echo $i?></option>
-			<?php endfor; ?>
-		</select>
-		<h3 class="no-margin">Seleziona la squadra</h3>
-		<select name="squadra" onchange="this.form.submit();">
-			<?php if(!isset($this->squadra)): ?><option></option><?php endif; ?>
-			<?php foreach($this->squadre as $key => $val): ?>
-				<option<?php echo ($this->squadra == $val->idUtente) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
-			<?php endforeach; ?>
-		</select>
-	</fieldset>
+<form class="form-inline" action="<?php echo Links::getLink('dettaglioGiornata'); ?>" method="post">
+    <fieldset>
+        <div class="control-group">
+            <input type="hidden" name="p" value="<?php echo $this->request->get('p'); ?>" />
+            <label for="giornata">Seleziona la giornata:</label>
+            <select name="giornata" onchange="this.form.submit();">
+                <?php if (!$this->request->has('giornata')): ?><option></option><?php endif; ?>
+                <?php foreach ($this->giornate as $key => $val): ?>
+                    <option<?php echo ($this->request->get('giornata') == $val) ? ' selected="selected"' : ''; ?> value="<?php echo $val; ?>"><?php echo $val; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="squadra">Seleziona la squadra:</label>
+            <select name="squadra" onchange="this.form.submit();">
+                <?php if (!$this->request->has('squadra')): ?><option></option><?php endif; ?>
+                <?php foreach ($this->squadre as $key => $val): ?>
+                    <option<?php echo ($this->request->get('squadra') == $val->id) ? ' selected="selected"' : ''; ?> value="<?php echo $val->id; ?>"><?php echo $val->nomeSquadra; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </fieldset>
 </form>

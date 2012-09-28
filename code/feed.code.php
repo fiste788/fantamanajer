@@ -1,12 +1,7 @@
 <?php 
-require_once(INCDIR . 'evento.db.inc.php');
+require_once(INCDBDIR . 'evento.db.inc.php');
 
-$filterEvento = NULL;
-if(isset($_POST['evento']))
-	$filterEvento = $_POST['evento'];
-	
-$eventi = Evento::getEventi($_SESSION['legaView'],$filterEvento,0,25);
+$eventi = Evento::getEventi($_SESSION['legaView'],$request->get('evento'),0,25);
 
 $contentTpl->assign('eventi',$eventi);
-$operationTpl->assign('evento',$filterEvento);
 ?>

@@ -1,4 +1,4 @@
-<form class="column last" action="<?php echo Links::getLink('penalita'); ?>" method="post">
+<form class="form-inline" action="<?php echo Links::getLink('penalita'); ?>" method="post">
 	<fieldset class="no-margin fieldset max-large">
 		<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
 		<?php if($_SESSION['roles'] == 2): ?>

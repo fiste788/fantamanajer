@@ -1,148 +1,116 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>FantaManajer<?php if(isset($this->title)) echo " - " . $this->title; ?></title>
-		<link href="http://fonts.googleapis.com/css?family=Droid+Sans&amp;subset=latin" rel="stylesheet" type="text/css" />
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		<meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
-		<meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
-		<meta name="author" content="Stefano Sonzogni"/>
-		<meta name="keywords" content="fantamanajer,alzano sopra" />
-		<meta name="robots" content="index,follow" />
-		<?php if(LOCAL): ?>
-			<?php foreach($this->generalCss as $key => $val): ?>
-				<link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
-			<?php endforeach; ?>
-		<?php else: ?>
-			<link href="<?php echo CSSURL . 'combined.css?v=' . VERSION; ?>" media="screen" rel="stylesheet" type="text/css" />
-		<?php endif; ?>
-		<?php if(isset($this->css)): ?>
-		<?php foreach($this->css as $key => $val): ?>
-			<link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
-		<?php endforeach; ?>
-		<?php endif; ?>
-		<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo CSSURL . 'ie.min.css'; ?>" type="text/css" media="screen"><![endif]-->
-		<link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
-		<link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
-		<link rel="alternate" href="<?php echo FULLURL . 'rssPicLens.php'; ?>" type="application/rss+xml" title="Squadre" id="gallery" />
-	</head>
-	<?php flush(); ?>
-	<body>
-		<div id="big-container">
-			<div id="header" class="column last">
-				<?php echo $this->header; ?>
-			</div>
-			<?php require('login.tpl.php'); ?>
-			<div id="navbar" class="column last">
-				<?php echo $this->navbar ?>
-			</div>
-			<div id="content" class="column last">
-				<?php if($this->message->show || isset($this->generalMessage)): ?>
-					<div id="messaggioContainer" title="Clicca per nascondere">
-					<?php if(isset($this->generalMessage)): ?>
-						<div title="Clicca per nascondere" class="messaggio error column last">
-							<div class="column last top"></div>
-							<div class="column last middle">
-								<img alt="!" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" title="Attenzione!" />
-								<span><?php echo $this->generalMessage; ?></span>
-							</div>
-							<div class="column last bottom"></div>
-						</div>
-					<?php endif; ?>
-					<?php if($this->message->show): ?>
-						<?php switch($this->message->level): 
-							 case 0: ?>
-							<div class="messaggio success column last">
-								<div class="column last top"></div>
-								<div class="column last middle">
-									<img alt="OK" height="56" src="<?php echo IMGSURL . 'ok.png'; ?>" width="56" />
-									<span><?php echo $this->message->text; ?></span>
-								</div>
-								<div class="column last bottom"></div>
-							</div>
-							<?php break; case 1: ?>
-							<div class="messaggio warning column last">
-								<div class="column last top"></div>
-								<div class="column last middle">
-									<img alt="!" height="56" src="<?php echo IMGSURL . 'attention.png'; ?>" width="56" />
-									<span><?php echo $this->message->text; ?></span>
-								</div>
-								<div class="column last bottom"></div>
-							</div>
-							<?php break; case 2: ?>
-							<div class="messaggio error column last">
-								<div class="column last top"></div>
-								<div class="column last middle">
-									<img alt="!" height="56" src="<?php echo IMGSURL . 'attention-bad.png'; ?>" width="56" />
-									<span><?php echo $this->message->text; ?></span>
-								</div>
-								<div class="column last bottom"></div>
-							</div>
-							<?php endswitch; ?>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-				<div id="<?php echo $this->p; ?>" class="main-content">
-					<?php echo $this->content; ?>
-				</div>
-			</div>
-			<div id="footer">
-				<?php echo $this->footer; ?>
-			</div>
-		</div>
-		<?php if(!empty($this->quickLinks) || !empty($this->operation)): ?>
-		<div id="topRightBar"<?php if(!empty($this->operation)) echo ' class="active"'; ?>>
-			<div>
-				<?php if(!empty($this->operation)): ?>
-				<div title="Mostra menu" id="click-menu">
-					<span>Menu</span>
-				</div>
-				<?php endif; ?>
-				<?php if(isset($this->quickLinks->prec) && $this->quickLinks->prec != FALSE): ?>
-					<a class="back" href="<?php echo $this->quickLinks->prec->href; ?>" title="<?php echo $this->quickLinks->prec->title; ?>">&nbsp;</a>
-				<?php endif; ?>
-				<?php if(isset($this->quickLinks->succ) && $this->quickLinks->succ != FALSE): ?>
-					<a class="next" href="<?php echo $this->quickLinks->succ->href; ?>" title="<?php echo $this->quickLinks->succ->title; ?>">&nbsp;</a>
-				<?php endif; ?>
-			</div>
-		</div>
-		<?php endif; ?>	
-		<?php if(!empty($this->operation)): ?>
-			<div id="menu"><?php echo $this->operation; ?></div>
-		<?php endif; ?>
-		<?php if(isset($this->ieHack)): ?>
-			<?php foreach($this->ieHack as $key=>$val): ?>
-				<!--[if IE]><script src="<?php echo JSURL . $key . '/' . $val; ?>" type="text/javascript"></script><![endif]-->
-			<?php endforeach; ?>
-		<?php endif; ?>
-		<?php if(LOCAL): ?>
-			<?php foreach($this->generalJs as $key => $val): ?>
-				<script src="<?php echo JSURL . $val; ?>" type="text/javascript"></script>
-			<?php endforeach; ?>
-			<?php if(isset($this->js)): ?>
-			<?php foreach($this->js as $key => $val): ?>
-				<?php if(is_array($val)): ?>
-					<?php foreach($val as $key2=>$val2): ?>
-						<script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
-					<?php endforeach; ?>
-				<?php else: ?>
-					<script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
-				<?php endif; ?>
-			<?php endforeach; ?>
-			<?php endif; ?>
-			<?php if(file_exists(JSDIR . 'pages/' . $this->p  . '.js')): ?>
-				<script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
-			<?php endif; ?>
-		<?php else: ?>
-		<script src="<?php echo JSURL . 'combined/combined.js?v=' . VERSION; ?>" type="text/javascript"></script>
-		<?php if(file_exists(JSDIR . 'combined/' . $this->p . '.js')): ?>
-			<script src="<?php echo JSURL . 'combined/' . $this->p . '.js?v=' . VERSION; ?>" type="text/javascript"></script>
-		<?php endif; ?>
-<script type="text/javascript">
-// <![CDATA[
-$.trackPage("UA-3016148-1");if(jQuery.browser.msie && jQuery.browser.version<7)window.location="error_docs/not_supported.html";
-// ]]>
-</script>
-		<?php endif; ?>
-	</body>
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>FantaManajer<?php if (isset($this->title)) echo " - " . $this->title; ?></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
+        <meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
+        <meta name="author" content="Stefano Sonzogni"/>
+        <meta name="keywords" content="fantamanajer,alzano sopra" />
+        <meta property="og:title" content="FantaManajer" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="http://fantamanajer.it" />
+        <meta property="og:image" content="" />
+        <meta property="og:description" content="Gestisci la tua lega del fantacalcio con il FantaManajer"/>
+        <meta property="og:site_name" content="FantaManajer" />
+        <meta property="fb:admins" content="sonzogni.stefano" />
+        <?php if (LOCAL): ?>
+            <?php foreach ($this->generalCss as $key => $val): ?>
+                <link href="<?php echo CSSURL . $val; ?>" media="screen" rel="stylesheet" type="text/css" />
+            <?php endforeach; ?>
+        <?php else: ?>
+            <link href="<?php echo CSSURL . 'combined.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
+        <?php endif; ?>
+        <?php if (isset($this->css)): ?>
+            <?php foreach ($this->css as $key => $val): ?>
+                <link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
+        <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
+        <link href="<?php echo IMGSURL . 'apple-touch-icon-precomposed.png' ?>" rel="apple-touch-icon" />
+        <link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
+        <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
+        <script src="<?php echo JSURL ?>modernizr/modernizr.min.js"></script>
+    </head>
+    <?php flush(); ?>
+    <body<?php if (DEBUG) echo ' class="debug"' ?>>
+        <nav id="topbar" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner"><?php echo $this->navbar; ?></div>
+        </nav>
+        <?php require_once(TPLDIR . "message.tpl.php"); ?>
+        <header>
+            <div class="gradient">
+                <div class="container"><?php echo $this->header; ?></div>
+            </div>
+        </header>
+        <?php if (!empty($this->operation)): ?>
+            <section id="operation">
+                <div class="fix">
+                    <div class="container">
+                        <div class="operation-content">
+                            <?php if ($this->quickLinks->prev != FALSE): ?>
+                                <a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="icon-arrow-left"></span></a>
+                            <?php else: ?>
+                                <div class="back">&nbsp;</div>
+                            <?php endif; ?>
+                            <div class="center"><?php echo $this->operation; ?></div>
+                            <?php if ($this->quickLinks->next != FALSE): ?>
+                                <a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>"><span class="icon-arrow-right"></span></a>
+                            <?php else: ?>
+                                <div class="next">&nbsp;</div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        <?php endif; ?>
+        <section id="content">
+            <div class="container" id="<?php echo $this->p; ?>">
+                <div class="inner-page"><?php echo $this->content; ?></div>
+            </div>
+        </section>
+        <footer>
+            <div class="container">
+                <?php echo $this->footer; ?>
+            </div>
+        </footer>
+        <?php if (LOCAL): ?>
+            <script type="text/javascript">
+                var LOCAL = <?php echo (LOCAL) ? 'true' : 'false' ?>;
+                var JSURL = '<?php echo JSURL ?>';
+                var AJAXURL = '<?php echo AJAXURL ?>';
+                var IMGSURL = '<?php echo IMGSURL ?>';
+                var FULLURL = '<?php echo FULLURL ?>';
+            </script>
+            <?php foreach ($this->generalJs as $key => $val): ?>
+                <script src="<?php echo JSURL . $val; ?>" type="text/javascript"></script>
+            <?php endforeach; ?>
+            <?php if (isset($this->js)): ?>
+                <?php foreach ($this->js as $key => $val): ?>
+                    <?php if (is_array($val)): ?>
+                        <?php foreach ($val as $val2): ?>
+                            <script src="<?php echo JSURL . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <script src="<?php echo JSURL . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php if (file_exists(JSDIR . 'pages/' . $this->p . '.js')): ?>
+                <script src="<?php echo JSURL . 'pages/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+            <?php endif; ?>
+        <?php else: ?>
+            <script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
+            <?php if (file_exists(JSDIR . 'combined/' . $this->p . '.js')): ?>
+                <script src="<?php echo JSURL . 'combined/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+            <?php endif; ?>
+        <?php endif; ?>
+    </body>
 </html>

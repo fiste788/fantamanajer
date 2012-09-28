@@ -3,18 +3,13 @@ class Db
 {
 	var $link;
 	
-	function __construct()
-	{
+	function __construct() {
 		if(!isset($this->link))
-		{
 			$this->connect();
-		}
 	}
 	
-	private function connect()
-	{
-		if(DBTYPE == "mysql")
-		{
+	private function connect() {
+		if(DBTYPE == "mysql") {
 			$this->link = mysql_connect(DBHOST,DBUSER,DBPASS);
 			if(!$this->link)
 				die(MYSQL_ERRNO()." ".MYSQL_ERROR());
@@ -25,14 +20,12 @@ class Db
 		}
 	}
 	
-	function __destruct()
-	{
-		if(isset($this->link))
-			mysql_close($this->link);
+	function __destruct() {
+		//if(isset($this->link))
+		//	mysql_close($this->link);
 	}
 	
-	public static function dbOptimize()
-	{
+	public static function dbOptimize() {
 		$q = "SHOW TABLES";
 		$exe = mysql_query($q) or self::sqlError($q);
 		$result = "";
@@ -44,19 +37,22 @@ class Db
 		return mysql_query($q) or self::sqlError($q);;
 	}
 	
-	public static function startTransaction()
-	{
+	public static function startTransaction() {
 		mysql_query("START TRANSACTION");
 	}
 	
-	public static function commit()
-	{
+	public static function commit() {
 		mysql_query("COMMIT");
 	}
 	
-	public static function rollback()
-	{
+	public static function rollback() {
 		mysql_query("ROLLBACK");
+	}
+	
+	protected static function sqlError($q) {
+		ob_end_flush();
+		FirePHP::getInstance()->error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
+		die();
 	}
 }
 ?>

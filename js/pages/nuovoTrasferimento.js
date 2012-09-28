@@ -1,14 +1,15 @@
-$("#legaSelect").change(function () { 
-	var id = $("#legaSelect option:selected").attr('value'); 
+var selectLega = $("select[name='lega']");
+var selectSquadra = $("select[name='squadra']");
+selectLega.change(function () {
+	var id = $("option:selected",this).attr('value');
 	$.getJSON(url + "squadre.php?idLega=" + id, 
 		function(data,textStatus){ 
 			if(textStatus = "success") { 
-				$("#squadraSelect").empty(); 
-				$("#squadraSelect").removeAttr("disabled");
-				$("#uniform-squadraSelect").removeClass("disabled");  
-				$("#squadraSelect").append("<option></option>"); 
+				selectSquadra.empty();
+				selectSquadra.removeAttr("disabled");
+				selectSquadra.append("<option></option>");
 				$.each(data, function(i,item){ 
-					$("#squadraSelect").append('<option value="' + i + '">' + item + '</option>'); 
+					selectSquadra.append('<option value="' + item.id + '">' + item.nomeSquadra + '</option>');
 				}); 
 			}
 		});
