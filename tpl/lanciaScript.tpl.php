@@ -1,4 +1,4 @@
-<ul class="column last">
+<ul class="unstyled">
 	<li>
 		<h3 class="column">
 			<a class="script" id="backup"><img class="column" alt="->" src="<?php echo IMGSURL . 'backup.png'; ?>" />Backup</a>

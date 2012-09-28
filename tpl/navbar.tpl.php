@@ -1,51 +1,60 @@
-<?php 
-$flag = FALSE;
-foreach($this->pages as $key=>$val)
-{
-	if($val['roles'] <= $_SESSION['roles'])
-	{
-		if(isset($val['navbar']['main']))
-			$appo[$val['navbar']['key']] = $val['navbar'];
-		if($key == 'dettaglioSquadra' && $this->p == 'dettaglioSquadra' && $_GET['squadra'] != $_SESSION['idUtente'])
-		{
-			$appo['squadre']['pages'][] = $this->p;
-			$flag = TRUE;
-		}
-		$appo[$val['navbar']['key']]['pages'][] = $key;
-	}
-} 
-if ($flag)
-	unset ($appo['dettaglioSquadra']['pages'][0]);
+<div class="container">
+	<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	</a>
+    <a class="brand hidden-desktop" href="/">FantaManajer</a>
+	<div class="nav-collapse">
+		<ul class="nav">
+			<?php foreach($this->entries->navbar as $key=>$val): ?>
+				<?php if($this->entries->pages[$key]->roles <= $_SESSION['roles']): ?>
+					<li<?php if(!empty($val) || in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) { echo ' class="'; if(!empty($val)) echo 'dropdown'; if(in_array($this->request->get('p'),$this->entries->pages[$key]->pages)) echo ' active'; echo '"';} ?>>
+						<a class="level<?php if(!empty($val)) echo " dropdown-toggle"; ?>" href="<?php echo Links::getLink($key) ?>"><?php echo $this->entries->pages[$key]->title; ?></a>
+						<?php if(!empty($val)): ?>
+							<ul class="dropdown-menu subnav">
+							<?php foreach($val as $key2=>$val2): ?>
+								<li><a href="<?php echo Links::getLink($val2); ?>"><?php echo $this->entries->pages[$val2]->title; ?></a></li>
+							<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+					</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
 
-if($_SESSION['logged'] != TRUE)
-	unset ($appo['dettaglioSquadra']);
-$sort_arr = array();
-foreach($appo as $uniqid => $row)
-	foreach($row as $key => $value)
-		$sort_arr[$key][$uniqid] = $value;
-array_multisort($sort_arr['order'] , SORT_ASC , $appo);
-?>
-<ul>
-	<?php foreach($appo as $key=>$val):
-		$selected = FALSE;
-		//echo "<pre>" . print_r($val,1) . "</pre>";
-		if(in_array($this->p,$val['pages'])) $selected = TRUE;
-			if($selected): ?>
-				<li class="selected">
-			<?php else: ?>
-				<li>
+			<?php require_once(TPLDIR . "login.tpl.php") ?>
+
+			<?php if($_SESSION['logged']): ?>
+                <li id="account" class="pull-right dropdown">
+                    <a id="notifiche" <?php if(!empty($this->notifiche)) echo ' class="dropdown-toggle nopick"'; ?>>
+                        <div class="hidden-desktop">Notifiche: <span class="badge<?php if(count($this->notifiche) > 0) echo ' badge-important' ?>"><?php echo count($this->notifiche); ?></span></div>
+		                <span class="visible-desktop<?php if(!empty($this->notifiche)) echo ' active'; ?>" title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
+		            </a>
+		            <?php if(!empty($this->notifiche)): ?>
+		                <ul class="boxNotifiche dropdown-menu">
+		                <?php foreach($this->notifiche as $key=>$val): ?>
+                            <li><a href="<?php echo $val->link; ?>"><?php echo $val->text; ?></a></li>
+		                <?php endforeach; ?>
+		                </ul>
+		            <?php endif; ?>
+				</li>
 			<?php endif; ?>
-			<div>
-				<?php if($key == 'dettaglioSquadra'): ?>
-				<a href="<?php echo Links::getLink($key,array('squadra'=>$_SESSION['idUtente'])); ?>"><?php echo $val['title']; ?></a>
-				<?php else: ?>
-				<a href="<?php echo Links::getLink($key); ?>"><?php echo $val['title']; ?></a>
-				<?php endif; ?>
-				<?php if($selected && !isset($this->pages[$this->p]['navbar']['main'])): ?>
-					<a class="son"> > </a>
-					<a><?php echo $this->pages[$this->p]['navbar']['title']; ?></a>
-				<?php endif; ?>
-			</div>
-			</li>
-	<?php endforeach; ?>
-</ul>
+
+			<?php if(count($this->leghe) > 1): ?>
+			<li id="legaSelect" class="pull-right">
+				<?php $appo = $_GET; unset($appo['p']); ?>
+				<form class="form-inline" action="<?php echo Links::getLink($this->request->get('p'),$appo); ?>" method="post">
+					<fieldset>
+                        <label for="legaView" class="hidden-desktop">Seleziona la lega</label>
+						<select id="legaView" onchange="this.form.submit();" class="input-medium" name="legaView">
+							<?php foreach($this->leghe as $key=>$value): ?>
+								<option <?php echo ($_SESSION['legaView'] == $key) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $value->getNome(); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</fieldset>
+				</form>
+				</li>
+			<?php endif; ?>
+		</ul>
+	</div>
+</div>

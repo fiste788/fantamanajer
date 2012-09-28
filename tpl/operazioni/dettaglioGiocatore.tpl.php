@@ -1,14 +1,14 @@
-<form class="column last" action="<?php echo Links::getLink('dettaglioGiocatore'); ?>" method="post">
-	<fieldset class="no-margin fieldset">
-		<input type="hidden" value="<?php echo $_GET['p'];?>" />
-		<input type="hidden" value="<?php echo $_GET['edit'];?>" name="edit" />
-		<h3 class="no-margin">Seleziona il giocatore:</h3>
-		<select name="id" onchange="this.form.submit();">
-			<?php if($this->elencoGiocatori != FALSE): ?>
-			<?php foreach ($this->elencoGiocatori as $key => $val): ?>
-				<option<?php echo ($key == $this->idGioc) ? ' selected="selected"' : ''; ?> value="<?php echo $key;?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
-			<?php endforeach; ?>
-			<?php endif; ?>
-		</select>
-	</fieldset>
+<form class="form-inline" action="<?php echo Links::getLink('dettaglioGiocatore'); ?>" method="post">
+    <fieldset>
+        <div class="control-group">
+            <input type="hidden" value="<?php echo $this->request->get('p'); ?>" />
+            <input type="hidden" value="<?php echo $this->request->has('edit') ? $this->request->get('edit') : 'view'; ?>" name="edit" />
+            <label for="giocatore">Seleziona il giocatore:</label>
+            <select name="giocatore" onchange="this.form.submit();">
+                <?php foreach ($this->elencoGiocatori as $key => $val): ?>
+                    <option<?php echo ($key == $this->request->get('id')) ? ' selected="selected"' : ''; ?> value="<?php echo $key; ?>"><?php echo $val->cognome . " " . $val->nome; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </fieldset>
 </form>

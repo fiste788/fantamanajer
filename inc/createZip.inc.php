@@ -193,10 +193,12 @@ class CreateZip {
 
 	function createZipFromDir($dir,$namearchive)  //directory, nome da dare all'archivio
 	{
+		require_once(INCDIR . 'fileSystem.inc.php');
+
 		$dirzip = $namearchive . "/";
 		$this->addDirectory($dirzip);
 
-		$files = fileSystem::getFileIntoFolder($dir);
+		$files = FileSystem::getFileIntoFolder($dir);
 		foreach($files as $key=>$val)
 		{
 			$fileContents = file_get_contents($dir . $val);

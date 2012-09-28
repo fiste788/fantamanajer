@@ -1,7 +1,7 @@
-<form class="right last" action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
-	<fieldset class="no-margin fieldset">
-		<h3 class="no-margin">Guarda le altre formazioni</h3>
+<form class="form-inline" action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
+	<fieldset>
 		<input type="hidden" name="p" value="<?php echo $_GET['p']; ?>" />
+		<label for="squadra">Guarda le altre formazioni</label>
 		<?php if(empty($this->formazioniImpostate)): ?>
 			<select name="squadra" disabled="disabled">
 				<option>Nessuna form. impostata</option>
@@ -13,8 +13,8 @@
 		<?php endif; ?>
 		</select>
 	</fieldset>
-	<fieldset class="no-margin fieldset max-large">
-		<h3 class="no-margin">Guarda la formazione della giornata</h3>
+	<fieldset>
+		<label for="giornta">Guarda la formazione della giornata</label>
 		<select name="giornata" onchange="this.form.submit();">
 			<?php for($j = GIORNATA ; $j  > 0 ; $j--): ?>
 				<option<?php echo ($this->giornata == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>

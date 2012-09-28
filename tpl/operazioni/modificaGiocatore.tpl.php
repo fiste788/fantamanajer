@@ -1,7 +1,7 @@
-<form class="column last" id="ricerca" action="<?php echo Links::getLink('modificaGiocatore'); ?>" method="post">
-	<fieldset class="no-margin fieldset">
-		<h3 class="no-margin">Seleziona il giocatore</h3>
-		<select name="ricercaGioc" id="ricercaGioc">
+<form class="form-inline" action="<?php echo Links::getLink('modificaGiocatore'); ?>" method="post">
+	<fieldset>
+		<label for="giocatore">Seleziona il giocatore</h3>
+		<select name="giocatore">
 			<option></option>
 			<?php foreach($this->giocatori as $key=>$val): ?>
 			<option value="<?php echo $val->idGioc; ?>"<?php echo (isset($_POST['idGioc']) && $_POST['idGioc'] == $val->idGioc) ? ' selected="selected"' : ''; ?>><?php echo $val->cognome . " " . $val->nome; ?></option>

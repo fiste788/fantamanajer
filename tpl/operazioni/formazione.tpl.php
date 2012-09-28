@@ -1,25 +1,26 @@
-<form class="right last" action="<?php echo Links::getLink('altreFormazioni'); ?>" method="post">
-	<fieldset class="no-margin fieldset">
-	  <input type="hidden" name="p" value="formazioniAll" />
-		<h3 class="no-margin">Guarda le altre formazioni</h3>
-		<?php if(empty($this->formazioniImpostate)): ?>
-			<select name="squadra" disabled="disabled">
-				<option>Nessuna form. impostata</option>
-		<?php else:?>
-			<select name="squadra" onchange="this.form.submit();">
-				<option value="<?php echo $_SESSION['idUtente']; ?>"></option>
-			<?php foreach($this->formazioniImpostate as $key => $val): ?>
-				<option <?php echo ($this->squadra == $val->idUtente) ? ' selected="selected"' : ''; ?> value="<?php echo $val->idUtente; ?>"><?php echo $val->nome; ?></option>
-			<?php endforeach;?>
-		<?php endif; ?>
-		</select>
-	</fieldset>
-	<fieldset class="no-margin fieldset max-large">
-		<h3 class="no-margin">Guarda la formazione della giornata</h3>
-			<select name="giornata" onchange="this.form.submit();">
-				<?php for($j = GIORNATA ; $j  > 0 ; $j--): ?>
-					<option <?php echo (GIORNATA == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>
-				<?php endfor; ?>
-		</select>
-	</fieldset>
+<form class="form-inline" action="<?php echo Links::getLink('formazione'); ?>" method="post">
+    <fieldset>
+        <div class="control-group">
+            <input type="hidden" name="p" value="formazione" />
+            <label for="squadra">Guarda altre formazioni</label>
+            <?php if (empty($this->formazioniPresenti)): ?>
+                <select name="utente" disabled="disabled">
+                    <option>Nessuna form. impostata</option>
+                <?php else: ?>
+                    <select name="utente" onchange="this.form.submit();">
+                        <?php foreach ($this->formazioniPresenti as $val): ?>
+                            <option <?php echo ($this->squadra == $val) ? ' selected="selected"' : ''; ?> value="<?php echo $val; ?>"><?php echo $this->squadre[$val]->nomeSquadra; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+        </div>
+        <div class="control-group">
+            <label for="giornata">Guarda formazione alla giornata</label>
+            <select id="giornata" name="giornata" onchange="this.form.submit();">
+                <?php for ($j = GIORNATA; $j > 0; $j--): ?>
+                    <option <?php echo ($this->giornata == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>
+                <?php endfor; ?>
+            </select>
+        </div>
+    </fieldset>
 </form>

@@ -1,19 +1,13 @@
 <?php $r = 'Por.'; ?>
 <div id="headerClub">
-	<div class="column last">
-		<a title="<?php echo $this->clubDett->nomeClub; ?>" class="fancybox column">
-			<img alt="<?php echo $this->club; ?>" src="<?php echo $this->pathClub; ?>" title="Logo <?php echo $this->clubDett->nomeClub; ?>" />
-		</a>
-	</div>
-	<h2 id="nomeClub"><?php echo $this->clubDett->nomeClub;?></h2>
-	<div id="datiClub">
-
-	</div>
+	<img class="logo left" alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->request->get('club') . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
+	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>
+<div class="clear">
 	<h3>Giocatori</h3>
-	<table id="rosa" cellpadding="0" cellspacing="0">
-		<tbody>
+	<table class="table">
+		<thead>
 			<tr>
 				<th>Nome</th>
 				<th class="center">Ruolo</th>
@@ -27,10 +21,12 @@
 				<th class="center">Ammonizioni</th>
 				<th class="center">Esplusioni</th>
 			</tr>
-			<?php foreach($this->giocatori as $key => $val): ?>
-			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; else echo 'row'; ?>">
+		</thead>
+		<tbody>
+			<?php foreach($this->giocatori as $val): ?>
+			<tr class="tr <?php if(empty($val->idClub)) echo 'rosso'; ?>">
 				<td title="" class="name<?php if($val->ruolo != $r) echo ' ult'; ?>">
-					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
+					<a href="<?php echo Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>"><?php echo $val->cognome . ' ' . $val->nome; ?></a>
 				</td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo $val->ruolo; ?></td>
 				<td class="tdcenter<?php echo ($val->ruolo != $r) ? ' ult' : ''; ?>"><?php echo (!empty($val->nomeClub)) ? strtoupper(substr($val->nomeClub,0,3)) : "&nbsp;"; ?></td>
@@ -57,4 +53,5 @@
 			</tr>
 		</tbody>
 	</table>
+</div>
 <?php endif;?>
