@@ -39,8 +39,19 @@ class Formazione extends FormazioneTable {
                     } else
                         $success = ($success and $schieramento->delete());
                 }
-                if ($success)
-                    self::commit();
+                if ($success) {
+                    $evento = new Evento();
+                    $evento->setIdExternal($idFormazione);
+                    $evento->setIdUtente($this->getIdUtente());
+                    $evento->setLega($this->getUtente()->getIdLega());
+                    $evento->setTipo(Evento::FORMAZIONE);
+                    if($evento->save())
+                        self::commit();
+                    else {
+                        self::rollback ();
+                        return FALSE;
+                    }
+                }
                 else {
                     self::rollback();
                     return FALSE;

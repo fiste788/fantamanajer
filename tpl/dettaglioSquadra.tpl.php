@@ -47,14 +47,14 @@
 				<th>Nome</th>
 				<th class="center">Ruolo</th>
 				<th class="center">Club</th>
-				<th class="center">PG</th>
-				<th class="center">MVoti</th>
-				<th class="center">MPunti</th>
+                <th class="center"><abbr title="Partite giocate">PG</abbr></th>
+                <th class="center"><abbr title="Media voto">MV</abbr></th>
+                <th class="center"><abbr title="Media punti">MP</abbr></th>
 				<th class="hidden-phone center">Gol</th>
 				<th class="hidden-phone center">Gol subiti</th>
 				<th class="hidden-phone center">Assist</th>
-				<th class="hidden-phone center">Amm</th>
-				<th class="hidden-phone center">Esp</th>
+                <th class="hidden-phone center"><abbr title="Ammonizioni">Amm</abbr></th>
+                <th class="hidden-phone center"><abbr title="Espulsioni">Esp</abbr></th>
 			</tr>
 		</thead>
 		<tbody>
