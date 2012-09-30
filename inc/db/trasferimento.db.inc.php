@@ -5,8 +5,10 @@ require_once(TABLEDIR . 'Trasferimento.table.db.inc.php');
 class Trasferimento extends TrasferimentoTable {
 
     public function save($parameters = NULL) {
-        self::startTransaction();
-        if (($id = parent::save()) != FALSE) {
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+
+            $id = parent::save();
             require_once(INCDBDIR . 'squadra.db.inc.php');
             require_once(INCDBDIR . 'formazione.db.inc.php');
             require_once(INCDBDIR . 'evento.db.inc.php');
@@ -22,11 +24,6 @@ class Trasferimento extends TrasferimentoTable {
                     else
                         $giocatoriIds[] = $schieramento->getIdGiocatore();
                 }
-                /*$schieramento = Schieramento::getByIdAndGiocatore($formazione->getId(), $this->getIdGiocatoreOld());
-                if ($schieramento != FALSE) {
-                    $schieramento->setIdGiocatore($this->getIdGiocatoreNew());
-                    $schieramento->save();
-                }*/
                 if ($this->getIdGiocatoreOld() == $formazione->getIdCapitano())
                     $formazione->setIdCapitano($this->getIdGiocatoreNew());
                 if ($this->getIdGiocatoreOld() == $formazione->getIdVCapitano())
@@ -41,10 +38,14 @@ class Trasferimento extends TrasferimentoTable {
             $evento->setIdUtente($this->getIdUtente());
             $evento->setIdLega($idLega);
             $evento->setIdExternal($id);
-            if ($evento->save() != FALSE)
-                return TRUE;
+            $evento->save();
+            ConnectionFactory::getFactory()->getConnection()->commit();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e->getMessage());
+            return FALSE;
         }
-        self::commit();
+        return TRUE;
     }
 
     public function check($array, $message) {
@@ -73,12 +74,8 @@ class Trasferimento extends TrasferimentoTable {
         $q = "SELECT trasferimento.*,t1.nome as nomeOld,t1.cognome as cognomeOld,t2.nome as nomeNew,t2.cognome as cognomeNew
 				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocatoreNew = t2.id) ON t1.id = trasferimento.idGiocatoreOld
 				WHERE trasferimento.idUtente = '" . $idUtente . "' AND idGiornata > '" . $idGiornata . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values[] = $row;
-        return $values;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
 }

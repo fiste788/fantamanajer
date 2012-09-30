@@ -35,11 +35,10 @@ class Articolo extends ArticoloTable {
         $q = "SELECT articolo.*,utente.username
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				WHERE idGiornata = '" . $idGiornata . "' AND utente.idLega = '" . $idLega . "'";
-        FirePHP::getInstance()->log($q);
-        $exe = mysql_query($q) or self::sqlError($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         $values = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values[$row->id] = $row;
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
         return $values;
     }
 
@@ -48,32 +47,33 @@ class Articolo extends ArticoloTable {
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				ORDER BY dataCreazione DESC
 				LIMIT 0," . $number . "";
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         $values = array();
-        FirePHP::getInstance()->log($q);
-        $exe = mysql_query($q) or self::sqlError($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values[$row->id] = $row;
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
         return $values;
     }
 
+    /**
+     *
+     * @param type $idLega
+     * @return type
+     */
     public static function getGiornateArticoliExist($idLega) {
-        $q = "SELECT DISTINCT idGiornata
+        $q = "SELECT DISTINCT(idGiornata) as idGiornata
 				FROM articolo
 				WHERE idLega = '" . $idLega . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $values = FALSE;
-        while ($row = mysql_fetch_object($exe))
-            $values[$row->idGiornata] = $row->idGiornata;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject())
+            $values[$obj->idGiornata] = $obj->idGiornata;
         return $values;
     }
 
     public function check($array, $message) {
         $post = (object) $array;
-        if (empty($post->titolo) || empty($post->testo)) {
-            $message->error("Non hai compilato correttamente tutti i campi");
-            return FALSE;
-        }
+        if (empty($post->titolo) || empty($post->testo))
+            throw new FormException('Non hai compilato correttamente tutti i campi');
         return TRUE;
     }
 

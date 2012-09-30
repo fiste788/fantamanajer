@@ -14,10 +14,8 @@ class Voto extends VotoTable {
         $q = "SELECT *
 				FROM voto
 				WHERE idGiocatore = '" . $idGiocatore . "' AND idGiornata = '" . $idGiornata . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            return $row;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchObject(__CLASS__);
     }
 
     /**
@@ -30,33 +28,11 @@ class Voto extends VotoTable {
 				FROM voto
 				WHERE idGiocatore = '" . $giocatore->getId() . "' AND valutato = 1
                 ORDER BY idGiornata ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         $values = array();
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values[$row->idGiornata] = $row;
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getIdGiornata()] = $obj;
         return $values;
-    }
-
-    public static function getPresenzaByIdGioc($idGioc, $giornata) {
-        $q = "SELECT valutato
-				FROM voto
-				WHERE idGiocatore = '" . $idGioc . "' AND idGiornata='" . $giornata . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            return $row->valutato;
-    }
-
-    public static function getMedieVoto($idGioc) {
-        $q = "SELECT AVG(voto) as mediaPunti,AVG(punti) as mediaVoti,count(voto) as presenze
-				FROM voto
-				WHERE idGiocatore = '" . $idGioc . "' AND punti <> 0 AND voto <> 0
-				GROUP BY idGiocatore";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            return $row;
     }
 
     public static function recuperaVoti($giorn) {
@@ -76,7 +52,7 @@ class Voto extends VotoTable {
                     $voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[4] . "','" . $pezzi[10] . "','" . $pezzi[5] . "','" . $pezzi[9] . "','" . $pezzi[6] . "','" . $pezzi[7] . "','" . $pezzi[8] . "')";
                 }
                 $q .= implode(',', $voti);
-                return mysql_query($q) or self::sqlError($q);
+                return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
             }
             else
                 return FALSE;
@@ -87,13 +63,11 @@ class Voto extends VotoTable {
 
     public static function checkVotiExist($giornata) {
         $values = array();
-        $q = "SELECT DISTINCT(idGiornata)
-				FROM voto";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe))
-            $values[] = $row->idGiornata;
-        return in_array($giornata, $values);
+        $q = "SELECT *
+				FROM voto
+                WHERE idGiornata = " . $giornata;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->rowCount() > 0;
     }
 
     public static function importVoti($path, $giornata) {
@@ -120,7 +94,7 @@ class Voto extends VotoTable {
         }
         $q = "INSERT INTO voto (idGiocatore,idGiornata,valutato,punti,voto,gol,golSubiti,golVittoria,golPareggio,assist,ammonizioni,espulsioni,rigoriSegnati,rigoriSubiti,presente,titolare,quotazione) VALUES ";
         $q .= implode(',', $rows);
-        mysql_query($q) or self::sqlError($q);
+        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
 
 }

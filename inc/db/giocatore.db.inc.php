@@ -5,12 +5,21 @@ require_once(TABLEDIR . 'Giocatore.table.db.inc.php');
 class Giocatore extends GiocatoreTable {
 
     public function save($numEvento = NULL) {
-        require_once(INCDBDIR . 'evento.db.inc.php');
-        if (parent::save() && !is_null($numEvento)) {
-            $evento = new Evento();
-            $evento->setIdExternal($this->id);
-            $evento->setTipo($numEvento);
-            return $evento->save();
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            parent::save();
+            if (!is_null($numEvento)) {
+                require_once(INCDBDIR . 'evento.db.inc.php');
+                $evento = new Evento();
+                $evento->setIdExternal($this->id);
+                $evento->setTipo($numEvento);
+                $evento->save();
+            }
+            ConnectionFactory::getFactory()->getConnection()->commit();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e);
+            return FALSE;
         }
         return TRUE;
     }
@@ -20,31 +29,11 @@ class Giocatore extends GiocatoreTable {
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "'
 				ORDER BY ruolo DESC,cognome ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
-        $giocatori = array();
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[$row->id] = $row;
-        if (isset($giocatori))
-            return $giocatori;
-        else
-            return FALSE;
-    }
-
-    public static function getGiocatoriByIdClub($idClub) {
-        $q = "SELECT giocatore.id, cognome, nome, ruolo
-				FROM giocatore
-				WHERE idClub = '" . $idClub . "'
-				ORDER BY giocatore.ruolo DESC,giocatore.cognome ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
-        $giocatori = array();
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[$row->id] = $row;
-        if (isset($giocatori))
-            return $giocatori;
-        else
-            return FALSE;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
+        return $values;
     }
 
     public static function getGiocatoriByIdSquadraAndRuolo($idUtente, $ruolo) {
@@ -52,15 +41,8 @@ class Giocatore extends GiocatoreTable {
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND giocatore.attivo=1
 				ORDER BY giocatore.id ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
-        $giocatori = array();
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[] = $row;
-        if (isset($giocatori))
-            return $giocatori;
-        else
-            return FALSE;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
     public static function getFreePlayer($ruolo, $idLega) {
@@ -74,23 +56,11 @@ class Giocatore extends GiocatoreTable {
             $q .= " AND ruolo = '" . $ruolo . "'";
         $q .= " AND attivo = 1
 				ORDER BY cognome,nome";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[$row->id] = $row;
-        return $giocatori;
-    }
-
-    public static function getGiocatoriByArray($giocatori) {
-        $q = "SELECT id,cognome,nome,ruolo
-				FROM giocatore
-				WHERE id IN ('" . implode("','", $giocatori) . "')
-				ORDER BY FIELD(id,'" . implode("','", $giocatori) . "')";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $result[] = $row;
-        return $result;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
+        return $values;
     }
 
     public static function getGiocatoreByIdWithStats($idGioc, $idLega = NULL) {
@@ -99,76 +69,17 @@ class Giocatore extends GiocatoreTable {
 						FROM squadra
 						WHERE idLega = '" . $idLega . "') AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
 				WHERE view_0_giocatoristatistiche.id = '" . $idGioc . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        return mysql_fetch_object($exe, __CLASS__);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchObject(__CLASS__);
     }
 
     public static function getVotiGiocatoriByGiornataAndSquadra($giornata, $idUtente) {
         $q = "SELECT *
 				FROM view_0_formazionestatistiche
 				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "' ORDER BY posizione";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $elenco = FALSE;
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $elenco[] = $row;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $elenco = $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
         return $elenco;
-    }
-
-    public static function getGiocatoriByIdClubWithStats($idClub) {
-        $q = "SELECT *
-				FROM giocatoristatistiche
-				WHERE idClub = '" . $idClub . "' AND attivo = '1'
-				ORDER BY ruolo DESC,cognome ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[] = $row;
-        if (isset($giocatori))
-            return $giocatori;
-        else
-            return FALSE;
-    }
-
-    public static function getGiocatoriByIdSquadraWithStats($idUtente) {
-        $q = "SELECT *
-				FROM giocatoristatistiche INNER JOIN squadra on giocatoristatistiche.id = squadra.idGiocatore
-				WHERE idUtente = '" . $idUtente . "'
-				ORDER BY ruolo DESC,cognome ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[] = $row;
-        if (isset($giocatori))
-            return $giocatori;
-        else
-            return FALSE;
-    }
-
-    public static function getRuoloByIdGioc($idGioc) {
-        $q = "SELECT ruolo
-				FROM giocatore
-				WHERE id = '" . $idGioc . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            return $row->ruolo;
-    }
-
-    public static function getArrayGiocatoriFromDatabase($all = FALSE) {
-        $q = "SELECT giocatore.*, club.nome
-				FROM giocatore LEFT JOIN club ON giocatore.idClub = club.id";
-        if ($all)
-            $q .= " WHERE giocatore.attivo = 1";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $giocatori = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__)) {
-            $row->nomeClub = strtoupper(substr($row->nomeClub, 0, 3));
-            $giocatori[$row->id] = implode(";", get_object_vars($row));
-        }
-        return $giocatori;
     }
 
     public static function updateTabGiocatore($path) {
@@ -180,39 +91,46 @@ class Giocatore extends GiocatoreTable {
         $ruoli = array("P", "D", "C", "A");
         $giocatoriOld = self::getList();
         $giocatoriNew = fileSystem::returnArray($path, ";");
-        self::startTransaction();
-        foreach ($giocatoriNew as $id => $giocatoreNew) {
-            if (array_key_exists($id, $giocatoriOld)) {
-                $clubNew = Club::getByField('nome', ucwords(strtolower(trim($giocatoreNew[3], '"'))));
-                if ($giocatoriOld[$id]->getIdClub() != $clubNew->getId()) {
-                    $giocatoriOld[$id]->setClub($clubNew);
-                    $giocatoriOld[$id]->setAttivo(TRUE);
-                    $giocatoriOld[$id]->save(EVENTO::CAMBIOCLUB);
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            foreach ($giocatoriNew as $id => $giocatoreNew) {
+                if (array_key_exists($id, $giocatoriOld)) {
+                    $clubNew = Club::getByField('nome', ucwords(strtolower(trim($giocatoreNew[3], '"'))));
+                    if ($giocatoriOld[$id]->getIdClub() != $clubNew->getId()) {
+                        $giocatoriOld[$id]->setClub($clubNew);
+                        $giocatoriOld[$id]->setAttivo(TRUE);
+                        $giocatoriOld[$id]->save(EVENTO::CAMBIOCLUB);
+                    }
+                } else {
+                    $giocatoreOld = new Giocatore();
+                    $giocatoreOld->setId($giocatoreNew[0]);
+                    $giocatoreOld->setRuolo($ruoli[$giocatoreNew[5]]);
+                    $giocatoreOld->setClub(Club::getByField('nome', trim($giocatoreNew[3], '"')));
+                    $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
+                    $nominativo = trim($giocatoreNew[2], '"');
+                    $ass = NULL;
+                    preg_match($esprex, $nominativo, $ass);
+                    $cognome = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $nominativo)));
+                    $nome = ucwords(strtolower(trim(substr($nominativo, strlen($cognome)))));
+                    $giocatoreOld->setCognome($cognome);
+                    $giocatoreOld->setNome($nome);
+                    $giocatoreOld->setAttivo(TRUE);
+                    $giocatoreOld->save(EVENTO::NUOVOGIOCATORE);
                 }
-            } else {
-                $giocatoreOld = new Giocatore();
-                $giocatoreOld->setId($giocatoreNew[0]);
-                $giocatoreOld->setRuolo($ruoli[$giocatoreNew[5]]);
-                $giocatoreOld->setClub(Club::getByField('nome', trim($giocatoreNew[3], '"')));
-                $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
-                $nominativo = trim($giocatoreNew[2], '"');
-                $ass = NULL;
-                preg_match($esprex, $nominativo, $ass);
-                $cognome = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $nominativo)));
-                $nome = ucwords(strtolower(trim(substr($nominativo, strlen($cognome)))));
-                $giocatoreOld->setCognome($cognome);
-                $giocatoreOld->setNome($nome);
-                $giocatoreOld->setAttivo(TRUE);
-                $giocatoreOld->save(EVENTO::NUOVOGIOCATORE);
             }
-        }
-        foreach ($giocatoriOld as $id => $giocatoreOld) {
-            if (!array_key_exists($id, $giocatoriNew) && $giocatoreOld->isAttivo()) {
-                $giocatoreOld->setAttivo(FALSE);
-                $giocatoreOld->save(EVENTO::RIMOSSOGIOCATORE);
+            foreach ($giocatoriOld as $id => $giocatoreOld) {
+                if (!array_key_exists($id, $giocatoriNew) && $giocatoreOld->isAttivo()) {
+                    $giocatoreOld->setAttivo(FALSE);
+                    $giocatoreOld->save(EVENTO::RIMOSSOGIOCATORE);
+                }
             }
+            ConnectionFactory::getFactory()->getConnection()->commit();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e->getMessage());
+            return FALSE;
         }
-        self::commit();
+
         return TRUE;
     }
 
@@ -221,11 +139,11 @@ class Giocatore extends GiocatoreTable {
 				FROM giocatore LEFT JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idLega = '" . $idLega . "' AND idUtente <> '" . $idUtente . "' OR idUtente IS NULL
 				ORDER BY giocatore.id ASC";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[$row->id] = $row;
-        return $giocatori;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
+        return $values;
     }
 
     public static function getGiocatoriBySquadraAndGiornata($idUtente, $idGiornata) {
@@ -259,25 +177,23 @@ class Giocatore extends GiocatoreTable {
         $q = "SELECT giocatore.id, cognome, nome, ruolo
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = '" . $idUtente . "' AND attivo = 0";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $giocatori = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $giocatori[$row->id] = $row;
-        return $giocatori;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
+        return $values;
     }
 
     public static function getBestPlayerByGiornataAndRuolo($idGiornata, $ruolo) {
-        $values = FALSE;
         $q = "SELECT giocatore.*,punti
 				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore
 				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values[$row->getId()] = $row;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
         return $values;
     }
 

@@ -33,7 +33,6 @@ require(INCDBDIR . 'lega.db.inc.php');
 require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
-$dbConnection = new db();
 global $message;
 $message = new message();
 global $request;

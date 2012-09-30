@@ -1,50 +1,65 @@
 <?php
 
-class Db {
+class ConnectionFactory {
 
-    public $link;
+    /**
+     *
+     * @var ConnectionFactory
+     */
+    private static $factory;
 
-    function __construct() {
-        if (!isset($this->link))
-            $this->connect();
+    /**
+     *
+     * @var PDO
+     */
+    private $db;
+
+    /**
+     *
+     * @return ConnectionFactory
+     */
+    public static function getFactory() {
+        if (!self::$factory)
+            self::$factory = new ConnectionFactory();
+        return self::$factory;
     }
 
-    private function connect() {
-        if (DBTYPE == "mysql") {
-            $this->link = mysql_connect(DBHOST, DBUSER, DBPASS);
-            if (!$this->link)
-                die(MYSQL_ERRNO() . " " . MYSQL_ERROR());
-            if (!mysql_select_db(DBNAME, $this->link))
-                die(MYSQL_ERRNO() . " " . MYSQL_ERROR());
+    /**
+     *
+     * @return \PDO
+     */
+    public function getConnection() {
+        if (!$this->db) {
             $now = new DateTime();
-			$mins = $now->getOffset() / 60;
-			$sgn = ($mins < 0 ? -1 : 1);
-    		$mins = abs($mins);
-    		$hrs = floor($mins / 60);
-    		$mins -= $hrs * 60;
-			$offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
-            mysql_query("SET TIME_ZONE = '" . $offset . "'", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
-            mysql_query("SET NAMES utf8", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET NAMES");
-            mysql_query("SET CHARACTER SET utf8", $this->link) or die(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: SET CHARSET");
+            $mins = $now->getOffset() / 60;
+            $sgn = ($mins < 0 ? -1 : 1);
+            $mins = abs($mins);
+            $hrs = floor($mins / 60);
+            $mins -= $hrs * 60;
+            $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
+            $this->db = new myPDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME . ';charset=UTF-8', DBUSER, DBPASS);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+            $this->db->setAttribute(PDO::ATTR_PERSISTENT, TRUE);
+            $this->db->exec("SET CHARACTER SET utf8");
+            $this->db->exec("SET NAMES utf8");
+            $this->db->exec("SET TIME_ZONE = '" . $offset . "'");
         }
+        return $this->db;
+    }
+}
+
+class myPDO extends PDO {
+
+    public function query($statement) {
+        FirePHP::getInstance()->log($statement);
+        return parent::query($statement);
     }
 
-    function __destruct() {
-        if (isset($this->link))
-            mysql_close($this->link);
+    public function exec($statement) {
+        FirePHP::getInstance()->log($statement);
+        return parent::exec($statement);
     }
-
-    public static function dbOptimize() {
-        $q1 = "SHOW TABLES";
-        $exe = mysql_query($q1) or self::sqlError($q1);
-        $result = array();
-        while ($row = mysql_fetch_row($exe))
-            $result[] = $row[0];
-        $q2 = "OPTIMIZE TABLE ";
-        $q2 .= implode($result, ",");
-        return mysql_query($q2) or self::sqlError($q2);
-    }
-
 }
 
 ?>

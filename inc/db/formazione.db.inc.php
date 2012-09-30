@@ -7,7 +7,6 @@ class Formazione extends FormazioneTable {
     public function save($parameters = NULL) {
         require_once(INCDBDIR . "schieramento.db.inc.php");
 
-        $success = TRUE;
         $giocatoriIds = array();
         if (is_null($parameters))
             return FALSE;
@@ -22,8 +21,9 @@ class Formazione extends FormazioneTable {
             $this->setModulo(implode($modulo, '-'));
         }
 
-        self::startTransaction();
-        if (($idFormazione = parent::save()) != FALSE) {
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            $idFormazione = parent::save();
             if (!empty($giocatoriIds)) {
                 $schieramenti = Schieramento::getSchieramentoById($idFormazione);
                 foreach ($giocatoriIds as $posizione => $idGiocatore) {
@@ -34,31 +34,22 @@ class Formazione extends FormazioneTable {
                             $schieramento->setPosizione($posizione + 1);
                             $schieramento->setIdGiocatore($idGiocatore);
                             $schieramento->setConsiderato(0);
-                            $success = ($success and $schieramento->save());
+                            $schieramento->save();
                         }
                     } else
-                        $success = ($success and $schieramento->delete());
+                        $schieramento->delete();
                 }
-                if ($success) {
-                    $evento = new Evento();
-                    $evento->setIdExternal($idFormazione);
-                    $evento->setIdUtente($this->getIdUtente());
-                    $evento->setLega($this->getUtente()->getIdLega());
-                    $evento->setTipo(Evento::FORMAZIONE);
-                    if($evento->save())
-                        self::commit();
-                    else {
-                        self::rollback ();
-                        return FALSE;
-                    }
-                }
-                else {
-                    self::rollback();
-                    return FALSE;
-                }
+                $evento = new Evento();
+                $evento->setIdExternal($idFormazione);
+                $evento->setIdUtente($this->getIdUtente());
+                $evento->setIdLega($this->getUtente()->getIdLega());
+                $evento->setTipo(Evento::FORMAZIONE);
+                $evento->save();
+                ConnectionFactory::getFactory()->getConnection()->commit();
             }
-        } else {
-            self::rollback();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e->getMessage());
             return FALSE;
         }
         return TRUE;
@@ -86,45 +77,46 @@ class Formazione extends FormazioneTable {
         $q = "SELECT *
 				FROM formazione
 				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $formazione = mysql_fetch_object($exe, __CLASS__);
-        if (!empty($formazione))
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $formazione = $exe->fetchObject(__CLASS__);
+        if ($formazione)
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
         return $formazione;
     }
 
+    /**
+     *
+     * @param type $giornata
+     * @param type $idLega
+     * @return Formazione
+     */
     public static function getFormazioneByGiornataAndLega($giornata, $idLega) {
         $q = "SELECT formazione.*
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.id
 				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__)) {
-            $values[] = $row->idUtente;
-        }
-        return $values;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
     }
 
-    public static function changeCap($idFormazione, $idGiocNew, $cap) {
-        $q = "UPDATE formazione
-				SET " . $cap . " = '" . $idGiocNew . "'
-				WHERE idFormazione = '" . $idFormazione . "'";
-        FirePHP::getInstance()->log($q);
-        return mysql_query($q) or self::sqlError($q);
-    }
-
+    /**
+     *
+     * @param type $idUtente
+     * @return type
+     */
     public static function usedJolly($idUtente) {
         $q = "SELECT jolly
 				FROM formazione
 				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = '" . $idUtente . "' AND jolly = '1'";
-        FirePHP::getInstance()->log($q);
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($_SESSION);
-        return (mysql_num_rows($exe) == 1);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return ($exe->rowCount() == 1);
     }
 
+    /**
+     *
+     * @param type $array
+     * @param type $message
+     * @return boolean
+     */
     public function check($array, $message) {
         require_once(INCDBDIR . 'giocatore.db.inc.php');
 
