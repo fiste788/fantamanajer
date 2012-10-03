@@ -9,11 +9,11 @@ if(($selezione = Selezione::getByField('idUtente',$_SESSION['idUtente'])) == FAL
 
 if($_SESSION['logged'])
 {
-	if($request->get('submit') == 'Cancella acq.') {
+	if(Request::getInstance()->get('submit') == 'Cancella acq.') {
 		Selezione::unsetSelezioneByIdSquadra($_SESSION['idUtente']);
 		$message->success('Cancellazione eseguita con successo');
 	} else {
-		if($selezione->getIdGiocatoreNew() != $request->get('idGiocatoreNew') || $selezione->getIdGiocatoreOld() != $request->get('idGiocatoreOld'))
+		if($selezione->getIdGiocatoreNew() != Request::getInstance()->get('idGiocatoreNew') || $selezione->getIdGiocatoreOld() != Request::getInstance()->get('idGiocatoreOld'))
 			$selezione->setNumSelezioni($selezione->getNumSelezioni() + 1);
 		if($selezione->validate()) {
 			$squadraOld = Selezione::checkFree($selezione->getIdGiocatoreNew(),$_SESSION['idLega']);

@@ -1,7 +1,7 @@
 <?php 
 require_once(INCDBDIR . "lega.db.inc.php");
 
-if($request->has('new') && $request->get('new') == "1")
+if(Request::getInstance()->has('new') && Request::getInstance()->get('new') == "1")
 	$lega = new Lega();
 else
 	$lega = $_SESSION['datiLega'];

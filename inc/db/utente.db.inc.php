@@ -5,9 +5,14 @@ require_once(TABLEDIR . 'Utente.table.db.inc.php');
 class Utente extends UtenteTable {
 
     public static function login($username, $password) {
-        $q = "SELECT * FROM utente WHERE username LIKE '" . $username . "'
-				AND password = '" . $password . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $q = "SELECT *
+                FROM utente
+                WHERE username LIKE :username AND password = :password";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":username", $username);
+        $exe->bindValue(":password", $password);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->rowCount() == 1;
     }
 
@@ -40,16 +45,24 @@ class Utente extends UtenteTable {
     public static function getSquadraByUsername($username, $idUtente) {
         $q = "SELECT *
 				FROM utente
-				WHERE username LIKE '" . $username . "' AND id <> '" . $idUtente . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE username LIKE :username AND id <> :idUtente";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":username", $username);
+        $exe->bindValue(":idUtente", $idUtente,PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
     public static function getSquadraByNome($nome, $idUtente) {
         $q = "SELECT *
 				FROM utente
-				WHERE nome LIKE '" . $nome . "' AND id <> '" . $idUtente . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE nome LIKE :nome AND id <> :idUtente";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":nome", $nome);
+        $exe->bindValue(":idUtente", $idUtente);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
@@ -78,22 +91,16 @@ class Utente extends UtenteTable {
      * @param type $message
      * @return boolean
      */
-    public function check($array, $message) {
+    public function check($array) {
         if (isset($_FILES['logo'])) {
             $logo = (object) $_FILES['logo'];
             $allowedTypes = array("image/jpeg", "image/pjpeg", "image/gif", "image/png");
-            if (!in_array($logo->type, $allowedTypes)) {
-                $message->error("File non valido");
-                return FALSE;
-            }
-            if ($logo->size > 1000000) {
-                $message->error("File più grande di 1MB");
-                return FALSE;
-            }
-            if ($logo->error) {
-                $message->error("Errore generico upload file");
-                return FALSE;
-            }
+            if (!in_array($logo->type, $allowedTypes))
+                throw new FormException("File non valido");
+            if ($logo->size > 1000000)
+                throw new FormException("File più grande di 1MB");
+            if ($logo->error)
+                throw new FormException("Errore generico upload file");
         }
         return TRUE;
     }

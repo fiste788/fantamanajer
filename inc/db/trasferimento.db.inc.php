@@ -73,8 +73,12 @@ class Trasferimento extends TrasferimentoTable {
     public static function getTrasferimentiByIdSquadra($idUtente, $idGiornata = 0) {
         $q = "SELECT trasferimento.*,t1.nome as nomeOld,t1.cognome as cognomeOld,t2.nome as nomeNew,t2.cognome as cognomeNew
 				FROM giocatore t1 INNER JOIN (trasferimento INNER JOIN giocatore t2 ON trasferimento.idGiocatoreNew = t2.id) ON t1.id = trasferimento.idGiocatoreOld
-				WHERE trasferimento.idUtente = '" . $idUtente . "' AND idGiornata > '" . $idGiornata . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE trasferimento.idUtente = :idUtente AND idGiornata > :idGiornata";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 

@@ -14,11 +14,11 @@
 				<th>Nome</th>
 				<th>Ruolo</th>
 				<th>Club</th>
-				<th class="hidden-phone">Tit</th>
-                <th class="hidden-phone">Amm</th>
-                <th class="hidden-phone">Esp</th>
+                <th class="hidden-phone"><abbr title="Titolare">Tit</abbr></th>
+                <th class="hidden-phone"><abbr title="Ammonizioni">Amm</abbr></th>
+                <th class="hidden-phone"><abbr title="Espulsioni">Esp</abbr></th>
                 <th class="hidden-phone">Gol</th>
-				<th>Punt.</th>
+                <th>Punti</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,13 +42,13 @@
 			<thead>
 				<tr>
 					<th>Nome</th>
-					<th>Ruolo</th>
-					<th>Club</th>
-					<th class="hidden-phone">Titolare</th>
-                    <th class="hidden-phone">Ammonizioni</th>
-                    <th class="hidden-phone">Espulsioni</th>
+                    <th>Ruolo</th>
+                    <th>Club</th>
+                    <th class="hidden-phone"><abbr title="Titolare">Tit</abbr></th>
+                    <th class="hidden-phone"><abbr title="Ammonizioni">Amm</abbr></th>
+                    <th class="hidden-phone"><abbr title="Espulsioni">Esp</abbr></th>
                     <th class="hidden-phone">Gol</th>
-					<th>Punt.</th>
+                    <th>Punti</th>
 				</tr>
 			</thead>
 			<tbody>

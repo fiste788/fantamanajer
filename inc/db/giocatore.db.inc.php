@@ -11,7 +11,7 @@ class Giocatore extends GiocatoreTable {
             if (!is_null($numEvento)) {
                 require_once(INCDBDIR . 'evento.db.inc.php');
                 $evento = new Evento();
-                $evento->setIdExternal($this->id);
+                $evento->setIdExternal($this->getId());
                 $evento->setTipo($numEvento);
                 $evento->save();
             }
@@ -27,9 +27,12 @@ class Giocatore extends GiocatoreTable {
     public static function getGiocatoriByIdSquadra($idUtente) {
         $q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idUtente = '" . $idUtente . "'
+				WHERE idUtente = :idUtente
 				ORDER BY ruolo DESC,cognome ASC";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -39,9 +42,14 @@ class Giocatore extends GiocatoreTable {
     public static function getGiocatoriByIdSquadraAndRuolo($idUtente, $ruolo) {
         $q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idUtente = '" . $idUtente . "' AND ruolo = '" . $ruolo . "' AND giocatore.attivo=1
+				WHERE idUtente = :idUtente AND ruolo = :ruolo AND giocatore.attivo = :attivo
 				ORDER BY giocatore.id ASC";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":ruolo", $ruolo);
+        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
@@ -51,33 +59,46 @@ class Giocatore extends GiocatoreTable {
 				WHERE id NOT IN (
 						SELECT idGiocatore
 						FROM squadra
-						WHERE idLega = '" . $idLega . "')";
+						WHERE idLega = :idLega)";
         if ($ruolo != NULL)
-            $q .= " AND ruolo = '" . $ruolo . "'";
-        $q .= " AND attivo = 1
+            $q .= " AND ruolo = :ruolo";
+        $q .= " AND attivo = :attivo
 				ORDER BY cognome,nome";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->bindValue(":ruolo", $ruolo);
+        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
         return $values;
     }
 
-    public static function getGiocatoreByIdWithStats($idGioc, $idLega = NULL) {
+    public static function getGiocatoreByIdWithStats($idGiocatore, $idLega = NULL) {
         $q = "SELECT view_0_giocatoristatistiche.*,idLega
 				FROM (SELECT *
 						FROM squadra
-						WHERE idLega = '" . $idLega . "') AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
-				WHERE view_0_giocatoristatistiche.id = '" . $idGioc . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+						WHERE idLega = :idLega) AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
+				WHERE view_0_giocatoristatistiche.id = :idGiocatore";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->bindValue(":idGiocatore", $idGiocatore, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
     public static function getVotiGiocatoriByGiornataAndSquadra($giornata, $idUtente) {
         $q = "SELECT *
 				FROM view_0_formazionestatistiche
-				WHERE idGiornata = '" . $giornata . "' AND idUtente = '" . $idUtente . "' ORDER BY posizione";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE idGiornata = :idGiornata AND idUtente = :idUtente ORDER BY posizione";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $elenco = $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
         return $elenco;
     }
@@ -137,9 +158,13 @@ class Giocatore extends GiocatoreTable {
     public static function getGiocatoriNotSquadra($idUtente, $idLega) {
         $q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
 				FROM giocatore LEFT JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idLega = '" . $idLega . "' AND idUtente <> '" . $idUtente . "' OR idUtente IS NULL
+				WHERE idLega = :idLega AND idUtente <> :idUtente OR idUtente IS NULL
 				ORDER BY giocatore.id ASC";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -176,8 +201,12 @@ class Giocatore extends GiocatoreTable {
     public static function getGiocatoriInattiviByIdUtente($idUtente) {
         $q = "SELECT giocatore.id, cognome, nome, ruolo
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idUtente = '" . $idUtente . "' AND attivo = 0";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE idUtente = :idUtente AND attivo = :attivo";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -187,10 +216,14 @@ class Giocatore extends GiocatoreTable {
     public static function getBestPlayerByGiornataAndRuolo($idGiornata, $ruolo) {
         $q = "SELECT giocatore.*,punti
 				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore
-				WHERE idGiornata = '" . $idGiornata . "' AND ruolo = '" . $ruolo . "'
+				WHERE idGiornata = :idGiornata AND ruolo = :ruolo
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":ruolo", $ruolo);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;

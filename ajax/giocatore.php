@@ -8,5 +8,5 @@
 	$firePHP = FirePHP::getInstance(TRUE);
 	$dbObj = new db;
 	$request = new Request();
-	echo json_encode(Giocatore::getGiocatoreByIdWithStats($request->get('id')));
+	echo json_encode(Giocatore::getGiocatoreByIdWithStats(Request::getInstance()->get('id')));
 ?>

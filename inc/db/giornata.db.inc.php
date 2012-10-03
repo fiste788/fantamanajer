@@ -4,25 +4,99 @@ require_once(TABLEDIR . 'Giornata.table.db.inc.php');
 
 class Giornata extends GiornataTable {
 
+    /**
+     *
+     * @var bool
+     */
+    public $partiteInCorso;
+
+    /**
+     *
+     * @var bool
+     */
+    public $stagioneFinita;
+
+
+    /**
+     *
+     * @return bool
+     */
+    public function getPartiteInCorso() {
+        return (bool) $this->partiteInCorso;
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function getStagioneFinita() {
+        return (bool) $this->stagioneFinita;
+    }
+
+
+    /**
+     *
+     * @param Bool $partiteInCorso
+     */
+    public function setPartiteInCorso($partiteInCorso) {
+        $this->partiteInCorso = (bool) $partiteInCorso;
+    }
+
+    /**
+     *
+     * @param bool $stagioneFinita
+     */
+    public function setStagioneFinita($stagioneFinita) {
+        $this->stagioneFinita = (bool) $stagioneFinita;
+    }
+
+
+    /**
+     *
+     * @return Giornata
+     */
     public static function getCurrentGiornata() {
         $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
         $q = "SELECT id
 				FROM giornata
-				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL " . $minuti . " MINUTE";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        $valore = $exe->fetch(PDO::FETCH_ASSOC);
-        if (!empty($valore))
-            $valore['partiteInCorso'] = FALSE;
+				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL :minuti MINUTE";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
+        $exe->execute();
+        $valore = $exe->fetchObject(__CLASS__);
+        if ($valore != FALSE)
+            $valore->setPartiteInCorso(FALSE);
         else {
             $q = "SELECT MIN( id - 1 ) as id
 				FROM giornata
-				WHERE NOW() < dataFine - INTERVAL " . $minuti . " MINUTE";
-            $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-            $valore = $exe->fetch(PDO::FETCH_ASSOC);
-            $valore['partiteInCorso'] = TRUE;
+				WHERE NOW() < dataFine - INTERVAL :minuti MINUTE";
+            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+            $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
+            $exe->execute();
+            $valore = $exe->fetchObject(__CLASS__);
+            $valore->setPartiteInCorso(TRUE);
         }
-        $valore['stagioneFinita'] = $valore['id'] > (self::getNumberGiornate() - 1);
+        $valore->setStagioneFinita($valore->getId() > (self::getNumberGiornate() - 1));
         return $valore;
+    }
+
+    public static function isWeeklyScriptDay() {
+        $now = new DateTime();
+        $now->modify("-1 day");
+        $previous = self::getById(GIORNATA - 1);
+        return ($previous->getDataFine()->format("Y-m-d") == $now->format("Y-m-d") && $now->format("H") > 17);
+    }
+
+    public static function isDoTransertDay() {
+        $now = new DateTime();
+        $previous = self::getCurrentGiornata();
+        return ($previous->getDataFine()->format("Y-m-d") == $now->format("Y-m-d"));
+    }
+
+    public static function isSendMailDay() {
+        $now = new DateTime();
+        $previous = self::getCurrentGiornata();
+        return ($previous->getDataFine()->format("Y-m-d") == $now->format("Y-m-d"));
     }
 
     public static function checkDay($day, $type = 'dataInizio', $offset = 1) {
@@ -47,17 +121,18 @@ class Giornata extends GiornataTable {
         $q = "SELECT COUNT(id) as numeroGiornate
 				FROM giornata";
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        $values = $exe->fetchObject();
-        return $values->numeroGiornate;
+        return $exe->fetchColumn();
     }
 
     public static function getTargetCountdown() {
         $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-        $q = "SELECT MAX(dataFine) - INTERVAL " . $minuti . " MINUTE as dataFine
+        $q = "SELECT MAX(dataFine) - INTERVAL :minuti MINUTE as dataFine
 				FROM giornata
 				WHERE NOW() > dataInizio";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        return $exe->fetchObject(__CLASS__)->dataFine;
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
+        $exe->execute();
+        return $exe->fetchObject(__CLASS__)->getDataFine();
     }
 
     public static function updateGiornate($giornate) {
@@ -65,8 +140,11 @@ class Giornata extends GiornataTable {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             foreach ($giornate as $key => $val) {
                 foreach ($val as $key2 => $val2) {
-                    $q = "UPDATE giornata SET " . $key2 . " = '" . $val2 . "' WHERE id = '" . $key . "'";
-                    ConnectionFactory::getFactory()->getConnection()->exec($q);
+                    $q = "UPDATE giornata SET " . $key2 . " = :val WHERE id = :id";
+                    $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+                    $exe->bindValue(":val", $val);
+                    $exe->bindValue(":id", $key, PDO::PARAM_INT);
+                    $exe->execute();
                 }
             }
             ConnectionFactory::getFactory()->getConnection()->commit();

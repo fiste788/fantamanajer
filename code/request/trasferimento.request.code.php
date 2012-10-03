@@ -2,7 +2,7 @@
 require_once(INCDBDIR . "trasferimento.db.inc.php");
 require_once(INCDBDIR . "selezione.db.inc.php");
 
-$filterId = $request->has('id') ? $request->get('id') : $_SESSION['idUtente'];
+$filterId = Request::getInstance()->has('id') ? Request::getInstance()->get('id') : $_SESSION['idUtente'];
 $selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idUtente']);
 if($_SESSION['logged'])
 {
@@ -13,12 +13,12 @@ if($_SESSION['logged'])
 			$acquistoId = $selezione->giocatoreNew;
 			$lasciatoId = $selezione->giocatoreOld;
 		}
-		if($request->has('acquista'))
-			$acquistoId = $request->get('acquista');
-		if($request->has('lascia'))
-			$lasciatoId = $request->get('lascia');
+		if(Request::getInstance()->has('acquista'))
+			$acquistoId = Request::getInstance()->get('acquista');
+		if(Request::getInstance()->has('lascia'))
+			$lasciatoId = Request::getInstance()->get('lascia');
 
-		if($request->get('submit') == 'Cancella acq.')
+		if(Request::getInstance()->get('submit') == 'Cancella acq.')
 		{
 			//$selezione->delete();
 			Selezione::unsetSelezioneByIdSquadra($_SESSION['idUtente']);
@@ -31,7 +31,7 @@ if($_SESSION['logged'])
 		$lasciato = Giocatore::getById($lasciatoId);
 		$numSelezioni = Selezione::getNumberSelezioni($filterSquadra);
 
-		if($request->get('submit') == 'OK')
+		if(Request::getInstance()->get('submit') == 'OK')
 		{
 			if($lasciato->ruolo == $acquisto->ruolo)
 			{

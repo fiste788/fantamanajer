@@ -18,12 +18,12 @@ if(isset($_POST['query']) && !empty($_POST['query'])) {
 		$contentTpl->assign('sql',$_POST['query']);
 	}
 }
-if($request->has('action')) {
-	if($request->get('action') == 'optimize'){
+if(Request::getInstance()->has('action')) {
+	if(Request::getInstance()->get('action') == 'optimize'){
 		if(dbObj::dbOptimize())
 			$message->success('Database ottimizzato con successo');
 	}
-	if($request->has('action') == 'sincronize') {
+	if(Request::getInstance()->has('action') == 'sincronize') {
 		$sql = fileSystem::getLastBackup();
 		if(!$sql)
 			$message->warning('Errore nel recupero dell\'ultimo backup');

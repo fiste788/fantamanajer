@@ -9,10 +9,10 @@ require_once(INCDIR . 'mail.inc.php');
 
 $mailContent = new Savant3();
 
-$filterUtente = $request->has('idUtente') ? $request->get('idUtente') : NULL;
-$filterGiornata = $request->has('idGiornata') ? $request->get('idGiornata') : NULL;
-$filterLega = $request->has('idLega') ? $request->get('idLega') : NULL;
-$filterModulo = $request->has('modulo') ? $request->get('modulo') : NULL;
+$filterUtente = Request::getInstance()->has('idUtente') ? Request::getInstance()->get('idUtente') : NULL;
+$filterGiornata = Request::getInstance()->has('idGiornata') ? Request::getInstance()->get('idGiornata') : NULL;
+$filterLega = Request::getInstance()->has('idLega') ? Request::getInstance()->get('idLega') : NULL;
+$filterModulo = Request::getInstance()->has('modulo') ? Request::getInstance()->get('modulo') : NULL;
 if($_SESSION['usertype'] == 'admin')
 	$filterLega = $_SESSION['idLega'];
 

@@ -75,14 +75,14 @@ class Evento extends EventoTable {
                         break;
                     case 3: $values[$key]->idExternal = Formazione::getById($val->idExternal);
                         $values[$key]->titolo = $val->nome . ' ha impostato la formazione per la giornata ' . $values[$key]->idExternal->idGiornata;
-                        $titolari = $values[$key]->idExternal->elenco;
+                        $titolari = $values[$key]->idExternal->giocatori;
                         $titolari = array_splice($titolari, 0, 11);
-                        $titolari = Giocatore::getByIds($titolari);
+                        //$titolari = Giocatore::getByIds($titolari);
                         $values[$key]->content = 'Formazione: ';
                         foreach ($titolari as $key2 => $val2)
-                            $values[$key]->content .= $val2->cognome . ', ';
+                            $values[$key]->content .= $val2->getGiocatore()->cognome . ', ';
                         $values[$key]->content = substr($values[$key]->content, 0, -2);
-                        $values[$key]->link = Links::getLink('altreFormazioni', array('giorn' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
+                        $values[$key]->link = Links::getLink('formazione', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
                         break;
                     case 4: $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
                         $giocOld = Giocatore::getById($values[$key]->idExternal->idGiocatoreOld);
@@ -120,6 +120,10 @@ class Evento extends EventoTable {
         }
         else
             return FALSE;
+    }
+
+    public function check($array) {
+        return TRUE;
     }
 
 }

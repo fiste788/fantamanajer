@@ -15,8 +15,10 @@ abstract class DbTable {
             $c = get_called_class();
             $q = "SELECT *
 					FROM " . $c::TABLE_NAME . "
-					WHERE id = '" . $id . "'";
-            $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+					WHERE id = :id";
+            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+            $exe->execute(array(':id'=>$id));
+            FirePHP::getInstance()->log($q);
             return $exe->fetchObject($c);
         } else
             return NULL;
@@ -28,14 +30,20 @@ abstract class DbTable {
      * @return DbTable[]|DbTable|NULL
      */
     public static function getByIds($ids) {
-        $keys = implode(array_filter($ids, 'strlen'), ',');
-        if ($keys != "") {
+        //$keys = implode(array_filter($ids, 'strlen'), ',');
+        $keys = array();
+        foreach ($ids as $id)
+            if(strlen($id))
+                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id,PDO::PARAM_INT);
+        $param = implode(',',$keys);
+        if ($param != "") {
             $c = get_called_class();
             $q = "SELECT *
 					FROM " . $c::TABLE_NAME . "
-					WHERE id IN (" . $keys . ")
-                    ORDER BY FIELD(id," .  $keys . ")";
-            $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+					WHERE id IN ($param)
+                    ORDER BY FIELD(id,$param)";
+            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+            $exe->execute();
             $values = array();
             while ($obj = $exe->fetchObject($c))
                 $values[$obj->getId()] = $obj;
@@ -53,6 +61,7 @@ abstract class DbTable {
         $q = "SELECT *
 				FROM " . $c::TABLE_NAME;
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject($c))
             $values[$obj->getId()] = $obj;
@@ -69,8 +78,11 @@ abstract class DbTable {
         $c = get_called_class();
         $q = "SELECT *
 				FROM " . $c::TABLE_NAME . "
-				WHERE " . $key . " = '" . $value . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE $key = :value";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindParam(":value", $value);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $count = $exe->rowCount();
         if ($count == 0)
             return NULL;
@@ -99,6 +111,7 @@ abstract class DbTable {
                     $values[] = $key . " = " . self::valueToSql($value);
                 $q .= implode($values, ", ") . " WHERE id = " . $this->getId();
                 ConnectionFactory::getFactory()->getConnection()->exec($q);
+                FirePHP::getInstance()->log($q);
                 return $this->getId();
             } else {
                 if ($this->getId() == "" || is_null($this->getId()))
@@ -106,6 +119,7 @@ abstract class DbTable {
                 $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql", $vars), ", ") . ")";
                 ConnectionFactory::getFactory()->getConnection()->exec($q);
+                FirePHP::getInstance()->log($q);
                 return ConnectionFactory::getFactory()->getConnection()->lastInsertId();
             }
         } catch (PDOException $e) {
@@ -126,18 +140,18 @@ abstract class DbTable {
             if ($value == '')
                 return "NULL";
             else
-                return "'" . mysql_real_escape_string($value) . "'";
+                return ConnectionFactory::getFactory()->getConnection()->quote($value);
         } elseif (is_bool($value))
             return ($value) ? 1 : 0;
         elseif (is_numeric($value))
             return $value;
         elseif (is_object($value))
             if (is_a($value, "DateTime"))
-                return "'" . $value->format("Y-m-d H:i:s") . "'";
+                return ConnectionFactory::getFactory()->getConnection()->quote($value->format("Y-m-d H:i:s"));
             else
-                return $value->toString();
+                return ConnectionFactory::getFactory()->getConnection()->quote($value->toString());
         else
-            return "'" . $value . "'";
+            return ConnectionFactory::getFactory()->getConnection()->quote($value);
     }
 
     /**
@@ -148,8 +162,12 @@ abstract class DbTable {
         try {
             if (!is_null($this->getId())) {
                 $q = "DELETE FROM " . $this::TABLE_NAME . "
-					WHERE id = '" . $this->getId() . "'";
-                ConnectionFactory::getFactory()->getConnection()->exec($q);
+					WHERE id = :id";
+                $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+                $exe->bindValue(':id', $this->getId(), PDO::PARAM_INT);
+                $exe->execute();
+                FirePHP::getInstance()->log($q);
+                return TRUE;
             } else
                 return FALSE;
         } catch (PDOException $e) {
@@ -164,13 +182,13 @@ abstract class DbTable {
      * @return boolean
      */
     public function validate() {
-        $postArray = $GLOBALS['request']->getRawData('post');
+        $postArray = Request::getInstance()->getRawData('post');
         try {
             $this->check($postArray);
-            $this->fromArray($postArray, TRUE);
+            $this->fromArray($postArray, FALSE);
             return TRUE;
         } catch(FormException $e) {
-            $this->fromArray($postArray, FALSE);
+            $this->fromArray($postArray, TRUE);
             throw $e;
         }
     }

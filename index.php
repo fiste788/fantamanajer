@@ -33,10 +33,8 @@ require(INCDBDIR . 'lega.db.inc.php');
 require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
-global $message;
 $message = new message();
-global $request;
-$request = new Request();
+$request = Request::getInstance();
 $logger = new logger();
 $quickLinks = new QuickLinks($request);
 $notifiche = array();
@@ -100,7 +98,7 @@ require_once(CODEDIR . 'login.code.php');
 define("DEBUG", (LOCAL || DEVELOP || $_SESSION['roles'] == 2));
 $firePHP->setEnabled(DEBUG);
 
-$p = $request->has('p') ? $request->get('p') : 'home';
+$p = Request::getInstance()->has('p') ? Request::getInstance()->get('p') : 'home';
 if (!isset($pages->pages[$p]))
     Request::send404();
 elseif ($pages->pages[$p]->roles > $_SESSION['roles']) {
@@ -110,9 +108,9 @@ elseif ($pages->pages[$p]->roles > $_SESSION['roles']) {
 
 $giornata = Giornata::getCurrentGiornata();
 
-define("GIORNATA", $giornata['id']);
-define("PARTITEINCORSO", $giornata['partiteInCorso']);
-define("STAGIONEFINITA", $giornata['stagioneFinita']);
+define("GIORNATA", $giornata->getId());
+define("PARTITEINCORSO", $giornata->getPartiteInCorso());
+define("STAGIONEFINITA", $giornata->getStagioneFinita());
 
 $leghe = Lega::getList();
 if (isset($_POST['legaView']))
@@ -135,7 +133,7 @@ if (isset($_SESSION['message'])) {
 $layoutTpl->assign('title', $pages->pages[$p]->title);
 $firePHP->log(REQUESTDIR . $p . '.request.code.php');
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
-if ($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
+if (Request::getInstance()->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
     $firePHP->group($p . '.request.code.php');
     require(REQUESTDIR . $p . '.request.code.php');
     $firePHP->groupEnd();

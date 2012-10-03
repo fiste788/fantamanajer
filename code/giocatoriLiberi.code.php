@@ -1,9 +1,9 @@
 <?php 
 require_once(INCDBDIR . 'giocatore.db.inc.php');
 
-$defaultRuolo = $request->has('ruolo') ? $request->get('ruolo') : 'P';
-$defaultPartite = $request->has('partite') ? $request->get('partite') : (floor((GIORNATA - 1) / 2) + 1);
-$defaultSufficenza = $request->has('sufficenza') ? $request->get('sufficenza') : 6;
+$defaultRuolo = Request::getInstance()->has('ruolo') ? Request::getInstance()->get('ruolo') : 'P';
+$defaultPartite = Request::getInstance()->has('partite') ? Request::getInstance()->get('partite') : (floor((GIORNATA - 1) / 2) + 1);
+$defaultSufficenza = Request::getInstance()->has('sufficenza') ? Request::getInstance()->get('sufficenza') : 6;
 
 $freeplayer = Giocatore::getFreePlayer($defaultRuolo,$_SESSION['legaView']);
 

@@ -6,19 +6,15 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 require_once(INCDBDIR . "punteggio.db.inc.php");
 
-$filterUtente = $request->has('utente') ? $request->get('utente') : $_SESSION['idUtente'];
-$filterGiornata = $request->has('giornata') ? $request->get('giornata') : GIORNATA;
+$filterUtente = Request::getInstance()->has('utente') ? Request::getInstance()->get('utente') : $_SESSION['idUtente'];
+$filterGiornata = Request::getInstance()->has('giornata') ? Request::getInstance()->get('giornata') : GIORNATA;
 
 $formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata);
 $formazioniPresenti = Formazione::getFormazioneByGiornataAndLega($filterGiornata,$_SESSION['legaView']);
 
-$i = 0;
-while($formazione == FALSE && $i < GIORNATA) {
-	$formazione = Formazione::getFormazioneBySquadraAndGiornata($filterUtente,$filterGiornata - $i);
-	$i ++;
-	if($formazione != FALSE)
-		$formazione->jolly = FALSE;
-}
+$formazione = Formazione::getLastFormazione($filterUtente, $filterGiornata);
+if($formazione->getIdGiornata() != $filterGiornata)
+    $formazione->setJolly (FALSE);
 
 if(GIORNATA != $filterGiornata) {
 	$ids = array();
@@ -35,6 +31,14 @@ $quickLinks->set('giornata',$giornate,'Giornata ');
 $modulo = ($formazione != FALSE) ? explode('-',$formazione->modulo) : NULL;
 if($formazione != FALSE)
 	$contentTpl->assign('formazione',$formazione);
+
+foreach ($formazione->giocatori as $key => $schieramento)
+    if($key < 11)
+        $titolari[] = $schieramento->idGiocatore;
+    else
+        $panchinari[] = $schieramento->idGiocatore;
+$contentTpl->assign('titolari', $titolari);
+$contentTpl->assign('panchinari', $panchinari);
 $contentTpl->assign('giocatori',$giocatori);
 $contentTpl->assign('modulo',$modulo);
 $contentTpl->assign('usedJolly',Formazione::usedJolly($filterUtente));

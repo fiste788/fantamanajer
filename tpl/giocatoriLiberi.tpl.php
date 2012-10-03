@@ -9,7 +9,7 @@
 						<th>Nome</th>
 						<th class="hidden-phone">Club</th>
                         <th><abbr title="Media punti">MP</abbr></th>
-                        <th><abbr title="Media voti">M. voti</abbr></th>
+                        <th><abbr title="Media voti">MV</abbr></th>
 						<th>Partite</th>
 					</tr>
 				</thead>

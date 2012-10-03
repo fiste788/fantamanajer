@@ -37,7 +37,7 @@ class ConnectionFactory {
             $hrs = floor($mins / 60);
             $mins -= $hrs * 60;
             $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
-            $this->db = new myPDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME . ';charset=UTF-8', DBUSER, DBPASS);
+            $this->db = new PDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME . ';charset=UTF-8', DBUSER, DBPASS);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
             $this->db->setAttribute(PDO::ATTR_PERSISTENT, TRUE);

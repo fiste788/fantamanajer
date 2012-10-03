@@ -13,8 +13,12 @@ class Voto extends VotoTable {
     public static function getByGiocatoreAndGiornata($idGiocatore, $idGiornata) {
         $q = "SELECT *
 				FROM voto
-				WHERE idGiocatore = '" . $idGiocatore . "' AND idGiornata = '" . $idGiornata . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE idGiocatore = :idGiocatore AND idGiornata = :idGiornata";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiocatore", $idGiocatore,PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata,PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
@@ -26,47 +30,27 @@ class Voto extends VotoTable {
     public static function getByGiocatore($giocatore) {
         $q = "SELECT *
 				FROM voto
-				WHERE idGiocatore = '" . $giocatore->getId() . "' AND valutato = 1
+				WHERE idGiocatore = :idGiocatore AND valutato = :valutato
                 ORDER BY idGiornata ASC";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiocatore", $giocatore->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":valutato", TRUE, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getIdGiornata()] = $obj;
         return $values;
     }
 
-    public static function recuperaVoti($giorn) {
-        require_once(INCDIR . 'fileSystem.inc.php');
-
-        $percorso = "./docs/voti/csv/Giornata" . str_pad($giorn, 2, "0", STR_PAD_LEFT) . ".csv";
-        if (FileSystem::scaricaVotiCsv($giorn)) {
-            if (self::checkVotiExist($giorn))
-                return TRUE;
-            $q = "INSERT INTO voto(idGiocatore,idGiornata,punti,voto,gol,assist,rigori,ammonizioni,espulsioni) VALUES ";
-            $content = file($percorso);
-            if ($content != FALSE) {
-                foreach ($content as $player) {
-                    $pezzi = explode(";", $player);
-                    if ($pezzi[2] == "P")
-                        $pezzi[6] = -$pezzi[6];
-                    $voti[] = "('" . $pezzi[0] . "','" . $giorn . "','" . $pezzi[4] . "','" . $pezzi[10] . "','" . $pezzi[5] . "','" . $pezzi[9] . "','" . $pezzi[6] . "','" . $pezzi[7] . "','" . $pezzi[8] . "')";
-                }
-                $q .= implode(',', $voti);
-                return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
-            }
-            else
-                return FALSE;
-        }
-        else
-            return FALSE;
-    }
-
     public static function checkVotiExist($giornata) {
-        $values = array();
         $q = "SELECT *
 				FROM voto
-                WHERE idGiornata = " . $giornata;
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+                WHERE idGiornata = :idGiornata";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue("idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->rowCount() > 0;
     }
 
@@ -75,26 +59,27 @@ class Voto extends VotoTable {
 
         $players = fileSystem::returnArray($path, ";");  //true per intestazione
         foreach ($players as $id => $stats) {
-            $valutato = $stats[6]; //1=valutato,0=senzavoto
-            $punti = $stats[7];
-            $voto = $stats[10];
-            $gol = $stats[11];
-            $golsub = $stats[12];
-            $golvit = $stats[13];
-            $golpar = $stats[14];
-            $assist = $stats[15];
-            $ammonizioni = $stats[16];
-            $espulsioni = $stats[17];
-            $rigorisegn = $stats[18];
-            $rigorisub = $stats[19];
-            $presenza = $stats[23];
-            $titolare = $stats[24];
-            $quotazione = $stats[27];
-            $rows[] = "('" . $id . "','" . $giornata . "','" . $valutato . "','" . $punti . "','" . $voto . "','" . $gol . "','" . $golsub . "','" . $golvit . "','" . $golpar . "','" . $assist . "','" . $ammonizioni . "','" . $espulsioni . "','" . $rigorisegn . "','" . $rigorisub . "','" . $presenza . "','" . $titolare . "','" . $quotazione . "')";
+            $valutato = ConnectionFactory::getFactory()->getConnection()->quote($stats[6],PDO::PARAM_INT); //1=valutato,0=senzavoto
+            $punti = ConnectionFactory::getFactory()->getConnection()->quote($stats[7]);
+            $voto = ConnectionFactory::getFactory()->getConnection()->quote($stats[10]);
+            $gol = ConnectionFactory::getFactory()->getConnection()->quote($stats[11],PDO::PARAM_INT);
+            $golsub = ConnectionFactory::getFactory()->getConnection()->quote($stats[12],PDO::PARAM_INT);
+            $golvit = ConnectionFactory::getFactory()->getConnection()->quote($stats[13],PDO::PARAM_INT);
+            $golpar = ConnectionFactory::getFactory()->getConnection()->quote($stats[14],PDO::PARAM_INT);
+            $assist = ConnectionFactory::getFactory()->getConnection()->quote($stats[15],PDO::PARAM_INT);
+            $ammonizioni = ConnectionFactory::getFactory()->getConnection()->quote($stats[16],PDO::PARAM_INT);
+            $espulsioni = ConnectionFactory::getFactory()->getConnection()->quote($stats[17],PDO::PARAM_INT);
+            $rigorisegn = ConnectionFactory::getFactory()->getConnection()->quote($stats[18],PDO::PARAM_INT);
+            $rigorisub = ConnectionFactory::getFactory()->getConnection()->quote($stats[19],PDO::PARAM_INT);
+            $presenza = ConnectionFactory::getFactory()->getConnection()->quote($stats[23],PDO::PARAM_INT);
+            $titolare = ConnectionFactory::getFactory()->getConnection()->quote($stats[24],PDO::PARAM_INT);
+            $quotazione = ConnectionFactory::getFactory()->getConnection()->quote($stats[27],PDO::PARAM_INT);
+            $rows[] = "($id,$giornata,$valutato,$punti,$voto,$gol,$golsub,$golvit,$golpar,$assist,$ammonizioni,$espulsioni,$rigorisegn,$rigorisub,$presenza,$titolare,$quotazione)";
         }
         $q = "INSERT INTO voto (idGiocatore,idGiornata,valutato,punti,voto,gol,golSubiti,golVittoria,golPareggio,assist,ammonizioni,espulsioni,rigoriSegnati,rigoriSubiti,presente,titolare,quotazione) VALUES ";
         $q .= implode(',', $rows);
-        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        return $exe->execute();
     }
 
 }

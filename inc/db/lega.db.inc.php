@@ -14,17 +14,13 @@ class Lega extends LegaTable {
         return $values;
     }
 
-    public function check($array, $message) {
+    public function check($array) {
         $post = (object) $array;
         foreach ($array as $key => $val)
-            if ($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val)) {
-                $message->error("Non hai compilato tutti i campi" . $key);
-                return FALSE;
-            }
-        if (!is_numeric($post->numTrasferimenti) || !is_numeric($post->numSelezioni) || !is_numeric($post->minFormazione)) {
-            $message->error("Tipo di dati incorretto. Controlla i valori numerici");
-            return FALSE;
-        }
+            if ($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val))
+                throw new FormException("Non hai compilato tutti i campi" . $key);
+        if (!is_numeric($post->numTrasferimenti) || !is_numeric($post->numSelezioni) || !is_numeric($post->minFormazione))
+            throw new FormException("Tipo di dati incorretto. Controlla i valori numerici");
         return TRUE;
     }
 

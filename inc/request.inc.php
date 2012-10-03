@@ -31,6 +31,22 @@ class Request {
     protected $_cookie = array();
 
     /**
+     *
+     * @var Request
+     */
+    protected static $instance;
+
+    /**
+     *
+     * @return Request
+     */
+    public static function getInstance() {
+        if (!self::$instance)
+            self::$instance = new self();
+        return self::$instance;
+    }
+
+    /**
      * Constructor
      * Stores "request data" in GPC order.
      */

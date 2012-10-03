@@ -16,8 +16,11 @@ class Formazione extends FormazioneTable {
             $modulo = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
             $giocatoriIds = array_merge($titolari, $panchinari);
             $giocatori = Giocatore::getByIds($giocatoriIds);
+            FirePHP::getInstance()->log($giocatori);
+            FirePHP::getInstance()->log($titolari);
             foreach ($titolari as $titolare)
-                $modulo[$giocatori[$titolare]->ruolo] += 1;
+                if($titolare != '')
+                    $modulo[$giocatori[$titolare]->ruolo] += 1;
             $this->setModulo(implode($modulo, '-'));
         }
 
@@ -65,6 +68,15 @@ class Formazione extends FormazioneTable {
         return $formazione;
     }
 
+    public static function getById($id) {
+        require_once(INCDBDIR . "schieramento.db.inc.php");
+
+        $formazione = parent::getById($id);
+        if ($formazione)
+            $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
+        return $formazione;
+    }
+
     /**
      *
      * @param type $idUtente
@@ -76,8 +88,12 @@ class Formazione extends FormazioneTable {
 
         $q = "SELECT *
 				FROM formazione
-				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE formazione.idUtente = :idUtente AND formazione.idGiornata = :idGiornata";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         $formazione = $exe->fetchObject(__CLASS__);
         if ($formazione)
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
@@ -93,8 +109,12 @@ class Formazione extends FormazioneTable {
     public static function getFormazioneByGiornataAndLega($giornata, $idLega) {
         $q = "SELECT formazione.*
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.id
-				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE idGiornata = :idGiornata AND idLega = :idLega";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
     }
 
@@ -106,8 +126,12 @@ class Formazione extends FormazioneTable {
     public static function usedJolly($idUtente) {
         $q = "SELECT jolly
 				FROM formazione
-				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = '" . $idUtente . "' AND jolly = '1'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":jolly", TRUE, PDO::PARAM_BOOL);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
         return ($exe->rowCount() == 1);
     }
 
@@ -117,32 +141,26 @@ class Formazione extends FormazioneTable {
      * @param type $message
      * @return boolean
      */
-    public function check($array, $message) {
+    public function check($array) {
         require_once(INCDBDIR . 'giocatore.db.inc.php');
 
         $post = (object) $array;
         $formazione = array();
         $capitano = array();
         foreach ($post->titolari as $key => $val) {
-            if (empty($val)) {
-                $message->error("Non hai compilato correttamente tutti i campi");
-                return FALSE;
-            }
+            if (empty($val))
+                throw new FormException("Non hai compilato correttamente tutti i campi");
             if (!in_array($val, $formazione))
                 $formazione[] = $val;
-            else {
-                $message->error("Giocatore doppio");
-                return FALSE;
-            }
+            else
+                throw new FormException("Giocatore doppio");
         }
         foreach ($post->panchinari as $key => $val) {
             if (!empty($val)) {
                 if (!in_array($val, $formazione))
                     $formazione[] = $val;
-                else {
-                    $message->error("Giocatore doppio");
-                    return FALSE;
-                }
+                else
+                    throw new FormException("Giocatore doppio");
             }
         }
         $cap = array();
@@ -155,14 +173,10 @@ class Formazione extends FormazioneTable {
                 if ($giocatore->ruolo == 'P' || $giocatore->ruolo == 'D') {
                     if (!in_array($val, $capitano))
                         $capitano[$key] = $val;
-                    else {
-                        $message->error("Capitano doppio");
-                        return FALSE;
-                    }
-                } else {
-                    $message->error("Capitano non difensore o portiere");
-                    return FALSE;
-                }
+                    else
+                        throw new FormException("Giocatore doppio");
+                } else
+                    throw new FormException("Capitano non difensore o portiere");
             }
         }
         return TRUE;
