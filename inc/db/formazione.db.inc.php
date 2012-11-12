@@ -4,6 +4,17 @@ require_once(TABLEDIR . 'Formazione.table.db.inc.php');
 
 class Formazione extends FormazioneTable {
 
+    public function duplicate($giornata) {
+        $giocatori = Schieramento::getSchieramentoById($this->getId());
+        $giocatoriAppo = array();
+        foreach ($giocatori as $giocatore)
+            $giocatoriAppo[] = $giocatore->idGiocatore;
+        $titolari = array_splice($giocatoriAppo, 0, 11);
+        $this->setId(NULL);
+        $this->setIdGiornata($giornata);
+        $this->save(array('titolari' => $titolari, 'panchinari' => $giocatoriAppo, 'evento' => FALSE));
+    }
+
     public function save($parameters = NULL) {
         require_once(INCDBDIR . "schieramento.db.inc.php");
 
@@ -40,7 +51,27 @@ class Formazione extends FormazioneTable {
                             $schieramento->save();
                         }
                     } else
-                        $schieramento->delete();
+                        $success = ($success and $schieramento->delete());
+                }
+                if ($success) {
+                    if ($parameters['evento'] !== FALSE) {
+                        $evento = new Evento();
+                        $evento->setIdExternal($idFormazione);
+                        $evento->setIdUtente($this->getIdUtente());
+                        $evento->setIdLega($this->getUtente()->getIdLega());
+                        $evento->setTipo(Evento::FORMAZIONE);
+                        if ($evento->save())
+                            self::commit();
+                        else {
+                            self::rollback();
+                            return FALSE;
+                        }
+                    } else
+                        self::commit();
+                }
+                else {
+                    self::rollback();
+                    return FALSE;
                 }
                 $evento = new Evento();
                 $evento->setIdExternal($idFormazione);

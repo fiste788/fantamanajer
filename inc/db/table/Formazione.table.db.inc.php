@@ -70,8 +70,8 @@ class FormazioneTable extends FormazioneModel {
      * @param Int $id
      * @return void
      */
-    public function setId($idFormazione) {
-        $this->idFormazione = (int) $idFormazione;
+    public function setId($id) {
+        $this->id = (int) $id;
     }
 
     /**

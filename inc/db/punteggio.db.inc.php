@@ -153,50 +153,45 @@ class Punteggio extends PunteggioTable {
         require_once(INCDBDIR . 'giocatore.db.inc.php');
         require_once(INCDBDIR . 'schieramento.db.inc.php');
 
+
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            $formazione = Formazione::getLastFormazione($utente->id, $giornata);
-            $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
-            $lega = $utente->getLega();
-            if ($punteggio == FALSE)
-                $punteggio = new Punteggio();
-            if ($formazione == FALSE || ($formazione->getIdGiornata() != $giornata && $lega->getPunteggioFormazioneDimenticata() != 0)) {
-                $punteggio->setIdGiornata($giornata);
-                $punteggio->setIdUtente($utente->getId());
-                $punteggio->setIdLega($lega->getId());
-                $punteggio->setPunteggio(0);
-                $punteggio->save();
-            } else {
-                $idUtente = $formazione->getIdUtente();
-                $giornata = $formazione->getIdGiornata();
-                if ($giornata != $giornata) {
-                    if (!$lega->getCapitanoFormazioneDimenticata()) {
-                        $formazione->setIdCapitano(NULL);
-                        $formazione->setIdVCapitano(NULL);
-                        $formazione->setIdVVCapitano(NULL);
-                    }
-                    $formazione->setId(NULL);
-                    $formazione->setGiornata($giornata);
-                    $formazione->save();
+        $formazione = Formazione::getLastFormazione($utente->id, $giornata);
+        $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
+        $lega = $utente->getLega();
+        if ($punteggio == FALSE)
+            $punteggio = new Punteggio();
+        if ($formazione == FALSE || ($formazione->getIdGiornata() != $giornata && $lega->getPunteggioFormazioneDimenticata() == 0)) {
+            $punteggio->setIdGiornata($giornata);
+            $punteggio->setIdUtente($utente->getId());
+            $punteggio->setIdLega($lega->getId());
+            $punteggio->setPunteggio(0);
+            $punteggio->save();
+        } else {
+            $idUtente = $formazione->getIdUtente();
+            if ($formazione->getIdGiornata() != $giornata) {
+                if (!$lega->isCapitanoFormazioneDimenticata()) {
+                    $formazione->setIdCapitano(NULL);
+                    $formazione->setIdVCapitano(NULL);
+                    $formazione->setIdVVCapitano(NULL);
                 }
-                $cambi = 0;
-                $somma = 0;
-                $cap = self::getCapitanoAttivo($formazione);
-                $panchinari = $formazione->giocatori;
-                $titolari = array_splice($panchinari, 0, 11);
-                foreach ($titolari as $schieramento) {
-                    $giocatore = $schieramento->getGiocatore();
-                    $voto = $giocatore->getVotoByGiornata($giornata);
-                    if ((!$voto->isValutato()) && ($cambi < 3)) {
-                        $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
-                        if ($sostituto != FALSE) {
-                            if ($schieramento->getConsiderato() != 0) {
-                                $schieramento->setConsiderato(0);
-                                $schieramento->save();
-                            }
-                            $schieramento = $sostituto;
-                            $giocatore = $schieramento->getGiocatore();
-                            $voto = $giocatore->getVotoByGiornata($giornata);
+                $formazione->duplicate($giornata);
+            }
+            $cambi = 0;
+            $somma = 0;
+            $cap = self::getCapitanoAttivo($formazione);
+            $panchinari = $formazione->giocatori;
+            $titolari = array_splice($panchinari, 0, 11);
+            foreach ($titolari as $schieramento) {
+                $giocatore = $schieramento->getGiocatore();
+                $voto = $giocatore->getVotoByGiornata($giornata);
+                if ((!$voto->isValutato()) && ($cambi < 3)) {
+                    FirePHP::getInstance()->log("sostituisco");
+                    $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
+                    if ($sostituto != FALSE) {
+                        if ($schieramento->getConsiderato() != 0) {
+                            $schieramento->setConsiderato(0);
+                            $schieramento->save();
                         }
                     }
                     if ($schieramento) {
@@ -238,6 +233,7 @@ class Punteggio extends PunteggioTable {
                     $penalita->save();
                 }
             }
+			}
             ConnectionFactory::getFactory()->getConnection()->commit();
             return TRUE;
         } catch (PDOException $e) {
