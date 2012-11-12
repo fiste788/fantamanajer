@@ -1,10 +1,8 @@
 <!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <title>FantaManajer<?php if (isset($this->title)) echo " - " . $this->title; ?></title>
@@ -34,8 +32,6 @@
         <?php endif; ?>
         <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
-        <link href="<?php echo IMGSURL . 'apple-touch-icon-precomposed.png' ?>" rel="apple-touch-icon" />
-        <link href="<?php echo IMGSURL . 'favicon.ico' ?>" rel="shortcut icon" type="image/x-icon" />
         <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
         <script src="<?php echo JSURL ?>modernizr/modernizr.min.js"></script>
     </head>
@@ -50,6 +46,9 @@
                 <div class="container"><?php echo $this->header; ?></div>
             </div>
         </header>
+        <!--[if lt IE 8]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
         <?php if (!empty($this->operation)): ?>
             <section id="operation">
                 <div class="fix">

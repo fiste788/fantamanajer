@@ -148,8 +148,8 @@ class FileSystem {
             $xml->writeElement("voto", $node[3]);
             $xml->writeElement("gol", $node[4]);
             $xml->writeElement("rigori", $node[5]);
-            $xml->writeElement("ammonizioni", $node[6]);
-            $xml->writeElement("esplusioni", $node[7]);
+            $xml->writeElement("ammonito", $node[6]);
+            $xml->writeElement("espluso", $node[7]);
             $xml->writeElement("assist", $node[8]);
             $xml->writeElement("punti", $node[9]);
             $xml->endElement();
@@ -177,8 +177,8 @@ class FileSystem {
             $xml->writeElement("golVittoria", $node[13]);
             $xml->writeElement("golPareggio", $node[14]);
             $xml->writeElement("assist", $node[15]);
-            $xml->writeElement("ammonizioni", $node[16]);
-            $xml->writeElement("espulsioni", $node[17]);
+            $xml->writeElement("ammonito", $node[16]);
+            $xml->writeElement("espulso", $node[17]);
             $xml->writeElement("rigoriSegnati", $node[18]);
             $xml->writeElement("rigoriSubiti", $node[19]);
             $xml->writeElement("presenza", $node[23]);

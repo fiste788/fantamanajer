@@ -106,11 +106,10 @@ elseif ($pages->pages[$p]->roles > $_SESSION['roles']) {
     $p = 'home';
 }
 
-$giornata = Giornata::getCurrentGiornata();
+$currentGiornata = Giornata::getCurrentGiornata();
 
-define("GIORNATA", $giornata->getId());
-define("PARTITEINCORSO", $giornata->getPartiteInCorso());
-define("STAGIONEFINITA", $giornata->getStagioneFinita());
+define("GIORNATA", $currentGiornata->getId());
+define("STAGIONEFINITA", $currentGiornata->getStagioneFinita());
 
 $leghe = Lega::getList();
 if (isset($_POST['legaView']))
@@ -134,16 +133,27 @@ $layoutTpl->assign('title', $pages->pages[$p]->title);
 $firePHP->log(REQUESTDIR . $p . '.request.code.php');
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
 if (Request::getInstance()->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
-    $firePHP->group($p . '.request.code.php');
-    require(REQUESTDIR . $p . '.request.code.php');
-    $firePHP->groupEnd();
+    try {
+        $firePHP->group($p . '.request.code.php');
+        require(REQUESTDIR . $p . '.request.code.php');
+        $firePHP->groupEnd();
+    } catch (FormException $fe) {
+        $message->warning($fe->getMessage());
+    } catch (PDOException $e) {
+        $message->error($e->getMessage());
+    }
 }
 
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php')) {
+    try {
     $firePHP->group($p . '.code.php');
     require(CODEDIR . $p . '.code.php');
     $firePHP->groupEnd();
+    } catch(Exception $e) {
+        FirePHP::getInstance()->error($e->getTrace());
+        Request::send500();
+    }
 }
 
 if (LOCAL)
@@ -151,7 +161,7 @@ if (LOCAL)
 
 require_once(CODEDIR . 'navbar.code.php');
 
-$headerTpl->assign('dataFine', date_parse(Giornata::getTargetCountdown()->format("Y-m-d H:i:s")));
+$headerTpl->assign('dataFine', date_parse($currentGiornata->getData()->format("Y-m-d H:i:s")));
 $operationTpl->assign('request', $request);
 $contentTpl->assign('request', $request);
 $contentTpl->assign('ruoli', $ruoli);

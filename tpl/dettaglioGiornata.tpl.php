@@ -15,8 +15,8 @@
 				<th>Ruolo</th>
 				<th>Club</th>
                 <th class="hidden-phone"><abbr title="Titolare">Tit</abbr></th>
-                <th class="hidden-phone"><abbr title="Ammonizioni">Amm</abbr></th>
-                <th class="hidden-phone"><abbr title="Espulsioni">Esp</abbr></th>
+                <th class="hidden-phone"><abbr title="Ammonito">Amm</abbr></th>
+                <th class="hidden-phone"><abbr title="Espulso">Esp</abbr></th>
                 <th class="hidden-phone">Gol</th>
                 <th>Punti</th>
 			</tr>
@@ -27,9 +27,9 @@
 					<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('id'=>$giocatore->idGiocatore)); ?>"><?php echo ($giocatore->considerato == 2) ? $giocatore . '<span id="cap">(C)</span>' : $giocatore; ?></a></td>
 					<td><?php echo $giocatore->ruolo; ?></td>
 					<td><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
-					<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif ?></td>
-                    <td class="hidden-phone"><?php echo ($giocatore->ammonizioni != 0) ? $giocatore->ammonizioni : "&nbsp;"; ?></td>
-                    <td class="hidden-phone"><?php echo ($giocatore->espulsioni != 0) ? $giocatore->espulsioni : "&nbsp;"; ?></td>
+					<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif; ?></td>
+                    <td class="hidden-phone"><?php if($giocatore->ammonito): ?><i class="icon-ok"></i><?php endif; ?></td>
+                    <td class="hidden-phone"><?php if($giocatore->espulso): ?><i class="icon-ok"></i><?php endif; ?></td>
                     <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : "&nbsp;"; ?></td>
 					<td><?php if(!empty($giocatore->punti)) echo ($giocatore->considerato == '2') ? $giocatore->punti * 2 : $giocatore->punti; else "&nbsp;"; ?></td>
 				</tr>
@@ -45,8 +45,8 @@
                     <th>Ruolo</th>
                     <th>Club</th>
                     <th class="hidden-phone"><abbr title="Titolare">Tit</abbr></th>
-                    <th class="hidden-phone"><abbr title="Ammonizioni">Amm</abbr></th>
-                    <th class="hidden-phone"><abbr title="Espulsioni">Esp</abbr></th>
+                    <th class="hidden-phone"><abbr title="Ammonito">Amm</abbr></th>
+                    <th class="hidden-phone"><abbr title="Espulso">Esp</abbr></th>
                     <th class="hidden-phone">Gol</th>
                     <th>Punti</th>
 				</tr>
@@ -57,9 +57,9 @@
 						<td><a href="<?php echo Links::getLink('dettaglioGiocatore',array('id'=>$giocatore->idGiocatore)); ?>"><?php echo $giocatore; ?></a></td>
 						<td><?php echo $giocatore->ruolo; ?></td>
 						<td><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
-						<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif ?></td>
-                        <td class="hidden-phone"><?php echo ($giocatore->ammonizioni != 0) ? $giocatore->ammonizioni : "&nbsp;"; ?></td>
-                        <td class="hidden-phone"><?php echo ($giocatore->espulsioni != 0) ? $giocatore->espulsioni : "&nbsp;"; ?></td>
+						<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif; ?></td>
+                        <td class="hidden-phone"><?php if($giocatore->ammonito): ?><i class="icon-ok"></i><?php endif; ?></td>
+                        <td class="hidden-phone"><?php if($giocatore->espulso): ?><i class="icon-ok"></i><?php endif; ?></td>
                         <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : "&nbsp;"; ?></td>
 						<td><?php echo (!empty($giocatore->punti)) ? $giocatore->punti : "&nbsp;"; ?></td>
 					</tr>

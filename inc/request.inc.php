@@ -145,8 +145,14 @@ class Request {
     }
 
     public static function send404() {
-        header("HTTP/1.0 404 Not Found");
-        require("error_docs/not_found.html");
+        header($_SERVER['SERVER_PROTOCOL'] . " 404 Not Found",TRUE,404);
+        require("error_docs/404.html");
+        die();
+    }
+
+    public static function send500() {
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', TRUE, 500);
+        require("error_docs/500.html");
         die();
     }
 

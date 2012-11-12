@@ -8,22 +8,7 @@ class Giornata extends GiornataTable {
      *
      * @var bool
      */
-    public $partiteInCorso;
-
-    /**
-     *
-     * @var bool
-     */
     public $stagioneFinita;
-
-
-    /**
-     *
-     * @return bool
-     */
-    public function getPartiteInCorso() {
-        return (bool) $this->partiteInCorso;
-    }
 
     /**
      *
@@ -31,15 +16,6 @@ class Giornata extends GiornataTable {
      */
     public function getStagioneFinita() {
         return (bool) $this->stagioneFinita;
-    }
-
-
-    /**
-     *
-     * @param Bool $partiteInCorso
-     */
-    public function setPartiteInCorso($partiteInCorso) {
-        $this->partiteInCorso = (bool) $partiteInCorso;
     }
 
     /**
@@ -57,25 +33,13 @@ class Giornata extends GiornataTable {
      */
     public static function getCurrentGiornata() {
         $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-        $q = "SELECT id
+        $q = "SELECT MIN(id) as id, data
 				FROM giornata
-				WHERE NOW() BETWEEN dataInizio AND dataFine - INTERVAL :minuti MINUTE";
+				WHERE NOW() < data - INTERVAL :minuti MINUTE";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
         $exe->execute();
         $valore = $exe->fetchObject(__CLASS__);
-        if ($valore != FALSE)
-            $valore->setPartiteInCorso(FALSE);
-        else {
-            $q = "SELECT MIN( id - 1 ) as id
-				FROM giornata
-				WHERE NOW() < dataFine - INTERVAL :minuti MINUTE";
-            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-            $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
-            $exe->execute();
-            $valore = $exe->fetchObject(__CLASS__);
-            $valore->setPartiteInCorso(TRUE);
-        }
         $valore->setStagioneFinita($valore->getId() > (self::getNumberGiornate() - 1));
         return $valore;
     }
@@ -126,13 +90,13 @@ class Giornata extends GiornataTable {
 
     public static function getTargetCountdown() {
         $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-        $q = "SELECT MAX(dataFine) - INTERVAL :minuti MINUTE as dataFine
+        $q = "SELECT MAX(data) - INTERVAL :minuti MINUTE as data
 				FROM giornata
-				WHERE NOW() > dataInizio";
+				WHERE NOW() > data";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
         $exe->execute();
-        return $exe->fetchObject(__CLASS__)->getDataFine();
+        return $exe->fetchObject(__CLASS__)->getData();
     }
 
     public static function updateGiornate($giornate) {

@@ -220,7 +220,7 @@ class Giocatore extends GiocatoreTable {
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         $exe->bindValue(":ruolo", $ruolo);
         $exe->execute();
         FirePHP::getInstance()->log($q);
