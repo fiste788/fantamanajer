@@ -36,7 +36,7 @@
         <script src="<?php echo JSURL ?>modernizr/modernizr.min.js"></script>
     </head>
     <?php flush(); ?>
-    <body<?php if (DEBUG) echo ' class="debug"' ?>>
+    <body>
         <nav id="topbar" class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner"><?php echo $this->navbar; ?></div>
         </nav>
