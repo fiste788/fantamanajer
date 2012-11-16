@@ -1,12 +1,12 @@
 /*!
- * jQuery UI Progressbar 1.9.0-rc.1
+ * jQuery UI Progressbar 1.9.1
  * http://jqueryui.com
  *
  * Copyright 2012 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Progressbar
+ * http://api.jqueryui.com/progressbar/
  *
  * Depends:
  *   jquery.ui.core.js
@@ -15,7 +15,7 @@
 (function( $, undefined ) {
 
 $.widget( "ui.progressbar", {
-	version: "1.9.0-rc.1",
+	version: "1.9.1",
 	options: {
 		value: 0,
 		max: 100
