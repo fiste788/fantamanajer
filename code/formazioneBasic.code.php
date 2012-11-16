@@ -4,9 +4,9 @@ require_once(INCDBDIR . "formazione.db.inc.php");
 require_once(INCDBDIR . "evento.db.inc.php");
 require_once(INCDBDIR . "giocatore.db.inc.php");
 
-$filterUtente = $request->has('utente') ? $request->get('utente') : $_SESSION['idUtente'];
-$filterGiornata = $request->has('giornata') ? $request->get('giornata') : GIORNATA;
-$filterModulo = $request->has('modulo') ? $request->get('modulo') : NULL;
+$filterUtente = Request::getInstance()->has('utente') ? Request::getInstance()->get('utente') : $_SESSION['idUtente'];
+$filterGiornata = Request::getInstance()->has('giornata') ? Request::getInstance()->get('giornata') : GIORNATA;
+$filterModulo = Request::getInstance()->has('modulo') ? Request::getInstance()->get('modulo') : NULL;
 
 $ruoliKey = array('P','D','C','A');
 $ruo = array('P'=>'Portiere','D'=>'Difensori','C'=>'Centrocampisti','A'=>'Attaccanti');

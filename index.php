@@ -33,11 +33,8 @@ require(INCDBDIR . 'lega.db.inc.php');
 require(INCDBDIR . 'giornata.db.inc.php');
 
 //Creating a new db istance
-$dbConnection = new db();
-global $message;
 $message = new message();
-global $request;
-$request = new Request();
+$request = Request::getInstance();
 $logger = new logger();
 $quickLinks = new QuickLinks($request);
 $notifiche = array();
@@ -101,7 +98,7 @@ require_once(CODEDIR . 'login.code.php');
 define("DEBUG", (LOCAL || DEVELOP || $_SESSION['roles'] == 2));
 $firePHP->setEnabled(DEBUG);
 
-$p = $request->has('p') ? $request->get('p') : 'home';
+$p = Request::getInstance()->has('p') ? Request::getInstance()->get('p') : 'home';
 if (!isset($pages->pages[$p]))
     Request::send404();
 elseif ($pages->pages[$p]->roles > $_SESSION['roles']) {
@@ -109,11 +106,10 @@ elseif ($pages->pages[$p]->roles > $_SESSION['roles']) {
     $p = 'home';
 }
 
-$giornata = Giornata::getCurrentGiornata();
+$currentGiornata = Giornata::getCurrentGiornata();
 
-define("GIORNATA", $giornata['id']);
-define("PARTITEINCORSO", $giornata['partiteInCorso']);
-define("STAGIONEFINITA", $giornata['stagioneFinita']);
+define("GIORNATA", $currentGiornata->getId());
+define("STAGIONEFINITA", $currentGiornata->getStagioneFinita());
 
 $leghe = Lega::getList();
 if (isset($_POST['legaView']))
@@ -136,17 +132,28 @@ if (isset($_SESSION['message'])) {
 $layoutTpl->assign('title', $pages->pages[$p]->title);
 $firePHP->log(REQUESTDIR . $p . '.request.code.php');
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
-if ($request->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
-    $firePHP->group($p . '.request.code.php');
-    require(REQUESTDIR . $p . '.request.code.php');
-    $firePHP->groupEnd();
+if (Request::getInstance()->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
+    try {
+        $firePHP->group($p . '.request.code.php');
+        require(REQUESTDIR . $p . '.request.code.php');
+        $firePHP->groupEnd();
+    } catch (FormException $fe) {
+        $message->warning($fe->getMessage());
+    } catch (PDOException $e) {
+        $message->error($e->getMessage());
+    }
 }
 
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php')) {
+    try {
     $firePHP->group($p . '.code.php');
     require(CODEDIR . $p . '.code.php');
     $firePHP->groupEnd();
+    } catch(Exception $e) {
+        FirePHP::getInstance()->error($e->getTrace());
+        Request::send500();
+    }
 }
 
 if (LOCAL)
@@ -154,7 +161,7 @@ if (LOCAL)
 
 require_once(CODEDIR . 'navbar.code.php');
 
-$headerTpl->assign('dataFine', date_parse(Giornata::getTargetCountdown()->format("Y-m-d H:i:s")));
+$headerTpl->assign('dataFine', date_parse($currentGiornata->getData()->format("Y-m-d H:i:s")));
 $operationTpl->assign('request', $request);
 $contentTpl->assign('request', $request);
 $contentTpl->assign('ruoli', $ruoli);

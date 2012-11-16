@@ -3,7 +3,7 @@
         <div class="control-group">
             <input type="hidden" name="p" value="<?php echo $this->request->get('p'); ?>" />
             <label for="giornata">Seleziona la giornata:</label>
-            <select name="giornata" onchange="this.form.submit();">
+            <select id="giornata" name="giornata" onchange="this.form.submit();">
                 <?php if (!$this->request->has('giornata')): ?><option></option><?php endif; ?>
                 <?php foreach ($this->giornate as $key => $val): ?>
                     <option<?php echo ($this->request->get('giornata') == $val) ? ' selected="selected"' : ''; ?> value="<?php echo $val; ?>"><?php echo $val; ?></option>
@@ -12,7 +12,7 @@
         </div>
         <div class="control-group">
             <label for="squadra">Seleziona la squadra:</label>
-            <select name="squadra" onchange="this.form.submit();">
+            <select id="squadra" name="squadra" onchange="this.form.submit();">
                 <?php if (!$this->request->has('squadra')): ?><option></option><?php endif; ?>
                 <?php foreach ($this->squadre as $key => $val): ?>
                     <option<?php echo ($this->request->get('squadra') == $val->id) ? ' selected="selected"' : ''; ?> value="<?php echo $val->id; ?>"><?php echo $val->nomeSquadra; ?></option>

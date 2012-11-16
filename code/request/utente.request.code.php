@@ -8,7 +8,7 @@ if(($utente = Utente::getById($_SESSION['idUtente'])) == FALSE)
 //$utente->form = new UtenteForm();
 //$utente = new UtenteForm($utente);
 if($utente->validate()) {
-	$passwordnew = $request->get('passwordnew');
+	$passwordnew = Request::getInstance()->get('passwordnew');
     if(!empty($passwordnew))
         $utente->setPassword(md5($passwordnew));
     if($utente->save())

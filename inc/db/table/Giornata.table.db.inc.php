@@ -16,18 +16,11 @@ class GiornataTable extends GiornataModel {
      *
      * @var DateTime
      */
-    var $dataInizio;
-
-    /**
-     *
-     * @var DateTime
-     */
-    var $dataFine;
+    var $data;
 
     public function __construct() {
         $this->id = is_null($this->id) ? NULL : $this->getId();
-        $this->dataInizio = is_null($this->dataFine) ? NULL : $this->getDataInizio();
-        $this->dataFine = is_null($this->dataFine) ? NULL : $this->getDataFine();
+        $this->data = is_null($this->data) ? NULL : $this->getData();
     }
 
     /**
@@ -40,27 +33,12 @@ class GiornataTable extends GiornataModel {
     }
 
     /**
-     * Setter: dataInizio
-     * @param DateTime $dataInizio
+     * Setter: data
+     * @param DateTime $data
      * @return void
      */
-    public function setDataInizio($dataInizio) {
-        if (is_a($this->dataInizio, "DateTime"))
-            $this->dataInizio = $dataInizio;
-        else
-            $this->dataInizio = new DateTime($dataInizio);
-    }
-
-    /**
-     * Setter: dataFine
-     * @param DateTime $dataFine
-     * @return void
-     */
-    public function setDataFine($dataFine) {
-        if (is_a($this->dataFine, "DateTime"))
-            $this->dataFine = $dataFine;
-        else
-            $this->dataFine = new DateTime($dataFine);
+    public function setData($data) {
+        $this->data = is_a($this->data, "DateTime") ? $data : new DateTime($data);
     }
 
     /**
@@ -72,25 +50,11 @@ class GiornataTable extends GiornataModel {
     }
 
     /**
-     * Getter: dataInizio
+     * Getter: data
      * @return String
      */
-    public function getDataInizio() {
-        if (is_a($this->dataInizio, "DateTime"))
-            return $this->dataInizio;
-        else
-            return new DateTime($this->dataInizio);
-    }
-
-    /**
-     * Getter: dataFine
-     * @return String
-     */
-    public function getDataFine() {
-        if (is_a($this->dataFine, "DateTime"))
-            return $this->dataFine;
-        else
-            return new DateTime($this->dataFine);
+    public function getData() {
+        return (is_a($this->data, "DateTime")) ? $this->data : new DateTime($this->data);
     }
 
     /**

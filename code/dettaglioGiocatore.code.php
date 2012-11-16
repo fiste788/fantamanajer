@@ -7,11 +7,10 @@ require_once(INCDBDIR . 'utente.db.inc.php');
 require_once(INCDBDIR . 'voto.db.inc.php');
 
 //$dettaglio = GiocatoreStatistiche::getById($filterId);
-if (($giocatore = Giocatore::getGiocatoreByIdWithStats($request->get('id'), $_SESSION['legaView'])) == FALSE)
+if (($giocatore = Giocatore::getGiocatoreByIdWithStats(Request::getInstance()->get('id'), $_SESSION['legaView'])) == FALSE)
     Request::send404();
 
 $giocatore->voti = $giocatore->getVoti();
-$firePHP->log($giocatore);
 $pathFoto = PLAYERSDIR . $giocatore->id . '.jpg';
 $pathClub = CLUBSURL . $giocatore->idClub . '.png';
 if (!file_exists($pathFoto))
@@ -40,7 +39,7 @@ if ($_SESSION['logged'] == TRUE) {
     $contentTpl->assign('label', $club);
 }
 
-$quickLinks->set('giocatore', $elencoGiocatori, "");
+$quickLinks->set('id', $elencoGiocatori, "");
 $contentTpl->assign('giocatore', $giocatore);
 $contentTpl->assign('pathFoto', $pathFoto);
 $contentTpl->assign('pathClub', $pathClub);

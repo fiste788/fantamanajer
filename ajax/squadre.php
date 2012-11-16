@@ -8,5 +8,5 @@
 	$firePHP = FirePHP::getInstance(TRUE);
 	$request = new Request();
 	$dbObj = new db;
-	echo json_encode(Utente::getByField('idLega',$request->get('idLega')));
+	echo json_encode(Utente::getByField('idLega',Request::getInstance()->get('idLega')));
 ?>

@@ -8,7 +8,7 @@ require_once(INCDBDIR . 'punteggio.db.inc.php');
 require_once(INCDBDIR . 'evento.db.inc.php');
 require_once(INCDIR . 'mail.inc.php');
 
-$filterId = $request->has('id') ? $request->get('id') : $_SESSION['idUtente'];
+$filterId = Request::getInstance()->has('id') ? Request::getInstance()->get('id') : $_SESSION['idUtente'];
 $trasferimentiAppo = Trasferimento::getByField('idUtente',$filterId);
 
 if(!is_array($trasferimentiAppo) && !is_null($trasferimentiAppo))
@@ -29,8 +29,8 @@ $trasferiti = Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
 $selezione = Selezione::getByField('idUtente',$_SESSION['idUtente']);
 if(empty($selezione))
 	$selezione = new Selezione();
-if($request->has('acquista'))
-	$selezione->setIdGiocatoreNew($request->get('acquista'));
+if(Request::getInstance()->has('acquista'))
+	$selezione->setIdGiocatoreNew(Request::getInstance()->get('acquista'));
 
 $contentTpl->assign('giocatoriSquadra',GiocatoreStatistiche::getByField('idUtente',$filterId));
 $contentTpl->assign('freePlayer',$playerFree);

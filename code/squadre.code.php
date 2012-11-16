@@ -3,6 +3,7 @@ require_once(INCDBDIR . 'utente.db.inc.php');
 require_once(INCDBDIR . 'punteggio.db.inc.php');
 
 $squadreAppo = Utente::getByField('idLega',$_SESSION['legaView']);
+FirePHP::getInstance()->log($squadreAppo);
 $classifica = Punteggio::getClassificaByGiornata($_SESSION['legaView'],GIORNATA);
 $squadre = array();
 $i = 0;

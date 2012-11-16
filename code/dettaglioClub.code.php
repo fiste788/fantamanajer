@@ -5,13 +5,13 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(VIEWDIR . 'ClubStatistiche.view.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 
-if(($dettaglioClub = ClubStatistiche::getById($request->get('club'))) == FALSE)
+if(($dettaglioClub = ClubStatistiche::getById(Request::getInstance()->get('club'))) == FALSE)
 	Request::send404();
 
 $elencoClub = Club::getList();
 
 $quickLinks->set('club',$elencoClub,"");
-$giocatori = GiocatoreStatistiche::getByField('idClub',$request->get('club'));
+$giocatori = GiocatoreStatistiche::getByField('idClub',Request::getInstance()->get('club'));
 
 $contentTpl->assign('giocatori',$giocatori);
 $contentTpl->assign('clubDett',$dettaglioClub);

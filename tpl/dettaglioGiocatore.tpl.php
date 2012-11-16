@@ -16,7 +16,7 @@
 	<?php endif; ?>
 	<div id="datiGioc">
         <figure>
-            <img class="foto left" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
+            <img class="img-polaroid foto left" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
         </figure>
 		<div class="column">
 			<p><?php echo $this->ruoli[$this->giocatore->ruolo]; ?></p>
@@ -40,68 +40,42 @@
 	<?php endif; ?>
 </div>
 <?php if(isset($this->giocatore->voti) && !empty($this->giocatore->voti)): ?>
-<table style="width:100px;clear:both;" class="table column">
-	<tr>
-		<th>Giornata</th>
-	</tr>
-	<tr>
-		<td>Punti</td>
-	</tr>
-	<tr>
-		<td>Voti</td>
-	</tr>
-	<tr>
-		<td>Gol</td>
-	</tr>
-	<tr>
-		<td>Assist</td>
-	</tr>
-	<tr>
-		<td>Ammonizioni</td>
-	</tr>
-	<tr>
-		<td>Espulsioni</td>
-	</tr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Giornata</th>
+            <th>Punti</th>
+            <th>Voti</th>
+            <th>Gol</th>
+            <th><abbr title="Gol subiti">Gol S</abbr></th>
+            <th>Assist</th>
+            <th><abbr title="Rigori">Rig</abbr></th>
+            <th><abbr title="Rigori subiti">Rig S</abbr></th>
+            <th><abbr title="Ammonito"><i class="ammonizione"></i></abbr></th>
+            <th><abbr title="Espulso"><i class="espulsione"></i></abbr></th>
+            <th><abbr title="Titolare">Tit</abbr></th>
+            <th><abbr title="Quotazione">Quot</abbr></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->giocatore->voti as $key => $val): ?>
+            <tr>
+                <td><?php echo $val->getIdGiornata(); ?></td>
+                <td><?php echo $val->getPunti(); ?></td>
+                <td><?php echo ($val->getVoto() != '0') ? $val->getVoto() : "&nbsp;"; ?></td>
+                <td><?php echo $val->getGol(); ?></td>
+                <td><?php echo $val->getGolSubiti(); ?></td>
+                <td><?php echo $val->getAssist(); ?></td>
+                <td><?php echo $val->getRigoriSegnati(); ?></td>
+                <td><?php echo $val->getRigoriSubiti(); ?></td>
+                <td><?php if($val->isAmmonito()): ?><i class="icon-ok"></i><?php endif; ?></td>
+                <td><?php if($val->isEspulso()): ?><i class="icon-ok"></i><?php endif; ?></td>
+                <td><?php if($val->isTitolare()): ?><i class="icon-ok"></i><?php endif; ?></td>
+                <td><?php echo $val->getQuotazione(); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
-<div id="tabGiocatore" class="column">
-	<table class="column table" style="width:<?php echo count($this->giocatore->voti) * 40; ?>px;margin:0;">
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<th><?php echo $val->idGiornata; ?></th>
-		<?php endforeach; ?>
-		</tr>
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<td><?php echo $val->punti; ?></td>
-		<?php endforeach; ?>
-		</tr>
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<td><?php echo ($val->voto != '0') ? $val->voto : "&nbsp;"; ?></td>
-		<?php endforeach; ?>
-		</tr>
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<td><?php if($this->giocatore->ruolo != "P") echo $val->gol;elseif($val->golSubiti == 0) echo $val->golSubiti; else echo "-" . $val->golSubiti; ?></td>
-		<?php endforeach; ?>
-		</tr>
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<td><?php echo $val->assist; ?></td>
-		<?php endforeach; ?>
-		</tr>
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<td><?php echo $val->ammonizioni; ?></td>
-		<?php endforeach; ?>
-		</tr>
-		<tr>
-		<?php foreach($this->giocatore->voti as $key => $val): ?>
-			<td><?php echo $val->espulsioni; ?></td>
-		<?php endforeach; ?>
-		</tr>
-	</table>
-</div>
 <div id="grafico" class="hidden-phone">
 	<div id="placeholder" style="height:300px;"></div>
     <div id="overview" style="width:200px;height:100px;"></div>

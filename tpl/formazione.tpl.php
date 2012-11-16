@@ -1,4 +1,5 @@
-<?php $ruolo = ""; ?>
+<?php $ruolo = "";
+FirePHP::getInstance()->log($this->panchinari) ?>
 <?php if (!STAGIONEFINITA || $this->giornata != GIORNATA): ?>
     <div id="giocatori" <?php if ($this->squadra != $_SESSION['idUtente']) echo 'style="display:none"'; ?>>
         <?php foreach ($this->giocatori as $val): ?>
@@ -32,12 +33,12 @@
             <form class="form-inline" action="<?php echo Links::getLink('formazione'); ?>" method="post">
                 <fieldset id="titolari-field">
                     <?php for ($i = 0; $i < 11; $i++): ?>
-                        <input<?php if (isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])) echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '"'; ?> id="gioc-<?php echo $i; ?>" type="hidden" name="titolari[<?php echo $i; ?>]" />
+                        <input<?php if (isset($this->titolari[$i]) && !empty($this->titolari[$i])) echo ' value="' . $this->titolari[$i] . '"'; ?> id="gioc-<?php echo $i; ?>" type="hidden" name="titolari[<?php echo $i; ?>]" />
                     <?php endfor; ?>
                 </fieldset>
                 <fieldset id="panchina-field">
-                    <?php for ($i = 11; $i < 18; $i++): ?>
-                        <input<?php if (isset($this->formazione->giocatori[$i]) && !empty($this->formazione->giocatori[$i])) echo ' value="' . $this->formazione->giocatori[$i]->idGiocatore . '"'; ?> id="panchField-<?php echo ($i - 11); ?>" type="hidden" name="panchinari[<?php echo ($i - 11); ?>]" />
+                    <?php for ($i = 0; $i < 7; $i++): ?>
+                        <input<?php if (isset($this->panchinari[$i]) && !empty($this->panchinari[$i])) echo ' value="' . $this->panchinari[$i] . '"'; ?> id="panchField-<?php echo $i; ?>" type="hidden" name="panchinari[<?php echo $i; ?>]" />
                     <?php endfor; ?>
                 </fieldset>
                 <fieldset id="capitani-field">

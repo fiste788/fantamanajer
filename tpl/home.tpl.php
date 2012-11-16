@@ -12,7 +12,7 @@
                         <a class="foto-container" href="<?php echo Links::getLink('dettaglioGiocatore', array('edit' => 'view', 'id' => $giocatore->id)); ?>">
                             <figure>
                                 <?php if (file_exists(PLAYERSDIR . $giocatore->id . '.jpg')): ?>
-                                    <img class="foto" alt="<?php echo $giocatore; ?>" src="<?php echo PLAYERSURL . $giocatore->id . '.jpg'; ?>" />
+                                    <img class="foto img-polaroid" alt="<?php echo $giocatore; ?>" src="<?php echo PLAYERSURL . $giocatore->id . '.jpg'; ?>" />
                                 <?php else: ?>
                                     <img class="foto" alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
                                 <?php endif; ?>

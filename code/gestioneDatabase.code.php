@@ -1,49 +1,48 @@
-<?php 
+<?php
 require_once(INCDIR . 'fileSystem.inc.php');
 
 $result = NULL;
 if(isset($_POST['query']) && !empty($_POST['query'])) {
 	$querys = explode(';',$_POST['query']);
-	$dbConnection->startTransaction();
+    try {
+    ConnectionFactory::getFactory()->getConnection()->beginTransaction();
 	foreach($querys as $key=>$val)
 		if(!empty($val))
-			mysql_query($val) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR();
-	if(!isset($err)) {
-		$dbConnection->commit();
+            ConnectionFactory::getFactory()->getConnection()->exec($q);
+	ConnectionFactory::getFactory()->getConnection()->commit();
+
 		$message->success('Query eseguita con successo');
-	}
-	else {
-		$dbConnection->rollback();
-		$message->error('Query non valida: ' . $err);
+    }  catch (PDOException $e) {
+		ConnectionFactory::getFactory()->getConnection()->rollBack();
+		$message->error('Query non valida: ' . $e->getMessage());
 		$contentTpl->assign('sql',$_POST['query']);
 	}
 }
-if($request->has('action')) {
-	if($request->get('action') == 'optimize'){
+if(Request::getInstance()->has('action')) {
+	if(Request::getInstance()->get('action') == 'optimize'){
 		if(dbObj::dbOptimize())
 			$message->success('Database ottimizzato con successo');
-	}	
-	if($request->has('action') == 'sincronize') {
+	}
+	if(Request::getInstance()->has('action') == 'sincronize') {
 		$sql = fileSystem::getLastBackup();
 		if(!$sql)
 			$message->warning('Errore nel recupero dell\'ultimo backup');
 		else {
-			$querys = explode(";\n",$sql);
-			Db::startTransaction();
-			array_pop($querys);
-			$err = "";
-			foreach($querys as $key=>$val)
-				if(!empty($val))
-					mysql_query($val) or $err .= MYSQL_ERRNO() . " - " . MYSQL_ERROR() . " " . $val . "\n\n";
-			if(empty($err)) {
-				$dbConnection->commit();
-				$message->success('Sincronizzazione eseguita con successo');
-			} else {
-				echo $err;
-				$dbConnection->rollback();
-				$message->error('Errore nella sincronizzazione: ' . $err);
-				$contentTpl->assign('sql',$sql);
-			}
+			$querys = explode(";\n", $sql);
+            try {
+                ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+                array_pop($querys);
+                foreach ($querys as $key => $val)
+                    if (!empty($val))
+                        ConnectionFactory::getFactory()->getConnection()->exec($q);
+
+                ConnectionFactory::getFactory()->getConnection()->commit();
+                $message->success('Sincronizzazione eseguita con successo');
+            } catch (PDOException $e) {
+                ConnectionFactory::getFactory()->getConnection()->rollBack();
+                $message->error('Errore nella sincronizzazione: ' . $e->getMessage());
+                $contentTpl->assign('sql', $sql);
+            }
 		}
 	}
 }

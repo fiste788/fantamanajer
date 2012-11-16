@@ -33,19 +33,19 @@
 	            		<tr>
 						<?php if($val->considerato == 0): ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
 									<img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-rosso.png'; ?>"/>
 								</a>
 							</td>
 						<?php elseif($val->considerato == 2): ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
 									<img style="border:0 none" alt="Capitano" title="Capitano" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/>
 								</a>
 							</td>
 						<?php else: ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
 									<img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
 								</a>
 							</td>
@@ -78,19 +78,19 @@
 						<tr>
 						<?php if($val->considerato == 1): ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
 									<img style="border:0 none" alt="Sostituito" title="Sostituito" src="<?php echo IMGSURL . 'player-tit.png'; ?>"/>
 								</a>
 							</td>
 						<?php elseif($val->considerato == 2): ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
 									<img style="border:0 none" alt="Titolare" title="Titolare" src="<?php echo IMGSURL . 'player-cap.png'; ?>"/>
 								</a>
 							</td>
 						<?php else: ?>
 							<td>
-								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->idGioc)); ?>">
+								<a href="<?php echo PROTO . $_SERVER['SERVER_NAME'] . Links::getLink('dettaglioGiocatore',array('edit'=>'view','id'=>$val->id)); ?>">
 									<img style="border:0 none" alt="Panchinaro" title="Panchinaro" src="<?php echo IMGSURL . 'player-panch.png'; ?>"/>
 								</a>
 							</td>

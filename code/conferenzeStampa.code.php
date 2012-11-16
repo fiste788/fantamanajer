@@ -3,7 +3,7 @@ require_once(INCDBDIR . "articolo.db.inc.php");
 require_once(INCDBDIR . "utente.db.inc.php");
 require_once(INCDIR . "emoticon.inc.php");
 
-$filterGiornata = ($request->has('giornata')) ? $request->get('giornata') : GIORNATA;
+$filterGiornata = (Request::getInstance()->has('giornata')) ? Request::getInstance()->get('giornata') : GIORNATA;
 $articoli = $currentLega->getArticoliByGiornata($filterGiornata);
 if($articoli != FALSE)
 	foreach ($articoli as $articolo)

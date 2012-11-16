@@ -17,6 +17,7 @@ if($giornata > 0) {
     }
 }
 
+FirePHP::getInstance()->log(Articolo::getByIds(array(1,2,3)));
 $articoli = Articolo::getLastArticoli(1);
 if($articoli != FALSE)
 	foreach ($articoli as $key => $val)

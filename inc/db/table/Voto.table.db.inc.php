@@ -74,15 +74,15 @@ class VotoTable extends VotoModel {
 
     /**
      *
-     * @var int
+     * @var bool
      */
-    public $ammonizioni;
+    public $ammonito;
 
     /**
      *
-     * @var int
+     * @var bool
      */
-    public $espulsioni;
+    public $espulso;
 
     /**
      *
@@ -126,8 +126,8 @@ class VotoTable extends VotoModel {
         $this->golVittoria = is_null($this->golVittoria) ? NULL : $this->getGolVittoria();
         $this->golPareggio = is_null($this->golPareggio) ? NUL : $this->getGolPareggio();
         $this->assist = is_null($this->assist) ? NULL : $this->getAssist();
-        $this->ammonizioni = is_null($this->ammonizioni) ? NULL : $this->getAmmonizioni();
-        $this->espulsioni = is_null($this->espulsioni) ? NULL : $this->getEspulsioni();
+        $this->ammonito = is_null($this->ammonito) ? NULL : $this->isAmmonito();
+        $this->espulso = is_null($this->espulso) ? NULL : $this->isEspulso();
         $this->rigoriSegnati = is_null($this->rigoriSegnati) ? NULL : $this->getRigoriSegnati();
         $this->rigoriSubiti = is_null($this->rigoriSubiti) ? NULL : $this->getRigoriSubiti();
         $this->presente = is_null($this->presente) ? NULL : $this->isPresente();
@@ -235,21 +235,21 @@ class VotoTable extends VotoModel {
     }
 
     /**
-     * Setter: ammonizioni
-     * @param Int $ammonizioni
+     * Setter: ammonito
+     * @param bool $ammonito
      * @return void
      */
-    public function setAmmonizioni($ammonizioni) {
-        $this->ammonizioni = (int) $ammonizioni;
+    public function setAmmonito($ammonito) {
+        $this->ammonito = (bool) $ammonito;
     }
 
     /**
-     * Setter: espulsioni
-     * @param Int $espulsioni
+     * Setter: espulso
+     * @param Int $espulso
      * @return void
      */
-    public function setEspulsioni($espulsioni) {
-        $this->espulsioni = (int) $espulsioni;
+    public function setEspulso($espulso) {
+        $this->espulso = (int) $espulso;
     }
 
     /**
@@ -406,19 +406,19 @@ class VotoTable extends VotoModel {
     }
 
     /**
-     * Getter: ammonizioni
-     * @return Int
+     * Getter: ammonito
+     * @return bool
      */
-    public function getAmmonizioni() {
-        return (int) $this->ammonizioni;
+    public function isAmmonito() {
+        return (bool) $this->ammonito;
     }
 
     /**
-     * Getter: espulsioni
-     * @return Int
+     * Getter: espulso
+     * @return bool
      */
-    public function getEspulsioni() {
-        return (int) $this->espulsioni;
+    public function isEspulso() {
+        return (bool) $this->espulso;
     }
 
     /**

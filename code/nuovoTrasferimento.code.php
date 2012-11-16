@@ -5,8 +5,8 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(INCDBDIR . 'lega.db.inc.php');
 require_once(VIEWDIR . 'GiocatoreStatistiche.view.db.inc.php');
 
-$filterSquadra = ($request->has('squadra')) ? $request->get('squadra') : NULL;
-$filterLega = ($request->has('lega')) ? $request->get('lega') : NULL;
+$filterSquadra = (Request::getInstance()->has('squadra')) ? Request::getInstance()->get('squadra') : NULL;
+$filterLega = (Request::getInstance()->has('lega')) ? Request::getInstance()->get('lega') : NULL;
 if($_SESSION['usertype'] == 'admin')
 	$filterLega = $_SESSION['idLega'];
 

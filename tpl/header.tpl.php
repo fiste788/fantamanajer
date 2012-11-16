@@ -3,7 +3,7 @@
         <h1>FantaManajer</h1>
     </a>
 </div>
-<?php if(!PARTITEINCORSO && !STAGIONEFINITA): ?>
+<?php if(!STAGIONEFINITA): ?>
 	<div class="hidden-phone" id="countdown">Tempo rimanente per la formazione<br />
 		<div><?php echo $this->dataFine['year'] . '-' . ($this->dataFine['month'] - 1) . '-' . $this->dataFine['day'] . ' ' . $this->dataFine['hour'] . ':' . $this->dataFine['minute'] . ':' . $this->dataFine['second']; ?></div>
 	</div>

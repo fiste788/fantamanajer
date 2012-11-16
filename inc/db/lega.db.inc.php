@@ -7,17 +7,17 @@ class Lega extends LegaTable {
     public static function getDefaultValue() {
         $q = "SHOW COLUMNS
 				FROM lega";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $result[$row->Field] = $row->Default;
-        return $result;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->Field] = $obj->Default;
+        return $values;
     }
 
-    public function check($array, $message) {
+    public function check($array) {
         $post = (object) $array;
         foreach ($array as $key => $val)
-            if ($key != "capitano" && $key != "jolly" && $key != "premi" && empty($val)) {
+            if ($key != "capitano" && $key != "capitanoFormazioneDimenticata" && $key != "jolly" && $key != "premi" && empty($val)) {
                 $message->error("Non hai compilato tutti i campi" . $key);
                 return FALSE;
             }

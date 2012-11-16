@@ -4,10 +4,20 @@ require_once(TABLEDIR . 'Formazione.table.db.inc.php');
 
 class Formazione extends FormazioneTable {
 
+    public function duplicate($giornata) {
+        $giocatori = Schieramento::getSchieramentoById($this->getId());
+        $giocatoriAppo = array();
+        foreach ($giocatori as $giocatore)
+            $giocatoriAppo[] = $giocatore->idGiocatore;
+        $titolari = array_splice($giocatoriAppo, 0, 11);
+        $this->setId(NULL);
+        $this->setIdGiornata($giornata);
+        $this->save(array('titolari' => $titolari, 'panchinari' => $giocatoriAppo, 'evento' => FALSE));
+    }
+
     public function save($parameters = NULL) {
         require_once(INCDBDIR . "schieramento.db.inc.php");
 
-        $success = TRUE;
         $giocatoriIds = array();
         if (is_null($parameters))
             return FALSE;
@@ -17,13 +27,17 @@ class Formazione extends FormazioneTable {
             $modulo = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
             $giocatoriIds = array_merge($titolari, $panchinari);
             $giocatori = Giocatore::getByIds($giocatoriIds);
+            FirePHP::getInstance()->log($giocatori);
+            FirePHP::getInstance()->log($titolari);
             foreach ($titolari as $titolare)
-                $modulo[$giocatori[$titolare]->ruolo] += 1;
+                if($titolare != '')
+                    $modulo[$giocatori[$titolare]->ruolo] += 1;
             $this->setModulo(implode($modulo, '-'));
         }
 
-        self::startTransaction();
-        if (($idFormazione = parent::save()) != FALSE) {
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            $idFormazione = parent::save();
             if (!empty($giocatoriIds)) {
                 $schieramenti = Schieramento::getSchieramentoById($idFormazione);
                 foreach ($giocatoriIds as $posizione => $idGiocatore) {
@@ -34,31 +48,42 @@ class Formazione extends FormazioneTable {
                             $schieramento->setPosizione($posizione + 1);
                             $schieramento->setIdGiocatore($idGiocatore);
                             $schieramento->setConsiderato(0);
-                            $success = ($success and $schieramento->save());
+                            $schieramento->save();
                         }
                     } else
                         $success = ($success and $schieramento->delete());
                 }
                 if ($success) {
-                    $evento = new Evento();
-                    $evento->setIdExternal($idFormazione);
-                    $evento->setIdUtente($this->getIdUtente());
-                    $evento->setLega($this->getUtente()->getIdLega());
-                    $evento->setTipo(Evento::FORMAZIONE);
-                    if($evento->save())
+                    if ($parameters['evento'] !== FALSE) {
+                        $evento = new Evento();
+                        $evento->setIdExternal($idFormazione);
+                        $evento->setIdUtente($this->getIdUtente());
+                        $evento->setIdLega($this->getUtente()->getIdLega());
+                        $evento->setTipo(Evento::FORMAZIONE);
+                        if ($evento->save())
+                            self::commit();
+                        else {
+                            self::rollback();
+                            return FALSE;
+                        }
+                    } else
                         self::commit();
-                    else {
-                        self::rollback ();
-                        return FALSE;
-                    }
                 }
                 else {
                     self::rollback();
                     return FALSE;
                 }
+                $evento = new Evento();
+                $evento->setIdExternal($idFormazione);
+                $evento->setIdUtente($this->getIdUtente());
+                $evento->setIdLega($this->getUtente()->getIdLega());
+                $evento->setTipo(Evento::FORMAZIONE);
+                $evento->save();
+                ConnectionFactory::getFactory()->getConnection()->commit();
             }
-        } else {
-            self::rollback();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e->getMessage());
             return FALSE;
         }
         return TRUE;
@@ -74,6 +99,15 @@ class Formazione extends FormazioneTable {
         return $formazione;
     }
 
+    public static function getById($id) {
+        require_once(INCDBDIR . "schieramento.db.inc.php");
+
+        $formazione = parent::getById($id);
+        if ($formazione)
+            $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
+        return $formazione;
+    }
+
     /**
      *
      * @param type $idUtente
@@ -85,72 +119,79 @@ class Formazione extends FormazioneTable {
 
         $q = "SELECT *
 				FROM formazione
-				WHERE formazione.idUtente = '" . $idUtente . "' AND formazione.idGiornata = '" . $giornata . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
+				WHERE formazione.idUtente = :idUtente AND formazione.idGiornata = :idGiornata";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->execute();
         FirePHP::getInstance()->log($q);
-        $formazione = mysql_fetch_object($exe, __CLASS__);
-        if (!empty($formazione))
+        $formazione = $exe->fetchObject(__CLASS__);
+        if ($formazione)
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
         return $formazione;
     }
 
+    /**
+     *
+     * @param type $giornata
+     * @param type $idLega
+     * @return Formazione
+     */
     public static function getFormazioneByGiornataAndLega($giornata, $idLega) {
         $q = "SELECT formazione.*
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.id
-				WHERE idGiornata = '" . $giornata . "' AND idLega = '" . $idLega . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
+				WHERE idGiornata = :idGiornata AND idLega = :idLega";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->execute();
         FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__)) {
-            $values[] = $row->idUtente;
-        }
-        return $values;
+        return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
     }
 
-    public static function changeCap($idFormazione, $idGiocNew, $cap) {
-        $q = "UPDATE formazione
-				SET " . $cap . " = '" . $idGiocNew . "'
-				WHERE idFormazione = '" . $idFormazione . "'";
-        FirePHP::getInstance()->log($q);
-        return mysql_query($q) or self::sqlError($q);
-    }
-
+    /**
+     *
+     * @param type $idUtente
+     * @return type
+     */
     public static function usedJolly($idUtente) {
         $q = "SELECT jolly
 				FROM formazione
-				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = '" . $idUtente . "' AND jolly = '1'";
+				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":jolly", TRUE, PDO::PARAM_BOOL);
+        $exe->execute();
         FirePHP::getInstance()->log($q);
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($_SESSION);
-        return (mysql_num_rows($exe) == 1);
+        return ($exe->rowCount() == 1);
     }
 
-    public function check($array, $message) {
+    /**
+     *
+     * @param type $array
+     * @param type $message
+     * @return boolean
+     */
+    public function check($array) {
         require_once(INCDBDIR . 'giocatore.db.inc.php');
 
         $post = (object) $array;
         $formazione = array();
         $capitano = array();
         foreach ($post->titolari as $key => $val) {
-            if (empty($val)) {
-                $message->error("Non hai compilato correttamente tutti i campi");
-                return FALSE;
-            }
+            if (empty($val))
+                throw new FormException("Non hai compilato correttamente tutti i campi");
             if (!in_array($val, $formazione))
                 $formazione[] = $val;
-            else {
-                $message->error("Giocatore doppio");
-                return FALSE;
-            }
+            else
+                throw new FormException("Giocatore doppio");
         }
         foreach ($post->panchinari as $key => $val) {
             if (!empty($val)) {
                 if (!in_array($val, $formazione))
                     $formazione[] = $val;
-                else {
-                    $message->error("Giocatore doppio");
-                    return FALSE;
-                }
+                else
+                    throw new FormException("Giocatore doppio");
             }
         }
         $cap = array();
@@ -163,14 +204,10 @@ class Formazione extends FormazioneTable {
                 if ($giocatore->ruolo == 'P' || $giocatore->ruolo == 'D') {
                     if (!in_array($val, $capitano))
                         $capitano[$key] = $val;
-                    else {
-                        $message->error("Capitano doppio");
-                        return FALSE;
-                    }
-                } else {
-                    $message->error("Capitano non difensore o portiere");
-                    return FALSE;
-                }
+                    else
+                        throw new FormException("Giocatore doppio");
+                } else
+                    throw new FormException("Capitano non difensore o portiere");
             }
         }
         return TRUE;

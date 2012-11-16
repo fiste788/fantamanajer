@@ -7,10 +7,12 @@ class Club extends ClubTable {
     public static function getClubByIdWithStats($idClub) {
         $q = "SELECT *
 				FROM clubstatistiche
-				WHERE idClub = '" . $idClub . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
+				WHERE idClub = :idClub";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':idClub', $idClub, PDO::PARAM_INT);
+        $exe->execute();
         FirePHP::getInstance()->log($q);
-        return mysql_fetch_object($exe, __CLASS__);
+        return $exe->fetchObject(__CLASS__);
     }
 
 }

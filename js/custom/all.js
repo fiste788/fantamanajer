@@ -89,5 +89,16 @@ $(window).bind("enterViewportDesktop", enableStickpanel);
 $(window).bind("exitViewportDesktop", disableStickpanel);
 $(window).bind("enterViewportDesktop", enableWell);
 $(window).bind("exitViewportPhone", enableCountdown);
+var operationBack = $("#operation a.back");
+var operationNext = $("#operation a.next");
+if(operationNext.length || operationBack.length) {
+    $(document).keydown(function(e) {
+            if(e.ctrlKey && e.which == 37 && operationBack.length)
+                window.location.href = operationBack.attr('href');
+            if(e.ctrlKey && e.which == 39 && operationNext.length)
+                 window.location.href = operationNext.attr('href');
+
+    });
+}
 if(!LOCAL)
     $.trackPage("UA-3016148-1");

@@ -1,27 +1,9 @@
 <?php
+require_once(INCDIR . 'formException.inc.php');;
 
 abstract class DbTable {
 
     const TABLE_NAME = "";
-
-    public static function startTransaction() {
-        mysql_query("START TRANSACTION");
-    }
-
-    public static function commit() {
-        mysql_query("COMMIT");
-    }
-
-    public static function rollback() {
-        mysql_query("ROLLBACK");
-    }
-
-    protected static function sqlError($q) {
-        ob_end_flush();
-        FirePHP::getInstance()->error(MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q);
-        self::rollback();
-        die();
-    }
 
     /**
      * Enter description here ...
@@ -33,10 +15,11 @@ abstract class DbTable {
             $c = get_called_class();
             $q = "SELECT *
 					FROM " . $c::TABLE_NAME . "
-					WHERE id = '" . $id . "'";
-            $exe = mysql_query($q) or self::sqlError($q);
+					WHERE id = :id";
+            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+            $exe->execute(array(':id'=>$id));
             FirePHP::getInstance()->log($q);
-            return mysql_fetch_object($exe, $c);
+            return $exe->fetchObject($c);
         } else
             return NULL;
     }
@@ -47,17 +30,23 @@ abstract class DbTable {
      * @return DbTable[]|DbTable|NULL
      */
     public static function getByIds($ids) {
-        $keys = implode(array_filter($ids, 'strlen'), ',');
-        if ($keys != "") {
+        //$keys = implode(array_filter($ids, 'strlen'), ',');
+        $keys = array();
+        foreach ($ids as $id)
+            if(strlen($id))
+                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id,PDO::PARAM_INT);
+        $param = implode(',',$keys);
+        if ($param != "") {
             $c = get_called_class();
             $q = "SELECT *
 					FROM " . $c::TABLE_NAME . "
-					WHERE id IN (" . $keys . ")";
-            $exe = mysql_query($q) or self::sqlError($q);
-            FirePHP::getInstance()->log($q);
+					WHERE id IN ($param)
+                    ORDER BY FIELD(id,$param)";
+            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+            $exe->execute();
             $values = array();
-            while ($row = mysql_fetch_object($exe, $c))
-                $values[$row->getId()] = $row;
+            while ($obj = $exe->fetchObject($c))
+                $values[$obj->getId()] = $obj;
             return $values;
         } else
             return NULL;
@@ -71,11 +60,11 @@ abstract class DbTable {
         $c = get_called_class();
         $q = "SELECT *
 				FROM " . $c::TABLE_NAME;
-        $exe = mysql_query($q) or self::sqlError($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($row = mysql_fetch_object($exe, $c))
-            $values[$row->getId()] = $row;
+        while ($obj = $exe->fetchObject($c))
+            $values[$obj->getId()] = $obj;
         return $values;
     }
 
@@ -89,17 +78,19 @@ abstract class DbTable {
         $c = get_called_class();
         $q = "SELECT *
 				FROM " . $c::TABLE_NAME . "
-				WHERE " . $key . " = '" . $value . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
+				WHERE $key = :value";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindParam(":value", $value);
+        $exe->execute();
         FirePHP::getInstance()->log($q);
-        $count = mysql_num_rows($exe);
+        $count = $exe->rowCount();
         if ($count == 0)
             return NULL;
         elseif ($count == 1)
-            return mysql_fetch_object($exe, $c);
+            return $exe->fetchObject($c);
         else {
-            while ($row = mysql_fetch_object($exe, $c))
-                $values[$row->getId()] = $row;
+            while ($obj = $exe->fetchObject($c))
+                $values[$obj->getId()] = $obj;
             return $values;
         }
     }
@@ -110,27 +101,30 @@ abstract class DbTable {
      * @return boolean
      */
     public function save($parameters = NULL) {
-        $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
-        //unset($vars['id']);
-        if ($this->getId() != "" && !is_null($this->getId()) && $this->getById($this->getId()) != FALSE) {
-            $q = "UPDATE " . $this::TABLE_NAME . " SET ";
-            foreach ($vars as $key => $value)
-                $values[] = $key . " = " . self::valueToSql($value);
-            $q .= implode($values, ", ") . " WHERE id = " . $this->getId();
-            FirePHP::getInstance()->log($q);
-            mysql_query($q) or self::sqlError($q);
-            return $this->getId();
-            //if($this->getId() == "" || is_null($this->getId())) {
-            /* foreach($vars as $key=>$value)
-              $values[] = self::valueToSql($vars[$key]); */
-        } else {
-            if ($this->getId() == "" || is_null($this->getId()))
-                unset($vars['id']);
-            $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
+        try {
+            $this->validate();
+            $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
+            //unset($vars['id']);
+            if ($this->getId() != "" && !is_null($this->getId()) && $this->getById($this->getId()) != FALSE) {
+                $q = "UPDATE " . $this::TABLE_NAME . " SET ";
+                foreach ($vars as $key => $value)
+                    $values[] = $key . " = " . self::valueToSql($value);
+                $q .= implode($values, ", ") . " WHERE id = " . $this->getId();
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
+                FirePHP::getInstance()->log($q);
+                return $this->getId();
+            } else {
+                if ($this->getId() == "" || is_null($this->getId()))
+                    unset($vars['id']);
+                $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql", $vars), ", ") . ")";
-            FirePHP::getInstance()->log($q);
-            mysql_query($q) or self::sqlError($q);
-            return mysql_insert_id();
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
+                FirePHP::getInstance()->log($q);
+                return ConnectionFactory::getFactory()->getConnection()->lastInsertId();
+            }
+        } catch (PDOException $e) {
+            FirePHP::getInstance()->error($e->getMessage());
+            throw new PDOException("Errore interno nel salvataggio dei dati");
         }
     }
 
@@ -146,18 +140,18 @@ abstract class DbTable {
             if ($value == '')
                 return "NULL";
             else
-                return "'" . mysql_real_escape_string($value) . "'";
+                return ConnectionFactory::getFactory()->getConnection()->quote($value);
         } elseif (is_bool($value))
             return ($value) ? 1 : 0;
         elseif (is_numeric($value))
             return $value;
         elseif (is_object($value))
             if (is_a($value, "DateTime"))
-                return "'" . $value->format("Y-m-d H:i:s") . "'";
+                return ConnectionFactory::getFactory()->getConnection()->quote($value->format("Y-m-d H:i:s"));
             else
-                return $value->toString();
+                return ConnectionFactory::getFactory()->getConnection()->quote($value->toString());
         else
-            return "'" . $value . "'";
+            return ConnectionFactory::getFactory()->getConnection()->quote($value);
     }
 
     /**
@@ -165,13 +159,21 @@ abstract class DbTable {
      * @return boolean
      */
     public function delete() {
-        if (!is_null($this->getId())) {
-            $q = "DELETE FROM " . $this::TABLE_NAME . "
-					WHERE id = '" . $this->getId() . "'";
-            FirePHP::getInstance()->log($q);
-            return mysql_query($q);
-        } else
-            return FALSE;
+        try {
+            if (!is_null($this->getId())) {
+                $q = "DELETE FROM " . $this::TABLE_NAME . "
+					WHERE id = :id";
+                $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+                $exe->bindValue(':id', $this->getId(), PDO::PARAM_INT);
+                $exe->execute();
+                FirePHP::getInstance()->log($q);
+                return TRUE;
+            } else
+                return FALSE;
+        } catch (PDOException $e) {
+            FirePHP::getInstance()->error($e->getMessage());
+            throw new PDOException("Errore interno nel salvataggio dei dati");
+        }
     }
 
     /**
@@ -180,9 +182,15 @@ abstract class DbTable {
      * @return boolean
      */
     public function validate() {
-        $return = $this->check($postArray = $GLOBALS['request']->getRawData('post'), $GLOBALS['message']);
-        $this->fromArray($postArray, $return);
-        return $return;
+        $postArray = Request::getInstance()->getRawData('post');
+        try {
+            $this->check($postArray);
+            $this->fromArray($postArray, FALSE);
+            return TRUE;
+        } catch(FormException $e) {
+            $this->fromArray($postArray, TRUE);
+            throw $e;
+        }
     }
 
     /**

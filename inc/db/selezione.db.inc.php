@@ -8,99 +8,84 @@ class Selezione extends SelezioneTable {
         $q = "SELECT *
 				FROM selezione INNER JOIN giocatore ON idGiocatoreNew = giocatore.id
 				WHERE idUtente = '" . $idUtente . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        return mysql_fetch_object($exe, __CLASS__);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchObject(__CLASS__);
     }
 
     public static function unsetSelezioneByidSquadra($idUtente) {
         $q = "UPDATE selezione
 				SET idGiocatoreOld = NULL,idGiocatoreNew = NULL
 				WHERE idUtente = '" . $idUtente . "';";
-        FirePHP::getInstance()->log($q);
-        return mysql_query($q) or self::sqlError($q);
+        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
 
     public static function checkFree($idGiocatore, $idLega) {
         $q = "SELECT idUtente
 				FROM selezione
 				WHERE idGiocatoreNew = '" . $idGiocatore . "' AND idLega = '" . $idLega . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values = $row;
-        if (!empty($values))
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe->fetchObject(__CLASS__);
+        if ($values != FALSE)
             return $values->idUtente;
         else
             return FALSE;
     }
 
+    /**
+     * @todo Sistemare selezione
+     * @param type $giocNew
+     * @param type $giocOld
+     * @param type $idLega
+     * @param type $idUtente
+     */
     public static function updateGioc($giocNew, $giocOld, $idLega, $idUtente) {
-        self::startTransaction();
-        $q = "SELECT numSelezioni
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            $q = "SELECT numSelezioni
 				FROM selezione
 				WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "' LOCK IN SHARE MODE";
-        $exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values = $row;
-        if (!empty($values)) {
-            $q = "UPDATE selezione
+            $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+            $values = $exe->fetchObject(__CLASS__);
+            if ($values != FALSE) {
+                $q = "UPDATE selezione
 					SET giocOld = '0', giocNew = NULL, numSelezioni = '" . ($values->numSelezioni - 1) . "'
 					WHERE giocNew = '" . $giocNew . "' AND idLega = '" . $idLega . "'";
-            if (DEBUG)
-                FirePHP::getInstance(true)->log($q);
-            mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-        }
-        $q = "SELECT numSelezioni
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
+            }
+            $q = "SELECT numSelezioni
 				FROM selezione
 				WHERE giocNew IS NOT NULL AND idUtente = '" . $idUtente . "'  LOCK IN SHARE MODE";
-        $exe = mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-        FirePHP::getInstance()->log($q);
-        $values2 = array();
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values2 = $row;
-        if (!empty($values)) {
-            $q = "UPDATE selezione
+            $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+            $values = $exe->fetchObject(__CLASS__);
+            if ($values != FALSE) {
+                $q = "UPDATE selezione
 					SET giocOld = '" . $giocOld . "', giocNew = '" . $giocNew . "',numSelezioni = '" . ($values2->numSelezioni + 1) . "'
 					WHERE idUtente = '" . $idUtente . "'";
-            if (DEBUG)
-                FirePHP::getInstance(true)->log($q);
-            mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
-        }
-        else {
-            $q = "INSERT INTO selezione
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
+            } else {
+                $q = "INSERT INTO selezione
 					VALUES ('" . $idLega . "','" . $idUtente . "','" . $giocOld . "','" . $giocNew . "','1')";
-            if (DEBUG)
-                FirePHP::getInstance(true)->log($q);
-            mysql_query($q) or $err = MYSQL_ERRNO() . " - " . MYSQL_ERROR() . "<br />Query: " . $q;
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
+            }
+            ConnectionFactory::getFactory()->getConnection()->commit();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e->getMessage());
+            return FALSE;
         }
-        if (isset($err)) {
-            self::rollback();
-            self::sqlError("Errore nella transazione: <br />" . $err);
-        }
-        else
-            self::commit();
     }
 
     public static function getNumberSelezioni($idUtente) {
         $q = "SELECT numSelezioni
 				FROM selezione
 				WHERE idUtente = '" . $idUtente . "'";
-        $exe = mysql_query($q) or self::sqlError($q);
-        $val = NULL;
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $val = $row->numSelezioni;
-        return $val;
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        return $exe->fetchColumn();
     }
 
     public static function svuota() {
         $q = "TRUNCATE TABLE selezione";
-        FirePHP::getInstance()->log($q);
-        return mysql_query($q) or self::sqlError($q);
+        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
 
     public function check($array, $message) {
@@ -114,7 +99,6 @@ class Selezione extends SelezioneTable {
         if ($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti) {
             $giocatoreNew = Giocatore::getById($post->idGiocatoreNew);
             $giocatoreOld = Giocatore::getById($post->idGiocatoreOld);
-            $GLOBALS['firePHP']->log($array);
             if ($giocatoreOld->ruolo == $giocatoreNew->ruolo) {
                 $numSelezioni = self::getNumberSelezioni($_SESSION['idUtente']);
                 if ($numSelezioni > $_SESSION['datiLega']->numSelezioni) {
@@ -136,17 +120,25 @@ class Selezione extends SelezioneTable {
     public static function doTransfertBySelezione() {
         require_once(INCDBDIR . 'trasferimento.db.inc.php');
 
-        $selezioni = self::getList();
-        foreach ($selezioni as $val) {
-            $trasferimento = new Trasferimento();
-            $trasferimento->setIdGiocatoreOld($val->idGiocatoreOld);
-            $trasferimento->setIdGiocatoreNew($val->idGiocatoreNew);
-            $trasferimento->setIdUtente($val->idUtente);
-            $trasferimento->setIdGiornata(GIORNATA);
-            $trasferimento->setObbligato(($val->getGiocatoreOld()->isAttivo()) ? '0' : '1');
-            $trasferimento->save();
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            $selezioni = self::getList();
+            foreach ($selezioni as $val) {
+                $trasferimento = new Trasferimento();
+                $trasferimento->setIdGiocatoreOld($val->idGiocatoreOld);
+                $trasferimento->setIdGiocatoreNew($val->idGiocatoreNew);
+                $trasferimento->setIdUtente($val->idUtente);
+                $trasferimento->setIdGiornata(GIORNATA);
+                $trasferimento->setObbligato(($val->getGiocatoreOld()->isAttivo()) ? '0' : '1');
+                $trasferimento->save();
+            }
+            Selezione::svuota();
+            ConnectionFactory::getFactory()->getConnection()->commit();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            FirePHP::getInstance()->error($e->getMessage());
+            return FALSE;
         }
-        Selezione::svuota();
         return TRUE;
     }
 

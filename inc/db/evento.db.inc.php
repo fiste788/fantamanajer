@@ -12,21 +12,10 @@ class Evento extends EventoTable {
     const RIMOSSOGIOCATORE = 6;
     const CAMBIOCLUB = 7;
 
-    /*
-      function addEvento($tipo,$idUtente,$idLega,$idExternal = NULL)
-      {
-      $q = "INSERT INTO evento (idUtente,idLega,tipo,idExternal)
-      VALUES ('" . $idUtente . "','" . $idLega . "','" . $tipo . "','" . $idExternal . "')";
-      FirePHP::getInstance()->log($q);
-      return mysql_query($q) or self::sqlError($q);
-      }
-     */
-
     public static function deleteEventoByIdExternalAndTipo($idExternal, $tipo) {
         $q = "DELETE
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
-        FirePHP::getInstance()->log($q);
-        return mysql_query($q);
+        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
 
     /**
@@ -65,11 +54,9 @@ class Evento extends EventoTable {
             $q .= " AND tipo = '" . $tipo . "'";
         $q .= " ORDER BY data DESC
 				LIMIT " . $min . "," . $max . ";";
-        $exe = mysql_query($q) or self::sqlError($q);
-        FirePHP::getInstance()->log($q);
-        while ($row = mysql_fetch_object($exe, __CLASS__))
-            $values[] = $row;
-        if (isset($values)) {
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
+        if ($values) {
             foreach ($values as $key => $val) {
                 switch ($val->tipo) {
                     case 1:
@@ -86,16 +73,16 @@ class Evento extends EventoTable {
                         break;
                         $values[$key]->link = '';
                         break;
-                    case 3: $values[$key]->idExternal = Formazione::getFormazioneById($val->idExternal);
+                    case 3: $values[$key]->idExternal = Formazione::getById($val->idExternal);
                         $values[$key]->titolo = $val->nome . ' ha impostato la formazione per la giornata ' . $values[$key]->idExternal->idGiornata;
-                        $titolari = $values[$key]->idExternal->elenco;
+                        $titolari = $values[$key]->idExternal->giocatori;
                         $titolari = array_splice($titolari, 0, 11);
-                        $titolari = Giocatore::getGiocatoriByArray($titolari);
+                        //$titolari = Giocatore::getByIds($titolari);
                         $values[$key]->content = 'Formazione: ';
                         foreach ($titolari as $key2 => $val2)
-                            $values[$key]->content .= $val2->cognome . ', ';
+                            $values[$key]->content .= $val2->getGiocatore()->cognome . ', ';
                         $values[$key]->content = substr($values[$key]->content, 0, -2);
-                        $values[$key]->link = Links::getLink('altreFormazioni', array('giorn' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
+                        $values[$key]->link = Links::getLink('formazione', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
                         break;
                     case 4: $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
                         $giocOld = Giocatore::getById($values[$key]->idExternal->idGiocatoreOld);
@@ -133,6 +120,10 @@ class Evento extends EventoTable {
         }
         else
             return FALSE;
+    }
+
+    public function check($array) {
+        return TRUE;
     }
 
 }
