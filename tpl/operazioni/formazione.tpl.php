@@ -9,7 +9,7 @@
                 <?php else: ?>
                     <select name="utente" onchange="this.form.submit();">
                         <?php foreach ($this->formazioniPresenti as $formazione): ?>
-                            <option <?php echo ($this->squadra == $formazione->id) ? ' selected="selected"' : ''; ?> value="<?php echo $formazione->id; ?>"><?php echo $this->squadre[$this->squadra]->nomeSquadra; ?></option>
+                            <option <?php echo ($this->squadra == $formazione->idUtente) ? ' selected="selected"' : ''; ?> value="<?php echo $formazione->idUtente; ?>"><?php echo $this->squadre[$formazione->idUtente]->nomeSquadra; ?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>

@@ -1,10 +1,24 @@
 <?php $r = 'Por.'; ?>
 <div id="headerSquadra">
-	<?php if(file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
-    	<a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
-        	<img class="img-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg'); echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
-        </a>
-	<?php endif; ?>
+    <?php if ($this->squadraDett->id == $_SESSION['idUtente']): ?>
+        <input id="fileupload" type="file" name="files" data-url="<?php echo AJAXURL ?>upload.php" class="hidden">
+        <div id="dropzone">
+            <?php if (file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
+                <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
+                    <img class="img-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
+                </a>
+            <?php else: ?>
+                <div class="well">Trascina l'immagine qui per caricarla</div>
+            <?php endif; ?>
+        </div>
+    <?php else: ?>
+        <?php if (file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
+            <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
+               <img class="img-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
+            </a>
+        <?php endif; ?>
+    <?php endif; ?>
+
 	<h2 id="nomeSquadra"><?php echo $this->squadraDett->nomeSquadra; ?></h2>
 	<div id="datiSquadra">
 		<div id="mostraDati">

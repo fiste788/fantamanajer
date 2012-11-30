@@ -204,7 +204,7 @@ class Giocatore extends GiocatoreTable {
 				WHERE idUtente = :idUtente AND attivo = :attivo";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
+        $exe->bindValue(":attivo", FALSE, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();

@@ -15,7 +15,7 @@ $pages->addPage('probabiliFormazioni','Probabili formazioni',-1,'clubsA',1);
 $pages->addPage('altro',"Altro...",-1,'altro',6);
 $pages->addPage('conferenzeStampa','Conferenze stampa',-1,'altro',1);
 $pages->addPage('classifica','Classifica',-1,'classifica',3,array('flot'=>array('jquery.flot','jquery.flot.selection')));
-$pages->addPage('dettaglioSquadra','Dettaglio squadra',-1,'squadre',FALSE,array('tablesorter'=>'tablesorter','fancybox'=>'fancybox'));
+$pages->addPage('dettaglioSquadra','Dettaglio squadra',-1,'squadre',FALSE,array('tablesorter'=>'tablesorter','fancybox'=>'fancybox','fileupload'=>array('jquery.iframe-transport','vendor/jquery.ui.widget','jquery.fileupload','jquery.fileupload-ui')));
 $pages->addPage('areaAmministrativa','Area admin',1,'areaAmministrativa',7);
 $pages->addPage('dettaglioGiocatore','Dettaglio giocatore',-1,'altro',FALSE,array('flot'=>array('jquery.flot','jquery.flot.selection')));
 $pages->addPage('dettaglioGiornata','Dettaglio giornata',-1,'classifica');

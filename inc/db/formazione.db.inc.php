@@ -39,6 +39,7 @@ class Formazione extends FormazioneTable {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $idFormazione = parent::save();
             if (!empty($giocatoriIds)) {
+				$success = TRUE;
                 $schieramenti = Schieramento::getSchieramentoById($idFormazione);
                 foreach ($giocatoriIds as $posizione => $idGiocatore) {
                     $schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
@@ -48,39 +49,36 @@ class Formazione extends FormazioneTable {
                             $schieramento->setPosizione($posizione + 1);
                             $schieramento->setIdGiocatore($idGiocatore);
                             $schieramento->setConsiderato(0);
-                            $schieramento->save();
+                            $success = $success and $schieramento->save();
                         }
                     } else
                         $success = ($success and $schieramento->delete());
                 }
                 if ($success) {
-                    if ($parameters['evento'] !== FALSE) {
+                    if (!isset($parameters['evento']) || (isset($parameters['evento']) && $parameters['evento'] !== FALSE)) {
                         $evento = new Evento();
                         $evento->setIdExternal($idFormazione);
                         $evento->setIdUtente($this->getIdUtente());
                         $evento->setIdLega($this->getUtente()->getIdLega());
                         $evento->setTipo(Evento::FORMAZIONE);
                         if ($evento->save())
-                            self::commit();
+                            ConnectionFactory::getFactory()->getConnection()->commit();
                         else {
-                            self::rollback();
+                            ConnectionFactory::getFactory()->getConnection()->rollback();
                             return FALSE;
                         }
                     } else
-                        self::commit();
+                        ConnectionFactory::getFactory()->getConnection()->commit();
                 }
                 else {
-                    self::rollback();
+                    ConnectionFactory::getFactory()->getConnection()->rollback();
                     return FALSE;
                 }
-                $evento = new Evento();
-                $evento->setIdExternal($idFormazione);
-                $evento->setIdUtente($this->getIdUtente());
-                $evento->setIdLega($this->getUtente()->getIdLega());
-                $evento->setTipo(Evento::FORMAZIONE);
-                $evento->save();
-                ConnectionFactory::getFactory()->getConnection()->commit();
-            }
+                
+            } else {
+				ConnectionFactory::getFactory()->getConnection()->rollback();
+				return FALSE;
+			}
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
             FirePHP::getInstance()->error($e->getMessage());

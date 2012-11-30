@@ -16,7 +16,7 @@ class Schieramento extends SchieramentoTable {
         return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
     }
 
-    public function check($array, $message) {
+    public function check($array) {
         return TRUE;
     }
 
