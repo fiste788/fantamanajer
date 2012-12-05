@@ -84,7 +84,7 @@ class EventoTable extends EventoModel {
      * @return void
      */
     public function setData($data) {
-        if (is_a($this->data, "DateTime"))
+        if (is_a($data, "DateTime"))
             $this->data = $data;
         else
             $this->data = new DateTime($data);

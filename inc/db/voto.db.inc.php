@@ -76,7 +76,7 @@ class Voto extends VotoTable {
             $quotazione = ConnectionFactory::getFactory()->getConnection()->quote($stats[27],PDO::PARAM_INT);
             $rows[] = "($id,$giornata,$valutato,$punti,$voto,$gol,$golsub,$golvit,$golpar,$assist,$ammonito,$espulso,$rigorisegn,$rigorisub,$presenza,$titolare,$quotazione)";
         }
-        $q = "INSERT INTO voto (idGiocatore,idGiornata,valutato,punti,voto,gol,golSubiti,golVittoria,golPareggio,assist,ammonizioni,espulsioni,rigoriSegnati,rigoriSubiti,presente,titolare,quotazione) VALUES ";
+        $q = "INSERT INTO voto (idGiocatore,idGiornata,valutato,punti,voto,gol,golSubiti,golVittoria,golPareggio,assist,ammonito,espulso,rigoriSegnati,rigoriSubiti,presente,titolare,quotazione) VALUES ";
         $q .= implode(',', $rows);
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         return $exe->execute();

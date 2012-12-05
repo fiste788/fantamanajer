@@ -38,7 +38,7 @@ class GiornataTable extends GiornataModel {
      * @return void
      */
     public function setData($data) {
-        $this->data = is_a($this->data, "DateTime") ? $data : new DateTime($data);
+        $this->data = is_a($data, "DateTime") ? $data : new DateTime($data);
     }
 
     /**

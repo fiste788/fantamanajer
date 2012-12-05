@@ -74,15 +74,14 @@ class Formazione extends FormazioneTable {
                     ConnectionFactory::getFactory()->getConnection()->rollback();
                     return FALSE;
                 }
-                
+
             } else {
 				ConnectionFactory::getFactory()->getConnection()->rollback();
 				return FALSE;
 			}
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
         return TRUE;
     }

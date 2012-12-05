@@ -18,7 +18,7 @@ class Punteggio extends PunteggioTable {
         $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
-        $exe->fetchObject(__CLASS__);
+        return $exe->fetchObject(__CLASS__);
     }
 
     public static function getPosClassificaGiornata($idLega) {
@@ -115,7 +115,7 @@ class Punteggio extends PunteggioTable {
             $schieramento = $panchinari[$i];
             $giocatorePanchina = $schieramento->getGiocatore();
             $voto = $giocatorePanchina->getVotoByGiornata($giornata);
-            if (($giocatore->getRuolo() == $giocatorePanchina->getRuolo()) && ($voto->isPresente())) {
+            if (($giocatore->getRuolo() == $giocatorePanchina->getRuolo()) && ($voto->isValutato())) {
                 array_splice($panchinari, $i, 1);
                 $cambi++;
                 return $schieramento;
@@ -156,42 +156,46 @@ class Punteggio extends PunteggioTable {
 
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-        $formazione = Formazione::getLastFormazione($utente->id, $giornata);
-        $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
-        $lega = $utente->getLega();
-        if ($punteggio == FALSE)
-            $punteggio = new Punteggio();
-        if ($formazione == FALSE || ($formazione->getIdGiornata() != $giornata && $lega->getPunteggioFormazioneDimenticata() == 0)) {
-            $punteggio->setIdGiornata($giornata);
-            $punteggio->setIdUtente($utente->getId());
-            $punteggio->setIdLega($lega->getId());
-            $punteggio->setPunteggio(0);
-            $punteggio->save();
-        } else {
-            $idUtente = $formazione->getIdUtente();
-            if ($formazione->getIdGiornata() != $giornata) {
-                if (!$lega->isCapitanoFormazioneDimenticata()) {
-                    $formazione->setIdCapitano(NULL);
-                    $formazione->setIdVCapitano(NULL);
-                    $formazione->setIdVVCapitano(NULL);
+            $formazione = Formazione::getLastFormazione($utente->id, $giornata);
+            $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
+            $lega = $utente->getLega();
+            if ($punteggio == FALSE)
+                $punteggio = new Punteggio();
+            if ($formazione == FALSE || ($formazione->getIdGiornata() != $giornata && $lega->getPunteggioFormazioneDimenticata() == 0)) {
+                $punteggio->setIdGiornata($giornata);
+                $punteggio->setIdUtente($utente->getId());
+                $punteggio->setIdLega($lega->getId());
+                $punteggio->setPunteggio(0);
+                $punteggio->save();
+            } else {
+                $idUtente = $formazione->getIdUtente();
+                if ($formazione->getIdGiornata() != $giornata) {
+                    if (!$lega->isCapitanoFormazioneDimenticata()) {
+                        $formazione->setIdCapitano(NULL);
+                        $formazione->setIdVCapitano(NULL);
+                        $formazione->setIdVVCapitano(NULL);
+                    }
+                    $formazione->duplicate($giornata);
                 }
-                $formazione->duplicate($giornata);
-            }
-            $cambi = 0;
-            $somma = 0;
-            $cap = self::getCapitanoAttivo($formazione);
-            $panchinari = $formazione->giocatori;
-            $titolari = array_splice($panchinari, 0, 11);
-            foreach ($titolari as $schieramento) {
-                $giocatore = $schieramento->getGiocatore();
-                $voto = $giocatore->getVotoByGiornata($giornata);
-                if ((!$voto->isValutato()) && ($cambi < 3)) {
-                    FirePHP::getInstance()->log("sostituisco");
-                    $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
-                    if ($sostituto != FALSE) {
-                        if ($schieramento->getConsiderato() != 0) {
-                            $schieramento->setConsiderato(0);
-                            $schieramento->save();
+                $cambi = 0;
+                $somma = 0;
+                $cap = self::getCapitanoAttivo($formazione);
+                $panchinari = $formazione->giocatori;
+                $titolari = array_splice($panchinari, 0, 11);
+                foreach ($titolari as $schieramento) {
+                    $giocatore = $schieramento->getGiocatore();
+                    $voto = $giocatore->getVotoByGiornata($giornata);
+                    if ((!$voto->isValutato()) && ($cambi < 3)) {
+                        FirePHP::getInstance()->log("sostituisco");
+                        $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
+                        if ($sostituto != FALSE) {
+                            if ($schieramento->getConsiderato() != 0) {
+                                $schieramento->setConsiderato(0);
+                                $schieramento->save();
+                            }
+                            $schieramento = $sostituto;
+                            $giocatore = $schieramento->getGiocatore();
+                            $voto = $giocatore->getVotoByGiornata($giornata);
                         }
                     }
                     if ($schieramento) {
@@ -220,6 +224,7 @@ class Punteggio extends PunteggioTable {
                 $punteggio->setIdUtente($idUtente);
                 $punteggio->setIdLega($lega->id);
                 $punteggio->setPunteggio($somma);
+                FirePHP::getInstance()->log("salvo punteggio");
                 $punteggio->save();
                 if ($lega->getPunteggioFormazioneDimenticata() != 100 && $giornata != $formazione->getIdGiornata()) {
                     $puntiDaTogliere = round((($somma / 100) * (100 - $lega->getPunteggioFormazioneDimenticata())), 1);
@@ -233,14 +238,12 @@ class Punteggio extends PunteggioTable {
                     $penalita->save();
                 }
             }
-			}
             ConnectionFactory::getFactory()->getConnection()->commit();
-            return TRUE;
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
+        return TRUE;
     }
 
     public static function getPenalitàBySquadraAndGiornata($idUtente, $idGiornata) {

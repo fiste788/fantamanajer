@@ -18,8 +18,7 @@ class Giocatore extends GiocatoreTable {
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e);
-            return FALSE;
+            throw $e;
         }
         return TRUE;
     }
@@ -66,7 +65,8 @@ class Giocatore extends GiocatoreTable {
 				ORDER BY cognome,nome";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
-        $exe->bindValue(":ruolo", $ruolo);
+        if($ruolo != null)
+            $exe->bindValue(":ruolo", $ruolo);
         $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
@@ -148,10 +148,8 @@ class Giocatore extends GiocatoreTable {
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
-
         return TRUE;
     }
 

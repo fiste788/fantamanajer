@@ -5,11 +5,11 @@ require_once(INCDBDIR . 'giocatore.db.inc.php');
 require_once(INCDBDIR . 'lega.db.inc.php');
 
 $trasferimento = new Trasferimento();
-if($trasferimento->validate()) {
-	$trasferimento->setIdGiornata(GIORNATA);
-	if($trasferimento->save() != FALSE)
-		$message->success('Trasferimento effettuato correttamente');
-	else
-		$message->error("Errore generico nell'inserimento");
-}
+$trasferimento->setIdGiornata(GIORNATA);
+$trasferimento->setObbligato(FALSE);
+if($trasferimento->save() != FALSE)
+	$message->success('Trasferimento effettuato correttamente');
+else
+	$message->error("Errore generico nell'inserimento");
+
 ?>

@@ -5,18 +5,22 @@ require_once(TABLEDIR . 'Articolo.table.db.inc.php');
 class Articolo extends ArticoloTable {
 
     public function save($parameters = NULL) {
-        if (($id = parent::save()) != FALSE) {
-            if (is_null($this->getId()) || (string) $this->getId() === '') {
-                $evento = new Evento();
-                $evento->setTipo(Evento::CONFERENZASTAMPA);
-                $evento->setData($this->getDataCreazione());
-                $evento->setIdUtente($this->getIdUtente());
-                $evento->setIdLega($this->getIdLega());
-                $evento->setIdExternal($id);
-                return $evento->save();
-            } else
-                return TRUE;
+        try {
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            parent::save();
+            $evento = new Evento();
+            $evento->setTipo(Evento::CONFERENZASTAMPA);
+            $evento->setData($this->getDataCreazione());
+            $evento->setIdUtente($this->getIdUtente());
+            $evento->setIdLega($this->getIdLega());
+            $evento->setIdExternal($this->getId());
+            $evento->save();
+            ConnectionFactory::getFactory()->getConnection()->commit();
+        } catch (PDOException $e) {
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            throw $e;
         }
+        return TRUE;
     }
 
     public function delete() {

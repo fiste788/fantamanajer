@@ -107,7 +107,7 @@ class ArticoloTable extends ArticoloModel {
      * @return void
      */
     public function setDataCreazione($dataCreazione) {
-        if (is_a($this->dataCreazione, "DateTime"))
+        if (is_a($dataCreazione, "DateTime"))
             $this->dataCreazione = $dataCreazione;
         else
             $this->dataCreazione = new DateTime($dataCreazione);

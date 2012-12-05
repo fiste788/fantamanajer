@@ -70,9 +70,9 @@ class Selezione extends SelezioneTable {
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
+        return TRUE;
     }
 
     public static function getNumberSelezioni($idUtente) {
@@ -88,7 +88,7 @@ class Selezione extends SelezioneTable {
         return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
 
-    public function check($array, $message) {
+    public function check($array) {
         require_once(INCDBDIR . 'giocatore.db.inc.php');
         require_once(INCDBDIR . 'punteggio.db.inc.php');
         require_once(INCDBDIR . 'utente.db.inc.php');
@@ -136,8 +136,7 @@ class Selezione extends SelezioneTable {
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
         return TRUE;
     }

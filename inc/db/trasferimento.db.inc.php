@@ -8,7 +8,7 @@ class Trasferimento extends TrasferimentoTable {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
 
-            $id = parent::save();
+            $idTrasferimento = parent::save();
             require_once(INCDBDIR . 'squadra.db.inc.php');
             require_once(INCDBDIR . 'formazione.db.inc.php');
             require_once(INCDBDIR . 'evento.db.inc.php');
@@ -37,18 +37,17 @@ class Trasferimento extends TrasferimentoTable {
             $evento->setTipo(Evento::TRASFERIMENTO);
             $evento->setIdUtente($this->getIdUtente());
             $evento->setIdLega($idLega);
-            $evento->setIdExternal($id);
+            $evento->setIdExternal($idTrasferimento);
             $evento->save();
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
         return TRUE;
     }
 
-    public function check($array, $message) {
+    public function check($array) {
         $post = (object) $array;
         $trasferimenti = self::getByField('idUtente', $post->idUtente);
         $numTrasferimenti = count($trasferimenti);

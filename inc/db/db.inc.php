@@ -26,7 +26,7 @@ class ConnectionFactory {
 
     /**
      *
-     * @return \PDO
+     * @return \MyPDO
      */
     public function getConnection() {
         if (!$this->db) {
@@ -36,8 +36,8 @@ class ConnectionFactory {
             $mins = abs($mins);
             $hrs = floor($mins / 60);
             $mins -= $hrs * 60;
-            $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
-            $this->db = new PDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME . ';charset=UTF-8', DBUSER, DBPASS);
+            $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
+            $this->db = new MyPDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME . ';charset=utf8;', DBUSER, DBPASS);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
             $this->db->setAttribute(PDO::ATTR_PERSISTENT, TRUE);
@@ -47,19 +47,46 @@ class ConnectionFactory {
         }
         return $this->db;
     }
+
 }
 
-class myPDO extends PDO {
+class MyPDO extends PDO {
 
-    public function query($statement) {
-        FirePHP::getInstance()->log($statement);
-        return parent::query($statement);
+    // Database drivers that support SAVEPOINTs.
+    protected static $savepointTransactions = array("pgsql", "mysql");
+    // The current transaction level.
+    protected $transLevel = 0;
+
+    protected function nestable() {
+        return in_array($this->getAttribute(PDO::ATTR_DRIVER_NAME), self::$savepointTransactions);
     }
 
-    public function exec($statement) {
-        FirePHP::getInstance()->log($statement);
-        return parent::exec($statement);
+    public function beginTransaction() {
+        if ($this->transLevel == 0 || !$this->nestable())
+            parent::beginTransaction();
+        else
+            $this->exec("SAVEPOINT LEVEL{$this->transLevel}");
+        $this->transLevel++;
     }
+
+    public function commit() {
+        $this->transLevel--;
+
+        if ($this->transLevel == 0 || !$this->nestable())
+            parent::commit();
+        else
+            $this->exec("RELEASE SAVEPOINT LEVEL{$this->transLevel}");
+    }
+
+    public function rollBack() {
+        $this->transLevel--;
+
+        if ($this->transLevel == 0 || !$this->nestable())
+            parent::rollBack();
+        else
+            $this->exec("ROLLBACK TO SAVEPOINT LEVEL{$this->transLevel}");
+    }
+
 }
 
 ?>

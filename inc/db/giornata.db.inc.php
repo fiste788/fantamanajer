@@ -48,19 +48,19 @@ class Giornata extends GiornataTable {
         $now = new DateTime();
         $now->modify("-1 day");
         $previous = self::getById(GIORNATA - 1);
-        return ($previous->getDataFine()->format("Y-m-d") == $now->format("Y-m-d") && $now->format("H") > 17);
+        return ($previous->getData() < $now && $now->format("H") > 17);
     }
 
     public static function isDoTransertDay() {
         $now = new DateTime();
         $previous = self::getCurrentGiornata();
-        return ($previous->getDataFine()->format("Y-m-d") == $now->format("Y-m-d"));
+        return ($previous->getData()->format("Y-m-d") === $now->format("Y-m-d"));
     }
 
     public static function isSendMailDay() {
         $now = new DateTime();
         $previous = self::getCurrentGiornata();
-        return ($previous->getDataFine()->format("Y-m-d") == $now->format("Y-m-d"));
+        return ($previous->getData()->format("Y-m-d") === $now->format("Y-m-d"));
     }
 
     public static function checkDay($day, $type = 'dataInizio', $offset = 1) {
@@ -114,8 +114,7 @@ class Giornata extends GiornataTable {
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
-            FirePHP::getInstance()->error($e->getMessage());
-            return FALSE;
+            throw $e;
         }
         return TRUE;
     }

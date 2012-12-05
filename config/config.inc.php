@@ -54,7 +54,7 @@ if (!LOCAL) {
         define("DBNAME", "fantaman_fantamanajer");
         define("DBUSER", "fantaman_user");
         define("DBPASS", "B@n@n@2");
-        define("DBHOST", "leonardo.ldn.kgix.net:3306");
+        define("DBHOST", "localhost");
 
         define("MODREWRITE", TRUE);
         error_reporting(E_ALL);

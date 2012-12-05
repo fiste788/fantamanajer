@@ -245,11 +245,11 @@ class VotoTable extends VotoModel {
 
     /**
      * Setter: espulso
-     * @param Int $espulso
+     * @param bool $espulso
      * @return void
      */
     public function setEspulso($espulso) {
-        $this->espulso = (int) $espulso;
+        $this->espulso = (bool) $espulso;
     }
 
     /**

@@ -46,7 +46,7 @@ class Evento extends EventoTable {
                 'C' => "centrocampista",
                 'A' => "attaccante"
                 ));
-        $q = "SELECT evento.*,utente.nome
+        $q = "SELECT evento.*,utente.nomeSquadra
 				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
         if ($idLega != NULL)
             $q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = NULL)";
@@ -58,23 +58,26 @@ class Evento extends EventoTable {
         $values = $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
         if ($values) {
             foreach ($values as $key => $val) {
+                $val->titolo = "";
+                $val->content = "";
+                $val->link = "";
                 switch ($val->tipo) {
-                    case 1:
+                    case self::CONFERENZASTAMPA:
                         $values[$key]->idExternal = Articolo::getById($val->idExternal);
-                        $values[$key]->titolo = $val->nome . ' ha rilasciato una conferenza stampa intitolata ' . $values[$key]->idExternal->titolo;
+                        $values[$key]->titolo = $val->nomeSquadra . ' ha rilasciato una conferenza stampa intitolata ' . $values[$key]->idExternal->titolo;
                         $values[$key]->content = '';
                         if (!empty($values[$key]->idExternal->abstract))
                             $values[$key]->content = '<em>' . $values[$key]->idExternal->sottoTitolo . '</em><br />';
                         $values[$key]->content .= $values[$key]->idExternal->testo;
                         $values[$key]->link = Links::getLink('conferenzeStampa', array('giorn' => $values[$key]->idExternal->idGiornata));
                         break;
-                    case 2: $values[$key]->titolo = $val->nome . ' ha selezionato un giocatore per l\'acquisto';
+                    case self::SELEZIONEGIOCATORE: $values[$key]->titolo = $val->nomeSquadra . ' ha selezionato un giocatore per l\'acquisto';
                         $values[$key]->content = ' ';
                         break;
                         $values[$key]->link = '';
                         break;
-                    case 3: $values[$key]->idExternal = Formazione::getById($val->idExternal);
-                        $values[$key]->titolo = $val->nome . ' ha impostato la formazione per la giornata ' . $values[$key]->idExternal->idGiornata;
+                    case self::FORMAZIONE: $values[$key]->idExternal = Formazione::getById($val->idExternal);
+                        $values[$key]->titolo = $val->nomeSquadra . ' ha impostato la formazione per la giornata ' . $values[$key]->idExternal->idGiornata;
                         $titolari = $values[$key]->idExternal->giocatori;
                         $titolari = array_splice($titolari, 0, 11);
                         //$titolari = Giocatore::getByIds($titolari);
@@ -84,15 +87,18 @@ class Evento extends EventoTable {
                         $values[$key]->content = substr($values[$key]->content, 0, -2);
                         $values[$key]->link = Links::getLink('formazione', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
                         break;
-                    case 4: $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
-                        $giocOld = Giocatore::getById($values[$key]->idExternal->idGiocatoreOld);
-                        $giocNew = Giocatore::getById($values[$key]->idExternal->idGiocatoreNew);
-                        $values[$key]->idExternal->idGiocatoreOld = $giocOld->id;
-                        $values[$key]->idExternal->idGiocatoreNew = $giocNew->id;
-                        $values[$key]->titolo = $val->nome . ' ha effettuato un trasferimento';
-                        $values[$key]->content = $val->nome . ' ha ceduto il giocatore ' . $giocOld . ' e ha acquistato ' . $giocNew;
-                        $values[$key]->link = Links::getLink('trasferimenti', array('squadra' => $values[$key]->idExternal->idUtente));
-                        unset($giocOld, $giocNew);
+                    case self::TRASFERIMENTO:
+                        $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
+                        $val->titolo = $val->nomeSquadra . ' ha effettuato un trasferimento';
+                        if(!is_null($val->idExternal)) {
+                            $giocOld = Giocatore::getById($val->idExternal->idGiocatoreOld);
+                            $giocNew = Giocatore::getById($val->idExternal->idGiocatoreNew);
+                            $val->idExternal->idGiocatoreOld = $giocOld->id;
+                            $val->idExternal->idGiocatoreNew = $giocNew->id;
+                            $val->content = $val->nomeSquadra . ' ha ceduto il giocatore ' . $giocOld . ' e ha acquistato ' . $giocNew;
+                            $val->link = Links::getLink('trasferimenti', array('id' => $val->idExternal->idUtente));
+                            unset($giocOld, $giocNew);
+                        }
                         break;
                     case self::NUOVOGIOCATORE:
                         $player = Giocatore::getById($values[$key]->idExternal);

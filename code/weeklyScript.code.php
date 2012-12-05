@@ -43,14 +43,18 @@ if ((Giornata::isWeeklyScriptDay() && !$punteggiExist) || $_SESSION['roles'] == 
                 foreach ($leghe as $lega) {
                     $utenti = Utente::getByField('idLega', $lega->id);
                     $logger->info("Calculating points for league " . $lega->id);
-                    $lega->startTransaction();
-                    $sum = array();
-                    foreach ($utenti as $key => $utente) {
-                        $logger->info("Elaborating team " . $utente->id);
-                        Punteggio::calcolaPunti($utente, $giornata);
+                    try {
+                        ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+                        $sum = array();
+                        foreach ($utenti as $key => $utente) {
+                            $logger->info("Elaborating team " . $utente->id);
+                            Punteggio::calcolaPunti($utente, $giornata);
+                        }
+                        ConnectionFactory::getFactory()->getConnection()->commit();
+                    } catch(PDOException $e) {
+                        ConnectionFactory::getFactory()->getConnection()->rollback();
+                        throw $e;
                     }
-                    $lega->commit();
-
                     //ESTRAGGO LA CLASSIFICA E QUELLA DELLA GIORNATA PRECEDENTE
                     $classifica = Punteggio::getAllPunteggiByGiornata($giornata, $lega->id);
                     foreach ($classifica as $key => $val)
@@ -80,11 +84,11 @@ if ((Giornata::isWeeklyScriptDay() && !$punteggiExist) || $_SESSION['roles'] == 
                             $mailMessageObj->setTo(array($squadra->getEmail() => $squadra->getNome() . " " . $squadra->getCognome()));
                             $fetchMail = $mailContent->fetch('mailWeekly.tpl.php');
                             $mailMessageObj->setBody($fetchMail, 'text/html');
-                            if (!$mailerObj->send($mailMessageObj)) {
+                            /*if (!$mailerObj->send($mailMessageObj)) {
                                 $mail++;
                                 $logger->warning("Error in sending mail to: " . $squadra->getEmail());
                             }else
-                                $logger->info("Mail send succesfully to: " . $squadra->getEmail());
+                                $logger->info("Mail send succesfully to: " . $squadra->getEmail());*/
                         }
                     }
                 }

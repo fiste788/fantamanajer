@@ -16,10 +16,6 @@ class Schieramento extends SchieramentoTable {
         return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
     }
 
-    public function check($array) {
-        return TRUE;
-    }
-
     public function getVoto() {
         require_once(INCDBDIR . 'voto.db.inc.php');
         return Voto::getByGiocatoreAndGiornata($this->getIdGiocatore(), $this->getFormazione()->getIdGiornata());

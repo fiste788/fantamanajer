@@ -1,9 +1,38 @@
 <?php
-require_once(INCDIR . 'formException.inc.php');;
+
+require_once(INCDIR . 'formException.inc.php');
+;
 
 abstract class DbTable {
 
     const TABLE_NAME = "";
+
+    /**
+     *
+     * @var int
+     */
+    public $id;
+
+    public function __construct() {
+        $this->id = is_null($this->id) ? NULL : $this->getId();
+    }
+
+    /**
+     * Setter: id
+     * @param Int $id
+     * @return void
+     */
+    public function setId($id) {
+        $this->id = (int) $id;
+    }
+
+    /**
+     * Getter: id
+     * @return Int
+     */
+    public function getId() {
+        return (int) $this->id;
+    }
 
     /**
      * Enter description here ...
@@ -17,7 +46,7 @@ abstract class DbTable {
 					FROM " . $c::TABLE_NAME . "
 					WHERE id = :id";
             $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-            $exe->execute(array(':id'=>$id));
+            $exe->execute(array(':id' => $id));
             FirePHP::getInstance()->log($q);
             return $exe->fetchObject($c);
         } else
@@ -33,9 +62,9 @@ abstract class DbTable {
         //$keys = implode(array_filter($ids, 'strlen'), ',');
         $keys = array();
         foreach ($ids as $id)
-            if(strlen($id))
-                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id,PDO::PARAM_INT);
-        $param = implode(',',$keys);
+            if (strlen($id))
+                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id, PDO::PARAM_INT);
+        $param = implode(',', $keys);
         if ($param != "") {
             $c = get_called_class();
             $q = "SELECT *
@@ -101,30 +130,27 @@ abstract class DbTable {
      * @return boolean
      */
     public function save($parameters = NULL) {
-        try {
-            $this->validate();
-            $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
-            //unset($vars['id']);
-            if ($this->getId() != "" && !is_null($this->getId()) && $this->getById($this->getId()) != FALSE) {
-                $q = "UPDATE " . $this::TABLE_NAME . " SET ";
-                foreach ($vars as $key => $value)
-                    $values[] = $key . " = " . self::valueToSql($value);
-                $q .= implode($values, ", ") . " WHERE id = " . $this->getId();
-                ConnectionFactory::getFactory()->getConnection()->exec($q);
-                FirePHP::getInstance()->log($q);
-                return $this->getId();
-            } else {
-                if ($this->getId() == "" || is_null($this->getId()))
-                    unset($vars['id']);
-                $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
+
+        $this->validate();
+        $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
+        //unset($vars['id']);
+        if ($this->getId() != "" && !is_null($this->getId()) && $this->getById($this->getId()) != FALSE) {
+            $q = "UPDATE " . $this::TABLE_NAME . " SET ";
+            foreach ($vars as $key => $value)
+                $values[] = $key . " = " . self::valueToSql($value);
+            $q .= implode($values, ", ") . " WHERE id = " . $this->getId();
+            ConnectionFactory::getFactory()->getConnection()->exec($q);
+            FirePHP::getInstance()->log($q);
+            return $this->getId();
+        } else {
+            if ($this->getId() == "" || is_null($this->getId()))
+                unset($vars['id']);
+            $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql", $vars), ", ") . ")";
-                ConnectionFactory::getFactory()->getConnection()->exec($q);
-                FirePHP::getInstance()->log($q);
-                return ConnectionFactory::getFactory()->getConnection()->lastInsertId();
-            }
-        } catch (PDOException $e) {
-            FirePHP::getInstance()->error($e->getMessage());
-            throw new PDOException("Errore interno nel salvataggio dei dati");
+            ConnectionFactory::getFactory()->getConnection()->exec($q);
+            FirePHP::getInstance()->log($q);
+            $this->setId(ConnectionFactory::getFactory()->getConnection()->lastInsertId());
+            return $this->getId();
         }
     }
 
@@ -159,21 +185,16 @@ abstract class DbTable {
      * @return boolean
      */
     public function delete() {
-        try {
-            if (!is_null($this->getId())) {
-                $q = "DELETE FROM " . $this::TABLE_NAME . "
+        if (!is_null($this->getId())) {
+            $q = "DELETE FROM " . $this::TABLE_NAME . "
 					WHERE id = :id";
-                $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-                $exe->bindValue(':id', $this->getId(), PDO::PARAM_INT);
-                $exe->execute();
-                FirePHP::getInstance()->log($q);
-                return TRUE;
-            } else
-                return FALSE;
-        } catch (PDOException $e) {
-            FirePHP::getInstance()->error($e->getMessage());
-            throw new PDOException("Errore interno nel salvataggio dei dati");
-        }
+            $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+            $exe->bindValue(':id', $this->getId(), PDO::PARAM_INT);
+            $exe->execute();
+            FirePHP::getInstance()->log($q);
+            return TRUE;
+        } else
+            return FALSE;
     }
 
     /**
@@ -187,7 +208,7 @@ abstract class DbTable {
             $this->check($postArray);
             $this->fromArray($postArray, FALSE);
             return TRUE;
-        } catch(FormException $e) {
+        } catch (FormException $e) {
             $this->fromArray($postArray, TRUE);
             throw $e;
         }
@@ -210,7 +231,10 @@ abstract class DbTable {
         }
     }
 
-    //public abstract function check($array,$message);
+    public function check($array) {
+        return TRUE;
+    }
+
     //public abstract function __toString();
 }
 

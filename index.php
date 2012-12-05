@@ -134,24 +134,27 @@ $layoutTpl->assign('title', $pages->pages[$p]->title);
 $firePHP->log(REQUESTDIR . $p . '.request.code.php');
 //INCLUDE IL FILE DI REQUEST PER LA PAGINA
 if (Request::getInstance()->has('submit') && file_exists(REQUESTDIR . $p . '.request.code.php')) {
+    $firePHP->group($p . '.request.code.php');
     try {
-        $firePHP->group($p . '.request.code.php');
         require(REQUESTDIR . $p . '.request.code.php');
-        $firePHP->groupEnd();
     } catch (FormException $fe) {
         $message->warning($fe->getMessage());
     } catch (PDOException $e) {
-        $message->error($e->getMessage());
+        FirePHP::getInstance()->error($e->getMessage());
+        FirePHP::getInstance()->error($e->getTraceAsString());
+        $message->error("Errore generico salvataggio dati");
     }
+     $firePHP->groupEnd();
 }
 
 //INCLUDE IL FILE DI CODICE PER LA PAGINA
 if (file_exists(CODEDIR . $p . '.code.php')) {
     try {
-    $firePHP->group($p . '.code.php');
-    require(CODEDIR . $p . '.code.php');
-    $firePHP->groupEnd();
+        $firePHP->group($p . '.code.php');
+        require(CODEDIR . $p . '.code.php');
+        $firePHP->groupEnd();
     } catch(Exception $e) {
+        FirePHP::getInstance()->error($e->getMessage());
         FirePHP::getInstance()->error($e->getTrace());
         Request::send500();
     }
