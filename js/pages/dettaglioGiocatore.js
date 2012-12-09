@@ -1,6 +1,6 @@
 (function($) {
     $.fn.grafico = function(datasets) {
-        dataset = $.extend({}, $.fn.grafico.datasets, datasets);
+        datasets = $.extend({}, $.fn.grafico.datasets, datasets);
         var options = {
             colors: ["#edc240", "#afd8f8","#555555", "#cb4b4b", "#4da74d", "#9440ed","#dddddd","#00a2ff"],
             lines: {
@@ -34,30 +34,32 @@
             val.color = i;
             ++i;
         });
-        var placeholder = $("#placeholder");
         function plotAccordingToChoices() {
             var data = [];
-            data.push(datasets['voto']);
-            data.push(datasets['punti']);
-            $("#legendcontainer table").remove();
-            var j = null;
-            var k = 0;
-            var val1 = $("#hidden").attr('val1');
-            var val2 = $("#hidden").attr('val2');
+            data.push(datasets.voto);
+            data.push(datasets.punti);
+            var grafico = $("#grafico");
+            var clearSelection = $("#clear-selection");
+            var placeholder = $("#placeholder");
+            var overviewDom = $("#overview");
+            var selection = $("#selection");
+            var from = grafico.data('from');
+            var to = grafico.data('to');
 
-            if(val1 != null && val2 != null) {
-                plot = $.plot($("#placeholder"), data,$.extend(true, {}, options, {
+            if(from != null && to != null) {
+                plot = $.plot(placeholder, data,$.extend(true, {}, options, {
                     xaxis: {
-                        min: Math.round(val1) ,
-                        max: Math.round(val2)
+                        min: Math.round(from),
+                        max: Math.round(to),
+                        tickDecimals: 0
                     },
                     yaxis: {}
                 }));
             }
             else
-                plot = $.plot($("#placeholder"), data,options);
+                plot = $.plot(placeholder, data,options);
 
-            var overview = $.plot($("#overview"), data, {
+            var overview = $.plot(overviewDom, data, {
                 colors: ["#edc240", "#afd8f8","#555555", "#cb4b4b", "#4da74d", "#9440ed","#dddddd","#00a2ff"],
                 lines: {
                     show: true,
@@ -65,7 +67,8 @@
                 },
                 shadowSize: 0,
                 xaxis: {
-                    ticks: 4
+                    ticks: 4,
+                    tickDecimals: 0
                 },
                 yaxis: {
                     ticks: 4
@@ -83,27 +86,26 @@
                 }
             });
 
-            $("#clearSelection").bind("click",function () {
+            clearSelection.bind("click",function () {
                 overview.clearSelection();
-                $("#hidden").removeAttr('val1');
-                $("#hidden").removeAttr('val2');
+                grafico.removeData('from');
+                grafico.removeData('to');
                 plotAccordingToChoices();
-                $("#clearSelection").addClass('hidden');
-                $("#selection").empty();
+                clearSelection.hide();
+                selection.empty();
             });
 
             function showTooltip(x, y,color, contents) {
                 var arrayColor = color.substring(4);
                 arrayColor = arrayColor.replace(')','');
                 arrayColor = arrayColor.split(',');
-                for (var i=0;i<arrayColor.length;i++)
-                {
-                    arrayColor[i] = arrayColor[i]*1 + 120;
+                for (var i=0;i<arrayColor.length;i++) {
+                    arrayColor[i] = arrayColor[i] * 1 + 120;
                     if(arrayColor[i] > 255)
                         arrayColor[i] = 255;
                 }
                 colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
-                $('<div id="tooltip">' + contents + '</div>').css( {
+                $('<div id="tooltip">' + contents + '</div>').css({
                     position: 'absolute',
                     display: 'none',
                     top: y + 5,
@@ -117,58 +119,72 @@
             }
 
             var previousPoint = null;
-            $("#placeholder").bind("plothover", function (event, pos, item) {
+            placeholder.bind("plothover", function (event, pos, item) {
+                var tooltip = $("#tooltip");
                 if (item) {
                     if (!previousPoint || (previousPoint[0] != item.datapoint[0]) || (previousPoint[1] != item.datapoint[1])) {
                         previousPoint = item.datapoint;
-                        $("#tooltip").remove();
+                        tooltip.remove();
                         var x = item.datapoint[0].toFixed(2),
                         y = item.datapoint[1].toFixed(2);
                         showTooltip(item.pageX, item.pageY,item.series.color,item.series.label + ": giornata " + Math.round(x) + " = " + Math.round(y*10)/10 + " punti");
                     }
                 }
                 else {
-                    $("#tooltip").remove();
+                    tooltip.remove();
                     previousPoint = null;
                 }
             });
 
-            $("#overview").bind("plotselected", function (event, area) {
-                $("#legendcontainer table").remove();
-                $("#hidden").attr('val1',area.xaxis.from);
-                $("#hidden").attr('val2',area.xaxis.to);
-                $("#clearSelection").removeClass('hidden');
-                $("#selection").text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from.toFixed(1)) + " alla " + Math.round(area.xaxis.to.toFixed(1)));
+            overviewDom.bind("plotselected", function (event, area) {
+                grafico.data('from',area.xaxis.from);
+                grafico.data('to',area.xaxis.to);
+                clearSelection.show();
+                selection.text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from.toFixed(1)) + " alla " + Math.round(area.xaxis.to.toFixed(1)));
                 //selecting only the used data
                 var data = [];
-                data.push(datasets['voto']);
-                data.push(datasets['punti']);
-                var j = null;
-                var k = 0;
+                data.push(datasets.voto);
+                data.push(datasets.punti);
 
                 // do the zooming
-                plot = $.plot($("#placeholder"), data,
+                plot = $.plot(placeholder, data,
                     $.extend(true, {}, options, {
                         xaxis: {
                             min: Math.round(area.xaxis.from),
-                            max: Math.round(area.xaxis.to)
+                            max: Math.round(area.xaxis.to),
+                            tickDecimals:0
                         },
                         yaxis: {}
                     }));
                 overview.setSelection(area, true);
             });
 
-            if(val1 != null && val2 != null)
+            if(from != null && to != null) {
                 overview.setSelection({
-                    x1 : val1,
-                    x2 : val2
+                    x1 : from,
+                    x2 : to
                 });
+            }
         }
         plotAccordingToChoices();
     };
     $.fn.grafico.datasets = "";
 })(jQuery);
 var activeGrafico = false;
+var giocatore = $("#giornate").data("giocatore");
+var datasets = {};
+datasets.punti = {
+    "label":"Punti " + giocatore,
+    "data":[]
+};
+datasets.voto = {
+    "label":"Voto " + giocatore,
+    "data":[]
+};
+$("tbody tr").each(function(i,tr) {
+    datasets.voto.data.push($(tr).data("voto"));
+    datasets.punti.data.push($(tr).data("punti"));
+});
 function enableGrafico() {
     if(!$.isViewport('phone') && !activeGrafico) {
         activeGrafico = true;

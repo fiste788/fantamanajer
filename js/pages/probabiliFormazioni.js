@@ -1,4 +1,5 @@
 var url = AJAXURL + "probabiliFormazioni.php";
+var clubs = $("#formazioni").data("clubs");
 $.ajax({
     url: url,
     type: 'GET',

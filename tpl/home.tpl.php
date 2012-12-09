@@ -44,7 +44,7 @@
                     <?php endforeach; ?>
                 </ul>
                 <div class="all">
-                    <a href="<?php echo Links::getLink('feed'); ?>">Vedi tutti gli eventi &raquo;</a>
+                    <a href="<?php echo Links::getLink('feed'); ?>">Vedi tutti gli eventi <i class="icon-chevron-right"></i></a>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 </article>
             <?php endforeach; ?>
             <div class="all">
-                <a href="<?php echo Links::getLink('conferenzeStampa'); ?>">Vedi tutte le conferenze stampa &raquo;</a>
+                <a href="<?php echo Links::getLink('conferenzeStampa'); ?>">Vedi tutte le conferenze stampa <i class="icon-chevron-right"></i></a>
             </div>
         </div>
     <?php endif; ?>

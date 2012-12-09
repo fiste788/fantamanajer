@@ -10,12 +10,6 @@ class EventoTable extends EventoModel {
      *
      * @var int
      */
-    public $id;
-
-    /**
-     *
-     * @var int
-     */
     public $idUtente;
 
     /**
@@ -43,21 +37,12 @@ class EventoTable extends EventoModel {
     public $idExternal;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
         $this->idLega = is_null($this->idLega) ? NULL : $this->getIdLega();
         $this->data = is_null($this->data) ? NULL : $this->getData();
         $this->tipo = is_null($this->tipo) ? NULL : $this->getTipo();
         $this->idExternal = is_null($this->idExternal) ? NULL : $this->getIdExternal();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -126,14 +111,6 @@ class EventoTable extends EventoModel {
     public function setUtente($utente) {
         $this->utente = $utente;
         $this->setIdUtente($utente->getId());
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

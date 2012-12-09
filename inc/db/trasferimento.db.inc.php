@@ -31,7 +31,7 @@ class Trasferimento extends TrasferimentoTable {
                 if ($this->getIdGiocatoreOld() == $formazione->getIdVVCapitano())
                     $formazione->setIdVVCapitano($this->getIdGiocatoreNew());
                 $titolari = array_splice($giocatoriIds,0, 11);
-                $formazione->save(array('titolari'=>$titolari,'panchinari'=>$giocatoriIds));
+                $formazione->save(array('titolari'=>$titolari,'panchinari'=>$giocatoriIds,'evento'=>false));
             }
             $evento = new Evento();
             $evento->setTipo(Evento::TRASFERIMENTO);
@@ -49,23 +49,19 @@ class Trasferimento extends TrasferimentoTable {
 
     public function check($array) {
         $post = (object) $array;
+        if(empty($array))
+            return TRUE;
         $trasferimenti = self::getByField('idUtente', $post->idUtente);
         $numTrasferimenti = count($trasferimenti);
 
-        if ($numTrasferimenti >= $_SESSION['datiLega']->numTrasferimenti) {
-            $message->error("Hai raggiunto il limite di trasferimenti");
-            return FALSE;
-        }
-        if (empty($post->idGiocatoreNew) || empty($post->idGiocatoreOld)) {
-            $message->error("Non hai compilato correttamente tutti i campi");
-            return FALSE;
-        }
+        if ($numTrasferimenti >= $_SESSION['datiLega']->numTrasferimenti)
+            throw new FormException("Hai raggiunto il limite di trasferimenti");
+        if (empty($post->idGiocatoreNew) || empty($post->idGiocatoreOld))
+            throw new FormException("Non hai compilato correttamente tutti i campi");
         $giocatoreAcquistato = Giocatore::getById($post->idGiocatoreNew);
         $giocatoreLasciato = Giocatore::getById($post->idGiocatoreOld);
-        if ($giocatoreAcquistato->getRuolo() != $giocatoreLasciato->getRuolo()) {
-            $message->error("I giocatori devono avere lo stesso ruolo");
-            return FALSE;
-        }
+        if ($giocatoreAcquistato->getRuolo() != $giocatoreLasciato->getRuolo())
+            throw new FormException("I giocatori devono avere lo stesso ruolo");
         return TRUE;
     }
 

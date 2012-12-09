@@ -8,12 +8,6 @@ class ClubTable extends ClubModel {
 
     /**
      *
-     * @var int
-     */
-    public $id;
-
-    /**
-     *
      * @var string
      */
     public $nome;
@@ -31,19 +25,10 @@ class ClubTable extends ClubModel {
     public $determinativo;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->nome = is_null($this->nome) ? NULL : $this->getNome();
         $this->partitivo = is_null($this->partitivo) ? NULL : $this->getPartitivo();
         $this->determinativo = is_null($this->determinativo) ? NULL : $this->getPartitivo();
-    }
-
-    /**
-     * Setter: id
-     * @param int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -71,14 +56,6 @@ class ClubTable extends ClubModel {
      */
     public function setDeterminativo($determinativo) {
         $this->determinativo = $determinativo;
-    }
-
-    /**
-     * Getter: id
-     * @return int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

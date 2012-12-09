@@ -166,6 +166,7 @@ if (LOCAL)
 require_once(CODEDIR . 'navbar.code.php');
 
 $headerTpl->assign('dataFine', date_parse($currentGiornata->getData()->format("Y-m-d H:i:s")));
+$headerTpl->assign('timestamp', $currentGiornata->getData()->getTimestamp());
 $operationTpl->assign('request', $request);
 $contentTpl->assign('request', $request);
 $contentTpl->assign('ruoli', $ruoli);

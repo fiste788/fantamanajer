@@ -64,11 +64,11 @@ class Giornata extends GiornataTable {
     }
 
     public static function checkDay($day, $type = 'dataInizio', $offset = 1) {
-        $q = "SELECT dataInizio,dataFine,id
+        $q = "SELECT MIN(id) as id, data
 				FROM giornata
-				WHERE '" . $day . "' BETWEEN dataInizio AND dataFine";
+				WHERE NOW() < data";
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        $exe->fetch(PDO::FETCH_ASSOC);
+        $value = $exe->fetch(PDO::FETCH_ASSOC);
         if ($value != FALSE) {
             $array = explode(" ", $value[$type]);
             $data = explode("-", $array[0]);

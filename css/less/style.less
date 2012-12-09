@@ -63,9 +63,6 @@ ul.no-dotted {
   list-style-type:none;
   margin:0;
 }
-.clear {
-  clear:both;
-}
 label {
   font-weight:bold;
   cursor:pointer;
@@ -96,7 +93,7 @@ form {
     float:left;
     margin-right:20px;
 }
-.nowrap {
+.no-wrap,.nowrap {
     white-space:nowrap;
 }
 .ammonizione,.espulsione {
@@ -115,12 +112,17 @@ form {
     margin: 0 auto;
     width:724px;
     clear:both;
+    overflow:hidden;
     #overview {
         float:left;
         cursor:pointer;
+        margin-right:12px;
     }
     #placeholder {
         width:100%;
+    }
+    #clear-selection {
+        display:none;
     }
 }
 table {

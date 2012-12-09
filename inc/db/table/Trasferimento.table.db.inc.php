@@ -10,12 +10,6 @@ class TrasferimentoTable extends TrasferimentoModel {
      *
      * @var int
      */
-    public $id;
-
-    /**
-     *
-     * @var int
-     */
     public $idGiocatoreOld;
 
     /**
@@ -43,21 +37,12 @@ class TrasferimentoTable extends TrasferimentoModel {
     public $obbligato;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->idGiocatoreOld = is_null($this->idGiocatoreOld) ? NULL : $this->getIdGiocatoreOld();
         $this->idGiocatoreNew = is_null($this->idGiocatoreNew) ? NULL : $this->getIdGiocatoreNew();
         $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
         $this->idGiornata = is_null($this->idGiornata) ? NULL : $this->getIdGiornata();
         $this->obbligato = is_null($this->obbligato) ? NULL : $this->isObbligato();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -143,14 +128,6 @@ class TrasferimentoTable extends TrasferimentoModel {
     public function setGiornata($giornata) {
         $this->giornata = $giornata;
         $this->setIdGiornata($giornata->getId());
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

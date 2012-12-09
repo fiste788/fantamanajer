@@ -1,6 +1,3 @@
-<div id="formazioni">
+<div id="formazioni" data-clubs="<?php echo htmlspecialchars(json_encode($this->elencoClub,JSON_HEX_QUOT)); ?>">
     <h3 class="center">Probabili formazioni</h3>
 </div>
-<script type="text/javascript">
-    var clubs = <?php echo json_encode($this->elencoClub); ?>;
-</script>

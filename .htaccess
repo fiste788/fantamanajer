@@ -1,4 +1,4 @@
-# AddHandler application/x-httpd-php53 .php .php5 .php4 .php3
+# AddHandler application/x-httpd-php54 .php .php5 .php4 .php3
 # Apache configuration file
 # httpd.apache.org/docs/2.2/mod/quickreference.html
 
@@ -76,6 +76,12 @@
   </FilesMatch>
 </IfModule>
 
+
+# Keep-alive
+
+<IfModule mod_headers.c>
+  Header set Connection keep-alive
+</IfModule>
 
 # ----------------------------------------------------------------------
 # Proper MIME type for all files

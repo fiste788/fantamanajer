@@ -4,7 +4,7 @@
 	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>
-<div class="clear">
+<div class="clearfix well">
 	<h3>Giocatori</h3>
 	<table class="table">
 		<thead>

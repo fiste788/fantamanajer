@@ -34,13 +34,8 @@
 		<h3>
 			<a class="script" id="updateOrariGiornata"><img class="column" alt="->" src="<?php echo IMGSURL . 'update.png'; ?>" />Aggiorna Orari giornata corrente</a>
 		</h3>
-	</li>	
+	</li>
 </ul>
-<script type="text/javascript">
-// <![CDATA[
-	var imgUrl = "<?php echo IMGSURL; ?>";
-// ]]>
-</script>
 <div id="messaggioContainer">
 	<div id="messaggio" class="messaggio column last" style="display:none;"></div>
 </div>

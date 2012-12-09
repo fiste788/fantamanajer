@@ -1,6 +1,6 @@
 (function ($) {
     $.fn.classifica = function(datasets,medie,squadra) {
-        dataset = $.extend({}, $.fn.classifica.datasets, datasets);
+        datasets = $.extend({}, $.fn.classifica.datasets, datasets);
         medie = $.extend({}, $.fn.classifica.medie, medie);
         squadra = $.extend({}, $.fn.classifica.squadra, squadra);
         var options = {
@@ -47,19 +47,20 @@
         $.each(datasets, function(key, val) {
             rigaSquadra = choiceContainer.find("#squadra-"+key.replace(/ /g,''));
             rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '"></div>');
-            input = $('<input style="margin:2px 0 0;float:left;padding:0" class="checkall checkbox" type="checkbox" name="' + key + '" />');
-            if(squadra['val'] == "" || key == squadra['val'].toString())
+            input = $('<input class="checkall checkbox" type="checkbox" name="' + key + '" />');
+            if(squadra != false)
                 input.attr('checked','checked');
 
             rigaSquadra.prepend(input);
         });
 
-        //			choiceContainer.find("input[name!='" + squadra['val'] + "']").removeAttr('checked');
         choiceContainer.find("input").click(plotAccordingToChoices);
-        var placeholder = $("#placeholder");
         function plotAccordingToChoices() {
             var data = [];
-            $("#legendcontainer table").remove();
+            var grafico = $("#grafico");
+            var placeholder = $("#placeholder");
+            var overviewDom = $("#overview");
+            var clearSelection = $("#clear-selection");
             var j = null;
             var k = 0;
             choiceContainer.find("input:checked").each(function () {
@@ -71,28 +72,29 @@
                 }
             });
             if(k == 0)
-                $("#grafico").css("display","none");
+                grafico.hide();
             else
-                $("#grafico").css("display","block");
+                grafico.show();
             if (k == 1)
                 data.push(medie[j]);
 
-            var val1 = $("#hidden").attr('val1');
-            var val2 = $("#hidden").attr('val2');
+            var from = grafico.data('from');
+            var to = grafico.data('to');
 
-            if(val1 != null && val2 != null) {
-                plot = $.plot($("#placeholder"), data,$.extend(true, {}, options, {
+            if(from != null && to != null) {
+                plot = $.plot(placeholder, data,$.extend(true, {}, options, {
                     xaxis: {
-                        min: Math.round(val1) ,
-                        max: Math.round(val2)
+                        min: Math.round(from) ,
+                        max: Math.round(to),
+                        tickDecimals:0
                     },
                     yaxis: {}
                 }));
             }
             else
-                plot = $.plot($("#placeholder"), data,options);
+                plot = $.plot(placeholder, data,options);
 
-            var overview = $.plot($("#overview"), data, {
+            var overview = $.plot(overviewDom, data, {
                 colors: ["#edc240", "#afd8f8","#555555", "#cb4b4b", "#4da74d", "#9440ed","#dddddd","#00a2ff"],
                 lines: {
                     show: true,
@@ -100,7 +102,8 @@
                 },
                 shadowSize: 0,
                 xaxis: {
-                    ticks: 4
+                    ticks: 6,
+                    tickDecimals:0
                 },
                 selection: {
                     mode: "x"
@@ -115,12 +118,12 @@
                 }
             });
 
-            $("#clearSelection").bind("click",function () {
+            clearSelection.bind("click",function () {
                 overview.clearSelection();
-                $("#hidden").removeAttr('val1');
-                $("#hidden").removeAttr('val2');
+                grafico.removeData('from');
+                grafico.removeData('to');
                 plotAccordingToChoices();
-                $("#clearSelection").addClass('hidden');
+                clearSelection.hide();
                 $("#selection").empty();
             });
 
@@ -149,27 +152,27 @@
             }
 
             var previousPoint = null;
-            $("#placeholder").bind("plothover", function (event, pos, item) {
+            placeholder.bind("plothover", function (event, pos, item) {
+                var tooltip = $("#tooltip");
                 if (item) {
                     if (!previousPoint || (previousPoint[0] != item.datapoint[0]) || (previousPoint[1] != item.datapoint[1])) {
                         previousPoint = item.datapoint;
-                        $("#tooltip").remove();
+                        tooltip.remove();
                         var x = item.datapoint[0].toFixed(2),
                         y = item.datapoint[1].toFixed(2);
                         showTooltip(item.pageX, item.pageY,item.series.color,item.series.label + ": giornata " + Math.round(x) + " = " + Math.round(y*10)/10 + " punti");
                     }
                 }
                 else {
-                    $("#tooltip").remove();
+                    tooltip.remove();
                     previousPoint = null;
                 }
             });
 
-            $("#overview").bind("plotselected", function (event, area) {
-                $("#legendcontainer table").remove();
-                $("#hidden").attr('val1',area.xaxis.from);
-                $("#hidden").attr('val2',area.xaxis.to);
-                $("#clearSelection").removeClass('hidden');
+            overviewDom.bind("plotselected", function (event, area) {
+                grafico.data('from',area.xaxis.from);
+                grafico.data('to',area.xaxis.to);
+                clearSelection.show();
                 $("#selection").text("Hai selezionato dalla giornata " + Math.round(area.xaxis.from.toFixed(1)) + " alla " + Math.round(area.xaxis.to.toFixed(1)));
                 //selecting only the used data
                 var data = [];
@@ -194,7 +197,7 @@
                     data.push(medie[j]);
 
                 // do the zooming
-                plot = $.plot($("#placeholder"), data,
+                plot = $.plot(placeholder, data,
                     $.extend(true, {}, options, {
                         xaxis: {
                             min: Math.round(area.xaxis.from),
@@ -205,10 +208,10 @@
                 overview.setSelection(area, true);
             });
 
-            if(val1 != null && val2 != null)
+            if(from != null && to != null)
                 overview.setSelection({
-                    x1 : val1,
-                    x2 : val2
+                    x1 : from,
+                    x2 : to
                 });
         }
         plotAccordingToChoices();
@@ -218,6 +221,33 @@
     $.fn.classifica.squadra = "";
 })(jQuery);
 var activeClassifica = false;
+var datasets = {};
+var medie = {};
+var giornate = $("#tab_classifica thead th");
+var squadra = $("#classifica-container").data("squadra");
+
+$("#tab_classifica tbody tr").each(function(i,tr) {
+    var nomeSquadra = $(tr).data("squadra");
+    var key = $(tr).data("key");
+    var mediaVal = $(tr).data("media");
+    var squadra = {"label":nomeSquadra,"data":[]};
+    var media = {"label":"Media " + nomeSquadra,"data":[]};
+
+    var tds = $(tr).find("td");
+    tds.each(function(i2,td) {
+        var nGior = parseInt($(giornate[i2]).text());
+        if(i2 == 0 || (i2 + 1) == tds.length) {
+            var appo = new Array();
+            appo.push(nGior,mediaVal);
+            media.data.push(appo);
+        }
+        var giornata = new Array();
+        giornata.push(nGior, parseFloat($("a",td).text()));
+        squadra.data.push(giornata);
+    });
+    datasets[key] = squadra;
+    medie[key] = media;
+});
 function enableClassifica() {
     if(($.isViewport('tablet') || $.isViewport('desktop')) && !activeClassifica) {
         activeClassifica = true;
@@ -225,9 +255,7 @@ function enableClassifica() {
             test: Modernizr.canvas,
             nope: JSURL + '/flot/excanvas.min.js',
             complete: function() {
-                if(datasets)
-                    $(document).classifica(datasets,medie,squadra);
-
+                $(document).classifica(datasets,medie,squadra);
             }
         });
     }

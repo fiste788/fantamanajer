@@ -8,28 +8,13 @@ class GiornataTable extends GiornataModel {
 
     /**
      *
-     * @var int
-     */
-    var $id;
-
-    /**
-     *
      * @var DateTime
      */
-    var $data;
+    public $data;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->data = is_null($this->data) ? NULL : $this->getData();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -39,14 +24,6 @@ class GiornataTable extends GiornataModel {
      */
     public function setData($data) {
         $this->data = is_a($data, "DateTime") ? $data : new DateTime($data);
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**
@@ -62,7 +39,7 @@ class GiornataTable extends GiornataModel {
      * @return string
      */
     public function __toString() {
-        return $this->getId();
+        return $this->getData();
     }
 
 }

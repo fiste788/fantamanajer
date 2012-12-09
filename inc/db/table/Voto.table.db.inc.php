@@ -10,12 +10,6 @@ class VotoTable extends VotoModel {
      *
      * @var int
      */
-    public $id;
-
-    /**
-     *
-     * @var int
-     */
     public $idGiocatore;
 
     /**
@@ -115,7 +109,7 @@ class VotoTable extends VotoModel {
     public $quotazione;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->idGiocatore = is_null($this->idGiocatore) ? NULL : $this->getIdGiocatore();
         $this->idGiornata = is_null($this->idGiornata) ? NULL : $this->getIdGiornata();
         $this->valutato = is_null($this->valutato) ? NULL : $this->isValutato();
@@ -133,15 +127,6 @@ class VotoTable extends VotoModel {
         $this->presente = is_null($this->presente) ? NULL : $this->isPresente();
         $this->titolare = is_null($this->titolare) ? NULL : $this->isTitolare();
         $this->quotazione = is_null($this->quotazione) ? NULL : $this->getQuotazione();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -315,14 +300,6 @@ class VotoTable extends VotoModel {
     public function setGiornata($giornata) {
         $this->giornata = $giornata;
         $this->idGiornata = $giornata->getId();
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

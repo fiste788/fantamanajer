@@ -53,7 +53,7 @@
 	</div>
 </div>
 <?php if(!empty($this->giocatori)): ?>
-<div class="clear">
+<div class="clearfix well">
 	<h3>Giocatori</h3>
 	<table class="table tablesorter">
 		<thead>

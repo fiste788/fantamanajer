@@ -1,7 +1,7 @@
 <?php $ruolo = "";
 FirePHP::getInstance()->log($this->panchinari) ?>
 <?php if (!STAGIONEFINITA || $this->giornata != GIORNATA): ?>
-    <div id="giocatori" <?php if ($this->squadra != $_SESSION['idUtente']) echo 'style="display:none"'; ?>>
+    <div id="giocatori"<?php if ($this->squadra != $_SESSION['idUtente']) echo ' class="hidden"'; ?>>
         <?php foreach ($this->giocatori as $val): ?>
             <?php if ($val->ruolo != $ruolo && $ruolo != "") echo '</div>'; ?>
             <?php if ($ruolo != $val->ruolo) echo '<div class="ruoli ' . $val->ruolo . '">'; ?>
@@ -17,7 +17,7 @@ FirePHP::getInstance()->log($this->panchinari) ?>
     </div>
     <h3>Giornata <?php echo $this->giornata; ?></h3>
     <div id="stadio">
-        <div id="campo">
+        <div id="campo" data-edit="<?php echo($_SESSION['idUtente'] == $this->squadra) ? "true" : "false" ?>" data-modulo="<?php echo htmlspecialchars(json_encode($this->modulo)); ?>">
             <div id="P" class="droppable"></div>
             <div id="D" class="droppable"></div>
             <div id="C" class="droppable"></div>
@@ -65,19 +65,6 @@ FirePHP::getInstance()->log($this->panchinari) ?>
             </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-        // <![CDATA[
-    <?php if (!empty($this->modulo)): ?>
-            var modulo = Array();
-            modulo['P'] = <?php echo $this->modulo[0]; ?>;
-            modulo['D'] = <?php echo $this->modulo[1]; ?>;
-            modulo['C'] = <?php echo $this->modulo[2]; ?>;
-            modulo['A'] = <?php echo $this->modulo[3]; ?>;
-    <?php endif; ?>
-        var edit = <?php echo($_SESSION['idUtente'] == $this->squadra) ? "true" : "false" ?>;
-        // ]]>
-    </script>
 <?php else: ?>
     <p>La stagione è finita. Non puoi settare la formazione ora</p>
 <?php endif; ?>

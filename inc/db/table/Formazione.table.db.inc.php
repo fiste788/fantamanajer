@@ -10,12 +10,6 @@ class FormazioneTable extends FormazioneModel {
      *
      * @var int
      */
-    public $id;
-
-    /**
-     *
-     * @var int
-     */
     public $idGiornata;
 
     /**
@@ -55,7 +49,7 @@ class FormazioneTable extends FormazioneModel {
     public $jolly;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->idGiornata = is_null($this->idGiornata) ? NULL : $this->getIdGiornata();
         $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
         $this->modulo = is_null($this->modulo) ? NULL : $this->getModulo();

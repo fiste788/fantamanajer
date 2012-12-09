@@ -1,4 +1,5 @@
-
+var timestamp = $("#countdown").data("data-fine");
+var d = new Date(timestamp * 1000);
 var activeCountdown = false;
 var activeWell = false;
 var activeStickpanel = false;

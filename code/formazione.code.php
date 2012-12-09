@@ -28,7 +28,12 @@ for($i = 1; $i <= GIORNATA; $i++)
 	$giornate[$i] = $i;
 
 $quickLinks->set('giornata',$giornate,'Giornata ');
-$modulo = ($formazione != FALSE) ? explode('-',$formazione->modulo) : NULL;
+if($formazione != FALSE) {
+    $modulo = explode('-',$formazione->modulo);
+    $modulo = array_combine(array("P","D","C","A"), array_map('intval', $modulo));
+}
+else
+    $modulo = NULL;
 if($formazione != FALSE)
 	$contentTpl->assign('formazione',$formazione);
 
@@ -37,6 +42,7 @@ foreach ($formazione->giocatori as $key => $schieramento)
         $titolari[] = $schieramento->idGiocatore;
     else
         $panchinari[] = $schieramento->idGiocatore;
+
 $contentTpl->assign('titolari', $titolari);
 $contentTpl->assign('panchinari', $panchinari);
 $contentTpl->assign('giocatori',$giocatori);

@@ -8,12 +8,6 @@ class LegaTable extends LegaModel {
 
     /**
      *
-     * @var int
-     */
-    public $id;
-
-    /**
-     *
      * @var string
      */
     public $nome;
@@ -67,7 +61,7 @@ class LegaTable extends LegaModel {
     public $jolly;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->nome = is_null($this->nome) ? NULL : $this->getNome();
         $this->capitano = is_null($this->capitano) ? NULL : $this->isCapitano();
         $this->numTrasferimenti = is_null($this->numTrasferimenti) ? NULL : $this->getNumTrasferimenti();
@@ -77,15 +71,6 @@ class LegaTable extends LegaModel {
         $this->punteggioFormazioneDimenticata = is_null($this->punteggioFormazioneDimenticata) ? NULL : $this->getPunteggioFormazioneDimenticata();
         $this->capitanoFormazioneDimenticata = is_null($this->capitanoFormazioneDimenticata) ? NULL : $this->isCapitanoFormazioneDimenticata();
         $this->jolly = is_null($this->jolly) ? NULL : $this->isJolly();
-    }
-
-    /**
-     * Setter: id
-     * @param int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -167,14 +152,6 @@ class LegaTable extends LegaModel {
      */
     public function setJolly($jolly) {
         $this->jolly = (boolean) $jolly;
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

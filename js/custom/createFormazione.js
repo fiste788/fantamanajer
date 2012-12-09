@@ -1,5 +1,8 @@
 $(document).ready(function(){
-    if(typeof(modulo) != "undefined") {
+    var campo = $("#campo")
+    var modulo = campo.data("modulo");
+    var edit = campo.data("edit");
+    if(!$.isEmptyObject(modulo)) {
         var ruolo = 'P';
         var j = 0;
         var k = 0;

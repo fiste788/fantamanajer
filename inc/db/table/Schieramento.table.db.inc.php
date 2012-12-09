@@ -10,47 +10,32 @@ class SchieramentoTable extends SchieramentoModel {
      *
      * @var int
      */
-    var $id;
+    public $idFormazione;
 
     /**
      *
      * @var int
      */
-    var $idFormazione;
+    public $idGiocatore;
 
     /**
      *
      * @var int
      */
-    var $idGiocatore;
-
-    /**
-     *
-     * @var int
-     */
-    var $posizione;
+    public $posizione;
 
     /**
      *
      * @var int 0 = non ha giocato, 1 = giocato, 2 = capitano
      */
-    var $considerato;
+    public $considerato;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->idFormazione = is_null($this->idFormazione) ? NULL : $this->getIdFormazione();
         $this->idGiocatore = is_null($this->idGiocatore) ? NULL : $this->getIdGiocatore();
         $this->posizione = is_null($this->posizione) ? NULL : $this->getPosizione();
         $this->considerato = is_null($this->considerato) ? NULL : $this->getConsiderato();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -107,14 +92,6 @@ class SchieramentoTable extends SchieramentoModel {
     public function setGiocatore($giocatore) {
         $this->giocatore = $giocatore;
         $this->setIdGiocatore($giocatore->getId());
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

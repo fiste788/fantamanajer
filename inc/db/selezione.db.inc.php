@@ -101,19 +101,12 @@ class Selezione extends SelezioneTable {
             $giocatoreOld = Giocatore::getById($post->idGiocatoreOld);
             if ($giocatoreOld->ruolo == $giocatoreNew->ruolo) {
                 $numSelezioni = self::getNumberSelezioni($_SESSION['idUtente']);
-                if ($numSelezioni > $_SESSION['datiLega']->numSelezioni) {
-
-                    $message->warning('Hai già cambiato ' . $_SESSION['datiLega']->numSelezioni . ' volte il tuo acquisto');
-                    return FALSE;
-                }
-            } else {
-                $message->error('I giocatori devono avere lo stesso ruolo');
-                return FALSE;
-            }
-        } else {
-            $message->error('Hai raggiunto il limite di trasferimenti');
-            return FALSE;
-        }
+                if ($numSelezioni > $_SESSION['datiLega']->numSelezioni)
+                    throw new FormException("Hai già cambiato " . $_SESSION['datiLega']->numSelezioni . " volte il tuo acquisto");
+            } else
+                throw new FormException('I giocatori devono avere lo stesso ruolo');
+        } else
+            throw new FormException('Hai raggiunto il limite di trasferimenti');
         return TRUE;
     }
 
@@ -129,7 +122,7 @@ class Selezione extends SelezioneTable {
                 $trasferimento->setIdGiocatoreNew($val->idGiocatoreNew);
                 $trasferimento->setIdUtente($val->idUtente);
                 $trasferimento->setIdGiornata(GIORNATA);
-                $trasferimento->setObbligato(($val->getGiocatoreOld()->isAttivo()) ? '0' : '1');
+                $trasferimento->setObbligato(!$val->getGiocatoreOld()->isAttivo());
                 $trasferimento->save();
             }
             Selezione::svuota();

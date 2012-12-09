@@ -8,12 +8,6 @@ class ArticoloTable extends ArticoloModel {
 
     /**
      *
-     * @var int
-     */
-    public $id;
-
-    /**
-     *
      * @var string
      */
     public $titolo;
@@ -55,7 +49,7 @@ class ArticoloTable extends ArticoloModel {
     public $idLega;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->titolo = is_null($this->titolo) ? NULL : $this->getTitolo();
         $this->sottoTitolo = is_null($this->sottoTitolo) ? NULL : $this->getSottoTitolo();
         $this->testo = is_null($this->testo) ? NULL : $this->getTesto();
@@ -63,15 +57,6 @@ class ArticoloTable extends ArticoloModel {
         $this->idUtente = is_null($this->id) ? NULL : $this->getIdUtente();
         $this->idGiornata = is_null($this->id) ? NULL : $this->getIdGiornata();
         $this->idLega = is_null($this->id) ? NULL : $this->getIdLega();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -168,14 +153,6 @@ class ArticoloTable extends ArticoloModel {
     public function setGiornata($giornata) {
         $this->giornata = $giornata;
         $this->setIdGiornata($giornata->getIdGiornata());
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

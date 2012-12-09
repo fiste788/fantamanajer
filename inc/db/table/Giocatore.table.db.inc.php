@@ -8,12 +8,6 @@ class GiocatoreTable extends GiocatoreModel {
 
     /**
      *
-     * @var int
-     */
-    public $id;
-
-    /**
-     *
      * @var string
      */
     public $nome;
@@ -43,21 +37,12 @@ class GiocatoreTable extends GiocatoreModel {
     public $attivo;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->nome = is_null($this->nome) ? NULL : $this->getNome();
         $this->cognome = is_null($this->cognome) ? NULL : $this->getCognome();
         $this->ruolo = is_null($this->ruolo) ? NULL : $this->getRuolo();
         $this->idClub = is_null($this->idClub) ? NULL : $this->getIdClub();
         $this->attivo = is_null($this->attivo) ? NULL : $this->isAttivo();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -113,14 +98,6 @@ class GiocatoreTable extends GiocatoreModel {
     public function setClub($club) {
         $this->club = $club;
         $this->setIdClub($club->getId());
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

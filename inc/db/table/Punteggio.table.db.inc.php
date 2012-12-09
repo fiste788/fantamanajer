@@ -8,56 +8,41 @@ class PunteggioTable extends PunteggioModel {
 
     /**
      *
-     * @var int
+     * @var float
      */
-    var $id;
+    public $punteggio;
 
     /**
      *
      * @var float
      */
-    var $punteggio;
-
-    /**
-     *
-     * @var float
-     */
-    var $penalità;
+    public $penalità;
 
     /**
      *
      * @var int
      */
-    var $idGiornata;
+    public $idGiornata;
 
     /**
      *
      * @var int
      */
-    var $idUtente;
+    public $idUtente;
 
     /**
      *
      * @var int
      */
-    var $idLega;
+    public $idLega;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->punteggio = is_null($this->punteggio) ? NULL : $this->getPunteggio();
         $this->penalità = is_null($this->penalità) ? NULL : $this->getPenalità();
         $this->idGiornata = is_null($this->idGiornata) ? NULL : $this->getIdGiornata();
         $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
         $this->idLega = is_null($this->idLega) ? NULL : $this->getIdLega();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -103,14 +88,6 @@ class PunteggioTable extends PunteggioModel {
      */
     public function setIdLega($idLega) {
         $this->idLega = (int) $idLega;
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

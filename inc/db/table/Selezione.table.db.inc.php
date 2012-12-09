@@ -10,54 +10,39 @@ class SelezioneTable extends SelezioneModel {
      *
      * @var int
      */
-    var $id;
+    public $idLega;
 
     /**
      *
      * @var int
      */
-    var $idLega;
+    public $idUtente;
 
     /**
      *
      * @var int
      */
-    var $idUtente;
+    public $idGiocatoreOld;
 
     /**
      *
      * @var int
      */
-    var $idGiocatoreOld;
+    public $idGiocatoreNew;
 
     /**
      *
      * @var int
      */
-    var $idGiocatoreNew;
-
-    /**
-     *
-     * @var int
-     */
-    var $numSelezioni;
+    public $numSelezioni;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->idLega = is_null($this->idLega) ? NULL : $this->getIdLega();
         $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
         $this->idGiocatoreOld = is_null($this->idGiocatoreOld) ? NULL : $this->getIdGiocatoreOld();
         $this->idGiocatoreNew = is_null($this->idGiocatoreNew) ? NULL : $this->getIdGiocatoreNew();
         $this->numSelezioni = is_null($this->numSelezioni) ? NULL : $this->getNumSelezioni();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -143,14 +128,6 @@ class SelezioneTable extends SelezioneModel {
     public function setUtente($utente) {
         $this->utente = $utente;
         $this->setIdUtente($utente->getId());
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**

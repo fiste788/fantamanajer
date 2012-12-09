@@ -8,12 +8,6 @@ class UtenteTable extends UtenteModel {
 
     /**
      *
-     * @var int
-     */
-    public $id;
-
-    /**
-     *
      * @var string
      */
     public $nomeSquadra;
@@ -73,7 +67,7 @@ class UtenteTable extends UtenteModel {
     public $idLega;
 
     public function __construct() {
-        $this->id = is_null($this->id) ? NULL : $this->getId();
+        parent::__construct();
         $this->nomeSquadra = is_null($this->nomeSquadra) ? NULL : $this->getNomeSquadra();
         $this->cognome = is_null($this->cognome) ? NULL : $this->getCognome();
         $this->nome = is_null($this->nome) ? NULL : $this->getNome();
@@ -84,15 +78,6 @@ class UtenteTable extends UtenteModel {
         $this->amministratore = is_null($this->amministratore) ? NULL : $this->getAmministratore();
         $this->chiave = is_null($this->chiave) ? NULL : $this->getChiave();
         $this->idLega = is_null($this->idLega) ? NULL : $this->getIdLega();
-    }
-
-    /**
-     * Setter: id
-     * @param Int $id
-     * @return void
-     */
-    public function setId($id) {
-        $this->id = (int) $id;
     }
 
     /**
@@ -193,14 +178,6 @@ class UtenteTable extends UtenteModel {
     public function setLega($lega) {
         $this->lega = $lega;
         $this->idLega = $lega->getIdLega();
-    }
-
-    /**
-     * Getter: id
-     * @return Int
-     */
-    public function getId() {
-        return (int) $this->id;
     }
 
     /**
