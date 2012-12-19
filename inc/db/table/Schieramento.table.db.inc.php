@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Schieramento.model.db.inc.php');
 
-class SchieramentoTable extends SchieramentoModel {
+abstract class SchieramentoTable extends SchieramentoModel {
 
     const TABLE_NAME = 'schieramento';
 

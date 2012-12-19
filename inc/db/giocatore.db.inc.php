@@ -7,7 +7,7 @@ class Giocatore extends GiocatoreTable {
     public function save($numEvento = NULL) {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            parent::save();
+            parent::save($numEvento);
             if (!is_null($numEvento)) {
                 require_once(INCDBDIR . 'evento.db.inc.php');
                 $evento = new Evento();

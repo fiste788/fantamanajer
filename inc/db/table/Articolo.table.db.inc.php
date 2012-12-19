@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Articolo.model.db.inc.php');
 
-class ArticoloTable extends ArticoloModel {
+abstract class ArticoloTable extends ArticoloModel {
 
     const TABLE_NAME = "articolo";
 

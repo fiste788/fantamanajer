@@ -7,24 +7,18 @@ if (!Request::getInstance()->has('id') || (Request::getInstance()->has('id') && 
 elseif (($articolo = Articolo::getById(Request::getInstance()->get('id'))) === FALSE)
     Request::send404();
 
-try {
-    if (Request::getInstance()->get('submit') == 'Rimuovi') {
-        $articolo->delete();
-        $message->success('Cancellazione effettuata con successo');
-    } else {
-        $articolo->setIdUtente($_SESSION['idUtente']);
-        $articolo->setIdGiornata(GIORNATA);
-        $articolo->setIdLega(1);
-        $articolo->setDataCreazione('now');
-        $articolo->save();
-        $message->success("Inserimento completato con successo");
-    }
-    $_SESSION['message'] = $message;
-    Request::goToUrl('conferenzeStampa');
-} catch (FormException $fe) {
-    $message->warning($fe->getMessage());
-} catch (PDOException $e) {
-    $message->error($e->getMessage());
+if (Request::getInstance()->get('submit') == 'Rimuovi') {
+    $articolo->delete();
+    $message->success('Cancellazione effettuata con successo');
+} else {
+    $articolo->setIdUtente($_SESSION['idUtente']);
+    $articolo->setIdGiornata(GIORNATA);
+    $articolo->setIdLega(1);
+    $articolo->setDataCreazione('now');
+    $articolo->save();
+    $message->success("Inserimento completato con successo");
 }
-$contentTpl->assign('articolo', $articolo);
+$_SESSION['message'] = $message;
+Request::goToUrl('conferenzeStampa');
+
 ?>

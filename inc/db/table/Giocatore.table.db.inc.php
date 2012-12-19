@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Giocatore.model.db.inc.php');
 
-class GiocatoreTable extends GiocatoreModel {
+abstract class GiocatoreTable extends GiocatoreModel {
 
     const TABLE_NAME = "giocatore";
 

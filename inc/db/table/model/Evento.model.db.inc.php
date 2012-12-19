@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class EventoModel extends DbTable {
+abstract class EventoModel extends DbTable {
 
     /**
      *

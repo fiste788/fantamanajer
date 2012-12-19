@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Evento.model.db.inc.php');
 
-class EventoTable extends EventoModel {
+abstract class EventoTable extends EventoModel {
 
     const TABLE_NAME = 'evento';
 

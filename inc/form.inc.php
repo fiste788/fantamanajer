@@ -1,11 +1,7 @@
 <?php
-abstract class Form
-{
-	var $dbTable;
+interface Form {
 
-	function __construct($tabella) {
-		$this->dbTable = $tabella;
-	}
+	function check($parameters);
 
 }
 ?>

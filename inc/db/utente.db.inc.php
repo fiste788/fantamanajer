@@ -92,7 +92,27 @@ class Utente extends UtenteTable {
      * @return boolean
      */
     public function check($array) {
-        if (isset($_FILES['logo'])) {
+        require_once(INCDIR . 'mail.inc.php');
+
+		$postArray = Request::getInstance()->getRawData('post')['utente'];
+        $post = (object) $postArray;
+		foreach($postArray as $key => $val) {
+			if($key != "mailAbilitata" && $key != "password" && $key != "passwordrepeat" && empty($val))
+				throw new FormException("Non hai compilato tutti i campi");
+		}
+		if(!empty($post->password) && !empty($post->passwordrepeat)) {
+			if($post->password == $post->passwordrepeat) {
+				if(strlen($post->password) < 6)
+					throw new FormException("La password deve essere lunga almeno 6 caratteri");
+			} else
+				throw new FormException("Le 2 password non corrispondono");
+		}
+		if(!Mail::checkEmailAddress($this->getEmail()))
+			throw new FormException("Indirizzo email non valido");
+        if($this->getNomeSquadra() != "" && Utente::getSquadraByNome($this->getNomeSquadra(),$this->getId()) != FALSE)
+			throw new FormException("Il nome della squadra è già presente");
+
+        if (isset($_FILES['logo']) && !empty($_FILES['logo']['name'])) {
             $logo = (object) $_FILES['logo'];
             $allowedTypes = array("image/jpeg", "image/pjpeg", "image/gif", "image/png");
             if (!in_array($logo->type, $allowedTypes))

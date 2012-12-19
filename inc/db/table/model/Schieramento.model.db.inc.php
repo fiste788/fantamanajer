@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class SchieramentoModel extends DbTable {
+abstract class SchieramentoModel extends DbTable {
 
     /**
      *

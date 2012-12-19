@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Voto.model.db.inc.php');
 
-class VotoTable extends VotoModel {
+abstract class VotoTable extends VotoModel {
 
     const TABLE_NAME = "voto";
 

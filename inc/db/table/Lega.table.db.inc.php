@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Lega.model.db.inc.php');
 
-class LegaTable extends LegaModel {
+abstract class LegaTable extends LegaModel {
 
     const TABLE_NAME = "lega";
 

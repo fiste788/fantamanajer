@@ -17,6 +17,7 @@
                 <th class="hidden-phone"><abbr title="Titolare">Tit</abbr></th>
                 <th class="hidden-phone"><abbr title="Ammonito">Amm</abbr></th>
                 <th class="hidden-phone"><abbr title="Espulso">Esp</abbr></th>
+                <th class="hidden-phone">Assist</th>
                 <th class="hidden-phone">Gol</th>
                 <th>Punti</th>
 			</tr>
@@ -30,8 +31,9 @@
 					<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif; ?></td>
                     <td class="hidden-phone"><?php if($giocatore->ammonito): ?><i class="icon-ok"></i><?php endif; ?></td>
                     <td class="hidden-phone"><?php if($giocatore->espulso): ?><i class="icon-ok"></i><?php endif; ?></td>
-                    <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : "&nbsp;"; ?></td>
-					<td><?php if(!empty($giocatore->punti)) echo ($giocatore->considerato == '2') ? $giocatore->punti * 2 : $giocatore->punti; else "&nbsp;"; ?></td>
+                    <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : ""; ?></td>
+                    <td class="hidden-phone"><?php echo ($giocatore->assist != 0) ? $giocatore->assist : ""; ?></td>
+					<td><?php if(!empty($giocatore->punti)) echo ($giocatore->considerato == '2') ? $giocatore->punti * 2 : $giocatore->punti; ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -47,6 +49,7 @@
                     <th class="hidden-phone"><abbr title="Titolare">Tit</abbr></th>
                     <th class="hidden-phone"><abbr title="Ammonito">Amm</abbr></th>
                     <th class="hidden-phone"><abbr title="Espulso">Esp</abbr></th>
+                    <th class="hidden-phone">Assist</th>
                     <th class="hidden-phone">Gol</th>
                     <th>Punti</th>
 				</tr>
@@ -60,8 +63,9 @@
 						<td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="icon-ok"></i><?php endif; ?></td>
                         <td class="hidden-phone"><?php if($giocatore->ammonito): ?><i class="icon-ok"></i><?php endif; ?></td>
                         <td class="hidden-phone"><?php if($giocatore->espulso): ?><i class="icon-ok"></i><?php endif; ?></td>
-                        <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : "&nbsp;"; ?></td>
-						<td><?php echo (!empty($giocatore->punti)) ? $giocatore->punti : "&nbsp;"; ?></td>
+                        <td class="hidden-phone"><?php echo ($giocatore->gol != 0) ? $giocatore->gol : ""; ?></td>
+                        <td class="hidden-phone"><?php echo ($giocatore->assist != 0) ? $giocatore->assist : ""; ?></td>
+						<td><?php echo (!empty($giocatore->punti)) ? $giocatore->punti : ""; ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

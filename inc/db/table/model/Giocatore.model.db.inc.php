@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class GiocatoreModel extends DbTable {
+abstract class GiocatoreModel extends DbTable {
 
     /**
      *

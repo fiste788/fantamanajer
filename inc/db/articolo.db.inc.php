@@ -7,7 +7,7 @@ class Articolo extends ArticoloTable {
     public function save($parameters = NULL) {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            parent::save();
+            parent::save($parameters);
             $evento = new Evento();
             $evento->setTipo(Evento::CONFERENZASTAMPA);
             $evento->setData($this->getDataCreazione());
@@ -84,9 +84,8 @@ class Articolo extends ArticoloTable {
         return $values;
     }
 
-    public function check($array) {
-        $post = (object) $array;
-        if (empty($post->titolo) || empty($post->testo))
+    public function check($parameters) {
+        if (empty($this->titolo) || empty($this->testo))
             throw new FormException('Non hai compilato correttamente tutti i campi');
         return TRUE;
     }

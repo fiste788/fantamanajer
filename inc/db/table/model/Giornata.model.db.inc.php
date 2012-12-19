@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class GiornataModel extends DbTable {
+abstract class GiornataModel extends DbTable {
 
     /**
      *

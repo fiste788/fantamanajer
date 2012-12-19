@@ -1,15 +1,12 @@
-<?php 
+<?php
 require_once(INCDBDIR . "trasferimento.db.inc.php");
 require_once(INCDBDIR . "selezione.db.inc.php");
 
 $filterId = Request::getInstance()->has('id') ? Request::getInstance()->get('id') : $_SESSION['idUtente'];
 $selezione = Selezione::getSelezioneByIdSquadra($_SESSION['idUtente']);
-if($_SESSION['logged'])
-{
-	if($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti )
-	{
-		if(!empty($selezione))
-		{
+if($_SESSION['logged']) {
+	if($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti ) {
+		if(!empty($selezione)) {
 			$acquistoId = $selezione->giocatoreNew;
 			$lasciatoId = $selezione->giocatoreOld;
 		}

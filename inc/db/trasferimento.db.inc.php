@@ -8,7 +8,7 @@ class Trasferimento extends TrasferimentoTable {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
 
-            $idTrasferimento = parent::save();
+            parent::save($parameters);
             require_once(INCDBDIR . 'squadra.db.inc.php');
             require_once(INCDBDIR . 'formazione.db.inc.php');
             require_once(INCDBDIR . 'evento.db.inc.php');
@@ -31,13 +31,13 @@ class Trasferimento extends TrasferimentoTable {
                 if ($this->getIdGiocatoreOld() == $formazione->getIdVVCapitano())
                     $formazione->setIdVVCapitano($this->getIdGiocatoreNew());
                 $titolari = array_splice($giocatoriIds,0, 11);
-                $formazione->save(array('titolari'=>$titolari,'panchinari'=>$giocatoriIds,'evento'=>false));
+                $formazione->save(array('titolari'=>$titolari,'panchinari'=>$giocatoriIds,'evento'=>FALSE));
             }
             $evento = new Evento();
             $evento->setTipo(Evento::TRASFERIMENTO);
             $evento->setIdUtente($this->getIdUtente());
             $evento->setIdLega($idLega);
-            $evento->setIdExternal($idTrasferimento);
+            $evento->setIdExternal($this->getId());
             $evento->save();
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {

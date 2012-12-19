@@ -47,7 +47,8 @@ $ruoli['A'] = new Ruolo("Attaccante", "Attaccanti", "ATT");
 
 $generalJs = array();
 //$generalJs[] = 'font/font.js';
-$generalJs[] = 'jquery/jquery.js';
+$generalJs[] = 'jquery/jquery-1.9.0b1.js';
+$generalJs[] = 'jquery/jquery-migrate-1.0.0b1.js';
 $generalJs[] = 'syze/syze.js';
 $generalJs[] = 'ui/jquery.ui.effect.js';
 $generalJs[] = 'ui/jquery.ui.effect-pulsate.js';

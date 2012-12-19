@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Giornata.model.db.inc.php');
 
-class GiornataTable extends GiornataModel {
+abstract class GiornataTable extends GiornataModel {
 
     const TABLE_NAME = "giornata";
 

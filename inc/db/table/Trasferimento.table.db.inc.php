@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Trasferimento.model.db.inc.php');
 
-class TrasferimentoTable extends TrasferimentoModel {
+abstract class TrasferimentoTable extends TrasferimentoModel {
 
     const TABLE_NAME = "trasferimento";
 

@@ -3,12 +3,7 @@
 include_once(INCDIR . 'createZip.inc.php');
 
 if (Request::getInstance()->has('giornata') && Request::getInstance()->get('giornata') != "" && Request::getInstance()->has('type')) {
-
-    if (Request::getInstance()->get('type') == 'csv')
-        $path = VOTICSVDIR;
-    else
-        $path = VOTIXMLDIR;
-    FirePHP::getInstance()->log($path);
+    $path = (Request::getInstance()->get('type') == 'csv') ? VOTICSVDIR : VOTIXMLDIR;
     if (Request::getInstance()->get('giornata') == "all") {
         $createZip = new createZip();
         $path = $createZip->createZipFromDir($path, 'voti' . strtoupper(Request::getInstance()->get('type')));

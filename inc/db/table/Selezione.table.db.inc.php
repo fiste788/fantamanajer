@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Selezione.model.db.inc.php');
 
-class SelezioneTable extends SelezioneModel {
+abstract class SelezioneTable extends SelezioneModel {
 
     const TABLE_NAME = 'selezione';
 

@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class LegaModel extends DbTable {
+abstract class LegaModel extends DbTable {
 
     /**
      *

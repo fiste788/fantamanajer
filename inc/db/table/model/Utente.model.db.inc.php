@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class UtenteModel extends DbTable {
+abstract class UtenteModel extends DbTable {
 
     /**
      *

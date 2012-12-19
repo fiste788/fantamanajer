@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Utente.model.db.inc.php');
 
-class UtenteTable extends UtenteModel {
+abstract class UtenteTable extends UtenteModel {
 
     const TABLE_NAME = "utente";
 

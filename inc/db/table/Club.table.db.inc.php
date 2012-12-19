@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Club.model.db.inc.php');
 
-class ClubTable extends ClubModel {
+abstract class ClubTable extends ClubModel {
 
     const TABLE_NAME = 'club';
 

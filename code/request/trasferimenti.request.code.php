@@ -3,12 +3,10 @@ require_once(INCDBDIR . "trasferimento.db.inc.php");
 require_once(INCDBDIR . "selezione.db.inc.php");
 require_once(INCDBDIR . "evento.db.inc.php");
 
-
 if(($selezione = Selezione::getByField('idUtente',$_SESSION['idUtente'])) == FALSE)
 	$selezione = new Selezione();
 
-if($_SESSION['logged'])
-{
+if($_SESSION['logged']){
 	if(Request::getInstance()->get('submit') == 'Cancella acq.') {
 		Selezione::unsetSelezioneByIdSquadra($_SESSION['idUtente']);
 		$message->success('Cancellazione eseguita con successo');

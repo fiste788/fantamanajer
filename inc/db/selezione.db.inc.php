@@ -24,7 +24,7 @@ class Selezione extends SelezioneTable {
 				FROM selezione
 				WHERE idGiocatoreNew = '" . $idGiocatore . "' AND idLega = '" . $idLega . "'";
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        $exe->fetchObject(__CLASS__);
+        $values = $exe->fetchObject(__CLASS__);
         if ($values != FALSE)
             return $values->idUtente;
         else
@@ -125,7 +125,7 @@ class Selezione extends SelezioneTable {
                 $trasferimento->setObbligato(!$val->getGiocatoreOld()->isAttivo());
                 $trasferimento->save();
             }
-            Selezione::svuota();
+            self::svuota();
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();

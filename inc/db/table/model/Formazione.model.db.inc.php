@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'DbTable.inc.php');
 
-class FormazioneModel extends DbTable {
+abstract class FormazioneModel extends DbTable {
 
     /**
      *

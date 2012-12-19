@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Formazione.model.db.inc.php');
 
-class FormazioneTable extends FormazioneModel {
+abstract class FormazioneTable extends FormazioneModel {
 
     const TABLE_NAME = 'formazione';
 

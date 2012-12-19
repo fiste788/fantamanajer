@@ -37,15 +37,15 @@ class Formazione extends FormazioneTable {
 
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            $idFormazione = parent::save();
+            parent::save($parameters);
             if (!empty($giocatoriIds)) {
 				$success = TRUE;
-                $schieramenti = Schieramento::getSchieramentoById($idFormazione);
+                $schieramenti = Schieramento::getSchieramentoById($this->getId());
                 foreach ($giocatoriIds as $posizione => $idGiocatore) {
                     $schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
                     if (!is_null($idGiocatore) && !empty($idGiocatore)) {
                         if ($schieramento->idGiocatore != $idGiocatore) {
-                            $schieramento->setIdFormazione($idFormazione);
+                            $schieramento->setIdFormazione($this->getId());
                             $schieramento->setPosizione($posizione + 1);
                             $schieramento->setIdGiocatore($idGiocatore);
                             $schieramento->setConsiderato(0);
@@ -57,7 +57,7 @@ class Formazione extends FormazioneTable {
                 if ($success) {
                     if (!isset($parameters['evento']) || (isset($parameters['evento']) && $parameters['evento'] !== FALSE)) {
                         $evento = new Evento();
-                        $evento->setIdExternal($idFormazione);
+                        $evento->setIdExternal($this->getId());
                         $evento->setIdUtente($this->getIdUtente());
                         $evento->setIdLega($this->getUtente()->getIdLega());
                         $evento->setTipo(Evento::FORMAZIONE);

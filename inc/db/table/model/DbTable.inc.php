@@ -1,11 +1,13 @@
 <?php
-
+require_once(INCDIR . 'form.inc.php');
 require_once(INCDIR . 'formException.inc.php');
-;
 
-abstract class DbTable {
+
+abstract class DbTable implements Form {
 
     const TABLE_NAME = "";
+
+    private $originalValues = NULL;
 
     /**
      *
@@ -14,7 +16,12 @@ abstract class DbTable {
     public $id;
 
     public function __construct() {
+        $this->originalValues = get_object_vars($this);
         $this->id = is_null($this->id) ? NULL : $this->getId();
+        $classe = strtolower(get_called_class());
+        $postArray = Request::getInstance()->getRawData('post');
+        if(isset($postArray[$classe]))
+            $this->fromArray($postArray[$classe], FALSE);
     }
 
     /**
@@ -130,17 +137,27 @@ abstract class DbTable {
      * @return boolean
      */
     public function save($parameters = NULL) {
-
-        $this->validate();
+        try {
+            $this->check($parameters);
+        } catch(FormException $e) {
+            $this->fromArray(Request::getInstance()->getRawData('post'), TRUE);
+            throw $e;
+        }
         $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
-        //unset($vars['id']);
+        unset($vars['originalValues']);
         if ($this->getId() != "" && !is_null($this->getId()) && $this->getById($this->getId()) != FALSE) {
-            $q = "UPDATE " . $this::TABLE_NAME . " SET ";
-            foreach ($vars as $key => $value)
-                $values[] = $key . " = " . self::valueToSql($value);
-            $q .= implode($values, ", ") . " WHERE id = " . $this->getId();
-            ConnectionFactory::getFactory()->getConnection()->exec($q);
-            FirePHP::getInstance()->log($q);
+            $values = array();
+            foreach ($vars as $key => $value) {
+                $currentVal = self::valueToSql($value);
+                if($currentVal != self::valueToSql($this->originalValues[$key]))
+                    $values[] = $key . " = " . $currentVal;
+            }
+            if(!empty($values)) {
+                $q = "UPDATE " . $this::TABLE_NAME . "
+                        SET " . implode($values, ", ") . " WHERE id = " . $this->getId();
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
+                FirePHP::getInstance()->log($q);
+            }
             return $this->getId();
         } else {
             if ($this->getId() == "" || is_null($this->getId()))
@@ -229,6 +246,10 @@ abstract class DbTable {
                     $this->$key = $value;
             }
         }
+    }
+
+    public function getOriginalValues($name) {
+        return isset($this->originalValues[$name]) ? $this->originalValues[$name] : NULL;
     }
 
     public function check($array) {

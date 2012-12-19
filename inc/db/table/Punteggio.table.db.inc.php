@@ -2,7 +2,7 @@
 
 require_once(MODELDIR . 'Punteggio.model.db.inc.php');
 
-class PunteggioTable extends PunteggioModel {
+abstract class PunteggioTable extends PunteggioModel {
 
     const TABLE_NAME = 'punteggio';
 
