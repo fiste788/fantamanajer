@@ -1,5 +1,7 @@
 <?php
 
+namespace Fantamanajer\Database\Table;
+
 require_once(MODELDIR . 'Lega.model.db.inc.php');
 
 abstract class LegaTable extends LegaModel {

@@ -1,0 +1,221 @@
+a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:3468:".clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+article,
+details,
+figcaption,
+figure,
+hgroup {
+  margin: 0;
+}
+fieldset {
+  border: 0 none;
+  padding: 10px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+}
+select {
+  line-height: 24px;
+}
+h1 a {
+  font-weight: normal !important;
+  font-size: 22px;
+}
+h2 a {
+  font-weight: normal !important;
+  font-size: 20px;
+}
+h3 a {
+  font-weight: normal !important;
+  font-size: 18px;
+}
+h4 a {
+  font-weight: normal !important;
+  font-size: 16px;
+}
+p {
+  font-size: 12px;
+}
+em {
+  background-color: transparent;
+  color: #777;
+}
+a,
+a:link,
+a:visited,
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+a {
+  -webkit-transition: all 0.2s linear 0s;
+  -moz-transition: all 0.2s linear 0s;
+  -o-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+.formbox {
+  clear: both;
+  float: left;
+  padding: 6px 0;
+}
+.formbox label {
+  width: 150px;
+}
+.center {
+  text-align: center;
+}
+ul.inline li {
+  display: inline;
+  margin: 0 15px 0 0;
+}
+ul.no-dotted {
+  list-style-type: none;
+  margin: 0;
+}
+label {
+  font-weight: bold;
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+input.small {
+  width: 20px;
+}
+.column {
+  float: left;
+}
+form {
+  margin: 0;
+}
+.right {
+  float: right;
+}
+.foto {
+  -webkit-transform: rotate(-2deg);
+  -moz-transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg);
+  -o-transform: rotate(-2deg);
+  transform: rotate(-2deg);
+}
+.foto.left {
+  float: left;
+  margin-right: 20px;
+}
+.logo.left {
+  float: left;
+  margin-right: 20px;
+}
+.no-wrap,
+.nowrap {
+  white-space: nowrap;
+}
+.ammonizione,
+.espulsione {
+  width: 10px;
+  height: 15px;
+  display: block;
+  -webkit-box-shadow: 1px 1px 2px #AAAAAA;
+  -moz-box-shadow: 1px 1px 2px #AAAAAA;
+  box-shadow: 1px 1px 2px #AAAAAA;
+}
+.ammonizione {
+  background-color: yellow;
+}
+.espulsione {
+  background-color: red;
+}
+#grafico {
+  margin: 0 auto;
+  width: 724px;
+  clear: both;
+  overflow: hidden;
+}
+#grafico #overview {
+  float: left;
+  cursor: pointer;
+  margin-right: 12px;
+}
+#grafico #placeholder {
+  width: 100%;
+}
+#grafico #clear-selection {
+  display: none;
+}
+table .headerSortUp,
+table .headerSortDown {
+  background-color: rgba(141,192,219,0.25);
+  text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+}
+table .headerSortDown:after,
+table .headerSortDown:hover:after {
+  visibility: visible;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+table .header {
+  cursor: pointer;
+}
+table .header:after {
+  content: "";
+  float: right;
+  margin-top: 7px;
+  border-width: 0 4px 4px;
+  border-style: solid;
+  border-color: #000000 transparent;
+  visibility: hidden;
+}
+table .header:hover:after {
+  visibility: visible;
+}
+table .headerSortUp:after {
+  border-bottom: none;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #000000;
+  visibility: visible;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+@media (max-width: 480px) {
+  .visible-small-phone {
+    display: inherit !important;
+  }
+  .hidden-small-phone {
+    display: none !important;
+  }
+}
+";s:5:"files";a:3:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1354965755;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1356703253;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1355066309;}s:7:"updated";i:1356703261;}

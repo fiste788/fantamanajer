@@ -1,8 +1,8 @@
 <?php
 
-require_once(MODELDIR . 'DbTable.inc.php');
+namespace Fantamanajer\Database\Table;
 
-abstract class LegaModel extends DbTable {
+abstract class LegaModel extends \Fantamanajer\Database\Table {
 
     /**
      *
