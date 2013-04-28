@@ -20,14 +20,14 @@
                 </div>
                 <ul class="no-dotted">
                     <li>
-                        <a href="<?php echo ""; ?>" title="Trasferimenti">Trasferimenti</a>
+                        <a href="<?php echo $this->router->generate('trasferimento_index',array('idUtente'=>$squadra->id)); ?>" title="Trasferimenti">Trasferimenti</a>
                     </li>
                     <li>
                         <a href="<?php echo "" ?>" title="Formazione">Formazione</a>
                     </li>
                     <?php if ($this->currentGiornata > 1): ?>
                         <li>
-                            <a href="<?php "" ?>" title="Ultima giornata">Ultima giornata</a>
+                            <a href="<?php echo $this->router->generate('punteggio_show',array('idUtente'=>$squadra->id,'idGiornata'=>$this->ultimaGiornata)) ?>" title="Ultima giornata">Ultima giornata</a>
                         </li>
                     <?php endif; ?>
                 </ul>

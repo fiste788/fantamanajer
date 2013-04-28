@@ -61,7 +61,6 @@ abstract class LegaTable extends \Lib\Database\Table {
     public $jolly;
 
     public function __construct() {
-        parent::__construct();
         $this->nome = is_null($this->nome) ? NULL : $this->getNome();
         $this->capitano = is_null($this->capitano) ? NULL : $this->isCapitano();
         $this->numTrasferimenti = is_null($this->numTrasferimenti) ? NULL : $this->getNumTrasferimenti();
@@ -71,6 +70,7 @@ abstract class LegaTable extends \Lib\Database\Table {
         $this->punteggioFormazioneDimenticata = is_null($this->punteggioFormazioneDimenticata) ? NULL : $this->getPunteggioFormazioneDimenticata();
         $this->capitanoFormazioneDimenticata = is_null($this->capitanoFormazioneDimenticata) ? NULL : $this->isCapitanoFormazioneDimenticata();
         $this->jolly = is_null($this->jolly) ? NULL : $this->isJolly();
+        parent::__construct();
     }
 
     /**

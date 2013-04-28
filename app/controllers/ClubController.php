@@ -6,7 +6,7 @@ use \Fantamanajer\Models as Models;
 class ClubController extends ApplicationController {
 
     public function index() {
-        $this->templates['contentTpl']->assign('elencoClub',Models\Club::getList());
+        $this->templates['content']->assign('elencoClub',Models\Club::getList());
     }
 
     public function show() {
@@ -17,9 +17,9 @@ class ClubController extends ApplicationController {
 
         $this->quickLinks->set('id',$elencoClub,"");
         $giocatori = Models\View\GiocatoreStatistiche::getByField('idClub',$dettaglioClub->id);
-        $this->templates['contentTpl']->assign('giocatori',$giocatori);
-        $this->templates['contentTpl']->assign('clubDett',$dettaglioClub);
-        $this->templates['operationTpl']->assign('elencoClub',$elencoClub);
+        $this->templates['content']->assign('giocatori',$giocatori);
+        $this->templates['content']->assign('clubDett',$dettaglioClub);
+        $this->templates['operation']->assign('elencoClub',$elencoClub);
     }
 }
 

@@ -38,7 +38,7 @@ abstract class ApplicationController extends \Lib\BaseController {
 
     public function __construct($controller, $action, $router, $route) {
         parent::__construct($controller, $action, $router, $route);
-        $this->templates['operationTpl'] = new \Savant3(array('template_path' => OPERATIONSDIR));
+        $this->templates['operation'] = new \Savant3(array('template_path' => OPERATIONSDIR));
     }
 
     public function notAuthorized() {
@@ -47,11 +47,10 @@ abstract class ApplicationController extends \Lib\BaseController {
     }
 
     public function initialize() {
-        $ruoli = array();
-        $ruoli['P'] = new Lib\Ruolo("Portiere", "Portieri", "POR");
-        $ruoli['D'] = new Lib\Ruolo("Difensore", "Difensori", "DIF");
-        $ruoli['C'] = new Lib\Ruolo("Centrocampista", "Centrocampisti", "CEN");
-        $ruoli['A'] = new Lib\Ruolo("Attaccante", "Attaccanti", "ATT");
+        $this->ruoli['P'] = new Lib\Ruolo("Portiere", "Portieri", "POR");
+        $this->ruoli['D'] = new Lib\Ruolo("Difensore", "Difensori", "DIF");
+        $this->ruoli['C'] = new Lib\Ruolo("Centrocampista", "Centrocampisti", "CEN");
+        $this->ruoli['A'] = new Lib\Ruolo("Attaccante", "Attaccanti", "ATT");
 
         $leghe = Models\Lega::getList();
         if (isset($_POST['legaView']))
@@ -61,7 +60,7 @@ abstract class ApplicationController extends \Lib\BaseController {
         $this->currentGiornata = Models\Giornata::getCurrentGiornata();
         $this->currentLega = $leghe[$_SESSION['legaView']];
         foreach ($this->templates as $savant) {
-            $savant->assign('ruoli', $ruoli);
+            $savant->assign('ruoli', $this->ruoli);
             $savant->assign('dataFine', date_parse($this->currentGiornata->getData()->format("Y-m-d H:i:s")));
             $savant->assign('timestamp', $this->currentGiornata->getData()->getTimestamp());
             $savant->assign('currentGiornata',$this->currentGiornata->getId());
@@ -72,9 +71,9 @@ abstract class ApplicationController extends \Lib\BaseController {
             $savant->assign('request',\Lib\Request::getInstance());
         }
         $this->quickLinks = new Lib\QuickLinks($this->request,$this->router,$this->route);
-        $this->templates['navbarTpl']->assign('entries',$this->pages);
+        $this->templates['navbar']->assign('entries',$this->pages);
         $this->initializeNotifiche();
-        $this->templates['navbarTpl']->assign('notifiche',$this->notifiche);
+        $this->templates['navbar']->assign('notifiche',$this->notifiche);
     }
 
     private function initializeNotifiche() {
@@ -91,11 +90,11 @@ abstract class ApplicationController extends \Lib\BaseController {
 
     public function fetchOperationTpl() {
         $tpl = $this->controller . DS . $this->action . '.php';
-        return file_exists(OPERATIONSDIR . $tpl) ? $this->templates['operationTpl']->fetch($this->controller . DS . $this->action . '.php') : "";
+        return file_exists(OPERATIONSDIR . $tpl) ? $this->templates['operation']->fetch($this->controller . DS . $this->action . '.php') : "";
     }
 
     public function render() {
-        $this->templates['layoutTpl']->assign("quickLinks",$this->quickLinks);
+        $this->templates['layout']->assign("quickLinks",$this->quickLinks);
         $this->fetched['operation'] = $this->fetchOperationTpl();
         parent::render();
     }

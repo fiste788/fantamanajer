@@ -1,6 +1,7 @@
 <?php
 
 namespace Fantamanajer\Models;
+use \Lib\Database as Db;
 
 class Evento extends \Fantamanajer\Models\Table\EventoTable {
 
@@ -15,7 +16,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
     public static function deleteEventoByIdExternalAndTipo($idExternal, $tipo) {
         $q = "DELETE
 				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
-        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
+        return (Db\ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
 
     /**
@@ -27,12 +28,6 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
      * @return Evento[]
      */
     public static function getEventi($idLega, $tipo = NULL, $min = 0, $max = 10) {
-        require_once(INCDBDIR . 'articolo.db.inc.php');
-        require_once(INCDBDIR . 'trasferimento.db.inc.php');
-        require_once(INCDBDIR . 'formazione.db.inc.php');
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
-        require_once(INCDIR . 'links.inc.php');
-
         $ruoli = array("articoli" =>
             array(
                 'P' => "il",
@@ -54,8 +49,8 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
             $q .= " AND tipo = '" . $tipo . "'";
         $q .= " ORDER BY data DESC
 				LIMIT " . $min . "," . $max . ";";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        $values = $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
+        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
+        $values = $exe->fetchAll(\PDO::FETCH_CLASS,__CLASS__);
         if ($values) {
             foreach ($values as $key => $val) {
                 $val->titolo = "";
@@ -69,7 +64,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                         if (!empty($values[$key]->idExternal->abstract))
                             $values[$key]->content = '<em>' . $values[$key]->idExternal->sottoTitolo . '</em><br />';
                         $values[$key]->content .= $values[$key]->idExternal->testo;
-                        $values[$key]->link = Links::getLink('conferenzeStampa', array('giorn' => $values[$key]->idExternal->idGiornata));
+                        $values[$key]->link = \Lib\Router::generate('articoli',array('giornata'=>$values[$key]->idExternal->idGiornata));
                         break;
                     case self::SELEZIONEGIOCATORE: $values[$key]->titolo = $val->nomeSquadra . ' ha selezionato un giocatore per l\'acquisto';
                         $values[$key]->content = ' ';
@@ -85,7 +80,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                         foreach ($titolari as $key2 => $val2)
                             $values[$key]->content .= $val2->getGiocatore()->cognome . ', ';
                         $values[$key]->content = substr($values[$key]->content, 0, -2);
-                        $values[$key]->link = Links::getLink('formazione', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
+                        $values[$key]->link = \Lib\Router::generate('formazione_edit', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
                         break;
                     case self::TRASFERIMENTO:
                         $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
@@ -96,7 +91,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                             $val->idExternal->idGiocatoreOld = $giocOld->id;
                             $val->idExternal->idGiocatoreNew = $giocNew->id;
                             $val->content = $val->nomeSquadra . ' ha ceduto il giocatore ' . $giocOld . ' e ha acquistato ' . $giocNew;
-                            $val->link = Links::getLink('trasferimenti', array('id' => $val->idExternal->idUtente));
+                            $val->link = \Lib\Router::getRouter()->generate('trasferimenti', array('id' => $val->idExternal->idUtente));
                             unset($giocOld, $giocNew);
                         }
                         break;
@@ -105,20 +100,20 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                         //$selected = $player[$values[$key]->idExternal];
                         $values[$key]->titolo = $player->nome . ' ' . $player->cognome . ' (' . $player->getClub()->getNome() . ') inserito nella lista giocatori';
                         $values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' ora fa parte della rosa ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome . ', pertanto è stato inserito nella lista giocatori';
-                        $values[$key]->link = Links::getLink('dettaglioGiocatore', array('edit' => 'view', 'id' => $player->id));
+                        $values[$key]->link = \Lib\Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
 
                         break;
                     case self::RIMOSSOGIOCATORE:
                         $player = Giocatore::getById($values[$key]->idExternal);
                         $values[$key]->titolo = $player . ' (ex ' . $player->getClub()->nome . ') non fa più parte della lista giocatori';
                         $values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' non è più un giocatore ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome;
-                        $values[$key]->link = Links::getLink('dettaglioGiocatore', array('edit' => 'view', 'id' => $player->id));
+                        $values[$key]->link = \Lib\Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
                         break;
                     case self::CAMBIOCLUB:
                         $player = Giocatore::getById($values[$key]->idExternal);
                         $values[$key]->titolo = $player->getClub()->determinativo . ' ' . $player->getclub()->nome . ' ha ingaggiato ' . $player;
                         $values[$key]->content = '';
-                        $values[$key]->link = Links::getLink('dettaglioGiocatore', array('edit' => 'view', 'id' => $player->id));
+                        $values[$key]->link = \Lib\Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
                         break;
                 }
             }
@@ -128,7 +123,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
             return FALSE;
     }
 
-    public function check($array) {
+    public function check(array $array) {
         return TRUE;
     }
 

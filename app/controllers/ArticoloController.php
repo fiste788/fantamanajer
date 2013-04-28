@@ -5,11 +5,13 @@ namespace Fantamanajer\Controllers;
 class ArticoloController extends ApplicationController {
 
     public function index() {
-        $this->templates['contentTpl']->assign('articoli', \Fantamanajer\Models\Articolo::getList());
+        $giornata = isset($this->route['params']['giornata']) ? $this->route['params']['giornata'] : $this->currentGiornata->id;
+        $articoli = $this->currentLega->getArticoliByGiornata($giornata);
+        $this->templates['content']->assign('articoli', $articoli);
     }
 
     public function build() {
-        $this->templates['contentTpl']->assign('articolo', new \Fantamanajer\Models\Articolo());
+        $this->templates['content']->assign('articolo', new \Fantamanajer\Models\Articolo());
     }
 
     public function create() {
@@ -32,16 +34,17 @@ class ArticoloController extends ApplicationController {
         $articolo = \Fantamanajer\Models\Articolo::getById($this->route['params']['id']);
         \FirePHP::getInstance()->log($articolo);
         if(($articolo) == FALSE)
-        	\Fantamanajer\Request::send404();
-        $this->templates['contentTpl']->assign('articolo', $articolo);
+        	\Lib\Request::send404();
+        $this->templates['content']->assign('articolo', $articolo);
     }
 
     public function update() {
         try {
             $articolo = \Fantamanajer\Models\Articolo::getById($this->route['params']['id']);
             $articolo->save();
+            $this->setFlash(self::FLASH_SUCCESS, "Modificato con successo");
             $this->redirectTo("articoli");
-        } catch(\Fantamanajer\FormException $e) {
+        } catch(\Lib\FormException $e) {
             $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
             $this->renderAction("edit");
         }

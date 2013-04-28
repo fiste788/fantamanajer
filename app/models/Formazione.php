@@ -97,8 +97,6 @@ class Formazione extends Table\FormazioneTable {
     }
 
     public static function getById($id) {
-        require_once(INCDBDIR . "schieramento.db.inc.php");
-
         $formazione = parent::getById($id);
         if ($formazione)
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());

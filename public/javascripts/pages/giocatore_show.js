@@ -30,7 +30,7 @@
 
         // hard-code color indices to prevent them from shifting as
         // countries are turned on/off
-        
+
         $.each(datasets, function(key, val) {
             val.color = i;
             ++i;
@@ -43,8 +43,8 @@
             	$placeholder = $("#placeholder"),
             	$overviewDom = $("#overview"),
             	$selection = $("#selection"),
-            	from = grafico.data('from'),
-            	to = grafico.data('to');
+            	from = $grafico.data('from'),
+            	to = $grafico.data('to');
 			data.push(datasets.voto);
             data.push(datasets.punti);
             if(from != null && to != null) {
@@ -86,8 +86,8 @@
                 }
             });
 
-            clearSelection.bind("click",function () {
-                $overview.clearSelection();
+            $clearSelection.bind("click",function () {
+                overview.clearSelection();
                 $grafico.removeData('from');
                 $grafico.removeData('to');
                 plotAccordingToChoices();
@@ -119,7 +119,7 @@
             }
 
             var previousPoint = null;
-            placeholder.bind("plothover", function (event, pos, item) {
+            $placeholder.bind("plothover", function (event, pos, item) {
                 var $tooltip = $("#tooltip");
                 if (item) {
                     if (!previousPoint || (previousPoint[0] != item.datapoint[0]) || (previousPoint[1] != item.datapoint[1])) {
@@ -155,7 +155,7 @@
                         },
                         yaxis: {}
                     }));
-                $overview.setSelection(area, true);
+                overview.setSelection(area, true);
             });
 
             if(from != null && to != null) {
@@ -170,9 +170,9 @@
     $.fn.grafico.datasets = "";
 })(jQuery);
 var activeGrafico = false,
-	giornate = $("#giornate"),
-	giocatore = giornate.data("giocatore"),
-	datasets = {};
+    $giornate = $("#giornate"),
+    giocatore = $giornate.data("giocatore"),
+    datasets = {};
 if(giocatore) {
     datasets.punti = {
         "label":"Punti " + giocatore,
@@ -182,7 +182,7 @@ if(giocatore) {
         "label":"Voto " + giocatore,
         "data":[]
     };
-    giocatore.find("tbody tr").each(function(i,tr) {
+    $giornate.find("tbody tr").each(function(i,tr) {
         datasets.voto.data.push($(tr).data("voto"));
         datasets.punti.data.push($(tr).data("punti"));
     });

@@ -5,7 +5,7 @@ use Lib\Database as Db;
 
 class Trasferimento extends Table\TrasferimentoTable {
 
-    public function save($parameters = NULL) {
+    public function save(array $parameters = NULL) {
         try {
             Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
 
@@ -45,7 +45,7 @@ class Trasferimento extends Table\TrasferimentoTable {
         return TRUE;
     }
 
-    public function check($array) {
+    public function check(array $array) {
         $post = (object) $array;
         if(empty($array))
             return TRUE;

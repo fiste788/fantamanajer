@@ -15,13 +15,15 @@ class Lega extends Table\LegaTable {
         return $values;
     }
 
-    public function check(array $array) {
+    public function check(array $array = array()) {
         $post = (object) $array;
+        \FirePHP::getInstance()->log($this);
+        \FirePHP::getInstance()->log("aaaa");
         foreach ($array as $key => $val)
             if ($key != "capitano" && $key != "capitanoFormazioneDimenticata" && $key != "jolly" && $key != "premi" && empty($val))
-                throw new FormException("Non hai compilato tutti i campi" . $key);
-        if (!is_numeric($post->numTrasferimenti) || !is_numeric($post->numSelezioni) || !is_numeric($post->minFormazione))
-            throw new FormException("Tipo di dati incorretto. Controlla i valori numerici");
+                throw new \Lib\FormException("Non hai compilato tutti i campi" . $key);
+        if (!is_numeric($this->numTrasferimenti) || !is_numeric($this->numSelezioni) || !is_numeric($this->minFormazione))
+            throw new \Lib\FormException("Tipo di dati incorretto. Controlla i valori numerici");
         return TRUE;
     }
 

@@ -175,9 +175,8 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
      * @return Int
      */
     public function getGiocatoreOld() {
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
         if (empty($this->giocatoreOld))
-            $this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
+            $this->giocatoreOld = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreOld());
         return $this->giocatoreOld;
     }
 
@@ -186,9 +185,8 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
      * @return Int
      */
     public function getGiocatoreNew() {
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
         if (empty($this->giocatoreNew))
-            $this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
+            $this->giocatoreNew = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreNew());
         return $this->giocatoreNew;
     }
 
@@ -197,9 +195,8 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
      * @return Utente
      */
     public function getUtente() {
-        require_once(INCDBDIR . 'utente.db.inc.php');
         if (empty($this->utente))
-            $this->utente = Utente::getById($this->getIdUtente());
+            $this->utente = \Fantamanajer\Models\Utente::getById($this->getIdUtente());
         return $this->utente;
     }
 
@@ -208,9 +205,8 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
      * @return Giornata
      */
     public function getGiornata() {
-        require_once(INCDBDIR . 'giornata.db.inc.php');
         if (empty($this->giornata))
-            $this->giornata = Giornata::getById($this->getIdGiornata());
+            $this->giornata = \Fantamanajer\Models\Giornata::getById($this->getIdGiornata());
         return $this->giornata;
     }
 

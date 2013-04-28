@@ -6,7 +6,7 @@ use \Fantamanajer\Models as Models;
 class TrasferimentoController extends ApplicationController {
 
     public function index() {
-        $filterId = $this->route['params']['id'] || $_SESSION['idUtente'];
+        $filterId = isset($this->route['params']['idUtente']) ? $this->route['params']['idUtente'] : $_SESSION['idUtente'];
         $trasferimentiAppo = Models\Trasferimento::getByField('idUtente',$filterId);
 
         if(!is_array($trasferimentiAppo) && !is_null($trasferimentiAppo))
@@ -23,15 +23,15 @@ class TrasferimentoController extends ApplicationController {
         //$trasferiti = Models\Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
         $selezione = Models\Selezione::getByField('idUtente',$_SESSION['idUtente']);
         if(empty($selezione))
-            $selezione = new Selezione();
+            $selezione = new Models\Selezione();
         if($this->request->has('acquista'))
             $selezione->setIdGiocatoreNew($this->request->get('acquista'));
 
-        $this->templates['contentTpl']->assign('giocatoriSquadra',Models\View\GiocatoreStatistiche::getByField('idUtente',$filterId));
-        $this->templates['contentTpl']->assign('freePlayer',$playerFree);
-        $this->templates['contentTpl']->assign('filterId',$filterId);
-        $this->templates['contentTpl']->assign('trasferimenti',$trasferimenti);
-        $this->templates['contentTpl']->assign('selezione',$selezione);
+        $this->templates['content']->assign('giocatoriSquadra',Models\View\GiocatoreStatistiche::getByField('idUtente',$filterId));
+        $this->templates['content']->assign('freePlayer',$playerFree);
+        $this->templates['content']->assign('filterId',$filterId);
+        $this->templates['content']->assign('trasferimenti',$trasferimenti);
+        $this->templates['content']->assign('selezione',$selezione);
         $this->templates['operationTpl']->assign('filterId',$filterId);
         $this->templates['operationTpl']->assign('elencoSquadre',Models\Utente::getByField('idLega',$_SESSION['legaView']));
     }
@@ -44,8 +44,8 @@ class TrasferimentoController extends ApplicationController {
 
         $this->quickLinks->set('id',$elencoClub,"");
         $giocatori = Models\View\GiocatoreStatistiche::getByField('idClub',$dettaglioClub->id);
-        $this->templates['contentTpl']->assign('giocatori',$giocatori);
-        $this->templates['contentTpl']->assign('clubDett',$dettaglioClub);
+        $this->templates['content']->assign('giocatori',$giocatori);
+        $this->templates['content']->assign('clubDett',$dettaglioClub);
         $this->templates['operationTpl']->assign('elencoClub',$elencoClub);
     }
 }

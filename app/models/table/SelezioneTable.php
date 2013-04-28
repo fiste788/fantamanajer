@@ -1,8 +1,8 @@
 <?php
 
-require_once(MODELDIR . 'Selezione.model.db.inc.php');
+namespace Fantamanajer\Models\Table;
 
-abstract class SelezioneTable extends SelezioneModel {
+abstract class SelezioneTable extends \Lib\Database\Table {
 
     const TABLE_NAME = 'selezione';
 
@@ -175,7 +175,6 @@ abstract class SelezioneTable extends SelezioneModel {
      * @return Lega
      */
     public function getLega() {
-        require_once(INCDIR . 'lega.db.inc.php');
         if (empty($this->lega))
             $this->lega = Lega::getById($this->getIdLega());
         return $this->lega;
@@ -186,7 +185,6 @@ abstract class SelezioneTable extends SelezioneModel {
      * @return Utente
      */
     public function getUtente() {
-        require_once(INCDBDIR . 'utente.db.inc.php');
         if (empty($this->utente))
             $this->utente = Utente::getById($this->getIdUtente());
         return $this->utente;
@@ -197,7 +195,6 @@ abstract class SelezioneTable extends SelezioneModel {
      * @return Giocatore
      */
     public function getGiocatoreNew() {
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
         if (empty($this->giocatoreNew))
             $this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
         return $this->giocatoreNew;
@@ -208,7 +205,6 @@ abstract class SelezioneTable extends SelezioneModel {
      * @return Giocatore
      */
     public function getGiocatoreOld() {
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
         if (empty($this->giocatoreOld))
             $this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
         return $this->giocatoreOld;
@@ -246,7 +242,7 @@ abstract class SelezioneTable extends SelezioneModel {
      * @param type $ids
      * @return Selezione[]|NULL
      */
-    public static function getByIds($ids) {
+    public static function getByIds(array $ids) {
         return parent::getByIds($ids);
     }
 

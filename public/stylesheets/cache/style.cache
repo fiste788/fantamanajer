@@ -218,4 +218,4 @@ table .headerSortUp:after {
     display: none !important;
   }
 }
-";s:5:"files";a:3:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1354965755;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1356703253;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1355066309;}s:7:"updated";i:1356703261;}
+";s:5:"files";a:3:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1354965755;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1360931382;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1360271592;}s:7:"updated";i:1360931718;}

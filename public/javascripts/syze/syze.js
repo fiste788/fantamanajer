@@ -74,6 +74,7 @@
         docEl.className = (!docElClassNames[0] ? [] : docElClassNames).concat(classNames).join(' ');
         //
         if(!active != oldActive) {
+			$(window).trigger('changeViewport');
             $(window).trigger('exitViewport' + capitalize(oldActive.substr(2, oldActive.length)));
             $(window).trigger('enterViewport' + capitalize(active.substr(2, active.length)));
         }

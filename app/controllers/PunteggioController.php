@@ -12,14 +12,14 @@ class PunteggioController extends ApplicationController {
         $squadre = $this->currentLega->getUtenti();
 
         $giornate = Models\Punteggio::getGiornateWithPunt();
-        $this->templates['contentTpl']->assign('giornate',$giornate);
-        $this->templates['contentTpl']->assign('classificaDett',$classificaDett);
-        $this->templates['contentTpl']->assign('penalità',Models\Punteggio::getPenalitàByLega($_SESSION['legaView']));
-        $this->templates['contentTpl']->assign('squadre',$squadre);
-        $this->templates['contentTpl']->assign('posizioni',Models\Punteggio::getPosClassificaGiornata($_SESSION['legaView']));
+        $this->templates['content']->assign('giornate',$giornate);
+        $this->templates['content']->assign('classificaDett',$classificaDett);
+        $this->templates['content']->assign('penalità',Models\Punteggio::getPenalitàByLega($_SESSION['legaView']));
+        $this->templates['content']->assign('squadre',$squadre);
+        $this->templates['content']->assign('posizioni',Models\Punteggio::getPosClassificaGiornata($_SESSION['legaView']));
 
-        $this->templates['operationTpl']->assign('getGiornata',$filterGiornata);
-        $this->templates['operationTpl']->assign('giornate',$giornate);
+        $this->templates['operation']->assign('getGiornata',$filterGiornata);
+        $this->templates['operation']->assign('giornate',$giornate);
     }
 
     public function show() {
@@ -40,13 +40,13 @@ class PunteggioController extends ApplicationController {
 
         $this->quickLinks->set('idGiornata',$giornate,"",array('idUtente'=>$this->route['params']['idUtente']));
 
-        $this->templates['contentTpl']->assign('somma',$utente->getPunteggioByGiornata($this->route['params']['idGiornata']));
-        $this->templates['contentTpl']->assign('titolari',$titolari);
-        $this->templates['contentTpl']->assign('panchinari',$dettaglio);
-        $this->templates['contentTpl']->assign('penalità',Models\Punteggio::getPenalitàBySquadraAndGiornata($this->route['params']['idUtente'],$this->route['params']['idGiornata']));
-        $this->templates['contentTpl']->assign('squadraDett',$utente);
-        $this->templates['operationTpl']->assign('squadre',$this->currentLega->getUtenti());
-        $this->templates['operationTpl']->assign('giornate',$giornate);
+        $this->templates['content']->assign('somma',$utente->getPunteggioByGiornata($this->route['params']['idGiornata']));
+        $this->templates['content']->assign('titolari',$titolari);
+        $this->templates['content']->assign('panchinari',$dettaglio);
+        $this->templates['content']->assign('penalità',Models\Punteggio::getPenalitàBySquadraAndGiornata($this->route['params']['idUtente'],$this->route['params']['idGiornata']));
+        $this->templates['content']->assign('squadraDett',$utente);
+        $this->templates['operation']->assign('squadre',$this->currentLega->getUtenti());
+        $this->templates['operation']->assign('giornate',$giornate);
     }
 }
 

@@ -132,6 +132,7 @@ define("JSURL", PUBLICURL . 'javascripts/');
 define("AJAXURL", FULLURL . 'ajax/');
 
 $generalJs = array();
+$generalJs[] = 'modernizr/modernizr.js';
 $generalJs[] = 'jquery/jquery.js';
 $generalJs[] = 'jquery/jquery-migrate-1.0.0b1.js';
 $generalJs[] = 'syze/syze.js';

@@ -142,7 +142,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
      */
     public function getGiocatore() {
         if (empty($this->giocatore))
-            $this->giocatore = Giocatore::getById($this->getIdGiocatore());
+            $this->giocatore = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatore());
         return $this->giocatore;
     }
 

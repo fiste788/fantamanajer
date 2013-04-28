@@ -31,9 +31,12 @@
             <?php endforeach; ?>
         <?php endif; ?>
         <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
+		<!--[if lt IE 9]>
+			<script src="<?php echo JSURL ?>html5shiv/html5shiv.js""></script>
+			<script src="<?php echo JSURL ?>respond/respond.js""></script>
+		<![endif]-->
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
         <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
-        <script src="<?php echo JSURL ?>modernizr/modernizr.min.js"></script>
     </head>
     <?php flush(); ?>
     <body>

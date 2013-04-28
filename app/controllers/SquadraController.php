@@ -6,7 +6,7 @@ use \Fantamanajer\Models as Models;
 class SquadraController extends ApplicationController {
 
     public function index() {
-        $squadreAppo = Models\Utente::getByField('idLega',$_SESSION['legaView']);
+        $squadreAppo = Models\Utente::getByIdLegaLite($_SESSION['legaView']);
         $classifica = Models\Punteggio::getClassificaByGiornata($_SESSION['legaView'],$this->currentGiornata->getId());
         $squadre = array();
         if($classifica != NULL) {
@@ -14,10 +14,12 @@ class SquadraController extends ApplicationController {
                 $squadre[$key] = $squadreAppo[$key];
                 $squadre[$key]->giornateVinte = $val->giornateVinte;
             }
-        }else
+        } else
             $squadre = $squadreAppo;
-        $this->templates['contentTpl']->assign('elencoSquadre',$squadre);
-        $this->templates['contentTpl']->assign('ultimaGiornata',Models\Punteggio::getGiornateWithPunt());
+        $this->templates['content']->assign('elencoSquadre',$squadre);
+        $this->templates['content']->assign('ultimaGiornata',Models\Punteggio::getGiornateWithPunt());
+        if($this->format == '.json')
+            $this->renderJson(json_encode($squadreAppo));
     }
 
     public function show() {
@@ -27,10 +29,11 @@ class SquadraController extends ApplicationController {
         $elencoSquadre = Models\Utente::getByField('idLega',$squadraDett->idLega);
         $this->quickLinks->set('id', $elencoSquadre, "");
 
-        $this->templates['contentTpl']->assign('giocatori',Models\View\GiocatoreStatistiche::getByField('idUtente',$squadraDett->getId()));
-        $this->templates['contentTpl']->assign('squadraDett',$squadraDett);
-        $this->templates['operationTpl']->assign('elencoSquadre',$elencoSquadre);
+        $this->templates['content']->assign('giocatori',Models\View\GiocatoreStatistiche::getByField('idUtente',$squadraDett->getId()));
+        $this->templates['content']->assign('squadraDett',$squadraDett);
+        $this->templates['operation']->assign('elencoSquadre',$elencoSquadre);
     }
+
 }
 
 ?>

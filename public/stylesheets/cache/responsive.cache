@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/bootstrap/responsive.less";s:8:"compiled";s:22560:".clearfix {
+a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/bootstrap/responsive.less";s:8:"compiled";s:21310:".clearfix {
   *zoom: 1;
 }
 .clearfix:before,
@@ -66,6 +66,17 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
     display: inherit !important;
   }
   .hidden-phone {
+    display: none !important;
+  }
+}
+.visible-print {
+  display: none !important;
+}
+@media print {
+  .visible-print {
+    display: inherit !important;
+  }
+  .hidden-print {
     display: none !important;
   }
 }
@@ -198,74 +209,50 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   }
   .row-fluid .span12 {
     width: 100%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 99.946808510638%;
   }
   .row-fluid .span11 {
     width: 91.452991452991%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 91.39979996363%;
   }
   .row-fluid .span10 {
     width: 82.905982905983%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 82.852791416621%;
   }
   .row-fluid .span9 {
     width: 74.358974358974%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 74.305782869613%;
   }
   .row-fluid .span8 {
     width: 65.811965811966%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 65.758774322604%;
   }
   .row-fluid .span7 {
     width: 57.264957264957%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 57.211765775596%;
   }
   .row-fluid .span6 {
     width: 48.717948717949%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 48.664757228587%;
   }
   .row-fluid .span5 {
     width: 40.17094017094%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 40.117748681578%;
   }
   .row-fluid .span4 {
     width: 31.623931623932%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 31.57074013457%;
   }
   .row-fluid .span3 {
     width: 23.076923076923%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 23.023731587561%;
   }
   .row-fluid .span2 {
     width: 14.529914529915%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 14.476723040553%;
   }
   .row-fluid .span1 {
     width: 5.982905982906%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 5.9297144935443%;
   }
   .row-fluid .offset12 {
@@ -372,40 +359,64 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   .controls-row [class*="span"] + [class*="span"] {
     margin-left: 30px;
   }
-  input.span12, textarea.span12, .uneditable-input.span12 {
+  input.span12,
+  textarea.span12,
+  .uneditable-input.span12 {
     width: 1156px;
   }
-  input.span11, textarea.span11, .uneditable-input.span11 {
+  input.span11,
+  textarea.span11,
+  .uneditable-input.span11 {
     width: 1056px;
   }
-  input.span10, textarea.span10, .uneditable-input.span10 {
+  input.span10,
+  textarea.span10,
+  .uneditable-input.span10 {
     width: 956px;
   }
-  input.span9, textarea.span9, .uneditable-input.span9 {
+  input.span9,
+  textarea.span9,
+  .uneditable-input.span9 {
     width: 856px;
   }
-  input.span8, textarea.span8, .uneditable-input.span8 {
+  input.span8,
+  textarea.span8,
+  .uneditable-input.span8 {
     width: 756px;
   }
-  input.span7, textarea.span7, .uneditable-input.span7 {
+  input.span7,
+  textarea.span7,
+  .uneditable-input.span7 {
     width: 656px;
   }
-  input.span6, textarea.span6, .uneditable-input.span6 {
+  input.span6,
+  textarea.span6,
+  .uneditable-input.span6 {
     width: 556px;
   }
-  input.span5, textarea.span5, .uneditable-input.span5 {
+  input.span5,
+  textarea.span5,
+  .uneditable-input.span5 {
     width: 456px;
   }
-  input.span4, textarea.span4, .uneditable-input.span4 {
+  input.span4,
+  textarea.span4,
+  .uneditable-input.span4 {
     width: 356px;
   }
-  input.span3, textarea.span3, .uneditable-input.span3 {
+  input.span3,
+  textarea.span3,
+  .uneditable-input.span3 {
     width: 256px;
   }
-  input.span2, textarea.span2, .uneditable-input.span2 {
+  input.span2,
+  textarea.span2,
+  .uneditable-input.span2 {
     width: 156px;
   }
-  input.span1, textarea.span1, .uneditable-input.span1 {
+  input.span1,
+  textarea.span1,
+  .uneditable-input.span1 {
     width: 56px;
   }
   .thumbnails {
@@ -547,74 +558,50 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   }
   .row-fluid .span12 {
     width: 100%;
-    margin-left: 2.7624309392265%;
-    *margin-left: 2.7092394498648%;
     *width: 99.946808510638%;
   }
   .row-fluid .span11 {
     width: 91.452991452991%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 91.39979996363%;
   }
   .row-fluid .span10 {
     width: 82.905982905983%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 82.852791416621%;
   }
   .row-fluid .span9 {
     width: 74.358974358974%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 74.305782869613%;
   }
   .row-fluid .span8 {
     width: 65.811965811966%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 65.758774322604%;
   }
   .row-fluid .span7 {
     width: 57.264957264957%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 57.211765775596%;
   }
   .row-fluid .span6 {
     width: 48.717948717949%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 48.664757228587%;
   }
   .row-fluid .span5 {
     width: 40.17094017094%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 40.117748681578%;
   }
   .row-fluid .span4 {
     width: 31.623931623932%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 31.57074013457%;
   }
   .row-fluid .span3 {
     width: 23.076923076923%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 23.023731587561%;
   }
   .row-fluid .span2 {
     width: 14.529914529915%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 14.476723040553%;
   }
   .row-fluid .span1 {
     width: 5.982905982906%;
-    margin-left: 2.5641025641026%;
-    *margin-left: 2.5109110747409%;
     *width: 5.9297144935443%;
   }
   .row-fluid .offset12 {
@@ -721,40 +708,64 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   .controls-row [class*="span"] + [class*="span"] {
     margin-left: 20px;
   }
-  input.span12, textarea.span12, .uneditable-input.span12 {
+  input.span12,
+  textarea.span12,
+  .uneditable-input.span12 {
     width: 710px;
   }
-  input.span11, textarea.span11, .uneditable-input.span11 {
+  input.span11,
+  textarea.span11,
+  .uneditable-input.span11 {
     width: 648px;
   }
-  input.span10, textarea.span10, .uneditable-input.span10 {
+  input.span10,
+  textarea.span10,
+  .uneditable-input.span10 {
     width: 586px;
   }
-  input.span9, textarea.span9, .uneditable-input.span9 {
+  input.span9,
+  textarea.span9,
+  .uneditable-input.span9 {
     width: 524px;
   }
-  input.span8, textarea.span8, .uneditable-input.span8 {
+  input.span8,
+  textarea.span8,
+  .uneditable-input.span8 {
     width: 462px;
   }
-  input.span7, textarea.span7, .uneditable-input.span7 {
+  input.span7,
+  textarea.span7,
+  .uneditable-input.span7 {
     width: 400px;
   }
-  input.span6, textarea.span6, .uneditable-input.span6 {
+  input.span6,
+  textarea.span6,
+  .uneditable-input.span6 {
     width: 338px;
   }
-  input.span5, textarea.span5, .uneditable-input.span5 {
+  input.span5,
+  textarea.span5,
+  .uneditable-input.span5 {
     width: 276px;
   }
-  input.span4, textarea.span4, .uneditable-input.span4 {
+  input.span4,
+  textarea.span4,
+  .uneditable-input.span4 {
     width: 214px;
   }
-  input.span3, textarea.span3, .uneditable-input.span3 {
+  input.span3,
+  textarea.span3,
+  .uneditable-input.span3 {
     width: 152px;
   }
-  input.span2, textarea.span2, .uneditable-input.span2 {
+  input.span2,
+  textarea.span2,
+  .uneditable-input.span2 {
     width: 90px;
   }
-  input.span1, textarea.span1, .uneditable-input.span1 {
+  input.span1,
+  textarea.span1,
+  .uneditable-input.span1 {
     width: 28px;
   }
 }
@@ -973,7 +984,9 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
     margin-bottom: 2px;
   }
   .nav-collapse .nav > li > a:hover,
-  .nav-collapse .dropdown-menu a:hover {
+  .nav-collapse .nav > li > a:focus,
+  .nav-collapse .dropdown-menu a:hover,
+  .nav-collapse .dropdown-menu a:focus {
     background-color: #f2f2f2;
   }
   .navbar-inverse .nav-collapse .nav > li > a,
@@ -981,7 +994,9 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
     color: #999;
   }
   .navbar-inverse .nav-collapse .nav > li > a:hover,
-  .navbar-inverse .nav-collapse .dropdown-menu a:hover {
+  .navbar-inverse .nav-collapse .nav > li > a:focus,
+  .navbar-inverse .nav-collapse .dropdown-menu a:hover,
+  .navbar-inverse .nav-collapse .dropdown-menu a:focus {
     background-color: #111111;
   }
   .nav-collapse.in .btn-group {
@@ -1059,4 +1074,4 @@ a:4:{s:4:"root";s:92:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
     overflow: visible !important;
   }
 }
-";s:5:"files";a:8:{s:92:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive.less";i:1354997104;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1356703253;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1355066309;s:102:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-utilities.less";i:1354997104;s:103:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-1200px-min.less";i:1354997104;s:104:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-768px-979px.less";i:1354997104;s:102:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-767px-max.less";i:1354997104;s:99:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-navbar.less";i:1354997104;}s:7:"updated";i:1356703258;}
+";s:5:"files";a:8:{s:92:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive.less";i:1360271592;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1360931382;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1360271592;s:102:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-utilities.less";i:1360271592;s:103:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-1200px-min.less";i:1360271592;s:104:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-768px-979px.less";i:1360271592;s:102:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-767px-max.less";i:1360271592;s:99:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\responsive-navbar.less";i:1360271592;}s:7:"updated";i:1360931716;}

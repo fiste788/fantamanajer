@@ -64,6 +64,7 @@ abstract class BaseController {
      */
     protected $router;
 
+
     protected $generalJs = array();
     protected $generalCss = array();
 
@@ -72,7 +73,6 @@ abstract class BaseController {
 
         $this->pages = $pages;
         $this->auth = new Login();
-        unset($_SESSION['__flash']);
         \FirePHP::getInstance(TRUE);
         \FirePHP::getInstance()->setEnabled(LOCAL);
         \FirePHP::getInstance()->registerErrorHandler(FALSE);
@@ -81,15 +81,19 @@ abstract class BaseController {
         $this->router = $router;
         $this->route = $route;
         $this->request = Request::getInstance();
+        \Lib\Router::getInstance($router);
+
+        if(isset($route['params']['format']))
+            $this->format = $route['params']['format'];
 
         if(isset($pages->pages[$route['name']]) && $pages->pages[$route['name']]->roles > $_SESSION['roles'])
             $this->notAuthorized();
 
-        $this->templates['layoutTpl'] = new \Savant3(array('template_path' => LAYOUTSDIR));
-        $this->templates['headerTpl'] = new \Savant3(array('template_path' => LAYOUTSDIR));
-        $this->templates['navbarTpl'] = new \Savant3(array('template_path' => LAYOUTSDIR));
-        $this->templates['footerTpl'] = new \Savant3(array('template_path' => LAYOUTSDIR));
-        $this->templates['contentTpl'] = new \Savant3(array('template_path' => VIEWSDIR));
+        $this->templates['layout'] = new \Savant3(array('template_path' => LAYOUTSDIR));
+        $this->templates['header'] = new \Savant3(array('template_path' => LAYOUTSDIR));
+        $this->templates['navbar'] = new \Savant3(array('template_path' => LAYOUTSDIR));
+        $this->templates['footer'] = new \Savant3(array('template_path' => LAYOUTSDIR));
+        $this->templates['content'] = new \Savant3(array('template_path' => VIEWSDIR));
     }
 
     public abstract function initialize();
@@ -98,6 +102,10 @@ abstract class BaseController {
 
     public function setFlash($level,$message) {
         $_SESSION['__flash'] = (object) array('level'=>$level,'text'=>$message);
+    }
+
+    public function urlFor($routeName, array $params = array()) {
+        return $this->router->generate($routeName, $params);
     }
 
     public function setFormat($format) {
@@ -109,7 +117,7 @@ abstract class BaseController {
     }
 
     public function setGeneralCss($generalCss) {
-        require_once(VENDORDIR . 'Lessc/lessc.php');
+        require_once(VENDORDIR . 'LessPHP/lessc.inc.php');
 
         foreach ($generalCss as $key => $val) {
             $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
@@ -132,34 +140,42 @@ abstract class BaseController {
         $this->$action();
     }
 
+    public function renderJson($json) {
+        header("Content-Type: application/json; charset=UTF-8");
+        echo $json;
+        die();
+    }
+
     public function redirectTo($routeName, array $params = array()) {
         header("Location: " . $this->router->generate($routeName,$params));
         die();
     }
 
     public function render() {
-        $this->templates['layoutTpl']->assign('generalJs', $this->generalJs);
-        $this->templates['layoutTpl']->assign('generalCss', $this->generalCss);
-        $this->templates['layoutTpl']->assign('js',$this->pages->pages[$this->route['name']]->js);
+        $this->templates['layout']->assign('generalJs', $this->generalJs);
+        $this->templates['layout']->assign('generalCss', $this->generalCss);
+        $this->templates['layout']->assign('js',$this->pages->pages[$this->route['name']]->js);
 
-        $content = $this->templates['contentTpl']->fetch($this->controller . DS . $this->action . '.php');
         if ($this->format == 'html') {
-            $header = $this->templates['headerTpl']->fetch('header.tpl.php');
-            $footer = $this->templates['footerTpl']->fetch('footer.tpl.php');
-            $navbar = $this->templates['navbarTpl']->fetch('navbar.tpl.php');
+            $content = $this->templates['content']->fetch($this->controller . DS . $this->action . '.php');
+            $header = $this->templates['header']->fetch('header.tpl.php');
+            $footer = $this->templates['footer']->fetch('footer.tpl.php');
+            $navbar = $this->templates['navbar']->fetch('navbar.tpl.php');
 
-            $this->templates['layoutTpl']->assign('header', $header);
-            $this->templates['layoutTpl']->assign('footer', $footer);
-            $this->templates['layoutTpl']->assign('content', $content);
-            $this->templates['layoutTpl']->assign('navbar', $navbar);
+            $this->templates['layout']->assign('header', $header);
+            $this->templates['layout']->assign('footer', $footer);
+            $this->templates['layout']->assign('content', $content);
+            $this->templates['layout']->assign('navbar', $navbar);
 
             foreach ($this->fetched as $name => $content)
-                $this->templates['layoutTpl']->assign($name, $content);
+                $this->templates['layout']->assign($name, $content);
 
-            $this->templates['layoutTpl']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
-            $this->templates['layoutTpl']->display('layout.tpl.php');
-        } else
-            return $content;
+            $this->templates['layout']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
+            $this->templates['layout']->display('layout.tpl.php');
+        } elseif($this->format == 'json') {
+
+        }
+        unset($_SESSION['__flash']);
     }
 
 }

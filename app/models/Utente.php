@@ -1,8 +1,23 @@
 <?php
 
 namespace Fantamanajer\Models;
+use Lib\Database as Db;
 
 class Utente extends \Fantamanajer\Models\Table\UtenteTable {
+
+    public static function getByIdLegaLite($idLega) {
+        $q = "SELECT id,nomeSquadra
+                FROM utente
+                WHERE idLega = :idLega";
+        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe->execute();
+        \FirePHP::getInstance()->log($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__))
+            $values[$obj->getId()] = $obj;
+        return $values;
+    }
 
     public static function login($username, $password) {
         $q = "SELECT *

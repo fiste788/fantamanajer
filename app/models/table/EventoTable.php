@@ -2,7 +2,7 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class EventoTable extends \Fantamanajer\Database\Table {
+abstract class EventoTable extends \Lib\Database\Table {
 
     const TABLE_NAME = 'evento';
 
@@ -137,7 +137,7 @@ abstract class EventoTable extends \Fantamanajer\Database\Table {
         if (is_a($this->data, "DateTime"))
             return $this->data;
         else
-            return new DateTime($this->data);
+            return new \DateTime($this->data);
     }
 
     /**
@@ -161,7 +161,6 @@ abstract class EventoTable extends \Fantamanajer\Database\Table {
      * @return Utente
      */
     public function getLega() {
-        require_once(INCDIR . 'utente.db.inc.php');
         if (empty($this->utente))
             $this->utente = Utente::getById($this->getIdUtente());
         return $this->utente;
@@ -172,7 +171,6 @@ abstract class EventoTable extends \Fantamanajer\Database\Table {
      * @return Giornata
      */
     public function getGiornata() {
-        require_once(INCDIR . 'giornata.db.inc.php');
         if (empty($this->giornata))
             $this->giornata = Giornata::getById($this->getIdGiornata());
         return $this->giornata;
@@ -210,7 +208,7 @@ abstract class EventoTable extends \Fantamanajer\Database\Table {
      * @param type $ids
      * @return Evento[]|NULL
      */
-    public static function getByIds($ids) {
+    public static function getByIds(array $ids) {
         return parent::getByIds($ids);
     }
 

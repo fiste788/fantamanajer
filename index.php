@@ -7,7 +7,12 @@ require_once('config' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 date_default_timezone_set("Europe/Rome");
 
-$match = $router->match();
+$url = $_SERVER['REQUEST_URI'];
+if(substr($url, -1) === '/')
+        $url = substr ($url, 0, -1);
+$match = $router->match($url);
+if($match != FALSE) {
+
 $target = explode('#', $match['target']);
 $controller = $target[0];
 $action = isset($target[1]) ? $target[1] : 'index';
@@ -31,4 +36,6 @@ if (class_exists($controllerName)) {
 } else {
     die('unsopported controller');
 }
+} else
+    die('route not found')
 ?>

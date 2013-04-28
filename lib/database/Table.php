@@ -21,11 +21,15 @@ abstract class Table implements \Lib\Form {
     public function __construct() {
         $this->originalValues = get_object_vars($this);
         $this->id = is_null($this->id) ? NULL : $this->getId();
+        $this->getFromPost();
+    }
+
+    private function getFromPost($raw = TRUE) {
         $calledClass = explode("\\",get_called_class());
         $classe = strtolower(array_pop($calledClass));
         $postArray = \Lib\Request::getInstance()->getRawData('post');
         if(isset($postArray[$classe]))
-            $this->fromArray($postArray[$classe], FALSE);
+            $this->fromArray($postArray[$classe], $raw);
     }
 
     /**
@@ -47,7 +51,7 @@ abstract class Table implements \Lib\Form {
 
     /**
      * @param int $id
-     * @return DbTable|NULL
+     * @return Table|NULL
      */
     public static function getById($id) {
         if (!is_null($id) && $id != "") {
@@ -139,11 +143,12 @@ abstract class Table implements \Lib\Form {
      * @param array $parameters
      * @return boolean
      */
-    public function save(array $parameters = NULL) {
+    public function save(array $parameters = array()) {
         try {
             $this->check($parameters);
+            $this->getFromPost(FALSE);
         } catch(FormException $e) {
-            $this->fromArray(Request::getInstance()->getRawData('post'), TRUE);
+            $this->fromArray(\Lib\Request::getInstance()->getRawData('post'), TRUE);
             throw $e;
         }
         $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
@@ -155,6 +160,7 @@ abstract class Table implements \Lib\Form {
                 if($currentVal != self::valueToSql($this->originalValues[$key]))
                     $values[] = $key . " = " . $currentVal;
             }
+
             if(!empty($values)) {
                 $q = "UPDATE " . $this::TABLE_NAME . "
                         SET " . implode($values, ", ") . " WHERE id = " . $this->getId();
@@ -243,7 +249,7 @@ abstract class Table implements \Lib\Form {
         $vars = get_object_vars($this);
         foreach ($array as $key => $value) {
             if (array_key_exists($key, $vars) && !is_null($value)) {
-                if (!$raw && method_exists($this, $methodName = 'set' . ucfirst($vars[$key])))
+                if (!$raw && method_exists($this, $methodName = 'set' . ucfirst($key)))
                     $this->$methodName($value);
                 else
                     $this->$key = $value;
@@ -255,7 +261,7 @@ abstract class Table implements \Lib\Form {
         return isset($this->originalValues[$field]) ? $this->originalValues[$field] : NULL;
     }
 
-    public function check(array $array) {
+    public function check(array $array = array()) {
         return TRUE;
     }
 

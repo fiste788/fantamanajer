@@ -218,11 +218,11 @@ class Giocatore extends Table\GiocatoreTable {
 				WHERE idGiornata = :idGiornata AND ruolo = :ruolo
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
+        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
         $exe->bindValue(":ruolo", $ruolo);
         $exe->execute();
-        FirePHP::getInstance()->log($q);
+        \FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
