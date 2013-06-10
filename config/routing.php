@@ -23,10 +23,10 @@ $router->map('GET', '/giocatori/[i:id][*:title]?', 'giocatore#show', 'giocatore_
 $router->map('GET', '/giocatori/liberi', 'giocatore#free', 'giocatori_liberi');
 $router->map('GET', '/clubs', 'club#index', 'club_index');
 $router->map('GET', '/clubs/[i:id]', 'club#show', 'club_show');
-$router->map('GET', '/formazione', 'formazione#edit', 'formazione_edit');
-$router->map('GET', '/formazione/new', 'formazione#build', 'formazione_new');
+$router->map('GET', '/formazione', 'formazione#build', 'formazione');
+//$router->map('GET', '/formazione/new', 'formazione#build', 'formazione_new');
 $router->map('GET', '/formazione/insert_old', 'formazione#insertOld', 'formazione_insert');
-$router->map('GET', '/probabili_formazioni', 'formazione#edit', 'probabili_formazioni');
+$router->map('GET', '/probabili_formazioni', 'page#probabiliFormazioni', 'probabili_formazioni');
 $router->map('GET', '/trasferimenti/[i:idUtente]?', 'trasferimento#index', 'trasferimento_index');
 //$router->map('GET', '/trasferimenti/[i:id]', 'trasferimento#index', 'trasferimento_show');
 $router->map('GET', '/download', 'trasferimento#show', 'download');

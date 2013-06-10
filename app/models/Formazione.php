@@ -86,10 +86,16 @@ class Formazione extends Table\FormazioneTable {
         return TRUE;
     }
 
+    /**
+     *
+     * @param type $idUtente
+     * @param type $giornata
+     * @return Formazione | NULL
+     */
     public static function getLastFormazione($idUtente, $giornata) {
         $i = 0;
         $formazione = self::getFormazioneBySquadraAndGiornata($idUtente, $giornata - $i);
-        while ($formazione == FALSE && $i < $giornata) {
+        while ($formazione == NULL && $i < $giornata) {
             $formazione = self::getFormazioneBySquadraAndGiornata($idUtente, $giornata - $i);
             $i++;
         }
@@ -147,15 +153,15 @@ class Formazione extends Table\FormazioneTable {
      * @param type $idUtente
      * @return type
      */
-    public static function usedJolly($idUtente) {
+    public static function usedJolly($idUtente,$giornata) {
         $q = "SELECT jolly
 				FROM formazione
-				WHERE idGiornata " . ((GIORNATA <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->bindValue(":jolly", TRUE, PDO::PARAM_BOOL);
+				WHERE idGiornata " . (($giornata <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
+        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
+        $exe->bindValue(":jolly", TRUE, \PDO::PARAM_BOOL);
         $exe->execute();
-        FirePHP::getInstance()->log($q);
+        \FirePHP::getInstance()->log($q);
         return ($exe->rowCount() == 1);
     }
 

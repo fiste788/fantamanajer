@@ -80,7 +80,7 @@ abstract class ApplicationController extends \Lib\BaseController {
          if(!$this->currentGiornata->getStagioneFinita()) {
             $formazione = Models\Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],$this->currentGiornata->getId());
             if(empty($formazione))
-                $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione_edit'));
+                $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione'));
         }
 
         $giocatoriInattivi = Models\Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);

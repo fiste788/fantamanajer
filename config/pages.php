@@ -32,7 +32,7 @@ $pages->addPage('updateOrariGiornata','Aggiorna orari giornata corrente',-1,'alt
 $pages->addPage('weeklyScript','Calcolo punteggi',-1,'altro');
 $pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'altro');
 $pages->addPage('trasferimento_index','Trasferimenti',-1,'altro');
-$pages->addPage('formazione_edit','Formazione',0,'formazione_edit',2,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
+$pages->addPage('formazione','Formazione',0,'formazione',2,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
 $pages->addPage('formazioneBasic','Formazione',0,'altro');
 $pages->addPage('utente','Modifica informazioni utente',0,'');
 $pages->addPage('trasferimento_index','Trasferimenti',0,'altro',2);

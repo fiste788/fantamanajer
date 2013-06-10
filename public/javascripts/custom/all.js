@@ -73,12 +73,11 @@ function enableCountdown() {
     if(!$.isViewport('phone') && (typeof d != 'undefined') && !activeCountdown) {
         activeCountdown = true;
         var interval = 1000,
-        	htmlTemplate = '';
+        	htmlTemplate = '<span class="number">%h</span>:<span class="number">%m</span>:<span class="number">%s</span>';
         if(Math.ceil((d.getTime() - (new Date().getTime())) / (1000 * 60 * 60 * 24)) > 0) {
-            htmlTemplate = '<span class="number">%{d}</span>gg <span class="number">%{h}</span>:<span class="number">%{m}</span>';
-            interval = 1000 * 60;
-        } else
-            htmlTemplate = '<span class="number">%{h}</span>:<span class="number">%{m}</span>:<span class="number">%{s}</span>';
+            htmlTemplate = '<span class="number">%d</span>gg <span class="number">%h</span>:<span class="number">%i</span>';
+            interval *= 60;
+		}
         $('#countdown').find('div').countdown({
             htmlTemplate: htmlTemplate,
             date: d,

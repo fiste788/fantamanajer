@@ -24,6 +24,10 @@ abstract class Table implements \Lib\Form {
         $this->getFromPost();
     }
 
+    public function __clone() {
+        $this->id = NULL;
+    }
+
     private function getFromPost($raw = TRUE) {
         $calledClass = explode("\\",get_called_class());
         $classe = strtolower(array_pop($calledClass));
@@ -77,7 +81,7 @@ abstract class Table implements \Lib\Form {
         $keys = array();
         foreach ($ids as $id)
             if (strlen($id))
-                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id, PDO::PARAM_INT);
+                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id, \PDO::PARAM_INT);
         $param = implode(',', $keys);
         if ($param != "") {
             $c = get_called_class();
