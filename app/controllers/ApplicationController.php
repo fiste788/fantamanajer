@@ -36,8 +36,8 @@ abstract class ApplicationController extends \Lib\BaseController {
      */
     protected $notifiche = array();
 
-    public function __construct($controller, $action, $router, $route) {
-        parent::__construct($controller, $action, $router, $route);
+    public function __construct(\Lib\Request $request, \Lib\Response $response) {
+        parent::__construct($request,$response);
         $this->templates['operation'] = new \Savant3(array('template_path' => OPERATIONSDIR));
     }
 
@@ -47,6 +47,7 @@ abstract class ApplicationController extends \Lib\BaseController {
     }
 
     public function initialize() {
+        parent::initialize();
         $this->ruoli['P'] = new Lib\Ruolo("Portiere", "Portieri", "POR");
         $this->ruoli['D'] = new Lib\Ruolo("Difensore", "Difensori", "DIF");
         $this->ruoli['C'] = new Lib\Ruolo("Centrocampista", "Centrocampisti", "CEN");
@@ -68,7 +69,7 @@ abstract class ApplicationController extends \Lib\BaseController {
             $savant->assign('leghe', $leghe);
             $savant->assign('route',$this->route);
             $savant->assign('router', $this->router);
-            $savant->assign('request',\Lib\Request::getInstance());
+            $savant->assign('request',\Lib\Request::getRequest());
         }
         $this->quickLinks = new Lib\QuickLinks($this->request,$this->router,$this->route);
         $this->templates['navbar']->assign('entries',$this->pages);
@@ -79,13 +80,16 @@ abstract class ApplicationController extends \Lib\BaseController {
     private function initializeNotifiche() {
          if(!$this->currentGiornata->getStagioneFinita()) {
             $formazione = Models\Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],$this->currentGiornata->getId());
-            if(empty($formazione))
+            if(empty($formazione)) {
                 $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione'));
+            }
         }
 
         $giocatoriInattivi = Models\Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
-        if(!empty($giocatoriInattivi) && count(Models\Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti )
+        if(!empty($giocatoriInattivi) && count(Models\Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti ) {
             $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('trasferimento_index'));
+        }
+        $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('trasferimento_index'));
     }
 
     public function fetchOperationTpl() {
@@ -96,9 +100,9 @@ abstract class ApplicationController extends \Lib\BaseController {
     public function render() {
         $this->templates['layout']->assign("quickLinks",$this->quickLinks);
         $this->fetched['operation'] = $this->fetchOperationTpl();
-        parent::render();
+        return parent::render();
     }
 
 }
 
-?>
+ 
