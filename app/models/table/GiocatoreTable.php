@@ -197,4 +197,4 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 

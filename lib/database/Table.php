@@ -31,7 +31,7 @@ abstract class Table implements \Lib\Form {
     private function getFromPost($raw = TRUE) {
         $calledClass = explode("\\",get_called_class());
         $classe = strtolower(array_pop($calledClass));
-        $postArray = \Lib\Request::getInstance()->getRawData('post');
+        $postArray = \Lib\Request::getRequest()->getPostParams();
         if(isset($postArray[$classe]))
             $this->fromArray($postArray[$classe], $raw);
     }
@@ -272,4 +272,4 @@ abstract class Table implements \Lib\Form {
     //public abstract function __toString();
 }
 
-?>
+ 

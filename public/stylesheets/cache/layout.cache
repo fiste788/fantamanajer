@@ -1,31 +1,4 @@
-a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/layout.less";s:8:"compiled";s:9045:".clearfix {
-  *zoom: 1;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.clearfix:after {
-  clear: both;
-}
-.hide-text {
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
-  background-color: transparent;
-  border: 0;
-}
-.input-block-level {
-  display: block;
-  width: 100%;
-  min-height: 30px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-@font-face {
+a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/layout.less";s:8:"compiled";s:7097:"@font-face {
   font-family: "Open Sans";
   src: url('fonts/opensans-regular-webfont.eot');
   src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-regular-webfont.ttf') format('truetype'), url('fonts/opensans-regular-webfont.svg#OpenSansRegular') format('svg');
@@ -40,33 +13,25 @@ a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   font-style: normal;
 }
 body {
+  overflow-x: hidden;
   font-family: Open Sans, sans-serif;
-  background: #e6eaed url("../images/bg.jpg") repeat-x center top;
   text-align: left;
-  padding-top: 40px;
+  padding-top: 50px;
   -webkit-text-size-adjust: none;
   font-size: 13px;
 }
-body.debug::before {
-  content: "Mobile media query (> 1200) fired";
-  font-weight: bold;
-  display: block;
-  text-align: center;
-  background: rgba(0,255,0,0.8);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 99999;
+body.debug:before {
+  content: "Mobile media query (0 < 768) fired";
+  background: rgba(255,0,0,0.8);
 }
-body>header {
-  background: url(../images/erba2.jpg) repeat-x center top;
+body >header {
+  background: url("../images/erba2.jpg") repeat-x center top;
   width: 100%;
   height: 120px;
   float: left;
   clear: both;
 }
-body>header > div {
+body >header > div {
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzZmNmY2ZiIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
   background: -moz-linear-gradient(top,rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%);
   background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(0,0,0,0.4)),color-stop(100%,rgba(111,111,111,0.1)));
@@ -79,7 +44,7 @@ body>header > div {
   height: 100%;
   float: left;
 }
-body>header h1 {
+body >header h1 {
   color: #ffffff;
   font-size: 60px;
   line-height: 60px;
@@ -87,6 +52,19 @@ body>header h1 {
   margin-top: 25px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
   font-weight: normal;
+}
+#messaggio {
+  width: 100%;
+  text-align: center;
+}
+footer {
+  text-align: center;
+}
+footer ul {
+  margin-bottom: 15px;
+}
+footer p {
+  margin: 0;
 }
 .page {
   width: 960px;
@@ -105,20 +83,6 @@ section#content .inner-page {
   position: relative;
   float: left;
   width: 100%;
-}
-footer {
-  float: left;
-  clear: both;
-  width: 100%;
-  border-top: 1px solid #E5E5E5;
-  background-color: #F5F5F5;
-  padding: 40px 0;
-}
-footer p {
-  margin: 15px 0 0;
-}
-footer .right {
-  text-align: right;
 }
 #countdown {
   float: right;
@@ -170,24 +134,18 @@ section#operation form .control-group {
   display: inline-block;
   margin-bottom: 5px;
 }
-section#operation label {
-  display: inline;
-  padding: 0;
-  width: auto;
-  float: none;
-}
 section#operation select {
   margin: 0;
+  width: 200px;
 }
 section#operation .center {
   display: table-cell;
-  width: 90%;
+  width: 95%;
   vertical-align: middle;
 }
 section#operation .top {
-  background: url(../images/bg.jpg) no-repeat center -140px;
+  background: url("../images/bg.jpg") no-repeat center -140px;
   -webkit-box-shadow: 0 2px 3px #aaaaaa;
-  -moz-box-shadow: 0 2px 3px #aaaaaa;
   box-shadow: 0 2px 3px #aaaaaa;
   width: 100%;
   z-index: 2;
@@ -199,16 +157,12 @@ section fieldset {
   margin: 0;
   padding: 0;
 }
-nav#topbar .nav>li>a {
+nav#topbar .nav > li > a {
   color: #eee;
   text-shadow: none;
 }
 nav#topbar .nav li.dropdown.open > .dropdown-toggle {
   background-color: transparent;
-}
-nav#topbar #login fieldset {
-  margin: 0;
-  padding: 10px 20px;
 }
 nav#topbar fieldset,
 nav#topbar form {
@@ -230,25 +184,27 @@ nav#topbar li.pull-right .dropdown-menu {
 nav#topbar li.pull-right .dropdown-menu a {
   white-space: normal;
 }
+nav#topbar #login fieldset {
+  margin: 0;
+  padding: 10px 20px;
+}
 nav#topbar #login .dropdown-menu {
   max-width: 260px;
   width: 260px;
-}
-nav#topbar #legaSelect select {
-  margin: 5px 0;
-}
-nav#topbar #login label {
-  font-weight: normal;
-  color: #666666;
-  float: left;
 }
 nav#topbar #login .text {
   border: 1px solid #cccccc;
   color: #808080;
   margin: 0;
 }
-nav#topbar li.right {
-  float: right;
+nav#topbar #login label {
+  color: #666666;
+}
+nav#topbar #lega-view {
+  width: 160px;
+}
+nav#topbar #lega-select {
+  margin: 8px 0;
 }
 nav#topbar ul:first-child {
   width: 100%;
@@ -256,30 +212,10 @@ nav#topbar ul:first-child {
 }
 nav#topbar a {
   -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
   transition: none;
 }
-#notifiche {
-  height: 19px;
-}
-#notifiche > span {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  height: 16px;
-  min-width: 16px;
-  padding: 2px;
-  text-align: center;
-  background-color: #666666;
-  display: block;
-  font-weight: bold;
-  line-height: 16px;
-  font-size: 12px;
-}
-#notifiche > span.active {
-  background-color: #cc0000;
-  color: #ffffff;
+#notifiche span {
+  font-size: 14px;
 }
 .boxNotifiche {
   min-height: 20px;
@@ -288,103 +224,7 @@ nav#topbar a {
   text-align: left;
   width: 300px;
 }
-#messaggio {
-  border-radius: 0 0 5px 5px;
-  border-top: 0;
-  box-shadow: 0 0 4px #000000;
-  position: absolute;
-  text-align: center;
-  right: 25%;
-  left: 25%;
-  padding: 8px 10px;
-}
-@media (min-width: 768px) and (max-width: 979px) {
-  body {
-    padding-top: 0;
-  }
-  body > header {
-    margin-top: -20px;
-  }
-  body.debug:before {
-    background: none repeat scroll 0 0 rgba(255,255,0,0.9);
-    content: "Tablet media query (768 < 979) fired";
-  }
-  body
-  nav#topbar li.pull-right {
-    float: none;
-  }
-  .boxNotifiche {
-    width: auto;
-  }
-  #messaggio {
-    margin-top: -20px;
-  }
-}
-@media (max-width: 767px) {
-  body {
-    padding-top: 0;
-    overflow-x: hidden;
-    background-image: none;
-  }
-  body >header {
-    display: none;
-    margin-top: -20px;
-    margin-right: -20px;
-    margin-left: -20px;
-    width: 100%;
-    padding-right: 40px;
-  }
-  body >header > div {
-    padding: 0 20px;
-  }
-  body.debug:before {
-    content: "Mobile media query (0 < 768) fired";
-    background: rgba(255,0,0,0.8);
-  }
-  #messaggio {
-    width: 100%;
-    position: relative;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    margin: -20px 0 -20px -20px;
-    padding-right: 30px;
-    left: 0;
-    right: 0;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-  nav#topbar li.pull-right {
-    float: none;
-  }
-  footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    text-align: center;
-  }
-  footer .right {
-    text-align: inherit;
-  }
-  footer ul {
-    margin-bottom: 15px !important;
-  }
-  footer p {
-    margin: 0;
-  }
-  nav#topbar li.pull-right {
-    float: none;
-  }
-}
 @media (max-width: 480px) {
-  body {
-    padding-top: 0;
-  }
-  body >header {
-    margin-top: -20px;
-  }
   body.debug::before {
     content: "Mobile media query (0 < 480) fired";
   }
@@ -396,4 +236,57 @@ nav#topbar a {
     min-height: auto !important;
   }
 }
-";s:5:"files";a:3:{s:78:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\layout.less";i:1354304629;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1360931382;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1360271592;}s:7:"updated";i:1360931717;}
+@media (max-width: 768px) {
+  nav#topbar ul.pull-right {
+    float: none !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
+@media (min-width: 768px) {
+  body {
+    background: #e6eaed url("../images/bg.jpg") repeat-x center top;
+  }
+  body.debug::before {
+    content: "Mobile media query (> 1200) fired";
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    background: rgba(0,255,0,0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+  }
+  #messaggio {
+    border-radius: 0 0 5px 5px;
+    border-top: 0;
+    box-shadow: 0 0 4px #000000;
+    position: absolute;
+    right: 25%;
+    left: 25%;
+    padding: 8px 10px;
+    width: auto;
+    z-index: 1;
+  }
+  footer {
+    float: left;
+    clear: both;
+    width: 100%;
+    border-top: 1px solid #E5E5E5;
+    background-color: #F5F5F5;
+    padding: 40px 0;
+    text-align: left;
+  }
+  footer p {
+    margin: 15px 0 0;
+  }
+  footer .pull-right {
+    text-align: right;
+  }
+  footer ul {
+    margin-bottom: 0;
+  }
+}
+";s:5:"files";a:4:{s:78:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\layout.less";i:1377006824;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377006827;}

@@ -2,167 +2,372 @@
 
 namespace Lib;
 
+ /**
+ * Handles the incoming HTTP Request object.
+ *
+ * @package Rest_Runner
+ * @copyright 2012 Roger E Thomas (http://www.rogerethomas.com)
+ * @author Roger Thomas
+ *
+ */
 class Request {
 
     /**
-     * Holds collective request data
+     *
+     * @var Rest_Request
+     */
+    protected static $_request = null;
+
+    /**
+     * Holds the raw $_SERVER array
      *
      * @var array
      */
-    protected $_data = array();
+    private $serverArray = array ();
 
     /**
-     * Holds data from the $_POST super global
+     * Raw array of all params, including $_GET, $_POST, and user params
      *
      * @var array
      */
-    protected $_post = array();
+    private $params = array ();
 
     /**
-     * Holds data from the $_GET super global
+     * The raw $_GET array
      *
      * @var array
      */
-    protected $_get = array();
+    private $get = array ();
 
     /**
-     * Holds data from the $_COOKIE super global
+     * The raw $_POST array
      *
      * @var array
      */
-    protected $_cookie = array();
+    private $post = array ();
 
     /**
+     * Body of response, or false if none manuall set
      *
-     * @var Request
+     * @var mixed:boolean string
      */
-    protected static $instance;
+    private $body = false;
 
     /**
+     * Holds any manually set parameters when using:
+     * $this->setParam()
+     *
+     * @var array
+     */
+    private $userParams = array ();
+
+    /**
+     * Initiate the class
+     */
+    public function __construct() {
+        $this->_buildParams ();
+        $this->serverArray = $_SERVER;
+    }
+
+    /**
+     * Return instance of Rest_Request
      *
      * @return Request
      */
-    public static function getInstance() {
-        if (!self::$instance)
-            self::$instance = new self();
-        return self::$instance;
+    public static function getRequest() {
+        //ob_start ();
+        if (null === self::$_request) {
+            self::$_request = new self ();
+        }
+
+        return self::$_request;
     }
 
     /**
-     * Constructor
-     * Stores "request data" in GPC order.
-     */
-    public function __construct() {
-        $this->_data = array_merge($this->_data, $_REQUEST);
-        $this->_get = array_merge($this->_get, $_GET);
-        $this->_post = array_merge($this->_post, $_POST);
-        $this->_cookie = array_merge($this->_cookie, $_COOKIE);
-        $this->_clean();
-    }
-
-    /**
-     * Store "request data" in GPC order.
+     * Retrieve the REQUEST_URI without and GET parameters
      *
-     * @param string $key
-     * @param mixed $value
+     * @example /contact-us
+     * @return string
      */
-    public function set($key, $value) {
-        $this->_data[$key] = $value;
+    public function getRequestUri() {
+        if (isset ( $this->serverArray ['REQUEST_URI'] )) {
+            $uri = $this->serverArray ['REQUEST_URI'];
+        } else {
+            $uri = "/";
+        }
+        if (strstr ( $uri, "?" )) {
+            $uri = strstr ( $uri, "?", true );
+        }
+        return $uri;
     }
 
     /**
-     * Check stored "request data" by referencing a key.
+     * Is request via HTTPS
      *
-     * @param string $key
      * @return boolean
      */
-    public function has($key) {
-        return isset($this->_data[$key]);
-    }
-
-    /**
-     * Read stored "request data" by referencing a key.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function get($key) {
-        return ($this->has($key)) ? $this->_data[$key] : null;
-    }
-
-    /**
-     * Allow access to data stored in GET, POST and COOKIE super globals.
-     *
-     * @param string $var
-     * @param string $key
-     * @return mixed
-     */
-    public function getRawData($var, $key = NULL) {
-        switch (strtolower($var)) {
-            case 'get':
-                $array = $this->_get;
-                break;
-
-            case 'post':
-                $array = $this->_post;
-                break;
-
-            case 'cookie':
-                $array = $this->_cookie;
-                break;
-
-            default:
-                $array = array();
-                break;
+    public function isHttpsRequest() {
+        if (empty ( $this->serverArray ['HTTPS'] ) || $this->serverArray ['HTTPS'] == "off") {
+            return false;
         }
 
-        if (!is_null($key) && isset($array[$key]))
-            return $array[$key];
-        return $array;
+        return true;
     }
 
     /**
-     * Internally clean request data by handling magic_quotes_gpc and then adding slashes.
+     * Retrieve the REQUEST_URI WITH and GET parameters
      *
+     * @example /contact-us
+     * @return string
      */
-    protected function _clean() {
-        if (get_magic_quotes_gpc()) {
-            $this->_data = $this->_stripSlashes($this->_data);
-            $this->_post = $this->_stripSlashes($this->_post);
-            $this->_get = $this->_stripSlashes($this->_get);
+    public function getRawRequestUri() {
+        if (isset ( $this->serverArray ['REQUEST_URI'] )) {
+            $uri = $this->serverArray ['REQUEST_URI'];
+        } else {
+            $uri = "/";
         }
+
+        return $uri;
     }
 
     /**
-     * Strip slashes code from php.net website.
+     * Retrieve a header from the request header stack and
+     * optionally set a default value to use if key isn't
+     * found.
      *
+     * @param string $name
+     * @param mixed:multitype $default
+     * @return string
+     */
+    public function getHeader($name, $default = null) {
+        if (empty ( $name )) {
+            return $default;
+        }
+
+        $temp = 'HTTP_' . strtoupper ( str_replace ( '-', '_', $name ) );
+        if (isset ( $this->serverArray [$temp] )) {
+            return $this->serverArray [$temp];
+        }
+
+        if (function_exists ( 'apache_request_headers' )) {
+            $method = 'apache_request_headers';
+            $headers = $method ();
+            if (isset ( $headers [$name] )) {
+                return $headers [$name];
+            }
+            $header = strtolower ( $header );
+            foreach ( $headers as $key => $value ) {
+                if (strtolower ( $key ) == $name) {
+                    return $value;
+                }
+            }
+        }
+
+        return $default;
+    }
+
+    /**
+     * Return the REQUEST_METHOD from the SERVER global array
+     *
+     * @return string
+     */
+    public function getRequestMethod() {
+        if (isset ( $this->serverArray ['REQUEST_METHOD'] )) {
+            $m = $this->serverArray ['REQUEST_METHOD'];
+        } else {
+            $m = "GET";
+        }
+
+        return $m;
+    }
+
+    /**
+     * Add a single parameter to the params stack
+     *
+     * @param string $name
      * @param mixed $value
+     */
+    public function setParam($name, $value) {
+        $this->userParams [$name] = $value;
+        $this->_buildParams ();
+    }
+
+    /**
+     * Retrieve all request params (GET / POST and Manuall Set Params) as a
+     * single array
+     *
      * @return array
      */
-    protected function _stripSlashes($value) {
-        if (is_array($value))
-            return array_map(array($this, '_stripSlashes'), $value);
-        else
-            return stripslashes($value);
+    public function getParams() {
+        return $this->params;
     }
 
-    public static function send404() {
-        header($_SERVER['SERVER_PROTOCOL'] . " 404 Not Found",TRUE,404);
-        require("error_docs/404.html");
-        die();
+    /**
+     * Retrieve all POST params as an array
+     *
+     * @return array
+     */
+    public function getPostParams() {
+        return $this->post;
     }
 
-    public static function send500() {
-        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', TRUE, 500);
-        require("error_docs/500.html");
-        die();
+    /**
+     * Retrieve all GET params as an array
+     *
+     * @return array
+     */
+    public function getGetParams() {
+        return $this->get;
     }
 
-    public static function goToUrl($link, $array = NULL) {
-        header("Location: " . urldecode(Links::getLink($link, $array)));
-        die();
+    /**
+     * Retrieve all request params (GET and POST) as a single array
+     *
+     * @return array
+     */
+    public function getParam($name, $default = null) {
+        if (array_key_exists ( $name, $this->params )) {
+            return $this->params [$name];
+        }
+        return $default;
     }
 
-}
+    /**
+     * Check if the request is HTTP_GET
+     *
+     * @return boolean
+     */
+    public function isGet() {
+        if (strtolower ( $this->getRequestMethod () ) == "get") {
+            return true;
+        }
+        return false;
+    }
 
-?>
+    /**
+     * Check if the request is HTTP_POST
+     *
+     * @return boolean
+     */
+    public function isPost() {
+        if (strtolower ( $this->getRequestMethod () ) == "post") {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the request is HTTP_PUT
+     *
+     * @return boolean
+     */
+    public function isPut() {
+        if (strtolower ( $this->getRequestMethod () ) == "put") {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if the request is HTTP_DELETE
+     *
+     * @return boolean
+     */
+    public function isDelete() {
+        if (strtolower ( $this->getRequestMethod () ) == "delete") {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get the raw body, if any.
+     * Else this will return false
+     */
+    public function getBody() {
+        if ($this->body == false) {
+
+            @$body = file_get_contents ( 'php://input' );
+
+            if (strlen ( trim ( $body ) ) > 0) {
+                $this->body = $body;
+            } else {
+                $this->body = false;
+            }
+        }
+
+        if ($this->body == false) {
+            return false;
+        }
+
+        return $body;
+    }
+
+    /**
+     * Alias for self::getBody
+     *
+     * @see Rest_Request::getBody
+     * @return string
+     */
+    public function getRawBody() {
+        return $this->getBody ();
+    }
+
+    /**
+     * Alias for self::getIp
+     *
+     * @see Rest_Request::getIp
+     * @return string
+     */
+    public function getClientIp() {
+        return $this->getIp ();
+    }
+
+    /**
+     * Return the users IP Address
+     *
+     * @return string
+     */
+    public function getIp() {
+        if (isset ( $this->serverArray ['HTTP_X_FORWARDED_FOR'] )) {
+            return $this->serverArray ['HTTP_X_FORWARDED_FOR'];
+        } else if (isset ( $this->serverArray ['HTTP_CLIENT_IP'] )) {
+            return $this->serverArray ['HTTP_CLIENT_IP'];
+        }
+
+        return $this->serverArray ['REMOTE_ADDR'];
+    }
+    protected function _buildParams() {
+        if (empty ( $this->get )) {
+            foreach ( $_GET as $k => $v ) {
+                $this->get [$k] = $v;
+                $this->params [$k] = $v;
+            }
+        }
+
+        if (empty ( $this->post )) {
+            foreach ( $_POST as $k => $v ) {
+                $this->post [$k] = $v;
+                $this->params [$k] = $v;
+            }
+        }
+
+        foreach ( $this->userParams as $k => $v ) {
+            $this->params [$k] = $v;
+        }
+    }
+
+    /**
+     * Is the request an Ajax XMLHttpRequest?
+     *
+     * @return boolean
+     */
+    public function isXmlHttpRequest() {
+        if ($this->serverArray ['X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            return true;
+        }
+
+        return false;
+    }
+} 
+ 

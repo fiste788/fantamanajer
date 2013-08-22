@@ -8,13 +8,16 @@ var timestamp = $('#countdown').data('data-fine'),
 if($dropdown.length)
 	$dropdown.dropdown();
 $.isViewport = function(viewportName) {
-    return $('html').hasClass('is' + viewportName);
-}
-syze.sizes(320,480, 768, 980).names({
-    320:'small-phone',
-    480:'phone',
-    768:'tablet',
-    980:'desktop'
+    var pre = viewportName.substring(0,2);
+    viewportName = (pre === 'gt' || pre === 'lt') ? viewportName : ('is' + viewportName)
+    return $('html').hasClass(viewportName);
+};
+syze.sizes(320, 480, 768, 992, 1200).names({
+    320:'xxs',
+    480:'xs',
+    768:'sm',
+    992:'md',
+    1200:'lg'
 });
 $('.dropdown-menu').find('form').click(function (e) {
     e.stopPropagation();
@@ -36,7 +39,7 @@ if($messaggio.length) {
     });
 }
 function enableWell() {
-    if($.isViewport('desktop') && !activeWell) {
+    if($.isViewport('gtxs') && !activeWell) {
         activeWell = true;
         var $well = $('.well');
         if($well.length) {
@@ -48,11 +51,20 @@ function enableWell() {
         }
     }
 }
+function disableWell() {
+    if($.isViewport('ltsm') && activeWell) {
+        activeWell = false;
+        var $well = $('.well');
+        if($well.length) {
+            $well.unbind();
+        }
+    }
+}
 function enableStickpanel() {
-    if($.isViewport('desktop') && !activeStickpanel) {
+    if($.isViewport('gtxs') && !activeStickpanel) {
         activeStickpanel = true;
         $operation.find('.fix').stickyPanel({
-            topPadding: 41,
+            topPadding: 50,
             afterDetachCSSClass: 'top',
             savePanelSpace: true
         });
@@ -70,7 +82,7 @@ function disableStickpanel() {
     }
 }
 function enableCountdown() {
-    if(!$.isViewport('phone') && (typeof d != 'undefined') && !activeCountdown) {
+    if($.isViewport('gtxs') && (typeof d !== 'undefined') && !activeCountdown) {
         activeCountdown = true;
         var interval = 1000,
         	htmlTemplate = '<span class="number">%h</span>:<span class="number">%m</span>:<span class="number">%s</span>';
@@ -89,20 +101,34 @@ function enableCountdown() {
         });
     }
 }
+function enableTableSorter() {
+    var tablesorter = $(".tablesorter");
+    if(tablesorter.length) {
+        Modernizr.load({
+            test: $.tablesorter != undefined,
+            nope: JSURL + 'tablesorter/tablesorter.js',
+            complete: function() {
+                tablesorter.tablesorter();
+            }
+        });
+    }
+}
+enableTableSorter();
 enableStickpanel();
 enableWell();
 enableCountdown();
-$(window).bind('enterViewportDesktop', enableStickpanel);
-$(window).bind('exitViewportDesktop', disableStickpanel);
-$(window).bind('enterViewportDesktop', enableWell);
-$(window).bind('exitViewportPhone', enableCountdown);
+$(window).bind('exitViewportXs', enableStickpanel);
+$(window).bind('enterViewportXs', disableStickpanel);
+$(window).bind('exitViewportXs', enableWell);
+$(window).bind('exitViewportXs', enableCountdown);
+$(window).bind('enterViewportXs', disableWell);
 var $operationBack = $operation.find('.back'),
 	$operationNext = $operation.find('.next');
 if($operationNext.length || $operationBack.length) {
     $(document).keydown(function(e) {
-        if(e.ctrlKey && e.which == 37 && $operationBack.length)
+        if(e.ctrlKey && e.which === 37 && $operationBack.length)
 			window.location.href = $operationBack.attr('href');
-        if(e.ctrlKey && e.which == 39 && $operationNext.length)
+        if(e.ctrlKey && e.which === 39 && $operationNext.length)
 			window.location.href = $operationNext.attr('href');
     });
 }

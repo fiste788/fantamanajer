@@ -57,4 +57,4 @@ class ArticoloController extends ApplicationController {
     }
 }
 
-?>
+ 

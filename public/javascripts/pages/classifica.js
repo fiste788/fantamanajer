@@ -49,7 +49,7 @@
             var $rigaSquadra = $choiceContainer.find("#squadra-"+key.replace(/ /g,'')),
 				input = $('<input class="checkall checkbox" type="checkbox" name="' + key + '" />');
             $rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '"></div>');
-            if(squadra != false)
+            if(squadra !== false)
                 input.prop('checked',true);
             $rigaSquadra.prepend(input);
         });
@@ -72,17 +72,17 @@
                     k++;
                 }
             });
-            if(k == 0)
+            if(k === 0)
                 $grafico.hide();
             else
                 $grafico.show();
-            if (k == 1)
+            if (k === 1)
                 data.push(medie[j]);
 
             var from = $grafico.data('from'),
             	to = $grafico.data('to');
 
-            if(from != null && to != null) {
+            if(from !== undefined && to !== undefined) {
                 plot = $.plot($placeholder, data,$.extend(true, {}, options, {
                     xaxis: {
                         min: Math.round(from) ,
@@ -145,7 +145,7 @@
                     top: y + 5,
                     left: x + 5,
                     border: '1px solid '+color,
-                    padding: '2px',
+                    padding: '5px',
                     'background-color': colorLight,
                     color: '#000',
                     opacity: 0.70
@@ -156,7 +156,7 @@
             $placeholder.bind("plothover", function (event, pos, item) {
                 var $tooltip = $("#tooltip");
                 if (item) {
-                    if (!previousPoint || (previousPoint[0] != item.datapoint[0]) || (previousPoint[1] != item.datapoint[1])) {
+                    if (!previousPoint || (previousPoint[0] !== item.datapoint[0]) || (previousPoint[1] !== item.datapoint[1])) {
                         previousPoint = item.datapoint;
                         $tooltip.remove();
                         var x = item.datapoint[0].toFixed(2),
@@ -186,15 +186,14 @@
                     appo.data = [];
                     appo.color = datasets[key]['color'];
                     if (key && datasets[key]) {
-                        for(i = Math.round(area.xaxis.from);i <= Math.round(area.xaxis.to); i++) {
-                            appo.data.push(datasets[key]['data'][Math.abs(i - datasets[key]['data'].length)])
-                        }
+                        for(i = Math.round(area.xaxis.from);i <= Math.round(area.xaxis.to); i++)
+                            appo.data.push(datasets[key]['data'][Math.abs(i - datasets[key]['data'].length)]);
                         data.push(appo);
                         j = key;
                         k++;
                     }
                 });
-                if (k == 1)
+                if (k === 1)
                     data.push(medie[j]);
 
                 // do the zooming
@@ -209,8 +208,8 @@
                 $overview.setSelection(area, true);
             });
 
-            if(from != null && to != null)
-                overview.setSelection({
+            if(from !== undefined && to !== undefined)
+                $overview.setSelection({
                     x1 : from,
                     x2 : to
                 });
@@ -238,7 +237,7 @@ $("#tab_classifica").find("tbody tr").each(function(i,tr) {
     tds.each(function(i2,td) {
         var nGior = parseInt($(giornate[i2]).text()),
 			giornata = new Array();
-        if(i2 == 0 || (i2 + 1) == tds.length) {
+        if(i2 === 0 || (i2 + 1) === tds.length) {
             var appo = new Array();
             appo.push(nGior,mediaVal);
             media.data.push(appo);
@@ -250,7 +249,7 @@ $("#tab_classifica").find("tbody tr").each(function(i,tr) {
     medie[key] = media;
 });
 function enableClassifica() {
-    if(($.isViewport('tablet') || $.isViewport('desktop')) && !activeClassifica) {
+    if(!$.isViewport('xs') && !activeClassifica) {
         activeClassifica = true;
         Modernizr.load({
             test: Modernizr.canvas,
@@ -262,4 +261,4 @@ function enableClassifica() {
     }
 }
 enableClassifica();
-$(window).bind("exitViewportPhone", enableClassifica);
+$(window).bind("exitViewportXs", enableClassifica);

@@ -80,4 +80,4 @@ abstract class GiornataTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 

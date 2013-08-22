@@ -2,8 +2,8 @@
 
 class Pages {
 
-    var $pages;
-    var $navbar;
+    public $pages;
+    public $navbar;
     private $orderNavbar;
     private $rawNavbar;
 

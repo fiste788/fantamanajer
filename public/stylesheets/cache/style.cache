@@ -1,31 +1,4 @@
-a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:3468:".clearfix {
-  *zoom: 1;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.clearfix:after {
-  clear: both;
-}
-.hide-text {
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
-  background-color: transparent;
-  border: 0;
-}
-.input-block-level {
-  display: block;
-  width: 100%;
-  min-height: 30px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-article,
+a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:2829:"article,
 details,
 figcaption,
 figure,
@@ -79,8 +52,6 @@ a:hover {
 }
 a {
   -webkit-transition: all 0.2s linear 0s;
-  -moz-transition: all 0.2s linear 0s;
-  -o-transition: all 0.2s linear 0s;
   transition: all 0.2s linear 0s;
 }
 .formbox {
@@ -123,9 +94,7 @@ form {
 }
 .foto {
   -webkit-transform: rotate(-2deg);
-  -moz-transform: rotate(-2deg);
   -ms-transform: rotate(-2deg);
-  -o-transform: rotate(-2deg);
   transform: rotate(-2deg);
 }
 .foto.left {
@@ -146,7 +115,6 @@ form {
   height: 15px;
   display: block;
   -webkit-box-shadow: 1px 1px 2px #AAAAAA;
-  -moz-box-shadow: 1px 1px 2px #AAAAAA;
   box-shadow: 1px 1px 2px #AAAAAA;
 }
 .ammonizione {
@@ -180,8 +148,8 @@ table .headerSortDown {
 table .headerSortDown:after,
 table .headerSortDown:hover:after {
   visibility: visible;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
+  opacity: 60;
+  filter: alpha(opacity=6000);
 }
 table .header {
   cursor: pointer;
@@ -205,10 +173,9 @@ table .headerSortUp:after {
   border-top: 4px solid #000000;
   visibility: visible;
   -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
+  opacity: 60;
+  filter: alpha(opacity=6000);
 }
 @media (max-width: 480px) {
   .visible-small-phone {
@@ -218,4 +185,4 @@ table .headerSortUp:after {
     display: none !important;
   }
 }
-";s:5:"files";a:3:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1354965755;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1360931382;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1360271592;}s:7:"updated";i:1360931718;}
+";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1376996239;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377000883;}

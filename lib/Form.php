@@ -7,4 +7,4 @@ interface Form {
 	function check(array $parameters);
 
 }
-?>
+ 

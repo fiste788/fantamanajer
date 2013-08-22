@@ -6,26 +6,31 @@ class UtenteController extends ApplicationController {
 
     public function login() {
         if (!$_SESSION['logged']) {
-            if ($this->request->has('username') && $this->request->has('password')) {
-                $this->auth->remember = ($this->request->get('remember') == 'on');
+            if ($this->request->getParam('username') != NULL && $this->request->getParam('password') != NULL) {
+                $this->auth->remember = ($this->request->getParam('remember') == 'on');
                 \FirePHP::getInstance()->log("redirect");
-                if (!$this->auth->doLogin($this->request->get('username'), md5($this->request->get('password'))))
+                if (!$this->auth->doLogin($this->request->getParam('username'), md5($this->request->getParam('password')))) {
                     $this->setFlash(1,"Errore nel login");
-                else
+                    $this->redirectTo('home');
+                }
+                else {
                     $this->redirectTo('squadra_show',array('id'=>$_SESSION['id']));
+                }
                     //$this->request->goToUrl($this->router->generate('home'));
             }
-            elseif (isset($_COOKIE['auth_username']) && isset($_COOKIE['auth_key']))
-                $this->auth->renewLogin($_COOKIE['auth_username'], $_COOKIE['auth_key']);
+            elseif (isset($_COOKIE['auth_username']) && isset($_COOKIE['auth_key'])) {
+                $this->auth->renewLogin(filter_input(INPUT_COOKIE, 'auth_username'), $_COOKIE['auth_key']);
+            }
         }
     }
 
     public function logout() {
-        if($_SESSION['logged'])
+        if($_SESSION['logged']) {
             $this->auth->logout();
+        }
         $this->redirectTo('classifica');
     }
 
 }
 
-?>
+ 

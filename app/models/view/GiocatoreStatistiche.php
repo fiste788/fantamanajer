@@ -144,4 +144,4 @@ class GiocatoreStatistiche extends \Fantamanajer\Models\Giocatore {
 		return $this->getCognome() . " " . $this->getNome();
 	}
 }
-?>
+ 

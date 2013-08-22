@@ -130,4 +130,4 @@ class SquadraStatistiche extends \Fantamanajer\Models\Utente {
 	}
 
 }
-?>
+ 

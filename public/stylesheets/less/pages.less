@@ -1,6 +1,6 @@
 @import "bootstrap/variables.less";
 @import "bootstrap/mixins.less";
-
+@import "variables.less";
 
 #classifica {
     .legend {
@@ -27,11 +27,9 @@
 
 #club_index {
     .club {
-        width:140px;
         text-align:center;
-        margin:25px;
-        height:128px;
-        float:left;
+        width: 100%;
+        display: inline-block;
     }
 }
 
@@ -69,7 +67,7 @@
     #campo {
         width:554px;
         height:644px;
-        background: transparent url(@{imgsPath}campo.png) no-repeat scroll 0 0;
+        background: transparent url("@{imgsPath}campo.png") no-repeat scroll 0 0;
         text-align: center;
         float:left;
         margin:0 15px 0 0;
@@ -119,7 +117,7 @@
         margin:10px;
     }
     .droppable-hover2 {
-        background: transparent url(@{imgsPath}sostituisci.gif) no-repeat 50% 5px;
+        background: transparent url("@{imgsPath}sostituisci.gif") no-repeat 50% 5px;
         img {
             display:none;
         }
@@ -153,7 +151,6 @@
         //background: transparent url(@{imgsPath}bg.jpg) no-repeat scroll center -140px;
         z-index:1;
         padding:5px 10px;
-        .box-sizing(border-box);
         .giocatore {
             top:auto !important;
             left:auto !important;
@@ -178,7 +175,6 @@
         position:absolute;
         padding-left:570px;
         z-index:0;
-        .box-sizing(border-box);
     }
     #panchina {
         float:left;
@@ -221,7 +217,7 @@
         background-position: -570px 50%;
     }
     [id*=panch-], [id*=cap-] {
-        background: transparent url(@{imgsPath}panchina-black.png) no-repeat scroll 0px 50%;
+        background: transparent url("@{imgsPath}panchina-black.png") no-repeat scroll 0px 50%;
     }
     #panchina .draggable, #capitani .draggable {
         margin:auto;
@@ -283,16 +279,6 @@
 
 #squadre {
     text-align:center;
-    @media (max-width: 768px) {
-        #squadre .span3 img {
-            float:left;
-        }
-    }
-    @media (max-width: 480px) {
-        #squadre .span3 img {
-            float:none;
-        }
-    }
 }
 
 #probabiliFormazioni {
@@ -316,6 +302,9 @@
     }
 }
 #squadra_show {
+    #header-squadra {
+        margin-bottom:20px;
+    }
 	#dropzone {
 		float: left;
 		font-weight: bold;
@@ -343,4 +332,10 @@
 			transition: all 0.3s ease-out 0s;
 		}
 	}
+}
+#contatti .well {
+    text-align: center;
+    img {
+        margin:20px;
+    }
 }

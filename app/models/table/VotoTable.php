@@ -506,4 +506,4 @@ abstract class VotoTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 

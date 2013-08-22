@@ -341,4 +341,4 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 

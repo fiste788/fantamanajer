@@ -290,4 +290,4 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 

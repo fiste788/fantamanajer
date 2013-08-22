@@ -1,9 +1,9 @@
-<div id="headerClub">
+<div id="headerClub" class="clearfix">
 	<img class="logo left" alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->clubDett->id . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
 	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>
-<div class="clearfix well">
+<div class="well">
 	<h3>Giocatori</h3>
 	<table class="table">
 		<thead>

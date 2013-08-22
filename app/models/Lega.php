@@ -70,4 +70,4 @@ class Lega extends Table\LegaTable {
 
 }
 
-?>
+ 

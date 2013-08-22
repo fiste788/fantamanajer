@@ -25,4 +25,4 @@ class LegaController extends ApplicationController {
     }
 }
 
-?>
+ 

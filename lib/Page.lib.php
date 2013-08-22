@@ -11,4 +11,4 @@ class Page
 		$this->js = $js;
 	}
 }
-?>
+ 

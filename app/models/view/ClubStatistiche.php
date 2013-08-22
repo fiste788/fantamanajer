@@ -82,4 +82,4 @@ class ClubStatistiche extends \Fantamanajer\Models\Club {
 
 }
 
-?>
+ 

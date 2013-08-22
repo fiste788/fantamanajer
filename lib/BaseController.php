@@ -48,6 +48,14 @@ abstract class BaseController {
      * @var Request
      */
     protected $request;
+    
+    /**
+     *
+     * @var Response
+     */
+    protected $response;
+
+
     protected $format = 'html';
 
     /**
@@ -68,26 +76,19 @@ abstract class BaseController {
     protected $generalJs = array();
     protected $generalCss = array();
 
-    public function __construct($controller, $action, $router, $route) {
+    public function __construct(Request $request, Response $response) {
         require(CONFIGDIR . 'pages.php');
-
+        
         $this->pages = $pages;
         $this->auth = new Login();
         \FirePHP::getInstance(TRUE);
         \FirePHP::getInstance()->setEnabled(LOCAL);
-        \FirePHP::getInstance()->registerErrorHandler(FALSE);
-        $this->controller = $controller;
-        $this->action = $action;
-        $this->router = $router;
-        $this->route = $route;
-        $this->request = Request::getInstance();
-        \Lib\Router::getInstance($router);
-
-        if(isset($route['params']['format']))
-            $this->format = $route['params']['format'];
-
-        if(isset($pages->pages[$route['name']]) && $pages->pages[$route['name']]->roles > $_SESSION['roles'])
-            $this->notAuthorized();
+        //\FirePHP::getInstance()->registerAssertionHandler();
+        \FirePHP::getInstance()->registerErrorHandler(false);
+        //\FirePHP::getInstance()->registerExceptionHandler(false);
+        
+        $this->request = $request;
+        $this->response = $response;
 
         $this->templates['layout'] = new \Savant3(array('template_path' => LAYOUTSDIR));
         $this->templates['header'] = new \Savant3(array('template_path' => LAYOUTSDIR));
@@ -96,7 +97,15 @@ abstract class BaseController {
         $this->templates['content'] = new \Savant3(array('template_path' => VIEWSDIR));
     }
 
-    public abstract function initialize();
+    public function initialize() {
+        \Lib\Router::getInstance($this->router);
+        if (isset($this->route['params']['format'])) {
+            $this->format = $this->route['params']['format'];
+        }
+        if (isset($this->pages->pages[$this->route['name']]) && $this->pages->pages[$this->route['name']]->roles > $_SESSION['roles']) {
+            $this->notAuthorized();
+        }
+    }
 
     public abstract function notAuthorized();
 
@@ -152,10 +161,10 @@ abstract class BaseController {
     }
 
     public function render() {
+        
         $this->templates['layout']->assign('generalJs', $this->generalJs);
         $this->templates['layout']->assign('generalCss', $this->generalCss);
         $this->templates['layout']->assign('js',$this->pages->pages[$this->route['name']]->js);
-
         if ($this->format == 'html') {
             $content = $this->templates['content']->fetch($this->controller . DS . $this->action . '.php');
             $header = $this->templates['header']->fetch('header.tpl.php');
@@ -171,13 +180,39 @@ abstract class BaseController {
                 $this->templates['layout']->assign($name, $content);
 
             $this->templates['layout']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
-            $this->templates['layout']->display('layout.tpl.php');
+           
+            $output = $this->templates['layout']->fetch('layout.tpl.php');
+            
         } elseif($this->format == 'json') {
 
         }
+        return $output;
+    }
+    
+    public function __destruct() {
         unset($_SESSION['__flash']);
     }
+    
+    public function getRouter() {
+        return $this->router;
+    }
+
+    public function setRouter(\AltoRouter $router) {
+        $this->router = $router;
+    }
+
+    public function getRoute() {
+        return $this->route;
+    }
+
+    public function setRoute($route) {
+        $this->route = $route;
+        $this->controller = $route['target']['controller'];
+        $this->action = $route['target']['action'];
+    }
+
+
 
 }
 
-?>
+ 

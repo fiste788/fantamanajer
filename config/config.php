@@ -131,26 +131,4 @@ define("VOTIURL", DOCSURL . 'voti/csv/');
 define("JSURL", PUBLICURL . 'javascripts/');
 define("AJAXURL", FULLURL . 'ajax/');
 
-$generalJs = array();
-$generalJs[] = 'modernizr/modernizr.js';
-$generalJs[] = 'jquery/jquery.js';
-$generalJs[] = 'jquery/jquery-migrate-1.0.0b1.js';
-$generalJs[] = 'syze/syze.js';
-$generalJs[] = 'ui/jquery.ui.effect.js';
-$generalJs[] = 'ui/jquery.ui.effect-pulsate.js';
-$generalJs[] = 'bootstrap/bootstrap-transition.js';
-$generalJs[] = 'bootstrap/bootstrap-collapse.js';
-$generalJs[] = 'bootstrap/bootstrap-dropdown.js';
-$generalJs[] = 'stickyPanel/jquery.stickyPanel.js';
-$generalJs[] = 'countdown/jquery.jcountdown1.3.js';
-$generalJs[] = 'googleAnalytics/googleAnalytics.js';
-$generalJs[] = 'custom/all.js';
-
-$generalCss = array();
-$generalCss[] = 'bootstrap/bootstrap';
-$generalCss[] = 'bootstrap/responsive';
-$generalCss[] = 'layout';
-$generalCss[] = 'style';
-$generalCss[] = 'pages';
-$generalCss[] = 'fancybox';
-?>
+ 

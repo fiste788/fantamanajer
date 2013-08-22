@@ -1,11 +1,11 @@
 <?php $r = 'Por.'; ?>
-<div id="headerSquadra">
+<div id="header-squadra" class="clearfix">
     <?php if ($this->squadraDett->id == $_SESSION['idUtente']): ?>
         <input id="fileupload" type="file" name="files" data-url="<?php echo AJAXURL ?>upload.php" class="hidden">
         <div id="dropzone">
             <?php if (file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
                 <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
-                    <img class="img-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
+                    <img class="image-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
                 </a>
             <?php else: ?>
                 <div class="well">Trascina l'immagine qui per caricarla</div>
@@ -47,11 +47,11 @@
 				<?php echo $this->squadraDett->punteggioMax; ?>
 			</p>
 		</div>
-		<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
-			<p class="alert-message alert alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo ""; ?>">Clicca quì</a></p>
-		<?php endif; ?>
 	</div>
 </div>
+<?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
+	<p class="alert-message alert alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo ""; ?>">Clicca quì</a></p>
+<?php endif; ?>
 <?php if(!empty($this->giocatori)): ?>
 <div class="clearfix well">
 	<h3>Giocatori</h3>
@@ -64,11 +64,11 @@
                 <th><abbr title="Partite giocate">PG</abbr></th>
                 <th><abbr title="Media voto">MV</abbr></th>
                 <th><abbr title="Media punti">MP</abbr></th>
-				<th class="hidden-phone">Gol</th>
-				<th class="hidden-phone">Gol subiti</th>
-				<th class="hidden-phone">Assist</th>
-                <th class="hidden-phone"><abbr title="Ammonizioni">Amm</abbr></th>
-                <th class="hidden-phone"><abbr title="Espulsioni">Esp</abbr></th>
+				<th class="hidden-xs">Gol</th>
+				<th class="hidden-xs">Gol subiti</th>
+				<th class="hidden-xs">Assist</th>
+                <th class="hidden-xs"><abbr title="Ammonizioni">Amm</abbr></th>
+                <th class="hidden-xs"><abbr title="Espulsioni">Esp</abbr></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -82,11 +82,11 @@
                     <td><?php echo $giocatore->presente . " (" . $giocatore->presenzeVoto . ")"; ?></td>
                     <td><?php echo $giocatore->avgVoti ?></td>
                     <td><?php echo $giocatore->avgPunti ?></td>
-                    <td class="hidden-phone"><?php echo $giocatore->gol ?></td>
-                    <td class="hidden-phone"><?php echo $giocatore->golSubiti ?></td>
-                    <td class="hidden-phone"><?php echo $giocatore->assist ?></td>
-                    <td class="hidden-phone"><?php echo $giocatore->ammonizioni ?></td>
-                    <td class="hidden-phone"><?php echo $giocatore->espulsioni ?></td>
+                    <td class="hidden-xs"><?php echo $giocatore->gol ?></td>
+                    <td class="hidden-xs"><?php echo $giocatore->golSubiti ?></td>
+                    <td class="hidden-xs"><?php echo $giocatore->assist ?></td>
+                    <td class="hidden-xs"><?php echo $giocatore->ammonizioni ?></td>
+                    <td class="hidden-xs"><?php echo $giocatore->espulsioni ?></td>
                 </tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -95,11 +95,11 @@
 				<td colspan="4">Totali</td>
 				<td class="tdcenter"><?php echo $this->squadraDett->avgVoti; ?></td>
 				<td class="tdcenter"><?php echo $this->squadraDett->avgPunti; ?></td>
-				<td class="tdcenter hidden-phone"><?php echo $this->squadraDett->totaleGol; ?></td>
-				<td class="tdcenter hidden-phone "><?php echo $this->squadraDett->totaleGolSubiti; ?></td>
-				<td class="tdcenter hidden-phone"><?php echo $this->squadraDett->totaleAssist; ?></td>
-				<td class="tdcenter hidden-phone"><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
-				<td class="tdcenter hidden-phone"><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
+				<td class="tdcenter hidden-xs"><?php echo $this->squadraDett->totaleGol; ?></td>
+				<td class="tdcenter hidden-xs "><?php echo $this->squadraDett->totaleGolSubiti; ?></td>
+				<td class="tdcenter hidden-xs"><?php echo $this->squadraDett->totaleAssist; ?></td>
+				<td class="tdcenter hidden-xs"><?php echo $this->squadraDett->totaleAmmonizioni; ?></td>
+				<td class="tdcenter hidden-xs"><?php echo $this->squadraDett->totaleEspulsioni; ?></td>
 			</tr>
 		</tfoot>
 	</table>

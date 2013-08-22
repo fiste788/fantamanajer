@@ -6,7 +6,7 @@ use \Fantamanajer\Models as Models;
 class PunteggioController extends ApplicationController {
 
     public function index() {
-        $filterGiornata = ($this->request->has('giornata')) ? $this->request->get('giornata') : $this->currentGiornata->id;
+        $filterGiornata = ($this->request->getParam('giornata') != null) ? $this->request->getParam('giornata') : $this->currentGiornata->id;
 
         $classificaDett = Models\Punteggio::getAllPunteggiByGiornata($filterGiornata,$_SESSION['legaView']);
         $squadre = $this->currentLega->getUtenti();
@@ -50,4 +50,4 @@ class PunteggioController extends ApplicationController {
     }
 }
 
-?>
+ 

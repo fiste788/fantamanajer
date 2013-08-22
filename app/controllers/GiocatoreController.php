@@ -64,4 +64,4 @@ class GiocatoreController extends ApplicationController {
     }
 }
 
-?>
+ 

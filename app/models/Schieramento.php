@@ -23,4 +23,4 @@ class Schieramento extends Table\SchieramentoTable {
 
 }
 
-?>
+ 

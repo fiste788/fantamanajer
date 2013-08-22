@@ -50,4 +50,3 @@ $pages->addPage('lanciaScript','Lancia script',2,'areaAmministrativa',2);
 $pages->addPage('modificaGiocatore','Modifica giocatore',2,'areaAmministrativa',3,array('flot'=>array('jquery.flot','jquery.flot.selection')));
 $pages->addPage('giornata','Giornata',2,'areaAmministrativa',4,array('ui'=>array('jquery.ui.core','jquery.ui.datepicker')));
 $pages->finalize();
-?>

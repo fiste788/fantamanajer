@@ -289,4 +289,4 @@ class Punteggio extends Table\PunteggioTable {
 
 }
 
-?>
+ 

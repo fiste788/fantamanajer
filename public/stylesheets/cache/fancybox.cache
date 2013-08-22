@@ -1,31 +1,4 @@
-a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/fancybox.less";s:8:"compiled";s:4445:".clearfix {
-  *zoom: 1;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.clearfix:after {
-  clear: both;
-}
-.hide-text {
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
-  background-color: transparent;
-  border: 0;
-}
-.input-block-level {
-  display: block;
-  width: 100%;
-  min-height: 30px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.fancybox-wrap {
+a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/fancybox.less";s:8:"compiled";s:3760:".fancybox-wrap {
   position: absolute;
   top: 0;
   left: 0;
@@ -80,9 +53,6 @@ a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   background: #f9f9f9;
   color: #444;
   text-shadow: none;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
 }
 .fancybox-inner {
   overflow: hidden;
@@ -101,9 +71,6 @@ a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   padding: 2px 20px;
   background: transparent;
   background: rgba(0,0,0,0.8);
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
   text-shadow: 0 1px 2px #222;
   color: #FFF;
   font-weight: bold;
@@ -162,7 +129,7 @@ a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   height: 100%;
   cursor: pointer;
   text-decoration: none;
-  background: transparent url(../images/fancybox/blank.gif);
+  background: transparent url(fancybox/blank.gif);
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   z-index: 8040;
 }
@@ -196,7 +163,7 @@ a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
 #fancybox-loading div {
   width: 44px;
   height: 44px;
-  background: url('../images/fancybox/fancybox_loading.gif') center center no-repeat;
+  background: url('fancybox/fancybox_loading.gif') center center no-repeat;
 }
 .fancybox-title-over-wrap {
   position: absolute;
@@ -214,13 +181,13 @@ a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   overflow: hidden;
   display: none;
   z-index: 8010;
-  background: url('../images/fancybox/fancybox_overlay.png');
+  background: url('fancybox/fancybox_overlay.png');
 }
 #fancybox-loading,
 .fancybox-close,
 .fancybox-prev span,
 .fancybox-next span {
-  background-image: url('../images/fancybox/fancybox_sprite.png');
+  background-image: url('fancybox/fancybox_sprite.png');
 }
 .fancybox-image {
   max-width: 100%;
@@ -231,10 +198,9 @@ a:4:{s:4:"root";s:80:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
 }
 .fancybox-opened .fancybox-skin {
   -webkit-box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  -moz-box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 .fancybox-opened .fancybox-title {
   visibility: visible;
 }
-";s:5:"files";a:3:{s:80:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\fancybox.less";i:1354304629;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1360931382;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1360271592;}s:7:"updated";i:1360931720;}
+";s:5:"files";a:4:{s:80:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\fancybox.less";i:1376996220;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377000885;}

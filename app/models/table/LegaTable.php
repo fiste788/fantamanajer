@@ -272,4 +272,4 @@ abstract class LegaTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 

@@ -98,4 +98,4 @@ class Articolo extends Table\ArticoloTable {
 
 }
 
-?>
+ 

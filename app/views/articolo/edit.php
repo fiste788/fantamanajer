@@ -3,14 +3,14 @@
 		<div class="control-group">
 			<label class="control-label" for="title">Titolo: *</label>
 			<div class="controls">
-				<input class="span6" type="text" maxlength="30" name="articolo[titolo]" id="title" value="<?php echo $this->articolo->titolo; ?>" />
+				<input class="form-control" type="text" maxlength="30" name="articolo[titolo]" id="title" value="<?php echo $this->articolo->titolo; ?>" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="abstract">Sottotitolo:</label>
 			<div class="controls">
-				<textarea maxlength="75" class="span9" rows="3" cols="80" name="articolo[sottoTitolo]" id="abstract"><?php echo $this->articolo->sottoTitolo; ?></textarea>
-				<input class="span1 disabled cont" type="text" disabled="disabled" value="<?php echo 75 - strlen($this->articolo->sottoTitolo); ?>" />
+				<textarea maxlength="75" class="form-control" rows="3" cols="80" name="articolo[sottoTitolo]" id="abstract"><?php echo $this->articolo->sottoTitolo; ?></textarea>
+				<input class="form-control disabled cont" type="text" disabled="disabled" value="<?php echo 75 - strlen($this->articolo->sottoTitolo); ?>" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -21,8 +21,8 @@
 					<img data-value="<?php echo $val['cod']; ?>" class="emoticon" src="<?php echo EMOTICONSURL . $val['name'] . '.png'; ?>" title="<?php echo $val['title']; ?>" alt="<?php echo $val['cod']; ?>" />
 				<?php endforeach; ?>
 				</div>
-				<textarea maxlength="1000" class="span9" rows="12" cols="80" name="articolo[testo]" id="text"><?php echo $this->articolo->testo; ?></textarea>
-				<input class="span1 disabled cont" type="text" disabled="disabled" value="<?php echo 1000 - strlen($this->articolo->testo); ?>" />
+				<textarea maxlength="1000" class="form-control" rows="12" cols="80" name="articolo[testo]" id="text"><?php echo $this->articolo->testo; ?></textarea>
+				<input class="form-control disabled cont" type="text" disabled="disabled" value="<?php echo 1000 - strlen($this->articolo->testo); ?>" />
 			</div>
 		</div>
 	</fieldset>

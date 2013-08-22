@@ -23,4 +23,4 @@ class ClubController extends ApplicationController {
     }
 }
 
-?>
+ 

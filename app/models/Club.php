@@ -17,4 +17,4 @@ class Club extends Table\ClubTable {
 
 }
 
-?>
+ 

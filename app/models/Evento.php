@@ -129,4 +129,4 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
 
 }
 
-?>
+ 

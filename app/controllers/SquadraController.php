@@ -36,4 +36,4 @@ class SquadraController extends ApplicationController {
 
 }
 
-?>
+ 

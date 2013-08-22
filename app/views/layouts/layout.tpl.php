@@ -38,13 +38,12 @@
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
         <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
     </head>
-    <?php flush(); ?>
     <body>
-        <nav id="topbar" class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner"><?php echo $this->navbar; ?></div>
+        <nav role="navigation" id="topbar" class="navbar navbar-inverse navbar-fixed-top">
+            <?php echo $this->navbar; ?>
         </nav>
         <?php require_once(LAYOUTSDIR . "message.tpl.php"); ?>
-        <header>
+        <header class="hidden-xs">
             <div class="gradient">
                 <div class="container"><?php echo $this->header; ?></div>
             </div>
@@ -58,13 +57,13 @@
                     <div class="container">
                         <div class="operation-content">
                             <?php if ($this->quickLinks->prev != FALSE): ?>
-                                <a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="icon-arrow-left"></span></a>
+                                <a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
                             <?php else: ?>
                                 <div class="back">&nbsp;</div>
                             <?php endif; ?>
                             <div class="center"><?php echo $this->operation; ?></div>
                             <?php if ($this->quickLinks->next != FALSE): ?>
-                                <a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>"><span class="icon-arrow-right"></span></a>
+                                <a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>"><span class="glyphicon glyphicon-arrow-right"></span></a>
                             <?php else: ?>
                                 <div class="next">&nbsp;</div>
                             <?php endif; ?>

@@ -32,9 +32,9 @@
 	<form action="<?php echo $this->router->generate('trasferimento_index'); ?>" method="post">
 		<fieldset>
 			<input type="hidden" name="idUtente" value="<?php echo $_SESSION['idUtente']; ?>" />
-			<div class="formbox">
+			<div class="form-group">
 				<label for="player-old">Giocatore vecchio:</label>
-				<select id="player-old" name="idGiocatoreOld">
+                <select class="form-control" id="player-old" name="idGiocatoreOld">
 					<option></option>
 					<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 						<optgroup label="<?php echo $valRuoli; ?>">
@@ -47,9 +47,9 @@
 					<?php endforeach; ?>
 				</select>
 			</div>
-			<div class="formbox">
+			<div class="form-group">
 				<label for="player-new">Giocatore nuovo:</label>
-				<select id="player-new" name="idGiocatoreNew">
+				<select class="form-control" id="player-new" name="idGiocatoreNew">
 					<option></option>
 					<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 						<optgroup label="<?php echo $valRuoli; ?>">

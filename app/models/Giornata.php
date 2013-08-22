@@ -159,4 +159,4 @@ class Giornata extends Table\GiornataTable {
 
 }
 
-?>
+ 

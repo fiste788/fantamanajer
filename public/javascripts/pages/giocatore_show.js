@@ -111,10 +111,11 @@
                     top: y + 5,
                     left: x + 5,
                     border: '1px solid '+color,
-                    padding: '2px',
+                    padding: '10px 12px',
                     'background-color': colorLight,
                     color: '#000',
-                    opacity: 0.70
+                    opacity: 0.75,
+                    'border-radius': 3
                 }).appendTo("body").fadeIn(200);
             }
 

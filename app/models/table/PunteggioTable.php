@@ -176,4 +176,4 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
 }
 
-?>
+ 
