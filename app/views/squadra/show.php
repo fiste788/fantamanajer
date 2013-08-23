@@ -4,8 +4,8 @@
         <input id="fileupload" type="file" name="files" data-url="<?php echo AJAXURL ?>upload.php" class="hidden">
         <div id="dropzone">
             <?php if (file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
-                <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
-                    <img class="image-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
+                <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo pull-left">
+                    <img <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
                 </a>
             <?php else: ?>
                 <div class="well">Trascina l'immagine qui per caricarla</div>
@@ -13,8 +13,8 @@
         </div>
     <?php else: ?>
         <?php if (file_exists(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg')): ?>
-            <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo left">
-               <img class="img-polaroid" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
+            <a title="<?php echo $this->squadraDett->nomeSquadra; ?>" href="<?php echo UPLOADURL . $this->squadraDett->id . '.jpg'; ?>" class="fancybox logo pull-left">
+               <img <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
             </a>
         <?php endif; ?>
     <?php endif; ?>
@@ -50,7 +50,7 @@
 	</div>
 </div>
 <?php if($this->squadraDett->id == $_SESSION['idUtente']): ?>
-	<p class="alert-message alert alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo ""; ?>">Clicca quì</a></p>
+	<p class="alert-message alert alert-info">Se vuoi modificare le tue informazioni personali come mail, nome, password <a href="<?php echo $this->router->generate('utente_show'); ?>">Clicca quì</a></p>
 <?php endif; ?>
 <?php if(!empty($this->giocatori)): ?>
 <div class="clearfix well">

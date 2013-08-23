@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/layout.less";s:8:"compiled";s:7097:"@font-face {
+a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/layout.less";s:8:"compiled";s:6685:"@font-face {
   font-family: "Open Sans";
   src: url('fonts/opensans-regular-webfont.eot');
   src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-regular-webfont.ttf') format('truetype'), url('fonts/opensans-regular-webfont.svg#OpenSansRegular') format('svg');
@@ -26,10 +26,7 @@ body.debug:before {
 }
 body >header {
   background: url("../images/erba2.jpg") repeat-x center top;
-  width: 100%;
   height: 120px;
-  float: left;
-  clear: both;
 }
 body >header > div {
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzZmNmY2ZiIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
@@ -40,9 +37,7 @@ body >header > div {
   background: -ms-linear-gradient(top,rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%);
   background: linear-gradient(to bottom,rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#1a6f6f6f',GradientType=0);
-  width: 100%;
   height: 100%;
-  float: left;
 }
 body >header h1 {
   color: #ffffff;
@@ -71,18 +66,13 @@ footer p {
   padding: 0 10px;
   margin: 0 auto;
 }
-section#content {
-  float: left;
-  clear: both;
-  width: 100%;
+#content {
   min-height: 500px;
 }
-section#content .inner-page {
+#content .inner-page {
   padding-top: 20px;
   padding-bottom: 30px;
   position: relative;
-  float: left;
-  width: 100%;
 }
 #countdown {
   float: right;
@@ -101,23 +91,20 @@ section#content .inner-page {
   width: 48px;
   display: inline-block;
 }
-section#operation {
-  width: 100%;
-  text-align: center;
-  float: left;
-  display: block;
+#operation .fix {
+  width: 100% !important;
 }
-section#operation .container {
+#operation .container {
   display: table;
 }
-section#operation .next,
-section#operation .back {
+#operation .next,
+#operation .back {
   display: table-cell;
   width: 5%;
   height: 30px;
   vertical-align: middle;
 }
-section#operation .operation-content {
+#operation .operation-content {
   padding: 2px 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -125,37 +112,29 @@ section#operation .operation-content {
   display: table-row;
   width: 100%;
 }
-section#operation form {
+#operation form {
   width: 100%;
   margin: 0;
-  padding: 5px 0 0;
+  padding: 8px 0;
 }
-section#operation form .control-group {
-  display: inline-block;
-  margin-bottom: 5px;
-}
-section#operation select {
+#operation select {
   margin: 0;
-  width: 200px;
+  width: 250px;
 }
-section#operation .center {
+#operation .center {
   display: table-cell;
   width: 95%;
   vertical-align: middle;
 }
-section#operation .top {
+#operation .top {
   background: url("../images/bg.jpg") no-repeat center -140px;
   -webkit-box-shadow: 0 2px 3px #aaaaaa;
   box-shadow: 0 2px 3px #aaaaaa;
   width: 100%;
   z-index: 2;
 }
-section#operation input {
+#operation input {
   margin: 0;
-}
-section fieldset {
-  margin: 0;
-  padding: 0;
 }
 nav#topbar .nav > li > a {
   color: #eee;
@@ -289,4 +268,4 @@ nav#topbar a {
     margin-bottom: 0;
   }
 }
-";s:5:"files";a:4:{s:78:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\layout.less";i:1377006824;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377006827;}
+";s:5:"files";a:4:{s:78:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\layout.less";i:1377257225;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377257228;}

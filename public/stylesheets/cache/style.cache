@@ -1,13 +1,9 @@
-a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:2829:"article,
+a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:2366:"article,
 details,
 figcaption,
 figure,
 hgroup {
   margin: 0;
-}
-fieldset {
-  border: 0 none;
-  padding: 10px;
 }
 h1,
 h2,
@@ -16,9 +12,6 @@ h4,
 h5,
 h6 {
   margin-top: 0;
-}
-select {
-  line-height: 24px;
 }
 h1 a {
   font-weight: normal !important;
@@ -36,9 +29,6 @@ h4 a {
   font-weight: normal !important;
   font-size: 16px;
 }
-p {
-  font-size: 12px;
-}
 em {
   background-color: transparent;
   color: #777;
@@ -54,55 +44,23 @@ a {
   -webkit-transition: all 0.2s linear 0s;
   transition: all 0.2s linear 0s;
 }
-.formbox {
-  clear: both;
-  float: left;
-  padding: 6px 0;
-}
-.formbox label {
-  width: 150px;
-}
 .center {
   text-align: center;
 }
-ul.inline li {
-  display: inline;
-  margin: 0 15px 0 0;
-}
-ul.no-dotted {
-  list-style-type: none;
-  margin: 0;
-}
 label {
-  font-weight: bold;
   cursor: pointer;
 }
-.hidden {
-  display: none;
-}
 input.small {
-  width: 20px;
-}
-.column {
-  float: left;
-}
-form {
-  margin: 0;
-}
-.right {
-  float: right;
+  width: 45px;
+  text-align: center;
 }
 .foto {
   -webkit-transform: rotate(-2deg);
   -ms-transform: rotate(-2deg);
   transform: rotate(-2deg);
 }
-.foto.left {
-  float: left;
-  margin-right: 20px;
-}
-.logo.left {
-  float: left;
+.foto.pull-left,
+.logo.pull-left {
   margin-right: 20px;
 }
 .no-wrap,
@@ -185,4 +143,4 @@ table .headerSortUp:after {
     display: none !important;
   }
 }
-";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1376996239;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377000883;}
+";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1377257397;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377257399;}

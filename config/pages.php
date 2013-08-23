@@ -34,7 +34,7 @@ $pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'altro');
 $pages->addPage('trasferimento_index','Trasferimenti',-1,'altro');
 $pages->addPage('formazione','Formazione',0,'formazione',2,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
 $pages->addPage('formazioneBasic','Formazione',0,'altro');
-$pages->addPage('utente','Modifica informazioni utente',0,'');
+$pages->addPage('utente_show','Modifica informazioni utente',0,'');
 $pages->addPage('trasferimento_index','Trasferimenti',0,'altro',2);
 $pages->addPage('giocatori_liberi','Giocatori liberi',0,'altro',3,array('tablesorter'=>'tablesorter'));
 $pages->addPage('altreFormazioni','Altre formazioni',0,'altro',FALSE,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));

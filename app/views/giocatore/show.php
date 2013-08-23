@@ -2,7 +2,7 @@
 	<h3><?php echo $this->giocatore; ?></h3>
 	<div id="dati-gioc">
         <figure>
-            <img class="img-polaroid foto left" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
+            <img class="foto pull-left" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
         </figure>
 		<div>
 			<p><?php echo $this->ruoli[$this->giocatore->ruolo]; ?></p>
@@ -14,7 +14,7 @@
 			<p>Media punti: <?php echo (!empty($this->giocatore->avgPunti)) ? $this->giocatore->avgPunti : ''; ?></p>
 		</div>
 		<?php if($this->giocatore->nomeClub != NULL): ?>
-			<a class="right hidden-small-phone" href="<?php echo $this->router->generate('club_show',array('id'=>$this->giocatore->idClub)); ?>">
+			<a class="pull-right hidden-xxs" href="<?php echo $this->router->generate('club_show',array('id'=>$this->giocatore->idClub)); ?>">
 				<img height="50%" width="60" title="<?php echo $this->giocatore->nomeClub; ?>" class="shield" alt="<?php echo $this->giocatore->nomeClub; ?>" src="<?php echo $this->pathClub; ?>"/>
 			</a>
 		<?php endif; ?>
@@ -31,12 +31,12 @@
                     <th<?php if($this->giocatore->ruolo == "P") echo ' class="hidden-small-phone"' ?>>Gol</th>
                     <th<?php if($this->giocatore->ruolo != "P") echo ' class="hidden-small-phone"' ?>><abbr title="Gol subiti">Gol S</abbr></th>
                     <th>Assist</th>
-                    <th class="hidden-small-phone"><abbr title="Rigori">Rig</abbr></th>
-                    <th class="hidden-small-phone"><abbr title="Rigori subiti">Rig S</abbr></th>
+                    <th class="hidden-xxs"><abbr title="Rigori">Rig</abbr></th>
+                    <th class="hidden-xxs"><abbr title="Rigori subiti">Rig S</abbr></th>
                     <th><abbr title="Ammonito"><i class="ammonizione"></i></abbr></th>
                     <th><abbr title="Espulso"><i class="espulsione"></i></abbr></th>
                     <th><abbr title="Titolare">Tit</abbr></th>
-                    <th class="hidden-small-phone"><abbr title="Quotazione">Quot</abbr></th>
+                    <th class="hidden-xxs"><abbr title="Quotazione">Quot</abbr></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,12 +48,12 @@
                         <td<?php if($this->giocatore->ruolo == "P") echo ' class="hidden-small-phone"' ?>><?php echo $val->getGol(); ?></td>
                         <td<?php if($this->giocatore->ruolo != "P") echo ' class="hidden-small-phone"' ?>><?php echo $val->getGolSubiti(); ?></td>
                         <td><?php echo $val->getAssist(); ?></td>
-                        <td class="hidden-small-phone"><?php echo $val->getRigoriSegnati(); ?></td>
-                        <td class="hidden-small-phone"><?php echo $val->getRigoriSubiti(); ?></td>
+                        <td class="hidden-xxs"><?php echo $val->getRigoriSegnati(); ?></td>
+                        <td class="hidden-xxs"><?php echo $val->getRigoriSubiti(); ?></td>
                         <td><?php if($val->isAmmonito()): ?><i class="icon-ok"></i><?php endif; ?></td>
                         <td><?php if($val->isEspulso()): ?><i class="icon-ok"></i><?php endif; ?></td>
                         <td><?php if($val->isTitolare()): ?><i class="icon-ok"></i><?php endif; ?></td>
-                        <td class="hidden-small-phone"><?php echo $val->getQuotazione(); ?></td>
+                        <td class="hidden-xxs"><?php echo $val->getQuotazione(); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

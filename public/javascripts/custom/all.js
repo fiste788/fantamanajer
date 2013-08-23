@@ -22,6 +22,18 @@ syze.sizes(320, 480, 768, 992, 1200).names({
 $('.dropdown-menu').find('form').click(function (e) {
     e.stopPropagation();
 });
+var operationForm = $("#operation").find("form");
+if(operationForm.length && operationForm.attr('method') == 'get') {
+    operationForm.find("select").change(function() {
+        var option = $(this).find("option:selected");
+        var url = option.data('url');
+        if(url !== undefined) {
+            window.location = url;
+        } else {
+            window.location = operationForm.attr('action') + option.val();
+        }
+    });
+}
 
 //$('#operation .fix').affix({offset:40})
 var $messaggio = $('#messaggio');
@@ -126,9 +138,9 @@ var $operationBack = $operation.find('.back'),
 	$operationNext = $operation.find('.next');
 if($operationNext.length || $operationBack.length) {
     $(document).keydown(function(e) {
-        if(e.ctrlKey && e.which === 37 && $operationBack.length)
+        if(e.ctrlKey && e.which === 37 && $operationBack.length && $operationBack.is('a'))
 			window.location.href = $operationBack.attr('href');
-        if(e.ctrlKey && e.which === 39 && $operationNext.length)
+        if(e.ctrlKey && e.which === 39 && $operationNext.length && $operationNext.is('a'))
 			window.location.href = $operationNext.attr('href');
     });
 }

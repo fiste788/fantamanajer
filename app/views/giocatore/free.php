@@ -7,10 +7,15 @@
 					<tr>
 						<?php if($this->currentGiornata != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><th>Acq.</th><?php endif; ?>
 						<th>Nome</th>
-						<th class="hidden-phone">Club</th>
-                        <th><abbr title="Media punti">MP</abbr></th>
+						<th class="hidden-xs">Club</th>
+                        <th>Partite</th>
                         <th><abbr title="Media voti">MV</abbr></th>
-						<th>Partite</th>
+						<th><abbr title="Media punti">MP</abbr></th>
+                        <?php if($this->ruolo == 'P'): ?><th><abbr title="Gol subiti">GS</abbr></th><?php endif; ?>
+                        <?php if($this->ruolo != 'P'): ?><th>Gol</th><?php endif; ?>
+                        <th class="hidden-xs">Assist</th>
+                        <th class="hidden-xs"><abbr title="Ammonizioni">Amm</abbr></th>
+                        <th class="hidden-xs"><abbr title="Espulsioni">Esp</abbr></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -18,10 +23,14 @@
 					<tr>
 						<?php if($this->currentGiornata != 1 && $_SESSION['legaView'] == $_SESSION['idLega']): ?><td class="check"><input class="radio" type="radio" name="acquista" value="<?php echo $giocatore->id; ?>" /></td><?php endif; ?>
                         <td><a href="<?php echo $this->router->generate('giocatore_show', array('id'=>$giocatore->getId())) ?>"><?php echo $giocatore; ?></a></td>
-						<td class="hidden-phone"><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
+						<td class="hidden-xs"><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
+                        <td<?php if($giocatore->presenzeVoto >= $this->defaultPartite && $this->currentGiornata != 1)echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->presenzeVoto ?></td>
+                        <td<?php if($giocatore->avgVoti >= $this->defaultSufficenza && $this->currentGiornata != 1)echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->avgVoti ?></td>
 						<td<?php if($giocatore->avgPunti >= $this->defaultSufficenza && $this->currentGiornata != 1) echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->avgPunti ?></td>
-						<td<?php if($giocatore->avgVoti >= $this->defaultSufficenza && $this->currentGiornata != 1)echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->avgVoti ?></td>
-						<td<?php if($giocatore->presenzeVoto >= $this->defaultPartite && $this->currentGiornata != 1)echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->presenzeVoto ?></td>
+                        <td><?php if($this->ruolo = 'P') echo $giocatore->golSubiti; else echo $giocatore->gol ?></td>
+                        <td class="hidden-xs"><?php echo $giocatore->assist ?></td>
+                        <td class="hidden-xs"><?php echo $giocatore->ammonizioni ?></td>
+                        <td class="hidden-xs"><?php echo $giocatore->espulsioni ?></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>

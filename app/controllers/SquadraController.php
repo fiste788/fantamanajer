@@ -19,12 +19,13 @@ class SquadraController extends ApplicationController {
         $this->templates['content']->assign('elencoSquadre',$squadre);
         $this->templates['content']->assign('ultimaGiornata',Models\Punteggio::getGiornateWithPunt());
         if($this->format == '.json')
-            $this->renderJson(json_encode($squadreAppo));
+            $this->response->sendJsonResponse($squadreAppo);
     }
 
     public function show() {
-        if(($squadraDett = Models\View\SquadraStatistiche::getById($this->route['params']['id'])) == FALSE)
-            \Lib\Request::send404();
+        if(($squadraDett = Models\View\SquadraStatistiche::getById($this->request->getParam('id'))) == FALSE) {
+            $this->send404();
+        }
 
         $elencoSquadre = Models\Utente::getByField('idLega',$squadraDett->idLega);
         $this->quickLinks->set('id', $elencoSquadre, "");

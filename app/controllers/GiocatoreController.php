@@ -6,8 +6,8 @@ use \Fantamanajer\Models as Models;
 class GiocatoreController extends ApplicationController {
 
     public function show() {
-        if (($giocatore = Models\Giocatore::getGiocatoreByIdWithStats($this->route['params']['id'], $_SESSION['legaView'])) == FALSE)
-            Request::send404();
+        if (($giocatore = Models\Giocatore::getGiocatoreByIdWithStats($this->request->getParam('id'), $_SESSION['legaView'])) == FALSE)
+            $this->send404();
 
         //$giocatore->getFoto();
         $giocatore->voti = $giocatore->getVoti();
@@ -48,15 +48,17 @@ class GiocatoreController extends ApplicationController {
     }
 
     function free() {
-        $defaultRuolo = $this->request->has('ruolo') ? $this->request->get('ruolo') : 'P';
-        $defaultPartite = $this->request->has('partite') ? $this->request->get('partite') : (floor(($this->currentGiornata->id - 1) / 2) + 1);
-        $defaultSufficenza = $this->request->has('sufficenza') ? $this->request->get('sufficenza') : 6;
+        $defaultRuolo = $this->request->getParam('ruolo', 'P');
+        $defaultPartite = $this->request->getParam('partite', (floor(($this->currentGiornata->id - 1) / 2) + 1));
+        $defaultSufficenza = $this->request->getParam('sufficenza', 6);
 
         $freeplayer = Models\Giocatore::getFreePlayer($defaultRuolo,$_SESSION['legaView']);
+        \FirePHP::getInstance()->log($freeplayer);
 
         $this->templates['content']->assign('freeplayer',$freeplayer);
         $this->templates['content']->assign('defaultPartite',$defaultPartite);
         $this->templates['content']->assign('defaultSufficenza',$defaultSufficenza);
+        $this->templates['content']->assign('ruolo',$defaultRuolo);
         $this->templates['operation']->assign('validFilter',is_numeric($defaultSufficenza) && is_numeric($defaultPartite));
         $this->templates['operation']->assign('ruolo',$defaultRuolo);
         $this->templates['operation']->assign('defaultSufficenza',$defaultSufficenza);

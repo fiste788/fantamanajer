@@ -30,6 +30,28 @@ class UtenteController extends ApplicationController {
         }
         $this->redirectTo('classifica');
     }
+    
+    public function edit() {
+        if(($utente = \Fantamanajer\Models\Utente::getById($_SESSION['idUtente'])) === FALSE)
+            Request::send404();
+
+        $this->templates['content']->assign('utente',$utente);
+    }
+    
+    public function update() {
+        if(($utente = \Fantamanajer\Models\Utente::getById($_SESSION['idUtente'])) === FALSE)
+            Request::send404();
+        try {
+            $password = $utente->getPassword() == "" ? $utente->getOriginalValues("password") : md5($utente->getPassword());
+            $utente->setPassword($password);
+            $utente->save();
+            $this->setFlash(self::FLASH_SUCCESS, "Modificato con successo");
+            $this->redirectTo("squadra_show",array('id'=>$_SESSION['idUtente']));
+        } catch(\Lib\FormException $e) {
+            $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
+            $this->renderAction("edit");
+        }
+    }
 
 }
 

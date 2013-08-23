@@ -83,9 +83,7 @@ abstract class BaseController {
         $this->auth = new Login();
         \FirePHP::getInstance(TRUE);
         \FirePHP::getInstance()->setEnabled(LOCAL);
-        //\FirePHP::getInstance()->registerAssertionHandler();
         \FirePHP::getInstance()->registerErrorHandler(false);
-        //\FirePHP::getInstance()->registerExceptionHandler(false);
         
         $this->request = $request;
         $this->response = $response;
@@ -154,10 +152,15 @@ abstract class BaseController {
         echo $json;
         die();
     }
+    
+    public function send404() {
+        $this->response->setHttpCode(404);
+        $this->response->sendResponse();
+    }
 
     public function redirectTo($routeName, array $params = array()) {
-        header("Location: " . $this->router->generate($routeName,$params));
-        die();
+        $this->response->setHeader("Location", $this->router->generate($routeName,$params), true);
+        $this->response->sendResponse();
     }
 
     public function render() {
@@ -176,9 +179,9 @@ abstract class BaseController {
             $this->templates['layout']->assign('content', $content);
             $this->templates['layout']->assign('navbar', $navbar);
 
-            foreach ($this->fetched as $name => $content)
+            foreach ($this->fetched as $name => $content) {
                 $this->templates['layout']->assign($name, $content);
-
+            }
             $this->templates['layout']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
            
             $output = $this->templates['layout']->fetch('layout.tpl.php');
@@ -186,11 +189,8 @@ abstract class BaseController {
         } elseif($this->format == 'json') {
 
         }
-        return $output;
-    }
-    
-    public function __destruct() {
         unset($_SESSION['__flash']);
+        return $output;
     }
     
     public function getRouter() {

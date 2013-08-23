@@ -62,7 +62,7 @@
                         <header>
                             <em>
                                 <span><?php echo $articolo->dataCreazione->format("Y-m-d H:i:s"); ?></span>
-                                <span class="right">
+                                <span class="pull-right">
                                     <?php echo $articolo->username; ?>
                                     <?php if ($_SESSION['logged'] && $_SESSION['idUtente'] == $articolo->idUtente): ?>
                                         <a class="glyphicon glyphicon-edit" href="<?php echo $this->router->generate('articolo_edit', array('id' => $articolo->id)); ?>" title="Modifica">&nbsp;</a>

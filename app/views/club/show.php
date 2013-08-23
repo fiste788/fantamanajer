@@ -1,5 +1,5 @@
 <div id="headerClub" class="clearfix">
-	<img class="logo left" alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->clubDett->id . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
+	<img class="logo pull-left" alt="<?php echo $this->clubDett->id; ?>" src="<?php echo CLUBSURL . $this->clubDett->id . '.png'; ?>" title="Logo <?php echo $this->clubDett->nome; ?>" />
 	<h2><?php echo $this->clubDett->nome; ?></h2>
 </div>
 <?php if(!empty($this->giocatori)): ?>

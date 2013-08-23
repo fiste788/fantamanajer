@@ -6,7 +6,7 @@ use \Fantamanajer\Models as Models;
 class TrasferimentoController extends ApplicationController {
 
     public function index() {
-        $filterId = isset($this->route['params']['idUtente']) ? $this->route['params']['idUtente'] : $_SESSION['idUtente'];
+        $filterId = $this->request->getParam('squadra',$_SESSION['idUtente']);
         $trasferimentiAppo = Models\Trasferimento::getByField('idUtente',$filterId);
 
         if(!is_array($trasferimentiAppo) && !is_null($trasferimentiAppo))
@@ -22,11 +22,13 @@ class TrasferimentoController extends ApplicationController {
 
         //$trasferiti = Models\Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
         $selezione = Models\Selezione::getByField('idUtente',$_SESSION['idUtente']);
-        if(empty($selezione))
+        if(empty($selezione)) {
             $selezione = new Models\Selezione();
-        if($this->request->has('acquista'))
-            $selezione->setIdGiocatoreNew($this->request->get('acquista'));
-        \FirePHP::getInstance()->log($this->templates);
+        }
+        if($this->request->getParam('acquista') != NULL) {
+            $selezione->setIdGiocatoreNew($this->request->getParam('acquista'));
+        }
+
         $this->templates['content']->assign('giocatoriSquadra',Models\View\GiocatoreStatistiche::getByField('idUtente',$filterId));
         $this->templates['content']->assign('freePlayer',$playerFree);
         $this->templates['content']->assign('filterId',$filterId);

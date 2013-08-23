@@ -39,6 +39,7 @@ abstract class ApplicationController extends \Lib\BaseController {
     public function __construct(\Lib\Request $request, \Lib\Response $response) {
         parent::__construct($request,$response);
         $this->templates['operation'] = new \Savant3(array('template_path' => OPERATIONSDIR));
+        $response->setHeader("X-UA-Compatible", "IE=edge");
     }
 
     public function notAuthorized() {
@@ -69,7 +70,7 @@ abstract class ApplicationController extends \Lib\BaseController {
             $savant->assign('leghe', $leghe);
             $savant->assign('route',$this->route);
             $savant->assign('router', $this->router);
-            $savant->assign('request',\Lib\Request::getRequest());
+            $savant->assign('request',$this->request);
         }
         $this->quickLinks = new Lib\QuickLinks($this->request,$this->router,$this->route);
         $this->templates['navbar']->assign('entries',$this->pages);
