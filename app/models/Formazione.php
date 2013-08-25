@@ -1,6 +1,7 @@
 <?php
 
 namespace Fantamanajer\Models;
+
 use Lib\Database as Db;
 
 class Formazione extends Table\FormazioneTable {
@@ -24,35 +25,23 @@ class Formazione extends Table\FormazioneTable {
         else {
             $titolari = $parameters['titolari'];
             $panchinari = $parameters['panchinari'];
-            $modulo = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
             $giocatoriIds = array_merge($titolari, $panchinari);
-            $giocatori = Giocatore::getByIds($giocatoriIds);
-            FirePHP::getInstance()->log($giocatori);
-            FirePHP::getInstance()->log($titolari);
-            foreach ($titolari as $titolare)
-                if($titolare != '')
-                    $modulo[$giocatori[$titolare]->ruolo] += 1;
-            $this->setModulo(implode($modulo, '-'));
+            $modulo = $this->calcModulo($titolari);
+            $this->setModulo($modulo, '-');
         }
 
         try {
-            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             parent::save($parameters);
             if (!empty($giocatoriIds)) {
-				$success = TRUE;
-                $schieramenti = Schieramento::getSchieramentoById($this->getId());
-                foreach ($giocatoriIds as $posizione => $idGiocatore) {
-                    $schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
-                    if (!is_null($idGiocatore) && !empty($idGiocatore)) {
-                        if ($schieramento->idGiocatore != $idGiocatore) {
-                            $schieramento->setIdFormazione($this->getId());
-                            $schieramento->setPosizione($posizione + 1);
-                            $schieramento->setIdGiocatore($idGiocatore);
-                            $schieramento->setConsiderato(0);
-                            $success = $success and $schieramento->save();
-                        }
-                    } else
+                $success = TRUE;
+                $schieramenti = $this->getSchieramenti($giocatoriIds);
+                foreach ($schieramenti as $schieramento) {
+                    if ($schieramento->idGiocatore != NULL) {
+                        $success = $success and $schieramento->save();
+                    } else {
                         $success = ($success and $schieramento->delete());
+                    }
                 }
                 if ($success) {
                     if (!isset($parameters['evento']) || (isset($parameters['evento']) && $parameters['evento'] !== FALSE)) {
@@ -62,28 +51,59 @@ class Formazione extends Table\FormazioneTable {
                         $evento->setIdLega($this->getUtente()->getIdLega());
                         $evento->setTipo(Evento::FORMAZIONE);
                         if ($evento->save())
-                            ConnectionFactory::getFactory()->getConnection()->commit();
+                            Db\ConnectionFactory::getFactory()->getConnection()->commit();
                         else {
-                            ConnectionFactory::getFactory()->getConnection()->rollback();
+                            Db\ConnectionFactory::getFactory()->getConnection()->rollback();
                             return FALSE;
                         }
                     } else
-                        ConnectionFactory::getFactory()->getConnection()->commit();
+                        Db\ConnectionFactory::getFactory()->getConnection()->commit();
                 }
                 else {
-                    ConnectionFactory::getFactory()->getConnection()->rollback();
+                    Db\ConnectionFactory::getFactory()->getConnection()->rollback();
                     return FALSE;
                 }
-
             } else {
-				ConnectionFactory::getFactory()->getConnection()->rollback();
-				return FALSE;
-			}
+                Db\ConnectionFactory::getFactory()->getConnection()->rollback();
+                return FALSE;
+            }
         } catch (PDOException $e) {
-            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;
+    }
+
+    public function getSchieramenti($giocatoriIds) {
+        $schieramenti = Schieramento::getSchieramentoById($this->getId());
+
+        foreach ($giocatoriIds as $posizione => $idGiocatore) {
+            $schieramento = isset($schieramenti[$posizione]) ? $schieramenti[$posizione] : new Schieramento();
+            if (!is_null($idGiocatore) && !empty($idGiocatore)) {
+                if ($schieramento->idGiocatore != $idGiocatore) {
+                    $schieramento->setIdFormazione($this->getId());
+                    $schieramento->setPosizione($posizione + 1);
+                    $schieramento->setIdGiocatore($idGiocatore);
+                    $schieramento->setConsiderato(0);
+                }
+            } else
+                $schieramento->idGiocatore = NULL;
+            $schieramenti[$posizione] = $schieramento;
+        }
+        return $schieramenti;
+    }
+
+    public function calcModulo($titolari) {
+        $modulo = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
+
+
+        $giocatori = Giocatore::getByIds($titolari);
+
+
+        foreach ($titolari as $titolare)
+            if ($titolare != '')
+                $modulo[$giocatori[$titolare]->ruolo] += 1;
+        return implode($modulo, "-");
     }
 
     /**
@@ -140,12 +160,12 @@ class Formazione extends Table\FormazioneTable {
         $q = "SELECT formazione.*
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.id
 				WHERE idGiornata = :idGiornata AND idLega = :idLega";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, \PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
         $exe->execute();
-        FirePHP::getInstance()->log($q);
-        return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
+        \FirePHP::getInstance()->log($q);
+        return $exe->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
     }
 
     /**
@@ -153,7 +173,7 @@ class Formazione extends Table\FormazioneTable {
      * @param type $idUtente
      * @return type
      */
-    public static function usedJolly($idUtente,$giornata) {
+    public static function usedJolly($idUtente, $giornata) {
         $q = "SELECT jolly
 				FROM formazione
 				WHERE idGiornata " . (($giornata <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
@@ -172,31 +192,30 @@ class Formazione extends Table\FormazioneTable {
      * @return boolean
      */
     public function check(array $array) {
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
-
         $post = (object) $array;
         $formazione = array();
         $capitano = array();
         foreach ($post->titolari as $key => $val) {
             if (empty($val))
-                throw new FormException("Non hai compilato correttamente tutti i campi");
+                throw new \Lib\FormException("Non hai compilato correttamente tutti i campi");
             if (!in_array($val, $formazione))
                 $formazione[] = $val;
             else
-                throw new FormException("Giocatore doppio");
+                throw new \Lib\FormException("Giocatore doppio");
         }
         foreach ($post->panchinari as $key => $val) {
             if (!empty($val)) {
                 if (!in_array($val, $formazione))
                     $formazione[] = $val;
                 else
-                    throw new FormException("Giocatore doppio");
+                    throw new \Lib\FormException("Giocatore doppio");
             }
         }
+        \FirePHP::getInstance()->log($array);
         $cap = array();
-        $cap[] = $post->C;
-        $cap[] = $post->VC;
-        $cap[] = $post->VVC;
+        $cap[] = $this->getIdCapitano();
+        $cap[] = $this->getIdVCapitano();
+        $cap[] = $this->getIdVVCapitano();
         foreach ($cap as $key => $val) {
             if (!empty($val)) {
                 $giocatore = Giocatore::getById($val);
@@ -204,9 +223,9 @@ class Formazione extends Table\FormazioneTable {
                     if (!in_array($val, $capitano))
                         $capitano[$key] = $val;
                     else
-                        throw new FormException("Giocatore doppio");
+                        throw new \Lib\FormException("Giocatore doppio");
                 } else
-                    throw new FormException("Capitano non difensore o portiere");
+                    throw new \Lib\FormException("Capitano non difensore o portiere");
             }
         }
         return TRUE;
@@ -214,4 +233,3 @@ class Formazione extends Table\FormazioneTable {
 
 }
 
- 

@@ -23,9 +23,9 @@ class ArticoloController extends ApplicationController {
             $articolo->setDataCreazione('now');
             $articolo->save();
             $this->redirectTo("articoli");
-        } catch(\Fantamanajer\FormException $e) {
+        } catch(\Lib\FormException $e) {
             $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
-            $this->renderAction("build");
+            $this->renderAction("articolo_new");
         }
 
     }
@@ -46,7 +46,7 @@ class ArticoloController extends ApplicationController {
             $this->redirectTo("articoli");
         } catch(\Lib\FormException $e) {
             $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
-            $this->renderAction("edit");
+            $this->renderAction("articolo_edit");
         }
     }
 

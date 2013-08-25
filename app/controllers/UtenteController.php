@@ -43,7 +43,7 @@ class UtenteController extends ApplicationController {
             Request::send404();
         try {
             $password = $utente->getPassword() == "" ? $utente->getOriginalValues("password") : md5($utente->getPassword());
-            $utente->setPassword($password);
+            $utente->setPassword(md5($password));
             $utente->save();
             $this->setFlash(self::FLASH_SUCCESS, "Modificato con successo");
             $this->redirectTo("squadra_show",array('id'=>$_SESSION['idUtente']));

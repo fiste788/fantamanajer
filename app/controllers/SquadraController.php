@@ -21,6 +21,11 @@ class SquadraController extends ApplicationController {
         if($this->format == '.json')
             $this->response->sendJsonResponse($squadreAppo);
     }
+    
+    public function index_json() {
+        $squadreAppo = Models\Utente::getByIdLegaLite($_SESSION['legaView']);
+        $this->setBody(json_encode($squadreAppo));
+    }
 
     public function show() {
         if(($squadraDett = Models\View\SquadraStatistiche::getById($this->request->getParam('id'))) == FALSE) {

@@ -32,8 +32,9 @@ abstract class Table implements \Lib\Form {
         $calledClass = explode("\\",get_called_class());
         $classe = strtolower(array_pop($calledClass));
         $postArray = \Lib\Request::getRequest()->getPostParams();
-        if(isset($postArray[$classe]))
+        if(isset($postArray[$classe]) && is_array($postArray[$classe])) {
             $this->fromArray($postArray[$classe], $raw);
+        }
     }
 
     /**
@@ -152,7 +153,8 @@ abstract class Table implements \Lib\Form {
             $this->check($parameters);
             $this->getFromPost(FALSE);
         } catch(FormException $e) {
-            $this->fromArray(\Lib\Request::getInstance()->getRawData('post'), TRUE);
+            $this->getFromPost(TRUE);
+            //$this->fromArray(\Lib\Request::getRequest()->getPostParams(), TRUE);
             throw $e;
         }
         $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));
@@ -252,11 +254,13 @@ abstract class Table implements \Lib\Form {
     private function fromArray(array $array, $raw = FALSE) {
         $vars = get_object_vars($this);
         foreach ($array as $key => $value) {
-            if (array_key_exists($key, $vars) && !is_null($value)) {
-                if (!$raw && method_exists($this, $methodName = 'set' . ucfirst($key)))
+            if (array_key_exists($key, $vars) && !is_null($value) && strlen($value) > 0) {
+                if (!$raw && method_exists($this, $methodName = 'set' . ucfirst($key))) {
                     $this->$methodName($value);
-                else
+                } else {
+                    
                     $this->$key = $value;
+                }
             }
         }
     }

@@ -34,7 +34,7 @@
                         <tr data-media="<?php echo array_sum($val) / count($val) ?>" data-key="<?php echo $key; ?>" data-squadra="<?php echo trim($this->squadre[$key]->nomeSquadra); ?>">
                             <?php foreach ($val as $secondKey => $secondVal): ?>
                                 <td class="<?php if((count($this->classificaDett[$flag]) - $secondKey) > 1) echo ' hidden-xs';if((count($this->classificaDett[$flag]) - $secondKey) > 4) echo ' hidden-phone';if((count($this->classificaDett[$flag]) - $secondKey) > 9) echo ' hidden-tablet'; echo (isset($this->penalità[$key][$secondKey])) ? "rosso" : ''; ?>" title="<?php echo 'Posizione nella giornata: ' . $this->posizioni[$secondKey][$key]; echo (isset($this->penalità[$key][$secondKey])) ? ' Penalità: ' . $this->penalità[$key][$secondKey] . ' punti' : ''; ?>">
-                                    <a href="<?php echo $this->router->generate('punteggio_show', array('idGiornata' => $secondKey, 'idUtente' => $key)); ?>"><?php echo $val[$secondKey]; ?></a>
+                                    <a href="<?php echo $this->router->generate('punteggio_show', array('giornata' => $secondKey, 'squadra' => $key)); ?>"><?php echo $val[$secondKey]; ?></a>
                                 </td>
                             <?php endforeach; ?>
                         </tr>

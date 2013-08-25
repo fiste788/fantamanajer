@@ -49,6 +49,7 @@ abstract class ApplicationController extends \Lib\BaseController {
 
     public function initialize() {
         parent::initialize();
+        $this->notifiche = array();
         $this->ruoli['P'] = new Lib\Ruolo("Portiere", "Portieri", "POR");
         $this->ruoli['D'] = new Lib\Ruolo("Difensore", "Difensori", "DIF");
         $this->ruoli['C'] = new Lib\Ruolo("Centrocampista", "Centrocampisti", "CEN");
@@ -90,7 +91,6 @@ abstract class ApplicationController extends \Lib\BaseController {
         if(!empty($giocatoriInattivi) && count(Models\Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti ) {
             $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('trasferimento_index'));
         }
-        $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('trasferimento_index'));
     }
 
     public function fetchOperationTpl() {

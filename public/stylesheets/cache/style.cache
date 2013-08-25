@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:2366:"article,
+a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/style.less";s:8:"compiled";s:2368:"article,
 details,
 figcaption,
 figure,
@@ -41,8 +41,8 @@ a:hover {
   cursor: pointer;
 }
 a {
-  -webkit-transition: all 0.2s linear 0s;
-  transition: all 0.2s linear 0s;
+  -webkit-transition: all 0.15s linear 0s;
+  transition: all 0.15s linear 0s;
 }
 .center {
   text-align: center;
@@ -143,4 +143,4 @@ table .headerSortUp:after {
     display: none !important;
   }
 }
-";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1377257397;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377257399;}
+";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\style.less";i:1377293824;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377293827;}

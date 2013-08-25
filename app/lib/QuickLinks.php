@@ -31,7 +31,7 @@ class QuickLinks {
 
     public function set($param, $array, $title, $other = NULL) {
         $keys = array_keys($array);
-        $current = array_search($this->route['params'][$param], $keys);
+        $current = array_search($this->request->getParam($param), $keys);
         if (isset($keys[($idPrec = $current - 1)])) {
             $params = ($other != NULL) ? array_merge(array($param => $keys[$idPrec]), $other) : array($param => $keys[$idPrec]);
             $this->prev = new \stdClass();

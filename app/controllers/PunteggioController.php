@@ -6,12 +6,19 @@ use \Fantamanajer\Models as Models;
 class PunteggioController extends ApplicationController {
 
     public function index() {
-        $filterGiornata = ($this->request->getParam('giornata') != null) ? $this->request->getParam('giornata') : $this->currentGiornata->id;
+        $maxGiornate = Models\Punteggio::getGiornateWithPunt();
+        $filterGiornata = $this->request->getParam('giornata',$maxGiornate);
 
+        $this->request->setParam('giornata', $filterGiornata);
+        \FirePHP::getInstance()->log($this->request->getParams());
         $classificaDett = Models\Punteggio::getAllPunteggiByGiornata($filterGiornata,$_SESSION['legaView']);
         $squadre = $this->currentLega->getUtenti();
 
-        $giornate = Models\Punteggio::getGiornateWithPunt();
+        $giornate = array();
+        for($i = 1;$i <= $maxGiornate;$i++)
+            $giornate[$i] = $i;
+        
+        $this->quickLinks->set('giornata',$giornate,"");
         $this->templates['content']->assign('giornate',$giornate);
         $this->templates['content']->assign('classificaDett',$classificaDett);
         $this->templates['content']->assign('penalità',Models\Punteggio::getPenalitàByLega($_SESSION['legaView']));
@@ -19,7 +26,7 @@ class PunteggioController extends ApplicationController {
         $this->templates['content']->assign('posizioni',Models\Punteggio::getPosClassificaGiornata($_SESSION['legaView']));
 
         $this->templates['operation']->assign('getGiornata',$filterGiornata);
-        $this->templates['operation']->assign('giornate',$giornate);
+        $this->templates['operation']->assign('giornate',$maxGiornate);
     }
 
     public function show() {
@@ -30,6 +37,7 @@ class PunteggioController extends ApplicationController {
         /*if($dettaglio == FALSE && $formazione == FALSE)
             Lib\Request::send404();
 */
+        $squadraDett = Models\View\SquadraStatistiche::getById($filterSquadra);
         $utente = Models\Utente::getById($filterSquadra);
         $maxGiornate = Models\Punteggio::getGiornateWithPunt();
         for($i = 1;$i <= $maxGiornate;$i++)
@@ -42,6 +50,7 @@ class PunteggioController extends ApplicationController {
 
         $this->quickLinks->set('giornata',$giornate,"",array('squadra'=>$filterSquadra));
 
+        $this->templates['content']->assign('media',$squadraDett->punteggioMed);
         $this->templates['content']->assign('somma',$utente->getPunteggioByGiornata($filterSquadra));
         $this->templates['content']->assign('titolari',$titolari);
         $this->templates['content']->assign('panchinari',$dettaglio);

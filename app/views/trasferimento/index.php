@@ -31,10 +31,9 @@
 	<p class="alert-block alert alert-info">Quì è possibile indicare il nome del giocatore che volete acquistare. Se il giocatore è stato già selezionato da una squadra inferiore alla tua in classifica allora riceverai un messaggio di errore.<br />Al contrario il giocatore sarà selezionato per la tua squadra.<br />Se il proprietario di una squadra inferiore alla tua seleziona il tuo stesso giocatore il giocatore diventerà suo e una mail ti avviserà dell'accaduto in modo che tu puoi selezionare un nuovo giocatore.<br/>I trasferimenti saranno eseguiti nella nottata del giorno della giornata. Ad esempio se la giornata è il 25-12-2007 alora saranno eseguiti nella notte del 25-12-2007 in modo tale che nella mattinata e nel pomeriggio che mancano all'inizio della giornata voi potrete schierare il nuovo giocatore acquistato.Ora è possibile cambiare il giocatore selezionato 2 sole volte.</p>
 	<form action="<?php echo $this->router->generate('trasferimento_index'); ?>" method="post">
 		<fieldset>
-			<input type="hidden" name="squadra" value="<?php echo $_SESSION['idUtente']; ?>" />
 			<div class="form-group">
 				<label for="player-old">Giocatore vecchio:</label>
-                <select class="form-control" id="player-old" name="idGiocatoreOld">
+                <select class="form-control" id="player-old" name="selezione[idGiocatoreOld]">
 					<option></option>
 					<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 						<optgroup label="<?php echo $valRuoli; ?>">
@@ -49,7 +48,7 @@
 			</div>
 			<div class="form-group">
 				<label for="player-new">Giocatore nuovo:</label>
-				<select class="form-control" id="player-new" name="idGiocatoreNew">
+				<select class="form-control" id="player-new" name="selezione[idGiocatoreNew]">
 					<option></option>
 					<?php foreach($this->ruoli as $keyRuoli => $valRuoli): ?>
 						<optgroup label="<?php echo $valRuoli; ?>">

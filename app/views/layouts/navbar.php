@@ -7,7 +7,7 @@
 		</button>
 		<a class="navbar-brand visible-xs" href="/">FantaManajer</a>
 	</div>
-	<div class="collapse navbar-collapse">
+	<nav role="navigation" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <?php foreach($this->entries->navbar as $key=>$val): ?>
                     <?php if($this->entries->pages[$key]->roles <= $_SESSION['roles']): ?>
@@ -24,13 +24,13 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-                <?php require_once(LAYOUTSDIR . "login.tpl.php") ?>
+                <?php require_once(LAYOUTSDIR . "login.php") ?>
 
                 <?php if($_SESSION['logged']): ?>
                 <li id="account" class="navbar-right dropdown">
                     <a id="notifiche" <?php if(!empty($this->notifiche)) echo 'data-toggle="dropdown" class="dropdown-toggle"'; ?>>
                         <span class="visible-xs">Notifiche: </span>
-                        <span class="label<?php if(!empty($this->notifiche)) echo ' label-danger' ?>" title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
+                        <span class="label label-<?php if(!empty($this->notifiche)) echo 'danger'; else echo 'default' ?>" title="Clicca per vedere le notifiche"><?php echo count($this->notifiche); ?></span>
 		            </a>
 		            <?php if(!empty($this->notifiche)): ?>
 		                <ul class="boxNotifiche dropdown-menu pull-right">
@@ -57,5 +57,5 @@
 				</li>
 			<?php endif; ?>
 		</ul>
-	</div>
+	</nav>
 </div>

@@ -1,5 +1,5 @@
 <div class="row">
-    <?php foreach ($this->elencoSquadre as $squadra): $i++; ?>
+    <?php foreach ($this->elencoSquadre as $squadra): ?>
         <div class="col-lg-3 col-md-3 col-sm-4">
             <div class="well">
                 <div>

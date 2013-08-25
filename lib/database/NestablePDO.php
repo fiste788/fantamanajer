@@ -10,7 +10,7 @@ class NestablePDO extends \PDO {
     protected $transLevel = 0;
 
     protected function nestable() {
-        return in_array($this->getAttribute(PDO::ATTR_DRIVER_NAME), self::$savepointTransactions);
+        return in_array($this->getAttribute(\PDO::ATTR_DRIVER_NAME), self::$savepointTransactions);
     }
 
     public function beginTransaction() {

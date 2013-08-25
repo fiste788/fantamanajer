@@ -37,15 +37,6 @@ class PageController extends ApplicationController {
 
     }
 
-    public function probabiliFormazioni() {
-        $clubs = Models\Club::getList();
-        $newClub = array();
-        foreach ($clubs as $club)
-            $newClub[strtolower($club->nome)] = $club->id;
-
-        $this->templates['content']->assign('elencoClub', $newClub);
-    }
-
 }
 
  

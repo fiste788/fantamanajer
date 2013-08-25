@@ -39,10 +39,10 @@
         <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
     </head>
     <body>
-        <nav role="navigation" id="topbar" class="navbar navbar-inverse navbar-fixed-top">
+        <div id="topbar" class="navbar navbar-inverse navbar-fixed-top">
             <?php echo $this->navbar; ?>
-        </nav>
-        <?php require_once(LAYOUTSDIR . "message.tpl.php"); ?>
+        </div>
+        <?php require_once(LAYOUTSDIR . "message.php"); ?>
         <header class="hidden-xs">
             <div class="gradient">
                 <div class="container"><?php echo $this->header; ?></div>

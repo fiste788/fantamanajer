@@ -55,18 +55,21 @@ $(document).ready(function(){
     }
     if(typeof(edit) !== "undefined" && edit) {
         $(".remove").on("click",function () {
-            var parent = $(this).parent(),
-            	id = $(parent).attr('id'),
+            var $parent = $(this).parent(),
+            	id = $parent.attr('id'),
             	appo = id.split('-'),
             	livello = appo[1];
-            $(this).parent().empty();
+            $(this).remove();
+            $parent.children().first().fadeOut(function(){   
+                $(this).remove();
+            });
             $("#capitani-field").find("#"+livello).removeAttr("value");
         });
         $(".draggable").draggable({
             helper:"clone",
             opacity:0.5,
             revert:true,
-            appendTo:"#stadio"
+            appendTo:"#campo"
         });
         var data = new Array();
         data['P'] = 1;
@@ -78,10 +81,11 @@ $(document).ready(function(){
                 var ruolo = $(this).attr('id');
                 if($(draggable).data('ruolo') === ruolo) {
                     var n = $(this).find("div").length,
-                    	nTot = $(this).parent().find("div.giocatore").length,
-                    	nDif = $(this).parent().find("div.D").length,
-                    	nCen = $(this).parent().find("div.C").length,
-                    	nAtt = $(this).parent().find("div.A").length;
+                    	nTot = $(this).parent().find(".droppable div.giocatore").length,
+                    	nDif = $(this).parent().find(".droppable div.D").length,
+                    	nCen = $(this).parent().find(".droppable div.C").length,
+                    	nAtt = $(this).parent().find(".droppable div.A").length;
+                console.log(nDif);
                     if(nDif <= 2) {
                         data['D'] = 5;
                         data['C'] = 5;
@@ -250,7 +254,7 @@ $(document).ready(function(){
                 var lista = $capitani.find(".giocatore");
                 lista.each(function (i,ele) {
                     var id = $(ele).parent().attr('id').split('-');
-                    $("input[name='" + id[1] + "']").val($(ele).attr('id'));
+                    $("input[id='" + id[1] + "']").val($(ele).attr('id'));
                 });
                 $(this).append('<a class="remove">Rimuovi</a>');
             }
@@ -293,7 +297,7 @@ $(document).ready(function(){
             helper:"clone",
             opacity:0.5,
             revert:true,
-            appendTo:"#stadio"
+            appendTo:"#campo"
         });
         $("#panchina .giocatore, #campo .giocatore").each(function(i,ele) {
             sobstitution(ele);

@@ -1,5 +1,13 @@
 <?php if($this->titolari != NULL): ?>
-    <div class="alert alert-success center">
+    <?php if($punteggio > $this->punteggioMed + 5): ?>
+        <div class="alert alert-success center">
+    <?php else: ?>
+        <?php if($punteggio < $this->punteggioMed - 5): ?>
+            <div class="alert alert-warning center">
+        <?php else: ?>
+            <div class="alert alert-info center">    
+        <?php endif; ?>
+    <?php endif; ?>
         <h4>Punteggio: <span><?php echo (isset($this->somma)) ? $this->somma : ''; ?></span></h4>
     </div>
 	<?php if($this->penalità != FALSE): ?>

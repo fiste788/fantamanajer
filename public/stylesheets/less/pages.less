@@ -52,22 +52,24 @@
     }
 }
 
-#formazione #panchina .droppable,#formazione  #capitani .droppable {
-    width:100px;
-    min-height:115px;
-    padding:7px 0;
-    display:block;
-    float:left;
-    text-align:center;
-}
-#formazione #panchina h3, #capitani h3 {
-    margin:0;
-}
-#formazione {
+#formazione,#formazione_show {
+    #panchina, #capitani {
+        .droppable {
+            width:100px;
+            min-height:129px;
+            padding:7px 0;
+            display:block;
+            float:left;
+            text-align:center;
+        }
+        h3 {
+            margin:0;
+        }
+    }
     #campo {
         width:554px;
         height:644px;
-        background: transparent url("@{imgsPath}campo.png") no-repeat scroll 0 0;
+        background: transparent url("@{imgs-path}campo.png") no-repeat scroll 0 0;
         text-align: center;
         float:left;
         margin:0 15px 0 0;
@@ -93,23 +95,30 @@
         position:relative;
         border-style: solid;
         border-width: 1px;
-        .border-radius(5px);
+        .box-shadow(0 0 4px #555);
+        border-radius:3px;
         img {
-            .border-radius(6px)
+            border-radius:4px
         }
         p {
-            background-color: #FFFFFF;
+            /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjMxJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+            background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(31%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
             bottom: 0;
             color: #333333;
             font-weight: bold;
             line-height: 14px;
             margin: 0;
-            padding: 2px;
+            padding: 8px 2px 2px;
             position: absolute;
             width: 100%;
-            .box-sizing(border-box);
-            .opacity(80);
-            .border-radius(0 0 6px 6px);
+            .opacity(0.9);
         }
     }
     .submit {
@@ -117,14 +126,15 @@
         margin:10px;
     }
     .droppable-hover2 {
-        background: transparent url("@{imgsPath}sostituisci.gif") no-repeat 50% 5px;
+        background: transparent url("@{imgs-path}sostituisci.gif") no-repeat 50% 5px;
         img {
             display:none;
         }
     }
     .droppable-hover {
         background-color: #A0E1FF !important;
-        .opacity(50);
+        .opacity(0.5);
+        border:5px dashed #4CA3FF;
     }
     .giocatore.P {
         border-color: #ff0000;
@@ -146,8 +156,6 @@
         position:relative;
     }
     #giocatori {
-        width:100%;
-        float:left;
         //background: transparent url(@{imgsPath}bg.jpg) no-repeat scroll center -140px;
         z-index:1;
         padding:5px 10px;
@@ -161,11 +169,7 @@
         z-index:10;
     }
     #stadio {
-        width:100%;
-        display:block;
-        float:left;
         margin:0 10px 0 0;
-        position:relative;
     }
     form {
         float:left;
@@ -183,7 +187,7 @@
         float:left;
         width:100%;
         .droppable {
-            min-height:135px;
+            min-height:146px;
         }
     }
     #cap-C {
@@ -217,7 +221,7 @@
         background-position: -570px 50%;
     }
     [id*=panch-], [id*=cap-] {
-        background: transparent url("@{imgsPath}panchina-black.png") no-repeat scroll 0px 50%;
+        background: transparent url("@{imgs-path}panchina-black.png") no-repeat scroll 0px 50%;
     }
     #panchina .draggable, #capitani .draggable {
         margin:auto;
@@ -243,9 +247,6 @@
 }
 
 #home {
-    h3, h4 {
-        margin-bottom:6px;
-    }
     .foto {
         float:none;
         margin-bottom:8px;
@@ -255,7 +256,6 @@
     }
     #best-player {
         text-align:center;
-        padding:0 0 25px;
     }
     .foto-container {
         height:200px;
@@ -281,7 +281,7 @@
     text-align:center;
 }
 
-#probabiliFormazioni {
+#probabili_formazioni {
     .formazione {
         ul.right, ul.destra {
             text-align:right;

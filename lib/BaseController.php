@@ -63,8 +63,16 @@ abstract class BaseController {
      * @var array
      */
     protected $route;
+    
+    protected $body = "";
 
     protected $pages = array();
+    
+    /**
+     *
+     * @var \Logger
+     */
+    protected $logger = NULL;
 
     /**
      *
@@ -81,6 +89,7 @@ abstract class BaseController {
         
         $this->pages = $pages;
         $this->auth = new Login();
+        $this->logger = new Logger();
         \FirePHP::getInstance(TRUE);
         \FirePHP::getInstance()->setEnabled(LOCAL);
         \FirePHP::getInstance()->registerErrorHandler(false);
@@ -97,9 +106,6 @@ abstract class BaseController {
 
     public function initialize() {
         \Lib\Router::getInstance($this->router);
-        if (isset($this->route['params']['format'])) {
-            $this->format = $this->route['params']['format'];
-        }
         if (isset($this->pages->pages[$this->route['name']]) && $this->pages->pages[$this->route['name']]->roles > $_SESSION['roles']) {
             $this->notAuthorized();
         }
@@ -142,15 +148,18 @@ abstract class BaseController {
         }
     }
 
-    public function renderAction($action) {
-        $this->action = $action;
-        $this->$action();
-    }
-
-    public function renderJson($json) {
-        header("Content-Type: application/json; charset=UTF-8");
-        echo $json;
-        die();
+    public function renderAction($routeName,$method = 'GET') {
+        $url = $this->router->generate($routeName);
+        $route = $this->router->match($url,$method); 
+        if($route['target']['controller'] == $this->controller) {
+            $action = $route['target']['action'];
+            $this->route = $route;
+            $this->action = $action;
+            $this->initialize();
+            $this->$action();
+        } else {
+            new \Exception("Cannot render action of a different controller");
+        }
     }
     
     public function send404() {
@@ -164,15 +173,18 @@ abstract class BaseController {
     }
 
     public function render() {
+        if($this->format == "json") {
+            $this->response->setContentType ( "application/json" );
+        }
+        if(empty($this->body)) {
+            $this->templates['layout']->assign('generalJs', $this->generalJs);
+            $this->templates['layout']->assign('generalCss', $this->generalCss);
+            $this->templates['layout']->assign('js',$this->pages->pages[$this->route['name']]->js);
         
-        $this->templates['layout']->assign('generalJs', $this->generalJs);
-        $this->templates['layout']->assign('generalCss', $this->generalCss);
-        $this->templates['layout']->assign('js',$this->pages->pages[$this->route['name']]->js);
-        if ($this->format == 'html') {
             $content = $this->templates['content']->fetch($this->controller . DS . $this->action . '.php');
-            $header = $this->templates['header']->fetch('header.tpl.php');
-            $footer = $this->templates['footer']->fetch('footer.tpl.php');
-            $navbar = $this->templates['navbar']->fetch('navbar.tpl.php');
+            $header = $this->templates['header']->fetch('header.php');
+            $footer = $this->templates['footer']->fetch('footer.php');
+            $navbar = $this->templates['navbar']->fetch('navbar.php');
 
             $this->templates['layout']->assign('header', $header);
             $this->templates['layout']->assign('footer', $footer);
@@ -184,10 +196,10 @@ abstract class BaseController {
             }
             $this->templates['layout']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
            
-            $output = $this->templates['layout']->fetch('layout.tpl.php');
+            $output = $this->templates['layout']->fetch('layout.php');
             
-        } elseif($this->format == 'json') {
-
+        } else {
+            $output = $this->getBody();
         }
         unset($_SESSION['__flash']);
         return $output;
@@ -209,6 +221,14 @@ abstract class BaseController {
         $this->route = $route;
         $this->controller = $route['target']['controller'];
         $this->action = $route['target']['action'];
+    }
+
+    public function getBody() {
+        return $this->body;
+    }
+
+    public function setBody($body) {
+        $this->body = $body;
     }
 
 

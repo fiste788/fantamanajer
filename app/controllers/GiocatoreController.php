@@ -53,7 +53,6 @@ class GiocatoreController extends ApplicationController {
         $defaultSufficenza = $this->request->getParam('sufficenza', 6);
 
         $freeplayer = Models\Giocatore::getFreePlayer($defaultRuolo,$_SESSION['legaView']);
-        \FirePHP::getInstance()->log($freeplayer);
 
         $this->templates['content']->assign('freeplayer',$freeplayer);
         $this->templates['content']->assign('defaultPartite',$defaultPartite);

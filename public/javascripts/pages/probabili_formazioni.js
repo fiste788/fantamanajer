@@ -1,4 +1,4 @@
-var url = AJAXURL + "probabiliFormazioni.php";
+var url = "probabili_formazioni.html";
 var clubs = $("#formazioni").data("clubs");
 $.ajax({
     url: url,
@@ -10,13 +10,14 @@ $.ajax({
             var row = null;
             formazioni.each(function (i,ele) {
                 if(i % 2 === 0)
-                    row = $('<div class="row-fluid">');
+                    row = $('<div class="row">');
                 var formazione = $(ele).clone();
-                formazione.addClass('span6');
+                //formazione.addClass('');
                 formazione.addClass('well');
-                $(".container-campo,.container-altro",formazione).addClass("row-fluid");
+                $(".container-campo,.container-altro",formazione).addClass("row");
                 var campo = $(".container-campo ul",formazione);
-                campo.addClass("span6 no-dotted well");
+                campo.wrap('<div class="col-lg-6 col-md-6">')
+                campo.addClass("list-unstyled well");
                 $(".title,.sub-title",formazione).addClass('center');
                 $(".container-campo ul",formazione).each(function(i,ele) {
                     var link = $(".title a",ele);
@@ -27,11 +28,13 @@ $.ajax({
                     link.append('<img src="' + IMGSURL + 'clubs/' + clubs[nome]  + '.png">');
                     link.attr('href',FULLURL + 'dettaglioClub/' + clubs[nome]);
                 });
-                $(".container-altro ul",formazione).addClass("no-dotted");
-                $(".container-altro>ul",formazione).addClass("span6 well");
+                $(".container-altro ul",formazione).addClass("list-unstyled");
+                $(".container-altro>ul",formazione).wrap('<div class="col-lg-6 col-md-6">').addClass(" well");
                 $("#formazione_ora",formazione).addClass('center');
                 $(".col1 ",formazione).hide();
-                row.append(formazione);
+                var col = $('<div class="col-lg-6 col-md-6">');
+                col.append(formazione);
+                row.append(col);
                 $("#formazioni").append(row);
             });
         }

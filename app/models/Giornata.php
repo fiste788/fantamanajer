@@ -156,6 +156,10 @@ class Giornata extends Table\GiornataTable {
         $diff = abs($time1 - $time2);
         return $diff;
     }
+    
+    public function __toString() {
+        echo $this->id;
+    }
 
 }
 

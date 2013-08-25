@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/pages.less";s:8:"compiled";s:5910:"#classifica .legend {
+a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/pages.less";s:8:"compiled";s:8623:"#classifica .legend {
   width: 11px;
   height: 11px;
   display: block;
@@ -35,36 +35,44 @@ a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   float: left;
 }
 #formazione #panchina .droppable,
-#formazione  #capitani .droppable {
+#formazione #capitani .droppable,
+#formazione_show #panchina .droppable,
+#formazione_show #capitani .droppable {
   width: 100px;
-  min-height: 115px;
+  min-height: 129px;
   padding: 7px 0;
   display: block;
   float: left;
   text-align: center;
 }
 #formazione #panchina h3,
-#capitani h3 {
+#formazione #capitani h3,
+#formazione_show #panchina h3,
+#formazione_show #capitani h3 {
   margin: 0;
 }
-#formazione #campo {
+#formazione #campo,
+#formazione_show #campo {
   width: 554px;
   height: 644px;
-  background: transparent url("campo.png") no-repeat scroll 0 0;
+  background: transparent url("../images/campo.png") no-repeat scroll 0 0;
   text-align: center;
   float: left;
   margin: 0 15px 0 0;
   position: relative;
   z-index: 1;
 }
-#formazione #campo .giocatore {
+#formazione #campo .giocatore,
+#formazione_show #campo .giocatore {
   position: absolute;
   margin: 0;
 }
-#formazione #campo .droppable {
+#formazione #campo .droppable,
+#formazione_show #campo .droppable {
   height: 25%;
 }
-#formazione .giocatore {
+#formazione .giocatore,
+#formazione_show .giocatore {
   width: 80px;
   color: #000;
   cursor: pointer;
@@ -76,132 +84,171 @@ a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
   position: relative;
   border-style: solid;
   border-width: 1px;
+  -webkit-box-shadow: 0 0 4px #555;
+  box-shadow: 0 0 4px #555;
+  border-radius: 3px;
 }
-#formazione .giocatore p {
-  background-color: #FFFFFF;
+#formazione .giocatore img,
+#formazione_show .giocatore img {
+  border-radius: 4px;
+}
+#formazione .giocatore p,
+#formazione_show .giocatore p {
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjMxJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,rgba(255,255,255,0) 0%,#ffffff 31%,#ffffff 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,0)),color-stop(31%,#ffffff),color-stop(100%,#ffffff));
+  background: -webkit-linear-gradient(top,rgba(255,255,255,0) 0%,#ffffff 31%,#ffffff 100%);
+  background: -o-linear-gradient(top,rgba(255,255,255,0) 0%,#ffffff 31%,#ffffff 100%);
+  background: -ms-linear-gradient(top,rgba(255,255,255,0) 0%,#ffffff 31%,#ffffff 100%);
+  background: linear-gradient(to bottom,rgba(255,255,255,0) 0%,#ffffff 31%,#ffffff 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff',endColorstr='#ffffff',GradientType=0);
   bottom: 0;
   color: #333333;
   font-weight: bold;
   line-height: 14px;
   margin: 0;
-  padding: 2px;
+  padding: 8px 2px 2px;
   position: absolute;
   width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  opacity: 80;
-  filter: alpha(opacity=8000);
+  opacity: 0.9;
+  filter: alpha(opacity=90);
 }
-#formazione .submit {
+#formazione .submit,
+#formazione_show .submit {
   float: left;
   margin: 10px;
 }
-#formazione .droppable-hover2 {
-  background: transparent url("sostituisci.gif") no-repeat 50% 5px;
+#formazione .droppable-hover2,
+#formazione_show .droppable-hover2 {
+  background: transparent url("../images/sostituisci.gif") no-repeat 50% 5px;
 }
-#formazione .droppable-hover2 img {
+#formazione .droppable-hover2 img,
+#formazione_show .droppable-hover2 img {
   display: none;
 }
-#formazione .droppable-hover {
+#formazione .droppable-hover,
+#formazione_show .droppable-hover {
   background-color: #A0E1FF !important;
-  opacity: 50;
-  filter: alpha(opacity=5000);
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  border: 5px dashed #4CA3FF;
 }
-#formazione .giocatore.P {
+#formazione .giocatore.P,
+#formazione_show .giocatore.P {
   border-color: #ff0000;
   background-color: #ffd1d1;
 }
-#formazione .giocatore.D {
+#formazione .giocatore.D,
+#formazione_show .giocatore.D {
   border-color: #009600;
   background-color: #d4ffd1;
 }
-#formazione .giocatore.C {
+#formazione .giocatore.C,
+#formazione_show .giocatore.C {
   border-color: #ffbd00;
   background-color: #fff3d1;
 }
-#formazione .giocatore.A {
+#formazione .giocatore.A,
+#formazione_show .giocatore.A {
   border-color: #00a0ff;
   background-color: #d0f1ff;
 }
-#formazione fieldset>div {
+#formazione fieldset>div,
+#formazione_show fieldset>div {
   position: relative;
 }
-#formazione #giocatori {
-  width: 100%;
-  float: left;
+#formazione #giocatori,
+#formazione_show #giocatori {
   z-index: 1;
   padding: 5px 10px;
 }
-#formazione #giocatori .giocatore {
+#formazione #giocatori .giocatore,
+#formazione_show #giocatori .giocatore {
   top: auto !important;
   left: auto !important;
 }
-#formazione .ui-draggable-dragging {
+#formazione .ui-draggable-dragging,
+#formazione_show .ui-draggable-dragging {
   z-index: 10;
 }
-#formazione #stadio {
-  width: 100%;
-  display: block;
-  float: left;
+#formazione #stadio,
+#formazione_show #stadio {
   margin: 0 10px 0 0;
-  position: relative;
 }
-#formazione form {
+#formazione form,
+#formazione_show form {
   float: left;
 }
-#formazione #right {
+#formazione #right,
+#formazione_show #right {
   width: 100%;
   position: absolute;
   padding-left: 570px;
   z-index: 0;
 }
-#formazione #panchina {
+#formazione #panchina,
+#formazione_show #panchina {
   float: left;
 }
-#formazione #capitani {
+#formazione #capitani,
+#formazione_show #capitani {
   float: left;
   width: 100%;
 }
-#formazione #capitani .droppable {
-  min-height: 135px;
+#formazione #capitani .droppable,
+#formazione_show #capitani .droppable {
+  min-height: 146px;
 }
-#formazione #cap-C {
+#formazione #cap-C,
+#formazione_show #cap-C {
   background-position: -665px 50%;
 }
-#formazione #cap-VC {
+#formazione #cap-VC,
+#formazione_show #cap-VC {
   background-position: -760px 50%;
 }
-#formazione #cap-VVC {
+#formazione #cap-VVC,
+#formazione_show #cap-VVC {
   background-position: -855px 50%;
 }
-#formazione #panch-0 {
+#formazione #panch-0,
+#formazione_show #panch-0 {
   background-position: 0px 50%;
 }
-#formazione #panch-1 {
+#formazione #panch-1,
+#formazione_show #panch-1 {
   background-position: -95px 50%;
 }
-#formazione #panch-2 {
+#formazione #panch-2,
+#formazione_show #panch-2 {
   background-position: -190px 50%;
 }
-#formazione #panch-3 {
+#formazione #panch-3,
+#formazione_show #panch-3 {
   background-position: -285px 50%;
 }
-#formazione #panch-4 {
+#formazione #panch-4,
+#formazione_show #panch-4 {
   background-position: -380px 50%;
 }
-#formazione #panch-5 {
+#formazione #panch-5,
+#formazione_show #panch-5 {
   background-position: -475px 50%;
 }
-#formazione #panch-6 {
+#formazione #panch-6,
+#formazione_show #panch-6 {
   background-position: -570px 50%;
 }
 #formazione [id*=panch-],
-#formazione [id*=cap-] {
-  background: transparent url("panchina-black.png") no-repeat scroll 0px 50%;
+#formazione [id*=cap-],
+#formazione_show [id*=panch-],
+#formazione_show [id*=cap-] {
+  background: transparent url("../images/panchina-black.png") no-repeat scroll 0px 50%;
 }
 #formazione #panchina .draggable,
-#formazione #capitani .draggable {
+#formazione #capitani .draggable,
+#formazione_show #panchina .draggable,
+#formazione_show #capitani .draggable {
   margin: auto;
   float: none;
   text-align: center;
@@ -220,10 +267,6 @@ a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
 #articolo_new #emoticons img {
   cursor: pointer;
 }
-#home h3,
-#home h4 {
-  margin-bottom: 6px;
-}
 #home .foto {
   float: none;
   margin-bottom: 8px;
@@ -233,7 +276,6 @@ a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
 }
 #home #best-player {
   text-align: center;
-  padding: 0 0 25px;
 }
 #home .foto-container {
   height: 200px;
@@ -257,20 +299,20 @@ a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
 #squadre {
   text-align: center;
 }
-#probabiliFormazioni .formazione ul.right,
-#probabiliFormazioni .formazione ul.destra {
+#probabili_formazioni .formazione ul.right,
+#probabili_formazioni .formazione ul.destra {
   text-align: right;
 }
-#probabiliFormazioni .formazione .middle {
+#probabili_formazioni .formazione .middle {
   height: 1px;
   background-color: #ccc;
   width: 100%;
   margin: 3px;
 }
-#probabiliFormazioni .formazione .container-altro {
+#probabili_formazioni .formazione .container-altro {
   margin-top: 10px;
 }
-#probabiliFormazioni .formazione .container-altro li span {
+#probabili_formazioni .formazione .container-altro li span {
   font-weight: bold;
   display: block;
 }
@@ -310,4 +352,4 @@ a:4:{s:4:"root";s:77:"C:/Program Files/wamp/www/fantamanajer-new/public/styleshe
 #contatti .well img {
   margin: 20px;
 }
-";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\pages.less";i:1377021476;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377021479;}
+";s:5:"files";a:4:{s:77:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\pages.less";i:1377357056;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377357059;}

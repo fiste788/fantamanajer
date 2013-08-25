@@ -251,7 +251,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getUtente() {
         if (empty($this->utente))
-            $this->utente = Utente::getById($this->getIdUtente());
+            $this->utente = \Fantamanajer\Models\Utente::getById($this->getIdUtente());
         return $this->utente;
     }
 
@@ -261,7 +261,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getGiornata() {
         if (empty($this->giornata))
-            $this->giornata = Giornata::getById($this->getIdGiornata());
+            $this->giornata = \Fantamanajer\Models\Giornata::getById($this->getIdGiornata());
         return $this->giornata;
     }
 
@@ -271,7 +271,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getCapitano() {
         if (empty($this->capitano))
-            $this->capitano = GiocatoreStatistiche::getById($this->getId());
+            $this->capitano = \Fantamanajer\Models\View\GiocatoreStatistiche::getById($this->getId());
         return $this->capitano;
     }
 
@@ -281,7 +281,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getVCapitano() {
         if (empty($this->VCapitano))
-            $this->VCapitano = GiocatoreStatistiche::getById($this->getId());
+            $this->VCapitano = \Fantamanajer\Models\View\GiocatoreStatistiche::getById($this->getId());
         return $this->VCapitano;
     }
 
@@ -291,7 +291,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getVVCapitano() {
         if (empty($this->VVCapitano))
-            $this->VVCapitano = GiocatoreStatistiche::getById($this->getId());
+            $this->VVCapitano = \Fantamanajer\Models\View\GiocatoreStatistiche::getById($this->getId());
         return $this->VVCapitano;
     }
 

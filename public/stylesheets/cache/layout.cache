@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/layout.less";s:8:"compiled";s:6685:"@font-face {
+a:4:{s:4:"root";s:78:"C:/Program Files/wamp/www/fantamanajer-new/public/stylesheets/less/layout.less";s:8:"compiled";s:6218:"@font-face {
   font-family: "Open Sans";
   src: url('fonts/opensans-regular-webfont.eot');
   src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-regular-webfont.ttf') format('truetype'), url('fonts/opensans-regular-webfont.svg#OpenSansRegular') format('svg');
@@ -26,6 +26,7 @@ body.debug:before {
 }
 body >header {
   background: url("../images/erba2.jpg") repeat-x center top;
+  border-bottom: 1px solid #555;
   height: 120px;
 }
 body >header > div {
@@ -136,62 +137,36 @@ footer p {
 #operation input {
   margin: 0;
 }
-nav#topbar .nav > li > a {
-  color: #eee;
-  text-shadow: none;
-}
-nav#topbar .nav li.dropdown.open > .dropdown-toggle {
-  background-color: transparent;
-}
-nav#topbar fieldset,
-nav#topbar form {
+#topbar nav fieldset,
+#topbar nav form {
   padding: 0;
   margin: 0;
 }
-nav#topbar li.pull-right {
-  float: right;
-}
-nav#topbar li.pull-right .dropdown-menu:after,
-nav#topbar li.pull-right .dropdown-menu:before {
-  right: 10px;
-  left: auto !important;
-}
-nav#topbar li.pull-right .dropdown-menu {
-  right: 0;
-  left: auto !important;
-}
-nav#topbar li.pull-right .dropdown-menu a {
-  white-space: normal;
-}
-nav#topbar #login fieldset {
+#topbar nav #login fieldset {
   margin: 0;
   padding: 10px 20px;
 }
-nav#topbar #login .dropdown-menu {
+#topbar nav #login .dropdown-menu {
   max-width: 260px;
   width: 260px;
 }
-nav#topbar #login .text {
+#topbar nav #login .text {
   border: 1px solid #cccccc;
   color: #808080;
   margin: 0;
 }
-nav#topbar #login label {
+#topbar nav #login label {
   color: #666666;
 }
-nav#topbar #lega-view {
+#topbar nav #lega-view {
   width: 160px;
 }
-nav#topbar #lega-select {
+#topbar nav #lega-select {
   margin: 8px 0;
 }
-nav#topbar ul:first-child {
+#topbar nav ul:first-child {
   width: 100%;
   margin: 0;
-}
-nav#topbar a {
-  -webkit-transition: none;
-  transition: none;
 }
 #notifiche span {
   font-size: 14px;
@@ -202,6 +177,9 @@ nav#topbar a {
   position: absolute;
   text-align: left;
   width: 300px;
+}
+.boxNotifiche a {
+  white-space: normal;
 }
 @media (max-width: 480px) {
   body.debug::before {
@@ -268,4 +246,4 @@ nav#topbar a {
     margin-bottom: 0;
   }
 }
-";s:5:"files";a:4:{s:78:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\layout.less";i:1377257225;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377257228;}
+";s:5:"files";a:4:{s:78:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\layout.less";i:1377352998;s:91:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\variables.less";i:1377000874;s:88:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\bootstrap\mixins.less";i:1376914700;s:81:"C:\Program Files\wamp\www\fantamanajer-new\public\stylesheets\less\variables.less";i:1376995714;}s:7:"updated";i:1377353001;}

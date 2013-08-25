@@ -80,7 +80,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                         foreach ($titolari as $key2 => $val2)
                             $values[$key]->content .= $val2->getGiocatore()->cognome . ', ';
                         $values[$key]->content = substr($values[$key]->content, 0, -2);
-                        $values[$key]->link = \Lib\Router::generate('formazione_edit', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
+                        $values[$key]->link = \Lib\Router::generate('formazione', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
                         break;
                     case self::TRASFERIMENTO:
                         $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
@@ -91,7 +91,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                             $val->idExternal->idGiocatoreOld = $giocOld->id;
                             $val->idExternal->idGiocatoreNew = $giocNew->id;
                             $val->content = $val->nomeSquadra . ' ha ceduto il giocatore ' . $giocOld . ' e ha acquistato ' . $giocNew;
-                            $val->link = \Lib\Router::getRouter()->generate('trasferimenti', array('id' => $val->idExternal->idUtente));
+                            $val->link = \Lib\Router::generate('trasferimento_index', array('id' => $val->idExternal->idUtente));
                             unset($giocOld, $giocNew);
                         }
                         break;

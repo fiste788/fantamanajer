@@ -25,21 +25,25 @@ $router->map('GET', '/giocatori/[i:id][*:title]?', array('controller'=>'giocator
 $router->map('GET|POST', '/giocatori/liberi', array('controller'=>'giocatore','action'=>'free'), 'giocatori_liberi');
 $router->map('GET', '/clubs', array('controller'=>'club','action'=>'index'), 'club_index');
 $router->map('GET', '/clubs/[i:id]', array('controller'=>'club','action'=>'show'), 'club_show');
-$router->map('GET', '/formazione', array('controller'=>'formazione','action'=>'build'), 'formazione');
-$router->map('GET', '/formazione', array('controller'=>'formazione','action'=>'build'), 'formazione_edit');
+$router->map('GET', '/formazione', array('controller'=>'formazione','action'=>'show'), 'formazione');
+$router->map('GET', '/formazione/[i:giornata]/[i:squadra]', array('controller'=>'formazione','action'=>'show'), 'formazione_show');
+//$router->map('GET', '/formazione', array('controller'=>'formazione','action'=>'build'), 'formazione_edit');
+$router->map('POST', '/formazione', array('controller'=>'formazione','action'=>'update'), 'formazione_update');
 //$router->map('GET', '/formazione/new', 'formazione','action'=>'build', 'formazione_new');
 $router->map('GET', '/formazione/insert_old', array('controller'=>'formazione','action'=>'insertOld'), 'formazione_insert');
-$router->map('GET', '/probabili_formazioni', array('controller'=>'page','action'=>'probabiliFormazioni'), 'probabili_formazioni');
+$router->map('GET', '/probabili_formazioni', array('controller'=>'club','action'=>'probabiliFormazioni'), 'probabili_formazioni');
+$router->map('GET', '/probabili_formazioni[.html:format]', array('controller'=>'club','action'=>'probabiliFormazioni'), 'probabili_formazioni_ajax');
 $router->map('GET', '/trasferimenti/[i:squadra]?', array('controller'=>'trasferimento','action'=>'index'), 'trasferimento_index');
+$router->map('POST', '/trasferimenti/[i:squadra]?', array('controller'=>'selezione','action'=>'update'), 'selezione_update');
 //$router->map('GET', '/trasferimenti/[i:id]', 'trasferimento','action'=>'index', 'trasferimento_show');
 $router->map('GET', '/download', array('controller'=>'trasferimento','action'=>'show'), 'download');
-$router->map('GET', '/classifica', array('controller'=>'punteggio','action'=>'index'), 'classifica');
+$router->map('GET', '/classifica/[i:giornata]?', array('controller'=>'punteggio','action'=>'index'), 'classifica');
 $router->map('GET', '/dettaglio_giornata/[i:giornata]/[i:squadra]', array('controller'=>'punteggio','action'=>'show'), 'punteggio_show');
 $router->map('GET', '/crea_squadra', array('controller'=>'squadra','action'=>'build'), 'squadra_new');
 $router->map('GET', '/trasferimento/new', array('controller'=>'trasferimento','action'=>'build'), 'trasferimento_new');
 $router->map('GET', '/impostazioni', array('controller'=>'lega','action'=>'edit'), 'impostazioni');
 $router->map('POST', '/impostazioni', array('controller'=>'lega','action'=>'update'), 'impostazioni_update');
-$router->map('GET', '/feed', array('controller'=>'evento','action'=>'feed'), 'feed');
+$router->map('GET|POST', '/feed', array('controller'=>'evento','action'=>'index'), 'feed');
 
 
 $router->map('GET', '/penalità', array('controller'=>'punteggio','action'=>'penalità'), 'penalità');
@@ -47,6 +51,8 @@ $router->map('GET', '/newsletter', array('controller'=>'trasferimento','action'=
 $router->map('GET', '/lancia_script', array('controller'=>'squadra','action'=>'build'), 'lancia_script');
 $router->map('GET', '/giornata', array('controller'=>'squadra','action'=>'build'), 'giornata');
 $router->map('GET', '/gestione_database', array('controller'=>'squadra','action'=>'new'), 'gestione_database');
+
+$router->map('GET', '/trasferimenti/do', array('controller'=>'script','action'=>'doTransfert'), 'do_transfert');
 
 $router->map('GET', '/', array('controller'=>'punteggio','action'=>'show'), 'area_amministrativa');
 $router->map('GET', '/', array('controller'=>'clubs','action'=>'index'), 'clubsA');

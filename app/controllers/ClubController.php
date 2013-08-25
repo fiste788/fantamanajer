@@ -21,6 +21,20 @@ class ClubController extends ApplicationController {
         $this->templates['content']->assign('clubDett',$dettaglioClub);
         $this->templates['operation']->assign('elencoClub',$elencoClub);
     }
+    
+    public function probabiliFormazioni() {
+        $clubs = Models\Club::getList();
+        $newClub = array();
+        foreach ($clubs as $club)
+            $newClub[strtolower($club->nome)] = $club->id;
+
+        $this->templates['content']->assign('elencoClub', $newClub);
+    }
+    
+    public function probabiliFormazioni_html() {
+        $url = "http://www.gazzetta.it/Calcio/prob_form/";
+        $this->setBody(utf8_encode(\Fantamanajer\Lib\FileSystem::contenutoCurl($url)));
+    }
 }
 
  

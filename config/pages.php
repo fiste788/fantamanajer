@@ -20,6 +20,7 @@ $pages->addPage('squadra_show','Dettaglio squadra',-1,'squadre',FALSE,array('tab
 $pages->addPage('area_amministrativa','Area admin',1,'area_amministrativa',7);
 $pages->addPage('giocatore_show','Dettaglio giocatore',-1,'altro',FALSE,array('flot'=>array('jquery.flot','jquery.flot.selection')));
 $pages->addPage('punteggio_show','Dettaglio giornata',-1,'classifica');
+$pages->addPage('feed','Vedi gli eventi',-1,'altro',FALSE);
 $pages->addPage('premi','Premi',-1,'altro',FALSE);
 $pages->addPage('contatti','Contatti',-1,'altro',3);
 $pages->addPage('sendMail','Invio mail formazione',-1,'altro');
@@ -33,6 +34,7 @@ $pages->addPage('weeklyScript','Calcolo punteggi',-1,'altro');
 $pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'altro');
 $pages->addPage('trasferimento_index','Trasferimenti',-1,'altro');
 $pages->addPage('formazione','Formazione',0,'formazione',2,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
+$pages->addPage('formazione_show','Formazione',0,'formazione',FALSE,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
 $pages->addPage('formazioneBasic','Formazione',0,'altro');
 $pages->addPage('utente_show','Modifica informazioni utente',0,'');
 $pages->addPage('trasferimento_index','Trasferimenti',0,'altro',2);

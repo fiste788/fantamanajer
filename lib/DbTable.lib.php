@@ -183,7 +183,8 @@ abstract class DbTable {
      * @return boolean
      */
     public function validate() {
-        $postArray = Request::getInstance()->getRawData('post');
+        $postArray = Lib\Request::getRequest()->getPostParams();
+        \FirePHP::getInstance()->log($array);
         try {
             $this->check($postArray);
             $this->fromArray($postArray, FALSE);

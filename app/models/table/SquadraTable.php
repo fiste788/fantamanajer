@@ -2,9 +2,9 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class SelezioneTable extends \Lib\Database\Table {
+abstract class SquadraTable extends \Lib\Database\Table {
 
-    const TABLE_NAME = 'selezione';
+    const TABLE_NAME = 'squadras';
 
     /**
      *
@@ -22,27 +22,14 @@ abstract class SelezioneTable extends \Lib\Database\Table {
      *
      * @var int
      */
-    public $idGiocatoreOld;
+    public $idGiocatore;
 
-    /**
-     *
-     * @var int
-     */
-    public $idGiocatoreNew;
-
-    /**
-     *
-     * @var int
-     */
-    public $numSelezioni;
-
+    
     public function __construct() {
         parent::__construct();
         $this->idLega = is_null($this->idLega) ? NULL : $this->getIdLega();
         $this->idUtente = is_null($this->idUtente) ? NULL : $this->getIdUtente();
-        $this->idGiocatoreOld = is_null($this->idGiocatoreOld) ? NULL : $this->getIdGiocatoreOld();
-        $this->idGiocatoreNew = is_null($this->idGiocatoreNew) ? NULL : $this->getIdGiocatoreNew();
-        $this->numSelezioni = is_null($this->numSelezioni) ? NULL : $this->getNumSelezioni();
+        $this->idGiocatore = is_null($this->idGiocatore) ? NULL : $this->getIdGiocatore();
     }
 
     /**
@@ -64,30 +51,12 @@ abstract class SelezioneTable extends \Lib\Database\Table {
     }
 
     /**
-     * Setter: idGiocatoreOld
-     * @param Int $idGiocatoreOld
+     * Setter: idGiocatore
+     * @param Int $idGiocatore
      * @return void
      */
-    public function setIdGiocatoreOld($idGiocatoreOld) {
-        $this->idGiocatoreOld = (int) $idGiocatoreOld;
-    }
-
-    /**
-     * Setter: idGiocatoreNew
-     * @param Int $idGiocatoreNew
-     * @return void
-     */
-    public function setIdGiocatoreNew($idGiocatoreNew) {
-        $this->idGiocatoreNew = (int) $idGiocatoreNew;
-    }
-
-    /**
-     * Setter: numSelezioni
-     * @param Int $numSelezioni
-     * @return void
-     */
-    public function setNumSelezioni($numSelezioni) {
-        $this->numSelezioni = (int) $numSelezioni;
+    public function setIdGiocatore($idGiocatore) {
+        $this->idGiocatore = (int) $idGiocatore;
     }
 
     /**
@@ -105,19 +74,9 @@ abstract class SelezioneTable extends \Lib\Database\Table {
      * @param Giocatore $giocatore
      * @return void
      */
-    public function setGiocatoreOld($giocatoreOld) {
-        $this->giocatoreOld = $giocatoreOld;
-        $this->setIdGiocatoreOld($giocatoreOld->getId());
-    }
-
-    /**
-     * Setter: giocatore
-     * @param Giocatore $giocatore
-     * @return void
-     */
-    public function setGiocatoreNew($giocatoreNew) {
-        $this->giocatoreNew = $giocatoreNew;
-        $this->setIdGiocatoreNew($giocatoreNew->getId());
+    public function setGiocatore($giocatore) {
+        $this->giocatore = $giocatore;
+        $this->setIdGiocatore($giocatore->getId());
     }
 
     /**
@@ -147,27 +106,11 @@ abstract class SelezioneTable extends \Lib\Database\Table {
     }
 
     /**
-     * Getter: idGiocatoreOld
+     * Getter: idGiocatore
      * @return Int
      */
-    public function getIdGiocatoreOld() {
-        return (int) $this->idGiocatoreOld;
-    }
-
-    /**
-     * Getter: idGiocatoreNew
-     * @return Int
-     */
-    public function getIdGiocatoreNew() {
-        return (int) $this->idGiocatoreNew;
-    }
-
-    /**
-     * Getter: numSelezioni
-     * @return Int
-     */
-    public function getNumSelezioni() {
-        return (int) $this->numSelezioni;
+    public function getIdGiocatore() {
+        return (int) $this->idGiocatore;
     }
 
     /**
@@ -194,20 +137,10 @@ abstract class SelezioneTable extends \Lib\Database\Table {
      * Getter: id
      * @return Giocatore
      */
-    public function getGiocatoreNew() {
-        if (empty($this->giocatoreNew))
-            $this->giocatoreNew = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreNew());
-        return $this->giocatoreNew;
-    }
-
-    /**
-     * Getter: id
-     * @return Giocatore
-     */
-    public function getGiocatoreOld() {
-        if (empty($this->giocatoreOld))
-            $this->giocatoreOld = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreOld());
-        return $this->giocatoreOld;
+    public function getGiocatore() {
+        if (empty($this->giocatore))
+            $this->giocatore = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatore());
+        return $this->giocatore;
     }
 
     /**

@@ -9,3 +9,4 @@ $request = new \Lib\Request();
 $dispatcher = new \Lib\Dispatcher();
 $response = $dispatcher->handle($request);
 $response->sendResponse();
+
