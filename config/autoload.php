@@ -1,6 +1,6 @@
 <?php
 
-function __autoload($className) {
+spl_autoload_register(function ($className) {
     $appo = explode("\\", $className);
     $source = array_shift($appo);
     $class = array_pop($appo);
@@ -12,9 +12,9 @@ function __autoload($className) {
             include_once $file;
         } else {
             $file = FULLPATH . 'vendor' . DS . $source . DS . $source . '.php';
-            if(file_exists($file)) 
+            if(file_exists($file)) {
                 include_once $file;
+            }
         }
     }
-}
-
+});

@@ -1,7 +1,8 @@
 <?php
 
-require_once('config' . DIRECTORY_SEPARATOR . 'config.php');
-require_once('config' . DIRECTORY_SEPARATOR . 'autoload.php');
+require 'config' . DIRECTORY_SEPARATOR . 'config.php';
+require CONFIGDIR . 'autoload.php';
+require VENDORDIR . 'autoload.php';
 
 date_default_timezone_set("Europe/Rome");
 

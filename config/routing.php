@@ -1,7 +1,5 @@
 <?php
 
-require_once(VENDORDIR . 'AltoRouter\AltoRouter.php');
-
 $router = new AltoRouter();
 $router->setBasePath('/fantamanajer-new');
 

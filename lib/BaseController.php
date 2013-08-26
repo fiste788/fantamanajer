@@ -2,9 +2,7 @@
 
 namespace Lib;
 
-require_once(VENDORDIR . 'Savant/Savant3.php');
-require_once(VENDORDIR . 'FirePHPCore/FirePHP.class.php');
-//require_once(LIBDIR . 'Login.php');
+require_once(LIBDIR . 'Savant/Savant3.php');
 
 abstract class BaseController {
 
@@ -70,6 +68,12 @@ abstract class BaseController {
     
     /**
      *
+     * @var \Assetic\AssetManager
+     */
+    protected $asset = NULL;
+    
+    /**
+     *
      * @var \Logger
      */
     protected $logger = NULL;
@@ -90,6 +94,7 @@ abstract class BaseController {
         $this->pages = $pages;
         $this->auth = new Login();
         $this->logger = new Logger();
+        $this->asset = new \Assetic\AssetManager();
         \FirePHP::getInstance(TRUE);
         \FirePHP::getInstance()->setEnabled(LOCAL);
         \FirePHP::getInstance()->registerErrorHandler(false);
@@ -130,8 +135,6 @@ abstract class BaseController {
     }
 
     public function setGeneralCss($generalCss) {
-        require_once(VENDORDIR . 'LessPHP/lessc.inc.php');
-
         foreach ($generalCss as $key => $val) {
             $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
             $less_fname = LESSDIR . $val . ".less";

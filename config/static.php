@@ -1,18 +1,18 @@
 <?php
 
 $generalJs = array();
-$generalJs[] = 'modernizr/modernizr.js';
-$generalJs[] = 'jquery/jquery.js';
-$generalJs[] = 'syze/syze.js';
-$generalJs[] = 'ui/jquery.ui.effect.js';
-$generalJs[] = 'ui/jquery.ui.effect-pulsate.js';
-$generalJs[] = 'bootstrap/transition.js';
-$generalJs[] = 'bootstrap/collapse.js';
-$generalJs[] = 'bootstrap/dropdown.js';
-$generalJs[] = 'stickyPanel/jquery.stickyPanel.js';
-$generalJs[] = 'countdown/jquery.jcountdown1.3.js';
-$generalJs[] = 'googleAnalytics/googleAnalytics.js';
-$generalJs[] = 'custom/all.js';
+$generalJs[] = PUBLICURL . 'components/jquery/jquery.js';
+$generalJs[] = PUBLICURL . 'components/modernizr/modernizr.js';
+$generalJs[] = PUBLICURL . 'components/jquery-ui/ui/jquery.ui.effect.js';
+$generalJs[] = PUBLICURL . 'components/jquery-ui/ui/jquery.ui.effect-pulsate.js';
+$generalJs[] = PUBLICURL . 'components/bootstrap/js/transition.js';
+$generalJs[] = PUBLICURL . 'components/bootstrap/js/collapse.js';
+$generalJs[] = PUBLICURL . 'components/bootstrap/js/dropdown.js';
+$generalJs[] = JSURL . 'syze/syze.js';
+$generalJs[] = JSURL . 'stickyPanel/jquery.stickyPanel.js';
+$generalJs[] = JSURL . 'countdown/jquery.jcountdown1.3.js';
+$generalJs[] = JSURL . 'googleAnalytics/googleAnalytics.js';
+$generalJs[] = JSURL . 'custom/all.js';
 
 $generalCss = array();
 $generalCss[] = 'bootstrap/bootstrap';

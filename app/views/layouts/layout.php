@@ -91,7 +91,7 @@
                 var FULLURL = '<?php echo FULLURL ?>';
             </script>
             <?php foreach ($this->generalJs as $key => $val): ?>
-                <script src="<?php echo JSURL . $val; ?>" type="text/javascript"></script>
+                <script src="<?php echo $val; ?>" type="text/javascript"></script>
             <?php endforeach; ?>
             <?php if (isset($this->js)): ?>
                 <?php foreach ($this->js as $key => $val): ?>

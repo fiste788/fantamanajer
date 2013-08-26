@@ -1,0 +1,11 @@
+{
+    "require": {
+        "leafo/lessphp": "v0.4.0",
+		"niahoo/altorouter": "dev-master",
+		"firephp/firephp-core": "dev-master",
+		"linkorb/jsmin-php": "dev-master",
+		"swiftmailer/swiftmailer": "5.1.*@dev",
+		"natxet/CssMin": "dev-master",
+        "kriswallsmith/assetic": "1.2.*@dev"
+    }
+}
