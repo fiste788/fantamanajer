@@ -12,7 +12,6 @@ class Formazione extends Table\FormazioneTable {
         foreach ($giocatori as $giocatore)
             $giocatoriAppo[] = $giocatore->idGiocatore;
         $titolari = array_splice($giocatoriAppo, 0, 11);
-        $this->setId(NULL);
         $this->setIdGiornata($giornata);
         $this->save(array('titolari' => $titolari, 'panchinari' => $giocatoriAppo, 'evento' => FALSE));
     }
@@ -32,6 +31,7 @@ class Formazione extends Table\FormazioneTable {
 
         try {
             Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            $id = $this->getId();
             parent::save($parameters);
             if (!empty($giocatoriIds)) {
                 $success = TRUE;
@@ -44,22 +44,16 @@ class Formazione extends Table\FormazioneTable {
                     }
                 }
                 if ($success) {
-                    if (!isset($parameters['evento']) || (isset($parameters['evento']) && $parameters['evento'] !== FALSE)) {
+                    if (is_null($id) && (!isset($parameters['evento']) || (isset($parameters['evento']) && $parameters['evento'] !== FALSE))) {
                         $evento = new Evento();
                         $evento->setIdExternal($this->getId());
                         $evento->setIdUtente($this->getIdUtente());
                         $evento->setIdLega($this->getUtente()->getIdLega());
                         $evento->setTipo(Evento::FORMAZIONE);
-                        if ($evento->save())
-                            Db\ConnectionFactory::getFactory()->getConnection()->commit();
-                        else {
-                            Db\ConnectionFactory::getFactory()->getConnection()->rollback();
-                            return FALSE;
-                        }
-                    } else
-                        Db\ConnectionFactory::getFactory()->getConnection()->commit();
-                }
-                else {
+                        $evento->save();    
+                    }
+                    Db\ConnectionFactory::getFactory()->getConnection()->commit();
+                } else {
                     Db\ConnectionFactory::getFactory()->getConnection()->rollback();
                     return FALSE;
                 }
@@ -95,11 +89,7 @@ class Formazione extends Table\FormazioneTable {
 
     public function calcModulo($titolari) {
         $modulo = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
-
-
         $giocatori = Giocatore::getByIds($titolari);
-
-
         foreach ($titolari as $titolare)
             if ($titolare != '')
                 $modulo[$giocatori[$titolare]->ruolo] += 1;
@@ -147,7 +137,7 @@ class Formazione extends Table\FormazioneTable {
         $formazione = $exe->fetchObject(__CLASS__);
         if ($formazione)
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
-        return $formazione;
+        return ($formazione) ? $formazione : NULL;
     }
 
     /**

@@ -28,7 +28,7 @@ abstract class ClubTable extends \Lib\Database\Table {
         parent::__construct();
         $this->nome = is_null($this->nome) ? NULL : $this->getNome();
         $this->partitivo = is_null($this->partitivo) ? NULL : $this->getPartitivo();
-        $this->determinativo = is_null($this->determinativo) ? NULL : $this->getPartitivo();
+        $this->determinativo = is_null($this->determinativo) ? NULL : $this->getDeterminativo();
     }
 
     /**
@@ -87,9 +87,8 @@ abstract class ClubTable extends \Lib\Database\Table {
      * @return Giocatore[]
      */
     public function getGiocatori() {
-        require_once(INCDIR . 'GiocatoreStatisticheTable.db.inc.php');
         if (empty($this->giocatori))
-            $this->giocatori = GiocatoreStatistiche::getByFields(array('idClub' => $this->getId()));
+            $this->giocatori = \Fantamanajer\Models\View\GiocatoreStatistiche::getByFields(array('idClub' => $this->getId()));
         return $this->giocatori;
     }
 

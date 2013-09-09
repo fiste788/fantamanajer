@@ -142,17 +142,11 @@ class Punteggio extends Table\PunteggioTable {
      * @param Utente $utente
      * @param int $giornata
      * @return boolean
+     * @throws \PDOException
      */
-    public static function calcolaPunti($utente, $giornata) {
-        require_once(INCDBDIR . 'utente.db.inc.php');
-        require_once(INCDBDIR . 'formazione.db.inc.php');
-        require_once(INCDBDIR . 'voto.db.inc.php');
-        require_once(INCDBDIR . 'giocatore.db.inc.php');
-        require_once(INCDBDIR . 'schieramento.db.inc.php');
-
-
+    public static function calcolaPunti(Utente $utente, $giornata) {
         try {
-            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $formazione = Formazione::getLastFormazione($utente->id, $giornata);
             $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
             $lega = $utente->getLega();
@@ -172,6 +166,7 @@ class Punteggio extends Table\PunteggioTable {
                         $formazione->setIdVCapitano(NULL);
                         $formazione->setIdVVCapitano(NULL);
                     }
+                    $formazione = clone $formazione;
                     $formazione->duplicate($giornata);
                 }
                 $cambi = 0;
@@ -183,7 +178,7 @@ class Punteggio extends Table\PunteggioTable {
                     $giocatore = $schieramento->getGiocatore();
                     $voto = $giocatore->getVotoByGiornata($giornata);
                     if ((!$voto->isValutato()) && ($cambi < 3)) {
-                        FirePHP::getInstance()->log("sostituisco");
+                        \FirePHP::getInstance()->log("sostituisco");
                         $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
                         if ($sostituto != FALSE) {
                             if ($schieramento->getConsiderato() != 0) {
@@ -221,7 +216,7 @@ class Punteggio extends Table\PunteggioTable {
                 $punteggio->setIdUtente($idUtente);
                 $punteggio->setIdLega($lega->id);
                 $punteggio->setPunteggio($somma);
-                FirePHP::getInstance()->log("salvo punteggio");
+                \FirePHP::getInstance()->log("salvo punteggio");
                 $punteggio->save();
                 if ($lega->getPunteggioFormazioneDimenticata() != 100 && $giornata != $formazione->getIdGiornata()) {
                     $puntiDaTogliere = round((($somma / 100) * (100 - $lega->getPunteggioFormazioneDimenticata())), 1);
@@ -235,9 +230,9 @@ class Punteggio extends Table\PunteggioTable {
                     $penalita->save();
                 }
             }
-            ConnectionFactory::getFactory()->getConnection()->commit();
+            Db\ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;

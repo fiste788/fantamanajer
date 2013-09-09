@@ -67,7 +67,8 @@ abstract class Table implements \Lib\Form {
             $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
             $exe->execute(array(':id' => $id));
             \FirePHP::getInstance()->log($q);
-            return $exe->fetchObject($c);
+            $result = $exe->fetchObject($c);
+            return ($result) ? $result : NULL;
         } else
             return NULL;
     }
@@ -80,9 +81,11 @@ abstract class Table implements \Lib\Form {
     public static function getByIds(array $ids) {
         //$keys = implode(array_filter($ids, 'strlen'), ',');
         $keys = array();
-        foreach ($ids as $id)
-            if (strlen($id))
+        foreach ($ids as $id) {
+            if (strlen($id)) {
                 $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id, \PDO::PARAM_INT);
+            }
+        }
         $param = implode(',', $keys);
         if ($param != "") {
             $c = get_called_class();
@@ -152,7 +155,7 @@ abstract class Table implements \Lib\Form {
         try {
             $this->check($parameters);
             $this->getFromPost(FALSE);
-        } catch(FormException $e) {
+        } catch(\Lib\FormException $e) {
             $this->getFromPost(TRUE);
             //$this->fromArray(\Lib\Request::getRequest()->getPostParams(), TRUE);
             throw $e;
@@ -163,8 +166,9 @@ abstract class Table implements \Lib\Form {
             $values = array();
             foreach ($vars as $key => $value) {
                 $currentVal = self::valueToSql($value);
-                if($currentVal != self::valueToSql($this->originalValues[$key]))
+                if($currentVal != self::valueToSql($this->originalValues[$key])) {
                     $values[] = $key . " = " . $currentVal;
+                }
             }
 
             if(!empty($values)) {
@@ -175,13 +179,16 @@ abstract class Table implements \Lib\Form {
             }
             return $this->getId();
         } else {
-            if ($this->getId() == "" || is_null($this->getId()))
+            if ($this->getId() == "" || is_null($this->getId())) {
                 unset($vars['id']);
+            } else {
+                $id = $this->getId();
+            }
             $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql", $vars), ", ") . ")";
             ConnectionFactory::getFactory()->getConnection()->exec($q);
             \FirePHP::getInstance()->log($q);
-            $this->setId(ConnectionFactory::getFactory()->getConnection()->lastInsertId());
+            $this->setId(isset($id) ? $id : ConnectionFactory::getFactory()->getConnection()->lastInsertId());
             return $this->getId();
         }
     }

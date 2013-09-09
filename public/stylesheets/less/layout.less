@@ -28,7 +28,6 @@ body {
   font-family:Open Sans, sans-serif;
   text-align:left;
   padding-top:50px;
-  -webkit-text-size-adjust:none;
   font-size:13px;
   &.debug:before{
     content: "Mobile media query (0 < 768) fired";
@@ -58,6 +57,9 @@ body {
       text-shadow:0 1px 2px rgba(0,0,0,0.6);
       font-weight:normal;
     }
+    a:hover {
+        text-decoration:none;
+    }
   }
 }
 #messaggio {
@@ -67,6 +69,9 @@ body {
 
 footer {
   text-align:center;
+  border-top:1px solid #E5E5E5;
+  background-color:#F5F5F5;  
+  padding:40px 0;
   ul {
     margin-bottom:15px;
   }
@@ -81,7 +86,6 @@ footer {
   margin:0 auto;
 }
 #content {
-  min-height:500px;
   .inner-page {
     padding-top:20px;
     padding-bottom:30px;
@@ -106,6 +110,9 @@ footer {
     display:inline-block;
   }
 }
+#operation + #content .inner-page {
+    padding-top:5px;
+}
 #operation {
   .fix {
     width:100% !important;    
@@ -118,10 +125,20 @@ footer {
     width:5%;
     height:30px;
     vertical-align:middle;
+    text-align:center;
+    span {
+        width:25px;
+    }
+  }
+  div {
+      &.next,&.back {
+          span {
+            display: block;
+          }
+      }
   }
   .operation-content {
     padding:2px 0;
-    .box-sizing(border-box);
     display:table-row;
     width:100%;
   }
@@ -132,12 +149,14 @@ footer {
   }
   select {
     margin:0;
-    width:250px
+    max-width: 250px;
+    display:inline;
   }
   .center {
     display:table-cell;
     width:95%;
     vertical-align:middle;
+    padding:0 8px;
   }
   .top {
     background:url("@{imgs-path}bg.jpg") no-repeat center -140px;
@@ -145,25 +164,22 @@ footer {
     width:100%;
     z-index:2;
   }
+  .form-group {
+    margin:0;
+  }
   input {
     margin:0;
   }
 }
 #topbar nav {
-  
   fieldset, form {
     padding:0;
     margin:0;
   }
-  
   #login {
     fieldset {
       margin:0;
       padding:10px 20px;
-    }
-    .dropdown-menu {
-      max-width:260px;
-      width:260px;
     }
     .text {
       border:1px solid #cccccc;
@@ -180,10 +196,6 @@ footer {
   #lega-select {
     margin:8px 0;
   }
-  ul:first-child {
-  	width:100%;
-  	margin:0;
-  }
 }
 #notifiche span{
   font-size:14px;
@@ -195,47 +207,17 @@ footer {
   text-align:left;
   width:300px;
   a {
-      white-space:normal;
+      white-space:normal !important;
   }
 }
-
-@media (max-width: 480px) {
-  body.debug::before{
-    content: "Mobile media query (0 < 480) fired";
-  }
-  .table {
-    th,  td {
-      padding: 4px 5px;
-    }
-  }
-  #content {
-    min-height:auto !important;
-  }
-}
-@media (max-width: @screen-sm) {
-  nav#topbar ul.pull-right {
-    float: none !important;
-    max-width: none !important;
-    width: 100% !important;
-  }
+.well {
+    overflow:hidden;
 }
 /* Tablet
 ------------------------- */
 @media (min-width: @screen-sm) {
   body {
     background: #e6eaed url("@{imgs-path}bg.jpg") repeat-x center top;
-    &.debug::before{
-      content: "Mobile media query (> 1200) fired";
-      font-weight: bold;
-      display: block;
-      text-align: center;
-      background: rgba(0,255,0, 0.8);
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 99999;
-    }
   }
   #messaggio {
     border-radius:0 0 5px 5px;
@@ -248,13 +230,35 @@ footer {
     width:auto;
     z-index:1;
   }
+  /* sarà da rimuovere bug bootstrap*/
+  .navbar-right .dropdown-menu {	 	
+	  right: 0;	 	
+	  left: auto;	 	
+    }
+    
+  #operation {
+    .next, .back {
+      span {
+        width: 50px;
+      }
+    }
+    select {
+        width:250px;
+    }
+  }
+  #login {
+    .dropdown-menu {
+      max-width:260px;
+      width:260px;
+    }
+  }
+  #content {
+    min-height:500px;
+  }
+  .well {
+      overflow:visible;
+  }
   footer {
-    float:left;
-    clear:both;
-    width:100%;
-    border-top:1px solid #E5E5E5;
-    background-color:#F5F5F5;
-    padding:40px 0;
     text-align:left;
     p {
       margin:15px 0 0;

@@ -38,6 +38,7 @@ abstract class ApplicationController extends \Lib\BaseController {
 
     public function __construct(\Lib\Request $request, \Lib\Response $response) {
         parent::__construct($request,$response);
+        \FirePHP::getInstance()->setEnabled($_SESSION['roles'] == 2);
         $this->templates['operation'] = new \Savant3(array('template_path' => OPERATIONSDIR));
         $response->setHeader("X-UA-Compatible", "IE=edge");
     }
@@ -98,10 +99,12 @@ abstract class ApplicationController extends \Lib\BaseController {
         return file_exists(OPERATIONSDIR . $tpl) ? $this->templates['operation']->fetch($this->controller . DS . $this->action . '.php') : "";
     }
 
-    public function render() {
-        $this->templates['layout']->assign("quickLinks",$this->quickLinks);
-        $this->fetched['operation'] = $this->fetchOperationTpl();
-        return parent::render();
+    public function render($content = NULL) {
+        if(is_null($content)) {
+            $this->templates['layout']->assign("quickLinks",$this->quickLinks);
+            $this->fetched['operation'] = $this->fetchOperationTpl();
+        }
+        return parent::render($content);
     }
 
 }

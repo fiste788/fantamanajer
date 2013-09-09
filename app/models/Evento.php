@@ -44,11 +44,12 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
         $q = "SELECT evento.*,utente.nomeSquadra
 				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
         if ($idLega != NULL)
-            $q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega = NULL)";
+            $q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega IS NULL)";
         if ($tipo != NULL && $tipo != 0)
             $q .= " AND tipo = '" . $tipo . "'";
         $q .= " ORDER BY data DESC
 				LIMIT " . $min . "," . $max . ";";
+        \FirePHP::getInstance()->log($q);
         $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
         $values = $exe->fetchAll(\PDO::FETCH_CLASS,__CLASS__);
         if ($values) {
@@ -98,10 +99,13 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                     case self::NUOVOGIOCATORE:
                         $player = Giocatore::getById($values[$key]->idExternal);
                         //$selected = $player[$values[$key]->idExternal];
-                        $values[$key]->titolo = $player->nome . ' ' . $player->cognome . ' (' . $player->getClub()->getNome() . ') inserito nella lista giocatori';
-                        $values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' ora fa parte della rosa ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome . ', pertanto è stato inserito nella lista giocatori';
-                        $values[$key]->link = \Lib\Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
-
+                        if(!is_null($player)) {
+                            $values[$key]->titolo = $player->nome . ' ' . $player->cognome . ' (' . $player->getClub()->getNome() . ') inserito nella lista giocatori';
+                            $values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' ora fa parte della rosa ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome . ', pertanto è stato inserito nella lista giocatori';
+                            $values[$key]->link = \Lib\Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
+                        }
+                        else
+                            \FirePHP::getInstance ()->log ("<aa" . $values[$key]->idExternal);  
                         break;
                     case self::RIMOSSOGIOCATORE:
                         $player = Giocatore::getById($values[$key]->idExternal);
@@ -111,7 +115,7 @@ class Evento extends \Fantamanajer\Models\Table\EventoTable {
                         break;
                     case self::CAMBIOCLUB:
                         $player = Giocatore::getById($values[$key]->idExternal);
-                        $values[$key]->titolo = $player->getClub()->determinativo . ' ' . $player->getclub()->nome . ' ha ingaggiato ' . $player;
+                        $values[$key]->titolo = ucwords($player->getClub()->determinativo) . ' ' . $player->getclub()->nome . ' ha ingaggiato ' . $player;
                         $values[$key]->content = '';
                         $values[$key]->link = \Lib\Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
                         break;

@@ -1,11 +1,11 @@
-<?php $i = 1; ?>
-<div id="classifica-container" data-squadra="<?php echo ($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) ? $this->squadre[$_SESSION['idUtente']]->id : 'false'; ?>">
+<?php $i = 1; if(!empty($this->classificaDett)): ?>
+<div class="well" id="classifica-container" data-squadra="<?php echo ($_SESSION['logged'] == TRUE && $_SESSION['legaView'] == $_SESSION['idLega']) ? $this->squadre[$_SESSION['idUtente']]->id : 'false'; ?>">
     <table class="table">
         <thead>
             <tr>
                 <th>P.</th>
                 <th class="nowrap">Nome</th>
-                <th class="nowrap"><abbr title="Punti totali">PTot</abbr></th>
+                <th class="nowrap text-right"><abbr title="Punti totali">PTot</abbr></th>
             </tr>
         </thead>
         <tbody>
@@ -13,12 +13,11 @@
                 <tr>
                     <td><?php echo $i++; ?></td>
                     <td class="squadra no-wrap" id="squadra-<?php echo $key; ?>"><a href="<?php echo $this->router->generate('squadra_show', array('id' => $key)) ?>"><?php echo $this->squadre[$key]->nomeSquadra; ?></a></td>
-                    <td><?php echo array_sum($val); ?></td>
+                    <td class="text-right"><?php echo array_sum($val); ?></td>
                 </tr>
             <?php $flag = $key; endforeach; ?>
         </tbody>
     </table>
-
     <?php if (key($this->classificaDett[$flag]) != 0): ?>
         <div id="tab_classifica">
             <table class="table">
@@ -44,8 +43,9 @@
         <?php endif; ?>
     </div>
 </div>
+<?php endif; ?>
 <?php if (!empty($this->giornate)): ?>
-    <div id="grafico" class="hidden-phone">
+    <div id="grafico" class="hidden-xs">
         <div id="placeholder" style="height:300px"></div>
         <div id="overview" style="width:200px;height:100px"></div>
         <p>Seleziona sulla miniatura una parte di grafico per ingrandirla.</p>

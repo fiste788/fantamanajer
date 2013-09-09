@@ -29,6 +29,7 @@ class ConnectionFactory {
     /**
      *
      * @return \MyPDO
+     * @throws \PDOException
      */
     public function getConnection() {
         if (!$this->db) {

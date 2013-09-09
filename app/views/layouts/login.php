@@ -1,7 +1,7 @@
-<li class="navbar-right dropdown" id="login">
+<li class="dropdown" id="login">
     <?php if (!$_SESSION['logged']): ?>
         <a class="dropdown-toggle" data-toggle="dropdown">Login</a>
-        <ul class="dropdown-menu pull-right">
+        <ul class="dropdown-menu" role="menu">
             <li>
                 <form action="<?php echo $this->router->generate('login'); ?>" method="post">
                     <fieldset>

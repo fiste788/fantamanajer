@@ -4,16 +4,16 @@
 <?php else: ?>
     <div id="best-player">
         <?php if (!empty($this->bestPlayer)): ?>
-            <h3>Migliori giocatori giornata <?php echo $this->giornata; ?></h3>
+            <h2>Migliori giocatori giornata <?php echo $this->giornata; ?></h2>
             <div class="row">
                 <?php foreach ($this->bestPlayer as $ruolo => $giocatore): ?>
                     <div id="<?php echo $ruolo ?>" class="col-lg-3 col-md-3 col-sm-6">
                         <div class="well">
-                            <h4><?php echo $this->ruoli[$ruolo]->plurale ?></h4>
+                            <h3><?php echo $this->ruoli[$ruolo]->plurale ?></h3>
                             <a class="foto-container" href="<?php echo $this->router->generate('giocatore_show', array('edit' => 'view', 'id' => $giocatore->id)); ?>">
                                 <figure>
                                     <?php if (file_exists(PLAYERSDIR . $giocatore->id . '.jpg')): ?>
-                                        <img class="foto img-polaroid" alt="<?php echo $giocatore; ?>" src="<?php echo PLAYERSURL . $giocatore->id . '.jpg'; ?>" />
+                                        <img class="foto img-thumbnail" alt="<?php echo $giocatore; ?>" src="<?php echo PLAYERSURL . $giocatore->id . '.jpg'; ?>" />
                                     <?php else: ?>
                                         <img class="foto" alt="Foto sconosciuta" src="<?php echo IMGSURL . 'no-photo.png'; ?>" />
                                     <?php endif; ?>
@@ -41,7 +41,7 @@
                     <ul class="list-unstyled">
                         <?php foreach ($this->eventi as $key => $evento): ?>
                             <li class="eventoHome">
-                                <em><?php echo $evento->data->format("Y-m-d H:i:s"); ?></em>&nbsp;
+                                <time><?php echo $evento->data->format("Y-m-d H:i:s"); ?></time>&nbsp;
                                 <a<?php echo ($evento->tipo != 2) ? ' href="' . $evento->link . '"' : ''; ?> title="<?php echo $evento->content; ?>"><?php echo $evento->titolo; ?></a>
                             </li>
                         <?php endforeach; ?>
@@ -58,10 +58,10 @@
             <div class="well">
                 <h3>Ultime conferenze stampa</h3>
                 <?php foreach ($this->articoli as $key => $articolo): ?>
-                    <article id="news">
+                    <article class="news">
                         <header>
                             <em>
-                                <span><?php echo $articolo->dataCreazione->format("Y-m-d H:i:s"); ?></span>
+                                <time><?php echo $articolo->dataCreazione->format("Y-m-d H:i:s"); ?></time>
                                 <span class="pull-right">
                                     <?php echo $articolo->username; ?>
                                     <?php if ($_SESSION['logged'] && $_SESSION['idUtente'] == $articolo->idUtente): ?>

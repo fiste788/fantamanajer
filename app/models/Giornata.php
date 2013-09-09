@@ -40,15 +40,16 @@ class Giornata extends Table\GiornataTable {
         $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":minuti", $minuti, \PDO::PARAM_INT);
         $exe->execute();
+        \FirePHP::getInstance()->log($q);
         $valore = $exe->fetchObject(__CLASS__);
         $valore->setStagioneFinita($valore->getId() > (self::getNumberGiornate() - 1));
         return $valore;
     }
 
-    public static function isWeeklyScriptDay() {
-        $now = new DateTime();
+    public static function isWeeklyScriptDay($giornata) {
+        $now = new \DateTime();
         $now->modify("-1 day");
-        $previous = self::getById(GIORNATA - 1);
+        $previous = self::getById($giornata - 1);
         return ($previous->getData() < $now && $now->format("H") > 17);
     }
 

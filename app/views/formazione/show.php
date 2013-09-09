@@ -1,18 +1,20 @@
 <?php $ruolo = ""; ?>
 <?php if (!$this->stagioneFinita || $this->giornata != $this->currentGiornata): ?>
     <div id="giocatori" class="clearfix<?php if ($this->squadra != $_SESSION['idUtente']) echo ' hidden'; ?>">
-        <?php foreach ($this->giocatori as $val): ?>
-            <?php if ($val->ruolo != $ruolo && $ruolo != "") echo '</div>'; ?>
-            <?php if ($ruolo != $val->ruolo) echo '<div class="ruoli ' . $val->ruolo . '">'; ?>
-            <div id="<?php echo $val->id; ?>"  data-ruolo="<?php echo $val->ruolo; ?>" class="draggable giocatore <?php echo $val->ruolo; ?>">
-                <?php if (file_exists(PLAYERSDIR . $val->id . '.jpg')): ?>
-                    <img class="img-responsive" alt="<?php echo $val->id; ?>" src="<?php echo PLAYERSURL . $val->id; ?>.jpg" />
-                <?php endif; ?>
-                <p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
-            </div>
-            <?php $ruolo = ($ruolo != $val->ruolo) ? $val->ruolo : $ruolo; ?>
-        <?php endforeach; ?>
-    </div>
+        <?php if(!empty($this->giocatori)): ?>
+            <?php foreach ($this->giocatori as $val): ?>
+                <?php if ($val->ruolo != $ruolo && $ruolo != "") echo '</div>'; ?>
+                <?php if ($ruolo != $val->ruolo) echo '<div class="ruoli ' . $val->ruolo . '">'; ?>
+                <div id="<?php echo $val->id; ?>"  data-ruolo="<?php echo $val->ruolo; ?>" data-cognome="<?php echo $val->cognome; ?>" class="draggable giocatore <?php echo $val->ruolo; ?>">
+                    <?php if (file_exists(PLAYERSDIR . $val->id . '.jpg')): ?>
+                        <img class="img-responsive" alt="<?php echo $val->id; ?>" src="<?php echo PLAYERSURL . $val->id; ?>.jpg" />
+                    <?php endif; ?>
+                    <p><?php echo $val->cognome . ' ' . $val->nome; ?></p>
+                </div>
+                <?php $ruolo = ($ruolo != $val->ruolo) ? $val->ruolo : $ruolo; ?>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
     </div>
     <h3>Giornata <?php echo $this->giornata; ?></h3>
     <div id="stadio" class="clearfix">
@@ -49,7 +51,7 @@
                     <?php if ($_SESSION['datiLega']->jolly && (!$this->usedJolly || $this->formazione->getJolly())): ?>
                         <div class="checkbox-inline">
                             <label for="jolly">
-                                <input type="checkbox" value="1" name="formazione[jolly]" id="jolly" <?php if (isset($this->formazione) && $this->formazione->getJolly()) echo ' checked="checked"'; ?> /> Jolly
+                                <input type="checkbox" value="1" name="formazione[jolly]" id="jolly" <?php if (!is_null($this->formazione) && $this->formazione->getJolly()) echo ' checked="checked"'; ?> /> Jolly
                             </label>
                         </div>
                     <?php endif; ?>

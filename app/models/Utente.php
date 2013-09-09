@@ -36,7 +36,6 @@ class Utente extends \Fantamanajer\Models\Table\UtenteTable {
     }
 
     public function save(array $parameters = NULL) {
-        require_once(INCDIR . 'ImageWorkshop.php');
         if (isset($_FILES['logo'])) {
             $logo = (object) $_FILES['logo'];
             $filename = $this->getId() . '.jpg';

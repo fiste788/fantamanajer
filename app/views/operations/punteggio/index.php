@@ -1,6 +1,6 @@
 <form class="form-inline" action="<?php echo $this->router->generate('classifica'); ?>" method="get">
     <fieldset>
-        <div class="control-group">
+        <div class="form-group">
             <label for="giornata">Guarda la classifica alla giornata</label>
             <select class="form-control" id="giornata" name="giornata">
                 <?php for ($j = $this->giornate; $j > 0; $j--): ?>

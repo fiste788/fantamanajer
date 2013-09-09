@@ -16,8 +16,6 @@ if (isset($_SERVER['DOCUMENT_ROOT']))
 $cwd = str_replace('\\', '/', getcwd());    //get currently used directory(if under windows replace \\ with /)
 $doc_root = str_replace(implode('/', $tmp), '', $cwd);   //example /var/www/
 
-if (end($tmp) == 'ajax')
-    array_pop($tmp);
 $sitepath = implode('/', $tmp);                      //recreate $sitepath with slash (/one/jpg)
 
 define("DS","/");

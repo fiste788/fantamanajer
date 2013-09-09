@@ -28,9 +28,9 @@ if(Modernizr.filereader) {
             dropzone.append('<p>Caricamento in corso</p>');
             dropzone.append('<div aria-valuenow="0" aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress progress-success progress-striped active"><div style="width:0%;" class="bar"></div></div>');
         },
-        done: function (e, data) {
-            var a = $('<a class="fancybox logo left" href="' + data.result[0].url + '">');
-            var img = $('<img class="img-polaroid" src="' + data.result[0].thumb_url + '?' + uniqueId + '">');
+        success: function (data) {
+            var a = $('<a class="fancybox logo left" href="' + data[0].url + '">');
+            var img = $('<img class="img-thumbnail" src="' + data[0].thumb_url + '?' + uniqueId + '">');
             a.append(img);
             $('#dropzone').empty().append(a);
             a.fancybox(fancy_options);

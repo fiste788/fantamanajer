@@ -5,9 +5,13 @@ namespace Fantamanajer\Controllers;
 class ArticoloController extends ApplicationController {
 
     public function index() {
-        $giornata = isset($this->route['params']['giornata']) ? $this->route['params']['giornata'] : $this->currentGiornata->id;
+        $giornata = $this->request->getParam('giornata',$this->currentGiornata->id);
         $articoli = $this->currentLega->getArticoliByGiornata($giornata);
+        $giornate = \Fantamanajer\Models\Articolo::getGiornateArticoliExist($this->currentLega->id);
+        array_push($giornate, $giornata);
         $this->templates['content']->assign('articoli', $articoli);
+        $this->templates['operation']->assign('giornateWithArticoli', array_unique($giornate));
+        $this->templates['operation']->assign('giornata', $giornata);
     }
 
     public function build() {
@@ -18,8 +22,8 @@ class ArticoloController extends ApplicationController {
         try {
             $articolo = new \Fantamanajer\Models\Articolo();
             $articolo->setIdUtente($_SESSION['idUtente']);
-            $articolo->setIdGiornata(GIORNATA);
-            $articolo->setIdLega($_SESSION['idLega']);
+            $articolo->setIdGiornata($this->currentGiornata->id);
+            $articolo->setIdLega($this->currentLega->id);
             $articolo->setDataCreazione('now');
             $articolo->save();
             $this->redirectTo("articoli");

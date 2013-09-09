@@ -27,11 +27,7 @@ if(operationForm.length && operationForm.attr('method') == 'get') {
     operationForm.find("select").change(function() {
         var option = $(this).find("option:selected");
         var url = option.data('url');
-        if(url !== undefined) {
-            window.location = url;
-        } else {
-            window.location = operationForm.attr('action') + option.val();
-        }
+        window.location = (url !== undefined) ? url : operationForm.attr('action') + option.val();
     });
 }
 
@@ -54,7 +50,7 @@ function enableWell() {
     if($.isViewport('gtxs') && !activeWell) {
         activeWell = true;
         var $well = $('.well');
-        if($well.length) {
+        if($well.length > 1) {
             $well.hover(function(){
                 $well.not(this).stop().fadeTo('fast',0.7);
             }, function(){
@@ -76,7 +72,7 @@ function enableStickpanel() {
     if($.isViewport('gtxs') && !activeStickpanel) {
         activeStickpanel = true;
         $operation.find('.fix').stickyPanel({
-            topPadding: 50,
+            topPadding: 51,
             afterDetachCSSClass: 'top',
             savePanelSpace: true
         });

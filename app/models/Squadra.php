@@ -7,6 +7,7 @@ class Squadra extends Table\SquadraTable {
 
     public static function setSquadraGiocatoreByArray($idLega, $giocatori, $idUtente) {
         $q = "INSERT INTO squadra VALUES ";
+        \FirePHP::getInstance()->log($giocatori);
         foreach ($giocatori as $val) {
             $row[] = "('" . $idLega . "','" . $idUtente . "','" . $val . "')";
         }

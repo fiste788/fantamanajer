@@ -265,9 +265,8 @@ abstract class UtenteTable extends \Lib\Database\Table {
      * @return Lega
      */
     public function getLega() {
-        require_once(INCDBDIR . 'lega.db.inc.php');
         if (empty($this->lega))
-            $this->lega = Lega::getById($this->getIdLega());
+            $this->lega = \Fantamanajer\Models\Lega::getById($this->getIdLega());
         return $this->lega;
     }
 

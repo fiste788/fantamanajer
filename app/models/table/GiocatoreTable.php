@@ -142,12 +142,11 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: club
-     * @return Club
+     * @return \Fantamanajer\Models\Club
      */
     public function getClub() {
-        require_once(INCDBDIR . 'club.db.inc.php');
         if (empty($this->club))
-            $this->club = Club::getById($this->getIdClub());
+            $this->club = \Fantamanajer\Models\Club::getById($this->getIdClub());
         return $this->club;
     }
 
@@ -163,7 +162,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
      *
      * @param type $key
      * @param type $value
-     * @return Giocatore[]|Giocatore|NULL
+     * @return \Fantamanajer\Models\Giocatore[]|\Fantamanajer\Models\Giocatore|NULL
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -172,7 +171,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
     /**
      *
      * @param type $id
-     * @return Giocatore
+     * @return \Fantamanajer\Models\Giocatore
      */
     public static function getById($id) {
         return parent::getById($id);
@@ -181,7 +180,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
     /**
      *
      * @param type $ids
-     * @return Giocatore[]|NULL
+     * @return \Fantamanajer\Models\Giocatore[]|NULL
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);
@@ -189,7 +188,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      *
-     * @return Giocatore[]
+     * @return \Fantamanajer\Models\Giocatore[]
      */
     public static function getList() {
         return parent::getList();

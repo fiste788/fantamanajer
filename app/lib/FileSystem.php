@@ -159,37 +159,7 @@ class FileSystem {
         $xml->endDocument();
     }
 
-    public static function writeXmlVotiDecript($tree, $percorso) {
-        $xml = new XmlWriter();
-        $ruoli = array("P", "D", "C", "A");
-        $xml->openURI($percorso);
-        $xml->startDocument("1.0");
-        $xml->startElement("players");
-        foreach ($tree as $node) {
-            $xml->startElement("player");
-            $xml->writeElement("id", $node[0]);
-            $xml->writeElement("nome", trim($node[2], '"'));
-            $xml->writeElement("club", substr(trim($node[3], '"'), 0, 3));
-            $xml->writeElement("ruolo", $ruoli[$node[5]]);
-            $xml->writeElement("valutato", $node[6]); //1=valutato,0=senzavoto
-            $xml->writeElement("punti", $node[7]);
-            $xml->writeElement("voto", $node[10]);
-            $xml->writeElement("gol", $node[11]);
-            $xml->writeElement("golSubiti", $node[12]);
-            $xml->writeElement("golVittoria", $node[13]);
-            $xml->writeElement("golPareggio", $node[14]);
-            $xml->writeElement("assist", $node[15]);
-            $xml->writeElement("ammonito", $node[16]);
-            $xml->writeElement("espulso", $node[17]);
-            $xml->writeElement("rigoriSegnati", $node[18]);
-            $xml->writeElement("rigoriSubiti", $node[19]);
-            $xml->writeElement("presenza", $node[23]);
-            $xml->writeElement("titolare", $node[24]);
-            $xml->writeElement("quotazione", $node[27]);
-            $xml->endElement();
-        }
-        $xml->endDocument();
-    }
+    
 
     public static function scaricaLista($percorso) {
         if (file_exists($percorso))

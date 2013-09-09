@@ -1,10 +1,10 @@
 <?php
 
 $router = new AltoRouter();
-$router->setBasePath('/fantamanajer-new');
+$router->setBasePath((LOCAL) ? '/fantamanajer-new' : '');
 
 // mapping routes
-$router->map('GET', '', array('controller'=>'page','action'=>'home'), 'home');
+$router->map('GET', '/[dummy]?', array('controller'=>'page','action'=>'home'), 'home');
 $router->map('POST', '/login', array('controller'=>'utente','action'=>'login'), 'login');
 $router->map('GET', '/logout', array('controller'=>'utente','action'=>'logout'), 'logout');
 $router->map('GET', '/utente', array('controller'=>'utente','action'=>'edit'), 'utente_show');
@@ -34,7 +34,6 @@ $router->map('GET', '/probabili_formazioni[.html:format]', array('controller'=>'
 $router->map('GET', '/trasferimenti/[i:squadra]?', array('controller'=>'trasferimento','action'=>'index'), 'trasferimento_index');
 $router->map('POST', '/trasferimenti/[i:squadra]?', array('controller'=>'selezione','action'=>'update'), 'selezione_update');
 //$router->map('GET', '/trasferimenti/[i:id]', 'trasferimento','action'=>'index', 'trasferimento_show');
-$router->map('GET', '/download', array('controller'=>'trasferimento','action'=>'show'), 'download');
 $router->map('GET', '/classifica/[i:giornata]?', array('controller'=>'punteggio','action'=>'index'), 'classifica');
 $router->map('GET', '/dettaglio_giornata/[i:giornata]/[i:squadra]', array('controller'=>'punteggio','action'=>'show'), 'punteggio_show');
 $router->map('GET', '/crea_squadra', array('controller'=>'squadra','action'=>'build'), 'squadra_new');
@@ -42,15 +41,23 @@ $router->map('GET', '/trasferimento/new', array('controller'=>'trasferimento','a
 $router->map('GET', '/impostazioni', array('controller'=>'lega','action'=>'edit'), 'impostazioni');
 $router->map('POST', '/impostazioni', array('controller'=>'lega','action'=>'update'), 'impostazioni_update');
 $router->map('GET|POST', '/feed', array('controller'=>'evento','action'=>'index'), 'feed');
+$router->map('POST', '/utente/upload', array('controller'=>'utente','action'=>'upload'), 'upload');
+$router->map('GET', '/download', array('controller'=>'page','action'=>'download'), 'download');
+$router->map('POST', '/download', array('controller'=>'page','action'=>'buildDownload'), 'build_download');
 
-
+$router->map('GET', '/crea_squadra', array('controller'=>'squadra','action'=>'build'), 'crea_squadra');
+$router->map('POST', '/crea_squadra', array('controller'=>'squadra','action'=>'create'), 'squadra_create');
 $router->map('GET', '/penalità', array('controller'=>'punteggio','action'=>'penalità'), 'penalità');
 $router->map('GET', '/newsletter', array('controller'=>'trasferimento','action'=>'build'), 'newsletter');
 $router->map('GET', '/lancia_script', array('controller'=>'squadra','action'=>'build'), 'lancia_script');
+$router->map('GET', '/weekly_script', array('controller'=>'script','action'=>'weeklyScript'), 'weekly_script');
 $router->map('GET', '/giornata', array('controller'=>'squadra','action'=>'build'), 'giornata');
 $router->map('GET', '/gestione_database', array('controller'=>'squadra','action'=>'new'), 'gestione_database');
 
 $router->map('GET', '/trasferimenti/do', array('controller'=>'script','action'=>'doTransfert'), 'do_transfert');
+$router->map('GET', '/minify', array('controller'=>'script','action'=>'minify'), 'minify');
+//$router->map('GET', '/fixplayer', array('controller'=>'script','action'=>'fixPlayerPhoto'), 'fixPlayerPhoto');
+
 
 $router->map('GET', '/', array('controller'=>'punteggio','action'=>'show'), 'area_amministrativa');
 $router->map('GET', '/', array('controller'=>'clubs','action'=>'index'), 'clubsA');

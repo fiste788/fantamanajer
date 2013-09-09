@@ -10,9 +10,8 @@ class Giocatore extends Table\GiocatoreTable {
             Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             parent::save($parameters);
             if (!is_null($parameters)) {
-                require_once(INCDBDIR . 'evento.db.inc.php');
                 $evento = new Evento();
-                $evento->setIdExternal($this->getId());
+                $evento->setIdExternal($this->id);
                 $evento->setTipo($parameters['numEvento']);
                 $evento->save();
             }
@@ -105,23 +104,18 @@ class Giocatore extends Table\GiocatoreTable {
     }
 
     public static function updateTabGiocatore($path) {
-        require_once(INCDBDIR . 'club.db.inc.php');
-        require_once(INCDBDIR . 'evento.db.inc.php');
-        require_once(INCDIR . 'decrypt.inc.php');
-        require_once(INCDIR . 'fileSystem.inc.php');
-
         $ruoli = array("P", "D", "C", "A");
         $giocatoriOld = self::getList();
-        $giocatoriNew = fileSystem::returnArray($path, ";");
+        $giocatoriNew = \Fantamanajer\Lib\FileSystem::returnArray($path, ";");
         try {
-            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             foreach ($giocatoriNew as $id => $giocatoreNew) {
                 if (array_key_exists($id, $giocatoriOld)) {
                     $clubNew = Club::getByField('nome', ucwords(strtolower(trim($giocatoreNew[3], '"'))));
                     if ($giocatoriOld[$id]->getIdClub() != $clubNew->getId()) {
                         $giocatoriOld[$id]->setClub($clubNew);
                         $giocatoriOld[$id]->setAttivo(TRUE);
-                        $giocatoriOld[$id]->save(EVENTO::CAMBIOCLUB);
+                        $giocatoriOld[$id]->save(array('numEvento'=>Evento::CAMBIOCLUB));
                     }
                 } else {
                     $giocatoreOld = new Giocatore();
@@ -137,18 +131,18 @@ class Giocatore extends Table\GiocatoreTable {
                     $giocatoreOld->setCognome($cognome);
                     $giocatoreOld->setNome($nome);
                     $giocatoreOld->setAttivo(TRUE);
-                    $giocatoreOld->save(EVENTO::NUOVOGIOCATORE);
+                    $giocatoreOld->save(array('numEvento'=>Evento::NUOVOGIOCATORE));
                 }
             }
             foreach ($giocatoriOld as $id => $giocatoreOld) {
                 if (!array_key_exists($id, $giocatoriNew) && $giocatoreOld->isAttivo()) {
                     $giocatoreOld->setAttivo(FALSE);
-                    $giocatoreOld->save(EVENTO::RIMOSSOGIOCATORE);
+                    $giocatoreOld->save(array('numEvento'=>Evento::RIMOSSOGIOCATORE));
                 }
             }
-            ConnectionFactory::getFactory()->getConnection()->commit();
+            Db\ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            ConnectionFactory::getFactory()->getConnection()->rollBack();
+            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;

@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <title>FantaManajer<?php if (isset($this->title)) echo " - " . $this->title; ?></title>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
         <meta name="verify-v1" content="CkLFVD0+jN20Tcmm4kHQmzRijDZbny9QgKZcxkLaCl8=" />
         <meta name="description" content="Fantamanajer: un semplice tool online scritto in php che ti permette di gestire al meglio il tuo torneo di fantacalcio." />
         <meta name="author" content="Stefano Sonzogni"/>
@@ -59,13 +59,13 @@
                             <?php if ($this->quickLinks->prev != FALSE): ?>
                                 <a class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
                             <?php else: ?>
-                                <div class="back">&nbsp;</div>
+                                <div class="back"><span></span></div>
                             <?php endif; ?>
                             <div class="center"><?php echo $this->operation; ?></div>
                             <?php if ($this->quickLinks->next != FALSE): ?>
                                 <a class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>"><span class="glyphicon glyphicon-arrow-right"></span></a>
                             <?php else: ?>
-                                <div class="next">&nbsp;</div>
+                                <div class="next"><span></span></div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -109,8 +109,8 @@
             <?php endif; ?>
         <?php else: ?>
             <script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
-            <?php if (file_exists(JAVASCRIPTSDIR . 'combined/' . $this->p . '.js')): ?>
-                <script src="<?php echo JSURL . 'combined/' . $this->p . '.js'; ?>" type="text/javascript"></script>
+            <?php if (file_exists(JAVASCRIPTSDIR . 'combined/' . $this->route['name'] . '.js')): ?>
+                <script src="<?php echo JSURL . 'combined/' . $this->route['name'] . '.js'; ?>" type="text/javascript"></script>
             <?php endif; ?>
         <?php endif; ?>
     </body>

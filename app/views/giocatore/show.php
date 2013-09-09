@@ -28,8 +28,8 @@
                     <th><abbr title="Giornata">Giorn</abbr></th>
                     <th>Punti</th>
                     <th>Voti</th>
-                    <th<?php if($this->giocatore->ruolo == "P") echo ' class="hidden-small-phone"' ?>>Gol</th>
-                    <th<?php if($this->giocatore->ruolo != "P") echo ' class="hidden-small-phone"' ?>><abbr title="Gol subiti">Gol S</abbr></th>
+                    <th<?php if($this->giocatore->ruolo == "P") echo ' class="hidden-xxs"' ?>>Gol</th>
+                    <th<?php if($this->giocatore->ruolo != "P") echo ' class="hidden-xxs"' ?>><abbr title="Gol subiti">Gol S</abbr></th>
                     <th>Assist</th>
                     <th class="hidden-xxs"><abbr title="Rigori">Rig</abbr></th>
                     <th class="hidden-xxs"><abbr title="Rigori subiti">Rig S</abbr></th>
@@ -45,21 +45,21 @@
                         <td><?php echo $val->getIdGiornata(); ?></td>
                         <td class="punti"><?php echo $val->getPunti(); ?></td>
                         <td class="voto"><?php echo ($val->getVoto() != '0') ? $val->getVoto() : "&nbsp;"; ?></td>
-                        <td<?php if($this->giocatore->ruolo == "P") echo ' class="hidden-small-phone"' ?>><?php echo $val->getGol(); ?></td>
-                        <td<?php if($this->giocatore->ruolo != "P") echo ' class="hidden-small-phone"' ?>><?php echo $val->getGolSubiti(); ?></td>
+                        <td<?php if($this->giocatore->ruolo == "P") echo ' class="hidden-xxs"' ?>><?php echo $val->getGol(); ?></td>
+                        <td<?php if($this->giocatore->ruolo != "P") echo ' class="hidden-xxs"' ?>><?php echo $val->getGolSubiti(); ?></td>
                         <td><?php echo $val->getAssist(); ?></td>
                         <td class="hidden-xxs"><?php echo $val->getRigoriSegnati(); ?></td>
                         <td class="hidden-xxs"><?php echo $val->getRigoriSubiti(); ?></td>
-                        <td><?php if($val->isAmmonito()): ?><i class="icon-ok"></i><?php endif; ?></td>
-                        <td><?php if($val->isEspulso()): ?><i class="icon-ok"></i><?php endif; ?></td>
-                        <td><?php if($val->isTitolare()): ?><i class="icon-ok"></i><?php endif; ?></td>
+                        <td><?php if($val->isAmmonito()): ?><i class="glyphicon glyphicon-ok"></i><?php endif; ?></td>
+                        <td><?php if($val->isEspulso()): ?><i class="glyphicon glyphicon-ok"></i><?php endif; ?></td>
+                        <td><?php if($val->isTitolare()): ?><i class="glyphicon glyphicon-ok"></i><?php endif; ?></td>
                         <td class="hidden-xxs"><?php echo $val->getQuotazione(); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div id="grafico" class="hidden-phone">
+    <div id="grafico" class="hidden-xs">
         <div id="placeholder" style="height:300px"></div>
         <div id="overview" style="width:200px;height:100px"></div>
         <p>Seleziona sulla miniatura una parte di grafico per ingrandirla.</p>

@@ -10,7 +10,7 @@ class FormazioneController extends ApplicationController {
         $filterGiornata = $this->request->getParam('giornata', $this->currentGiornata->getId());
         
         $formazione = Models\Formazione::getLastFormazione($filterSquadra, $filterGiornata);
-        $this->_showFormazione($formazione,$filterSquadra,$filterGiornata);
+        $this->_showFormazione($filterSquadra,$filterGiornata,$formazione);
     }
 
     public function build() {
@@ -28,10 +28,10 @@ class FormazioneController extends ApplicationController {
             $formazione->giocatori = $formazione->getSchieramenti(array_merge($this->request->getParam('titolari'), $this->request->getParam('panchinari')));
         }
         
-        $this->_showFormazione($formazione,$filterSquadra,$filterGiornata);
+        $this->_showFormazione($filterSquadra,$filterGiornata,$formazione);
     }
     
-    protected function _showFormazione(Models\Formazione $formazione,$squadra,$giornata) {
+    protected function _showFormazione($squadra,$giornata,Models\Formazione $formazione = NULL) {
         $formazioniPresenti = Models\Formazione::getFormazioneByGiornataAndLega($giornata,$_SESSION['legaView']);
         $modulo = NULL;
         if ($formazione != NULL) {
@@ -48,7 +48,9 @@ class FormazioneController extends ApplicationController {
                 $giocatori = Models\View\GiocatoreStatistiche::getByIds($ids);
             } else {
                 $giocatori = Models\View\GiocatoreStatistiche::getByField('idUtente',$squadra);
-            }
+            } 
+        } else {
+            $giocatori = Models\View\GiocatoreStatistiche::getByField('idUtente',$squadra);
         }
         $this->templates['content']->assign('usedJolly',Models\Formazione::usedJolly($squadra,$this->currentGiornata->getId()));
         $this->templates['content']->assign('modulo',$modulo);

@@ -2,39 +2,12 @@
 @import "bootstrap/mixins.less";
 @import "variables.less";
 
-article, details, figcaption, figure, hgroup {
-    margin:0
-}
-h1, h2, h3, h4, h5, h6 {
-  margin-top:0;
-}
-h1 a {
-  font-weight:normal !important;
-  font-size:22px;
-}
-h2 a {
-  font-weight:normal !important;
-  font-size:20px;
-}
-h3 a {
-  font-weight:normal !important;
-  font-size:18px;
-}
-h4 a {
-  font-weight:normal !important;
-  font-size:16px;
-}
-
-em {
-  background-color:transparent;
-  color:#777;
-}
-a, a:link, a:visited, a:hover {
-  text-decoration:none;
-  cursor:pointer;
-}
 a {
   .transition(all 0.15s linear 0s);
+  cursor: pointer;
+}
+a:hover {
+    text-decoration: none;
 }
 .center {
   text-align:center;
@@ -45,6 +18,9 @@ label {
 input.small {
   width:45px;
   text-align: center;
+}
+img {
+    .box-sizing(content-box)
 }
 .foto {
   .rotate(-2deg);
@@ -119,10 +95,18 @@ table {
   }
 }
 
-// Phones only
-@media (max-width: 480px) {
-  // Show
-  .visible-small-phone     { display: inherit !important; } // Use inherit to restore previous behavior
-  // Hide
-  .hidden-small-phone      { display: none !important; }
+@screen-xxs-max:              (@screen-xs - 1);
+// Visibility utilities
+
+.visible-xxs {
+  .responsive-invisibility();
+  @media (max-width: @screen-xxs-max) {
+    .responsive-visibility();
+  }
+}
+.hidden-xxs {
+  .responsive-visibility();
+  @media (max-width: @screen-xxs-max) {
+    .responsive-invisibility();
+  }
 }

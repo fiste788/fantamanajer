@@ -33,7 +33,7 @@ class ClubController extends ApplicationController {
     
     public function probabiliFormazioni_html() {
         $url = "http://www.gazzetta.it/Calcio/prob_form/";
-        $this->setBody(utf8_encode(\Fantamanajer\Lib\FileSystem::contenutoCurl($url)));
+        echo utf8_encode(\Fantamanajer\Lib\FileSystem::contenutoCurl($url));
     }
 }
 

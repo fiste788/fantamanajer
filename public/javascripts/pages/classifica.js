@@ -255,7 +255,8 @@ function enableClassifica() {
             test: Modernizr.canvas,
             nope: JSURL + '/flot/excanvas.min.js',
             complete: function() {
-                $(document).classifica(datasets,medie,squadra);
+                if(!$.isEmptyObject(datasets))
+                    $(document).classifica(datasets,medie,squadra);
             }
         });
     }

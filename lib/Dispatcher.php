@@ -36,11 +36,40 @@ class Dispatcher {
             foreach ($route['params'] as $key => $val) {
                 $request->setParam($key, $val);
             }
-            $controller = $this->getController($request, $response, $router, $route);
-            $response->setBody($this->doAction($request,$controller));
+            $content = "";
+            try {
+                $controller = $this->getController($request, $response, $router, $route);
+                if(!is_null($controller)) {
+                    try {
+                        ob_start();
+                        $this->doAction($request, $controller);
+                        $body = ob_get_clean();
+                        if ($body != "") {
+                            \FirePHP::getInstance()->info("Presente un output diretto. Evito il rendering del controller");
+                            $content = $body;
+                        } else {
+                            $content = $controller->render();
+                        }
+                    } catch (\Exception $ex) {
+                        ob_end_clean();
+                        $content = $controller->render("Si è verificato un errore interno nell'elaborazione dei dati");
+                        $response->setHttpCode(500);
+                    }
+                    if ($controller->getFormat() == "json") {
+                        $response->setContentType("application/json");
+                    }
+                } else {
+                    $response->setHttpCode(404);
+                    $response->setBody(file_get_contents("404.html"));
+                }
+            } catch (\Exception $e) {
+                $response->setHttpCode(500);
+                $content = $e->getMessage();
+            }
+            $response->setBody($content);
         } else {
-            $response->setHttpCode(500);
-            die('route not found');
+            $response->setHttpCode(404);
+            $response->setBody(file_get_contents("404.html"));
         }
         return $response;
     }
@@ -60,31 +89,27 @@ class Dispatcher {
             $controller->setGeneralCss($generalCss);
             $controller->initialize();
             return $controller;
-        } else {
-            $response->setHttpCode(500);
-            die('unsopported controller');
         }
     }
 
-    private function doAction(Request $request,BaseController $controller) {
+    private function doAction(Request $request, BaseController $controller) {
         $action = $this->action;
         $formatAction = "";
-        if($request->getParam("format") != null) {
-            $format = substr ($request->getParam ("format"), 1);
+        if ($request->getParam("format") != null) {
+            $format = substr($request->getParam("format"), 1);
             $formatAction = $action . "_" . $format;
         }
         if (method_exists($controller, $formatAction)) {
+            $action = $formatAction;
             $controller->setFormat($format);
-            $controller->$formatAction();
-            return $controller->render();
         } else {
             if (method_exists($controller, $this->action)) {
-                $controller->$action();
-                return $controller->render();
+                $action = $this->action;
             } else {
                 die('unsopported method');
             }
         }
+        $controller->$action();
     }
 
 }

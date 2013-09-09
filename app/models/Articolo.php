@@ -8,14 +8,17 @@ class Articolo extends Table\ArticoloTable {
     public function save(array $parameters = array()) {
         try {
             Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            $id = $this->getId();
             parent::save($parameters);
-            $evento = new Evento();
-            $evento->setTipo(Evento::CONFERENZASTAMPA);
-            $evento->setData($this->getDataCreazione());
-            $evento->setIdUtente($this->getIdUtente());
-            $evento->setIdLega($this->getIdLega());
-            $evento->setIdExternal($this->getId());
-            $evento->save();
+            if(is_null($id)) {
+                $evento = new Evento();
+                $evento->setTipo(Evento::CONFERENZASTAMPA);
+                $evento->setData($this->getDataCreazione());
+                $evento->setIdUtente($this->getIdUtente());
+                $evento->setIdLega($this->getIdLega());
+                $evento->setIdExternal($this->getId());
+                $evento->save();
+            }
             Db\ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
             Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
@@ -81,7 +84,7 @@ class Articolo extends Table\ArticoloTable {
 				FROM articolo
 				WHERE idLega = :idLega";
         $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(':idLega', $idLega, PDO::PARAM_INT);
+        $exe->bindValue(':idLega', $idLega, \PDO::PARAM_INT);
         $exe->execute();
         \FirePHP::getInstance()->log($q);
         $values = array();
