@@ -20,7 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.0.0",
+    "bootstrap": "master",
     "fancybox": "~2.1.5",
     "flot": "~0.8.1",
     "html5shiv": "~3.6.2",
@@ -30,6 +30,7 @@
     "jquery": "~2.0.3",
     "modernizr": "~2.6.2",
     "respond": "~1.2.0",
-    "enquire": "~2.0.2"
+    "enquire": "~2.0.2",
+    "matchmedia": "master"
   }
 }

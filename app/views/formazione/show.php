@@ -27,9 +27,9 @@
         <div id="right">
             <div id="capitani">
                 <h3>Capitani</h3>
-                <div id="cap-C" class="droppable"></div>
-                <div id="cap-VC" class="droppable"></div>
-                <div id="cap-VVC" class="droppable"></div>
+                <div id="cap-C" class="droppable" data-symbol="C"></div>
+                <div id="cap-VC" class="droppable" data-symbol="VC"></div>
+                <div id="cap-VVC" class="droppable" data-symbol="VVC"></div>
             </div>
             <form class="form-inline" action="<?php echo $this->router->generate('formazione'); ?>" method="post">
                 <fieldset id="titolari-field">
@@ -63,7 +63,7 @@
             <div id="panchina">
                 <h3>Panchinari</h3>
                 <?php for ($i = 0; $i < 7; $i++): ?>
-                    <div id="panch-<?php echo $i; ?>" class="droppable"></div>
+                    <div id="panch-<?php echo $i; ?>" class="droppable" data-symbol="<?php echo $i ?>"></div>
                 <?php endfor; ?>
             </div>
         </div>

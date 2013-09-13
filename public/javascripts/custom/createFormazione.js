@@ -48,12 +48,13 @@ $(document).ready(function(){
                 var gioc = giocOld.clone();
                 var div = $capitani.find(".droppable[id='cap-" + current.attr('id') + "']");
                 div.append(gioc);
-                if(typeof(edit) !== "undefined" && edit)
+                gioc.removeClass("draggable");
+                if(typeof(edit) !== undefined && edit)
                     div.append('<a class="remove">Rimuovi</a>');
             }
         });
     }
-    if(typeof(edit) !== "undefined" && edit) {
+    if(edit !== undefined && edit) {
         $(".remove").on("click",function () {
             var $parent = $(this).parent(),
             	id = $parent.attr('id'),
@@ -247,6 +248,8 @@ $(document).ready(function(){
                 ui.helper.remove();
                 $(this).empty();
                 $(this).append(gioc);
+                gioc.removeClass("draggable");
+                gioc.draggable("destroy");
                 var list = $("#capitani-field").find("input");
                 list.each(function (i) {
                     $(list[i]).removeAttr('value');

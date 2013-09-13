@@ -1,5 +1,5 @@
-<?php if ($this->currentGiornata == 1): ?>
-    <h2 class="no-margin center">Ricordati di impostare il nome della squadra!</h2>
+<?php if ($this->currentGiornata < 3): ?>
+    <h2 class="center">Ricordati di impostare il nome della squadra!</h2>
     <p class="center">Lo trovi nella pagina rosa e lo puoi cambiare entro la seconda giornata di campionato</p>
 <?php else: ?>
     <div id="best-player">
@@ -19,10 +19,10 @@
                                     <?php endif; ?>
                                 </figure>
                             </a>
-                            <h4><a href="<?php echo $this->router->generate('giocatore_show', array('id' => $giocatore->id,'title'=>"-" . $giocatore->__toString())); ?>"><?php echo $giocatore . ": " . $giocatore->punti; ?></a></h4>
+                            <h4><a href="<?php echo $this->router->generate('giocatore_show', array('id' => $giocatore->id)); ?>"><?php echo $giocatore . ": " . $giocatore->punti; ?></a></h4>
                             <ul class="list-unstyled">
                                 <?php foreach ($this->bestPlayers[$ruolo] as $key => $giocatore): ?>
-                                    <li><a href="<?php echo $this->router->generate('giocatore_show', array('id' => $giocatore->id,'title'=>"-" . $giocatore->__toString())); ?>"><?php echo $giocatore . ": " . $giocatore->punti; ?></a></li>
+                                    <li><a href="<?php echo $this->router->generate('giocatore_show', array('id' => $giocatore->id)); ?>"><?php echo $giocatore . ": " . $giocatore->punti; ?></a></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>

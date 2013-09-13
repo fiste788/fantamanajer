@@ -2,7 +2,7 @@
     <fieldset>
         <div class="control-group">
             <input type="hidden" name="p" value="formazione" />
-            <label for="squadra">Guarda altre formazioni</label>
+            <label for="squadra">Squadra:</label>
             <?php if (empty($this->formazioniPresenti)): ?>
                 <select name="utente" disabled="disabled">
                     <option>Nessuna form. impostata</option>
@@ -15,7 +15,7 @@
                 </select>
         </div>
         <div class="control-group">
-            <label for="giornata">Guarda formazione alla giornata</label>
+            <label for="giornata">Giornata:</label>
             <select id="giornata" name="giornata" onchange="this.form.submit();">
                 <?php for ($j = GIORNATA; $j > 0; $j--): ?>
                     <option <?php echo ($this->giornata == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>

@@ -8,7 +8,7 @@
                     <img class="img-thumbnail img-responsive" <?php $appo = getimagesize(UPLOADDIR . 'thumb/' . $this->squadraDett->id . '.jpg');echo $appo[3]; ?> alt="<?php echo $this->squadraDett->id; ?>" src="<?php echo UPLOADURL . 'thumb/' . $this->squadraDett->id . '.jpg'; ?>" title="Logo <?php echo $this->squadraDett->nomeSquadra; ?>" />
                 </a>
             <?php else: ?>
-                <div class="well">Trascina l'immagine qui per caricarla</div>
+                <div class="hidden well">Trascina l'immagine qui per caricarla</div>
             <?php endif; ?>
         </div>
     <?php else: ?>

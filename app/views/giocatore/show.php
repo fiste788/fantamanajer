@@ -1,10 +1,10 @@
 <div id="card-player" class="clearfix">
 	<h3><?php echo $this->giocatore; ?></h3>
-	<div id="dati-gioc">
+	<div id="dati-gioc" class="clearfix">
         <figure>
             <img class="foto pull-left" alt="<?php echo $this->giocatore; ?>" src="<?php echo $this->pathFoto; ?>" />
         </figure>
-		<div>
+		<div class="pull-left">
 			<p><?php echo $this->ruoli[$this->giocatore->ruolo]; ?></p>
 			<?php if($_SESSION['logged']): ?><p>Squadra: <?php echo $this->label; ?></p><?php endif; ?>
 			<p>Presenze: <?php echo $this->giocatore->presente . " (" . $this->giocatore->presenzeVoto . ")"; ?></p>

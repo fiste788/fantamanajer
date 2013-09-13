@@ -1,7 +1,7 @@
 <form class="form-inline" action="<?php echo $this->router->generate('formazione'); ?>" method="get">
     <fieldset>
         <div class="form-group">
-            <label for="squadra">Guarda altre formazioni</label>
+            <label for="squadra">Squadra:</label>
                 <?php if (empty($this->formazioniPresenti)): ?>
                     <select id="squadra" class="form-control" name="utente" disabled="disabled">
                         <option>Nessuna form. impostata</option>
@@ -15,7 +15,7 @@
                 <?php endif; ?>
         </div>
         <div class="form-group">
-            <label for="giornata">Guarda formazione alla giornata</label>
+            <label for="giornata">Giornata:</label>
             <select class="form-control" id="giornata" name="giornata">
                 <?php for ($j = $this->currentGiornata; $j > 0; $j--): ?>
                     <option data-url="<?php echo $this->router->generate('formazione_show',array('giornata'=>$j,'squadra'=>$this->squadra)) ?>" <?php echo ($this->giornata == $j) ? ' selected="selected"' : ''; ?>><?php echo $j; ?></option>

@@ -1,0 +1,35 @@
+@import "../mixins.less"
+
+#classifica {
+    .legend {
+        width:11px;
+        height:11px;
+        display:block;
+        float:left;
+        border:1px solid #aaa;
+        margin:2px 5px 0;
+    }
+    input {
+        padding:0 !important;
+        margin:-2px 0 0;
+        float:left;
+    }
+    #classifica-container {
+        & > table {
+            width:305px;
+            float:left;
+            a {
+                .text-ellipse();
+            }
+        }
+        #tab_classifica {
+            display:block;
+            overflow-x: auto;
+            width: calc(~"100% - 305px");
+            width: -webkit-calc(~"100% - 305px");
+            td,th {
+                text-align: right;
+            }
+        }
+    }
+}

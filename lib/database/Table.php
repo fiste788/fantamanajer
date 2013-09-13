@@ -154,10 +154,8 @@ abstract class Table implements \Lib\Form {
     public function save(array $parameters = array()) {
         try {
             $this->check($parameters);
-            $this->getFromPost(FALSE);
         } catch(\Lib\FormException $e) {
             $this->getFromPost(TRUE);
-            //$this->fromArray(\Lib\Request::getRequest()->getPostParams(), TRUE);
             throw $e;
         }
         $vars = array_intersect_key(get_object_vars($this), get_class_vars(get_class($this)));

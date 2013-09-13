@@ -13,7 +13,7 @@
                                 <?php endif; ?>
                             </span>
                         </em>
-                        <h3 class="title"><?php echo $articolo->titolo; ?></h3>
+                        <h3 class="text-center"><?php echo $articolo->titolo; ?></h3>
                     </header>
                     <?php if (isset($articolo->sottoTitolo)): ?><div class="abstract"><?php echo $articolo->sottoTitolo; ?></div><?php endif; ?>
                     <div class="text"><?php echo nl2br($articolo->testo); ?></div>

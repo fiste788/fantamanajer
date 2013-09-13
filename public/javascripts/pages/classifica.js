@@ -118,7 +118,7 @@
                 }
             });
 
-            $clearSelection.bind("click",function () {
+            $clearSelection.on("click",function () {
                 $overview.clearSelection();
                 $grafico.removeData('from');
                 $grafico.removeData('to');
@@ -153,7 +153,7 @@
             }
 
             var previousPoint = null;
-            $placeholder.bind("plothover", function (event, pos, item) {
+            $placeholder.on("plothover", function (event, pos, item) {
                 var $tooltip = $("#tooltip");
                 if (item) {
                     if (!previousPoint || (previousPoint[0] !== item.datapoint[0]) || (previousPoint[1] !== item.datapoint[1])) {
@@ -169,7 +169,7 @@
                 }
             });
 
-            $overviewDom.bind("plotselected", function (event, area) {
+            $overviewDom.on("plotselected", function (event, area) {
                 $grafico.data('from',area.xaxis.from);
                 $grafico.data('to',area.xaxis.to);
                 $clearSelection.show();
@@ -220,46 +220,39 @@
     $.fn.classifica.medie = "";
     $.fn.classifica.squadra = "";
 })(jQuery);
-var activeClassifica = false,
-	datasets = {};
-	medie = {};
-	giornate = $("#tab_classifica").find("th");
-	squadra = $("#classifica-container").data("squadra");
-
-$("#tab_classifica").find("tbody tr").each(function(i,tr) {
-	var $tr = $(tr);
-    	nomeSquadra = $tr.data("squadra");
-    	key = $tr.data("key");
-    	mediaVal = $tr.data("media");
-    	squadra = {"label":nomeSquadra,"data":[]};
-    	media = {"label":"Media " + nomeSquadra,"data":[]},
-		tds = $tr.find("td");
-    tds.each(function(i2,td) {
-        var nGior = parseInt($(giornate[i2]).text()),
-			giornata = new Array();
-        if(i2 === 0 || (i2 + 1) === tds.length) {
-            var appo = new Array();
-            appo.push(nGior,mediaVal);
-            media.data.push(appo);
-        }
-        giornata.push(nGior, parseFloat($(td).find("a").text()));
-        squadra.data.push(giornata);
-    });
-    datasets[key] = squadra;
-    medie[key] = media;
-});
-function enableClassifica() {
-    if(!$.isViewport('xs') && !activeClassifica) {
-        activeClassifica = true;
-        Modernizr.load({
-            test: Modernizr.canvas,
-            nope: JSURL + '/flot/excanvas.min.js',
-            complete: function() {
-                if(!$.isEmptyObject(datasets))
-                    $(document).classifica(datasets,medie,squadra);
-            }
+var datasets = {},
+	medie = {},
+    squadra = undefined;
+enquire.register("screen and (min-width:" + sizes.sm + "px)", {
+    deferSetup:true,
+    match: function() {
+        if(!$.isEmptyObject(datasets))
+            $(document).classifica(datasets,medie,squadra);
+    },
+    setup: function() {
+        var giornate = $("#tab_classifica").find("th");
+        squadra = $("#classifica-container").data("squadra");
+        $("#tab_classifica").find("tbody tr").each(function(i,tr) {
+            var $tr = $(tr);
+                nomeSquadra = $tr.data("squadra");
+                key = $tr.data("key");
+                mediaVal = $tr.data("media");
+                squadra = {"label":nomeSquadra,"data":[]};
+                media = {"label":"Media " + nomeSquadra,"data":[]},
+                tds = $tr.find("td");
+            tds.each(function(i2,td) {
+                var nGior = parseInt($(giornate[i2]).text()),
+                    giornata = new Array();
+                if(i2 === 0 || (i2 + 1) === tds.length) {
+                    var appo = new Array();
+                    appo.push(nGior,mediaVal);
+                    media.data.push(appo);
+                }
+                giornata.push(nGior, parseFloat($(td).find("a").text()));
+                squadra.data.push(giornata);
+            });
+            datasets[key] = squadra;
+            medie[key] = media;
         });
     }
-}
-enableClassifica();
-$(window).bind("exitViewportXs", enableClassifica);
+});

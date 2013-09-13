@@ -6,7 +6,7 @@ $("textarea[maxlength]").keydown(function(e) {
         alert("Hai raggiunto il massimo di caratteri consentito");
         $this.text(testo.substring(0,maxLength));
     }
-    $(".cont",$this.parent()).val(maxLength - testo.length);
+    $this.parentsUntil(".form-group").last().parent().find(".cont").val(maxLength - testo.length);
 });
 $("#emoticons").find("img").click(function() {
     var $text = $("#text"),

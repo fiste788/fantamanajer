@@ -170,37 +170,29 @@
     };
     $.fn.grafico.datasets = "";
 })(jQuery);
-var activeGrafico = false,
-    $giornate = $("#giornate"),
-    giocatore = $giornate.data("giocatore"),
-    datasets = {};
-if(giocatore) {
-    datasets.punti = {
-        "label":"Punti " + giocatore,
-        "data":[]
-    };
-    datasets.voto = {
-        "label":"Voto " + giocatore,
-        "data":[]
-    };
-    $giornate.find("tbody tr").each(function(i,tr) {
-        datasets.voto.data.push($(tr).data("voto"));
-        datasets.punti.data.push($(tr).data("punti"));
-    });
-}
-function enableGrafico() {
-    if(!$.isViewport('phone') && !activeGrafico) {
-        activeGrafico = true;
-        Modernizr.load({
-            test: Modernizr.canvas,
-            nope: JSURL + '/flot/excanvas.min.js',
-            complete: function() {
-                if(datasets && !$.isEmptyObject(datasets))
-                    $(document).grafico(datasets);
-
-            }
-        });
+var datasets = {};
+enquire.register("screen and (min-width:" + sizes.sm + "px)",{
+    deferSetup:true,
+    match: function() {
+        if(datasets && !$.isEmptyObject(datasets))
+            $(document).grafico(datasets);
+    },
+    setup: function() {
+        var $giornate = $("#giornate"),
+            giocatore = $giornate.data("giocatore");
+        if(giocatore) {
+            datasets.punti = {
+                "label":"Punti " + giocatore,
+                "data":[]
+            };
+            datasets.voto = {
+                "label":"Voto " + giocatore,
+                "data":[]
+            };
+            $giornate.find("tbody tr").each(function(i,tr) {
+                datasets.voto.data.push($(tr).data("voto"));
+                datasets.punti.data.push($(tr).data("punti"));
+            });
+        }
     }
-}
-enableGrafico();
-$(window).bind("exitViewportPhone", enableGrafico);
+});

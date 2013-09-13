@@ -140,7 +140,6 @@ class ScriptController extends ApplicationController {
             $client = new \Guzzle\Http\Client($val);
             $response = $client->createRequest()->send();
             if ($response->isSuccessful()) {
-            
                 $jsContent .= $response->getBody(true);
             }
         }
