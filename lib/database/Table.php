@@ -2,7 +2,13 @@
 
 namespace Lib\Database;
 
-abstract class Table implements \Lib\Form {
+use FirePHP;
+use Lib\Form;
+use Lib\FormException;
+use Lib\Request;
+use PDO;
+
+abstract class Table implements Form {
 
     const TABLE_NAME = "";
 
@@ -28,10 +34,14 @@ abstract class Table implements \Lib\Form {
         $this->id = NULL;
     }
 
+    /**
+     * 
+     * @param boolean $raw
+     */
     private function getFromPost($raw = TRUE) {
         $calledClass = explode("\\",get_called_class());
         $classe = strtolower(array_pop($calledClass));
-        $postArray = \Lib\Request::getRequest()->getPostParams();
+        $postArray = Request::getRequest()->getPostParams();
         if(isset($postArray[$classe]) && is_array($postArray[$classe])) {
             $this->fromArray($postArray[$classe], $raw);
         }
@@ -39,7 +49,7 @@ abstract class Table implements \Lib\Form {
 
     /**
      * Setter: id
-     * @param Int $id
+     * @param int $id
      * @return void
      */
     public function setId($id) {
@@ -48,7 +58,7 @@ abstract class Table implements \Lib\Form {
 
     /**
      * Getter: id
-     * @return Int
+     * @return int
      */
     public function getId() {
         return (int) $this->id;
@@ -56,7 +66,7 @@ abstract class Table implements \Lib\Form {
 
     /**
      * @param int $id
-     * @return Table|NULL
+     * @return Table|null
      */
     public static function getById($id) {
         if (!is_null($id) && $id != "") {
@@ -66,24 +76,25 @@ abstract class Table implements \Lib\Form {
 					WHERE id = :id";
             $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
             $exe->execute(array(':id' => $id));
-            \FirePHP::getInstance()->log($q);
+            FirePHP::getInstance()->log($q);
             $result = $exe->fetchObject($c);
             return ($result) ? $result : NULL;
-        } else
+        } else {
             return NULL;
+        }
     }
 
     /**
      *
      * @param int[] $ids
-     * @return Table[]|Table|NULL
+     * @return Table[]|Table|null
      */
     public static function getByIds(array $ids) {
         //$keys = implode(array_filter($ids, 'strlen'), ',');
         $keys = array();
         foreach ($ids as $id) {
             if (strlen($id)) {
-                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id, \PDO::PARAM_INT);
+                $keys[] = ConnectionFactory::getFactory()->getConnection()->quote($id, PDO::PARAM_INT);
             }
         }
         $param = implode(',', $keys);
@@ -96,11 +107,13 @@ abstract class Table implements \Lib\Form {
             $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
             $exe->execute();
             $values = array();
-            while ($obj = $exe->fetchObject($c))
+            while ($obj = $exe->fetchObject($c)) {
                 $values[$obj->getId()] = $obj;
+            }
             return $values;
-        } else
+        } else {
             return NULL;
+        }
     }
 
     /**
@@ -112,18 +125,19 @@ abstract class Table implements \Lib\Form {
         $q = "SELECT *
 				FROM " . $c::TABLE_NAME;
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject($c))
+        while ($obj = $exe->fetchObject($c)) {
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 
     /**
      *
      * @param string $key
-     * @param type $value
-     * @return Table[]|Table|NULL
+     * @param mixed $value
+     * @return Table[]|Table|null
      */
     public static function getByField($key, $value) {
         $c = get_called_class();
@@ -133,15 +147,16 @@ abstract class Table implements \Lib\Form {
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindParam(":value", $value);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $count = $exe->rowCount();
-        if ($count == 0)
+        if ($count == 0) {
             return NULL;
-        elseif ($count == 1)
+        } elseif ($count == 1) {
             return $exe->fetchObject($c);
-        else {
-            while ($obj = $exe->fetchObject($c))
+        } else {
+            while ($obj = $exe->fetchObject($c)) {
                 $values[$obj->getId()] = $obj;
+            }
             return $values;
         }
     }
@@ -154,7 +169,7 @@ abstract class Table implements \Lib\Form {
     public function save(array $parameters = array()) {
         try {
             $this->check($parameters);
-        } catch(\Lib\FormException $e) {
+        } catch(FormException $e) {
             $this->getFromPost(TRUE);
             throw $e;
         }
@@ -173,7 +188,7 @@ abstract class Table implements \Lib\Form {
                 $q = "UPDATE " . $this::TABLE_NAME . "
                         SET " . implode($values, ", ") . " WHERE id = " . $this->getId();
                 ConnectionFactory::getFactory()->getConnection()->exec($q);
-                \FirePHP::getInstance()->log($q);
+                FirePHP::getInstance()->log($q);
             }
             return $this->getId();
         } else {
@@ -185,7 +200,7 @@ abstract class Table implements \Lib\Form {
             $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql", $vars), ", ") . ")";
             ConnectionFactory::getFactory()->getConnection()->exec($q);
-            \FirePHP::getInstance()->log($q);
+            FirePHP::getInstance()->log($q);
             $this->setId(isset($id) ? $id : ConnectionFactory::getFactory()->getConnection()->lastInsertId());
             return $this->getId();
         }
@@ -193,28 +208,32 @@ abstract class Table implements \Lib\Form {
 
     /**
      *
-     * @param type $value
+     * @param mixed $value
      * @return string
      */
     private static function valueToSql($value) {
-        if (is_null($value))
+        if (is_null($value)) {
             return "NULL";
+        }
         if (is_string($value)) {
-            if ($value == '')
+            if ($value == '') {
                 return "NULL";
-            else
+            } else {
                 return ConnectionFactory::getFactory()->getConnection()->quote($value);
-        } elseif (is_bool($value))
+            }
+        } elseif (is_bool($value)) {
             return ($value) ? 1 : 0;
-        elseif (is_numeric($value))
+        } elseif (is_numeric($value)) {
             return $value;
-        elseif (is_object($value))
-            if (is_a($value, "DateTime"))
+        } elseif (is_object($value)) {
+            if (is_a($value, "DateTime")) {
                 return ConnectionFactory::getFactory()->getConnection()->quote($value->format("Y-m-d H:i:s"));
-            else
+            } else {
                 return ConnectionFactory::getFactory()->getConnection()->quote($value->toString());
-        else
+            }
+        } else {
             return ConnectionFactory::getFactory()->getConnection()->quote($value);
+        }
     }
 
     /**
@@ -226,28 +245,12 @@ abstract class Table implements \Lib\Form {
             $q = "DELETE FROM " . $this::TABLE_NAME . "
 					WHERE id = :id";
             $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-            $exe->bindValue(':id', $this->getId(), \PDO::PARAM_INT);
+            $exe->bindValue(':id', $this->getId(), PDO::PARAM_INT);
             $exe->execute();
-            \FirePHP::getInstance()->log($q);
+            FirePHP::getInstance()->log($q);
             return TRUE;
-        } else
+        } else {
             return FALSE;
-    }
-
-    /**
-     * Richiama la funzione check specifica della classe e in caso ritorni false setta
-     * dall'array con valori raw senza fare il cast per mantenere le variabili non corrette
-     * @return boolean
-     */
-    public function validate() {
-        $postArray = Request::getInstance()->getRawData('post');
-        try {
-            $this->check($postArray);
-            $this->fromArray($postArray, FALSE);
-            return TRUE;
-        } catch (FormException $e) {
-            $this->fromArray($postArray, TRUE);
-            throw $e;
         }
     }
 
@@ -270,10 +273,20 @@ abstract class Table implements \Lib\Form {
         }
     }
 
+    /**
+     * 
+     * @param string $field
+     * @return mixed
+     */
     public function getOriginalValues(string $field) {
         return isset($this->originalValues[$field]) ? $this->originalValues[$field] : NULL;
     }
 
+    /**
+     * 
+     * @param array $array
+     * @return boolean
+     */
     public function check(array $array = array()) {
         return TRUE;
     }

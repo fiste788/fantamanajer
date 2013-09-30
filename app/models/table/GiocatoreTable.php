@@ -2,7 +2,11 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class GiocatoreTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Club;
+use Fantamanajer\Models\Giocatore;
+use Lib\Database\Table;
+
+abstract class GiocatoreTable extends Table {
 
     const TABLE_NAME = "giocatore";
 
@@ -47,7 +51,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Setter: nome
-     * @param String $nome
+     * @param string $nome
      * @return void
      */
     public function setNome($nome) {
@@ -56,7 +60,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Setter: cognome
-     * @param String $cognome
+     * @param string $cognome
      * @return void
      */
     public function setCognome($cognome) {
@@ -65,7 +69,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Setter: ruolo
-     * @param String $ruolo
+     * @param string $ruolo
      * @return void
      */
     public function setRuolo($ruolo) {
@@ -74,7 +78,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Setter: idClub
-     * @param Int $idClub
+     * @param int $idClub
      * @return void
      */
     public function setIdClub($idClub) {
@@ -83,7 +87,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Setter: attivo
-     * @param Boolean $attivo
+     * @param boolean $attivo
      * @return void
      */
     public function setAttivo($attivo) {
@@ -102,7 +106,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: nome
-     * @return String
+     * @return string
      */
     public function getNome() {
         return $this->nome;
@@ -110,7 +114,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: cognome
-     * @return String
+     * @return string
      */
     public function getCognome() {
         return $this->cognome;
@@ -118,7 +122,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: ruolo
-     * @return String
+     * @return string
      */
     public function getRuolo() {
         return $this->ruolo;
@@ -126,7 +130,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: idClub
-     * @return Int
+     * @return int
      */
     public function getIdClub() {
         return (int) $this->idClub;
@@ -134,7 +138,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: attivo
-     * @return Boolean
+     * @return boolean
      */
     public function isAttivo() {
         return (boolean) $this->attivo;
@@ -142,11 +146,11 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      * Getter: club
-     * @return \Fantamanajer\Models\Club
+     * @return Club
      */
     public function getClub() {
         if (empty($this->club))
-            $this->club = \Fantamanajer\Models\Club::getById($this->getIdClub());
+            $this->club = Club::getById($this->getIdClub());
         return $this->club;
     }
 
@@ -160,9 +164,9 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return \Fantamanajer\Models\Giocatore[]|\Fantamanajer\Models\Giocatore|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Giocatore[]|Giocatore|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -170,8 +174,8 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
-     * @return \Fantamanajer\Models\Giocatore
+     * @param int $id
+     * @return Giocatore
      */
     public static function getById($id) {
         return parent::getById($id);
@@ -179,8 +183,8 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return \Fantamanajer\Models\Giocatore[]|NULL
+     * @param int[] $ids
+     * @return Giocatore[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);
@@ -188,7 +192,7 @@ abstract class GiocatoreTable extends \Lib\Database\Table {
 
     /**
      *
-     * @return \Fantamanajer\Models\Giocatore[]
+     * @return Giocatore[]
      */
     public static function getList() {
         return parent::getList();

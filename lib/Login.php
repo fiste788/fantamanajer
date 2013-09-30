@@ -1,7 +1,8 @@
 <?php
 
 namespace Lib;
-use Lib\Database as Db;
+
+use Lib\Database\ConnectionFactory;
 
 class Login {
 
@@ -46,7 +47,7 @@ class Login {
     public function doLogin($username, $password) {
         $q = "SELECT * FROM utente WHERE username LIKE '" . $username . "'
 				AND password = '" . $password . "'";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         if ($exe->rowCount() == 1) {
             $this->utente = $exe->fetchObject("\Fantamanajer\Models\Utente");
             if ($this->remember) {
@@ -54,7 +55,7 @@ class Login {
                 $this->utente->setChiave($key);
                 $q = "UPDATE utente SET chiave = '" . $key . "'
 						WHERE id = '" . $this->utente->id . "'";
-                Db\ConnectionFactory::getFactory()->getConnection()->exec($q);
+                ConnectionFactory::getFactory()->getConnection()->exec($q);
             }
             $this->setData();
             return TRUE;
@@ -66,7 +67,7 @@ class Login {
     public function renewLogin($username, $key) {
         $q = "SELECT * FROM utente WHERE username LIKE '" . $username . "'
 				AND chiave = '" . $key . "'";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         if ($exe->rowCount() == 1) {
             $this->utente = $exe->fetchObject("Utente");
             $this->setData();
@@ -79,7 +80,7 @@ class Login {
     public function logout() {
         $q = "UPDATE utente SET chiave = NULL
 				WHERE id = '" . $_SESSION['id'] . "'";
-        Db\ConnectionFactory::getFactory()->getConnection()->exec($q);
+        ConnectionFactory::getFactory()->getConnection()->exec($q);
         session_unset();
         setcookie("auth_username", "", time() - 3600, "/", $_SERVER['HTTP_HOST']);
         setcookie("auth_key", "", time() - 3600, "/", $_SERVER['HTTP_HOST']);

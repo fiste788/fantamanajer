@@ -2,7 +2,10 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class PunteggioTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Punteggio;
+use Lib\Database\Table;
+
+abstract class PunteggioTable extends Table {
 
     const TABLE_NAME = 'punteggio';
 
@@ -47,7 +50,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Setter: punteggio
-     * @param Float $punteggio
+     * @param float $punteggio
      * @return void
      */
     public function setPunteggio($punteggio) {
@@ -56,7 +59,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Setter: penalità
-     * @param String $penalità
+     * @param string $penalità
      * @return void
      */
     public function setPenalità($penalità) {
@@ -65,7 +68,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiornata
-     * @param Int $idGiornata
+     * @param int $idGiornata
      * @return void
      */
     public function setIdGiornata($idGiornata) {
@@ -74,7 +77,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -83,7 +86,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Setter: idLega
-     * @param Int $idLega
+     * @param int $idLega
      * @return void
      */
     public function setIdLega($idLega) {
@@ -92,7 +95,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Getter: punteggio
-     * @return Float
+     * @return float
      */
     public function getPunteggio() {
         return (float) $this->punteggio;
@@ -100,7 +103,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Getter: penalità
-     * @return String
+     * @return string
      */
     public function getPenalità() {
         return $this->penalità;
@@ -108,7 +111,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiornata
-     * @return Int
+     * @return int
      */
     public function getIdGiornata() {
         return (int) $this->idGiornata;
@@ -116,7 +119,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -124,7 +127,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      * Getter: idLega
-     * @return Int
+     * @return int
      */
     public function getIdLega() {
         return (int) $this->idLega;
@@ -140,9 +143,9 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Punteggio[]|Articolo|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Punteggio[]|Punteggio|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -150,7 +153,7 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Punteggio
      */
     public static function getById($id) {
@@ -159,8 +162,8 @@ abstract class PunteggioTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Punteggio[]|NULL
+     * @param int[] $ids
+     * @return Punteggio[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

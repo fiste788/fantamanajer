@@ -2,7 +2,13 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class TrasferimentoTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Giornata;
+use Fantamanajer\Models\Trasferimento;
+use Fantamanajer\Models\Utente;
+use Lib\Database\Table;
+
+abstract class TrasferimentoTable extends Table {
 
     const TABLE_NAME = "trasferimento";
 
@@ -47,7 +53,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatoreOld
-     * @param Int $idGiocatoreOld
+     * @param int $idGiocatoreOld
      * @return void
      */
     public function setIdGiocatoreOld($idGiocatoreOld) {
@@ -56,7 +62,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatoreNew
-     * @param Int $idGiocatoreNew
+     * @param int $idGiocatoreNew
      * @return void
      */
     public function setIdGiocatoreNew($idGiocatoreNew) {
@@ -65,7 +71,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -74,7 +80,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiornata
-     * @param Int $idGiornata
+     * @param int $idGiornata
      * @return void
      */
     public function setIdGiornata($idGiornata) {
@@ -83,7 +89,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: obbligato
-     * @param Boolean $obbligato
+     * @param boolean $obbligato
      * @return void
      */
     public function setObbligato($obbligato) {
@@ -132,7 +138,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatoreOld
-     * @return Int
+     * @return int
      */
     public function getIdGiocatoreOld() {
         return (int) $this->idGiocatoreOld;
@@ -140,7 +146,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatoreNew
-     * @return Int
+     * @return int
      */
     public function getIdGiocatoreNew() {
         return (int) $this->idGiocatoreNew;
@@ -148,7 +154,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -156,7 +162,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiornata
-     * @return Int
+     * @return int
      */
     public function getIdGiornata() {
         return (int) $this->idGiornata;
@@ -164,7 +170,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: obbligato
-     * @return Boolean
+     * @return boolean
      */
     public function isObbligato() {
         return (boolean) $this->obbligato;
@@ -172,21 +178,21 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: giocatore
-     * @return Int
+     * @return int
      */
     public function getGiocatoreOld() {
         if (empty($this->giocatoreOld))
-            $this->giocatoreOld = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreOld());
+            $this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
         return $this->giocatoreOld;
     }
 
     /**
      * Getter: giocatore
-     * @return Int
+     * @return int
      */
     public function getGiocatoreNew() {
         if (empty($this->giocatoreNew))
-            $this->giocatoreNew = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreNew());
+            $this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
         return $this->giocatoreNew;
     }
 
@@ -196,7 +202,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
      */
     public function getUtente() {
         if (empty($this->utente))
-            $this->utente = \Fantamanajer\Models\Utente::getById($this->getIdUtente());
+            $this->utente = Utente::getById($this->getIdUtente());
         return $this->utente;
     }
 
@@ -206,7 +212,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
      */
     public function getGiornata() {
         if (empty($this->giornata))
-            $this->giornata = \Fantamanajer\Models\Giornata::getById($this->getIdGiornata());
+            $this->giornata = Giornata::getById($this->getIdGiornata());
         return $this->giornata;
     }
 
@@ -220,9 +226,9 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Trasferimento[]|Articolo|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Trasferimento[]|Trasferimento|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -230,7 +236,7 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Trasferimento
      */
     public static function getById($id) {
@@ -239,8 +245,8 @@ abstract class TrasferimentoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Trasferimento[]|NULL
+     * @param int[] $ids
+     * @return Trasferimento[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

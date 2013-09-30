@@ -10,6 +10,7 @@
         "sybio/image-workshop": "dev-master",
         "guzzle/http": "3.7.*@dev",
         "symfony/css-selector": "2.4.*@dev",
-        "symfony/dom-crawler": "2.4.*@dev"
+        "symfony/dom-crawler": "2.4.*@dev",
+        "suin/php-rss-writer": "dev-master"
     }
 }

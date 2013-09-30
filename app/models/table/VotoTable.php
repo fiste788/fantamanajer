@@ -2,7 +2,13 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class VotoTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Giornata;
+use Fantamanajer\Models\View\GiocatoreStatistiche;
+use Fantamanajer\Models\Voto;
+use Lib\Database\Table;
+
+abstract class VotoTable extends Table {
 
     const TABLE_NAME = "voto";
 
@@ -131,7 +137,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatore
-     * @param Int $idGiocatore
+     * @param int $idGiocatore
      * @return void
      */
     public function setIdGiocatore($idGiocatore) {
@@ -140,7 +146,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiornata
-     * @param Int $idGiornata
+     * @param int $idGiornata
      * @return void
      */
     public function setIdGiornata($idGiornata) {
@@ -158,7 +164,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: punti
-     * @param Float $punti
+     * @param float $punti
      * @return void
      */
     public function setPunti($punti) {
@@ -167,7 +173,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: voto
-     * @param Float $voto
+     * @param float $voto
      * @return void
      */
     public function setVoto($voto) {
@@ -176,7 +182,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: gol
-     * @param Int $gol
+     * @param int $gol
      * @return void
      */
     public function setGol($gol) {
@@ -185,7 +191,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: golSubiti
-     * @param Int $golSubiti
+     * @param int $golSubiti
      * @return void
      */
     public function setGolSubiti($golSubiti) {
@@ -194,7 +200,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: golVittoria
-     * @param Int $golVittoria
+     * @param int $golVittoria
      * @return void
      */
     public function setGolVittoria($golVittoria) {
@@ -203,7 +209,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: golPareggio
-     * @param Int $golPareggio
+     * @param int $golPareggio
      * @return void
      */
     public function setGolPareggio($golPareggio) {
@@ -212,7 +218,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: assist
-     * @param Int $assist
+     * @param int $assist
      * @return void
      */
     public function setAssist($assist) {
@@ -239,7 +245,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: rigoriSegnati
-     * @param Int $rigoriSegnati
+     * @param int $rigoriSegnati
      * @return void
      */
     public function setRigoriSegnati($rigoriSegnati) {
@@ -248,7 +254,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: rigoriSubiti
-     * @param Int $rigoriSubiti
+     * @param int $rigoriSubiti
      * @return void
      */
     public function setRigoriSubiti($rigoriSubiti) {
@@ -257,7 +263,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: presente
-     * @param Boolean $presente
+     * @param boolean $presente
      * @return void
      */
     public function setPresente($presente) {
@@ -266,7 +272,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: titolare
-     * @param Boolean $titolare
+     * @param boolean $titolare
      * @return void
      */
     public function setTitolare($titolare) {
@@ -275,7 +281,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Setter: quotazione
-     * @param Int $quotazione
+     * @param int $quotazione
      * @return void
      */
     public function setQuotazione($quotazione) {
@@ -304,7 +310,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatore
-     * @return Int
+     * @return int
      */
     public function getIdGiocatore() {
         return (int) $this->idGiocatore;
@@ -312,7 +318,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiornata
-     * @return Int
+     * @return int
      */
     public function getIdGiornata() {
         return (int) $this->idGiornata;
@@ -320,7 +326,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: valutato
-     * @return Boolean
+     * @return boolean
      */
     public function isValutato() {
         return (boolean) $this->valutato;
@@ -328,7 +334,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: punti
-     * @return Float
+     * @return float
      */
     public function getPunti() {
         return (float) $this->punti;
@@ -336,7 +342,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: voto
-     * @return Float
+     * @return float
      */
     public function getVoto() {
         return (float) $this->voto;
@@ -344,7 +350,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: gol
-     * @return Int
+     * @return int
      */
     public function getGol() {
         return (int) $this->gol;
@@ -352,7 +358,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: golSubiti
-     * @return Int
+     * @return int
      */
     public function getGolSubiti() {
         return (int) $this->golSubiti;
@@ -360,7 +366,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: golVittoria
-     * @return Int
+     * @return int
      */
     public function getGolVittoria() {
         return (int) $this->golVittoria;
@@ -368,7 +374,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: golPareggio
-     * @return Int
+     * @return int
      */
     public function getGolPareggio() {
         return (int) $this->golPareggio;
@@ -376,7 +382,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: assist
-     * @return Int
+     * @return int
      */
     public function getAssist() {
         return (int) $this->assist;
@@ -400,7 +406,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: rigoriSegnati
-     * @return Int
+     * @return int
      */
     public function getRigoriSegnati() {
         return (int) $this->rigoriSegnati;
@@ -408,7 +414,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: rigoriSubiti
-     * @return Int
+     * @return int
      */
     public function getRigoriSubiti() {
         return (int) $this->rigoriSubiti;
@@ -416,7 +422,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: presente
-     * @return Boolean
+     * @return boolean
      */
     public function isPresente() {
         return (boolean) $this->presente;
@@ -424,7 +430,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: titolare
-     * @return Boolean
+     * @return boolean
      */
     public function isTitolare() {
         return (boolean) $this->titolare;
@@ -432,7 +438,7 @@ abstract class VotoTable extends \Lib\Database\Table {
 
     /**
      * Getter: quotazione
-     * @return Int
+     * @return int
      */
     public function getQuotazione() {
         return (int) $this->quotazione;
@@ -454,9 +460,9 @@ abstract class VotoTable extends \Lib\Database\Table {
      * @return Giornata
      */
     public function getGiornata() {
-        require_once(INCDBDIR . 'giornata.db.inc.php');
-        if (empty($this->giornata))
+        if (empty($this->giornata)) {
             $this->giornata = Giornata::getById($this->getIdGiornata());
+        }
         return $this->giornata;
     }
 
@@ -471,8 +477,8 @@ abstract class VotoTable extends \Lib\Database\Table {
     /**
      *
      * @param string $key
-     * @param type $value
-     * @return Voto[]|Voto|NULL
+     * @param mixed $value
+     * @return Voto[]|Voto|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -490,7 +496,7 @@ abstract class VotoTable extends \Lib\Database\Table {
     /**
      *
      * @param int[] $ids
-     * @return Voto[]|NULL
+     * @return Voto[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

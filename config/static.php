@@ -24,3 +24,4 @@ $generalCss[] = 'bootstrap/bootstrap';
 $generalCss[] = 'layout';
 $generalCss[] = 'style';
 $generalCss[] = 'fancybox';
+$generalCss[] = 'pages';

@@ -2,7 +2,10 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class LegaTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Lega;
+use Lib\Database\Table;
+
+abstract class LegaTable extends Table {
 
     const TABLE_NAME = "lega";
 
@@ -75,7 +78,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: nome
-     * @param String $nome
+     * @param string $nome
      * @return void
      */
     public function setNome($nome) {
@@ -84,7 +87,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: capitano
-     * @param Boolean $capitano
+     * @param boolean $capitano
      * @return void
      */
     public function setCapitano($capitano) {
@@ -93,7 +96,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: numTrasferimenti
-     * @param Int $numTrasferimenti
+     * @param int $numTrasferimenti
      * @return void
      */
     public function setNumTrasferimenti($numTrasferimenti) {
@@ -102,7 +105,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: numSelezioni
-     * @param Int $numSelezioni
+     * @param int $numSelezioni
      * @return void
      */
     public function setNumSelezioni($numSelezioni) {
@@ -111,7 +114,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: minFormazione
-     * @param Int $minFormazione
+     * @param int $minFormazione
      * @return void
      */
     public function setMinFormazione($minFormazione) {
@@ -120,7 +123,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: premi
-     * @param String $premi
+     * @param string $premi
      * @return void
      */
     public function setPremi($premi) {
@@ -129,7 +132,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: punteggioFormazioneDimenticata
-     * @param Int $punteggioFormazioneDimenticata
+     * @param int $punteggioFormazioneDimenticata
      * @return void
      */
     public function setPunteggioFormazioneDimenticata($punteggioFormazioneDimenticata) {
@@ -138,7 +141,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: capitanoFormazioneDimenticata
-     * @param Boolean $capitanoFormazioneDimenticata
+     * @param boolean $capitanoFormazioneDimenticata
      * @return void
      */
     public function setCapitanoFormazioneDimenticata($capitanoFormazioneDimenticata) {
@@ -147,7 +150,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Setter: jolly
-     * @param Boolean $jolly
+     * @param boolean $jolly
      * @return void
      */
     public function setJolly($jolly) {
@@ -156,7 +159,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: nome
-     * @return String
+     * @return string
      */
     public function getNome() {
         return $this->nome;
@@ -164,7 +167,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: capitano
-     * @return Boolean
+     * @return boolean
      */
     public function isCapitano() {
         return (boolean) $this->capitano;
@@ -172,7 +175,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: numTrasferimenti
-     * @return Int
+     * @return int
      */
     public function getNumTrasferimenti() {
         return (int) $this->numTrasferimenti;
@@ -180,7 +183,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: numSelezioni
-     * @return Int
+     * @return int
      */
     public function getNumSelezioni() {
         return (int) $this->numSelezioni;
@@ -188,7 +191,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: minFormazione
-     * @return Int
+     * @return int
      */
     public function getMinFormazione() {
         return (int) $this->minFormazione;
@@ -196,7 +199,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: premi
-     * @return String
+     * @return string
      */
     public function getPremi() {
         return (string) $this->premi;
@@ -204,7 +207,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: punteggioFormazioneDimenticata
-     * @return Int
+     * @return int
      */
     public function getPunteggioFormazioneDimenticata() {
         return (int) $this->punteggioFormazioneDimenticata;
@@ -220,14 +223,14 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      * Getter: jolly
-     * @return Boolean
+     * @return boolean
      */
     public function isJolly() {
         return (boolean) $this->jolly;
     }
 
     /**
-     * toString
+     * tostring
      * @return string
      */
     public function __toString() {
@@ -236,9 +239,9 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Lega[]|Lega|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Lega[]|Lega|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -246,7 +249,7 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Lega
      */
     public static function getById($id) {
@@ -255,8 +258,8 @@ abstract class LegaTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Lega[]|NULL
+     * @param int[] $ids
+     * @return Lega[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

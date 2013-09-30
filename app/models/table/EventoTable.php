@@ -2,7 +2,14 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class EventoTable extends \Lib\Database\Table {
+use DateTime;
+use Fantamanajer\Models\Evento;
+use Fantamanajer\Models\Giornata;
+use Fantamanajer\Models\Lega;
+use Fantamanajer\Models\Utente;
+use Lib\Database\Table;
+
+abstract class EventoTable extends Table {
 
     const TABLE_NAME = 'evento';
 
@@ -47,7 +54,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -56,7 +63,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idLega
-     * @param Int $idLega
+     * @param int $idLega
      * @return void
      */
     public function setIdLega($idLega) {
@@ -77,7 +84,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Setter: tipo
-     * @param Int $tipo
+     * @param int $tipo
      * @return void
      */
     public function setTipo($tipo) {
@@ -86,7 +93,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idExternal
-     * @param Int $idExternal
+     * @param int $idExternal
      * @return void
      */
     public function setIdExternal($idExternal) {
@@ -115,7 +122,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -123,7 +130,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idLega
-     * @return Int
+     * @return int
      */
     public function getIdLega() {
         return (int) $this->idLega;
@@ -137,12 +144,12 @@ abstract class EventoTable extends \Lib\Database\Table {
         if (is_a($this->data, "DateTime"))
             return $this->data;
         else
-            return new \DateTime($this->data);
+            return new DateTime($this->data);
     }
 
     /**
      * Getter: tipo
-     * @return Int
+     * @return int
      */
     public function getTipo() {
         return (int) $this->tipo;
@@ -150,7 +157,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idExternal
-     * @return Int
+     * @return int
      */
     public function getIdExternal() {
         return (int) $this->idExternal;
@@ -186,9 +193,9 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Evento[]|Evento|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Evento[]|Evento|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -196,7 +203,7 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Evento
      */
     public static function getById($id) {
@@ -205,8 +212,8 @@ abstract class EventoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Evento[]|NULL
+     * @param int[] $ids
+     * @return Evento[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

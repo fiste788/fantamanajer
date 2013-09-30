@@ -2,7 +2,12 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class ClubTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Club;
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\View\GiocatoreStatistiche;
+use Lib\Database\Table;
+
+abstract class ClubTable extends Table {
 
     const TABLE_NAME = 'club';
 
@@ -88,7 +93,7 @@ abstract class ClubTable extends \Lib\Database\Table {
      */
     public function getGiocatori() {
         if (empty($this->giocatori))
-            $this->giocatori = \Fantamanajer\Models\View\GiocatoreStatistiche::getByFields(array('idClub' => $this->getId()));
+            $this->giocatori = GiocatoreStatistiche::getByFields(array('idClub' => $this->getId()));
         return $this->giocatori;
     }
 
@@ -102,9 +107,9 @@ abstract class ClubTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Club[]|Club|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Club[]|Club|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -112,7 +117,7 @@ abstract class ClubTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Club
      */
     public static function getById($id) {
@@ -121,8 +126,8 @@ abstract class ClubTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Club[]|NULL
+     * @param int[] $ids
+     * @return Club[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

@@ -2,7 +2,12 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class SchieramentoTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Formazione;
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Schieramento;
+use Lib\Database\Table;
+
+abstract class SchieramentoTable extends Table {
 
     const TABLE_NAME = 'schieramento';
 
@@ -40,7 +45,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idFormazione
-     * @param Int $idFormazione
+     * @param int $idFormazione
      * @return void
      */
     public function setIdFormazione($idFormazione) {
@@ -49,7 +54,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatore
-     * @param Int $idGiocatore
+     * @param int $idGiocatore
      * @return void
      */
     public function setIdGiocatore($idGiocatore) {
@@ -58,7 +63,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: posizione
-     * @param Int $posizione
+     * @param int $posizione
      * @return void
      */
     public function setPosizione($posizione) {
@@ -67,7 +72,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Setter: considerato
-     * @param Int $considerato
+     * @param int $considerato
      * @return void
      */
     public function setConsiderato($considerato) {
@@ -96,7 +101,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idFormazione
-     * @return Int
+     * @return int
      */
     public function getIdFormazione() {
         return (int) $this->idFormazione;
@@ -104,7 +109,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatore
-     * @return Int
+     * @return int
      */
     public function getIdGiocatore() {
         return (int) $this->idGiocatore;
@@ -112,7 +117,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: posizione
-     * @return Int
+     * @return int
      */
     public function getPosizione() {
         return (int) $this->posizione;
@@ -120,7 +125,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: considerato
-     * @return Int
+     * @return int
      */
     public function getConsiderato() {
         return (int) $this->considerato;
@@ -128,7 +133,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: formazione
-     * @return Int
+     * @return int
      */
     public function getFormazione() {
         if (empty($this->formazione))
@@ -138,11 +143,11 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      * Getter: giocatore
-     * @return Int
+     * @return int
      */
     public function getGiocatore() {
         if (empty($this->giocatore))
-            $this->giocatore = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatore());
+            $this->giocatore = Giocatore::getById($this->getIdGiocatore());
         return $this->giocatore;
     }
 
@@ -156,9 +161,9 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Schieramento[]|Schieramento|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Schieramento[]|Schieramento|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -166,7 +171,7 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Schieramento
      */
     public static function getById($id) {
@@ -175,8 +180,8 @@ abstract class SchieramentoTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Schieramento[]|NULL
+     * @param int[] $ids
+     * @return Schieramento[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

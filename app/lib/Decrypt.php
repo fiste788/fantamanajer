@@ -2,6 +2,11 @@
 
 namespace Fantamanajer\Lib;
 
+use FirePHP;
+use Guzzle\Http\Client;
+use Symfony\Component\DomCrawler\Crawler;
+use XMLWriter;
+
 class Decrypt {
 
     /**
@@ -73,17 +78,17 @@ class Decrypt {
     }
 
     protected static function getFileUrl($giornata) {
-        \FirePHP::getInstance()->log("Scarico voti giornata " . $giornata);
+        FirePHP::getInstance()->log("Scarico voti giornata " . $giornata);
         $content = self::getUrlContent("http://maxigames.maxisoft.it/downloads.php");
         if ($content != "") {
-            $crawler = new \Symfony\Component\DomCrawler\Crawler();
+            $crawler = new Crawler();
             $crawler->addContent($content);
             $td = $crawler->filter("#content td:contains('Giornata $giornata')");
             if($td->count() > 0) {
                 $url = $td->nextAll()->filter("a")->attr("href");
                 $content = self::getUrlContent($url);
                 if ($content != "") {
-                    $crawler = new \Symfony\Component\DomCrawler\Crawler();
+                    $crawler = new Crawler();
                     $crawler->addContent($content);
                     $url = $crawler->filter("#default_content_download_button")->attr("href");
                     return $url;
@@ -116,7 +121,7 @@ class Decrypt {
     }
 
     public static function getUrlContent($site) {
-        $client = new \Guzzle\Http\Client($site);
+        $client = new Client($site);
         $response = $client->createRequest()->send();
         if ($response->isSuccessful()) {
             return $response->getBody(true);
@@ -141,7 +146,7 @@ class Decrypt {
 
     public static function writeXmlVoti($content, $percorso) {
         $tree = explode("\n", $content);
-        $xml = new \XMLWriter();
+        $xml = new XMLWriter();
         $ruoli = array("P", "D", "C", "A");
         $xml->openURI($percorso);
         $xml->startDocument("1.0");

@@ -145,9 +145,9 @@ footer {
   form {
     width:100%;
     margin:0;
-    padding:8px 0;
+    padding:8px 0 0;
   }
-  select {
+  select,input {
     margin:0;
     max-width: 250px;
     display:inline;
@@ -165,17 +165,13 @@ footer {
     z-index:2;
   }
   .form-group {
-    margin:0;
+    margin:0 4px 8px;
   }
   input {
     margin:0;
   }
 }
 #topbar nav {
-  fieldset, form {
-    padding:0;
-    margin:0;
-  }
   #login {
     fieldset {
       margin:0;
@@ -192,12 +188,11 @@ footer {
   }
   #lega-view {
     width:160px;
-  }
-  #lega-select {
-    margin:8px 0;
+    margin:8px 8px 0;
+    display:inline;
   }
 }
-#notifiche span{
+#notifiche .label{
   font-size:14px;
 }
 .boxNotifiche {
@@ -251,6 +246,9 @@ footer {
       max-width:260px;
       width:260px;
     }
+  }
+  #lega-view {
+    margin:0 !important;
   }
   #content {
     min-height:500px;

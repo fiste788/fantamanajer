@@ -2,9 +2,14 @@
 
 namespace Fantamanajer\Models;
 
-use Lib\Database as Db;
+use Fantamanajer\Models\Table\FormazioneTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use Lib\FormException;
+use PDO;
+use PDOException;
 
-class Formazione extends Table\FormazioneTable {
+class Formazione extends FormazioneTable {
 
     public function duplicate($giornata) {
         $giocatori = Schieramento::getSchieramentoById($this->getId());
@@ -26,12 +31,13 @@ class Formazione extends Table\FormazioneTable {
             $panchinari = $parameters['panchinari'];
             $giocatoriIds = array_merge($titolari, $panchinari);
             $modulo = $this->calcModulo($titolari);
-            $this->setModulo($modulo, '-');
+            $this->setModulo($modulo);
         }
 
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $id = $this->getId();
+            FirePHP::getInstance()->log("id " . $id);
             parent::save($parameters);
             if (!empty($giocatoriIds)) {
                 $success = TRUE;
@@ -52,17 +58,17 @@ class Formazione extends Table\FormazioneTable {
                         $evento->setTipo(Evento::FORMAZIONE);
                         $evento->save();    
                     }
-                    Db\ConnectionFactory::getFactory()->getConnection()->commit();
+                    ConnectionFactory::getFactory()->getConnection()->commit();
                 } else {
-                    Db\ConnectionFactory::getFactory()->getConnection()->rollback();
+                    ConnectionFactory::getFactory()->getConnection()->rollback();
                     return FALSE;
                 }
             } else {
-                Db\ConnectionFactory::getFactory()->getConnection()->rollback();
+                ConnectionFactory::getFactory()->getConnection()->rollback();
                 return FALSE;
             }
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;
@@ -98,9 +104,9 @@ class Formazione extends Table\FormazioneTable {
 
     /**
      *
-     * @param type $idUtente
-     * @param type $giornata
-     * @return Formazione | NULL
+     * @param int $idUtente
+     * @param int $giornata
+     * @return Formazione | null
      */
     public static function getLastFormazione($idUtente, $giornata) {
         $i = 0;
@@ -121,19 +127,19 @@ class Formazione extends Table\FormazioneTable {
 
     /**
      *
-     * @param type $idUtente
-     * @param type $giornata
+     * @param int $idUtente
+     * @param int $giornata
      * @return Formazione
      */
     public static function getFormazioneBySquadraAndGiornata($idUtente, $giornata) {
         $q = "SELECT *
 				FROM formazione
 				WHERE formazione.idUtente = :idUtente AND formazione.idGiornata = :idGiornata";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $giornata, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $formazione = $exe->fetchObject(__CLASS__);
         if ($formazione)
             $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
@@ -142,43 +148,42 @@ class Formazione extends Table\FormazioneTable {
 
     /**
      *
-     * @param type $giornata
-     * @param type $idLega
+     * @param int $giornata
+     * @param int $idLega
      * @return Formazione
      */
     public static function getFormazioneByGiornataAndLega($giornata, $idLega) {
         $q = "SELECT formazione.*
 				FROM formazione INNER JOIN utente ON formazione.idUtente = utente.id
 				WHERE idGiornata = :idGiornata AND idLega = :idLega";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, \PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
-        return $exe->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
+        FirePHP::getInstance()->log($q);
+        return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
     /**
      *
-     * @param type $idUtente
-     * @return type
+     * @param int $idUtente
+     * @return bool
      */
     public static function usedJolly($idUtente, $giornata) {
         $q = "SELECT jolly
 				FROM formazione
 				WHERE idGiornata " . (($giornata <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        $exe->bindValue(":jolly", TRUE, \PDO::PARAM_BOOL);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":jolly", TRUE, PDO::PARAM_BOOL);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         return ($exe->rowCount() == 1);
     }
 
     /**
      *
-     * @param type $array
-     * @param type $message
+     * @param array $array
      * @return boolean
      */
     public function check(array $array) {
@@ -187,35 +192,37 @@ class Formazione extends Table\FormazioneTable {
         $capitano = array();
         foreach ($post->titolari as $key => $val) {
             if (empty($val))
-                throw new \Lib\FormException("Non hai compilato correttamente tutti i campi");
+                throw new FormException("Non hai compilato correttamente tutti i campi");
             if (!in_array($val, $formazione))
                 $formazione[] = $val;
             else
-                throw new \Lib\FormException("Giocatore doppio");
+                throw new FormException("Giocatore doppio");
         }
         foreach ($post->panchinari as $key => $val) {
             if (!empty($val)) {
                 if (!in_array($val, $formazione))
                     $formazione[] = $val;
                 else
-                    throw new \Lib\FormException("Giocatore doppio");
+                    throw new FormException("Giocatore doppio");
             }
         }
-        \FirePHP::getInstance()->log($array);
         $cap = array();
-        $cap[] = $this->getIdCapitano();
-        $cap[] = $this->getIdVCapitano();
-        $cap[] = $this->getIdVVCapitano();
+        $cap[] = $this->idCapitano;
+        $cap[] = $this->idVCapitano;
+        $cap[] = $this->idVVCapitano;
         foreach ($cap as $key => $val) {
-            if (!empty($val)) {
+            if (!empty($val) && !is_null($val)) {
                 $giocatore = Giocatore::getById($val);
-                if ($giocatore->ruolo == 'P' || $giocatore->ruolo == 'D') {
-                    if (!in_array($val, $capitano))
-                        $capitano[$key] = $val;
-                    else
-                        throw new \Lib\FormException("Giocatore doppio");
+                if(in_array($giocatore->getId(),$post->titolari)) {
+                    if ($giocatore->ruolo == 'P' || $giocatore->ruolo == 'D') {
+                        if (!in_array($val, $capitano))
+                            $capitano[$key] = $val;
+                        else
+                            throw new FormException("Giocatore doppio");
+                    } else
+                        throw new FormException("Capitano non difensore o portiere");
                 } else
-                    throw new \Lib\FormException("Capitano non difensore o portiere");
+                    throw new FormException("Capitano non titolare");
             }
         }
         return TRUE;

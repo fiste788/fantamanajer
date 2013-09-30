@@ -553,6 +553,9 @@ FileETag None
 #AddHandler application/x-httpd-php54 .php .php5 .php4 .php3
 
 <IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} ^(.+)/$
+    RewriteRule ^(.+)/$  /$1 [R=301,L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule . index.php [L]
 </IfModule>

@@ -2,7 +2,13 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class SelezioneTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Lega;
+use Fantamanajer\Models\Utente;
+use Fantamanajer\Models\Utente as Utente2;
+use Lib\Database\Table;
+
+abstract class SelezioneTable extends Table {
 
     const TABLE_NAME = 'selezione';
 
@@ -47,7 +53,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idLega
-     * @param Int $idLega
+     * @param int $idLega
      * @return void
      */
     public function setIdLega($idLega) {
@@ -56,7 +62,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -65,7 +71,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatoreOld
-     * @param Int $idGiocatoreOld
+     * @param int $idGiocatoreOld
      * @return void
      */
     public function setIdGiocatoreOld($idGiocatoreOld) {
@@ -74,7 +80,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatoreNew
-     * @param Int $idGiocatoreNew
+     * @param int $idGiocatoreNew
      * @return void
      */
     public function setIdGiocatoreNew($idGiocatoreNew) {
@@ -83,7 +89,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: numSelezioni
-     * @param Int $numSelezioni
+     * @param int $numSelezioni
      * @return void
      */
     public function setNumSelezioni($numSelezioni) {
@@ -122,7 +128,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: utente
-     * @param Utente $utente
+     * @param Utente2 $utente
      * @return void
      */
     public function setUtente($utente) {
@@ -132,7 +138,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idLega
-     * @return Int
+     * @return int
      */
     public function getIdLega() {
         return (int) $this->idLega;
@@ -140,7 +146,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -148,7 +154,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatoreOld
-     * @return Int
+     * @return int
      */
     public function getIdGiocatoreOld() {
         return (int) $this->idGiocatoreOld;
@@ -156,7 +162,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatoreNew
-     * @return Int
+     * @return int
      */
     public function getIdGiocatoreNew() {
         return (int) $this->idGiocatoreNew;
@@ -164,7 +170,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: numSelezioni
-     * @return Int
+     * @return int
      */
     public function getNumSelezioni() {
         return (int) $this->numSelezioni;
@@ -176,17 +182,17 @@ abstract class SelezioneTable extends \Lib\Database\Table {
      */
     public function getLega() {
         if (empty($this->lega))
-            $this->lega = \Fantamanajer\Models\Lega::getById($this->getIdLega());
+            $this->lega = Lega::getById($this->getIdLega());
         return $this->lega;
     }
 
     /**
      * Getter: utente
-     * @return Utente
+     * @return Utente2
      */
     public function getUtente() {
         if (empty($this->utente))
-            $this->utente = \Fantamanajer\Models\Utente::getById($this->getIdUtente());
+            $this->utente = Utente2::getById($this->getIdUtente());
         return $this->utente;
     }
 
@@ -196,7 +202,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
      */
     public function getGiocatoreNew() {
         if (empty($this->giocatoreNew))
-            $this->giocatoreNew = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreNew());
+            $this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
         return $this->giocatoreNew;
     }
 
@@ -206,7 +212,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
      */
     public function getGiocatoreOld() {
         if (empty($this->giocatoreOld))
-            $this->giocatoreOld = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatoreOld());
+            $this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
         return $this->giocatoreOld;
     }
 
@@ -220,9 +226,9 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Selezione[]|Selezione|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Selezione[]|Selezione|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -230,7 +236,7 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Selezione
      */
     public static function getById($id) {
@@ -239,8 +245,8 @@ abstract class SelezioneTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Selezione[]|NULL
+     * @param int[] $ids
+     * @return Selezione[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

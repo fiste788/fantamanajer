@@ -2,6 +2,13 @@
 
 namespace Lib;
 
+use AltoRouter;
+use Assetic\AssetManager;
+use Exception;
+use FirePHP;
+use lessc;
+use Savant3;
+
 require_once(LIBDIR . 'Savant/Savant3.php');
 
 abstract class BaseController {
@@ -25,7 +32,7 @@ abstract class BaseController {
 
     /**
      *
-     * @var \Savant3[]
+     * @var Savant3[]
      */
     protected $templates = array();
 
@@ -37,7 +44,7 @@ abstract class BaseController {
 
     /**
      *
-     * @var \Login
+     * @var Login
      */
     protected $auth;
 
@@ -63,19 +70,19 @@ abstract class BaseController {
 
     /**
      *
-     * @var \Assetic\AssetManager
+     * @var AssetManager
      */
     protected $asset = NULL;
 
     /**
      *
-     * @var \Logger
+     * @var Logger
      */
     protected $logger = NULL;
 
     /**
      *
-     * @var \AltoRouter
+     * @var AltoRouter
      */
     protected $router;
     protected $generalJs = array();
@@ -87,10 +94,10 @@ abstract class BaseController {
         $this->pages = $pages;
         $this->auth = new Login();
         $this->logger = new Logger();
-        $this->asset = new \Assetic\AssetManager();
-        \FirePHP::getInstance(TRUE);
-        \FirePHP::getInstance()->setEnabled(LOCAL);
-        \FirePHP::getInstance()->registerErrorHandler(false);
+        $this->asset = new AssetManager();
+        FirePHP::getInstance(TRUE);
+        FirePHP::getInstance()->setEnabled(LOCAL);
+        FirePHP::getInstance()->registerErrorHandler(false);
 
         $this->request = $request;
         $this->response = $response;
@@ -103,7 +110,7 @@ abstract class BaseController {
     }
 
     public function initialize() {
-        \Lib\Router::getInstance($this->router);
+        Router::getInstance($this->router);
         if (isset($this->pages->pages[$this->route['name']]) && $this->pages->pages[$this->route['name']]->roles > $_SESSION['roles']) {
             $this->notAuthorized();
         }
@@ -132,8 +139,8 @@ abstract class BaseController {
     }
 
     public function setGeneralCss($generalCss) {
-        $less = new \lessc();
-        $less->setVariables(array("imgs-path"=>IMGSURL));
+        /*$less = new \lessc();
+        //$less->setVariables(array("imgs-path"=>IMGSURL));
         foreach ($generalCss as $key => $val) {
             $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
             $lessFile = LESSDIR . $val . ".less";
@@ -157,6 +164,35 @@ abstract class BaseController {
             $less->checkedCompile($less_fname, $css_fname);
             $this->generalCss[$key] = $file . '.css';
         }*/
+        foreach ($generalCss as $key => $val) {
+            $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
+            $less_fname = LESSDIR . $val . ".less";
+            $css_fname = STYLESHEETSDIR . $file . ".css";
+            $cache_fname = CACHEDIR . $file . ".cache";
+            $cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $less_fname;
+            $new_cache = lessc::cexecute($cache);
+            if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
+                file_put_contents($cache_fname, serialize($new_cache));
+                file_put_contents($css_fname, $new_cache['compiled']);
+            }
+            lessc::ccompile($less_fname, $css_fname);
+            $this->generalCss[$key] = $file . '.css';
+        }
+        /*$less_fname = LESSDIR . 'pages' . DS . $this->route['name'] . '.less';
+        \FirePHP::getInstance()->info($less_fname);
+        if(file_exists($less_fname)) {
+            $css_fname = STYLESHEETSDIR . $this->route['name'] . ".css";
+            \FirePHP::getInstance()->info($css_fname);
+            $cache_fname = CACHEDIR . $file . ".cache";
+            $cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $less_fname;
+            $new_cache = \lessc::cexecute($cache);
+            if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
+                file_put_contents($cache_fname, serialize($new_cache));
+                file_put_contents($css_fname, $new_cache['compiled']);
+            }
+            \lessc::ccompile($less_fname, $css_fname);
+            $this->generalCss[$key] = $this->route['name'] . '.css';
+        }*/
     }
 
     public function renderAction($routeName, $method = 'GET') {
@@ -169,7 +205,7 @@ abstract class BaseController {
             $this->initialize();
             $this->$action();
         } else {
-            new \Exception("Cannot render action of a different controller");
+            new Exception("Cannot render action of a different controller");
         }
     }
 
@@ -221,7 +257,7 @@ abstract class BaseController {
         return $this->router;
     }
 
-    public function setRouter(\AltoRouter $router) {
+    public function setRouter(AltoRouter $router) {
         $this->router = $router;
     }
 

@@ -2,19 +2,18 @@
 
 namespace Fantamanajer\Controllers;
 
-use \Fantamanajer\Models as Models;
+use Fantamanajer\Models as Models;
+use FirePHP;
+use Lib\FormException;
 
 class TrasferimentoController extends ApplicationController {
 
     public function index() {
         $filterId = $this->request->getParam('squadra', $_SESSION['idUtente']);
-        $trasferimentiAppo = Models\Trasferimento::getByField('idUtente', $filterId);
-
-        if (!is_array($trasferimentiAppo) && !is_null($trasferimentiAppo))
-            $trasferimenti[] = $trasferimentiAppo;
-        else
-            $trasferimenti = $trasferimentiAppo;
-
+        $appo = Models\Trasferimento::getByField('idUtente', $filterId);
+        $trasferimenti = !is_null($appo) ? array($appo) : array();
+        //array_push($trasferimenti,);
+        FirePHP::getInstance()->log($trasferimenti);
         foreach ($trasferimenti as $val) {
             $val->getGiocatoreOld();
             $val->getGiocatoreNew();
@@ -54,7 +53,7 @@ class TrasferimentoController extends ApplicationController {
                     $selezione->save();
                     $this->setFlash(self::FLASH_SUCCESS,'Operazione eseguita con successo');
                 }
-            } catch (\Lib\FormException $e) {
+            } catch (FormException $e) {
                 $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
             }
             $this->templates['content']->assign('selezione', $selezione);

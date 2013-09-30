@@ -36,7 +36,7 @@
 			<script src="<?php echo JSURL ?>respond/respond.js""></script>
 		<![endif]-->
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
-        <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo FULLURL . 'rss.php?lega=' . $_SESSION['legaView']; ?>" />
+        <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo $this->router->generate('rss',array('lega'=>$_SESSION['legaView'])) ?>" />
     </head>
     <body>
         <div id="topbar" class="navbar navbar-inverse navbar-fixed-top">

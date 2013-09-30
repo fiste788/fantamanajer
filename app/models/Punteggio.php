@@ -1,9 +1,14 @@
 <?php
 
 namespace Fantamanajer\Models;
-use Lib\Database as Db;
 
-class Punteggio extends Table\PunteggioTable {
+use Fantamanajer\Models\Table\PunteggioTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use PDO;
+use PDOException;
+
+class Punteggio extends PunteggioTable {
 
     /**
      * @param Utente $utente
@@ -14,11 +19,11 @@ class Punteggio extends Table\PunteggioTable {
         $q = "SELECT *
 				FROM punteggio
 				WHERE idUtente = :idUtente AND idGiornata = :idGiornata";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $utente->getId(), \PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $utente->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
@@ -26,10 +31,10 @@ class Punteggio extends Table\PunteggioTable {
         $q = "SELECT *
 				FROM punteggio
 				WHERE idLega = :idLega AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($row = $exe->fetchObject(__CLASS__))
             $values[$row->idGiornata][] = $row;
@@ -47,10 +52,10 @@ class Punteggio extends Table\PunteggioTable {
         $q = "SELECT giornateVinte
 				FROM giornatevinte
 				WHERE idUtente = :idUtente";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         return $exe->fetchColumn();
     }
 
@@ -60,11 +65,11 @@ class Punteggio extends Table\PunteggioTable {
 				WHERE punteggio.idGiornata <= :idGiornata AND punteggio.idLega = :idLega
 				GROUP BY punteggio.idUtente
 				ORDER BY punteggioTot DESC , giornateVinte DESC";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getIdUtente()] = $obj;
@@ -76,11 +81,11 @@ class Punteggio extends Table\PunteggioTable {
 				FROM punteggio
 				WHERE (idGiornata <= :idGiornata OR idGiornata IS NULL) AND idLega = :idLega
 				ORDER BY idGiornata DESC";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, \PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $classifica = array();
         while ($row = $exe->fetchObject(__CLASS__)) {
             if (isset($classifica[$row->idUtente][$row->idGiornata]))
@@ -103,7 +108,7 @@ class Punteggio extends Table\PunteggioTable {
     public static function getGiornateWithPunt() {
         $q = "SELECT COUNT(DISTINCT(idGiornata)) as numGiornate
 				FROM punteggio";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         return $exe->fetchColumn();
     }
 
@@ -142,11 +147,11 @@ class Punteggio extends Table\PunteggioTable {
      * @param Utente $utente
      * @param int $giornata
      * @return boolean
-     * @throws \PDOException
+     * @throws PDOException
      */
     public static function calcolaPunti(Utente $utente, $giornata) {
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $formazione = Formazione::getLastFormazione($utente->id, $giornata);
             $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
             $lega = $utente->getLega();
@@ -178,7 +183,7 @@ class Punteggio extends Table\PunteggioTable {
                     $giocatore = $schieramento->getGiocatore();
                     $voto = $giocatore->getVotoByGiornata($giornata);
                     if ((!$voto->isValutato()) && ($cambi < 3)) {
-                        \FirePHP::getInstance()->log("sostituisco");
+                        FirePHP::getInstance()->log("sostituisco");
                         $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
                         if ($sostituto != FALSE) {
                             if ($schieramento->getConsiderato() != 0) {
@@ -193,7 +198,10 @@ class Punteggio extends Table\PunteggioTable {
                     if ($schieramento) {
                         $schieramento->setConsiderato(1);
                         $punti = $voto->getPunti();
-                        if ($lega->capitano && $giocatore->getId() == $cap) {
+                        FirePHP::getInstance()->log($giocatore->getId() . " " . $cap);
+                        FirePHP::getInstance()->log($lega->isCapitano());
+                        if ($lega->isCapitano() && $giocatore->getId() == $cap) {
+                            FirePHP::getInstance()->log("raddoppio punteggio");
                             $schieramento->setConsiderato(2);
                             $punti *= 2;
                         }
@@ -216,7 +224,7 @@ class Punteggio extends Table\PunteggioTable {
                 $punteggio->setIdUtente($idUtente);
                 $punteggio->setIdLega($lega->id);
                 $punteggio->setPunteggio($somma);
-                \FirePHP::getInstance()->log("salvo punteggio");
+                FirePHP::getInstance()->log("salvo punteggio");
                 $punteggio->save();
                 if ($lega->getPunteggioFormazioneDimenticata() != 100 && $giornata != $formazione->getIdGiornata()) {
                     $puntiDaTogliere = round((($somma / 100) * (100 - $lega->getPunteggioFormazioneDimenticata())), 1);
@@ -230,23 +238,23 @@ class Punteggio extends Table\PunteggioTable {
                     $penalita->save();
                 }
             }
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
-        return TRUE;
+        return $punteggio->getPunteggio();
     }
 
     public static function getPenalitàBySquadraAndGiornata($idUtente, $idGiornata) {
         $q = "SELECT punteggio,penalità
 				FROM punteggio
 				WHERE punteggio < 0 AND idUtente = :idUtente AND idGiornata = :idGiornata";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject();
     }
 
@@ -254,10 +262,10 @@ class Punteggio extends Table\PunteggioTable {
         $q = "SELECT *
 				FROM punteggio
 				WHERE punteggio < 0 AND idLega = :idLega";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($row = $exe->fetchObject(__CLASS__))
             $values[$row->idUtente][$row->idGiornata] = $row->punteggio;
@@ -267,18 +275,18 @@ class Punteggio extends Table\PunteggioTable {
     public static function unsetPenalità($idUtente, $idGiornata) {
         $q = "DELETE FROM punteggio
 				WHERE punteggio < 0 AND idUtente = :idUtente AND idGiornata = :idGiornata";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         return $exe->execute();
     }
 
     public static function unsetPunteggio($idUtente, $idGiornata) {
         $q = "DELETE FROM punteggio
 				WHERE punteggio > 0 AND idUtente = :idUtente AND idGiornata = :idGiornata";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         return $exe->execute();
     }
 

@@ -2,7 +2,13 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class SquadraTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Lega;
+use Fantamanajer\Models\Utente;
+use Fantamanajer\Models\Utente as Utente2;
+use Lib\Database\Table;
+
+abstract class SquadraTable extends Table {
 
     const TABLE_NAME = 'squadras';
 
@@ -34,7 +40,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Setter: idLega
-     * @param Int $idLega
+     * @param int $idLega
      * @return void
      */
     public function setIdLega($idLega) {
@@ -43,7 +49,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -52,7 +58,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiocatore
-     * @param Int $idGiocatore
+     * @param int $idGiocatore
      * @return void
      */
     public function setIdGiocatore($idGiocatore) {
@@ -81,7 +87,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Setter: utente
-     * @param Utente $utente
+     * @param Utente2 $utente
      * @return void
      */
     public function setUtente($utente) {
@@ -91,7 +97,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Getter: idLega
-     * @return Int
+     * @return int
      */
     public function getIdLega() {
         return (int) $this->idLega;
@@ -99,7 +105,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -107,7 +113,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiocatore
-     * @return Int
+     * @return int
      */
     public function getIdGiocatore() {
         return (int) $this->idGiocatore;
@@ -119,17 +125,17 @@ abstract class SquadraTable extends \Lib\Database\Table {
      */
     public function getLega() {
         if (empty($this->lega))
-            $this->lega = \Fantamanajer\Models\Lega::getById($this->getIdLega());
+            $this->lega = Lega::getById($this->getIdLega());
         return $this->lega;
     }
 
     /**
      * Getter: utente
-     * @return Utente
+     * @return Utente2
      */
     public function getUtente() {
         if (empty($this->utente))
-            $this->utente = \Fantamanajer\Models\Utente::getById($this->getIdUtente());
+            $this->utente = Utente2::getById($this->getIdUtente());
         return $this->utente;
     }
 
@@ -139,7 +145,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
      */
     public function getGiocatore() {
         if (empty($this->giocatore))
-            $this->giocatore = \Fantamanajer\Models\Giocatore::getById($this->getIdGiocatore());
+            $this->giocatore = Giocatore::getById($this->getIdGiocatore());
         return $this->giocatore;
     }
 
@@ -153,9 +159,9 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Selezione[]|Selezione|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Selezione[]|Selezione|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -163,7 +169,7 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Selezione
      */
     public static function getById($id) {
@@ -172,8 +178,8 @@ abstract class SquadraTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Selezione[]|NULL
+     * @param int[] $ids
+     * @return Selezione[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

@@ -20,7 +20,7 @@ $sitepath = implode('/', $tmp);                      //recreate $sitepath with s
 
 define("DS","/");
 define("SESSION_NAME", 'fantamanajer');
-define("SESSION_TIMEOUT", 30);
+define("SESSION_TIMEOUT", 60);
 define("PROTO", $proto);
 define("LOCAL", $local);
 define("DEVELOP", $develop);

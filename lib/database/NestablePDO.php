@@ -2,7 +2,9 @@
 
 namespace Lib\Database;
 
-class NestablePDO extends \PDO {
+use PDO;
+
+class NestablePDO extends PDO {
 
     // Database drivers that support SAVEPOINTs.
     protected static $savepointTransactions = array("pgsql", "mysql");
@@ -10,33 +12,36 @@ class NestablePDO extends \PDO {
     protected $transLevel = 0;
 
     protected function nestable() {
-        return in_array($this->getAttribute(\PDO::ATTR_DRIVER_NAME), self::$savepointTransactions);
+        return in_array($this->getAttribute(PDO::ATTR_DRIVER_NAME), self::$savepointTransactions);
     }
 
     public function beginTransaction() {
-        if ($this->transLevel == 0 || !$this->nestable())
+        if ($this->transLevel == 0 || !$this->nestable()) {
             parent::beginTransaction();
-        else
+        } else {
             $this->exec("SAVEPOINT LEVEL{$this->transLevel}");
+        }
         $this->transLevel++;
     }
 
     public function commit() {
         $this->transLevel--;
 
-        if ($this->transLevel == 0 || !$this->nestable())
+        if ($this->transLevel == 0 || !$this->nestable()) {
             parent::commit();
-        else
+        } else {
             $this->exec("RELEASE SAVEPOINT LEVEL{$this->transLevel}");
+        }
     }
 
     public function rollBack() {
         $this->transLevel--;
 
-        if ($this->transLevel == 0 || !$this->nestable())
+        if ($this->transLevel == 0 || !$this->nestable()) {
             parent::rollBack();
-        else
+        } else {
             $this->exec("ROLLBACK TO SAVEPOINT LEVEL{$this->transLevel}");
+        }
     }
 
 }

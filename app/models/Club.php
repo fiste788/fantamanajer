@@ -2,7 +2,12 @@
 
 namespace Fantamanajer\Models;
 
-class Club extends Table\ClubTable {
+use Fantamanajer\Models\Table\ClubTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use PDO;
+
+class Club extends ClubTable {
 
     public static function getClubByIdWithStats($idClub) {
         $q = "SELECT *

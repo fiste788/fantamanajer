@@ -1,28 +1,29 @@
-<?php $i = 0; ?>
 <?php if($this->trasferimenti != FALSE): ?>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>N.</th>
-                <th>Giocatore nuovo</th>
-                <th>Giocatore vecchio</th>
-                <th>Giornata</th>
-                <th>Obbligato</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($this->trasferimenti as $key => $val): ?>
+    <div class="well">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><?php echo $i + 1; ?></td>
-                    <td><a href="<?php echo $this->router->generate('giocatore_show',array('id'=>$val->idGiocatoreNew)); ?>"><?php echo $val->getGiocatoreNew()->cognome . " " . $val->getGiocatoreNew()->nome; ?></a></td>
-                    <td><a href="<?php echo $this->router->generate('giocatore_show',array('id'=>$val->idGiocatoreOld)); ?>"><?php echo $val->getGiocatoreOld()->cognome . " " . $val->getGiocatoreOld()->nome; ?></a></td>
-                    <td><?php echo $val->idGiornata; ?></td>
-                    <td><?php if($val->isObbligato()): ?><i class="icon-ok"></i><?php endif; ?></td>
+                    <th>N.</th>
+                    <th>Giocatore nuovo</th>
+                    <th>Giocatore vecchio</th>
+                    <th>Giornata</th>
+                    <th>Obbligato</th>
                 </tr>
-            <?php $i++; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach($this->trasferimenti as $key => $val): ?>
+                    <tr>
+                        <td><?php echo $key + 1; ?></td>
+                        <td><a href="<?php echo $this->router->generate('giocatore_show',array('id'=>$val->idGiocatoreNew)); ?>"><?php echo $val->getGiocatoreNew()->cognome . " " . $val->getGiocatoreNew()->nome; ?></a></td>
+                        <td><a href="<?php echo $this->router->generate('giocatore_show',array('id'=>$val->idGiocatoreOld)); ?>"><?php echo $val->getGiocatoreOld()->cognome . " " . $val->getGiocatoreOld()->nome; ?></a></td>
+                        <td><?php echo $val->idGiornata; ?></td>
+                        <td><?php if($val->isObbligato()): ?><i class="icon-ok"></i><?php endif; ?></td>
+                    </tr>
+                <?php $i++; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 <?php else: ?>
 	<p>Non ha effettuato alcun trasferimento</p>
 <?php endif; ?>

@@ -1,13 +1,19 @@
 <?php
 
 namespace Fantamanajer\Models;
-use Lib\Database as Db;
 
-class Giocatore extends Table\GiocatoreTable {
+use Fantamanajer\Lib\FileSystem;
+use Fantamanajer\Models\Table\GiocatoreTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use PDO;
+use PDOException;
+
+class Giocatore extends GiocatoreTable {
 
     public function save(array $parameters = NULL) {
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             parent::save($parameters);
             if (!is_null($parameters)) {
                 $evento = new Evento();
@@ -15,9 +21,9 @@ class Giocatore extends Table\GiocatoreTable {
                 $evento->setTipo($parameters['numEvento']);
                 $evento->save();
             }
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;
@@ -63,13 +69,13 @@ class Giocatore extends Table\GiocatoreTable {
             $q .= " AND ruolo = :ruolo";
         $q .= " AND attivo = :attivo
 				ORDER BY cognome,nome";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         if($ruolo != null)
             $exe->bindValue(":ruolo", $ruolo);
-        $exe->bindValue(":attivo", TRUE, \PDO::PARAM_INT);
+        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -82,11 +88,11 @@ class Giocatore extends Table\GiocatoreTable {
 						FROM squadra
 						WHERE idLega = :idLega) AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
 				WHERE view_0_giocatoristatistiche.id = :idGiocatore";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
-        $exe->bindValue(":idGiocatore", $idGiocatore, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->bindValue(":idGiocatore", $idGiocatore, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
@@ -94,21 +100,21 @@ class Giocatore extends Table\GiocatoreTable {
         $q = "SELECT *
 				FROM view_0_formazionestatistiche
 				WHERE idGiornata = :idGiornata AND idUtente = :idUtente ORDER BY posizione";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, \PDO::PARAM_INT);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
-        $elenco = $exe->fetchAll(\PDO::FETCH_CLASS, __CLASS__);
+        FirePHP::getInstance()->log($q);
+        $elenco = $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
         return $elenco;
     }
 
     public static function updateTabGiocatore($path) {
         $ruoli = array("P", "D", "C", "A");
         $giocatoriOld = self::getList();
-        $giocatoriNew = \Fantamanajer\Lib\FileSystem::returnArray($path, ";");
+        $giocatoriNew = FileSystem::returnArray($path, ";");
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             foreach ($giocatoriNew as $id => $giocatoreNew) {
                 if (array_key_exists($id, $giocatoriOld)) {
                     $clubNew = Club::getByField('nome', ucwords(strtolower(trim($giocatoreNew[3], '"'))));
@@ -140,9 +146,9 @@ class Giocatore extends Table\GiocatoreTable {
                     $giocatoreOld->save(array('numEvento'=>Evento::RIMOSSOGIOCATORE));
                 }
             }
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;
@@ -195,11 +201,11 @@ class Giocatore extends Table\GiocatoreTable {
         $q = "SELECT giocatore.id, cognome, nome, ruolo
 				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
 				WHERE idUtente = :idUtente AND attivo = :attivo";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        $exe->bindValue(":attivo", FALSE, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":attivo", FALSE, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -212,98 +218,23 @@ class Giocatore extends Table\GiocatoreTable {
 				WHERE idGiornata = :idGiornata AND ruolo = :ruolo
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $idGiornata, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         $exe->bindValue(":ruolo", $ruolo);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
         return $values;
     }
 
-    function getFoto() {
-        require_once(INCDIR . 'fileSystem.inc.php');
-        require_once(INCDIR . 'phpQuery.inc.php');
-        $giocatori = self::getList();
-        $clubs = Club::getList();
-        $clubs[1]->idSerieA = 1729;
-        $clubs[2]->idSerieA = 1713;
-        $clubs[3]->idSerieA = 1714;
-        $clubs[4]->idSerieA = 1769;
-        $clubs[5]->idSerieA = 1740;
-        $clubs[6]->idSerieA = 1728;
-        $clubs[7]->idSerieA = 1715;
-        $clubs[8]->idSerieA = 1736;
-        $clubs[9]->idSerieA = 1717;
-        $clubs[10]->idSerieA = 1891;
-        $clubs[11]->idSerieA = 1719;
-        $clubs[12]->idSerieA = 1892;
-        $clubs[13]->idSerieA = 1716;
-        $clubs[14]->idSerieA = 1739;
-        $clubs[15]->idSerieA = 1737;
-        $clubs[16]->idSerieA = 1778;
-        $clubs[17]->idSerieA = 1722;
-        $clubs[18]->idSerieA = 1718;
-        $clubs[19]->idSerieA = 1761;
-        $clubs[20]->idSerieA = 1726;
-        foreach ($clubs as $club) {
-            $url = "http://www.legaseriea.it/it/serie-a-tim/squadre/squadra/-/squadre/$club->nome/squadra/$club->idSerieA";
-            \FirePHP::getInstance()->log($url);
-            $html = \FileSystem::contenutoCurl($url);
-            $pq = \phpQuery::newDocument($html);
-            $giocatori = self::getByField("idClub", $club->id);
-            foreach($giocatori as $giocatore) {
-                $a = $pq->find(".teamTable td.two a:contains('$giocatore->cognome $giocatore->nome')");
-                if($a->length == 0)
-                    $a = $pq->find(".teamTable td.two a:contains('$giocatore->cognome')");
-
-                $gioc = \phpQuery::newDocument(\FileSystem::contenutoCurl($a->attr('href')));
-                $img = $gioc->find(".card_player img[alt='CALCIATORI 2013']");
-                $src = $img->attr('src');
-
-                $fileContents = \FileSystem::contenutoCurl($src);
-                if($fileContents != "") {
-                    $newImg = imagecreatefromstring($fileContents);
-                    imagejpeg($newImg, PLAYERSDIR . 'new/' . $giocatore->id . ".jpg", 100);
-                } else
-                    \FirePHP::getInstance()->log($giocatore->cognome);
-            }
-            /*$table = $pq->find('.teamTable');
-            $trs = $table->find("tr");
-            for($i = 0;$i < $trs->length();$i++) {
-                $tr = pq($trs->get($i));
-                $a = $tr->find('td.two a');
-                $link = $a->attr('href');
-                $text = $a->text();
-                \FirePHP::getInstance()->log($text . " " . $link);
-                //\FileSystem::contenutoCurl($link);
-
-            }
-*/
-            /*if (!file_exists(PLAYERSDIR . "new/" . $val->id . ".jpg")) {
-                $url = "http://www.gazzetta.it/img/calcio/figurine_panini/" . (($val->nome != NULL) ? str_replace(" ", "_", strtoupper($val->nome)) : "") . "_" . str_replace(" ", "_", strtoupper($val->cognome)) . ".jpg";
-                echo (($val->nome != NULL) ? str_replace(" ", "_", strtoupper($val->nome)) : "") . "_" . str_replace(" ", "_", strtoupper($val->cognome));
-                //flush();
-                //FirePHP::getInstance()->log($url);
-                $fileContents = FileSystem::contenutoCurl($url);
-
-                if (stripos($fileContents, "gazzetta") == FALSE) {
-                    $newImg = imagecreatefromstring($fileContents);
-                    imagejpeg($newImg, PLAYERSDIR . "new/" . $val->id . ".jpg", 100);
-                }
-            }*/
-        }
-    }
-
     /**
      *
-     * @param type $giornata
+     * @param int $giornata
      * @return Voto
      */
     public function getVotoByGiornata($giornata) {
-        require_once(INCDBDIR . 'voto.db.inc.php');
         return Voto::getByGiocatoreAndGiornata($this->getId(), $giornata);
     }
 

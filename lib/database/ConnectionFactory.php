@@ -2,6 +2,10 @@
 
 namespace Lib\Database;
 
+use DateTime;
+use PDO;
+use PDOException;
+
 class ConnectionFactory {
 
     /**
@@ -21,19 +25,20 @@ class ConnectionFactory {
      * @return ConnectionFactory
      */
     public static function getFactory() {
-        if (!self::$factory)
+        if (!self::$factory) {
             self::$factory = new ConnectionFactory();
+        }
         return self::$factory;
     }
 
     /**
      *
-     * @return \MyPDO
-     * @throws \PDOException
+     * @return NestablePDO
+     * @throws PDOException
      */
     public function getConnection() {
         if (!$this->db) {
-            $now = new \DateTime();
+            $now = new DateTime();
             $mins = $now->getOffset() / 60;
             $sgn = ($mins < 0 ? -1 : 1);
             $mins = abs($mins);

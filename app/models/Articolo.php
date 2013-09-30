@@ -1,13 +1,19 @@
 <?php
 
 namespace Fantamanajer\Models;
-use Lib\Database as Db;
 
-class Articolo extends Table\ArticoloTable {
+use Fantamanajer\Models\Table\ArticoloTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use Lib\FormException;
+use PDO;
+use PDOException;
+
+class Articolo extends ArticoloTable {
 
     public function save(array $parameters = array()) {
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $id = $this->getId();
             parent::save($parameters);
             if(is_null($id)) {
@@ -19,9 +25,9 @@ class Articolo extends Table\ArticoloTable {
                 $evento->setIdExternal($this->getId());
                 $evento->save();
             }
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;
@@ -43,11 +49,11 @@ class Articolo extends Table\ArticoloTable {
         $q = "SELECT articolo.*,utente.username
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				WHERE idGiornata = :idGiornata AND utente.idLega = :idLega";
-        $exe =Db\ ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(':idGiornata', $idGiornata, \PDO::PARAM_INT);
-        $exe->bindValue(':idLega', $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':idGiornata', $idGiornata, PDO::PARAM_INT);
+        $exe->bindValue(':idLega', $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -64,10 +70,10 @@ class Articolo extends Table\ArticoloTable {
 				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
 				ORDER BY dataCreazione DESC
 				LIMIT 0,:number";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(':number', $number, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':number', $number, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -83,10 +89,10 @@ class Articolo extends Table\ArticoloTable {
         $q = "SELECT DISTINCT(idGiornata) as idGiornata
 				FROM articolo
 				WHERE idLega = :idLega";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(':idLega', $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':idLega', $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject())
             $values[$obj->idGiornata] = $obj->idGiornata;
@@ -95,7 +101,7 @@ class Articolo extends Table\ArticoloTable {
 
     public function check(array $parameters) {
         if (empty($this->titolo) || empty($this->testo))
-            throw new \Lib\FormException('Non hai compilato correttamente tutti i campi');
+            throw new FormException('Non hai compilato correttamente tutti i campi');
         return TRUE;
     }
 

@@ -47,8 +47,8 @@
         // insert checkboxes
         $.each(datasets, function(key, val) {
             var $rigaSquadra = $choiceContainer.find("#squadra-"+key.replace(/ /g,'')),
-				input = $('<input class="checkall checkbox" type="checkbox" name="' + key + '" />');
-            $rigaSquadra.prepend('<div class="legend" style="background:' + options.colors[val.color] + '"></div>');
+				input = $('<input class="hidden-xs checkbox" type="checkbox" name="' + key + '" />');
+            $rigaSquadra.prepend('<div class="hidden-xs legend" style="background:' + options.colors[val.color] + '"></div>');
             if(squadra !== false)
                 input.prop('checked',true);
             $rigaSquadra.prepend(input);
@@ -220,18 +220,13 @@
     $.fn.classifica.medie = "";
     $.fn.classifica.squadra = "";
 })(jQuery);
-var datasets = {},
-	medie = {},
-    squadra = undefined;
 enquire.register("screen and (min-width:" + sizes.sm + "px)", {
     deferSetup:true,
-    match: function() {
-        if(!$.isEmptyObject(datasets))
-            $(document).classifica(datasets,medie,squadra);
-    },
     setup: function() {
-        var giornate = $("#tab_classifica").find("th");
-        squadra = $("#classifica-container").data("squadra");
+        var giornate = $("#tab_classifica").find("th"),
+            datasets = {},
+            medie = {},
+            squadra = $("#classifica-container").data("squadra");
         $("#tab_classifica").find("tbody tr").each(function(i,tr) {
             var $tr = $(tr);
                 nomeSquadra = $tr.data("squadra");
@@ -254,5 +249,7 @@ enquire.register("screen and (min-width:" + sizes.sm + "px)", {
             datasets[key] = squadra;
             medie[key] = media;
         });
+        if(!$.isEmptyObject(datasets))
+            $(document).classifica(datasets,medie,squadra);
     }
 });

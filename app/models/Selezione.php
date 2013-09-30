@@ -2,18 +2,23 @@
 
 namespace Fantamanajer\Models;
 
-use Lib\Database as Db;
+use Fantamanajer\Models\Table\SelezioneTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use Lib\FormException;
+use PDO;
+use PDOException;
 
-class Selezione extends Table\SelezioneTable {
+class Selezione extends SelezioneTable {
 
     public static function getSelezioneByIdSquadra($idUtente) {
         $q = "SELECT *
 				FROM selezione INNER JOIN giocatore ON idGiocatoreNew = giocatore.id
 				WHERE idUtente = :idUtente";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
     }
 
@@ -21,9 +26,9 @@ class Selezione extends Table\SelezioneTable {
         $q = "UPDATE selezione
 				SET idGiocatoreOld = NULL,idGiocatoreNew = NULL
 				WHERE idUtente = :idUtente";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
-        \FirePHP::getInstance()->log($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        FirePHP::getInstance()->log($q);
         return $exe->execute();
     }
 
@@ -31,9 +36,9 @@ class Selezione extends Table\SelezioneTable {
         $q = "SELECT idUtente
 				FROM selezione
 				WHERE idGiocatoreNew = :idGiocatore AND idLega = :idLega";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiocatore", $idGiocatore, \PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idGiocatore", $idGiocatore, PDO::PARAM_INT);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $values = $exe->fetchObject(__CLASS__);
         if ($values != FALSE)
             return $values->idUtente;
@@ -43,10 +48,10 @@ class Selezione extends Table\SelezioneTable {
 
     /**
      * @todo Sistemare selezione
-     * @param type $giocNew
-     * @param type $giocOld
-     * @param type $idLega
-     * @param type $idUtente
+     * @param int $giocNew
+     * @param int $giocOld
+     * @param int $idLega
+     * @param int $idUtente
      */
     public static function updateGioc($giocNew, $giocOld, $idLega, $idUtente) {
         try {
@@ -89,22 +94,22 @@ class Selezione extends Table\SelezioneTable {
         $q = "SELECT numSelezioni
 				FROM selezione
 				WHERE idUtente = :idUtente";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
         $exe->execute();
         return $exe->fetchColumn();
     }
 
     public static function svuota() {
         $q = "TRUNCATE TABLE selezione";
-        return (Db\ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
+        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
     
     /**
      * 
      * @param array $array
      * @return boolean
-     * @throws \Lib\FormException
+     * @throws FormException
      */
 
     public function check(array $array) {
@@ -122,37 +127,44 @@ class Selezione extends Table\SelezioneTable {
                             //Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idUtente']);
                             $mailContent->assign('giocatore', $selezione->getGiocatoreNew()->nome . ' ' . $selezione->getGiocatoreNew()->cognome);
                             $appo = $squadre[$acquistoDett->idSquadraAcquisto];
-                            Mail::sendEmail($squadre[$appo]->mail, $mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'), 'Giocatore rubato!');
+                            /**
+                             * TODO: invio mail
+                             */
+                            //Mail::sendEmail($squadre[$appo]->mail, $mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'), 'Giocatore rubato!');
                         } else {
-                            throw new \Lib\FormException('Un altra squadra inferiore di te ha già selezionato questo giocatore');
+                            throw new FormException('Un altra squadra inferiore di te ha già selezionato questo giocatore');
                         }
                     }
                 } else
-                    throw new \Lib\FormException("Hai già cambiato " . $_SESSION['datiLega']->numSelezioni . " volte il tuo acquisto");
+                    throw new FormException("Hai già cambiato " . $_SESSION['datiLega']->numSelezioni . " volte il tuo acquisto");
             } else
-                throw new \Lib\FormException('I giocatori devono avere lo stesso ruolo');
+                throw new FormException('I giocatori devono avere lo stesso ruolo');
         } else
-            throw new \Lib\FormException('Hai raggiunto il limite di trasferimenti');
+            throw new FormException('Hai raggiunto il limite di trasferimenti');
         return TRUE;
     }
 
     public static function doTransfertBySelezione() {
+        $giornata = Giornata::getCurrentGiornata()->id;
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $selezioni = self::getList();
-            foreach ($selezioni as $val) {
-                $trasferimento = new Trasferimento();
-                $trasferimento->setIdGiocatoreOld($val->idGiocatoreOld);
-                $trasferimento->setIdGiocatoreNew($val->idGiocatoreNew);
-                $trasferimento->setIdUtente($val->idUtente);
-                $trasferimento->setIdGiornata(GIORNATA);
-                $trasferimento->setObbligato(!$val->getGiocatoreOld()->isAttivo());
-                $trasferimento->save();
+            foreach ($selezioni as $selezione) {
+                FirePHP::getInstance()->log($selezione);
+                if(!is_null($selezione->idGiocatoreOld) && !is_null($selezione->idGiocatoreNew)) {
+                    $trasferimento = new Trasferimento();
+                    $trasferimento->setIdGiocatoreOld($selezione->idGiocatoreOld);
+                    $trasferimento->setIdGiocatoreNew($selezione->idGiocatoreNew);
+                    $trasferimento->setIdUtente($selezione->idUtente);
+                    $trasferimento->setIdGiornata($giornata);
+                    $trasferimento->setObbligato(!$selezione->getGiocatoreOld()->isAttivo());
+                    $trasferimento->save();
+                }
             }
             self::svuota();
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;
@@ -161,18 +173,18 @@ class Selezione extends Table\SelezioneTable {
     public function save(array $parameters = array()) {
         $this->setNumSelezioni($this->getNumSelezioni() + 1);
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            \FirePHP::getInstance()->log("salvo");
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            FirePHP::getInstance()->log("salvo");
             parent::save($parameters);
             $evento = new Evento();
             $evento->setTipo(Evento::SELEZIONEGIOCATORE);
             $evento->setIdUtente($_SESSION['idUtente']);
             $evento->setIdLega($_SESSION['idLega']);
             $evento->save();
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
             return TRUE;
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
     }

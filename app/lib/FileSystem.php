@@ -87,79 +87,7 @@ class FileSystem {
         $string = ob_get_contents();
         ob_end_clean();
         return $string;
-    }
-
-    public static function scaricaVotiCsv($giornata) {
-        $nomeFile = str_pad($giornata, 2, "0", STR_PAD_LEFT);
-        $percorso = VOTICSVDIR . "Giornata" . $nomeFile . ".csv";
-        $percorsoXml = VOTIXMLDIR . "Giornata" . $nomeFile . ".xml";
-        $array = array("P" => "por", "D" => "dif", "C" => "cen", "A" => "att");
-        if (file_exists($percorso))
-            unlink($percorso);
-        $handle = fopen($percorso, "a");
-        $xmlArray = array();
-        foreach ($array as $keyruolo => $ruolo) {
-            if ($keyruolo == "P")
-                $link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
-            else
-                $link = "http://magic.gazzetta.it/magiccampionato/09-10/free/statistiche/stats_gg_" . $ruolo . ".shtml?s=e11ee247de54adfcc262c4c541994c02105e75bf22";
-            $contenuto = self::contenutoCurl($link);
-            if (empty($contenuto))
-                return TRUE;
-
-            preg_match('#<span class="giornata">Giornata\s(.*?)<\/span>#mis', $contenuto, $matches);
-            $giornataGazzetta = $matches[1];
-            if ($giornataGazzetta != $giornata) //si assicura che la giornata che scarichiamo sia uguale a quella scritta sul sito della gazzetta
-                return TRUE;
-            $contenuto = preg_replace("/\n/", "", $contenuto);
-            preg_match('#<div class="freeTable"><table[^>]*>(.*?)</table></div>#mis', $contenuto, $matches);
-            preg_match_all('#<tr[^>]*>(.*?)</tr>#mis', $matches[1], $keywords);
-            $keywords = $keywords[1];
-            unset($keywords[0]);
-            foreach ($keywords as $key) {
-                preg_match_all("#<td[^>]*>(.*?)</td>#mis", $key, $player);
-                $player = array_map("trim", $player[1]);
-                $player = array_map("stripslashes", $player);
-                $player = array_map("addslashes", $player);
-
-                if (!empty($key)) {
-                    $player[3] = str_replace(',', '.', $player[3]);
-                    $player[9] = str_replace(',', '.', $player[9]);
-                    $player[10] = $keyruolo;
-                    $xmlArray[] = $player;
-                    fwrite($handle, "$player[0];$player[1];$player[2];$keyruolo;$player[3];$player[4];$player[5];$player[6];$player[7];$player[8];$player[9];\n");
-                }
-            }
-        }
-        self::writeXmlVoti($xmlArray, $percorsoXml);
-        fclose($handle);
-        return TRUE;
-    }
-
-    protected static function writeXmlVoti($tree, $percorso) {
-        $xml = new XmlWriter();
-        $xml->openURI($percorso);
-        $xml->startDocument("1.0");
-        $xml->startElement("players");
-        foreach ($tree as $node) {
-            $xml->startElement("player");
-            $xml->writeElement("id", $node[0]);
-            $xml->writeElement("nome", ucwords(strtolower($node[1])));
-            $xml->writeElement("club", $node[2]);
-            $xml->writeElement("ruolo", $node[10]);
-            $xml->writeElement("voto", $node[3]);
-            $xml->writeElement("gol", $node[4]);
-            $xml->writeElement("rigori", $node[5]);
-            $xml->writeElement("ammonito", $node[6]);
-            $xml->writeElement("espluso", $node[7]);
-            $xml->writeElement("assist", $node[8]);
-            $xml->writeElement("punti", $node[9]);
-            $xml->endElement();
-        }
-        $xml->endDocument();
-    }
-
-    
+    }    
 
     public static function scaricaLista($percorso) {
         if (file_exists($percorso))
@@ -205,7 +133,7 @@ class FileSystem {
     }
 
 
-
+/*
     public static function scaricaOrariGiornata($giornata) {
         require_once(INCDIR . 'phpQuery.inc.php');
         $contenuto = self::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/campionato-classifica?p_p_id=BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC_numeroGiornata=$giornata");
@@ -224,7 +152,7 @@ class FileSystem {
         $gg['finePartite'] = array_pop($timestamp);
         return $gg;
     }
-
+*/
     public static function deleteFiles($dir,$ext,$days) {
         if ($handle = opendir($dir)) {
             while (false !== ($filename = readdir($handle))) {
@@ -236,5 +164,3 @@ class FileSystem {
     }
 
 }
-
-?>

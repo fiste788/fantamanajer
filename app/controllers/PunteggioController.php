@@ -47,11 +47,11 @@ class PunteggioController extends ApplicationController {
             $titolari = array_splice($dettaglio,0,11);
         else
             $titolari = FALSE;
-
+        
         $this->quickLinks->set('giornata',$giornate,"",array('squadra'=>$filterSquadra));
-
+        \FirePHP::getInstance()->log($utente->getPunteggioByGiornata($filterSquadra));
         $this->templates['content']->assign('media',$squadraDett->punteggioMed);
-        $this->templates['content']->assign('somma',$utente->getPunteggioByGiornata($filterSquadra));
+        $this->templates['content']->assign('punteggio',$utente->getPunteggioByGiornata($filterGiornata));
         $this->templates['content']->assign('titolari',$titolari);
         $this->templates['content']->assign('panchinari',$dettaglio);
         $this->templates['content']->assign('penalità',Models\Punteggio::getPenalitàBySquadraAndGiornata($filterSquadra,$filterGiornata));

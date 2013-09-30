@@ -24,7 +24,7 @@ $router->map('GET|POST', '/giocatori/liberi', array('controller'=>'giocatore','a
 $router->map('GET', '/clubs', array('controller'=>'club','action'=>'index'), 'club_index');
 $router->map('GET', '/clubs/[i:id]', array('controller'=>'club','action'=>'show'), 'club_show');
 $router->map('GET', '/formazione', array('controller'=>'formazione','action'=>'show'), 'formazione');
-$router->map('GET', '/formazione/[i:giornata]/[i:squadra]', array('controller'=>'formazione','action'=>'show'), 'formazione_show');
+$router->map('GET', '/formazione/[i:giornata]?/[i:squadra]?', array('controller'=>'formazione','action'=>'show'), 'formazione_show');
 //$router->map('GET', '/formazione', array('controller'=>'formazione','action'=>'build'), 'formazione_edit');
 $router->map('POST', '/formazione', array('controller'=>'formazione','action'=>'update'), 'formazione_update');
 //$router->map('GET', '/formazione/new', 'formazione','action'=>'build', 'formazione_new');
@@ -41,6 +41,7 @@ $router->map('GET', '/trasferimento/new', array('controller'=>'trasferimento','a
 $router->map('GET', '/impostazioni', array('controller'=>'lega','action'=>'edit'), 'impostazioni');
 $router->map('POST', '/impostazioni', array('controller'=>'lega','action'=>'update'), 'impostazioni_update');
 $router->map('GET|POST', '/feed', array('controller'=>'evento','action'=>'index'), 'feed');
+$router->map('GET', '/rss/[i:lega]?', array('controller'=>'evento','action'=>'rss'), 'rss');
 $router->map('POST', '/utente/upload', array('controller'=>'utente','action'=>'upload'), 'upload');
 $router->map('GET', '/download', array('controller'=>'page','action'=>'download'), 'download');
 $router->map('POST', '/download', array('controller'=>'page','action'=>'buildDownload'), 'build_download');
@@ -51,6 +52,7 @@ $router->map('GET', '/penalità', array('controller'=>'punteggio','action'=>'pen
 $router->map('GET', '/newsletter', array('controller'=>'trasferimento','action'=>'build'), 'newsletter');
 $router->map('GET', '/lancia_script', array('controller'=>'squadra','action'=>'build'), 'lancia_script');
 $router->map('GET', '/weekly_script', array('controller'=>'script','action'=>'weeklyScript'), 'weekly_script');
+$router->map('GET', '/formazione/send', array('controller'=>'script','action'=>'sendMails'), 'formazione_send');
 $router->map('GET', '/giornata', array('controller'=>'squadra','action'=>'build'), 'giornata');
 $router->map('GET', '/gestione_database', array('controller'=>'squadra','action'=>'new'), 'gestione_database');
 

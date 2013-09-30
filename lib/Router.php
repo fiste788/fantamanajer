@@ -2,12 +2,14 @@
 
 namespace Lib;
 
+use AltoRouter;
+
 class Router extends Module {
 
 
     /**
      *
-     * @param \AltoRouter $instance
+     * @param AltoRouter $instance
      */
     public static function getInstance($instance = NULL) {
         parent::getInstance($instance);

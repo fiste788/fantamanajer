@@ -2,24 +2,27 @@
 
 namespace Lib;
 
+use Exception;
+use FirePHP;
+
 class Dispatcher {
 
     /**
      *
-     * @var String
+     * @var string
      */
     public $controller;
 
     /**
      *
-     * @var String
+     * @var string
      */
     public $action;
 
     /**
      * 
-     * @param \Lib\Request $request
-     * @return \Lib\Response $response
+     * @param Request $request
+     * @return Response $response
      */
     public function handle(Request $request) {
         require_once('config' . DIRECTORY_SEPARATOR . 'routing.php');
@@ -45,13 +48,14 @@ class Dispatcher {
                         $this->doAction($request, $controller);
                         $body = ob_get_clean();
                         if ($body != "") {
-                            \FirePHP::getInstance()->info("Presente un output diretto. Evito il rendering del controller");
+                            FirePHP::getInstance()->info("Presente un output diretto. Evito il rendering del controller");
                             $content = $body;
                         } else {
                             $content = $controller->render();
                         }
-                    } catch (\Exception $ex) {
+                    } catch (Exception $ex) {
                         ob_end_clean();
+                        FirePHP::getInstance()->error($ex->getMessage());
                         $content = $controller->render("Si è verificato un errore interno nell'elaborazione dei dati");
                         $response->setHttpCode(500);
                     }
@@ -62,7 +66,7 @@ class Dispatcher {
                     $response->setHttpCode(404);
                     $response->setBody(file_get_contents("404.html"));
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->setHttpCode(500);
                 $content = $e->getMessage();
             }
@@ -76,7 +80,7 @@ class Dispatcher {
 
     /**
      * 
-     * @return \Lib\BaseController
+     * @return BaseController
      */
     private function getController(Request $request, Response $response, $router, $route) {
         require_once('config' . DIRECTORY_SEPARATOR . 'static.php');

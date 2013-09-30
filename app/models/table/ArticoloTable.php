@@ -2,7 +2,14 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class ArticoloTable extends \Lib\Database\Table {
+use DateTime;
+use Fantamanajer\Models\Articolo;
+use Fantamanajer\Models\Giornata;
+use Fantamanajer\Models\Lega;
+use Fantamanajer\Models\Utente;
+use Lib\Database\Table;
+
+abstract class ArticoloTable extends Table {
 
     const TABLE_NAME = "articolo";
 
@@ -61,7 +68,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Setter: titolo
-     * @param String $titolo
+     * @param string $titolo
      * @return void
      */
     public function setTitle($titolo) {
@@ -70,7 +77,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Setter: sottoTitolo
-     * @param String $sottoTitolo
+     * @param string $sottoTitolo
      * @return void
      */
     public function setSottoTitolo($sottoTitolo) {
@@ -79,7 +86,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Setter: testo
-     * @param String $testo
+     * @param string $testo
      * @return void
      */
     public function setTesto($testo) {
@@ -95,12 +102,12 @@ abstract class ArticoloTable extends \Lib\Database\Table {
         if (is_a($dataCreazione, "DateTime"))
             $this->dataCreazione = $dataCreazione;
         else
-            $this->dataCreazione = new \DateTime($dataCreazione);
+            $this->dataCreazione = new DateTime($dataCreazione);
     }
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -109,7 +116,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiornata
-     * @param Int $idGiornata
+     * @param int $idGiornata
      * @return void
      */
     public function setIdGiornata($idGiornata) {
@@ -118,7 +125,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Setter: idLega
-     * @param Int $idLega
+     * @param int $idLega
      * @return void
      */
     public function setIdLega($idLega) {
@@ -157,7 +164,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Getter: titolo
-     * @return String
+     * @return string
      */
     public function getTitolo() {
         return $this->titolo;
@@ -165,7 +172,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Getter: sottoTitolo
-     * @return String
+     * @return string
      */
     public function getSottoTitolo() {
         return $this->sottoTitolo;
@@ -173,7 +180,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Getter: testo
-     * @return String
+     * @return string
      */
     public function getTesto() {
         return $this->testo;
@@ -184,12 +191,12 @@ abstract class ArticoloTable extends \Lib\Database\Table {
      * @return DateTime
      */
     public function getDataCreazione() {
-        return (is_a($this->dataCreazione, "DateTime")) ? $this->dataCreazione : new \DateTime($this->dataCreazione);
+        return (is_a($this->dataCreazione, "DateTime")) ? $this->dataCreazione : new DateTime($this->dataCreazione);
     }
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -197,7 +204,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiornata
-     * @return Int
+     * @return int
      */
     public function getIdGiornata() {
         return (int) $this->idGiornata;
@@ -205,7 +212,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
 
     /**
      * Getter: idLega
-     * @return Int
+     * @return int
      */
     public function getIdLega() {
         return (int) $this->idLega;
@@ -255,8 +262,8 @@ abstract class ArticoloTable extends \Lib\Database\Table {
     /**
      *
      * @param string $key
-     * @param type $value
-     * @return Articolo[]|Articolo|NULL
+     * @param mixed $value
+     * @return Articolo[]|Articolo|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -274,7 +281,7 @@ abstract class ArticoloTable extends \Lib\Database\Table {
     /**
      *
      * @param int[] $ids
-     * @return Articolo[]|NULL
+     * @return Articolo[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

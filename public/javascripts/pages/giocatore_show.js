@@ -170,16 +170,12 @@
     };
     $.fn.grafico.datasets = "";
 })(jQuery);
-var datasets = {};
 enquire.register("screen and (min-width:" + sizes.sm + "px)",{
     deferSetup:true,
-    match: function() {
-        if(datasets && !$.isEmptyObject(datasets))
-            $(document).grafico(datasets);
-    },
     setup: function() {
         var $giornate = $("#giornate"),
-            giocatore = $giornate.data("giocatore");
+            giocatore = $giornate.data("giocatore"),
+            datasets = {};
         if(giocatore) {
             datasets.punti = {
                 "label":"Punti " + giocatore,
@@ -194,5 +190,7 @@ enquire.register("screen and (min-width:" + sizes.sm + "px)",{
                 datasets.punti.data.push($(tr).data("punti"));
             });
         }
+        if(!$.isEmptyObject(datasets))
+            $(document).grafico(datasets);
     }
 });

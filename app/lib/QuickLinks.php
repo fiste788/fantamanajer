@@ -2,6 +2,10 @@
 
 namespace Fantamanajer\Lib;
 
+use AltoRouter;
+use Lib\Request;
+use stdClass;
+
 class QuickLinks {
 
     public $next;
@@ -9,13 +13,13 @@ class QuickLinks {
 
     /**
      *
-     * @var \Lib\Request
+     * @var Request
      */
     private $request;
 
     /**
      *
-     * @var \AltoRouter
+     * @var AltoRouter
      */
     private $router;
 
@@ -34,14 +38,14 @@ class QuickLinks {
         $current = array_search($this->request->getParam($param), $keys);
         if (isset($keys[($idPrec = $current - 1)])) {
             $params = ($other != NULL) ? array_merge(array($param => $keys[$idPrec]), $other) : array($param => $keys[$idPrec]);
-            $this->prev = new \stdClass();
+            $this->prev = new stdClass();
             $this->prev->href = $this->router->generate($this->route['name'], $params);
             //$this->prev->href = Links::getLink($this->request->get('p'), $params);
             $this->prev->title = $title . ((!empty($array)) ? $array[$keys[$idPrec]] : $keys[$idPrec]);
         }
         if (isset($keys[($idSucc = $current + 1)])) {
             $params = ($other != NULL) ? array_merge(array($param => $keys[$idSucc]), $other) : array($param => $keys[$idSucc]);
-            $this->next = new \stdClass();
+            $this->next = new stdClass();
             $this->next->href = $this->router->generate($this->route['name'], $params);
             //$this->next->href = Links::getLink($this->request->get('p'), $params);
             $this->next->title = $title . (!empty($array) ? $array[$keys[$idSucc]] : $keys[$idSucc]);

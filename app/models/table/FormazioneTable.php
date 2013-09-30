@@ -2,7 +2,14 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class FormazioneTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Formazione;
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Giornata;
+use Fantamanajer\Models\Utente;
+use Fantamanajer\Models\View\GiocatoreStatistiche;
+use Lib\Database\Table;
+
+abstract class FormazioneTable extends Table {
 
     const TABLE_NAME = 'formazione';
 
@@ -61,7 +68,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: id
-     * @param Int $id
+     * @param int $id
      * @return void
      */
     public function setId($id) {
@@ -70,7 +77,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idGiornata
-     * @param Int $idGiornata
+     * @param int $idGiornata
      * @return void
      */
     public function setIdGiornata($idGiornata) {
@@ -79,7 +86,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idUtente
-     * @param Int $idUtente
+     * @param int $idUtente
      * @return void
      */
     public function setIdUtente($idUtente) {
@@ -88,7 +95,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: modulo
-     * @param String $modulo
+     * @param string $modulo
      * @return void
      */
     public function setModulo($modulo) {
@@ -97,7 +104,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idCapitano
-     * @param Int $idCapitano
+     * @param int $idCapitano
      * @return void
      */
     public function setIdCapitano($idCapitano) {
@@ -106,7 +113,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idVCapitano
-     * @param Int $idVCapitano
+     * @param int $idVCapitano
      * @return void
      */
     public function setIdVCapitano($idVCapitano) {
@@ -115,7 +122,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: idVVCapitano
-     * @param Int $idVVCapitano
+     * @param int $idVVCapitano
      * @return void
      */
     public function setIdVVCapitano($idVVCapitano) {
@@ -124,7 +131,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Setter: jolly
-     * @param Boolean $jolly
+     * @param boolean $jolly
      * @return void
      */
     public function setJolly($jolly) {
@@ -183,7 +190,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: id
-     * @return Int
+     * @return int
      */
     public function getId() {
         return (int) $this->id;
@@ -191,7 +198,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idGiornata
-     * @return Int
+     * @return int
      */
     public function getIdGiornata() {
         return (int) $this->idGiornata;
@@ -199,7 +206,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idUtente
-     * @return Int
+     * @return int
      */
     public function getIdUtente() {
         return (int) $this->idUtente;
@@ -207,7 +214,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: modulo
-     * @return String
+     * @return string
      */
     public function getModulo() {
         return $this->modulo;
@@ -215,7 +222,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idCapitano
-     * @return Int
+     * @return int
      */
     public function getIdCapitano() {
         return (int) $this->idCapitano;
@@ -223,7 +230,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idVCapitano
-     * @return Int
+     * @return int
      */
     public function getIdVCapitano() {
         return (int) $this->idVCapitano;
@@ -231,7 +238,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: idVVCapitano
-     * @return Int
+     * @return int
      */
     public function getIdVVCapitano() {
         return (int) $this->idVVCapitano;
@@ -239,7 +246,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      * Getter: jolly
-     * @return Boolean
+     * @return boolean
      */
     public function getJolly() {
         return (boolean) $this->jolly;
@@ -251,7 +258,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getUtente() {
         if (empty($this->utente))
-            $this->utente = \Fantamanajer\Models\Utente::getById($this->getIdUtente());
+            $this->utente = Utente::getById($this->getIdUtente());
         return $this->utente;
     }
 
@@ -261,7 +268,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getGiornata() {
         if (empty($this->giornata))
-            $this->giornata = \Fantamanajer\Models\Giornata::getById($this->getIdGiornata());
+            $this->giornata = Giornata::getById($this->getIdGiornata());
         return $this->giornata;
     }
 
@@ -271,7 +278,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getCapitano() {
         if (empty($this->capitano))
-            $this->capitano = \Fantamanajer\Models\View\GiocatoreStatistiche::getById($this->getId());
+            $this->capitano = GiocatoreStatistiche::getById($this->getId());
         return $this->capitano;
     }
 
@@ -281,7 +288,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getVCapitano() {
         if (empty($this->VCapitano))
-            $this->VCapitano = \Fantamanajer\Models\View\GiocatoreStatistiche::getById($this->getId());
+            $this->VCapitano = GiocatoreStatistiche::getById($this->getId());
         return $this->VCapitano;
     }
 
@@ -291,7 +298,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
      */
     public function getVVCapitano() {
         if (empty($this->VVCapitano))
-            $this->VVCapitano = \Fantamanajer\Models\View\GiocatoreStatistiche::getById($this->getId());
+            $this->VVCapitano = GiocatoreStatistiche::getById($this->getId());
         return $this->VVCapitano;
     }
 
@@ -305,9 +312,9 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Formazione[]|Formazione|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Formazione[]|Formazione|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -315,7 +322,7 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Formazione
      */
     public static function getById($id) {
@@ -324,8 +331,8 @@ abstract class FormazioneTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Formazione[]|NULL
+     * @param int[] $ids
+     * @return Formazione[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

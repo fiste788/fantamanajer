@@ -2,7 +2,11 @@
 
 namespace Fantamanajer\Models\Table;
 
-abstract class UtenteTable extends \Lib\Database\Table {
+use Fantamanajer\Models\Lega;
+use Fantamanajer\Models\Utente;
+use Lib\Database\Table;
+
+abstract class UtenteTable extends Table {
 
     const TABLE_NAME = "utente";
 
@@ -82,7 +86,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: nomeSquadra
-     * @param String $nomeSquadra
+     * @param string $nomeSquadra
      * @return void
      */
     public function setNomeSquadra($nomeSquadra) {
@@ -91,7 +95,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: cognome
-     * @param String $cognome
+     * @param string $cognome
      * @return void
      */
     public function setCognome($cognome) {
@@ -100,7 +104,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: nome
-     * @param String $nome
+     * @param string $nome
      * @return void
      */
     public function setNome($nome) {
@@ -109,7 +113,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: mail
-     * @param String $mail
+     * @param string $mail
      * @return void
      */
     public function setMail($mail) {
@@ -118,7 +122,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: mailAbilitata
-     * @param Boolean $mailAbilitata
+     * @param boolean $mailAbilitata
      * @return void
      */
     public function setMailAbilitata($mailAbilitata) {
@@ -127,7 +131,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: username
-     * @param String $username
+     * @param string $username
      * @return void
      */
     public function setUsername($username) {
@@ -136,7 +140,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: password
-     * @param String $password
+     * @param string $password
      * @return void
      */
     public function setPassword($password) {
@@ -145,7 +149,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: amministratore
-     * @param Int $amministratore
+     * @param int $amministratore
      * @return void
      */
     public function setAmministratore($amministratore) {
@@ -154,7 +158,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: chiave
-     * @param String $chiave
+     * @param string $chiave
      * @return void
      */
     public function setChiave($chiave) {
@@ -163,7 +167,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Setter: idLega
-     * @param Int $idLega
+     * @param int $idLega
      * @return void
      */
     public function setIdLega($idLega) {
@@ -182,7 +186,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: nomeSquadra
-     * @return String
+     * @return string
      */
     public function getNomeSquadra() {
         return (string) $this->nomeSquadra;
@@ -190,7 +194,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: cognome
-     * @return String
+     * @return string
      */
     public function getCognome() {
         return (string) $this->cognome;
@@ -198,7 +202,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: nome
-     * @return String
+     * @return string
      */
     public function getNome() {
         return (string) $this->nome;
@@ -206,7 +210,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: mail
-     * @return String
+     * @return string
      */
     public function getEmail() {
         return (string) $this->email;
@@ -214,7 +218,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: mailAbilitata
-     * @return Boolean
+     * @return boolean
      */
     public function isMailAbilitata() {
         return (boolean) $this->mailAbilitata;
@@ -222,7 +226,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: username
-     * @return String
+     * @return string
      */
     public function getUsername() {
         return (string) $this->username;
@@ -230,7 +234,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: password
-     * @return String
+     * @return string
      */
     public function getPassword() {
         return (string) $this->password;
@@ -238,7 +242,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: amministratore
-     * @return Integer
+     * @return int
      */
     public function getAmministratore() {
         return (int) $this->amministratore;
@@ -246,7 +250,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: chiave
-     * @return String
+     * @return string
      */
     public function getChiave() {
         return $this->chiave;
@@ -254,7 +258,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      * Getter: idLega
-     * @return Integer
+     * @return int
      */
     public function getIdLega() {
         return (int) $this->idLega;
@@ -266,7 +270,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
      */
     public function getLega() {
         if (empty($this->lega))
-            $this->lega = \Fantamanajer\Models\Lega::getById($this->getIdLega());
+            $this->lega = Lega::getById($this->getIdLega());
         return $this->lega;
     }
 
@@ -280,9 +284,9 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $key
-     * @param type $value
-     * @return Utente[]|Utente|NULL
+     * @param string $key
+     * @param mixed $value
+     * @return Utente[]|Utente|null
      */
     public static function getByField($key, $value) {
         return parent::getByField($key, $value);
@@ -290,7 +294,7 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $id
+     * @param int $id
      * @return Utente
      */
     public static function getById($id) {
@@ -299,8 +303,8 @@ abstract class UtenteTable extends \Lib\Database\Table {
 
     /**
      *
-     * @param type $ids
-     * @return Utente[]|NULL
+     * @param int[] $ids
+     * @return Utente[]|null
      */
     public static function getByIds(array $ids) {
         return parent::getByIds($ids);

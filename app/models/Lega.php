@@ -1,14 +1,18 @@
 <?php
 
 namespace Fantamanajer\Models;
-use Lib\Database as Db;
 
-class Lega extends Table\LegaTable {
+use Fantamanajer\Models\Table\LegaTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use Lib\FormException;
+
+class Lega extends LegaTable {
 
     public static function getDefaultValue() {
         $q = "SHOW COLUMNS
 				FROM lega";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->Field] = $obj->Default;
@@ -17,13 +21,13 @@ class Lega extends Table\LegaTable {
 
     public function check(array $array = array()) {
         $post = (object) $array;
-        \FirePHP::getInstance()->log($this);
-        \FirePHP::getInstance()->log("aaaa");
+        FirePHP::getInstance()->log($this);
+        FirePHP::getInstance()->log("aaaa");
         foreach ($array as $key => $val)
             if ($key != "capitano" && $key != "capitanoFormazioneDimenticata" && $key != "jolly" && $key != "premi" && empty($val))
-                throw new \Lib\FormException("Non hai compilato tutti i campi" . $key);
+                throw new FormException("Non hai compilato tutti i campi" . $key);
         if (!is_numeric($this->numTrasferimenti) || !is_numeric($this->numSelezioni) || !is_numeric($this->minFormazione))
-            throw new \Lib\FormException("Tipo di dati incorretto. Controlla i valori numerici");
+            throw new FormException("Tipo di dati incorretto. Controlla i valori numerici");
         return TRUE;
     }
 

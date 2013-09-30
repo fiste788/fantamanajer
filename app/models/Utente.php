@@ -1,18 +1,25 @@
 <?php
 
 namespace Fantamanajer\Models;
-use Lib\Database as Db;
 
-class Utente extends \Fantamanajer\Models\Table\UtenteTable {
+use Fantamanajer\Models\Table\UtenteTable;
+use Fantamanajer\Models\View\GiocatoreStatistiche;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use Lib\FormException;
+use PDO;
+use PHPImageWorkshop\ImageWorkshop;
+
+class Utente extends UtenteTable {
 
     public static function getByIdLegaLite($idLega) {
         $q = "SELECT id,nomeSquadra
                 FROM utente
                 WHERE idLega = :idLega";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP:getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;
@@ -43,11 +50,11 @@ class Utente extends \Fantamanajer\Models\Table\UtenteTable {
             if (file_exists($filepath))
                 unlink($filepath);
             if (move_uploaded_file($logo->tmp_name, $filepath)) {
-                $image = new PHPImageWorkshop\ImageWorkshop(array('imageFromPath' => $filepath));
+                $image = new ImageWorkshop(array('imageFromPath' => $filepath));
                 if ($image->getHeight() > 215)
                     $image->resizeInPixel(NULL, 215, TRUE);
                 $image->save(UPLOADDIR . 'thumb/', $filename, TRUE, NULL, 80);
-                $thumb = new PHPImageWorkshop\ImageWorkshop(array('imageFromPath' => $filepath));
+                $thumb = new ImageWorkshop(array('imageFromPath' => $filepath));
                 if ($thumb->getHeight() > 93)
                     $thumb->resizeInPixel(NULL, 93, TRUE);
                 $thumb->save(UPLOADDIR . 'thumb-small/', $filename, TRUE, NULL, 80);
@@ -99,8 +106,7 @@ class Utente extends \Fantamanajer\Models\Table\UtenteTable {
 
     /**
      * @todo Check
-     * @param type $array
-     * @param type $message
+     * @param array $array
      * @return boolean
      */
     public function check(array $array) {

@@ -1,9 +1,16 @@
 <?php
 
 namespace Fantamanajer\Models;
-use Lib\Database as Db;
 
-class Giornata extends Table\GiornataTable {
+use DateTime;
+use Fantamanajer\Lib\FileSystem;
+use Fantamanajer\Models\Table\GiornataTable;
+use FirePHP;
+use Lib\Database\ConnectionFactory;
+use PDO;
+use PDOException;
+
+class Giornata extends GiornataTable {
 
     /**
      *
@@ -37,40 +44,42 @@ class Giornata extends Table\GiornataTable {
         $q = "SELECT MIN(id) as id, data
 				FROM giornata
 				WHERE NOW() < data - INTERVAL :minuti MINUTE";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":minuti", $minuti, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
         $exe->execute();
-        \FirePHP::getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $valore = $exe->fetchObject(__CLASS__);
         $valore->setStagioneFinita($valore->getId() > (self::getNumberGiornate() - 1));
         return $valore;
     }
 
-    public static function isWeeklyScriptDay($giornata) {
-        $now = new \DateTime();
+    public static function isWeeklyScriptDay(Giornata $giornata = NULL) {
+        $giornata = !is_null($giornata) ? $giornata : self::getCurrentGiornata();
+        $now = new DateTime();
         $now->modify("-1 day");
         $previous = self::getById($giornata - 1);
         return ($previous->getData() < $now && $now->format("H") > 17);
     }
 
-    public static function isDoTransertDay() {
+    public static function isDoTransertDay(Giornata $giornata = NULL) {
+        $giornata = !is_null($giornata) ? $giornata : self::getCurrentGiornata();
         $now = new DateTime();
-        $previous = self::getCurrentGiornata();
-        return ($previous->getData()->format("Y-m-d") === $now->format("Y-m-d"));
+        return ($giornata->getData()->format("Y-m-d") === $now->format("Y-m-d"));
     }
 
-    public static function isSendMailDay() {
+    public static function isSendMailDay(Giornata $giornata = NULL) {
+        $giornata = !is_null($giornata) ? $giornata : self::getCurrentGiornata();
         $now = new DateTime();
-        $previous = self::getCurrentGiornata();
-        return ($previous->getData()->format("Y-m-d") === $now->format("Y-m-d"));
+        $difference = abs($giornata->getData()->getTimestamp() - $now->getTimestamp()) / 60;
+        return ($giornata->getData()->format("Y-m-d") === $now->format("Y-m-d") && $difference < 300);
     }
 
     public static function checkDay($day, $type = 'dataInizio', $offset = 1) {
         $q = "SELECT MIN(id) as id, data
 				FROM giornata
 				WHERE NOW() < data";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
-        $value = $exe->fetch(\PDO::FETCH_ASSOC);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $value = $exe->fetch(PDO::FETCH_ASSOC);
         if ($value != FALSE) {
             $array = explode(" ", $value[$type]);
             $data = explode("-", $array[0]);
@@ -86,7 +95,7 @@ class Giornata extends Table\GiornataTable {
     public static function getNumberGiornate() {
         $q = "SELECT COUNT(id) as numeroGiornate
 				FROM giornata";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         return $exe->fetchColumn();
     }
 
@@ -95,27 +104,27 @@ class Giornata extends Table\GiornataTable {
         $q = "SELECT MAX(data) - INTERVAL :minuti MINUTE as data
 				FROM giornata
 				WHERE NOW() > data";
-        $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":minuti", $minuti, \PDO::PARAM_INT);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
         $exe->execute();
         return $exe->fetchObject(__CLASS__)->getData();
     }
 
     public static function updateGiornate($giornate) {
         try {
-            Db\ConnectionFactory::getFactory()->getConnection()->beginTransaction();
+            ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             foreach ($giornate as $key => $val) {
                 foreach ($val as $key2 => $val2) {
                     $q = "UPDATE giornata SET " . $key2 . " = :val WHERE id = :id";
-                    $exe = Db\ConnectionFactory::getFactory()->getConnection()->prepare($q);
+                    $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
                     $exe->bindValue(":val", $val);
-                    $exe->bindValue(":id", $key, \PDO::PARAM_INT);
+                    $exe->bindValue(":id", $key, PDO::PARAM_INT);
                     $exe->execute();
                 }
             }
-            Db\ConnectionFactory::getFactory()->getConnection()->commit();
+            ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
-            Db\ConnectionFactory::getFactory()->getConnection()->rollBack();
+            ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
         }
         return TRUE;

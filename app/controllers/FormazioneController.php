@@ -1,7 +1,12 @@
 <?php
 
 namespace Fantamanajer\Controllers;
-use \Fantamanajer\Models as Models;
+
+use Fantamanajer\Models\Formazione;
+use Fantamanajer\Models\Utente;
+use Fantamanajer\Models\View\GiocatoreStatistiche;
+use FirePHP;
+use Lib\FormException;
 
 class FormazioneController extends ApplicationController {
 
@@ -9,7 +14,7 @@ class FormazioneController extends ApplicationController {
         $filterSquadra = $this->request->getParam('squadra', $_SESSION['idUtente']);
         $filterGiornata = $this->request->getParam('giornata', $this->currentGiornata->getId());
         
-        $formazione = Models\Formazione::getLastFormazione($filterSquadra, $filterGiornata);
+        $formazione = Formazione::getLastFormazione($filterSquadra, $filterGiornata);
         $this->_showFormazione($filterSquadra,$filterGiornata,$formazione);
     }
 
@@ -19,9 +24,9 @@ class FormazioneController extends ApplicationController {
         
         $a = $this->request->getPostParams();
         if(empty($a)) {
-            $formazione = Models\Formazione::getLastFormazione($filterSquadra, $filterGiornata);
+            $formazione = Formazione::getLastFormazione($filterSquadra, $filterGiornata);
         } else {
-            $formazione = new Models\Formazione();
+            $formazione = new Formazione();
             $formazione->setIdUtente($_SESSION['idUtente']);
             $formazione->setIdGiornata($this->currentGiornata->id);
             $formazione->setModulo($formazione->calcModulo($this->request->getParam('titolari')));
@@ -31,9 +36,12 @@ class FormazioneController extends ApplicationController {
         $this->_showFormazione($filterSquadra,$filterGiornata,$formazione);
     }
     
-    protected function _showFormazione($squadra,$giornata,Models\Formazione $formazione = NULL) {
-        $formazioniPresenti = Models\Formazione::getFormazioneByGiornataAndLega($giornata,$_SESSION['legaView']);
+    protected function _showFormazione($squadra,$giornata,Formazione $formazione = NULL) {
+        $formazioniPresenti = Formazione::getFormazioneByGiornataAndLega($giornata,$_SESSION['legaView']);
         $modulo = NULL;
+        if($giornata == $this->currentGiornata->id) {
+            $giocatori = GiocatoreStatistiche::getByField('idUtente',$squadra);
+        }
         if ($formazione != NULL) {
             $modulo = explode('-',$formazione->getModulo());
             $modulo = array_combine(array("P","D","C","A"), array_map('intval', $modulo));
@@ -45,20 +53,34 @@ class FormazioneController extends ApplicationController {
                 foreach($formazione->giocatori as $giocatore) {
                     $ids[] = $giocatore->idGiocatore;
                 }
-                $giocatori = Models\View\GiocatoreStatistiche::getByIds($ids);
-            } else {
-                $giocatori = Models\View\GiocatoreStatistiche::getByField('idUtente',$squadra);
-            } 
-        } else {
-            $giocatori = Models\View\GiocatoreStatistiche::getByField('idUtente',$squadra);
+            }
+            if($giornata != $this->currentGiornata->id) {
+                $giocatori = GiocatoreStatistiche::getByIds($ids);
+            }
         }
-        $this->templates['content']->assign('usedJolly',Models\Formazione::usedJolly($squadra,$this->currentGiornata->getId()));
+        $giocatoriRuolo = array();
+        foreach($giocatori as $giocatore) {
+            $giocatoriRuolo[$giocatore->getRuolo()][$giocatore->getId()] = $giocatore;
+        }
+        $moduliConsentiti = array(
+            "1-4-4-2"=>"4-4-2",
+            "1-3-5-2"=>"3-5-2",
+            "1-3-4-3"=>"3-4-3",
+            "1-4-5-1"=>"4-5-1",
+            "1-4-3-3"=>"4-3-3",
+            "1-5-4-1"=>"5-4-1",
+            "1-5-3-2"=>"5-3-2"
+        );
+        FirePHP::getInstance()->log($giornata);
+        $this->templates['content']->assign('usedJolly',Formazione::usedJolly($squadra,$this->currentGiornata->getId()));
         $this->templates['content']->assign('modulo',$modulo);
-        $this->templates['content']->assign('giocatori',$giocatori);
+        $this->templates['content']->assign('moduliConsentiti',$moduliConsentiti);
+        $this->templates['content']->assign('giocatori',$giocatoriRuolo);
         $this->templates['content']->assign('formazione', $formazione);
         $this->templates['content']->assign('squadra',$squadra);
         $this->templates['content']->assign('giornata',$giornata);
-        $this->templates['operation']->assign('squadre',  Models\Utente::getByField('idLega',$_SESSION['legaView']));
+        $this->templates['content']->assign('capitani',array("idCapitano","idVCapitano","idVVCapitano"));
+        $this->templates['operation']->assign('squadre',  Utente::getByField('idLega',$_SESSION['legaView']));
         $this->templates['operation']->assign('squadra',$squadra);
         $this->templates['operation']->assign('giornata',$giornata);
         $this->templates['operation']->assign('formazioniPresenti',$formazioniPresenti);
@@ -73,9 +95,9 @@ class FormazioneController extends ApplicationController {
                 $titolari = $this->request->getParam('titolari');
                 $panchinari = $this->request->getParam('panchinari');
                 
-                $formazione = new Models\Formazione();
-                $formazioneOld = Models\Formazione::getFormazioneBySquadraAndGiornata($filterUtente, $filterGiornata);
-                if($formazioneOld != FALSE) {
+                $formazione = new Formazione();
+                $formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($filterUtente, $filterGiornata);
+                if(!is_null($formazioneOld)) {
                     $formazione->setId($formazioneOld->getId());
                 }
                 
@@ -84,7 +106,7 @@ class FormazioneController extends ApplicationController {
                 $formazione->save(array('titolari' => $titolari, 'panchinari' => $panchinari));
                 $this->setFlash(self::FLASH_SUCCESS,'Formazione caricata correttamente');
             }
-        } catch(\Lib\FormException $e) {
+        } catch(FormException $e) {
             $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
         }
         $this->renderAction('formazione');

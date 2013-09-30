@@ -1,45 +1,57 @@
 <?php
 
 namespace Fantamanajer\Controllers;
-use \Fantamanajer\Models as Models;
-use \Fantamanajer\Lib as Lib;
 
-abstract class ApplicationController extends \Lib\BaseController {
+use Fantamanajer\Lib\Notify;
+use Fantamanajer\Lib\QuickLinks;
+use Fantamanajer\Lib\Ruolo;
+use Fantamanajer\Models\Formazione;
+use Fantamanajer\Models\Giocatore;
+use Fantamanajer\Models\Giornata;
+use Fantamanajer\Models\Lega;
+use Fantamanajer\Models\Trasferimento;
+use FirePHP;
+use Lib\BaseController;
+use Lib\Request;
+use Lib\Response;
+use Savant3;
+
+abstract class ApplicationController extends BaseController {
 
     /**
      *
-     * @var \Fantamanajer\Lib\QuickLinks
+     * @var QuickLinks
      */
     protected $quickLinks;
 
     /**
      *
-     * @var \Fantamanajer\Models\Giornata
+     * @var Giornata
      */
     protected $currentGiornata;
 
     /**
      *
-     * @var \Fantamanajer\Models\Lega
+     * @var Lega
      */
     protected $currentLega;
 
     /**
      *
-     * @var \Fantamanajer\Lib\Ruolo[]
+     * @var Ruolo[]
      */
     protected $ruoli = array();
 
     /**
      *
-     * @var \Fantamanajer\Lib\Notify[]
+     * @var Notify[]
      */
     protected $notifiche = array();
 
-    public function __construct(\Lib\Request $request, \Lib\Response $response) {
+    public function __construct(Request $request, Response $response) {
         parent::__construct($request,$response);
-        \FirePHP::getInstance()->setEnabled($_SESSION['roles'] == 2);
-        $this->templates['operation'] = new \Savant3(array('template_path' => OPERATIONSDIR));
+        FirePHP::getInstance()->setEnabled($_SESSION['roles'] == 2);
+        $this->templates['operation'] = new Savant3(array('template_path' => OPERATIONSDIR));
         $response->setHeader("X-UA-Compatible", "IE=edge");
     }
 
@@ -51,17 +63,20 @@ abstract class ApplicationController extends \Lib\BaseController {
     public function initialize() {
         parent::initialize();
         $this->notifiche = array();
-        $this->ruoli['P'] = new Lib\Ruolo("Portiere", "Portieri", "POR");
-        $this->ruoli['D'] = new Lib\Ruolo("Difensore", "Difensori", "DIF");
-        $this->ruoli['C'] = new Lib\Ruolo("Centrocampista", "Centrocampisti", "CEN");
-        $this->ruoli['A'] = new Lib\Ruolo("Attaccante", "Attaccanti", "ATT");
+        $this->ruoli['P'] = new Ruolo("Portiere", "Portieri", "POR");
+        $this->ruoli['D'] = new Ruolo("Difensore", "Difensori", "DIF");
+        $this->ruoli['C'] = new Ruolo("Centrocampista", "Centrocampisti", "CEN");
+        $this->ruoli['A'] = new Ruolo("Attaccante", "Attaccanti", "ATT");
 
-        $leghe = Models\Lega::getList();
-        if (isset($_POST['legaView']))
-            $_SESSION['legaView'] = $_POST['legaView'];
-        if (isset($_SESSION['idLega']))
+        $leghe = Lega::getList();
+        
+        if (!is_null(Request::getRequest()->getParam('legaView',NULL))) {
+            $_SESSION['legaView'] = Request::getRequest()->getParam('legaView');
+        }
+        if (isset($_SESSION['idLega'])) {
             $_SESSION['datiLega'] = $leghe[$_SESSION['idLega']];
-        $this->currentGiornata = Models\Giornata::getCurrentGiornata();
+        }
+        $this->currentGiornata = Giornata::getCurrentGiornata();
         $this->currentLega = $leghe[$_SESSION['legaView']];
         foreach ($this->templates as $savant) {
             $savant->assign('ruoli', $this->ruoli);
@@ -74,7 +89,7 @@ abstract class ApplicationController extends \Lib\BaseController {
             $savant->assign('router', $this->router);
             $savant->assign('request',$this->request);
         }
-        $this->quickLinks = new Lib\QuickLinks($this->request,$this->router,$this->route);
+        $this->quickLinks = new QuickLinks($this->request,$this->router,$this->route);
         $this->templates['navbar']->assign('entries',$this->pages);
         $this->initializeNotifiche();
         $this->templates['navbar']->assign('notifiche',$this->notifiche);
@@ -82,15 +97,15 @@ abstract class ApplicationController extends \Lib\BaseController {
 
     private function initializeNotifiche() {
          if(!$this->currentGiornata->getStagioneFinita()) {
-            $formazione = Models\Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],$this->currentGiornata->getId());
+            $formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],$this->currentGiornata->getId());
             if(empty($formazione)) {
-                $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione'));
+                $this->notifiche[] = new Notify(Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione'));
             }
         }
 
-        $giocatoriInattivi = Models\Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
-        if(!empty($giocatoriInattivi) && count(Models\Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti ) {
-            $this->notifiche[] = new Lib\Notify(Lib\Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('trasferimento_index'));
+        $giocatoriInattivi = Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
+        if(!empty($giocatoriInattivi) && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti ) {
+            $this->notifiche[] = new Notify(Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('trasferimento_index'));
         }
     }
 
