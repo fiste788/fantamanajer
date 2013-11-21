@@ -36,16 +36,20 @@ class Punteggio extends PunteggioTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($row = $exe->fetchObject(__CLASS__))
+        while ($row = $exe->fetchObject(__CLASS__)) {
             $values[$row->idGiornata][] = $row;
+        }
         if (!empty($values)) {
             $appo = array();
-            foreach ($values as $giornata => $pos)
-                foreach ($pos as $key => $val)
+            foreach ($values as $giornata => $pos) {
+                foreach ($pos as $key => $val) {
                     $appo[$giornata][$val->idUtente] = $key + 1;
+                }
+            }
             return $appo;
-        }else
+        } else {
             return null;
+        }
     }
 
     public static function getGiornateVinte($idUtente) {
@@ -71,8 +75,9 @@ class Punteggio extends PunteggioTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getIdUtente()] = $obj;
+        }
         return $values;
     }
 
@@ -88,19 +93,22 @@ class Punteggio extends PunteggioTable {
         FirePHP::getInstance()->log($q);
         $classifica = array();
         while ($row = $exe->fetchObject(__CLASS__)) {
-            if (isset($classifica[$row->idUtente][$row->idGiornata]))
+            if (isset($classifica[$row->idUtente][$row->idGiornata])) {
                 $classifica[$row->idUtente][$row->idGiornata] += $row->punteggio;
-            else
+            } else {
                 $classifica[$row->idUtente][$row->idGiornata] = $row->punteggio;
+            }
         }
         $somme = self::getClassificaByGiornata($idLega, $giornata);
         if (isset($somme)) {
-            foreach ($somme as $key => $val)
+            foreach ($somme as $key => $val) {
                 $somme[$key] = $classifica[$key];
+            }
         } else {
             $squadre = Utente::getByField('idLega', $idLega);
-            foreach ($squadre as $key => $val)
+            foreach ($squadre as $key => $val) {
                 $somme[$key][0] = 0;
+            }
         }
         return($somme);
     }
@@ -135,8 +143,9 @@ class Punteggio extends PunteggioTable {
             if (!is_null($cap) && $cap != "") {
                 $giocatore = Giocatore::getById($cap);
                 $voto = $giocatore->getVotoByGiornata($formazione->getIdGiornata());
-                if ($voto->isPresente())
+                if ($voto->isPresente()) {
                     return $cap;
+                }
             }
         }
         return FALSE;
@@ -155,8 +164,9 @@ class Punteggio extends PunteggioTable {
             $formazione = Formazione::getLastFormazione($utente->id, $giornata);
             $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
             $lega = $utente->getLega();
-            if ($punteggio == FALSE)
+            if ($punteggio == FALSE) {
                 $punteggio = new Punteggio();
+            }
             if ($formazione == FALSE || ($formazione->getIdGiornata() != $giornata && $lega->getPunteggioFormazioneDimenticata() == 0)) {
                 $punteggio->setIdGiornata($giornata);
                 $punteggio->setIdUtente($utente->getId());
@@ -167,11 +177,11 @@ class Punteggio extends PunteggioTable {
                 $idUtente = $formazione->getIdUtente();
                 if ($formazione->getIdGiornata() != $giornata) {
                     if (!$lega->isCapitanoFormazioneDimenticata()) {
-                        $formazione->setIdCapitano(NULL);
-                        $formazione->setIdVCapitano(NULL);
-                        $formazione->setIdVVCapitano(NULL);
+                        $formazione->idCapitano = NULL;
+                        $formazione->idVCapitano = NULL;
+                        $formazione->idVVCapitano = NULL;
                     }
-                    $formazione = clone $formazione;
+                    //$formazione = clone $formazione;
                     $formazione->duplicate($giornata);
                 }
                 $cambi = 0;
@@ -216,10 +226,12 @@ class Punteggio extends PunteggioTable {
                     }
                 }
 
-                if ($formazione->jolly == 1)
+                if ($formazione->jolly == 1) {
                     $somma *= 2;
-                if (!$punteggio)
+                }
+                if (!$punteggio) {
                     $punteggio = new Punteggio();
+                }
                 $punteggio->setIdGiornata($giornata);
                 $punteggio->setIdUtente($idUtente);
                 $punteggio->setIdLega($lega->id);
@@ -255,7 +267,8 @@ class Punteggio extends PunteggioTable {
         $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
-        return $exe->fetchObject();
+        $val = $exe->fetchObject();
+        return (!$val) ? NULL : val;
     }
 
     public static function getPenalitàByLega($idLega) {
@@ -267,8 +280,9 @@ class Punteggio extends PunteggioTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($row = $exe->fetchObject(__CLASS__))
+        while ($row = $exe->fetchObject(__CLASS__)) {
             $values[$row->idUtente][$row->idGiornata] = $row->punteggio;
+        }
         return $values;
     }
 

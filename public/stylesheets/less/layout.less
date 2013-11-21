@@ -22,45 +22,52 @@
     font-weight: bold;
     font-style: normal;
 }
-
+html {
+    height:100%;
+}
 body {
   overflow-x:hidden;
   font-family:Open Sans, sans-serif;
   text-align:left;
   padding-top:50px;
   font-size:13px;
+  height:100%;
   &.debug:before{
     content: "Mobile media query (0 < 768) fired";
     background: rgba(255,0,0, 0.8);
   }
-  >header {
-    background:url("@{imgs-path}erba2.jpg") repeat-x center top;
-    border-bottom:1px solid #555;
-    height:120px;
-    > div {
-      background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzZmNmY2ZiIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
-      background: -moz-linear-gradient(top,  rgba(0,0,0,0.4) 0%, rgba(111,111,111,0.1) 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.4)), color-stop(100%,rgba(111,111,111,0.1))); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* Opera 11.10+ */
-      background: -ms-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* IE10+ */
-      background: linear-gradient(to bottom,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66000000', endColorstr='#1a6f6f6f',GradientType=0 ); /* IE6-8 */
-      height:100%;
+}
+#container {
+    min-height:100%;
+    padding-bottom:145px;
+    > header {
+        background:url("@{imgs-path}erba2.jpg") repeat-x center top;
+        border-bottom:1px solid #555;
+        height:120px;
+        > div {
+          background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzZmNmY2ZiIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+          background: -moz-linear-gradient(top,  rgba(0,0,0,0.4) 0%, rgba(111,111,111,0.1) 100%); /* FF3.6+ */
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.4)), color-stop(100%,rgba(111,111,111,0.1))); /* Chrome,Safari4+ */
+          background: -webkit-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* Chrome10+,Safari5.1+ */
+          background: -o-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* Opera 11.10+ */
+          background: -ms-linear-gradient(top,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* IE10+ */
+          background: linear-gradient(to bottom,  rgba(0,0,0,0.4) 0%,rgba(111,111,111,0.1) 100%); /* W3C */
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66000000', endColorstr='#1a6f6f6f',GradientType=0 ); /* IE6-8 */
+          height:100%;
+        }
+        h1 {
+          color:#ffffff;
+          font-size:60px;
+          line-height:60px;
+          letter-spacing:-1.5px;
+          margin-top:25px;
+          text-shadow:0 1px 2px rgba(0,0,0,0.6);
+          font-weight:normal;
+        }
+        a:hover {
+            text-decoration:none;
+        }
     }
-    h1 {
-      color:#ffffff;
-      font-size:60px;
-      line-height:60px;
-      letter-spacing:-1.5px;
-      margin-top:25px;
-      text-shadow:0 1px 2px rgba(0,0,0,0.6);
-      font-weight:normal;
-    }
-    a:hover {
-        text-decoration:none;
-    }
-  }
 }
 #messaggio {
   width:100%;
@@ -72,6 +79,8 @@ footer {
   border-top:1px solid #E5E5E5;
   background-color:#F5F5F5;  
   padding:40px 0;
+  position:relative;
+  margin-top:-145px;
   ul {
     margin-bottom:15px;
   }
@@ -249,9 +258,6 @@ footer {
   }
   #lega-view {
     margin:0 !important;
-  }
-  #content {
-    min-height:500px;
   }
   .well {
       overflow:visible;

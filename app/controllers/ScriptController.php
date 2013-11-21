@@ -16,6 +16,7 @@ use Fantamanajer\Models\Voto;
 use FirePHP;
 use Guzzle\Http\Client;
 use JSMin;
+use Lib\BaseController;
 use Lib\Database\ConnectionFactory;
 use PDO;
 use PDOException;
@@ -29,25 +30,24 @@ class ScriptController extends ApplicationController {
 
     public function weeklyScript() {
         $giornata = $this->currentGiornata->id - 1;
-
-        $this->logger->start("WEEKLY SCRIPT");
+        BaseController::$logger->info("start WEEKLY SCRIPT");
         $punteggiExist = Punteggio::getByField('idGiornata', $giornata) != NULL;
-        //CONTROLLO SE Ãˆ IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
-        if (((Giornata::isWeeklyScriptDay($this->currentGiornata->id) && !$punteggiExist) || $_SESSION['roles'] == '2') && $giornata > 0) {
+        //CONTROLLO SE è IL SECONDO GIORNO DOPO LA FINE DELLE PARTITE QUINDI ESEGUO LO SCRIPT
+        if (((Giornata::isWeeklyScriptDay($this->currentGiornata) && !$punteggiExist) || $_SESSION['roles'] == '2') && $giornata > 0) {
             //$backup = fileSystem::contenutoCurl(FULLURLAUTH . Links::getLink('backup'));
             //if (!empty($backup)) {
             if (!Voto::checkVotiExist($giornata)) {
-                $this->logger->info("Starting decript file day " . $giornata);
+                BaseController::$logger->info("Starting decript file day " . $giornata);
                 $path = Decrypt::decryptFile($giornata);
                 if ($path != FALSE) {
-                    $this->logger->info("File with point created succefully");
-                    $this->logger->info("Updating table players");
+                    BaseController::$logger->info("File with point created succefully");
+                    BaseController::$logger->info("Updating table players");
                     Giocatore::updateTabGiocatore($path, $giornata);
-                    $this->logger->info("Importing points");
+                    BaseController::$logger->info("Importing points");
                     Voto::importVoti($path, $giornata);
                 } 
             } else {
-                $this->logger->info("Points already exists in database");
+                BaseController::$logger->info("Points already exists in database");
             }
 
             if (Voto::checkVotiExist($giornata)) {
@@ -55,7 +55,7 @@ class ScriptController extends ApplicationController {
                 $this->setFlash(self::FLASH_SUCCESS, "Operazione effettuata correttamente");
             } else {
                 $this->setFlash(self::FLASH_ERROR, "Problema nel recupero dei voti dalla gazzetta");
-                $this->logger->error("I can't retrieve data from gazzetta");
+                BaseController::$logger->error("I can't retrieve data from gazzetta");
             }
             /* } else {
               $message->warning("Non riesco a creare il backup");
@@ -63,9 +63,23 @@ class ScriptController extends ApplicationController {
               } */
         } else {
             $this->setFlash(self::FLASH_NOTICE, "Non puoi effettuare l'operazione ora");
-            $this->logger->warning("Is not time to run it");
+            BaseController::$logger->warning("Is not time to run it");
         }
-        $this->logger->end("WEEKLY SCRIPT");
+        BaseController::$logger->info("End WEEKLY SCRIPT");
+    }
+    
+    public function updateTabellaGiocatori() {
+        $giornata = $this->currentGiornata->id - 1;
+        BaseController::$logger->info("start UPDATE GIOCATORI");
+        if ($_SESSION['roles'] == '2' && $giornata > 0) {
+            BaseController::$logger->info("Starting decript file day " . $giornata);
+            $path = Decrypt::decryptFile($giornata);
+            if ($path != FALSE) {
+                BaseController::$logger->info("File with point created succefully");
+                BaseController::$logger->info("Updating table players");
+                Giocatore::updateTabGiocatore($path, $giornata);
+            }
+        }
     }
 
     protected function _calculatePoints($giornata) {
@@ -73,10 +87,10 @@ class ScriptController extends ApplicationController {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             foreach ($leghe as $lega) {
-                $this->logger->info("Calculating points for league " . $lega->id);
+                BaseController::$logger->info("Calculating points for league " . $lega->id);
                 $utenti = Utente::getByField('idLega', $lega->id);
                 foreach ($utenti as $key => $utente) {
-                    $this->logger->info("Elaborating team " . $key);
+                    BaseController::$logger->info("Elaborating team " . $key);
                     Punteggio::calcolaPunti($utente, $giornata);
                 }
                 $this->sendWeeklyMails($giornata, $lega);
@@ -88,8 +102,11 @@ class ScriptController extends ApplicationController {
         }
     }
 
-    public function sendWeeklyMails($giornata, Lega $lega) {
-        $mailer = Swift_Mailer::newInstance((LOCAL) ? Swift_MailTransport::newInstance() : Swift_SmtpTransport::newInstance()->setUsername(MAILUSERNAME)->setPassword(MAILPASSWORD));
+    public function sendWeeklyMails($giornata = NULL, Lega $lega = NULL) {
+        $lega = is_null($lega) ? $this->currentLega : $lega;
+        $giornata = is_null($giornata) ? ($this->currentGiornata->id - 1) : $giornata;
+        $transport = (LOCAL) ? Swift_MailTransport::newInstance() : Swift_SmtpTransport::newInstance()->setUsername(MAILUSERNAME)->setPassword(MAILPASSWORD);
+        $mailer = Swift_Mailer::newInstance($transport);
         $classifica = Punteggio::getAllPunteggiByGiornata($giornata, $lega->id);
         $sum = array();
         foreach ($classifica as $key => $val) {
@@ -98,9 +115,9 @@ class ScriptController extends ApplicationController {
         foreach ($lega->getUtenti() as $key => $squadra) {
             if (!empty($squadra->email) && $squadra->isMailAbilitata()) {
                 if ($this->_sendWeeklyMail($mailer, $squadra, $giornata, $classifica)) {
-                    $this->logger->warning("Error in sending mail to: " . $squadra->getEmail());
+                    BaseController::$logger->warning("Error in sending mail to: " . $squadra->getEmail());
                 } else {
-                    $this->logger->info("Mail send succesfully to: " . $squadra->getEmail());
+                    BaseController::$logger->info("Mail send succesfully to: " . $squadra->getEmail());
                 }
             }
         }
@@ -112,49 +129,47 @@ class ScriptController extends ApplicationController {
         $mailContent->assign('classifica', $classifica);
         $mailContent->assign('squadre', $squadra->getLega()->getUtenti());
         $mailContent->assign('giornata', $giornata);
-        $penalitÃ  = Punteggio::getPenalitÃ BySquadraAndGiornata($squadra->getId(), $giornata);
-        if ($penalitÃ  != FALSE) {
-            $mailContent->assign('penalitÃ ', $penalitÃ );
-        }
+        $mailContent->assign('penalità', Punteggio::getPenalitàBySquadraAndGiornata($squadra->getId(), $giornata));
         $mailContent->assign('utente', $squadra);
         $mailContent->assign('somma', $punteggio);
         $mailContent->assign('formazione', Giocatore::getVotiGiocatoriByGiornataAndSquadra($giornata, $squadra->getId()));
 
-        $this->logger->info("Sendig mail to: " . $squadra->getEmail());
+        BaseController::$logger->info("Sendig mail to: " . $squadra->getEmail());
         //MANDO LA MAIL
-        $object = "Punteggio " . $squadra . " della giornata" . $giornata . ": " . $punteggio;
+        $object = "Punteggio " . $squadra->getNomeSquadra() . " della giornata " . $giornata . ": " . $punteggio;
         $mailContent->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
         $message = Swift_Message::newInstance();
         $message->setSubject($object);
         $message->setFrom(array(MAILFROM => "FantaManajer"));
         $message->setTo(array($squadra->getEmail() => $squadra->getNome() . " " . $squadra->getCognome()));
-        $message->setBody($mailContent->fetch('mailWeekly.php'), 'text/html');
-        return $mailer->send();
+        $message->setBody($mailContent->fetch('weekly.php'), 'text/html');
+        return $mailer->send($message);
     }
 
     public function doTransfert() {
-        $this->logger->start("ACQUISTA GIOCATORI");
+        BaseController::$logger->info("Start ACQUISTA GIOCATORI");
         if (Giornata::isDoTransertDay() || $_SESSION['usertype'] == 'superadmin') {
-            $this->logger->info("Starting do transfer");
+            BaseController::$logger->info("Starting do transfer");
             if (Selezione::doTransfertBySelezione()) {
                 $this->setFlash(self::FLASH_SUCCESS, "Operazione effettuata correttamente");
-                $this->logger->info("Transfert finished successfully");
+                BaseController::$logger->info("Transfert finished successfully");
             } else {
                 $this->setFlash(self::FLASH_ERROR, "Errore nell'eseguire i trasferimenti");
-                $this->logger->error("Error while doing transfer");
+                BaseController::$logger->error("Error while doing transfer");
             }
         } else {
             $this->setFlash(self::FLASH_NOTICE, "Non puoi effettuare l'operazione ora");
-            $this->logger->warning("Is not time to run it");
+            BaseController::$logger->warning("Is not time to run it");
         }
 
-        $this->logger->end("ACQUISTA GIOCATORI");
+        BaseController::$logger->info("End ACQUISTA GIOCATORI");
     }
 
     public function minify() {
         $jsContent = "var LOCAL = " . ((LOCAL) ? 'true' : 'false') . ";";
         $jsContent .= "var FULLURL = '" . FULLURL . "';";
         $jsContent .= "var JSURL = '" . JSURL . "';";
+        $jsContent .= "var PUBLICURL = '" . PUBLICURL . "';";
         $jsContent .= "var IMGSURL = '" . IMGSURL . "';";
         foreach ($this->generalJs as $val) {
             $client = new Client($val);
@@ -164,8 +179,9 @@ class ScriptController extends ApplicationController {
             }
         }
 
-        if (!LOCAL)
+        if (!LOCAL) {
             $jsContent .= file_get_contents(JAVASCRIPTSDIR . 'googleAnalytics/googleAnalytics.js');
+        }
 
         file_put_contents(JAVASCRIPTSDIR . 'combined/combined.js', JSMin::minify($jsContent));
         foreach ($this->pages->pages as $key => $page) {
@@ -173,16 +189,20 @@ class ScriptController extends ApplicationController {
             if (isset($page->js) && !empty($page->js)) {
                 foreach ($page->js as $directory => $file) {
                     if (is_array($file)) {
-                        foreach ($file as $val)
+                        foreach ($file as $val) {
                             $jsContent .= file_get_contents(JAVASCRIPTSDIR . $directory . '/' . $val . '.js');
-                    } else
+                        }
+                    } else {
                         $jsContent .= file_get_contents(JAVASCRIPTSDIR . $directory . '/' . $file . '.js');
+                    }
                 }
             }
-            if (file_exists(JAVASCRIPTSDIR . 'pages/' . $key . '.js'))
+            if (file_exists(JAVASCRIPTSDIR . 'pages/' . $key . '.js')) {
                 $jsContent .= file_get_contents(JAVASCRIPTSDIR . 'pages/' . $key . '.js');
-            if (!empty($jsContent))
+            }
+            if (!empty($jsContent)) {
                 file_put_contents(JAVASCRIPTSDIR . 'combined/' . $key . '.js', JSMin::minify($jsContent));
+            }
         }
         $cssContent = "";
         foreach ($this->generalCss as $key => $val) {
@@ -223,11 +243,8 @@ class ScriptController extends ApplicationController {
     }
 
     function sendMails() {
-        if (LOCAL)
-            return false;
-
-        $transportObj = Swift_SmtpTransport::newInstance()->setUsername(MAILUSERNAME)->setPassword(MAILPASSWORD);
-        $mailerObj = Swift_Mailer::newInstance($transportObj);
+        $transport = (LOCAL) ? Swift_MailTransport::newInstance() : Swift_SmtpTransport::newInstance()->setUsername(MAILUSERNAME)->setPassword(MAILPASSWORD);
+        $mailer = Swift_Mailer::newInstance($transport);
 
         //$logger->start("MAIL FORMAZIONE");
         if (Giornata::isSendMailDay() || $_SESSION['usertype'] == 'superadmin') {
@@ -237,8 +254,7 @@ class ScriptController extends ApplicationController {
                 $squadre = Utente::getByField('idLega', $lega->id);
                 $formazioni = array();
                 foreach ($squadre as $key => $squadra) {
-                    $formazione = Formazione::getFormazioneBySquadraAndGiornata($key, GIORNATA);
-
+                    $formazione = Formazione::getFormazioneBySquadraAndGiornata($key, $this->currentGiornata->id);
                     if ($formazione != FALSE) {
                         $giocatori[$key] = GiocatoreStatistiche::getByField('idUtente', $key);
                         $formazioni[$key] = $formazione;
@@ -250,37 +266,38 @@ class ScriptController extends ApplicationController {
                 $mailContent->assign('formazione', $formazioni);
                 $mailContent->assign('giocatori', $giocatori);
 //$mailContent->assign('cap',$cap);
-                $mailContent->assign('giornata', GIORNATA);
+                $mailContent->assign('giornata', $this->currentGiornata->id);
 
-                $object = "Formazioni giornata: " . GIORNATA;
+                $object = "Formazioni giornata: " . $this->currentGiornata->id;
 //$mailContent->setFilters(array("Savant3_Filter_trimwhitespace","filter"));
-                $mailMessageObj = Swift_Message::newInstance();
-                $mailMessageObj->setSubject($object);
-                $mailMessageObj->setFrom(array(MAILFROM => "FantaManajer"));
-                $fetchMail = $mailContent->fetch('mailFormazioni.php');
-
-                $mailMessageObj->setBody($fetchMail, 'text/html');
+                $mailMessage = Swift_Message::newInstance();
+                $mailMessage->setSubject($object);
+                $mailMessage->setFrom(array(MAILFROM => "FantaManajer"));
+                
+                $mailMessage->setBody($mailContent->fetch('formazioni.php'), 'text/html');
                 foreach ($squadre as $key => $squadra) {
                     if (!is_null($squadra->getEmail()) && $squadra->isMailAbilitata) {
                         $this->logger->info("Sending mail to: " . $squadra->getEmail());
-                        $mailMessageObj->setTo(array($squadra->getEmail() => $squadra->getNome() . " " . $squadra->getCognome()));
-                        if (!$mailerObj->send($mailMessageObj)) {
+                        $mailMessage->setTo(array($squadra->getEmail() => $squadra->getNome() . " " . $squadra->getCognome()));
+                        if (!$mailer->send($mailMessage)) {
                             $mail++;
-                            $this->logger->warning("Error in sending mail to: " . $squadra->getEmail());
-                        } else
-                            $this->logger->info("Mail send succesfully to: " . $squadra->getEmail());
+                            BaseController::$logger->warning("Error in sending mail to: " . $squadra->getEmail());
+                        } else {
+                            BaseController::$logger->info("Mail send succesfully to: " . $squadra->getEmail());
+                        }
                     }
                 }
             }
-            if ($mail == 0)
+            if ($mail == 0) {
                 $this->setFlash(self::FLASH_SUCCESS, "Operazione effettuata correttamente");
-            else
+            } else {
                 $this->setFlash(self::FLASH_SUCCESS, "Errori nell'invio delle mail");
+            }
         } else {
             $this->setFlash(self::FLASH_SUCCESS, "Non puoi effettuare l'operazione ora");
-            $this->logger->warning("Is not time to run it");
+            BaseController::$logger->warning("Is not time to run it");
         }
-        $this->logger->end("MAIL FORMAZIONE");
+        BaseController::$logger->info("MAIL FORMAZIONE");
         
     }
 

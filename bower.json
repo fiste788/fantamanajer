@@ -23,14 +23,13 @@
     "bootstrap": "~3.0.0",
     "fancybox": "~2.1.5",
     "flot": "~0.8.1",
-    "html5shiv": "~3.6.2",
-    "jquery-file-upload": "~8.8.2",
+    "html5shiv": "master",
+    "jquery-file-upload": "master",
     "jquery-ui": "~1.10.3",
-    "jquery.tablesorter": "~2.10.8",
+    "jquery.tablesorter": "master",
     "jquery": "~2.0.3",
-    "modernizr": "~2.6.2",
-    "respond": "~1.2.0",
-    "enquire": "~2.0.2",
+    "modernizr": "master",
+    "enquire": "master",
     "matchmedia": "master"
   }
 }

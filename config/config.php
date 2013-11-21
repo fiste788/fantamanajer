@@ -42,6 +42,7 @@ if (!LOCAL) {
 
     define("FULLPATH", $doc_root . $sitepath . '/');
     define("FULLURL", $proto . $host . $sitepath . '/');
+    define("FULLBASEURL", $proto . $host);
     define("FULLURLAUTH", $proto . "administrator:banana@" . $host . $sitepath . '/');
     define("FULLSTATICURL", $proto . $hostStatic . $sitepath . '/');
     define("FULLSTATICURLAUTH", $proto . "administrator:banana@" . $hostStatic . $sitepath . '/');
@@ -53,7 +54,7 @@ if (!LOCAL) {
         define("DBNAME", "fantaman_fantamanajer");
         define("DBUSER", "fantaman_user");
         define("DBPASS", "B@n@n@2");
-        define("DBHOST", "leonardo.ldn.kgix.net:3306");
+        define("DBHOST", "localhost");
 
         define("MODREWRITE", TRUE);
         error_reporting(E_ALL);
@@ -62,7 +63,7 @@ if (!LOCAL) {
         define("DBNAME", "fantamanajer");
         define("DBUSER", "fantamanajerUser");
         define("DBPASS", "banana");
-        define("DBHOST", "mysql13.aziendeitalia.com:3306");
+        define("DBHOST", "localhost");
 
         define("MODREWRITE", FALSE);
         error_reporting(E_ALL);
@@ -106,6 +107,7 @@ define("JAVASCRIPTSDIR", PUBLICDIR . 'javascripts' . DS);
 define("APPDIR",FULLPATH . 'app' . DS);
 define("CONTROLLERSDIR", APPDIR . 'controllers' . DS);
 define("VIEWSDIR", APPDIR . 'views' . DS);
+define("MAILTPLDIR", VIEWSDIR . 'mails' . DS);
 define("OPERATIONSDIR", VIEWSDIR . 'operations' . DS);
 define("LAYOUTSDIR", VIEWSDIR . 'layouts' . DS);
 define("MODELSDIR", APPDIR . 'models' . DS);

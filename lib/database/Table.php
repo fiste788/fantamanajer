@@ -179,7 +179,7 @@ abstract class Table implements Form {
             $values = array();
             foreach ($vars as $key => $value) {
                 $currentVal = self::valueToSql($value);
-                if($currentVal != self::valueToSql($this->originalValues[$key])) {
+                if($currentVal !== self::valueToSql($this->originalValues[$key])) {
                     $values[] = $key . " = " . $currentVal;
                 }
             }
@@ -199,8 +199,8 @@ abstract class Table implements Form {
             }
             $q = "INSERT INTO " . $this::TABLE_NAME . " (" . implode(array_keys($vars), ", ") . ")
 					VALUES (" . implode(array_map("self::valueToSql", $vars), ", ") . ")";
-            ConnectionFactory::getFactory()->getConnection()->exec($q);
             FirePHP::getInstance()->log($q);
+            ConnectionFactory::getFactory()->getConnection()->exec($q);
             $this->setId(isset($id) ? $id : ConnectionFactory::getFactory()->getConnection()->lastInsertId());
             return $this->getId();
         }
@@ -262,11 +262,10 @@ abstract class Table implements Form {
     private function fromArray(array $array, $raw = FALSE) {
         $vars = get_object_vars($this);
         foreach ($array as $key => $value) {
-            if (array_key_exists($key, $vars) && !is_null($value) && strlen($value) > 0) {
+            if (array_key_exists($key, $vars) ) {
                 if (!$raw && method_exists($this, $methodName = 'set' . ucfirst($key))) {
                     $this->$methodName($value);
                 } else {
-                    
                     $this->$key = $value;
                 }
             }

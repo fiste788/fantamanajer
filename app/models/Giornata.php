@@ -57,7 +57,7 @@ class Giornata extends GiornataTable {
         $giornata = !is_null($giornata) ? $giornata : self::getCurrentGiornata();
         $now = new DateTime();
         $now->modify("-1 day");
-        $previous = self::getById($giornata - 1);
+        $previous = self::getById($giornata->getId() - 1);
         return ($previous->getData() < $now && $now->format("H") > 17);
     }
 
@@ -71,7 +71,7 @@ class Giornata extends GiornataTable {
         $giornata = !is_null($giornata) ? $giornata : self::getCurrentGiornata();
         $now = new DateTime();
         $difference = abs($giornata->getData()->getTimestamp() - $now->getTimestamp()) / 60;
-        return ($giornata->getData()->format("Y-m-d") === $now->format("Y-m-d") && $difference < 300);
+        return $difference < 15;
     }
 
     public static function checkDay($day, $type = 'dataInizio', $offset = 1) {

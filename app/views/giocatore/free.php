@@ -1,5 +1,5 @@
 <?php if(true): ?>
-	<form action="<?php echo $this->router->generate('trasferimento_index',array('idUtente'=>$_SESSION['idUtente'])); ?>" method="post">
+	<form action="<?php echo $this->router->generate('trasferimento_index',array('squadra'=>$_SESSION['idUtente'])); ?>" method="post">
 		<fieldset class="no-margin no-padding">
 <?php endif; ?>
 			<table class="table tablesorter">
@@ -14,8 +14,9 @@
                         <?php if($this->ruolo == 'P'): ?><th><abbr title="Gol subiti">GS</abbr></th><?php endif; ?>
                         <?php if($this->ruolo != 'P'): ?><th>Gol</th><?php endif; ?>
                         <th class="hidden-xs">Assist</th>
-                        <th class="hidden-xs"><abbr title="Ammonizioni">Amm</abbr></th>
-                        <th class="hidden-xs"><abbr title="Espulsioni">Esp</abbr></th>
+                        <th class="hidden-xs"><abbr title="Ammonito"><i class="ammonizione"></i></abbr></th>
+                        <th class="hidden-xs"><abbr title="Espulso"><i class="espulsione"></i></abbr></th>
+                        <th class="hidden-xs"><abbr title="Quotazione">Quot.</abbr></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -27,10 +28,11 @@
                         <td<?php if($giocatore->presenzeVoto >= $this->defaultPartite && $this->currentGiornata != 1)echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->presenzeVoto ?></td>
                         <td<?php if($giocatore->avgVoti >= $this->defaultSufficenza && $this->currentGiornata != 1)echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->avgVoti ?></td>
 						<td<?php if($giocatore->avgPunti >= $this->defaultSufficenza && $this->currentGiornata != 1) echo ' class="alert-success"';elseif($this->currentGiornata != 1)echo ' class="alert-error"'; ?>><?php echo $giocatore->avgPunti ?></td>
-                        <td><?php if($this->ruolo = 'P') echo $giocatore->golSubiti; else echo $giocatore->gol ?></td>
+                        <td><?php echo ($this->ruolo == 'P') ? $giocatore->golSubiti : $giocatore->gol ?></td>
                         <td class="hidden-xs"><?php echo $giocatore->assist ?></td>
                         <td class="hidden-xs"><?php echo $giocatore->ammonizioni ?></td>
                         <td class="hidden-xs"><?php echo $giocatore->espulsioni ?></td>
+                        <td class="hidden-xs"><?php echo $giocatore->quotazione ?></td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>

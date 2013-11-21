@@ -7,6 +7,9 @@ use Assetic\AssetManager;
 use Exception;
 use FirePHP;
 use lessc;
+use Monolog\ErrorHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Savant3;
 
 require_once(LIBDIR . 'Savant/Savant3.php');
@@ -78,7 +81,7 @@ abstract class BaseController {
      *
      * @var Logger
      */
-    protected $logger = NULL;
+    protected static $logger = NULL;
 
     /**
      *
@@ -93,7 +96,10 @@ abstract class BaseController {
 
         $this->pages = $pages;
         $this->auth = new Login();
-        $this->logger = new Logger();
+        self::$logger = new Logger("logger");
+        self::$logger->pushHandler(new StreamHandler(LOGSDIR . date("Ymd") . ".log"));
+        //$this->logger->pushHandler(new \Monolog\Handler\FirePHPHandler());
+        ErrorHandler::register(self::$logger);
         $this->asset = new AssetManager();
         FirePHP::getInstance(TRUE);
         FirePHP::getInstance()->setEnabled(LOCAL);

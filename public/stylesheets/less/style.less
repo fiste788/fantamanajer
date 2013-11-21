@@ -49,7 +49,7 @@ img {
 .ammonizione,.espulsione {
     width:10px;
     height:15px;
-    display: block;
+    display: inline-block;
     .box-shadow(1px 1px 2px #AAAAAA);
 }
 .ammonizione {
@@ -76,18 +76,18 @@ img {
     }
 }
 table {
-  .headerSortUp, .headerSortDown {
+  .tablesorter-headerAsc, .tablesorter-headerDesc {
     background-color:rgba(141,192,219,0.25);
     text-shadow:0 1px 1px rgba(255,255,255,0.75);
   }
-  .headerSortDown:after, .headerSortDown:hover:after {
+  .tablesorter-headerDesc:after, .tablesorter-headerDesc:hover:after {
     visibility:visible;
 	.opacity(60);
   }
-  .header {
+  .tablesorter-header {
     cursor:pointer;
   }
-  .header:after {
+  .tablesorter-header:after {
     content:"";
     float:right;
     margin-top:7px;
@@ -96,10 +96,10 @@ table {
     border-color:#000000 transparent;
     visibility:hidden;
   }
-  .header:hover:after {
+  .tablesorter-header:hover:after {
     visibility:visible;
   }
-  .headerSortUp:after {
+  .tablesorter-headerAsc:after {
     border-bottom:none;
     border-left:4px solid transparent;
     border-right:4px solid transparent;
@@ -107,6 +107,9 @@ table {
     visibility:visible;
     .box-shadow(none);
     .opacity(60);
+  }
+  .tablesorter-header-inner {
+      float:left;
   }
 }
 

@@ -2,7 +2,6 @@
 
 $generalJs = array();
 $generalJs[] = PUBLICURL . 'components/jquery/jquery.js';
-$generalJs[] = PUBLICURL . 'components/modernizr/modernizr.js';
 $generalJs[] = PUBLICURL . 'components/jquery-ui/ui/jquery.ui.effect.js';
 $generalJs[] = PUBLICURL . 'components/jquery-ui/ui/jquery.ui.effect-pulsate.js';
 $generalJs[] = PUBLICURL . 'components/bootstrap/js/transition.js';
@@ -15,8 +14,9 @@ $generalJs[] = PUBLICURL . 'components/enquire/dist/enquire.js';
 //$generalJs[] = PUBLICURL . 'components/bootstrap/js/affix.js';
 //$generalJs[] = JSURL . 'syze/syze.js';
 $generalJs[] = JSURL . 'stickyPanel/jquery.stickyPanel.js';
+$generalJs[] = JSURL . 'modernizr/modernizr.js';
 $generalJs[] = JSURL . 'countdown/jquery.jcountdown1.3.js';
-$generalJs[] = JSURL . 'googleAnalytics/googleAnalytics.js';
+//$generalJs[] = JSURL . 'googleAnalytics/googleAnalytics.js';
 $generalJs[] = JSURL . 'custom/all.js';
 
 $generalCss = array();

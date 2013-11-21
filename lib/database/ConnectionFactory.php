@@ -45,9 +45,12 @@ class ConnectionFactory {
             $hrs = floor($mins / 60);
             $mins -= $hrs * 60;
             $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
+            //die($offset);
+            //$offset = "+0:00";
             $this->db = new NestablePDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME . ';charset=utf8;', DBUSER, DBPASS);
             $this->db->setAttribute(NestablePDO::ATTR_ERRMODE, NestablePDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(NestablePDO::ATTR_EMULATE_PREPARES, FALSE);
+            $this->db->setAttribute(NestablePDO::ATTR_STRINGIFY_FETCHES, FALSE);
             $this->db->setAttribute(NestablePDO::ATTR_PERSISTENT, TRUE);
             $this->db->exec("SET CHARACTER SET utf8");
             $this->db->exec("SET NAMES utf8");

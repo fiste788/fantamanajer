@@ -10,7 +10,7 @@
     <?php endif; ?>
         <h4>Punteggio: <span><?php echo (isset($this->punteggio)) ? $this->punteggio->punteggio : ''; ?></span></h4>
     </div>
-	<?php if($this->penalità != FALSE): ?>
+	<?php if(!is_null($this->penalità)): ?>
         <div class="alert alert-error">
             <img class="" alt="!" src="<?php echo IMGSURL . 'penalita.png'; ?>" />
             <div class="penalita">

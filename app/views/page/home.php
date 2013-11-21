@@ -65,7 +65,7 @@
                                 <span class="pull-right">
                                     <?php echo $articolo->username; ?>
                                     <?php if ($_SESSION['logged'] && $_SESSION['idUtente'] == $articolo->idUtente): ?>
-                                        <a class="glyphicon glyphicon-edit" href="<?php echo $this->router->generate('articolo_edit', array('id' => $articolo->id)); ?>" title="Modifica">&nbsp;</a>
+                                        <a class="glyphicon glyphicon-edit" href="<?php echo $this->router->generate('articolo_edit', array('id' => $articolo->id,'action'=>'edit')); ?>" title="Modifica">&nbsp;</a>
                                     <?php endif; ?>
                                 </span>
                             </em>

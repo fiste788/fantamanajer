@@ -6,23 +6,19 @@
 		</div>
 		<div class="form-group">
 			<label class="control-label">Max trasferimenti</label>
-			<input class="form-control" type="text" class="text" name="lega[numTrasferimenti]" value="<?php echo $this->lega->numTrasferimenti; ?>" />
-			<?php if(isset($this->default['numTrasferimenti'])): ?><span class="help-block">Default: <?php echo $this->default['numTrasferimenti']; ?></span><?php endif; ?>
+            <input class="form-control" type="text" class="text" name="lega[numTrasferimenti]" placeholder="<?php echo isset($this->default['numTrasferimenti']) ? $this->default['numTrasferimenti'] : ''  ?>" value="<?php echo $this->lega->numTrasferimenti; ?>" />
 		</div>
 		<div class="form-group">
 			<label class="control-label">Max selezione giocatori</label>
-			<input class="form-control" type="text" class="text" name="lega[numSelezioni]" value="<?php echo $this->lega->numSelezioni; ?>" />
-			<?php if(isset($this->default['numSelezioni'])): ?><span class="help-block">Default: <?php echo $this->default['numSelezioni']; ?></span><?php endif; ?>
+            <input class="form-control" type="text" class="text" name="lega[numSelezioni]" placeholder="<?php echo isset($this->default['numSelezioni']) ? $this->default['numSelezioni'] : ''; ?>" value="<?php echo $this->lega->numSelezioni; ?>" />
 		</div>
 		<div class="form-group">
 			<label class="control-label">Minuti consegna anticipata formazione</label>
-			<input class="form-control" type="text" class="text" name="lega[minFormazione]" value="<?php echo $this->lega->minFormazione; ?>" />
-			<?php if(isset($this->default['minFormazione'])): ?><span class="help-block">Default: <?php echo $this->default['minFormazione']; ?></span><?php endif; ?>
+            <input class="form-control" type="text" class="text" name="lega[minFormazione]" placeholder="<?php echo isset($this->default['minFormazione']) ? $this->default['minFormazione'] : ''; ?>" value="<?php echo $this->lega->minFormazione; ?>" />
 		</div>
 		<div class="form-group">
 			<label class="control-label">Percentuale sul punteggio se si dimentica la formazione</label>
-			<input class="form-control" type="text" class="text" name="lega[punteggioFormazioneDimenticata]" value="<?php echo $this->lega->punteggioFormazioneDimenticata; ?>" />
-			<?php if(isset($this->default['punteggioFormazioneDimenticata'])): ?><span class="help-block">Default: <?php echo $this->default['punteggioFormazioneDimenticata']; ?></span><?php endif; ?>
+            <input class="form-control" type="text" class="text" name="lega[punteggioFormazioneDimenticata]" placeholder="<?php echo isset($this->default['punteggioFormazioneDimenticata']) ? $this->default['punteggioFormazioneDimenticata'] : ''; ?>" value="<?php echo $this->lega->punteggioFormazioneDimenticata; ?>" />
 		</div>
         <div class="form-group">
 			<div class="checkbox">

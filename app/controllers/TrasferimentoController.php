@@ -11,7 +11,7 @@ class TrasferimentoController extends ApplicationController {
     public function index() {
         $filterId = $this->request->getParam('squadra', $_SESSION['idUtente']);
         $appo = Models\Trasferimento::getByField('idUtente', $filterId);
-        $trasferimenti = !is_null($appo) ? array($appo) : array();
+        $trasferimenti = !is_null($appo) ? (is_array($appo) ? $appo : array($appo)) : array();
         //array_push($trasferimenti,);
         FirePHP::getInstance()->log($trasferimenti);
         foreach ($trasferimenti as $val) {

@@ -66,16 +66,22 @@ enquire.register("screen and (min-width:" + (sizes.sm) + "px)", {
             timestamp = $countdown.data('data-fine'),
             d = new Date(timestamp * 1000),
             interval = 1000,
-            htmlTemplate = '<span class="number">%h</span>:<span class="number">%m</span>:<span class="number">%s</span>';
-        if (Math.ceil((d.getTime() - (new Date().getTime())) / (1000 * 60 * 60 * 24)) > 0) {
-            htmlTemplate = '<span class="number">%d</span>gg <span class="number">%h</span>:<span class="number">%i</span>';
+            htmlTemplate = '%h%i%s';
+        if ((d.getTime() - new Date().getTime()) > (1000 * 60 * 60 * 24)) {
+            htmlTemplate = '%d %h%i%s';
             interval *= 60;
         }
         $countdown.find('div').countdown({
-            htmlTemplate: htmlTemplate,
+            template: htmlTemplate,
             date: d,
+            spaceCharacter: '',
+            hourText: '',
+            minText: '',
+            secText: '',
+            dayText: 'dd',
+            timeSeparator: ':',
             updatetime: interval,
-            onComplete: function() {
+            complete: function() {
                 $(this).html('Tempo scaduto');
             },
             leadingZero: true
@@ -111,6 +117,3 @@ if ($tablesorter.length) {
         }
     });
 }
-
-if (!LOCAL)
-    $.trackPage('UA-3016148-1');

@@ -10,23 +10,24 @@ use PDO;
 use PDOException;
 
 class Formazione extends FormazioneTable {
-
+    
     public function duplicate($giornata) {
         $giocatori = Schieramento::getSchieramentoById($this->getId());
         $giocatoriAppo = array();
-        foreach ($giocatori as $giocatore)
+        foreach ($giocatori as $giocatore) {
             $giocatoriAppo[] = $giocatore->idGiocatore;
+        }
         $titolari = array_splice($giocatoriAppo, 0, 11);
+        $this->id = NULL;
         $this->setIdGiornata($giornata);
         $this->save(array('titolari' => $titolari, 'panchinari' => $giocatoriAppo, 'evento' => FALSE));
     }
 
     public function save(array $parameters = NULL) {
-
         $giocatoriIds = array();
-        if (is_null($parameters))
+        if (is_null($parameters)) {
             return FALSE;
-        else {
+        } else {
             $titolari = $parameters['titolari'];
             $panchinari = $parameters['panchinari'];
             $giocatoriIds = array_merge($titolari, $panchinari);
@@ -36,8 +37,7 @@ class Formazione extends FormazioneTable {
 
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            $id = $this->getId();
-            FirePHP::getInstance()->log("id " . $id);
+            $id = $this->id;
             parent::save($parameters);
             if (!empty($giocatoriIds)) {
                 $success = TRUE;

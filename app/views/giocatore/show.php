@@ -22,7 +22,7 @@
 </div>
 <?php if(isset($this->giocatore->voti) && !empty($this->giocatore->voti)): ?>
     <div class="clearfix well">
-        <table id="giornate" class="table" data-giocatore="<?php echo $this->giocatore; ?>">
+        <table id="giornate" class="table tablesorter" data-giocatore="<?php echo $this->giocatore; ?>">
             <thead>
                 <tr>
                     <th><abbr title="Giornata">Giorn</abbr></th>

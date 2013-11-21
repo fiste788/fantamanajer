@@ -1,6 +1,6 @@
 <form class="form-inline" action="<?php echo $this->router->generate("club_show",array('id'=>'')) ?>" method="get">
     <fieldset>
-        <div class="control-group">
+        <div class="form-group">
             <label for="club">Seleziona il club:</label>
             <select class="form-control" name="id">
                 <?php if ($this->elencoClub != FALSE): ?>

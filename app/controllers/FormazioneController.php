@@ -3,6 +3,7 @@
 namespace Fantamanajer\Controllers;
 
 use Fantamanajer\Models\Formazione;
+use Fantamanajer\Models\Giocatore;
 use Fantamanajer\Models\Utente;
 use Fantamanajer\Models\View\GiocatoreStatistiche;
 use FirePHP;
@@ -41,6 +42,8 @@ class FormazioneController extends ApplicationController {
         $modulo = NULL;
         if($giornata == $this->currentGiornata->id) {
             $giocatori = GiocatoreStatistiche::getByField('idUtente',$squadra);
+        } else {
+            $giocatori = Giocatore::getGiocatoriBySquadraAndGiornata($squadra,$giornata);
         }
         if ($formazione != NULL) {
             $modulo = explode('-',$formazione->getModulo());
@@ -96,7 +99,9 @@ class FormazioneController extends ApplicationController {
                 $panchinari = $this->request->getParam('panchinari');
                 
                 $formazione = new Formazione();
-                $formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($filterUtente, $filterGiornata);
+                //$formazione->setIdCapitano($this->request->getParam($name))
+                FirePHP::getInstance()->log($formazione);
+                $formazioneOld = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'], $this->currentGiornata->getId());
                 if(!is_null($formazioneOld)) {
                     $formazione->setId($formazioneOld->getId());
                 }

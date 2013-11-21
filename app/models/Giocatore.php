@@ -39,8 +39,9 @@ class Giocatore extends GiocatoreTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 
@@ -65,20 +66,23 @@ class Giocatore extends GiocatoreTable {
 						SELECT idGiocatore
 						FROM squadra
 						WHERE idLega = :idLega)";
-        if ($ruolo != NULL)
+        if ($ruolo != NULL) {
             $q .= " AND ruolo = :ruolo";
+        }
         $q .= " AND attivo = :attivo
 				ORDER BY cognome,nome";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
-        if($ruolo != null)
+        if($ruolo != null) {
             $exe->bindValue(":ruolo", $ruolo);
+        }
         $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 
@@ -142,7 +146,7 @@ class Giocatore extends GiocatoreTable {
             }
             foreach ($giocatoriOld as $id => $giocatoreOld) {
                 if (!array_key_exists($id, $giocatoriNew) && $giocatoreOld->isAttivo()) {
-                    $giocatoreOld->setAttivo(FALSE);
+                    $giocatoreOld->setAttivo(0);
                     $giocatoreOld->save(array('numEvento'=>Evento::RIMOSSOGIOCATORE));
                 }
             }
@@ -165,36 +169,39 @@ class Giocatore extends GiocatoreTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 
     public static function getGiocatoriBySquadraAndGiornata($idUtente, $idGiornata) {
-        require_once(INCDBDIR . 'trasferimento.db.inc.php');
-
         $giocatori = self::getGiocatoriByIdSquadra($idUtente);
         $trasferimenti = Trasferimento::getTrasferimentiByIdSquadra($idUtente, $idGiornata);
         if (!empty($trasferimenti)) {
             $sort_arr = array();
-            foreach ($trasferimenti as $uniqid => $row)
-                foreach ($row as $key => $value)
+            foreach ($trasferimenti as $uniqid => $row) {
+                foreach ($row as $key => $value) {
                     $sort_arr[$key][$uniqid] = $value;
+                }
+            }
             array_multisort($sort_arr['idGiornata'], SORT_DESC, $trasferimenti);
-            foreach ($trasferimenti as $key => $val)
-                foreach ($giocatori as $key2 => $val2)
-                    if ($val2->id == $val->idGiocatoreNew)
+            foreach ($trasferimenti as $key => $val) {
+                foreach ($giocatori as $key2 => $val2) {
+                    if ($val2->id == $val->idGiocatoreNew) {
                         $giocatori[$key2] = self::getById($val->idGiocatoreOld);
+                    }
+                }
+            }
             $sort_arr2 = array();
-            foreach ($giocatori as $uniqid => $row)
-                foreach ($row as $key => $value)
+            foreach ($giocatori as $uniqid => $row) {
+                foreach ($row as $key => $value) {
                     $sort_arr2[$key][$uniqid] = $value;
+                }
+            }
             array_multisort($sort_arr['cognome'], SORT_ASC, $giocatori);
         }
-        $giocatoriByRuolo = array();
-        foreach ($giocatori as $key => $val)
-            $giocatoriByRuolo[$val->ruolo][] = $val;
-        return $giocatoriByRuolo;
+        return $giocatori;
     }
 
     public static function getGiocatoriInattiviByIdUtente($idUtente) {
@@ -207,8 +214,9 @@ class Giocatore extends GiocatoreTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 
@@ -224,8 +232,9 @@ class Giocatore extends GiocatoreTable {
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 

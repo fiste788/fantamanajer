@@ -178,8 +178,7 @@ $(document).ready(function(){
                         }
                     }
                     var numMax = data[ruolo];
-                    if(n < numMax && nTot < 11 && draggableRuolo === ruolo)
-                        return true;
+                    return (n < numMax && nTot < 11 && draggableRuolo === ruolo);
                 }
                 return false;
             },
@@ -208,7 +207,9 @@ $(document).ready(function(){
                 ui.draggable.css('top',0);
                 ui.draggable.css('left',0);
                 ui.draggable.draggable(draggableOptions);
-                //ui.draggable.droppable("destroy");
+                try {
+                    ui.draggable.droppable("destroy");
+                } catch(e) {}
                 $giocatori.find(".ruoli." + ui.draggable.data('ruolo')).append(ui.draggable);
                 reloadFields();
                 checkCapitani();
@@ -241,7 +242,7 @@ $(document).ready(function(){
                         var exist = false;
                         var id = $draggable.attr('id');
                         $("#capitani-field").find(":input").each(function() {
-                            if($this.val() === id)
+                            if($(this).val() === id)
                                 exist = true;
                         });
                         return !exist;
@@ -258,8 +259,9 @@ $(document).ready(function(){
                 $this.empty();
                 $this.append($gioc);
                 $gioc.removeClass("draggable");
-                if($gioc.hasClass("ui-droppable"))
+                try {
                     $gioc.draggable("destroy");
+                } catch(e) {}
                 var list = $("#capitani-field").find(":input");
                 list.each(function (i) {
                     $(list[i]).val('');
@@ -274,7 +276,7 @@ $(document).ready(function(){
         });
 
     } else {
-        $(".inner-page :input").attr("disabled","disabled");
+        $(".inner-page :input").prop("disabled",true);
     }
     function checkCapitani() {
         var list = $capitani.find(".giocatore");
@@ -286,7 +288,7 @@ $(document).ready(function(){
                     $("#capitani-field").find(":input").each(function() {
                         if($(this).val() === idCap)
                             $(this).val('');
-                    })
+                    });
                 }
             });
         }
