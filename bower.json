@@ -20,7 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.0.0",
+    "bootstrap": "~3.0.1",
     "fancybox": "~2.1.5",
     "flot": "~0.8.1",
     "html5shiv": "master",
