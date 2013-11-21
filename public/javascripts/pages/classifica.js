@@ -138,7 +138,7 @@
                     if(arrayColor[i] > 255)
                         arrayColor[i] = 255;
                 }
-                colorLight = "rgb("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+")";
+                colorLight = "rgba("+arrayColor[0]+","+arrayColor[1]+","+arrayColor[2]+",0.7)";
                 $('<div id="tooltip">' + contents + '</div>').css( {
                     position: 'absolute',
                     display: 'none',
@@ -147,8 +147,7 @@
                     border: '1px solid '+color,
                     padding: '5px',
                     'background-color': colorLight,
-                    color: '#000',
-                    opacity: 0.70
+                    color: '#333'
                 }).appendTo("body").fadeIn(200);
             }
 
