@@ -16,6 +16,8 @@
     left: 0;
     z-index: 8020;
     -webkit-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
     a.fancybox-expand:hover {
         opacity: 1;
         filter: alpha(opacity=100);
@@ -175,7 +177,11 @@ a.fancybox-prev {
     overflow-y: auto;
     overflow-x: auto;
     -webkit-transition : -webkit-transform 0.5s;
+    -ms-transition : -webkit-transform 0.5s;
+    transition : -webkit-transform 0.5s;
     -webkit-transform  : translateX(0px);
+    -ms-transform  : translateX(0px);
+    transform  : translateX(0px);
 }
 #fancybox-loading {
     position: fixed;

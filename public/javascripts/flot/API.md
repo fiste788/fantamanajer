@@ -1,5 +1,26 @@
 # Flot Reference #
 
+**Table of Contents**
+
+[Introduction](#introduction)
+| [Data Format](#data-format)
+| [Plot Options](#plot-options)
+| [Customizing the legend](#customizing-the-legend)
+| [Customizing the axes](#customizing-the-axes)
+| [Multiple axes](#multiple-axes)
+| [Time series data](#time-series-data)
+| [Customizing the data series](#customizing-the-data-series)
+| [Customizing the grid](#customizing-the-grid)
+| [Specifying gradients](#specifying-gradients)
+| [Plot Methods](#plot-methods)
+| [Hooks](#hooks)
+| [Plugins](#plugins)
+| [Version number](#version-number)
+
+---
+
+## Introduction ##
+
 Consider a call to the plot function:
 
 ```js
@@ -8,7 +29,7 @@ var plot = $.plot(placeholder, data, options)
 
 The placeholder is a jQuery object or DOM element or jQuery expression
 that the plot will be put into. This placeholder needs to have its
-width and height set as explained in the README (go read that now if
+width and height set as explained in the [README](README.md) (go read that now if
 you haven't, it's short). The plot will modify some properties of the
 placeholder so it's recommended you simply pass in a div that you
 don't use for anything else. Make sure you check any fancy styling
@@ -523,7 +544,7 @@ You can see a timestamp like this
 alert((new Date()).getTime())
 ```
 
-There are different schools of thought when it comes to diplay of
+There are different schools of thought when it comes to display of
 timestamps. Many will want the timestamps to be displayed according to
 a certain time zone, usually the time zone in which the data has been
 produced. Some want the localized experience, where the timestamps are
@@ -552,6 +573,19 @@ In Python you can get it with something like:
 
 ```python
 calendar.timegm(datetime_object.timetuple()) * 1000
+```
+In Ruby you can get it using the `#to_i` method on the
+[`Time`](http://apidock.com/ruby/Time/to_i) object. If you're using the
+`active_support` gem (default for Ruby on Rails applications) `#to_i` is also
+available on the `DateTime` and `ActiveSupport::TimeWithZone` objects. You
+simply need to multiply the result by 1000:
+
+```ruby
+Time.now.to_i * 1000     # => 1383582043000
+# ActiveSupport examples:
+DateTime.now.to_i * 1000 # => 1383582043000
+ActiveSupport::TimeZone.new('Asia/Shanghai').now.to_i * 1000
+# => 1383582043000
 ```
 
 In .NET you can get it with something like:
@@ -635,6 +669,10 @@ standard strftime specifiers are supported (plus the nonstandard %q):
 %P: AM/PM (uppercase version of %p)
 %w: weekday as number (0-6, 0 being Sunday)
 ```
+
+Flot 0.8 switched from %h to the standard %H hours specifier. The %h specifier
+is still available, for backwards-compatibility, but is deprecated and
+scheduled to be removed permanently with the release of version 1.0.
 
 You can customize the month names with the "monthNames" option. For
 instance, for Danish you might specify:
@@ -1429,7 +1467,7 @@ hooks in the plugins bundled with Flot.
     case a plot is overwritten by a new plot. If you're writing a
     plugin that adds extra DOM elements or event handlers, you should
     add a callback to clean up after you. Take a look at the section in
-    PLUGINS.txt for more info.
+    the [PLUGINS](PLUGINS.md) document for more info.
 
    
 ## Plugins ##
@@ -1451,7 +1489,7 @@ from the "option" attribute of the plugin. The init function gets a
 reference to the plot object created and uses this to register hooks
 and add new public methods if needed.
 
-See the PLUGINS.txt file for details on how to write a plugin. As the
+See the [PLUGINS](PLUGINS.md) document for details on how to write a plugin. As the
 above description hints, it's actually pretty easy.
 
 

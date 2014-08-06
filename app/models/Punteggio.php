@@ -191,8 +191,9 @@ class Punteggio extends PunteggioTable {
                 $titolari = array_splice($panchinari, 0, 11);
                 foreach ($titolari as $schieramento) {
                     $giocatore = $schieramento->getGiocatore();
+					//FirePHP::getInstance()->log($giocatore);
                     $voto = $giocatore->getVotoByGiornata($giornata);
-                    if ((!$voto->isValutato()) && ($cambi < 3)) {
+                    if ((!$giocatore->isAttivo() || !$voto->isValutato()) && ($cambi < 3)) {
                         FirePHP::getInstance()->log("sostituisco");
                         $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
                         if ($sostituto != FALSE) {

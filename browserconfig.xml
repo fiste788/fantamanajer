@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+	<msapplication>
+		<tile>
+			<square70x70logo src="/public/images/tiny.png"/>
+			<square150x150logo src="/public/images/square.png"/>
+			<wide310x150logo src="/public/images/wide.png"/>
+			<square310x310logo src="/public/images/large.png"/>
+			<TileColor>#00c4ff</TileColor>
+		</tile>
+		<notification>
+			<polling-uri src="http://fantamanajer.it/rss"/>
+			<frequency>30</frequency>
+			<cycle>1</cycle>
+		</notification>
+	</msapplication>
+</browserconfig>

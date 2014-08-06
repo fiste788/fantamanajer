@@ -76,7 +76,7 @@ if (!LOCAL) {
     define("FULLSTATICPATH", FULLPATH);
 
     define("DBTYPE", "mysql");
-    define("DBNAME", "fantamanajer-vuoto");
+    define("DBNAME", "fantamanajer");
     define("DBUSER", "fantamanajerUser");
     define("DBPASS", "banana");
     define("DBHOST", "localhost");

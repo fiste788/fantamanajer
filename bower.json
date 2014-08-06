@@ -20,14 +20,14 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.0.1",
+    "bootstrap": "latest",
     "fancybox": "~2.1.5",
-    "flot": "~0.8.1",
+    "flot": "latest",
     "html5shiv": "master",
     "jquery-file-upload": "master",
-    "jquery-ui": "~1.10.3",
+    "jquery-ui": "latest",
     "jquery.tablesorter": "master",
-    "jquery": "~2.0.3",
+    "jquery": "latest",
     "modernizr": "master",
     "enquire": "master",
     "matchmedia": "master"

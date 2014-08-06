@@ -3,7 +3,7 @@
 namespace Fantamanajer\Lib;
 
 use FirePHP;
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use XMLWriter;
 
@@ -121,10 +121,10 @@ class Decrypt {
     }
 
     public static function getUrlContent($site) {
-        $client = new Client($site);
-        $response = $client->createRequest()->send();
-        if ($response->isSuccessful()) {
-            return $response->getBody(true);
+        $client = new Client();
+        $response = $client->get($site);
+        if ($response->getStatusCode() == 200) {
+            return $response->getBody()->getContents();
         }
     }
 
@@ -148,7 +148,7 @@ class Decrypt {
         $tree = explode("\n", $content);
         $xml = new XMLWriter();
         $ruoli = array("P", "D", "C", "A");
-        $xml->openURI($percorso);
+        $xml->openUri($percorso);
         $xml->startDocument("1.0");
         $xml->startElement("players");
         foreach ($tree as $row) {
