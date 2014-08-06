@@ -1,0 +1,348 @@
+@import "bootstrap/variables.less";
+@import "bootstrap/mixins.less";
+@import "variables.less";
+@import "mixins.less"
+
+#classifica {
+    .legend {
+        width:11px;
+        height:11px;
+        display:block;
+        float:left;
+        border:1px solid #aaa;
+        margin:2px 5px 0;
+    }
+    input {
+        padding:0 !important;
+        margin:-2px 0 0;
+        float:left;
+    }
+    #classifica-container {
+        & > table {
+            width:305px;
+            float:left;
+            a {
+                .text-ellipse();
+            }
+        }
+        #tab_classifica {
+            display:block;
+            overflow-x: auto;
+            width: calc(~"100% - 305px");
+            width: -webkit-calc(~"100% - 305px");
+            table {
+                table-layout:auto;
+            }
+            td,th {
+                text-align: right;
+            }
+        }
+    }
+}
+
+#club_index {
+    .club {
+        text-align:center;
+        width: 100%;
+        display: inline-block;
+    }
+}
+
+#articoli {
+    .articolo {
+        h3 {
+            text-align: center;
+        }
+    }
+}
+
+#giocatore_show {
+    #dati-gioc {
+        padding:8px 0;
+        float:left;
+        width:100%;
+        div {
+            float:left;
+        }
+    }
+}
+
+#formazione,#formazione_show {
+    #panchina, #capitani {
+        float:left;
+        .droppable {
+            width:100px;
+            min-height:123px;
+            padding:0;
+            display:block;
+            float:left;
+            text-align:center;
+        }
+        .giocatore {
+            margin:5px auto;
+            float:none;
+            text-align:center;
+            position:relative;
+            top:0 !important;
+            left:0 !important;
+        }
+    }
+    #capitani > h3 {
+        margin-top:0;
+    }
+    #campo {
+        width:554px;
+        height:643px;
+        background: transparent url("@{imgs-path}campo.png") no-repeat scroll 0 0;
+        text-align: center;
+        float:left;
+        margin:0 25px 0 0;
+        position:relative;
+        z-index:1;
+        .giocatore {
+            position:absolute;
+            margin:0;
+        }
+        .droppable {
+            height: 25%;
+        }
+    }
+    .giocatore {
+        .transition(~"opacity 0.3s ease, box-shadow 0.3s ease 0.3s, border-width 0.3s ease 0.3s");
+        width: 80px;
+        color: #000;
+        cursor: pointer;
+        text-align:center;
+        float:left;
+        margin:3px 5px;
+        height:113px;
+        overflow:hidden;
+        position:relative;
+        border-style: solid;
+        border-width: 1px;
+        .box-shadow(0 0 4px #555);
+        //.transition(all 0.05s linear 0s);
+        border-radius:3px;
+        &.no-titolare {
+            .opacity(0.7);
+        }
+        img {
+            border-radius:4px
+        }
+        p {
+			.opacity(0.9);
+            /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjMxJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+            background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(31%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 31%,rgba(255,255,255,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+            bottom: 0;
+            color: #333333;
+            font-weight: bold;
+            line-height: 14px;
+            margin: 0;
+            padding: 8px 2px 2px;
+            position: absolute;
+            width: 100%;
+        }
+        &.titolare {
+            border-width: 2px;
+        }
+        &.P {
+            border-color: #ff0000;
+            background-color: #ffd1d1;
+            &.droppable-active {
+                .box-shadow(0 0 6px 1px #ff0000);
+            }
+        }
+        &.D {
+            border-color: #009600;
+            background-color: #d4ffd1;
+            &.droppable-active {
+                .box-shadow(0 0 6px 1px #009600);
+            }
+        }
+        &.C {
+            border-color: #ffbd00;
+            background-color: #fff3d1;
+            &.droppable-active {
+                .box-shadow(0 0 6px 1px #ffbd00);
+            }
+        }
+        &.A {
+            border-color: #00a0ff;
+            background-color: #d0f1ff;
+            &.droppable-active {
+                .box-shadow(0 0 6px 1px #00a0ff);
+            }
+        }
+    }
+    .submit {
+        float:left;
+        margin:10px;
+    }
+    .droppable-hover2 {
+        background: transparent url("@{imgs-path}sostituisci.gif") no-repeat 50% 5px;
+        img {
+            display:none;
+        }
+    }
+    .droppable-hover {
+        background-color: #A0E1FF !important;
+        .opacity(0.5);
+        border:5px dashed #4CA3FF;
+        &[id*=panch-]:before,&[id*=Capitano]:before {
+            line-height:113px !important;
+        }
+    }
+    /*.droppable-active {
+        border-width:3px !important;
+    }*/
+    
+    fieldset>div {
+        position:relative;
+    }
+    #giocatori {
+        //background: transparent url(@{imgsPath}bg.jpg) no-repeat scroll center -140px;
+        z-index:1;
+        padding:5px 0;
+        .giocatore {
+            top:auto !important;
+            left:auto !important;
+        }
+    }
+
+    .ui-draggable-dragging {
+        z-index:10;
+    }
+    #right {
+        width:calc(~"100% - 579px");
+        float:left;
+        z-index:0;
+    }
+    #capitani{
+        width:100%;
+        .droppable {
+            min-height:146px;
+        }
+    }
+    [id*=panch-]:empty:before, [id*=Capitano]:empty:before {
+        content: attr(data-symbol);
+        font-size: 34px;
+        font-weight: bold;
+        line-height: 123px;
+        text-align: center;
+    }
+}
+
+#formazioneBasic,#inserisciFormazione {
+    #titolari,#panchinari {
+	float:left;
+	width:300px;
+    }
+}
+
+#articolo_edit, #articolo_new {
+    #emoticons img {
+        cursor:pointer;
+    }
+}
+
+#home {
+    .foto {
+        float:none;
+        margin-bottom:8px;
+    }
+    h4 {
+        text-align:center;
+    }
+    #best-player {
+        text-align:center;
+        a {
+          .text-ellipse();
+      }
+    }
+    .foto-container {
+        height:200px;
+        display:block;
+        vertical-align:middle;
+        line-height:200px;
+    }
+    .all {
+        width:100%;
+        text-align: right;
+        margin-top:8px;
+    }
+    
+}
+
+#lanciaScript li {
+    width:50%;
+    padding: 10px;
+    float:left;
+}
+
+#squadre {
+    text-align:center;
+    h4 {
+        .text-ellipse();
+        line-height:21px
+    }
+}
+
+#probabili_formazioni {
+    .formazione {
+        ul.right, ul.destra {
+            text-align:right;
+        }
+        .middle {
+            height:1px;
+            background-color:#ccc;
+            width:100%;
+            margin:3px;
+        }
+        .container-altro{
+            margin-top:10px;
+            li span {
+                font-weight:bold;
+                display:block;
+            }
+        }
+    }
+}
+#squadra_show {
+    #header-squadra {
+        margin-bottom:20px;
+    }
+	#dropzone {
+		float: left;
+		font-weight: bold;
+		height: auto;
+		line-height: 100px;
+		margin-right: 20px;
+        .transition(all 0.3s ease-out);
+		max-width: 100%;
+		text-align: center;
+		a {
+			margin-right: 0;
+		}
+		.well {
+			height: 226px;
+            min-width: 339px;
+            margin:0;
+		}
+        &.hover {
+            .opacity(0.7)
+        }
+	}
+}
+#contatti .well {
+    text-align: center;
+    img {
+        margin:20px;
+    }
+}

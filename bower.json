@@ -1,0 +1,35 @@
+{
+  "name": "fantamanajer",
+  "version": "3.1.0",
+  "homepage": "fantamanajer.it",
+  "authors": [
+    "Fiste788 <stefano788@gmail.com>"
+  ],
+  "description": "Tool per gestire facilmente il tuo fantacalcio",
+  "main": "index.php",
+  "keywords": [
+    "php",
+    "fantamanajer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "latest",
+    "fancybox": "~2.1.5",
+    "flot": "latest",
+    "html5shiv": "master",
+    "jquery-file-upload": "master",
+    "jquery-ui": "latest",
+    "jquery.tablesorter": "master",
+    "jquery": "latest",
+    "modernizr": "master",
+    "enquire": "master",
+    "matchmedia": "master"
+  }
+}
