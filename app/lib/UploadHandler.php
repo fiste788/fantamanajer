@@ -483,7 +483,7 @@ class UploadHandler {
 
     protected function handle_file_upload($uploaded_file, $name, $size, $type, $error,
             $index = null, $content_range = null) {
-        $file = new stdClass();
+        $file = new \stdClass();
         $file->name = $this->trim_file_name($name, $type, $index, $content_range);
         $file->size = $this->fix_integer_overflow(intval($size));
         $file->type = $type;
