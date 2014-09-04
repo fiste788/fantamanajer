@@ -7,6 +7,7 @@ use Assetic\AssetManager;
 use Exception;
 use FirePHP;
 use lessc;
+use scssc;
 use Monolog\ErrorHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -170,18 +171,19 @@ abstract class BaseController {
             $less->checkedCompile($less_fname, $css_fname);
             $this->generalCss[$key] = $file . '.css';
         }*/
+        $scss = new scssc();
         foreach ($generalCss as $key => $val) {
             $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
-            $less_fname = LESSDIR . $val . ".less";
+            $scss_fname = LESSDIR . $val . ".scss";
             $css_fname = STYLESHEETSDIR . $file . ".css";
             $cache_fname = CACHEDIR . $file . ".cache";
-            $cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $less_fname;
-            $new_cache = lessc::cexecute($cache);
+            $cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $scss_fname;
+            $new_cache = $scss->cexecute($cache);
             if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
                 file_put_contents($cache_fname, serialize($new_cache));
                 file_put_contents($css_fname, $new_cache['compiled']);
             }
-            lessc::ccompile($less_fname, $css_fname);
+            lessc::ccompile($scss_fname, $css_fname);
             $this->generalCss[$key] = $file . '.css';
         }
         /*$less_fname = LESSDIR . 'pages' . DS . $this->route['name'] . '.less';
