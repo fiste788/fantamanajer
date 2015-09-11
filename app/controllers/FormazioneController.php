@@ -39,7 +39,7 @@ class FormazioneController extends ApplicationController {
     
     protected function _showFormazione($squadra,$giornata,Formazione $formazione = NULL) {
         $formazioniPresenti = Formazione::getFormazioneByGiornataAndLega($giornata,$_SESSION['legaView']);
-        $modulo = NULL;
+        $modulo = explode('-','1-4-4-2');
         if($giornata == $this->currentGiornata->id) {
             $giocatori = GiocatoreStatistiche::getByField('idUtente',$squadra);
         } else {
@@ -47,7 +47,6 @@ class FormazioneController extends ApplicationController {
         }
         if ($formazione != NULL) {
             $modulo = explode('-',$formazione->getModulo());
-            $modulo = array_combine(array("P","D","C","A"), array_map('intval', $modulo));
             if($formazione->getIdGiornata() != $this->currentGiornata->getId()) {
                 $formazione = clone $formazione;
                 $formazione->setIdGiornata($this->currentGiornata->getId());
@@ -61,6 +60,7 @@ class FormazioneController extends ApplicationController {
                 $giocatori = GiocatoreStatistiche::getByIds($ids);
             }
         }
+        $modulo = array_combine(array("P","D","C","A"), array_map('intval', $modulo));
         $giocatoriRuolo = array();
         foreach($giocatori as $giocatore) {
             $giocatoriRuolo[$giocatore->getRuolo()][$giocatore->getId()] = $giocatore;

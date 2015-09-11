@@ -19,7 +19,7 @@ class Utente extends UtenteTable {
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
-        FirePHP:getInstance()->log($q);
+        FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__))
             $values[$obj->getId()] = $obj;

@@ -72,7 +72,7 @@
                 <tbody>
                     <?php foreach($this->panchinari as $key => $giocatore): ?>
                         <tr<?php echo ($giocatore->considerato == 1) ? ' class="alert-success"' : '' ?>>
-                            <td><a href="<?php $this->router->generate('giocatore_show',array('id'=>$giocatore->idGiocatore)); ?>"><?php echo $giocatore; ?></a></td>
+                            <td><a href="<?php echo $this->router->generate('giocatore_show',array('id'=>$giocatore->idGiocatore)); ?>"><?php echo $giocatore; ?></a></td>
                             <td><?php echo $giocatore->ruolo; ?></td>
                             <td><?php echo strtoupper(substr($giocatore->nomeClub,0,3)); ?></td>
                             <td class="hidden-phone"><?php if($giocatore->titolare): ?><i class="glyphicon glyphicon-ok"></i><?php endif; ?></td>

@@ -9,6 +9,7 @@ use FirePHP;
 use Lib\Database\ConnectionFactory;
 use PDO;
 use PDOException;
+use Symfony\Component\DomCrawler\Crawler;
 
 class Giornata extends GiornataTable {
 
@@ -16,14 +17,14 @@ class Giornata extends GiornataTable {
      *
      * @var bool
      */
-    public $stagioneFinita;
+    private $_stagioneFinita;
 
     /**
      *
      * @return bool
      */
-    public function getStagioneFinita() {
-        return (bool) $this->stagioneFinita;
+    public function isStagioneFinita() {
+        return (bool) $this->_stagioneFinita;
     }
 
     /**
@@ -31,7 +32,7 @@ class Giornata extends GiornataTable {
      * @param bool $stagioneFinita
      */
     public function setStagioneFinita($stagioneFinita) {
-        $this->stagioneFinita = (bool) $stagioneFinita;
+        $this->_stagioneFinita = (bool) $stagioneFinita;
     }
 
 
@@ -99,30 +100,42 @@ class Giornata extends GiornataTable {
         return $exe->fetchColumn();
     }
 
+    /**
+     * 
+     * @return DateTime
+     */
     public static function getTargetCountdown() {
         $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-        $q = "SELECT MAX(data) - INTERVAL :minuti MINUTE as data
+        $q = "SELECT MIN(data) - INTERVAL :minuti MINUTE as data
 				FROM giornata
-				WHERE NOW() > data";
+				WHERE NOW() < data";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
         $exe->execute();
         return $exe->fetchObject(__CLASS__)->getData();
     }
 
-    public static function updateGiornate($giornate) {
+    /**
+     * 
+     * @return boolean
+     * @throws PDOException
+     */
+    public static function updateCalendario() {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            foreach ($giornate as $key => $val) {
-                foreach ($val as $key2 => $val2) {
-                    $q = "UPDATE giornata SET " . $key2 . " = :val WHERE id = :id";
-                    $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-                    $exe->bindValue(":val", $val);
-                    $exe->bindValue(":id", $key, PDO::PARAM_INT);
-                    $exe->execute();
+            $giornate = self::getList();
+            $flag = TRUE;
+            foreach ($giornate as $giornata) {
+                if($flag && $giornata->getId() < 39) {
+                    $flag &= $giornata->updateOrario() != "";
                 }
             }
-            ConnectionFactory::getFactory()->getConnection()->commit();
+            
+            if($flag) {
+                ConnectionFactory::getFactory()->getConnection()->commit();
+            } else {
+                ConnectionFactory::getFactory()->getConnection()->roolBack();
+            }
         } catch (PDOException $e) {
             ConnectionFactory::getFactory()->getConnection()->rollBack();
             throw $e;
@@ -130,21 +143,17 @@ class Giornata extends GiornataTable {
         return TRUE;
     }
 
-    private static function getArrayOrari($giornata) {
-        require_once(INCDIR . 'fileSystem.inc.php');
-
-        $orari = FileSystem::scaricaOrariGiornata($giornata);
-        $calendario = array();
-        $calendario[$giornata]['dataFine'] = date('Y-m-d H:i:s', $orari['inizioPartite']);
-        $calendario[$giornata + 1]['dataInizio'] = date('Y-m-d H:i:s', $orari['finePartite'] + (2 * 3600));
-        return $calendario;
+    public function updateOrario() {
+        $data = self::scaricaOrarioGiornata($this->getId());
+        if($data != FALSE) {
+            $this->setData($data);
+            return $this->save();
+        } else {
+            return FALSE;
+        }
     }
 
-    public static function updateOrariGiornata($giornata = GIORNATA) {
-        return self::updateGiornate(self::getArrayOrari($giornata));
-    }
-
-    public static function updateCalendario() {
+    /*public static function updateCalendario() {
         require_once(INCDIR . 'fileSystem.inc.php');
 
         $calendario[1]['dataInizio'] = "2012-08-01 00:00:00";
@@ -155,7 +164,7 @@ class Giornata extends GiornataTable {
         }
         $calendario[39]['dataFine'] = "2013-07-31 23:59:59";
         return self::updateGiornate($calendario);
-    }
+    }*/
 
     public static function getTimeDiff($t1, $t2 = NULL) {
         $t2 = (is_null($t2)) ? date("H:i:s") : $t2;
@@ -165,6 +174,28 @@ class Giornata extends GiornataTable {
         $time2 = (($a2[0] * 60 * 60) + ($a2[1] * 60) + ($a2[2]));
         $diff = abs($time1 - $time2);
         return $diff;
+    }
+    
+    /**
+     * 
+     * @param int $giornata
+     * @return \DateTime
+     */
+    public static function scaricaOrarioGiornata($giornata) {
+        $content = FileSystem::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/campionato-classifica?p_p_id=BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC_numeroGiornata=$giornata");
+        if ($content != "") {
+            $crawler = new Crawler();
+            $crawler->addContent($content);
+            $box = $crawler->filter(".chart_box")->first()->filter(".description p")->first()->filter("strong");
+            $data = $box->text();
+            if($data != "") {
+                return \DateTime::createFromFormat("!d/m/Y H:i",$data);
+            } else {
+                return FALSE;
+            }
+        } else {
+            return FALSE;
+        }
     }
     
     public function __toString() {

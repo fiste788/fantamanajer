@@ -78,12 +78,13 @@ abstract class ApplicationController extends BaseController {
         }
         $this->currentGiornata = Giornata::getCurrentGiornata();
         $this->currentLega = $leghe[$_SESSION['legaView']];
+        $dataFine = Giornata::getTargetCountdown();
         foreach ($this->templates as $savant) {
             $savant->assign('ruoli', $this->ruoli);
-            $savant->assign('dataFine', date_parse($this->currentGiornata->getData()->format("Y-m-d H:i:s")));
-            $savant->assign('timestamp', $this->currentGiornata->getData()->getTimestamp());
+            $savant->assign('dataFine', date_parse($dataFine->format("Y-m-d H:i:s")));
+            $savant->assign('timestamp', $dataFine->getTimestamp());
             $savant->assign('currentGiornata',$this->currentGiornata->getId());
-            $savant->assign('stagioneFinita',$this->currentGiornata->getStagioneFinita());
+            $savant->assign('stagioneFinita',$this->currentGiornata->isStagioneFinita());
             $savant->assign('leghe', $leghe);
             $savant->assign('route',$this->route);
             $savant->assign('router', $this->router);
@@ -96,7 +97,7 @@ abstract class ApplicationController extends BaseController {
     }
 
     private function initializeNotifiche() {
-         if(!$this->currentGiornata->getStagioneFinita()) {
+         if(!$this->currentGiornata->isStagioneFinita()) {
             $formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],$this->currentGiornata->getId());
             if(empty($formazione)) {
                 $this->notifiche[] = new Notify(Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione'));

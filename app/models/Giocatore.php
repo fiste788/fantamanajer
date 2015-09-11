@@ -18,6 +18,7 @@ class Giocatore extends GiocatoreTable {
             if (!is_null($parameters)) {
                 $evento = new Evento();
                 $evento->setIdExternal($this->id);
+				$evento->setData(new \DateTime());
                 $evento->setTipo($parameters['numEvento']);
                 $evento->save();
             }

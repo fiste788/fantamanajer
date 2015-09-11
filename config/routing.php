@@ -60,7 +60,9 @@ $router->map('GET', '/gestione_database', array('controller'=>'squadra','action'
 
 $router->map('GET', '/trasferimenti/do', array('controller'=>'script','action'=>'doTransfert'), 'do_transfert');
 $router->map('GET', '/minify', array('controller'=>'script','action'=>'minify'), 'minify');
-//$router->map('GET', '/fixplayer', array('controller'=>'script','action'=>'fixPlayerPhoto'), 'fixPlayerPhoto');
+$router->map('GET', '/fixplayer', array('controller'=>'script','action'=>'fixPlayerPhoto'), 'fix_player_photo');
+$router->map('GET', '/updategiornata', array('controller'=>'script','action'=>'updateGiornata'), 'update_giornata');
+$router->map('GET', '/updatecalendario', array('controller'=>'script','action'=>'updateCalendario'), 'update_calendario');
 
 
 $router->map('GET', '/', array('controller'=>'punteggio','action'=>'show'), 'area_amministrativa');

@@ -79,14 +79,14 @@ class Decrypt {
 
     protected static function getFileUrl($giornata) {
         FirePHP::getInstance()->log("Scarico voti giornata " . $giornata);
-        $content = self::getUrlContent("http://maxigames.maxisoft.it/downloads.php");
+        $content = FileSystem::getUrlContent("http://maxigames.maxisoft.it/downloads.php");
         if ($content != "") {
             $crawler = new Crawler();
             $crawler->addContent($content);
             $td = $crawler->filter("#content td:contains('Giornata $giornata')");
             if($td->count() > 0) {
                 $url = $td->nextAll()->filter("a")->attr("href");
-                $content = self::getUrlContent($url);
+                $content = FileSystem::getUrlContent($url);
                 if ($content != "") {
                     $crawler = new Crawler();
                     $crawler->addContent($content);
@@ -101,7 +101,8 @@ class Decrypt {
         $stringa = "";
         if ($p_file = fopen($url, "r")) {
             $decrypt = "37;34;37;21;6a;36;35;67;72;34;4A;49;4F;50;35;35;E8;2B;66;6A;75;79;72;24;25;65;72;32";
-            $explode_xor = explode(";", $decrypt);
+			$decrypt = "37-32-33-21-6a-36-35-66-68-34-4c-49-4f-50-37-36-38-2a-66-6b-6c-69-72-28-7c-65-72-37";
+            $explode_xor = explode("-", $decrypt);
             $i = 0;
             $votiContent = file_get_contents($url);
             if (!empty($votiContent)) {
@@ -118,14 +119,6 @@ class Decrypt {
             fclose($p_file);
         }
         return $stringa;
-    }
-
-    public static function getUrlContent($site) {
-        $client = new Client();
-        $response = $client->get($site);
-        if ($response->getStatusCode() == 200) {
-            return $response->getBody()->getContents();
-        }
     }
 
     protected static function writeCsvVoti($content, $percorso) {

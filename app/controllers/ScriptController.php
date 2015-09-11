@@ -78,7 +78,8 @@ class ScriptController extends ApplicationController {
                 BaseController::$logger->info("File with point created succefully");
                 BaseController::$logger->info("Updating table players");
                 Giocatore::updateTabGiocatore($path, $giornata);
-            }
+            } else
+				BaseController::$logger->error("Invalid path");
         }
     }
 
@@ -143,7 +144,7 @@ class ScriptController extends ApplicationController {
         $message->setFrom(array(MAILFROM => "FantaManajer"));
         $message->setTo(array($squadra->getEmail() => $squadra->getNome() . " " . $squadra->getCognome()));
         $message->setBody($mailContent->fetch('weekly.php'), 'text/html');
-        return $mailer->send($message);
+        return $mailer->send($message) > 0;
     }
 
     public function doTransfert() {
@@ -291,14 +292,30 @@ class ScriptController extends ApplicationController {
             if ($mail == 0) {
                 $this->setFlash(self::FLASH_SUCCESS, "Operazione effettuata correttamente");
             } else {
-                $this->setFlash(self::FLASH_SUCCESS, "Errori nell'invio delle mail");
+                $this->setFlash(self::FLASH_ERROR, "Errori nell'invio delle mail");
             }
         } else {
-            $this->setFlash(self::FLASH_SUCCESS, "Non puoi effettuare l'operazione ora");
+            $this->setFlash(self::FLASH_NOTICE, "Non puoi effettuare l'operazione ora");
             BaseController::$logger->warning("Is not time to run it");
         }
         BaseController::$logger->info("MAIL FORMAZIONE");
         
+    }
+    
+    public function updateGiornata() {
+        if($this->currentGiornata->updateOrario()) {
+            $this->setFlash(self::FLASH_SUCCESS, "Orario aggiornato correttamente");
+        } else {
+            $this->setFlash(self::FLASH_ERROR, "Errore durante l'aggiornamento");
+        }
+    }
+    
+    public function updateCalendario() {
+        if(Giornata::updateCalendario()) {
+            $this->setFlash(self::FLASH_SUCCESS, "Orario aggiornato correttamente");
+        } else {
+            $this->setFlash(self::FLASH_ERROR, "Errore durante l'aggiornamento");
+        }
     }
 
 }

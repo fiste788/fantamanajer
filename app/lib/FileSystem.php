@@ -2,6 +2,10 @@
 
 namespace Fantamanajer\Lib;
 
+use FirePHP;
+use GuzzleHttp\Client;
+use Symfony\Component\DomCrawler\Crawler;
+
 class FileSystem {
 
     public static function getDirIntoFolder($folder) {
@@ -88,6 +92,14 @@ class FileSystem {
         ob_end_clean();
         return $string;
     }    
+    
+    public static function getUrlContent($site) {
+        $client = new Client();
+        $response = $client->get($site);
+        if ($response->getStatusCode() == 200) {
+            return $response->getBody();
+        }
+    }
 
     public static function scaricaLista($percorso) {
         if (file_exists($percorso))
@@ -133,26 +145,8 @@ class FileSystem {
     }
 
 
-/*
-    public static function scaricaOrariGiornata($giornata) {
-        require_once(INCDIR . 'phpQuery.inc.php');
-        $contenuto = self::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/campionato-classifica?p_p_id=BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC_numeroGiornata=$giornata");
-        phpQuery::newDocument($contenuto);
-        FirePHP::getInstance()->log(pq("#main_wrapper"));
-        preg_match_all('#<div class="chart_box .*?<strong>(.*?)<\/strong>#mis', $contenuto, $matches);
-        $orari = $matches[1];
-        FirePHP::getInstance()->log($matches);
-        die();
-        $timestamp = array();
-        foreach ($orari as $one)
-            $timestamp[] = strtotime(str_replace('/', '-', $one));
-        asort($timestamp);
-        $gg = array();
-        $gg['inizioPartite'] = array_shift($timestamp);
-        $gg['finePartite'] = array_pop($timestamp);
-        return $gg;
-    }
-*/
+    
+
     public static function deleteFiles($dir,$ext,$days) {
         if ($handle = opendir($dir)) {
             while (false !== ($filename = readdir($handle))) {

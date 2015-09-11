@@ -56,6 +56,7 @@ class Dispatcher {
                     } catch (Exception $ex) {
                         ob_end_clean();
                         FirePHP::getInstance()->error($ex->getMessage());
+						//die($ex);
                         $content = $controller->render("Si è verificato un errore interno nell'elaborazione dei dati");
                         $response->setHttpCode(500);
                     }

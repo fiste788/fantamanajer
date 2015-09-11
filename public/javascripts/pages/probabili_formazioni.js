@@ -6,27 +6,32 @@ $.ajax({
     dataType:'html',
     success:function(data,textStatus){
         if(textStatus === "success") {
-            var formazioni = $(".formazione",data);
+            var formazioni = $(".matchFieldContainer",data);
             var row = null;
             formazioni.each(function (i,ele) {
                 if(i % 2 === 0)
                     row = $('<div class="row">');
                 var formazione = $(ele).clone();
                 //formazione.addClass('');
-                formazione.addClass('well');
-                $(".container-campo,.container-altro",formazione).addClass("row");
-                var campo = $(".container-campo ul",formazione);
-                campo.wrap('<div class="col-lg-6 col-md-6">')
-                campo.addClass("list-unstyled well");
-                $(".title,.sub-title",formazione).addClass('center');
-                $(".container-campo ul",formazione).each(function(i,ele) {
-                    var link = $(".title a",ele);
-                    $(".title span",ele).remove();
+                formazione.addClass('well formazione');
+                formazione.find(".team-players-container,.matchDetails").addClass("row");
+                formazione.find('.team').each(function(i,ele) {
+                    var link = $(ele).find(".teamName a");
                     var nome = link.text().toLowerCase();
                     link.text('');
                     link.prepend('<h4 class="center">' + nome.toUpperCase() + '</h4>');
                     link.append('<img src="' + IMGSURL + 'clubs/' + clubs[nome]  + '.png">');
                     link.attr('href',FULLURL + 'dettaglioClub/' + clubs[nome]);
+                });
+                var campo = formazione.find(".team-players-container");
+                campo.find(">li").addClass('col-lg-6 col-md-6');
+                campo.find("ul").addClass("list-unstyled well");
+                campo.addClass("list-unstyled");
+                $(".title,.sub-title",formazione).addClass('center');
+                campo.each(function(i,ele) {
+                    var link = $(ele).find(".teamName a");
+                    $(".title span",ele).remove();
+                    
                 });
                 $(".container-altro ul",formazione).addClass("list-unstyled");
                 $(".container-altro>ul",formazione).wrap('<div class="col-lg-6 col-md-6">').addClass(" well");

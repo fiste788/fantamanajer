@@ -30,9 +30,15 @@ class Formazione extends FormazioneTable {
         } else {
             $titolari = $parameters['titolari'];
             $panchinari = $parameters['panchinari'];
-            $giocatoriIds = array_merge($titolari, $panchinari);
+            $giocatoriIds = !empty($panchinari) ? array_merge($titolari, $panchinari) : $titolari;
             $modulo = $this->calcModulo($titolari);
             $this->setModulo($modulo);
+            if($this->idCapitano == 0)
+                $this->idCapitano = NULL;
+            if($this->idVCapitano == 0)
+                $this->idVCapitano = NULL;
+            if($this->idVVCapitano == 0)
+                $this->idVVCapitano = NULL;
         }
 
         try {

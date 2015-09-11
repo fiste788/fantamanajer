@@ -77,8 +77,8 @@ if (!LOCAL) {
 
     define("DBTYPE", "mysql");
     define("DBNAME", "fantamanajer");
-    define("DBUSER", "fantamanajerUser");
-    define("DBPASS", "banana");
+    define("DBUSER", "root");
+    define("DBPASS", "");
     define("DBHOST", "localhost");
 
     define("MODREWRITE", FALSE);

@@ -98,12 +98,12 @@ abstract class BaseController {
         $this->auth = new Login();
         self::$logger = new Logger("logger");
         self::$logger->pushHandler(new StreamHandler(LOGSDIR . date("Ymd") . ".log"));
-        //$this->logger->pushHandler(new \Monolog\Handler\FirePHPHandler());
+        //self::$logger->pushHandler(new \Monolog\Handler\FirePHPHandler());
         ErrorHandler::register(self::$logger);
         $this->asset = new AssetManager();
         FirePHP::getInstance(TRUE);
         FirePHP::getInstance()->setEnabled(LOCAL);
-        FirePHP::getInstance()->registerErrorHandler(false);
+        FirePHP::getInstance()->registerErrorHandler(true);
 
         $this->request = $request;
         $this->response = $response;
