@@ -81,7 +81,7 @@ if (!LOCAL) {
     define("DBPASS", "");
     define("DBHOST", "localhost");
 
-    define("MODREWRITE", FALSE);
+    define("MODREWRITE", TRUE);
     error_reporting(E_ALL);
 }
 

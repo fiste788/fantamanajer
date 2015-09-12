@@ -40,8 +40,8 @@ class Decrypt {
      */
     // per calcolare la chiave di decrypt...da lanciare manualmente
     public static function calculateKey() {
-        $pathcript = DOCSDIR . "mcc01.rcs"; //file criptato .rcs
-        $pathencript = DOCSDIR . "mcc01.txt"; //file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
+        $pathcript = DOCSDIR . "mcc02.mxm"; //file criptato .rcs
+        $pathencript = DOCSDIR . "mcc02.txt"; //file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
         $cript = file_get_contents($pathcript);
         $encript = file_get_contents($pathencript);
         $ris = "";
@@ -102,9 +102,14 @@ class Decrypt {
         if ($p_file = fopen($url, "r")) {
             $decrypt = "37;34;37;21;6a;36;35;67;72;34;4A;49;4F;50;35;35;E8;2B;66;6A;75;79;72;24;25;65;72;32";
 			$decrypt = "37-32-33-21-6a-36-35-66-68-34-4c-49-4f-50-37-36-38-2a-66-6b-6c-69-72-28-7c-65-72-37";
+			$decrypt = "31-30-31-7c-31-7c-22-41-42-42-49-41-54-49-20-43-68-72-69-73-74-69-61-6e-22-7c-22-4d";
+			$decrypt = "31-30-31-7c-32-7c-22-41-42-42-49-41-54-49-20-43-68-72-69-73-74-69-61-6e-22-7c-22-4d-49-4c-41-4e-22-7c-31";
+			$decrypt = "6b-34-6c-23-30-66-66-32-34-74-38-37-35-34-46-49-4f-2d-38-34-39-33-31-3c-7c-37-37-5a";
+			//31-30-31-7c-31-7c-22-41-42-42-49-41-54-49-20-43-68-72-69-73-74-69-61-6e-22-7c-22-4d
             $explode_xor = explode("-", $decrypt);
             $i = 0;
             $votiContent = file_get_contents($url);
+			//die("aaaa" . strlen($votiContent));
             if (!empty($votiContent)) {
                 while (!feof($p_file)) {
                     if ($i == count($explode_xor)) {
@@ -114,6 +119,7 @@ class Decrypt {
                     $xor2 = hexdec(bin2hex($linea)) ^ hexdec($explode_xor[$i]);
                     $i++;
                     $stringa .= chr($xor2);
+					
                 }
             }
             fclose($p_file);

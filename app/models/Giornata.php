@@ -182,11 +182,12 @@ class Giornata extends GiornataTable {
      * @return \DateTime
      */
     public static function scaricaOrarioGiornata($giornata) {
-        $content = FileSystem::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/campionato-classifica?p_p_id=BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC_numeroGiornata=$giornata");
-        if ($content != "") {
+        //$content = FileSystem::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/campionato-classifica?p_p_id=BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_BDC_tabellone_partite_giornata_WAR_LegaCalcioBDC_numeroGiornata=$giornata");
+        $content = FileSystem::contenutoCurl("http://www.legaseriea.it/it/serie-a-tim/calendario-e-risultati/2015-16/UNICO/UNI/$giornata");
+		if ($content != "") {
             $crawler = new Crawler();
             $crawler->addContent($content);
-            $box = $crawler->filter(".chart_box")->first()->filter(".description p")->first()->filter("strong");
+            $box = $crawler->filter(".datipartita")->first()->filter("p")->first()->filter("span");
             $data = $box->text();
             if($data != "") {
                 return \DateTime::createFromFormat("!d/m/Y H:i",$data);
