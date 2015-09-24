@@ -4,58 +4,58 @@ namespace Fantamanajer\Models;
 
 use DateTime;
 use Fantamanajer\Lib\FileSystem;
-use Fantamanajer\Models\Table\GiornataTable;
+use Fantamanajer\Models\Table\MatchdaysTable;
 use FirePHP;
 use Lib\Database\ConnectionFactory;
 use PDO;
 use PDOException;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Giornata extends GiornataTable {
+class Matchday extends MatchdaysTable {
 
     /**
      *
-     * @var bool
+     * @var boolean
      */
-    private $_stagioneFinita;
+    private $_isSeasonEnded;
 
     /**
      *
-     * @return bool
+     * @return boolean
      */
-    public function isStagioneFinita() {
-        return (bool) $this->_stagioneFinita;
+    public function isSeasonEnded() {
+        return (boolean) $this->_isSeasonEnded;
     }
 
     /**
      *
-     * @param bool $stagioneFinita
+     * @param boolean $isSeasonEnded
      */
-    public function setStagioneFinita($stagioneFinita) {
-        $this->_stagioneFinita = (bool) $stagioneFinita;
+    public function setSeasonEnded($isSeasonEnded) {
+        $this->_isSeasonEnded = (boolean) $isSeasonEnded;
     }
 
 
     /**
      *
-     * @return Giornata
+     * @return Matchday
      */
-    public static function getCurrentGiornata() {
-        $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-        $q = "SELECT MIN(id) as id, data
-				FROM giornata
-				WHERE NOW() < data - INTERVAL :minuti MINUTE";
+    public static function getCurrent() {
+        $minutes = isset($_SESSION['leagues_data']) ? $_SESSION['leagues_data']->minute_lineup : 0;
+        $q = "SELECT MIN(id) as id, date, season_id
+				FROM " . self::TABLE_NAME . "
+				WHERE NOW() < date - INTERVAL :minutes MINUTE";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
+        $exe->bindValue(":minutes", $minutes, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
-        $valore = $exe->fetchObject(__CLASS__);
-        $valore->setStagioneFinita($valore->getId() > (self::getNumberGiornate() - 1));
-        return $valore;
+        $value = $exe->fetchObject(__CLASS__);
+        $value->setSeasonEnded($value->getId() > (self::getNumberOfMatchday($value->getSeason()) - 1));
+        return $value;
     }
 
     public static function isWeeklyScriptDay(Giornata $giornata = NULL) {
-        $giornata = !is_null($giornata) ? $giornata : self::getCurrentGiornata();
+        $giornata = !is_null($giornata) ? $giornata : self::getCurrent();
         $now = new DateTime();
         $now->modify("-1 day");
         $previous = self::getById($giornata->getId() - 1);
@@ -93,10 +93,18 @@ class Giornata extends GiornataTable {
             return FALSE;
     }
 
-    public static function getNumberGiornate() {
-        $q = "SELECT COUNT(id) as numeroGiornate
-				FROM giornata";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+    /**
+     * 
+     * @param Season $season
+     * @return int
+     */
+    public static function getNumberOfMatchday($season) {
+        $q = "SELECT COUNT(id) as number
+		FROM " . self::TABLE_NAME .
+                " WHERE season_id = :season_id";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":season_id", $season->getId(), PDO::PARAM_INT);
+        $exe->execute();
         return $exe->fetchColumn();
     }
 
@@ -105,14 +113,14 @@ class Giornata extends GiornataTable {
      * @return DateTime
      */
     public static function getTargetCountdown() {
-        $minuti = isset($_SESSION['datiLega']) ? $_SESSION['datiLega']->minFormazione : 0;
-        $q = "SELECT MIN(data) - INTERVAL :minuti MINUTE as data
-				FROM giornata
-				WHERE NOW() < data";
+        $minuti = isset($_SESSION['league_data']) ? $_SESSION['league_data']->minute_lineup : 0;
+        $q = "SELECT MIN(date) - INTERVAL :minutes MINUTE as date
+				FROM " . self::TABLE_NAME .
+				" WHERE NOW() < date";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":minuti", $minuti, PDO::PARAM_INT);
+        $exe->bindValue(":minutes", $minuti, PDO::PARAM_INT);
         $exe->execute();
-        return $exe->fetchObject(__CLASS__)->getData();
+        return $exe->fetchObject(__CLASS__)->getDate();
     }
 
     /**

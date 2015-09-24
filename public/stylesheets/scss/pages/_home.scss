@@ -1,0 +1,27 @@
+#home {
+    .foto {
+        float:none;
+        margin-bottom:8px;
+    }
+    h4 {
+        text-align:center;
+    }
+    #best-player {
+        text-align:center;
+        a {
+          @include text-ellipse();
+      }
+    }
+    .foto-container {
+        height:200px;
+        display:block;
+        vertical-align:middle;
+        line-height:200px;
+    }
+    .all {
+        width:100%;
+        text-align: right;
+        margin-top:8px;
+    }
+    
+}

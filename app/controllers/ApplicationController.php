@@ -4,12 +4,13 @@ namespace Fantamanajer\Controllers;
 
 use Fantamanajer\Lib\Notify;
 use Fantamanajer\Lib\QuickLinks;
-use Fantamanajer\Lib\Ruolo;
-use Fantamanajer\Models\Formazione;
-use Fantamanajer\Models\Giocatore;
-use Fantamanajer\Models\Giornata;
-use Fantamanajer\Models\Lega;
-use Fantamanajer\Models\Trasferimento;
+use Fantamanajer\Models\League;
+use Fantamanajer\Models\Lineup;
+use Fantamanajer\Models\Matchday;
+use Fantamanajer\Models\Member;
+use Fantamanajer\Models\Season;
+use Fantamanajer\Models\Transfert;
+use Fantamanajer\Models\User;
 use FirePHP;
 use Lib\BaseController;
 use Lib\Request;
@@ -26,31 +27,32 @@ abstract class ApplicationController extends BaseController {
 
     /**
      *
-     * @var Giornata
+     * @var Season 
      */
-    protected $currentGiornata;
+    protected $currentSeason;
+    
+    /**
+     *
+     * @var Matchday
+     */
+    protected $currentMatchday;
 
     /**
      *
-     * @var Lega
+     * @var League
      */
-    protected $currentLega;
-
-    /**
-     *
-     * @var Ruolo[]
-     */
-    protected $ruoli = array();
+    protected $currentLeague;
 
     /**
      *
      * @var Notify[]
      */
-    protected $notifiche = array();
+    protected $notification = array();
 
     public function __construct(Request $request, Response $response) {
         parent::__construct($request,$response);
         FirePHP::getInstance()->setEnabled($_SESSION['roles'] == 2);
+        FirePHP::getInstance()->setEnabled(true);
         $this->templates['operation'] = new Savant3(array('template_path' => OPERATIONSDIR));
         $response->setHeader("X-UA-Compatible", "IE=edge");
     }
@@ -62,51 +64,48 @@ abstract class ApplicationController extends BaseController {
 
     public function initialize() {
         parent::initialize();
-        $this->notifiche = array();
-        $this->ruoli['P'] = new Ruolo("Portiere", "Portieri", "POR");
-        $this->ruoli['D'] = new Ruolo("Difensore", "Difensori", "DIF");
-        $this->ruoli['C'] = new Ruolo("Centrocampista", "Centrocampisti", "CEN");
-        $this->ruoli['A'] = new Ruolo("Attaccante", "Attaccanti", "ATT");
-
-        $leghe = Lega::getList();
+        $this->notification = array();
+        $leagues = League::getList();
         
-        if (!is_null(Request::getRequest()->getParam('legaView',NULL))) {
-            $_SESSION['legaView'] = Request::getRequest()->getParam('legaView');
+        if (!is_null(Request::getRequest()->getParam('league_view',NULL))) {
+            $_SESSION['league_view'] = Request::getRequest()->getParam('league_view');
         }
-        if (isset($_SESSION['idLega'])) {
-            $_SESSION['datiLega'] = $leghe[$_SESSION['idLega']];
+        if (isset($_SESSION['league_id'])) {
+            $_SESSION['league_data'] = $leagues[$_SESSION['league_data']];
         }
-        $this->currentGiornata = Giornata::getCurrentGiornata();
-        $this->currentLega = $leghe[$_SESSION['legaView']];
-        $dataFine = Giornata::getTargetCountdown();
+        $this->currentSeason = Season::getCurrent();
+        $this->currentMatchday = Matchday::getCurrent();
+        $this->currentLeague = $leagues[$_SESSION['league_view']];
+        //$this->currentLeague = $leagues[1];
+        $endDate = Matchday::getTargetCountdown();
         foreach ($this->templates as $savant) {
-            $savant->assign('ruoli', $this->ruoli);
-            $savant->assign('dataFine', date_parse($dataFine->format("Y-m-d H:i:s")));
-            $savant->assign('timestamp', $dataFine->getTimestamp());
-            $savant->assign('currentGiornata',$this->currentGiornata->getId());
-            $savant->assign('stagioneFinita',$this->currentGiornata->isStagioneFinita());
-            $savant->assign('leghe', $leghe);
+            $savant->assign('endDate', date_parse($endDate->format("Y-m-d H:i:s")));
+            $savant->assign('timestamp', $endDate->getTimestamp());
+            $savant->assign('currentMatchday',$this->currentMatchday->getId());
+            $savant->assign('isSeasonEnded',$this->currentMatchday->isSeasonEnded());
+            $savant->assign('leagues', $leagues);
             $savant->assign('route',$this->route);
             $savant->assign('router', $this->router);
             $savant->assign('request',$this->request);
         }
         $this->quickLinks = new QuickLinks($this->request,$this->router,$this->route);
         $this->templates['navbar']->assign('entries',$this->pages);
-        $this->initializeNotifiche();
-        $this->templates['navbar']->assign('notifiche',$this->notifiche);
+        $this->initializeNotification();
+        $this->templates['navbar']->assign('notification',$this->notification);
     }
 
-    private function initializeNotifiche() {
-         if(!$this->currentGiornata->isStagioneFinita()) {
-            $formazione = Formazione::getFormazioneBySquadraAndGiornata($_SESSION['idUtente'],$this->currentGiornata->getId());
-            if(empty($formazione)) {
-                $this->notifiche[] = new Notify(Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('formazione'));
+    private function initializeNotification() {
+         if(!$this->currentMatchday->isSeasonEnded()) {
+            $lineup = Lineup::getFormazioneBySquadraAndGiornata($_SESSION['user_id'],$this->currentMatchday->getId());
+            if(empty($lineup)) {
+                $this->notification[] = new Notify(Notify::LEVEL_MEDIUM,'Non hai ancora impostato la formazione per questa giornata',$this->router->generate('lineup'));
             }
         }
-
-        $giocatoriInattivi = Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
-        if(!empty($giocatoriInattivi) && count(Trasferimento::getTrasferimentiByIdSquadra($_SESSION['idUtente'])) < $_SESSION['datiLega']->numTrasferimenti ) {
-            $this->notifiche[] = new Notify(Notify::LEVEL_HIGH,'Un tuo giocatore non Ã¨ piÃ¹ nella lista!',$this->router->generate('trasferimento_index'));
+        if($_SESSION['logged']) {
+            $inactivePlayers = Member::getInactiveByTeam(User::getById($_SESSION['user_id'])->getTeam());
+            if(!empty($inactivePlayers) && count(Transfert::getTrasferimentiByIdSquadra($_SESSION['user_id'])) < $_SESSION['league_data']->number_transfert) {
+                $this->notification[] = new Notify(Notify::LEVEL_HIGH,'Un tuo giocatore non è più nella lista!',$this->router->generate('transfert_index'));
+            }
         }
     }
 

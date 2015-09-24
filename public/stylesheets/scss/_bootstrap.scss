@@ -1,0 +1,8 @@
+@function twbs-font-path($path) {
+  @return "../../" + $bootstrap-path + "/fonts/" + $path;
+}
+
+@function twbs-image-path($path) {
+  @return "../../" + $bootstrap-path + "/images/" + $path;
+}
+@import "../../#{$bootstrap-path}/stylesheets/_bootstrap";

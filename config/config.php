@@ -76,7 +76,7 @@ if (!LOCAL) {
     define("FULLSTATICPATH", FULLPATH);
 
     define("DBTYPE", "mysql");
-    define("DBNAME", "fantamanajer");
+    define("DBNAME", "fantamanajer_multiseason");
     define("DBUSER", "root");
     define("DBPASS", "");
     define("DBHOST", "localhost");
@@ -90,6 +90,7 @@ define("PUBLICDIR", FULLSTATICPATH . 'public' . DS);
 define("STYLESHEETSDIR", PUBLICDIR . 'stylesheets' . DS);
 define("CSSDIR", STYLESHEETSDIR . 'css' . DS);
 define("LESSDIR", STYLESHEETSDIR . 'less' . DS);
+define("SCSSDIR", STYLESHEETSDIR . 'scss' . DS);
 define("CACHEDIR", STYLESHEETSDIR . 'cache' . DS);
 define("IMAGESDIR", PUBLICDIR . 'images' . DS);
 define("PLAYERSDIR", IMAGESDIR . 'photo' . DS);

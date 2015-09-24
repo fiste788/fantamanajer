@@ -3,13 +3,13 @@
 namespace Fantamanajer\Models;
 
 use Fantamanajer\Lib\FileSystem;
-use Fantamanajer\Models\Table\GiocatoreTable;
+use Fantamanajer\Models\Table\MembersTable;
 use FirePHP;
 use Lib\Database\ConnectionFactory;
 use PDO;
 use PDOException;
 
-class Giocatore extends GiocatoreTable {
+class Member extends MembersTable {
 
     public function save(array $parameters = NULL) {
         try {
@@ -18,7 +18,7 @@ class Giocatore extends GiocatoreTable {
             if (!is_null($parameters)) {
                 $evento = new Evento();
                 $evento->setIdExternal($this->id);
-				$evento->setData(new \DateTime());
+		$evento->setData(new \DateTime());
                 $evento->setTipo($parameters['numEvento']);
                 $evento->save();
             }
@@ -205,13 +205,13 @@ class Giocatore extends GiocatoreTable {
         return $giocatori;
     }
 
-    public static function getGiocatoriInattiviByIdUtente($idUtente) {
-        $q = "SELECT giocatore.id, cognome, nome, ruolo
-				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idUtente = :idUtente AND attivo = :attivo";
+    public static function getInactiveByTeam($team) {
+        $q = "SELECT *
+				FROM " . self::TABLE_NAME . " INNER JOIN members_teams ON members.id = members_teams.member_id
+				WHERE team_id = :team_id AND active = :active";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->bindValue(":attivo", FALSE, PDO::PARAM_INT);
+        $exe->bindValue(":team_id", $team->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":active", FALSE, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
@@ -223,7 +223,7 @@ class Giocatore extends GiocatoreTable {
 
     public static function getBestPlayerByGiornataAndRuolo($idGiornata, $ruolo) {
         $q = "SELECT giocatore.*,punti
-				FROM giocatore INNER JOIN voto ON giocatore.id = voto.idGiocatore
+				FROM " . self::TABLE_NAME . " INNER JOIN voto ON giocatore.id = voto.idGiocatore
 				WHERE idGiornata = :idGiornata AND ruolo = :ruolo
 				ORDER BY punti DESC , voto DESC
 				LIMIT 0 , 5";

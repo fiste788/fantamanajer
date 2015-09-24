@@ -1,0 +1,15 @@
+#message {
+    width: 100%;
+    text-align: center;
+	@media (min-width: $screen-sm-min) {
+		border-radius: 0 0 5px 5px;
+        border-top: 0;
+        box-shadow: 0 0 4px #000000;
+        position: absolute;
+        right: 25%;
+        left: 25%;
+        padding: 8px 10px;
+        width: auto;
+        z-index: 1;
+	}
+}

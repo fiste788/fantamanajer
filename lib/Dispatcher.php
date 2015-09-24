@@ -70,6 +70,7 @@ class Dispatcher {
             } catch (Exception $e) {
                 $response->setHttpCode(500);
                 $content = $e->getMessage();
+                $content .= $e->getTraceAsString();
             }
             $response->setBody($content);
         } else {

@@ -2,14 +2,14 @@
 
 namespace Fantamanajer\Models;
 
-use Fantamanajer\Models\Table\FormazioneTable;
+use Fantamanajer\Models\Table\LineupsTable;
 use FirePHP;
 use Lib\Database\ConnectionFactory;
 use Lib\FormException;
 use PDO;
 use PDOException;
 
-class Formazione extends FormazioneTable {
+class Lineup extends LineupsTable {
     
     public function duplicate($giornata) {
         $giocatori = Schieramento::getSchieramentoById($this->getId());

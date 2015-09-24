@@ -1,0 +1,32 @@
+#topbar nav {
+    #login {
+        form {
+            margin: 0;
+            padding: 10px 20px;
+        }
+        label {
+            color: #666666;
+        }
+		@media (min-width: $screen-sm-min) {
+			.dropdown-menu {
+				max-width: 260px;
+				width: 260px;
+			}
+		}
+    }
+    #lega-view {
+        width: 160px;
+        margin: 8px 8px 0;
+        display: inline;
+		@media (min-width: $screen-sm-min) {
+			margin: 0 !important;
+		}
+    }
+
+	@media (min-width: $screen-sm-min) {
+		.navbar-right .dropdown-menu {
+			right: 0;
+			left: auto;
+		}
+	}
+}

@@ -1,0 +1,160 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url('#{$font-path}/opensans-regular-webfont.eot');
+    src: url('#{$font-path}/opensans-regular-webfont.eot?#iefix') format("embedded-opentype"), 
+		 url('#{$font-path}/opensans-regular-webfont.woff') format("woff"), 
+		 url('#{$font-path}/opensans-regular-webfont.ttf') format("truetype"), 
+		 url('#{$font-path}/opensans-regular-webfont.svg#OpenSansRegular') format("svg");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Open Sans";
+    src: url('#{$font-path}/opensans-semibold-webfont.eot');
+    src: url('#{$font-path}/opensans-semibold-webfont.eot?#iefix') format("embedded-opentype"), 
+		 url('#{$font-path}/opensans-semibold-webfont.woff') format("woff"), 
+		 url('#{$font-path}/opensans-semibold-webfont.ttf') format("truetype"), 
+		 url('#{$font-path}/opensans-semibold-webfont.svg#OpenSansSemibold') format("svg");
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Score Board';
+    src: url('#{$font-path}/scoreboard-webfont.eot');
+    src: url('#{$font-path}/scoreboard-webfont.eot?#iefix') format('embedded-opentype'),
+         url('#{$font-path}/scoreboard-webfont.woff') format('woff'),
+         url('#{$font-path}/scoreboard-webfont.ttf') format('truetype'),
+         url('#{$font-path}/scoreboard-webfont.svg#score_boardregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+html {
+    height: 100%;
+}
+body {
+    overflow-x: hidden;
+    font-family: Open Sans, sans-serif;
+    text-align: left;
+    padding-top: 50px;
+    font-size: 13px;
+    height: 100%;
+	@media (min-width: $screen-sm-min) {
+		background: #e6eaed url("#{$imgs-path}bg.jpg") repeat-x center top;
+	}
+}
+a {
+	@include transition(all 0.15s linear 0s);
+	cursor: pointer;
+}
+a:hover {
+    text-decoration: none;
+}
+.center {
+	text-align:center;
+}
+label {
+	cursor:pointer;
+}
+input.small {
+	width:45px;
+	text-align: center;
+}
+img {
+    @include box-sizing(content-box)
+}
+.foto {
+	@include rotate(-2deg);
+}
+.foto.nophoto {
+	@include user-select(none);
+	@include box-shadow(0 0 0 3px #333333);
+	background-color: #222222;
+	border: 2px solid #FFFFFF;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 700%;
+	height: 180px;
+	line-height: 160px;
+	margin: 9px;
+	text-align: center;
+	width: 140px;
+}
+.foto.pull-left,.logo.pull-left {
+	margin-right:20px;
+}
+.no-wrap,.nowrap {
+    white-space:nowrap;
+}
+.ammonizione,.espulsione {
+    width:10px;
+    height:15px;
+    display: inline-block;
+    @include box-shadow(1px 1px 2px #AAAAAA);
+}
+.ammonizione {
+    background-color: yellow;
+}
+.espulsione {
+    background-color: red;
+}
+.well {
+    overflow: hidden;
+	@media (min-width: $screen-sm-min) {
+		overflow: visible;
+	}
+}
+#plot-container {
+    margin: 0 auto;
+    width:724px;
+    clear:both;
+    overflow:hidden;
+    #placeholder-overview {
+        float:left;
+        cursor:pointer;
+        margin-right:12px;
+    }
+    #placeholder {
+        width:100%;
+    }
+    #clear-selection {
+        display:none;
+    }
+}
+table {
+	.tablesorter-headerAsc, .tablesorter-headerDesc {
+		background-color:rgba(141,192,219,0.25);
+		text-shadow:0 1px 1px rgba(255,255,255,0.75);
+	}
+	.tablesorter-headerDesc:after, .tablesorter-headerDesc:hover:after {
+		visibility:visible;
+		@include opacity(60);
+	}
+	.tablesorter-header {
+		cursor:pointer;
+	}
+	.tablesorter-header:after {
+		content:"";
+		float:right;
+		margin-top:7px;
+		border-width:0 4px 4px;
+		border-style:solid;
+		border-color:#000000 transparent;
+		visibility:hidden;
+	}
+	.tablesorter-header:hover:after {
+		visibility:visible;
+	}
+	.tablesorter-headerAsc:after {
+		border-bottom:none;
+		border-left:4px solid transparent;
+		border-right:4px solid transparent;
+		border-top:4px solid #000000;
+		visibility:visible;
+		@include box-shadow(none);
+		@include opacity(60);
+	}
+	.tablesorter-header-inner {
+		float:left;
+	}
+}

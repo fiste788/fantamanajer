@@ -1,0 +1,15 @@
+#notifications {
+	.label {
+		font-size: 14px;
+	}
+	.box {
+		min-height: 20px;
+		line-height: 20px;
+		position: absolute;
+		text-align: left;
+		width: 300px;
+		a {
+			white-space: normal !important;
+		}
+	}
+}

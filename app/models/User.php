@@ -2,7 +2,7 @@
 
 namespace Fantamanajer\Models;
 
-use Fantamanajer\Models\Table\UtenteTable;
+use Fantamanajer\Models\Table\UsersTable;
 use Fantamanajer\Models\View\GiocatoreStatistiche;
 use FirePHP;
 use Lib\Database\ConnectionFactory;
@@ -10,7 +10,7 @@ use Lib\FormException;
 use PDO;
 use PHPImageWorkshop\ImageWorkshop;
 
-class Utente extends UtenteTable {
+class User extends UsersTable {
 
     public static function getByIdLegaLite($idLega) {
         $q = "SELECT id,nomeSquadra

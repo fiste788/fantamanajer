@@ -48,7 +48,7 @@
         <?php endif; ?>
         <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
-        <link rel="alternate" type="application/atom+xml" title="FantaManajer - RSS" href="<?php echo $this->router->generate('rss',array('lega'=>$_SESSION['legaView'])) ?>" />
+        
     </head>
     <body>
         <div id="container">

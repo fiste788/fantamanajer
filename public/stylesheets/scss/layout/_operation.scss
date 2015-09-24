@@ -1,0 +1,67 @@
+#operation {
+	+ #content .inner-page {
+		padding-top: 5px;
+	}
+	.fix {
+		width: 100% !important;
+	}
+	.container {
+		display: table;
+	}
+	.next, .back {
+		display: table-cell;
+		width: 5%;
+		height: 30px;
+		vertical-align: middle;
+		text-align: center;
+	}
+	.next span, .back span {
+		width: 25px;
+	}
+	div {
+		&.next span, &.back span {
+			display: block;
+			@media (min-width: $screen-sm-min) {
+				width: 50px;
+			}
+		}
+	}
+	.operation-content {
+		padding: 2px 0;
+		display: table-row;
+		width: 100%;
+	}
+	form {
+		width: 100%;
+		margin: 0;
+		padding: 8px 0 0;
+	}
+	select, input {
+		margin: 0;
+		max-width: 250px;
+		display: inline;
+	}
+	.center {
+		display: table-cell;
+		width: 95%;
+		vertical-align: middle;
+		padding: 0 8px;
+	}
+	.top {
+		background: url("#{$imgs-path}bg.jpg") no-repeat center -140px;
+		@include box-shadow(0 2px 3px #aaaaaa);
+		width: 100%;
+		z-index: 2;
+	}
+	.form-group {
+		margin: 0 4px 8px;
+	}
+	input {
+		margin: 0;
+	}
+	@media (min-width: $screen-sm-min) {
+        select {
+            width: 250px;
+        }
+	}
+}

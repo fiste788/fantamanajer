@@ -1,10 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a30201119e3c31dfa061af98a23ff694",
+    "hash": "662ba41ee3857489c50bf70afcbbcbbb",
+    "content-hash": "d8ba0e590eeb6530c0bf79dd5eac40c4",
     "packages": [
         {
             "name": "firephp/firephp-core",
@@ -12,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/firephp/firephp-core.git",
-                "reference": "67b5aa8e314eb88f8927d1213ea268effa1dfa3d"
+                "reference": "b58e48ef2b6ab2d8fbe6d9aa585652d3e75486bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firephp/firephp-core/zipball/67b5aa8e314eb88f8927d1213ea268effa1dfa3d",
-                "reference": "67b5aa8e314eb88f8927d1213ea268effa1dfa3d",
+                "url": "https://api.github.com/repos/firephp/firephp-core/zipball/b58e48ef2b6ab2d8fbe6d9aa585652d3e75486bd",
+                "reference": "b58e48ef2b6ab2d8fbe6d9aa585652d3e75486bd",
                 "shasum": ""
             },
             "type": "library",
@@ -43,7 +44,7 @@
             ],
             "description": "Traditional FirePHPCore library for sending PHP variables to the browser.",
             "homepage": "https://github.com/firephp/firephp-core",
-            "time": "2014-11-26 18:59:18"
+            "time": "2015-08-02 19:57:10"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -161,16 +162,16 @@
         },
         {
             "name": "kriswallsmith/assetic",
-            "version": "dev-master",
+            "version": "1.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "0db20de988b7adc79375d33b2a566183af83c930"
+                "reference": "182bfb92b61df601b6eb5676bcb3c91eb5fad57a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/0db20de988b7adc79375d33b2a566183af83c930",
-                "reference": "0db20de988b7adc79375d33b2a566183af83c930",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/182bfb92b61df601b6eb5676bcb3c91eb5fad57a",
+                "reference": "182bfb92b61df601b6eb5676bcb3c91eb5fad57a",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +232,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2014-11-25 17:50:26"
+            "time": "2015-08-05 10:14:34"
         },
         {
             "name": "leafo/lessphp",
@@ -273,6 +274,62 @@
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
             "time": "2013-08-09 17:09:19"
+        },
+        {
+            "name": "leafo/scssphp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leafo/scssphp.git",
+                "reference": "7db57eb7bc3c80a418d066524bd9e5d8b294b8eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leafo/scssphp/zipball/7db57eb7bc3c80a418d066524bd9e5d8b294b8eb",
+                "reference": "7db57eb7bc3c80a418d066524bd9e5d8b294b8eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "kherge/box": "~2.5",
+                "phpunit/phpunit": "~3.7",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "bin": [
+                "bin/pscss"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classmap.php"
+                ],
+                "psr-4": {
+                    "Leafo\\ScssPhp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Leaf Corcoran",
+                    "email": "leafot@gmail.com",
+                    "homepage": "http://leafo.net"
+                }
+            ],
+            "description": "scssphp is a compiler for SCSS written in PHP.",
+            "homepage": "http://leafo.github.io/scssphp/",
+            "keywords": [
+                "css",
+                "less",
+                "sass",
+                "scss",
+                "stylesheet"
+            ],
+            "time": "2015-09-23 18:17:32"
         },
         {
             "name": "linkorb/jsmin-php",
@@ -399,12 +456,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/natxet/CssMin.git",
-                "reference": "2feb2aa71c5b299369c63ecc256185aaa5c05bcf"
+                "reference": "4026975145f645a77e087a26e7b0a1c9209b0191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/natxet/CssMin/zipball/2feb2aa71c5b299369c63ecc256185aaa5c05bcf",
-                "reference": "2feb2aa71c5b299369c63ecc256185aaa5c05bcf",
+                "url": "https://api.github.com/repos/natxet/CssMin/zipball/4026975145f645a77e087a26e7b0a1c9209b0191",
+                "reference": "4026975145f645a77e087a26e7b0a1c9209b0191",
                 "shasum": ""
             },
             "require": {
@@ -438,7 +495,7 @@
                 "css",
                 "minify"
             ],
-            "time": "2015-01-21 10:40:33"
+            "time": "2015-07-07 10:45:37"
         },
         {
             "name": "niahoo/altorouter",
@@ -535,12 +592,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/suin/php-rss-writer.git",
-                "reference": "fa1c14b07bf7aab96dc7069334ea47dff786a01e"
+                "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/fa1c14b07bf7aab96dc7069334ea47dff786a01e",
-                "reference": "fa1c14b07bf7aab96dc7069334ea47dff786a01e",
+                "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/96ff59575442dbe23e15fe7ff56d0bf27486cff9",
+                "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9",
                 "shasum": ""
             },
             "require": {
@@ -549,7 +606,7 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Suin\\RSSWriter": "Source"
+                    "Suin\\RSSWriter": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -559,9 +616,7 @@
             "authors": [
                 {
                     "name": "Hidehito Nozawa aka Suin",
-                    "email": "suinyeze@gmail.com",
-                    "homepage": "https://www.facebook.com/suinyeze",
-                    "role": "Developer, Renaming Specialist"
+                    "email": "suinyeze@gmail.com"
                 }
             ],
             "description": "Yet another simple RSS writer library for PHP 5.3 or later.",
@@ -569,10 +624,11 @@
             "keywords": [
                 "feed",
                 "generator",
+                "php",
                 "rss",
                 "writer"
             ],
-            "time": "2014-06-03 07:22:05"
+            "time": "2015-08-21 06:24:39"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -632,16 +688,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sybio/ImageWorkshop.git",
-                "reference": "20b228504d8a475f5361e8d73f9a477d181492ff"
+                "reference": "fa138722c26c08d8822f152ee498a84a307409e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sybio/ImageWorkshop/zipball/20b228504d8a475f5361e8d73f9a477d181492ff",
-                "reference": "20b228504d8a475f5361e8d73f9a477d181492ff",
+                "url": "https://api.github.com/repos/Sybio/ImageWorkshop/zipball/fa138722c26c08d8822f152ee498a84a307409e4",
+                "reference": "fa138722c26c08d8822f152ee498a84a307409e4",
                 "shasum": ""
             },
             "require": {
+                "ext-exif": "*",
+                "ext-gd": "*",
                 "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5"
             },
             "type": "library",
             "autoload": {
@@ -658,6 +719,10 @@
                     "name": "Clément Guillemain",
                     "homepage": "http://clementguillemain.fr",
                     "role": "Developer / Freelancer"
+                },
+                {
+                    "name": "ImageWorkshop Community",
+                    "homepage": "https://github.com/Sybio/ImageWorkshop/graphs/contributors"
                 }
             ],
             "description": "Powerful PHP class using GD library to work easily with images including layer notion (like Photoshop or GIMP)",
@@ -673,34 +738,36 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2015-01-18 20:26:41"
+            "time": "2015-09-10 07:39:42"
         },
         {
             "name": "symfony/css-selector",
-            "version": "2.4.x-dev",
-            "target-dir": "Symfony/Component/CssSelector",
+            "version": "2.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "4e9ddc09c13475fb1a52fb578a8899c8303966c5"
+                "reference": "ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/4e9ddc09c13475fb1a52fb578a8899c8303966c5",
-                "reference": "4e9ddc09c13475fb1a52fb578a8899c8303966c5",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad",
+                "reference": "ffb5f3b8a75f8d1b9801e74dc6789a0751a670ad",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\CssSelector\\": ""
                 }
             },
@@ -710,42 +777,42 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony CssSelector Component",
-            "homepage": "http://symfony.com",
-            "time": "2014-09-22 08:51:05"
+            "homepage": "https://symfony.com",
+            "time": "2015-08-24 07:13:45"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "2.4.x-dev",
-            "target-dir": "Symfony/Component/DomCrawler",
+            "version": "2.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "eea2c3d5c16f6319d0122153594fdb66dfba1ca1"
+                "reference": "2e185ca136399f902b948694987e62c80099c052"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/eea2c3d5c16f6319d0122153594fdb66dfba1ca1",
-                "reference": "eea2c3d5c16f6319d0122153594fdb66dfba1ca1",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/2e185ca136399f902b948694987e62c80099c052",
+                "reference": "2e185ca136399f902b948694987e62c80099c052",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
-                "symfony/css-selector": "~2.0"
+                "symfony/css-selector": "~2.3",
+                "symfony/phpunit-bridge": "~2.7"
             },
             "suggest": {
                 "symfony/css-selector": ""
@@ -753,11 +820,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\DomCrawler\\": ""
                 }
             },
@@ -767,44 +834,46 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony DomCrawler Component",
-            "homepage": "http://symfony.com",
-            "time": "2014-09-22 08:51:05"
+            "homepage": "https://symfony.com",
+            "time": "2015-09-20 21:13:58"
         },
         {
             "name": "symfony/process",
-            "version": "v2.6.4",
-            "target-dir": "Symfony/Component/Process",
+            "version": "v2.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "ecfc23e89d9967999fa5f60a1e9af7384396e9ae"
+                "reference": "f7b3f73f70a7f8f49a1c838dc3debbf054732d8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/ecfc23e89d9967999fa5f60a1e9af7384396e9ae",
-                "reference": "ecfc23e89d9967999fa5f60a1e9af7384396e9ae",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/f7b3f73f70a7f8f49a1c838dc3debbf054732d8e",
+                "reference": "f7b3f73f70a7f8f49a1c838dc3debbf054732d8e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\Process\\": ""
                 }
             },
@@ -814,17 +883,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Process Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-01-25 04:39:26"
+            "homepage": "https://symfony.com",
+            "time": "2015-08-27 06:45:45"
         }
     ],
     "packages-dev": [],
@@ -842,9 +911,11 @@
         "symfony/css-selector": 20,
         "symfony/dom-crawler": 20,
         "suin/php-rss-writer": 20,
-        "monolog/monolog": 20
+        "monolog/monolog": 20,
+        "leafo/scssphp": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }
