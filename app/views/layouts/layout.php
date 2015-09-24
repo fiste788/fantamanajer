@@ -10,7 +10,7 @@
         <meta name="keywords" content="fantamanajer,alzano sopra" />
         <meta name="application-name" content="FantaManajer"/>
         <meta name="msapplication-config" content="http://fantamanajer.it/browserconfig.xml" />
-		<meta name="msapplication-TileImage" content="/public/images/fantamanajer.png"/>
+        <meta name="msapplication-TileImage" content="/public/images/fantamanajer.png"/>
         <meta name="msapplication-task" content="name=Classifica;action-uri=<?php echo $this->router->generate('classifica') ?>;icon-uri=/favicon.ico" />
         <meta name="msapplication-task" content="name=Clubs;action-uri=<?php echo $this->router->generate('club_index') ?>;icon-uri=/favicon.ico" />
         <meta name="msapplication-starturl" content="http://fantamanajer.it" />

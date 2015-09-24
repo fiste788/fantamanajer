@@ -3,11 +3,15 @@
 namespace Lib;
 
 use AltoRouter;
+use Assetic\Asset\AssetCache;
+use Assetic\Asset\AssetCollection;
+use Assetic\Asset\FileAsset;
 use Assetic\AssetManager;
+use Assetic\AssetWriter;
+use Assetic\Cache\FilesystemCache;
+use Assetic\Filter\ScssphpFilter;
 use Exception;
 use FirePHP;
-use lessc;
-use scssc;
 use Monolog\ErrorHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -173,8 +177,26 @@ abstract class BaseController {
         }*/
         
         
+        //$fm = new FilterManager();
+        //$fm->set('sass', new ScssphpFilter());
+
+        $am = new AssetManager();
         
         
+        $styles = new AssetCollection(array(
+            new FileAsset(SCSSDIR . 'main.scss'),
+        ), array(
+            new ScssphpFilter()
+        ));
+        $styles->setTargetPath("main.css");
+        
+        $cache_css = new AssetCache($styles, new FilesystemCache(CACHEDIR));
+
+        $am->set('base_css', $cache_css);
+        $writer = new AssetWriter(CSSDIR);
+        $writer->writeManagerAssets($am);
+        $this->generalCss[] = 'main.css';
+        /*
         $scss = new scssc();
         $scss->setImportPaths(SCSSDIR);
         foreach ($generalCss as $key => $val) {

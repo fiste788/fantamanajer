@@ -119,7 +119,8 @@ define("AJAXDIR", 'ajax/');
 
 
 define("PUBLICURL", FULLSTATICURL . 'public/');
-define("CSSURL", PUBLICURL . 'stylesheets/');
+define("STYLESHEETSURL", PUBLICURL . 'stylesheets/');
+define("CSSURL", STYLESHEETSURL . 'css/');
 define("IMGSURL", PUBLICURL . 'images/');
 define("EMOTICONSURL", IMGSURL . 'emoticons/');
 define("PLAYERSURL", IMGSURL . 'photo/');
