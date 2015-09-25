@@ -7,7 +7,7 @@
                     <fieldset>
                         <div class="form-group">
                             <label class="control-label" for="username">Username:</label>
-							<input class="form-control" id="username" maxlength="12" type="text" name="username" />
+			<input class="form-control" id="username" maxlength="12" type="text" name="username" />
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="password">Password:</label>

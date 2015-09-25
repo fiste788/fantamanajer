@@ -39,3 +39,8 @@ Thumbs.db
 # Folder config file
 Desktop.ini
 
+.netbeans.xml
+npm-debug.log
+/npm-debug.log
+/.netbeans.xml
+.netbeans.xml

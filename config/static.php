@@ -20,8 +20,8 @@ $generalJs[] = JSURL . 'countdown/jquery.jcountdown1.3.js';
 $generalJs[] = JSURL . 'custom/all.js';
 
 $generalCss = array();
-$generalCss[] = 'bootstrap/bootstrap';
-$generalCss[] = 'layout';
-$generalCss[] = 'style';
-$generalCss[] = 'fancybox';
-$generalCss[] = 'pages';
+//$generalCss[] = 'bootstrap/bootstrap';
+//$generalCss[] = 'layout';
+//$generalCss[] = 'style';
+//$generalCss[] = 'fancybox';
+$generalCss[] = 'main';
