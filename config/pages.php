@@ -3,45 +3,49 @@
  * Creo un array in cui specifico titolo,js e css dell'head
  */
 
-require_once(LIBDIR . 'Pages.lib.php');
-
-$pages = new Pages();
+$pages = new \Lib\Pages();
 $pages->addPage('home','Home',-1,'',0);
-$pages->addPage('home_login','Home',-1,'',0);
-$pages->addPage('squadre','Le squadre',-1,'squadre',1,array('fancybox'=>'jquery.fancybox'));
+$pages->addPage('login','Login',-1,'',FALSE);
+$pages->addPage('users_show','Modifica informazioni utente',0,'');
+$pages->addPage('members_show','Dettaglio giocatore',-1,'altro',FALSE,array('flot'=>array('jquery.flot','jquery.flot.selection')));
+
 $pages->addPage('clubsA','Clubs di A',-1,'clubsA',4);
-$pages->addPage('club_index','Rose',-1,'clubsA',1);
-$pages->addPage('club_show','Club',-1,'clubsA',FALSE);
+$pages->addPage('clubs_index','Clubs di A',-1,'clubsA',4);
+$pages->addPage('clubs_show','Club',-1,'clubsA',FALSE);
 $pages->addPage('probabili_formazioni','Probabili formazioni',-1,'clubsA',1);
+
+$pages->addPage('teams','Le squadre',-1,'championship',1,array('fancybox'=>'jquery.fancybox'));
+$pages->addPage('articles','Conferenze stampa',-1,'championship',1);
+$pages->addPage('ranking','Classifica',-1,'championship',3,array('flot'=>array('jquery.flot','jquery.flot.selection')));
+$pages->addPage('scores_show','Dettaglio giornata',-1,'championship');
+$pages->addPage('members_free','Giocatori liberi',0,'championship',3);
+//$pages->addPage('altreFormazioni','Altre formazioni',0,'altro',FALSE,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
+
 $pages->addPage('altro',"Altro...",-1,'altro',6);
-$pages->addPage('articoli','Conferenze stampa',-1,'altro',1);
-$pages->addPage('classifica','Classifica',-1,'classifica',3,array('flot'=>array('jquery.flot','jquery.flot.selection')));
-$pages->addPage('squadra_show','Dettaglio squadra',-1,'squadre',FALSE,array('fancybox'=>'jquery.fancybox','fileupload'=>array('jquery.iframe-transport','vendor/jquery.ui.widget','jquery.fileupload','jquery.fileupload-process','jquery.fileupload-ui')));
-$pages->addPage('area_amministrativa','Area admin',1,'area_amministrativa',7);
-$pages->addPage('giocatore_show','Dettaglio giocatore',-1,'altro',FALSE,array('flot'=>array('jquery.flot','jquery.flot.selection')));
-$pages->addPage('punteggio_show','Dettaglio giornata',-1,'classifica');
 $pages->addPage('feed','Vedi gli eventi',-1,'altro',FALSE);
 $pages->addPage('premi','Premi',-1,'altro',FALSE);
-$pages->addPage('contatti','Contatti',-1,'altro',3);
-$pages->addPage('sendMail','Invio mail formazione',-1,'altro');
-$pages->addPage('clean','Pulisci filesystem',-1,'altro');
-$pages->addPage('doTransfert','Lancia trasferimenti',-1,'altro');
-$pages->addPage('backup','Backup',-1,'altro');
+$pages->addPage('about','About',-1,'altro',3);
+$pages->addPage('articles_new','Nuova conferenza',0,'altro',4);
+$pages->addPage('articles_edit','Modifica conferenza',0,FALSE);
+$pages->addPage('download','Downloads',0,'altro',5);
+
+$pages->addPage('teams_show','Dettaglio squadra',-1,'team',FALSE,array('fancybox'=>'jquery.fancybox','fileupload'=>array('jquery.iframe-transport','vendor/jquery.ui.widget','jquery.fileupload','jquery.fileupload-process','jquery.fileupload-ui')));
+//$pages->addPage('trasferimento_index','Trasferimenti',-1,'team');
+$pages->addPage('transferts_index','Trasferimenti',0,'altro',2);
+$pages->addPage('lineups','Formazione',0,'team',2,array('components/jquery-ui/ui'=>array('core','widget','mouse','draggable','droppable'),'custom'=>'createFormazione'));
+$pages->addPage('lineups_show','Formazione',0,'team',FALSE,array('ui'=>array('core','widget','mouse','draggable','droppable'),'custom'=>'createFormazione'));
+$pages->addPage('lineups_basic','Formazione',0,'team');
+
+$pages->addPage('area_amministrativa','Area admin',1,'area_amministrativa',7);
+$pages->addPage('sendMail','Invio mail formazione',-1,'area_amministrativa');
+$pages->addPage('clean','Pulisci filesystem',-1,'area_amministrativa');
+$pages->addPage('doTransfert','Lancia trasferimenti',-1,'area_amministrativa');
+$pages->addPage('backup','Backup',-1,'area_amministrativa');
 $pages->addPage('minify','Minify',1,'area_amministrativa');
 $pages->addPage('less2css','Less2css',1,'area_amministrativa');
 $pages->addPage('updateOrariGiornata','Aggiorna orari giornata corrente',-1,'altro');
-$pages->addPage('weeklyScript','Calcolo punteggi',-1,'altro');
-$pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'altro');
-$pages->addPage('trasferimento_index','Trasferimenti',-1,'altro');
-$pages->addPage('formazione','Formazione',0,'formazione',2,array('components/jquery-ui/ui'=>array('core','widget','mouse','draggable','droppable'),'custom'=>'createFormazione'));
-$pages->addPage('formazione_show','Formazione',0,'formazione',FALSE,array('ui'=>array('core','widget','mouse','draggable','droppable'),'custom'=>'createFormazione'));
-$pages->addPage('formazioneBasic','Formazione',0,'altro');
-$pages->addPage('utente_show','Modifica informazioni utente',0,'');
-$pages->addPage('trasferimento_index','Trasferimenti',0,'altro',2);
-$pages->addPage('giocatori_liberi','Giocatori liberi',0,'altro',3);
-$pages->addPage('altreFormazioni','Altre formazioni',0,'altro',FALSE,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.mouse','jquery.ui.draggable','jquery.ui.droppable'),'custom'=>'createFormazione'));
-$pages->addPage('articolo_new','Nuova conferenza',0,'altro',4);
-$pages->addPage('download','Downloads',0,'altro',5);
+$pages->addPage('weeklyScript','Calcolo punteggi',-1,'area_amministrativa');
+$pages->addPage('updateGiocatori','Aggiorna lista giocatori',-1,'area_amministrativa');
 $pages->addPage('squadra_new','Crea una nuova squadra',1,'area_amministrativa',5,array('ui'=>array('jquery.ui.core','jquery.ui.widget','jquery.ui.button','jquery.ui.mouse','jquery.ui.position','jquery.ui.dialog')));
 $pages->addPage('trasferimento_new','Nuovo trasferimento',1,'area_amministrativa',6);
 $pages->addPage('formazione_insert','Inserisci formazione mancante',1,'area_amministrativa',7);

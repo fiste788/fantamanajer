@@ -33,6 +33,18 @@ abstract class Table implements Form {
     public function __clone() {
         $this->id = NULL;
     }
+    
+    public function getFromObject($object) {
+        $arr = array();
+        $c = get_called_class();
+        $class = substr($c::TABLE_NAME,0,-1);
+        foreach (get_object_vars($object) as $key => $value) {
+            if($pos = strrpos($key, $class . '_', -strlen($key)) !== FALSE) {
+                $arr[substr($key, strlen($class) + 1)] = $value;
+            }
+        }
+        $this->fromArray($arr,FALSE);
+    }
 
     /**
      * 
@@ -122,8 +134,7 @@ abstract class Table implements Form {
      */
     public static function getList() {
         $c = get_called_class();
-        $q = "SELECT *
-				FROM " . $c::TABLE_NAME;
+        $q = "SELECT * FROM " . $c::TABLE_NAME;
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         FirePHP::getInstance()->log($q);
         $values = array();
@@ -142,8 +153,8 @@ abstract class Table implements Form {
     public static function getByField($key, $value) {
         $c = get_called_class();
         $q = "SELECT *
-				FROM " . $c::TABLE_NAME . "
-				WHERE $key = :value";
+		FROM " . $c::TABLE_NAME . "
+		WHERE $key = :value";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindParam(":value", $value);
         $exe->execute();
@@ -289,8 +300,6 @@ abstract class Table implements Form {
     public function check(array $array = array()) {
         return TRUE;
     }
-
-    //public abstract function __toString();
 }
 
  

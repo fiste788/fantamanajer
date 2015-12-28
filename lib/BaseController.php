@@ -71,10 +71,39 @@ abstract class BaseController {
 
     /**
      *
+     * @var boolean
+     */
+    protected $noLayout = false;
+
+    /**
+     *
+     * @var string
+     */
+    protected $title;
+    
+    /**
+     *
+     * @var string
+     */
+    protected $view;
+
+    /**
+     *
      * @var array
      */
     protected $route;
+
+    /**
+     *
+     * @var Page[]
+     */
     protected $pages = array();
+
+    /**
+     *
+     * @var Page
+     */
+    protected $page = NULL;
 
     /**
      *
@@ -122,9 +151,18 @@ abstract class BaseController {
 
     public function initialize() {
         Router::getInstance($this->router);
-        if (isset($this->pages->pages[$this->route['name']]) && $this->pages->pages[$this->route['name']]->roles > $_SESSION['roles']) {
-            $this->notAuthorized();
+        if (isset($this->pages->pages[$this->route['name']])) {
+            if ($this->pages->pages[$this->route['name']]->roles > $_SESSION['roles']) {
+                $this->notAuthorized();
+            } else {
+                $this->page = $this->pages->pages[$this->route['name']];
+                $this->title = $this->page->title;
+                
+            }
         }
+        /* else
+          die("Pagina " . $this->route['name'] . " da inserire in pages.php"); */
+        $this->view = $this->action;
     }
 
     public abstract function notAuthorized();
@@ -150,46 +188,46 @@ abstract class BaseController {
     }
 
     public function setGeneralCss($generalCss) {
-        /*$less = new \lessc();
-        //$less->setVariables(array("imgs-path"=>IMGSURL));
-        foreach ($generalCss as $key => $val) {
-            $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
-            $lessFile = LESSDIR . $val . ".less";
-            $cssFile = STYLESHEETSDIR . $file . ".css";
-            $less->checkedCompile($lessFile, $cssFile);
-            $this->generalCss[$key] = $file . '.css';
-        }
-        $lessFile = LESSDIR . 'pages' . DS . $this->route['name'] . '.less';
-        \FirePHP::getInstance()->info($lessFile);
-        if(file_exists($lessFile)) {
-            $cssFile = STYLESHEETSDIR . $this->route['name'] . ".css";
-            \FirePHP::getInstance()->info($cssFile);
-            $less->checkedCompile($lessFile, $cssFile);
-            $this->generalCss[$key] = $this->route['name'] . '.css';
-        }
-        /*$files = \Fantamanajer\Lib\FileSystem::getFileIntoFolder(LESSDIR . 'pages');
-        \FirePHP::getInstance()->log($files);
-        foreach ($files as $file) {
-            $less_fname = LESSDIR . $val . ".less";
-            $css_fname = STYLESHEETSDIR . $file . ".css";
-            $less->checkedCompile($less_fname, $css_fname);
-            $this->generalCss[$key] = $file . '.css';
-        }*/
-        
-        
+        /* $less = new \lessc();
+          //$less->setVariables(array("imgs-path"=>IMGSURL));
+          foreach ($generalCss as $key => $val) {
+          $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
+          $lessFile = LESSDIR . $val . ".less";
+          $cssFile = STYLESHEETSDIR . $file . ".css";
+          $less->checkedCompile($lessFile, $cssFile);
+          $this->generalCss[$key] = $file . '.css';
+          }
+          $lessFile = LESSDIR . 'pages' . DS . $this->route['name'] . '.less';
+          \FirePHP::getInstance()->info($lessFile);
+          if(file_exists($lessFile)) {
+          $cssFile = STYLESHEETSDIR . $this->route['name'] . ".css";
+          \FirePHP::getInstance()->info($cssFile);
+          $less->checkedCompile($lessFile, $cssFile);
+          $this->generalCss[$key] = $this->route['name'] . '.css';
+          }
+          /*$files = \Fantamanajer\Lib\FileSystem::getFileIntoFolder(LESSDIR . 'pages');
+          \FirePHP::getInstance()->log($files);
+          foreach ($files as $file) {
+          $less_fname = LESSDIR . $val . ".less";
+          $css_fname = STYLESHEETSDIR . $file . ".css";
+          $less->checkedCompile($less_fname, $css_fname);
+          $this->generalCss[$key] = $file . '.css';
+          } */
+
+
         //$fm = new FilterManager();
         //$fm->set('sass', new ScssphpFilter());
 
         $am = new AssetManager();
-        
-        
+
+
         $styles = new AssetCollection(array(
             new FileAsset(SCSSDIR . 'main.scss'),
-        ), array(
+                ), array(
             new ScssphpFilter()
         ));
         $styles->setTargetPath("main.css");
-        
+
         $cache_css = new AssetCache($styles, new FilesystemCache(CACHEDIR));
 
         $am->set('base_css', $cache_css);
@@ -197,37 +235,37 @@ abstract class BaseController {
         $writer->writeManagerAssets($am);
         $this->generalCss[] = 'main.css';
         /*
-        $scss = new scssc();
-        $scss->setImportPaths(SCSSDIR);
-        foreach ($generalCss as $key => $val) {
-            $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
-            $scss_fname = $val . ".scss";
-            $css_fname = STYLESHEETSDIR . $file . ".css";
-            $cache_fname = CACHEDIR . $file . ".cache";
-            //$cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $scss_fname;
-            $new_cache = $scss->compile('@import "' . $scss_fname . '"');
-            //if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
-                //file_put_contents($cache_fname, serialize($new_cache));
-                file_put_contents($css_fname, $new_cache);
-            //}
-            //lessc::ccompile($scss_fname, $css_fname);
-            $this->generalCss[$key] = $file . '.css';
-        }
-        /*$less_fname = LESSDIR . 'pages' . DS . $this->route['name'] . '.less';
-        \FirePHP::getInstance()->info($less_fname);
-        if(file_exists($less_fname)) {
-            $css_fname = STYLESHEETSDIR . $this->route['name'] . ".css";
-            \FirePHP::getInstance()->info($css_fname);
-            $cache_fname = CACHEDIR . $file . ".cache";
-            $cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $less_fname;
-            $new_cache = \lessc::cexecute($cache);
-            if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
-                file_put_contents($cache_fname, serialize($new_cache));
-                file_put_contents($css_fname, $new_cache['compiled']);
-            }
-            \lessc::ccompile($less_fname, $css_fname);
-            $this->generalCss[$key] = $this->route['name'] . '.css';
-        }*/
+          $scss = new scssc();
+          $scss->setImportPaths(SCSSDIR);
+          foreach ($generalCss as $key => $val) {
+          $file = strpos($val, "/") ? substr($val, strpos($val, "/") + 1) : $val;
+          $scss_fname = $val . ".scss";
+          $css_fname = STYLESHEETSDIR . $file . ".css";
+          $cache_fname = CACHEDIR . $file . ".cache";
+          //$cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $scss_fname;
+          $new_cache = $scss->compile('@import "' . $scss_fname . '"');
+          //if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
+          //file_put_contents($cache_fname, serialize($new_cache));
+          file_put_contents($css_fname, $new_cache);
+          //}
+          //lessc::ccompile($scss_fname, $css_fname);
+          $this->generalCss[$key] = $file . '.css';
+          }
+          /*$less_fname = LESSDIR . 'pages' . DS . $this->route['name'] . '.less';
+          \FirePHP::getInstance()->info($less_fname);
+          if(file_exists($less_fname)) {
+          $css_fname = STYLESHEETSDIR . $this->route['name'] . ".css";
+          \FirePHP::getInstance()->info($css_fname);
+          $cache_fname = CACHEDIR . $file . ".cache";
+          $cache = (file_exists($cache_fname)) ? unserialize(file_get_contents($cache_fname)) : $less_fname;
+          $new_cache = \lessc::cexecute($cache);
+          if (!is_array($cache) || $new_cache['updated'] > $cache['updated']) {
+          file_put_contents($cache_fname, serialize($new_cache));
+          file_put_contents($css_fname, $new_cache['compiled']);
+          }
+          \lessc::ccompile($less_fname, $css_fname);
+          $this->generalCss[$key] = $this->route['name'] . '.css';
+          } */
     }
 
     public function renderAction($routeName, $method = 'GET') {
@@ -256,6 +294,7 @@ abstract class BaseController {
     }
 
     public function render($content = NULL) {
+        $this->templates['header']->assign('title', $this->title);
         $this->templates['layout']->assign('generalJs', $this->generalJs);
         $this->templates['layout']->assign('generalCss', $this->generalCss);
         if (isset($this->pages->pages[$this->route['name']])) {
@@ -263,27 +302,30 @@ abstract class BaseController {
         }
 
         if ($content == NULL) {
-            $contentFile = $this->controller . DS . $this->action . '.php';
+            $contentFile = $this->controller . DS . $this->view . '.php';
             $content = file_exists(VIEWSDIR . $contentFile) ? $this->templates['content']->fetch($contentFile) : "";
         }
 
-        $header = $this->templates['header']->fetch('header.php');
-        $footer = $this->templates['footer']->fetch('footer.php');
-        $navbar = $this->templates['navbar']->fetch('navbar.php');
+        if (!$this->noLayout) {
+            $header = $this->templates['header']->fetch('header.php');
+            $footer = $this->templates['footer']->fetch('footer.php');
+            $navbar = $this->templates['navbar']->fetch('navbar.php');
 
-        $this->templates['layout']->assign('header', $header);
-        $this->templates['layout']->assign('footer', $footer);
-        $this->templates['layout']->assign('content', $content);
-        $this->templates['layout']->assign('navbar', $navbar);
+            $this->templates['layout']->assign('header', $header);
+            $this->templates['layout']->assign('footer', $footer);
+            $this->templates['layout']->assign('content', $content);
+            $this->templates['layout']->assign('navbar', $navbar);
 
-        foreach ($this->fetched as $name => $content) {
-            $this->templates['layout']->assign($name, $content);
+            foreach ($this->fetched as $name => $content) {
+                $this->templates['layout']->assign($name, $content);
+            }
+
+            $this->templates['layout']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
+
+            $output = $this->templates['layout']->fetch('layout.php');
+        } else {
+            $output = $content;
         }
-        $this->templates['layout']->setFilters(array("Savant3_Filter_trimwhitespace", "filter"));
-
-        $output = $this->templates['layout']->fetch('layout.php');
-
-
         unset($_SESSION['__flash']);
         return $output;
     }
@@ -307,4 +349,3 @@ abstract class BaseController {
     }
 
 }
-

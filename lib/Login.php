@@ -2,13 +2,20 @@
 
 namespace Lib;
 
+use Fantamanajer\Models\User;
 use Lib\Database\ConnectionFactory;
+use PDO;
 
 class Login {
 
     var $sessionName;
     var $sessionTimeout;
     var $remember;
+    
+    /**
+     *
+     * @var User 
+     */
     var $user;
 
     public function __construct() {
@@ -35,6 +42,7 @@ class Login {
 
     private function setDefault() {
         if (!isset($_SESSION['logged'])) {
+            $_SESSION['logged'] = FALSE;
             $_SESSION['roles'] = -1;
             $_SESSION['user_type'] = 'guest';
             $_SESSION['logged'] = FALSE;
@@ -43,43 +51,54 @@ class Login {
         }
     }
 
-    public function doLogin($username, $password) {
-        $q = "SELECT * FROM users WHERE username LIKE '" . $username . "'
-				AND password = '" . $password . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+    public function doLogin($email, $password) {
+        $q = "SELECT * FROM users WHERE email LIKE :email
+		AND password = :password";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':email', $email, PDO::PARAM_STR);
+        $exe->bindValue(':password', $password, PDO::PARAM_STR);
+        $exe->execute();
         if ($exe->rowCount() == 1) {
-            $this->user = $exe->fetchObject("\Fantamanajer\Models\User");
+            $this->user = $exe->fetchObject(User::class);
             if ($this->remember) {
                 $key = self::createRandomKey();
-                $this->user->setKey($key);
-                $q = "UPDATE user SET login_key = '" . $key . "'
-						WHERE id = '" . $this->user->id . "'";
-                ConnectionFactory::getFactory()->getConnection()->exec($q);
+                $this->user->setLoginKey($key);
+                $q = "UPDATE users SET login_key = :login_key
+			WHERE id = :id";
+                $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+                $exe->bindValue(':login_key', $key, PDO::PARAM_STR);
+                $exe->bindValue(':id', $this->user->id, PDO::PARAM_INT);
+                $exe->execute();
             }
             $this->setData();
             return TRUE;
-        }
-        else
+        } else {
             return FALSE;
+        }
     }
 
-    public function renewLogin($username, $key) {
-        $q = "SELECT * FROM users WHERE username LIKE '" . $username . "'
-				AND login_key = '" . $key . "'";
-        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+    public function renewLogin($email, $key) {
+        $q = "SELECT * FROM users WHERE email LIKE :email
+				AND login_key = :login_key";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':email', $email, PDO::PARAM_STR);
+        $exe->bindValue(':login_key', $key, PDO::PARAM_STR);
+        $exe->execute();
         if ($exe->rowCount() == 1) {
-            $this->user = $exe->fetchObject("\Fantamanajer\Models\User");
+            $this->user = $exe->fetchObject(User::class);
             $this->setData();
             return TRUE;
-        }
-        else
+        } else {
             return FALSE;
+        }
     }
 
     public function logout() {
         $q = "UPDATE users SET login_key = NULL
-				WHERE id = '" . $_SESSION['id'] . "'";
-        ConnectionFactory::getFactory()->getConnection()->exec($q);
+		WHERE id = :id";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+        $exe->execute();
         session_unset();
         setcookie("auth_username", "", time() - 3600, "/", $_SERVER['HTTP_HOST']);
         setcookie("auth_key", "", time() - 3600, "/", $_SERVER['HTTP_HOST']);
@@ -89,6 +108,7 @@ class Login {
     private function setData() {
         $_SESSION['id'] = $this->user->id;
         $_SESSION['username'] = $this->user->username;
+        $_SESSION['team'] = $this->user->getTeam();
         $_SESSION['logged'] = TRUE;
         $_SESSION['roles'] = $this->user->admin;
         switch ($this->user->admin) {
@@ -97,17 +117,18 @@ class Login {
             case 2: $_SESSION['user_type'] = 'superadmin';
                 break;
             default: $_SESSION['user_type'] = 'user';
-        };
+        }
         $_SESSION['user_id'] = $this->user->id;
         $_SESSION['name'] = $this->user->name . " " . $this->user->surname;
-        $_SESSION['email'] = $this->utente->email;
-        if ($this->remember)
+        $_SESSION['email'] = $this->user->email;
+        if ($this->remember) {
             $this->setCookie();
+        }
     }
 
     private function setCookie() {
         setcookie("auth_username", $this->user->username, time() + (60 * 60 * 24 * $this->sessionTimeout), "/", $_SERVER['HTTP_HOST']);
-        setcookie("auth_key", $this->user->key, time() + (60 * 60 * 24 * $this->sessionTimeout), "/", $_SERVER['HTTP_HOST']);
+        setcookie("auth_key", $this->user->login_key, time() + (60 * 60 * 24 * $this->sessionTimeout), "/", $_SERVER['HTTP_HOST']);
     }
 
     public static function createRandomKey() {

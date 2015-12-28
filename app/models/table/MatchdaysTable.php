@@ -2,6 +2,7 @@
 
 namespace Fantamanajer\Models\Table;
 
+use DateTime;
 use Fantamanajer\Models\Matchday;
 use Fantamanajer\Models\Season;
 use Lib\Database\Table;
@@ -18,7 +19,7 @@ abstract class MatchdaysTable extends Table {
     
     /**
      *
-     * @var \DateTime
+     * @var DateTime
      */
     public $date;
     
@@ -43,10 +44,10 @@ abstract class MatchdaysTable extends Table {
     
     /**
      * 
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDate() {
-        return (is_a($this->date, "DateTime")) ? $this->date : new \DateTime($this->date);
+        return (is_a($this->date, "DateTime")) ? $this->date : new DateTime($this->date);
     }
 
     /**
@@ -78,7 +79,7 @@ abstract class MatchdaysTable extends Table {
     
     /**
      * 
-     * @param \DateTime $date
+     * @param DateTime $date
      */
     public function setDate($date) {
         $this->date = is_a($date, "DateTime") ? $date : new DateTime($date);

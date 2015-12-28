@@ -48,11 +48,11 @@ abstract class ScoresTable extends Table {
     public function __construct() {
         parent::__construct();
         $this->points = is_null($this->points) ? NULL : $this->getPoints();
-        $this->real_points  = is_null($this->real_points) ? NULL : $this->getRealPoints();
-        $this->penality_points  = is_null($this->penality_points) ? NULL : $this->getPenalityPoints();
+        $this->real_points = is_null($this->real_points) ? NULL : $this->getRealPoints();
+        $this->penality_points = is_null($this->penality_points) ? NULL : $this->getPenalityPoints();
         $this->penality = is_null($this->penality) ? NULL : $this->getPenality();
         $this->team_id = is_null($this->team_id) ? NULL : $this->getTeamId();
-        $this->league_id = is_null($this->league_id) ? NULL : $this->getLeagueId();
+        $this->matchday_id = is_null($this->matchday_id) ? NULL : $this->getMatchdayId();
     }
 
     /**

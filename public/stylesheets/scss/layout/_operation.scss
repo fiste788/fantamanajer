@@ -21,9 +21,7 @@
 	div {
 		&.next span, &.back span {
 			display: block;
-			@media (min-width: $screen-sm-min) {
-				width: 50px;
-			}
+			
 		}
 	}
 	.operation-content {
@@ -49,7 +47,7 @@
 	}
 	.top {
 		background: url("#{$imgs-path}bg.jpg") no-repeat center -140px;
-		@include box-shadow(0 2px 3px #aaaaaa);
+		//@include box-shadow(0 2px 3px #aaaaaa);
 		width: 100%;
 		z-index: 2;
 	}
@@ -59,9 +57,5 @@
 	input {
 		margin: 0;
 	}
-	@media (min-width: $screen-sm-min) {
-        select {
-            width: 250px;
-        }
-	}
+	
 }

@@ -26,12 +26,12 @@ class User extends UsersTable {
         return $values;
     }
 
-    public static function login($username, $password) {
+    public static function login($email, $password) {
         $q = "SELECT *
                 FROM utente
-                WHERE username LIKE :username AND password = :password";
+                WHERE email LIKE :email AND password = :password";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":username", $username);
+        $exe->bindValue(":email", $email);
         $exe->bindValue(":password", $password);
         $exe->execute();
         FirePHP::getInstance()->log($q);

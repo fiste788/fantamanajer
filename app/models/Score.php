@@ -10,18 +10,13 @@ use PDOException;
 
 class Score extends ScoresTable {
 
-    /**
-     * @param Utente $utente
-     * @param int $idGiornata
-     * @return Punteggio
-     */
-    public static function getByUtenteAndGiornata($utente, $idGiornata) {
+    public static function getByTeamAndMatchday(Team $team, Matchday $matchday) {
         $q = "SELECT *
-				FROM punteggio
-				WHERE idUtente = :idUtente AND idGiornata = :idGiornata";
+		FROM " . self::TABLE_NAME . "
+		WHERE team_id = :team_id AND matchday_id = :matchday_id";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $utente->getId(), PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
+        $exe->bindValue(":team_id", $team->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":matchday_id", $matchday->getId(), PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         return $exe->fetchObject(__CLASS__);
@@ -63,59 +58,63 @@ class Score extends ScoresTable {
         return $exe->fetchColumn();
     }
 
-    public static function getClassificaByGiornata($idLega, $idGiornata) {
-        $q = "SELECT punteggio.*, SUM(punteggio.punteggio) AS punteggioTot, AVG(punteggio.punteggio) AS punteggioMed, MAX(punteggio.punteggio) AS punteggioMax, (SELECT MIN(punteggio.punteggio) FROM punteggio WHERE punteggio >= 0 AND idUtente = punteggio.idUtente) AS punteggioMin, COALESCE(giornateVinte,0) as giornateVinte
-				FROM punteggio LEFT JOIN view_2_giornatevinte ON punteggio.idUtente = view_2_giornatevinte.idUtente
-				WHERE punteggio.idGiornata <= :idGiornata AND punteggio.idLega = :idLega
-				GROUP BY punteggio.idUtente
-				ORDER BY punteggioTot DESC , giornateVinte DESC";
+    public static function getRankingByMatchday(Championship $championship, Matchday $matchday, $details = FALSE) {
+        $q = "SELECT scores.team_id, SUM(scores.points) AS sum_points, AVG(scores.points) AS avg_points, MAX(scores.points) AS max_points, MIN(scores.points) AS punteggioMin, COALESCE(matchday_win,0) as matchday_win
+		FROM (scores LEFT JOIN teams ON scores.team_id = teams.id) LEFT JOIN view_1_matchday_win ON scores.team_id = view_1_matchday_win.team_id
+		WHERE scores.matchday_id <= :matchday_id AND teams.championship_id = :championship_id
+		GROUP BY scores.team_id
+		ORDER BY sum_points DESC , matchday_win DESC";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->bindValue(":matchday_id", $matchday->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":championship_id", $championship->getId(), PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
+        if ($details) {
+            $det = self::getAllByMatchday($matchday, $championship);
+        }
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__)) {
-            $values[$obj->getIdUtente()] = $obj;
+            $values[$obj->getTeamId()] = $obj;
+            $values[$obj->getTeamId()]->details = $det[$obj->getTeamId()];
         }
         return $values;
     }
 
-    public static function getAllPunteggiByGiornata($giornata, $idLega) {
+    public static function getAllByMatchday(Matchday $matchday, Championship $championship) {
         $q = "SELECT *
-				FROM punteggio
-				WHERE (idGiornata <= :idGiornata OR idGiornata IS NULL) AND idLega = :idLega
-				ORDER BY idGiornata DESC";
+		FROM " . self::TABLE_NAME . " INNER JOIN teams ON " . self::TABLE_NAME . ".team_id = teams.id 
+		WHERE (matchday_id <= :matchday_id OR matchday_id IS NULL) AND championship_id = :championship_id
+		ORDER BY matchday_id DESC";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
+        $exe->bindValue(":matchday_id", $matchday->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":championship_id", $championship->getId(), PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
-        $classifica = array();
+        $ranking = array();
         while ($row = $exe->fetchObject(__CLASS__)) {
-            if (isset($classifica[$row->idUtente][$row->idGiornata])) {
-                $classifica[$row->idUtente][$row->idGiornata] += $row->punteggio;
-            } else {
-                $classifica[$row->idUtente][$row->idGiornata] = $row->punteggio;
-            }
+            /*if (isset($ranking[$row->team_id][$row->matchday_id])) {
+                $ranking[$row->team_id][$row->matchday_id] += $row->real_points;
+            } else {*/
+                $ranking[$row->team_id][$row->matchday_id] = $row;
+            //}
         }
-        $somme = self::getClassificaByGiornata($idLega, $giornata);
-        if (isset($somme)) {
-            foreach ($somme as $key => $val) {
-                $somme[$key] = $classifica[$key];
+        /*$sum = self::getRankingByMatchday($championship, $matchday);
+        if (isset($sum)) {
+            foreach ($sum as $key => $val) {
+                $sum[$key]->matchdays = $ranking[$key];
             }
         } else {
-            $squadre = Utente::getByField('idLega', $idLega);
-            foreach ($squadre as $key => $val) {
-                $somme[$key][0] = 0;
+            $teams = Teams::getByField('championship_id', $championship->getId());
+            foreach ($teams as $key => $val) {
+                $sum[$key]->matchdays[$matchday->getId()] = 0;
             }
-        }
-        return($somme);
+        }*/
+        return $ranking;
     }
 
-    public static function getGiornateWithPunt() {
-        $q = "SELECT COUNT(DISTINCT(idGiornata)) as numGiornate
-				FROM punteggio";
+    public static function getMatchdayWithScores() {
+        $q = "SELECT MAX(matchday_id) as number_matchday
+				FROM " . self::TABLE_NAME;
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
         return $exe->fetchColumn();
     }
@@ -162,7 +161,7 @@ class Score extends ScoresTable {
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             $formazione = Formazione::getLastFormazione($utente->id, $giornata);
-            $punteggio = self::getByUtenteAndGiornata($utente, $giornata);
+            $punteggio = self::getByTeamAndMatchday($utente, $giornata);
             $lega = $utente->getLega();
             if ($punteggio == FALSE) {
                 $punteggio = new Punteggio();

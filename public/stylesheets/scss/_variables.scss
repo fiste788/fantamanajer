@@ -1,4 +1,18 @@
 $imgs-path:   '../../images/';
 $bootstrap-path: 'components/bootstrap-sass/assets';
+$mdl-path: 'components/material-design-lite/src';
 $font-path: '../fonts';
 $bootstrap-sass-asset-helper: true;
+
+// MDL
+@import "../../#{$mdl-path}/_color-definitions";
+$color-primary: $palette-cyan-500;
+$color-primary-dark: $palette-cyan-700;
+$color-accent: $palette-yellow-A700;
+$layout-drawer-bg-color:#fff;
+$layout-drawer-navigation-link-active-background: unquote("rgb(#{$palette-grey-300})");
+$layout-drawer-navigation-link-active-color: unquote("rgb(#{$palette-grey-800})");
+//$layout-drawer-navigation-link-active-background: #000;
+
+@import "../../#{$mdl-path}/_variables";
+$checkbox-image-path: "../../" + $mdl-path + $checkbox-image-path;

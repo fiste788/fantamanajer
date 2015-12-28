@@ -363,7 +363,7 @@ class Request {
      * @return boolean
      */
     public function isXmlHttpRequest() {
-        if ($this->serverArray ['X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+        if (isset($this->serverArray ['HTTP_X_REQUESTED_WITH']) && $this->serverArray ['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             return true;
         }
 

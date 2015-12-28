@@ -2,10 +2,10 @@
 
 namespace Fantamanajer\Models\Table;
 
-use Fantamanajer\Models\Giocatore;
-use Fantamanajer\Models\Giornata;
-use Fantamanajer\Models\Trasferimento;
-use Fantamanajer\Models\Utente;
+use Fantamanajer\Models\Matchday;
+use Fantamanajer\Models\Member;
+use Fantamanajer\Models\Team;
+use Fantamanajer\Models\Transfert;
 use Lib\Database\Table;
 
 abstract class TransfertsTable extends Table {
@@ -133,43 +133,47 @@ abstract class TransfertsTable extends Table {
 
         
     /**
-     * Getter: giocatore
-     * @return int
+     * 
+     * @return Member
      */
-    public function getGiocatoreOld() {
-        if (empty($this->giocatoreOld))
-            $this->giocatoreOld = Giocatore::getById($this->getIdGiocatoreOld());
-        return $this->giocatoreOld;
+    public function getOldMember() {
+        if (empty($this->old_member)) {
+            $this->old_member = Member::getById($this->getOldMemberId());
+        }
+        return $this->old_member;
     }
 
     /**
-     * Getter: giocatore
-     * @return int
+     * 
+     * @return Member
      */
-    public function getGiocatoreNew() {
-        if (empty($this->giocatoreNew))
-            $this->giocatoreNew = Giocatore::getById($this->getIdGiocatoreNew());
-        return $this->giocatoreNew;
+    public function getNewMember() {
+        if (empty($this->new_member)) {
+            $this->new_member = Member::getById($this->getNewMemberId());
+        }
+        return $this->new_member;
     }
 
     /**
-     * Getter: utente
-     * @return Utente
+     * 
+     * @return Team
      */
-    public function getUtente() {
-        if (empty($this->utente))
-            $this->utente = Utente::getById($this->getIdUtente());
-        return $this->utente;
+    public function getTeam() {
+        if (empty($this->team)) {
+            $this->team = Team::getById($this->getTeamId());
+        }
+        return $this->team;
     }
 
     /**
-     * Getter: giornata
-     * @return Giornata
+     * 
+     * @return Matchday
      */
-    public function getGiornata() {
-        if (empty($this->giornata))
-            $this->giornata = Giornata::getById($this->getIdGiornata());
-        return $this->giornata;
+    public function getMatchday() {
+        if (empty($this->matchday)) {
+            $this->matchday = Matchday::getById($this->getMatchdayId());
+        }
+        return $this->matchday;
     }
 
     /**

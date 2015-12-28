@@ -110,6 +110,7 @@ define("CONTROLLERSDIR", APPDIR . 'controllers' . DS);
 define("VIEWSDIR", APPDIR . 'views' . DS);
 define("MAILTPLDIR", VIEWSDIR . 'mails' . DS);
 define("OPERATIONSDIR", VIEWSDIR . 'operations' . DS);
+define("TABSDIR", VIEWSDIR . 'tabs' . DS);
 define("LAYOUTSDIR", VIEWSDIR . 'layouts' . DS);
 define("MODELSDIR", APPDIR . 'models' . DS);
 define("LIBDIR", FULLPATH . 'lib' . DS);

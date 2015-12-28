@@ -7,9 +7,9 @@ use Fantamanajer\Models\Member;
 use Fantamanajer\Models\Disposition;
 use Lib\Database\Table;
 
-abstract class DispositionTable extends Table {
+abstract class DispositionsTable extends Table {
 
-    const TABLE_NAME = 'disposition';
+    const TABLE_NAME = 'dispositions';
 
     /**
      *

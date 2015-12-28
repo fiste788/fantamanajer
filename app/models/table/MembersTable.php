@@ -52,8 +52,8 @@ abstract class MembersTable extends Table {
         $this->active = is_null($this->active) ? NULL : $this->isActive();
         $this->role_id = is_null($this->role_id) ? NULL : $this->getRoleId();
         $this->player_id = is_null($this->player_id) ? NULL : $this->getPlayerId();
-        $this->club_id = is_null($this->club_id) ? NULL : $this->isClubId();
-        $this->season_id = is_null($this->season_id) ? NULL : $this->isSeasonId();
+        $this->club_id = is_null($this->club_id) ? NULL : $this->getClubId();
+        $this->season_id = is_null($this->season_id) ? NULL : $this->getSeasonId();
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class MembersTable extends Table {
      * 
      * @return boolean
      */
-    public function getActive() {
+    public function isActive() {
         return (boolean) $this->active;
     }
 
@@ -169,7 +169,7 @@ abstract class MembersTable extends Table {
      * @return string
      */
     public function __toString() {
-        return $this->getSurname() . " " . $this->getName();
+        return (string) $this->getId();
     }
 
     /**

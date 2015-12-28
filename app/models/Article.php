@@ -17,13 +17,12 @@ class Article extends ArticlesTable {
             $id = $this->getId();
             parent::save($parameters);
             if(is_null($id)) {
-                $evento = new Evento();
-                $evento->setTipo(Evento::CONFERENZASTAMPA);
-                $evento->setData($this->getDataCreazione());
-                $evento->setIdUtente($this->getIdUtente());
-                $evento->setIdLega($this->getIdLega());
-                $evento->setIdExternal($this->getId());
-                $evento->save();
+                $event = new Event();
+                $event->setType(Event::CONFERENZASTAMPA);
+                $event->setCreatedAt($this->getCreatedAt());
+                $event->setTeamId($this->getTeamId());
+                $event->setExternal($this->getId());
+                $event->save();
             }
             ConnectionFactory::getFactory()->getConnection()->commit();
         } catch (PDOException $e) {
@@ -35,8 +34,45 @@ class Article extends ArticlesTable {
 
     public function delete() {
         $id = $this->getId();
-        if (parent::delete())
-            return Evento::deleteEventoByIdExternalAndTipo($id, Evento::CONFERENZASTAMPA);
+        if (parent::delete()) {
+            return Event::deleteByIdExternalAndType($id, Event::CONFERENZASTAMPA);
+        }
+    }
+    
+    public static function getByChampionship($championship_id) {
+        $q = "SELECT " . self::TABLE_NAME . ".*,teams.name as team_name
+		FROM " . self::TABLE_NAME . " INNER JOIN teams ON articles.team_id = teams.id
+		WHERE teams.championship_id = :championship_id
+                ORDER BY created_at DESC";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':championship_id', $championship_id, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__)) {
+            $obj->team = new Team();
+            $obj->team->getFromObject($obj);
+            $values[$obj->getId()] = $obj;
+        }
+        return $values;
+    }
+    
+    public static function getByTeam($team_id) {
+        $q = "SELECT " . self::TABLE_NAME . ".*,teams.name as team_name
+		FROM " . self::TABLE_NAME . " INNER JOIN teams ON articles.team_id = teams.id
+		WHERE articles.team_id = :team_id
+                ORDER BY created_at DESC";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':team_id', $team_id, PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__)) {
+            $obj->team = new Team();
+            $obj->team->getFromObject($obj);
+            $values[$obj->getId()] = $obj;
+        }
+        return $values;
     }
 
     /**
@@ -65,18 +101,21 @@ class Article extends ArticlesTable {
      * @param int $number
      * @return Articolo[]
      */
-    public static function getLastArticoli($number) {
-        $q = "SELECT articolo.*,utente.username
-				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
-				ORDER BY dataCreazione DESC
-				LIMIT 0,:number";
+    public static function getLast($number) {
+        $q = "SELECT " . self::TABLE_NAME . ".*,teams.name as team_name
+		FROM " . self::TABLE_NAME . " INNER JOIN teams ON articles.team_id = teams.id
+		ORDER BY created_at DESC
+		LIMIT 0,:number";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(':number', $number, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
+        while ($obj = $exe->fetchObject(__CLASS__)) {
+            $obj->team = new Team();
+            $obj->team->getFromObject($obj);
             $values[$obj->getId()] = $obj;
+        }
         return $values;
     }
 
@@ -100,8 +139,9 @@ class Article extends ArticlesTable {
     }
 
     public function check(array $parameters) {
-        if (empty($this->titolo) || empty($this->testo))
+        if (empty($this->title) || empty($this->body)) {
             throw new FormException('Non hai compilato correttamente tutti i campi');
+        }
         return TRUE;
     }
 

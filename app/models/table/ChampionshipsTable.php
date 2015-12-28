@@ -2,6 +2,7 @@
 
 namespace Fantamanajer\Models\Table;
 
+use Fantamanajer\Models\Championship;
 use Fantamanajer\Models\League;
 use Fantamanajer\Models\Season;
 use Lib\Database\Table;

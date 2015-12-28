@@ -11,8 +11,8 @@
         <meta name="application-name" content="FantaManajer"/>
         <meta name="msapplication-config" content="http://fantamanajer.it/browserconfig.xml" />
         <meta name="msapplication-TileImage" content="/public/images/fantamanajer.png"/>
-        <meta name="msapplication-task" content="name=Classifica;action-uri=<?php echo $this->router->generate('classifica') ?>;icon-uri=/favicon.ico" />
-        <meta name="msapplication-task" content="name=Clubs;action-uri=<?php echo $this->router->generate('club_index') ?>;icon-uri=/favicon.ico" />
+        <meta name="msapplication-task" content="name=Classifica;action-uri=<?php echo $this->router->generate('ranking') ?>;icon-uri=/favicon.ico" />
+        <meta name="msapplication-task" content="name=Clubs;action-uri=<?php echo $this->router->generate('clubs_index') ?>;icon-uri=/favicon.ico" />
         <meta name="msapplication-starturl" content="http://fantamanajer.it" />
         <meta name="msapplication-tooltip" content="FantaManajer - Gestisci la tua lega del fantacalcio" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -25,8 +25,9 @@
         <meta property="og:site_name" content="FantaManajer" />
         <meta property="fb:admins" content="sonzogni.stefano" />
         <meta name="fb:page_id" content="351655380347" />
-        
-        <?php if(isset($this->quickLinks)): ?>
+        <meta name="google-signin-client_id" content="852085834364-e70140tqjo75h5ht2ustt490hjhgkruv.apps.googleusercontent.com">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+        <?php if (isset($this->quickLinks)): ?>
             <?php if ($this->quickLinks->prev != FALSE): ?>
                 <link rel="prev" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>" />
             <?php endif; ?>
@@ -46,56 +47,65 @@
                 <link href="<?php echo CSSURL . $val . '.css'; ?>" media="screen" rel="stylesheet" type="text/css" />
             <?php endforeach; ?>
         <?php endif; ?>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
         <!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
         <link href="https://plus.google.com/107850880885578143642" rel="publisher" />
-        
+
     </head>
     <body>
-        <div id="container">
-            <div id="topbar" class="navbar navbar-inverse navbar-fixed-top">
-                <?php echo $this->navbar; ?>
-            </div>
-            <?php require_once(LAYOUTSDIR . "message.php"); ?>
-            <header id="header" class="hidden-xs">
-                <div class="gradient">
-                    <div class="container"><?php echo $this->header; ?></div>
-                </div>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+            <header class="mdl-layout__header mdl-layout__header--waterfall">
+                <?php echo $this->header ?>
             </header>
-            <!--[if lte IE 8]>
-                <p class="browsehappy">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> to better experience this site.</p>
-            <![endif]-->
-            <?php if (!empty($this->operation)): ?>
-                <section id="operation">
-                    <div class="fix">
-                        <div class="container">
-                            <div class="operation-content">
-                                <?php if ($this->quickLinks->prev != FALSE): ?>
-                                    <a rel="prev" class="back" href="<?php echo $this->quickLinks->prev->href; ?>" title="<?php echo $this->quickLinks->prev->title; ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
-                                <?php else: ?>
-                                    <div class="back"><span></span></div>
-                                <?php endif; ?>
-                                <div class="center"><?php echo $this->operation; ?></div>
-                                <?php if ($this->quickLinks->next != FALSE): ?>
-                                    <a rel="next" class="next" href="<?php echo $this->quickLinks->next->href; ?>" title="<?php echo $this->quickLinks->next->title; ?>"><span class="glyphicon glyphicon-arrow-right"></span></a>
-                                <?php else: ?>
-                                    <div class="next"><span></span></div>
-                                <?php endif; ?>
-                            </div>
+            <div class="mdl-layout__drawer">
+                <?php if ($_SESSION['logged']) : ?>
+                    <header class="demo-drawer-header">
+                        <i class="material-icons md-48">account_circle</i>
+                        <div class="demo-avatar-dropdown">
+                            <span><?php echo $_SESSION['email'] ?></span>
                         </div>
-                    </div>
-                </section>
-            <?php endif; ?>
-            <section id="content">
-                <div class="container" id="<?php echo $this->route['name']; ?>">
-                    <div class="inner-page"><?php echo $this->content; ?></div>
-                </div>
-            </section>
-        </div>
-        <footer>
-            <div class="container">
-                <?php echo $this->footer; ?>
+                    </header>
+                <?php endif; ?>
+                <nav class="mdl-navigation">
+                    <?php echo $this->navbar; ?>
+                </nav>
             </div>
-        </footer>
+            <main class="mdl-layout__content">
+                <div class="page-content"><?php echo $this->content; ?></div>
+                <div id="fab_ctn" class="mdl-button--fab_flinger-container">
+                    <button id="fab_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                        <i class="material-icons">add</i>
+                    </button>
+                    <div class="mdl-button--fab_flinger-options">
+                        <a href="<?php echo $this->router->generate('lineups') ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+                            <i class="material-icons">star_rate</i>
+                            <span class="mdl-button__text">Inserisci formazione</span>
+                        </a>
+                        <a href="<?php echo $this->router->generate('articles_new') ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+                            <i class="material-icons">message</i>
+                            <span class="mdl-button__text">Nuova conferenza stampa</span>
+                        </a>
+                        <a href="<?php echo $this->router->generate('teams_show',['id' => $_SESSION['team']->id]) . '#tab-transfert' ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+                            <i class="material-icons">swap_vert</i>
+                            <span class="mdl-button__text">Nuovo trasferimento</span>
+                        </a>
+                    </div>
+                </div>
+                <footer class="mdl-mini-footer">
+                    <div class="mdl-mini-footer__left-section">
+                        <div class="mdl-logo">FantaManajer</div>
+                        <ul class="mdl-mini-footer__link-list">
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Privacy & Terms</a></li>
+                        </ul>
+                    </div>
+                </footer>
+
+            </main>
+
+        </div>
+        <div id="snackbar" class="mdl-js-snackbar"></div>
         <?php if (LOCAL): ?>
             <script type="text/javascript">
                 var LOCAL = <?php echo (LOCAL) ? 'true' : 'false' ?>;
@@ -111,10 +121,10 @@
                 <?php foreach ($this->js as $key => $val): ?>
                     <?php if (is_array($val)): ?>
                         <?php foreach ($val as $val2): ?>
-                            <script src="<?php echo (substr($key,0,11) == 'components/' ? PUBLICURL : JSURL) . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
+                            <script src="<?php echo (substr($key, 0, 11) == 'components/' ? PUBLICURL : JSURL) . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <script src="<?php echo (substr($key,0,11) == 'components/' ? PUBLICURL : JSURL) . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
+                        <script src="<?php echo (substr($key, 0, 11) == 'components/' ? PUBLICURL : JSURL) . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -127,5 +137,6 @@
                 <script src="<?php echo JSURL . 'combined/' . $this->route['name'] . '.js'; ?>" type="text/javascript"></script>
             <?php endif; ?>
         <?php endif; ?>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </body>
 </html>

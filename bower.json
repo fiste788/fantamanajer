@@ -30,6 +30,9 @@
     "jquery": "latest",
     "modernizr": "master",
     "enquire": "master",
-    "matchmedia": "master"
+    "matchmedia": "master",
+    "material-design-lite": "master",
+    "bootstrap-sass": "bootstrap-sass-official#~3.3.5",
+    "material-design-icons": "~2.0.0"
   }
 }

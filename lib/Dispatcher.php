@@ -43,8 +43,8 @@ class Dispatcher {
             try {
                 $controller = $this->getController($request, $response, $router, $route);
                 if(!is_null($controller)) {
-                    try {
-                        ob_start();
+                    //try {
+                    //    ob_start();
                         $this->doAction($request, $controller);
                         $body = ob_get_clean();
                         if ($body != "") {
@@ -53,13 +53,13 @@ class Dispatcher {
                         } else {
                             $content = $controller->render();
                         }
-                    } catch (Exception $ex) {
+                    /*} catch (Exception $ex) {
                         ob_end_clean();
                         FirePHP::getInstance()->error($ex->getMessage());
 						//die($ex);
                         $content = $controller->render("Si è verificato un errore interno nell'elaborazione dei dati");
                         $response->setHttpCode(500);
-                    }
+                    }*/
                     if ($controller->getFormat() == "json") {
                         $response->setContentType("application/json");
                     }

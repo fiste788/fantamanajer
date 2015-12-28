@@ -18,10 +18,14 @@ class Event extends EventsTable {
     const RIMOSSOGIOCATORE = 6;
     const CAMBIOCLUB = 7;
 
-    public static function deleteEventoByIdExternalAndTipo($idExternal, $tipo) {
+    public static function deleteByIdExternalAndType($external, $type) {
         $q = "DELETE
-				FROM evento WHERE idExternal = '" . $idExternal . "' AND tipo = '" . $tipo . "'";
-        return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
+		FROM events WHERE external = :external AND type = :type";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':external', $external, PDO::PARAM_INT);
+        $exe->bindValue(':type', $type, PDO::PARAM_INT);
+        return $exe->execute();
+        //return ConnectionFactory::getFactory()->getConnection()->exec($q);
     }
 
     /**

@@ -2,9 +2,6 @@
 
 namespace Fantamanajer\Models\Table;
 
-use Fantamanajer\Models\Member;
-use Fantamanajer\Models\Matchday;
-use Fantamanajer\Models\View\GiocatoreStatistiche;
 use Fantamanajer\Models\Rating;
 use Lib\Database\Table;
 
@@ -116,11 +113,11 @@ abstract class RatingsTable extends Table {
 
     public function __construct() {
         parent::__construct();
-        $this->valuated = is_null($this->valuated) ? NULL : $this->isValuated();
+        $this->valued = is_null($this->valued) ? NULL : $this->isValued();
         $this->points = is_null($this->points) ? NULL : $this->getPoints();
         $this->rating = is_null($this->rating) ? NULL : $this->getRating();
         $this->goals = is_null($this->goals) ? NULL : $this->getGoals();
-        $this->goals_against = is_null($this->goals_taken) ? NULL : $this->getGoalsTaken();
+        $this->goals_against = is_null($this->goals_against) ? NULL : $this->getGoalsAgainst();
         $this->goals_victory = is_null($this->goals_victory) ? NULL : $this->getGoalsVictory();
         $this->goals_tie = is_null($this->goals_tie) ? NUL : $this->getGoalsTie();
         $this->assist = is_null($this->assist) ? NULL : $this->getAssist();
@@ -211,7 +208,7 @@ abstract class RatingsTable extends Table {
      * 
      * @return boolean
      */
-    public function getRedCard() {
+    public function isRedCard() {
         return (boolean) $this->red_card;
     }
 

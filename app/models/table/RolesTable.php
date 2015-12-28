@@ -2,6 +2,9 @@
 
 namespace Fantamanajer\Models\Table;
 
+use Fantamanajer\Models\Role;
+use Lib\Database\Table;
+
 abstract class RolesTable extends Table {
 
     const TABLE_NAME = 'roles';
@@ -52,7 +55,7 @@ abstract class RolesTable extends Table {
      * @return string
      */
     public function getAbbreviation() {
-        return $this->abbrevition;
+        return $this->abbreviation;
     }
 
     /**

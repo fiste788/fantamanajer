@@ -60,32 +60,7 @@ class Member extends MembersTable {
         return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
-    public static function getFreePlayer($ruolo, $idLega) {
-        $q = "SELECT view_0_giocatoristatistiche.*
-				FROM view_0_giocatoristatistiche
-				WHERE id NOT IN (
-						SELECT idGiocatore
-						FROM squadra
-						WHERE idLega = :idLega)";
-        if ($ruolo != NULL) {
-            $q .= " AND ruolo = :ruolo";
-        }
-        $q .= " AND attivo = :attivo
-				ORDER BY cognome,nome";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
-        if($ruolo != null) {
-            $exe->bindValue(":ruolo", $ruolo);
-        }
-        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__)) {
-            $values[$obj->getId()] = $obj;
-        }
-        return $values;
-    }
+    
 
     public static function getGiocatoreByIdWithStats($idGiocatore, $idLega = NULL) {
         $q = "SELECT view_0_giocatoristatistiche.*,idLega
@@ -101,17 +76,31 @@ class Member extends MembersTable {
         return $exe->fetchObject(__CLASS__);
     }
 
-    public static function getVotiGiocatoriByGiornataAndSquadra($giornata, $idUtente) {
+    public static function getLineupDetailsByMatchdayAndTeam(Matchday $matchday, Team $team) {
         $q = "SELECT *
-				FROM view_0_formazionestatistiche
-				WHERE idGiornata = :idGiornata AND idUtente = :idUtente ORDER BY posizione";
+		FROM view_0_lineups_details
+		WHERE matchday_id = :matchday_id AND team_id = :team_id ORDER BY posizione";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":matchday_id", $matchday->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":team_id", $team->getId(), PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
-        $elenco = $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
-        return $elenco;
+        //$elenco = $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+        $values = array();
+        while ($obj = $exe->fetchObject(__CLASS__)) {
+            $obj->member = new Member();
+            $obj->member->getFromObject($obj);
+            $obj->player = new Player();
+            $obj->player->getFromObject($obj);
+            $obj->disposition = new Disposition();
+            $obj->disposition->getFromObject($obj);
+            $obj->club = new Club();
+            $obj->club->getFromObject($obj);
+            $obj->role = new Role();
+            $obj->role->getFromObject($obj);
+            $values[$obj->getId()] = $obj;
+        }
+        return $values;
     }
 
     public static function updateTabGiocatore($path) {
@@ -250,10 +239,26 @@ class Member extends MembersTable {
 
     /**
      *
-     * @return Voto[]
+     * @return Rating[]
      */
-    public function getVoti() {
-        return Voto::getByGiocatore($this);
+    public function getRatings(Season $season) {
+        $q = "SELECT ratings.*, matchdays.number as matchday_number, matchdays.date as matchday_date, matchdays.season_id as matchday_season_id
+		FROM ratings INNER JOIN matchdays ON ratings.matchday_id = matchdays.id
+		WHERE member_id = :member_id AND season_id = :season_id
+		ORDER BY matchdays.number ASC";
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(":member_id", $this->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":season_id", $season->getId(), PDO::PARAM_INT);
+        $exe->execute();
+        FirePHP::getInstance()->log($q);
+        $values = array();
+        while ($obj = $exe->fetchObject(Rating::class)) {
+            $obj->matchday = new Matchday();
+            $obj->matchday->getFromObject($obj);
+            $values[$obj->getId()] = $obj;
+        }
+        return $values;
+        //return Rating::getByField('member_id',$this->id);
     }
 
 }
