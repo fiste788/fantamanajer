@@ -1,5 +1,5 @@
-#formazione {
-    #panchina, #capitani {
+#lineups {
+    #bench, #captains {
         float:left;
         .droppable {
             width:100px;
@@ -12,7 +12,7 @@
         h3 {
             margin:0;
         }
-        .giocatore {
+        .player {
             margin:auto;
             float:none;
             text-align:center;
@@ -21,10 +21,10 @@
             left:0 !important;
         }
     }
-    #campo {
+    #field {
         width:554px;
         height:644px;
-        background: transparent url("@{imgs-path}campo.png") no-repeat scroll 0 0;
+        background: transparent url("#{$imgs-path}campo.png") no-repeat scroll 0 0;
         text-align: center;
         float:left;
         margin:0 15px 0 0;
@@ -38,7 +38,7 @@
             height: 25%;
         }
     }
-    .giocatore {
+    .player {
         width: 80px;
         color: #000;
         cursor: pointer;
@@ -50,11 +50,11 @@
         position:relative;
         border-style: solid;
         border-width: 1px;
-        @include box-shadow(0 0 4px #555);
+        box-shadow:0 0 4px #555;
         //.transition(all 0.05s linear 0s);
         border-radius:3px;
         &.no-titolare {
-            @include opacity(0.7);
+            opacity:0.7;
         }
         img {
             border-radius:4px
@@ -80,28 +80,28 @@
             border-color: #ff0000;
             background-color: #ffd1d1;
             &.titolare {
-                @include box-shadow(0 0 4px #ff0000);
+                box-shadow:0 0 4px #ff0000;
             }
         }
         &.D {
             border-color: #009600;
             background-color: #d4ffd1;
             &.titolare {
-                @include box-shadow(0 0 4px #009600);
+                box-shadow:0 0 4px #009600;
             }
         }
         &.C {
             border-color: #ffbd00;
             background-color: #fff3d1;
             &.titolare {
-                @include box-shadow(0 0 4px #ffbd00);
+                box-shadow:0 0 4px #ffbd00;
             }
         }
         &.A {
             border-color: #00a0ff;
             background-color: #d0f1ff;
             &.titolare {
-                @include box-shadow(0 0 4px #00a0ff);
+                box-shadow:0 0 4px #00a0ff;
             }
         }
     }
@@ -117,18 +117,18 @@
     }
     .droppable-hover {
         background-color: #A0E1FF !important;
-        @include opacity(0.5);
+        opacity:0.5;
         border:5px dashed #4CA3FF;
     }
     
     fieldset>div {
         position:relative;
     }
-    #giocatori {
+    #players {
         //background: transparent url(@{imgsPath}bg.jpg) no-repeat scroll center -140px;
         z-index:1;
         padding:5px 10px;
-        .giocatore {
+        .player {
             top:auto !important;
             left:auto !important;
         }
@@ -137,7 +137,7 @@
     .ui-draggable-dragging {
         z-index:10;
     }
-    #stadio {
+    #arena {
         margin:0 10px 0 0;
     }
     form {
@@ -149,7 +149,7 @@
         padding-left:570px;
         z-index:0;
     }
-    #capitani{
+    #captains {
         width:100%;
         .droppable {
             min-height:146px;

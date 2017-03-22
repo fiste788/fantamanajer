@@ -28,40 +28,18 @@ class Rating extends RatingsTable {
         return $exe->fetchObject(__CLASS__);
     }
 
-    /**
-     *
-     * @param Giocatore $giocatore
-     * @return Voto[]
-     */
-    public static function getByGiocatore($giocatore) {
+    public static function checkRatingsExists(Matchday $matchday) {
         $q = "SELECT *
-				FROM voto
-				WHERE idGiocatore = :idGiocatore AND valutato = :valutato
-                ORDER BY idGiornata ASC";
+		FROM ratings
+                WHERE matchday_id = :matchday_id";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiocatore", $giocatore->getId(), PDO::PARAM_INT);
-        $exe->bindValue(":valutato", TRUE, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__)) {
-            $values[$obj->getIdGiornata()] = $obj;
-        }
-        return $values;
-    }
-
-    public static function checkVotiExist($giornata) {
-        $q = "SELECT *
-				FROM voto
-                WHERE idGiornata = :idGiornata";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue("idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue("matchday_id", $matchday->getId(), PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         return $exe->rowCount() > 0;
     }
 
-    public static function importVoti($path, $giornata) {
+    public static function importRatings($path, $giornata) {
         $players = FileSystem::returnArray($path, ";");  //true per intestazione
         foreach ($players as $id => $stats) {
             $valutato = ConnectionFactory::getFactory()->getConnection()->quote($stats[6],PDO::PARAM_INT); //1=valutato,0=senzavoto
@@ -81,7 +59,7 @@ class Rating extends RatingsTable {
             $quotazione = ConnectionFactory::getFactory()->getConnection()->quote($stats[27],PDO::PARAM_INT);
             $rows[] = "($id,$giornata,$valutato,$punti,$voto,$gol,$golsub,$golvit,$golpar,$assist,$ammonito,$espulso,$rigorisegn,$rigorisub,$presenza,$titolare,$quotazione)";
         }
-        $q = "INSERT INTO voto (idGiocatore,idGiornata,valutato,punti,voto,gol,golSubiti,golVittoria,golPareggio,assist,ammonito,espulso,rigoriSegnati,rigoriSubiti,presente,titolare,quotazione) VALUES ";
+        $q = "INSERT INTO ratings (member_id,matchday_id,valued,points,rating,goals,goals_against,goals_victory,goals_tie,assist,yellow_card,red_card,penalities_scored,penalities_taken,present,regular,quotation) VALUES ";
         $q .= implode(',', $rows);
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         return $exe->execute();

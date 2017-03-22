@@ -10,13 +10,36 @@ use PDO;
 
 class Event extends EventsTable {
 
-    const CONFERENZASTAMPA = 1;
-    const SELEZIONEGIOCATORE = 2;
-    const FORMAZIONE = 3;
-    const TRASFERIMENTO = 4;
-    const NUOVOGIOCATORE = 5;
-    const RIMOSSOGIOCATORE = 6;
-    const CAMBIOCLUB = 7;
+    const NEW_ARTICLE = 1;
+    const NEW_PLAYER_SELECTION = 2;
+    const NEW_LINEUP = 3;
+    const NEW_TRANSFERT = 4;
+    const NEW_PLAYER = 5;
+    const DELETE_PLAYER = 6;
+    const EDIT_CLUB = 7;
+    
+    /**
+     *
+     * @var string
+     */
+    public $title;
+    
+    /**
+     *
+     * @var string
+     */
+    public $content;
+    
+    /**
+     *
+     * @var string
+     */
+    public $link;
+    
+    public function __construct() {
+        parent::__construct();
+        $this->processEvent();
+    }
 
     public static function deleteByIdExternalAndType($external, $type) {
         $q = "DELETE
@@ -30,110 +53,120 @@ class Event extends EventsTable {
 
     /**
      *
-     * @param int $idLega
-     * @param int $tipo|null
+     * @param int $leagueId
+     * @param int|null $type
      * @param int $min
      * @param int $max
-     * @return Evento[]
+     * @return Event[]
      */
-    public static function getEventi($idLega, $tipo = NULL, $min = 0, $max = 10) {
-        $ruoli = array("articoli" =>
-            array(
-                'P' => "il",
-                'D' => "il",
-                'C' => "il",
-                'A' => "l'"),
-            "nome" =>
-            array(
-                'P' => "portiere",
-                'D' => "difensore",
-                'C' => "centrocampista",
-                'A' => "attaccante"
-                ));
-        $q = "SELECT evento.*,utente.nomeSquadra
-				FROM evento LEFT JOIN utente ON evento.idUtente = utente.id ";
-        if ($idLega != NULL)
-            $q .= "WHERE (evento.idLega = '" . $idLega . "' OR evento.idLega IS NULL)";
-        if ($tipo != NULL && $tipo != 0)
-            $q .= " AND tipo = '" . $tipo . "'";
-        $q .= " ORDER BY data DESC
-				LIMIT " . $min . "," . $max . ";";
+    public static function getEvents($leagueId, $type = NULL, $min = 0, $max = 10) {
+        $q = "SELECT events.*,teams.name
+		FROM events LEFT JOIN teams ON events.team_id = teams.id";
+        if ($leagueId != NULL) {
+            $q .= " WHERE (events.league_id = '" . $leagueId . "' OR events.league_id IS NULL)";
+        }
+        if ($type != NULL && $type != 0) {
+            $q .= " AND type = '" . $type . "'";
+        }
+        $q .= " ORDER BY created_at DESC
+		LIMIT " . $min . "," . $max . ";";
         FirePHP::getInstance()->log($q);
         $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
-        $values = $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
-        if ($values) {
-            foreach ($values as $key => $val) {
-                $val->titolo = "";
-                $val->content = "";
-                $val->link = "";
-                switch ($val->tipo) {
-                    case self::CONFERENZASTAMPA:
-                        $values[$key]->idExternal = Articolo::getById($val->idExternal);
-                        $values[$key]->titolo = $val->nomeSquadra . ' ha rilasciato una conferenza stampa intitolata ' . $values[$key]->idExternal->titolo;
-                        $values[$key]->content = '';
-                        if (!empty($values[$key]->idExternal->abstract))
-                            $values[$key]->content = '<em>' . $values[$key]->idExternal->sottoTitolo . '</em><br />';
-                        $values[$key]->content .= $values[$key]->idExternal->testo;
-                        $values[$key]->link = Router::generate('articoli',array('giornata'=>$values[$key]->idExternal->idGiornata));
-                        break;
-                    case self::SELEZIONEGIOCATORE: $values[$key]->titolo = $val->nomeSquadra . ' ha selezionato un giocatore per l\'acquisto';
-                        $values[$key]->content = ' ';
-                        break;
-                        $values[$key]->link = '';
-                        break;
-                    case self::FORMAZIONE: $values[$key]->idExternal = Formazione::getById($val->idExternal);
-                        $values[$key]->titolo = $val->nomeSquadra . ' ha impostato la formazione per la giornata ' . $values[$key]->idExternal->idGiornata;
-                        $titolari = $values[$key]->idExternal->giocatori;
-                        $titolari = array_splice($titolari, 0, 11);
-                        //$titolari = Giocatore::getByIds($titolari);
-                        $values[$key]->content = 'Formazione: ';
-                        foreach ($titolari as $key2 => $val2)
-                            $values[$key]->content .= $val2->getGiocatore()->cognome . ', ';
-                        $values[$key]->content = substr($values[$key]->content, 0, -2);
-                        $values[$key]->link = Router::generate('formazione', array('giornata' => $values[$key]->idExternal->idGiornata, 'squadra' => $values[$key]->idExternal->idUtente));
-                        break;
-                    case self::TRASFERIMENTO:
-                        $values[$key]->idExternal = Trasferimento::getById($val->idExternal);
-                        $val->titolo = $val->nomeSquadra . ' ha effettuato un trasferimento';
-                        if(!is_null($val->idExternal)) {
-                            $giocOld = Giocatore::getById($val->idExternal->idGiocatoreOld);
-                            $giocNew = Giocatore::getById($val->idExternal->idGiocatoreNew);
-                            $val->idExternal->idGiocatoreOld = $giocOld->id;
-                            $val->idExternal->idGiocatoreNew = $giocNew->id;
-                            $val->content = $val->nomeSquadra . ' ha ceduto il giocatore ' . $giocOld . ' e ha acquistato ' . $giocNew;
-                            $val->link = Router::generate('trasferimento_index', array('id' => $val->idExternal->idUtente));
-                            unset($giocOld, $giocNew);
-                        }
-                        break;
-                    case self::NUOVOGIOCATORE:
-                        $player = Giocatore::getById($values[$key]->idExternal);
-                        //$selected = $player[$values[$key]->idExternal];
-                        if(!is_null($player)) {
-                            $values[$key]->titolo = $player->nome . ' ' . $player->cognome . ' (' . $player->getClub()->getNome() . ') inserito nella lista giocatori';
-                            $values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' ora fa parte della rosa ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome . ', pertanto è stato inserito nella lista giocatori';
-                            $values[$key]->link = Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
-                        }
-                        else
-                            FirePHP::getInstance ()->log ("<aa" . $values[$key]->idExternal);  
-                        break;
-                    case self::RIMOSSOGIOCATORE:
-                        $player = Giocatore::getById($values[$key]->idExternal);
-                        $values[$key]->titolo = $player . ' (ex ' . $player->getClub()->nome . ') non fa più parte della lista giocatori';
-                        $values[$key]->content = ucwords($ruoli['articoli'][$player->ruolo]) . ' ' . $ruoli['nome'][$player->ruolo] . ' ' . $player . ' non è più un giocatore ' . $player->getClub()->partitivo . ' ' . $player->getClub()->nome;
-                        $values[$key]->link = Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
-                        break;
-                    case self::CAMBIOCLUB:
-                        $player = Giocatore::getById($values[$key]->idExternal);
-                        $values[$key]->titolo = ucwords($player->getClub()->determinativo) . ' ' . $player->getclub()->nome . ' ha ingaggiato ' . $player;
-                        $values[$key]->content = '';
-                        $values[$key]->link = Router::generate('giocatore_show', array('edit' => 'view', 'id' => $player->id));
-                        break;
-                }
-            }
-            return $values;
+        $values = $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+        return $values;
+    }
+
+    protected function processEvent() {
+        //$event = $event || $this;
+        switch ($this->type) {
+            case self::NEW_ARTICLE:
+                $this->processNewArticle();
+                break;
+            case self::NEW_PLAYER_SELECTION:
+                $this->processNewPlayerSelection();
+                break;
+            case self::NEW_LINEUP:
+                $this->processNewLineup();
+                break;
+            case self::NEW_TRANSFERT:
+                $this->processNewTransfert();
+                break;
+            case self::NEW_PLAYER:
+                $this->processNewPlayer();
+                break;
+            case self::DELETE_PLAYER:
+                $this->processDeletePlayer();
+                break;
+            case self::EDIT_CLUB:
+                $this->processEditClub();
+                break;
         }
-        else
-            return FALSE;
+    }
+
+    protected function processNewArticle() {
+        $article = Article::getById($this->external);
+        $this->title = $this->name . ' ha rilasciato una conferenza stampa intitolata ' . $article->title;
+        $this->content = '';
+        if (!empty($article->subtitle)) {
+            $this->content = '<em>' . $article->subtitle . '</em><br />';
+        }
+        $this->content .= $article->text;
+        $this->link = Router::generate('articles', array('matchday_id' => $article->getMatchdayId()));
+    }
+
+    protected function processNewPlayerSelection() {
+        $this->title = $this->name . ' ha selezionato un giocatore per l\'acquisto';
+        $this->content = ' ';
+        $this->link = '';
+    }
+
+    protected function processNewLineup() {
+        $lineup = Lineup::getById($this->external);
+        $this->title = $this->name . ' ha impostato la formazione per la giornata ' . $lineup->getMatchdayId();
+        $regular = $this->players;
+        $regular = array_splice($regular, 0, 11);
+        $this->content = 'Formazione: ';
+        foreach ($regular as $member) {
+            $this->content .= $member->player->surname . ', ';
+        }
+        $this->content = substr($this->content, 0, -2);
+        $this->link = Router::generate('lineup', array('matchday_id' => $lineup->getMatchdayId(), 'team_id' => $lineup->getTeamId()));
+    }
+
+    protected function processNewTransfert() {
+        $transfert = Transfert::getById($this->external);
+        $this->title = $this->name . ' ha effettuato un trasferimento';
+        if (!is_null($this->external)) {
+            Member::getById($transfert->getNewMember());
+            $this->content = $this->name . ' ha ceduto il giocatore ' . $transfert->getOldMember()->getPlayer()->getSurname() . ' e ha acquistato ' . $transfert->getNewMember()->getPlayer()->getSurname();
+            $this->link = Router::generate('transfert', array('id' => $transfert->getTeamId()));
+        }
+    }
+
+    protected function processNewPlayer() {
+        $member = Member::getById($this->external);
+        $player = $member->getPlayer();
+        if (!is_null($member)) {
+            $this->title = $player->name . ' ' . $player->surname . ' (' . $player->getClub()->getName() . ') inserito nella lista giocatori';
+            $this->content = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' ora fa parte della rosa ' . $member->getClub()->partitive . ' ' . $member->getClub()->name . ', pertanto è stato inserito nella lista giocatori';
+            $this->link = Router::generate('players_show', array('edit' => 'view', 'id' => $player->id));
+        }
+    }
+
+    protected function processDeletePlayer() {
+        $member = Member::getById($this->external);
+        $player = $member->getPlayer();
+        $this->title = $player . ' (ex ' . $member->getClub()->nome . ') non fa più parte della lista giocatori';
+        $this->content = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' non è più un giocatore ' . $member->getClub()->partitive . ' ' . $member->getClub()->name;
+        $this->link = Router::generate('player_show', array('edit' => 'view', 'id' => $member->id));
+    }
+
+    protected function processEditClub() {
+        $member = Member::getById($this->external);
+        $player = $member->getPlayer();
+        $this->title = ucwords($member->getClub()->determinant) . ' ' . $member->getclub()->name . ' ha ingaggiato ' . $player;
+        $this->content = '';
+        $this->link = Router::generate('player_show', array('edit' => 'view', 'id' => $member->id));
     }
 
     public function check(array $array) {
@@ -141,5 +174,3 @@ class Event extends EventsTable {
     }
 
 }
-
- 

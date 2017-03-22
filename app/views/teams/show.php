@@ -72,6 +72,9 @@
     <section class="mdl-layout__tab-panel" id="tab_articles" data-remote="<?php echo $this->router->generate('team_articles',['team_id' => $this->team->id]) ?>">
         <div class="mdl-spinner mdl-js-spinner is-active"></div>
     </section>
+     <section class="mdl-layout__tab-panel" id="tab_lineup" data-remote="<?php echo $this->router->generate('lineups',['team_id' => $this->team->id]) ?>">
+        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+    </section>
     <section class="mdl-layout__tab-panel" id="tab_last_score" data-remote="<?php echo $this->router->generate('scores_show',['team_id' => $this->team->id]) ?>">
         <div class="mdl-spinner mdl-js-spinner is-active"></div>
     </section>

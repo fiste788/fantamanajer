@@ -26,12 +26,19 @@ abstract class RolesTable extends Table {
      * @var string
      */
     public $abbreviation;
+    
+    /**
+     *
+     * @var string
+     */
+    public $determinant;
 
     public function __construct() {
         parent::__construct();
         $this->singolar = is_null($this->singolar) ? NULL : $this->getSingolar();
         $this->plural = is_null($this->plural) ? NULL : $this->getPlural();
         $this->abbreviation = is_null($this->abbreviation) ? NULL : $this->getAbbreviation();
+        $this->determinant = is_null($this->determinant) ? NULL : $this->getDeterminant();
     }
 
     /**
@@ -57,7 +64,16 @@ abstract class RolesTable extends Table {
     public function getAbbreviation() {
         return $this->abbreviation;
     }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getDeterminant() {
+        return $this->determinant;
+    }
 
+    
     /**
      * 
      * @param string $singolar
@@ -82,6 +98,15 @@ abstract class RolesTable extends Table {
         $this->abbreviation = $abbreviation;
     }
 
+    /**
+     * 
+     * @param string $determinant
+     */
+    public function setDeterminant($determinant) {
+        $this->determinant = $determinant;
+    }
+
+        
     /**
      *
      * @return string

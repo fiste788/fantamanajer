@@ -77,27 +77,6 @@ class Article extends ArticlesTable {
 
     /**
      *
-     * @param int $idGiornata
-     * @param int $idLega
-     * @return Articolo[]
-     */
-    public static function getArticoliByGiornataAndLega($idGiornata, $idLega) {
-        $q = "SELECT articolo.*,utente.username
-				FROM articolo INNER JOIN utente ON articolo.idUtente = utente.id
-				WHERE idGiornata = :idGiornata AND utente.idLega = :idLega";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(':idGiornata', $idGiornata, PDO::PARAM_INT);
-        $exe->bindValue(':idLega', $idLega, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__))
-            $values[$obj->getId()] = $obj;
-        return $values;
-    }
-
-    /**
-     *
      * @param int $number
      * @return Articolo[]
      */
@@ -116,25 +95,6 @@ class Article extends ArticlesTable {
             $obj->team->getFromObject($obj);
             $values[$obj->getId()] = $obj;
         }
-        return $values;
-    }
-
-    /**
-     *
-     * @param int $idLega
-     * @return int[]
-     */
-    public static function getGiornateArticoliExist($idLega) {
-        $q = "SELECT DISTINCT(idGiornata) as idGiornata
-				FROM articolo
-				WHERE idLega = :idLega";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(':idLega', $idLega, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($obj = $exe->fetchObject())
-            $values[$obj->idGiornata] = $obj->idGiornata;
         return $values;
     }
 

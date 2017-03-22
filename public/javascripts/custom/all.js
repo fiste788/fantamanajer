@@ -61,42 +61,42 @@ if ($operation.length) {
     );
 }
 /*
-enquire.register("screen and (min-width:" + (sizes.sm) + "px)", {
-    match: function () {
-        var $countdown = $('#countdown'),
-                timestamp = $countdown.data('data-fine'),
-                d = new Date(timestamp * 1000),
-                interval = 1000,
-                htmlTemplate = '%h%i%s';
-        if ((d.getTime() - new Date().getTime()) > (1000 * 60 * 60 * 24)) {
-            htmlTemplate = '%d %h%i%s';
-            interval *= 60;
-        }
-        $countdown.find('div').countdown({
-            template: htmlTemplate,
-            date: d,
-            spaceCharacter: '',
-            hourText: '',
-            minText: '',
-            secText: '',
-            dayText: 'dd',
-            timeSeparator: ':',
-            updatetime: interval,
-            complete: function () {
-                $(this).html('Tempo scaduto');
-            },
-            leadingZero: true
-        });
-        $countdown.removeClass("hidden");
-    }
-});
-
-if ($dropdown.length) {
-    $dropdown.dropdown();
-    $('.dropdown-menu').find('form').click(function (e) {
-        e.stopPropagation();
-    });
-}*/
+ enquire.register("screen and (min-width:" + (sizes.sm) + "px)", {
+ match: function () {
+ var $countdown = $('#countdown'),
+ timestamp = $countdown.data('data-fine'),
+ d = new Date(timestamp * 1000),
+ interval = 1000,
+ htmlTemplate = '%h%i%s';
+ if ((d.getTime() - new Date().getTime()) > (1000 * 60 * 60 * 24)) {
+ htmlTemplate = '%d %h%i%s';
+ interval *= 60;
+ }
+ $countdown.find('div').countdown({
+ template: htmlTemplate,
+ date: d,
+ spaceCharacter: '',
+ hourText: '',
+ minText: '',
+ secText: '',
+ dayText: 'dd',
+ timeSeparator: ':',
+ updatetime: interval,
+ complete: function () {
+ $(this).html('Tempo scaduto');
+ },
+ leadingZero: true
+ });
+ $countdown.removeClass("hidden");
+ }
+ });
+ 
+ if ($dropdown.length) {
+ $dropdown.dropdown();
+ $('.dropdown-menu').find('form').click(function (e) {
+ e.stopPropagation();
+ });
+ }*/
 if ($messaggio.length) {
     $messaggio.effect("pulsate", {
         times: 2
@@ -116,9 +116,9 @@ if ($tablesorter.length) {
         nope: JSURL + 'tablesorter/tablesorter.js',
         complete: function () {
             $tablesorter.tablesorter({
-                headers: { 
-                    0: { 
-                        sorter: false 
+                headers: {
+                    0: {
+                        sorter: false
                     }
                 }
             });
@@ -136,47 +136,62 @@ $(function () {
     });
 });
 (function () {
-  var VISIBLE_CLASS = 'is-showing-options',
-  fab_btn = document.getElementById('fab_btn'),
-  fab_ctn = document.getElementById('fab_ctn'),
-  showOpts = function(e) {
-    var processClick = function (evt) {
-      if (e !== evt) {
-        fab_ctn.classList.remove(VISIBLE_CLASS);
-        fab_ctn.IS_SHOWING = false;
-        document.removeEventListener('click', processClick);
-      }
-    };
-    if (!fab_ctn.IS_SHOWING) {
-      fab_ctn.IS_SHOWING = true;
-      fab_ctn.classList.add(VISIBLE_CLASS);
-      document.addEventListener('click', processClick);
-    }
-  };
-  fab_btn.addEventListener('click', showOpts);
+    var VISIBLE_CLASS = 'is-showing-options',
+            fab_btn = document.getElementById('fab_btn'),
+            fab_ctn = document.getElementById('fab_ctn'),
+            showOpts = function (e) {
+                var processClick = function (evt) {
+                    if (e !== evt) {
+                        fab_ctn.classList.remove(VISIBLE_CLASS);
+                        fab_ctn.IS_SHOWING = false;
+                        document.removeEventListener('click', processClick);
+                    }
+                };
+                if (!fab_ctn.IS_SHOWING) {
+                    fab_ctn.IS_SHOWING = true;
+                    fab_ctn.classList.add(VISIBLE_CLASS);
+                    document.addEventListener('click', processClick);
+                }
+            };
+    fab_btn.addEventListener('click', showOpts);
 }.call(this));
 function onSignIn(googleUser) {
-  var id_token = googleUser.getAuthResponse().id_token;
-  document.getElementById('google-token').value = id_token;
-  document.getElementById('login').submit();
+    var id_token = googleUser.getAuthResponse().id_token;
+    document.getElementById('google-token').value = id_token;
+    document.getElementById('login').submit();
 }
 $(".mdl-layout__tab").click(function () {
-        var href = $(this).attr("href");
-        if (href.startsWith('#')) {
-            var section = $("section" + href);
-            var url = section.data('remote');
-            section.data('remote',null);
+    var href = $(this).attr("href");
+    if (href.startsWith('#')) {
+        var section = $("section" + href);
+        var url = section.data('remote');
+        section.data('remote', null);
 
-            if (url) {
-                $.ajax({
-                    url: url,
-                    success: function (data) {
-                        section.empty();
-                        section.append(data);
-                        
-                        componentHandler.upgradeAllRegistered();
-                    }
-                });
-            }
+        if (url) {
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    section.empty();
+                    section.append(data);
+
+                    componentHandler.upgradeAllRegistered();
+                }
+            });
         }
-    });
+    }
+});
+$(document).ready(selectTab);
+$(window).bind('hashchange',selectTab);
+function selectTab() {
+    var hash = window.location.hash;
+    if(hash != "") {
+        var $tab = $(".mdl-layout__tab-bar").find("a[href='" + hash + "']");
+        if($tab.length) {
+            $tab.click();
+            $(".mdl-layout__tab-panel").removeClass("is-active");
+            $(".mdl-layout__tab").removeClass("is-active");
+            $tab.addClass("is-active");
+            $("section" + hash).addClass("is-active");
+        }
+    }
+}

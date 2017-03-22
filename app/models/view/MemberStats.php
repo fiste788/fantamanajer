@@ -161,7 +161,30 @@ class MemberStats extends Member {
         return $values;
     }
     
-    public static function getFree(Role $role, Championship $championship) {
+    /**
+     * 
+     * @param Championship $championship
+     * @return int
+     */
+    public function getTeamId(Championship $championship) {
+        $q = "SELECT team_id "
+                . "FROM " . self::TABLE_NAME . " JOIN members_teams ON " . self::TABLE_NAME . ".id = members_teams.member_id "
+                . "WHERE id = :id AND team_id in (SELECT id FROM teams WHERE championship_id = :championship_id)";
+        //die($q);
+        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
+        $exe->bindValue(':id', $this->getId(), PDO::PARAM_INT);
+        $exe->bindValue(':championship_id', $championship->getId(), PDO::PARAM_INT);
+        $exe->execute();
+        return $exe->fetchColumn(0);
+    }
+    
+    /**
+     * 
+     * @param Role $role
+     * @param Championship $championship
+     * @return type
+     */
+    public static function getFree($role, Championship $championship) {
         $q = "SELECT " . self::TABLE_NAME . ".*
 		FROM " . self::TABLE_NAME . " 
 		WHERE id NOT IN (
@@ -191,5 +214,23 @@ class MemberStats extends Member {
             $values[$obj->getId()] = $obj;
         }
         return $values;
+    }
+    
+    /**
+     *
+     * @param int $id
+     * @return MemberStats
+     */
+    public static function getById($id) {
+        return parent::getById($id);
+    }
+    
+   /**
+     *
+     * @param int[] $ids
+     * @return MemberStats[]|null
+     */
+    public static function getByIds(array $ids) {
+        return parent::getByIds($ids);
     }
 }

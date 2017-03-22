@@ -38,7 +38,7 @@ class TeamsController extends ApplicationController {
         $teams = Models\Team::getByField('championship_id',$team->championship_id);
         $this->quickLinks->set('id', $teams, "");
         $this->title = $team->name;
-        $this->templates['content']->assign('members',  Models\View\MemberStats::getByTeam($team)); //getByField('team_id',$team->getId()));
+        $this->templates['content']->assign('members', Models\View\MemberStats::getByTeam($team)); //getByField('team_id',$team->getId()));
         $this->templates['content']->assign('team',$team);
         $this->templates['operation']->assign('teams',$teams);
     }

@@ -27,7 +27,7 @@
         <tbody>
             <?php foreach ($this->regular as $key => $member): ?>
                 <tr<?php echo ($member->disposition->consideration == 0) ? ' class="alert-danger"' : '' ?>>
-                    <td class="mdl-data-table__cell--non-numeric"><a href="<?php echo $this->router->generate('members_show', array('id' => $member->id)); ?>"><?php echo ($member->disposition->consideration == 2) ? $member->player . '<span id="cap">(C)</span>' : $member->player; ?></a></td>
+                    <td class="mdl-data-table__cell--non-numeric"><a class="mdl-navigation__link" href="<?php echo $this->router->generate('members_show', array('id' => $member->id)); ?>"><?php echo ($member->disposition->consideration == 2) ? $member->player . '<span id="cap">(C)</span>' : $member->player; ?></a></td>
                     <td class="mdl-data-table__cell--non-numeric"><?php echo $member->role->abbreviation; ?></td>
                     <td class="mdl-data-table__cell--non-numeric"><?php echo strtoupper(substr($member->club->name, 0, 3)); ?></td>
                     <td class="hidden-xs"><?php if ($member->isYellowCard()): ?><i class="material-icons">check</i><?php endif; ?></td>
@@ -59,7 +59,7 @@
             <tbody>
                 <?php foreach ($this->notRegular as $key => $member): ?>
                     <tr<?php echo ($member->disposition->consideration == 1) ? ' class="alert-success"' : '' ?>>
-                    <td class="mdl-data-table__cell--non-numeric"><a href="<?php echo $this->router->generate('members_show', array('id' => $member->id)); ?>"><?php echo ($member->disposition->consideration == 2) ? $member->player . '<span id="cap">(C)</span>' : $member->player; ?></a></td>
+                    <td class="mdl-data-table__cell--non-numeric"><a class="mdl-navigation__link" href="<?php echo $this->router->generate('members_show', array('id' => $member->id)); ?>"><?php echo ($member->disposition->consideration == 2) ? $member->player . '<span id="cap">(C)</span>' : $member->player; ?></a></td>
                     <td class="mdl-data-table__cell--non-numeric"><?php echo $member->role->abbreviation; ?></td>
                     <td class="mdl-data-table__cell--non-numeric"><?php echo strtoupper(substr($member->club->name, 0, 3)); ?></td>
                     <td class="hidden-xs"><?php if ($member->isYellowCard()): ?><i class="material-icons">check</i><?php endif; ?></td>

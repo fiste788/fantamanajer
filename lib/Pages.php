@@ -19,9 +19,9 @@ class Pages {
         $this->rawNavbar = array();
     }
 
-    public function addPage($key, $title, $roles, $category, $order = FALSE, $js = NULL) {
+    public function addPage($key, $title, $roles, $category, $order = FALSE, $js = NULL, $params = array()) {
         //$this->pages[$key] = (object) array('title' => $title, 'roles' => $roles, 'js' => $js, 'pages' => array());
-        $this->pages[$key] = new Page($key, $title, $category, $roles, $js);
+        $this->pages[$key] = new Page($key, $title, $category, $roles, $js, $params);
         if (!empty($category)) {
             array_push($this->pages[$category]->pages, $key);
             if ($category == $key) {

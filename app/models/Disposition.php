@@ -9,20 +9,16 @@ use PDO;
 
 class Disposition extends DispositionsTable {
 
-    public static function getSchieramentoById($idFormazione) {
+    public static function getByLineupId($lineupId) {
         $q = "SELECT *
-				FROM schieramento
-				WHERE idFormazione = :idFormazione
-				ORDER BY posizione";
+		FROM dispositions
+		WHERE lineup_id = :lineup_id
+		ORDER BY position";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idFormazione", $idFormazione, PDO::PARAM_INT);
+        $exe->bindValue(":lineup_id", $lineupId, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         return $exe->fetchAll(PDO::FETCH_CLASS,__CLASS__);
-    }
-
-    public function getVoto() {
-        return Voto::getByGiocatoreAndGiornata($this->getIdGiocatore(), $this->getFormazione()->getIdGiornata());
     }
 
 }

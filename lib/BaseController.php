@@ -168,7 +168,11 @@ abstract class BaseController {
     public abstract function notAuthorized();
 
     public function setFlash($level, $message) {
-        $_SESSION['__flash'] = (object) array('level' => $level, 'text' => $message);
+        if($this->response->getContentType("application/json")) {
+            echo '{"status":"' . $level . '","message":"' . $message . '"}';
+        } else {
+            $_SESSION['__flash'] = (object) array('level' => $level, 'text' => $message);
+        }
     }
 
     public function urlFor($routeName, array $params = array()) {
@@ -297,8 +301,14 @@ abstract class BaseController {
         $this->templates['header']->assign('title', $this->title);
         $this->templates['layout']->assign('generalJs', $this->generalJs);
         $this->templates['layout']->assign('generalCss', $this->generalCss);
+        $jsContent = "";
+        
         if (isset($this->pages->pages[$this->route['name']])) {
-            $this->templates['layout']->assign('js', $this->pages->pages[$this->route['name']]->js);
+            $javascript = new Savant3(array('template_path' => LAYOUTSDIR));
+            $javascript->assign('js',$this->pages->pages[$this->route['name']]->js);
+            $javascript->assign('page',$this->route['name']);
+            $jsContent = $javascript->fetch('javascripts.php');
+            //$this->templates['layout']->assign('js', $this->pages->pages[$this->route['name']]->js);
         }
 
         if ($content == NULL) {
@@ -315,6 +325,7 @@ abstract class BaseController {
             $this->templates['layout']->assign('footer', $footer);
             $this->templates['layout']->assign('content', $content);
             $this->templates['layout']->assign('navbar', $navbar);
+            $this->templates['layout']->assign('js', $jsContent);
 
             foreach ($this->fetched as $name => $content) {
                 $this->templates['layout']->assign($name, $content);
@@ -324,7 +335,7 @@ abstract class BaseController {
 
             $output = $this->templates['layout']->fetch('layout.php');
         } else {
-            $output = $content;
+            $output = $content . $jsContent;
         }
         unset($_SESSION['__flash']);
         return $output;

@@ -24,8 +24,8 @@ class Score extends ScoresTable {
 
     public static function getPosClassificaGiornata($idLega) {
         $q = "SELECT *
-				FROM punteggio
-				WHERE idLega = :idLega AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
+		FROM punteggio
+		WHERE idLega = :idLega AND punteggio >= 0 ORDER BY idGiornata,punteggio DESC";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
         $exe->execute();
@@ -75,7 +75,9 @@ class Score extends ScoresTable {
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__)) {
             $values[$obj->getTeamId()] = $obj;
-            $values[$obj->getTeamId()]->details = $det[$obj->getTeamId()];
+            if ($details) {
+                $values[$obj->getTeamId()]->details = $det[$obj->getTeamId()];
+            }
         }
         return $values;
     }
@@ -119,7 +121,7 @@ class Score extends ScoresTable {
         return $exe->fetchColumn();
     }
 
-    protected static function sostituzione($giocatore, &$panchinari, &$cambi, $giornata) {
+    protected static function substitution($giocatore, &$panchinari, &$cambi, $giornata) {
         for ($i = 0; $i < count($panchinari); $i++) {
             $schieramento = $panchinari[$i];
             $giocatorePanchina = $schieramento->getGiocatore();
@@ -194,7 +196,7 @@ class Score extends ScoresTable {
                     $voto = $giocatore->getVotoByGiornata($giornata);
                     if ((!$giocatore->isAttivo() || !$voto->isValutato()) && ($cambi < 3)) {
                         FirePHP::getInstance()->log("sostituisco");
-                        $sostituto = self::sostituzione($giocatore, $panchinari, $cambi, $giornata);
+                        $sostituto = self::substitution($giocatore, $panchinari, $cambi, $giornata);
                         if ($sostituto != FALSE) {
                             if ($schieramento->getConsiderato() != 0) {
                                 $schieramento->setConsiderato(0);

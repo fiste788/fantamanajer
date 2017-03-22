@@ -32,47 +32,6 @@ class League extends LeaguesTable {
         return TRUE;
     }
 
-    /**
-     * Getter: id
-     * @return Utente[]
-     */
-    public function getUtenti() {
-        if (empty($this->utenti))
-            $this->utenti = Utente::getByField('idLega', $this->getId());
-        return $this->utenti;
-    }
-
-    /**
-     * Getter: id
-     * @return Articolo[]
-     */
-    public function getArticoli() {
-        if (empty($this->articoli))
-            $this->articoli = Articolo::getByField('idLega', $this->getId());
-        return $this->articoli;
-    }
-
-    /**
-     *
-     * @param int $idGiornata
-     * @return Articolo[]
-     */
-    public function getArticoliByGiornata($idGiornata) {
-        if (empty($this->articoli))
-            $this->articoli = Articolo::getArticoliByGiornataAndLega($idGiornata, $this->id);
-        return $this->articoli;
-    }
-
-    /**
-     * Getter: id
-     * @return Evento[]
-     */
-    public function getEventi() {
-        if (empty($this->eventi))
-            $this->eventi = Evento::getByField('idLega', $this->getId());
-        return $this->eventi;
-    }
-
 }
 
  

@@ -7,15 +7,15 @@ use \Fantamanajer\Models as Models;
 class PagesController extends ApplicationController {
 
     public function home() {
-        $giornata = Models\Score::getMatchdayWithScores();
+        $matchday = Models\Score::getMatchdayWithScores();
         $bestPlayer = NULL;
         $bestPlayers = NULL;
 
-        if ($giornata > 0) {
-            foreach ($this->ruoli as $ruolo => $val) {
+        if ($matchday > 0) {
+            foreach ($this->roles as $key => $role) {
 
-                $bestPlayers[$ruolo] = Models\Member::getBestPlayerByGiornataAndRuolo($giornata, $ruolo);
-                $bestPlayer[$ruolo] = array_shift($bestPlayers[$ruolo]);
+                $bestPlayers[$key] = Models\Member::getBestByMatchdayIdAndRole($matchday, $role);
+                $bestPlayer[$key] = array_shift($bestPlayers[$key]);
             }
         }
 
@@ -26,8 +26,8 @@ class PagesController extends ApplicationController {
 
         $events = Models\Event::getEvents(NULL, NULL, 0, 5);
 
-        $this->templates['content']->assign('squadre', Models\Team::getByField('idLega', $_SESSION['legaView']));
-        $this->templates['content']->assign('giornata', $giornata);
+        $this->templates['content']->assign('teams', Models\Team::getByField('championship_id', 1));
+        $this->templates['content']->assign('matchday', $matchday);
         $this->templates['content']->assign('bestPlayer', $bestPlayer);
         $this->templates['content']->assign('bestPlayers', $bestPlayers);
         $this->templates['content']->assign('articles', $articles);

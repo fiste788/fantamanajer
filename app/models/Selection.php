@@ -3,6 +3,7 @@
 namespace Fantamanajer\Models;
 
 use Fantamanajer\Models\Table\SelectionsTable;
+use Fantamanajer\Models\View\MemberStats;
 use FirePHP;
 use Lib\Database\ConnectionFactory;
 use Lib\FormException;
@@ -11,39 +12,20 @@ use PDOException;
 
 class Selection extends SelectionsTable {
 
-    public static function getSelezioneByIdSquadra($idUtente) {
+    /**
+     * 
+     * @param Member $member
+     * @param Championship $championship
+     * @return Selection
+     */
+    public static function getByMemberAndChampionship(Member $member, Championship $championship) {
         $q = "SELECT *
-				FROM selezione INNER JOIN giocatore ON idGiocatoreNew = giocatore.id
-				WHERE idUtente = :idUtente";
+		FROM " . self::TABLE_NAME . "
+		WHERE new_member_id = :member_id AND team_id IN (SELECT id FROM teams WHERE championship_id = :championship_id)";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
+        $exe->bindValue(":member_id", $member->getId(), PDO::PARAM_INT);
+        $exe->bindValue(":championship_id", $championship->getId(), PDO::PARAM_INT);
         return $exe->fetchObject(__CLASS__);
-    }
-
-    public static function unsetSelezioneByidSquadra($idUtente) {
-        $q = "UPDATE selezione
-				SET idGiocatoreOld = NULL,idGiocatoreNew = NULL
-				WHERE idUtente = :idUtente";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        FirePHP::getInstance()->log($q);
-        return $exe->execute();
-    }
-
-    public static function checkFree($idGiocatore, $idLega) {
-        $q = "SELECT idUtente
-				FROM selezione
-				WHERE idGiocatoreNew = :idGiocatore AND idLega = :idLega";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiocatore", $idGiocatore, PDO::PARAM_INT);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
-        $values = $exe->fetchObject(__CLASS__);
-        if ($values != FALSE)
-            return $values->idUtente;
-        else
-            return FALSE;
     }
 
     /**
@@ -90,57 +72,54 @@ class Selection extends SelectionsTable {
         return TRUE;
     }
 
-    public static function getNumberSelezioni($idUtente) {
-        $q = "SELECT numSelezioni
-				FROM selezione
-				WHERE idUtente = :idUtente";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->execute();
-        return $exe->fetchColumn();
-    }
-
     public static function svuota() {
         $q = "TRUNCATE TABLE selezione";
         return (ConnectionFactory::getFactory()->getConnection()->exec($q) != FALSE);
     }
-    
+
     /**
      * 
      * @param array $array
      * @return boolean
      * @throws FormException
      */
-
     public function check(array $array) {
-        $numTrasferimenti = count(Trasferimento::getByField('idUtente', $_SESSION['idUtente']));
-        if ($numTrasferimenti < $_SESSION['datiLega']->numTrasferimenti) {
-            $giocatoreNew = $this->getGiocatoreNew();
-            $giocatoreOld = $this->getGiocatoreOld();
-            if ($giocatoreOld->ruolo == $giocatoreNew->ruolo) {
-                $numSelezioni = self::getNumberSelezioni($_SESSION['idUtente']);
-                if ($numSelezioni <= $_SESSION['datiLega']->numSelezioni) {
-                    $squadraOld = self::checkFree($this->getIdGiocatoreNew(), $_SESSION['idLega']);
-                    if ($squadraOld != FALSE && $squadraOld != $_SESSION['idUtente']) {
-                        $posizioni = Punteggio::getPosClassifica($_SESSION['idLega']);
-                        if ($posizioni[$_SESSION['idUtente']] < $posizioni[$squadraOld]) {
-                            //Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idUtente']);
-                            $mailContent->assign('giocatore', $selezione->getGiocatoreNew()->nome . ' ' . $selezione->getGiocatoreNew()->cognome);
-                            $appo = $squadre[$acquistoDett->idSquadraAcquisto];
-                            /**
-                             * TODO: invio mail
-                             */
-                            //Mail::sendEmail($squadre[$appo]->mail, $mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'), 'Giocatore rubato!');
-                        } else {
-                            throw new FormException('Un altra squadra inferiore di te ha già selezionato questo giocatore');
-                        }
-                    }
-                } else
-                    throw new FormException("Hai già cambiato " . $_SESSION['datiLega']->numSelezioni . " volte il tuo acquisto");
-            } else
-                throw new FormException('I giocatori devono avere lo stesso ruolo');
-        } else
+        if (is_null($this->new_member_id)) {
+            return TRUE;
+        }
+        $numTransfert = count(Transfert::getByField('team_id', $this->getTeamId()));
+        if ($numTransfert >= $_SESSION['championship_data']->number_transferts) {
             throw new FormException('Hai raggiunto il limite di trasferimenti');
+        }
+        $memberNew = MemberStats::getById($this->getNewMemberId());
+        $memberOld = MemberStats::getById($this->getOldMemberId());
+        if ($memberOld->role->id != $memberNew->role->id) {
+            throw new FormException('I giocatori devono avere lo stesso ruolo');
+        }
+        if ($this->getNumberSelections() > $_SESSION['championship_data']->number_selections) {
+            throw new FormException("Hai già cambiato " . $_SESSION['championship_data']->number_selections . " volte il tuo acquisto");
+        }
+        $team = Team::getById($this->getTeamId());
+        $selection = self::getByMemberAndChampionship($memberNew, $team->getChampionship());
+        if ($selection != NULL) {
+            $ranking = Score::getRankingByMatchday($team->getChampionship(), Matchday::getCurrent());
+            if ($ranking[$this->getTeamId()] < $ranking[$selection->getTeamId()]) {
+
+                $selection->setNumberSelections($selection->getNumberSelections() - 1);
+                $selection->setNewMemberId(NULL);
+                $selection->setOldMemberId(NULL);
+                $selection->save();
+                //Selezione::updateGioc($acquisto,$lasciato,$_SESSION['idLega'],$_SESSION['idUtente']);
+                // $mailContent->assign('giocatore', $selezione->getGiocatoreNew()->nome . ' ' . $selezione->getGiocatoreNew()->cognome);
+                //$appo = $squadre[$acquistoDett->idSquadraAcquisto];
+                /**
+                 * TODO: invio mail
+                 */
+                //Mail::sendEmail($squadre[$appo]->mail, $mailContent->fetch(MAILTPLDIR . 'mailGiocatoreRubato.tpl.php'), 'Giocatore rubato!');
+            } else {
+                throw new FormException('Un altra squadra inferiore di te ha già selezionato questo giocatore');
+            }
+        }
         return TRUE;
     }
 
@@ -151,7 +130,7 @@ class Selection extends SelectionsTable {
             $selezioni = self::getList();
             foreach ($selezioni as $selezione) {
                 FirePHP::getInstance()->log($selezione);
-                if(!is_null($selezione->idGiocatoreOld) && !is_null($selezione->idGiocatoreNew)) {
+                if (!is_null($selezione->idGiocatoreOld) && !is_null($selezione->idGiocatoreNew)) {
                     $trasferimento = new Trasferimento();
                     $trasferimento->setIdGiocatoreOld($selezione->idGiocatoreOld);
                     $trasferimento->setIdGiocatoreNew($selezione->idGiocatoreNew);
@@ -171,16 +150,16 @@ class Selection extends SelectionsTable {
     }
 
     public function save(array $parameters = array()) {
-        $this->setNumSelezioni($this->getNumSelezioni() + 1);
+        $this->setNumberSelections($this->getNumberSelections() + 1);
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
             FirePHP::getInstance()->log("salvo");
             parent::save($parameters);
-            $evento = new Evento();
-            $evento->setTipo(Evento::SELEZIONEGIOCATORE);
-            $evento->setIdUtente($_SESSION['idUtente']);
-            $evento->setIdLega($_SESSION['idLega']);
-            $evento->save();
+            $event = new Event();
+            $event->setCreatedAt(new \DateTime());
+            $event->setType(Event::SELEZIONEGIOCATORE);
+            $event->setTeamId($this->getTeamId());
+            $event->save();
             ConnectionFactory::getFactory()->getConnection()->commit();
             return TRUE;
         } catch (PDOException $e) {
@@ -190,4 +169,3 @@ class Selection extends SelectionsTable {
     }
 
 }
-

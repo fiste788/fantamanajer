@@ -72,26 +72,30 @@
                 </nav>
             </div>
             <main class="mdl-layout__content">
-                <div class="page-content"><?php echo $this->content; ?></div>
-                <div id="fab_ctn" class="mdl-button--fab_flinger-container">
-                    <button id="fab_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                        <i class="material-icons">add</i>
-                    </button>
-                    <div class="mdl-button--fab_flinger-options">
-                        <a href="<?php echo $this->router->generate('lineups') ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
-                            <i class="material-icons">star_rate</i>
-                            <span class="mdl-button__text">Inserisci formazione</span>
-                        </a>
-                        <a href="<?php echo $this->router->generate('articles_new') ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
-                            <i class="material-icons">message</i>
-                            <span class="mdl-button__text">Nuova conferenza stampa</span>
-                        </a>
-                        <a href="<?php echo $this->router->generate('teams_show',['id' => $_SESSION['team']->id]) . '#tab-transfert' ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
-                            <i class="material-icons">swap_vert</i>
-                            <span class="mdl-button__text">Nuovo trasferimento</span>
-                        </a>
-                    </div>
+                <div class="page-content" id="<?= isset($this->page) ? $this->page->name : ""?>">
+                    <?php echo $this->content; ?>
                 </div>
+                <?php if($_SESSION['logged']): ?>
+                    <div id="fab_ctn" class="mdl-button--fab_flinger-container">
+                        <button id="fab_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                            <i class="material-icons">add</i>
+                        </button>
+                        <div class="mdl-button--fab_flinger-options">
+                            <a href="<?php echo $this->router->generate('lineups') ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+                                <i class="material-icons">star_rate</i>
+                                <span class="mdl-button__text">Inserisci formazione</span>
+                            </a>
+                            <a href="<?php echo $this->router->generate('articles_new') ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+                                <i class="material-icons">message</i>
+                                <span class="mdl-button__text">Nuova conferenza stampa</span>
+                            </a>
+                            <a href="<?php echo $this->router->generate('teams_show',['id' => $_SESSION['team']->id]) . '#tab_transfert' ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+                                <i class="material-icons">swap_vert</i>
+                                <span class="mdl-button__text">Nuovo trasferimento</span>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <footer class="mdl-mini-footer">
                     <div class="mdl-mini-footer__left-section">
                         <div class="mdl-logo">FantaManajer</div>
@@ -103,9 +107,8 @@
                 </footer>
 
             </main>
-
         </div>
-        <div id="snackbar" class="mdl-js-snackbar"></div>
+        <div id="snackbar" aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-js-snackbar"></div>
         <?php if (LOCAL): ?>
             <script type="text/javascript">
                 var LOCAL = <?php echo (LOCAL) ? 'true' : 'false' ?>;
@@ -117,20 +120,7 @@
             <?php foreach ($this->generalJs as $key => $val): ?>
                 <script src="<?php echo $val; ?>" type="text/javascript"></script>
             <?php endforeach; ?>
-            <?php if (isset($this->js)): ?>
-                <?php foreach ($this->js as $key => $val): ?>
-                    <?php if (is_array($val)): ?>
-                        <?php foreach ($val as $val2): ?>
-                            <script src="<?php echo (substr($key, 0, 11) == 'components/' ? PUBLICURL : JSURL) . $key . '/' . $val2 . '.js'; ?>" type="text/javascript"></script>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <script src="<?php echo (substr($key, 0, 11) == 'components/' ? PUBLICURL : JSURL) . $key . '/' . $val . '.js'; ?>" type="text/javascript"></script>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            <?php if (file_exists(JAVASCRIPTSDIR . 'pages/' . $this->route['name'] . '.js')): ?>
-                <script src="<?php echo JSURL . 'pages/' . $this->route['name'] . '.js'; ?>" type="text/javascript"></script>
-            <?php endif; ?>
+            <?php echo $this->js; ?>
         <?php else: ?>
             <script src="<?php echo JSURL . 'combined/combined.js'; ?>" type="text/javascript"></script>
             <?php if (file_exists(JAVASCRIPTSDIR . 'combined/' . $this->route['name'] . '.js')): ?>

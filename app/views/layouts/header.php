@@ -7,9 +7,9 @@
         </button>
 
         <?php if (!empty($this->notification)): ?>
-            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="notifications">
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu" for="notifications">
                 <?php foreach ($this->notification as $key => $val): ?>
-                    <li class="mdl-menu__item"><a href="<?php echo $val->link; ?>"><?php echo $val->text; ?></a></li>
+                    <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo $val->link; ?>"><?php echo $val->text; ?></a></li>
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
@@ -28,6 +28,6 @@
 <?php endif; ?>
 <?php if (!$this->isSeasonEnded): ?>
     <div class="pull-right hidden" id="countdown" data-data-fine="<?php echo $this->timestamp ?>">Tempo rimanente per la formazione<br />
-        <div><?php echo $this->dataFine['year'] . '-' . ($this->dataFine['month'] - 1) . '-' . $this->dataFine['day'] . ' ' . $this->dataFine['hour'] . ':' . $this->dataFine['minute'] . ':' . $this->dataFine['second']; ?></div>
+        <div><?php echo $this->endDate['year'] . '-' . ($this->endDate['month'] - 1) . '-' . $this->endDate['day'] . ' ' . $this->endDate['hour'] . ':' . $this->endDate['minute'] . ':' . $this->endDate['second']; ?></div>
     </div>
 <?php endif; ?>

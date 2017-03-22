@@ -1,14 +1,14 @@
 $(document).ready(function() {
-    var $modulo = $("select[name=modulo]").change(function(ev) {
+    var $module = $("select[name=module]").change(function(ev) {
         var selected = $(this).val();
-        var $fieldContainer = $("#titolari-field");
-        var modulo = selected.split('-');
-        var mod = {'P':modulo[0],'D':modulo[1],'C':modulo[2],'A':modulo[3]};
-        for(ruolo in mod) {
-            var select = $fieldContainer.find("." + ruolo).find("select");
-            if(select.length != mod[ruolo]) {
-                if(select.length > mod[ruolo]) {
-                    for(var i = 0; i < (select.length - mod[ruolo]);i++) {
+        var $fieldContainer = $("#regular-field");
+        var module = selected.split('-');
+        var mod = {'P':module[0],'D':module[1],'C':module[2],'A':module[3]};
+        for(role in mod) {
+            var select = $fieldContainer.find("." + role).find("select");
+            if(select.length != mod[role]) {
+                if(select.length > mod[role]) {
+                    for(var i = 0; i < (select.length - mod[role]);i++) {
                         select.last().remove();
                     }
                 } else {
@@ -19,7 +19,7 @@ $(document).ready(function() {
         
     });
     var url = FULLURL + "probabili_formazioni.html",
-        $giocatori = $(".giocatore");
+        $giocatori = $(".player");
     $.ajax({
         url: url,
         type: 'GET',

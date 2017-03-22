@@ -2,6 +2,7 @@
 
 namespace Fantamanajer\Models;
 
+use DateTime;
 use Fantamanajer\Lib\FileSystem;
 use Fantamanajer\Models\Table\MembersTable;
 use FirePHP;
@@ -18,7 +19,7 @@ class Member extends MembersTable {
             if (!is_null($parameters)) {
                 $evento = new Evento();
                 $evento->setIdExternal($this->id);
-		$evento->setData(new \DateTime());
+		$evento->setData(new DateTime());
                 $evento->setTipo($parameters['numEvento']);
                 $evento->save();
             }
@@ -44,36 +45,6 @@ class Member extends MembersTable {
             $values[$obj->getId()] = $obj;
         }
         return $values;
-    }
-
-    public static function getGiocatoriByIdSquadraAndRuolo($idUtente, $ruolo) {
-        $q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
-				FROM giocatore INNER JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idUtente = :idUtente AND ruolo = :ruolo AND giocatore.attivo = :attivo
-				ORDER BY giocatore.id ASC";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->bindValue(":ruolo", $ruolo);
-        $exe->bindValue(":attivo", TRUE, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        return $exe->fetchAll(PDO::FETCH_CLASS, __CLASS__);
-    }
-
-    
-
-    public static function getGiocatoreByIdWithStats($idGiocatore, $idLega = NULL) {
-        $q = "SELECT view_0_giocatoristatistiche.*,idLega
-				FROM (SELECT *
-						FROM squadra
-						WHERE idLega = :idLega) AS squad RIGHT JOIN view_0_giocatoristatistiche ON squad.idGiocatore = view_0_giocatoristatistiche.id
-				WHERE view_0_giocatoristatistiche.id = :idGiocatore";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
-        $exe->bindValue(":idGiocatore", $idGiocatore, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        return $exe->fetchObject(__CLASS__);
     }
 
     public static function getLineupDetailsByMatchdayAndTeam(Matchday $matchday, Team $team) {
@@ -103,41 +74,47 @@ class Member extends MembersTable {
         return $values;
     }
 
-    public static function updateTabGiocatore($path) {
-        $ruoli = array("P", "D", "C", "A");
-        $giocatoriOld = self::getList();
-        $giocatoriNew = FileSystem::returnArray($path, ";");
+    public static function updateTable(Season $season,$path) {
+        $roles = Role::getListByAbbreviation();
+        $oldMembers = self::getBySeason($season);
+        $newMembers = FileSystem::returnArray($path, ";");
         try {
             ConnectionFactory::getFactory()->getConnection()->beginTransaction();
-            foreach ($giocatoriNew as $id => $giocatoreNew) {
-                if (array_key_exists($id, $giocatoriOld)) {
-                    $clubNew = Club::getByField('nome', ucwords(strtolower(trim($giocatoreNew[3], '"'))));
-                    if ($giocatoriOld[$id]->getIdClub() != $clubNew->getId()) {
-                        $giocatoriOld[$id]->setClub($clubNew);
-                        $giocatoriOld[$id]->setAttivo(TRUE);
-                        $giocatoriOld[$id]->save(array('numEvento'=>Evento::CAMBIOCLUB));
+            foreach ($newMembers as $id => $newMember) {
+                if (array_key_exists($id, $oldMembers)) {
+                    $clubNew = Club::getByField('name', ucwords(strtolower(trim($newMember[3], '"'))));
+                    if ($oldMembers[$id]->getClubId() != $clubNew->getId()) {
+                        $oldMembers[$id]->setClub($clubNew);
+                        $oldMembers[$id]->setActive(TRUE);
+                        $oldMembers[$id]->save(array('numEvent'=> Event::CAMBIOCLUB));
                     }
                 } else {
-                    $giocatoreOld = new Giocatore();
-                    $giocatoreOld->setId($giocatoreNew[0]);
-                    $giocatoreOld->setRuolo($ruoli[$giocatoreNew[5]]);
-                    $giocatoreOld->setClub(Club::getByField('nome', trim($giocatoreNew[3], '"')));
+                    $oldMember = new Member();
+                    $oldMember->setId($newMember[0]);
+                    $oldMember->setRole($roles[$newMember[5]]);
+                    $oldMember->setClub(Club::getByField('name', trim($newMember[3], '"')));
                     $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
-                    $nominativo = trim($giocatoreNew[2], '"');
+                    $fullname = trim($newMember[2], '"');
                     $ass = NULL;
-                    preg_match($esprex, $nominativo, $ass);
-                    $cognome = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $nominativo)));
-                    $nome = ucwords(strtolower(trim(substr($nominativo, strlen($cognome)))));
-                    $giocatoreOld->setCognome($cognome);
-                    $giocatoreOld->setNome($nome);
-                    $giocatoreOld->setAttivo(TRUE);
-                    $giocatoreOld->save(array('numEvento'=>Evento::NUOVOGIOCATORE));
+                    preg_match($esprex, $fullname, $ass);
+                    $surname = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $fullname)));
+                    $name = ucwords(strtolower(trim(substr($fullname, strlen($surname)))));
+                    $player = Player::getByFullname($surname, $name);
+                    if($player == NULL) {
+                        $player = new Player();
+                        $player->setName($name);
+                        $player->setSurname($surname);
+                        $player->save();
+                    }
+                    $oldMember->setPlayerId($player->getId());
+                    $oldMember->setActive(TRUE);
+                    $oldMember->save(array('numEvento'=>Event::NUOVOGIOCATORE));
                 }
             }
-            foreach ($giocatoriOld as $id => $giocatoreOld) {
-                if (!array_key_exists($id, $giocatoriNew) && $giocatoreOld->isAttivo()) {
-                    $giocatoreOld->setAttivo(0);
-                    $giocatoreOld->save(array('numEvento'=>Evento::RIMOSSOGIOCATORE));
+            foreach ($oldMembers as $id => $oldMember) {
+                if (!array_key_exists($id, $newMembers) && $oldMember->isActivo()) {
+                    $oldMember->setActiv(FALSE);
+                    $oldMember->save(array('numEvento'=>Event::RIMOSSOGIOCATORE));
                 }
             }
             ConnectionFactory::getFactory()->getConnection()->commit();
@@ -146,23 +123,6 @@ class Member extends MembersTable {
             throw $e;
         }
         return TRUE;
-    }
-
-    public static function getGiocatoriNotSquadra($idUtente, $idLega) {
-        $q = "SELECT giocatore.id, cognome, nome, ruolo, idUtente
-				FROM giocatore LEFT JOIN squadra ON giocatore.id = squadra.idGiocatore
-				WHERE idLega = :idLega AND idUtente <> :idUtente OR idUtente IS NULL
-				ORDER BY giocatore.id ASC";
-        $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idLega", $idLega, PDO::PARAM_INT);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->execute();
-        FirePHP::getInstance()->log($q);
-        $values = array();
-        while ($obj = $exe->fetchObject(__CLASS__)) {
-            $values[$obj->getId()] = $obj;
-        }
-        return $values;
     }
 
     public static function getGiocatoriBySquadraAndGiornata($idUtente, $idGiornata) {
@@ -194,10 +154,10 @@ class Member extends MembersTable {
         return $giocatori;
     }
 
-    public static function getInactiveByTeam($team) {
+    public static function getInactiveByTeam(Team $team) {
         $q = "SELECT *
-				FROM " . self::TABLE_NAME . " INNER JOIN members_teams ON members.id = members_teams.member_id
-				WHERE team_id = :team_id AND active = :active";
+		FROM " . self::TABLE_NAME . " INNER JOIN members_teams ON members.id = members_teams.member_id
+		WHERE team_id = :team_id AND active = :active";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
         $exe->bindValue(":team_id", $team->getId(), PDO::PARAM_INT);
         $exe->bindValue(":active", FALSE, PDO::PARAM_INT);
@@ -210,19 +170,22 @@ class Member extends MembersTable {
         return $values;
     }
 
-    public static function getBestPlayerByGiornataAndRuolo($idGiornata, $ruolo) {
-        $q = "SELECT giocatore.*,punti
-				FROM " . self::TABLE_NAME . " INNER JOIN voto ON giocatore.id = voto.idGiocatore
-				WHERE idGiornata = :idGiornata AND ruolo = :ruolo
-				ORDER BY punti DESC , voto DESC
-				LIMIT 0 , 5";
+    public static function getBestByMatchdayIdAndRole($matchdayId, Role $role) {
+        $q = "SELECT members.*,players.name as player_name, players.surname as player_surname,points
+		FROM " . self::TABLE_NAME . " INNER JOIN ratings ON members.id = ratings.member_id
+                    INNER JOIN players ON members.player_id = players.id
+		WHERE matchday_id = :matchday_id AND role_id = :role_id
+		ORDER BY points DESC , rating DESC
+		LIMIT 0 , 5";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idGiornata", $idGiornata, PDO::PARAM_INT);
-        $exe->bindValue(":ruolo", $ruolo);
+        $exe->bindValue(":matchday_id", $matchdayId, PDO::PARAM_INT);
+        $exe->bindValue(":role_id", $role->getId(), PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
         $values = array();
         while ($obj = $exe->fetchObject(__CLASS__)) {
+            $obj->player = new Player();
+            $obj->player->getFromObject($obj);
             $values[$obj->getId()] = $obj;
         }
         return $values;
@@ -259,6 +222,23 @@ class Member extends MembersTable {
         }
         return $values;
         //return Rating::getByField('member_id',$this->id);
+    }
+    
+    /**
+     *
+     * @return Table[]
+     */
+    public static function getBySeason(Season $season) {
+        $q = "SELECT * FROM " . self::TABLE_NAME . 
+                " WHERE season_id = :season_id";
+        $exe = ConnectionFactory::getFactory()->getConnection()->query($q);
+        $exe->bindColumn("season_id", $season->getId(), PDO::PARAM_INT);
+        FirePHP::getInstance()->log($q);
+        $values = array();
+        while ($obj = $exe->fetchObject($c)) {
+            $values[$obj->getCodeGazzetta()] = $obj;
+        }
+        return $values;
     }
 
 }

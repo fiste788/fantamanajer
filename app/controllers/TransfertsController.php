@@ -3,63 +3,40 @@
 namespace Fantamanajer\Controllers;
 
 use Fantamanajer\Models as Models;
-use Lib\FormException;
 
 class TransfertsController extends ApplicationController {
 
     public function index() {
         $filterId = $this->request->getParam('team_id', $_SESSION['team']->id);
-        $appo = Models\Transfert::getByField('team_id', $filterId);
+        
+        $team = Models\Team::getById($filterId);
+        $appo = Models\Transfert::getByField('team_id', $team->getId());
         $transferts = !is_null($appo) ? (is_array($appo) ? $appo : array($appo)) : array();
        
         foreach ($transferts as $val) {
             $val->getOldMember();
             $val->getNewMember();
         }
-        /*$playerFree = Models\Giocatore::getFreePlayer(NULL, $_SESSION['legaView']);
+        
+        $playersFree = Models\View\MemberStats::getFree(NULL, $this->currentChampionship);
 
-        //$trasferiti = Models\Giocatore::getGiocatoriInattiviByIdUtente($_SESSION['idUtente']);
-        $selezione = Models\Selezione::getByField('idUtente', $_SESSION['idUtente']);
-        if (empty($selezione)) {
-            $selezione = new Models\Selezione();
+        $transfered = Models\Member::getInactiveByTeam($team);
+        $selection = Models\Selection::getByField('team_id', $team->getId());
+        if (empty($selection)) {
+            $selection = new Models\Selection();
         }
         if ($this->request->getParam('acquista') != NULL) {
-            $selezione->setIdGiocatoreNew($this->request->getParam('acquista'));
+            $selection->setNewMemberId($this->request->getParam('acquista'));
         }
-*/
+
         $this->noLayout = true;
-        $team = Models\Team::getById($filterId);
         $this->templates['content']->assign('players', Models\View\MemberStats::getByTeam($team));
-        //$this->templates['content']->assign('freePlayer', $playerFree);
+        $this->templates['content']->assign('freePlayers', $playersFree);
         $this->templates['content']->assign('filterId', $filterId);
         $this->templates['content']->assign('transferts', $transferts);
-        //$this->templates['content']->assign('selezione', $selezione);
+        $this->templates['content']->assign('selection', $selection);
         //$this->templates['operation']->assign('filterId', $filterId);
         //$this->templates['operation']->assign('elencoSquadre', Models\Utente::getByField('idLega', $_SESSION['legaView']));
-    }
-
-    public function selezione() {
-        if (($selezione = Models\Selezione::getByField('idUtente', $_SESSION['idUtente'])) == FALSE) {
-            $selezione = new Models\Selezione();
-        }
-
-        if ($_SESSION['logged']) {
-            try {
-                if ($this->request->getParam('submit') == 'Cancella acq.') {
-                    Models\Selezione::unsetSelezioneByIdSquadra($_SESSION['idUtente']);
-                    $this->setFlash(self::FLASH_SUCCESS, 'Cancellazione eseguita con successo');
-                } else {
-                    $selezione->setIdLega($_SESSION['idLega']);
-                    $selezione->save();
-                    $this->setFlash(self::FLASH_SUCCESS,'Operazione eseguita con successo');
-                }
-            } catch (FormException $e) {
-                $this->setFlash(self::FLASH_NOTICE, $e->getMessage());
-            }
-            $this->templates['content']->assign('selezione', $selezione);
-            $this->redirectTo('trasferimenti', array('id'=>$_SESSION['idUtente']));
-        }
-        
     }
 
 }

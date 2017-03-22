@@ -4,6 +4,7 @@ namespace Fantamanajer\Models\Table;
 
 use Fantamanajer\Models\Club;
 use Fantamanajer\Models\Member;
+use Fantamanajer\Models\Player;
 use Lib\Database\Table;
 
 abstract class MembersTable extends Table {
@@ -86,6 +87,17 @@ abstract class MembersTable extends Table {
      */
     public function getPlayerId() {
         return (int) $this->player_id;
+    }
+    
+    /**
+     * 
+     * @return Player
+     */
+    public function getPlayer() {
+        if (empty($this->player)) {
+            $this->player = Player::getById($this->getPlayerId());
+        }
+        return $this->player;
     }
 
     /**

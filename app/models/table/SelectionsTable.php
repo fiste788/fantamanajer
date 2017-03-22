@@ -87,7 +87,7 @@ abstract class SelectionsTable extends Table {
      * @param int $old_member_id
      */
     public function setOldMemberId($old_member_id) {
-        $this->old_member_id = (int) $old_member_id;
+        $this->old_member_id = $old_member_id;
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class SelectionsTable extends Table {
      * @param int $new_member_id
      */
     public function setNewMemberId($new_member_id) {
-        $this->new_member_id = (int) $new_member_id;
+        $this->new_member_id = $new_member_id;
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class SelectionsTable extends Table {
      */
     public function setMemberOld($member_old) {
         $this->member_old = $member_old;
-        $this->setMemberOldId($member_old->getId());
+        $this->setOldMemberId(is_null($member_old) ? NULL : $member_old->getId());
     }
 
     /**
@@ -123,7 +123,7 @@ abstract class SelectionsTable extends Table {
      */
     public function setMemberNew($member_new) {
         $this->member_new = $member_new;
-        $this->setMemberNewId($member_new->getId());
+        $this->setNewMemberId(is_null($member_new) ? NULL : $member_new->getId());
     }
 
     /**

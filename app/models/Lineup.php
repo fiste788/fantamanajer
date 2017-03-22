@@ -31,7 +31,7 @@ class Lineup extends LineupsTable {
             $titolari = $parameters['titolari'];
             $panchinari = $parameters['panchinari'];
             $giocatoriIds = !empty($panchinari) ? array_merge($titolari, $panchinari) : $titolari;
-            $modulo = $this->calcModulo($titolari);
+            $modulo = $this->calcModule($titolari);
             $this->setModulo($modulo);
             if($this->idCapitano == 0)
                 $this->idCapitano = NULL;
@@ -99,29 +99,31 @@ class Lineup extends LineupsTable {
         return $schieramenti;
     }
 
-    public function calcModulo($titolari) {
-        $modulo = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
-        $giocatori = Giocatore::getByIds($titolari);
-        foreach ($titolari as $titolare)
-            if ($titolare != '')
-                $modulo[$giocatori[$titolare]->ruolo] += 1;
-        return implode($modulo, "-");
+    public function calcModule($regulars) {
+        $module = array('P' => 0, 'D' => 0, 'C' => 0, 'A' => 0);
+        $players = View\MemberStats::getByIds($regulars);
+        foreach ($regulars as $regular) {
+            if ($regular != '') {
+                $module[$players[$regular]->role->abbreviation] += 1;
+            }
+        }
+        return implode($module, "-");
     }
 
     /**
      *
-     * @param int $idUtente
-     * @param int $giornata
-     * @return Formazione | null
+     * @param int $team_id
+     * @param int $matchday_id
+     * @return Lineup | null
      */
-    public static function getLastFormazione($idUtente, $giornata) {
+    public static function getLast($team_id, $matchday_id) {
         $i = 0;
-        $formazione = self::getFormazioneBySquadraAndGiornata($idUtente, $giornata - $i);
-        while ($formazione == NULL && $i < $giornata) {
-            $formazione = self::getFormazioneBySquadraAndGiornata($idUtente, $giornata - $i);
+        $lineup = self::getByTeamAndMatchday($team_id, $matchday_id - $i);
+        while ($lineup == NULL && $i < $matchday_id) {
+            $lineup = self::getByTeamAndMatchday($team_id, $matchday_id - $i);
             $i++;
         }
-        return $formazione;
+        return $lineup;
     }
 
     public static function getById($id) {
@@ -137,19 +139,20 @@ class Lineup extends LineupsTable {
      * @param int $giornata
      * @return Formazione
      */
-    public static function getFormazioneBySquadraAndGiornata($idUtente, $giornata) {
+    public static function getByTeamAndMatchday($team_id, $matchday_id) {
         $q = "SELECT *
-				FROM formazione
-				WHERE formazione.idUtente = :idUtente AND formazione.idGiornata = :idGiornata";
+		FROM lineups
+		WHERE team_id = :team_id AND matchday_id = :matchday_id";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
-        $exe->bindValue(":idGiornata", $giornata, PDO::PARAM_INT);
+        $exe->bindValue(":team_id", $team_id, PDO::PARAM_INT);
+        $exe->bindValue(":matchday_id", $matchday_id, PDO::PARAM_INT);
         $exe->execute();
         FirePHP::getInstance()->log($q);
-        $formazione = $exe->fetchObject(__CLASS__);
-        if ($formazione)
-            $formazione->giocatori = Schieramento::getSchieramentoById($formazione->getId());
-        return ($formazione) ? $formazione : NULL;
+        $lineup = $exe->fetchObject(__CLASS__);
+        if ($lineup) {
+            $lineup->players = Disposition::getByLineupId($lineup->getId());
+        }
+        return ($lineup) ? $lineup : NULL;
     }
 
     /**
@@ -175,12 +178,12 @@ class Lineup extends LineupsTable {
      * @param int $idUtente
      * @return bool
      */
-    public static function usedJolly($idUtente, $giornata) {
+    public static function usedJolly(Team $team, Matchday $matchday) {
         $q = "SELECT jolly
-				FROM formazione
-				WHERE idGiornata " . (($giornata <= 19) ? "<=" : ">") . " 19 AND idUtente = :idUtente AND jolly = :jolly";
+		FROM lineups
+		WHERE matchday_id " . (($matchday->getNumber() <= 19) ? "<=" : ">") . " 19 AND team_id = :team_id AND jolly = :jolly";
         $exe = ConnectionFactory::getFactory()->getConnection()->prepare($q);
-        $exe->bindValue(":idUtente", $idUtente, PDO::PARAM_INT);
+        $exe->bindValue(":team_id", $team->getId(), PDO::PARAM_INT);
         $exe->bindValue(":jolly", TRUE, PDO::PARAM_BOOL);
         $exe->execute();
         FirePHP::getInstance()->log($q);

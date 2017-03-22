@@ -41,7 +41,7 @@ class Decrypt {
     // per calcolare la chiave di decrypt...da lanciare manualmente
     public static function calculateKey() {
         $pathcript = DOCSDIR . "mcc02.mxm"; //file criptato .rcs
-        $pathencript = DOCSDIR . "mcc02.txt"; //file decritato es prima riga 101|0|"ABBIATI Christian"|"MILAN"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|16
+        $pathencript = DOCSDIR . "mcc02.txt"; //file decritato es prima riga 101|0|"ALDEGANI Gabriele"|"PESCARA"|1|0|0|0.0|0|0|0.0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1
         $cript = file_get_contents($pathcript);
         $encript = file_get_contents($pathencript);
         $ris = "";
@@ -52,7 +52,7 @@ class Decrypt {
                 $ris .= '-';
             $ris .= dechex($xor1 ^ $xor2);
         }
-
+		die($ris);
         FirePHP::getInstance()->log($ris);
         return $ris;
     }
@@ -105,6 +105,7 @@ class Decrypt {
 			$decrypt = "31-30-31-7c-31-7c-22-41-42-42-49-41-54-49-20-43-68-72-69-73-74-69-61-6e-22-7c-22-4d";
 			$decrypt = "31-30-31-7c-32-7c-22-41-42-42-49-41-54-49-20-43-68-72-69-73-74-69-61-6e-22-7c-22-4d-49-4c-41-4e-22-7c-31";
 			$decrypt = "6b-34-6c-23-30-66-66-32-34-74-38-37-35-34-46-49-4f-2d-38-34-39-33-31-3c-7c-37-37-5a";
+			$decrypt = "6b-32-6c-23-30-68-66-32-34-74-38-37-2b-34-36-49-4f-2d-38-34-39-33-3e-31-7c-38-38-45";
 			//31-30-31-7c-31-7c-22-41-42-42-49-41-54-49-20-43-68-72-69-73-74-69-61-6e-22-7c-22-4d
             $explode_xor = explode("-", $decrypt);
             $i = 0;

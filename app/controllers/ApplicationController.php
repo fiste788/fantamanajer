@@ -46,7 +46,7 @@ abstract class ApplicationController extends BaseController {
 
     /**
      *
-     * @var League
+     * @var Championship
      */
     protected $currentChampionship;
 
@@ -73,17 +73,18 @@ abstract class ApplicationController extends BaseController {
     public function initialize() {
         parent::initialize();
         $this->notification = array();
-        $leagues = League::getList();
+        $championships = Championship::getList();
+        $this->roles = \Fantamanajer\Models\Role::getList();
 
         if (!is_null(Request::getRequest()->getParam('league_view', NULL))) {
             $_SESSION['league_view'] = Request::getRequest()->getParam('league_view');
         }
-        if (isset($_SESSION['league_id'])) {
-            $_SESSION['league_data'] = $leagues[$_SESSION['league_data']];
-        }
+        //if (isset($_SESSION['league_id'])) {
+            $_SESSION['championship_data'] = $championships[1];
+        //}
         $this->currentSeason = Season::getCurrent();
         $this->currentMatchday = Matchday::getCurrent();
-        $this->currentLeague = $leagues[$_SESSION['league_view']];
+        //$this->currentLeague = $championships[$_SESSION['league_view']];
         $this->currentChampionship = Championship::getById(1);
         //$this->currentLeague = $leagues[1];
         $endDate = Matchday::getTargetCountdown();
@@ -92,12 +93,18 @@ abstract class ApplicationController extends BaseController {
             $savant->assign('timestamp', $endDate->getTimestamp());
             $savant->assign('currentMatchday', $this->currentMatchday);
             $savant->assign('isSeasonEnded', $this->currentMatchday->isSeasonEnded());
-            $savant->assign('leagues', $leagues);
+            $savant->assign('championships', $championships);
             $savant->assign('route', $this->route);
             $savant->assign('page', $this->page);
             $savant->assign('router', $this->router);
             $savant->assign('request', $this->request);
+            $savant->assign('roles', $this->roles);
         }
+        //die(var_dump($this->pages));
+        $this->pages->pages['championship']->title = $this->currentChampionship->getLeague()->getName();
+       // $this->pages->pages['teams_show']->params = ['id' => $_SESSION['team']->id];
+        //$this->pages->pages['teams_show']->title = $_SESSION['team']->name;
+        //$this->pages['championship']->title = $this->currentChampionship->getName();
         $this->quickLinks = new QuickLinks($this->request, $this->router, $this->route);
         $this->templates['navbar']->assign('entries', $this->pages);
         $this->templates['header']->assign('entries', $this->pages);
@@ -109,9 +116,9 @@ abstract class ApplicationController extends BaseController {
     private function initializeNotification() {
         if ($_SESSION['logged']) {
             if (!$this->currentMatchday->isSeasonEnded()) {
-                $lineup = Lineup::getFormazioneBySquadraAndGiornata($_SESSION['user_id'], $this->currentMatchday->getId());
+                $lineup = Lineup::getByTeamAndMatchday($_SESSION['user_id'], $this->currentMatchday->getId());
                 if (empty($lineup)) {
-                    $this->notification[] = new Notify(Notify::LEVEL_MEDIUM, 'Non hai ancora impostato la formazione per questa giornata', $this->router->generate('lineup'));
+                    $this->notification[] = new Notify(Notify::LEVEL_MEDIUM, 'Non hai ancora impostato la formazione per questa giornata', $this->router->generate('lineups'));
                 }
             }
             $inactivePlayers = Member::getInactiveByTeam(User::getById($_SESSION['user_id'])->getTeam());
