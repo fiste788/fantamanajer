@@ -1,17 +1,15 @@
 {
   "name": "fantamanajer",
-  "version": "3.1.0",
-  "homepage": "fantamanajer.it",
+  "version": "0.0.1",
   "authors": [
     "Fiste788 <stefano788@gmail.com>"
   ],
-  "description": "Tool per gestire facilmente il tuo fantacalcio",
-  "main": "index.php",
-  "keywords": [
-    "php",
-    "fantamanajer"
+  "moduleType": [
+    "amd",
+    "globals"
   ],
   "license": "MIT",
+  "homepage": "http://fantamanajer.it",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -20,19 +18,10 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "latest",
-    "fancybox": "~2.1.5",
-    "flot": "latest",
-    "html5shiv": "master",
-    "jquery-file-upload": "master",
-    "jquery-ui": "latest",
-    "jquery.tablesorter": "master",
-    "jquery": "latest",
-    "modernizr": "master",
-    "enquire": "master",
-    "matchmedia": "master",
-    "material-design-lite": "master",
-    "bootstrap-sass": "bootstrap-sass-official#~3.3.5",
-    "material-design-icons": "~2.0.0"
+    "jquery-ui": "jquery/jquery-ui#1.11",
+    "enquire": "~2.1.2",
+    "flot": "~0.8.3",
+    "material-design-lite": "~1.*",
+    "material-design-icons": "master"
   }
 }

@@ -1,0 +1,35 @@
+#topbar nav {
+    #login {
+        form {
+            margin: 0;
+            padding: 10px 20px;
+        }
+        label {
+            color: #666666;
+        }
+		
+    }
+    #lega-view {
+        width: 160px;
+        margin: 8px 8px 0;
+        display: inline;
+		
+    }
+
+	
+}
+.mdl-layout__drawer header {
+    background: url('#{$imgs-path}bg-md.jpg') repeat-x center top;
+    background-size: cover;
+    height: 148px;
+    padding:16px;
+    box-sizing: border-box;
+    position: relative;
+    color:#fff;
+    .demo-avatar-dropdown {
+        text-shadow: 0 0 7px #aaa;
+        vertical-align: bottom;
+        position: absolute;
+        bottom: 20px;
+    }
+}
