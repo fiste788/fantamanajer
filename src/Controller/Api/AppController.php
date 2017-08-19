@@ -71,7 +71,7 @@ class AppController extends Controller
             'checkAuthIn' => 'Controller.initialize'
         ]);
         $matchdays = TableRegistry::get("Matchdays");
-        $this->currentMatchday = $matchdays->getCurrent();
+        $this->currentMatchday = $matchdays->findCurrent();
         $this->currentSeason = TableRegistry::get("Seasons")->get($this->currentMatchday->get('season_id'));
     }
 	

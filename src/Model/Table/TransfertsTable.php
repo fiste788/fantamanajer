@@ -1,19 +1,22 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Transfert;
-use Cake\ORM\Query;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
+use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Transferts Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \Cake\ORM\Association\BelongsTo $Teams
- * @property \Cake\ORM\Association\BelongsTo $Matchdays
+ * @property BelongsTo $Members
+ * @property BelongsTo $Members
+ * @property BelongsTo $Teams
+ * @property BelongsTo $Matchdays
  */
 class TransfertsTable extends Table
 {
@@ -32,11 +35,15 @@ class TransfertsTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 
-        $this->belongsTo('Members', [
-            'foreignKey' => 'old_member_id'
+        $this->belongsTo('NewMembers', [
+            'className' => 'Members',
+            'foreignKey' => 'old_member_id',
+            'propertyName' => 'old_member'
         ]);
-        $this->belongsTo('Members', [
-            'foreignKey' => 'new_member_id'
+        $this->belongsTo('OldMembers', [
+            'className' => 'Members',
+            'foreignKey' => 'new_member_id',
+            'propertyName' => 'new_member'
         ]);
         $this->belongsTo('Teams', [
             'foreignKey' => 'team_id',
@@ -51,8 +58,8 @@ class TransfertsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
@@ -72,15 +79,24 @@ class TransfertsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['old_member_id'], 'Members'));
-        $rules->add($rules->existsIn(['new_member_id'], 'Members'));
+        $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
+        $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         return $rules;
+    }
+    
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+        $events = TableRegistry::get('Events');
+        $ev = $events->newEntity();
+        $ev->type = \App\Model\Entity\Event::NEW_TRANSFERT;
+        $ev->team_id = $entity['team_id'];
+        $ev->external = $entity['id'];
+        $events->save($ev);
     }
 }

@@ -16,7 +16,9 @@
 		"natxet/CssMin": "dev-master",
         "ozee31/cakephp-cors": "^1.1",
         "friendsofcake/crud": "~5.0",
-        "admad/cakephp-jwt-auth": "^2.0"
+        "admad/cakephp-jwt-auth": "^2.0",
+        "symfony/dom-crawler": "^3.3",
+        "symfony/css-selector": "^3.3"
     },
     "require-dev": {
         "psy/psysh": "@stable",

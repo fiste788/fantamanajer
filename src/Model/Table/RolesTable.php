@@ -29,7 +29,7 @@ class RolesTable extends Table
         parent::initialize($config);
 
         $this->table('roles');
-        $this->displayField('id');
+        $this->displayField('singolar');
         $this->primaryKey('id');
 
         $this->hasMany('Members', [

@@ -45,7 +45,7 @@ class ClubsController extends AppController
     public function view($id = null)
     {
         $club = $this->Clubs->get($id, [
-            'contain' => ['Members'=>['Players','Clubs','Roles']]
+            'contain' => ['Members'=> ['Players','Clubs','Roles']]
         ]);
 
         $this->set('club', $club);

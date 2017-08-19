@@ -79,7 +79,7 @@ class TeamsTable extends Table
         $this->belongsToMany('Members', [
             'foreignKey' => 'team_id',
             'targetForeignKey' => 'member_id',
-            'joinTable' => 'members_teams'
+            'joinTable' => 'members_teams',
         ]);
     }
 

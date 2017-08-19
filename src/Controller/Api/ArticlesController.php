@@ -6,7 +6,7 @@ use App\Model\Table\ArticlesTable;
 use Cake\Event\Event;
 
 /**
- * 
+ *
  * @property ArticlesTable $Articles
  */
 class ArticlesController extends AppController
@@ -19,7 +19,7 @@ class ArticlesController extends AppController
             'id', 'title'
         ]
     ];
-    
+
     public function beforeFilter(Event $event)
     {
         $this->Crud->mapAction('indexByTeam', 'Crud.Index');
@@ -27,14 +27,14 @@ class ArticlesController extends AppController
             'className' => 'Crud.Index',
         ]);
     }
-	
+
 	public function edit($id)
 	{
 		$this->Flash->success('The article has been deleted.');
 
 		return $this->Crud->execute();
 	}
-    
+
     public function indexByTeam()
     {
         /*$this->Crud->on('startup', function(\Cake\Event\Event $event) {
@@ -53,7 +53,7 @@ class ArticlesController extends AppController
         ]);
         //$this->log($articles, \Psr\Log\LogLevel::NOTICE);
     }
-    
+
     public function indexByChampionship()
     {
         /*$articles = $this->Articles->findByChampionshipId($this->request->getParam('championship_id'));
@@ -66,8 +66,15 @@ class ArticlesController extends AppController
                     ->contain(['Clubs','Seasons','Players'])
                     ->where(['']);
         });*/
+        $articles = $this->Articles->findByChampionshipId($this->request->getParam('championship_id'));
+        $this->set([
+            'success' => true,
+            'data' => $articles,
+            '_serialize' => ['success','data']
+        ]);
+        /*
         $this->log("champion " . $this->request->getParam('championship_id'), \Psr\Log\LogLevel::NOTICE);
         $this->Crud->action()->findMethod('byChampionship',['championshipId' => $this->request->getParam('championship_id')]);
-        return $this->Crud->execute();
+        return $this->Crud->execute();*/
     }
 }

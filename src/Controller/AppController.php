@@ -86,7 +86,7 @@ class AppController extends Controller
         Configure::write('Config.timezone', 'Europe/Rome');
         $matchdays = TableRegistry::get("Matchdays");
         $championships = TableRegistry::get("Championships");
-        $this->currentMatchday = $matchdays->getCurrent();
+        $this->currentMatchday = $matchdays->findCurrent();
         $this->currentSeason = TableRegistry::get("Seasons")->get($this->currentMatchday->get('season_id'));
         $this->currentChampionship = $championships->get(1,['contain'=>'Leagues']);
         $endDate = $matchdays->getTargetCountdown();

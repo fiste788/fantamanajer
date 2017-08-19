@@ -94,10 +94,11 @@ class MatchdaysTable extends Table
         return $rules;
     }
 	
-	public function getCurrent() 
+	public function findCurrent() 
 	{
         return $this
 				->find('all')
+                ->contain(['Seasons'])
 				->where([
 					'date > ' => new DateTime('now') 
 				])

@@ -57,7 +57,7 @@ class ScoresController extends AppController
                 'Lineups' => [
                     'Dispositions' => [
                         'Members' => [
-                            'Players', 'Clubs', 'Ratings' => function (\Cake\ORM\Query $q) use ($appo) {
+                            'Roles', 'Players', 'Clubs', 'Ratings' => function (\Cake\ORM\Query $q) use ($appo) {
                                 return $q->where(['matchday_id' => $appo->matchday_id]);
                             }
                         ]

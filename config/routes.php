@@ -44,12 +44,12 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::prefix('api', function (RouteBuilder $routes) {
-	$routes->resources('Articles');
+    $routes->resources('Articles');
     $routes->resources('Users');
     $routes->resources('Players');
-	$routes->resources('Clubs', function ($routes) {
-		$routes->resources('Members', ['prefix' => 'clubs']);
-	});
+    $routes->resources('Clubs', function ($routes) {
+        $routes->resources('Members', ['prefix' => 'clubs']);
+    });
     $routes->resources('Matchdays', [
         'only' => ['view', 'current'],
         'map' => [
@@ -64,30 +64,47 @@ Router::prefix('api', function (RouteBuilder $routes) {
             'controller' => 'Scores',
             'action' => 'index'
         ]);
-        $routes->resources('Articles',[
+        $routes->resources('Articles', [
             'only' => 'index',
             'actions' => ['index' => 'indexByChampionship']
         ]);
-        $routes->resources('Teams', function (RouteBuilder $routes) {
-            $routes->resources('Articles',[
-                'only' => 'index',
-                'actions' => ['index' => 'indexByTeam']
-            ]);
-            $routes->resources('Members');
-            /*$routes->resources('Scores', [
-                'only' => ['view', 'last'],
-                'map' => [
-                    'last' => [
-                        'action' => 'last',
-                        'method' => 'get'
-                    ]
+        $routes->resources('Teams');
+        $routes->resources('Events');
+        $routes->connect('/members/free/:role_id', [
+            'controller' => 'Members', 
+            'action' => 'free',
+            
+        ], ['role_id' => '\d+']);
+    });
+    $routes->resources('Teams', function (RouteBuilder $routes) {
+        $routes->resources('Articles', [
+            'only' => 'index',
+            'actions' => ['index' => 'indexByTeam']
+        ]);
+        $routes->resources('Members');
+        $routes->resources('Selections');
+        $routes->connect('/transferts', [
+            'controller' => 'Transferts',
+            'action' => 'index'
+        ]);
+        //$routes->resources('Transferts');
+        /*$routes->resources('Scores', [
+            'only' => ['view', 'last'],
+            'map' => [
+                'last' => [
+                    'action' => 'last',
+                    'method' => 'get'
                 ]
-            ]);*/
-            $routes->connect('/scores/last', [
-                'controller' => 'Scores',
-                'action' => 'last'
-            ]);
-        });
+            ]
+        ]);*/
+        $routes->connect('/scores/last', [
+            'controller' => 'Scores',
+            'action' => 'last'
+        ]);
+        $routes->connect('/notifications', [
+            'controller' => 'Notifications',
+            'action' => 'index'
+        ]);
     });
     $routes->connect('/scores/:id', [
         'controller' => 'Scores',
@@ -96,11 +113,11 @@ Router::prefix('api', function (RouteBuilder $routes) {
         'id' => '\d+',
         'pass' => ['id']
     ]);
-	$routes->extensions(['json']);
-	$routes->fallbacks(DashedRoute::class);
+    $routes->extensions(['json']);
+    $routes->fallbacks(DashedRoute::class);
 });
-	
-	
+
+
 Router::scope('/', function (RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -114,7 +131,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
-	$routes->connect('/login', ['controller' => 'Users', 'action' => 'login'], ['_name' => 'login']);
+    $routes->connect('/login', ['controller' => 'Users', 'action' => 'login'], ['_name' => 'login']);
     $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout'], ['_name' => 'logout']);
     $routes->connect('/users/*', ['controller' => 'Users', 'action' => 'view']);
     $routes->connect('/users/edit/*', ['controller' => 'Users', 'action' => 'edit']);
@@ -126,27 +143,26 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->connect('/leagues', ['controller' => 'Leagues', 'action' => 'index']);
     $routes->connect('/leagues/*', ['controller' => 'Leagues', 'action' => 'view']);
-    $routes->scope('/events', function($routes) {
+    $routes->scope('/events', function ($routes) {
         $routes->extensions(['rss']);
         $routes->connect('/', ['controller' => 'Events', 'action' => 'index'], ['_name' => 'events']);
-            
     });
-    
+
 /*
     $routes->connect('/teams', ['controller' => 'Teams', 'action' => 'index'], ['_name' => 'teams_index']);
     $routes->connect('/teams/:id', ['controller' => 'Teams', 'action' => 'view'], ['_name' => 'teams_view', 'id' => '\d+', 'pass' => ['id']]);
     $routes->connect('/teams/:id/players', ['controller' => 'Members', 'action' => 'index'], ['_name' => 'Team.members', 'id' => '\d+', 'pass' => ['id']]);
     $routes->connect('/teams/:id/transferts', ['controller' => 'Transferts', 'action' => 'index'], ['_name' => 'Team.transferts', 'id' => '\d+', 'pass' => ['id']]);
 */
-    $routes->scope('/teams', function($routes) { 
+    $routes->scope('/teams', function ($routes) {
         $routes->connect('/', ['controller' => 'Teams', 'action' => 'index'], ['_name' => 'teams_index']);
         $routes->connect('/:id', ['controller' => 'Teams', 'action' => 'view'], ['_name' => 'teams_view', 'id' => '\d+', 'pass' => ['id']]);
         $routes->connect('/:id/players', ['controller' => 'Members', 'action' => 'index'], ['_name' => 'Team.members', 'id' => '\d+', 'pass' => ['id']]);
         $routes->connect('/:id/transferts', ['controller' => 'Transferts', 'action' => 'index'], ['_name' => 'Team.transferts', 'id' => '\d+', 'pass' => ['id']]);
         $routes->connect('/:id/articles', ['controller' => 'Articles', 'action' => 'indexByTeam'], ['_name' => 'Team.articles', 'id' => '\d+', 'pass' => ['id']]);
     });
-    
-    $routes->scope('/championships', function($routes) { 
+
+    $routes->scope('/championships', function ($routes) {
         $routes->connect('/:id', ['controller' => 'Championships', 'action' => 'view'], ['_name' => 'championships_view', 'id' => '\d+', 'pass' => ['id']]);
         $routes->connect('/:id/ranking', ['controller' => 'Scores', 'action' => 'index'], ['_name' => 'Championship.ranking', 'id' => '\d+', 'pass' => ['id']]);
         $routes->connect('/:id/teams', ['controller' => 'Teams', 'action' => 'index'], ['_name' => 'Championship.teams', 'id' => '\d+', 'pass' => ['id']]);
@@ -154,7 +170,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         $routes->connect('/:id/free_player', ['controller' => 'Members', 'action' => 'free'], ['_name' => 'Championship.freePlayer', 'id' => '\d+', 'pass' => ['id']]);
         $routes->connect('/:id/free_player/:role_id', ['controller' => 'Members', 'action' => 'free'], ['_name' => 'Championship.freePlayer.role', 'id' => '\d+', 'role_id' => '\d+', 'pass' => ['id','role_id']]);
     });
-    
+
     $routes->connect('/lineup/*', ['controller' => 'Lineups', 'action' => 'view'], ['_name' => 'lineups']);
 
     //$routes->connect('/classification', ['controller' => 'Points', 'action' => 'index']);
@@ -166,7 +182,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         'matchday_id' => '[0-9]+',
         'team_id' => '[0-9]+',
         'pass' => ['matchday_id', 'team_id']
-    ]);
+            ]);
 
     /*
       $routes->connect('/championships/:championship_id/classification',[
@@ -186,11 +202,11 @@ Router::scope('/', function (RouteBuilder $routes) {
       'pass' => ['championship_id'],
       '_name' => 'articles'
       ]); */
-	
-    //$routes->resources('Articles');
-	//$routes->resources('Clubs');
 
-	
+    //$routes->resources('Articles');
+    //$routes->resources('Clubs');
+
+
     /**
      * Connect catchall routes for all controllers.
      *

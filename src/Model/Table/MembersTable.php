@@ -123,14 +123,33 @@ class MembersTable extends Table
                 ->group('Members.id');*/
         
         return $query->hydrate(false)
-                ->autoFields(true)
-                ->select(['Stats.sum_present'])
+                ->enableAutoFields(true)
+                ->select([
+                    'Members.club_id',
+                    'stats.sum_present',
+                    'stats.sum_valued',
+                    'stats.avg_points',
+                    'stats.avg_rating',
+                    'stats.sum_goals',
+                    'stats.sum_goals_against',
+                    'stats.sum_assist',
+                    'stats.sum_yellow_card',
+                    'stats.sum_red_card'
+                ])
                 ->join([
                     'table' => 'vw_members_stats',
-                    'alias' => 'Stats',
+                    'alias' => 'stats',
                     'type' => 'INNER',
-                    'conditions' => 'Stats.member_id = Members.id',
-                ]);
+                    'conditions' => 'stats.member_id = Members.id',
+                ])->group('Members.id');
+    }
+    
+    public function findWithStats2(Query $query, array $options)
+    {
+        return $query->select(['sum_valued' => $query->func()->count('Ratings.valued')], false)
+                ->enableAutoFields()
+                ->innerJoinWith('Ratings')
+                ->group('Members.id');
     }
     
     public function findFree($championshipId) 

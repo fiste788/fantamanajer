@@ -228,3 +228,11 @@ Type::build('datetime')
 Plugin::load('Crud');
 
 Plugin::load('ADmad/JwtAuth');
+
+Configure::write([
+    'App.imagesPath' => [
+        'clubs' => WWW_ROOT . 'img' . DS . 'clubs' . DS,
+        'teams' => WWW_ROOT . 'img' . DS . 'upload' . DS . 'teams' . DS,
+        'players' => WWW_ROOT . 'img' . DS . 'players' . DS,
+        ]
+    ]);

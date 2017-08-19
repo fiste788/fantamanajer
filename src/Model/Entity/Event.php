@@ -1,17 +1,20 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\I18n\Time;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 
 /**
  * Event Entity.
  *
  * @property int $id
- * @property \Cake\I18n\Time $created_at
+ * @property Time $created_at
  * @property int $type
  * @property int $external
  * @property int $team_id
- * @property \App\Model\Entity\Team $team
+ * @property Team $team
  */
 class Event extends Entity
 {
@@ -71,13 +74,10 @@ class Event extends Entity
     }
 
     protected function processNewArticle() {
-        $article = \Cake\ORM\TableRegistry::get('Articles')->get($this->external);
+        $article = TableRegistry::get('Articles')->get($this->external);
         $this->title = $this->team->name . ' ha rilasciato una conferenza stampa intitolata ' . $article->title;
-        $this->body = '';
-        if (!empty($article->subtitle)) {
-            $this->body = '<em>' . $article->subtitle . '</em><br />';
-        }
-        $this->body .= $article->body;
+        $this->body = $article->body;
+        $this->icon = 'message';
         $this->link = [
             'controller' => 'Articles',
             'action' => 'view'
@@ -86,31 +86,31 @@ class Event extends Entity
 
     protected function processNewPlayerSelection() {
         $this->title = $this->team->name . ' ha selezionato un giocatore per l\'acquisto';
-        $this->body = ' ';
+        $this->body = '';
         $this->link = '';
+        $this->icon = 'gavel';
     }
 
     protected function processNewLineup() {
-        $lineup = \Cake\ORM\TableRegistry::get('Lineups')->get($this->external);
+        $lineup = TableRegistry::get('Lineups')->get($this->external);
         $this->title = $this->team->name . ' ha impostato la formazione per la giornata ' . $lineup->getMatchdayId();
         $regular = $this->players;
         $regular = array_splice($regular, 0, 11);
-        $this->content = 'Formazione: ';
+        $this->body = 'Formazione: ';
         foreach ($regular as $member) {
-            $this->content .= $member->player->surname . ', ';
+            $this->body .= $member->player->surname . ', ';
         }
-        $this->content = substr($this->content, 0, -2);
+        $this->body = substr($this->body, 0, -2);
         $this->link = Router::generate('lineup', array('matchday_id' => $lineup->getMatchdayId(), 'team_id' => $lineup->getTeamId()));
     }
 
     protected function processNewTransfert() {
-        $transfert = Transfert::getById($this->external);
-        $this->title = $this->name . ' ha effettuato un trasferimento';
-        if (!is_null($this->external)) {
-            Member::getById($transfert->getNewMember());
-            $this->content = $this->name . ' ha ceduto il giocatore ' . $transfert->getOldMember()->getPlayer()->getSurname() . ' e ha acquistato ' . $transfert->getNewMember()->getPlayer()->getSurname();
-            $this->link = Router::generate('transfert', array('id' => $transfert->getTeamId()));
-        }
+        $transfert = TableRegistry::get('Transferts')->get($this->external, ['contain' => ['OldMembers.Players', 'NewMembers.Players']]);
+        $this->title = $this->team->name . ' ha effettuato un trasferimento';
+        $this->body = $this->team->name . ' ha ceduto il giocatore ' . $transfert->old_member->player->full_name . ' e ha acquistato ' . $transfert->new_member->player->full_name;
+        //$this->link = Router::generate('transfert', array('id' => $transfert->getTeamId()));
+        $this->link = '';
+        $this->icon = 'transform';
     }
 
     protected function processNewPlayer() {
@@ -118,7 +118,7 @@ class Event extends Entity
         $player = $member->getPlayer();
         if (!is_null($member)) {
             $this->title = $player->name . ' ' . $player->surname . ' (' . $player->getClub()->getName() . ') inserito nella lista giocatori';
-            $this->content = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' ora fa parte della rosa ' . $member->getClub()->partitive . ' ' . $member->getClub()->name . ', pertanto è stato inserito nella lista giocatori';
+            $this->body = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' ora fa parte della rosa ' . $member->getClub()->partitive . ' ' . $member->getClub()->name . ', pertanto è stato inserito nella lista giocatori';
             $this->link = Router::generate('players_show', array('edit' => 'view', 'id' => $player->id));
         }
     }
@@ -127,7 +127,7 @@ class Event extends Entity
         $member = Member::getById($this->external);
         $player = $member->getPlayer();
         $this->title = $player . ' (ex ' . $member->getClub()->nome . ') non fa più parte della lista giocatori';
-        $this->content = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' non è più un giocatore ' . $member->getClub()->partitive . ' ' . $member->getClub()->name;
+        $this->body = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' non è più un giocatore ' . $member->getClub()->partitive . ' ' . $member->getClub()->name;
         $this->link = Router::generate('player_show', array('edit' => 'view', 'id' => $member->id));
     }
 
@@ -135,7 +135,7 @@ class Event extends Entity
         $member = Member::getById($this->external);
         $player = $member->getPlayer();
         $this->title = ucwords($member->getClub()->determinant) . ' ' . $member->getclub()->name . ' ha ingaggiato ' . $player;
-        $this->content = '';
+        $this->body = '';
         $this->link = Router::generate('player_show', array('edit' => 'view', 'id' => $member->id));
     }
 }

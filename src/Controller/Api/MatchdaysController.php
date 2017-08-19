@@ -20,7 +20,7 @@ class MatchdaysController extends AppController
     public function current() {
         $this->set([
             'success' => true,
-            'data' => $this->Matchdays->getCurrent(),
+            'data' => $this->Matchdays->findCurrent(),
             '_serialize' => ['success','data']
         ]);
     }

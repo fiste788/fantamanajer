@@ -43,13 +43,16 @@ class LineupsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Members', [
+        $this->belongsTo('Captain', [
+            'className' => 'Members',
             'foreignKey' => 'captain_id'
         ]);
-        $this->belongsTo('Members', [
+        $this->belongsTo('VCaptain', [
+            'className' => 'Members',
             'foreignKey' => 'vcaptain_id'
         ]);
-        $this->belongsTo('Members', [
+        $this->belongsTo('VVCaptain', [
+            'className' => 'Members',
             'foreignKey' => 'vvcaptain_id'
         ]);
         $this->belongsTo('Matchdays', [
@@ -61,7 +64,8 @@ class LineupsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Dispositions', [
-            'foreignKey' => 'lineup_id'
+            'foreignKey' => 'lineup_id',
+            'sort' => ['Dispositions.position']
         ]);
         $this->hasOne('Scores', [
             'foreignKey' => 'lineup_id'
