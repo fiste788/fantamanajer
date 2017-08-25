@@ -78,10 +78,6 @@ class SeasonsTable extends Table
             ->requirePresence('year', 'create')
             ->notEmpty('year');
 
-        $validator
-            ->requirePresence('key_gazzetta', 'create')
-            ->notEmpty('key_gazzetta');
-
         return $validator;
     }
 }

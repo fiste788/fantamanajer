@@ -46,40 +46,31 @@ class ScoresController extends AppController
     public function viewByMatchday($matchdayId)
     {
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchdayId,$this->request->team_id)->first();
-        $this->view($score->id);
+        $this->view($score != null ? $score->id : null);
     }
     
 	public function view($id)
     {
-        $appo = $this->Scores->get($id);
-        $score = $this->Scores->get($id, [
-            'contain' => [
-                'Lineups' => [
-                    'Dispositions' => [
-                        'Members' => [
-                            'Roles', 'Players', 'Clubs', 'Ratings' => function (\Cake\ORM\Query $q) use ($appo) {
-                                return $q->where(['matchday_id' => $appo->matchday_id]);
-                            }
+        $score = null;
+        if($id != null) {
+            $appo = $this->Scores->get($id);
+            $score = $this->Scores->get($id, [
+                'contain' => [
+                    'Lineups' => [
+                        'Dispositions' => [
+                            'Members' => [
+                                'Roles', 'Players', 'Clubs', 'Ratings' => function (\Cake\ORM\Query $q) use ($appo) {
+                                    return $q->where(['matchday_id' => $appo->matchday_id]);
+                                }
+                            ]
                         ]
                     ]
                 ]
-            ]
-        ]);
-        /*
-        $matchday_id = $score->matchday_id;
-        $team_id = $score->team_id;
-		$details = TableRegistry::get("Lineups")->findStatsByMatchdayAndTeam($matchday_id,$team_id);
-        $maxMatchdays = $this->Scores->findMatchdayWithPoints($this->currentSeason);
-
-        $dispositions = $details->dispositions;
-        $regulars = array_splice($dispositions,0,11);
-        */
+            ]);
+        }
+       
         $this->set([
             'success' => true,
-            /*'data' => [
-                'score' => $score,
-                'details' => $details
-            ],*/
             'data' => $score,
             '_serialize' => ['success','data']
         ]);

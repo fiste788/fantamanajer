@@ -32,7 +32,7 @@ use Cake\ORM\TableRegistry;
  */
 class AppController extends Controller
 {
-	
+    
 	/**
      *
      * @var Matchday

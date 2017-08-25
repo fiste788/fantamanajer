@@ -121,7 +121,6 @@ class MembersTable extends Table
                 ->select(['sum_present' => $query->func()->count('Ratings.present')])
                 ->contain(['Ratings'])
                 ->group('Members.id');*/
-        
         return $query->hydrate(false)
                 ->enableAutoFields(true)
                 ->select([
@@ -139,9 +138,11 @@ class MembersTable extends Table
                 ->join([
                     'table' => 'vw_members_stats',
                     'alias' => 'stats',
-                    'type' => 'INNER',
+                    'type' => 'LEFT',
                     'conditions' => 'stats.member_id = Members.id',
-                ])->group('Members.id');
+                ])
+                ->where(['season_id' => $options['season_id']])
+                ->group('Members.id');
     }
     
     public function findWithStats2(Query $query, array $options)

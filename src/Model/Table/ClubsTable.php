@@ -83,6 +83,6 @@ class ClubsTable extends Table
         $ids = $members->find()->select(['club_id'])->distinct(['club_id'])->where(['season_id'=>$season->id]);
         return $this->find('all')->where([
             'id IN' => $ids
-        ])->all();
+        ])->order(['name'])->all();
     }
 }

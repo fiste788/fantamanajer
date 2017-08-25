@@ -1,33 +1,27 @@
 <?php
 namespace App\Shell\Task;
 
+use App\Model\Entity\Season;
 use App\Model\Table\MatchdaysTable;
+use App\Model\Table\SeasonsTable;
+use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Shell;
+use Cake\Http\Client;
 use DateTime;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @property MatchdaysTable $Matchdays
+ * @property SeasonsTable $Seasons
  */
 class MatchdayTask extends Shell
 {
-    /**
-     *
-     * @var \App\Model\Entity\Matchday
-     */
-    private $currentMatchday = null;
-    
-    /**
-     *
-     * @var \App\Model\Entity\Season
-     */
-    private $currentSeason = null;
+    use CurrentMatchdayTrait;
     
     public function initialize() {
         parent::initialize();
         $this->loadModel('Matchdays');
-        $this->currentMatchday = $this->Matchdays->findCurrent();
-        $this->currentSeason = $this->currentMatchday->season;
+        $this->loadModel('Seasons');
     }
     
     public function main()
@@ -49,13 +43,18 @@ class MatchdayTask extends Shell
     /**
      * 
      * @param type $matchday
-     * @return Datetime | null
+     * @return \DateTime | null
      */
-    public function getMatchdaySchedule($matchday = null) {
-        $matchday = $matchday ? $matchday : $this->currentMatchday->number;
-        $year = $this->currentSeason->year . "-" . substr($this->currentSeason->year + 1, 2, 2);
+    public function getMatchdaySchedule($matchday = null, $season = null) {
+        if($matchday == null) {
+            $matchday = $this->currentMatchday->number;
+        }
+        if($season == null) {
+            $season = $this->currentSeason;
+        }
+        $year = $season->year . "-" . substr($season->year + 1, 2, 2);
         $url = "http://www.legaseriea.it/it/serie-a-tim/calendario-e-risultati/$year/UNICO/UNI/$matchday";
-        $client = new \Cake\Http\Client();
+        $client = new Client();
         $this->verbose("Downloading page " . $url);
         $response = $client->get($url);
         if ($response->isOk()) {
@@ -64,7 +63,7 @@ class MatchdayTask extends Shell
             $box = $crawler->filter(".datipartita")->first()->filter("p")->first()->filter("span");
             $date = $box->text();
             if ($date != "") {
-                $this->out($date);
+                //$this->out($date);
                 return DateTime::createFromFormat("!d/m/Y H:i", $date);
             } else {
                 $this->abort("Cannot find .datipartita");
@@ -74,35 +73,82 @@ class MatchdayTask extends Shell
         }
     }
     
-    public function updateMatchday($matchdayNumber = null) {
+    public function updateMatchday($matchdayNumber = null, $season = null, $interactive = true) {
+        if($season == null) {
+            $season = $this->currentSeason;
+        }
         if($matchdayNumber == null) {
             $matchday = $this->currentMatchday;
             $matchdayNumber = $this->currentMatchday->number;
         } else {
-            $matchday = $this->Matchdays->findByNumberAndSeason($matchdayNumber,$this->currentSeason);
+            $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber,$season->id)->first();
+            if(is_null($matchday)) {
+                $matchday = $this->Matchdays->newEntity();
+                $matchday->season_id = $season->id;
+                $matchday->number = $matchdayNumber;
+            }
         }
-        $date = $this->getMatchdaySchedule($matchdayNumber);
+        $date = $this->getMatchdaySchedule($matchdayNumber, $season);
         if($date) {
-            if($this->in("Set " . $date . " for matchday " . $matchdayNumber, [true,false], true)) {
-                $matchday->set('data', $date);
+            $res = !$interactive || ($interactive && $this->in("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchdayNumber, ['s','n'], 's') == 's');
+            if($res) {
+                $matchday->set('date', $date);
                 $this->Matchdays->save($matchday);
             }
         }
     }
     
-    public function updateCalendar() {
-        $matchdays = $this->Matchdays->findBySeasonId($this->currentSeason->id);
+    public function updateCalendar($season = null) {
+        if($season == null) {
+            $season = $this->currentSeason;
+        }
+        //$matchdays = $this->Matchdays->findBySeasonId($this->currentSeason->id);
+        $matchdays = 38;
         $progress = $this->helper('Progress');
         $progress->init([
-            'total' => $matchdays->count()
+            'total' => $matchdays
         ]);
-        foreach ($matchdays as $matchday) {
+        for ($matchday = 1; $matchday <= $matchdays; $matchday++) {
             $progress->increment();
             $progress->draw();
-            if ($matchday->number < 39) {
-                $this->updateMatchday($matchday->number);
-            }
+            $this->updateMatchday($matchday, $season, false);
+        }
+    }
+    
+    /**
+     * 
+     * @return Season
+     */
+    public function startNewSeason() {
+        $year = date("Y");
+        $season = $this->Seasons->find()->where(['year' => $year])->first();
+        if($season == null) {
+            $season = $this->Seasons->newEntity([
+                'year' => $year,
+                'name' => 'Stagione ' . $year . '/' . substr($year + 1, 2, 2)
+            ]);
+            $this->Seasons->saveOrFail($season);
+            $this->out('Created new season for year ' . $year);
             
+            $firstMatchday = $this->Matchdays->newEntity([
+                'season_id' => $season->id,
+                'number' => 0,
+                'date' => new \DateTime($year . '-08-10 00:00:00')
+            ]);
+            $this->Matchdays->save($firstMatchday);
+            $this->out('Updating calendar');
+            $this->updateCalendar($season);
+            $this->out('Creating last matchday');
+            $lastMatchday = $this->Matchdays->newEntity([
+                'season_id' => $season->id,
+                'number' => 39,
+                'date' => new \DateTime($year + 1 . '-07-31 23:59:59')
+            ]);
+            if($this->Matchdays->save($lastMatchday)) {
+                return $season;
+            }
+        } else {
+            return $season;
         }
     }
 }

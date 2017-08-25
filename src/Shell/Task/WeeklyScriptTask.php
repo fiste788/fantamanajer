@@ -72,7 +72,7 @@ class WeeklyScriptTask extends Shell
                 if ($path) {
                     BaseController::$logger->info("File with point created succefully");
                     BaseController::$logger->info("Updating table players");
-                    $this->Gazzetta->updateMembers($this->currentSeason, $path);
+                    $this->Gazzetta->updateMembers($this->currentSeason, $matchday, $path);
                     BaseController::$logger->info("Importing points");
                     $this->Gazzetta->importRatings($matchday, $path);
                 } 

@@ -18,7 +18,7 @@ class ClubsController extends AppController
         $this->Crud->on('beforeFind', function(Event $event) {
             $event->getSubject()->query->contain([
                 'Members' => function ($q) {
-                    return $q->find('withStats')
+                    return $q->find('withStats',['season_id' => $this->currentSeason->id])
                         ->contain([
                             'Roles',
                             'Players',

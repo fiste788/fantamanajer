@@ -29,7 +29,7 @@ class MembersController extends AppController
     {
         $defaultRole = $this->request->getParam('role_id', null);
         $championshipId = $this->request->getParam('championship_id');
-        $members = $this->Members->findFree($championshipId);
+        $members = $this->Members->findFree($championshipId)->find('withStats',['season_id' => $this->currentSeason->id]);
         if(!is_null($defaultRole)) {
             $members->where(['role_id' => $defaultRole]);
         }

@@ -5,9 +5,9 @@ use App\Controller\Api\AppController;
 use App\Model\Table\TeamsTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\ORM\Query;
 use Cake\Routing\Router;
 use Cake\View\Helper\UrlHelper;
-use Psr\Log\LogLevel;
 
 /**
  *
@@ -19,13 +19,13 @@ class TeamsController extends AppController
 	public function view($id)
     {
         $this->Crud->on('beforeFind', function(Event $event) {
-            $event->getSubject()->query->contain(['Users','Members' => function($q) {
+            $event->getSubject()->query->contain(['Users','Members' => function(Query $q) {
                 return $q->contain(['Roles','Players','Clubs'])
-                    ->find('withStats');
+                    ->find('withStats',['season_id' => $this->currentSeason->id]);
                 }
             ]);
         });
-        $this->Crud->on('afterFind', function(\Cake\Event\Event $event) {
+        $this->Crud->on('afterFind', function(Event $event) {
             $team = $event->getSubject()->entity;
             if(file_exists(Configure::read('App.imagesPath.teams') . $team->id . '.jpg')) {
                 $event->getSubject()->entity->img = Router::url('/img/upload/teams/' . $team->id . '.jpg', true);

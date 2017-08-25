@@ -12,24 +12,12 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class TransfertTask extends Shell
 {
-    /**
-     *
-     * @var \App\Model\Entity\Matchday
-     */
-    private $currentMatchday = null;
-    
-    /**
-     *
-     * @var \App\Model\Entity\Season
-     */
-    private $currentSeason = null;
+    use \App\Traits\CurrentMatchdayTrait;
     
     public function initialize() {
         parent::initialize();
         $this->loadModel('Matchdays');
         $this->loadModel('Selections');
-        $this->currentMatchday = $this->Matchdays->findCurrent();
-        $this->currentSeason = $this->currentMatchday->season;
     }
     
     public function main()
