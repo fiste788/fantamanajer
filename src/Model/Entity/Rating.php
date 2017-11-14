@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property bool $valued
  * @property float $points
+ * @property float $points_no_bonus
  * @property float $rating
  * @property int $goals
  * @property int $goals_against
@@ -43,4 +44,29 @@ class Rating extends Entity
         '*' => true,
         'id' => false,
     ];
+    
+    /**
+     * 
+     * @param integer $role
+     * @param boolean $playmaker
+     */
+    public function calcNoBonusPoints($role, $playmaker) {
+        
+            $minus = 0;
+            for($i = 0; $i < $this->goals; $i++) {
+                switch($role) {
+                    case 3: if ($playmaker) {
+                            $minus += 0.5;
+                        } break;
+                    case 2: if (!$playmaker) {
+                            $minus += 1;
+                        } break;
+                    case 1: $minus += 1.5;break;
+                    case 0: $minus += 2;break;
+                }
+                //die($minus);
+            }
+            $this->points_no_bonus = $this->points - $minus;
+        
+    }
 }

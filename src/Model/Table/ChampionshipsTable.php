@@ -29,9 +29,9 @@ class ChampionshipsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('championships');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('championships');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Leagues', [
             'foreignKey' => 'league_id',

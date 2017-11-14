@@ -1,33 +1,22 @@
 <?php
 namespace App\Controller\Api;
 
-use App\Model\Entity\Matchday;
-use App\Model\Entity\Season;
+use App\Traits\CurrentMatchdayTrait;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-use Cake\ORM\TableRegistry;
+use Crud\Controller\Component\CrudComponent;
 use Crud\Controller\ControllerTrait;
 
 /**
  * 
- * @property \Crud\Controller\Component\CrudComponent $Crud Description
+ * @property CrudComponent $Crud Description
+ * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  */
 class AppController extends Controller
 {
     
     use ControllerTrait;
-    
-    /**
-     *
-     * @var Matchday
-     */
-    protected $currentMatchday;
-
-    /**
-     *
-     * @var Season
-     */
-    protected $currentSeason;
+    use CurrentMatchdayTrait;
     
     public function initialize() {
         parent::initialize();
@@ -49,6 +38,7 @@ class AppController extends Controller
             ]
         ]);
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+        //$this->RequestHandler->accepts(['xml','json','html']);
         
         $this->loadComponent('Auth', [
             'storage' => 'Memory',
@@ -70,18 +60,18 @@ class AppController extends Controller
             'unauthorizedRedirect' => false,
             'checkAuthIn' => 'Controller.initialize'
         ]);
-        $matchdays = TableRegistry::get("Matchdays");
-        $this->currentMatchday = $matchdays->findCurrent();
-        $this->currentSeason = TableRegistry::get("Seasons")->get($this->currentMatchday->get('season_id'));
+        $this->getCurrentMatchday();
     }
-	
-	public function beforeFilter(Event $event) {
-        $this->response->cors($this->request)
-                ->allowOrigin(['*'])
+    
+    public function beforeRender(Event $event) {
+        /*$this->response->cors($this->request)
+                ->allowOrigin(['develop.fantamanajer.it'])
+                ->allowCredentials()
                 ->allowMethods(['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'])
-                ->allowHeaders(['origin', 'x-requested-with', 'content-type'])
-                ->build();
+                ->allowHeaders(['origin', 'x-requested-with', 'content-type', 'authorization', 'Access-Control-Allow-Headers'])
+                ->build();*/
+        //$this->response->withType('application/json');
         $this->RequestHandler->renderAs($this, 'json');
-        parent::beforeFilter($event);
+        parent::beforeRender($event);
     }
 }

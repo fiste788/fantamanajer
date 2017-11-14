@@ -35,8 +35,12 @@ class Season extends Entity
         'id' => false,
     ];
     
-    
-    protected $_hidden= [
-        'key'
+    /**
+     * Fields that are excluded from JSON an array versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [
+        'key_gazzetta',
     ];
 }

@@ -40,9 +40,56 @@ class TeamsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('teams');
-        $this->displayField('name');
-        $this->primaryKey('id');
+        $this->setTable('teams');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
+        
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'path' => 'webroot{DS}files{DS}{model}{DS}{primaryKey}{DS}{field}{DS}',
+                'fields' => [
+                    // if these fields or their defaults exist
+                    // the values will be set.
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+                'nameCallback' => function ($data, $settings) {
+                    return strtolower($data['name']);
+                },
+                /*'transformer' =>  function ($table, $entity, $data, $field, $settings) {
+                    $extension = pathinfo($data['name'], PATHINFO_EXTENSION);
+
+                    // Store the thumbnail in a temporary file
+                    $tmp = tempnam(sys_get_temp_dir(), 'upload') . '.' . $extension;
+
+                    // Use the Imagine library to DO THE THING
+                    /*$size = new \Imagine\Image\Box(40, 40);
+                    $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+                    $imagine = new \Imagine\Gd\Imagine();
+
+                    // Save that modified file to our temp file
+                    $imagine->open($data['tmp_name'])
+                        ->thumbnail($size, $mode)
+                        ->save($tmp);
+
+                    // Now return the original *and* the thumbnail
+                    return [
+                        $data['tmp_name'] => $data['name'],
+                        //$tmp => 'thumbnail-' . $data['name'],
+                    ];
+                },*/
+                'deleteCallback' => function ($path, $entity, $field, $settings) {
+                    // When deleting the entity, both the original and the thumbnail will be removed
+                    // when keepFilesOnDelete is set to false
+                    return [
+                        $path . $entity->{$field},
+                        $path . 'thumbnail-' . $entity->{$field}
+                    ];
+                },
+                'keepFilesOnDelete' => false
+            ],
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',

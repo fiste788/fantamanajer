@@ -25,8 +25,8 @@ class ScoresController extends AppController
     public function index()
     {
         $championshipId = $this->request->getParam('championship_id');
-        $ranking = $this->Scores->findRankingByChampionshipId($championshipId);
-        $scores = $this->Scores->findRankingDetailsByChampionshipId($championshipId);
+        $ranking = $this->Scores->findRanking($championshipId);
+        $scores = $this->Scores->findRankingDetails($championshipId);
         
         $this->set([
             'success' => true,
@@ -40,7 +40,7 @@ class ScoresController extends AppController
     
     public function last()
     {
-        $this->viewByMatchday($this->Scores->findMatchdayWithPoints($this->currentSeason));
+        $this->viewByMatchday($this->Scores->findMaxMatchday($this->currentSeason));
     }
     
     public function viewByMatchday($matchdayId)

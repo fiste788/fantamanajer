@@ -5,8 +5,4 @@
 	RewriteCond %{HTTP:Authorization} ^(.*)
 	RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 </IfModule>
-<ifModule mod_headers.c>
-    Header always set Access-Control-Allow-Origin: "*"
-    Header always set Access-Control-Allow-Methods "POST, GET, PUT, DELETE, OPTIONS"
-    Header always set Access-Control-Allow-Headers "origin, x-requested-with, content-type"
-</ifModule>
+SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0

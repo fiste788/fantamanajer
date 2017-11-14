@@ -1,6 +1,8 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Matchday;
+use App\Model\Entity\Role;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Association\HasMany;
@@ -60,7 +62,8 @@ class MembersTable extends Table
             'foreignKey' => 'member_id'
         ]);
         $this->hasMany('Ratings', [
-            'foreignKey' => 'member_id'
+            'foreignKey' => 'member_id',
+            'strategy' => 'select'
         ]);
         $this->belongsToMany('Teams', [
             'foreignKey' => 'member_id',
@@ -91,9 +94,10 @@ class MembersTable extends Table
             ->notEmpty('code_gazzetta');
 
         $validator
-            ->integer('active')
-            ->requirePresence('active', 'create')
-            ->notEmpty('active');
+            ->boolean('playmaker');
+        
+        $validator
+            ->boolean('active');
 
         return $validator;
     }
@@ -171,5 +175,19 @@ class MembersTable extends Table
                 ->where(['Members.active' => true])
                 ->orderAsc('Players.surname')
                 ->orderAsc('Players.name');
+    }
+    
+    public function findBestByMatchday(Matchday $matchday, Role $role, $limit = 5) {
+        return $this->find('all')
+                ->contain(['Players','Ratings' => function (Query $q) use ($matchday) {
+                    return $q->where(['matchday_id' => $matchday->id]);
+                }])
+                ->innerJoinWith('Ratings', function (Query $q) use ($matchday) {
+                    return $q->where(['matchday_id' => $matchday->id]);
+                })
+                ->innerJoinWith('Roles')
+                ->where(['Roles.id' => $role->id])
+                ->orderDesc('Ratings.points')
+                ->limit($limit);
     }
 }

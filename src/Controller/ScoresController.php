@@ -24,8 +24,8 @@ class ScoresController extends AppController
      */
     public function index($championshipId)
     {
-        $ranking = $this->Scores->findRankingByChampionshipId($championshipId);
-        $scores = $this->Scores->findRankingDetailsByChampionshipId($championshipId);
+        $ranking = $this->Scores->findRanking($championshipId);
+        $scores = $this->Scores->findRankingDetails($championshipId);
         
         $this->set('ranking', $ranking);
         $this->set('scores', $scores);
@@ -43,7 +43,7 @@ class ScoresController extends AppController
     {
 		$details = TableRegistry::get("Lineups")->findStatsByMatchdayAndTeam($matchday_id,$team_id);
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday_id,$team_id)->first();
-        $maxMatchdays = $this->Scores->findMatchdayWithPoints($this->currentSeason);
+        //$maxMatchdays = $this->Scores->findMatchdayWithPoints($this->currentSeason);
 
         $dispositions = $details->dispositions;
         $regulars = array_splice($dispositions,0,11);

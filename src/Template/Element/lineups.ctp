@@ -17,7 +17,9 @@
         <tbody>
             <?php foreach ($dispositions as $key => $disposition): ?>
                 <tr<?php if($disposition->position <= 11 && $disposition->consideration == 0) echo ' class="alert-danger"'; elseif($disposition->position > 11 && $disposition->consideration == 1) echo ' class="alert-success"' ?>>
-                    <td class="mdl-data-table__cell--non-numeric"><a class="mdl-navigation__link" href="<?php echo $this->Url->build(['controller' => 'Players', 'action' => 'view', $disposition->member->player_id]) ?>"><?= ($disposition->considerato == 2) ? $disposition->member->player->fullName . '<span id="cap">(C)</span>' : $disposition->member->player->fullName; ?></a></td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <a class="mdl-navigation__link" href="<?php echo $this->Url->build(['controller' => 'Players', 'action' => 'view', $disposition->member->player_id],$full) ?>"><?= ($disposition->considerato == 2) ? $disposition->member->player->fullName . '<span id="cap">(C)</span>' : $disposition->member->player->fullName; ?></a>
+                    </td>
                     <td class="mdl-data-table__cell--non-numeric"><?php echo $disposition->member->role; ?></td>
                     <td class="mdl-data-table__cell--non-numeric">
                         <a href="<?= $this->Url->build(['controller' => 'Clubs', 'action' => 'view', $disposition->member->club->id]) ?>">

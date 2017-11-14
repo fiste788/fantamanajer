@@ -18,7 +18,9 @@
         "friendsofcake/crud": "~5.0",
         "admad/cakephp-jwt-auth": "^2.0",
         "symfony/dom-crawler": "^3.3",
-        "symfony/css-selector": "^3.3"
+        "symfony/css-selector": "^3.3",
+        "josegonzalez/cakephp-upload": "^3.7",
+        "minishlink/web-push": "^2.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",
