@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Season;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\RulesChecker;
@@ -112,4 +113,65 @@ class MatchdaysTable extends Table
 		$query->select(['date' => $expr])->where(['NOW() < date']);
 		return $query->first()->date;
 	}
+    
+    /**
+     * 
+     * @param Season $season
+     * @return Matchdays[]
+     */
+    public function findWithoutScores(Season $season) 
+	{
+        $query = $this->find();
+        $res = $query->leftJoinWith("Scores")
+                ->contain('Seasons')
+                ->where([
+                    'team_id IS' => null,
+                    'date <' => new DateTime(),
+                    'season_id' => $season->id
+                        ])
+                ->toArray();
+        return $res;
+    }
+    
+    public function findWithScores(Season $season) {
+        return $this->find()
+                ->innerJoinWith('Scores')
+                ->where(['Seasons.id' => $season->id])
+                ->orderDesc('Matchdays.id')
+                ->limit(1);
+    }
+    
+    /**
+     * 
+     * @param Season $season
+     * @return Matchdays[]
+     */
+    public function findWithoutRatings(Season $season) 
+	{
+        $query = $this->find();
+        $res = $query->leftJoinWith("Ratings")
+                ->contain('Seasons')
+                ->where([
+                    'number !=' => 0,
+                    'member_id IS' => null,
+                    'date <' => new DateTime(),
+                    'season_id' => $season->id
+                        ])
+                ->toArray();
+        return $res;
+    }
+    
+    /**
+     * 
+     * @param Season $season
+     * @return int
+     */
+    public function findWithRatings(Season $season) {
+        return $this->find()
+                ->innerJoinWith('Ratings')
+                ->innerJoinWith('Seasons')
+                ->where(['Seasons.id' => $season->id])
+                ->orderDesc('Matchdays.id')
+                ->limit(1);
+    }
 }

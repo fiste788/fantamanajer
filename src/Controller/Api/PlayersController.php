@@ -46,12 +46,6 @@ class PlayersController extends AppController
                                 'championship_id' => $championship_id
                             ])->isEmpty();
                 }
-                if(file_exists(Configure::read('App.imagesPath.clubs') . 'bg' . DS . $member->club_id . '.jpg')) {
-                    $event->getSubject()->entity->members[$key]->backgroundImg = Router::url('/img/clubs/bg/' . $member->club_id . '.jpg', true);
-                }
-                if(file_exists(Configure::read('App.imagesPath.players') . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
-                    $event->getSubject()->entity->members[$key]->img = Router::url('/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg', true);
-                }
             }
             
         });

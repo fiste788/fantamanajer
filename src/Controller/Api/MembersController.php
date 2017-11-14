@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use App\Model\Table\MembersTable;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 /**
  * @property MembersTable $Members
@@ -12,7 +13,7 @@ class MembersController extends AppController
 {
     public function initialize() {
         parent::initialize();
-        $this->Auth->allow(['index']);
+        $this->Auth->allow(['index', 'best']);
     }
     
     public function index()
@@ -22,7 +23,23 @@ class MembersController extends AppController
         });
 
         return $this->Crud->execute();
+    }
+    
+    public function best()
+    {
+        $rolesTable = TableRegistry::get('Roles');
+        $roles = $rolesTable->find()->toArray();
+        $matchday = TableRegistry::get('Matchdays')->findWithRatings($this->currentSeason)->first();
+        foreach ($roles as $key => $role) {
+            $best = $this->Members->findBestByMatchday($matchday,$role)->toArray();
+            $roles[$key]->best_players = $best;
+        }
         
+        $this->set([
+            'success' => true,
+            'data' => $roles,
+            '_serialize' => ['success','data']
+        ]);
     }
     
     public function free()

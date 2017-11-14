@@ -28,9 +28,9 @@ class ClubsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('clubs');
-        $this->displayField('name');
-        $this->primaryKey('id');
+        $this->setTable('clubs');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
         $this->hasMany('Members', [
             'foreignKey' => 'club_id'

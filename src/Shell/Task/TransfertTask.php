@@ -36,27 +36,29 @@ class TransfertTask extends Shell
     }
     
     function doTransfert() {
-        $selections = $this->Selections->findByMatchdayIdAndProcessed($this->currentMatchday->id, false)
-                ->contain(['OldMembers.Players','NewMembers.Players','Teams']);
-        $table[] = ['Team', 'New Member','Old Member'];
-        if(!$selections->isEmpty()) {
-            foreach ($selections as $selection) {
-                $selection->processed = true;
-                $selection->matchday_id = $this->currentMatchday->id;
-                $table[] = [
-                    $selection->team->name,
-                    $selection->old_member->player->fullName,
-                    $selection->new_member->player->fullName, 
-                ];
+        if($this->currentMatchday->isDoTransertDay()) {
+            $selections = $this->Selections->findByMatchdayIdAndProcessed($this->currentMatchday->id, false)
+                    ->contain(['OldMembers.Players','NewMembers.Players','Teams']);
+            $table[] = ['Team', 'New Member','Old Member'];
+            if(!$selections->isEmpty()) {
+                foreach ($selections as $selection) {
+                    $selection->processed = true;
+                    $selection->matchday_id = $this->currentMatchday->id;
+                    $table[] = [
+                        $selection->team->name,
+                        $selection->old_member->player->fullName,
+                        $selection->new_member->player->fullName, 
+                    ];
+                }
+                $this->helper('Table')->output($table);
+                if(!$this->param('no-commit')) {
+                //if($this->in('Are you sure?', ['y','n'], 'y') == 'y') {
+                    $this->Selections->saveMany($selections);
+                    $this->out('Changes committed');
+                }
+            } else {
+                $this->out('No unprocessed selections found');
             }
-            $this->helper('Table')->output($table);
-            if(!$this->param('no-commit')) {
-            //if($this->in('Are you sure?', ['y','n'], 'y') == 'y') {
-                $this->Selections->saveMany($selections);
-                $this->out('Changes committed');
-            }
-        } else {
-            $this->out('No unprocessed selections found');
         }
     }
 }

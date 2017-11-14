@@ -1,6 +1,12 @@
 <?php
 namespace App\Shell;
 
+use App\Shell\Task\DownloadPhotosTask;
+use App\Shell\Task\GazzettaTask;
+use App\Shell\Task\MatchdayTask;
+use App\Shell\Task\PushNotificationTask;
+use App\Shell\Task\TransfertTask;
+use App\Shell\Task\UserTask;
 use App\Shell\Task\WeeklyScriptTask;
 use Cake\Console\ConsoleOutput;
 use Cake\Console\Shell;
@@ -8,9 +14,12 @@ use Cake\Utility\Inflector;
 
 /**
  * @property WeeklyScriptTask $WeeklyScript
- * @property Task\GazzettaTask $Gazzetta
- * @property Task\MatchdayTask $Matchday
- * @property Task\TransfertTask $Transfert
+ * @property GazzettaTask $Gazzetta
+ * @property MatchdayTask $Matchday
+ * @property TransfertTask $Transfert
+ * @property DownloadPhotosTask $DownloadPhotos
+ * @property UserTask $UserTask
+ * @property PushNotificationTask $PushNotificationTask
  */
 class FantamanajerShell extends Shell
 {
@@ -18,7 +27,10 @@ class FantamanajerShell extends Shell
         'Gazzetta',
         'WeeklyScript',
         'Matchday',
-        'Transfert'
+        'Transfert',
+        'DownloadPhotos',
+        'User',
+        'PushNotification'
     ];
     
     public function main()

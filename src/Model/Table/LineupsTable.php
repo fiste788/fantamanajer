@@ -65,7 +65,8 @@ class LineupsTable extends Table
         ]);
         $this->hasMany('Dispositions', [
             'foreignKey' => 'lineup_id',
-            'sort' => ['Dispositions.position']
+            'sort' => ['Dispositions.position'],
+            'saveStrategy' => 'replace'
         ]);
         $this->hasOne('Scores', [
             'foreignKey' => 'lineup_id'
@@ -107,9 +108,9 @@ class LineupsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['captain_id'], 'Members'));
-        $rules->add($rules->existsIn(['vcaptain_id'], 'Members'));
-        $rules->add($rules->existsIn(['vvcaptain_id'], 'Members'));
+        $rules->add($rules->existsIn(['captain_id'], 'Captain'));
+        $rules->add($rules->existsIn(['vcaptain_id'], 'VCaptain'));
+        $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
 

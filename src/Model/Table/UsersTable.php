@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  * Users Model
  *
  * @property \Cake\ORM\Association\HasMany $Teams
+ * @property \Cake\ORM\Association\HasMany $Subscriptions
  * @property \Cake\ORM\Association\HasMany $View2TeamsStats
  */
 class UsersTable extends Table
@@ -26,12 +27,16 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('users');
-        $this->displayField('name');
-        $this->primaryKey('id');
+        $this->setTable('users');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
         $this->hasMany('Teams', [
-            'foreignKey' => 'user_id'
+            'foreignKey' => 'user_id',
+            'sort' => 'Championships.id DESC'
+        ]);
+        $this->hasMany('Subscriptions', [
+            'foreignKey' => 'user_id',
         ]);
         $this->hasMany('View2TeamsStats', [
             'foreignKey' => 'user_id'
@@ -107,7 +112,7 @@ class UsersTable extends Table
     public function findAuth(\Cake\ORM\Query $query, array $options)
     {
         $query
-            ->contain(['Teams.Championships' => ['Leagues','Seasons']])
+            ->contain(['Teams' => ['Championships' => ['Leagues','Seasons']]])
             ->where(['Users.active' => 1]);
 
         return $query;

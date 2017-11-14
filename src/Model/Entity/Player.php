@@ -1,7 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
+use Cake\Routing\Router;
+use const DS;
 
 /**
  * Player Entity.
@@ -9,7 +12,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $surname
- * @property \App\Model\Entity\Member[] $members
+ * @property Member[] $members
  * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
  * @property \App\Model\Entity\View0Member[] $view0_members
  * @property \App\Model\Entity\View1MembersStat[] $view1_members_stats
@@ -30,6 +33,19 @@ class Player extends Entity
         '*' => true,
         'id' => false,
     ];
+    
+    protected $_virtual = ['photo_url', 'full_name'];
+    
+    protected function _getPhotoUrl()
+    {
+        if($this->members) {
+            foreach($this->members as $member) {
+                if(file_exists(Configure::read('App.imagesPath.players') . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
+                    return Router::url('/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg', true);
+                }
+            }
+        }
+    }
     
     protected function _getFullName() {
         return ($this->_properties['name'] != '' ? $this->_properties['name'] . ' ' : '') . $this->_properties['surname'];

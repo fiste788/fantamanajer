@@ -3,11 +3,13 @@ namespace App\Shell\Task;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Member;
+use App\Model\Entity\Rating;
 use App\Model\Entity\Season;
 use App\Model\Table\ClubsTable;
 use App\Model\Table\MatchdaysTable;
 use App\Model\Table\MembersTable;
 use App\Model\Table\PlayersTable;
+use App\Model\Table\RatingsTable;
 use App\Model\Table\RolesTable;
 use App\Model\Table\SeasonsTable;
 use App\Traits\CurrentMatchdayTrait;
@@ -27,21 +29,11 @@ use const TMP;
  * @property MembersTable $Members
  * @property ClubsTable $Clubs
  * @property PlayersTable $Players
+ * @property RatingsTable $Ratings
  */
 class GazzettaTask extends Shell
 {
     use CurrentMatchdayTrait;
-    /**
-     *
-     * @var Matchday
-     */
-    //private $currentMatchday = null;
-    
-    /**
-     *
-     * @var Season
-     */
-    //private $currentSeason = null;
     
     public function initialize() {
         parent::initialize();
@@ -51,7 +43,8 @@ class GazzettaTask extends Shell
         $this->loadModel('Members');
         $this->loadModel('Clubs');
         $this->loadModel('Players');
-        //$this->getCurrentMatchday();
+        $this->loadModel("Ratings");
+        $this->getCurrentMatchday();
     }
     
     public function main()
@@ -175,8 +168,9 @@ class GazzettaTask extends Shell
         if($matchdayNumber === null) {
             $matchdayNumber = $this->currentMatchday->number;
         }
-        if($path == null) {
+        while($path == null && $matchdayNumber > 0) {
             $path = $this->getRatings($matchdayNumber);
+            $matchdayNumber--;
         }
         if(file_exists($path)) {
             $query = $this->Members->find('list', [
@@ -204,7 +198,7 @@ class GazzettaTask extends Shell
             }
             foreach ($oldMembers as $id => $oldMember) {
                 if (!array_key_exists($id, $newMembers) && $oldMember->active) {
-                    $oldMember->active = FALSE;
+                    $oldMember->active = true;
                     $membersToSave[] = $oldMember;
                     $this->verbose("Deactivate member " . $oldMember);
                     //$oldMember->save(array('numEvento'=>Event::RIMOSSOGIOCATORE));
@@ -228,14 +222,14 @@ class GazzettaTask extends Shell
     private function memberTransfert(Member $member, $club) {
         $flag = false;
         if(!$member->active) {
-            $member->active = 1;
+            $member->active = true;
             $flag = true;
         }
         $clubNew = $this->Clubs->findByName(ucwords(strtolower(trim($club, '"'))))->first();
         if ($member->club_id != $clubNew->id) {
             $this->verbose("Transfert member " . $member->player->fullName);
             $member->club = $clubNew;
-            $member->active = 1;
+            $member->active = true;
             $flag = true;
         }
         if($flag) {
@@ -243,7 +237,7 @@ class GazzettaTask extends Shell
         }
     }
     
-    private function memberNew($member,$season) {
+    private function memberNew($member, $season) {
         $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
         $fullname = trim($member[2], '"');
         $ass = NULL;
@@ -261,39 +255,72 @@ class GazzettaTask extends Shell
         return $this->Members->newEntity([
             'season_id' => $season->id,
             'code_gazzetta' => $member[0],
+            'playmaker' => $member[26],
+            'active' => true,
             'role_id' => $this->Roles->get($member[5] + 1)->id,
             'club_id' => $club->id,
-            'active' => 1,
             'player_id' => $player->id
         ]);
     }
     
-    public function importRatings($matchday = null, $path = null) {
-        $this->loadModel("Ratings");
-        $currentMatchday = $this->Matchdays->findCurrent();
-        $matchday = $matchday ? $matchday : $currentMatchday->number;
-        $path = $path ? $path : $this->getRatings($matchday);
-        $members = $this->returnArray($path, ";");
-        foreach ($members as $id => $stats) {
-            $ratings[] = $this->Ratings->newEntities([
-                'valued' => $stats[6],
-                'points' => $stats[7],
-                'rating' => $stats[10],
-                'goals' => $stats[11],
-                'goals_against' => $stats[12],
-                'goals_victory' => $stats[13],
-                'goals_tie' => $stats[14],
-                'assist' => $stats[15],
-                'yellow_card' => $stats[16],
-                'red_card' => $stats[17],
-                'penalities_scores' => $stats[18],
-                'penalities_taken' => $stats[19],
-                'present' => $stats[23],
-                'regular' => $stats[24],
-                'quotation' => $stats[27]
-            ]);
+    public function importRatings($matchdayNumber = null, $path = null) {
+        if($matchdayNumber === null) {
+            $matchday = $this->currentMatchday;
+            $matchdayNumber = $this->currentMatchday->number;
+        } else {
+            $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber, $this->currentSeason->id)->first();
         }
-        return $this->Ratings->saveMany($ratings);
+        $path = $path ? $path : $this->getRatings($matchdayNumber);
+        if($path) {
+            $members = $this->returnArray($path, ";");
+            foreach ($members as $id => $stats) {
+                $member = $this->Members->find()->contain(['Roles'])->where([
+                    'code_gazzetta' => $stats[0],
+                    'season_id' => $matchday->season_id
+                ])->firstOrFail();
+                $rating = $this->Ratings->find()->where([
+                    'member_id' => $member->id,
+                    'matchday_id' => $matchday->id
+                ]);
+                if($rating->isEmpty()) {
+                    $rating = $this->Ratings->newEntity();
+                } else {
+                    $rating = $rating->first();
+                }
+                $this->Ratings->patchEntity($rating, [
+                //$rating = $this->Ratings->newEntity([
+                    'valued' => $stats[6],
+                    'points' => $stats[7],
+                    'rating' => $stats[10],
+                    'goals' => $stats[11],
+                    'goals_against' => $stats[12],
+                    'goals_victory' => $stats[13],
+                    'goals_tie' => $stats[14],
+                    'assist' => $stats[15],
+                    'yellow_card' => $stats[16],
+                    'red_card' => $stats[17],
+                    'penalities_scored' => $stats[18],
+                    'penalities_taken' => $stats[19],
+                    'present' => $stats[23],
+                    'regular' => $stats[24],
+                    'quotation' => (int) $stats[27],
+                    'member_id' => $member->id,
+                    'matchday_id' => $matchday->id
+                ]);
+                $rating->calcNoBonusPoints((integer) $stats[5], (boolean) $stats[26]);
+                $ratings[] = $rating;
+            }
+            if(!$this->Ratings->saveMany($ratings)){
+                foreach ($ratings as $value) {
+                    if(!empty($value->getErrors())) {    
+                        $this->err($value);
+                        $this->err(print_r($value->getErrors()));
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
     }
 
     public function returnArray($path, $sep = ";", $header = FALSE) {

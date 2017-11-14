@@ -15,6 +15,8 @@ class ClubsController extends AppController
     
     public function view($id)
     {
+        $push = new \App\Shell\Task\PushNotificationTask();
+        $push->main();
         $this->Crud->on('beforeFind', function(Event $event) {
             $event->getSubject()->query->contain([
                 'Members' => function ($q) {
@@ -44,14 +46,14 @@ class ClubsController extends AppController
     public function index()
     {
         $clubs = $this->Clubs->findBySeason($this->currentSeason);
-        foreach ($clubs as $club) {
+        /*foreach ($clubs as $club) {
             if(file_exists(Configure::read('App.imagesPath.clubs') . 'bg' . DS . $club->id . '.jpg')) {
                 $club->backgroundImg = Router::url('/img/clubs/bg/' . $club->id . '.jpg', true);
             }
             if(file_exists(Configure::read('App.imagesPath.clubs') . $club->id . '.png')) {
                 $club->img = Router::url('/img/clubs/' . $club->id . '.png', true);
             }
-        }
+        }*/
         $this->set([
             'success' => true,
             'data' => $clubs,

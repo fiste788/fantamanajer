@@ -23,11 +23,17 @@ use Cake\Core\Plugin;
 
 // Set the fullBaseUrl to allow URLs to be generated in shell tasks.
 // This is useful when sending email from shells.
-//Configure::write('App.fullBaseUrl', php_uname('n'));
+Configure::write('App.fullBaseUrl', 'https://fantamanajer.it');
 
 // Set logs to different files so they don't have permission conflicts.
 Configure::write('Log.debug.file', 'cli-debug');
 Configure::write('Log.error.file', 'cli-error');
+Configure::write([
+    'Push' => [
+        'vapidPublicKey' => 'BEtTz3mWJt9vnMu759pONVf-KeKBv2isIgpfuCgpm_cxqBTwwUyS_eI6Dx7tKuutl0DzgYARKG6vuhfAszr5JBw',
+        'vapidPrivateKey' => 'gFfsi6IV_GPTaJImIo5xLJRJ3u_gL8eL1fMr7JsxrZ0',
+        ]
+    ]);
 
 try {
     Plugin::load('Bake');

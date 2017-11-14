@@ -1,6 +1,9 @@
 <?php
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -141,5 +144,24 @@ class RatingsTable extends Table
         $rules->add($rules->existsIn(['member_id'], 'Members'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         return $rules;
+    }
+    
+    public function existMatchday($matchday) {
+        return $this->exists(['matchday_id' => $matchday->id]);
+    }
+    
+    /**
+     * 
+     * @param Season $season
+     * @return int
+     */
+    public function findMaxMatchday(Season $season) {
+        $query = $this->find();
+        $res = $query->hydrate(false)
+                ->leftJoinWith('Matchdays')
+                ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'),])
+                ->where(['m.season_id' => $season->id])
+                ->first();
+        return $res['matchday_id'];
     }
 }

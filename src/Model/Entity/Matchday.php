@@ -1,21 +1,25 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\I18n\Time;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
+use DateTime;
+use PDO;
 
 /**
  * Matchday Entity.
  *
  * @property int $id
  * @property int $number
- * @property \Cake\I18n\Time $date
+ * @property Time $date
  * @property int $season_id
- * @property \App\Model\Entity\Season $season
- * @property \App\Model\Entity\Article[] $articles
- * @property \App\Model\Entity\Lineup[] $lineups
- * @property \App\Model\Entity\Rating[] $ratings
- * @property \App\Model\Entity\Score[] $scores
- * @property \App\Model\Entity\Transfert[] $transferts
+ * @property Season $season
+ * @property Article[] $articles
+ * @property Lineup[] $lineups
+ * @property Rating[] $ratings
+ * @property Score[] $scores
+ * @property Transfert[] $transferts
  */
 class Matchday extends Entity
 {
@@ -33,4 +37,16 @@ class Matchday extends Entity
         '*' => true,
         'id' => false,
     ];
+    
+    public function isWeeklyScriptDay() {
+        return $this->date->diffInHours(new Time(), true) > 48;
+    }
+
+    public function isDoTransertDay() {
+        return $this->date->isToday();
+    }
+
+    public static function isSendMailDay() {
+        return $this->date->isWithinNext('10 minutes');
+    }
 }

@@ -20,7 +20,7 @@ class TeamsController extends AppController
 
 	public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        $this->Auth->allow(['view']);
+        $this->Auth->allow(['view','edit']);
         $this->loadModel('Teams');
     }
 
@@ -100,6 +100,7 @@ class TeamsController extends AppController
      */
     public function edit($id = null)
     {
+        $this->log(print_r($this->request,1), \Psr\Log\LogLevel::INFO);
         $team = $this->Teams->get($id, [
             'contain' => ['Members']
         ]);

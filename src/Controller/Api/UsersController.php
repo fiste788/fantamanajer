@@ -20,13 +20,14 @@ class UsersController extends AppController
         if (!$user) {
             throw new UnauthorizedException('Invalid username or password');
         }
+        $days = $this->request->getData('remember_me', false) ? 365 : 7;
 
         $this->set([
             'success' => true,
             'data' => [
                 'token' => JWT::encode([
                     'sub' => $user['id'],
-                    'exp' =>  time() + 604800
+                    'exp' =>  time() + ($days * 24 * 60 * 60)
                 ],
                 Security::salt()),
                 'user' => $user

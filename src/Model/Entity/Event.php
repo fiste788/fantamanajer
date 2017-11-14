@@ -92,16 +92,16 @@ class Event extends Entity
     }
 
     protected function processNewLineup() {
-        $lineup = TableRegistry::get('Lineups')->get($this->external);
-        $this->title = $this->team->name . ' ha impostato la formazione per la giornata ' . $lineup->getMatchdayId();
-        $regular = $this->players;
-        $regular = array_splice($regular, 0, 11);
+        $lineup = TableRegistry::get('Lineups')->get($this->external, ['contain' => ['Teams', 'Matchdays', 'Dispositions.Members.Players']]);
+        $this->title = $this->team->name . ' ha impostato la formazione per la giornata ' . $lineup->matchday->number;
+        $regular = array_splice($lineup->dispositions, 0, 11);
         $this->body = 'Formazione: ';
-        foreach ($regular as $member) {
-            $this->body .= $member->player->surname . ', ';
+        foreach ($regular as $disposition) {
+            $this->body .= $disposition->member->player->surname . ', ';
         }
         $this->body = substr($this->body, 0, -2);
-        $this->link = Router::generate('lineup', array('matchday_id' => $lineup->getMatchdayId(), 'team_id' => $lineup->getTeamId()));
+        $this->icon = 'star';
+        //$this->link = Router::generate('lineup', array('matchday_id' => $lineup->matchday_id, 'team_id' => $lineup->team_id));
     }
 
     protected function processNewTransfert() {
@@ -114,27 +114,27 @@ class Event extends Entity
     }
 
     protected function processNewPlayer() {
-        $member = Member::getById($this->external);
-        $player = $member->getPlayer();
+        $member = TableRegistry::get('Members')->get($this->external, ['contain' => ['Players', 'Clubs', 'Roles']]);
+        $player = $member->player;
         if (!is_null($member)) {
-            $this->title = $player->name . ' ' . $player->surname . ' (' . $player->getClub()->getName() . ') inserito nella lista giocatori';
-            $this->body = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' ora fa parte della rosa ' . $member->getClub()->partitive . ' ' . $member->getClub()->name . ', pertanto è stato inserito nella lista giocatori';
+            $this->title = $player->name . ' ' . $player->surname . ' (' . $member->club->name . ') inserito nella lista giocatori';
+            $this->body = ucwords($member->role->determinant) . ' ' . strtolower($member->role->singolar) . ' ' . $player . ' ora fa parte della rosa ' . $member->club->partitive . ' ' . $member->club->name;
             $this->link = Router::generate('players_show', array('edit' => 'view', 'id' => $player->id));
         }
     }
 
     protected function processDeletePlayer() {
-        $member = Member::getById($this->external);
-        $player = $member->getPlayer();
-        $this->title = $player . ' (ex ' . $member->getClub()->nome . ') non fa più parte della lista giocatori';
-        $this->body = ucwords($this->roles[$member->role_id])->getDeterminant() . ' ' . strtolower($this->roles[$member->role_id]->getSingolar()) . ' ' . $player . ' non è più un giocatore ' . $member->getClub()->partitive . ' ' . $member->getClub()->name;
+        $member = TableRegistry::get('Members')->get($this->external, ['contain' => ['Players', 'Clubs', 'Roles']]);
+        $player = $member->player;
+        $this->title = $player . ' (ex ' . $member->club->name . ') non fa più parte della lista giocatori';
+        $this->body = ucwords($member->role->determinant) . ' ' . strtolower($member->role->singolar) . ' ' . $player . ' non è più un giocatore ' . $member->club->partitive . ' ' . $member->club->name;
         $this->link = Router::generate('player_show', array('edit' => 'view', 'id' => $member->id));
     }
 
     protected function processEditClub() {
-        $member = Member::getById($this->external);
-        $player = $member->getPlayer();
-        $this->title = ucwords($member->getClub()->determinant) . ' ' . $member->getclub()->name . ' ha ingaggiato ' . $player;
+        $member = TableRegistry::get('Members')->get($this->external, ['contain' => ['Players', 'Clubs', 'Roles']]);
+        $player = $member->player;
+        $this->title = ucwords($member->club->determinant) . ' ' . $member->club->name . ' ha ingaggiato ' . $player;
         $this->body = '';
         $this->link = Router::generate('player_show', array('edit' => 'view', 'id' => $member->id));
     }

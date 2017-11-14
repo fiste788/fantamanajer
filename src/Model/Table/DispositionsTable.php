@@ -27,9 +27,9 @@ class DispositionsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('dispositions');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('dispositions');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Lineups', [
             'foreignKey' => 'lineup_id',
@@ -67,11 +67,6 @@ class DispositionsTable extends Table
             ->integer('position')
             ->requirePresence('position', 'create')
             ->notEmpty('position');
-
-        $validator
-            ->integer('consideration')
-            ->requirePresence('consideration', 'create')
-            ->notEmpty('consideration');
 
         return $validator;
     }
