@@ -22,6 +22,7 @@ class MatchdayTask extends Shell
         parent::initialize();
         $this->loadModel('Matchdays');
         $this->loadModel('Seasons');
+        $this->getCurrentMatchday();
     }
     
     public function main()
@@ -53,10 +54,16 @@ class MatchdayTask extends Shell
             $season = $this->currentSeason;
         }
         $year = $season->year . "-" . substr($season->year + 1, 2, 2);
-        $url = "http://www.legaseriea.it/it/serie-a-tim/calendario-e-risultati/$year/UNICO/UNI/$matchday";
-        $client = new Client();
+        $url = "/it/serie-a-tim/calendario-e-risultati/$year/UNICO/UNI/$matchday";
+        $client = new Client([
+            'host' => 'www.legaseriea.it',
+            'redirect' => 5
+        ]);
         $this->verbose("Downloading page " . $url);
         $response = $client->get($url);
+        if ($response->isRedirect()) {
+            $response = $client->get($response->getHeaderLine('Location'));
+        }
         if ($response->isOk()) {
             $crawler = new Crawler();
             $crawler->addContent($response->body());
@@ -69,6 +76,7 @@ class MatchdayTask extends Shell
                 $this->abort("Cannot find .datipartita");
             }
         } else {
+            $this->err($response->getStatusCode(), 1);
             $this->abort("Cannot connect to " . $url);
         }
     }
