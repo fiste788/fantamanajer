@@ -204,6 +204,7 @@ class GazzettaTask extends Shell
                     //$oldMember->save(array('numEvento'=>Event::RIMOSSOGIOCATORE));
                 }
             }
+            $this->verbose($membersToSave);
             $this->out("Savings " . count($membersToSave) . " members");
             if(!$this->Members->saveMany($membersToSave)){
                 foreach ($membersToSave as $value) {
@@ -256,7 +257,7 @@ class GazzettaTask extends Shell
             'season_id' => $season->id,
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
-            'active' => true,
+            'active' => 1,
             'role_id' => $this->Roles->get($member[5] + 1)->id,
             'club_id' => $club->id,
             'player_id' => $player->id

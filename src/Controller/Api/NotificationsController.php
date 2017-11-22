@@ -21,7 +21,7 @@ class NotificationsController extends AppController
         if ($lineup->isEmpty()) {
             $notifications[] = [
                 'title' => 'Non hai ancora impostato la formazione per questa giornata', 
-                'url' => 'lineups',
+                'url' => '/teams/' . $this->request->getParam('team_id') . '/lineup/current',
                 'severity' => 1
             ];
         }

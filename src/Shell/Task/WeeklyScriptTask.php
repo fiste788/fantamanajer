@@ -12,8 +12,11 @@ use App\Model\Table\RatingsTable;
 use App\Model\Table\ScoresTable;
 use App\Model\Table\SeasonsTable;
 use App\Traits\CurrentMatchdayTrait;
+use App\Utility\WebPush\WebPushMessage;
 use Cake\Console\Shell;
+use Cake\Core\Configure;
 use Cake\Mailer\Email;
+use Minishlink\WebPush\WebPush;
 
 /**
  * @property GazzettaTask $Gazzetta
@@ -83,8 +86,8 @@ class WeeklyScriptTask extends Shell {
         }
         if (!$this->param('no_calc_scores')) {
             $championships = $this->Championships->find()
-                        ->contain(['Teams' => ['Users', 'Championships'], 'Leagues'])
-                        ->where(['Championships.season_id' => $this->currentSeason->id]);
+                    ->contain(['Teams' => ['Users' => ['Subscriptions'], 'Championships'], 'Leagues'])
+                    ->where(['Championships.season_id' => $this->currentSeason->id]);
 
             $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
             foreach ($missingScores as $key => $matchday) {
@@ -101,18 +104,53 @@ class WeeklyScriptTask extends Shell {
      * @param Matchday $matchday
      * @param Championship[] $championships
      */
-    protected function calculatePoints(Matchday $matchday, $championships) {  
+    protected function calculatePoints(Matchday $matchday, $championships) {
+        $scores = [];
         foreach ($championships as $championship) {
             $this->out("Calculating points of matchday " . $matchday->number . " for league " . $championship->league->name);
             foreach ($championship->teams as $team) {
                 $this->out("Elaborating team " . $team->name);
-                $this->Scores->calculate($team, $matchday);
+                $scores[$team->id] = $this->Scores->calculate($team, $matchday);
             }
             if (!$this->param('no-send-mail')) {
                 $this->out("Sending mails");
                 $this->sendWeeklyMails($matchday, $championship);
+                $this->out("Sending notification");
+                $this->sendNotifications($matchday, $championship, $scores);
             }
         }
+    }
+
+    public function sendNotifications(Matchday $matchday = NULL, Championship $championship = NULL, $scores) {
+        $auth = [
+            'VAPID' => [
+                'subject' => Configure::read('App.fullBaseUrl'),
+                'publicKey' => Configure::read('Push.vapidPublicKey'),
+                'privateKey' => Configure::read('Push.vapidPrivateKey'),
+            ],
+        ];
+
+        $webPush = new WebPush($auth);
+        foreach ($championship->teams as $team) {
+            foreach ($team->user->subscriptions as $subscription) {
+                $message = WebPushMessage::create()
+                        ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
+                        ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id] . ' punti')
+                        ->icon('/assets/android-chrome-192x192.png')
+                        ->lang('it')
+                        ->action('Visualizza', 'open')
+                        ->renotify(true)
+                        ->tag(926796012340920300)
+                        ->requireInteraction(true)
+                        ->data(['url' => '/scores/last']);
+
+                $this->out("Sending notification to " . $subscription->endpoint);
+                $webPush->sendNotification(
+                        $subscription->endpoint, json_encode($message), $subscription->public_key, $subscription->auth_token
+                );
+            }
+        }
+        $webPush->flush();
     }
 
     public function sendWeeklyMails(Matchday $matchday = NULL, Championship $championship = NULL) {
@@ -127,10 +165,10 @@ class WeeklyScriptTask extends Shell {
     protected function sendPointMail(Team $team, Matchday $matchday, $ranking) {
         $details = $this->Lineups->findStatsByMatchdayAndTeam($matchday->id, $team->id);
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();
-        
+
         $dispositions = null;
         $regulars = null;
-        if($details) {
+        if ($details) {
             $dispositions = $details->dispositions;
             $regulars = array_splice($dispositions, 0, 11);
         }
