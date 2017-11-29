@@ -121,27 +121,15 @@ class WeeklyScriptTask extends Shell {
         }
     }
 
-    public function sendNotifications(Matchday $matchday = NULL, Championship $championship = NULL, $scores) {
-        $auth = [
-            'VAPID' => [
-                'subject' => Configure::read('App.fullBaseUrl'),
-                'publicKey' => Configure::read('Push.vapidPublicKey'),
-                'privateKey' => Configure::read('Push.vapidPrivateKey'),
-            ],
-        ];
-
-        $webPush = new WebPush($auth);
+    public function sendNotifications(Matchday $matchday, Championship $championship, $scores) {
+        $webPush = new WebPush(Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
             foreach ($team->user->subscriptions as $subscription) {
-                $message = WebPushMessage::create()
+                $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                         ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
                         ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id] . ' punti')
-                        ->icon('/assets/android-chrome-192x192.png')
-                        ->lang('it')
                         ->action('Visualizza', 'open')
-                        ->renotify(true)
                         ->tag(926796012340920300)
-                        ->requireInteraction(true)
                         ->data(['url' => '/scores/last']);
 
                 $this->out("Sending notification to " . $subscription->endpoint);
@@ -179,7 +167,8 @@ class WeeklyScriptTask extends Shell {
                     'ranking' => $ranking,
                     'score' => $score,
                     'regulars' => $regulars,
-                    'notRegulars' => $dispositions
+                    'notRegulars' => $dispositions,
+                    'baseUrl' => 'https://dev.fantamanajer.it'
                 ])
                 ->setSubject('Punteggio ' . $team->name . ' giornata ' . $matchday->number . ': ' . $score->points)
                 ->setEmailFormat('html')

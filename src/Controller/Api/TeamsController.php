@@ -33,7 +33,7 @@ class TeamsController extends AppController
         });
         /*$this->Crud->on('afterFind', function(Event $event) {
             $team = $event->getSubject()->entity;
-            if(file_exists(Configure::read('App.imagesPath.teams') . $team->id . '.jpg')) {
+            if(file_exists(Configure::read('App.paths.images.teams') . $team->id . '.jpg')) {
                 $event->getSubject()->entity->img = Router::url('/img/upload/teams/' . $team->id . '.jpg', true);
             }
             
@@ -49,7 +49,7 @@ class TeamsController extends AppController
                 ->where(['championship_id' => $this->request->getParam('championship_id')]);
         //$folder = new Folder(WWW_ROOT . 'img');
         foreach ($teams as $team) {
-            if(file_exists(Configure::read('App.imagesPath.teams') . $team->id . '.jpg')) {
+            if(file_exists(Configure::read('App.paths.images.teams') . $team->id . '.jpg')) {
                 $team->img = Router::url('/img/upload/teams/' . $team->id . '.jpg', true);
             }
         }

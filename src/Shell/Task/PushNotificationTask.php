@@ -31,28 +31,14 @@ class PushNotificationTask extends Shell {
     }
 
     public function main() {
-        //$this->out('Send notification');
-
-        $auth = [
-            'VAPID' => [
-                'subject' => Configure::read('App.fullBaseUrl'), // can be a mailto: or your website address
-                'publicKey' => Configure::read('Push.vapidPublicKey'), // (recommended) uncompressed public key P-256 encoded in Base64-URL
-                'privateKey' => Configure::read('Push.vapidPrivateKey'), // (recommended) in fact the secret multiplier of the private key encoded in Base64-URL
-            ],
-        ];
-
-        $webPush = new WebPush($auth);
+        $webPush = new WebPush(Configure::read('WebPush'));
         $user = TableRegistry::get('Users')->get(2, ['contain' => ['Subscriptions']]);
         foreach ($user->subscriptions as $subscription) {
-            $message = WebPushMessage::create()
+            $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                     ->title('Punteggio giornata 2 Le formiche sono amiche')
                     ->body('La tua squadra ha totalizzato un punteggio di 90 punti')
-                    ->icon('https://dev.fantamanajer.it/assets/android-chrome-192x192.png')
-                    ->lang('it')
                     ->action('Visualizza', 'open')
-                    ->renotify(true)
                     ->tag(926796012340920300)
-                    ->requireInteraction(true)
                     ->data(['url' => '/scores/last']);
 
             $webPush->sendNotification(

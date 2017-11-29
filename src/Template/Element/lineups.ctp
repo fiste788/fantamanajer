@@ -22,8 +22,8 @@
                     </td>
                     <td class="mdl-data-table__cell--non-numeric"><?php echo $disposition->member->role; ?></td>
                     <td class="mdl-data-table__cell--non-numeric">
-                        <a href="<?= $this->Url->build(['controller' => 'Clubs', 'action' => 'view', $disposition->member->club->id]) ?>">
-                            <?= $this->Html->image('clubs/' . $disposition->member->club->id . '.png',['height'=> 32, 'alt' => $disposition->member->club->abbreviation]) ?>
+                        <a href="<?= $this->Url->build(['controller' => 'Clubs', 'action' => 'view', $disposition->member->club->id, '_host' => $host], $full) ?>">
+                            <?= $this->Html->image('Clubs/' . $disposition->member->club->id . '/photo/' . $disposition->member->club->id . '.png',['fullBase' => $full, 'height'=> 32, 'alt' => $disposition->member->club->abbreviation]) ?>
                         </a>
                     </td>
                     <td class="hidden-phone"><?php if ($disposition->member->ratings[0]->regular): ?><i class="material-icons">check</i><?php endif; ?></td>

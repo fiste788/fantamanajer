@@ -32,10 +32,10 @@ class ClubsController extends AppController
         });
         $this->Crud->on('afterFind', function(Event $event) {
             $entity = $event->getSubject()->entity;
-            if(file_exists(Configure::read('App.imagesPath.clubs') . 'bg' . DS . $entity->id . '.jpg')) {
+            if(file_exists(Configure::read('App.paths.images.clubs') . 'bg' . DS . $entity->id . '.jpg')) {
                 $event->getSubject()->entity->backgroundImg = Router::url('/img/clubs/bg/' . $entity->id . '.jpg', true);
             }
-            if(file_exists(Configure::read('App.imagesPath.clubs') . $entity->id . '.png')) {
+            if(file_exists(Configure::read('App.paths.images.clubs') . $entity->id . '.png')) {
                 $event->getSubject()->entity->img = Router::url('/img/clubs/' . $entity->id . '.png', true);
             }
         });
@@ -47,10 +47,10 @@ class ClubsController extends AppController
     {
         $clubs = $this->Clubs->findBySeason($this->currentSeason);
         /*foreach ($clubs as $club) {
-            if(file_exists(Configure::read('App.imagesPath.clubs') . 'bg' . DS . $club->id . '.jpg')) {
+            if(file_exists(Configure::read('App.paths.images.clubs') . 'bg' . DS . $club->id . '.jpg')) {
                 $club->backgroundImg = Router::url('/img/clubs/bg/' . $club->id . '.jpg', true);
             }
-            if(file_exists(Configure::read('App.imagesPath.clubs') . $club->id . '.png')) {
+            if(file_exists(Configure::read('App.paths.images.clubs') . $club->id . '.png')) {
                 $club->img = Router::url('/img/clubs/' . $club->id . '.png', true);
             }
         }*/

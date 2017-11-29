@@ -37,7 +37,7 @@ class DownloadPhotosTask extends Shell {
                         $this->out("REFEREr " . $referer);
         
         
-        $path = Configure::read('App.imagesPath.players') . 'season-new' . DS;
+        $path = Configure::read('App.paths.images.players') . 'season-new' . DS;
         $members = $this->Members->find()->contain(['Players'])->where(['season_id' => $this->currentSeason->id])->all();
         foreach ($members as $member) {
             $client = new Client(['host' => $baseUrl, 'headers' => ['Referer' => $referer]]);

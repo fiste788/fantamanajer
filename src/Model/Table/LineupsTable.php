@@ -42,6 +42,15 @@ class LineupsTable extends Table
         $this->setTable('lineups');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+        
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always'
+                ]
+            ]
+        ]);
 
         $this->belongsTo('Captain', [
             'className' => 'Members',
@@ -124,7 +133,7 @@ class LineupsTable extends Table
             'Teams',
             'Dispositions' => [
                 'Members' => [
-                    'Players', 'Clubs', 'Ratings' => function ($q) use($matchday_id) {
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use($matchday_id) {
                         return $q->where(['matchday_id' => $matchday_id]);
                     }
                 ]

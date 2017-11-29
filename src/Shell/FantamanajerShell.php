@@ -8,6 +8,7 @@ use App\Shell\Task\PushNotificationTask;
 use App\Shell\Task\TransfertTask;
 use App\Shell\Task\UserTask;
 use App\Shell\Task\WeeklyScriptTask;
+use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOutput;
 use Cake\Console\Shell;
 use Cake\Utility\Inflector;
