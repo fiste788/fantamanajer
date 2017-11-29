@@ -322,7 +322,6 @@ class ScoresTable extends Table {
             //die("aaa " . $cap);
             $notRegular = $lineup->dispositions;
             $regular = array_splice($notRegular, 0, 11);
-            Log::debug("sep");
             foreach ($regular as $disposition) {
                 $member = $disposition->member;
                 if ($member) {
@@ -344,7 +343,6 @@ class ScoresTable extends Table {
                             $disp->consideration = 2;
                             $points *= 2;
                         }
-                        Log::debug($sum);
                         //$dispositions->save($disposition, ['associated' => false]);
                         $sum += $points;
                     }

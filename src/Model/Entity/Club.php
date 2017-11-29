@@ -44,14 +44,14 @@ class Club extends Entity {
     }
 
     /*protected function _getBackgroundUrl() {
-        if (file_exists(Configure::read('App.imagesPath.clubs') . $this->id . DS . 'background' . DS . $this->id . '.jpg')) {
+        if (file_exists(Configure::read('App.paths.images.clubs') . $this->id . DS . 'background' . DS . $this->id . '.jpg')) {
             return Router::url('/img/' . $this->getSource() . '/' . $this->id . '/background/' . $this->id . '.jpg', true);
         }
     }*/
 
     protected function _getBackgroundUrl() {
         $array = [];
-        $path = Configure::read('App.imagesPath.clubs') . $this->id . DS . 'background/';
+        $path = Configure::read('App.paths.images.clubs') . $this->id . DS . 'background/';
         $baseUrl = Router::url('/img/' . $this->getSource() . '/' . $this->id . '/background/', true);
         $folder = new \Cake\Filesystem\Folder($path);
         $subfolders = $folder->subdirectories(null, false);

@@ -91,21 +91,21 @@ class WebPushMessage implements JsonSerializable {
     protected $data = [];
 
     /**
-     * @param string $body
+     * @param array $data
      *
      * @return static
      */
-    public static function create($body = '') {
-        return new static($body);
+    public static function create($data = array()) {
+        return new static($data);
     }
 
     /**
-     * @param string $body
+     * @param array $data
      */
-    public function __construct($body = '') {
-        $this->title = '';
-
-        $this->body = $body;
+    public function __construct($data = array()) {
+        foreach($data as $key => $val) {
+            $this->$key = $val;
+        }
     }
 
     /**

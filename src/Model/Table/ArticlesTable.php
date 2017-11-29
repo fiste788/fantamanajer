@@ -32,6 +32,15 @@ class ArticlesTable extends Table {
         $this->setTable('articles');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
+        
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always'
+                ]
+            ]
+        ]);
 
         $this->belongsTo('Teams', [
             'foreignKey' => 'team_id',

@@ -223,18 +223,3 @@ Plugin::load('Bake');
 if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
-
-Configure::write([
-    'App.imagesPath' => [
-        'clubs' => WWW_ROOT . 'img' . DS . 'clubs' . DS,
-        'teams' => WWW_ROOT . 'files' . DS . 'upload' . DS . 'teams' . DS,
-        'players' => WWW_ROOT . 'img' . DS . 'players' . DS,
-        ]
-    ]);
-
-Configure::write([
-    'Push' => [
-        'vapidPublicKey' => 'BEtTz3mWJt9vnMu759pONVf-KeKBv2isIgpfuCgpm_cxqBTwwUyS_eI6Dx7tKuutl0DzgYARKG6vuhfAszr5JBw',
-        'vapidPrivateKey' => 'gFfsi6IV_GPTaJImIo5xLJRJ3u_gL8eL1fMr7JsxrZ0',
-        ]
-    ]);

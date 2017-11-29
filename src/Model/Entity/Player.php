@@ -40,7 +40,7 @@ class Player extends Entity
     {
         if($this->members) {
             foreach($this->members as $member) {
-                if(file_exists(Configure::read('App.imagesPath.players') . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
+                if(file_exists(Configure::read('App.paths.images.players') . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
                     return Router::url('/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg', true);
                 }
             }
