@@ -40,13 +40,13 @@ class PushNotificationTask extends Shell {
                     ->action('Visualizza', 'open')
                     ->tag(926796012340920300)
                     ->data(['url' => '/scores/last']);
-
+            $this->out('Send notification to ' . $subscription->endpoint);
             $webPush->sendNotification(
                     $subscription->endpoint, json_encode($message), $subscription->public_key, $subscription->auth_token
             );
         }
-        $webPush->flush();
-        //$this->out(print_r($webPush->flush()));
+        //$webPush->flush();
+        $this->out(print_r($webPush->flush()));
     }
 
 }

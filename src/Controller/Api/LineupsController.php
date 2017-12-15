@@ -13,18 +13,23 @@ use Cake\ORM\TableRegistry;
 class LineupsController extends AppController
 {
     
-	public function current()
+    public function current()
     {
         $membersTable = TableRegistry::get('Members');
         $lineup = $this->Lineups->find()
                 ->innerJoinWith('Matchdays')
                 ->contain(['Dispositions'])
                 ->where([
-                    'matchday_id <' => $this->currentMatchday->id, 
+                    'matchday_id <=' => $this->currentMatchday->id, 
                     'team_id' => $this->request->getParam('team_id')
                         ])
                 ->orderDesc('Matchdays.number')
                 ->first();
+        if ($lineup->matchday_id != $this->currentMatchday->id) {
+            $lineup->id = null;
+            $lineup->created_at = null;
+            $lineup->modified_at = null;
+        }
         $members = $membersTable->find()
                 ->contain(['Roles','Players'])
                 ->innerJoinWith('Teams')
@@ -44,6 +49,7 @@ class LineupsController extends AppController
     public function add() {
         $this->Crud->on('beforeSave', function(Event $event) {
             $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
+            //$event->getSubject()->entity->touch();
         });
         $this->Crud->execute();
     }
