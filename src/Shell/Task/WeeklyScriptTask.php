@@ -112,7 +112,7 @@ class WeeklyScriptTask extends Shell {
                 $this->out("Elaborating team " . $team->name);
                 $scores[$team->id] = $this->Scores->calculate($team, $matchday);
             }
-            if (!$this->param('no-send-mail')) {
+            if (!$this->param('no_send_mail')) {
                 $this->out("Sending mails");
                 $this->sendWeeklyMails($matchday, $championship);
                 $this->out("Sending notification");
@@ -168,7 +168,7 @@ class WeeklyScriptTask extends Shell {
                     'score' => $score,
                     'regulars' => $regulars,
                     'notRegulars' => $dispositions,
-                    'baseUrl' => 'https://dev.fantamanajer.it'
+                    'baseUrl' => 'https://fantamanajer.it'
                 ])
                 ->setSubject('Punteggio ' . $team->name . ' giornata ' . $matchday->number . ': ' . $score->points)
                 ->setEmailFormat('html')

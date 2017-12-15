@@ -1,7 +1,12 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\Lineup;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
+use Cake\ORM\Association\BelongsTo;
+use Cake\ORM\Association\HasMany;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -9,22 +14,22 @@ use Cake\Validation\Validator;
 /**
  * Lineups Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property |\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\View0LineupsDetailsTable|\Cake\ORM\Association\HasMany $View0LineupsDetails
+ * @property MembersTable|BelongsTo $Members
+ * @property MembersTable|BelongsTo $Members
+ * @property MembersTable|BelongsTo $Members
+ * @property MatchdaysTable|BelongsTo $Matchdays
+ * @property TeamsTable|BelongsTo $Teams
+ * @property DispositionsTable|HasMany $Dispositions
+ * @property |HasMany $Scores
+ * @property \App\Model\Table\View0LineupsDetailsTable|HasMany $View0LineupsDetails
  *
- * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
- * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
+ * @method Lineup get($primaryKey, $options = [])
+ * @method Lineup newEntity($data = null, array $options = [])
+ * @method Lineup[] newEntities(array $data, array $options = [])
+ * @method Lineup|bool save(EntityInterface $entity, $options = [])
+ * @method Lineup patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Lineup[] patchEntities($entities, array $data, array $options = [])
+ * @method Lineup findOrCreate($search, callable $callback = null, $options = [])
  */
 class LineupsTable extends Table
 {
@@ -84,12 +89,21 @@ class LineupsTable extends Table
             'foreignKey' => 'lineup_id'
         ]);
     }
+    
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+        if(isset($data['created_at'])) {
+            unset($data['created_at']);
+        }
+        if(isset($data['modified_at'])) {
+            unset($data['modified_at']);
+        }
+    }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
@@ -112,8 +126,8 @@ class LineupsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {

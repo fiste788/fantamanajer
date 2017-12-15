@@ -15,8 +15,6 @@ class ClubsController extends AppController
     
     public function view($id)
     {
-        $push = new \App\Shell\Task\PushNotificationTask();
-        $push->main();
         $this->Crud->on('beforeFind', function(Event $event) {
             $event->getSubject()->query->contain([
                 'Members' => function ($q) {

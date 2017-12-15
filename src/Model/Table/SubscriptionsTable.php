@@ -1,7 +1,13 @@
 <?php
+
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\Subscription;
+use App\Model\Table\UsersTable;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
+use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -9,15 +15,15 @@ use Cake\Validation\Validator;
 /**
  * Subscriptions Model
  *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property UsersTable|BelongsTo $Users
  *
- * @method \App\Model\Entity\Subscription get($primaryKey, $options = [])
- * @method \App\Model\Entity\Subscription newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Subscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Subscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Subscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Subscription[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Subscription findOrCreate($search, callable $callback = null, $options = [])
+ * @method Subscription get($primaryKey, $options = [])
+ * @method Subscription newEntity($data = null, array $options = [])
+ * @method Subscription[] newEntities(array $data, array $options = [])
+ * @method Subscription|bool save(EntityInterface $entity, $options = [])
+ * @method Subscription patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Subscription[] patchEntities($entities, array $data, array $options = [])
+ * @method Subscription findOrCreate($search, callable $callback = null, $options = [])
  */
 class SubscriptionsTable extends Table
 {
@@ -35,6 +41,15 @@ class SubscriptionsTable extends Table
         $this->setTable('subscriptions');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+        
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always'
+                ]
+            ]
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -45,8 +60,8 @@ class SubscriptionsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
@@ -70,13 +85,22 @@ class SubscriptionsTable extends Table
 
         return $validator;
     }
+    
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+        if (isset($data['created_at'])) {
+            unset($data['created_at']);
+        }
+        if (isset($data['modified_at'])) {
+            unset($data['modified_at']);
+        }
+    }
 
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {

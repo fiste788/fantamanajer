@@ -2,6 +2,7 @@
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Disposition;
 use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
@@ -119,13 +120,13 @@ class ScoresTable extends Table {
 
     public function findRankingDetails($championshipId) {
         $ranking = $this->findRanking($championshipId);
-        
+
         $scores = $this->find('all', ['contain' =>
                     ['Teams', 'Matchdays']
                 ])->matching('Teams', function($q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
-                });
-                        //->order('FIELD(Teams.id, ' . Hash::flatten($ranking, ",") . ')')->all();
+            return $q->where(['Teams.championship_id' => $championshipId]);
+        });
+        //->order('FIELD(Teams.id, ' . Hash::flatten($ranking, ",") . ')')->all();
         $result = [];
         $combined = [];
         foreach ($scores as $score) {
@@ -220,16 +221,12 @@ class ScoresTable extends Table {
         //->combine('team_id','pointsTotal')->toArray();
     }
 
-    protected function substitution($member, &$notRegular, &$change) {
-
-        for ($i = 0; $i < count($notRegular); $i++) {
-            $schieramento = $notRegular[$i];
-            $giocatorePanchina = $schieramento->member;
+    protected function substitution($member, $notRegular) {
+        foreach ($notRegular as $disposition) {
+            $giocatorePanchina = $disposition->member;
             $voto = $giocatorePanchina->ratings[0];
             if (($member->role_id == $giocatorePanchina->role_id) && ($voto->valued)) {
-                array_splice($notRegular, $i, 1);
-                $change++;
-                return $schieramento;
+                return $disposition->id;
             }
             //die($member);
         }
@@ -266,21 +263,7 @@ class ScoresTable extends Table {
         $lineups = TableRegistry::get('Lineups');
         $dispositions = TableRegistry::get('Dispositions');
         $scores = TableRegistry::get('Scores');
-        $lineup = $lineups->find()
-                        ->innerJoinWith('Matchdays')
-                        ->contain(['Dispositions' => ['Members' => function(Query $q) use($matchday) {
-                                    return $q->find('list', [
-                                                'keyField' => 'id',
-                                                'valueField' => function ($obj) {
-                                                    return $obj;
-                                                }])
-                                            ->contain(['Ratings' => function(Query $q) use($matchday) {
-                                                    return $q->where(['Ratings.matchday_id' => $matchday->id]);
-                                                }]);
-                                }
-                    ]])
-                        ->where(['Lineups.team_id' => $team->id, 'Lineups.matchday_id <=' => $matchday->id, 'Matchdays.season_id' => $matchday->season->id])
-                        ->order(['Lineups.matchday_id' => 'DESC'])->first();
+        $lineup = $this->getLastLineup($lineups, $matchday);
         $score = $scores->findByTeamIdAndMatchdayId($team->id, $matchday->id);
         $championship = $team->championship;
         if ($score->isEmpty()) {
@@ -315,39 +298,35 @@ class ScoresTable extends Table {
                 }
             }
 
-            $change = 0;
+            $cap = 0;
             $sum = 0;
 
-            $cap = $this->getCaptainActive($lineup);
+            if ($championship->captain) {
+                $cap = $this->getCaptainActive($lineup);
+            }
             //die("aaa " . $cap);
             $notRegular = $lineup->dispositions;
-            $regular = array_splice($notRegular, 0, 11);
-            foreach ($regular as $disposition) {
-                $member = $disposition->member;
-                if ($member) {
-                    $disp = $disposition;
-                    $rating = $member->ratings[0];
-                    if ((!$member->active || !$rating->valued) && ($change < 3)) {
-                        $sostituto = $this->substitution($member, $notRegular, $change, $matchday);
-                        if ($sostituto != null) {
-                            $disp->consideration = 0;
-                            $disp = $sostituto;
-                            $member = $disp->member;
-                            $rating = $member->ratings[0];
+            array_splice($notRegular, 0, 11);
+            $entering = [];
+            foreach ($lineup->dispositions as $disposition) {
+                if ($disposition->position <= 11) {
+                    $member = $disposition->member;
+                    if ((!$member->active || !$member->ratings[0]->valued) && count($entering) <= 3) {
+                        $substitution = $this->substitution($member, $notRegular);
+                        if($substitution != null) {
+                            $entering[$substitution] = true;
                         }
+                    } else {
+                        $sum += $this->playerIn($disposition, $cap);
                     }
-                    if ($disp) {
-                        $disp->consideration = 1;
-                        $points = $rating->points;
-                        if ($championship->captain && $cap && $member->id == $cap) {
-                            $disp->consideration = 2;
-                            $points *= 2;
-                        }
-                        //$dispositions->save($disposition, ['associated' => false]);
-                        $sum += $points;
+                } else {
+                    if (array_key_exists($disposition->id, $entering)) {
+                        $sum += $this->playerIn($disposition, $cap);
                     }
                 }
+                $lineup->dirty('dispositions', true);
             }
+
             $lineups->save($lineup, ['associated' => ['Dispositions' => ['associated' => false]]]);
 
             if ($lineup->jolly) {
@@ -367,6 +346,41 @@ class ScoresTable extends Table {
         }
 
         return $score->points;
+    }
+
+    static function playerIn(Disposition $disposition, $cap) {
+        $member = $disposition->member;
+        $disposition->consideration = 1;
+        $points = $member->ratings[0]->points;
+        if ($cap && $member->id == $cap) {
+            $disposition->consideration = 2;
+            $points *= 2;
+        }
+        return $points;
+    }
+    
+    /**
+     * 
+     * @param \App\Model\Table\LineupsTable $lineups
+     * @param Matchday $matchday
+     * @return Lineup
+     */
+    static function getLastLineup(LineupsTable $lineups, Matchday $matchday) {
+        return $lineups->find()
+                        ->innerJoinWith('Matchdays')
+                        ->contain(['Dispositions' => ['Members' => function(Query $q) use($matchday) {
+                                    return $q->find('list', [
+                                                'keyField' => 'id',
+                                                'valueField' => function ($obj) {
+                                                    return $obj;
+                                                }])
+                                            ->contain(['Ratings' => function(Query $q) use($matchday) {
+                                                    return $q->where(['Ratings.matchday_id' => $matchday->id]);
+                                                }]);
+                                }
+                    ]])
+                        ->where(['Lineups.team_id' => $team->id, 'Lineups.matchday_id <=' => $matchday->id, 'Matchdays.season_id' => $matchday->season->id])
+                        ->order(['Lineups.matchday_id' => 'DESC'])->first();
     }
 
 }

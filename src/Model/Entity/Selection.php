@@ -2,6 +2,8 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 
 /**
  * Selection Entity.
@@ -10,13 +12,13 @@ use Cake\ORM\Entity;
  * @property boolean $active
  * @property boolean $processed
  * @property int $team_id
- * @property \App\Model\Entity\Team $team
+ * @property Team $team
  * @property int $matchday_id
- * @property \App\Model\Entity\Matchday $matchday
+ * @property Matchday $matchday
  * @property int $old_member_id
  * @property int $new_member_id
- * @property \App\Model\Entity\Member $oldMember
- * @property \App\Model\Entity\Member $newMember
+ * @property Member $oldMember
+ * @property Member $newMember
  */
 class Selection extends Entity
 {
@@ -35,7 +37,7 @@ class Selection extends Entity
         'id' => false,
     ];
     
-    public function toTransfert(\Cake\ORM\Table $transfertsTable) {
+    public function toTransfert(Table $transfertsTable) {
         $transfert = $transfertsTable->newEntity();
         $transfert->team_id = $this->team_id;
         $transfert->matchday_id = $this->matchday_id;
@@ -46,10 +48,13 @@ class Selection extends Entity
     
     public function isMemberAlreadySelected() {
         $team = TableRegistry::get('Teams')->get($this->team_id);
-        $selection = $this->find()
+        $selection = TableRegistry::get('Selections')
+                ->find()
+                ->innerJoinWith('Teams')
                 ->where([
+                    'team_id !=' => $this->team_id,
                     'new_member_id' => $this->new_member_id,
-                    'championship_id' => $team->championship_id
+                    'Teams.championship_id' => $team->championship_id
                 ]);
         return !$selection->isEmpty();
     }

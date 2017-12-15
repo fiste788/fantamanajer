@@ -71,8 +71,8 @@ class SelectionsTable extends Table
             ->boolean('active')
             ->requirePresence('active', 'create')
             ->notEmpty('active');
-
-        return $validator;
+        
+       return $validator;
     }
 
     /**
@@ -84,6 +84,7 @@ class SelectionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $that = $this;
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
@@ -94,7 +95,13 @@ class SelectionsTable extends Table
                 return $ranking[$entity->team_id] < $ranking[$this->team_id];
             }
             return true;
-        },'NewMemberIsSelectable', ['errorField' => 'new_member_id', 'message' => 'Un altro utente ha già selezionato il giocatore']);
+        },'NewMemberIsSelectable', ['errorField' => 'new_member', 'message' => 'Un altro utente ha già selezionato il giocatore']);
+        $rules->add(function(\App\Model\Entity\Selection $entity, $options) use ($that) {
+            $championship = TableRegistry::get('Championships')->find()->innerJoinWith('Teams', function($q) use ($entity) {
+                return $q->where(['Teams.id' => $entity->team_id]);
+            })->first();
+            return $that->find()->where(['team_id' => $entity->team_id, 'processed' => false])->count() < $championship->number_selections;
+        },'TeamReachedMaximum', ['errorField' => 'new_member', 'message' => 'Hai raggiunto il limite di cambi selezione']);
         return $rules;
     }
     

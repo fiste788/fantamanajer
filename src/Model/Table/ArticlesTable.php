@@ -50,17 +50,12 @@ class ArticlesTable extends Table {
             'foreignKey' => 'matchday_id',
             'joinType' => 'INNER'
         ]);
-        $this->addBehavior('Timestamp', [
-            'events' => [
-                'Model.beforeSave' => [
-                    'created_at' => 'new'
-                ]
-            ]
-        ]);
     }
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
         $data['matchday_id'] = TableRegistry::get('Matchdays')->findCurrent()->id;
+        unset($data['created_at']);
+        unset($data['modified_at']);
     }
 
     /**
