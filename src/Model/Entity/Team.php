@@ -43,17 +43,19 @@ class Team extends Entity
         '*' => true,
         'id' => false,
     ];
-    
+
     protected $_virtual = ['photo_url'];
-    
+
     protected function _getPhotoUrl()
     {
-        if($this->photo) {
-            \Cake\Log\Log::debug($this->photo);
-            return Router::url('/files/' . 
-                    $this->getSource() . '/' . 
-                    $this->id . '/photo/' . 
-                    $this->photo, true);
+        if ($this->photo) {
+            return Router::url(
+                '/files/' .
+                    $this->getSource() . '/' .
+                    $this->id . '/photo/' .
+                $this->photo,
+                true
+            );
         }
     }
 }

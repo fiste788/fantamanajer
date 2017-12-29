@@ -5,7 +5,7 @@ use App\Model\Table\SubscriptionsTable;
 use Cake\Event\Event;
 
 /**
- * 
+ *
  * @property SubscriptionsTable $Subscriptions
  */
 class SubscriptionsController extends AppController
@@ -14,26 +14,33 @@ class SubscriptionsController extends AppController
     {
         parent::initialize();
     }
-    
-    public function add() {
+
+    public function add()
+    {
         $subscription = $this->Subscriptions->findByEndpoint($this->request->getData('endpoint'));
-        if($subscription->isEmpty()) {
-            $this->Crud->on('beforeSave', function(Event $event) {
-                $event->getSubject()->entity->set('user_id', $this->Auth->user('id'));
-                $event->getSubject()->entity->set('auth_token', $this->request->getData('keys.auth'));
-                $event->getSubject()->entity->set('public_key', $this->request->getData('keys.p256dh'));
-            });
+        if ($subscription->isEmpty()) {
+            $this->Crud->on(
+                'beforeSave',
+                function (Event $event) {
+                    $event->getSubject()->entity->set('user_id', $this->Auth->user('id'));
+                    $event->getSubject()->entity->set('auth_token', $this->request->getData('keys.auth'));
+                    $event->getSubject()->entity->set('public_key', $this->request->getData('keys.p256dh'));
+                }
+            );
             $this->Crud->execute();
         } else {
-            $this->set([
+            $this->set(
+                [
                 'success' => true,
                 'data' => $subscription->first(),
-                '_serialize' => ['success','data']
-            ]);
+                '_serialize' => ['success', 'data']
+                ]
+            );
         }
     }
-    
-    public function deleteByEndpoint() {
+
+    public function deleteByEndpoint()
+    {
         $entity = $this->Subscriptions->findByEndpoint($this->request->getParam('token'));
         $this->Subscriptions->delete($entity);
     }

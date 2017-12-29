@@ -31,7 +31,7 @@ class SubscriptionsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -41,26 +41,32 @@ class SubscriptionsTable extends Table
         $this->setTable('subscriptions');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-        
-        $this->addBehavior('Timestamp', [
+
+        $this->addBehavior(
+            'Timestamp',
+            [
             'events' => [
                 'Model.beforeSave' => [
                     'created_at' => 'new',
                     'modified_at' => 'always'
                 ]
             ]
-        ]);
+            ]
+        );
 
-        $this->belongsTo('Users', [
+        $this->belongsTo(
+            'Users',
+            [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)
@@ -85,8 +91,9 @@ class SubscriptionsTable extends Table
 
         return $validator;
     }
-    
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
         if (isset($data['created_at'])) {
             unset($data['created_at']);
         }
@@ -99,7 +106,7 @@ class SubscriptionsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param RulesChecker $rules The rules object to be modified.
+     * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)

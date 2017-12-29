@@ -24,7 +24,7 @@ class SeasonsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -35,33 +35,54 @@ class SeasonsTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
 
-        $this->hasMany('Championships', [
+        $this->hasMany(
+            'Championships',
+            [
             'foreignKey' => 'season_id'
-        ]);
-        $this->hasMany('Matchdays', [
+            ]
+        );
+        $this->hasMany(
+            'Matchdays',
+            [
             'foreignKey' => 'season_id'
-        ]);
-        $this->hasMany('Members', [
+            ]
+        );
+        $this->hasMany(
+            'Members',
+            [
             'foreignKey' => 'season_id'
-        ]);
-        $this->hasMany('View0LineupsDetails', [
+            ]
+        );
+        $this->hasMany(
+            'View0LineupsDetails',
+            [
             'foreignKey' => 'season_id'
-        ]);
-        $this->hasMany('View0Members', [
+            ]
+        );
+        $this->hasMany(
+            'View0Members',
+            [
             'foreignKey' => 'season_id'
-        ]);
-        $this->hasMany('View1MembersStats', [
+            ]
+        );
+        $this->hasMany(
+            'View1MembersStats',
+            [
             'foreignKey' => 'season_id'
-        ]);
-        $this->hasMany('View2ClubsStats', [
+            ]
+        );
+        $this->hasMany(
+            'View2ClubsStats',
+            [
             'foreignKey' => 'season_id'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)

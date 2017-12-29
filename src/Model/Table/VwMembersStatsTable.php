@@ -18,7 +18,7 @@ class VwMembersStatsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -27,16 +27,19 @@ class VwMembersStatsTable extends Table
 
         $this->table('vw_members_stats');
 
-        $this->belongsTo('Members', [
+        $this->belongsTo(
+            'Members',
+            [
             'foreignKey' => 'member_id',
             'joinType' => 'INNER'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)
@@ -89,12 +92,13 @@ class VwMembersStatsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['member_id'], 'Members'));
+
         return $rules;
     }
 }

@@ -19,7 +19,7 @@ class PlayersTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -30,15 +30,18 @@ class PlayersTable extends Table
         $this->displayField('surname');
         $this->primaryKey('id');
 
-        $this->hasMany('Members', [
+        $this->hasMany(
+            'Members',
+            [
             'foreignKey' => 'player_id'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)

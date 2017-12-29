@@ -32,8 +32,9 @@ class Article extends Entity
         '*' => true,
         'id' => false,
     ];
-	
-	function isOwnedBy($user_id) {
+
+    function isOwnedBy($user_id)
+    {
         return $this->team->user_id == $user_id;
     }
 }

@@ -16,10 +16,10 @@ use Cake\Network\Response;
 class ClubsController extends AppController
 {
 
-	public function beforeFilter(Event $event) 
-	{
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
-        $this->Auth->allow(['index','view']);
+        $this->Auth->allow(['index', 'view']);
     }
 
     /**
@@ -38,15 +38,18 @@ class ClubsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Club id.
+     * @param  string|null $id Club id.
      * @return Response|null
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $club = $this->Clubs->get($id, [
-            'contain' => ['Members'=> ['Players','Clubs','Roles']]
-        ]);
+        $club = $this->Clubs->get(
+            $id,
+            [
+            'contain' => ['Members' => ['Players', 'Clubs', 'Roles']]
+            ]
+        );
 
         $this->set('club', $club);
         $this->set('_serialize', ['club']);
@@ -64,6 +67,7 @@ class ClubsController extends AppController
             $club = $this->Clubs->patchEntity($club, $this->request->data);
             if ($this->Clubs->save($club)) {
                 $this->Flash->success(__('The club has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The club could not be saved. Please, try again.'));
@@ -76,19 +80,23 @@ class ClubsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Club id.
+     * @param  string|null $id Club id.
      * @return Response|void Redirects on successful edit, renders view otherwise.
      * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $club = $this->Clubs->get($id, [
+        $club = $this->Clubs->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
             if ($this->Clubs->save($club)) {
                 $this->Flash->success(__('The club has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The club could not be saved. Please, try again.'));
@@ -101,7 +109,7 @@ class ClubsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Club id.
+     * @param  string|null $id Club id.
      * @return Response|null Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
@@ -114,6 +122,7 @@ class ClubsController extends AppController
         } else {
             $this->Flash->error(__('The club could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

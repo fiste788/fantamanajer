@@ -17,7 +17,8 @@ use const DS;
  * @property string $determinant
  * @property Member[] $members
  */
-class Club extends Entity {
+class Club extends Entity
+{
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -35,11 +36,13 @@ class Club extends Entity {
     protected $_size = [600, 1280];
     protected $_virtual = ['abbreviation', 'photo_url', 'background_url'];
 
-    protected function _getAbbreviation() {
+    protected function _getAbbreviation()
+    {
         return strtoupper(substr($this->name, 0, 3));
     }
 
-    protected function _getPhotoUrl() {
+    protected function _getPhotoUrl()
+    {
         return Router::url('/img/' . $this->getSource() . '/' . $this->id . '/photo/' . $this->id . '.png', true);
     }
 
@@ -49,7 +52,8 @@ class Club extends Entity {
         }
     }*/
 
-    protected function _getBackgroundUrl() {
+    protected function _getBackgroundUrl()
+    {
         $array = [];
         $path = Configure::read('App.paths.images.clubs') . $this->id . DS . 'background/';
         $baseUrl = Router::url('/img/' . $this->getSource() . '/' . $this->id . '/background/', true);
@@ -69,5 +73,4 @@ class Club extends Entity {
             return $array;
         }
     }
-
 }

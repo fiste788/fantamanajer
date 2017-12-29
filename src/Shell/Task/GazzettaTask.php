@@ -1,9 +1,7 @@
 <?php
 namespace App\Shell\Task;
 
-use App\Model\Entity\Matchday;
 use App\Model\Entity\Member;
-use App\Model\Entity\Rating;
 use App\Model\Entity\Season;
 use App\Model\Table\ClubsTable;
 use App\Model\Table\MatchdaysTable;
@@ -34,8 +32,9 @@ use const TMP;
 class GazzettaTask extends Shell
 {
     use CurrentMatchdayTrait;
-    
-    public function initialize() {
+
+    public function initialize()
+    {
         parent::initialize();
         $this->loadModel('Seasons');
         $this->loadModel('Matchdays');
@@ -46,14 +45,15 @@ class GazzettaTask extends Shell
         $this->loadModel("Ratings");
         $this->getCurrentMatchday();
     }
-    
+
     public function main()
     {
         $this->out('Gazzetta task');
     }
-    
-    public function getRatings($matchday = null, $offsetGazzetta = 0, $forceDownload = false) {
-        if($matchday === null) {
+
+    public function getRatings($matchday = null, $offsetGazzetta = 0, $forceDownload = false)
+    {
+        if ($matchday === null) {
             $matchday = $this->currentMatchday->number;
         }
         $year = $this->currentSeason->year;
@@ -61,14 +61,15 @@ class GazzettaTask extends Shell
         $pathCsv = $folder->path . DS . "Giornata" . str_pad($matchday, 2, "0", STR_PAD_LEFT) . ".csv";
         $file = new File($pathCsv);
         $this->out("Search file in path " . $file->path);
-        if($file->exists() && $file->size() > 0 && !$forceDownload) {
+        if ($file->exists() && $file->size() > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
             return $this->downloadRatings($pathCsv, ($matchday + $offsetGazzetta));
         }
     }
-    
-    private function downloadRatings($path, $matchdayGazzetta) {
+
+    private function downloadRatings($path, $matchdayGazzetta)
+    {
         $url = $this->getRatingsFile($matchdayGazzetta);
         if (!empty($url)) {
             $content = $this->decryptMXMFile($url);
@@ -79,8 +80,9 @@ class GazzettaTask extends Shell
             }
         }
     }
-    
-    public function writeCsvRatings($content, $path) {
+
+    public function writeCsvRatings($content, $path)
+    {
         $lines = explode("\n", $content);
         array_pop($lines);
         foreach ($lines as $key => $val) {
@@ -92,23 +94,24 @@ class GazzettaTask extends Shell
         }
         $this->createFile($path, join("\n", $lines));
     }
-    
+
     /**
-     * 
+     *
      * @param string $path
      * @return string
      */
-    public function decryptMXMFile($path = null) {
+    public function decryptMXMFile($path = null)
+    {
         $body = "";
         $this->out("Starting decrypt " . $path);
         $currentMachday = $this->Matchdays->findCurrent();
         $decrypt = $currentMachday->get('season')->get('key_gazzetta');
         $this->out($decrypt);
-        if ($path && $p_file = fopen($path, "r")) {    
-			$explode_xor = explode("-", $decrypt);
+        if ($path && $p_file = fopen($path, "r")) {
+            $explode_xor = explode("-", $decrypt);
             $i = 0;
             $content = file_get_contents($path);
-			if (!empty($content)) {
+            if (!empty($content)) {
                 while (!feof($p_file)) {
                     if ($i == count($explode_xor)) {
                         $i = 0;
@@ -121,10 +124,12 @@ class GazzettaTask extends Shell
             }
             fclose($p_file);
         }
+
         return $body;
     }
-    
-    public function getRatingsFile($matchday = null) {
+
+    public function getRatingsFile($matchday = null)
+    {
         $this->out("Search ratings on maxigames");
         $http = new Client();
         $http->setConfig('ssl_verify_peer', false);
@@ -136,22 +141,23 @@ class GazzettaTask extends Shell
             $crawler = new Crawler();
             $crawler->addContent($response->body());
             $td = $crawler->filter("#content td:contains('Giornata $matchday')");
-            if($td->count() > 0) {
+            if ($td->count() > 0) {
                 $url = $td->nextAll()->filter("a")->attr("href");
                 $this->verbose("Downloading " . $url);
                 $response = $http->get($url);
-                if($response->isOk()) {
+                if ($response->isOk()) {
                     $crawler = new Crawler();
                     $crawler->addContent($response->body());
                     $button = $crawler->filter("#default_content_download_button");
-                    if($button->count()) {
+                    if ($button->count()) {
                         $url = $button->attr("href");
                     } else {
                         $url = str_replace("www", "dl", $url);
                     }
                     $this->out("Downloading $url in tmp dir");
                     $file = TMP . $matchday . '.mxm';
-                    file_put_contents($file,file_get_contents($url));
+                    file_put_contents($file, file_get_contents($url));
+
                     return $file;
                 }
             }
@@ -159,27 +165,31 @@ class GazzettaTask extends Shell
             $this->abort("Could not connect to Maxigames");
         }
     }
-    
-    public function updateMembers(Season $season = null, $matchdayNumber = null, $path = null) {
+
+    public function updateMembers(Season $season = null, $matchdayNumber = null, $path = null)
+    {
         $this->out('Updating members of matchday ' . $matchdayNumber);
-        if($season == null) {
+        if ($season == null) {
             $season = $this->currentSeason;
         }
-        if($matchdayNumber === null) {
+        if ($matchdayNumber === null) {
             $matchdayNumber = $this->currentMatchday->number;
         }
-        while($path == null && $matchdayNumber > 0) {
+        while ($path == null && $matchdayNumber > 0) {
             $path = $this->getRatings($matchdayNumber);
             $matchdayNumber--;
         }
-        if(file_exists($path)) {
-            $query = $this->Members->find('list', [
+        if (file_exists($path)) {
+            $query = $this->Members->find(
+                'list',
+                [
                 'keyField' => 'code_gazzetta',
                 'valueField' => function ($obj) {
                     return $obj;
                 },
                 'contain' => ['Players']
-            ])->where(['season_id' => $season->id]);
+                ]
+            )->where(['season_id' => $season->id]);
             $oldMembers = $query->toArray();
             $newMembers = $this->returnArray($path, ";");
             //$this->abort(print_r($oldMembers,1));
@@ -190,9 +200,9 @@ class GazzettaTask extends Shell
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
                 } else {
-                    $member = $this->memberNew($newMember,$season);
+                    $member = $this->memberNew($newMember, $season);
                 }
-                if($member != null) {
+                if ($member != null) {
                     $membersToSave[] = $member;
                 }
             }
@@ -206,23 +216,23 @@ class GazzettaTask extends Shell
             }
             $this->verbose($membersToSave);
             $this->out("Savings " . count($membersToSave) . " members");
-            if(!$this->Members->saveMany($membersToSave)){
+            if (!$this->Members->saveMany($membersToSave)) {
                 foreach ($membersToSave as $value) {
-                    if(!empty($value->getErrors())) {    
+                    if (!empty($value->getErrors())) {
                         $this->err($value);
                         $this->err(print_r($value->getErrors()));
                     }
                 }
-
             }
         } else {
             $this->abort('Cannot download ratings file');
         }
     }
-    
-    private function memberTransfert(Member $member, $club) {
+
+    private function memberTransfert(Member $member, $club)
+    {
         $flag = false;
-        if(!$member->active) {
+        if (!$member->active) {
             $member->active = true;
             $flag = true;
         }
@@ -233,27 +243,34 @@ class GazzettaTask extends Shell
             $member->active = true;
             $flag = true;
         }
-        if($flag) {
+        if ($flag) {
             return $member;
         }
     }
-    
-    private function memberNew($member, $season) {
+
+    private function memberNew($member, $season)
+    {
         $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
         $fullname = trim($member[2], '"');
-        $ass = NULL;
+        $ass = null;
         preg_match($esprex, $fullname, $ass);
         $surname = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $fullname)));
         $name = ucwords(strtolower(trim(substr($fullname, strlen($surname)))));
         //$queryPlayer = $this->Players->find()->where();
-        $player = $this->Players->findOrCreate([
+        $player = $this->Players->findOrCreate(
+            [
             'surname' => $surname,
             'name' => $name
-        ],null,['atomic' => false]);
+            ],
+            null,
+            ['atomic' => false]
+        );
         //$queryClub = $this->Clubs->findByName();
-        $club = $this->Clubs->findOrCreate(['name' => ucwords(strtolower(trim($member[3], '"')))], null,['atomic' => false]);
+        $club = $this->Clubs->findOrCreate(['name' => ucwords(strtolower(trim($member[3], '"')))], null, ['atomic' => false]);
         $this->verbose("Add new member " . $surname . " " . $name);
-        return $this->Members->newEntity([
+
+        return $this->Members->newEntity(
+            [
             'season_id' => $season->id,
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
@@ -261,35 +278,43 @@ class GazzettaTask extends Shell
             'role_id' => $this->Roles->get($member[5] + 1)->id,
             'club_id' => $club->id,
             'player_id' => $player->id
-        ]);
+            ]
+        );
     }
-    
-    public function importRatings($matchdayNumber = null, $path = null) {
-        if($matchdayNumber === null) {
+
+    public function importRatings($matchdayNumber = null, $path = null)
+    {
+        if ($matchdayNumber === null) {
             $matchday = $this->currentMatchday;
             $matchdayNumber = $this->currentMatchday->number;
         } else {
             $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber, $this->currentSeason->id)->first();
         }
         $path = $path ? $path : $this->getRatings($matchdayNumber);
-        if($path) {
+        if ($path) {
             $members = $this->returnArray($path, ";");
             foreach ($members as $id => $stats) {
-                $member = $this->Members->find()->contain(['Roles'])->where([
+                $member = $this->Members->find()->contain(['Roles'])->where(
+                    [
                     'code_gazzetta' => $stats[0],
                     'season_id' => $matchday->season_id
-                ])->firstOrFail();
-                $rating = $this->Ratings->find()->where([
+                    ]
+                )->firstOrFail();
+                $rating = $this->Ratings->find()->where(
+                    [
                     'member_id' => $member->id,
                     'matchday_id' => $matchday->id
-                ]);
-                if($rating->isEmpty()) {
+                    ]
+                );
+                if ($rating->isEmpty()) {
                     $rating = $this->Ratings->newEntity();
                 } else {
                     $rating = $rating->first();
                 }
-                $this->Ratings->patchEntity($rating, [
-                //$rating = $this->Ratings->newEntity([
+                $this->Ratings->patchEntity(
+                    $rating,
+                    [
+                    //$rating = $this->Ratings->newEntity([
                     'valued' => $stats[6],
                     'points' => $stats[7],
                     'rating' => $stats[10],
@@ -304,30 +329,34 @@ class GazzettaTask extends Shell
                     'penalities_taken' => $stats[19],
                     'present' => $stats[23],
                     'regular' => $stats[24],
-                    'quotation' => (int) $stats[27],
+                    'quotation' => (int)$stats[27],
                     'member_id' => $member->id,
                     'matchday_id' => $matchday->id
-                ]);
-                $rating->calcNoBonusPoints((integer) $stats[5], (boolean) $stats[26]);
+                    ]
+                );
+                $rating->calcNoBonusPoints((integer)$stats[5], (boolean)$stats[26]);
                 $ratings[] = $rating;
             }
-            if(!$this->Ratings->saveMany($ratings)){
+            if (!$this->Ratings->saveMany($ratings)) {
                 foreach ($ratings as $value) {
-                    if(!empty($value->getErrors())) {    
+                    if (!empty($value->getErrors())) {
                         $this->err($value);
                         $this->err(print_r($value->getErrors()));
                     }
                 }
+
                 return false;
             }
+
             return true;
         }
     }
 
-    public function returnArray($path, $sep = ";", $header = FALSE) {
+    public function returnArray($path, $sep = ";", $header = false)
+    {
         $content = trim(file_get_contents($path));
         $array = explode("\n", $content);
-        if ($header) { 
+        if ($header) {
             array_shift($header);
         }
         foreach ($array as $val) {
@@ -335,27 +364,29 @@ class GazzettaTask extends Shell
             $array = trim($val);
             $arrayOk[$par[0]] = $par;
         }
+
         return $arrayOk;
     }
-    
-    public function calculateKey($encryptedFilePath = null, $dectyptedFilePath = null) {
+
+    public function calculateKey($encryptedFilePath = null, $dectyptedFilePath = null)
+    {
         $this->out('Calculating decrypting key');
-        if(is_null($encryptedFilePath)) {
+        if (is_null($encryptedFilePath)) {
             $encryptedFilePath = RATINGS_CSV . $this->currentSeason->year . DS . "mcc00.mxm";
         }
-        if(is_null($dectyptedFilePath)) {
+        if (is_null($dectyptedFilePath)) {
             $dectyptedFilePath = TMP . "0.txt";
         }
-        if(!file_exists($encryptedFilePath)) {
+        if (!file_exists($encryptedFilePath)) {
             $encryptedFilePath = $this->getRatingsFile(0);
         }
         $reply = 'y';
-        if(!file_exists($dectyptedFilePath)) {
-            if($this->interactive) {
-                $reply = $this->in('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y','n'],'y');
+        if (!file_exists($dectyptedFilePath)) {
+            if ($this->interactive) {
+                $reply = $this->in('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y', 'n'], 'y');
             }
         }
-        if($reply == 'y') {
+        if ($reply == 'y') {
             $decript = file_get_contents($dectyptedFilePath);
             $encript = file_get_contents($encryptedFilePath);
             $res = "";
@@ -369,29 +400,39 @@ class GazzettaTask extends Shell
             }
             $this->out('Key: ' . $res);
             $this->currentSeason->key_gazzetta = $res;
-            if($this->Seasons->save($this->currentSeason)) {
+            if ($this->Seasons->save($this->currentSeason)) {
                 copy($dectyptedFilePath, $dectyptedFilePath . "." . $this->currentSeason->year . ".bak");
                 unlink($dectyptedFilePath);
+
                 return $res;
             }
         }
     }
 
-
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-        $parser->addSubcommand('get_ratings_file_url', [
+        $parser->addSubcommand(
+            'get_ratings_file_url',
+            [
             'help' => 'Get the url of the ratings file'
-        ]);
-        $parser->addSubcommand('get_ratings', [
+            ]
+        );
+        $parser->addSubcommand(
+            'get_ratings',
+            [
             'help' => 'Download file ratings if not exist'
-        ]);
+            ]
+        );
         $parser->addSubcommand('update_members');
         $parser->addSubcommand('import_ratings');
-        $parser->addSubcommand('calculate_key', [
+        $parser->addSubcommand(
+            'calculate_key',
+            [
             'help' => 'Calculate and save the key for decrypting gazzetta file'
-        ]);
+            ]
+        );
+
         return $parser;
     }
 }

@@ -22,18 +22,22 @@ class EventsController extends AppController
     {
         $championship_id = $this->request->getParam('championship_id');
         $events = $this->Events->find()
-                ->innerJoinWith('Teams.Championships', function (Query $q) use ($championship_id) {
-                    return $q->where(['Championships.id' => $championship_id]);
-                })
+            ->innerJoinWith(
+                'Teams.Championships',
+                function (Query $q) use ($championship_id) {
+                        return $q->where(['Championships.id' => $championship_id]);
+                }
+            )
                 ->contain('Teams')
                 ->orderDesc('created_at')
                 ->all();
 
-        $this->set([
+        $this->set(
+            [
             'success' => true,
             'data' => $events,
-            '_serialize' => ['success','data']
-        ]);
+            '_serialize' => ['success', 'data']
+            ]
+        );
     }
-
 }

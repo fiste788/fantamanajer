@@ -26,7 +26,7 @@ class ScoresController extends AppController
     {
         $ranking = $this->Scores->findRanking($championshipId);
         $scores = $this->Scores->findRankingDetails($championshipId);
-        
+
         $this->set('ranking', $ranking);
         $this->set('scores', $scores);
         $this->set('_serialize', ['ranking']);
@@ -35,19 +35,19 @@ class ScoresController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Score id.
+     * @param  null $matchday_id Score id.
      * @return Response|null
      * @throws RecordNotFoundException When record not found.
      */
-    public function view($matchday_id,$team_id)
+    public function view($matchday_id, $team_id)
     {
-		$details = TableRegistry::get("Lineups")->findStatsByMatchdayAndTeam($matchday_id,$team_id);
-        $score = $this->Scores->findByMatchdayIdAndTeamId($matchday_id,$team_id)->first();
+        $details = TableRegistry::get("Lineups")->findStatsByMatchdayAndTeam($matchday_id, $team_id);
+        $score = $this->Scores->findByMatchdayIdAndTeamId($matchday_id, $team_id)->first();
         //$maxMatchdays = $this->Scores->findMatchdayWithPoints($this->currentSeason);
 
         $dispositions = $details->dispositions;
-        $regulars = array_splice($dispositions,0,11);
-        
+        $regulars = array_splice($dispositions, 0, 11);
+
         $this->set('score', $score);
         $this->set('details', $details);
         $this->set('regulars', $regulars);
@@ -67,6 +67,7 @@ class ScoresController extends AppController
             $score = $this->Scores->patchEntity($score, $this->request->data);
             if ($this->Scores->save($score)) {
                 $this->Flash->success(__('The score has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The score could not be saved. Please, try again.'));
@@ -81,19 +82,23 @@ class ScoresController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Score id.
+     * @param  string|null $id Score id.
      * @return Response|void Redirects on successful edit, renders view otherwise.
      * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $score = $this->Scores->get($id, [
+        $score = $this->Scores->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $score = $this->Scores->patchEntity($score, $this->request->data);
             if ($this->Scores->save($score)) {
                 $this->Flash->success(__('The score has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The score could not be saved. Please, try again.'));
@@ -108,7 +113,7 @@ class ScoresController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Score id.
+     * @param  string|null $id Score id.
      * @return Response|null Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
@@ -121,6 +126,7 @@ class ScoresController extends AppController
         } else {
             $this->Flash->error(__('The score could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

@@ -8,39 +8,50 @@ use Cake\Routing\Router;
 
 class ClubsController extends AppController
 {
-	public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
-        $this->Auth->allow(['index','view']);
+        $this->Auth->allow(['index', 'view']);
     }
-    
+
     public function view($id)
     {
-        $this->Crud->on('beforeFind', function(Event $event) {
-            $event->getSubject()->query->contain([
-                'Members' => function ($q) {
-                    return $q->find('withStats',['season_id' => $this->currentSeason->id])
-                        ->contain([
-                            'Roles',
-                            'Players',
-                            'Clubs'
-                        ]);
+        $this->Crud->on(
+            'beforeFind',
+            function (Event $event) {
+                $event->getSubject()->query->contain(
+                    [
+                    'Members' => function ($q) {
+                        return $q->find('withStats', ['season_id' => $this->currentSeason->id])
+                            ->contain(
+                                [
+                                'Roles',
+                                'Players',
+                                'Clubs'
+                                ]
+                            );
                             //->find('withStats');
+                    }
+                    ]
+                );
+            }
+        );
+        $this->Crud->on(
+            'afterFind',
+            function (Event $event) {
+                $entity = $event->getSubject()->entity;
+                if (file_exists(Configure::read('App.paths.images.clubs') . 'bg' . DS . $entity->id . '.jpg')) {
+                    $event->getSubject()->entity->backgroundImg = Router::url('/img/clubs/bg/' . $entity->id . '.jpg', true);
                 }
-            ]);
-        });
-        $this->Crud->on('afterFind', function(Event $event) {
-            $entity = $event->getSubject()->entity;
-            if(file_exists(Configure::read('App.paths.images.clubs') . 'bg' . DS . $entity->id . '.jpg')) {
-                $event->getSubject()->entity->backgroundImg = Router::url('/img/clubs/bg/' . $entity->id . '.jpg', true);
+                if (file_exists(Configure::read('App.paths.images.clubs') . $entity->id . '.png')) {
+                    $event->getSubject()->entity->img = Router::url('/img/clubs/' . $entity->id . '.png', true);
+                }
             }
-            if(file_exists(Configure::read('App.paths.images.clubs') . $entity->id . '.png')) {
-                $event->getSubject()->entity->img = Router::url('/img/clubs/' . $entity->id . '.png', true);
-            }
-        });
+        );
 
         return $this->Crud->execute();
     }
-    
+
     public function index()
     {
         $clubs = $this->Clubs->findBySeason($this->currentSeason);
@@ -52,10 +63,12 @@ class ClubsController extends AppController
                 $club->img = Router::url('/img/clubs/' . $club->id . '.png', true);
             }
         }*/
-        $this->set([
+        $this->set(
+            [
             'success' => true,
             'data' => $clubs,
-            '_serialize' => ['success','data']
-        ]);
+            '_serialize' => ['success', 'data']
+            ]
+        );
     }
 }

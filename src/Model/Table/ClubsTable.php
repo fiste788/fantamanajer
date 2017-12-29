@@ -21,7 +21,7 @@ class ClubsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -32,24 +32,36 @@ class ClubsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Members', [
+        $this->hasMany(
+            'Members',
+            [
             'foreignKey' => 'club_id'
-        ]);
-        $this->hasMany('View0LineupsDetails', [
+            ]
+        );
+        $this->hasMany(
+            'View0LineupsDetails',
+            [
             'foreignKey' => 'club_id'
-        ]);
-        $this->hasMany('View0Members', [
+            ]
+        );
+        $this->hasMany(
+            'View0Members',
+            [
             'foreignKey' => 'club_id'
-        ]);
-        $this->hasMany('View1MembersStats', [
+            ]
+        );
+        $this->hasMany(
+            'View1MembersStats',
+            [
             'foreignKey' => 'club_id'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)
@@ -72,17 +84,21 @@ class ClubsTable extends Table
 
         return $validator;
     }
-	
-	/**
-     * 
+
+    /**
+     *
      * @param Season $season
      * @return type
      */
-    public function findBySeason($season) {
+    public function findBySeason($season)
+    {
         $members = TableRegistry::get('Members');
-        $ids = $members->find()->select(['club_id'])->distinct(['club_id'])->where(['season_id'=>$season->id]);
-        return $this->find('all')->where([
+        $ids = $members->find()->select(['club_id'])->distinct(['club_id'])->where(['season_id' => $season->id]);
+
+        return $this->find('all')->where(
+            [
             'id IN' => $ids
-        ])->order(['name'])->all();
+            ]
+        )->order(['name'])->all();
     }
 }

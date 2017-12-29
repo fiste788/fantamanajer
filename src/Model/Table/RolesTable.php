@@ -21,7 +21,7 @@ class RolesTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -32,24 +32,36 @@ class RolesTable extends Table
         $this->displayField('singolar');
         $this->primaryKey('id');
 
-        $this->hasMany('Members', [
+        $this->hasMany(
+            'Members',
+            [
             'foreignKey' => 'role_id'
-        ]);
-        $this->hasMany('View0LineupsDetails', [
+            ]
+        );
+        $this->hasMany(
+            'View0LineupsDetails',
+            [
             'foreignKey' => 'role_id'
-        ]);
-        $this->hasMany('View0Members', [
+            ]
+        );
+        $this->hasMany(
+            'View0Members',
+            [
             'foreignKey' => 'role_id'
-        ]);
-        $this->hasMany('View1MembersStats', [
+            ]
+        );
+        $this->hasMany(
+            'View1MembersStats',
+            [
             'foreignKey' => 'role_id'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)

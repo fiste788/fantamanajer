@@ -16,27 +16,33 @@ use Cake\View\Helper\UrlHelper;
  */
 class TeamsController extends AppController
 {
-    public function beforeFilter(Event $event) {
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
         $this->Auth->allow(['upload']);
         $this->Crud->mapAction('upload', 'Crud.Edit');
     }
-    
-	public function view($id)
+
+    public function view($id)
     {
-        $this->Crud->on('beforeFind', function(Event $event) {
-            $event->getSubject()->query->contain(['Users','Members' => function(Query $q) {
-                return $q->contain(['Roles','Players','Clubs'])
-                    ->find('withStats',['season_id' => $this->currentSeason->id]);
-                }
-            ]);
-        });
+        $this->Crud->on(
+            'beforeFind',
+            function (Event $event) {
+                $event->getSubject()->query->contain(
+                    ['Users', 'Members' => function (Query $q) {
+                        return $q->contain(['Roles', 'Players', 'Clubs'])
+                            ->find('withStats', ['season_id' => $this->currentSeason->id]);
+                    }
+                    ]
+                );
+            }
+        );
         /*$this->Crud->on('afterFind', function(Event $event) {
             $team = $event->getSubject()->entity;
             if(file_exists(Configure::read('App.paths.images.teams') . $team->id . '.jpg')) {
                 $event->getSubject()->entity->img = Router::url('/img/upload/teams/' . $team->id . '.jpg', true);
             }
-            
+
         });*/
 
         return $this->Crud->execute();
@@ -45,30 +51,32 @@ class TeamsController extends AppController
     public function index()
     {
         $teams = $this->Teams->find()
-                ->contain('Users')
-                ->where(['championship_id' => $this->request->getParam('championship_id')]);
+            ->contain('Users')
+            ->where(['championship_id' => $this->request->getParam('championship_id')]);
         //$folder = new Folder(WWW_ROOT . 'img');
         foreach ($teams as $team) {
-            if(file_exists(Configure::read('App.paths.images.teams') . $team->id . '.jpg')) {
+            if (file_exists(Configure::read('App.paths.images.teams') . $team->id . '.jpg')) {
                 $team->img = Router::url('/img/upload/teams/' . $team->id . '.jpg', true);
             }
         }
-        $this->set([
+        $this->set(
+            [
             'success' => true,
             'data' => $teams,
-            '_serialize' => ['success','data']
-        ]);
+            '_serialize' => ['success', 'data']
+            ]
+        );
     }
-    
-    public function edit($id) {
+
+    public function edit($id)
+    {
         $this->log("EDIT", \Psr\Log\LogLevel::INFO);
-        $this->log(print_r($this->request,1), \Psr\Log\LogLevel::INFO);
-        $this->log(print_r($this->Auth->user(),1), \Psr\Log\LogLevel::INFO);
-        if($this->Teams->find()->where(['user_id' => $this->Auth->user('id'), 'id' => $id])->isEmpty()) {
+        $this->log(print_r($this->request, 1), \Psr\Log\LogLevel::INFO);
+        $this->log(print_r($this->Auth->user(), 1), \Psr\Log\LogLevel::INFO);
+        if ($this->Teams->find()->where(['user_id' => $this->Auth->user('id'), 'id' => $id])->isEmpty()) {
             return new UnauthorizedException('Access denied');
         }
-        
-        
+
         return $this->Crud->execute();
         /*$team = $this->Teams->get($this->request->team_id);
         if ($this->request->is(['patch', 'post', 'put'])) {

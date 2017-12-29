@@ -30,15 +30,18 @@ class MembersTeamsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Members Team id.
+     * @param  string|null $id Members Team id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $membersTeam = $this->MembersTeams->get($id, [
+        $membersTeam = $this->MembersTeams->get(
+            $id,
+            [
             'contain' => ['Teams', 'Members']
-        ]);
+            ]
+        );
 
         $this->set('membersTeam', $membersTeam);
         $this->set('_serialize', ['membersTeam']);
@@ -56,6 +59,7 @@ class MembersTeamsController extends AppController
             $membersTeam = $this->MembersTeams->patchEntity($membersTeam, $this->request->data);
             if ($this->MembersTeams->save($membersTeam)) {
                 $this->Flash->success(__('The members team has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The members team could not be saved. Please, try again.'));
@@ -70,19 +74,23 @@ class MembersTeamsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Members Team id.
+     * @param  string|null $id Members Team id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $membersTeam = $this->MembersTeams->get($id, [
+        $membersTeam = $this->MembersTeams->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $membersTeam = $this->MembersTeams->patchEntity($membersTeam, $this->request->data);
             if ($this->MembersTeams->save($membersTeam)) {
                 $this->Flash->success(__('The members team has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The members team could not be saved. Please, try again.'));
@@ -97,7 +105,7 @@ class MembersTeamsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Members Team id.
+     * @param  string|null $id Members Team id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -110,6 +118,7 @@ class MembersTeamsController extends AppController
         } else {
             $this->Flash->error(__('The members team could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

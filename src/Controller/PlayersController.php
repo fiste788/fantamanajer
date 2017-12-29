@@ -32,20 +32,23 @@ class PlayersController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Player id.
+     * @param  string|null $id Player id.
      * @return Response|null
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $player = $this->Players->get($id, [
+        $player = $this->Players->get(
+            $id,
+            [
             'contain' => ['Members']
-        ]);
+            ]
+        );
         $members = TableRegistry::get('Members');
-        $currentMember = $members->findByPlayerIdAndSeasonId($id,$this->currentSeason->id)
-                    ->contain(['Clubs','Ratings' => ['Matchdays'],'Roles'])
-                    ->first();
-        
+        $currentMember = $members->findByPlayerIdAndSeasonId($id, $this->currentSeason->id)
+            ->contain(['Clubs', 'Ratings' => ['Matchdays'], 'Roles'])
+            ->first();
+
         $this->set('currentMember', $currentMember);
         $this->set('player', $player);
         $this->set('_serialize', ['player']);
@@ -63,6 +66,7 @@ class PlayersController extends AppController
             $player = $this->Players->patchEntity($player, $this->request->data);
             if ($this->Players->save($player)) {
                 $this->Flash->success(__('The player has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The player could not be saved. Please, try again.'));
@@ -75,19 +79,23 @@ class PlayersController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Player id.
+     * @param  string|null $id Player id.
      * @return Response|void Redirects on successful edit, renders view otherwise.
      * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $player = $this->Players->get($id, [
+        $player = $this->Players->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $player = $this->Players->patchEntity($player, $this->request->data);
             if ($this->Players->save($player)) {
                 $this->Flash->success(__('The player has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The player could not be saved. Please, try again.'));
@@ -100,7 +108,7 @@ class PlayersController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Player id.
+     * @param  string|null $id Player id.
      * @return Response|null Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
@@ -113,6 +121,7 @@ class PlayersController extends AppController
         } else {
             $this->Flash->error(__('The player could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

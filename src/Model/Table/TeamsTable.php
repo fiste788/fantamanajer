@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Season;
@@ -33,7 +34,7 @@ class TeamsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -43,8 +44,10 @@ class TeamsTable extends Table
         $this->setTable('teams');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-        
-        $this->addBehavior('Josegonzalez/Upload.Upload', [
+
+        $this->addBehavior(
+            'Josegonzalez/Upload.Upload',
+            [
             'photo' => [
                 'path' => 'webroot{DS}files{DS}{model}{DS}{primaryKey}{DS}{field}{DS}',
                 'fields' => [
@@ -57,28 +60,28 @@ class TeamsTable extends Table
                 'nameCallback' => function ($data, $settings) {
                     return strtolower($data['name']);
                 },
-                /*'transformer' =>  function ($table, $entity, $data, $field, $settings) {
-                    $extension = pathinfo($data['name'], PATHINFO_EXTENSION);
+                /* 'transformer' =>  function ($table, $entity, $data, $field, $settings) {
+                  $extension = pathinfo($data['name'], PATHINFO_EXTENSION);
 
-                    // Store the thumbnail in a temporary file
-                    $tmp = tempnam(sys_get_temp_dir(), 'upload') . '.' . $extension;
+                  // Store the thumbnail in a temporary file
+                  $tmp = tempnam(sys_get_temp_dir(), 'upload') . '.' . $extension;
 
-                    // Use the Imagine library to DO THE THING
-                    /*$size = new \Imagine\Image\Box(40, 40);
-                    $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-                    $imagine = new \Imagine\Gd\Imagine();
+                  // Use the Imagine library to DO THE THING
+                  /*$size = new \Imagine\Image\Box(40, 40);
+                  $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+                  $imagine = new \Imagine\Gd\Imagine();
 
-                    // Save that modified file to our temp file
-                    $imagine->open($data['tmp_name'])
-                        ->thumbnail($size, $mode)
-                        ->save($tmp);
+                  // Save that modified file to our temp file
+                  $imagine->open($data['tmp_name'])
+                  ->thumbnail($size, $mode)
+                  ->save($tmp);
 
-                    // Now return the original *and* the thumbnail
-                    return [
-                        $data['tmp_name'] => $data['name'],
-                        //$tmp => 'thumbnail-' . $data['name'],
-                    ];
-                },*/
+                  // Now return the original *and* the thumbnail
+                  return [
+                  $data['tmp_name'] => $data['name'],
+                  //$tmp => 'thumbnail-' . $data['name'],
+                  ];
+                  }, */
                 'deleteCallback' => function ($path, $entity, $field, $settings) {
                     // When deleting the entity, both the original and the thumbnail will be removed
                     // when keepFilesOnDelete is set to false
@@ -89,51 +92,85 @@ class TeamsTable extends Table
                 },
                 'keepFilesOnDelete' => false
             ],
-        ]);
+            ]
+        );
 
-        $this->belongsTo('Users', [
+        $this->belongsTo(
+            'Users',
+            [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Championships', [
+            ]
+        );
+        $this->belongsTo(
+            'Championships',
+            [
             'foreignKey' => 'championship_id',
             'joinType' => 'INNER'
-        ]);
-        $this->hasMany('Articles', [
+            ]
+        );
+        $this->hasMany(
+            'Articles',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('Events', [
+            ]
+        );
+        $this->hasMany(
+            'Events',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('Lineups', [
+            ]
+        );
+        $this->hasMany(
+            'Lineups',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('Scores', [
+            ]
+        );
+        $this->hasMany(
+            'Scores',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('Selections', [
+            ]
+        );
+        $this->hasMany(
+            'Selections',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('Transferts', [
+            ]
+        );
+        $this->hasMany(
+            'Transferts',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('View0LineupsDetails', [
+            ]
+        );
+        $this->hasMany(
+            'View0LineupsDetails',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->hasMany('View1MatchdayWin', [
+            ]
+        );
+        $this->hasMany(
+            'View1MatchdayWin',
+            [
             'foreignKey' => 'team_id'
-        ]);
-        $this->belongsToMany('Members', [
+            ]
+        );
+        $this->belongsToMany(
+            'Members',
+            [
             'foreignKey' => 'team_id',
             'targetForeignKey' => 'member_id',
             'joinTable' => 'members_teams',
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)
@@ -153,36 +190,44 @@ class TeamsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param RulesChecker $rules The rules object to be modified.
+     * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['championship_id'], 'Championships'));
+
         return $rules;
     }
-	
-	public function findCurrent(Query $query, array $options) 
-	{
-		$matchdays = TableRegistry::get('Matchdays');
-		$current = $matchdays->getCurrent();
-		$query->matching('Championships', function($q) use ($current) {
-			return $q->where(['Championships.season_id' => $current->season_id]);
-		});
-		return $query;
-	}
-	
-	 /**
-	 * 
-	 * @param User $user
-	 * @param Season $season
-	 */
-	public function findByUserAndSeason($user,$season) 
-	{
-		return $this->find()->where(['user_id' => $user->id])
-				->matching('Championships', function($q) use ($season) {
-					return $q->where(['Championships.season_id' => $season->season_id]);
-				});
-	}
+
+    public function findCurrent(Query $query, array $options)
+    {
+        $matchdays = TableRegistry::get('Matchdays');
+        $current = $matchdays->getCurrent();
+        $query->matching(
+            'Championships',
+            function ($q) use ($current) {
+                return $q->where(['Championships.season_id' => $current->season_id]);
+            }
+        );
+
+        return $query;
+    }
+
+    /**
+     *
+     * @param User   $user
+     * @param Season $season
+     */
+    public function findByUserAndSeason($user, $season)
+    {
+        return $this->find()->where(['user_id' => $user->id])
+            ->matching(
+                'Championships',
+                function ($q) use ($season) {
+                                return $q->where(['Championships.season_id' => $season->season_id]);
+                }
+            );
+    }
 }

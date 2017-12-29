@@ -30,15 +30,18 @@ class DispositionsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Disposition id.
+     * @param  string|null $id Disposition id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $disposition = $this->Dispositions->get($id, [
+        $disposition = $this->Dispositions->get(
+            $id,
+            [
             'contain' => ['Lineups', 'Members', 'View0LineupsDetails']
-        ]);
+            ]
+        );
 
         $this->set('disposition', $disposition);
         $this->set('_serialize', ['disposition']);
@@ -56,6 +59,7 @@ class DispositionsController extends AppController
             $disposition = $this->Dispositions->patchEntity($disposition, $this->request->data);
             if ($this->Dispositions->save($disposition)) {
                 $this->Flash->success(__('The disposition has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The disposition could not be saved. Please, try again.'));
@@ -70,19 +74,23 @@ class DispositionsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Disposition id.
+     * @param  string|null $id Disposition id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $disposition = $this->Dispositions->get($id, [
+        $disposition = $this->Dispositions->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $disposition = $this->Dispositions->patchEntity($disposition, $this->request->data);
             if ($this->Dispositions->save($disposition)) {
                 $this->Flash->success(__('The disposition has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The disposition could not be saved. Please, try again.'));
@@ -97,7 +105,7 @@ class DispositionsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Disposition id.
+     * @param  string|null $id Disposition id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -110,6 +118,7 @@ class DispositionsController extends AppController
         } else {
             $this->Flash->error(__('The disposition could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

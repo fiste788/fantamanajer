@@ -37,17 +37,19 @@ class Championship extends Entity
         '*' => true,
         'id' => false,
     ];
-	
-	/**
-     * 
+
+    /**
+     *
      * @param User $user
      * @return Team
      */
-	public function findTeamByUser($user) {
+    public function findTeamByUser($user)
+    {
         var_dump($user);
-		$teams = TableRegistry::get('Teams');
+        $teams = TableRegistry::get('Teams');
+
         return $teams->find()
             ->where(['user_id' => $user, 'championship_id' => $this->id])
             ->first();
-	}
+    }
 }

@@ -18,7 +18,7 @@ class LeaguesTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -29,15 +29,18 @@ class LeaguesTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
 
-        $this->hasMany('Championships', [
+        $this->hasMany(
+            'Championships',
+            [
             'foreignKey' => 'league_id'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)

@@ -30,15 +30,18 @@ class LineupsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Lineup id.
+     * @param  string|null $id Lineup id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $lineup = $this->Lineups->get($id, [
+        $lineup = $this->Lineups->get(
+            $id,
+            [
             'contain' => ['Members', 'Matchdays', 'Teams', 'Dispositions', 'View0LineupsDetails']
-        ]);
+            ]
+        );
 
         $this->set('lineup', $lineup);
         $this->set('_serialize', ['lineup']);
@@ -56,6 +59,7 @@ class LineupsController extends AppController
             $lineup = $this->Lineups->patchEntity($lineup, $this->request->data);
             if ($this->Lineups->save($lineup)) {
                 $this->Flash->success(__('The lineup has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The lineup could not be saved. Please, try again.'));
@@ -71,19 +75,23 @@ class LineupsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Lineup id.
+     * @param  string|null $id Lineup id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $lineup = $this->Lineups->get($id, [
+        $lineup = $this->Lineups->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $lineup = $this->Lineups->patchEntity($lineup, $this->request->data);
             if ($this->Lineups->save($lineup)) {
                 $this->Flash->success(__('The lineup has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The lineup could not be saved. Please, try again.'));
@@ -99,7 +107,7 @@ class LineupsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Lineup id.
+     * @param  string|null $id Lineup id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -112,6 +120,7 @@ class LineupsController extends AppController
         } else {
             $this->Flash->error(__('The lineup could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

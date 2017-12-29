@@ -30,15 +30,18 @@ class MatchdaysController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Matchday id.
+     * @param  string|null $id Matchday id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $matchday = $this->Matchdays->get($id, [
+        $matchday = $this->Matchdays->get(
+            $id,
+            [
             'contain' => ['Seasons', 'Articles', 'Lineups', 'Ratings', 'Scores', 'Transferts', 'View0LineupsDetails', 'View0MaxPoints']
-        ]);
+            ]
+        );
 
         $this->set('matchday', $matchday);
         $this->set('_serialize', ['matchday']);
@@ -56,6 +59,7 @@ class MatchdaysController extends AppController
             $matchday = $this->Matchdays->patchEntity($matchday, $this->request->data);
             if ($this->Matchdays->save($matchday)) {
                 $this->Flash->success(__('The matchday has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The matchday could not be saved. Please, try again.'));
@@ -69,19 +73,23 @@ class MatchdaysController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Matchday id.
+     * @param  string|null $id Matchday id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $matchday = $this->Matchdays->get($id, [
+        $matchday = $this->Matchdays->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $matchday = $this->Matchdays->patchEntity($matchday, $this->request->data);
             if ($this->Matchdays->save($matchday)) {
                 $this->Flash->success(__('The matchday has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The matchday could not be saved. Please, try again.'));
@@ -95,7 +103,7 @@ class MatchdaysController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Matchday id.
+     * @param  string|null $id Matchday id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -108,6 +116,7 @@ class MatchdaysController extends AppController
         } else {
             $this->Flash->error(__('The matchday could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

@@ -36,26 +36,32 @@ class Selection extends Entity
         '*' => true,
         'id' => false,
     ];
-    
-    public function toTransfert(Table $transfertsTable) {
+
+    public function toTransfert(Table $transfertsTable)
+    {
         $transfert = $transfertsTable->newEntity();
         $transfert->team_id = $this->team_id;
         $transfert->matchday_id = $this->matchday_id;
         $transfert->old_member_id = $this->old_member_id;
         $transfert->new_member_id = $this->new_member_id;
+
         return $transfert;
     }
-    
-    public function isMemberAlreadySelected() {
+
+    public function isMemberAlreadySelected()
+    {
         $team = TableRegistry::get('Teams')->get($this->team_id);
         $selection = TableRegistry::get('Selections')
                 ->find()
                 ->innerJoinWith('Teams')
-                ->where([
+                ->where(
+                    [
                     'team_id !=' => $this->team_id,
                     'new_member_id' => $this->new_member_id,
                     'Teams.championship_id' => $team->championship_id
-                ]);
+                    ]
+                );
+
         return !$selection->isEmpty();
     }
 }

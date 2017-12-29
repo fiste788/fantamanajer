@@ -21,7 +21,7 @@ class RatingsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -32,20 +32,26 @@ class RatingsTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 
-        $this->belongsTo('Members', [
+        $this->belongsTo(
+            'Members',
+            [
             'foreignKey' => 'member_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Matchdays', [
+            ]
+        );
+        $this->belongsTo(
+            'Matchdays',
+            [
             'foreignKey' => 'matchday_id',
             'joinType' => 'INNER'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)
@@ -136,32 +142,36 @@ class RatingsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param RulesChecker $rules The rules object to be modified.
+     * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['member_id'], 'Members'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
+
         return $rules;
     }
-    
-    public function existMatchday($matchday) {
+
+    public function existMatchday($matchday)
+    {
         return $this->exists(['matchday_id' => $matchday->id]);
     }
-    
+
     /**
-     * 
+     *
      * @param Season $season
      * @return int
      */
-    public function findMaxMatchday(Season $season) {
+    public function findMaxMatchday(Season $season)
+    {
         $query = $this->find();
         $res = $query->hydrate(false)
-                ->leftJoinWith('Matchdays')
-                ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'),])
-                ->where(['m.season_id' => $season->id])
-                ->first();
+            ->leftJoinWith('Matchdays')
+            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'), ])
+            ->where(['m.season_id' => $season->id])
+            ->first();
+
         return $res['matchday_id'];
     }
 }

@@ -32,8 +32,8 @@ use Cake\ORM\TableRegistry;
  */
 class AppController extends Controller
 {
-    
-	/**
+
+    /**
      *
      * @var Matchday
      */
@@ -66,7 +66,9 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-		$this->loadComponent('Auth', [
+        $this->loadComponent(
+            'Auth',
+            [
             'loginRedirect' => [
                 'controller' => 'Pages',
                 'action' => 'index'
@@ -81,14 +83,15 @@ class AppController extends Controller
                 ]
             ],
             'authError' => 'Did you really think you are allowed to see that?',
-        ]);
-        
+            ]
+        );
+
         Configure::write('Config.timezone', 'Europe/Rome');
         $matchdays = TableRegistry::get("Matchdays");
         $championships = TableRegistry::get("Championships");
         $this->currentMatchday = $matchdays->findCurrent();
         $this->currentSeason = TableRegistry::get("Seasons")->get($this->currentMatchday->get('season_id'));
-        $this->currentChampionship = $championships->get(1,['contain'=>'Leagues']);
+        $this->currentChampionship = $championships->get(1, ['contain' => 'Leagues']);
         $endDate = $matchdays->getTargetCountdown();
         $this->set("controller_name", strtolower($this->modelClass));
         $this->set("view_name", $this->template);
@@ -102,25 +105,27 @@ class AppController extends Controller
     /**
      * Before render callback.
      *
-     * @param EventbeforeRender event.
+     * @param Event $event
      * @return void
      */
     public function beforeRender(Event $event)
     {
-        if (!array_key_exists('_serialize', $this->viewVars) &&
-            in_array($this->response->type(), ['application/json', 'application/xml'])
+        if (!array_key_exists('_serialize', $this->viewVars)
+            && in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
         }
-		if ($this->request->session()->read("championship") != null) {
+        if ($this->request->session()->read("championship") != null) {
             $this->set("currentChampionship", $this->request->session()->read("championship"));
         }
     }
-    
-    public function beforeFilter(Event $event) {
+
+    public function beforeFilter(Event $event)
+    {
         $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'])->allowHeaders(['origin', 'x-requested-with', 'content-type'])->build();
-        if($this->RequestHandler->prefers('json'))
+        if ($this->RequestHandler->prefers('json')) {
             $this->RequestHandler->renderAs($this, 'json');
+        }
         //$this->response->withHeader('Access-Control-Allow-Origin', '*');
         parent::beforeFilter($event);
     }
