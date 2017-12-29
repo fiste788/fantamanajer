@@ -30,15 +30,18 @@ class RatingsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Rating id.
+     * @param  string|null $id Rating id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $rating = $this->Ratings->get($id, [
+        $rating = $this->Ratings->get(
+            $id,
+            [
             'contain' => ['Members', 'Matchdays']
-        ]);
+            ]
+        );
 
         $this->set('rating', $rating);
         $this->set('_serialize', ['rating']);
@@ -56,6 +59,7 @@ class RatingsController extends AppController
             $rating = $this->Ratings->patchEntity($rating, $this->request->data);
             if ($this->Ratings->save($rating)) {
                 $this->Flash->success(__('The rating has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The rating could not be saved. Please, try again.'));
@@ -70,19 +74,23 @@ class RatingsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Rating id.
+     * @param  string|null $id Rating id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $rating = $this->Ratings->get($id, [
+        $rating = $this->Ratings->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $rating = $this->Ratings->patchEntity($rating, $this->request->data);
             if ($this->Ratings->save($rating)) {
                 $this->Flash->success(__('The rating has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The rating could not be saved. Please, try again.'));
@@ -97,7 +105,7 @@ class RatingsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Rating id.
+     * @param  string|null $id Rating id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -110,6 +118,7 @@ class RatingsController extends AppController
         } else {
             $this->Flash->error(__('The rating could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

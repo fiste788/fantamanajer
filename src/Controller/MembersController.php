@@ -25,9 +25,12 @@ class MembersController extends AppController
     public function index($id)
     {
         $teams = TableRegistry::get('Teams');
-        $team = $teams->get($id, [
-			'contain' => ['Members' => ['Seasons', 'Players', 'Clubs', 'Roles']]
-		]);
+        $team = $teams->get(
+            $id,
+            [
+            'contain' => ['Members' => ['Seasons', 'Players', 'Clubs', 'Roles']]
+            ]
+        );
         $members = $team->members;
 
         $this->set(compact('members'));
@@ -37,15 +40,18 @@ class MembersController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Member id.
+     * @param  string|null $id Member id.
      * @return Response|null
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $member = $this->Members->get($id, [
+        $member = $this->Members->get(
+            $id,
+            [
             'contain' => ['Players', 'Roles', 'Clubs', 'Seasons', 'Teams', 'Dispositions', 'Ratings']
-        ]);
+            ]
+        );
 
         $this->set('member', $member);
         $this->set('_serialize', ['member']);
@@ -63,6 +69,7 @@ class MembersController extends AppController
             $member = $this->Members->patchEntity($member, $this->request->data);
             if ($this->Members->save($member)) {
                 $this->Flash->success(__('The member has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The member could not be saved. Please, try again.'));
@@ -80,19 +87,23 @@ class MembersController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Member id.
+     * @param  string|null $id Member id.
      * @return Response|void Redirects on successful edit, renders view otherwise.
      * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $member = $this->Members->get($id, [
+        $member = $this->Members->get(
+            $id,
+            [
             'contain' => ['Teams']
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $member = $this->Members->patchEntity($member, $this->request->data);
             if ($this->Members->save($member)) {
                 $this->Flash->success(__('The member has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The member could not be saved. Please, try again.'));
@@ -110,7 +121,7 @@ class MembersController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Member id.
+     * @param  string|null $id Member id.
      * @return Response|null Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
@@ -123,14 +134,16 @@ class MembersController extends AppController
         } else {
             $this->Flash->error(__('The member could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
-    
-    public function free($championshipId) {
-        $defaultRole = $this->request->param('role') ||  1;
+
+    public function free($championshipId)
+    {
+        $defaultRole = $this->request->param('role') || 1;
         /*$defaultMatch = array_key_exists('match', $this->request->data) ? $this->request->data['match'] : (floor(($this->currentMatchday->number - 1) / 2) + 1);
         $defaultEnough = array_key_exists('enough', $this->request->data) ? $this->request->data['enough'] :  6;
-        
+
         //die(var_dump($this->request->param('enough')));
         $filter = new FreePlayerFilteringForm();
          * if ($this->request->is('get')) {
@@ -140,7 +153,7 @@ class MembersController extends AppController
          */
         $role = TableRegistry::get('Roles')->get($defaultRole);
         $members = $this->Members->findFree($championshipId)->where(['role_id' => $defaultRole]);
-        
+
         //$this->set('filter', $filter);
         $this->set('role', $role);
         $this->set('members', $members);

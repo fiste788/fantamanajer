@@ -27,7 +27,8 @@ use Minishlink\WebPush\WebPush;
  * @property ChampionshipsTable $Championships
  * @property LineupsTable $Lineups
  */
-class WeeklyScriptTask extends Shell {
+class WeeklyScriptTask extends Shell
+{
 
     public $tasks = [
         'Gazzetta',
@@ -35,7 +36,8 @@ class WeeklyScriptTask extends Shell {
 
     use CurrentMatchdayTrait;
 
-    public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
         $this->loadModel('Seasons');
         $this->loadModel('Matchdays');
@@ -47,30 +49,43 @@ class WeeklyScriptTask extends Shell {
         $this->getCurrentMatchday();
     }
 
-    public function main() {
+    public function main()
+    {
         $this->out('Weekly script task');
         $this->weeklyScript();
     }
 
-    public function getOptionParser() {
+    public function getOptionParser()
+    {
         $parser = parent::getOptionParser();
-        $parser->addSubcommand('send_points_mails', [
+        $parser->addSubcommand(
+            'send_points_mails',
+            [
             'help' => 'Send the mails of points'
-        ]);
-        $parser->addOption('no_send_mail', [
+            ]
+        );
+        $parser->addOption(
+            'no_send_mail',
+            [
             'help' => 'Disable sending summary mails',
             'boolean' => true,
             'short' => 'm'
-        ]);
-        $parser->addOption('no_calc_scores', [
+            ]
+        );
+        $parser->addOption(
+            'no_calc_scores',
+            [
             'help' => 'Disable calc of scores',
             'boolean' => true,
             'short' => 's'
-        ]);
+            ]
+        );
+
         return $parser;
     }
 
-    public function weeklyScript() {
+    public function weeklyScript()
+    {
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $key => $matchday) {
             $this->out("Starting decript file day " . $matchday->number);
@@ -86,8 +101,8 @@ class WeeklyScriptTask extends Shell {
         }
         if (!$this->param('no_calc_scores')) {
             $championships = $this->Championships->find()
-                    ->contain(['Teams' => ['Users' => ['Subscriptions'], 'Championships'], 'Leagues'])
-                    ->where(['Championships.season_id' => $this->currentSeason->id]);
+                ->contain(['Teams' => ['Users' => ['Subscriptions'], 'Championships'], 'Leagues'])
+                ->where(['Championships.season_id' => $this->currentSeason->id]);
 
             $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
             foreach ($missingScores as $key => $matchday) {
@@ -100,11 +115,12 @@ class WeeklyScriptTask extends Shell {
     }
 
     /**
-     * 
-     * @param Matchday $matchday
+     *
+     * @param Matchday       $matchday
      * @param Championship[] $championships
      */
-    protected function calculatePoints(Matchday $matchday, $championships) {
+    protected function calculatePoints(Matchday $matchday, $championships)
+    {
         $scores = [];
         foreach ($championships as $championship) {
             $this->out("Calculating points of matchday " . $matchday->number . " for league " . $championship->league->name);
@@ -121,7 +137,8 @@ class WeeklyScriptTask extends Shell {
         }
     }
 
-    public function sendNotifications(Matchday $matchday, Championship $championship, $scores) {
+    public function sendNotifications(Matchday $matchday, Championship $championship, $scores)
+    {
         $webPush = new WebPush(Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
             foreach ($team->user->subscriptions as $subscription) {
@@ -134,14 +151,18 @@ class WeeklyScriptTask extends Shell {
 
                 $this->out("Sending notification to " . $subscription->endpoint);
                 $webPush->sendNotification(
-                        $subscription->endpoint, json_encode($message), $subscription->public_key, $subscription->auth_token
+                    $subscription->endpoint,
+                    json_encode($message),
+                    $subscription->public_key,
+                    $subscription->auth_token
                 );
             }
         }
         $webPush->flush();
     }
 
-    public function sendWeeklyMails(Matchday $matchday = NULL, Championship $championship = NULL) {
+    public function sendWeeklyMails(Matchday $matchday = null, Championship $championship = null)
+    {
         $ranking = $this->Scores->findRanking($championship->Id);
         foreach ($championship->teams as $team) {
             if (!empty($team->user->email) && $team->user->active_email) {
@@ -150,7 +171,8 @@ class WeeklyScriptTask extends Shell {
         }
     }
 
-    protected function sendPointMail(Team $team, Matchday $matchday, $ranking) {
+    protected function sendPointMail(Team $team, Matchday $matchday, $ranking)
+    {
         $details = $this->Lineups->findStatsByMatchdayAndTeam($matchday->id, $team->id);
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();
 
@@ -162,18 +184,19 @@ class WeeklyScriptTask extends Shell {
         }
         $email = new Email();
         $email->setTemplate('score')
-                ->setViewVars([
+            ->setViewVars(
+                [
                     'details' => $details,
                     'ranking' => $ranking,
                     'score' => $score,
                     'regulars' => $regulars,
                     'notRegulars' => $dispositions,
                     'baseUrl' => 'https://fantamanajer.it'
-                ])
-                ->setSubject('Punteggio ' . $team->name . ' giornata ' . $matchday->number . ': ' . $score->points)
-                ->setEmailFormat('html')
-                ->setTo($team->user->email)
-                ->send();
+                    ]
+            )
+            ->setSubject('Punteggio ' . $team->name . ' giornata ' . $matchday->number . ': ' . $score->points)
+            ->setEmailFormat('html')
+            ->setTo($team->user->email)
+            ->send();
     }
-
 }

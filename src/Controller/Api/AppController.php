@@ -8,22 +8,25 @@ use Crud\Controller\Component\CrudComponent;
 use Crud\Controller\ControllerTrait;
 
 /**
- * 
+ *
  * @property CrudComponent $Crud Description
  * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  */
 class AppController extends Controller
 {
-    
+
     use ControllerTrait;
     use CurrentMatchdayTrait;
-    
-    public function initialize() {
+
+    public function initialize()
+    {
         parent::initialize();
-        
+
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        $this->loadComponent('Crud.Crud', [
+        $this->loadComponent(
+            'Crud.Crud',
+            [
             'actions' => [
                 'Crud.Index',
                 'Crud.View',
@@ -36,11 +39,14 @@ class AppController extends Controller
                 'Crud.ApiPagination',
                 'Crud.ApiQueryLog'
             ]
-        ]);
+            ]
+        );
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
         //$this->RequestHandler->accepts(['xml','json','html']);
-        
-        $this->loadComponent('Auth', [
+
+        $this->loadComponent(
+            'Auth',
+            [
             'storage' => 'Memory',
             'authenticate' => [
                 'Form' => [
@@ -59,11 +65,13 @@ class AppController extends Controller
             ],
             'unauthorizedRedirect' => false,
             'checkAuthIn' => 'Controller.initialize'
-        ]);
+            ]
+        );
         $this->getCurrentMatchday();
     }
-    
-    public function beforeRender(Event $event) {
+
+    public function beforeRender(Event $event)
+    {
         /*$this->response->cors($this->request)
                 ->allowOrigin(['develop.fantamanajer.it'])
                 ->allowCredentials()

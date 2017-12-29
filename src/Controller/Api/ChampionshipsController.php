@@ -5,5 +5,5 @@ use App\Controller\Api\AppController;
 
 class ChampionshipsController extends AppController
 {
-	
+
 }

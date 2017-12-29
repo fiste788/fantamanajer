@@ -30,15 +30,18 @@ class SelectionsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Selection id.
+     * @param  string|null $id Selection id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $selection = $this->Selections->get($id, [
+        $selection = $this->Selections->get(
+            $id,
+            [
             'contain' => ['Teams', 'Members']
-        ]);
+            ]
+        );
 
         $this->set('selection', $selection);
         $this->set('_serialize', ['selection']);
@@ -56,6 +59,7 @@ class SelectionsController extends AppController
             $selection = $this->Selections->patchEntity($selection, $this->request->data);
             if ($this->Selections->save($selection)) {
                 $this->Flash->success(__('The selection has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The selection could not be saved. Please, try again.'));
@@ -70,19 +74,23 @@ class SelectionsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Selection id.
+     * @param  string|null $id Selection id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $selection = $this->Selections->get($id, [
+        $selection = $this->Selections->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $selection = $this->Selections->patchEntity($selection, $this->request->data);
             if ($this->Selections->save($selection)) {
                 $this->Flash->success(__('The selection has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The selection could not be saved. Please, try again.'));
@@ -97,7 +105,7 @@ class SelectionsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Selection id.
+     * @param  string|null $id Selection id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -110,6 +118,7 @@ class SelectionsController extends AppController
         } else {
             $this->Flash->error(__('The selection could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

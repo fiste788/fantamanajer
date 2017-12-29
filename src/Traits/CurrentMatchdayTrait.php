@@ -19,15 +19,17 @@ trait CurrentMatchdayTrait
      * @var Season
      */
     protected $currentSeason;
-    
-    public function initialize() {
+
+    public function initialize()
+    {
         $this->getCurrentMatchday();
     }
-    
-    public function getCurrentMatchday() {
+
+    public function getCurrentMatchday()
+    {
         $matchdays = TableRegistry::get("Matchdays");
         $this->currentMatchday = $matchdays->findCurrent();
-        if($this->currentMatchday != null) {
+        if ($this->currentMatchday != null) {
             $this->currentSeason = TableRegistry::get("Seasons")->get($this->currentMatchday->get('season_id'));
         }
     }

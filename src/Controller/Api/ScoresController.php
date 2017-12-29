@@ -7,54 +7,59 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 /**
- * 
+ *
  * @property ScoresTable $Scores
  */
 class ScoresController extends AppController
 {
-    public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
-        $this->Auth->allow(['index','view','last','viewByMatchday']);
+        $this->Auth->allow(['index', 'view', 'last', 'viewByMatchday']);
     }
-    
+
     public function beforeFilter(Event $event)
     {
         $this->Crud->mapAction('index', 'Crud.Index');
     }
-    
+
     public function index()
     {
         $championshipId = $this->request->getParam('championship_id');
         $ranking = $this->Scores->findRanking($championshipId);
         $scores = $this->Scores->findRankingDetails($championshipId);
-        
-        $this->set([
+
+        $this->set(
+            [
             'success' => true,
             'data' => [
                 'ranking' => $ranking,
                 'scores' => $scores
             ],
-            '_serialize' => ['data','success']
-        ]);
+            '_serialize' => ['data', 'success']
+            ]
+        );
     }
-    
+
     public function last()
     {
         $this->viewByMatchday($this->Scores->findMaxMatchday($this->currentSeason));
     }
-    
+
     public function viewByMatchday($matchdayId)
     {
-        $score = $this->Scores->findByMatchdayIdAndTeamId($matchdayId,$this->request->team_id)->first();
+        $score = $this->Scores->findByMatchdayIdAndTeamId($matchdayId, $this->request->team_id)->first();
         $this->view($score != null ? $score->id : null);
     }
-    
-	public function view($id)
+
+    public function view($id)
     {
         $score = null;
-        if($id != null) {
+        if ($id != null) {
             $appo = $this->Scores->get($id);
-            $score = $this->Scores->get($id, [
+            $score = $this->Scores->get(
+                $id,
+                [
                 'contain' => [
                     'Lineups' => [
                         'Dispositions' => [
@@ -66,13 +71,16 @@ class ScoresController extends AppController
                         ]
                     ]
                 ]
-            ]);
+                ]
+            );
         }
-       
-        $this->set([
+
+        $this->set(
+            [
             'success' => true,
             'data' => $score,
-            '_serialize' => ['success','data']
-        ]);
+            '_serialize' => ['success', 'data']
+            ]
+        );
     }
 }

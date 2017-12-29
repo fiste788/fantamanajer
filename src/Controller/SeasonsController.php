@@ -27,15 +27,18 @@ class SeasonsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Season id.
+     * @param  string|null $id Season id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $season = $this->Seasons->get($id, [
+        $season = $this->Seasons->get(
+            $id,
+            [
             'contain' => ['Championships', 'Matchdays', 'Members', 'View0LineupsDetails', 'View0Members', 'View1MembersStats', 'View2ClubsStats']
-        ]);
+            ]
+        );
 
         $this->set('season', $season);
         $this->set('_serialize', ['season']);
@@ -53,6 +56,7 @@ class SeasonsController extends AppController
             $season = $this->Seasons->patchEntity($season, $this->request->data);
             if ($this->Seasons->save($season)) {
                 $this->Flash->success(__('The season has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The season could not be saved. Please, try again.'));
@@ -65,19 +69,23 @@ class SeasonsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Season id.
+     * @param  string|null $id Season id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $season = $this->Seasons->get($id, [
+        $season = $this->Seasons->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $season = $this->Seasons->patchEntity($season, $this->request->data);
             if ($this->Seasons->save($season)) {
                 $this->Flash->success(__('The season has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The season could not be saved. Please, try again.'));
@@ -90,7 +98,7 @@ class SeasonsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Season id.
+     * @param  string|null $id Season id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -103,6 +111,7 @@ class SeasonsController extends AppController
         } else {
             $this->Flash->error(__('The season could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

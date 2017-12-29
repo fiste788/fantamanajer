@@ -13,42 +13,54 @@ use const DS;
  */
 class PlayersController extends AppController
 {
-    public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
         $this->Auth->allow(['view']);
     }
-    
+
     public function view($id)
     {
-        $championship_id = $this->request->getQuery('championship_id',null);
-        $this->Crud->on('beforeFind', function(Event $event) {
-            $event->getSubject()->query->contain(['Members' => function (Query $q) {
-                return $q
-                    ->contain(['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
-                       return $q2->contain(['Matchdays'])
-                               ->order(['Matchdays.number' => 'ASC']); 
-                    }])
-                    ->order(['Seasons.year' => 'DESC']);
-                    //->where(['Members.season_id' => $this->currentSeason->id]);
-            }]);
-        });
-        
-        $this->Crud->on('afterFind', function(Event $event) use ($championship_id) {
-            $entity = $event->getSubject()->entity;
-            $event->getSubject()->entity->championship_id = $championship_id;
-            foreach ($entity->members as $key=> $member) {
-                if($championship_id != null && $member->season_id == $this->currentSeason->id) {
-                    $team = \Cake\ORM\TableRegistry::get("MembersTeams");
-                    $event->getSubject()->entity->members[$key]->free = $team->find()
+        $championship_id = $this->request->getQuery('championship_id', null);
+        $this->Crud->on(
+            'beforeFind',
+            function (Event $event) {
+                $event->getSubject()->query->contain(
+                    ['Members' => function (Query $q) {
+                        return $q
+                            ->contain(
+                                ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
+                                    return $q2->contain(['Matchdays'])
+                                        ->order(['Matchdays.number' => 'ASC']);
+                                }]
+                            )
+                        ->order(['Seasons.year' => 'DESC']);
+                        //->where(['Members.season_id' => $this->currentSeason->id]);
+                    }]
+                );
+            }
+        );
+
+        $this->Crud->on(
+            'afterFind',
+            function (Event $event) use ($championship_id) {
+                $entity = $event->getSubject()->entity;
+                $event->getSubject()->entity->championship_id = $championship_id;
+                foreach ($entity->members as $key => $member) {
+                    if ($championship_id != null && $member->season_id == $this->currentSeason->id) {
+                        $team = \Cake\ORM\TableRegistry::get("MembersTeams");
+                        $event->getSubject()->entity->members[$key]->free = $team->find()
                             ->innerJoinWith('Teams')
-                            ->where([
-                                'member_id' => $member->id, 
+                            ->where(
+                                [
+                                'member_id' => $member->id,
                                 'championship_id' => $championship_id
-                            ])->isEmpty();
+                                ]
+                            )->isEmpty();
+                    }
                 }
             }
-            
-        });
+        );
 
         return $this->Crud->execute();
     }

@@ -4,7 +4,8 @@ namespace App\Utility\WebPush;
 
 use JsonSerializable;
 
-class WebPushMessage implements JsonSerializable {
+class WebPushMessage implements JsonSerializable
+{
 
     /**
      * The notification title.
@@ -71,18 +72,18 @@ class WebPushMessage implements JsonSerializable {
 
     /**
      * The tag for grouping
-     * 
+     *
      * @var tag
      */
     protected $tag = null;
-    
+
     /**
      * The vibrate.
      *
      * @var integer[]
      */
     protected $vibrate = [300, 200, 300];
-    
+
     /**
      * The data object.
      *
@@ -95,15 +96,17 @@ class WebPushMessage implements JsonSerializable {
      *
      * @return static
      */
-    public static function create($data = array()) {
+    public static function create($data = [])
+    {
         return new static($data);
     }
 
     /**
      * @param array $data
      */
-    public function __construct($data = array()) {
-        foreach($data as $key => $val) {
+    public function __construct($data = [])
+    {
+        foreach ($data as $key => $val) {
             $this->$key = $val;
         }
     }
@@ -114,7 +117,8 @@ class WebPushMessage implements JsonSerializable {
      * @param  string $value
      * @return $this
      */
-    public function title($value) {
+    public function title($value)
+    {
         $this->title = $value;
 
         return $this;
@@ -126,7 +130,8 @@ class WebPushMessage implements JsonSerializable {
      * @param  string $value
      * @return $this
      */
-    public function body($value) {
+    public function body($value)
+    {
         $this->body = $value;
 
         return $this;
@@ -138,7 +143,8 @@ class WebPushMessage implements JsonSerializable {
      * @param  string $value
      * @return $this
      */
-    public function icon($value) {
+    public function icon($value)
+    {
         $this->icon = $value;
 
         return $this;
@@ -151,53 +157,71 @@ class WebPushMessage implements JsonSerializable {
      * @param  string $action
      * @return $this
      */
-    public function action($title, $action, $icon = '') {
+    public function action($title, $action, $icon = '')
+    {
         $this->actions[] = compact('title', 'action', 'icon');
 
         return $this;
     }
 
-    function badge($badge) {
+    function badge($badge)
+    {
         $this->badge = $badge;
+
         return $this;
     }
 
-    function dir($dir) {
+    function dir($dir)
+    {
         $this->dir = $dir;
+
         return $this;
     }
 
-    function lang($lang) {
+    function lang($lang)
+    {
         $this->lang = $lang;
+
         return $this;
     }
 
-    function renotify($renotify) {
+    function renotify($renotify)
+    {
         $this->renotify = $renotify;
+
         return $this;
     }
 
-    function requireInteraction($requireInteraction) {
+    function requireInteraction($requireInteraction)
+    {
         $this->requireInteraction = $requireInteraction;
+
         return $this;
     }
-    
-    function tag($tag) {
+
+    function tag($tag)
+    {
         $this->tag = $tag;
+
         return $this;
     }
 
-    function vibrate($vibrate) {
+    function vibrate($vibrate)
+    {
         $this->vibrate = $vibrate;
-        return $this;
-    }
-    
-    function data($data = []) {
-        $this->data = $data;
+
         return $this;
     }
 
-    public function jsonSerialize() {
+    function data($data = [])
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    public function jsonSerialize()
+    {
         return [
             'notification' => [
                 'title' => $this->title,
@@ -215,5 +239,4 @@ class WebPushMessage implements JsonSerializable {
             ]
         ];
     }
-
 }

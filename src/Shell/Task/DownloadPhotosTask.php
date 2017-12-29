@@ -17,11 +17,13 @@ use const DS;
  * @property MatchdaysTable $Matchdays
  * @property MembersTable $Members
  */
-class DownloadPhotosTask extends Shell {
+class DownloadPhotosTask extends Shell
+{
 
     use CurrentMatchdayTrait;
 
-    public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
         $this->loadModel('Seasons');
         $this->loadModel('Matchdays');
@@ -29,14 +31,14 @@ class DownloadPhotosTask extends Shell {
         $this->getCurrentMatchday();
     }
 
-    public function main() {
+    public function main()
+    {
         $this->out('Download photos task');
         $baseUrl = "www.guido8975.it";
         $url = "/index.php?ctg=15";
         $referer = "http://" . $baseUrl . $url;
                         $this->out("REFEREr " . $referer);
-        
-        
+
         $path = Configure::read('App.paths.images.players') . 'season-new' . DS;
         $members = $this->Members->find()->contain(['Players'])->where(['season_id' => $this->currentSeason->id])->all();
         foreach ($members as $member) {
@@ -45,8 +47,10 @@ class DownloadPhotosTask extends Shell {
             $response = $client->post($url, ['PanCal' => $member->player->full_name]);
             if ($response->isOk()) {
                 $cookies = $response->getCookie("PHPSESSID");
-                foreach ($response->getHeaders() as $name => $values) { $this->out($name . ": " . implode(", ", $values)); }
-                
+                foreach ($response->getHeaders() as $name => $values) {
+                    $this->out($name . ": " . implode(", ", $values));
+                }
+
                 //$this->out($response->body());
                 $crawler = new Crawler();
                 $crawler->addContent($response->body());
@@ -62,15 +66,13 @@ class DownloadPhotosTask extends Shell {
                         $client = new Client();
                         $response = $client->get($href, [], ['headers' => ['Referer' => $referer]]);
                         //$this->out($response->body());
-                        if($response->isOk()) {
+                        if ($response->isOk()) {
                             $this->out("Savings " . '/' . $href . " => " . $path . $member->code_gazzetta . '.jpg');
                             file_put_contents($path . $member->code_gazzetta . '.jpg', $response->body());
                         }
-                        
                     }
                 }
-            } 
+            }
         }
     }
-
 }

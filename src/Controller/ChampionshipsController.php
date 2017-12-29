@@ -17,8 +17,8 @@ use Cake\Routing\Router;
 class ChampionshipsController extends AppController
 {
 
-	public function beforeFilter(Event $event)
-	{
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
         $this->Auth->allow('view');
         $this->loadModel('Championships');
@@ -43,24 +43,30 @@ class ChampionshipsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Championship id.
+     * @param  string|null $id Championship id.
      * @return Response|null
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $championship = $this->Championships->get($id, [
+        $championship = $this->Championships->get(
+            $id,
+            [
             'contain' => ['Leagues', 'Seasons', 'Teams']
-        ]);
-		
-		$this->request->session()->write("championship", $championship);
-		$this->currentChampionship = $championship;
-        $this->set('tabs', [
+            ]
+        );
+
+        $this->request->session()->write("championship", $championship);
+        $this->currentChampionship = $championship;
+        $this->set(
+            'tabs',
+            [
             'teams' => ['label' => 'Squadre', 'url' => Router::url(['_name' => 'Championship.teams', 'id' => $id])],
             'ranking' => ['label' => 'Classifica', 'url' => Router::url(['_name' => 'Championship.ranking', 'id' => $id])],
             'free_player' => ['label' => 'Giocatori liberi', 'url' => Router::url(['_name' => 'Championship.freePlayer', 'id' => $id])],
             'articles' => ['label' => 'Articoli', 'url' => Router::url(['_name' => 'Championship.articles', 'id' => $id])]
-        ]);
+            ]
+        );
         $this->set('title', $championship->league->name);
         $this->set('championship', $championship);
         $this->set('_serialize', ['championship']);
@@ -78,6 +84,7 @@ class ChampionshipsController extends AppController
             $championship = $this->Championships->patchEntity($championship, $this->request->data);
             if ($this->Championships->save($championship)) {
                 $this->Flash->success(__('The championship has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The championship could not be saved. Please, try again.'));
@@ -92,19 +99,23 @@ class ChampionshipsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Championship id.
+     * @param  string|null $id Championship id.
      * @return Response|void Redirects on successful edit, renders view otherwise.
      * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $championship = $this->Championships->get($id, [
+        $championship = $this->Championships->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $championship = $this->Championships->patchEntity($championship, $this->request->data);
             if ($this->Championships->save($championship)) {
                 $this->Flash->success(__('The championship has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The championship could not be saved. Please, try again.'));
@@ -119,7 +130,7 @@ class ChampionshipsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Championship id.
+     * @param  string|null $id Championship id.
      * @return Response|null Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
@@ -132,6 +143,7 @@ class ChampionshipsController extends AppController
         } else {
             $this->Flash->error(__('The championship could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

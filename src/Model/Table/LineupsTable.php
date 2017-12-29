@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Model\Table;
 
+use App\Model\Entity\Event as Event2;
 use App\Model\Entity\Lineup;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
@@ -9,6 +11,7 @@ use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -37,7 +40,7 @@ class LineupsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -47,54 +50,82 @@ class LineupsTable extends Table
         $this->setTable('lineups');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-        
-        $this->addBehavior('Timestamp', [
+
+        $this->addBehavior(
+            'Timestamp',
+            [
             'events' => [
                 'Model.beforeSave' => [
                     'created_at' => 'new',
                     'modified_at' => 'always'
                 ]
             ]
-        ]);
+            ]
+        );
 
-        $this->belongsTo('Captain', [
+        $this->belongsTo(
+            'Captain',
+            [
             'className' => 'Members',
             'foreignKey' => 'captain_id'
-        ]);
-        $this->belongsTo('VCaptain', [
+            ]
+        );
+        $this->belongsTo(
+            'VCaptain',
+            [
             'className' => 'Members',
             'foreignKey' => 'vcaptain_id'
-        ]);
-        $this->belongsTo('VVCaptain', [
+            ]
+        );
+        $this->belongsTo(
+            'VVCaptain',
+            [
             'className' => 'Members',
             'foreignKey' => 'vvcaptain_id'
-        ]);
-        $this->belongsTo('Matchdays', [
+            ]
+        );
+        $this->belongsTo(
+            'Matchdays',
+            [
             'foreignKey' => 'matchday_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Teams', [
+            ]
+        );
+        $this->belongsTo(
+            'Teams',
+            [
             'foreignKey' => 'team_id',
             'joinType' => 'INNER'
-        ]);
-        $this->hasMany('Dispositions', [
+            ]
+        );
+        $this->hasMany(
+            'Dispositions',
+            [
             'foreignKey' => 'lineup_id',
             'sort' => ['Dispositions.position'],
             'saveStrategy' => 'replace'
-        ]);
-        $this->hasOne('Scores', [
+            ]
+        );
+        $this->hasOne(
+            'Scores',
+            [
             'foreignKey' => 'lineup_id'
-        ]);
-        $this->hasMany('View0LineupsDetails', [
+            ]
+        );
+        $this->hasMany(
+            'View0LineupsDetails',
+            [
             'foreignKey' => 'lineup_id'
-        ]);
+            ]
+        );
     }
-    
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
-        if(isset($data['created_at'])) {
+
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        if (array_key_exists('created_at', $data)) {
             unset($data['created_at']);
         }
-        if(isset($data['modified_at'])) {
+        if (array_key_exists('modified_at', $data)) {
             unset($data['modified_at']);
         }
     }
@@ -102,7 +133,7 @@ class LineupsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)
@@ -126,7 +157,7 @@ class LineupsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param RulesChecker $rules The rules object to be modified.
+     * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
@@ -139,19 +170,34 @@ class LineupsTable extends Table
 
         return $rules;
     }
-    
+
     public function findStatsByMatchdayAndTeam($matchday_id, $team_id)
-	{
+    {
         $query = $this->find();
-        return $query->contain([
-            'Teams',
-            'Dispositions' => [
-                'Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use($matchday_id) {
-                        return $q->where(['matchday_id' => $matchday_id]);
-                    }
-                ]
+
+        return $query->contain(
+            [
+                    'Teams',
+                    'Dispositions' => [
+                        'Members' => [
+                            'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($matchday_id) {
+                                return $q->where(['matchday_id' => $matchday_id]);
+                            }
+                        ]
+                    ]
             ]
-        ])->where(['team_id' => $team_id,'matchday_id' => $matchday_id])->first();
+        )->where(['team_id' => $team_id, 'matchday_id' => $matchday_id])->first();
+    }
+
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew()) {
+            $events = TableRegistry::get('Events');
+            $ev = $events->newEntity();
+            $ev->type = Event2::NEW_LINEUP;
+            $ev->team_id = $entity['team_id'];
+            $ev->external = $entity['id'];
+            $events->save($ev);
+        }
     }
 }

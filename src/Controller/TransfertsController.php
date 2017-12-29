@@ -30,15 +30,18 @@ class TransfertsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Transfert id.
+     * @param  string|null $id Transfert id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $transfert = $this->Transferts->get($id, [
+        $transfert = $this->Transferts->get(
+            $id,
+            [
             'contain' => ['Members', 'Teams', 'Matchdays']
-        ]);
+            ]
+        );
 
         $this->set('transfert', $transfert);
         $this->set('_serialize', ['transfert']);
@@ -56,6 +59,7 @@ class TransfertsController extends AppController
             $transfert = $this->Transferts->patchEntity($transfert, $this->request->data);
             if ($this->Transferts->save($transfert)) {
                 $this->Flash->success(__('The transfert has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The transfert could not be saved. Please, try again.'));
@@ -71,19 +75,23 @@ class TransfertsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Transfert id.
+     * @param  string|null $id Transfert id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $transfert = $this->Transferts->get($id, [
+        $transfert = $this->Transferts->get(
+            $id,
+            [
             'contain' => []
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $transfert = $this->Transferts->patchEntity($transfert, $this->request->data);
             if ($this->Transferts->save($transfert)) {
                 $this->Flash->success(__('The transfert has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The transfert could not be saved. Please, try again.'));
@@ -99,7 +107,7 @@ class TransfertsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Transfert id.
+     * @param  string|null $id Transfert id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -112,6 +120,7 @@ class TransfertsController extends AppController
         } else {
             $this->Flash->error(__('The transfert could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

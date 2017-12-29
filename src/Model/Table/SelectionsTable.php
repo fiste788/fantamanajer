@@ -24,7 +24,7 @@ class SelectionsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -35,30 +35,42 @@ class SelectionsTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 
-        $this->belongsTo('Teams', [
+        $this->belongsTo(
+            'Teams',
+            [
             'foreignKey' => 'team_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Matchdays', [
+            ]
+        );
+        $this->belongsTo(
+            'Matchdays',
+            [
             'foreignKey' => 'matchday_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('NewMembers', [
+            ]
+        );
+        $this->belongsTo(
+            'NewMembers',
+            [
             'className' => 'Members',
             'foreignKey' => 'old_member_id',
             'propertyName' => 'old_member'
-        ]);
-        $this->belongsTo('OldMembers', [
+            ]
+        );
+        $this->belongsTo(
+            'OldMembers',
+            [
             'className' => 'Members',
             'foreignKey' => 'new_member_id',
             'propertyName' => 'new_member'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
+     * @param  Validator $validator Validator instance.
      * @return Validator
      */
     public function validationDefault(Validator $validator)
@@ -71,15 +83,15 @@ class SelectionsTable extends Table
             ->boolean('active')
             ->requirePresence('active', 'create')
             ->notEmpty('active');
-        
-       return $validator;
+
+        return $validator;
     }
 
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param RulesChecker $rules The rules object to be modified.
+     * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
@@ -89,24 +101,40 @@ class SelectionsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
-        $rules->add(function(\App\Model\Entity\Selection $entity, $options) {
-            if ($entity->isMemberAlreadySelected()) {
-                $ranking = TableRegistry::get('Scores')->findRankingByChampionshipId($entity->team->championship_id);
-                return $ranking[$entity->team_id] < $ranking[$this->team_id];
-            }
-            return true;
-        },'NewMemberIsSelectable', ['errorField' => 'new_member', 'message' => 'Un altro utente ha già selezionato il giocatore']);
-        $rules->add(function(\App\Model\Entity\Selection $entity, $options) use ($that) {
-            $championship = TableRegistry::get('Championships')->find()->innerJoinWith('Teams', function($q) use ($entity) {
-                return $q->where(['Teams.id' => $entity->team_id]);
-            })->first();
-            return $that->find()->where(['team_id' => $entity->team_id, 'processed' => false])->count() < $championship->number_selections;
-        },'TeamReachedMaximum', ['errorField' => 'new_member', 'message' => 'Hai raggiunto il limite di cambi selezione']);
+        $rules->add(
+            function (\App\Model\Entity\Selection $entity, $options) {
+                if ($entity->isMemberAlreadySelected()) {
+                    $ranking = TableRegistry::get('Scores')->findRankingByChampionshipId($entity->team->championship_id);
+
+                    return $ranking[$entity->team_id] < $ranking[$this->team_id];
+                }
+
+                return true;
+            },
+            'NewMemberIsSelectable',
+            ['errorField' => 'new_member', 'message' => 'Un altro utente ha già selezionato il giocatore']
+        );
+        $rules->add(
+            function (\App\Model\Entity\Selection $entity, $options) use ($that) {
+                $championship = TableRegistry::get('Championships')->find()->innerJoinWith(
+                    'Teams',
+                    function ($q) use ($entity) {
+                        return $q->where(['Teams.id' => $entity->team_id]);
+                    }
+                )->first();
+
+                return $that->find()->where(['team_id' => $entity->team_id, 'processed' => false])->count() < $championship->number_selections;
+            },
+            'TeamReachedMaximum',
+            ['errorField' => 'new_member', 'message' => 'Hai raggiunto il limite di cambi selezione']
+        );
+
         return $rules;
     }
-    
-    public function afterSave(CakeEvent $event, EntityInterface $entity, ArrayObject $options) {
-        if($entity->isNew()) {
+
+    public function afterSave(CakeEvent $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew()) {
             $events = TableRegistry::get('Events');
             $ev = $events->newEntity();
             $ev->type = Event::NEW_PLAYER_SELECTION;
@@ -114,22 +142,24 @@ class SelectionsTable extends Table
             $events->save($ev);
         }
     }
-    
-    public function beforeSave(CakeEvent $event, \App\Model\Entity\Selection $entity, ArrayObject $options) {
-        if($entity->dirty('processed') && $entity->processed) {
+
+    public function beforeSave(CakeEvent $event, \App\Model\Entity\Selection $entity, ArrayObject $options)
+    {
+        if ($entity->dirty('processed') && $entity->processed) {
             $membersTeamsTable = TableRegistry::get('MembersTeams');
             $transfertsTable = TableRegistry::get('Transferts');
             $memberTeam = $membersTeamsTable->find()
-                    ->where([
+                ->where(
+                    [
                         'team_id' => $entity->team_id,
                         'member_id' => $entity->old_member_id
-                    ])
-                    ->first();
+                        ]
+                )
+                ->first();
             $memberTeam->member_id = $entity->new_member_id;
             $transfert = $entity->toTransfert($transfertsTable);
             $membersTeamsTable->save($memberTeam);
             $transfertsTable->save($transfert);
         }
     }
-    
 }

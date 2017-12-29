@@ -20,7 +20,7 @@ class DispositionsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param  array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -31,30 +31,42 @@ class DispositionsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Lineups', [
+        $this->belongsTo(
+            'Lineups',
+            [
             'foreignKey' => 'lineup_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Members', [
+            ]
+        );
+        $this->belongsTo(
+            'Members',
+            [
             'foreignKey' => 'member_id',
             'joinType' => 'INNER'
-        ]);
-        $this->hasMany('View0LineupsDetails', [
+            ]
+        );
+        $this->hasMany(
+            'View0LineupsDetails',
+            [
             'foreignKey' => 'disposition_id'
-        ]);
-        $this->hasOne('Ratings', [
+            ]
+        );
+        $this->hasOne(
+            'Ratings',
+            [
             'finder' => function ($q) {
                 return $q->innerJoinWith('Lineups')
-                        ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])
-                        ->andWhere(['Ratings.member_id' => 'member_id']);
+                    ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])
+                    ->andWhere(['Ratings.member_id' => 'member_id']);
             }
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)
@@ -75,13 +87,14 @@ class DispositionsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['lineup_id'], 'Lineups'));
         $rules->add($rules->existsIn(['member_id'], 'Members'));
+
         return $rules;
     }
 }

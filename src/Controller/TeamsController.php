@@ -18,9 +18,10 @@ use Cake\Routing\Router;
 class TeamsController extends AppController
 {
 
-	public function beforeFilter(Event $event) {
+    public function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
-        $this->Auth->allow(['view','edit']);
+        $this->Auth->allow(['view', 'edit']);
         $this->loadModel('Teams');
     }
 
@@ -31,12 +32,15 @@ class TeamsController extends AppController
      */
     public function index($championshipId)
     {
-		$teams = $this->Teams->find('all', [
+        $teams = $this->Teams->find(
+            'all',
+            [
             'conditions' => [
                 'championship_id' => $championshipId,
             ],
             'contain' => ['Users']
-        ]);
+            ]
+        );
 
         $this->set(compact('teams'));
         $this->set('_serialize', ['teams']);
@@ -45,24 +49,30 @@ class TeamsController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Team id.
+     * @param  string|null $id Team id.
      * @return Response|null
      * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $team = $this->Teams->get($id, [
-            'contain' => ['Users','Members' => ['Seasons', 'Players', 'Clubs', 'Roles']]
-        ]);
-		$matchday_id = TableRegistry::get('Scores')->findMatchdayWithPoints($this->currentSeason);
-        $this->set('tabs', [
+        $team = $this->Teams->get(
+            $id,
+            [
+            'contain' => ['Users', 'Members' => ['Seasons', 'Players', 'Clubs', 'Roles']]
+            ]
+        );
+        $matchday_id = TableRegistry::get('Scores')->findMatchdayWithPoints($this->currentSeason);
+        $this->set(
+            'tabs',
+            [
             'players' => ['label' => 'Giocatori', 'url' => Router::url(['_name' => 'Team.members', 'id' => $id])],
             'transferts' => ['label' => 'Trasferimenti', 'url' => Router::url(['_name' => 'Team.transferts', 'id' => $id])],
             'last-lineup' => ['label' => 'Ultima giornata', 'url' => Router::url(['_name' => 'Scores.view', 'matchday_id' => $matchday_id, 'team_id' => $id])],
             'articles' => ['label' => 'Articoli', 'url' => Router::url(['_name' => 'Team.articles', 'id' => $id])]
-        ]);
+            ]
+        );
         $this->set('members', $team->members);
-		$this->set('title', $team->name);
+        $this->set('title', $team->name);
         $this->set('team', $team);
         $this->set('_serialize', ['team']);
     }
@@ -79,6 +89,7 @@ class TeamsController extends AppController
             $team = $this->Teams->patchEntity($team, $this->request->data);
             if ($this->Teams->save($team)) {
                 $this->Flash->success(__('The team has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The team could not be saved. Please, try again.'));
@@ -94,20 +105,24 @@ class TeamsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Team id.
+     * @param  string|null $id Team id.
      * @return Response|void Redirects on successful edit, renders view otherwise.
      * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $this->log(print_r($this->request,1), \Psr\Log\LogLevel::INFO);
-        $team = $this->Teams->get($id, [
+        $this->log(print_r($this->request, 1), \Psr\Log\LogLevel::INFO);
+        $team = $this->Teams->get(
+            $id,
+            [
             'contain' => ['Members']
-        ]);
+            ]
+        );
         if ($this->request->is(['patch', 'post', 'put'])) {
             $team = $this->Teams->patchEntity($team, $this->request->data);
             if ($this->Teams->save($team)) {
                 $this->Flash->success(__('The team has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The team could not be saved. Please, try again.'));
@@ -123,7 +138,7 @@ class TeamsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Team id.
+     * @param  string|null $id Team id.
      * @return Response|null Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
@@ -136,6 +151,7 @@ class TeamsController extends AppController
         } else {
             $this->Flash->error(__('The team could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }
