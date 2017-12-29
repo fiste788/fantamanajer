@@ -23,7 +23,7 @@ use Cake\Core\Plugin;
 
 // Set the fullBaseUrl to allow URLs to be generated in shell tasks.
 // This is useful when sending email from shells.
-Configure::write('App.fullBaseUrl', 'https://dev.fantamanajer.it');
+Configure::write('App.fullBaseUrl', 'https://fantamanajer.it');
 
 // Set logs to different files so they don't have permission conflicts.
 Configure::write('Log.debug.file', 'cli-debug');

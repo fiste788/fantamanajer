@@ -1,4 +1,5 @@
 <?php
+namespace App\Shell\Task;
 
 use App\Model\Table\MatchdaysTable;
 use App\Model\Table\MembersTable;
@@ -8,8 +9,6 @@ use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
-
-namespace App\Shell\Task;
 
 /**
  * @property SeasonsTable $Seasons

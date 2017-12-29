@@ -1,11 +1,10 @@
 <?php
+namespace App\Model\Entity;
 
 use App\Model\Entity\Subscription;
 use App\Model\Entity\Team;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
-
-namespace App\Model\Entity;
 
 /**
  * User Entity.

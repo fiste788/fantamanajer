@@ -154,13 +154,13 @@ return [
         'log' => true,
         'trace' => true,
     ],*/
-	'Error' => [
-		'errorLevel' => E_ALL,
+    'Error' => [
+        'errorLevel' => E_ALL,
         'exceptionRenderer' => 'Crud\Error\ExceptionRenderer',
         'skipLog' => [],
         'log' => true,
         'trace' => true,
-	],
+    ],
 
     /**
      * Email configuration.
@@ -208,9 +208,9 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => 'no-reply@fantamanajer.it',
-            'charset' => 'utf-8',
-            'headerCharset' => 'utf-8',
+            'from' => ['noreply@fantamanajer.it' => 'FantaManajer'],
+            //'charset' => 'utf-8',
+            //'headerCharset' => 'utf-8',
         ],
     ],
 
@@ -235,7 +235,7 @@ return [
             'username' => 'fantamanajerUser',
             'password' => 'banana',
             'database' => 'fantamanajer',
-			'prefix' => false,
+            'prefix' => false,
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
@@ -260,7 +260,7 @@ return [
              * which is the recommended value in production environments
              */
             'init' => ['SET GLOBAL sql_mode= \'\''],
-            
+
             //'url' => env('DATABASE_URL', null),
         ],
 
@@ -346,6 +346,6 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
-		'cookie' => 'fantamanajer'
+        'cookie' => 'fantamanajer'
     ],
 ];

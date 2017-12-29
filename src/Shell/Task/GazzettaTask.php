@@ -1,4 +1,5 @@
 <?php
+namespace App\Shell\Task;
 
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
@@ -15,8 +16,6 @@ use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
-
-namespace App\Shell\Task;
 
 /**
  * @property SeasonsTable $Seasons

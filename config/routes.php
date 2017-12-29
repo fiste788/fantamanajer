@@ -129,7 +129,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
             ], [
         'id' => '\d+',
         'pass' => ['id']
-    ]);
+            ]);
     $routes->resources('Subscriptions', [
         'path' => 'webpush',
         'map' => [
@@ -142,7 +142,6 @@ Router::prefix('api', function (RouteBuilder $routes) {
 
     $routes->fallbacks(DashedRoute::class);
 });
-
 
 Router::scope('/', function (RouteBuilder $routes) {
     /**
@@ -210,7 +209,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         'matchday_id' => '[0-9]+',
         'team_id' => '[0-9]+',
         'pass' => ['matchday_id', 'team_id']
-    ]);
+            ]);
 
     /*
       $routes->connect('/championships/:championship_id/classification',[
