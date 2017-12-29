@@ -63,7 +63,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '__SALT__'),
+        'salt' => env('SECURITY_SALT', 'e030bfc8aa04b1692266d8ac969b7c393709d6c4bdf4bfa593ba0f9ae144d126'),
     ],
 
     /**
@@ -147,9 +147,16 @@ return [
      *   the memory limit by when a fatal error is encountered. This allows
      *   breathing room to complete logging or error handling.
      */
-    'Error' => [
+    /*'Error' => [
         'errorLevel' => E_ALL & ~E_DEPRECATED,
         'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
+        'skipLog' => [],
+        'log' => true,
+        'trace' => true,
+    ],*/
+    'Error' => [
+        'errorLevel' => E_ALL,
+        'exceptionRenderer' => 'Crud\Error\ExceptionRenderer',
         'skipLog' => [],
         'log' => true,
         'trace' => true,
@@ -176,13 +183,13 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'className' => 'Mail',
+            'className' => 'Smtp',
             // The following keys are used in SMTP transports
             'host' => 'localhost',
             'port' => 25,
             'timeout' => 30,
-            'username' => 'user',
-            'password' => 'secret',
+            'username' => 'stefano.sonzogni@fantamanajer.it',
+            'password' => 'monitor88',
             'client' => null,
             'tls' => null,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
@@ -201,7 +208,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => 'you@localhost',
+            'from' => ['noreply@fantamanajer.it' => 'FantaManajer'],
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
@@ -225,9 +232,10 @@ return [
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'my_app',
+            'username' => 'fantaman_develop',
+            'password' => 'B@n@n@2',
+            'database' => 'fantaman_develop',
+            'prefix' => false,
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
@@ -251,9 +259,9 @@ return [
              * mysql configuration directive 'innodb_stats_on_metadata = 0'
              * which is the recommended value in production environments
              */
-            //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
+            'init' => ['SET GLOBAL sql_mode= \'\''],
 
-            'url' => env('DATABASE_URL', null),
+            //'url' => env('DATABASE_URL', null),
         ],
 
         /**
@@ -265,11 +273,11 @@ return [
             'persistent' => false,
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'test_myapp',
+            'username' => 'fantamanajerUser',
+            'password' => 'banana',
+            'database' => 'fantamanajer_multiseason',
             'encoding' => 'utf8',
-            'timezone' => 'UTC',
+            'timezone' => 'Europe/Rome',
             'cacheMetadata' => true,
             'quoteIdentifiers' => false,
             'log' => false,
@@ -338,5 +346,40 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'cookie' => 'fantamanajer'
     ],
+
+    'Cors' => [
+        'AllowOrigin' => ['https://fantamanajer.it', 'https://dev.fantamanajer.it', 'http://localhost:4200', 'http://127.0.0.1:8080'], // accept all origin
+        'AllowCredentials' => true,
+        'AllowMethods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // accept all HTTP methods
+        'AllowHeaders' => ['Origin', 'X-Requested-With', 'Content-Type', 'Authorization', 'Access-Control-Allow-Headers', 'X-Http-Method-Override'], // accept all headers
+        'ExposeHeaders' => false, // don't accept personal headers
+        'MaxAge' => 86400, // cache for 1 day
+    ],
+
+    'App.paths.images' => [
+        'clubs' => WWW_ROOT . 'img' . DS . 'Clubs' . DS,
+        'teams' => WWW_ROOT . 'files' . DS . 'upload' . DS . 'teams' . DS,
+        'players' => WWW_ROOT . 'img' . DS . 'players' . DS,
+    ],
+
+    'WebPush' => [
+        'VAPID' => [
+            'subject' => 'http://fantamanajer.it',
+            'publicKey' => 'BEtTz3mWJt9vnMu759pONVf-KeKBv2isIgpfuCgpm_cxqBTwwUyS_eI6Dx7tKuutl0DzgYARKG6vuhfAszr5JBw',
+            'privateKey' => 'gFfsi6IV_GPTaJImIo5xLJRJ3u_gL8eL1fMr7JsxrZ0'
+        ]
+    ],
+
+    'WebPushMessage' => [
+        'default' => [
+            'badge' => '/assets/icon-monochrome.png',
+            'icon' => '/assets/android-chrome-192x192.png',
+            'lang' => 'it',
+            'renotify' => true,
+            'requireInteraction' => true
+        ]
+    ],
+
 ];

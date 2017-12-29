@@ -31,7 +31,6 @@ require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Core\Plugin;
@@ -41,7 +40,6 @@ use Cake\Error\ErrorHandler;
 use Cake\Http\ServerRequest;
 use Cake\Log\Log;
 use Cake\Mailer\Email;
-use Cake\Utility\Inflector;
 use Cake\Utility\Security;
 
 /**
@@ -68,6 +66,7 @@ if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
 try {
     Configure::config('default', new PhpConfig());
     Configure::load('app', 'default', false);
+    Configure::load('app_config', 'default', false);
 } catch (\Exception $e) {
     exit($e->getMessage() . "\n");
 }
@@ -77,9 +76,8 @@ try {
  * You can use a file like app_local.php to provide local overrides to your
  * shared configuration.
  */
-if (env('HTTP_HOST') == '' || env('HTTP_HOST') === 'localhost' || env('HTTP_HOST') === '127.0.0.1') {
-    Configure::load('app_local', 'default');
-}
+// Configure::load('app_local', 'default');
+
 
 /*
  * When debug = true the metadata cache should only last
