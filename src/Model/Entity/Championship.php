@@ -40,7 +40,7 @@ class Championship extends Entity
 
     /**
      *
-     * @param User $user
+     * @param User $user user
      * @return Team
      */
     public function findTeamByUser($user)

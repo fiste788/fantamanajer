@@ -37,7 +37,7 @@ class TransfertTask extends Shell
         return $parser;
     }
 
-    function doTransfert()
+    public function doTransfert()
     {
         if ($this->currentMatchday->isDoTransertDay()) {
             $selections = $this->Selections->findByMatchdayIdAndProcessed($this->currentMatchday->id, false)

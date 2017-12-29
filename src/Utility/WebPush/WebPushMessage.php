@@ -164,56 +164,56 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
-    function badge($badge)
+    public function badge($badge)
     {
         $this->badge = $badge;
 
         return $this;
     }
 
-    function dir($dir)
+    public function dir($dir)
     {
         $this->dir = $dir;
 
         return $this;
     }
 
-    function lang($lang)
+    public function lang($lang)
     {
         $this->lang = $lang;
 
         return $this;
     }
 
-    function renotify($renotify)
+    public function renotify($renotify)
     {
         $this->renotify = $renotify;
 
         return $this;
     }
 
-    function requireInteraction($requireInteraction)
+    public function requireInteraction($requireInteraction)
     {
         $this->requireInteraction = $requireInteraction;
 
         return $this;
     }
 
-    function tag($tag)
+    public function tag($tag)
     {
         $this->tag = $tag;
 
         return $this;
     }
 
-    function vibrate($vibrate)
+    public function vibrate($vibrate)
     {
         $this->vibrate = $vibrate;
 
         return $this;
     }
 
-    function data($data = [])
+    public function data($data = [])
     {
         $this->data = $data;
 

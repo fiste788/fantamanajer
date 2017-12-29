@@ -18,6 +18,9 @@ class AppController extends Controller
     use ControllerTrait;
     use CurrentMatchdayTrait;
 
+    /**
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();
@@ -70,6 +73,11 @@ class AppController extends Controller
         $this->getCurrentMatchday();
     }
 
+    /**
+     *
+     * @param Event $event event
+     * @return void
+     */
     public function beforeRender(Event $event)
     {
         /*$this->response->cors($this->request)

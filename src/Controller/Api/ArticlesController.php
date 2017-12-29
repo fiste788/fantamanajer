@@ -22,6 +22,11 @@ class ArticlesController extends AppController
         ]
     ];
 
+    /**
+     *
+     * @param Event $event event
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->Crud->mapAction('indexByTeam', 'Crud.Index');
@@ -33,6 +38,11 @@ class ArticlesController extends AppController
         );
     }
 
+    /**
+     *
+     * @param int $id the article id
+     * @return type
+     */
     public function edit($id)
     {
         $this->Flash->success('The article has been deleted.');
@@ -40,6 +50,9 @@ class ArticlesController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     *
+     */
     public function indexByTeam()
     {
         /* $this->Crud->on('startup', function(\Cake\Event\Event $event) {
@@ -61,6 +74,9 @@ class ArticlesController extends AppController
         //$this->log($articles, \Psr\Log\LogLevel::NOTICE);
     }
 
+    /**
+     *
+     */
     public function indexByChampionship()
     {
         /* $articles = $this->Articles->findByChampionshipId($this->request->getParam('championship_id'));

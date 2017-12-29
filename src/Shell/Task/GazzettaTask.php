@@ -1,5 +1,4 @@
 <?php
-namespace App\Shell\Task;
 
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
@@ -16,9 +15,8 @@ use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
-use const DS;
-use const RATINGS_CSV;
-use const TMP;
+
+namespace App\Shell\Task;
 
 /**
  * @property SeasonsTable $Seasons
@@ -334,7 +332,7 @@ class GazzettaTask extends Shell
                     'matchday_id' => $matchday->id
                     ]
                 );
-                $rating->calcNoBonusPoints((integer)$stats[5], (boolean)$stats[26]);
+                $rating->calcNoBonusPoints((int)$stats[5], (bool)$stats[26]);
                 $ratings[] = $rating;
             }
             if (!$this->Ratings->saveMany($ratings)) {

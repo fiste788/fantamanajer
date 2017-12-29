@@ -36,22 +36,28 @@ class Club extends Entity
     protected $_size = [600, 1280];
     protected $_virtual = ['abbreviation', 'photo_url', 'background_url'];
 
+    /**
+     *
+     * @return string
+     */
     protected function _getAbbreviation()
     {
         return strtoupper(substr($this->name, 0, 3));
     }
 
+    /**
+     *
+     * @return string
+     */
     protected function _getPhotoUrl()
     {
         return Router::url('/img/' . $this->getSource() . '/' . $this->id . '/photo/' . $this->id . '.png', true);
     }
 
-    /*protected function _getBackgroundUrl() {
-        if (file_exists(Configure::read('App.paths.images.clubs') . $this->id . DS . 'background' . DS . $this->id . '.jpg')) {
-            return Router::url('/img/' . $this->getSource() . '/' . $this->id . '/background/' . $this->id . '.jpg', true);
-        }
-    }*/
-
+    /**
+     *
+     * @return array
+     */
     protected function _getBackgroundUrl()
     {
         $array = [];

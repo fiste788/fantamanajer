@@ -22,8 +22,6 @@ class FreePlayerFilteringForm extends Form
 
     protected function _execute(array $data)
     {
-        die($data);
-
         return true;
     }
 }

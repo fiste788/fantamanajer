@@ -120,6 +120,10 @@ class AppController extends Controller
         }
     }
 
+    /**
+     *
+     * @param Event $event
+     */
     public function beforeFilter(Event $event)
     {
         $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'])->allowHeaders(['origin', 'x-requested-with', 'content-type'])->build();
