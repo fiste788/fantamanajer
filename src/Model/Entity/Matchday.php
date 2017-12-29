@@ -48,7 +48,7 @@ class Matchday extends Entity
         return $this->date->isToday();
     }
 
-    public static function isSendMailDay()
+    public function isSendMailDay()
     {
         return $this->date->isWithinNext('10 minutes');
     }

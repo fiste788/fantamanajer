@@ -33,7 +33,12 @@ class Article extends Entity
         'id' => false,
     ];
 
-    function isOwnedBy($user_id)
+    /**
+     *
+     * @param int $user_id the user owner
+     * @return bool
+     */
+    public function isOwnedBy($user_id)
     {
         return $this->team->user_id == $user_id;
     }

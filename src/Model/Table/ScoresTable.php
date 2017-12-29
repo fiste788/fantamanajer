@@ -410,7 +410,7 @@ class ScoresTable extends Table
         return $score->points;
     }
 
-    static function playerIn(Disposition $disposition, $cap)
+    private static function playerIn(Disposition $disposition, $cap)
     {
         $member = $disposition->member;
         $disposition->consideration = 1;
@@ -429,7 +429,7 @@ class ScoresTable extends Table
      * @param Matchday                      $matchday
      * @return Lineup
      */
-    static function getLastLineup(LineupsTable $lineups, Matchday $matchday)
+    public static function getLastLineup(LineupsTable $lineups, Matchday $matchday)
     {
         return $lineups->find()
             ->innerJoinWith('Matchdays')

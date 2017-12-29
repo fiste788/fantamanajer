@@ -52,8 +52,7 @@ class Rating extends Entity
      */
     public function calcNoBonusPoints($role, $playmaker)
     {
-
-            $minus = 0;
+        $minus = 0;
         for ($i = 0; $i < $this->goals; $i++) {
             switch ($role) {
                 case 3:

@@ -25,8 +25,6 @@ class UsersController extends AppController
 
     public function isAuthorized($user = null)
     {
-        return true;
-
         return $user['id'] == $this->Users->id;
     }
 
