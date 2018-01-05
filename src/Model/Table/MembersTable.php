@@ -7,9 +7,6 @@ use App\Model\Entity\Role;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Association\BelongsTo;
-use Cake\ORM\Association\BelongsToMany;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -19,15 +16,22 @@ use Cake\Validation\Validator;
 /**
  * Members Model
  *
- * @property BelongsTo $Players
- * @property BelongsTo $Roles
- * @property BelongsTo $Clubs
- * @property BelongsTo $Seasons
- * @property HasMany $Dispositions
- * @property HasMany $Ratings
- * @property HasMany $View0LineupsDetails
- * @property HasMany $VwMembersStats
- * @property BelongsToMany $Teams
+ * @property \App\Model\Table\PlayersTable|\Cake\ORM\Association\BelongsTo $Players
+ * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\BelongsTo $Roles
+ * @property \App\Model\Table\ClubsTable|\Cake\ORM\Association\BelongsTo $Clubs
+ * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsToMany $Teams
+ *
+ * @method \App\Model\Entity\Member get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Member newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Member|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Member[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
  */
 class MembersTable extends Table
 {

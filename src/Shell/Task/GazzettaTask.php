@@ -18,12 +18,12 @@ use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * @property SeasonsTable $Seasons
- * @property MatchdaysTable $Matchdays
- * @property RolesTable $Roles
- * @property MembersTable $Members
- * @property ClubsTable $Clubs
- * @property PlayersTable $Players
+ * @property \App\Model\Table\SeasonsTable $Seasons
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\RolesTable $Roles
+ * @property \App\Model\Table\MembersTable $Members
+ * @property \App\Model\Table\ClubsTable $Clubs
+ * @property \App\Model\Table\PlayersTable $Players
  * @property RatingsTable $Ratings
  */
 class GazzettaTask extends Shell
@@ -297,17 +297,18 @@ class GazzettaTask extends Shell
                     'season_id' => $matchday->season_id
                     ]
                 )->firstOrFail();
-                $rating = $this->Ratings->find()->where(
+                $ratingQuery = $this->Ratings->find()->where(
                     [
                     'member_id' => $member->id,
                     'matchday_id' => $matchday->id
                     ]
                 );
-                if ($rating->isEmpty()) {
+                if ($ratingQuery->isEmpty()) {
                     $rating = $this->Ratings->newEntity();
                 } else {
-                    $rating = $rating->first();
+                    $rating = $ratingQuery->first();
                 }
+                $rating->member = $member;
                 $this->Ratings->patchEntity(
                     $rating,
                     [
@@ -331,7 +332,7 @@ class GazzettaTask extends Shell
                     'matchday_id' => $matchday->id
                     ]
                 );
-                $rating->calcNoBonusPoints((int)$stats[5], (bool)$stats[26]);
+                $rating->points_no_bonus = $this->currentSeason->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
                 $ratings[] = $rating;
             }
             if (!$this->Ratings->saveMany($ratings)) {
@@ -423,6 +424,7 @@ class GazzettaTask extends Shell
         );
         $parser->addSubcommand('update_members');
         $parser->addSubcommand('import_ratings');
+        $parser->addSubcommand('fix_points');
         $parser->addSubcommand(
             'calculate_key',
             [
@@ -431,5 +433,19 @@ class GazzettaTask extends Shell
         );
 
         return $parser;
+    }
+
+    public function fixPoints()
+    {
+        $this->out('Fix Points');
+        $this->Seasons->loadInto($this->currentSeason, ['Matchdays.Ratings.Members.Roles']);
+        foreach ($this->currentSeason->matchdays as $matchday) {
+            $ratings = [];
+            foreach ($matchday->ratings as $rating) {
+                $rating->points_no_bonus = $this->currentSeason->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
+                $ratings[] = $rating;
+            }
+            $this->Ratings->saveMany($ratings);
+        }
     }
 }

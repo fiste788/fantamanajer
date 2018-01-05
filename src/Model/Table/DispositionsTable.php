@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Disposition;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -10,9 +8,17 @@ use Cake\Validation\Validator;
 /**
  * Dispositions Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Lineups
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \Cake\ORM\Association\HasMany $View0LineupsDetails
+ * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\BelongsTo $Lineups
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
+ *
+ * @method \App\Model\Entity\Disposition get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Disposition newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Disposition[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Disposition|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Disposition patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Disposition[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Disposition findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasOne $Ratings
  */
 class DispositionsTable extends Table
 {
@@ -66,8 +72,8 @@ class DispositionsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param  Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
@@ -87,8 +93,8 @@ class DispositionsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param  RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {

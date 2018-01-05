@@ -8,7 +8,7 @@ use Cake\ORM\Query;
 /**
  * Events Controller
  *
- * @property EventsTable $Events
+ * @property \App\Model\Table\EventsTable $Events
  */
 class EventsController extends AppController
 {

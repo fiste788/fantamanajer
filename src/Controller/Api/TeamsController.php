@@ -2,7 +2,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use App\Model\Table\TeamsTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\Query;
@@ -11,7 +10,7 @@ use Cake\View\Helper\UrlHelper;
 
 /**
  *
- * @property TeamsTable $Teams
+ * @property \App\Model\Table\TeamsTable $Teams
  * @property UrlHelper $Url
  */
 class TeamsController extends AppController

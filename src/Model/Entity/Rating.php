@@ -47,33 +47,33 @@ class Rating extends Entity
 
     /**
      *
-     * @param int $role
-     * @param bool $playmaker
+     * @return float
      */
-    public function calcNoBonusPoints($role, $playmaker)
+    public function calcNoBonusPoints()
     {
         $minus = 0;
         for ($i = 0; $i < $this->goals; $i++) {
-            switch ($role) {
-                case 3:
-                    if ($playmaker) {
+            switch ($this->member->role->abbreviation) {
+                case 'A':
+                    if ($this->member->playmaker) {
                         $minus += 0.5;
                     }
                     break;
-                case 2:
-                    if (!$playmaker) {
+                case 'C':
+                    if (!$this->member->playmaker) {
                         $minus += 1;
                     }
                     break;
-                case 1:
+                case 'D':
                     $minus += 1.5;
                     break;
-                case 0:
+                case 'P':
                     $minus += 2;
                     break;
             }
             //die($minus);
         }
-            $this->points_no_bonus = $this->points - $minus;
+
+        return $this->points - $minus;
     }
 }

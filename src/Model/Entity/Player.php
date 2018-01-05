@@ -12,10 +12,11 @@ use const DS;
  * @property int $id
  * @property string $name
  * @property string $surname
- * @property Member[] $members
+ * @property \App\Model\Entity\Member[] $members
  * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
  * @property \App\Model\Entity\View0Member[] $view0_members
  * @property \App\Model\Entity\View1MembersStat[] $view1_members_stats
+ * @property int $idGioc
  */
 class Player extends Entity
 {

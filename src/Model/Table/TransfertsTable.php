@@ -16,8 +16,17 @@ use Cake\Validation\Validator;
  *
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property BelongsTo $Teams
- * @property BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert findOrCreate($search, callable $callback = null, $options = [])
  */
 class TransfertsTable extends Table
 {
@@ -32,9 +41,9 @@ class TransfertsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('transferts');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('transferts');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'NewMembers',

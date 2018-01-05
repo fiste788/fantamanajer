@@ -10,11 +10,11 @@ use Cake\Routing\Router;
  * Event Entity.
  *
  * @property int $id
- * @property Time $created_at
+ * @property \Cake\I18n\FrozenTime $created_at
  * @property int $type
  * @property int $external
  * @property int $team_id
- * @property Team $team
+ * @property \App\Model\Entity\Team $team
  */
 class Event extends Entity
 {

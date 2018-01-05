@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Lineups Controller
  *
  * @property \App\Model\Table\LineupsTable $Lineups
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class LineupsController extends AppController
 {

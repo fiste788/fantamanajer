@@ -19,9 +19,10 @@ use Cake\ORM\Entity;
  * @property string $password
  * @property string $login_key
  * @property bool $admin
- * @property Team[] $teams
- * @property Subscription[] $subscriptions
+ * @property \App\Model\Entity\Team[] $teams
+ * @property \App\Model\Entity\Subscription[] $subscriptions
  * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
+ * @property int $old_id
  */
 class User extends Entity
 {

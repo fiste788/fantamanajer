@@ -12,7 +12,7 @@ use Cake\ORM\TableRegistry;
 /**
  * Scores Controller
  *
- * @property ScoresTable $Scores
+ * @property \App\Model\Table\ScoresTable $Scores
  */
 class ScoresController extends AppController
 {

@@ -11,21 +11,22 @@ use const DS;
  *
  * @property int $id
  * @property int $code_gazzetta
- * @property boolean $playmaker
- * @property boolean $active
+ * @property bool $playmaker
+ * @property int $active
  * @property int $player_id
- * @property Player $player
+ * @property \App\Model\Entity\Player $player
  * @property int $role_id
- * @property Role $role
+ * @property \App\Model\Entity\Role $role
  * @property int $club_id
- * @property Club $club
+ * @property \App\Model\Entity\Club $club
  * @property int $season_id
- * @property Season $season
- * @property Disposition[] $dispositions
- * @property Rating[] $ratings
+ * @property \App\Model\Entity\Season $season
+ * @property \App\Model\Entity\Disposition[] $dispositions
+ * @property \App\Model\Entity\Rating[] $ratings
  * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
  * @property \App\Model\Entity\View0MembersOnlyStat[] $view0_members_only_stats
- * @property Team[] $teams
+ * @property \App\Model\Entity\Team[] $teams
+ * @property \App\Model\Entity\VwMembersStat $stats
  */
 class Member extends Entity
 {

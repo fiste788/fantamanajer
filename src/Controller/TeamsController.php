@@ -13,7 +13,7 @@ use Cake\Routing\Router;
 /**
  * Teams Controller
  *
- * @property TeamsTable $Teams
+ * @property \App\Model\Table\TeamsTable $Teams
  */
 class TeamsController extends AppController
 {

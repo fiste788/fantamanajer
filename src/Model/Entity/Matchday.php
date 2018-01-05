@@ -12,14 +12,14 @@ use PDO;
  *
  * @property int $id
  * @property int $number
- * @property Time $date
+ * @property \Cake\I18n\FrozenTime $date
  * @property int $season_id
- * @property Season $season
- * @property Article[] $articles
- * @property Lineup[] $lineups
- * @property Rating[] $ratings
- * @property Score[] $scores
- * @property Transfert[] $transferts
+ * @property \App\Model\Entity\Season $season
+ * @property \App\Model\Entity\Article[] $articles
+ * @property \App\Model\Entity\Lineup[] $lineups
+ * @property \App\Model\Entity\Rating[] $ratings
+ * @property \App\Model\Entity\Score[] $scores
+ * @property \App\Model\Entity\Transfert[] $transferts
  */
 class Matchday extends Entity
 {

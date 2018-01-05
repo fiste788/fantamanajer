@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Ratings Controller
  *
  * @property \App\Model\Table\RatingsTable $Ratings
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class RatingsController extends AppController
 {

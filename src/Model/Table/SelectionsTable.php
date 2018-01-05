@@ -14,9 +14,19 @@ use Cake\Validation\Validator;
 /**
  * Selections Model
  *
- * @property BelongsTo $Teams
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
  * @property BelongsTo $Members
  * @property BelongsTo $Members
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Selection|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
  */
 class SelectionsTable extends Table
 {
@@ -31,9 +41,9 @@ class SelectionsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('selections');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('selections');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'Teams',

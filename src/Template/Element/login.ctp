@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ */
+?>
 <?php if (!$this->request->session()->read('logged')): ?>
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet md-cell--4-col-phone">

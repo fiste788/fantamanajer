@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Club $club
+ */
+?>
 <div data-enllax-ratio="0.5" class="enllax-container" style="background-image:url('../img/clubs/bg/<?= $club->id ?>.jpg')"></div>
 <div class="title">
     <?= $this->Html->image('clubs/' . $club->id . ".png",['alt'=>$club->name]) ?>

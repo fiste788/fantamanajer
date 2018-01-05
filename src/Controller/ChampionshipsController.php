@@ -12,7 +12,8 @@ use Cake\Routing\Router;
 /**
  * Championships Controller
  *
- * @property ChampionshipsTable $Championships
+ * @property \App\Model\Table\ChampionshipsTable $Championships
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ChampionshipsController extends AppController
 {

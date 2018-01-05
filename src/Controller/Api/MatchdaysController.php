@@ -3,6 +3,9 @@ namespace App\Controller\Api;
 
 use Cake\Event\Event;
 
+/**
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ */
 class MatchdaysController extends AppController
 {
     public function initialize()

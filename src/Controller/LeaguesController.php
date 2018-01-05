@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Leagues Controller
  *
  * @property \App\Model\Table\LeaguesTable $Leagues
+ * @method \App\Model\Entity\League[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class LeaguesController extends AppController
 {

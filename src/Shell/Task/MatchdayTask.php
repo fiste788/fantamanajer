@@ -2,8 +2,6 @@
 namespace App\Shell\Task;
 
 use App\Model\Entity\Season;
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\SeasonsTable;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Shell;
 use Cake\Http\Client;
@@ -11,8 +9,8 @@ use DateTime;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * @property MatchdaysTable $Matchdays
- * @property SeasonsTable $Seasons
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\SeasonsTable $Seasons
  */
 class MatchdayTask extends Shell
 {

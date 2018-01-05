@@ -15,6 +15,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
  * @property \App\Model\Entity\Matchday $matchday
+ * @property int $lineup_id
+ * @property \App\Model\Entity\Lineup $lineup
  */
 class Score extends Entity
 {

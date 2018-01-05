@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Score $score
+ */
+?>
 <?php if(!empty($ranking)): ?>
 <div id="ranking-container" data-squadra="">
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--4dp">

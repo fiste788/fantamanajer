@@ -14,13 +14,15 @@ use Cake\Console\Shell;
 use Cake\Utility\Inflector;
 
 /**
- * @property WeeklyScriptTask $WeeklyScript
- * @property GazzettaTask $Gazzetta
- * @property MatchdayTask $Matchday
- * @property TransfertTask $Transfert
- * @property DownloadPhotosTask $DownloadPhotos
+ * @property \App\Shell\Task\WeeklyScriptTask $WeeklyScript
+ * @property \App\Shell\Task\GazzettaTask $Gazzetta
+ * @property \App\Shell\Task\MatchdayTask $Matchday
+ * @property \App\Shell\Task\TransfertTask $Transfert
+ * @property \App\Shell\Task\DownloadPhotosTask $DownloadPhotos
  * @property UserTask $UserTask
  * @property PushNotificationTask $PushNotificationTask
+ * @property \App\Shell\Task\UserTask $User
+ * @property \App\Shell\Task\PushNotificationTask $PushNotification
  */
 class FantamanajerShell extends Shell
 {

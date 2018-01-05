@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property string $year
  * @property string $key_gazzetta
+ * @property bool $bonus_points
  * @property \App\Model\Entity\Championship[] $championships
  * @property \App\Model\Entity\Matchday[] $matchdays
  * @property \App\Model\Entity\Member[] $members

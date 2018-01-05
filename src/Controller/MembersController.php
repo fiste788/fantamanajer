@@ -12,7 +12,7 @@ use Cake\ORM\TableRegistry;
 /**
  * Members Controller
  *
- * @property MembersTable $Members
+ * @property \App\Model\Table\MembersTable $Members
  */
 class MembersController extends AppController
 {

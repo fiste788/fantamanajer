@@ -6,6 +6,9 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
 
+/**
+ * @property \App\Model\Table\ClubsTable $Clubs
+ */
 class ClubsController extends AppController
 {
     public function initialize()

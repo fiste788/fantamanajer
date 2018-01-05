@@ -8,7 +8,7 @@ use Cake\ORM\TableRegistry;
 
 /**
  *
- * @property LineupsTable $Lineups
+ * @property \App\Model\Table\LineupsTable $Lineups
  */
 class LineupsController extends AppController
 {
@@ -29,6 +29,7 @@ class LineupsController extends AppController
             ->first();
         if ($lineup->matchday_id != $this->currentMatchday->id) {
             $lineup->id = null;
+            $lineup->jolly = null;
             $lineup->created_at = null;
             $lineup->modified_at = null;
         }

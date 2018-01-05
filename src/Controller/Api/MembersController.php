@@ -7,7 +7,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 /**
- * @property MembersTable $Members
+ * @property \App\Model\Table\MembersTable $Members
  */
 class MembersController extends AppController
 {

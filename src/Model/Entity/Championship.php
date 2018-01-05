@@ -16,10 +16,12 @@ use Cake\ORM\TableRegistry;
  * @property bool $captain_missed_lineup
  * @property bool $jolly
  * @property int $league_id
- * @property League $league
+ * @property \App\Model\Entity\League $league
  * @property int $season_id
- * @property Season $season
- * @property Team[] $teams
+ * @property \App\Model\Entity\Season $season
+ * @property \App\Model\Entity\Team[] $teams
+ * @property \App\Model\Entity\View0MaxPoint[] $view0_max_points
+ * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
  */
 class Championship extends Entity
 {

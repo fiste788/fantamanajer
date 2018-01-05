@@ -2,7 +2,6 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Season;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
@@ -10,10 +9,15 @@ use Cake\Validation\Validator;
 /**
  * Clubs Model
  *
- * @property HasMany $Members
- * @property HasMany $View0LineupsDetails
- * @property HasMany $View0Members
- * @property HasMany $View1MembersStats
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ *
+ * @method \App\Model\Entity\Club get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Club[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Club|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Club[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Club findOrCreate($search, callable $callback = null, $options = [])
  */
 class ClubsTable extends Table
 {

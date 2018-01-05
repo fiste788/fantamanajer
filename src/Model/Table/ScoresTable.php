@@ -7,8 +7,6 @@ use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use App\Model\Entity\Team;
-use Cake\Log\Log;
-use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasOne;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -21,9 +19,17 @@ use PDOException;
 /**
  * Scores Model
  *
- * @property BelongsTo $Teams
- * @property BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
  * @property HasOne $Lineup
+ * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\BelongsTo $Lineups
+ * @method \App\Model\Entity\Score get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Score newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Score|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Score[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Score findOrCreate($search, callable $callback = null, $options = [])
  */
 class ScoresTable extends Table
 {
@@ -38,9 +44,9 @@ class ScoresTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('scores');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('scores');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'Lineups',
@@ -320,9 +326,8 @@ class ScoresTable extends Table
     public function calculate(Team $team, Matchday $matchday)
     {
         $lineups = TableRegistry::get('Lineups');
-        $dispositions = TableRegistry::get('Dispositions');
         $scores = TableRegistry::get('Scores');
-        $lineup = $this->getLastLineup($lineups, $matchday);
+        $lineup = $this->getLastLineup($lineups, $matchday, $team);
         $score = $scores->findByTeamIdAndMatchdayId($team->id, $matchday->id);
         $championship = $team->championship;
         if ($score->isEmpty()) {
@@ -390,12 +395,11 @@ class ScoresTable extends Table
             }
 
             $lineups->save($lineup, ['associated' => ['Dispositions' => ['associated' => false]]]);
-
+            $score->real_points = $sum;
             if ($lineup->jolly) {
                 $sum *= 2;
             }
             $score->points = $sum;
-            $score->real_points = $sum;
             $score->lineup_id = $lineup->id;
             if ($championship->points_missed_lineup != 100 && $matchday->id != $lineup->matchday_id) {
                 $puntiDaTogliere = round((($sum / 100) * (100 - $championship->points_missed_lineup)), 1);
@@ -414,7 +418,7 @@ class ScoresTable extends Table
     {
         $member = $disposition->member;
         $disposition->consideration = 1;
-        $points = $member->ratings[0]->points;
+        $points = $member->ratings[0]->points_no_bonus;
         if ($cap && $member->id == $cap) {
             $disposition->consideration = 2;
             $points *= 2;
@@ -427,9 +431,10 @@ class ScoresTable extends Table
      *
      * @param \App\Model\Table\LineupsTable $lineups
      * @param Matchday                      $matchday
+     * @param Team                          $team
      * @return Lineup
      */
-    public static function getLastLineup(LineupsTable $lineups, Matchday $matchday)
+    public static function getLastLineup(LineupsTable $lineups, Matchday $matchday, Team $team)
     {
         return $lineups->find()
             ->innerJoinWith('Matchdays')
@@ -442,12 +447,11 @@ class ScoresTable extends Table
                                                 'valueField' => function ($obj) {
                                                     return $obj;
                                                 }]
-                                    )
-                                            ->contain(
-                                                ['Ratings' => function (Query $q) use ($matchday) {
+                                    )->contain(
+                                        ['Ratings' => function (Query $q) use ($matchday) {
                                                     return $q->where(['Ratings.matchday_id' => $matchday->id]);
-                                                }]
-                                            );
+                                        }]
+                                    );
                 }
                             ]]
             )

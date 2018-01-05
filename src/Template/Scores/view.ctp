@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Score $score
+ */
+?>
 <h4>Punteggio: <span><?php echo (isset($score->real_points)) ? $score->real_points : ''; ?></span></h4>
 <?php if (!is_null($score->penality)): ?>
     <div class="alert alert-error">

@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Member[]|\Cake\Collection\CollectionInterface $members
+ * @var \App\Model\Entity\Role $role
+ */
+?>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
     <div class="mdl-tabs__tab-bar">
         <?php foreach($roles as $role): ?>

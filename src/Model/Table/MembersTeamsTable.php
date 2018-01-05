@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\MembersTeam;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -10,8 +8,15 @@ use Cake\Validation\Validator;
 /**
  * MembersTeams Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Teams
- * @property \Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
+ * @method \App\Model\Entity\MembersTeam get($primaryKey, $options = [])
+ * @method \App\Model\Entity\MembersTeam newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\MembersTeam[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\MembersTeam|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\MembersTeam patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\MembersTeam[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\MembersTeam findOrCreate($search, callable $callback = null, $options = [])
  */
 class MembersTeamsTable extends Table
 {
@@ -26,9 +31,9 @@ class MembersTeamsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('members_teams');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('members_teams');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'Teams',

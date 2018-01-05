@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Article $article
+ */
+?>
 <article class="mdl-card mdl-shadow--4dp">
     <header class="mdl-card__title">
         <h2 class="mdl-card__title-text"><?php echo $article->title; ?></h2>

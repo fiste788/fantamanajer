@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Article $article
+ */
+?>
 <div class="mdl-container">
     <section class="mdl-grid mdl-grid--no-spacing mdl-shadow--4dp">
         <?= $this->Form->create($article) ?>

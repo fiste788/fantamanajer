@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Seasons Controller
  *
  * @property \App\Model\Table\SeasonsTable $Seasons
+ * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class SeasonsController extends AppController
 {

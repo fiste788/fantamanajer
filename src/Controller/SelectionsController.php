@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Selections Controller
  *
  * @property \App\Model\Table\SelectionsTable $Selections
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class SelectionsController extends AppController
 {

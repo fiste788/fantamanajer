@@ -1,9 +1,8 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
-use Cake\ORM\Association\BelongsTo;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -12,12 +11,20 @@ use DateTime;
 /**
  * Matchdays Model
  *
- * @property BelongsTo $Seasons
- * @property HasMany $Articles
- * @property HasMany $Lineups
- * @property HasMany $Ratings
- * @property HasMany $Scores
- * @property HasMany $Transferts
+ * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
+ * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
+ *
+ * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Matchday newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
  */
 class MatchdaysTable extends Table
 {
@@ -32,9 +39,9 @@ class MatchdaysTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('matchdays');
-        $this->displayField('number');
-        $this->primaryKey('id');
+        $this->setTable('matchdays');
+        $this->setDisplayField('number');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'Seasons',
@@ -139,7 +146,7 @@ class MatchdaysTable extends Table
     /**
      *
      * @param Season $season
-     * @return Matchdays[]
+     * @return Matchday[]
      */
     public function findWithoutScores(Season $season)
     {
@@ -170,7 +177,7 @@ class MatchdaysTable extends Table
     /**
      *
      * @param Season $season
-     * @return Matchdays[]
+     * @return Matchday[]
      */
     public function findWithoutRatings(Season $season)
     {

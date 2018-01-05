@@ -20,6 +20,13 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $updated_at
+ * @property int $old_id
+ * @property \App\Model\Entity\Member $captain
+ * @property \App\Model\Entity\Member $v_captain
+ * @property \App\Model\Entity\Member $v_v_captain
+ * @property \App\Model\Entity\Score $score
  */
 class Lineup extends Entity
 {

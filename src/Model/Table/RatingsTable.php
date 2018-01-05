@@ -1,10 +1,7 @@
 <?php
 namespace App\Model\Table;
 
-use ArrayObject;
-use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
-use Cake\ORM\Association\BelongsTo;
+use App\Model\Entity\Season;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -12,8 +9,16 @@ use Cake\Validation\Validator;
 /**
  * Ratings Model
  *
- * @property BelongsTo $Members
- * @property BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ *
+ * @method \App\Model\Entity\Rating get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Rating newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Rating|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
  */
 class RatingsTable extends Table
 {
@@ -28,9 +33,9 @@ class RatingsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('ratings');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('ratings');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'Members',

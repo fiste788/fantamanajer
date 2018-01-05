@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Event;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -10,7 +8,15 @@ use Cake\Validation\Validator;
 /**
  * Events Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ *
+ * @method \App\Model\Entity\Event get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Event newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Event[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Event|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Event patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Event[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Event findOrCreate($search, callable $callback = null, $options = [])
  */
 class EventsTable extends Table
 {
@@ -40,8 +46,8 @@ class EventsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param  Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
@@ -70,8 +76,8 @@ class EventsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param  RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {

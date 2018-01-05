@@ -1,14 +1,12 @@
 <?php
 namespace App\Shell\Task;
 
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\SelectionsTable;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Shell;
 
 /**
- * @property MatchdaysTable $Matchdays
- * @property SelectionsTable $Selections
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\SelectionsTable $Selections
  */
 class TransfertTask extends Shell
 {

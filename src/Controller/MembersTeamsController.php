@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * MembersTeams Controller
  *
  * @property \App\Model\Table\MembersTeamsTable $MembersTeams
+ * @method \App\Model\Entity\MembersTeam[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class MembersTeamsController extends AppController
 {

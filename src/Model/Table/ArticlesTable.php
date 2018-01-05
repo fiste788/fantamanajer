@@ -6,7 +6,6 @@ use App\Model\Entity\Event as Event2;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -16,8 +15,17 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
- * @property BelongsTo $Teams
- * @property BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ *
+ * @method \App\Model\Entity\Article get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Article newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Article|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Article patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Article[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Article findOrCreate($search, callable $callback = null, $options = [])
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table
 {

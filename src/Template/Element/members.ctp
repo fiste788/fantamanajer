@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Member[]|\Cake\Collection\CollectionInterface $members
+ */
+?>
 <?php if (!empty($members)): ?>
     <section>
         <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--4dp">

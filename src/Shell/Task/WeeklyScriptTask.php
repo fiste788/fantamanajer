@@ -19,13 +19,13 @@ use Cake\Mailer\Email;
 use Minishlink\WebPush\WebPush;
 
 /**
- * @property GazzettaTask $Gazzetta
- * @property SeasonsTable $Seasons
- * @property MatchdaysTable $Matchdays
- * @property ScoresTable $Scores
- * @property RatingsTable $Ratings
- * @property ChampionshipsTable $Championships
- * @property LineupsTable $Lineups
+ * @property \App\Shell\Task\GazzettaTask $Gazzetta
+ * @property \App\Model\Table\SeasonsTable $Seasons
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\ScoresTable $Scores
+ * @property \App\Model\Table\RatingsTable $Ratings
+ * @property \App\Model\Table\ChampionshipsTable $Championships
+ * @property \App\Model\Table\LineupsTable $Lineups
  */
 class WeeklyScriptTask extends Shell
 {

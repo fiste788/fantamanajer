@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
+ */
+?>
 <?php if (!empty($articles)): ?>
     <div class="mdl-grid">
         <?php foreach ($articles as $article): ?>

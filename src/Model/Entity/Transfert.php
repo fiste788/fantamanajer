@@ -15,6 +15,8 @@ use Cake\ORM\Entity;
  * @property int $matchday_id
  * @property \App\Model\Entity\Matchday $matchday
  * @property bool $constrained
+ * @property \App\Model\Entity\Member $old_member
+ * @property \App\Model\Entity\Member $new_member
  */
 class Transfert extends Entity
 {

@@ -2,11 +2,10 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use App\Model\Table\TransfertsTable;
 
 /**
  *
- * @property TransfertsTable $Transferts
+ * @property \App\Model\Table\TransfertsTable $Transferts
  */
 class TransfertsController extends AppController
 {
