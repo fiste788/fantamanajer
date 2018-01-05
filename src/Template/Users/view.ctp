@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\User $user
+ */
+?>
 <div class="users view large-10 medium-9 columns">
 	<h2><?= h($user->fullName) ?></h2>
 	<div class="row">

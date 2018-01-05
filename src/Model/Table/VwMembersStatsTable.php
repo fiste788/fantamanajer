@@ -10,7 +10,14 @@ use Cake\Validation\Validator;
 /**
  * VwMembersStats Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
+ * @method \App\Model\Entity\VwMembersStat get($primaryKey, $options = [])
+ * @method \App\Model\Entity\VwMembersStat newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\VwMembersStat[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\VwMembersStat|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\VwMembersStat patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\VwMembersStat[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\VwMembersStat findOrCreate($search, callable $callback = null, $options = [])
  */
 class VwMembersStatsTable extends Table
 {

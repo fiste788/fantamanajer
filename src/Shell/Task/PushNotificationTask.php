@@ -2,11 +2,6 @@
 
 namespace App\Shell\Task;
 
-use App\Model\Table\LineupsTable;
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\SeasonsTable;
-use App\Model\Table\TeamsTable;
-use App\Model\Table\UsersTable;
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
 use Cake\Console\Shell;
@@ -15,11 +10,11 @@ use Cake\ORM\TableRegistry;
 use Minishlink\WebPush\WebPush;
 
 /**
- * @property SeasonsTable $Seasons
- * @property MatchdaysTable $Matchdays
- * @property UsersTable $Users
- * @property LineupsTable $Lineups
- * @property TeamsTable $Teams
+ * @property \App\Model\Table\SeasonsTable $Seasons
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\UsersTable $Users
+ * @property \App\Model\Table\LineupsTable $Lineups
+ * @property \App\Model\Table\TeamsTable $Teams
  */
 class PushNotificationTask extends Shell
 {
@@ -80,13 +75,13 @@ class PushNotificationTask extends Shell
         if ($this->currentMatchday->date->isWithinNext('30 minutes')) {
             $webPush = new WebPush(Configure::read('WebPush'));
             $teams = $this->Teams->find()
-                ->contain(['Users.subscription'])
+                ->contain(['Users.Subscriptions'])
                 ->innerJoinWith('Championships')
                 ->where(
                     [
                         'season_id' => $this->currentSeason->id,
                         'team_id NOT IN' => $this->Lineups->find()->where(['matchday_id' => $this->currentMatchday->id])
-                        ]
+                    ]
                 );
             foreach ($teams as $team) {
                 foreach ($team->user->subscriptions as $subscription) {

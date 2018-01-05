@@ -11,7 +11,8 @@ use DateTime;
 /**
  * Articles Controller
  *
- * @property ArticlesTable $Articles
+ * @property \App\Model\Table\ArticlesTable $Articles
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ArticlesController extends AppController
 {

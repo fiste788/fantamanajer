@@ -4,8 +4,6 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Season;
 use App\Model\Entity\User;
-use Cake\ORM\Association\BelongsTo;
-use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -16,17 +14,25 @@ use Cake\Validation\Validator;
 /**
  * Teams Model
  *
- * @property BelongsTo $Users
- * @property BelongsTo $Championships
- * @property HasMany $Articles
- * @property HasMany $Events
- * @property HasMany $Lineups
- * @property HasMany $Scores
- * @property HasMany $Selections
- * @property HasMany $Transferts
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
+ * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
+ * @property \App\Model\Table\EventsTable|\Cake\ORM\Association\HasMany $Events
+ * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\SelectionsTable|\Cake\ORM\Association\HasMany $Selections
+ * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
  * @property HasMany $View0LineupsDetails
  * @property HasMany $View1MatchdayWin
- * @property BelongsToMany $Members
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsToMany $Members
+ * @method \App\Model\Entity\Team get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Team|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
+ * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
  */
 class TeamsTable extends Table
 {

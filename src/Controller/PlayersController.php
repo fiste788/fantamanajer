@@ -11,7 +11,8 @@ use Cake\ORM\TableRegistry;
 /**
  * Players Controller
  *
- * @property PlayersTable $Players
+ * @property \App\Model\Table\PlayersTable $Players
+ * @method \App\Model\Entity\Player[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class PlayersController extends AppController
 {

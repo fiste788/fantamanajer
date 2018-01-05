@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Club $club
+ */
+?>
 <div class="enllax-container">
     <img data-enllax-ratio=".5" data-enllax-type="foreground" src="http://www.juventusclubmodena.it/jcm/wp-content/uploads/2016/01/Juventus-Wallpaper-2015-2.jpg" />
 </div>

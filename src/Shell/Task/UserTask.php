@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Shell\Task;
 
-use App\Model\Table\UsersTable;
-use Cake\Auth\DefaultPasswordHasher;
 use Cake\Console\Shell;
 
 /**
- * @property UsersTable $Users
+ * @property \App\Model\Table\UsersTable $Users
  */
 class UserTask extends Shell
 {

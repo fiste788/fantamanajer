@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Team $team
+ */
+?>
 <?php if(file_exists(WWW_ROOT . 'img' . DS . 'upload' . DS . 'bg' . $team->id . '.jpg')): ?>
     <div data-enllax-ratio="0.5" class="enllax-container" style="background-image:url('../img/upload/bg/<?= $team->id ?>.jpg')"></div>
 <?php else: ?>

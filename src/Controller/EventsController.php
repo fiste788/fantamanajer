@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Events Controller
  *
  * @property \App\Model\Table\EventsTable $Events
+ * @method \App\Model\Entity\Event[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class EventsController extends AppController
 {

@@ -12,7 +12,8 @@ use Cake\ORM\TableRegistry;
 /**
  * Users Controller
  *
- * @property UsersTable $Users
+ * @property \App\Model\Table\UsersTable $Users
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {

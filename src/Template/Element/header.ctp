@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ */
+?>
 <div class="mdl-layout__header-row">
     <span class="mdl-layout-title"><?php echo (!empty($title)) ? $title : 'FantaManajer' ?></span>
     <?php if ($this->request->session()->read('logged')): ?>

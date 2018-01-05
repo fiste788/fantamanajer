@@ -14,18 +14,19 @@ use Cake\Routing\Router;
  * @property int $photo_size
  * @property string $photo_type
  * @property int $user_id
- * @property User $user
+ * @property \App\Model\Entity\User $user
  * @property int $championship_id
- * @property Championship $championship
- * @property Article[] $articles
- * @property Event[] $events
- * @property Lineup[] $lineups
- * @property Score[] $scores
- * @property Selection[] $selections
- * @property Transfert[] $transferts
+ * @property \App\Model\Entity\Championship $championship
+ * @property \App\Model\Entity\Article[] $articles
+ * @property \App\Model\Entity\Event[] $events
+ * @property \App\Model\Entity\Lineup[] $lineups
+ * @property \App\Model\Entity\Score[] $scores
+ * @property \App\Model\Entity\Selection[] $selections
+ * @property \App\Model\Entity\Transfert[] $transferts
  * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
  * @property \App\Model\Entity\View1MatchdayWin[] $view1_matchday_win
- * @property Member[] $members
+ * @property \App\Model\Entity\Member[] $members
+ * @property int $old_id
  */
 class Team extends Entity
 {

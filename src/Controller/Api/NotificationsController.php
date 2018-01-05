@@ -3,9 +3,6 @@ namespace App\Controller\Api;
 
 use Cake\ORM\TableRegistry;
 
-/**
- *
- */
 class NotificationsController extends AppController
 {
     public function initialize()

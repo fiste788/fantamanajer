@@ -8,7 +8,7 @@ use Cake\ORM\TableRegistry;
 
 /**
  *
- * @property ScoresTable $Scores
+ * @property \App\Model\Table\ScoresTable $Scores
  */
 class ScoresController extends AppController
 {

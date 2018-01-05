@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Transferts Controller
  *
  * @property \App\Model\Table\TransfertsTable $Transferts
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class TransfertsController extends AppController
 {

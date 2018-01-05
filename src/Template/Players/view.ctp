@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Player $player
+ * @var \App\Model\Entity\Rating $rating
+ */
+?>
 <div data-enllax-ratio="0.5" class="enllax-container" style="background-image:url('../img/clubs/bg/<?= $currentMember->club->id ?>.jpg')"></div>
 <div class="title">
     <div class="photo-crop">

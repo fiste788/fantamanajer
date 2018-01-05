@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Team[]|\Cake\Collection\CollectionInterface $teams
+ */
+?>
 <?php foreach ($teams as $team): ?>
     <div class="col-lg-3 col-md-3 col-sm-4">
         <div class="well center">

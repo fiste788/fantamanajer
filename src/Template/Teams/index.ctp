@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Team[]|\Cake\Collection\CollectionInterface $teams
+ */
+?>
 <div class="mdl-grid">
     <?php foreach ($teams as $team): ?>
         <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-desktop mdl-cell--4-col-tablet md-cell--4-col-phone">

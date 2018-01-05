@@ -11,7 +11,7 @@ use Cake\Network\Response;
 /**
  * Clubs Controller
  *
- * @property ClubsTable $Clubs
+ * @property \App\Model\Table\ClubsTable $Clubs
  */
 class ClubsController extends AppController
 {

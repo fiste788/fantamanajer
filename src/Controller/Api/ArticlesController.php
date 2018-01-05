@@ -3,12 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use App\Model\Table\ArticlesTable;
 use Cake\Event\Event;
 
 /**
  *
- * @property ArticlesTable $Articles
+ * @property \App\Model\Table\ArticlesTable $Articles
  */
 class ArticlesController extends AppController
 {

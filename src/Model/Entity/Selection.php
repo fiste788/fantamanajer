@@ -9,16 +9,18 @@ use Cake\ORM\TableRegistry;
  * Selection Entity.
  *
  * @property int $id
- * @property boolean $active
- * @property boolean $processed
+ * @property bool $active
+ * @property bool $processed
  * @property int $team_id
- * @property Team $team
+ * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
- * @property Matchday $matchday
+ * @property \App\Model\Entity\Matchday $matchday
  * @property int $old_member_id
  * @property int $new_member_id
  * @property Member $oldMember
  * @property Member $newMember
+ * @property \App\Model\Entity\Member $old_member
+ * @property \App\Model\Entity\Member $new_member
  */
 class Selection extends Entity
 {

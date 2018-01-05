@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Score $score
+ */
+?>
 <h3>
     <a href="<?php echo $baseUrl . '/scores/' . $score->id ?>" style="text-decoration:none;color:#ff4081">Punteggio: <?php echo $score->points; ?></a>
 </h3>

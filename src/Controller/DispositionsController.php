@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Dispositions Controller
  *
  * @property \App\Model\Table\DispositionsTable $Dispositions
+ * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class DispositionsController extends AppController
 {

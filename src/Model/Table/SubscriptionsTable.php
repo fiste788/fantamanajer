@@ -2,12 +2,8 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Subscription;
-use App\Model\Table\UsersTable;
 use ArrayObject;
-use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -15,15 +11,16 @@ use Cake\Validation\Validator;
 /**
  * Subscriptions Model
  *
- * @property UsersTable|BelongsTo $Users
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  *
- * @method Subscription get($primaryKey, $options = [])
- * @method Subscription newEntity($data = null, array $options = [])
- * @method Subscription[] newEntities(array $data, array $options = [])
- * @method Subscription|bool save(EntityInterface $entity, $options = [])
- * @method Subscription patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Subscription[] patchEntities($entities, array $data, array $options = [])
- * @method Subscription findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Subscription get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Subscription newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Subscription[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Subscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Subscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Subscription[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Subscription findOrCreate($search, callable $callback = null, $options = [])
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class SubscriptionsTable extends Table
 {

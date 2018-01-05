@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ */
+?>
 <?php if(!$this->request->session()->read('logged')): ?>
     <a class="mdl-navigation__link" href="<?php echo $this->Url->build(['_name' =>'login']) ?>">Login</a>
 <?php else: ?>

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Disposition $disposition
+ */
+?>
 <?php if (!empty($dispositions)): ?>
     <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--4dp">
         <caption><?= $caption ?></caption>

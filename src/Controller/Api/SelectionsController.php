@@ -6,7 +6,7 @@ use Cake\Event\Event;
 
 /**
  *
- * @property selectionsTable $Selections
+ * @property \App\Model\Table\SelectionsTable $Selections
  */
 class SelectionsController extends AppController
 {

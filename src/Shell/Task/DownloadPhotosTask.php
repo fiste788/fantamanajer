@@ -11,9 +11,9 @@ use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * @property SeasonsTable $Seasons
- * @property MatchdaysTable $Matchdays
- * @property MembersTable $Members
+ * @property \App\Model\Table\SeasonsTable $Seasons
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\MembersTable $Members
  */
 class DownloadPhotosTask extends Shell
 {

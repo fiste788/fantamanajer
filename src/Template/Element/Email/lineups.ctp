@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Disposition $disposition
+ */
+?>
 <?php if (!empty($dispositions)): ?>
     <table width="100%">
         <caption><?= $caption ?></caption>

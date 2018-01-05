@@ -9,7 +9,7 @@ use Cake\Routing\Router;
 use const DS;
 
 /**
- * @property PlayersTable $Players
+ * @property \App\Model\Table\PlayersTable $Players
  */
 class PlayersController extends AppController
 {

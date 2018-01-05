@@ -3,7 +3,6 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Event as Event2;
-use App\Model\Entity\Lineup;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -20,19 +19,23 @@ use Cake\Validation\Validator;
  * @property MembersTable|BelongsTo $Members
  * @property MembersTable|BelongsTo $Members
  * @property MembersTable|BelongsTo $Members
- * @property MatchdaysTable|BelongsTo $Matchdays
- * @property TeamsTable|BelongsTo $Teams
- * @property DispositionsTable|HasMany $Dispositions
- * @property |HasMany $Scores
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasOne $Scores
  * @property \App\Model\Table\View0LineupsDetailsTable|HasMany $View0LineupsDetails
  *
- * @method Lineup get($primaryKey, $options = [])
- * @method Lineup newEntity($data = null, array $options = [])
- * @method Lineup[] newEntities(array $data, array $options = [])
- * @method Lineup|bool save(EntityInterface $entity, $options = [])
- * @method Lineup patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Lineup[] patchEntities($entities, array $data, array $options = [])
- * @method Lineup findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Captain
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class LineupsTable extends Table
 {
@@ -167,6 +170,27 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
+        $rules->add(
+            function (\App\Model\Entity\Lineup $entity, $options) {
+                TableRegistry::get('Lineups')->loadInto($entity, ['Matchdays']);
+                $matchdays = TableRegistry::get('Matchdays')
+                    ->find()
+                    ->where(['season_id' => $entity->matchday->season_id])
+                    ->count();
+
+                return TableRegistry::get('Lineups')->find()
+                    ->contain(['Matchdays'])
+                    ->innerJoinWith('Matchdays')
+                    ->where([
+                        'jolly' => true,
+                        'team_id' => $entity->team_id,
+                        'Matchdays.number ' . ($entity->matchday->number <= $matchdays / 2 ? '<=' : '>') => $matchdays / 2
+                    ])
+                    ->isEmpty();
+            },
+            'JollyAlreadyUsed',
+            ['errorField' => 'jolly', 'message' => 'Hai già utilizzato il jolly']
+        );
 
         return $rules;
     }

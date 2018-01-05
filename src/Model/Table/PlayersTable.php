@@ -8,10 +8,17 @@ use Cake\Validation\Validator;
 /**
  * Players Model
  *
- * @property HasMany $Members
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
  * @property HasMany $View0LineupsDetails
  * @property HasMany $View0Members
  * @property HasMany $View1MembersStats
+ * @method \App\Model\Entity\Player get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Player newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Player|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Player patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Player[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Player findOrCreate($search, callable $callback = null, $options = [])
  */
 class PlayersTable extends Table
 {
@@ -26,9 +33,9 @@ class PlayersTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('players');
-        $this->displayField('surname');
-        $this->primaryKey('id');
+        $this->setTable('players');
+        $this->setDisplayField('surname');
+        $this->setPrimaryKey('id');
 
         $this->hasMany(
             'Members',

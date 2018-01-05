@@ -7,6 +7,7 @@ use App\Controller\AppController;
  * Matchdays Controller
  *
  * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class MatchdaysController extends AppController
 {

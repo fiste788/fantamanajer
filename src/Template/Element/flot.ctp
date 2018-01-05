@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ */
+?>
 <div id="plot-container" class="hidden-xs">
 	<div id="placeholder" style="height:300px"></div>
 	<div id="placeholder-overview" style="width:200px;height:100px"></div>

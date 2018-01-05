@@ -1,4 +1,14 @@
-<?php 
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Event[]|\Cake\Collection\CollectionInterface $events
+ */
+?>
+<?php /**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Event[]|\Cake\Collection\CollectionInterface $events
+ */
+
 
 foreach ($events as $event) {
     
