@@ -509,16 +509,16 @@
         },
         {
             "name": "friendsofcake/crud",
-            "version": "5.2.1",
+            "version": "5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/crud.git",
-                "reference": "39b29c32d7048a3c722e32c813f9d3ee5131e30e"
+                "reference": "52b293698e139cc35b92d6627ef8eeafa9bad6b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/39b29c32d7048a3c722e32c813f9d3ee5131e30e",
-                "reference": "39b29c32d7048a3c722e32c813f9d3ee5131e30e",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/52b293698e139cc35b92d6627ef8eeafa9bad6b6",
+                "reference": "52b293698e139cc35b92d6627ef8eeafa9bad6b6",
                 "shasum": ""
             },
             "require": {
@@ -580,7 +580,7 @@
                 "scaffolding",
                 "update"
             ],
-            "time": "2018-01-02T05:31:20+00:00"
+            "time": "2018-01-06T05:26:55+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3245,12 +3245,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/markstory/asset_compress.git",
-                "reference": "443fcd1782dd9483549b74eb6a6e154d997487dd"
+                "reference": "cfa4de1e076f5f271cf77777e4cf854a10db7067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markstory/asset_compress/zipball/443fcd1782dd9483549b74eb6a6e154d997487dd",
-                "reference": "443fcd1782dd9483549b74eb6a6e154d997487dd",
+                "url": "https://api.github.com/repos/markstory/asset_compress/zipball/cfa4de1e076f5f271cf77777e4cf854a10db7067",
+                "reference": "cfa4de1e076f5f271cf77777e4cf854a10db7067",
                 "shasum": ""
             },
             "require": {
@@ -3295,7 +3295,7 @@
                 "minifier",
                 "sass"
             ],
-            "time": "2018-01-05T02:07:26+00:00"
+            "time": "2018-01-07T02:52:31+00:00"
         },
         {
             "name": "markstory/mini-asset",
@@ -3367,12 +3367,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/natxet/CssMin.git",
-                "reference": "9580f5448f05a82c96cfe6c7063a77807d8ec56d"
+                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/natxet/CssMin/zipball/9580f5448f05a82c96cfe6c7063a77807d8ec56d",
-                "reference": "9580f5448f05a82c96cfe6c7063a77807d8ec56d",
+                "url": "https://api.github.com/repos/natxet/CssMin/zipball/d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
+                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
                 "shasum": ""
             },
             "require": {
@@ -3406,7 +3406,7 @@
                 "css",
                 "minify"
             ],
-            "time": "2017-10-04T16:54:00+00:00"
+            "time": "2018-01-09T11:15:01+00:00"
         },
         {
             "name": "nikic/php-parser",

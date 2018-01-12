@@ -172,10 +172,10 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add(
             function (\App\Model\Entity\Lineup $entity, $options) {
-                TableRegistry::get('Lineups')->loadInto($entity, ['Matchdays']);
+                $matchday = TableRegistry::get('Matchdays')->get($entity->matchday_id);
                 $matchdays = TableRegistry::get('Matchdays')
                     ->find()
-                    ->where(['season_id' => $entity->matchday->season_id])
+                    ->where(['season_id' => $matchday->season_id])
                     ->count();
 
                 return TableRegistry::get('Lineups')->find()
@@ -184,7 +184,7 @@ class LineupsTable extends Table
                     ->where([
                         'jolly' => true,
                         'team_id' => $entity->team_id,
-                        'Matchdays.number ' . ($entity->matchday->number <= $matchdays / 2 ? '<=' : '>') => $matchdays / 2
+                        'Matchdays.number ' . ($matchday->number <= $matchdays / 2 ? '<=' : '>') => $matchdays / 2
                     ])
                     ->isEmpty();
             },
