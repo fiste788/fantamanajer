@@ -1,6 +1,6 @@
 {
-    "name": "Fiste788/fantamanajer-new",
-    "description": "FantaManajer backend",
+    "name": "Fiste788/fantamanajer",
+    "description": "FantaManajer api backend written in php",
     "homepage": "https://fantamanajer.it",
     "type": "project",
     "license": "MIT",
