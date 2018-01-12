@@ -3,7 +3,6 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 
 /**
  * Selection Entity.
@@ -48,22 +47,5 @@ class Selection extends Entity
         $transfert->new_member_id = $this->new_member_id;
 
         return $transfert;
-    }
-
-    public function isMemberAlreadySelected()
-    {
-        $team = TableRegistry::get('Teams')->get($this->team_id);
-        $selection = TableRegistry::get('Selections')
-                ->find()
-                ->innerJoinWith('Teams')
-                ->where(
-                    [
-                    'team_id !=' => $this->team_id,
-                    'new_member_id' => $this->new_member_id,
-                    'Teams.championship_id' => $team->championship_id
-                    ]
-                );
-
-        return !$selection->isEmpty();
     }
 }

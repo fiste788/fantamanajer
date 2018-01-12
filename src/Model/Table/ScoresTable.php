@@ -177,12 +177,9 @@ class ScoresTable extends Table
      */
     public function findRanking($championshipId)
     {
-        $query = $this->find(
-            'all',
-            [
-                    'contain' => ['Teams']
-            ]
-        )->matching(
+        $query = $this->find()
+            ->contain(['Teams'])
+            ->matching(
             'Teams',
             function ($q) use ($championshipId) {
                         return $q->where(['Teams.championship_id' => $championshipId]);

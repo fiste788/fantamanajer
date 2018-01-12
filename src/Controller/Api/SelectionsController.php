@@ -34,6 +34,7 @@ class SelectionsController extends AppController
                 $event->getSubject()->entity->active = true;
             }
         );
+        
         $this->Crud->execute();
     }
 }
