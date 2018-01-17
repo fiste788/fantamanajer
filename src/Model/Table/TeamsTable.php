@@ -22,8 +22,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
  * @property \App\Model\Table\SelectionsTable|\Cake\ORM\Association\HasMany $Selections
  * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
- * @property HasMany $View0LineupsDetails
- * @property HasMany $View1MatchdayWin
  * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsToMany $Members
  * @method \App\Model\Entity\Team get($primaryKey, $options = [])
  * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
@@ -147,18 +145,6 @@ class TeamsTable extends Table
         );
         $this->hasMany(
             'Transferts',
-            [
-            'foreignKey' => 'team_id'
-            ]
-        );
-        $this->hasMany(
-            'View0LineupsDetails',
-            [
-            'foreignKey' => 'team_id'
-            ]
-        );
-        $this->hasMany(
-            'View1MatchdayWin',
             [
             'foreignKey' => 'team_id'
             ]

@@ -5,12 +5,6 @@ namespace App\Shell\Task;
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Team;
-use App\Model\Table\ChampionshipsTable;
-use App\Model\Table\LineupsTable;
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\RatingsTable;
-use App\Model\Table\ScoresTable;
-use App\Model\Table\SeasonsTable;
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
 use Cake\Console\Shell;
@@ -61,23 +55,23 @@ class WeeklyScriptTask extends Shell
         $parser->addSubcommand(
             'send_points_mails',
             [
-            'help' => 'Send the mails of points'
+                'help' => 'Send the mails of points'
             ]
         );
         $parser->addOption(
             'no_send_mail',
             [
-            'help' => 'Disable sending summary mails',
-            'boolean' => true,
-            'short' => 'm'
+                'help' => 'Disable sending summary mails',
+                'boolean' => true,
+                'short' => 'm'
             ]
         );
         $parser->addOption(
             'no_calc_scores',
             [
-            'help' => 'Disable calc of scores',
-            'boolean' => true,
-            'short' => 's'
+                'help' => 'Disable calc of scores',
+                'boolean' => true,
+                'short' => 's'
             ]
         );
 
@@ -126,9 +120,13 @@ class WeeklyScriptTask extends Shell
             $this->out("Calculating points of matchday " . $matchday->number . " for league " . $championship->league->name);
             foreach ($championship->teams as $team) {
                 $this->out("Elaborating team " . $team->name);
-                $scores[$team->id] = $this->Scores->calculate($team, $matchday);
+                $scores[$team->id] = $this->Scores->compute($team, $matchday);
             }
-            if (!$this->param('no_send_mail')) {
+            $success = $this->Scores->saveMany(
+                $scores,
+                ['associated' => ['Lineups.Dispositions' => ['associated' => false]]]
+            );
+            if ($success && !$this->param('no_send_mail')) {
                 $this->out("Sending mails");
                 $this->sendWeeklyMails($matchday, $championship);
                 $this->out("Sending notification");
@@ -143,11 +141,11 @@ class WeeklyScriptTask extends Shell
         foreach ($championship->teams as $team) {
             foreach ($team->user->subscriptions as $subscription) {
                 $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
-                        ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
-                        ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id] . ' punti')
-                        ->action('Visualizza', 'open')
-                        ->tag(926796012340920300)
-                        ->data(['url' => '/scores/last']);
+                    ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
+                    ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti')
+                    ->action('Visualizza', 'open')
+                    ->tag(926796012340920300)
+                    ->data(['url' => '/scores/last']);
 
                 $this->out("Sending notification to " . $subscription->endpoint);
                 $webPush->sendNotification(
@@ -192,7 +190,7 @@ class WeeklyScriptTask extends Shell
                     'regulars' => $regulars,
                     'notRegulars' => $dispositions,
                     'baseUrl' => 'https://fantamanajer.it'
-                    ]
+                ]
             )
             ->setSubject('Punteggio ' . $team->name . ' giornata ' . $matchday->number . ': ' . $score->points)
             ->setEmailFormat('html')

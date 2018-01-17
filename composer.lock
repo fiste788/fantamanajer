@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "98d97ce5969a87bafc07337f6b443c9a",
+    "content-hash": "20b5d3daac364e7beafc65024c604d35",
     "packages": [
         {
             "name": "admad/cakephp-jwt-auth",
@@ -243,16 +243,16 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "56d98330d366a469745848b07540373846c40561"
+                "reference": "85bcaea6a832684b32ef54b2487b0c14a172e9e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/56d98330d366a469745848b07540373846c40561",
-                "reference": "56d98330d366a469745848b07540373846c40561",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/85bcaea6a832684b32ef54b2487b0c14a172e9e6",
+                "reference": "85bcaea6a832684b32ef54b2487b0c14a172e9e6",
                 "shasum": ""
             },
             "require": {
@@ -296,7 +296,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2017-12-25T22:42:18+00:00"
+            "time": "2018-01-13T12:19:50+00:00"
         },
         {
             "name": "cakephp/migrations",

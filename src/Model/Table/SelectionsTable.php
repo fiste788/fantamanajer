@@ -4,33 +4,36 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Event;
 use App\Model\Entity\Selection;
+use App\Utility\WebPush\WebPushMessage;
 use ArrayObject;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event as CakeEvent;
+use Cake\Mailer\Email;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use Minishlink\WebPush\WebPush;
 
 /**
  * Selections Model
  *
- * @property TeamsTable|BelongsTo $Teams
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property MatchdaysTable|BelongsTo $Matchdays
- * @property MembersTable|BelongsTo $NewMembers
- * @property MembersTable|BelongsTo $OldMembers
- * @method Selection get($primaryKey, $options = [])
- * @method Selection newEntity($data = null, array $options = [])
- * @method Selection[] newEntities(array $data, array $options = [])
- * @method Selection|bool save(EntityInterface $entity, $options = [])
- * @method Selection patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Selection[] patchEntities($entities, array $data, array $options = [])
- * @method Selection findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Selection|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
  */
 class SelectionsTable extends Table
 {
@@ -117,37 +120,37 @@ class SelectionsTable extends Table
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
         $rules->add(
             function (Selection $entity, $options) {
-            $selection = $this->findAlreadySelectedMember($entity);
-            if ($selection != null) {
-                $ranking = TableRegistry::get('Scores')->findRanking($selection->team->championship_id);
-                $rank = \Cake\Utility\Hash::extract($ranking->toArray(), '{n}.team_id');
-                if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
-                    $selection->active = false;
-                    $this->save($selection);
-                    $this->notifyLostMember($selection);
+                $selection = $this->findAlreadySelectedMember($entity);
+                if ($selection != null) {
+                    $ranking = TableRegistry::get('Scores')->findRanking($selection->team->championship_id);
+                    $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
+                    if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
+                        $selection->active = false;
+                        $this->save($selection);
+                        $this->notifyLostMember($selection);
 
-                    return true;
-                } else {
-                    return false;
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
-            }
 
-            return true;
-        },
+                return true;
+            },
             'NewMemberIsSelectable',
             ['errorField' => 'new_member', 'message' => 'Un altro utente ha già selezionato il giocatore']
         );
         $rules->add(
             function (Selection $entity, $options) use ($that) {
-            $championship = TableRegistry::get('Championships')->find()->innerJoinWith(
+                $championship = TableRegistry::get('Championships')->find()->innerJoinWith(
                     'Teams',
                     function ($q) use ($entity) {
-                    return $q->where(['Teams.id' => $entity->team_id]);
-                }
+                        return $q->where(['Teams.id' => $entity->team_id]);
+                    }
                 )->first();
 
-            return $that->find()->where(['team_id' => $entity->team_id, 'processed' => false])->count() < $championship->number_selections;
-        },
+                return $that->find()->where(['team_id' => $entity->team_id, 'processed' => false])->count() < $championship->number_selections;
+            },
             'TeamReachedMaximum',
             ['errorField' => 'new_member', 'message' => 'Hai raggiunto il limite di cambi selezione']
         );
@@ -187,13 +190,24 @@ class SelectionsTable extends Table
     }
 
     /**
-     * 
+     *
      * @param Selection $selection
      */
     public function notifyLostMember(Selection $selection)
     {
-        \Cake\Log\Log::debug('notifico utente');
         $selection = $this->loadInto($selection, ['Teams.Users.Subscriptions', 'NewMembers.Players']);
+        $email = new Email();
+        $email->setTemplate('lost_member')
+            ->setViewVars(
+                [
+                    'player' => $selection->new_member->player,
+                    'baseUrl' => 'https://fantamanajer.it'
+                ]
+            )
+            ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
+            ->setEmailFormat('html')
+            ->setTo($selection->team->user->email)
+            ->send();
         $webPush = new WebPush(Configure::read('WebPush'));
         foreach ($selection->team->user->subscriptions as $subscription) {
             $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
@@ -210,13 +224,14 @@ class SelectionsTable extends Table
     }
 
     /**
-     * 
+     *
      * @param Selection $selection
      * @return Selection
      */
     public function findAlreadySelectedMember($selection)
     {
         $team = TableRegistry::get('Teams')->get($selection->team_id);
+
         return $this->find()
                 ->contain(['Teams'])
                 ->matching(

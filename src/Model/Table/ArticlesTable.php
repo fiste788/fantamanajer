@@ -47,27 +47,27 @@ class ArticlesTable extends Table
         $this->addBehavior(
             'Timestamp',
             [
-            'events' => [
-                'Model.beforeSave' => [
-                    'created_at' => 'new',
-                    'modified_at' => 'always'
+                'events' => [
+                    'Model.beforeSave' => [
+                        'created_at' => 'new',
+                        'modified_at' => 'always'
+                    ]
                 ]
-            ]
             ]
         );
 
         $this->belongsTo(
             'Teams',
             [
-            'foreignKey' => 'team_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'team_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
-            'foreignKey' => 'matchday_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'matchday_id',
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -100,7 +100,7 @@ class ArticlesTable extends Table
             ->notEmpty('title');
 
         $validator
-                ->allowEmpty('subtitle');
+            ->allowEmpty('subtitle');
 
         $validator
             ->requirePresence('body', 'create')
@@ -129,23 +129,16 @@ class ArticlesTable extends Table
         return $rules;
     }
 
-    public function findByChampionshipId($championshipId, $options = [])
+    /**
+     *
+     * @param int $championshipId
+     * @return Query
+     */
+    public function findByChampionshipId($championshipId)
     {
-        return $this->find('all', $options)->matching(
+        return $this->find()->matching(
             'Teams',
-            function ($q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
-            }
-        )->all();
-    }
-
-    public function findByChampionship(Query $query, $options = [])
-    {
-        $championshipId = $options['championshipId'];
-
-        return $query->matching(
-            'Teams',
-            function ($q) use ($championshipId) {
+            function (Query $q) use ($championshipId) {
                     return $q->where(['Teams.championship_id' => $championshipId]);
             }
         );

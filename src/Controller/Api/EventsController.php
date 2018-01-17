@@ -2,7 +2,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use App\Model\Table\EventsTable;
 use Cake\ORM\Query;
 
 /**
@@ -21,14 +20,8 @@ class EventsController extends AppController
     public function index()
     {
         $championship_id = $this->request->getParam('championship_id');
-        $events = $this->Events->find()
-            ->innerJoinWith(
-                'Teams.Championships',
-                function (Query $q) use ($championship_id) {
-                        return $q->where(['Championships.id' => $championship_id]);
-                }
-            )
-                ->contain('Teams')
+        $events = $this->Events->findByChampionshipId($championship_id)
+                ->contain(['Teams'])
                 ->orderDesc('created_at')
                 ->all();
 

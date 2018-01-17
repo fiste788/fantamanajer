@@ -1,16 +1,17 @@
 <?php
+
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Routing\Router;
+use Cake\ORM\Query;
 
 /**
  * @property \App\Model\Table\ClubsTable $Clubs
  */
 class ClubsController extends AppController
 {
+
     public function initialize()
     {
         parent::initialize();
@@ -24,31 +25,18 @@ class ClubsController extends AppController
             function (Event $event) {
                 $event->getSubject()->query->contain(
                     [
-                    'Members' => function ($q) {
+                    'Members' => function (Query $q) {
                         return $q->find('withStats', ['season_id' => $this->currentSeason->id])
-                            ->contain(
-                                [
-                                'Roles',
-                                'Players',
-                                'Clubs'
-                                ]
-                            );
-                            //->find('withStats');
+                                ->contain(
+                                    [
+                                        'Roles',
+                                        'Players',
+                                        'Clubs'
+                                    ]
+                                );
                     }
                     ]
                 );
-            }
-        );
-        $this->Crud->on(
-            'afterFind',
-            function (Event $event) {
-                $entity = $event->getSubject()->entity;
-                if (file_exists(Configure::read('App.paths.images.clubs') . 'bg' . DS . $entity->id . '.jpg')) {
-                    $event->getSubject()->entity->backgroundImg = Router::url('/img/clubs/bg/' . $entity->id . '.jpg', true);
-                }
-                if (file_exists(Configure::read('App.paths.images.clubs') . $entity->id . '.png')) {
-                    $event->getSubject()->entity->img = Router::url('/img/clubs/' . $entity->id . '.png', true);
-                }
             }
         );
 
@@ -58,19 +46,11 @@ class ClubsController extends AppController
     public function index()
     {
         $clubs = $this->Clubs->findBySeason($this->currentSeason);
-        /*foreach ($clubs as $club) {
-            if(file_exists(Configure::read('App.paths.images.clubs') . 'bg' . DS . $club->id . '.jpg')) {
-                $club->backgroundImg = Router::url('/img/clubs/bg/' . $club->id . '.jpg', true);
-            }
-            if(file_exists(Configure::read('App.paths.images.clubs') . $club->id . '.png')) {
-                $club->img = Router::url('/img/clubs/' . $club->id . '.png', true);
-            }
-        }*/
         $this->set(
             [
-            'success' => true,
-            'data' => $clubs,
-            '_serialize' => ['success', 'data']
+                'success' => true,
+                'data' => $clubs,
+                '_serialize' => ['success', 'data']
             ]
         );
     }

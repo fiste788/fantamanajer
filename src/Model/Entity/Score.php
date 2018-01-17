@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * Score Entity.
@@ -12,11 +13,11 @@ use Cake\ORM\Entity;
  * @property float $penality_points
  * @property string $penality
  * @property int $team_id
- * @property \App\Model\Entity\Team $team
+ * @property Team $team
  * @property int $matchday_id
- * @property \App\Model\Entity\Matchday $matchday
+ * @property Matchday $matchday
  * @property int $lineup_id
- * @property \App\Model\Entity\Lineup $lineup
+ * @property Lineup $lineup
  */
 class Score extends Entity
 {
@@ -34,4 +35,33 @@ class Score extends Entity
         '*' => true,
         'id' => false,
     ];
+
+    /**
+     * @return void
+     */
+    public function compute()
+    {
+        $championship = $this->team->championship;
+        $lineups = TableRegistry::get('Lineups');
+        $this->lineup = $lineups->findLastWithRatings($this->matchday, $this->team)->first();
+        if ($this->lineup == null || ($this->lineup->matchday_id != $this->matchday->id && $championship->points_missed_lineup == 0)) {
+            $this->real_points = 0;
+            $this->points = 0;
+        } else {
+            //die($this->lineup);
+            $issetLineup = $this->lineup->matchday_id == $this->matchday->id;
+            if (!$issetLineup) {
+                $this->lineup = $this->lineup->copy($this->matchday, $championship->captain_missed_lineup);
+            }
+            $this->real_points = $this->lineup->compute();
+            $this->points = ($this->lineup->jolly) ? $this->real_points * 2 : $this->real_points;
+            if ($championship->points_missed_lineup != 100 && !$issetLineup) {
+                $malusPoints = round((($this->points / 100) * (100 - $championship->points_missed_lineup)), 1);
+                $mod = ($malusPoints * 10) % 5;
+                $this->penality_points = -(($malusPoints * 10) - $mod) / 10;
+                $this->penality = 'Formazione non settata';
+                $this->points = $this->points - $this->penality_points;
+            }
+        }
+    }
 }

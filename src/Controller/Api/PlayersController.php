@@ -2,11 +2,8 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\Query;
-use Cake\Routing\Router;
-use const DS;
 
 /**
  * @property \App\Model\Table\PlayersTable $Players
@@ -27,15 +24,7 @@ class PlayersController extends AppController
             function (Event $event) {
                 $event->getSubject()->query->contain(
                     ['Members' => function (Query $q) {
-                        return $q
-                            ->contain(
-                                ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
-                                    return $q2->contain(['Matchdays'])
-                                        ->order(['Matchdays.number' => 'ASC']);
-                                }]
-                            )
-                        ->order(['Seasons.year' => 'DESC']);
-                        //->where(['Members.season_id' => $this->currentSeason->id]);
+                        return $q->find('withDetails');
                     }]
                 );
             }
@@ -44,11 +33,11 @@ class PlayersController extends AppController
         $this->Crud->on(
             'afterFind',
             function (Event $event) use ($championship_id) {
+                $team = \Cake\ORM\TableRegistry::get("MembersTeams");
                 $entity = $event->getSubject()->entity;
                 $event->getSubject()->entity->championship_id = $championship_id;
                 foreach ($entity->members as $key => $member) {
                     if ($championship_id != null && $member->season_id == $this->currentSeason->id) {
-                        $team = \Cake\ORM\TableRegistry::get("MembersTeams");
                         $event->getSubject()->entity->members[$key]->free = $team->find()
                             ->innerJoinWith('Teams')
                             ->where(
