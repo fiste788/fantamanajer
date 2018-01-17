@@ -2,9 +2,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use App\Model\Table\ScoresTable;
 use Cake\Event\Event;
-use Cake\ORM\TableRegistry;
 
 /**
  *

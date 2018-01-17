@@ -1,26 +1,30 @@
 <?php
+
 namespace App\Model\Table;
 
+use App\Model\Entity\User;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
+use Firebase\JWT\JWT;
 
 /**
  * Users Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
- * @property \App\Model\Table\SubscriptionsTable|\Cake\ORM\Association\HasMany $Subscriptions
+ * @property TeamsTable|\Cake\ORM\Association\HasMany $Teams
+ * @property SubscriptionsTable|\Cake\ORM\Association\HasMany $Subscriptions
  * @property HasMany $View2TeamsStats
  *
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
+ * @method User get($primaryKey, $options = [])
+ * @method User newEntity($data = null, array $options = [])
+ * @method User[] newEntities(array $data, array $options = [])
+ * @method User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method User[] patchEntities($entities, array $data, array $options = [])
+ * @method User findOrCreate($search, callable $callback = null, $options = [])
  */
 class UsersTable extends Table
 {
@@ -42,20 +46,20 @@ class UsersTable extends Table
         $this->hasMany(
             'Teams',
             [
-            'foreignKey' => 'user_id',
-            'sort' => 'Championships.id DESC'
+                'foreignKey' => 'user_id',
+                'sort' => 'Championships.id DESC'
             ]
         );
         $this->hasMany(
             'Subscriptions',
             [
-            'foreignKey' => 'user_id',
+                'foreignKey' => 'user_id',
             ]
         );
         $this->hasMany(
             'View2TeamsStats',
             [
-            'foreignKey' => 'user_id'
+                'foreignKey' => 'user_id'
             ]
         );
     }
@@ -134,5 +138,16 @@ class UsersTable extends Table
             ->where(['Users.active' => 1]);
 
         return $query;
+    }
+
+    public function getToken($subject, $days = 7)
+    {
+        return JWT::encode(
+            [
+                    'sub' => $subject,
+                    'exp' => time() + ($days * 24 * 60 * 60)
+                ],
+            Security::salt()
+        );
     }
 }

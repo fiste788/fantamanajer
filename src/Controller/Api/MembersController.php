@@ -2,7 +2,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use App\Model\Table\MembersTable;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 

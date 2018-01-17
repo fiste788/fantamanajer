@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Controller\Api;
 
 use Cake\Network\Exception\UnauthorizedException;
-use Cake\Utility\Security;
-use Firebase\JWT\JWT;
 
 /**
  * @property \App\Model\Table\UsersTable $Users
  */
 class UsersController extends AppController
 {
+
     /**
      * Initialize
      */
@@ -34,18 +34,12 @@ class UsersController extends AppController
 
         $this->set(
             [
-            'success' => true,
-            'data' => [
-                'token' => JWT::encode(
-                    [
-                    'sub' => $user['id'],
-                    'exp' => time() + ($days * 24 * 60 * 60)
-                    ],
-                    Security::salt()
-                ),
-                'user' => $user
-            ],
-            '_serialize' => ['success', 'data']
+                'success' => true,
+                'data' => [
+                    'token' => $this->Users->getToken($user['id'], $days),
+                    'user' => $user
+                ],
+                '_serialize' => ['success', 'data']
             ]
         );
     }

@@ -1,8 +1,6 @@
 <?php
 namespace App\Controller\Api;
 
-use Cake\Event\Event;
-
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
