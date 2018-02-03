@@ -1,0 +1,11 @@
+linters:
+  phpcs:
+    standard: CakePHP
+  csslint: {  }
+  shellcheck:
+    shell: bash
+files:
+  ignore:
+    - 'vendor/*'
+    - 'bower_components/*'
+    - 'node_modules/*'
