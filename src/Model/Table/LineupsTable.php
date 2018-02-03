@@ -177,6 +177,7 @@ class LineupsTable extends Table
                         ->contain(['Matchdays'])
                         ->innerJoinWith('Matchdays')
                         ->where([
+                            'Lineups.id IS NOT' => $entity->id,
                             'jolly' => true,
                             'team_id' => $entity->team_id,
                             'Matchdays.number ' . ($matchday->number <= $matchdays / 2 ? '<=' : '>') => $matchdays / 2

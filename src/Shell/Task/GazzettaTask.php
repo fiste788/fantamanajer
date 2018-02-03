@@ -3,13 +3,7 @@ namespace App\Shell\Task;
 
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
-use App\Model\Table\ClubsTable;
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\MembersTable;
-use App\Model\Table\PlayersTable;
 use App\Model\Table\RatingsTable;
-use App\Model\Table\RolesTable;
-use App\Model\Table\SeasonsTable;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Shell;
 use Cake\Filesystem\File;
@@ -205,13 +199,13 @@ class GazzettaTask extends Shell
             }
             foreach ($oldMembers as $id => $oldMember) {
                 if (!array_key_exists($id, $newMembers) && $oldMember->active) {
-                    $oldMember->active = true;
+                    $oldMember->active = false;
                     $membersToSave[] = $oldMember;
                     $this->verbose("Deactivate member " . $oldMember);
                     //$oldMember->save(array('numEvento'=>Event::RIMOSSOGIOCATORE));
                 }
             }
-            $this->verbose($membersToSave);
+            //$this->verbose($membersToSave);
             $this->out("Savings " . count($membersToSave) . " members");
             if (!$this->Members->saveMany($membersToSave)) {
                 foreach ($membersToSave as $value) {
@@ -272,7 +266,7 @@ class GazzettaTask extends Shell
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
             'active' => 1,
-            'role_id' => $this->Roles->get($member[5] + 1)->id,
+            'role_id' => $member[5] + 1,
             'club_id' => $club->id,
             'player_id' => $player->id
             ]
@@ -290,7 +284,7 @@ class GazzettaTask extends Shell
         $path = $path ? $path : $this->getRatings($matchdayNumber);
         if ($path) {
             $members = $this->returnArray($path, ";");
-            foreach ($members as $id => $stats) {
+            foreach ($members as $stats) {
                 $member = $this->Members->find()->contain(['Roles'])->where(
                     [
                     'code_gazzetta' => $stats[0],

@@ -48,7 +48,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
     $routes->resources('Articles');
     $routes->resources('Users');
     $routes->resources('Players');
-    $routes->resources('Clubs', function ($routes) {
+    $routes->resources('Clubs', function (RouteBuilder $routes) {
         $routes->resources('Members', ['prefix' => 'clubs']);
     });
     $routes->resources('Matchdays', [
@@ -76,38 +76,25 @@ Router::prefix('api', function (RouteBuilder $routes) {
             'action' => 'free',
                 ], ['role_id' => '\d+']);
     });
-    /* $routes->connect('/teams/:team_id', [
-      'controller' => 'Teams',
-      'action' => 'edit',
-      '_method' => 'POST'
-      ], ['team_id' => '\d+', 'pass' => ['team_id']]); */
     $routes->resources('Teams', function (RouteBuilder $routes) {
-        /* $routes->connect('/upload', [
-          'controller' => 'Teams',
-          'action' => 'upload',
-
-          ], ['id' => '\d+', 'pass' => ['id']]); */
         $routes->resources('Articles', [
             'only' => 'index',
             'actions' => ['index' => 'indexByTeam']
         ]);
-        $routes->resources('Members');
+        $routes->resources('Members', [
+            'only' => 'index'
+            //'actions' => ['index' => 'indexByTeam']
+        ]);
         $routes->resources('Selections');
         $routes->resources('Lineups');
+        $routes->connect('/2members', [
+            'controller' => 'Members',
+            'action' => 'indexByTeam'
+        ]);
         $routes->connect('/transferts', [
             'controller' => 'Transferts',
             'action' => 'index'
         ]);
-        //$routes->resources('Transferts');
-        /* $routes->resources('Scores', [
-          'only' => ['view', 'last'],
-          'map' => [
-          'last' => [
-          'action' => 'last',
-          'method' => 'get'
-          ]
-          ]
-          ]); */
         $routes->connect('/scores/last', [
             'controller' => 'Scores',
             'action' => 'last'

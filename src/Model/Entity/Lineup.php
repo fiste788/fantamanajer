@@ -99,6 +99,7 @@ class Lineup extends Entity
         $sum = 0;
         $cap = null;
         $entering = [];
+        $this->resetDispositions();
         if ($this->team->championship->captain) {
             $cap = $this->getActiveCaptain();
         }
@@ -106,7 +107,7 @@ class Lineup extends Entity
         foreach ($this->dispositions as $disposition) {
             if ($disposition->position <= 11) {
                 $member = $disposition->member;
-                if ((!$member->active || !$member->ratings[0]->valued) && count($entering) <= 3) {
+                if (!$member->ratings[0]->valued && count($entering) <= 3) {
                     $substitution = $this->substitution($notRegular, $member);
                     if ($substitution != null) {
                         $entering[$substitution] = true;
@@ -123,6 +124,13 @@ class Lineup extends Entity
         }
 
         return $sum;
+    }
+    
+    private function resetDispositions() {
+        foreach ($this->dispositions as $key => $disposition) {
+            $disposition->consideration = 0;
+            $this->disposition[$key] = $disposition;
+        }
     }
 
     /**

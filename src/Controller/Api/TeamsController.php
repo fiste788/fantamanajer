@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
@@ -15,6 +16,7 @@ use Cake\View\Helper\UrlHelper;
  */
 class TeamsController extends AppController
 {
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -28,11 +30,7 @@ class TeamsController extends AppController
             'beforeFind',
             function (Event $event) {
                 $event->getSubject()->query->contain(
-                    ['Users', 'Members' => function (Query $q) {
-                        return $q->contain(['Roles', 'Players', 'Clubs'])
-                            ->find('withStats', ['season_id' => $this->currentSeason->id]);
-                    }
-                    ]
+                    ['Users', 'Members' => ['Roles', 'Players', 'Clubs', 'VwMembersStats']]
                 );
             }
         );
@@ -47,9 +45,9 @@ class TeamsController extends AppController
             ->where(['championship_id' => $this->request->getParam('championship_id')]);
         $this->set(
             [
-            'success' => true,
-            'data' => $teams,
-            '_serialize' => ['success', 'data']
+                'success' => true,
+                'data' => $teams,
+                '_serialize' => ['success', 'data']
             ]
         );
     }

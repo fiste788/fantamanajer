@@ -86,7 +86,7 @@ class WeeklyScriptTask extends Shell
             $path = $this->Gazzetta->getRatings($matchday->number);
             if ($path != null) {
                 $this->out("Updating table players");
-                $this->Gazzetta->updateMembers($this->currentSeason, $matchday->number, $path);
+                //$this->Gazzetta->updateMembers($this->currentSeason, $matchday->number, $path);
                 $this->out("Importing ratings");
                 $this->Gazzetta->importRatings($matchday->number, $path);
             } else {
@@ -131,6 +131,10 @@ class WeeklyScriptTask extends Shell
                 $this->sendWeeklyMails($matchday, $championship);
                 $this->out("Sending notification");
                 $this->sendNotifications($matchday, $championship, $scores);
+            } else if(!$success) {
+                foreach($scores as $score) {
+                    $this->err(print_r($score->getErrors()));
+                }
             }
         }
     }

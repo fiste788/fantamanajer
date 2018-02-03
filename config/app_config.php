@@ -1,18 +1,36 @@
 <?php
 return [
     'Cors' => [
-        'AllowOrigin' => ['https://fantamanajer.it', 'https://dev.fantamanajer.it', 'http://localhost:4200', 'http://127.0.0.1:8080'], // accept all origin
+        'AllowOrigin' => [
+            'https://fantamanajer.it',
+            'https://dev.fantamanajer.it',
+            'http://localhost:4200',
+            'http://127.0.0.1:8080'
+        ],
         'AllowCredentials' => true,
-        'AllowMethods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // accept all HTTP methods
-        'AllowHeaders' => ['Origin', 'X-Requested-With', 'Content-Type', 'Authorization', 'Access-Control-Allow-Headers', 'X-Http-Method-Override'], // accept all headers
-        'ExposeHeaders' => false, // don't accept personal headers
-        'MaxAge' => 86400, // cache for 1 day
+        'AllowMethods' => [
+            'GET',
+            'POST',
+            'PUT',
+            'PATCH',
+            'DELETE'
+        ], 
+        'AllowHeaders' => [
+            'Origin',
+            'X-Requested-With',
+            'Content-Type',
+            'Authorization',
+            'Access-Control-Allow-Headers',
+            'X-Http-Method-Override'
+        ],
+        'ExposeHeaders' => false, 
+        'MaxAge' => (24 * 60 * 60)
     ],
 
     'App.paths.images' => [
         'clubs' => WWW_ROOT . 'img' . DS . 'Clubs' . DS,
         'teams' => WWW_ROOT . 'files' . DS . 'upload' . DS . 'teams' . DS,
-        'players' => WWW_ROOT . 'img' . DS . 'players' . DS,
+        'players' => WWW_ROOT . 'img' . DS . 'players' . DS
     ],
 
     'WebPush' => [

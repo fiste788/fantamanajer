@@ -39,7 +39,8 @@ class ClubsTable extends Table
         $this->hasMany(
             'Members',
             [
-            'foreignKey' => 'club_id'
+            'foreignKey' => 'club_id',
+            'sort' => ['role_id']
             ]
         );
         $this->hasMany(
