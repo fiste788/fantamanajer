@@ -10,6 +10,10 @@ use Cake\ORM\TableRegistry;
  */
 class MembersController extends AppController
 {
+    public $paginate = [
+        'limit' => 50,
+    ];
+    
     public function initialize()
     {
         parent::initialize();
@@ -18,10 +22,16 @@ class MembersController extends AppController
 
     public function index()
     {
+        $team_id = $this->request->getParam('team_id', null);
         $this->Crud->on(
-            'startup',
-            function (Event $event) {
-                $event->getSubject()->query->contain(['Clubs', 'Seasons', 'Players']);
+            'beforePaginate',
+            function (Event $event) use ($team_id) {
+                $event->getSubject()->query->contain(['Clubs', 'Players']);
+                if($team_id != null) {
+                     $event->getSubject()->query->matching('Teams', function($q) use ($team_id) {
+                        return $q->where(['Teams.id' => $team_id]);
+                    });
+                }
             }
         );
 
@@ -49,11 +59,15 @@ class MembersController extends AppController
 
     public function free()
     {
-        $defaultRole = $this->request->getParam('role_id', null);
+        $stats = $this->request->getQuery('stats', true);
+        $role = $this->request->getParam('role_id', null);
         $championshipId = $this->request->getParam('championship_id');
-        $members = $this->Members->findFree($championshipId)->find('withStats', ['season_id' => $this->currentSeason->id]);
-        if (!is_null($defaultRole)) {
-            $members->where(['role_id' => $defaultRole]);
+        $members = $this->Members->findFree($championshipId);
+        if ($stats) {
+            $members->contain(['VwMembersStats']);
+        }
+        if ($role) {
+            $members->where(['role_id' => $role]);
         }
 
         $this->set(

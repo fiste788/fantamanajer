@@ -155,6 +155,7 @@ class TeamsTable extends Table
             'foreignKey' => 'team_id',
             'targetForeignKey' => 'member_id',
             'joinTable' => 'members_teams',
+            'sort' => ['role_id']
             ]
         );
     }

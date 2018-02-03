@@ -33,6 +33,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Member[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
  * @property \App\Model\Table\VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class MembersTable extends Table
 {
@@ -51,6 +52,17 @@ class MembersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        /* $this->addBehavior(
+          'Timestamp',
+          [
+          'events' => [
+          'Model.beforeSave' => [
+          'created_at' => 'new',
+          'modified_at' => 'always'
+          ]
+          ]
+          ]
+          ); */
         $this->belongsTo(
             'Players',
             [
@@ -154,43 +166,7 @@ class MembersTable extends Table
 
     public function findWithStats(Query $query, array $options)
     {
-        return $query->hydrate(false)
-                ->enableAutoFields(true)
-                ->setDefaultTypes(
-                    [
-                        'stats.sum_present' => 'decimal',
-                        'stats.sum_valued' => 'decimal',
-                        'stats.avg_points' => 'decimal',
-                        'stats.avg_rating' => 'decimal',
-                        'stats.sum_goals' => 'decimal',
-                        'stats.sum_goals_against' => 'decimal',
-                        'stats.sum_assist' => 'decimal',
-                        'stats.sum_yellow_card' => 'decimal',
-                        'stats.sum_red_card' => 'decimal'
-                    ]
-                )
-                ->select(
-                    [
-                        'Members.club_id',
-                        'stats.sum_present',
-                        'stats.sum_valued',
-                        'stats.avg_points',
-                        'stats.avg_rating',
-                        'stats.sum_goals',
-                        'stats.sum_goals_against',
-                        'stats.sum_assist',
-                        'stats.sum_yellow_card',
-                        'stats.sum_red_card'
-                    ]
-                )
-                ->join(
-                    [
-                        'table' => 'vw_members_stats',
-                        'alias' => 'stats',
-                        'type' => 'LEFT',
-                        'conditions' => 'stats.member_id = Members.id',
-                    ]
-                )
+        return $query->contain(['VwMembersStats'])
                 ->where(['season_id' => $options['season_id']])
                 ->group('Members.id');
     }
@@ -206,11 +182,11 @@ class MembersTable extends Table
     public function findWithDetails(Query $query, array $options)
     {
         return $query->contain(
-            ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
+                    ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
                             return $q2->contain(['Matchdays'])
                                 ->order(['Matchdays.number' => 'ASC']);
-            }]
-        )
+                        }]
+                )
                 ->order(['Seasons.year' => 'DESC']);
     }
 
@@ -220,20 +196,20 @@ class MembersTable extends Table
         $ids = $membersTeams->find()
             ->select(['member_id'])
             ->matching(
-                'Teams',
-                function ($q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
-                }
-            );
+            'Teams',
+            function ($q) use ($championshipId) {
+                return $q->where(['Teams.championship_id' => $championshipId]);
+            }
+        );
 
-        return $this->find('all')
-                ->contain(['Players', 'Clubs', 'Roles', 'VwMembersStats'])
-                /* ->where(function ($exp, $q) use ($ids) {
-                  die(var_dump($ids));
-                  return $exp->notIn('Members.id', $ids);
-                  }) */
-                ->where(['Members.id NOT IN' => $ids])
-                ->where(['Members.active' => true])
+        return $this->find()
+                ->innerJoinWith('Seasons.Championships')
+                ->contain(['Players', 'Clubs', 'Roles'])
+                ->where([
+                    'Members.id NOT IN' => $ids,
+                    'Members.active' => true,
+                    'Championships.id' => $championshipId
+                    ])
                 ->orderAsc('Players.surname')
                 ->orderAsc('Players.name');
     }
@@ -244,13 +220,13 @@ class MembersTable extends Table
                 ->contain(
                     ['Players', 'Ratings' => function (Query $q) use ($matchday) {
                             return $q->where(['matchday_id' => $matchday->id]);
-                    }]
+                        }]
                 )
                 ->innerJoinWith(
                     'Ratings',
                     function (Query $q) use ($matchday) {
-                        return $q->where(['matchday_id' => $matchday->id]);
-                    }
+                    return $q->where(['matchday_id' => $matchday->id]);
+                }
                 )
                 ->innerJoinWith('Roles')
                 ->where(['Roles.id' => $role->id])

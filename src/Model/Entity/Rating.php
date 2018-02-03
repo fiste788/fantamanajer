@@ -62,6 +62,8 @@ class Rating extends Entity
                 case 'C':
                     if (!$this->member->playmaker) {
                         $minus += 1;
+                    } else {
+                        $minus += 0.5;
                     }
                     break;
                 case 'D':

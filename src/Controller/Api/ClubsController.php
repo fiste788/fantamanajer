@@ -20,21 +20,20 @@ class ClubsController extends AppController
 
     public function view($id)
     {
+        $seasonId = $this->currentSeason->id;
         $this->Crud->on(
             'beforeFind',
-            function (Event $event) {
+            function (Event $event) use ($seasonId) {
                 $event->getSubject()->query->contain(
                     [
-                    'Members' => function (Query $q) {
-                        return $q->find('withStats', ['season_id' => $this->currentSeason->id])
-                                ->contain(
-                                    [
-                                        'Roles',
-                                        'Players',
-                                        'Clubs'
-                                    ]
-                                );
-                    }
+                        'Members' => function($q) use ($seasonId) {
+                            return $q->contain([
+                                'Roles',
+                                'Players',
+                                'Clubs',
+                                'VwMembersStats'
+                            ])->where(['season_id' => $seasonId]);;
+                        }
                     ]
                 );
             }
