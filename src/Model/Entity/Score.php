@@ -48,14 +48,12 @@ class Score extends Entity
             $this->real_points = 0;
             $this->points = 0;
         } else {
-            //die($this->lineup);
-            $issetLineup = $this->lineup->matchday_id == $this->matchday->id;
-            if (!$issetLineup) {
+            if (!$this->lineup->matchday_id == $this->matchday->id) {
                 $this->lineup = $this->lineup->copy($this->matchday, $championship->captain_missed_lineup);
             }
             $this->real_points = $this->lineup->compute();
             $this->points = ($this->lineup->jolly) ? $this->real_points * 2 : $this->real_points;
-            if ($championship->points_missed_lineup != 100 && !$issetLineup) {
+            if ($championship->points_missed_lineup != 100 && $this->lineup->cloned) {
                 $malusPoints = round((($this->points / 100) * (100 - $championship->points_missed_lineup)), 1);
                 $mod = ($malusPoints * 10) % 5;
                 $this->penality_points = -(($malusPoints * 10) - $mod) / 10;

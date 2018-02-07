@@ -11,11 +11,11 @@ use Cake\ORM\Entity;
  * @property string $subtitle
  * @property string $body
  * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $team_id
  * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
  * @property \App\Model\Entity\Matchday $matchday
- * @property \Cake\I18n\FrozenTime $modified_at
  */
 class Article extends Entity
 {

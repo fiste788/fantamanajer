@@ -146,6 +146,10 @@ class LineupsTable extends Table
         $validator
             ->boolean('jolly')
             ->allowEmpty('jolly');
+        
+        $validator
+            ->boolean('cloned')
+            ->allowEmpty('cloned');
 
         return $validator;
     }
