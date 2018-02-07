@@ -3143,12 +3143,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/scssphp.git",
-                "reference": "d7296256bd1bfacb8bd24e69030fd5e187181835"
+                "reference": "a4b566f0571f63a2cc00ee03025f6a498092383f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/scssphp/zipball/d7296256bd1bfacb8bd24e69030fd5e187181835",
-                "reference": "d7296256bd1bfacb8bd24e69030fd5e187181835",
+                "url": "https://api.github.com/repos/leafo/scssphp/zipball/a4b566f0571f63a2cc00ee03025f6a498092383f",
+                "reference": "a4b566f0571f63a2cc00ee03025f6a498092383f",
                 "shasum": ""
             },
             "require": {
@@ -3187,7 +3187,7 @@
                 "scss",
                 "stylesheet"
             ],
-            "time": "2017-12-21T00:18:53+00:00"
+            "time": "2018-02-06T09:03:48+00:00"
         },
         {
             "name": "league/climate",

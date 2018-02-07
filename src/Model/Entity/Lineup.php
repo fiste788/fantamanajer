@@ -11,6 +11,7 @@ use Cake\ORM\TableRegistry;
  * @property int $id
  * @property string $module
  * @property bool $jolly
+ * @property bool $cloned
  * @property int $captain_id
  * @property int $vcaptain_id
  * @property int $vvcaptain_id
@@ -26,8 +27,8 @@ use Cake\ORM\TableRegistry;
  * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $old_id
  * @property Member $captain
- * @property Member $v_captain
- * @property Member $v_v_captain
+ * @property Member $vcaptain
+ * @property Member $vvcaptain
  * @property Score $score
  */
 class Lineup extends Entity
@@ -55,6 +56,7 @@ class Lineup extends Entity
     public static $module = [
         '1-4-4-2',
         '1-4-3-3',
+        '1-4-5-1',
         '1-3-4-3',
         '1-3-5-2',
         '1-5-3-2',
@@ -66,9 +68,10 @@ class Lineup extends Entity
      *
      * @param \App\Model\Entity\Matchday $matchday the matchday to use
      * @param bool $isCaptainActive if false empty the captain. Default: true
+     * @param bool $cloned if true the lineup was missing. Default true
      * @return Lineup
      */
-    public function copy(Matchday $matchday, $isCaptainActive = true)
+    public function copy(Matchday $matchday, $isCaptainActive = true, $cloned = true)
     {
         $lineups = TableRegistry::get('Lineups');
         $lineup = $lineups->newEntity(
@@ -77,6 +80,7 @@ class Lineup extends Entity
         );
         $lineup->id = null;
         $lineup->jolly = null;
+        $lineup->cloned = $cloned;
         $lineup->matchday_id = $matchday->id;
         if (!$isCaptainActive) {
             $lineup->captain_id = null;

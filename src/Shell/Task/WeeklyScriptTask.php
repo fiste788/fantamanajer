@@ -86,7 +86,7 @@ class WeeklyScriptTask extends Shell
             $path = $this->Gazzetta->getRatings($matchday->number);
             if ($path != null) {
                 $this->out("Updating table players");
-                //$this->Gazzetta->updateMembers($this->currentSeason, $matchday->number, $path);
+                $this->Gazzetta->updateMembers($this->currentSeason, $matchday->number, $path);
                 $this->out("Importing ratings");
                 $this->Gazzetta->importRatings($matchday->number, $path);
             } else {

@@ -22,7 +22,7 @@ class LineupsController extends AppController
         );
         $lineup = $this->Lineups->findLast($this->currentMatchday, $team)->first();
         if ($lineup && $lineup->matchday_id != $this->currentMatchday->id) {
-            $lineup = $lineup->copy($this->currentMatchday, true);
+            $lineup = $lineup->copy($this->currentMatchday, true, false);
         }
 
         $this->set(
