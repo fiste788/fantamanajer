@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Api;
+namespace App\Controller\Api\Teams;
 
 use App\Controller\Api\AppController;
 

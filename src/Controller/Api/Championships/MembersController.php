@@ -1,7 +1,8 @@
 <?php
-namespace App\Controller\Api;
+namespace App\Controller\Api\Championships;
 
 use App\Controller\Api\AppController;
+use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -33,6 +34,28 @@ class MembersController extends AppController
             [
             'success' => true,
             'data' => $roles,
+            '_serialize' => ['success', 'data']
+            ]
+        );
+    }
+
+    public function free()
+    {
+        $stats = $this->request->getQuery('stats', true);
+        $role = $this->request->getParam('role_id', null);
+        $championshipId = $this->request->getParam('championship_id');
+        $members = $this->Members->findFree($championshipId);
+        if ($stats) {
+            $members->contain(['VwMembersStats']);
+        }
+        if ($role) {
+            $members->where(['role_id' => $role]);
+        }
+
+        $this->set(
+            [
+            'success' => true,
+            'data' => $members,
             '_serialize' => ['success', 'data']
             ]
         );

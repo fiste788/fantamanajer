@@ -1,8 +1,7 @@
 <?php
-namespace App\Controller\Api;
+namespace App\Controller\Api\Championships;
 
 use App\Controller\Api\AppController;
-use Cake\ORM\Query;
 
 /**
  * Events Controller

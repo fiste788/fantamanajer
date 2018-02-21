@@ -66,6 +66,7 @@ class AppController extends Controller
                     'queryDatasource' => true
                 ]
             ],
+            'loginAction' => '/users/token',
             'unauthorizedRedirect' => false,
             'checkAuthIn' => 'Controller.initialize'
             ]

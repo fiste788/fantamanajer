@@ -149,7 +149,14 @@ class SelectionsTable extends Table
                     }
                 )->first();
 
-                return $that->find()->where(['team_id' => $entity->team_id, 'processed' => false])->count() < $championship->number_selections;
+                return $that->find()
+                    ->where(
+                        [
+                            'matchday_id' => $entity->matchday_id,
+                            'team_id' => $entity->team_id, 
+                            'processed' => false
+                        ]
+                    )->count() < $championship->number_selections;
             },
             'TeamReachedMaximum',
             ['errorField' => 'new_member', 'message' => 'Hai raggiunto il limite di cambi selezione']
@@ -171,21 +178,16 @@ class SelectionsTable extends Table
 
     public function beforeSave(CakeEvent $event, Selection $entity, ArrayObject $options)
     {
-        if ($entity->dirty('processed') && $entity->processed) {
+        if ($entity->isDirty('processed') && $entity->processed) {
             $membersTeamsTable = TableRegistry::get('MembersTeams');
-            $transfertsTable = TableRegistry::get('Transferts');
             $memberTeam = $membersTeamsTable->find()
-                ->where(
-                    [
-                        'team_id' => $entity->team_id,
-                        'member_id' => $entity->old_member_id
-                    ]
-                )
-                ->first();
+                ->contain(['Members'])
+                ->where([
+                    'team_id' => $entity->team_id,
+                    'member_id' => $entity->old_member_id
+                ])->first();
             $memberTeam->member_id = $entity->new_member_id;
-            $transfert = $entity->toTransfert($transfertsTable);
             $membersTeamsTable->save($memberTeam);
-            $transfertsTable->save($transfert);
         }
     }
 

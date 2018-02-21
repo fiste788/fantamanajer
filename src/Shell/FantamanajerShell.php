@@ -33,7 +33,8 @@ class FantamanajerShell extends Shell
         'Transfert',
         'DownloadPhotos',
         'User',
-        'PushNotification'
+        'PushNotification',
+        'Lineup'
     ];
 
     public function main()

@@ -13,41 +13,7 @@ class ScoresController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['index', 'view', 'last', 'viewByMatchday']);
-    }
-
-    public function beforeFilter(Event $event)
-    {
-        $this->Crud->mapAction('index', 'Crud.Index');
-    }
-
-    public function index()
-    {
-        $championshipId = $this->request->getParam('championship_id');
-        $ranking = $this->Scores->findRanking($championshipId);
-        $scores = $this->Scores->findRankingDetails($championshipId);
-
-        $this->set(
-            [
-            'success' => true,
-            'data' => [
-                'ranking' => $ranking,
-                'scores' => $scores
-            ],
-            '_serialize' => ['data', 'success']
-            ]
-        );
-    }
-
-    public function last()
-    {
-        $this->viewByMatchday($this->Scores->findMaxMatchday($this->currentSeason));
-    }
-
-    public function viewByMatchday($matchdayId)
-    {
-        $score = $this->Scores->findByMatchdayIdAndTeamId($matchdayId, $this->request->team_id)->first();
-        $this->view($score != null ? $score->id : null);
+        $this->Auth->allow(['view']);
     }
 
     public function view($id)
