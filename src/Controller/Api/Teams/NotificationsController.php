@@ -1,9 +1,9 @@
 <?php
-namespace App\Controller\Api;
+namespace App\Controller\Api\Teams;
 
 use Cake\ORM\TableRegistry;
 
-class NotificationsController extends AppController
+class NotificationsController extends \App\Controller\Api\AppController
 {
     public function initialize()
     {

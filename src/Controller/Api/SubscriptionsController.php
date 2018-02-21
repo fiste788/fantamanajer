@@ -10,11 +10,6 @@ use Cake\Event\Event;
  */
 class SubscriptionsController extends AppController
 {
-    public function initialize()
-    {
-        parent::initialize();
-    }
-
     public function add()
     {
         $subscription = $this->Subscriptions->findByEndpoint($this->request->getData('endpoint'));

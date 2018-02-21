@@ -11,20 +11,6 @@ use Cake\Event\Event;
 class SelectionsController extends AppController
 {
 
-    public function index()
-    {
-        $selections = $this->Selections->findByTeamIdAndMatchdayId($this->request->getParam('team_id'), $this->currentMatchday->id)
-            ->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays']);
-        $this->set(
-            [
-            'success' => true,
-            'data' => $selections->last(),
-            '_serialize' => ['success', 'data']
-            ]
-        );
-        //$this->log($articles, \Psr\Log\LogLevel::NOTICE);
-    }
-
     public function add()
     {
         $this->Crud->on(

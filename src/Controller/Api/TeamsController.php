@@ -3,10 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\ORM\Query;
-use Cake\Routing\Router;
 use Cake\View\Helper\UrlHelper;
 
 /**
@@ -29,27 +26,11 @@ class TeamsController extends AppController
         $this->Crud->on(
             'beforeFind',
             function (Event $event) {
-                $event->getSubject()->query->contain(
-                    ['Users', 'Members' => ['Roles', 'Players', 'Clubs', 'VwMembersStats']]
-                );
+                $event->getSubject()->query->contain(['Users']);
             }
         );
 
         return $this->Crud->execute();
-    }
-
-    public function index()
-    {
-        $teams = $this->Teams->find()
-            ->contain(['Users'])
-            ->where(['championship_id' => $this->request->getParam('championship_id')]);
-        $this->set(
-            [
-                'success' => true,
-                'data' => $teams,
-                '_serialize' => ['success', 'data']
-            ]
-        );
     }
 
     public function edit($id)

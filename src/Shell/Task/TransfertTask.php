@@ -29,6 +29,7 @@ class TransfertTask extends Shell
     {
         $parser = parent::getOptionParser();
         $parser->addOption('no-commit', ['boolean' => true]);
+        $parser->addOption('force', ['boolean' => true]);
         /*$parser->addSubcommand('do_transfert', [
             'help' => 'Do transferts from selections'
         ]);*/
@@ -37,7 +38,7 @@ class TransfertTask extends Shell
 
     public function doTransfert()
     {
-        if ($this->currentMatchday->isDoTransertDay()) {
+        if ($this->currentMatchday->isDoTransertDay() || $this->param('force')) {
             $selections = $this->Selections->findByMatchdayIdAndProcessed($this->currentMatchday->id, false)
                 ->contain(['OldMembers.Players', 'NewMembers.Players', 'Teams']);
             $table[] = ['Team', 'New Member', 'Old Member'];
@@ -54,8 +55,17 @@ class TransfertTask extends Shell
                 $this->helper('Table')->output($table);
                 if (!$this->param('no-commit')) {
                     //if($this->in('Are you sure?', ['y','n'], 'y') == 'y') {
-                    $this->Selections->saveMany($selections);
-                    $this->out('Changes committed');
+                    if($this->Selections->saveMany($selections)) {
+                        $this->out('Changes committed');
+                    } else {
+                        $this->out('Error occurred');
+                        foreach ($selections as $value) {
+                            if (!empty($value->getErrors())) {
+                                $this->err($value);
+                                $this->err(print_r($value->getErrors()));
+                            }
+                        }
+                    }
                 }
             } else {
                 $this->out('No unprocessed selections found');

@@ -14,12 +14,9 @@ class MatchdaysController extends AppController
 
     public function beforeFilter(\Cake\Event\Event $event)
     {
-        $this->Crud->mapAction(
-            'current',
-            [
+        $this->Crud->mapAction('current', [
             'className' => 'Crud.Index'
-            ]
-        );
+        ]);
     }
 
     public function current()

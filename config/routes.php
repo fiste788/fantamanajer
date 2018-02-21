@@ -45,12 +45,24 @@ Router::defaultRouteClass(DashedRoute::class);
 
 Router::prefix('api', function (RouteBuilder $routes) {
     $routes->setExtensions(['json']);
-    $routes->resources('Articles');
-    $routes->resources('Users');
-    $routes->resources('Players');
+    $routes->resources('Articles', [
+        'only' => ['create', 'update']
+    ]);
+    $routes->resources('Users', [
+        'only' => ['view', 'update']
+    ]);
+    $routes->resources('Players', [
+        'only' => 'view'
+    ]);
     $routes->resources('Clubs', function (RouteBuilder $routes) {
-        $routes->resources('Members', ['prefix' => 'clubs']);
+        $routes->resources('Members', [
+            'prefix' => 'Clubs',
+            'only' => 'index'
+        ]);
     });
+    $routes->resources('Scores', [
+        'only' => 'view'
+    ]);
     $routes->resources('Matchdays', [
         'only' => ['view', 'current'],
         'map' => [
@@ -60,63 +72,6 @@ Router::prefix('api', function (RouteBuilder $routes) {
             ]
         ]
     ]);
-    $routes->resources('Championships', function (RouteBuilder $routes) {
-        $routes->connect('/ranking', [
-            'controller' => 'Scores',
-            'action' => 'index'
-        ]);
-        $routes->resources('Articles', [
-            'only' => 'index',
-            'actions' => ['index' => 'indexByChampionship']
-        ]);
-        $routes->resources('Teams');
-        $routes->resources('Events');
-        $routes->connect('/members/free/:role_id', [
-            'controller' => 'Members',
-            'action' => 'free',
-                ], ['role_id' => '\d+']);
-    });
-    $routes->resources('Teams', function (RouteBuilder $routes) {
-        $routes->resources('Articles', [
-            'only' => 'index',
-            'actions' => ['index' => 'indexByTeam']
-        ]);
-        $routes->resources('Members', [
-            'only' => 'index'
-            //'actions' => ['index' => 'indexByTeam']
-        ]);
-        $routes->resources('Selections');
-        $routes->resources('Lineups');
-        $routes->connect('/2members', [
-            'controller' => 'Members',
-            'action' => 'indexByTeam'
-        ]);
-        $routes->connect('/transferts', [
-            'controller' => 'Transferts',
-            'action' => 'index'
-        ]);
-        $routes->connect('/scores/last', [
-            'controller' => 'Scores',
-            'action' => 'last'
-        ]);
-        $routes->connect('/lineups/current', [
-            'controller' => 'Lineups',
-            'action' => 'current'
-        ]);
-        $routes->connect('/notifications', [
-            'controller' => 'Notifications',
-            'action' => 'index'
-        ]);
-
-        //$routes->addExtensions(['html']);
-    });
-    $routes->connect('/scores/:id', [
-        'controller' => 'Scores',
-        'action' => 'view'
-            ], [
-        'id' => '\d+',
-        'pass' => ['id']
-            ]);
     $routes->resources('Subscriptions', [
         'path' => 'webpush',
         'map' => [
@@ -126,7 +81,82 @@ Router::prefix('api', function (RouteBuilder $routes) {
             ]
         ]
     ]);
-
+    $routes->resources('Championships', function (RouteBuilder $routes) {
+        $routes->resources('Articles', [
+            'only' => 'index',
+            'prefix' => 'championships'
+        ]);
+        $routes->resources('Events', [
+            'prefix' => 'championships',
+            'only' => 'index'
+        ]);
+        $routes->resources('Scores', [
+            'prefix' => 'championships',
+            'only' => 'index',
+            'path' => 'ranking'
+        ]);
+        $routes->resources('Teams', [
+            'prefix' => 'championships',
+            'only' => 'index'
+        ]);
+        
+        $routes->connect('/members/free/:role_id', [
+                'controller' => 'Members',
+                'action' => 'free',
+                'prefix' => 'api/championships'
+            ], [
+                'role_id' => '\d+'
+        ]);
+    });
+    $routes->resources('Teams', function (RouteBuilder $routes) {
+        $routes->resources('Articles', [
+            'only' => 'index',
+            'prefix' => 'teams'
+        ]);
+        $routes->resources('Members', [
+            'only' => 'index',
+            'prefix' => 'Teams'
+        ]);
+        $routes->resources('Selections',  [
+            'only' => ['index', 'create'],
+            'prefix' => 'Teams'
+        ]);
+        $routes->resources('Transferts',  [
+            'only' => 'index',
+            'prefix' => 'Teams'
+        ]);
+        $routes->resources('Notifications',  [
+            'only' => 'index',
+            'prefix' => 'Teams'
+        ]);
+        $routes->resources('Lineups', [
+            'prefix' => 'teams',
+            'only' => ['current', 'create', 'update'],
+            'map' => [
+                'current' => [
+                    'action' => 'current',
+                    'method' => 'GET'
+                ]
+            ]
+        ]);
+        $routes->resources('Scores', [
+            'prefix' => 'teams',
+            'only' => ['last', 'viewByMatchday'],
+            'map' => [
+                'last' => [
+                    'action' => 'last'
+                ],
+            ]
+        ]);
+        $routes->connect('/scores/:matchday_id', [
+                'controller' => 'Scores',
+                'action' => 'viewByMatchday',
+                'prefix' => 'api/teams'
+            ], [
+                ':matchday_id' => '\d+',
+                'pass' => ['matchday_id']
+        ]);
+    });
     $routes->fallbacks(DashedRoute::class);
 });
 

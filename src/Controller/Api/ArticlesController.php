@@ -23,22 +23,6 @@ class ArticlesController extends AppController
 
     /**
      *
-     * @param Event $event event
-     * @return void
-     */
-    public function beforeFilter(Event $event)
-    {
-        $this->Crud->mapAction('indexByTeam', 'Crud.Index');
-        $this->Crud->mapAction(
-            'indexByChampionship',
-            [
-                'className' => 'Crud.Index',
-            ]
-        );
-    }
-
-    /**
-     *
      * @param int $id the article id
      * @return type
      */
@@ -47,35 +31,5 @@ class ArticlesController extends AppController
         $this->Flash->success('The article has been deleted.');
 
         return $this->Crud->execute();
-    }
-
-    /**
-     *
-     */
-    public function indexByTeam()
-    {
-        $articles = $this->Articles->findByTeamId($this->request->getParam('team_id'));
-        $this->set(
-            [
-                'success' => true,
-                'data' => $articles,
-                '_serialize' => ['success', 'data']
-            ]
-        );
-    }
-
-    /**
-     *
-     */
-    public function indexByChampionship()
-    {
-        $articles = $this->Articles->findByChampionshipId($this->request->getParam('championship_id'))->all();
-        $this->set(
-            [
-                'success' => true,
-                'data' => $articles,
-                '_serialize' => ['success', 'data']
-            ]
-        );
     }
 }

@@ -93,6 +93,25 @@ class Lineup extends Entity
 
         return $lineup;
     }
+    
+    public function substitute($old_member_id, $new_member_id) {
+        foreach($this->dispositions as $key => $disposition) {
+            if($old_member_id == $disposition->id) {
+                $this->dispositions[$key]->id = $new_member_id;
+                $this->setDirty('dispositions', true);
+            }
+        }
+        if ($old_member_id == $this->captain_id) {
+            $this->captain_id = $new_member_id;
+        }
+        if ($old_member_id == $this->vcaptain_id) {
+            $this->vcaptain_id = $new_member_id;
+        }
+        if ($old_member_id == $this->vvcaptain_id) {
+            $this->vvcaptain_id = $new_member_id;
+        }
+        return $this->isDirty();
+    }
 
     /**
      *
@@ -124,7 +143,7 @@ class Lineup extends Entity
                     $sum += $disposition->regularize($cap);
                 }
             }
-            $this->dirty('dispositions', true);
+            $this->setDirty('dispositions', true);
         }
 
         return $sum;
