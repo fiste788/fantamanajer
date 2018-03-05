@@ -10,6 +10,14 @@ use Cake\Event\Event;
  */
 class SubscriptionsController extends AppController
 {
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Crud->mapAction('add', 'Crud.Add');
+        $this->Crud->mapAction('delete', 'Crud.Delete');
+    }
+    
     public function add()
     {
         $subscription = $this->Subscriptions->findByEndpoint($this->request->getData('endpoint'));

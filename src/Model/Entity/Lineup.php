@@ -19,17 +19,19 @@ use Cake\ORM\TableRegistry;
  * @property int $team_id
  *
  * @property Member $member
- * @property Matchday $matchday
- * @property Team $team
- * @property Disposition[] $dispositions
+ * @property \App\Model\Entity\Matchday $matchday
+ * @property \App\Model\Entity\Team $team
+ * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
  * @property \Cake\I18n\FrozenTime $created_at
  * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $old_id
- * @property Member $captain
+ * @property \App\Model\Entity\Member $captain
  * @property Member $vcaptain
  * @property Member $vvcaptain
- * @property Score $score
+ * @property \App\Model\Entity\Score $score
+ * @property \App\Model\Entity\Member $v_captain
+ * @property \App\Model\Entity\Member $v_v_captain
  */
 class Lineup extends Entity
 {

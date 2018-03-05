@@ -21,6 +21,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Subscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Subscription findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \App\Model\Entity\Subscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class SubscriptionsTable extends Table
 {

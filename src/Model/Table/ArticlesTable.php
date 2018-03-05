@@ -26,6 +26,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Article findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \App\Model\Entity\Article|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ArticlesTable extends Table
 {

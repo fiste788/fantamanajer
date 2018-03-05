@@ -31,6 +31,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
+ * @method \App\Model\Entity\Team|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class TeamsTable extends Table
 {
@@ -117,6 +118,13 @@ class TeamsTable extends Table
             'Articles',
             [
             'foreignKey' => 'team_id'
+            ]
+        );
+        $this->hasOne(
+            'EmailSubscriptions',
+            [
+            'foreignKey' => 'team_id',
+                'dependent' => true
             ]
         );
         $this->hasMany(

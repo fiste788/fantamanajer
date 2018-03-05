@@ -20,16 +20,12 @@ class ArticlesController extends AppController
             'id', 'title'
         ]
     ];
-
-    /**
-     *
-     * @param int $id the article id
-     * @return type
-     */
-    public function edit($id)
+    
+    public function beforeFilter(\Cake\Event\Event $event)
     {
-        $this->Flash->success('The article has been deleted.');
-
-        return $this->Crud->execute();
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('add', 'Crud.Add');
+        $this->Crud->mapAction('edit', 'Crud.Edit');
+        $this->Crud->mapAction('delete', 'Crud.Delete');
     }
 }

@@ -18,6 +18,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Club[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Club findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Club|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ClubsTable extends Table
 {

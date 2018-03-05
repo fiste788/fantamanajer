@@ -19,6 +19,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Player patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Player[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Player findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Player|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PlayersTable extends Table
 {

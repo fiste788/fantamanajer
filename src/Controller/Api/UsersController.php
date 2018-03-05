@@ -18,6 +18,24 @@ class UsersController extends AppController
         parent::initialize();
         $this->Auth->allow(['add', 'token']);
     }
+    
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Crud->mapAction('edit', 'Crud.Edit');
+    }
+    
+    public function isAuthorized($user = null)
+    {
+        if(!$this->request->getParam('id')) {
+            return true;
+        }
+        if ($this->request->getParam('id') == $user['id']) {
+            return true;
+        }
+        parent::isAuthorized($user);
+    }
 
     /**
      * Get login Token
@@ -29,6 +47,8 @@ class UsersController extends AppController
         $user = $this->Auth->identify();
         if (!$user) {
             throw new UnauthorizedException('Invalid username or password');
+        } else {
+            $this->Auth->setUser($user);
         }
         $days = $this->request->getData('remember_me', false) ? 365 : 7;
 
@@ -44,17 +64,8 @@ class UsersController extends AppController
         );
     }
 
-    /**
-     *
-     * @param int $id
-     * @return UnauthorizedException
-     */
-    public function edit($id)
+    public function logout()
     {
-        if ($this->Auth->user("id") != $id) {
-            return new UnauthorizedException('Access denied');
-        }
-
-        return $this->Crud->execute();
+        $this->redirect($this->Auth->logout());
     }
 }

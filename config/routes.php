@@ -46,7 +46,7 @@ Router::defaultRouteClass(DashedRoute::class);
 Router::prefix('api', function (RouteBuilder $routes) {
     $routes->setExtensions(['json']);
     $routes->resources('Articles', [
-        'only' => ['create', 'update']
+        'only' => ['create', 'update', 'delete', 'view']
     ]);
     $routes->resources('Users', [
         'only' => ['view', 'update']

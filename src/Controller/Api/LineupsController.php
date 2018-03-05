@@ -11,7 +11,13 @@ use Cake\Event\Event;
  */
 class LineupsController extends AppController
 {
-
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('edit', 'Crud.Edit');
+        $this->Crud->mapAction('add', 'Crud.Add');
+    }
+    
     public function add()
     {
         $this->Crud->on(

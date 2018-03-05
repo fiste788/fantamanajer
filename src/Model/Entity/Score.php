@@ -13,11 +13,11 @@ use Cake\ORM\TableRegistry;
  * @property float $penality_points
  * @property string $penality
  * @property int $team_id
- * @property Team $team
+ * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
- * @property Matchday $matchday
+ * @property \App\Model\Entity\Matchday $matchday
  * @property int $lineup_id
- * @property Lineup $lineup
+ * @property \App\Model\Entity\Lineup $lineup
  */
 class Score extends Entity
 {

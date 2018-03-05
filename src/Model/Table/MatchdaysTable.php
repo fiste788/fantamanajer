@@ -25,6 +25,7 @@ use DateTime;
  * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Matchday|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MatchdaysTable extends Table
 {

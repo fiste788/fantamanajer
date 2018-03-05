@@ -4,6 +4,13 @@ namespace App\Controller\Api\Teams;
 class SelectionsController extends \App\Controller\Api\SelectionsController
 {
 
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('add', 'Crud.Add');
+        
+    }
+    
     public function index()
     {
         $selections = $this->Selections

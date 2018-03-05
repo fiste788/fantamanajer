@@ -16,6 +16,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\League patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\League[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\League findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\League|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LeaguesTable extends Table
 {
