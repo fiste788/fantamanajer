@@ -18,6 +18,7 @@ class TeamsController extends AppController
     {
         parent::beforeFilter($event);
         $this->Auth->allow(['upload']);
+        $this->Crud->mapAction('edit', 'Crud.Edit');
         $this->Crud->mapAction('upload', 'Crud.Edit');
     }
 
@@ -26,7 +27,7 @@ class TeamsController extends AppController
         $this->Crud->on(
             'beforeFind',
             function (Event $event) {
-                $event->getSubject()->query->contain(['Users']);
+                $event->getSubject()->query->contain(['Users', 'EmailSubscriptions']);
             }
         );
 
@@ -38,6 +39,13 @@ class TeamsController extends AppController
         if ($this->Teams->find()->where(['user_id' => $this->Auth->user('id'), 'id' => $id])->isEmpty()) {
             return new UnauthorizedException('Access denied');
         }
+        $this->Crud->action()->saveOptions([
+            'associated' => [
+                'EmailSubscriptions' => [
+                    'accessibleFields' => ['id' => true]
+                ]
+            ]
+        ]);
 
         return $this->Crud->execute();
     }

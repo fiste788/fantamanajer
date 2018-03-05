@@ -19,6 +19,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Rating|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class RatingsTable extends Table
 {

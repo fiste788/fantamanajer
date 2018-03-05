@@ -95,7 +95,13 @@ class WeeklyScriptTask extends Shell
         }
         if (!$this->param('no_calc_scores')) {
             $championships = $this->Championships->find()
-                ->contain(['Teams' => ['Users' => ['Subscriptions'], 'Championships'], 'Leagues'])
+                ->contain([
+                    'Teams' => [
+                        'EmailSubscriptions', 
+                        'Users' => ['Subscriptions'], 
+                        'Championships'
+                        ], 'Leagues'
+                    ])
                 ->where(['Championships.season_id' => $this->currentSeason->id]);
 
             $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
@@ -163,11 +169,11 @@ class WeeklyScriptTask extends Shell
         $webPush->flush();
     }
 
-    public function sendWeeklyMails(Matchday $matchday = null, Championship $championship = null)
+    public function sendWeeklyMails(Matchday $matchday, Championship $championship)
     {
         $ranking = $this->Scores->findRanking($championship->Id);
         foreach ($championship->teams as $team) {
-            if (!empty($team->user->email) && $team->user->active_email) {
+            if ($team->email_subscriptions->lineups) {
                 $this->sendPointMail($team, $matchday, $ranking);
             }
         }

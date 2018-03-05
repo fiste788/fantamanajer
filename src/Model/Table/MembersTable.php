@@ -34,6 +34,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
  * @property \App\Model\Table\VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \App\Model\Entity\Member|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MembersTable extends Table
 {

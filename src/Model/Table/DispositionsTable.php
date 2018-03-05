@@ -19,6 +19,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Disposition[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Disposition findOrCreate($search, callable $callback = null, $options = [])
  * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasOne $Ratings
+ * @method \App\Model\Entity\Disposition|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class DispositionsTable extends Table
 {

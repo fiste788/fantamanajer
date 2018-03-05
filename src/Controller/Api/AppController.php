@@ -26,16 +26,13 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
-        $this->loadComponent('Flash');
         $this->loadComponent(
             'Crud.Crud',
             [
             'actions' => [
                 'Crud.Index',
                 'Crud.View',
-                'Crud.Add',
-                'Crud.Edit',
-                'Crud.Delete'
+                
             ],
             'listeners' => [
                 'Crud.Api',
@@ -51,6 +48,7 @@ class AppController extends Controller
             'Auth',
             [
             'storage' => 'Memory',
+            'authorize' => 'Controller',
             'authenticate' => [
                 'Form' => [
                     'fields' => ['username' => 'email'],
@@ -59,7 +57,7 @@ class AppController extends Controller
                 'ADmad/JwtAuth.Jwt' => [
                     'parameter' => 'token',
                     'userModel' => 'Users',
-                    'scope' => ['Users.active' => 1],
+                    'finder' => 'auth',
                     'fields' => [
                         'username' => 'id'
                     ],
@@ -73,6 +71,29 @@ class AppController extends Controller
         );
         $this->getCurrentMatchday();
     }
+    
+    public function isAuthorized($user = null)
+    {
+        $prefix = $this->request->getParam('prefix');
+        // Any registered user can access public functions
+        if (!$prefix) {
+            return true;
+        }
+        
+        $prefixs = explode("/", strtolower($prefix));
+        if (in_array('teams', $prefixs) && in_array($this->request->getParam('action'), ['edit', 'delete', 'add'])) {
+                foreach($user['teams'] as $team) {
+                    if($team['id'] == $this->request->getParam('team_id')) {
+                        return true;
+                    }
+                }
+        } else {
+            return true;
+        }
+
+        // Default deny
+        return false;
+    }
 
     /**
      *
@@ -81,13 +102,6 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        /*$this->response->cors($this->request)
-                ->allowOrigin(['develop.fantamanajer.it'])
-                ->allowCredentials()
-                ->allowMethods(['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'])
-                ->allowHeaders(['origin', 'x-requested-with', 'content-type', 'authorization', 'Access-Control-Allow-Headers'])
-                ->build();*/
-        //$this->response->withType('application/json');
         $this->RequestHandler->renderAs($this, 'json');
         parent::beforeRender($event);
     }

@@ -17,6 +17,7 @@ use Cake\Routing\Router;
  * @property \App\Model\Entity\User $user
  * @property int $championship_id
  * @property \App\Model\Entity\Championship $championship
+ * @property \App\Model\Entity\EmailSubscription $email_subscriptions
  * @property \App\Model\Entity\Article[] $articles
  * @property \App\Model\Entity\Event[] $events
  * @property \App\Model\Entity\Lineup[] $lineups

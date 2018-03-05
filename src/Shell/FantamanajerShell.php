@@ -23,6 +23,7 @@ use Cake\Utility\Inflector;
  * @property PushNotificationTask $PushNotificationTask
  * @property \App\Shell\Task\UserTask $User
  * @property \App\Shell\Task\PushNotificationTask $PushNotification
+ * @property \App\Shell\Task\LineupTask $Lineup
  */
 class FantamanajerShell extends Shell
 {

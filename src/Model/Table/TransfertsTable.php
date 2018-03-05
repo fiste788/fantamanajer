@@ -16,17 +16,18 @@ use Cake\Validation\Validator;
  *
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
- * @method Transfert get($primaryKey, $options = [])
- * @method Transfert newEntity($data = null, array $options = [])
- * @method Transfert[] newEntities(array $data, array $options = [])
- * @method Transfert|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method Transfert[] patchEntities($entities, array $data, array $options = [])
- * @method Transfert findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Transfert|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class TransfertsTable extends Table
 {
@@ -114,8 +115,8 @@ class TransfertsTable extends Table
         return $rules;
     }
 
-    public function beforeSave(Event $event, Transfert $entity, ArrayObject $options)
-    {    
+    public function afterSave(Event $event, Transfert $entity, ArrayObject $options)
+    {
         $events = TableRegistry::get('Events');
         $ev = $events->newEntity();
         $ev->type = Event2::NEW_TRANSFERT;

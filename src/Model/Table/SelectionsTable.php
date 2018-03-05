@@ -34,6 +34,7 @@ use Minishlink\WebPush\WebPush;
  * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Selection|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class SelectionsTable extends Table
 {
@@ -197,19 +198,24 @@ class SelectionsTable extends Table
      */
     public function notifyLostMember(Selection $selection)
     {
-        $selection = $this->loadInto($selection, ['Teams.Users.Subscriptions', 'NewMembers.Players']);
-        $email = new Email();
-        $email->setTemplate('lost_member')
-            ->setViewVars(
-                [
-                    'player' => $selection->new_member->player,
-                    'baseUrl' => 'https://fantamanajer.it'
-                ]
-            )
-            ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
-            ->setEmailFormat('html')
-            ->setTo($selection->team->user->email)
-            ->send();
+        $selection = $this->loadInto($selection, ['Teams' => [
+            'EmailSubscriptions',
+            'Users.Subscriptions'
+        ], 'NewMembers.Players']);
+        if($selection->team->email_subscription->lineup) {
+            $email = new Email();
+            $email->setTemplate('lost_member')
+                ->setViewVars(
+                    [
+                        'player' => $selection->new_member->player,
+                        'baseUrl' => 'https://fantamanajer.it'
+                    ]
+                )
+                ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
+                ->setEmailFormat('html')
+                ->setTo($selection->team->user->email)
+                ->send();
+        }
         $webPush = new WebPush(Configure::read('WebPush'));
         foreach ($selection->team->user->subscriptions as $subscription) {
             $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
