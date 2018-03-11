@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\Api\Teams;
+namespace App\Controller\Teams;
 
 use Cake\ORM\TableRegistry;
 
-class LineupsController extends \App\Controller\Api\LineupsController
+class LineupsController extends \App\Controller\LineupsController
 {
 
     public function current()

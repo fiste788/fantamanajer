@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Api\Championships;
+namespace App\Controller\Championships;
 
 /**
  *
  * @property \App\Model\Table\TeamsTable $Teams
  */
-class TeamsController extends \App\Controller\Api\TeamsController
+class TeamsController extends \App\Controller\TeamsController
 {
 
     public function index()

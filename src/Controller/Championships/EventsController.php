@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller\Api\Championships;
+namespace App\Controller\Championships;
 
-use App\Controller\Api\AppController;
+use App\Controller\AppController;
 
 /**
  * Events Controller

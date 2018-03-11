@@ -26,8 +26,7 @@ class DispositionsTableTest extends TestCase
     public $fixtures = [
         'app.dispositions',
         'app.lineups',
-        'app.members',
-        'app.view0_lineups_details'
+        'app.members'
     ];
 
     /**

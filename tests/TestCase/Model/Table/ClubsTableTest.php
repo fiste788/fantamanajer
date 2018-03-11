@@ -25,10 +25,7 @@ class ClubsTableTest extends TestCase
      */
     public $fixtures = [
         'app.clubs',
-        'app.members',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats'
+        'app.members'
     ];
 
     /**

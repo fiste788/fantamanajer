@@ -31,11 +31,9 @@ class MatchdaysTableTest extends TestCase
         'app.lineups',
         'app.members',
         'app.dispositions',
-        'app.view0_lineups_details',
         'app.ratings',
         'app.scores',
-        'app.transferts',
-        'app.view0_max_points'
+        'app.transferts'
     ];
 
     /**

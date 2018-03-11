@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller\Api\Teams;
+namespace App\Controller\Teams;
 
-use App\Controller\Api\AppController;
+use App\Controller\AppController;
 
 /**
  *

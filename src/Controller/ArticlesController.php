@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller;
 
-use App\Controller\Api\AppController;
-use Cake\Event\Event;
+use App\Controller\AppController;
 
 /**
  *

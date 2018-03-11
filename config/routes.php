@@ -43,7 +43,7 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
-Router::prefix('api', function (RouteBuilder $routes) {
+Router::scope('/', function (RouteBuilder $routes) {
     $routes->setExtensions(['json']);
     $routes->resources('Articles', [
         'only' => ['create', 'update', 'delete', 'view']
@@ -108,7 +108,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
         $routes->connect('/members/free/:role_id', [
                 'controller' => 'Members',
                 'action' => 'free',
-                'prefix' => 'api/championships'
+                'prefix' => 'championships'
             ], [
                 'role_id' => '\d+'
         ]);
@@ -158,7 +158,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
         $routes->connect('/scores/:matchday_id', [
                 'controller' => 'Scores',
                 'action' => 'viewByMatchday',
-                'prefix' => 'api/teams'
+                'prefix' => 'teams'
             ], [
                 ':matchday_id' => '\d+',
                 'pass' => ['matchday_id']
