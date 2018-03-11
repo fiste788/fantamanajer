@@ -28,25 +28,18 @@ class SeasonsTableTest extends TestCase
         'app.championships',
         'app.leagues',
         'app.teams',
-        'app.view0_max_points',
-        'app.view2_teams_stats',
         'app.matchdays',
         'app.articles',
         'app.lineups',
         'app.members',
         'app.players',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.roles',
         'app.clubs',
         'app.dispositions',
         'app.ratings',
-        'app.view0_members_only_stats',
         'app.members_teams',
         'app.scores',
-        'app.transferts',
-        'app.view2_clubs_stats'
+        'app.transferts'
     ];
 
     /**

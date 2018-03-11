@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Api\Championships;
+namespace App\Controller\Championships;
 
 /**
  *
  * @property \App\Model\Table\ArticlesTable $Articles
  */
-class ArticlesController extends \App\Controller\Api\ArticlesController
+class ArticlesController extends \App\Controller\ArticlesController
 {
     /**
      *

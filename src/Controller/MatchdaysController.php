@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Api;
+namespace App\Controller;
 
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays

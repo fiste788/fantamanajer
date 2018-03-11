@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\Api\Teams;
+namespace App\Controller\Teams;
 
 use Cake\Event\Event;
 
-class MembersController extends \App\Controller\Api\MembersController
+class MembersController extends \App\Controller\MembersController
 {
     public function initialize()
     {

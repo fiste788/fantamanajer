@@ -54,7 +54,7 @@ class TeamsTable extends Table
             'Josegonzalez/Upload.Upload',
             [
             'photo' => [
-                'path' => 'webroot{DS}files{DS}{model}{DS}{primaryKey}{DS}{field}{DS}',
+                'path' => 'webroot{DS}files{DS}{table}{DS}{primaryKey}{DS}{field}{DS}',
                 'fields' => [
                     // if these fields or their defaults exist
                     // the values will be set.

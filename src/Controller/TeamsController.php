@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller;
 
-use App\Controller\Api\AppController;
+use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\View\Helper\UrlHelper;
 

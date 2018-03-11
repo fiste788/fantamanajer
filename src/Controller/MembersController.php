@@ -1,8 +1,7 @@
 <?php
-namespace App\Controller\Api\Championships;
+namespace App\Controller;
 
-use App\Controller\Api\AppController;
-use Cake\Event\Event;
+use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -23,7 +22,7 @@ class MembersController extends AppController
     public function best()
     {
         $rolesTable = TableRegistry::get('Roles');
-        $roles = $rolesTable->find()->toArray();
+        $roles = $rolesTable->find()->cache('roles')->toArray();
         $matchday = TableRegistry::get('Matchdays')->findWithRatings($this->currentSeason)->first();
         foreach ($roles as $key => $role) {
             $best = $this->Members->findBestByMatchday($matchday, $role)->toArray();
@@ -34,28 +33,6 @@ class MembersController extends AppController
             [
             'success' => true,
             'data' => $roles,
-            '_serialize' => ['success', 'data']
-            ]
-        );
-    }
-
-    public function free()
-    {
-        $stats = $this->request->getQuery('stats', true);
-        $role = $this->request->getParam('role_id', null);
-        $championshipId = $this->request->getParam('championship_id');
-        $members = $this->Members->findFree($championshipId);
-        if ($stats) {
-            $members->contain(['VwMembersStats']);
-        }
-        if ($role) {
-            $members->where(['role_id' => $role]);
-        }
-
-        $this->set(
-            [
-            'success' => true,
-            'data' => $members,
             '_serialize' => ['success', 'data']
             ]
         );

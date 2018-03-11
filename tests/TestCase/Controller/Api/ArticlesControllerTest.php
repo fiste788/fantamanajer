@@ -19,7 +19,6 @@ class ArticlesControllerTest extends IntegrationTestCase
         'app.articles',
         'app.teams',
         'app.users',
-        'app.view2_teams_stats',
         'app.championships',
         'app.leagues',
         'app.seasons',
@@ -28,21 +27,14 @@ class ArticlesControllerTest extends IntegrationTestCase
         'app.members',
         'app.players',
         'app.roles',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.clubs',
         'app.dispositions',
         'app.ratings',
         'app.members_teams',
-        'app.vw_members_stats',
         'app.scores',
         'app.transferts',
-        'app.view2_clubs_stats',
-        'app.view0_max_points',
         'app.events',
         'app.selections',
-        'app.view1_matchday_win'
     ];
 
     /**

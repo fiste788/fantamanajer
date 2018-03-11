@@ -32,17 +32,12 @@ class ScoresTableTest extends TestCase
         'app.lineups',
         'app.members',
         'app.players',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.roles',
         'app.clubs',
         'app.dispositions',
         'app.ratings',
-        'app.view0_members_only_stats',
         'app.members_teams',
-        'app.transferts',
-        'app.view0_max_points'
+        'app.transferts'
     ];
 
     /**

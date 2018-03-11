@@ -28,16 +28,11 @@ class SelectionsTableTest extends TestCase
         'app.teams',
         'app.members',
         'app.players',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.roles',
         'app.clubs',
         'app.seasons',
         'app.championships',
         'app.leagues',
-        'app.view0_max_points',
-        'app.view2_teams_stats',
         'app.matchdays',
         'app.articles',
         'app.lineups',
@@ -45,8 +40,6 @@ class SelectionsTableTest extends TestCase
         'app.ratings',
         'app.scores',
         'app.transferts',
-        'app.view2_clubs_stats',
-        'app.view0_members_only_stats',
         'app.members_teams'
     ];
 

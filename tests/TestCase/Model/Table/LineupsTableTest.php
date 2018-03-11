@@ -28,30 +28,21 @@ class LineupsTableTest extends TestCase
         'app.members',
         'app.players',
         'app.roles',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.clubs',
         'app.seasons',
         'app.championships',
         'app.leagues',
         'app.teams',
         'app.users',
-        'app.view2_teams_stats',
         'app.articles',
         'app.matchdays',
         'app.ratings',
         'app.scores',
-        'app.lineup',
         'app.transferts',
         'app.events',
         'app.selections',
-        'app.view1_matchday_win',
         'app.members_teams',
-        'app.view0_max_points',
-        'app.view2_clubs_stats',
-        'app.dispositions',
-        'app.vw_members_stats'
+        'app.dispositions'
     ];
 
     /**

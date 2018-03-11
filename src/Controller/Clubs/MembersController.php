@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller\Api\Clubs;
+namespace App\Controller\Clubs;
 
-use App\Controller\Api\AppController;
+use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 

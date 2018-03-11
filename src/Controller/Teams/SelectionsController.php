@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller\Api\Teams;
+namespace App\Controller\Teams;
 
-class SelectionsController extends \App\Controller\Api\SelectionsController
+class SelectionsController extends \App\Controller\SelectionsController
 {
 
     public function beforeFilter(\Cake\Event\Event $event)

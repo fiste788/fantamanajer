@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller\Api\Teams;
+namespace App\Controller\Teams;
 
-class ScoresController extends \App\Controller\Api\ScoresController
+class ScoresController extends \App\Controller\ScoresController
 {
     public function initialize()
     {

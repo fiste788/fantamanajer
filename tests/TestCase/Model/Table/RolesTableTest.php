@@ -27,9 +27,6 @@ class RolesTableTest extends TestCase
         'app.roles',
         'app.members',
         'app.players',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.clubs',
         'app.seasons',
         'app.dispositions',
@@ -40,8 +37,6 @@ class RolesTableTest extends TestCase
         'app.ratings',
         'app.scores',
         'app.transferts',
-        'app.view0_max_points',
-        'app.view0_members_only_stats',
         'app.members_teams'
     ];
 
