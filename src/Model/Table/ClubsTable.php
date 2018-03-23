@@ -98,8 +98,10 @@ class ClubsTable extends Table
      */
     public function findBySeason($season)
     {
-        $members = TableRegistry::get('Members');
-        $ids = $members->find()->select(['club_id'])->distinct(['club_id'])->where(['season_id' => $season->id]);
+        $ids = $members = $this->Members->find()
+            ->select(['club_id'])
+            ->distinct(['club_id'])
+            ->where(['season_id' => $season->id]);
 
         return $this->find('all')->where(
             [

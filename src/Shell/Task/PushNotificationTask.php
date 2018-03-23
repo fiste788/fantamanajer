@@ -6,7 +6,6 @@ use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
 use Cake\Console\Shell;
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use Minishlink\WebPush\WebPush;
 
 /**
@@ -38,20 +37,34 @@ class PushNotificationTask extends Shell
         $this->getCurrentMatchday();
     }
 
+    public function startup()
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-        $parser->addSubcommand('scores_notification');
-        $parser->addSubcommand('missing_lineup_notification');
+        $parser->addSubcommand('scores');
+        $parser->addSubcommand('missing_lineup');
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true,
+            'default' => false
+        ]);
 
         return $parser;
     }
 
-    public function scoresNotification()
+    public function scores()
     {
         $webPush = new WebPush(Configure::read('WebPush'));
-        $user = TableRegistry::get('Users')->get(2, ['contain' => ['Subscriptions']]);
-        foreach ($user->subscriptions as $subscription) {
+        $user = $this->Users->get(2, ['contain' => ['PushSubscriptions']]);
+        foreach ($user->push_subscriptions as $subscription) {
             $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                     ->title('Punteggio giornata 2 Le formiche sono amiche')
                     ->body('La tua squadra ha totalizzato un punteggio di 90 punti')
@@ -70,12 +83,12 @@ class PushNotificationTask extends Shell
         $this->out(print_r($webPush->flush()));
     }
 
-    public function missingLineupNotification()
+    public function missingLineup()
     {
         if ($this->currentMatchday->date->isWithinNext('30 minutes')) {
             $webPush = new WebPush(Configure::read('WebPush'));
             $teams = $this->Teams->find()
-                ->contain(['Users.Subscriptions'])
+                ->contain(['Users.PushSubscriptions'])
                 ->innerJoinWith('Championships')
                 ->where(
                     [
@@ -84,7 +97,7 @@ class PushNotificationTask extends Shell
                     ]
                 );
             foreach ($teams as $team) {
-                foreach ($team->user->subscriptions as $subscription) {
+                foreach ($team->user->push_subscriptions as $subscription) {
                     $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                             ->title('Formazione non ancora impostatata')
                             ->body('Imposta subito la tua formazione per la giornata ' . $this->currentMatchday->number . '! Ti restano pochi minuti')

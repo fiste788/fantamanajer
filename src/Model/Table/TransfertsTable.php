@@ -123,7 +123,7 @@ class TransfertsTable extends Table
         $ev->team_id = $entity->team_id;
         $ev->external = $entity->id;
         $events->save($ev);
-        
+
         $lineups = TableRegistry::get('Lineups');
         $lineup = $lineups->find()
             ->contain(['Dispositions'])

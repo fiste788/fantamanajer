@@ -24,6 +24,14 @@ class MatchdayTask extends Shell
         $this->getCurrentMatchday();
     }
 
+    public function startup()
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function main()
     {
         $this->out('Matchday task');
@@ -32,6 +40,12 @@ class MatchdayTask extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true,
+            'default' => false
+        ]);
         $parser->addSubcommand(
             'get_matchday_schedule',
             [
@@ -107,6 +121,8 @@ class MatchdayTask extends Shell
             }
         }
         $date = $this->getMatchdaySchedule($matchdayNumber, $season);
+        $this->out("output");
+        $this->out("output 2");
         if ($date) {
             $res = !$interactive || ($interactive && $this->in("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchdayNumber, ['s', 'n'], 's') == 's');
             if ($res) {

@@ -17,7 +17,6 @@ class TeamsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['upload']);
         $this->Crud->mapAction('edit', 'Crud.Edit');
         $this->Crud->mapAction('upload', 'Crud.Edit');
     }
@@ -27,7 +26,7 @@ class TeamsController extends AppController
         $this->Crud->on(
             'beforeFind',
             function (Event $event) {
-                $event->getSubject()->query->contain(['Users', 'EmailSubscriptions']);
+                $event->getSubject()->query->contain(['Users', 'PushNotificationSubscriptions', 'EmailNotificationSubscriptions']);
             }
         );
 
@@ -36,17 +35,23 @@ class TeamsController extends AppController
 
     public function edit($id)
     {
-        if ($this->Teams->find()->where(['user_id' => $this->Auth->user('id'), 'id' => $id])->isEmpty()) {
-            return new UnauthorizedException('Access denied');
-        }
-        $this->Crud->action()->saveOptions([
-            'associated' => [
-                'EmailSubscriptions' => [
-                    'accessibleFields' => ['id' => true]
-                ]
-            ]
-        ]);
+        //$this->Crud->action()->saveOptions(['associated' => true]);
 
         return $this->Crud->execute();
+    }
+
+    public function isAuthorized($user = null)
+    {
+        if (in_array($this->request->getParam('action'), ['edit'])) {
+            foreach ($user['teams'] as $team) {
+                if ($team['id'] == $this->request->getParam('id')) {
+                    return true;
+                }
+            }
+        } else {
+            return true;
+        }
+
+        return parent::isAuthorized($user);
     }
 }

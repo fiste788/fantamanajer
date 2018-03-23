@@ -29,6 +29,14 @@ class DownloadPhotosTask extends Shell
         $this->getCurrentMatchday();
     }
 
+    public function startup(): void
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function main()
     {
         $this->out('Download photos task');

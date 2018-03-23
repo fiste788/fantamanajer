@@ -9,7 +9,6 @@ use App\Model\Entity\Season;
 use App\Model\Entity\Team;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use PDOException;
@@ -223,8 +222,7 @@ class ScoresTable extends Table
                 $sums[$key] = $classification[$key];
             }
         } else {
-            $teamsReg = TableRegistry::get('Teams');
-            $teams = $teamsReg->find('list')->where(['league_id' => $championship->id])->toArray();
+            $teams = $this->Teams->find('list')->where(['league_id' => $championship->id])->toArray();
             foreach ($teams as $key => $val) {
                 $sums[$key][0] = 0;
             }

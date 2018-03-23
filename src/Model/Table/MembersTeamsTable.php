@@ -84,11 +84,11 @@ class MembersTeamsTable extends Table
 
         return $rules;
     }
-    
+
     public function beforeSave(Event $event, \App\Model\Entity\MembersTeam $entity, ArrayObject $options)
     {
         if ($entity->isDirty('member_id') && !$entity->isNew()) {
-            if(!$entity->member) {
+            if (!$entity->member) {
                 $entity = $this->loadInto($entity, ['Members']);
             }
             $transfertsTable = TableRegistry::get('Transferts');
@@ -97,10 +97,9 @@ class MembersTeamsTable extends Table
             $transfert->team_id = $entity->team_id;
             $transfert->constrained = !$entity->member->active;
             $transfert->matchday_id = $matchdaysTable->findCurrent()->id;
-            $transfert->old_member_id = $entity->getOriginal('member_id');;
+            $transfert->old_member_id = $entity->getOriginal('member_id');
             $transfert->new_member_id = $entity->member_id;
             $transfertsTable->save($transfert);
         }
     }
-    
 }

@@ -43,6 +43,14 @@ class FantamanajerShell extends Shell
         $this->_io->outputAs(ConsoleOutput::COLOR);
     }
 
+    public function startup(): void
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function startSeason()
     {
         $season = $this->Matchday->startNewSeason();
@@ -61,6 +69,11 @@ class FantamanajerShell extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true
+        ]);
         $parser->addSubcommand(
             'start_season',
             [

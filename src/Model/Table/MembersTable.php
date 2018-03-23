@@ -165,6 +165,15 @@ class MembersTable extends Table
         return $rules;
     }
 
+    public function findListBySeasonId($season_id)
+    {
+        return $this->find('list', [
+                'keyField' => 'code_gazzetta',
+                'valueField' => function ($obj) {
+                    return $obj;
+                }])->where(['season_id' => $season_id]);
+    }
+
     public function findWithStats(Query $query, array $options)
     {
         return $query->contain(['VwMembersStats'])
@@ -183,11 +192,11 @@ class MembersTable extends Table
     public function findWithDetails(Query $query, array $options)
     {
         return $query->contain(
-                    ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
+            ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
                             return $q2->contain(['Matchdays'])
                                 ->order(['Matchdays.number' => 'ASC']);
-                        }]
-                )
+            }]
+        )
                 ->order(['Seasons.year' => 'DESC']);
     }
 
@@ -197,11 +206,11 @@ class MembersTable extends Table
         $ids = $membersTeams->find()
             ->select(['member_id'])
             ->matching(
-            'Teams',
-            function ($q) use ($championshipId) {
-                return $q->where(['Teams.championship_id' => $championshipId]);
-            }
-        );
+                'Teams',
+                function ($q) use ($championshipId) {
+                    return $q->where(['Teams.championship_id' => $championshipId]);
+                }
+            );
 
         return $this->find()
                 ->innerJoinWith('Seasons.Championships')
@@ -221,13 +230,13 @@ class MembersTable extends Table
                 ->contain(
                     ['Players', 'Ratings' => function (Query $q) use ($matchday) {
                             return $q->where(['matchday_id' => $matchday->id]);
-                        }]
+                    }]
                 )
                 ->innerJoinWith(
                     'Ratings',
                     function (Query $q) use ($matchday) {
-                    return $q->where(['matchday_id' => $matchday->id]);
-                }
+                        return $q->where(['matchday_id' => $matchday->id]);
+                    }
                 )
                 ->innerJoinWith('Roles')
                 ->where(['Roles.id' => $role->id])

@@ -42,6 +42,14 @@ class GazzettaTask extends Shell
         $this->out('Gazzetta task');
     }
 
+    public function startup()
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function getRatings($matchday = null, $offsetGazzetta = 0, $forceDownload = false)
     {
         if ($matchday === null) {
@@ -283,53 +291,56 @@ class GazzettaTask extends Shell
         }
         $path = $path ? $path : $this->getRatings($matchdayNumber);
         if ($path) {
-            $members = $this->returnArray($path, ";");
-            foreach ($members as $stats) {
-                $member = $this->Members->find()->contain(['Roles'])->where(
-                    [
-                    'code_gazzetta' => $stats[0],
-                    'season_id' => $matchday->season_id
-                    ]
-                )->firstOrFail();
-                $ratingQuery = $this->Ratings->find()->where(
-                    [
-                    'member_id' => $member->id,
-                    'matchday_id' => $matchday->id
-                    ]
-                );
-                if ($ratingQuery->isEmpty()) {
-                    $rating = $this->Ratings->newEntity();
+            $csvRow = $this->returnArray($path, ";");
+            $members = $this->Members->findListBySeasonId($matchday->season_id)
+                ->contain(['Roles', 'Ratings' => function (\Cake\ORM\Query $q) use ($matchday) {
+                    return $q->where(['matchday_id' => $matchday->id]);
+                }])->toArray();
+
+            foreach ($csvRow as $stats) {
+                if (array_key_exists($stats[0], $members)) {
+                    $member = $members[$stats[0]];
+                    if (empty($member->ratings)) {
+                        $rating = $this->Ratings->newEntity();
+                    } else {
+                        $rating = $member->ratings[0];
+                    }
+                    $rating->member = $member;
+                    $this->Ratings->patchEntity(
+                        $rating,
+                        [
+                        //$rating = $this->Ratings->newEntity([
+                        'valued' => $stats[6],
+                        'points' => $stats[7],
+                        'rating' => $stats[10],
+                        'goals' => $stats[11],
+                        'goals_against' => $stats[12],
+                        'goals_victory' => $stats[13],
+                        'goals_tie' => $stats[14],
+                        'assist' => $stats[15],
+                        'yellow_card' => $stats[16],
+                        'red_card' => $stats[17],
+                        'penalities_scored' => $stats[18],
+                        'penalities_taken' => $stats[19],
+                        'present' => $stats[23],
+                        'regular' => $stats[24],
+                        'quotation' => (int)$stats[27],
+                        'member_id' => $member->id,
+                        'matchday_id' => $matchday->id
+                        ]
+                    );
+                    $rating->points_no_bonus = $this->currentSeason->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
+                    $ratings[] = $rating;
                 } else {
-                    $rating = $ratingQuery->first();
+                    throw new RecordNotFoundException("No member for code_gazzetta $stats[0]");
                 }
-                $rating->member = $member;
-                $this->Ratings->patchEntity(
-                    $rating,
-                    [
-                    //$rating = $this->Ratings->newEntity([
-                    'valued' => $stats[6],
-                    'points' => $stats[7],
-                    'rating' => $stats[10],
-                    'goals' => $stats[11],
-                    'goals_against' => $stats[12],
-                    'goals_victory' => $stats[13],
-                    'goals_tie' => $stats[14],
-                    'assist' => $stats[15],
-                    'yellow_card' => $stats[16],
-                    'red_card' => $stats[17],
-                    'penalities_scored' => $stats[18],
-                    'penalities_taken' => $stats[19],
-                    'present' => $stats[23],
-                    'regular' => $stats[24],
-                    'quotation' => (int)$stats[27],
-                    'member_id' => $member->id,
-                    'matchday_id' => $matchday->id
-                    ]
-                );
-                $rating->points_no_bonus = $this->currentSeason->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
-                $ratings[] = $rating;
             }
-            if (!$this->Ratings->saveMany($ratings)) {
+
+            if (!$this->Ratings->saveMany($ratings, [
+                'checkExisting' => false,
+                'associated' => false,
+                'checkRules' => false
+                ])) {
                 foreach ($ratings as $value) {
                     if (!empty($value->getErrors())) {
                         $this->err($value);
@@ -425,6 +436,12 @@ class GazzettaTask extends Shell
             'help' => 'Calculate and save the key for decrypting gazzetta file'
             ]
         );
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true,
+            'default' => false
+        ]);
 
         return $parser;
     }

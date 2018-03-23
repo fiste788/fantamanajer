@@ -19,7 +19,7 @@ class ArticlesController extends AppController
             'id', 'title'
         ]
     ];
-    
+
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);

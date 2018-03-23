@@ -27,6 +27,8 @@ use const DS;
  * @property \App\Model\Entity\View0MembersOnlyStat[] $view0_members_only_stats
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\VwMembersStat $stats
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $modified_at
  */
 class Member extends Entity
 {

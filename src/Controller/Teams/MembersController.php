@@ -21,10 +21,10 @@ class MembersController extends \App\Controller\MembersController
             function (Event $event) use ($team_id, $stats) {
                 $event->getSubject()->query
                     ->contain(['Clubs', 'Players'])
-                    ->matching('Teams', function(\Cake\ORM\Query $q) use ($team_id) {
+                    ->matching('Teams', function (\Cake\ORM\Query $q) use ($team_id) {
                         return $q->where(['Teams.id' => $team_id]);
                     });
-                if($stats) {
+                if ($stats) {
                     $event->getSubject()->query
                     ->contain(['Roles', 'VwMembersStats']);
                 }

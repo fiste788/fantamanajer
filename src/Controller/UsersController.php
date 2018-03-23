@@ -18,17 +18,17 @@ class UsersController extends AppController
         parent::initialize();
         $this->Auth->allow(['add', 'token']);
     }
-    
+
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);
 
         $this->Crud->mapAction('edit', 'Crud.Edit');
     }
-    
+
     public function isAuthorized($user = null)
     {
-        if(!$this->request->getParam('id')) {
+        if (!$this->request->getParam('id')) {
             return true;
         }
         if ($this->request->getParam('id') == $user['id']) {

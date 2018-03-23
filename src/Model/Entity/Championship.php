@@ -47,7 +47,6 @@ class Championship extends Entity
      */
     public function findTeamByUser($user)
     {
-        var_dump($user);
         $teams = TableRegistry::get('Teams');
 
         return $teams->find()

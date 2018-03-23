@@ -32,22 +32,34 @@ class LineupTask extends Shell
         $parser = parent::getOptionParser();
         $parser->addSubcommand('send_email');
         $parser->addOption('force', ['boolean' => true]);
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true,
+            'default' => false
+        ]);
 
         return $parser;
+    }
+
+    public function startup()
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
     }
 
     public function sendEmail()
     {
         $date = $this->currentMatchday->date;
-        if ($date->isWithinNext('1 minutes') || 
-            $date->wasWithinLast('1 minutes') || 
-            $this->param('force')) {
+        if ($date->wasWithinLast('59 seconds') || $this->param('force')) {
             $championships = $this->Championships->find()
-                ->contain(['Teams' => function(Query $q) {
+                ->contain(['Teams' => function (Query $q) {
                     return $q->contain(['Users'])
-                        ->innerJoinWith('EmailSubscriptions', function(Query $q) {
-                            return $q->where(['lineup' => true]);
-                    });
+                        ->innerJoinWith('EmailNotificationSubscriptions', function (Query $q) {
+                            return $q->where(['name' => 'lineups', 'enabled' => true]);
+                        });
                 }])->where(['season_id' => $this->currentSeason->id]);
             foreach ($championships as $championship) {
                 $this->sendLineupsChampionship($championship, $this->currentMatchday);
@@ -58,7 +70,7 @@ class LineupTask extends Shell
     private function sendLineupsChampionship(Championship $championship, Matchday $matchday)
     {
         $teams = $this->Teams->find()
-            ->contain('Lineups', function(Query $q) use($matchday) {
+            ->contain('Lineups', function (Query $q) use ($matchday) {
                 return $q->contain([
                     'Dispositions' => ['Members' => ['Clubs', 'Roles', 'Players']]
                 ])->where(['matchday_id' => $matchday->id]);
