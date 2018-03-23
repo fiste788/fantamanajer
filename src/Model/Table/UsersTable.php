@@ -15,7 +15,7 @@ use Firebase\JWT\JWT;
  * Users Model
  *
  * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
- * @property \App\Model\Table\SubscriptionsTable|\Cake\ORM\Association\HasMany $Subscriptions
+ * @property \App\Model\Table\PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
  * @property HasMany $View2TeamsStats
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
@@ -52,7 +52,7 @@ class UsersTable extends Table
             ]
         );
         $this->hasMany(
-            'Subscriptions',
+            'PushSubscriptions',
             [
                 'foreignKey' => 'user_id',
             ]

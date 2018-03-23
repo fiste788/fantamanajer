@@ -154,7 +154,7 @@ class SelectionsTable extends Table
                     ->where(
                         [
                             'matchday_id' => $entity->matchday_id,
-                            'team_id' => $entity->team_id, 
+                            'team_id' => $entity->team_id,
                             'processed' => false
                         ]
                     )->count() < $championship->number_selections;
@@ -199,10 +199,11 @@ class SelectionsTable extends Table
     public function notifyLostMember(Selection $selection)
     {
         $selection = $this->loadInto($selection, ['Teams' => [
-            'EmailSubscriptions',
+            'EmailNotificationSubscriptions',
+            'PushNotificationSubscriptions',
             'Users.Subscriptions'
         ], 'NewMembers.Players']);
-        if($selection->team->email_subscription->lineup) {
+        if ($selection->team->isEmailSubscripted('lost_member')) {
             $email = new Email();
             $email->setTemplate('lost_member')
                 ->setViewVars(
@@ -216,18 +217,20 @@ class SelectionsTable extends Table
                 ->setTo($selection->team->user->email)
                 ->send();
         }
-        $webPush = new WebPush(Configure::read('WebPush'));
-        foreach ($selection->team->user->subscriptions as $subscription) {
-            $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
-                ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
-                ->body('Hai perso il giocatore ' . $selection->new_member->player->surname . ' ' . $selection->new_member->player->name)
-                ->tag('lost-player-' . $selection->id);
-            $webPush->sendNotification(
-                $subscription->endpoint,
-                json_encode($message),
-                $subscription->public_key,
-                $subscription->auth_token
-            );
+        if ($selection->team->isPushSubscripted('lost_member')) {
+            $webPush = new WebPush(Configure::read('WebPush'));
+            foreach ($selection->team->user->subscriptions as $subscription) {
+                $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+                    ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
+                    ->body('Hai perso il giocatore ' . $selection->new_member->player->surname . ' ' . $selection->new_member->player->name)
+                    ->tag('lost-player-' . $selection->id);
+                $webPush->sendNotification(
+                    $subscription->endpoint,
+                    json_encode($message),
+                    $subscription->public_key,
+                    $subscription->auth_token
+                );
+            }
         }
     }
 
@@ -238,7 +241,7 @@ class SelectionsTable extends Table
      */
     public function findAlreadySelectedMember($selection)
     {
-        $team = TableRegistry::get('Teams')->get($selection->team_id);
+        $team = $this->Teams->get($selection->team_id);
 
         return $this->find()
                 ->contain(['Teams'])

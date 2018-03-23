@@ -17,7 +17,7 @@ class LineupsController extends AppController
         $this->Crud->mapAction('edit', 'Crud.Edit');
         $this->Crud->mapAction('add', 'Crud.Add');
     }
-    
+
     public function add()
     {
         $this->Crud->on(

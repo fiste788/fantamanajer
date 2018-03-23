@@ -24,24 +24,24 @@ class PlayersController extends AppController
         $this->Crud->on(
             'beforeFind',
             function (Event $event) {
-            $event->getSubject()->query->contain(
-                ['Members' => function (Query $q) {
+                $event->getSubject()->query->contain(
+                    ['Members' => function (Query $q) {
                         return $q->find('withDetails');
                     }]
-            );
-        }
+                );
+            }
         );
 
         if ($championship_id) {
             $this->Crud->on(
                 'afterFind',
                 function (Event $event) use ($championship_id) {
-                $team = \Cake\ORM\TableRegistry::get("MembersTeams");
-                $entity = $event->getSubject()->entity;
-                $event->getSubject()->entity->championship_id = $championship_id;
-                foreach ($entity->members as $key => $member) {
-                    if ($championship_id != null && $member->season_id == $this->currentSeason->id) {
-                        $event->getSubject()->entity->members[$key]->free = $team->find()
+                    $team = \Cake\ORM\TableRegistry::get("MembersTeams");
+                    $entity = $event->getSubject()->entity;
+                    $event->getSubject()->entity->championship_id = $championship_id;
+                    foreach ($entity->members as $key => $member) {
+                        if ($championship_id != null && $member->season_id == $this->currentSeason->id) {
+                            $event->getSubject()->entity->members[$key]->free = $team->find()
                                 ->innerJoinWith('Teams')
                                 ->where(
                                     [
@@ -49,9 +49,9 @@ class PlayersController extends AppController
                                         'championship_id' => $championship_id
                                     ]
                                 )->isEmpty();
+                        }
                     }
                 }
-            }
             );
         }
 

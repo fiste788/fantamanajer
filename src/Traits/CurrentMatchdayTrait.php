@@ -28,9 +28,9 @@ trait CurrentMatchdayTrait
     public function getCurrentMatchday()
     {
         $matchdays = TableRegistry::get("Matchdays");
-        $this->currentMatchday = $matchdays->findCurrent();
+        $this->currentMatchday = $matchdays->findCurrent()->contain(['Seasons']);
         if ($this->currentMatchday != null) {
-            $this->currentSeason = TableRegistry::get("Seasons")->get($this->currentMatchday->get('season_id'));
+            $this->currentSeason = $this->currentMatchday->season;
         }
     }
 }

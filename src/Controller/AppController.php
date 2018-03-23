@@ -32,7 +32,7 @@ class AppController extends Controller
             'actions' => [
                 'Crud.Index',
                 'Crud.View',
-                
+
             ],
             'listeners' => [
                 'Crud.Api',
@@ -71,7 +71,13 @@ class AppController extends Controller
         );
         $this->getCurrentMatchday();
     }
-    
+
+    /**
+     * Check if the prefix is 'teams' that the current team is owned by current user
+     *
+     * @param array $user
+     * @return boolean
+     */
     public function isAuthorized($user = null)
     {
         $prefix = $this->request->getParam('prefix');
@@ -79,20 +85,19 @@ class AppController extends Controller
         if (!$prefix) {
             return true;
         }
-        
+
         $prefixs = explode("/", strtolower($prefix));
         if (in_array('teams', $prefixs) && in_array($this->request->getParam('action'), ['edit', 'delete', 'add'])) {
-                foreach($user['teams'] as $team) {
-                    if($team['id'] == $this->request->getParam('team_id')) {
-                        return true;
-                    }
+            foreach ($user['teams'] as $team) {
+                if ($team['id'] == $this->request->getParam('team_id')) {
+                    return true;
                 }
+            }
         } else {
             return true;
         }
 
-        // Default deny
-        return false;
+        return parent::isAuthorized($user);
     }
 
     /**

@@ -20,6 +20,14 @@ class TransfertTask extends Shell
         $this->getCurrentMatchday();
     }
 
+    public function startup()
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function main()
     {
         $this->doTransfert();
@@ -30,6 +38,12 @@ class TransfertTask extends Shell
         $parser = parent::getOptionParser();
         $parser->addOption('no-commit', ['boolean' => true]);
         $parser->addOption('force', ['boolean' => true]);
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true,
+            'default' => false
+        ]);
         /*$parser->addSubcommand('do_transfert', [
             'help' => 'Do transferts from selections'
         ]);*/
@@ -55,7 +69,7 @@ class TransfertTask extends Shell
                 $this->helper('Table')->output($table);
                 if (!$this->param('no-commit')) {
                     //if($this->in('Are you sure?', ['y','n'], 'y') == 'y') {
-                    if($this->Selections->saveMany($selections)) {
+                    if ($this->Selections->saveMany($selections)) {
                         $this->out('Changes committed');
                     } else {
                         $this->out('Error occurred');

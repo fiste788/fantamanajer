@@ -14,7 +14,6 @@ use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -147,7 +146,7 @@ class LineupsTable extends Table
         $validator
             ->boolean('jolly')
             ->allowEmpty('jolly');
-        
+
         $validator
             ->boolean('cloned')
             ->allowEmpty('cloned');
@@ -172,13 +171,12 @@ class LineupsTable extends Table
         $rules->add(
             function (Lineup $entity, $options) {
                 if ($entity->jolly) {
-                    $matchday = TableRegistry::get('Matchdays')->get($entity->matchday_id);
-                    $matchdays = TableRegistry::get('Matchdays')
-                    ->find()
-                    ->where(['season_id' => $matchday->season_id])
-                    ->count();
+                    $matchday = $this->Matchdays->get($entity->matchday_id);
+                    $matchdays = $this->Matchdays->find()
+                        ->where(['season_id' => $matchday->season_id])
+                        ->count();
 
-                    return TableRegistry::get('Lineups')->find()
+                    return $this->find()
                         ->contain(['Matchdays'])
                         ->innerJoinWith('Matchdays')
                         ->where([
@@ -202,12 +200,11 @@ class LineupsTable extends Table
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
+            $ev = $this->Teams->Events->newEntity();
             $ev->type = Event2::NEW_LINEUP;
             $ev->team_id = $entity['team_id'];
             $ev->external = $entity['id'];
-            $events->save($ev);
+            $this->Teams->Events->save($ev);
         }
     }
 

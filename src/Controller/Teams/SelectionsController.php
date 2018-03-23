@@ -8,9 +8,8 @@ class SelectionsController extends \App\Controller\SelectionsController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');
-        
     }
-    
+
     public function index()
     {
         $selections = $this->Selections

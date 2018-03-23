@@ -12,7 +12,7 @@ class MembersController extends AppController
     public $paginate = [
         'limit' => 50,
     ];
-    
+
     public function initialize()
     {
         parent::initialize();
@@ -21,8 +21,7 @@ class MembersController extends AppController
 
     public function best()
     {
-        $rolesTable = TableRegistry::get('Roles');
-        $roles = $rolesTable->find()->cache('roles')->toArray();
+        $roles = $this->Members->Roles->find()->cache('roles')->toArray();
         $matchday = TableRegistry::get('Matchdays')->findWithRatings($this->currentSeason)->first();
         foreach ($roles as $key => $role) {
             $best = $this->Members->findBestByMatchday($matchday, $role)->toArray();

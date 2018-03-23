@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Entity;
 
-use App\Model\Entity\Subscription;
-use App\Model\Entity\Team;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
 
@@ -20,7 +18,7 @@ use Cake\ORM\Entity;
  * @property string $login_key
  * @property bool $admin
  * @property \App\Model\Entity\Team[] $teams
- * @property \App\Model\Entity\Subscription[] $subscriptions
+ * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
  * @property int $old_id
  */

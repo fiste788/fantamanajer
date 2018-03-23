@@ -75,7 +75,7 @@ class ArticlesTable extends Table
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        $data['matchday_id'] = TableRegistry::get('Matchdays')->findCurrent()->id;
+        $data['matchday_id'] = $this->Matchdays->findCurrent()->id;
         if (array_key_exists('created_at', $data)) {
             unset($data['created_at']);
         }

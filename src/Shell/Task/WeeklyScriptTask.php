@@ -43,6 +43,14 @@ class WeeklyScriptTask extends Shell
         $this->getCurrentMatchday();
     }
 
+    public function startup()
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
+    }
+
     public function main()
     {
         $this->out('Weekly script task');
@@ -74,6 +82,12 @@ class WeeklyScriptTask extends Shell
                 'short' => 's'
             ]
         );
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true,
+            'default' => false
+        ]);
 
         return $parser;
     }
@@ -97,8 +111,9 @@ class WeeklyScriptTask extends Shell
             $championships = $this->Championships->find()
                 ->contain([
                     'Teams' => [
-                        'EmailSubscriptions', 
-                        'Users' => ['Subscriptions'], 
+                        'EmailNotificationSubscriptions',
+                        'PushNotificationSubscriptions',
+                        'Users' => ['PushSubscriptions'],
                         'Championships'
                         ], 'Leagues'
                     ])
@@ -137,8 +152,8 @@ class WeeklyScriptTask extends Shell
                 $this->sendWeeklyMails($matchday, $championship);
                 $this->out("Sending notification");
                 $this->sendNotifications($matchday, $championship, $scores);
-            } else if(!$success) {
-                foreach($scores as $score) {
+            } elseif (!$success) {
+                foreach ($scores as $score) {
                     $this->err(print_r($score->getErrors()));
                 }
             }
@@ -149,21 +164,23 @@ class WeeklyScriptTask extends Shell
     {
         $webPush = new WebPush(Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
-            foreach ($team->user->subscriptions as $subscription) {
-                $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
-                    ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
-                    ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti')
-                    ->action('Visualizza', 'open')
-                    ->tag(926796012340920300)
-                    ->data(['url' => '/scores/last']);
+            if ($team->isPushSubscripted('score')) {
+                foreach ($team->user->push_subscriptions as $subscription) {
+                    $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+                        ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
+                        ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti')
+                        ->action('Visualizza', 'open')
+                        ->tag(926796012340920300)
+                        ->data(['url' => '/scores/last']);
 
-                $this->out("Sending notification to " . $subscription->endpoint);
-                $webPush->sendNotification(
-                    $subscription->endpoint,
-                    json_encode($message),
-                    $subscription->public_key,
-                    $subscription->auth_token
-                );
+                    $this->out("Sending notification to " . $subscription->endpoint);
+                    $webPush->sendNotification(
+                        $subscription->endpoint,
+                        json_encode($message),
+                        $subscription->public_key,
+                        $subscription->auth_token
+                    );
+                }
             }
         }
         $webPush->flush();
@@ -173,7 +190,7 @@ class WeeklyScriptTask extends Shell
     {
         $ranking = $this->Scores->findRanking($championship->Id);
         foreach ($championship->teams as $team) {
-            if ($team->email_subscriptions->lineups) {
+            if ($team->isEmailSubscripted('score')) {
                 $this->sendPointMail($team, $matchday, $ranking);
             }
         }

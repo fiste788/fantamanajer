@@ -6,7 +6,7 @@ namespace App\Controller\Championships;
  *
  * @property \App\Model\Table\TeamsTable $Teams
  */
-class TeamsController extends \App\Controller\TeamsController
+class TeamsController extends \App\Controller\AppController
 {
 
     public function index()

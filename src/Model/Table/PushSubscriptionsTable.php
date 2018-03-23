@@ -9,21 +9,21 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Subscriptions Model
+ * PushSubscriptions Model
  *
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  *
- * @method \App\Model\Entity\Subscription get($primaryKey, $options = [])
- * @method \App\Model\Entity\Subscription newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Subscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Subscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Subscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Subscription[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Subscription findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\PushSubscription get($primaryKey, $options = [])
+ * @method \App\Model\Entity\PushSubscription newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\PushSubscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\Subscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
-class SubscriptionsTable extends Table
+class PushSubscriptionsTable extends Table
 {
 
     /**
@@ -36,7 +36,7 @@ class SubscriptionsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('subscriptions');
+        $this->setTable('push_subscriptions');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -70,8 +70,8 @@ class SubscriptionsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->alphaNumeric('id')
+            ->requirePresence('id', 'create');
 
         $validator
             ->scalar('endpoint')
@@ -86,6 +86,9 @@ class SubscriptionsTable extends Table
         $validator
             ->scalar('auth_token')
             ->allowEmpty('auth_token');
+
+        $validator
+            ->allowEmpty('expires_at');
 
         return $validator;
     }
@@ -113,5 +116,12 @@ class SubscriptionsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
+    }
+
+    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew()) {
+            $entity->setId(\Cake\Utility\Security::hash($entity->endpoint, 'sha256'));
+        }
     }
 }

@@ -4,19 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Subscription Entity
+ * NotificationSubscription Entity
  *
  * @property int $id
- * @property string $endpoint
- * @property string $public_key
- * @property string $auth_token
- * @property int $user_id
+ * @property string $type
+ * @property string $name
+ * @property bool $enabled
+ * @property int $team_id
  *
- * @property \App\Model\Entity\User $user
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \App\Model\Entity\Team $team
  */
-class Subscription extends Entity
+class NotificationSubscription extends Entity
 {
 
     /**
@@ -29,8 +27,10 @@ class Subscription extends Entity
      * @var array
      */
     protected $_accessible = [
-        'endpoint' => true,
-        'user_id' => true,
-        'user' => true
+        'type' => true,
+        'name' => true,
+        'enabled' => true,
+        'team_id' => true,
+        'team' => true
     ];
 }

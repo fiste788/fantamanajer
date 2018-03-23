@@ -213,6 +213,7 @@ Plugin::load('ADmad/JwtAuth');
 Plugin::load('Josegonzalez/Upload');
 Plugin::load('Migrations');
 Plugin::load('Bake');
+Plugin::load('CakeScheduler');
 
 /*
  * Only try to load DebugKit in development mode

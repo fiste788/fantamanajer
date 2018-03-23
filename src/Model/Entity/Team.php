@@ -17,7 +17,8 @@ use Cake\Routing\Router;
  * @property \App\Model\Entity\User $user
  * @property int $championship_id
  * @property \App\Model\Entity\Championship $championship
- * @property \App\Model\Entity\EmailSubscription $email_subscriptions
+ * @property \App\Model\Entity\NotificationSubscription[] $email_notification_subscriptions
+ * @property \App\Model\Entity\NotificationSubscription[] $push_notification_subscriptions
  * @property \App\Model\Entity\Article[] $articles
  * @property \App\Model\Entity\Event[] $events
  * @property \App\Model\Entity\Lineup[] $lineups
@@ -31,6 +32,7 @@ use Cake\Routing\Router;
  */
 class Team extends Entity
 {
+    use HasPhotoTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -44,20 +46,63 @@ class Team extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
+        'user' => false
     ];
+
+    protected $_hidden = [
+        'photo_dir',
+        'photo_size',
+        'photo_type'
+    ];
+
+    /**
+     *
+     * @var array
+     */
+    public static $size = [1280, 600, 240];
 
     protected $_virtual = ['photo_url'];
 
     protected function _getPhotoUrl()
     {
         if ($this->photo) {
-            return Router::url(
-                '/files/' .
-                    $this->getSource() . '/' .
-                    $this->id . '/photo/' .
-                $this->photo,
-                true
-            );
+            $baseUrl = '/files/' . $this->getSource() . '/' . $this->id . '/photo/';
+
+            return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
         }
+    }
+
+    public function isNotificationSubscripted($type, $name)
+    {
+        if ($type == 'email') {
+            return $this->isSubscripted($this->email_notification_subscriptions, $name);
+        } else {
+            return $this->isSubscripted($this->push_notification_subscriptions, $name);
+        }
+    }
+
+    public function isEmailSubscripted($name)
+    {
+        return $this->isSubscripted($this->push_notification_subscriptions, $name);
+    }
+
+    public function isPushSubscripted($name)
+    {
+        return $this->isSubscripted($this->push_notification_subscriptions, $name);
+    }
+
+    /**
+     *
+     * @param NotificationSubscription[] $collection
+     */
+    private function isSubscripted(array $collection, $name)
+    {
+        foreach ($collection as $subscription) {
+            if ($subscription->name == $name && $subscription->enabled) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

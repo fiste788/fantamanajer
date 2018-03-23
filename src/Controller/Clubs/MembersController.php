@@ -3,7 +3,6 @@ namespace App\Controller\Clubs;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\ORM\TableRegistry;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -13,7 +12,7 @@ class MembersController extends AppController
     public $paginate = [
         'limit' => 50,
     ];
-    
+
     public function initialize()
     {
         parent::initialize();
@@ -27,12 +26,12 @@ class MembersController extends AppController
         $this->Crud->on(
             'beforePaginate',
             function (Event $event) use ($club_id, $season_id) {
-                if($club_id != null) {
+                if ($club_id != null) {
                     $event->getSubject()->query
                         ->contain(['Roles', 'Players', 'VwMembersStats'])
-                        ->matching('Clubs', function($q) use ($club_id) {
+                        ->matching('Clubs', function ($q) use ($club_id) {
                             return $q->where(['Clubs.id' => $club_id]);
-                    })->where(['season_id' => $season_id]);
+                        })->where(['season_id' => $season_id]);
                 }
             }
         );
