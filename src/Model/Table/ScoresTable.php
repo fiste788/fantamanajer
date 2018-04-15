@@ -2,32 +2,32 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Season;
 use App\Model\Entity\Team;
+use Cake\Collection\CollectionInterface;
+use Cake\Datasource\EntityInterface;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Utility\Hash;
 use Cake\Validation\Validator;
-use PDOException;
 
 /**
  * Scores Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
  * @property \Cake\ORM\Association\HasOne $Lineup
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\BelongsTo $Lineups
+ * @property LineupsTable|\Cake\ORM\Association\BelongsTo $Lineups
  * @method \App\Model\Entity\Score get($primaryKey, $options = [])
  * @method \App\Model\Entity\Score newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Score|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Score|bool save(EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score patchEntity(EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Score[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Score findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Score|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score|bool saveOrFail(EntityInterface $entity, $options = [])
  */
 class ScoresTable extends Table
 {
@@ -140,32 +140,25 @@ class ScoresTable extends Table
         return $res['matchday_id'];
     }
 
-    public function findRankingDetails($championshipId)
+    public function findScores(Query $q, array $options)
     {
-        $ranking = $this->findRanking($championshipId);
-
-        $scores = $this->find(
-            'all',
-            ['contain' =>
-                    ['Teams', 'Matchdays']
-                ]
-        )->matching(
-            'Teams',
-            function ($q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
-            }
-        );
-        //->order('FIELD(Teams.id, ' . Hash::flatten($ranking, ",") . ')')->all();
-        $result = [];
-        $combined = [];
-        foreach ($scores as $score) {
-            $combined[$score->team->id][$score->matchday->id] = $score;
+        /*if(!$rankingQuery) {
+            $rankingQuery = $this->find('ranking', ['championship_id' => $championshipId]);
         }
-        foreach ($ranking as $score) {
-            $result[] = $combined[$score->team->id];
-        }
-
-        return $result;
+        $ranking = $rankingQuery->toArray();
+        $ids = Hash::extract($ranking,'{*}.team_id');*/
+        $championshipId = $options['championship_id'];
+        return $q->select(['id', 'points', 'team_id'])
+            ->contain([
+                'Matchdays' => ['fields' => ['number']],
+            ])->innerJoinWith('Teams', function ($q) use ($championshipId) {
+                return $q->where(['Teams.championship_id' => $championshipId]);
+            })->formatResults(function (CollectionInterface $results) {
+                return $results->combine('matchday.number', function ($entity) { 
+                    unset($entity->matchday);
+                    return $entity;
+                },'team_id');
+            }, true);
     }
 
     /**
@@ -173,102 +166,30 @@ class ScoresTable extends Table
      * @param int $championshipId
      * @return mixed
      */
-    public function findRanking($championshipId)
+    public function findRanking(Query $q, array $options)
     {
-        $query = $this->find()
-            ->contain(['Teams'])
-            ->matching(
-                'Teams',
-                function ($q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
-                }
-            );
-
-        return $query->select($this)->select(
-            [
-                    'sum_points' => $query->func()->sum('points')
-                ]
-        )->group('team_id')->orderDesc('sum_points')->all();
-    }
-
-    /**
-     *
-     * @param Season        $matchday
-     * @param Matchday      $championship
-     * @param Championship $championship
-     * @return int
-     */
-    public function findAllPointsByMatchay(Matchday $matchday, Championship $championship)
-    {
-        $result = $this->find()
-            ->where(['matchday_id <=' => $matchday->id])
-            ->orWhere(['matchday_id' => null])
-            ->matching(
-                'Teams.Championships',
-                function ($q) use ($championship) {
-                    return $q->where(['championship_id' => $championship->id]);
-                }
-            )
-            ->order(['team_id', 'matchday_id'])
-            ->all();
-        $classification = [];
-        foreach ($result as $row) {
-            $classification[$row->team_id][$row->matchday_id] = $row->points;
+        $championshipId = $options['championship_id'];
+        $q->select([
+                'team_id',
+                'sum_points' => $q->func()->sum('points')
+            ])->contain(['Teams' => ['fields' => ['id', 'name']]])
+            ->innerJoinWith('Teams', function ($q) use ($championshipId) {
+                return $q->where(['Teams.championship_id' => $championshipId]);
+            })->group('team_id')
+            ->orderDesc('sum_points');
+            
+        if(array_key_exists('scores', $options) && $options['scores']) {
+            $q->formatResults(function (CollectionInterface $results) use ($championshipId) {
+                $scores = $this->find('scores', [
+                    'championship_id' => $championshipId
+                ])->all()->toArray();
+                return $results->map(function($entity) use ($scores) {
+                    $entity['scores'] = $scores[$entity->team_id];
+                    return $entity;
+                });
+            }, true);
         }
-        $sums = $this->findRankingByMatchday($championship, $matchday);
-        //die("<pre>" . print_r($sums,1) . "</pre>");
-        if ($sums) {
-            foreach ($sums as $key => $val) {
-                $sums[$key] = $classification[$key];
-            }
-        } else {
-            $teams = $this->Teams->find('list')->where(['league_id' => $championship->id])->toArray();
-            foreach ($teams as $key => $val) {
-                $sums[$key][0] = 0;
-            }
-        }
-
-        return $sums;
-    }
-
-    public function findRankingByMatchday($championship, $matchday)
-    {
-        $query = $this->find();
-        $result = $query->select(
-            [
-                        'pointsTotal' => $query->func()->sum('points.points'),
-                        'pointsAvg' => $query->func()->avg('points.real_points'),
-                        'pointsMax' => $query->func()->max('points.real_points'),
-                        'pointsMin' => $query->func()->min('points.real_points'),
-                        'matchdays_wins' => 'COALESCE(vw1.matchdays_wins,0)',
-                        'team_id' => 'points.team_id'
-                    ]
-        )
-                ->hydrate(false)
-                ->join(
-                    [
-                        'table' => 'vw_1_matchday_wins',
-                        'alias' => 'vw1',
-                        'type' => 'LEFT',
-                        'conditions' => 'vw1.team_id = points.team_id',
-                    ]
-                )
-                ->where(['points.matchday_id <=' => $matchday->id])
-                ->matching(
-                    'Teams.Championships',
-                    function ($q) use ($championship) {
-                        return $q->where(['championship_id' => $championship->id]);
-                    }
-                )
-                ->group(['points.team_id'])->order(
-                    [
-                    'pointsTotal' => 'DESC',
-                    'matchdays_wins' => 'DESC'
-                    ]
-                )->toArray();
-
-        return Hash::combine($result, '{n}.team_id', '{n}');
-        //->combine('team_id','pointsTotal')->toArray();
+        return $q;
     }
 
     /**
@@ -295,5 +216,16 @@ class ScoresTable extends Table
         $score->compute();
 
         return $score;
+    }
+    
+    public function loadDetails(Score $score)
+    {
+        return $this->loadInto($score, [
+            'Lineups.Dispositions.Members' => [
+                'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score) {
+                    return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
+                }
+            ]
+        ]);
     }
 }

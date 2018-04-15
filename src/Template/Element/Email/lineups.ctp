@@ -47,7 +47,7 @@
                     <td><?php if ($disposition->member->ratings[0]->red_card): ?>✓<?php endif; ?></td>
                     <td><?= ($disposition->member->ratings[0]->assist != 0) ? $disposition->member->ratings[0]->assist : ""; ?></td>
                     <td><?= ($disposition->member->ratings[0]->gol != 0) ? $disposition->member->ratings[0]->gol : ""; ?></td>
-                    <td><?php if (!empty($disposition->member->ratings[0]->points)) echo ($disposition->member->ratings[0]->consideration == 2) ? $disposition->member->ratings[0]->points * 2 : $disposition->member->ratings[0]->points; ?></td>
+                    <td><?php if (!empty($disposition->member->ratings[0]->points)) echo ($disposition->consideration == 2) ? $disposition->member->ratings[0]->points * 2 : $disposition->member->ratings[0]->points; ?></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>

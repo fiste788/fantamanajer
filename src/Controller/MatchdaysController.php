@@ -6,17 +6,9 @@ namespace App\Controller;
  */
 class MatchdaysController extends AppController
 {
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow('current');
-    }
-
     public function beforeFilter(\Cake\Event\Event $event)
     {
-        $this->Crud->mapAction('current', [
-            'className' => 'Crud.Index'
-        ]);
+        $this->Crud->mapAction('current', 'Crud.Index');
     }
 
     public function current()

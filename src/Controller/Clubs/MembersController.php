@@ -13,29 +13,14 @@ class MembersController extends AppController
         'limit' => 50,
     ];
 
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['index']);
-    }
-
     public function index()
     {
-        $season_id = $this->currentSeason->id;
-        $club_id = $this->request->getParam('club_id', null);
-        $this->Crud->on(
-            'beforePaginate',
-            function (Event $event) use ($club_id, $season_id) {
-                if ($club_id != null) {
-                    $event->getSubject()->query
-                        ->contain(['Roles', 'Players', 'VwMembersStats'])
-                        ->matching('Clubs', function ($q) use ($club_id) {
-                            return $q->where(['Clubs.id' => $club_id]);
-                        })->where(['season_id' => $season_id]);
-                }
-            }
-        );
-
+        $this->Crud->action()->findMethod([
+            'byClubId' => [
+                'club_id' => $this->request->getParam('club_id', null),
+                'season_id' => $this->currentSeason->id
+            ]
+        ]);
         return $this->Crud->execute();
     }
 }

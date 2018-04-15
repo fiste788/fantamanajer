@@ -188,7 +188,7 @@ class WeeklyScriptTask extends Shell
 
     public function sendWeeklyMails(Matchday $matchday, Championship $championship)
     {
-        $ranking = $this->Scores->findRanking($championship->Id);
+        $ranking = $this->Scores->find('ranking', ['championship_id' => $championship->id]);
         foreach ($championship->teams as $team) {
             if ($team->isEmailSubscripted('score')) {
                 $this->sendPointMail($team, $matchday, $ranking);
@@ -198,7 +198,10 @@ class WeeklyScriptTask extends Shell
 
     protected function sendPointMail(Team $team, Matchday $matchday, $ranking)
     {
-        $details = $this->Lineups->findStatsByMatchdayAndTeam($matchday->id, $team->id);
+        $details = $this->Lineups->find('details', [
+            'matchday_id' => $matchday->id, 
+            'team_id' => $team->id
+        ]);
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();
 
         $dispositions = null;

@@ -6,6 +6,7 @@ use ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
 
 /**
@@ -121,7 +122,7 @@ class PushSubscriptionsTable extends Table
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $entity->setId(\Cake\Utility\Security::hash($entity->endpoint, 'sha256'));
+            $entity->setId(Security::hash($entity->endpoint, 'sha256'));
         }
     }
 }

@@ -9,18 +9,15 @@ namespace App\Controller\Teams;
 class ArticlesController extends \App\Controller\ArticlesController
 {
 
-    /**
-     *
-     */
+    public $paginate = [
+         'limit' => 25
+    ];
+    
     public function index()
     {
-        $articles = $this->Articles->findByTeamId($this->request->getParam('team_id'));
-        $this->set(
-            [
-                'success' => true,
-                'data' => $articles,
-                '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->action()->findMethod(['byTeamId' => 
+            ['team_id' => $this->request->getParam('team_id')]
+        ]);
+        return $this->Crud->execute();
     }
 }

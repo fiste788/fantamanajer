@@ -11,6 +11,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\Event as CakeEvent;
 use Cake\Mailer\Email;
 use Cake\ORM\Association\BelongsTo;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -21,12 +22,12 @@ use Minishlink\WebPush\WebPush;
 /**
  * Selections Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
  * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
  * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
@@ -123,7 +124,9 @@ class SelectionsTable extends Table
             function (Selection $entity, $options) {
                 $selection = $this->findAlreadySelectedMember($entity);
                 if ($selection != null) {
-                    $ranking = TableRegistry::get('Scores')->findRanking($selection->team->championship_id);
+                    $ranking = TableRegistry::get('Scores')->find('ranking', [
+                        'championship_id' => $selection->team->championship_id
+                    ]);
                     $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
                     if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
                         $selection->active = false;
@@ -257,5 +260,14 @@ class SelectionsTable extends Table
                         'new_member_id' => $selection->new_member_id
                     ]
                 )->first();
+    }
+    
+    public function findByTeamIdAndMatchdayId(Query $q, array $options)
+    {
+        return $q->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
+            ->where([
+                'team_id' => $options['team_id'],
+                'matchday_id' => $options['matchday_id'],
+                ])->limit(1);
     }
 }

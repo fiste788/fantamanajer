@@ -33,13 +33,6 @@ class TeamsController extends AppController
         return $this->Crud->execute();
     }
 
-    public function edit($id)
-    {
-        //$this->Crud->action()->saveOptions(['associated' => true]);
-
-        return $this->Crud->execute();
-    }
-
     public function isAuthorized($user = null)
     {
         if (in_array($this->request->getParam('action'), ['edit'])) {

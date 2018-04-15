@@ -2,6 +2,7 @@
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Events Controller
@@ -10,7 +11,10 @@ use App\Controller\AppController;
  */
 class EventsController extends AppController
 {
-
+    public $paginate = [
+        'limit' => 25
+    ];
+    
     /**
      * Index method
      *
@@ -18,18 +22,9 @@ class EventsController extends AppController
      */
     public function index()
     {
-        $championship_id = $this->request->getParam('championship_id');
-        $events = $this->Events->findByChampionshipId($championship_id)
-                ->contain(['Teams'])
-                ->orderDesc('created_at')
-                ->all();
-
-        $this->set(
-            [
-            'success' => true,
-            'data' => $events,
-            '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->action()->findMethod(['byChampionshipId' => 
+            ['championship_id' => $this->request->getParam('championship_id')]
+        ]);
+        return $this->Crud->execute();
     }
 }

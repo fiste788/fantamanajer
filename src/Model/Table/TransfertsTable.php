@@ -6,6 +6,7 @@ use App\Model\Entity\Transfert;
 use ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\Association\BelongsTo;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -16,10 +17,10 @@ use Cake\Validation\Validator;
  *
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
  * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
@@ -113,6 +114,12 @@ class TransfertsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
 
         return $rules;
+    }
+    
+    public function findByTeamId(Query $q, array $options)
+    {
+        return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
+            ->where(['team_id' => $options['team_id']]);
     }
 
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options)

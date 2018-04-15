@@ -13,19 +13,16 @@ class MembersController extends AppController
         'limit' => 50,
     ];
 
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['best']);
-    }
-
     public function best()
     {
+        $this->Authorization->skipAuthorization();
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
         $matchday = TableRegistry::get('Matchdays')->findWithRatings($this->currentSeason)->first();
         foreach ($roles as $key => $role) {
-            $best = $this->Members->findBestByMatchday($matchday, $role)->toArray();
-            $roles[$key]->best_players = $best;
+            $roles[$key]->best_players = $this->Members->find('bestByMatchdayIdAndRole', [
+                'matchday_id' => $matchday->id, 
+                'role' => $role
+            ])->limit(5)->toArray();
         }
 
         $this->set(

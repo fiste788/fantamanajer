@@ -11,15 +11,9 @@ class TeamsController extends \App\Controller\AppController
 
     public function index()
     {
-        $teams = $this->Teams->find()
-            ->contain(['Users'])
-            ->where(['championship_id' => $this->request->getParam('championship_id')]);
-        $this->set(
-            [
-                'success' => true,
-                'data' => $teams,
-                '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->action()->findMethod(['byChampionshipId' => [
+            'championship_id' => $this->request->getParam('championship_id')
+        ]]);
+        return $this->Crud->execute();
     }
 }

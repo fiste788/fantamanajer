@@ -224,19 +224,10 @@ class TeamsTable extends Table
         return $query;
     }
 
-    /**
-     *
-     * @param User   $user
-     * @param Season $season
-     */
-    public function findByUserAndSeason($user, $season)
+    public function findByChampionshipId(Query $q, array $options)
     {
-        return $this->find()->where(['user_id' => $user->id])
-                ->matching(
-                    'Championships',
-                    function ($q) use ($season) {
-                        return $q->where(['Championships.season_id' => $season->season_id]);
-                    }
-                );
+        return $q->contain(['Users'])
+            ->where(['championship_id' => $options['championship_id']]);
     }
+    
 }

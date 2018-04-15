@@ -68,7 +68,6 @@ class NotificationSubscriptionsTable extends Table
 
         $validator
             ->boolean('enabled')
-            ->requirePresence('enabled', 'create')
             ->notEmpty('enabled');
 
         return $validator;

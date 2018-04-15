@@ -49,7 +49,13 @@ Router::scope('/', function (RouteBuilder $routes) {
         'only' => ['create', 'update', 'delete', 'view']
     ]);
     $routes->resources('Users', [
-        'only' => ['view', 'update']
+        'only' => ['view', 'update', 'token'],
+        'map' => [
+            'token' => [
+                'action' => 'token',
+                'method' => 'POST'
+            ]
+        ]
     ]);
     $routes->resources('Players', [
         'only' => 'view'

@@ -12,15 +12,10 @@ class SelectionsController extends \App\Controller\SelectionsController
 
     public function index()
     {
-        $selections = $this->Selections
-            ->findByTeamIdAndMatchdayId($this->request->getParam('team_id'), $this->currentMatchday->id)
-            ->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays']);
-        $this->set(
-            [
-            'success' => true,
-            'data' => $selections->last(),
-            '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->action()->findMethod(['byTeamIdAndMatchdayId' => [
+            'team_id' => $this->request->getParam('team_id'),
+            'matchday_id' => $this->currentMatchday->id
+        ]]);
+        return $this->Crud->execute();
     }
 }

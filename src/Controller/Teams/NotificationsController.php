@@ -5,12 +5,6 @@ use Cake\ORM\TableRegistry;
 
 class NotificationsController extends \App\Controller\AppController
 {
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['index']);
-    }
-
     public function index()
     {
         $notifications = [];
