@@ -87,19 +87,11 @@ class EventsTable extends Table
 
         return $rules;
     }
-
-    /**
-     *
-     * @param int $championshipId
-     * @return Query
-     */
-    public function findByChampionshipId($championshipId)
+    
+    public function findByChampionshipId(Query $query, array $options)
     {
-        return $this->find()->matching(
-            'Teams',
-            function (Query $q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
-            }
-        );
+        return $query->contain(['Teams' => ['fields' => ['id','name']]])
+            ->where(['Teams.championship_id' => $options['championship_id']])
+            ->orderDesc('created_at');
     }
 }

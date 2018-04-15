@@ -53,17 +53,6 @@ class MembersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        /* $this->addBehavior(
-          'Timestamp',
-          [
-          'events' => [
-          'Model.beforeSave' => [
-          'created_at' => 'new',
-          'modified_at' => 'always'
-          ]
-          ]
-          ]
-          ); */
         $this->belongsTo(
             'Players',
             [
@@ -181,39 +170,39 @@ class MembersTable extends Table
                 ->group('Members.id');
     }
 
-    public function findWithStats2(Query $query, array $options)
-    {
-        return $query->select(['sum_valued' => $query->func()->count('Ratings.valued')], false)
-                ->enableAutoFields()
-                ->innerJoinWith('Ratings')
-                ->group('Members.id');
-    }
-
     public function findWithDetails(Query $query, array $options)
     {
-        return $query->contain(
-            ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
-                            return $q2->contain(['Matchdays'])
-                                ->order(['Matchdays.number' => 'ASC']);
-            }]
-        )
-                ->order(['Seasons.year' => 'DESC']);
+        $query->contain(
+            ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q) {
+                    return $q->contain(['Matchdays'])
+                            ->order(['Matchdays.number' => 'ASC']);
+                }]
+        )->order(['Seasons.year' => 'DESC']);
+        if ($options['championship_id']) {
+            $query->select(['player_id', 'free' => $query->newExpr()->isNull('Teams.id')])
+                ->setDefaultTypes(['free' => 'boolean'])
+                ->enableAutoFields(true)
+                ->leftJoinWith('Teams', function(Query $q) use ($options) {
+                    return $q->where(['championship_id' => $options['championship_id']]);
+                });
+        }
+        return $query;
     }
 
-    public function findFree($championshipId)
+    public function findFree(Query $q, array $options)
     {
+        $championshipId = $options['championship_id'];
         $membersTeams = TableRegistry::get('MembersTeams');
         $ids = $membersTeams->find()
             ->select(['member_id'])
-            ->matching(
+            ->innerJoinWith(
                 'Teams',
                 function ($q) use ($championshipId) {
                     return $q->where(['Teams.championship_id' => $championshipId]);
                 }
             );
 
-        return $this->find()
-                ->innerJoinWith('Seasons.Championships')
+        $q->innerJoinWith('Seasons.Championships')
                 ->contain(['Players', 'Clubs', 'Roles'])
                 ->where([
                     'Members.id NOT IN' => $ids,
@@ -222,26 +211,48 @@ class MembersTable extends Table
                     ])
                 ->orderAsc('Players.surname')
                 ->orderAsc('Players.name');
+        if ($options['stats']) {
+            $q->contain(['VwMembersStats']);
+        }
+        if ($options['role']) {
+            $q->where(['role_id' => $options['role']]);
+        }
+        return $q;
+    }
+    
+    public function findByClubId(Query $q, array $options)
+    {
+        return $q->contain(['Roles', 'Players', 'VwMembersStats'])
+            ->innerJoinWith('Clubs', function ($q) use ($options) {
+                return $q->where(['Clubs.id' => $options['club_id']]);    
+            })->where([
+                'active' => true,
+                'season_id' => $options['season_id']
+            ]);
+    }
+    
+    public function findByTeamId(Query $q, array $options)
+    {
+        $q->contain(['Clubs', 'Players'])
+            ->innerJoinWith('Teams', function (Query $q) use ($options) {
+                return $q->where(['Teams.id' => $options['team_id']]);
+            });
+            if ($options['stats']) {
+                $q->contain(['Roles', 'VwMembersStats']);
+            }
+        return $q;
     }
 
-    public function findBestByMatchday(Matchday $matchday, Role $role, $limit = 5)
+    public function findBestByMatchdayIdAndRole(Query $q, array $options)
     {
-        return $this->find('all')
-                ->contain(
-                    ['Players', 'Ratings' => function (Query $q) use ($matchday) {
-                            return $q->where(['matchday_id' => $matchday->id]);
-                    }]
-                )
-                ->innerJoinWith(
-                    'Ratings',
-                    function (Query $q) use ($matchday) {
-                        return $q->where(['matchday_id' => $matchday->id]);
-                    }
-                )
-                ->innerJoinWith('Roles')
-                ->where(['Roles.id' => $role->id])
-                ->orderDesc('Ratings.points')
-                ->limit($limit);
+        return $q->contain([
+            'Players', 'Ratings' => function (Query $q) use ($options) {
+                return $q->where(['matchday_id' => $options['matchday_id']]);
+            }])->innerJoinWith('Ratings', function (Query $q) use ($options) {
+                return $q->where(['matchday_id' => $options['matchday_id']]);
+            })->innerJoinWith('Roles')
+            ->where(['Roles.id' => $options['role']->id])
+            ->orderDesc('Ratings.points');
     }
 
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)

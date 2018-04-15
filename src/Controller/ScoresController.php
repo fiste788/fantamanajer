@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
 
 /**
  *
@@ -10,39 +9,13 @@ use Cake\Event\Event;
  */
 class ScoresController extends AppController
 {
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['view']);
-    }
-
     public function view($id)
     {
-        $score = null;
-        if ($id != null) {
-            $appo = $this->Scores->get($id);
-            $score = $this->Scores->get(
-                $id,
-                [
-                'contain' => [
-                    'Lineups' => [
-                        'Dispositions' => [
-                            'Members' => [
-                                'Roles', 'Players', 'Clubs', 'Ratings' => function (\Cake\ORM\Query $q) use ($appo) {
-                                    return $q->where(['matchday_id' => $appo->matchday_id]);
-                                }
-                            ]
-                        ]
-                    ]
-                ]
-                ]
-            );
-        }
-
+        $score = $this->Scores->get($id);
         $this->set(
             [
             'success' => true,
-            'data' => $score,
+            'data' => $this->Scores->loadDetails($score),
             '_serialize' => ['success', 'data']
             ]
         );

@@ -11,14 +11,9 @@ class TransfertsController extends AppController
 {
     public function index()
     {
-        $transferts = $this->Transferts->findByTeamId($this->request->getParam('team_id'))
-            ->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays']);
-        $this->set(
-            [
-            'success' => true,
-            'data' => $transferts,
-            '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->action()->findMethod(['byTeamId' => [
+            'team_id' => $this->request->getParam('team_id')
+        ]]);
+        return $this->Crud->execute();
     }
 }

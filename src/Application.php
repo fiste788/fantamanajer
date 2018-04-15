@@ -14,11 +14,18 @@
  */
 namespace App;
 
-use Cake\Core\Configure;
+use Authentication\AuthenticationService;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Policy\OrmResolver;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
-use Cake\Routing\Middleware\AssetMiddleware;
+use Cake\Http\Middleware\BodyParserMiddleware;
+use Cake\Http\Middleware\EncryptedCookieMiddleware;
+use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Utility\Security;
 
 /**
  * Application setup class.
@@ -31,8 +38,8 @@ class Application extends BaseApplication
     /**
      * Setup the middleware queue your application will use.
      *
-     * @param  \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
-     * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
+     * @param  MiddlewareQueue $middlewareQueue The middleware queue to setup.
+     * @return MiddlewareQueue The updated middleware queue.
      */
     public function middleware($middlewareQueue)
     {
@@ -42,11 +49,85 @@ class Application extends BaseApplication
             ->add(ErrorHandlerMiddleware::class)
 
             // Handle plugin/theme assets like CakePHP normally does.
-            ->add(AssetMiddleware::class)
+            //->add(AssetMiddleware::class)
 
-            // Apply routing
-            ->add(new RoutingMiddleware($this));
+            // Add routing middleware.
+            // Routes collection cache enabled by default, to disable route caching
+            // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
+            // you might want to disable this cache in case your routing is extremely simple
+            ->add(new RoutingMiddleware($this, '_cake_routes_'))
+            
+            ->add(BodyParserMiddleware::class)
+        
+            ->add(new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()))
+            
+            // Add the authetication middleware to the middleware queue
+            ->add(new AuthenticationMiddleware($this))
+            
+            // Add authorization (after authentication if you are using that plugin too).
+            ->add(new AuthorizationMiddleware($this, [
+                'requireAuthorizationCheck' => false,
+                /*'identityDecorator' => function ($auth, $user) {
+                    return $user->setAuthorization($auth);
+                }*/
+            ]));
 
         return $middlewareQueue;
+    }
+    
+    public function authentication(AuthenticationService $service)
+    {
+        // Instantiate the service
+        //$service = new AuthenticationService();
+
+        // Load identifiers
+        $service->loadIdentifier('Authentication.Password', [
+            'fields' => [
+                'username' => 'email'
+            ],
+            'resolver' => [
+                'className' => 'Authentication.Orm',
+                'finder' => 'auth'
+            ],
+        ]);
+        $service->loadIdentifier('Authentication.JwtSubject', [
+            'resolver' => [
+                'className' => 'Authentication.Orm',
+                'finder' => 'auth'
+            ],
+        ]);
+
+        // Load the authenticators
+        $service->loadAuthenticator('Authentication.Session', [
+            'fields' => [
+                'username' => 'email',
+            ]
+        ]);
+        $service->loadAuthenticator('Authentication.Form', [
+            'loginUrl' => '/users/token',
+            'fields' => [
+                'username' => 'email',
+            ]
+        ]);
+        $service->loadAuthenticator('Authentication.Jwt', [
+            'fields' => [
+                'username' => 'email'
+            ],
+            'returnPayload' => false
+        ]);
+        $service->loadAuthenticator('Authentication.Cookie', [
+            'fields' => [
+                'username' => 'email',
+            ]
+        ]);
+
+        return $service;
+    }
+    
+    public function authorization($request)
+    {
+        $resolver = new OrmResolver();
+
+        return new AuthorizationService($resolver);
     }
 }

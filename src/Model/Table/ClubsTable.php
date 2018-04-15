@@ -2,14 +2,14 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Season;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Clubs Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property MembersTable|\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Club get($primaryKey, $options = [])
  * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
@@ -91,22 +91,13 @@ class ClubsTable extends Table
         return $validator;
     }
 
-    /**
-     *
-     * @param Season $season
-     * @return type
-     */
-    public function findBySeason($season)
+    public function findBySeasonId(Query $q, array $options)
     {
-        $ids = $members = $this->Members->find()
+        $ids = $this->Members->find()
             ->select(['club_id'])
             ->distinct(['club_id'])
-            ->where(['season_id' => $season->id]);
-
-        return $this->find('all')->where(
-            [
-            'id IN' => $ids
-            ]
-        )->order(['name'])->all();
+            ->where(['season_id' => $options['season_id']]);
+        
+        return $q->whereInList(['id' => $ids])->order(['name']);
     }
 }

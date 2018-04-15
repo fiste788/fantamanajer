@@ -3,12 +3,6 @@ namespace App\Controller\Teams;
 
 class ScoresController extends \App\Controller\ScoresController
 {
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['last']);
-    }
-
     public function last()
     {
         $this->viewByMatchday($this->Scores->findMaxMatchday($this->currentSeason));

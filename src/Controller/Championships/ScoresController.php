@@ -9,27 +9,14 @@ use App\Controller\AppController;
  */
 class ScoresController extends AppController
 {
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['index']);
-    }
-
     public function index()
     {
-        $championshipId = $this->request->getParam('championship_id');
-        $ranking = $this->Scores->findRanking($championshipId);
-        $scores = $this->Scores->findRankingDetails($championshipId);
-
-        $this->set(
-            [
-            'success' => true,
-            'data' => [
-                'ranking' => $ranking,
-                'scores' => $scores
-            ],
-            '_serialize' => ['data', 'success']
+        $this->Crud->action()->findMethod([
+            'ranking' => [
+                'championship_id' => $this->request->getParam('championship_id'),
+                'scores' => true
             ]
-        );
+        ]);
+        return $this->Crud->execute();
     }
 }

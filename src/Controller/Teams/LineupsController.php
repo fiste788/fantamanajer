@@ -11,7 +11,8 @@ class LineupsController extends \App\Controller\LineupsController
             $this->request->getParam('team_id'),
             ['contain' => ['Users', 'Members' => ['Roles', 'Players']]]
         );
-        if ($this->Auth->user('id') == $team->user->id) {
+        \Cake\Log\Log::debug($this->Authentication->getIdentity());
+        if ($this->Authentication->getIdentity()->id == $team->user->id) {
             $lineup = $this->Lineups->findLast($this->currentMatchday, $team)->first();
             if ($lineup && $lineup->matchday_id != $this->currentMatchday->id) {
                 $lineup = $lineup->copy($this->currentMatchday, true, false);

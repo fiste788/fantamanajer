@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Traits\CurrentMatchdayTrait;
+use Authentication\AuthenticationService;
+use Cake\Controller\Component\RequestHandlerComponent;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Crud\Controller\Component\CrudComponent;
@@ -10,7 +12,9 @@ use Crud\Controller\ControllerTrait;
 /**
  *
  * @property CrudComponent $Crud Description
- * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
+ * @property RequestHandlerComponent $RequestHandler
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization Description
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication Description
  */
 class AppController extends Controller
 {
@@ -43,32 +47,18 @@ class AppController extends Controller
         );
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
         //$this->RequestHandler->accepts(['xml','json','html']);
+        
+        $this->loadComponent('Authentication.Authentication', [
+            'logoutRedirect' => '/users/login'  // Default is false
+        ]);
 
-        $this->loadComponent(
-            'Auth',
-            [
-            'storage' => 'Memory',
-            'authorize' => 'Controller',
-            'authenticate' => [
-                'Form' => [
-                    'fields' => ['username' => 'email'],
-                    'finder' => 'auth'
-                ],
-                'ADmad/JwtAuth.Jwt' => [
-                    'parameter' => 'token',
-                    'userModel' => 'Users',
-                    'finder' => 'auth',
-                    'fields' => [
-                        'username' => 'id'
-                    ],
-                    'queryDatasource' => true
-                ]
-            ],
-            'loginAction' => '/users/token',
-            'unauthorizedRedirect' => false,
-            'checkAuthIn' => 'Controller.initialize'
+        $this->loadComponent('Authorization.Authorization', [
+            'skipAuthorization' => [
+                'login',
+                'Members.best',
+                'Matchdays.current'
             ]
-        );
+        ]);
         $this->getCurrentMatchday();
     }
 

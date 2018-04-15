@@ -218,21 +218,20 @@ class LineupsTable extends Table
         }
     }
 
-    public function findStatsByMatchdayAndTeam($matchday_id, $team_id)
+    public function findDetails(Query $q, array $options)
     {
-        return $this->find()
-                ->contain(
-                    [
-                        'Teams',
-                        'Dispositions' => [
-                            'Members' => [
-                                'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($matchday_id) {
-                                    return $q->where(['matchday_id' => $matchday_id]);
-                                }
-                            ]
-                        ]
-                    ]
-                )->where(['team_id' => $team_id, 'matchday_id' => $matchday_id])->first();
+        return $q->contain([
+            'Teams',
+            'Dispositions' => [
+                'Members' => [
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
+                        return $q->where(['matchday_id' => $options['matchday_id']]);
+                    }]
+                ]
+            ])->where([
+                'team_id' => $options['team_id'], 
+                'matchday_id' => $options['matchday_id']
+            ]);
     }
 
     /**

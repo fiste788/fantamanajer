@@ -174,7 +174,7 @@ class RatingsTable extends Table
         $query = $this->find();
         $res = $query->hydrate(false)
             ->leftJoinWith('Matchdays')
-            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'), ])
+            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id')])
             ->where(['m.season_id' => $season->id])
             ->first();
 

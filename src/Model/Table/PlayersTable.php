@@ -2,13 +2,14 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Association\HasMany;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Players Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property MembersTable|\Cake\ORM\Association\HasMany $Members
  * @property HasMany $View0LineupsDetails
  * @property HasMany $View0Members
  * @property HasMany $View1MembersStats
@@ -66,5 +67,12 @@ class PlayersTable extends Table
             ->notEmpty('surname');
 
         return $validator;
+    }
+    
+    public function findWithDetails(Query $q, array $options)
+    {
+        return $q->contain(['Members' => function (Query $q) use ($options) {
+            return $q->find('withDetails', ['championship_id' => $options['championship_id']]);
+        }]);
     }
 }

@@ -9,22 +9,13 @@ use App\Controller\AppController;
  */
 class ClubsController extends AppController
 {
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['index', 'view']);
-    }
-
     public function index()
     {
-        $clubs = $this->Clubs->findBySeason($this->currentSeason);
-        $this->set(
-            [
-                'success' => true,
-                'data' => $clubs,
-                '_serialize' => ['success', 'data']
+        $this->Crud->action()->findMethod([
+            'bySeasonId' => [
+                'season_id' => $this->currentSeason->id
             ]
-        );
+        ]);
+        return $this->Crud->execute();
     }
 }

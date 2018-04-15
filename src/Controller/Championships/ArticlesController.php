@@ -8,18 +8,15 @@ namespace App\Controller\Championships;
  */
 class ArticlesController extends \App\Controller\ArticlesController
 {
-    /**
-     *
-     */
+    public $paginate = [
+         'limit' => 8
+    ];
+    
     public function index()
     {
-        $articles = $this->Articles->findByChampionshipId($this->request->getParam('championship_id'))->all();
-        $this->set(
-            [
-                'success' => true,
-                'data' => $articles,
-                '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->action()->findMethod(['byChampionshipId' => [
+            'championship_id' => $this->request->getParam('championship_id')
+        ]]);
+        return $this->Crud->execute();
     }
 }

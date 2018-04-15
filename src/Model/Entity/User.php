@@ -1,8 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
-use Cake\Auth\DefaultPasswordHasher;
+use Authorization\IdentityInterface;
 use Cake\ORM\Entity;
+use Jose\Object\JWT;
+use Security;
 
 /**
  * User Entity.
@@ -17,12 +19,12 @@ use Cake\ORM\Entity;
  * @property string $password
  * @property string $login_key
  * @property bool $admin
- * @property \App\Model\Entity\Team[] $teams
- * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
+ * @property Team[] $teams
+ * @property PushSubscription[] $push_subscriptions
  * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
  * @property int $old_id
  */
-class User extends Entity
+class User extends Entity implements IdentityInterface
 {
 
     /**
@@ -49,8 +51,37 @@ class User extends Entity
         'login_key'
     ];
 
-    protected function _setPassword($password)
+     /**
+     * Authorization\IdentityInterface method
+     */
+    public function can($action, $resource)
     {
-        return (new DefaultPasswordHasher)->hash($password);
+        return $this->authorization->can($this, $action, $resource);
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function applyScope($action, $resource)
+    {
+        return $this->authorization->applyScope($this, $action, $resource);
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function getOriginalData()
+    {
+        return $this;
+    }
+
+    /**
+     * Setter to be used by the middleware.
+     */
+    public function setAuthorization($service)
+    {
+        $this->authorization = $service;
+
+        return $this;
     }
 }

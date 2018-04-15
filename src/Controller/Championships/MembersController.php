@@ -9,28 +9,24 @@ use App\Controller\AppController;
 class MembersController extends AppController
 {
     public $paginate = [
-        'limit' => 50,
+        'limit' => 200,
     ];
+    
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('free', 'Crud.Index');
+    }
 
     public function free()
     {
-        $stats = $this->request->getQuery('stats', true);
-        $role = $this->request->getParam('role_id', null);
-        $championshipId = $this->request->getParam('championship_id');
-        $members = $this->Members->findFree($championshipId);
-        if ($stats) {
-            $members->contain(['VwMembersStats']);
-        }
-        if ($role) {
-            $members->where(['role_id' => $role]);
-        }
-
-        $this->set(
-            [
-            'success' => true,
-            'data' => $members,
-            '_serialize' => ['success', 'data']
+        $this->Crud->action()->findMethod([
+            'free' => [
+                'championship_id' => $this->request->getParam('championship_id'),
+                'stats' => $this->request->getQuery('stats', true),
+                'role' => $this->request->getParam('role_id', null)
             ]
-        );
+        ]);
+        return $this->Crud->execute();
     }
 }

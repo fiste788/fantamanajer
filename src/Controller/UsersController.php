@@ -10,14 +10,6 @@ use Cake\Network\Exception\UnauthorizedException;
 class UsersController extends AppController
 {
 
-    /**
-     * Initialize
-     */
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['add', 'token']);
-    }
 
     public function beforeFilter(\Cake\Event\Event $event)
     {
@@ -42,22 +34,17 @@ class UsersController extends AppController
      *
      * @throws UnauthorizedException
      */
+    
     public function token()
     {
-        $user = $this->Auth->identify();
-        if (!$user) {
-            throw new UnauthorizedException('Invalid username or password');
-        } else {
-            $this->Auth->setUser($user);
-        }
+        $user = $this->Authentication->getIdentity();
         $days = $this->request->getData('remember_me', false) ? 365 : 7;
-
         $this->set(
             [
                 'success' => true,
                 'data' => [
-                    'token' => $this->Users->getToken($user['id'], $days),
-                    'user' => $user
+                    'token' => $this->Users->getToken($user->id, $days),
+                    'user' => $user->getOriginalData()
                 ],
                 '_serialize' => ['success', 'data']
             ]
@@ -66,6 +53,6 @@ class UsersController extends AppController
 
     public function logout()
     {
-        $this->redirect($this->Auth->logout());
+        $this->Authentication->logout();
     }
 }
