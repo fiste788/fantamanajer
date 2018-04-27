@@ -2,40 +2,61 @@
 
 namespace App\Controller\Teams;
 
+use App\Model\Entity\Lineup;
+use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
+
 class LineupsController extends \App\Controller\LineupsController
 {
-
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('current', 'Crud.View');
+    }
+    
     public function current()
     {
-        $team = $this->Lineups->Teams->get(
-            $this->request->getParam('team_id'),
-            ['contain' => ['Users', 'Members' => ['Roles', 'Players']]]
-        );
-        \Cake\Log\Log::debug($this->Authentication->getIdentity());
-        if ($this->Authentication->getIdentity()->id == $team->user->id) {
-            $lineup = $this->Lineups->findLast($this->currentMatchday, $team)->first();
-            if ($lineup && $lineup->matchday_id != $this->currentMatchday->id) {
-                $lineup = $lineup->copy($this->currentMatchday, true, false);
-            }
+        $team = $this->request->getParam('team_id');
+        
+        if ($this->Authentication->getIdentity()->hasTeam($team)) {
+            $this->Crud->on('beforeFind', function(Event $event) use ($team) {
+                $event->getSubject()->query = $this->Lineups->find('last', [
+                    'matchday' => $this->currentMatchday,
+                    'team_id' => $team,
+                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
+                ]);
+            });
         } else {
-            $lineup = $this->Lineups->find()
-                ->contain(['Dispositions'])
+            $matchdayId = TableRegistry::getTableLocator()->get('Matchdays')->find()
+                ->innerJoinWith('Scores')
+                ->orderAsc('Matchdays.number')
                 ->where([
-                    'Lineups.team_id' => $team->id,
-                    'Lineups.matchday_id =' => $this->currentMatchday->id,
+                    'Scores.id' => null,
+                    'season_id' => $this->currentSeason->id
                 ])->first();
+            $this->Crud->on('beforeFind', function(Event $event) use ($team, $matchdayId) {
+                $event->getSubject()->query = $this->Lineups->find('byMatchdayIdAndTeamId', [
+                    'matchday_id' => $matchdayId,
+                    'team_id' => $team
+                ]);
+            });
+            
         }
-
-        $this->set(
-            [
+        $this->Crud->on('afterFind', function(Event $event) use ($team) {
+            if($event->getSubject()->entity->team_id == $team) {
+                $event->getSubject()->entity = $event->getSubject()->entity->copy($this->currentMatchday, true, false);
+            }
+            $event->getSubject()->entity->modules = Lineup::$module;
+        });
+        
+        try {
+            return $this->Crud->execute();
+        } catch(\Exception $e) {
+            $this->set([
                 'success' => true,
-                'data' => [
-                    'members' => $team->members,
-                    'lineup' => $lineup,
-                    'modules' => \App\Model\Entity\Lineup::$module
-                ],
+                'data' => null,
                 '_serialize' => ['success', 'data']
-            ]
-        );
+            ]);
+        }
     }
 }

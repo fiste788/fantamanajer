@@ -23,6 +23,19 @@ class LineupsController extends AppController
         $this->Crud->on(
             'beforeSave',
             function (Event $event) {
+                $event->getSubject()->entity->set('team', null);
+                $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
+            }
+        );
+        $this->Crud->execute();
+    }
+    
+    public function edit()
+    {
+        $this->Crud->on(
+            'beforeSave',
+            function (Event $event) {
+                $event->getSubject()->entity->set('team', null);
                 $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
             }
         );

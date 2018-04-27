@@ -27,13 +27,4 @@ class ArticlesController extends AppController
         $this->Crud->mapAction('edit', 'Crud.Edit');
         $this->Crud->mapAction('delete', 'Crud.Delete');
     }
-    
-    public function edit($id)
-    {
-        $this->Crud->on('afterFind', function(\Cake\Event\Event $event) {
-            $this->Authorization->authorize($event->getSubject()->entity);
-        });
-
-        return $this->Crud->execute();
-    }
 }

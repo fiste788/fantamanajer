@@ -174,12 +174,7 @@ class WeeklyScriptTask extends Shell
                         ->data(['url' => '/scores/last']);
 
                     $this->out("Sending notification to " . $subscription->endpoint);
-                    $webPush->sendNotification(
-                        $subscription->endpoint,
-                        json_encode($message),
-                        $subscription->public_key,
-                        $subscription->auth_token
-                    );
+                    $webPush->sendNotification($subscription->getSubscription(),json_encode($message));
                 }
             }
         }

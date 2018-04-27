@@ -1,10 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
-use Authorization\IdentityInterface;
+use Authentication\IdentityInterface as AuthenticationIdentity;
+use Authorization\IdentityInterface as AuthorizationIdentity;
 use Cake\ORM\Entity;
-use Jose\Object\JWT;
-use Security;
+use Cake\Utility\Hash;
 
 /**
  * User Entity.
@@ -21,10 +21,9 @@ use Security;
  * @property bool $admin
  * @property Team[] $teams
  * @property PushSubscription[] $push_subscriptions
- * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
  * @property int $old_id
  */
-class User extends Entity implements IdentityInterface
+class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {
 
     /**
@@ -50,6 +49,20 @@ class User extends Entity implements IdentityInterface
         'password',
         'login_key'
     ];
+    
+    public function hasTeam($teamId)
+    {
+        return !empty(Hash::filter($this->teams, function (Team $value) use($teamId) {
+            return $value->id == $teamId;
+        }));
+    }
+    
+    public function isInChampionship($championshipId)
+    {
+        return !empty(Hash::filter($this->teams, function (Team $value) use($championshipId) {
+            return $value->championship_id == $championshipId;
+        }));
+    }
 
      /**
      * Authorization\IdentityInterface method
@@ -83,5 +96,13 @@ class User extends Entity implements IdentityInterface
         $this->authorization = $service;
 
         return $this;
+    }
+    
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getIdentifier()
+    {
+        return $this->id;
     }
 }

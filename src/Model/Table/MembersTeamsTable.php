@@ -96,7 +96,7 @@ class MembersTeamsTable extends Table
             $transfert = $transfertsTable->newEntity();
             $transfert->team_id = $entity->team_id;
             $transfert->constrained = !$entity->member->active;
-            $transfert->matchday_id = $matchdaysTable->findCurrent()->id;
+            $transfert->matchday_id = $matchdaysTable->find('current')->first()->id;
             $transfert->old_member_id = $entity->getOriginal('member_id');
             $transfert->new_member_id = $entity->member_id;
             $transfertsTable->save($transfert);

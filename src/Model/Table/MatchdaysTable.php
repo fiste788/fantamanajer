@@ -122,17 +122,10 @@ class MatchdaysTable extends Table
         return $rules;
     }
 
-    public function findCurrent()
+    public function findCurrent(\Cake\ORM\Query $q, array $options)
     {
-        return $this
-            ->find('all')
-            ->contain(['Seasons'])
-            ->where(
-                [
-                'date > ' => new DateTime('now')
-                ]
-            )
-            ->first();
+        return $q->contain(['Seasons'])
+            ->where(['date > ' => new DateTime('now')]);
     }
 
     public function getTargetCountdown($minutes = 0)

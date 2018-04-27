@@ -103,8 +103,8 @@ class GazzettaTask extends Shell
     {
         $body = "";
         $this->out("Starting decrypt " . $path);
-        $currentMachday = $this->Matchdays->findCurrent();
-        $decrypt = $currentMachday->get('season')->get('key_gazzetta');
+        $currentMachday = $this->Matchdays->find('current');
+        $decrypt = $currentMachday->first()->get('season')->get('key_gazzetta');
         $this->out($decrypt);
         if ($path && $p_file = fopen($path, "r")) {
             $explode_xor = explode("-", $decrypt);

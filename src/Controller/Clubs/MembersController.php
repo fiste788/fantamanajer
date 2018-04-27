@@ -2,13 +2,18 @@
 namespace App\Controller\Clubs;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
  */
 class MembersController extends AppController
 {
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->allowUnauthenticated(['index']);
+    }
+    
     public $paginate = [
         'limit' => 50,
     ];

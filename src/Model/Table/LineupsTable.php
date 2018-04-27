@@ -210,6 +210,7 @@ class LineupsTable extends Table
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
+        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
         if (array_key_exists('created_at', $data)) {
             unset($data['created_at']);
         }
@@ -241,49 +242,50 @@ class LineupsTable extends Table
      * @param Team                              $team
      * @return Lineup
      */
-    public function findLast(Matchday $matchday, Team $team)
+    public function findLast(Query $q, array $options)
     {
-        return $this->find()
-                ->innerJoinWith('Matchdays')
+        return $q->innerJoinWith('Matchdays')
                 ->contain(['Dispositions'])
                 ->where([
-                    'Lineups.team_id' => $team->id,
-                    'Lineups.matchday_id <=' => $matchday->id,
-                    'Matchdays.season_id' => $matchday->season_id
+                    'Lineups.team_id' => $options['team_id'],
+                    'Lineups.matchday_id <=' => $options['matchday']->id,
+                    'Matchdays.season_id' => $options['matchday']->season_id
                 ])
                 ->order(['Matchdays.number' => 'DESC']);
     }
-
-    /**
-     *
-     * @param LineupsTable $matchday
-     * @param Matchday                      $team
-     * @param Team                          $team
-     * @return Lineup
-     */
-    public function findLastWithRatings(Matchday $matchday, Team $team)
+    
+    public function findByMatchdayIdAndTeamId(Query $q, array $options)
     {
-        return $this->findLast($matchday, $team)
-                ->contain([
-                    'Teams.Championships',
-                    'Dispositions' => [
-                        'Members' => function (Query $q) use ($matchday) {
-                            return $q->find(
-                                'list',
-                                [
+        return $q->contain(['Dispositions'])
+                ->where([
+                    'Lineups.team_id' => $options['team_id'],
+                    'Lineups.matchday_id =' => $options['matchday_id'],
+                ]);
+    }
+    
+    public function findWithRatings(Query $q, array $options)
+    {
+        $matchdayId = $options['matchday_id'];
+        return $q->contain([
+                'Teams.Championships',
+                'Dispositions' => [
+                    'Members' => function (Query $q) use ($matchdayId) {
+                        return $q->find(
+                                    'list',
+                                    [
                                         'keyField' => 'id',
                                         'valueField' => function ($obj) {
                                             return $obj;
                                         }
                                     ]
-                            )
+                                )
                                 ->contain(
-                                    ['Ratings' => function (Query $q) use ($matchday) {
-                                            return $q->where(['Ratings.matchday_id' => $matchday->id]);
-                                    }
+                                    ['Ratings' => function (Query $q) use ($matchdayId) {
+                                            return $q->where(['Ratings.matchday_id' => $matchdayId]);
+                                        }
                                     ]
-                                );
-                        }
-                    ]]);
+                        );
+                    }
+        ]]);
     }
 }

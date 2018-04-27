@@ -148,7 +148,7 @@ class UsersTable extends Table
                     'sub' => $subject,
                     'exp' => time() + ($days * 24 * 60 * 60)
                 ],
-            Security::salt()
+            Security::getSalt()
         );
     }
 }

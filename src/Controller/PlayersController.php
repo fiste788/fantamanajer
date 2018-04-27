@@ -9,6 +9,12 @@ use App\Controller\AppController;
  */
 class PlayersController extends AppController
 {
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->allowUnauthenticated(['view']);
+    }
+    
     public function view($id)
     {
         $this->Crud->action()->findMethod(['withDetails' => [

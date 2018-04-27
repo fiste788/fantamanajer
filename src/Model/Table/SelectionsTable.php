@@ -227,12 +227,7 @@ class SelectionsTable extends Table
                     ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
                     ->body('Hai perso il giocatore ' . $selection->new_member->player->surname . ' ' . $selection->new_member->player->name)
                     ->tag('lost-player-' . $selection->id);
-                $webPush->sendNotification(
-                    $subscription->endpoint,
-                    json_encode($message),
-                    $subscription->public_key,
-                    $subscription->auth_token
-                );
+                $webPush->sendNotification($subscription->getSubscription(),json_encode($message));
             }
         }
     }

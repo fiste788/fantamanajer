@@ -7,7 +7,7 @@ use App\Controller\AppController;
  * @property \App\Model\Table\MembersTable $Members
  */
 class MembersController extends AppController
-{
+{   
     public $paginate = [
         'limit' => 200,
     ];
@@ -16,6 +16,10 @@ class MembersController extends AppController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
+        $championshipId = $this->request->getParam('championship_id');
+        if(!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
+            throw new \Cake\Http\Exception\ForbiddenException();
+        }
     }
 
     public function free()
