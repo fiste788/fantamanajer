@@ -14,7 +14,9 @@
  */
 namespace App;
 
+use App\Model\Entity\User;
 use Authentication\AuthenticationService;
+use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Authorization\AuthorizationService;
 use Authorization\Middleware\AuthorizationMiddleware;
@@ -67,9 +69,9 @@ class Application extends BaseApplication
             // Add authorization (after authentication if you are using that plugin too).
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,
-                /*'identityDecorator' => function ($auth, $user) {
+                'identityDecorator' => function ($auth, $user) {
                     return $user->setAuthorization($auth);
-                }*/
+                }
             ]));
 
         return $middlewareQueue;
@@ -79,7 +81,13 @@ class Application extends BaseApplication
     {
         // Instantiate the service
         //$service = new AuthenticationService();
-
+        $fields = [
+            IdentifierInterface::CREDENTIAL_USERNAME => 'email',
+            IdentifierInterface::CREDENTIAL_PASSWORD => 'password'
+        ];
+        $loginUrl = '/users/login';
+        
+        $service->setConfig('identityClass', User::class);
         // Load identifiers
         $service->loadIdentifier('Authentication.Password', [
             'fields' => [
@@ -116,6 +124,7 @@ class Application extends BaseApplication
             'returnPayload' => false
         ]);
         $service->loadAuthenticator('Authentication.Cookie', [
+            'loginUrl' => '/users/token',
             'fields' => [
                 'username' => 'email',
             ]

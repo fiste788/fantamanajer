@@ -30,23 +30,6 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
-        $this->loadComponent(
-            'Crud.Crud',
-            [
-            'actions' => [
-                'Crud.Index',
-                'Crud.View',
-
-            ],
-            'listeners' => [
-                'Crud.Api',
-                'Crud.ApiPagination',
-                'Crud.ApiQueryLog'
-            ]
-            ]
-        );
-        $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
-        //$this->RequestHandler->accepts(['xml','json','html']);
         
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login'  // Default is false
@@ -55,49 +38,51 @@ class AppController extends Controller
         $this->loadComponent('Authorization.Authorization', [
             'skipAuthorization' => [
                 'login',
+                'home',
+                'Clubs.view',
+                'Clubs.index',
                 'Members.best',
                 'Matchdays.current'
             ]
         ]);
+        
+        $this->loadComponent('Crud.Crud', [
+            'actions' => [
+                'Crud.Index',
+                'Crud.View'
+            ],
+            'listeners' => [
+                'Crud.Api',
+                'Crud.ApiPagination',
+                'Crud.ApiQueryLog'
+            ]
+        ]);
+        $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+        
         $this->getCurrentMatchday();
     }
-
-    /**
-     * Check if the prefix is 'teams' that the current team is owned by current user
-     *
-     * @param array $user
-     * @return boolean
-     */
-    public function isAuthorized($user = null)
+    
+    public function implementedEvents()
     {
-        $prefix = $this->request->getParam('prefix');
-        // Any registered user can access public functions
-        if (!$prefix) {
-            return true;
-        }
-
-        $prefixs = explode("/", strtolower($prefix));
-        if (in_array('teams', $prefixs) && in_array($this->request->getParam('action'), ['edit', 'delete', 'add'])) {
-            foreach ($user['teams'] as $team) {
-                if ($team['id'] == $this->request->getParam('team_id')) {
-                    return true;
-                }
-            }
-        } else {
-            return true;
-        }
-
-        return parent::isAuthorized($user);
+        return parent::implementedEvents() + [
+            'Crud.afterFind' => '_afterFind',
+            'Crud.afterPaginate' => '_afterPaginate'
+        ];
     }
 
-    /**
-     *
-     * @param Event $event event
-     * @return void
-     */
-    public function beforeRender(Event $event)
+    public function _afterFind(\Cake\Event\Event $event)
     {
-        $this->RequestHandler->renderAs($this, 'json');
-        parent::beforeRender($event);
+        if($this->Authentication->getIdentity()) {
+            $this->Authorization->authorize($event->getSubject()->entity);
+        }
+    }
+    
+    public function _afterPaginate(\Cake\Event\Event $event)
+    {
+        if($this->Authentication->getIdentity()) {
+            foreach($event->getSubject()->entities as $entity) {
+                $this->Authorization->authorize($entity);
+            }
+        }
     }
 }

@@ -48,12 +48,20 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->resources('Articles', [
         'only' => ['create', 'update', 'delete', 'view']
     ]);
+    $routes->connect('/members/best', [
+        'controller' => 'Members',
+        'action' => 'best'
+    ]);
     $routes->resources('Users', [
-        'only' => ['view', 'update', 'token'],
+        'only' => ['view', 'update', 'token', 'current'],
         'map' => [
             'token' => [
                 'action' => 'token',
                 'method' => 'POST'
+            ],
+            'current' => [
+                'action' => 'current',
+                'method' => 'GET'
             ]
         ]
     ]);
@@ -163,7 +171,7 @@ Router::scope('/', function (RouteBuilder $routes) {
                 'pass' => ['matchday_id']
             ]);
         });
-    $routes->fallbacks(DashedRoute::class);
+    //$routes->fallbacks(DashedRoute::class);
 });
 
 /**

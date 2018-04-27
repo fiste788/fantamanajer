@@ -2,9 +2,7 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Event as Event2;
-use App\Model\Entity\Matchday;
-use App\Model\Entity\Role;
+use App\Model\Entity\Event as FantamanajerEvent;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -223,7 +221,7 @@ class MembersTable extends Table
     public function findByClubId(Query $q, array $options)
     {
         return $q->contain(['Roles', 'Players', 'VwMembersStats'])
-            ->innerJoinWith('Clubs', function ($q) use ($options) {
+            ->innerJoinWith('Clubs', function (Query $q) use ($options) {
                 return $q->where(['Clubs.id' => $options['club_id']]);    
             })->where([
                 'active' => true,
@@ -260,21 +258,21 @@ class MembersTable extends Table
         if ($entity->isNew()) {
             $events = TableRegistry::get('Events');
             $ev = $events->newEntity();
-            $ev->type = Event2::NEW_PLAYER;
+            $ev->type = FantamanajerEvent::NEW_PLAYER;
             $ev->team_id = $entity['team_id'];
             $ev->external = $entity['id'];
             $events->save($ev);
         } elseif ($entity->isDirty('club_id')) {
             $events = TableRegistry::get('Events');
             $ev = $events->newEntity();
-            $ev->type = Event2::EDIT_CLUB;
+            $ev->type = FantamanajerEvent::EDIT_CLUB;
             $ev->team_id = $entity['team_id'];
             $ev->external = $entity['id'];
             $events->save($ev);
         } elseif ($entity->isDirty('active')) {
             $events = TableRegistry::get('Events');
             $ev = $events->newEntity();
-            $ev->type = Event2::DELETE_PLAYER;
+            $ev->type = FantamanajerEvent::DELETE_PLAYER;
             $ev->team_id = $entity['team_id'];
             $ev->external = $entity['id'];
             $events->save($ev);

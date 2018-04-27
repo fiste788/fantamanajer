@@ -72,12 +72,7 @@ class PushNotificationTask extends Shell
                     ->tag(926796012340920300)
                     ->data(['url' => '/scores/last']);
             $this->out('Send notification to ' . $subscription->endpoint);
-            $webPush->sendNotification(
-                $subscription->endpoint,
-                json_encode($message),
-                $subscription->public_key,
-                $subscription->auth_token
-            );
+            $webPush->sendNotification($subscription->getSubscription(),json_encode($message));
         }
         //$webPush->flush();
         $this->out(print_r($webPush->flush()));
@@ -105,12 +100,7 @@ class PushNotificationTask extends Shell
                             ->tag('missing-lineup-' . $this->currentMatchday->number)
                             ->data(['url' => '/teams/' . $team->id . '/lineup']);
                     $this->out('Send notification to ' . $subscription->endpoint);
-                    $webPush->sendNotification(
-                        $subscription->endpoint,
-                        json_encode($message),
-                        $subscription->public_key,
-                        $subscription->auth_token
-                    );
+                    $webPush->sendNotification($subscription->getSubscription(),json_encode($message));
                 }
             }
         }

@@ -1,7 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Season;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -93,11 +92,10 @@ class ClubsTable extends Table
 
     public function findBySeasonId(Query $q, array $options)
     {
-        $ids = $this->Members->find()
-            ->select(['club_id'])
-            ->distinct(['club_id'])
-            ->where(['season_id' => $options['season_id']]);
+        return $q->innerJoinWith('Members', function(Query $q) use($options) {
+           return $q->where(['season_id' => $options['season_id']]); 
+        })->group('Clubs.id')
+            ->orderAsc('name');
         
-        return $q->whereInList(['id' => $ids])->order(['name']);
     }
 }

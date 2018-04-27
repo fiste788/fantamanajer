@@ -11,13 +11,9 @@ class ScoresController extends AppController
 {
     public function view($id)
     {
-        $score = $this->Scores->get($id);
-        $this->set(
-            [
-            'success' => true,
-            'data' => $this->Scores->loadDetails($score),
-            '_serialize' => ['success', 'data']
-            ]
-        );
+        $this->Crud->on('afterFind', function(\Cake\Event\Event $event) {
+            return $this->Scores->loadDetails($event->getSubject()->entity);
+        });
+        $this->Crud->execute();
     }
 }

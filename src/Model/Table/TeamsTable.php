@@ -2,14 +2,13 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Season;
-use App\Model\Entity\User;
+use App\Model\Entity\Team;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
+use Cake\Filesystem\File;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Spatie\Image\Image;
 
@@ -68,10 +67,10 @@ class TeamsTable extends Table
                         return strtolower($data['name']);
                     },
                     'transformer' => function (RepositoryInterface $table, EntityInterface $entity, $data, $field, $settings) {
-                        $tmpFile = new \Cake\Filesystem\File($data['name']);
+                        $tmpFile = new File($data['name']);
                         $image = Image::load($data['tmp_name']);
                         $array = [$data['tmp_name'] => $data['name']];
-                        foreach (\App\Model\Entity\Team::$size as $value) {
+                        foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
                                 $tmp = tempnam(TMP, $value) . '.' . $tmpFile->ext();
                                 $image->width($value)->save($tmp);
@@ -85,7 +84,7 @@ class TeamsTable extends Table
                         // When deleting the entity, both the original and the thumbnail will be removed
                         // when keepFilesOnDelete is set to false
                         $array = [$path . $entity->{$field}];
-                        foreach (\App\Model\Entity\Team::$size as $value) {
+                        foreach (Team::$size as $value) {
                             $array[] = $path . $value . DS . $entity->{$field};
                         }
 
@@ -208,20 +207,6 @@ class TeamsTable extends Table
         $rules->add($rules->existsIn(['championship_id'], 'Championships'));
 
         return $rules;
-    }
-
-    public function findCurrent(Query $query, array $options)
-    {
-        $matchdays = TableRegistry::get('Matchdays');
-        $current = $matchdays->getCurrent();
-        $query->matching(
-            'Championships',
-            function ($q) use ($current) {
-                return $q->where(['Championships.season_id' => $current->season_id]);
-            }
-        );
-
-        return $query;
     }
 
     public function findByChampionshipId(Query $q, array $options)

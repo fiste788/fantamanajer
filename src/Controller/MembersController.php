@@ -9,13 +9,18 @@ use Cake\ORM\TableRegistry;
  */
 class MembersController extends AppController
 {
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->allowUnauthenticated(['best']);
+    }
+    
     public $paginate = [
         'limit' => 50,
     ];
 
     public function best()
     {
-        $this->Authorization->skipAuthorization();
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
         $matchday = TableRegistry::get('Matchdays')->findWithRatings($this->currentSeason)->first();
         foreach ($roles as $key => $role) {

@@ -142,11 +142,6 @@ class ScoresTable extends Table
 
     public function findScores(Query $q, array $options)
     {
-        /*if(!$rankingQuery) {
-            $rankingQuery = $this->find('ranking', ['championship_id' => $championshipId]);
-        }
-        $ranking = $rankingQuery->toArray();
-        $ids = Hash::extract($ranking,'{*}.team_id');*/
         $championshipId = $options['championship_id'];
         return $q->select(['id', 'points', 'team_id'])
             ->contain([
@@ -172,7 +167,7 @@ class ScoresTable extends Table
         $q->select([
                 'team_id',
                 'sum_points' => $q->func()->sum('points')
-            ])->contain(['Teams' => ['fields' => ['id', 'name']]])
+            ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->innerJoinWith('Teams', function ($q) use ($championshipId) {
                 return $q->where(['Teams.championship_id' => $championshipId]);
             })->group('team_id')

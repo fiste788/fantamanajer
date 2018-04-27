@@ -7,8 +7,7 @@ namespace App\Controller\Teams;
  * @property \App\Model\Table\ArticlesTable $Articles
  */
 class ArticlesController extends \App\Controller\ArticlesController
-{
-
+{   
     public $paginate = [
          'limit' => 25
     ];

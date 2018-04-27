@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Minishlink\WebPush\Subscription;
 
 /**
  * PushSubscription Entity
@@ -10,10 +11,11 @@ use Cake\ORM\Entity;
  * @property string $endpoint
  * @property string $public_key
  * @property string $auth_token
+ * @property string $content_encoding
  * @property \Cake\I18n\FrozenTime $expires_at
  * @property int $user_id
  *
- * @property \App\Model\Entity\User $user
+ * @property User $user
  * @property \Cake\I18n\FrozenTime $created_at
  * @property \Cake\I18n\FrozenTime $modified_at
  */
@@ -46,4 +48,17 @@ class PushSubscription extends Entity
     protected $_hidden = [
         'auth_token'
     ];
+    
+    /**
+     * 
+     * @return Subscription
+     */
+    function getSubscription() {
+        return Subscription::create([
+                    'endpoint' => $this->endpoint,
+                    'publicKey' => $this->public_key,
+                    'authToken' => $this->auth_token,
+                    'contentEncoding' => $this->content_encoding || 'aesgcm'
+                ]);
+    }
 }
