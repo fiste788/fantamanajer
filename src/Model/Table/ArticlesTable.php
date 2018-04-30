@@ -132,24 +132,24 @@ class ArticlesTable extends Table
 
     /**
      *
-     * @param int $championshipId
+     * @param int $q
      * @return Query
      */
     public function findByChampionshipId(Query $q, array $options)
-    {   
+    {
         return $q->contain(['Teams' => [
                 'fields' => ['id', 'name']
             ]])->orderDesc('created_at')
             ->where(['championship_id' => $options['championship_id']]);
     }
-    
+
     /**
      *
-     * @param int $championshipId
+     * @param int $q
      * @return Query
      */
     public function findByTeamId(Query $q, array $options)
-    {   
+    {
         return $q->orderDesc('created_at')
             ->where(['team_id' => $options['team_id']]);
     }

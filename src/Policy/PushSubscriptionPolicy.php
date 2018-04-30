@@ -10,15 +10,14 @@ class PushSubscriptionPolicy
     {
         return $user->id == $subscription->user_id;
     }
-    
+
     public function canDelete(IdentityInterface $user, PushSubscription $subscription)
     {
         return $user->id == $subscription->user_id;
     }
-    
+
     public function canAdd(IdentityInterface $user, PushSubscription $subscription)
     {
         return $user->id == $subscription->user_id;
     }
-    
 }

@@ -10,17 +10,17 @@ class TransfertPolicy
     {
         return $user->hasTeam($transfert->team_id);
     }
-    
+
     public function canEdit(IdentityInterface $user, Transfert $transfert)
     {
         return false;
     }
-    
+
     public function canDelete(IdentityInterface $user, Transfert $transfert)
     {
         return false;
     }
-    
+
     public function canIndex(IdentityInterface $user, Transfert $transfert)
     {
         return true;

@@ -14,12 +14,13 @@ class PlayersController extends AppController
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['view']);
     }
-    
+
     public function view($id)
     {
         $this->Crud->action()->findMethod(['withDetails' => [
             'championship_id' => $this->request->getQuery('championship_id', null)
         ]]);
+
         return $this->Crud->execute();
     }
 }

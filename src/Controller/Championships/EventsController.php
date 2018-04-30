@@ -15,15 +15,15 @@ class EventsController extends AppController
     {
         parent::beforeFilter($event);
         $championshipId = $this->request->getParam('championship_id');
-        if(!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
+        if (!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
             throw new \Cake\Http\Exception\ForbiddenException();
         }
     }
-    
+
     public $paginate = [
         'limit' => 25
     ];
-    
+
     /**
      * Index method
      *
@@ -31,9 +31,10 @@ class EventsController extends AppController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod(['byChampionshipId' => 
+        $this->Crud->action()->findMethod(['byChampionshipId' =>
             ['championship_id' => $this->request->getParam('championship_id')]
         ]);
+
         return $this->Crud->execute();
     }
 }

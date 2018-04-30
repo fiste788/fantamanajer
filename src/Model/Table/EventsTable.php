@@ -87,10 +87,10 @@ class EventsTable extends Table
 
         return $rules;
     }
-    
+
     public function findByChampionshipId(Query $query, array $options)
     {
-        return $query->contain(['Teams' => ['fields' => ['id','name']]])
+        return $query->contain(['Teams' => ['fields' => ['id', 'name']]])
             ->where(['Teams.championship_id' => $options['championship_id']])
             ->orderDesc('created_at');
     }

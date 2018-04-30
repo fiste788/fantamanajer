@@ -214,5 +214,4 @@ class TeamsTable extends Table
         return $q->contain(['Users'])
             ->where(['championship_id' => $options['championship_id']]);
     }
-    
 }

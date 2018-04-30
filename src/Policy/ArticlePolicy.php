@@ -10,17 +10,17 @@ class ArticlePolicy
     {
         return $user->hasTeam($article->team_id);
     }
-    
+
     public function canEdit(IdentityInterface $user, Article $article)
     {
         return $user->hasTeam($article->team_id);
     }
-    
+
     public function canDelete(IdentityInterface $user, Article $article)
     {
         return $user->hasTeam($article->team_id);
     }
-    
+
     public function canIndex(IdentityInterface $user, Article $article)
     {
         return $user->hasTeam($article->team_id);

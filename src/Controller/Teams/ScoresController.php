@@ -11,7 +11,7 @@ class ScoresController extends \App\Controller\ScoresController
         $this->Crud->mapAction('last', 'Crud.View');
         $this->Crud->mapAction('viewByMatchday', 'Crud.View');
     }
-    
+
     public function last()
     {
         $this->viewByMatchday();
@@ -22,16 +22,15 @@ class ScoresController extends \App\Controller\ScoresController
         $conditions = [
             'team_id' => $this->getRequest()->getParam('team_id')
         ];
-        if($matchdayId) {
+        if ($matchdayId) {
             $conditions['matchday_id'] = $matchdayId;
         }
-        $this->Crud->on('beforeFind', function(Event $event) use($conditions) {
+        $this->Crud->on('beforeFind', function (Event $event) use ($conditions) {
             return $event->getSubject()->query
                 ->where($conditions, [], true)
                 ->order(['matchday_id' => 'desc']);
         });
+
         return $this->view(null);
     }
-    
-    
 }

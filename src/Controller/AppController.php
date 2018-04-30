@@ -30,7 +30,7 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
-        
+
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login'  // Default is false
         ]);
@@ -45,7 +45,7 @@ class AppController extends Controller
                 'Matchdays.current'
             ]
         ]);
-        
+
         $this->loadComponent('Crud.Crud', [
             'actions' => [
                 'Crud.Index',
@@ -58,10 +58,10 @@ class AppController extends Controller
             ]
         ]);
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
-        
+
         $this->getCurrentMatchday();
     }
-    
+
     public function implementedEvents()
     {
         return parent::implementedEvents() + [
@@ -72,15 +72,15 @@ class AppController extends Controller
 
     public function _afterFind(\Cake\Event\Event $event)
     {
-        if($this->Authentication->getIdentity()) {
+        if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
         }
     }
-    
+
     public function _afterPaginate(\Cake\Event\Event $event)
     {
-        if($this->Authentication->getIdentity()) {
-            foreach($event->getSubject()->entities as $entity) {
+        if ($this->Authentication->getIdentity()) {
+            foreach ($event->getSubject()->entities as $entity) {
                 $this->Authorization->authorize($entity);
             }
         }

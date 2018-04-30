@@ -10,12 +10,12 @@ class MemberPolicy
     {
         return true;
     }
-    
+
     public function canFree(IdentityInterface $user, Member $member)
     {
         return true;
     }
-    
+
     public function canIndex(IdentityInterface $user, Member $member)
     {
         return true;

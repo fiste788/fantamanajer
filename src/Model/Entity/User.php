@@ -49,22 +49,22 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
         'password',
         'login_key'
     ];
-    
+
     public function hasTeam($teamId)
     {
-        return !empty(Hash::filter($this->teams, function (Team $value) use($teamId) {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($teamId) {
             return $value->id == $teamId;
         }));
     }
-    
+
     public function isInChampionship($championshipId)
     {
-        return !empty(Hash::filter($this->teams, function (Team $value) use($championshipId) {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {
             return $value->championship_id == $championshipId;
         }));
     }
 
-     /**
+    /**
      * Authorization\IdentityInterface method
      */
     public function can($action, $resource)
@@ -97,7 +97,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
 
         return $this;
     }
-    
+
     /**
      * Authentication\IdentityInterface method
      */

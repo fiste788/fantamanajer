@@ -92,10 +92,9 @@ class ClubsTable extends Table
 
     public function findBySeasonId(Query $q, array $options)
     {
-        return $q->innerJoinWith('Members', function(Query $q) use($options) {
-           return $q->where(['season_id' => $options['season_id']]); 
+        return $q->innerJoinWith('Members', function (Query $q) use ($options) {
+            return $q->where(['season_id' => $options['season_id']]);
         })->group('Clubs.id')
             ->orderAsc('name');
-        
     }
 }

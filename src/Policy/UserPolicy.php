@@ -10,15 +10,14 @@ class UserPolicy
     {
         return $identity->id == $user->id;
     }
-    
+
     public function canDelete(IdentityInterface $identity, User $user)
     {
         return false;
     }
-    
+
     public function canAdd(IdentityInterface $identity, User $user)
     {
         return true;
     }
-    
 }

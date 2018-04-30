@@ -10,12 +10,12 @@ class ScorePolicy
     {
         return true;
     }
-    
+
     public function canLast(IdentityInterface $user, Score $score)
     {
         return true;
     }
-    
+
     public function canIndex(\App\Model\Entity\User $user, Score $score)
     {
         return $user->isInChampionship($score->team->championship_id);

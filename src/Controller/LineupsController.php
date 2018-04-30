@@ -29,7 +29,7 @@ class LineupsController extends AppController
         );
         $this->Crud->execute();
     }
-    
+
     public function edit()
     {
         $this->Crud->on(

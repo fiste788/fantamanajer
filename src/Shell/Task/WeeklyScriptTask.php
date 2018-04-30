@@ -174,7 +174,7 @@ class WeeklyScriptTask extends Shell
                         ->data(['url' => '/scores/last']);
 
                     $this->out("Sending notification to " . $subscription->endpoint);
-                    $webPush->sendNotification($subscription->getSubscription(),json_encode($message));
+                    $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
                 }
             }
         }
@@ -194,7 +194,7 @@ class WeeklyScriptTask extends Shell
     protected function sendPointMail(Team $team, Matchday $matchday, $ranking)
     {
         $details = $this->Lineups->find('details', [
-            'matchday_id' => $matchday->id, 
+            'matchday_id' => $matchday->id,
             'team_id' => $team->id
         ]);
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();

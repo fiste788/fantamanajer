@@ -14,8 +14,9 @@ class UsersController extends AppController
         parent::beforeFilter($event);
 
         $this->Crud->mapAction('edit', 'Crud.Edit');
+        $this->Authentication->allowUnauthenticated(['login', 'logout']);
     }
-    
+
     public function current()
     {
         $this->set([
@@ -24,16 +25,15 @@ class UsersController extends AppController
             '_serialize' => ['success', 'data']
             ]);
     }
-    
+
     /**
      * Get login Token
      *
      * @throws UnauthorizedException
      */
-    
-    public function token()
+    public function login()
     {
-        if($this->Authentication->getResult()->isValid()) {
+        if ($this->Authentication->getResult()->isValid()) {
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set(
@@ -46,11 +46,20 @@ class UsersController extends AppController
                     '_serialize' => ['success', 'data']
                 ]
             );
+        } else {
+            throw new \Exception($this->Authentication->getResult()->getStatus(), 401);
         }
     }
 
     public function logout()
     {
         $this->Authentication->logout();
+        $this->set(
+                [
+                    'success' => true,
+                    'data' => true,
+                    '_serialize' => ['success', 'data']
+                ]
+            );
     }
 }

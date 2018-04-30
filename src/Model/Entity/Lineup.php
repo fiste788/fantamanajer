@@ -64,7 +64,7 @@ class Lineup extends Entity
         '1-5-3-2',
         '1-5-4-1'
     ];
-    
+
     /**
      * Return a not saved copy of the entity with the specified matchday
      *

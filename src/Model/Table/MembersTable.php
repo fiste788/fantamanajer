@@ -174,16 +174,17 @@ class MembersTable extends Table
             ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q) {
                     return $q->contain(['Matchdays'])
                             ->order(['Matchdays.number' => 'ASC']);
-                }]
+            }]
         )->order(['Seasons.year' => 'DESC']);
         if ($options['championship_id']) {
             $query->select(['player_id', 'free' => $query->newExpr()->isNull('Teams.id')])
                 ->setDefaultTypes(['free' => 'boolean'])
                 ->enableAutoFields(true)
-                ->leftJoinWith('Teams', function(Query $q) use ($options) {
+                ->leftJoinWith('Teams', function (Query $q) use ($options) {
                     return $q->where(['championship_id' => $options['championship_id']]);
                 });
         }
+
         return $query;
     }
 
@@ -215,29 +216,31 @@ class MembersTable extends Table
         if ($options['role']) {
             $q->where(['role_id' => $options['role']]);
         }
+
         return $q;
     }
-    
+
     public function findByClubId(Query $q, array $options)
     {
         return $q->contain(['Roles', 'Players', 'VwMembersStats'])
             ->innerJoinWith('Clubs', function (Query $q) use ($options) {
-                return $q->where(['Clubs.id' => $options['club_id']]);    
+                return $q->where(['Clubs.id' => $options['club_id']]);
             })->where([
                 'active' => true,
                 'season_id' => $options['season_id']
             ]);
     }
-    
+
     public function findByTeamId(Query $q, array $options)
     {
         $q->contain(['Clubs', 'Players'])
             ->innerJoinWith('Teams', function (Query $q) use ($options) {
                 return $q->where(['Teams.id' => $options['team_id']]);
             });
-            if ($options['stats']) {
-                $q->contain(['Roles', 'VwMembersStats']);
-            }
+        if ($options['stats']) {
+            $q->contain(['Roles', 'VwMembersStats']);
+        }
+
         return $q;
     }
 

@@ -230,17 +230,16 @@ class LineupsTable extends Table
                     }]
                 ]
             ])->where([
-                'team_id' => $options['team_id'], 
+                'team_id' => $options['team_id'],
                 'matchday_id' => $options['matchday_id']
             ]);
     }
 
     /**
-     *
-     * @param LineupsTable $matchday
-     * @param Matchday                         $team
-     * @param Team                              $team
-     * @return Lineup
+     * 
+     * @param Query $q
+     * @param array $options
+     * @return Query
      */
     public function findLast(Query $q, array $options)
     {
@@ -253,7 +252,7 @@ class LineupsTable extends Table
                 ])
                 ->order(['Matchdays.number' => 'DESC']);
     }
-    
+
     public function findByMatchdayIdAndTeamId(Query $q, array $options)
     {
         return $q->contain(['Dispositions'])
@@ -262,30 +261,31 @@ class LineupsTable extends Table
                     'Lineups.matchday_id =' => $options['matchday_id'],
                 ]);
     }
-    
+
     public function findWithRatings(Query $q, array $options)
     {
         $matchdayId = $options['matchday_id'];
+
         return $q->contain([
                 'Teams.Championships',
                 'Dispositions' => [
                     'Members' => function (Query $q) use ($matchdayId) {
                         return $q->find(
-                                    'list',
-                                    [
+                            'list',
+                            [
                                         'keyField' => 'id',
                                         'valueField' => function ($obj) {
                                             return $obj;
                                         }
                                     ]
-                                )
+                        )
                                 ->contain(
                                     ['Ratings' => function (Query $q) use ($matchdayId) {
                                             return $q->where(['Ratings.matchday_id' => $matchdayId]);
-                                        }
+                                    }
                                     ]
-                        );
+                                );
                     }
-        ]]);
+                ]]);
     }
 }
