@@ -9,11 +9,11 @@ class NotificationsController extends \App\Controller\AppController
     {
         parent::beforeFilter($event);
         $teamId = $this->request->getParam('team_id');
-        if(!$this->Authentication->getIdentity()->hasTeam($teamId)) {
+        if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {
             throw new \Cake\Http\Exception\ForbiddenException();
         }
     }
-    
+
     public function index()
     {
         $teamId = $this->request->getParam('team_id');

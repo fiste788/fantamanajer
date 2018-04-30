@@ -13,7 +13,7 @@ class MembersController extends AppController
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['index']);
     }
-    
+
     public $paginate = [
         'limit' => 50,
     ];
@@ -26,6 +26,7 @@ class MembersController extends AppController
                 'season_id' => $this->currentSeason->id
             ]
         ]);
+
         return $this->Crud->execute();
     }
 }

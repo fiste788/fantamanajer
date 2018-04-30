@@ -10,17 +10,17 @@ class EventPolicy
     {
         return false;
     }
-    
+
     public function canEdit(IdentityInterface $user, Event $event)
     {
         return false;
     }
-    
+
     public function canDelete(IdentityInterface $user, Event $event)
     {
         return false;
     }
-    
+
     public function canIndex(IdentityInterface $user, Event $event)
     {
         return true;

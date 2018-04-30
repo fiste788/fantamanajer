@@ -27,7 +27,7 @@ class DownloadPhotosCommand extends Command
         $this->loadModel('Members');
         $this->getCurrentMatchday();
     }
-    
+
     public function execute(Arguments $args, ConsoleIo $io)
     {
         $io->out('Download photos task');

@@ -48,12 +48,13 @@ class PushSubscription extends Entity
     protected $_hidden = [
         'auth_token'
     ];
-    
+
     /**
-     * 
+     *
      * @return Subscription
      */
-    function getSubscription() {
+    public function getSubscription()
+    {
         return Subscription::create([
                     'endpoint' => $this->endpoint,
                     'publicKey' => $this->public_key,

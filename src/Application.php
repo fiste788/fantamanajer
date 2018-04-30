@@ -23,9 +23,9 @@ use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\EncryptedCookieMiddleware;
-use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Utility\Security;
 
@@ -58,14 +58,14 @@ class Application extends BaseApplication
             // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
             // you might want to disable this cache in case your routing is extremely simple
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
-            
+
             ->add(BodyParserMiddleware::class)
-        
+
             ->add(new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()))
-            
+
             // Add the authetication middleware to the middleware queue
             ->add(new AuthenticationMiddleware($this))
-            
+
             // Add authorization (after authentication if you are using that plugin too).
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,
@@ -76,7 +76,13 @@ class Application extends BaseApplication
 
         return $middlewareQueue;
     }
-    
+
+    /**
+     * Authentication configuration
+     *
+     * @param AuthenticationService $service
+     * @return AuthenticationService
+     */
     public function authentication(AuthenticationService $service)
     {
         // Instantiate the service
@@ -86,13 +92,11 @@ class Application extends BaseApplication
             IdentifierInterface::CREDENTIAL_PASSWORD => 'password'
         ];
         $loginUrl = '/users/login';
-        
+
         $service->setConfig('identityClass', User::class);
         // Load identifiers
         $service->loadIdentifier('Authentication.Password', [
-            'fields' => [
-                'username' => 'email'
-            ],
+            'fields' => $fields,
             'resolver' => [
                 'className' => 'Authentication.Orm',
                 'finder' => 'auth'
@@ -107,32 +111,26 @@ class Application extends BaseApplication
 
         // Load the authenticators
         $service->loadAuthenticator('Authentication.Session', [
-            'fields' => [
-                'username' => 'email',
-            ]
+            'fields' => $fields
         ]);
         $service->loadAuthenticator('Authentication.Form', [
-            'loginUrl' => '/users/token',
-            'fields' => [
-                'username' => 'email',
-            ]
+            'loginUrl' => $loginUrl,
+            'fields' => $fields
         ]);
         $service->loadAuthenticator('Authentication.Jwt', [
-            'fields' => [
-                'username' => 'email'
-            ],
+            'fields' => $fields,
             'returnPayload' => false
-        ]);
-        $service->loadAuthenticator('Authentication.Cookie', [
-            'loginUrl' => '/users/token',
-            'fields' => [
-                'username' => 'email',
-            ]
         ]);
 
         return $service;
     }
-    
+
+    /**
+     * Authorization configuration
+     *
+     * @param type $request
+     * @return AuthorizationService
+     */
     public function authorization($request)
     {
         $resolver = new OrmResolver();

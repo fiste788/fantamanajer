@@ -43,6 +43,7 @@ class TransfertCommand extends Command
             'boolean' => true,
             'default' => false
         ]);
+
         return $parser;
     }
 

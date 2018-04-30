@@ -10,7 +10,7 @@ class ClubPolicy
     {
         return true;
     }
-    
+
     public function canView(IdentityInterface $user, Club $club)
     {
         return true;

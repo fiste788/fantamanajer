@@ -143,22 +143,24 @@ class ScoresTable extends Table
     public function findScores(Query $q, array $options)
     {
         $championshipId = $options['championship_id'];
+
         return $q->select(['id', 'points', 'team_id'])
             ->contain([
                 'Matchdays' => ['fields' => ['number']],
             ])->innerJoinWith('Teams', function ($q) use ($championshipId) {
                 return $q->where(['Teams.championship_id' => $championshipId]);
             })->formatResults(function (CollectionInterface $results) {
-                return $results->combine('matchday.number', function ($entity) { 
+                return $results->combine('matchday.number', function ($entity) {
                     unset($entity->matchday);
+
                     return $entity;
-                },'team_id');
+                }, 'team_id');
             }, true);
     }
 
     /**
      *
-     * @param int $championshipId
+     * @param int $q
      * @return mixed
      */
     public function findRanking(Query $q, array $options)
@@ -172,18 +174,21 @@ class ScoresTable extends Table
                 return $q->where(['Teams.championship_id' => $championshipId]);
             })->group('team_id')
             ->orderDesc('sum_points');
-            
-        if(array_key_exists('scores', $options) && $options['scores']) {
+
+        if (array_key_exists('scores', $options) && $options['scores']) {
             $q->formatResults(function (CollectionInterface $results) use ($championshipId) {
                 $scores = $this->find('scores', [
                     'championship_id' => $championshipId
                 ])->all()->toArray();
-                return $results->map(function($entity) use ($scores) {
+
+                return $results->map(function ($entity) use ($scores) {
                     $entity['scores'] = $scores[$entity->team_id];
+
                     return $entity;
                 });
             }, true);
         }
+
         return $q;
     }
 
@@ -212,7 +217,7 @@ class ScoresTable extends Table
 
         return $score;
     }
-    
+
     public function loadDetails(Score $score)
     {
         return $this->loadInto($score, [

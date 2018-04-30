@@ -10,12 +10,12 @@ class SelectionPolicy
     {
         return $user->hasTeam($selection->id);
     }
-    
+
     public function canEdit(IdentityInterface $user, Selection $selection)
     {
         return $user->hasTeam($selection->id);
     }
-    
+
     public function canDelete(IdentityInterface $user, Selection $selection)
     {
         return $user->hasTeam($selection->id);

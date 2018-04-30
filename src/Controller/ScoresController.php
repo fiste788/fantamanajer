@@ -11,7 +11,7 @@ class ScoresController extends AppController
 {
     public function view($id)
     {
-        $this->Crud->on('afterFind', function(\Cake\Event\Event $event) {
+        $this->Crud->on('afterFind', function (\Cake\Event\Event $event) {
             return $this->Scores->loadDetails($event->getSubject()->entity);
         });
         $this->Crud->execute();

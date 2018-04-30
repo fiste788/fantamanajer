@@ -115,7 +115,7 @@ class TransfertsTable extends Table
 
         return $rules;
     }
-    
+
     public function findByTeamId(Query $q, array $options)
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])

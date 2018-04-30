@@ -3,7 +3,8 @@
 namespace App\Controller\Teams;
 
 class MembersController extends \App\Controller\MembersController
-{   
+{
+
     public function index()
     {
         $this->Crud->action()->findMethod([
@@ -12,6 +13,7 @@ class MembersController extends \App\Controller\MembersController
                 'stats' => $this->request->getQuery('stats', true)
             ]
         ]);
+
         return $this->Crud->execute();
     }
 }

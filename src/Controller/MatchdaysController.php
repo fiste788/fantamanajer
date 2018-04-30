@@ -18,9 +18,10 @@ class MatchdaysController extends AppController
 
     public function current()
     {
-        $this->Crud->on('beforeFind',function (Event $event) {
-            $event->getSubject()->query = $this->Matchdays->find('current');   
+        $this->Crud->on('beforeFind', function (Event $event) {
+            $event->getSubject()->query = $this->Matchdays->find('current');
         });
+
         return $this->Crud->execute();
     }
 }

@@ -53,11 +53,15 @@ Router::scope('/', function (RouteBuilder $routes) {
         'action' => 'best'
     ]);
     $routes->resources('Users', [
-        'only' => ['view', 'update', 'token', 'current'],
+        'only' => ['update', 'login', 'current', 'logout'],
         'map' => [
-            'token' => [
-                'action' => 'token',
+            'login' => [
+                'action' => 'login',
                 'method' => 'POST'
+            ],
+            'logout' => [
+                'action' => 'logout',
+                'method' => 'GET'
             ],
             'current' => [
                 'action' => 'current',

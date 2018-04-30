@@ -10,12 +10,14 @@ class ArticlesTablePolicy
     {
         return $query->where(['Articles.user_id' => $user->getIdentifier()]);
     }
-    
-    public function canAdd(IdentityInterface $user, ArticlesTable $articleTable) {
+
+    public function canAdd(IdentityInterface $user, ArticlesTable $articleTable)
+    {
         return true;
     }
-    
-    public function canEdit(IdentityInterface $user, ArticlesTable $articleTable) {
+
+    public function canEdit(IdentityInterface $user, ArticlesTable $articleTable)
+    {
         return true;
     }
 }

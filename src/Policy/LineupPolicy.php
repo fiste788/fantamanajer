@@ -10,17 +10,17 @@ class LineupPolicy
     {
         return true;
     }
-    
+
     public function canAdd(IdentityInterface $user, Lineup $lineup)
     {
         return $user->hasTeam($lineup->team_id);
     }
-    
+
     public function canEdit(IdentityInterface $user, Lineup $lineup)
     {
         return $user->hasTeam($lineup->team_id);
     }
-    
+
     public function canDelete(IdentityInterface $user, Lineup $lineup)
     {
         return $user->hasTeam($lineup->team_id);

@@ -14,6 +14,7 @@ class TransfertsController extends AppController
         $this->Crud->action()->findMethod(['byTeamId' => [
             'team_id' => $this->request->getParam('team_id')
         ]]);
+
         return $this->Crud->execute();
     }
 }
