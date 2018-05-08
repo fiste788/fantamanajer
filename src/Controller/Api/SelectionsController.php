@@ -10,7 +10,6 @@ use Cake\Event\Event;
  */
 class SelectionsController extends AppController
 {
-
     public function index()
     {
         $selections = $this->Selections->findByTeamIdAndMatchdayId($this->request->getParam('team_id'), $this->currentMatchday->id)

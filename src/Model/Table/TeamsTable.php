@@ -219,7 +219,7 @@ class TeamsTable extends Table
             ->matching(
                 'Championships',
                 function ($q) use ($season) {
-                                return $q->where(['Championships.season_id' => $season->season_id]);
+                    return $q->where(['Championships.season_id' => $season->season_id]);
                 }
             );
     }
