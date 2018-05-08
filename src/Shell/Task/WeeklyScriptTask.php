@@ -23,7 +23,6 @@ use Minishlink\WebPush\WebPush;
  */
 class WeeklyScriptTask extends Shell
 {
-
     public $tasks = [
         'Gazzetta',
     ];
@@ -131,8 +130,8 @@ class WeeklyScriptTask extends Shell
                 $this->sendWeeklyMails($matchday, $championship);
                 $this->out("Sending notification");
                 $this->sendNotifications($matchday, $championship, $scores);
-            } else if(!$success) {
-                foreach($scores as $score) {
+            } elseif (!$success) {
+                foreach ($scores as $score) {
                     $this->err(print_r($score->getErrors()));
                 }
             }

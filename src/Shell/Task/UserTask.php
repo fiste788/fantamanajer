@@ -8,7 +8,6 @@ use Cake\Console\Shell;
  */
 class UserTask extends Shell
 {
-
     public function initialize()
     {
         parent::initialize();

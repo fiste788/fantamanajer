@@ -11,7 +11,6 @@ use Cake\ORM\Query;
  */
 class ClubsController extends AppController
 {
-
     public function initialize()
     {
         parent::initialize();
@@ -26,13 +25,14 @@ class ClubsController extends AppController
             function (Event $event) use ($seasonId) {
                 $event->getSubject()->query->contain(
                     [
-                        'Members' => function($q) use ($seasonId) {
+                        'Members' => function ($q) use ($seasonId) {
                             return $q->contain([
                                 'Roles',
                                 'Players',
                                 'Clubs',
                                 'VwMembersStats'
-                            ])->where(['season_id' => $seasonId]);;
+                            ])->where(['season_id' => $seasonId]);
+                            ;
                         }
                     ]
                 );

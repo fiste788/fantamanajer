@@ -152,7 +152,7 @@ class ScoresTable extends Table
         )->matching(
             'Teams',
             function ($q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
+                return $q->where(['Teams.championship_id' => $championshipId]);
             }
         );
         //->order('FIELD(Teams.id, ' . Hash::flatten($ranking, ",") . ')')->all();

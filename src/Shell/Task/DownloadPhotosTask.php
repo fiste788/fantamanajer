@@ -17,7 +17,6 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class DownloadPhotosTask extends Shell
 {
-
     use CurrentMatchdayTrait;
 
     public function initialize()
@@ -35,7 +34,7 @@ class DownloadPhotosTask extends Shell
         $baseUrl = "www.guido8975.it";
         $url = "/index.php?ctg=15";
         $referer = "http://" . $baseUrl . $url;
-                        $this->out("REFEREr " . $referer);
+        $this->out("REFEREr " . $referer);
 
         $path = Configure::read('App.paths.images.players') . 'season-new' . DS;
         $members = $this->Members->find()->contain(['Players'])->where(['season_id' => $this->currentSeason->id])->all();

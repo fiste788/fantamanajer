@@ -130,7 +130,8 @@ class Lineup extends Entity
         return $sum;
     }
     
-    private function resetDispositions() {
+    private function resetDispositions()
+    {
         foreach ($this->dispositions as $key => $disposition) {
             $disposition->consideration = 0;
             $this->disposition[$key] = $disposition;

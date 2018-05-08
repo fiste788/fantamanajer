@@ -8,7 +8,6 @@ use Cake\Validation\Validator;
 
 class FreePlayerFilteringForm extends Form
 {
-
     protected function _buildSchema(Schema $schema)
     {
         return $schema->addField('enough', 'double')
