@@ -14,7 +14,6 @@ use Crud\Controller\ControllerTrait;
  */
 class AppController extends Controller
 {
-
     use ControllerTrait;
     use CurrentMatchdayTrait;
 

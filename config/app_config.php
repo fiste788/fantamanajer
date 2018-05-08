@@ -14,7 +14,7 @@ return [
             'PUT',
             'PATCH',
             'DELETE'
-        ], 
+        ],
         'AllowHeaders' => [
             'Origin',
             'X-Requested-With',
@@ -23,7 +23,7 @@ return [
             'Access-Control-Allow-Headers',
             'X-Http-Method-Override'
         ],
-        'ExposeHeaders' => false, 
+        'ExposeHeaders' => false,
         'MaxAge' => (24 * 60 * 60)
     ],
 

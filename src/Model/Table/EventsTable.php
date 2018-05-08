@@ -97,7 +97,7 @@ class EventsTable extends Table
         return $this->find()->matching(
             'Teams',
             function (Query $q) use ($championshipId) {
-                    return $q->where(['Teams.championship_id' => $championshipId]);
+                return $q->where(['Teams.championship_id' => $championshipId]);
             }
         );
     }

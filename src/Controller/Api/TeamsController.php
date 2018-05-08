@@ -16,7 +16,6 @@ use Cake\View\Helper\UrlHelper;
  */
 class TeamsController extends AppController
 {
-
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);

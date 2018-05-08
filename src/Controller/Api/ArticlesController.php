@@ -11,7 +11,6 @@ use Cake\Event\Event;
  */
 class ArticlesController extends AppController
 {
-
     public $paginate = [
         'page' => 1,
         'limit' => 5,

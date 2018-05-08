@@ -21,5 +21,4 @@ use Cake\ORM\Entity;
  */
 class VwMembersStat extends Entity
 {
-
 }

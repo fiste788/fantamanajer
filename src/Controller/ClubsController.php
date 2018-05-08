@@ -15,7 +15,6 @@ use Cake\Network\Response;
  */
 class ClubsController extends AppController
 {
-
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
