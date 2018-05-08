@@ -137,4 +137,21 @@ class Application extends BaseApplication
 
         return new AuthorizationService($resolver);
     }
+    
+    /**
+     * Define the console commands for an application.
+     *
+     * @param \Cake\Console\CommandCollection $commands The CommandCollection to add commands into.
+     * @return \Cake\Console\CommandCollection The updated collection.
+     */
+    public function console($commands)
+    {
+        $commands->add('weekly_script', Command\WeeklyScriptCommand::class);
+        $commands->add('matchday update', Command\UpdateMatchdayCommand::class);
+        $commands->add('matchday update_calendar', Command\UpdateCalendarCommand::class);
+
+        $commands->addMany($commands->autoDiscover());
+
+        return $commands;
+    }
 }

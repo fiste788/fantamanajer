@@ -45,7 +45,7 @@ class Score extends Entity
         $lineups = TableRegistry::get('Lineups');
         $this->lineup = $lineups->find('last', [
             'matchday' => $this->matchday,
-            'team' => $this->team
+            'team_id' => $this->team->id
         ])->find('withRatings', ['matchday_id' => $this->matchday_id])->first();
         if ($this->lineup == null || ($this->lineup->matchday_id != $this->matchday->id && $championship->points_missed_lineup == 0)) {
             $this->real_points = 0;
