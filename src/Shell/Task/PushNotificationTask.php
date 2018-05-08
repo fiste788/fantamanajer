@@ -18,7 +18,6 @@ use Minishlink\WebPush\WebPush;
  */
 class PushNotificationTask extends Shell
 {
-
     use CurrentMatchdayTrait;
 
     /**

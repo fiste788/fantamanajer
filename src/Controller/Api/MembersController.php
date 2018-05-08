@@ -27,8 +27,8 @@ class MembersController extends AppController
             'beforePaginate',
             function (Event $event) use ($team_id) {
                 $event->getSubject()->query->contain(['Clubs', 'Players']);
-                if($team_id != null) {
-                     $event->getSubject()->query->matching('Teams', function($q) use ($team_id) {
+                if ($team_id != null) {
+                    $event->getSubject()->query->matching('Teams', function ($q) use ($team_id) {
                         return $q->where(['Teams.id' => $team_id]);
                     });
                 }

@@ -183,9 +183,9 @@ class MembersTable extends Table
     {
         return $query->contain(
                     ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q2) {
-                            return $q2->contain(['Matchdays'])
+                        return $q2->contain(['Matchdays'])
                                 ->order(['Matchdays.number' => 'ASC']);
-                        }]
+                    }]
                 )
                 ->order(['Seasons.year' => 'DESC']);
     }
@@ -219,14 +219,14 @@ class MembersTable extends Table
         return $this->find('all')
                 ->contain(
                     ['Players', 'Ratings' => function (Query $q) use ($matchday) {
-                            return $q->where(['matchday_id' => $matchday->id]);
-                        }]
+                        return $q->where(['matchday_id' => $matchday->id]);
+                    }]
                 )
                 ->innerJoinWith(
                     'Ratings',
                     function (Query $q) use ($matchday) {
-                    return $q->where(['matchday_id' => $matchday->id]);
-                }
+                        return $q->where(['matchday_id' => $matchday->id]);
+                    }
                 )
                 ->innerJoinWith('Roles')
                 ->where(['Roles.id' => $role->id])

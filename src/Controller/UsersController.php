@@ -17,7 +17,6 @@ use Cake\ORM\TableRegistry;
  */
 class UsersController extends AppController
 {
-
     public function initialize()
     {
         parent::initialize();

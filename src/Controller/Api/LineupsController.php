@@ -12,7 +12,6 @@ use Cake\ORM\TableRegistry;
  */
 class LineupsController extends AppController
 {
-
     public function current()
     {
         $teamsTable = TableRegistry::get('Teams');

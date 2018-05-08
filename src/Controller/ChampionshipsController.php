@@ -17,7 +17,6 @@ use Cake\Routing\Router;
  */
 class ChampionshipsController extends AppController
 {
-
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
