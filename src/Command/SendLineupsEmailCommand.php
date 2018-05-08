@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Shell\Task;
+namespace App\Command;
 
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
 use App\Traits\CurrentMatchdayTrait;
-use Cake\Console\Shell;
+use Cake\Console\Arguments;
+use Cake\Console\Command;
+use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOptionParser;
 use Cake\Mailer\Email;
 use Cake\ORM\Query;
 use Cake\Utility\Hash;
@@ -14,7 +17,7 @@ use Cake\Utility\Hash;
  * @property \App\Model\Table\ChampionshipsTable $Championships
  * @property \App\Model\Table\TeamsTable $Teams
  */
-class LineupTask extends Shell
+class SendLineupsEmailCommand extends Command
 {
 
     use CurrentMatchdayTrait;
@@ -27,11 +30,13 @@ class LineupTask extends Shell
         $this->getCurrentMatchday();
     }
 
-    public function getOptionParser()
+    public function buildOptionParser(ConsoleOptionParser $parser)
     {
-        $parser = parent::getOptionParser();
-        $parser->addSubcommand('send_email');
-        $parser->addOption('force', ['boolean' => true]);
+        $parser->addOption('force', [
+            'help' => 'Force the execution time.',
+            'short' => 'f',
+            'boolean' => true
+        ]);
         $parser->addOption('no-interaction', [
             'short' => 'n',
             'help' => 'Disable interaction',
@@ -42,18 +47,10 @@ class LineupTask extends Shell
         return $parser;
     }
 
-    public function startup()
-    {
-        parent::startup();
-        if ($this->param('no-interaction')) {
-            $this->interactive = false;
-        }
-    }
-
-    public function sendEmail()
+    public function execute(Arguments $args, ConsoleIo $io)
     {
         $date = $this->currentMatchday->date;
-        if ($date->wasWithinLast('59 seconds') || $this->param('force')) {
+        if ($date->wasWithinLast('59 seconds') || $args->getOption('force')) {
             $championships = $this->Championships->find()
                 ->contain(['Teams' => function (Query $q) {
                     return $q->contain(['Users'])
@@ -61,8 +58,9 @@ class LineupTask extends Shell
                             return $q->where(['name' => 'lineups', 'enabled' => true]);
                         });
                 }])->where(['season_id' => $this->currentSeason->id]);
-            foreach ($championships as $championship) {
+            foreach ($championships->all() as $championship) {
                 $this->sendLineupsChampionship($championship, $this->currentMatchday);
+                $io->out('Lineups sended to championship ' . $championship->name);
             }
         }
     }
