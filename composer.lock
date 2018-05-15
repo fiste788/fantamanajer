@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authentication.git",
-                "reference": "f109016ced4c1e3c2699b01ada832b2cad7f82fc"
+                "reference": "3c03a8621d09789e169f4dc1e84c7f8cbd737ee7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authentication/zipball/f109016ced4c1e3c2699b01ada832b2cad7f82fc",
-                "reference": "f109016ced4c1e3c2699b01ada832b2cad7f82fc",
+                "url": "https://api.github.com/repos/cakephp/authentication/zipball/3c03a8621d09789e169f4dc1e84c7f8cbd737ee7",
+                "reference": "3c03a8621d09789e169f4dc1e84c7f8cbd737ee7",
                 "shasum": ""
             },
             "require": {
@@ -157,7 +157,7 @@
                 "cakephp",
                 "middleware"
             ],
-            "time": "2018-05-03T20:22:53+00:00"
+            "time": "2018-05-09T01:49:55+00:00"
         },
         {
             "name": "cakephp/authorization",
@@ -165,12 +165,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authorization.git",
-                "reference": "9d98931e8baf7fb7abe60a1cf7850fb2a87b1de8"
+                "reference": "6003820e1ece3d94469828b993eea396ff6a8a89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authorization/zipball/9d98931e8baf7fb7abe60a1cf7850fb2a87b1de8",
-                "reference": "9d98931e8baf7fb7abe60a1cf7850fb2a87b1de8",
+                "url": "https://api.github.com/repos/cakephp/authorization/zipball/6003820e1ece3d94469828b993eea396ff6a8a89",
+                "reference": "6003820e1ece3d94469828b993eea396ff6a8a89",
                 "shasum": ""
             },
             "require": {
@@ -210,20 +210,20 @@
                 "authorization",
                 "cakephp"
             ],
-            "time": "2018-05-01T14:37:43+00:00"
+            "time": "2018-05-12T03:14:04+00:00"
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.6.2",
+            "version": "3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "9739f275edd4f97c2a50dc028d870ce51e7aa058"
+                "reference": "1cfebf6c6719a2a743d9a3e59ee091a726f18844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/9739f275edd4f97c2a50dc028d870ce51e7aa058",
-                "reference": "9739f275edd4f97c2a50dc028d870ce51e7aa058",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/1cfebf6c6719a2a743d9a3e59ee091a726f18844",
+                "reference": "1cfebf6c6719a2a743d9a3e59ee091a726f18844",
                 "shasum": ""
             },
             "require": {
@@ -296,7 +296,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2018-04-28T02:02:20+00:00"
+            "time": "2018-05-13T23:20:49+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -1219,16 +1219,16 @@
         },
         {
             "name": "lavary/crunz",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lavary/crunz.git",
-                "reference": "d5f82e1f9f7045fcd2934e902ada466c78eef5a2"
+                "reference": "a3993069ffbd9629fd1a41d29cb17696276bedcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lavary/crunz/zipball/d5f82e1f9f7045fcd2934e902ada466c78eef5a2",
-                "reference": "d5f82e1f9f7045fcd2934e902ada466c78eef5a2",
+                "url": "https://api.github.com/repos/lavary/crunz/zipball/a3993069ffbd9629fd1a41d29cb17696276bedcf",
+                "reference": "a3993069ffbd9629fd1a41d29cb17696276bedcf",
                 "shasum": ""
             },
             "require": {
@@ -1290,7 +1290,7 @@
                 "cron jobs",
                 "scheduler"
             ],
-            "time": "2018-04-22T05:29:09+00:00"
+            "time": "2018-05-13T19:36:16+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1497,16 +1497,16 @@
         },
         {
             "name": "minishlink/web-push",
-            "version": "v4.0.1",
+            "version": "v4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-push-libs/web-push-php.git",
-                "reference": "74bc0acb11112005cfebc918892640df39981470"
+                "reference": "5c2d2a5003e338c1ef23604204a9bcaa9d944a24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/74bc0acb11112005cfebc918892640df39981470",
-                "reference": "74bc0acb11112005cfebc918892640df39981470",
+                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/5c2d2a5003e338c1ef23604204a9bcaa9d944a24",
+                "reference": "5c2d2a5003e338c1ef23604204a9bcaa9d944a24",
                 "shasum": ""
             },
             "require": {
@@ -1546,7 +1546,7 @@
                 "push",
                 "web"
             ],
-            "time": "2018-04-12T12:21:58+00:00"
+            "time": "2018-05-13T14:59:18+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -3796,16 +3796,16 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "3.15.3",
+            "version": "3.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "e1961268e3b30ac05aa3a5bd1a0ca043f4397580"
+                "reference": "eaaf2f6bf7be23c249e2924c1fe36be013bde84a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/e1961268e3b30ac05aa3a5bd1a0ca043f4397580",
-                "reference": "e1961268e3b30ac05aa3a5bd1a0ca043f4397580",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/eaaf2f6bf7be23c249e2924c1fe36be013bde84a",
+                "reference": "eaaf2f6bf7be23c249e2924c1fe36be013bde84a",
                 "shasum": ""
             },
             "require": {
@@ -3852,7 +3852,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2018-04-29T19:27:19+00:00"
+            "time": "2018-05-07T20:10:22+00:00"
         },
         {
             "name": "composer/ca-bundle",

@@ -42,7 +42,8 @@ class LineupsController extends \App\Controller\LineupsController
             });
         }
         $this->Crud->on('afterFind', function (Event $event) use ($team) {
-            if ($event->getSubject()->entity->team_id == $team) {
+            $lineup = $event->getSubject()->entity;
+            if ($lineup->team_id == $team && $lineup->matchday_id != $this->currentMatchday->id) {
                 $event->getSubject()->entity = $event->getSubject()->entity->copy($this->currentMatchday, true, false);
             }
             $event->getSubject()->entity->modules = Lineup::$module;

@@ -116,7 +116,7 @@ Router::scope('/', function (RouteBuilder $routes) {
             'only' => 'index'
             ]);
 
-            $routes->connect('/members/free/{role_id}', [
+            $routes->connect('/members/free/:role_id', [
                 'controller' => 'Members',
                 'action' => 'free',
                 'prefix' => 'championships'
@@ -166,7 +166,7 @@ Router::scope('/', function (RouteBuilder $routes) {
                 ],
             ]
             ]);
-            $routes->connect('/scores/{matchday_id}', [
+            $routes->connect('/scores/:matchday_id', [
                 'controller' => 'Scores',
                 'action' => 'viewByMatchday',
                 'prefix' => 'teams'
