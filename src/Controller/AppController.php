@@ -85,4 +85,11 @@ class AppController extends Controller
             }
         }
     }
+    
+    public function beforeRender(Event $event)
+    {
+        $this->RequestHandler->renderAs($this, 'json');
+        $this->getResponse()->withType('application/json');
+        parent::beforeRender($event);
+    }
 }

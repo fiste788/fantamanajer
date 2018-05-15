@@ -224,5 +224,7 @@ Plugin::load('CakeScheduler');
  * Debug Kit should not be installed on a production system
  */
 if (Configure::read('debug')) {
-    //Plugin::load('DebugKit', ['bootstrap' => true]);
+    Configure::write('DebugKit.includeSchemaReflection', false);
+	Configure::write('DebugKit.forceEnable', true);
+    Plugin::load('DebugKit', ['bootstrap' => true]);
 }

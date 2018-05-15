@@ -2,7 +2,6 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Cake\Routing\Router;
 
 /**
  * Team Entity.
