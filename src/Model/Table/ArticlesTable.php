@@ -26,6 +26,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Article findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \App\Model\Entity\Article|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ArticlesTable extends Table
 {
@@ -74,7 +75,7 @@ class ArticlesTable extends Table
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        $data['matchday_id'] = TableRegistry::get('Matchdays')->findCurrent()->id;
+        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
         if (array_key_exists('created_at', $data)) {
             unset($data['created_at']);
         }
@@ -131,17 +132,26 @@ class ArticlesTable extends Table
 
     /**
      *
-     * @param int $championshipId
+     * @param int $q
      * @return Query
      */
-    public function findByChampionshipId($championshipId)
+    public function findByChampionshipId(Query $q, array $options)
     {
-        return $this->find()->matching(
-            'Teams',
-            function (Query $q) use ($championshipId) {
-                return $q->where(['Teams.championship_id' => $championshipId]);
-            }
-        );
+        return $q->contain(['Teams' => [
+                'fields' => ['id', 'name']
+            ]])->orderDesc('created_at')
+            ->where(['championship_id' => $options['championship_id']]);
+    }
+
+    /**
+     *
+     * @param int $q
+     * @return Query
+     */
+    public function findByTeamId(Query $q, array $options)
+    {
+        return $q->orderDesc('created_at')
+            ->where(['team_id' => $options['team_id']]);
     }
 
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)

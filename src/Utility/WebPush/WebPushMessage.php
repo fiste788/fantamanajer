@@ -92,6 +92,8 @@ class WebPushMessage implements JsonSerializable
     protected $data = [];
 
     /**
+     * Create new push message
+     *
      * @param array $data
      *
      * @return static
@@ -102,6 +104,8 @@ class WebPushMessage implements JsonSerializable
     }
 
     /**
+     * Create new push message
+     *
      * @param array $data
      */
     public function __construct($data = [])
@@ -164,6 +168,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the badge.
+     *
+     * @param type $badge
+     * @return $this
+     */
     public function badge($badge)
     {
         $this->badge = $badge;
@@ -171,6 +181,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the direction.
+     *
+     * @param type $dir
+     * @return $this
+     */
     public function dir($dir)
     {
         $this->dir = $dir;
@@ -178,6 +194,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the language.
+     *
+     * @param string $lang
+     * @return $this
+     */
     public function lang($lang)
     {
         $this->lang = $lang;
@@ -185,6 +207,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the renotify
+     *
+     * @param bool $renotify
+     * @return $this
+     */
     public function renotify($renotify)
     {
         $this->renotify = $renotify;
@@ -192,6 +220,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the require interaction.
+     *
+     * @param bool $requireInteraction
+     * @return $this
+     */
     public function requireInteraction($requireInteraction)
     {
         $this->requireInteraction = $requireInteraction;
@@ -199,6 +233,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the tag.
+     *
+     * @param type $tag
+     * @return $this
+     */
     public function tag($tag)
     {
         $this->tag = $tag;
@@ -206,6 +246,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the vibrate times.
+     *
+     * @param array $vibrate
+     * @return $this
+     */
     public function vibrate($vibrate)
     {
         $this->vibrate = $vibrate;
@@ -213,6 +259,12 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Set the data array
+     *
+     * @param array $data
+     * @return $this
+     */
     public function data($data = [])
     {
         $this->data = $data;
@@ -220,6 +272,11 @@ class WebPushMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Serialize the message
+     *
+     * @return string
+     */
     public function jsonSerialize()
     {
         return [

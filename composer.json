@@ -4,31 +4,43 @@
     "homepage": "https://fantamanajer.it",
     "type": "project",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/fiste788/crunz"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/fiste788/cake-scheduler"
+        }
+    ],
     "require": {
-        "php": ">=5.6",
-        "cakephp/cakephp": "3.5.*",
-        "cakephp/migrations": "^1.0",
+        "php": ">=7.0",
+        "admad/cakephp-jwt-auth": "^2.0",
+        "cakephp/authentication": "dev-master",
+        "cakephp/authorization": "dev-master",
+        "cakephp/cakephp": "3.6.*",
+        "cakephp/migrations": "^1.8",
         "cakephp/plugin-installer": "^1.0",
-        "josegonzalez/dotenv": "2.*",
+        "fiste788/cake-scheduler": "dev-master as 1.0",
+        "friendsofcake/crud": "^5.4",
+        "josegonzalez/cakephp-upload": "^3.7",
+        "josegonzalez/dotenv": "3.*",
+        "lavary/crunz": "^1.5.1",
+        "minishlink/web-push": "^4.0",
         "mobiledetect/mobiledetectlib": "2.*",
         "ozee31/cakephp-cors": "^1.1",
-        "friendsofcake/crud": "5.2.*",
-        "admad/cakephp-jwt-auth": "^2.0",
-        "symfony/dom-crawler": "^3.3",
-        "symfony/css-selector": "^3.3",
-        "josegonzalez/cakephp-upload": "^3.7",
-        "minishlink/web-push": "^2.0"
+        "spatie/image": "^1.4",
+        "symfony/css-selector": "^4.0",
+        "symfony/dom-crawler": "^4.0"
     },
     "require-dev": {
-        "cakephp/bake": "^1.1",
+        "cakephp/bake": "^1.7",
         "cakephp/cakephp-codesniffer": "^3.0",
-        "cakephp/debug_kit": "^3.2",
-        "dereuromark/cakephp-ide-helper": "^0.10.10",
-        "leafo/scssphp": "dev-master",
-        "markstory/asset_compress": "dev-master",
-        "natxet/CssMin": "dev-master",
-        "psy/psysh": "@stable",
-        "tedivm/jshrink": "dev-master"
+        "cakephp/debug_kit": "^3.15.0",
+        "dereuromark/cakephp-ide-helper": "^0.11.1",
+        "phpunit/phpunit": "^5.7|^6.0",
+        "psy/psysh": "@stable"
     },
     "suggest": {
         "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
@@ -59,7 +71,6 @@
         "cs-fix": "phpcbf --colors --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
         "test": "phpunit --colors=always"
     },
-    "prefer-stable": true,
     "config": {
         "sort-packages": true
     }

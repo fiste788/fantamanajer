@@ -1,15 +1,14 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Season;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Clubs Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property MembersTable|\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Club get($primaryKey, $options = [])
  * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
@@ -18,6 +17,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Club[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Club findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Club|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ClubsTable extends Table
 {
@@ -90,20 +90,11 @@ class ClubsTable extends Table
         return $validator;
     }
 
-    /**
-     *
-     * @param Season $season
-     * @return type
-     */
-    public function findBySeason($season)
+    public function findBySeasonId(Query $q, array $options)
     {
-        $members = TableRegistry::get('Members');
-        $ids = $members->find()->select(['club_id'])->distinct(['club_id'])->where(['season_id' => $season->id]);
-
-        return $this->find('all')->where(
-            [
-            'id IN' => $ids
-            ]
-        )->order(['name'])->all();
+        return $q->innerJoinWith('Members', function (Query $q) use ($options) {
+            return $q->where(['season_id' => $options['season_id']]);
+        })->group('Clubs.id')
+            ->orderAsc('name');
     }
 }

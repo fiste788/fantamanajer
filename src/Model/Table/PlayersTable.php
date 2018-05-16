@@ -2,13 +2,14 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Association\HasMany;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Players Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property MembersTable|\Cake\ORM\Association\HasMany $Members
  * @property HasMany $View0LineupsDetails
  * @property HasMany $View0Members
  * @property HasMany $View1MembersStats
@@ -19,6 +20,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Player patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Player[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Player findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Player|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PlayersTable extends Table
 {
@@ -65,5 +67,12 @@ class PlayersTable extends Table
             ->notEmpty('surname');
 
         return $validator;
+    }
+
+    public function findWithDetails(Query $q, array $options)
+    {
+        return $q->contain(['Members' => function (Query $q) use ($options) {
+            return $q->find('withDetails', ['championship_id' => $options['championship_id']]);
+        }]);
     }
 }

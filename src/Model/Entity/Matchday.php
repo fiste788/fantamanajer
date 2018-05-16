@@ -3,9 +3,6 @@ namespace App\Model\Entity;
 
 use Cake\I18n\Time;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
-use DateTime;
-use PDO;
 
 /**
  * Matchday Entity.

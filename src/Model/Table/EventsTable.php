@@ -18,6 +18,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Event patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Event[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Event findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Event|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class EventsTable extends Table
 {
@@ -87,18 +88,10 @@ class EventsTable extends Table
         return $rules;
     }
 
-    /**
-     *
-     * @param int $championshipId
-     * @return Query
-     */
-    public function findByChampionshipId($championshipId)
+    public function findByChampionshipId(Query $query, array $options)
     {
-        return $this->find()->matching(
-            'Teams',
-            function (Query $q) use ($championshipId) {
-                return $q->where(['Teams.championship_id' => $championshipId]);
-            }
-        );
+        return $query->contain(['Teams' => ['fields' => ['id', 'name']]])
+            ->where(['Teams.championship_id' => $options['championship_id']])
+            ->orderDesc('created_at');
     }
 }

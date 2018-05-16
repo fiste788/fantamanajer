@@ -21,6 +21,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Season patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Season[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Season findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Season|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class SeasonsTable extends Table
 {

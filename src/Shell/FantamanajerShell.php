@@ -23,6 +23,7 @@ use Cake\Utility\Inflector;
  * @property PushNotificationTask $PushNotificationTask
  * @property \App\Shell\Task\UserTask $User
  * @property \App\Shell\Task\PushNotificationTask $PushNotification
+ * @property \App\Shell\Task\LineupTask $Lineup
  */
 class FantamanajerShell extends Shell
 {
@@ -33,12 +34,21 @@ class FantamanajerShell extends Shell
         'Transfert',
         'DownloadPhotos',
         'User',
-        'PushNotification'
+        'PushNotification',
+        'Lineup'
     ];
 
     public function main()
     {
         $this->_io->outputAs(ConsoleOutput::COLOR);
+    }
+
+    public function startup(): void
+    {
+        parent::startup();
+        if ($this->param('no-interaction')) {
+            $this->interactive = false;
+        }
     }
 
     public function startSeason()
@@ -59,6 +69,11 @@ class FantamanajerShell extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
+        $parser->addOption('no-interaction', [
+            'short' => 'n',
+            'help' => 'Disable interaction',
+            'boolean' => true
+        ]);
         $parser->addSubcommand(
             'start_season',
             [

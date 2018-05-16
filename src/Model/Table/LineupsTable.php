@@ -14,7 +14,6 @@ use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -23,23 +22,24 @@ use Cake\Validation\Validator;
  * @property MembersTable|BelongsTo $Members
  * @property MembersTable|BelongsTo $Members
  * @property MembersTable|BelongsTo $Members
- * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property ScoresTable|\Cake\ORM\Association\HasOne $Scores
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasOne $Scores
  * @property \App\Model\Table\View0LineupsDetailsTable|HasMany $View0LineupsDetails
  *
- * @method Lineup get($primaryKey, $options = [])
- * @method Lineup newEntity($data = null, array $options = [])
- * @method Lineup[] newEntities(array $data, array $options = [])
- * @method Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method Lineup[] patchEntities($entities, array $data, array $options = [])
- * @method Lineup findOrCreate($search, callable $callback = null, $options = [])
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $Captain
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
+ * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Captain
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \App\Model\Entity\Lineup|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LineupsTable extends Table
 {
@@ -146,7 +146,7 @@ class LineupsTable extends Table
         $validator
             ->boolean('jolly')
             ->allowEmpty('jolly');
-        
+
         $validator
             ->boolean('cloned')
             ->allowEmpty('cloned');
@@ -171,13 +171,12 @@ class LineupsTable extends Table
         $rules->add(
             function (Lineup $entity, $options) {
                 if ($entity->jolly) {
-                    $matchday = TableRegistry::get('Matchdays')->get($entity->matchday_id);
-                    $matchdays = TableRegistry::get('Matchdays')
-                    ->find()
-                    ->where(['season_id' => $matchday->season_id])
-                    ->count();
+                    $matchday = $this->Matchdays->get($entity->matchday_id);
+                    $matchdays = $this->Matchdays->find()
+                        ->where(['season_id' => $matchday->season_id])
+                        ->count();
 
-                    return TableRegistry::get('Lineups')->find()
+                    return $this->find()
                         ->contain(['Matchdays'])
                         ->innerJoinWith('Matchdays')
                         ->where([
@@ -201,17 +200,17 @@ class LineupsTable extends Table
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
+            $ev = $this->Teams->Events->newEntity();
             $ev->type = Event2::NEW_LINEUP;
             $ev->team_id = $entity['team_id'];
             $ev->external = $entity['id'];
-            $events->save($ev);
+            $this->Teams->Events->save($ev);
         }
     }
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
+        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
         if (array_key_exists('created_at', $data)) {
             unset($data['created_at']);
         }
@@ -220,73 +219,73 @@ class LineupsTable extends Table
         }
     }
 
-    public function findStatsByMatchdayAndTeam($matchday_id, $team_id)
+    public function findDetails(Query $q, array $options)
     {
-        return $this->find()
-                ->contain(
-                    [
-                        'Teams',
-                        'Dispositions' => [
-                            'Members' => [
-                                'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($matchday_id) {
-                                    return $q->where(['matchday_id' => $matchday_id]);
-                                }
-                            ]
-                        ]
-                    ]
-                )->where(['team_id' => $team_id, 'matchday_id' => $matchday_id])->first();
+        return $q->contain([
+            'Teams',
+            'Dispositions' => [
+                'Members' => [
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
+                        return $q->where(['matchday_id' => $options['matchday_id']]);
+                    }]
+                ]
+            ])->where([
+                'team_id' => $options['team_id'],
+                'matchday_id' => $options['matchday_id']
+            ]);
     }
 
     /**
-     *
-     * @param LineupsTable $matchday
-     * @param Matchday                         $team
-     * @param Team                              $team
-     * @return Lineup
+     * 
+     * @param Query $q
+     * @param array $options
+     * @return Query
      */
-    public function findLast(Matchday $matchday, Team $team)
+    public function findLast(Query $q, array $options)
     {
-        return $this->find()
-                ->innerJoinWith('Matchdays')
+        return $q->innerJoinWith('Matchdays')
                 ->contain(['Dispositions'])
                 ->where([
-                    'Lineups.team_id' => $team->id,
-                    'Lineups.matchday_id <=' => $matchday->id,
-                    'Matchdays.season_id' => $matchday->season_id
+                    'Lineups.team_id' => $options['team_id'],
+                    'Lineups.matchday_id <=' => $options['matchday']->id,
+                    'Matchdays.season_id' => $options['matchday']->season_id
                 ])
                 ->order(['Matchdays.number' => 'DESC']);
     }
 
-    /**
-     *
-     * @param LineupsTable $matchday
-     * @param Matchday                      $team
-     * @param Team                          $team
-     * @return Lineup
-     */
-    public function findLastWithRatings(Matchday $matchday, Team $team)
+    public function findByMatchdayIdAndTeamId(Query $q, array $options)
     {
-        return $this->findLast($matchday, $team)
-                ->contain([
-                    'Teams.Championships',
-                    'Dispositions' => [
-                        'Members' => function (Query $q) use ($matchday) {
-                            return $q->find(
-                                'list',
-                                [
+        return $q->contain(['Dispositions'])
+                ->where([
+                    'Lineups.team_id' => $options['team_id'],
+                    'Lineups.matchday_id =' => $options['matchday_id'],
+                ]);
+    }
+
+    public function findWithRatings(Query $q, array $options)
+    {
+        $matchdayId = $options['matchday_id'];
+
+        return $q->contain([
+                'Teams.Championships',
+                'Dispositions' => [
+                    'Members' => function (Query $q) use ($matchdayId) {
+                        return $q->find(
+                            'list',
+                            [
                                         'keyField' => 'id',
                                         'valueField' => function ($obj) {
                                             return $obj;
                                         }
                                     ]
-                            )
+                        )
                                 ->contain(
-                                    ['Ratings' => function (Query $q) use ($matchday) {
-                                        return $q->where(['Ratings.matchday_id' => $matchday->id]);
+                                    ['Ratings' => function (Query $q) use ($matchdayId) {
+                                            return $q->where(['Ratings.matchday_id' => $matchdayId]);
                                     }
                                     ]
                                 );
-                        }
-                    ]]);
+                    }
+                ]]);
     }
 }

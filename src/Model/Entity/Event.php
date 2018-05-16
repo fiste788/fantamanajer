@@ -126,7 +126,7 @@ class Event extends Entity
         if (!is_null($member)) {
             $this->title = $player->name . ' ' . $player->surname . ' (' . $member->club->name . ') inserito nella lista giocatori';
             $this->body = ucwords($member->role->determinant) . ' ' . strtolower($member->role->singolar) . ' ' . $player . ' ora fa parte della rosa ' . $member->club->partitive . ' ' . $member->club->name;
-            $this->link = Router::generate('players_show', ['edit' => 'view', 'id' => $player->id]);
+            //$this->link = Router::generate('players_show', ['edit' => 'view', 'id' => $player->id]);
         }
     }
 
@@ -136,7 +136,7 @@ class Event extends Entity
         $player = $member->player;
         $this->title = $player . ' (ex ' . $member->club->name . ') non fa più parte della lista giocatori';
         $this->body = ucwords($member->role->determinant) . ' ' . strtolower($member->role->singolar) . ' ' . $player . ' non è più un giocatore ' . $member->club->partitive . ' ' . $member->club->name;
-        $this->link = Router::generate('player_show', ['edit' => 'view', 'id' => $member->id]);
+        //$this->link = Router::generate('player_show', ['edit' => 'view', 'id' => $member->id]);
     }
 
     protected function processEditClub()
@@ -145,6 +145,6 @@ class Event extends Entity
         $player = $member->player;
         $this->title = ucwords($member->club->determinant) . ' ' . $member->club->name . ' ha ingaggiato ' . $player;
         $this->body = '';
-        $this->link = Router::generate('player_show', ['edit' => 'view', 'id' => $member->id]);
+        //$this->link = Router::generate('player_show', ['edit' => 'view', 'id' => $member->id]);
     }
 }

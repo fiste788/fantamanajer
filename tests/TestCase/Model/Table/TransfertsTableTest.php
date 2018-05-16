@@ -27,9 +27,6 @@ class TransfertsTableTest extends TestCase
         'app.transferts',
         'app.members',
         'app.players',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.roles',
         'app.clubs',
         'app.seasons',
@@ -43,14 +40,9 @@ class TransfertsTableTest extends TestCase
         'app.dispositions',
         'app.ratings',
         'app.scores',
-        'app.view0_max_points',
         'app.events',
         'app.selections',
-        'app.view1_matchday_win',
-        'app.members_teams',
-        'app.view2_teams_stats',
-        'app.view2_clubs_stats',
-        'app.view0_members_only_stats'
+        'app.members_teams'
     ];
 
     /**

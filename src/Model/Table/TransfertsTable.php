@@ -2,10 +2,11 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Event as Event2;
+use App\Model\Entity\Transfert;
 use ArrayObject;
-use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Association\BelongsTo;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -16,10 +17,10 @@ use Cake\Validation\Validator;
  *
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
  * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
@@ -27,6 +28,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Transfert|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class TransfertsTable extends Table
 {
@@ -114,13 +116,28 @@ class TransfertsTable extends Table
         return $rules;
     }
 
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function findByTeamId(Query $q, array $options)
+    {
+        return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
+            ->where(['team_id' => $options['team_id']]);
+    }
+
+    public function afterSave(Event $event, Transfert $entity, ArrayObject $options)
     {
         $events = TableRegistry::get('Events');
         $ev = $events->newEntity();
         $ev->type = Event2::NEW_TRANSFERT;
-        $ev->team_id = $entity['team_id'];
-        $ev->external = $entity['id'];
+        $ev->team_id = $entity->team_id;
+        $ev->external = $entity->id;
         $events->save($ev);
+
+        $lineups = TableRegistry::get('Lineups');
+        $lineup = $lineups->find()
+            ->contain(['Dispositions'])
+            ->where(['team_id' => $entity->team_id, 'matchday_id' => $entity->matchday_id])
+            ->first();
+        if ($lineup && $lineup->substitute($entity->old_member_id, $entity->new_member_id)) {
+            $lineups->save($lineup, true);
+        }
     }
 }

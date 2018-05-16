@@ -30,9 +30,6 @@ class MembersTeamsTableTest extends TestCase
         'app.players',
         'app.roles',
         'app.clubs',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.seasons',
         'app.dispositions',
         'app.lineups',
@@ -40,9 +37,7 @@ class MembersTeamsTableTest extends TestCase
         'app.articles',
         'app.ratings',
         'app.scores',
-        'app.transferts',
-        'app.view0_max_points',
-        'app.view0_members_only_stats'
+        'app.transferts'
     ];
 
     /**

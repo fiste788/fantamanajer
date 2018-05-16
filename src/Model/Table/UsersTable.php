@@ -14,17 +14,18 @@ use Firebase\JWT\JWT;
 /**
  * Users Model
  *
- * @property TeamsTable|\Cake\ORM\Association\HasMany $Teams
- * @property SubscriptionsTable|\Cake\ORM\Association\HasMany $Subscriptions
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
+ * @property \App\Model\Table\PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
  * @property HasMany $View2TeamsStats
  *
- * @method User get($primaryKey, $options = [])
- * @method User newEntity($data = null, array $options = [])
- * @method User[] newEntities(array $data, array $options = [])
- * @method User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method User[] patchEntities($entities, array $data, array $options = [])
- * @method User findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\User get($primaryKey, $options = [])
+ * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\User|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class UsersTable extends Table
 {
@@ -51,7 +52,7 @@ class UsersTable extends Table
             ]
         );
         $this->hasMany(
-            'Subscriptions',
+            'PushSubscriptions',
             [
                 'foreignKey' => 'user_id',
             ]
@@ -147,7 +148,7 @@ class UsersTable extends Table
                     'sub' => $subject,
                     'exp' => time() + ($days * 24 * 60 * 60)
                 ],
-            Security::salt()
+            Security::getSalt()
         );
     }
 }
