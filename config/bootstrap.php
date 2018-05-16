@@ -86,6 +86,8 @@ try {
 if (Configure::read('debug')) {
     Configure::write('Cache._cake_model_.duration', '+2 minutes');
     Configure::write('Cache._cake_core_.duration', '+2 minutes');
+    // disable router cache during development
+    Configure::write('Cache._cake_routes_.duration', '+2 seconds');
 }
 
 /*
@@ -93,7 +95,7 @@ if (Configure::read('debug')) {
  * choice but using UTC makes time calculations / conversions easier.
  * Check http://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
-date_default_timezone_set('UTC');
+date_default_timezone_set(Configure::read('App.defaultTimezone'));
 
 /*
  * Configure the mbstring extension to use the correct encoding.
@@ -207,17 +209,22 @@ Type::build('timestamp')
  *
  */
 
+Plugin::load('Authentication');
+Plugin::load('Authorization');
 Plugin::load('Crud');
 Plugin::load('Cors', ['bootstrap' => true, 'routes' => false]);
 Plugin::load('ADmad/JwtAuth');
 Plugin::load('Josegonzalez/Upload');
 Plugin::load('Migrations');
 Plugin::load('Bake');
+Plugin::load('CakeScheduler');
 
 /*
  * Only try to load DebugKit in development mode
  * Debug Kit should not be installed on a production system
  */
 if (Configure::read('debug')) {
+    Configure::write('DebugKit.includeSchemaReflection', false);
+	Configure::write('DebugKit.forceEnable', true);
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }

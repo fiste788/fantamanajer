@@ -2,14 +2,15 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Season;
-use App\Model\Entity\User;
-use Cake\ORM\Association\HasMany;
+use App\Model\Entity\Team;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\RepositoryInterface;
+use Cake\Filesystem\File;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Spatie\Image\Image;
 
 /**
  * Teams Model
@@ -31,6 +32,9 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
+ * @method \App\Model\Entity\Team|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
+ * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
  */
 class TeamsTable extends Table
 {
@@ -52,110 +56,121 @@ class TeamsTable extends Table
         $this->addBehavior(
             'Josegonzalez/Upload.Upload',
             [
-            'photo' => [
-                'path' => 'webroot{DS}files{DS}{model}{DS}{primaryKey}{DS}{field}{DS}',
-                'fields' => [
-                    // if these fields or their defaults exist
-                    // the values will be set.
-                    'dir' => 'photo_dir', // defaults to `dir`
-                    'size' => 'photo_size', // defaults to `size`
-                    'type' => 'photo_type', // defaults to `type`
+                'photo_data' => [
+                    'path' => 'webroot{DS}files{DS}{table}{DS}{primaryKey}{DS}photo{DS}',
+                    'fields' => [
+                        'dir' => 'photo_dir', // defaults to `dir`
+                        'size' => 'photo_size', // defaults to `size`
+                        'type' => 'photo_type', // defaults to `type`
+                    ],
+                    'nameCallback' => function ($data, $settings) {
+                        return strtolower($data['name']);
+                    },
+                    'transformer' => function (RepositoryInterface $table, EntityInterface $entity, $data, $field, $settings) {
+                        $tmpFile = new File($data['name']);
+                        $image = Image::load($data['tmp_name']);
+                        $array = [$data['tmp_name'] => $data['name']];
+                        foreach (Team::$size as $value) {
+                            if ($value < $image->getWidth()) {
+                                $tmp = tempnam(TMP, $value) . '.' . $tmpFile->ext();
+                                $image->width($value)->save($tmp);
+                                $array[$tmp] = $value . 'w' . DS . $data['name'];
+                            }
+                        }
+
+                        return $array;
+                    },
+                    'deleteCallback' => function ($path, $entity, $field, $settings) {
+                        // When deleting the entity, both the original and the thumbnail will be removed
+                        // when keepFilesOnDelete is set to false
+                        $array = [$path . $entity->{$field}];
+                        foreach (Team::$size as $value) {
+                            $array[] = $path . $value . DS . $entity->{$field};
+                        }
+
+                        return $array;
+                    },
+                    'keepFilesOnDelete' => false
                 ],
-                'nameCallback' => function ($data, $settings) {
-                    return strtolower($data['name']);
-                },
-                /* 'transformer' =>  function ($table, $entity, $data, $field, $settings) {
-                  $extension = pathinfo($data['name'], PATHINFO_EXTENSION);
-
-                  // Store the thumbnail in a temporary file
-                  $tmp = tempnam(sys_get_temp_dir(), 'upload') . '.' . $extension;
-
-                  // Use the Imagine library to DO THE THING
-                  /*$size = new \Imagine\Image\Box(40, 40);
-                  $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-                  $imagine = new \Imagine\Gd\Imagine();
-
-                  // Save that modified file to our temp file
-                  $imagine->open($data['tmp_name'])
-                  ->thumbnail($size, $mode)
-                  ->save($tmp);
-
-                  // Now return the original *and* the thumbnail
-                  return [
-                  $data['tmp_name'] => $data['name'],
-                  //$tmp => 'thumbnail-' . $data['name'],
-                  ];
-                  }, */
-                'deleteCallback' => function ($path, $entity, $field, $settings) {
-                    // When deleting the entity, both the original and the thumbnail will be removed
-                    // when keepFilesOnDelete is set to false
-                    return [
-                        $path . $entity->{$field},
-                        $path . 'thumbnail-' . $entity->{$field}
-                    ];
-                },
-                'keepFilesOnDelete' => false
-            ],
             ]
         );
 
         $this->belongsTo(
             'Users',
             [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'user_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Championships',
             [
-            'foreignKey' => 'championship_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'championship_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->hasMany(
             'Articles',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
         $this->hasMany(
+            'PushNotificationSubscriptions',
+            [
+                'className' => 'NotificationSubscriptions',
+                'foreignKey' => 'team_id',
+                'conditions' => ['type' => 'push'],
+                'saveStrategy' => 'replace',
+            ]
+        );
+        $this->hasMany(
+            'EmailNotificationSubscriptions',
+            [
+                'className' => 'NotificationSubscriptions',
+                'foreignKey' => 'team_id',
+                'conditions' => ['type' => 'email'],
+                'saveStrategy' => 'replace',
+            ]
+        );
+
+        $this->hasMany(
             'Events',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
         $this->hasMany(
             'Lineups',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
         $this->hasMany(
             'Scores',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
         $this->hasMany(
             'Selections',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
         $this->hasMany(
             'Transferts',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
         $this->belongsToMany(
             'Members',
             [
-            'foreignKey' => 'team_id',
-            'targetForeignKey' => 'member_id',
-            'joinTable' => 'members_teams',
-            'sort' => ['role_id']
+                'foreignKey' => 'team_id',
+                'targetForeignKey' => 'member_id',
+                'joinTable' => 'members_teams',
+                'sort' => ['role_id']
             ]
         );
     }
@@ -194,33 +209,9 @@ class TeamsTable extends Table
         return $rules;
     }
 
-    public function findCurrent(Query $query, array $options)
+    public function findByChampionshipId(Query $q, array $options)
     {
-        $matchdays = TableRegistry::get('Matchdays');
-        $current = $matchdays->getCurrent();
-        $query->matching(
-            'Championships',
-            function ($q) use ($current) {
-                return $q->where(['Championships.season_id' => $current->season_id]);
-            }
-        );
-
-        return $query;
-    }
-
-    /**
-     *
-     * @param User   $user
-     * @param Season $season
-     */
-    public function findByUserAndSeason($user, $season)
-    {
-        return $this->find()->where(['user_id' => $user->id])
-            ->matching(
-                'Championships',
-                function ($q) use ($season) {
-                    return $q->where(['Championships.season_id' => $season->season_id]);
-                }
-            );
+        return $q->contain(['Users'])
+            ->where(['championship_id' => $options['championship_id']]);
     }
 }

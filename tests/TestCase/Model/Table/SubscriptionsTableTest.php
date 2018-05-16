@@ -33,30 +33,17 @@ class SubscriptionsTableTest extends TestCase
         'app.matchdays',
         'app.articles',
         'app.lineups',
-        'app.captain',
         'app.players',
         'app.members',
         'app.roles',
-        'app.view0_lineups_details',
-        'app.view0_members',
-        'app.view1_members_stats',
         'app.clubs',
         'app.dispositions',
         'app.ratings',
         'app.members_teams',
-        'app.vw_members_stats',
-        'app.v_captain',
-        'app.v_v_captain',
         'app.scores',
         'app.transferts',
-        'app.new_members',
-        'app.old_members',
-        'app.view2_clubs_stats',
-        'app.view0_max_points',
-        'app.view2_teams_stats',
         'app.events',
-        'app.selections',
-        'app.view1_matchday_win'
+        'app.selections'
     ];
 
     /**

@@ -5,7 +5,6 @@ namespace App\Model\Entity;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
-use const DS;
 
 /**
  * Club Entity.
@@ -23,6 +22,7 @@ use const DS;
  */
 class Club extends Entity
 {
+    use HasPhotoTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -64,23 +64,8 @@ class Club extends Entity
      */
     protected function _getBackgroundUrl()
     {
-        $array = [];
         $path = Configure::read('App.paths.images.clubs') . $this->id . DS . 'background/';
-        $baseUrl = Router::url('/img/' . $this->getSource() . '/' . $this->id . '/background/', true);
-        $folder = new \Cake\Filesystem\Folder($path);
-        $subfolders = $folder->subdirectories(null, false);
-        foreach ($subfolders as $sub) {
-            if (file_exists($path . $sub . DS . $this->id . '.jpg')) {
-                $array[$sub] = $baseUrl . $sub . '/' . $this->id . '.jpg';
-            }
-        }
-        $principal = $path . $this->id . '.jpg';
-        if (file_exists($principal)) {
-            $size = getimagesize($principal);
-            $array[$size[0] . 'w'] = $baseUrl . $this->id . '.jpg';
-        }
-        if (!empty($array)) {
-            return $array;
-        }
+
+        return $this->_getPhotosUrl($path, '/img/' . $this->getSource() . '/' . $this->id . '/background/');
     }
 }

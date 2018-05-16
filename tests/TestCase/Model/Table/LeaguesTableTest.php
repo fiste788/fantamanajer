@@ -27,9 +27,7 @@ class LeaguesTableTest extends TestCase
         'app.leagues',
         'app.championships',
         'app.seasons',
-        'app.teams',
-        'app.view0_max_points',
-        'app.view2_teams_stats'
+        'app.teams'
     ];
 
     /**

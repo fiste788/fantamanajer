@@ -25,6 +25,7 @@ use DateTime;
  * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Matchday|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MatchdaysTable extends Table
 {
@@ -121,17 +122,10 @@ class MatchdaysTable extends Table
         return $rules;
     }
 
-    public function findCurrent()
+    public function findCurrent(\Cake\ORM\Query $q, array $options)
     {
-        return $this
-            ->find('all')
-            ->contain(['Seasons'])
-            ->where(
-                [
-                'date > ' => new DateTime('now')
-                ]
-            )
-            ->first();
+        return $q->contain(['Seasons'])
+            ->where(['date > ' => new DateTime('now')]);
     }
 
     public function getTargetCountdown($minutes = 0)

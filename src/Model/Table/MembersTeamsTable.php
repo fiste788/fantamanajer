@@ -1,8 +1,11 @@
 <?php
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -17,6 +20,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\MembersTeam patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\MembersTeam|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MembersTeamsTable extends Table
 {
@@ -79,5 +83,23 @@ class MembersTeamsTable extends Table
         $rules->add($rules->existsIn(['member_id'], 'Members'));
 
         return $rules;
+    }
+
+    public function beforeSave(Event $event, \App\Model\Entity\MembersTeam $entity, ArrayObject $options)
+    {
+        if ($entity->isDirty('member_id') && !$entity->isNew()) {
+            if (!$entity->member) {
+                $entity = $this->loadInto($entity, ['Members']);
+            }
+            $transfertsTable = TableRegistry::get('Transferts');
+            $matchdaysTable = TableRegistry::get('Matchdays');
+            $transfert = $transfertsTable->newEntity();
+            $transfert->team_id = $entity->team_id;
+            $transfert->constrained = !$entity->member->active;
+            $transfert->matchday_id = $matchdaysTable->find('current')->first()->id;
+            $transfert->old_member_id = $entity->getOriginal('member_id');
+            $transfert->new_member_id = $entity->member_id;
+            $transfertsTable->save($transfert);
+        }
     }
 }

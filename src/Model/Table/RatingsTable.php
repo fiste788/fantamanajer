@@ -19,6 +19,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Rating|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class RatingsTable extends Table
 {
@@ -173,7 +174,7 @@ class RatingsTable extends Table
         $query = $this->find();
         $res = $query->hydrate(false)
             ->leftJoinWith('Matchdays')
-            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'), ])
+            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id')])
             ->where(['m.season_id' => $season->id])
             ->first();
 

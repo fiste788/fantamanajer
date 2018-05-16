@@ -19,6 +19,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Championship[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Championship findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Championship|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ChampionshipsTable extends Table
 {

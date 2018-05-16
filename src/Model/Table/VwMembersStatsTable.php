@@ -18,6 +18,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\VwMembersStat patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\VwMembersStat[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\VwMembersStat findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\VwMembersStat|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class VwMembersStatsTable extends Table
 {

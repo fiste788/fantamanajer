@@ -1,10 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
-use App\Model\Entity\Subscription;
-use App\Model\Entity\Team;
-use Cake\Auth\DefaultPasswordHasher;
+use Authentication\IdentityInterface as AuthenticationIdentity;
+use Authorization\IdentityInterface as AuthorizationIdentity;
 use Cake\ORM\Entity;
+use Cake\Utility\Hash;
 
 /**
  * User Entity.
@@ -19,12 +19,11 @@ use Cake\ORM\Entity;
  * @property string $password
  * @property string $login_key
  * @property bool $admin
- * @property \App\Model\Entity\Team[] $teams
- * @property \App\Model\Entity\Subscription[] $subscriptions
- * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
+ * @property Team[] $teams
+ * @property PushSubscription[] $push_subscriptions
  * @property int $old_id
  */
-class User extends Entity
+class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {
 
     /**
@@ -51,8 +50,59 @@ class User extends Entity
         'login_key'
     ];
 
-    protected function _setPassword($password)
+    public function hasTeam($teamId)
     {
-        return (new DefaultPasswordHasher)->hash($password);
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($teamId) {
+            return $value->id == $teamId;
+        }));
+    }
+
+    public function isInChampionship($championshipId)
+    {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {
+            return $value->championship_id == $championshipId;
+        }));
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function can($action, $resource)
+    {
+        return $this->authorization->can($this, $action, $resource);
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function applyScope($action, $resource)
+    {
+        return $this->authorization->applyScope($this, $action, $resource);
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function getOriginalData()
+    {
+        return $this;
+    }
+
+    /**
+     * Setter to be used by the middleware.
+     */
+    public function setAuthorization($service)
+    {
+        $this->authorization = $service;
+
+        return $this;
+    }
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getIdentifier()
+    {
+        return $this->id;
     }
 }
