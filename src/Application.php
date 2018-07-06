@@ -14,20 +14,28 @@
  */
 namespace App;
 
+use App\Command\UpdateCalendarCommand;
+use App\Command\UpdateMatchdayCommand;
+use App\Command\WeeklyScriptCommand;
 use App\Model\Entity\User;
 use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Authorization\AuthorizationService;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
+use Cake\Console\CommandCollection;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
-use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\EncryptedCookieMiddleware;
+use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Utility\Security;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -35,7 +43,7 @@ use Cake\Utility\Security;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface, \Authorization\AuthorizationServiceProviderInterface
 {
     /**
      * Setup the middleware queue your application will use.
@@ -78,13 +86,16 @@ class Application extends BaseApplication
     }
 
     /**
-     * Authentication configuration
+     * Returns a service provider instance.
      *
-     * @param AuthenticationService $service
-     * @return AuthenticationService
+     * @param ServerRequestInterface $request Request
+     * @param ResponseInterface $response Response
+     * @return AuthenticationServiceInterface
      */
-    public function authentication(AuthenticationService $service)
+    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response)
     {
+        $service = new AuthenticationService();
+        
         // Instantiate the service
         //$service = new AuthenticationService();
         $fields = [
@@ -124,14 +135,8 @@ class Application extends BaseApplication
 
         return $service;
     }
-
-    /**
-     * Authorization configuration
-     *
-     * @param type $request
-     * @return AuthorizationService
-     */
-    public function authorization($request)
+    
+    public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
     {
         $resolver = new OrmResolver();
 
@@ -141,14 +146,14 @@ class Application extends BaseApplication
     /**
      * Define the console commands for an application.
      *
-     * @param \Cake\Console\CommandCollection $commands The CommandCollection to add commands into.
-     * @return \Cake\Console\CommandCollection The updated collection.
+     * @param CommandCollection $commands The CommandCollection to add commands into.
+     * @return CommandCollection The updated collection.
      */
     public function console($commands)
     {
-        $commands->add('weekly_script', Command\WeeklyScriptCommand::class);
-        $commands->add('matchday update', Command\UpdateMatchdayCommand::class);
-        $commands->add('matchday update_calendar', Command\UpdateCalendarCommand::class);
+        $commands->add('weekly_script', WeeklyScriptCommand::class);
+        $commands->add('matchday update', UpdateMatchdayCommand::class);
+        $commands->add('matchday update_calendar', UpdateCalendarCommand::class);
 
         $commands->addMany($commands->autoDiscover());
 
