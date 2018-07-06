@@ -10,7 +10,6 @@ use Cake\Event\Event;
  */
 class SelectionsController extends AppController
 {
-
     public function add()
     {
         $this->Crud->on(

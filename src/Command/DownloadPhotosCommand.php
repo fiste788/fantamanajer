@@ -16,7 +16,6 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class DownloadPhotosCommand extends Command
 {
-
     use CurrentMatchdayTrait;
 
     public function initialize()

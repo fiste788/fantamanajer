@@ -14,7 +14,6 @@ use Cake\Console\ConsoleOptionParser;
  */
 class TransfertCommand extends Command
 {
-
     use CurrentMatchdayTrait;
 
     public function initialize()

@@ -51,13 +51,14 @@ class UpdateMatchdayCommand extends Command
     }
     
     /**
-     * 
+     *
      * @param Season $season
      * @param integer $matchdayNumber
      * @param Arguments $args
      * @param ConsoleIo $io
      */
-    public function exec(Season $season, $matchdayNumber, Arguments $args, ConsoleIo $io) {
+    public function exec(Season $season, $matchdayNumber, Arguments $args, ConsoleIo $io)
+    {
         $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber, $season->id)->first();
         if (is_null($matchday)) {
             $matchday = $this->Matchdays->newEntity();

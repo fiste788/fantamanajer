@@ -10,7 +10,6 @@ use App\Controller\AppController;
  */
 class ArticlesController extends AppController
 {
-
     public $paginate = [
         'page' => 1,
         'limit' => 5,

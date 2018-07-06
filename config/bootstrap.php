@@ -225,6 +225,6 @@ Plugin::load('CakeScheduler');
  */
 if (Configure::read('debug')) {
     Configure::write('DebugKit.includeSchemaReflection', false);
-	Configure::write('DebugKit.forceEnable', true);
+    Configure::write('DebugKit.forceEnable', true);
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
