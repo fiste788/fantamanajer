@@ -8,5 +8,4 @@ use App\Controller\AppController;
  */
 class ChampionshipsController extends AppController
 {
-
 }

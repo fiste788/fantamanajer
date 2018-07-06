@@ -4,7 +4,6 @@ namespace App\Controller\Teams;
 
 class MembersController extends \App\Controller\MembersController
 {
-
     public function index()
     {
         $this->Crud->action()->findMethod([

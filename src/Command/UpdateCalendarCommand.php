@@ -63,5 +63,4 @@ class UpdateCalendarCommand extends Command
             $umc->exec($season, $matchday, $args, $io);
         }
     }
-    
 }

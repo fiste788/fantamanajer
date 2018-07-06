@@ -3,7 +3,6 @@ namespace App\Controller\Teams;
 
 class SelectionsController extends \App\Controller\SelectionsController
 {
-
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);

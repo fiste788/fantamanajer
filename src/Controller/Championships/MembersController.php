@@ -8,7 +8,6 @@ use App\Controller\AppController;
  */
 class MembersController extends AppController
 {
-
     public $paginate = [
         'limit' => 200,
     ];
