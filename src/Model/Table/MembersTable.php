@@ -172,7 +172,7 @@ class MembersTable extends Table
     {
         $query->contain(
             ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q) {
-                    return $q->contain(['Matchdays'])
+                return $q->contain(['Matchdays'])
                             ->order(['Matchdays.number' => 'ASC']);
             }]
         )->order(['Seasons.year' => 'DESC']);
