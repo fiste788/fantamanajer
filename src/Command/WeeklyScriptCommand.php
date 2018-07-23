@@ -27,7 +27,6 @@ use Minishlink\WebPush\WebPush;
  */
 class WeeklyScriptCommand extends Command
 {
-
     use CurrentMatchdayTrait;
     use GazzettaTrait;
 

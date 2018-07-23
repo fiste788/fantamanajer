@@ -16,7 +16,6 @@ use DateTime;
  */
 class StartSeasonCommand extends Command
 {
-
     use CurrentMatchdayTrait;
     use Traits\GazzettaTrait;
 

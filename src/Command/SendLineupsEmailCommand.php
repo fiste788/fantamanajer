@@ -19,7 +19,6 @@ use Cake\Utility\Hash;
  */
 class SendLineupsEmailCommand extends Command
 {
-
     use CurrentMatchdayTrait;
 
     public function initialize()
