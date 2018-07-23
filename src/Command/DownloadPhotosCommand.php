@@ -34,7 +34,7 @@ class DownloadPhotosCommand extends Command
         $baseUrl = "www.guido8975.it";
         $url = "/index.php?ctg=15";
         $referer = "http://" . $baseUrl . $url;
-        
+
         $path = Configure::read('App.paths.images.players') . 'season-new' . DS;
         $members = $this->Members->find()
             ->contain(['Players'])

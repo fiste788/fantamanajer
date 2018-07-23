@@ -49,7 +49,7 @@ class UpdateCalendarCommand extends Command
         }
         $this->exec($season, $args, $io);
     }
-    
+
     public function exec(Season $season, Arguments $args, ConsoleIo $io)
     {
         $umc = new UpdateMatchdayCommand();
@@ -63,5 +63,4 @@ class UpdateCalendarCommand extends Command
             $umc->exec($season, $matchday, $args, $io);
         }
     }
-    
 }

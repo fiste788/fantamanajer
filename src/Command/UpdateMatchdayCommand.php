@@ -49,22 +49,23 @@ class UpdateMatchdayCommand extends Command
         $matchday = $args->hasArgument('matchday') ? $args->getArgument('matchday') : $this->currentMatchday->number;
         $this->exec($season, $matchday, $args, $io);
     }
-    
+
     /**
-     * 
+     *
      * @param Season $season
-     * @param integer $matchdayNumber
+     * @param int $matchdayNumber
      * @param Arguments $args
      * @param ConsoleIo $io
      */
-    public function exec(Season $season, $matchdayNumber, Arguments $args, ConsoleIo $io) {
+    public function exec(Season $season, $matchdayNumber, Arguments $args, ConsoleIo $io)
+    {
         $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber, $season->id)->first();
         if (is_null($matchday)) {
             $matchday = $this->Matchdays->newEntity();
             $matchday->season_id = $season->id;
             $matchday->number = $matchdayNumber;
         }
-        
+
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
         if ($date) {
             $res = !$args->getOption('interactive') || ($args->getOption('interactive') && $io->ask("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number, ['y', 'n'], 'y') == 'y');

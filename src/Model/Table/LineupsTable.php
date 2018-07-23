@@ -236,7 +236,7 @@ class LineupsTable extends Table
     }
 
     /**
-     * 
+     *
      * @param Query $q
      * @param array $options
      * @return Query

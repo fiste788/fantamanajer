@@ -53,7 +53,7 @@ class StartSeasonCommand extends Command
             $this->abort();
         }
     }
-    
+
     private function createSeason(ConsoleIo $io)
     {
         $year = date("Y");

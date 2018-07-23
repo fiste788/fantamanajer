@@ -25,7 +25,7 @@ class GetMatchdayScheduleCommand extends Command
         $this->loadModel('Matchdays');
         $this->getCurrentMatchday();
     }
-    
+
     public function execute(Arguments $args, ConsoleIo $io)
     {
         if (!$args->hasArgument('matchday')) {
@@ -36,8 +36,9 @@ class GetMatchdayScheduleCommand extends Command
         }
         $this->exec($season, $matchday, $io);
     }
-    
-    public function exec(Season $season, Matchday $matchday, ConsoleIo $io) {
+
+    public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
+    {
         $year = $season->year . "-" . substr($season->year + 1, 2, 2);
         $url = "/it/serie-a-tim/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);
@@ -47,7 +48,7 @@ class GetMatchdayScheduleCommand extends Command
             'redirect' => 5
             ]
         );
-        
+
         $response = $client->get($url);
         if ($response->isRedirect()) {
             $response = $client->get($response->getHeaderLine('Location'));
@@ -62,6 +63,7 @@ class GetMatchdayScheduleCommand extends Command
                 if ($date != "") {
                     $out = DateTime::createFromFormat("!d/m/Y H:i", $date);
                     $io->info($date);
+
                     return $out;
                 } else {
                     $io->err("Cannot find .datipartita");

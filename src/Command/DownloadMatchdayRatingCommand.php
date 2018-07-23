@@ -33,6 +33,7 @@ class DownloadMatchdayRatingCommand extends Command
             'help' => 'The number of matchday of current season',
             'required' => true
         ]);
+
         return $parser;
     }
 

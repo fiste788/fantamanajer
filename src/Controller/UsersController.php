@@ -55,11 +55,11 @@ class UsersController extends AppController
     {
         $this->Authentication->logout();
         $this->set(
-                [
+            [
                     'success' => true,
                     'data' => true,
                     '_serialize' => ['success', 'data']
                 ]
-            );
+        );
     }
 }

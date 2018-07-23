@@ -27,13 +27,14 @@ use Authorization\AuthorizationService;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
 use Cake\Console\CommandCollection;
+use Cake\Core\Configure;
+use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
-use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Cake\Utility\Security;
+use DebugKit;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -45,6 +46,38 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Application extends BaseApplication implements AuthenticationServiceProviderInterface, \Authorization\AuthorizationServiceProviderInterface
 {
+    public function bootstrap()
+    {
+        parent::bootstrap();
+
+        if (PHP_SAPI === 'cli') {
+            try {
+                $this->addPlugin('Bake');
+                $this->addPlugin('IdeHelper');
+            } catch (MissingPluginException $e) {
+                // Do not halt if the plugin is missing
+            }
+        }
+
+        $this->addPlugin('Authentication');
+        $this->addPlugin('Authorization');
+        $this->addPlugin('Crud');
+        $this->addPlugin('Cors', ['bootstrap' => true, 'routes' => false]);
+        $this->addPlugin('ADmad/JwtAuth');
+        $this->addPlugin('Josegonzalez/Upload');
+        $this->addPlugin('Migrations');
+        $this->addPlugin('Bake');
+        $this->addPlugin('CakeScheduler');
+
+        /*
+         * Only try to load DebugKit in development mode
+         * Debug Kit should not be installed on a production system
+         */
+        if (Configure::read('debug')) {
+            $this->addPlugin(DebugKit\Plugin::class);
+        }
+    }
+
     /**
      * Setup the middleware queue your application will use.
      *
@@ -54,27 +87,12 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     public function middleware($middlewareQueue)
     {
         $middlewareQueue
-            // Catch any exceptions in the lower layers,
-            // and make an error page/response
             ->add(ErrorHandlerMiddleware::class)
-
-            // Handle plugin/theme assets like CakePHP normally does.
             //->add(AssetMiddleware::class)
-
-            // Add routing middleware.
-            // Routes collection cache enabled by default, to disable route caching
-            // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
-            // you might want to disable this cache in case your routing is extremely simple
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
-
             ->add(BodyParserMiddleware::class)
-
-            ->add(new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()))
-
-            // Add the authetication middleware to the middleware queue
+            //->add(new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()))
             ->add(new AuthenticationMiddleware($this))
-
-            // Add authorization (after authentication if you are using that plugin too).
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,
                 'identityDecorator' => function ($auth, $user) {
@@ -95,7 +113,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response)
     {
         $service = new AuthenticationService();
-        
+
         // Instantiate the service
         //$service = new AuthenticationService();
         $fields = [
@@ -135,14 +153,14 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         return $service;
     }
-    
+
     public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
     {
         $resolver = new OrmResolver();
 
         return new AuthorizationService($resolver);
     }
-    
+
     /**
      * Define the console commands for an application.
      *

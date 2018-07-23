@@ -56,7 +56,7 @@ class TeamsTable extends Table
         $this->addBehavior(
             'Josegonzalez/Upload.Upload',
             [
-                'photo_data' => [
+                'photo' => [
                     'path' => 'webroot{DS}files{DS}{table}{DS}{primaryKey}{DS}photo{DS}',
                     'fields' => [
                         'dir' => 'photo_dir', // defaults to `dir`

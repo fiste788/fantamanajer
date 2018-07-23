@@ -114,7 +114,7 @@ class WeeklyScriptCommand extends Command
             }
         }
     }
-    
+
     /**
      *
      * @param Matchday       $matchday

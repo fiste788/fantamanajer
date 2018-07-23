@@ -29,13 +29,12 @@ trait GazzettaTrait
      * @var ConsoleIo
      */
     private $io;
-    
+
     /**
      *
      * @var Arguments
      */
     private $args;
-    
 
     public function startup(Arguments $args, ConsoleIo $io)
     {
@@ -93,7 +92,7 @@ trait GazzettaTrait
 
     /**
      *
-     * @param string $path
+     * @param string $matchday
      * @return string
      */
     public function decryptMXMFile(Matchday $matchday, $path = null)
