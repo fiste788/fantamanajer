@@ -99,7 +99,7 @@ trait GazzettaTrait
     {
         $body = "";
         $this->io->out("Starting decrypt " . $path);
-        $decrypt = $matchday->get('season')->get('key_gazzetta');
+        $decrypt = $matchday->season->key_gazzetta;
         if ($path && $p_file = fopen($path, "r")) {
             $explode_xor = explode("-", $decrypt);
             $i = 0;
@@ -133,9 +133,17 @@ trait GazzettaTrait
             $this->io->out("Maxigames found");
             $crawler = new Crawler();
             $crawler->addContent($response->body());
-            $td = $crawler->filter("#content td:contains('Giornata $matchday')");
-            if ($td->count() > 0) {
-                $url = $td->nextAll()->filter("a")->attr("href");
+            $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
+            if ($tr->count() > 0) {
+                $button = $tr->selectButton("DOWNLOAD");
+                if(!$button->count()) {
+                    $link = $tr->selectLink("DOWNLOAD");
+                    $url = $link->link()->getUri();
+                } else {
+                    $matches = sscanf($button->attr("onclick"), "window.open('%[^']");
+                    //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
+                    $url = $matches[0];
+                }
                 $this->io->verbose("Downloading " . $url);
                 $response = $http->get($url);
                 if ($response->isOk()) {
@@ -163,8 +171,12 @@ trait GazzettaTrait
     {
         $matchdayNumber = $matchday->number;
         $this->io->out('Updating members of matchday ' . $matchdayNumber);
-        while ($path == null && $matchdayNumber > 0) {
-            $path = $this->getRatings($matchdayNumber);
+        while ($path == null && $matchdayNumber > -1) {
+            $matchday = $this->Matchdays->find()->contain(['Seasons'])->where([
+                'number' => $matchdayNumber,
+                'season_id' => $matchday->season_id
+            ])->first();
+            $path = $this->getRatings($matchday);
             $matchdayNumber--;
         }
         if (file_exists($path)) {
@@ -368,9 +380,9 @@ trait GazzettaTrait
         }
         $reply = 'y';
         if (!file_exists($dectyptedFilePath)) {
-            if ($this->interactive) {
-                $reply = $this->in('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y', 'n'], 'y');
-            }
+            //if ($this->interactive) {
+                $reply = $this->io->askChoice('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y', 'n'], 'y');
+            //}
         }
         if ($reply == 'y') {
             $decript = file_get_contents($dectyptedFilePath);

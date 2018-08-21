@@ -24,6 +24,7 @@
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",
         "friendsofcake/crud": "^5.4",
+        "get-stream/stream": "^2.7",
         "josegonzalez/cakephp-upload": "^4.0",
         "josegonzalez/dotenv": "3.*",
         "lavary/crunz": "^1.5.1",
@@ -50,13 +51,15 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "StreamCake\\": "./plugins/StreamCake/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Test\\": "tests/",
-            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests/"
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests/",
+            "StreamCake\\Test\\": "./plugins/StreamCake/tests/"
         }
     },
     "scripts": {

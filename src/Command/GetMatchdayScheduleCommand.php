@@ -5,11 +5,12 @@ namespace App\Command;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
+use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
-use DateTime;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -25,15 +26,29 @@ class GetMatchdayScheduleCommand extends Command
         $this->loadModel('Matchdays');
         $this->getCurrentMatchday();
     }
+    
+    protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
+    {
+        parent::buildOptionParser($parser);
+        $parser->addArgument('matchday');
+        $parser->addArgument('season');
+        return $parser;
+    }
 
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        if (!$args->hasArgument('matchday')) {
-            $matchday = $this->currentMatchday;
-        }
         if (!$args->hasArgument('season')) {
             $season = $this->currentSeason;
         }
+        if (!$args->hasArgument('matchday')) {
+            $matchday = $this->currentMatchday;
+        } else {
+            $matchday = $this->Matchdays->find()->where([
+                'number' => $args->getArgument('matchday'),
+                'season_id' => $season->id
+            ])->first();
+        }
+        
         $this->exec($season, $matchday, $io);
     }
 
@@ -54,21 +69,29 @@ class GetMatchdayScheduleCommand extends Command
             $response = $client->get($response->getHeaderLine('Location'));
         }
         if ($response->isOk()) {
+            $io->verbose("Response OK");
             $crawler = new Crawler();
             $crawler->addContent($response->body());
             $datiPartita = $crawler->filter(".datipartita")->first();
             if ($datiPartita->count()) {
                 $box = $datiPartita->filter("p")->first()->filter("span");
-                $date = $box->text();
+                $date = trim($box->text());
                 if ($date != "") {
-                    $out = DateTime::createFromFormat("!d/m/Y H:i", $date);
                     $io->info($date);
-
+                    if(!strpos($date, " ")) {
+                        $out = Chronos::createFromFormat("!d/m/Y", $date);
+                        $out = $out->setTime(18, 0, 0, 0);
+                    } else {
+                        $out = Chronos::createFromFormat("!d/m/Y H:i", $date);
+                    }
                     return $out;
                 } else {
-                    $io->err("Cannot find .datipartita");
+                    $io->err("Cannot find date");
                     $this->abort();
                 }
+            } else {
+                $io->err("Cannot find .datipartita");
+                $this->abort();
             }
         } else {
             $io->err($response->getStatusCode(), 1);

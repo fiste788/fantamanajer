@@ -56,7 +56,7 @@ class ScoresTable extends Table
             'Teams',
             [
                 'foreignKey' => 'team_id',
-                'joinType' => 'INNER'
+                'joinType' => 'RIGHT'
             ]
         );
         $this->belongsTo(
@@ -167,12 +167,11 @@ class ScoresTable extends Table
     {
         $championshipId = $options['championship_id'];
         $q->select([
-                'team_id',
-                'sum_points' => $q->func()->sum('points')
+                'Teams.id',
+                'sum_points' => $q->func()->coalesce([$q->func()->sum('points'),0])
             ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
-            ->innerJoinWith('Teams', function ($q) use ($championshipId) {
-                return $q->where(['Teams.championship_id' => $championshipId]);
-            })->group('team_id')
+            ->where(['Teams.championship_id' => $championshipId])
+            ->group('Teams.id')
             ->orderDesc('sum_points');
 
         if (array_key_exists('scores', $options) && $options['scores']) {
@@ -181,8 +180,8 @@ class ScoresTable extends Table
                     'championship_id' => $championshipId
                 ])->all()->toArray();
 
-                return $results->map(function ($entity) use ($scores) {
-                    $entity['scores'] = $scores[$entity->team_id];
+                return $results->map(function (Score $entity) use ($scores) {
+                    $entity['scores'] = $scores[$entity->team->id];
 
                     return $entity;
                 });

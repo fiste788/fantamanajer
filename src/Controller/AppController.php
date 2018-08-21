@@ -1,11 +1,12 @@
 <?php
 namespace App\Controller;
 
+use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
-use Authentication\AuthenticationService;
 use Cake\Controller\Component\RequestHandlerComponent;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Crud\Controller\Component\CrudComponent;
 use Crud\Controller\ControllerTrait;
 
@@ -57,6 +58,7 @@ class AppController extends Controller
             ]
         ]);
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+        EventManager::instance()->on(new GetStreamEventListener());
 
         $this->getCurrentMatchday();
     }
@@ -69,14 +71,14 @@ class AppController extends Controller
         ];
     }
 
-    public function _afterFind(\Cake\Event\Event $event)
+    public function _afterFind(Event $event)
     {
         if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
         }
     }
 
-    public function _afterPaginate(\Cake\Event\Event $event)
+    public function _afterPaginate(Event $event)
     {
         if ($this->Authentication->getIdentity()) {
             foreach ($event->getSubject()->entities as $entity) {

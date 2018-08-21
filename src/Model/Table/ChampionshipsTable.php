@@ -117,6 +117,10 @@ class ChampionshipsTable extends Table
         $validator
             ->boolean('jolly')
             ->allowEmpty('jolly');
+        
+        $validator
+            ->boolean('started')
+            ->allowEmpty('started');
 
         return $validator;
     }

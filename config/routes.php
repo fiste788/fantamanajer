@@ -73,13 +73,13 @@ Router::scope('/', function (RouteBuilder $routes) {
         'only' => 'view'
     ]);
     $routes->resources('Clubs', [
-            'only' => ['index', 'view']
+        'only' => ['index', 'view']
         ], function (RouteBuilder $routes) {
-            $routes->resources('Members', [
-                'prefix' => 'Clubs',
-                'only' => 'index'
-            ]);
-        });
+        $routes->resources('Members', [
+            'prefix' => 'Clubs',
+            'only' => 'index'
+        ]);
+    });
     $routes->resources('Scores', [
         'only' => 'view'
     ]);
@@ -96,58 +96,59 @@ Router::scope('/', function (RouteBuilder $routes) {
         'only' => ['view', 'delete', 'update', 'create']
     ]);
     $routes->resources('Championships', [
-            'only' => ['view']
+        'only' => ['view']
         ], function (RouteBuilder $routes) {
-            $routes->resources('Articles', [
+        $routes->resources('Articles', [
             'only' => 'index',
             'prefix' => 'championships'
-            ]);
-            $routes->resources('Events', [
-            'prefix' => 'championships',
-            'only' => 'index'
-            ]);
-            $routes->resources('Scores', [
+        ]);
+        $routes->resources('Scores', [
             'prefix' => 'championships',
             'only' => 'index',
             'path' => 'ranking'
-            ]);
-            $routes->resources('Teams', [
+        ]);
+        $routes->resources('Teams', [
             'prefix' => 'championships',
             'only' => 'index'
-            ]);
-
-            $routes->connect('/members/free/:role_id', [
-                'controller' => 'Members',
-                'action' => 'free',
-                'prefix' => 'championships'
+        ]);
+        $routes->connect('/stream', [
+            '_method' => 'GET',
+            'action' => 'indexByChampionship',
+            'controller' => 'Stream'
+        ]);
+        $routes->connect('/members/free/:role_id', [
+            'controller' => 'Members',
+            'action' => 'free',
+            'prefix' => 'championships'
             ], [
-                'role_id' => '\d+'
-            ]);
-        });
+            'role_id' => '\d+'
+        ]);
+    });
     $routes->resources('Teams', [
-            'only' => ['view', 'update']
+        'only' => ['view', 'update']
         ], function (RouteBuilder $routes) {
-            $routes->resources('Articles', [
+        $routes->resources('Articles', [
             'only' => 'index',
             'prefix' => 'teams'
-            ]);
-            $routes->resources('Members', [
+        ]);
+        $routes->resources('Members', [
             'only' => 'index',
             'prefix' => 'Teams'
-            ]);
-            $routes->resources('Selections', [
+        ]);
+        $routes->resources('Selections', [
             'only' => ['index', 'create'],
             'prefix' => 'Teams'
-            ]);
-            $routes->resources('Transferts', [
+        ]);
+        $routes->resources('Transferts', [
             'only' => 'index',
             'prefix' => 'Teams'
-            ]);
-            $routes->resources('Notifications', [
+        ]);
+        $routes->resources('Notifications', [
             'only' => 'index',
             'prefix' => 'Teams'
-            ]);
-            $routes->resources('Lineups', [
+        ]);
+        
+        $routes->resources('Lineups', [
             'prefix' => 'teams',
             'only' => ['current', 'create', 'update'],
             'map' => [
@@ -156,8 +157,8 @@ Router::scope('/', function (RouteBuilder $routes) {
                     'method' => 'GET'
                 ]
             ]
-            ]);
-            $routes->resources('Scores', [
+        ]);
+        $routes->resources('Scores', [
             'prefix' => 'teams',
             'only' => ['last', 'viewByMatchday'],
             'map' => [
@@ -165,15 +166,19 @@ Router::scope('/', function (RouteBuilder $routes) {
                     'action' => 'last'
                 ],
             ]
-            ]);
-            $routes->connect('/scores/:matchday_id', [
-                'controller' => 'Scores',
-                'action' => 'viewByMatchday',
-                'prefix' => 'teams'
+        ]);
+        $routes->connect('/stream', [
+            '_method' => 'GET',
+            'action' => 'indexByTeam',
+            'controller' => 'Stream'
+        ]);
+        $routes->connect('/scores/:matchday_id', [
+            'controller' => 'Scores',
+            'action' => 'viewByMatchday',
+            'prefix' => 'teams'
             ], [
-                'matchday_id' => '\d+',
-                'pass' => ['matchday_id']
-            ]);
-        });
-    //$routes->fallbacks(DashedRoute::class);
+            'matchday_id' => '\d+',
+            'pass' => ['matchday_id']
+        ]);
+    });
 });

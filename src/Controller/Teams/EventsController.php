@@ -1,8 +1,7 @@
 <?php
-namespace App\Controller\Championships;
+namespace App\Controller\Teams;
 
 use App\Controller\AppController;
-use App\Model\Table\EventsTable;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\View\CellTrait;
@@ -10,7 +9,7 @@ use Cake\View\CellTrait;
 /**
  * Events Controller
  *
- * @property EventsTable $Events
+ * @property \App\Model\Table\EventsTable $Events
  */
 class EventsController extends AppController
 {
@@ -19,8 +18,8 @@ class EventsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $championshipId = $this->request->getParam('championship_id');
-        if (!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
+        $teamId = $this->request->getParam('team_id');
+        if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {
             throw new ForbiddenException();
         }
     }
@@ -37,15 +36,13 @@ class EventsController extends AppController
     public function index()
     {
         $cell = $this->cell('Stream', [
-            'feedName' => 'championship',
-            'feedId' => $this->request->getParam('championship_id'),
-            'aggregated' => true
+            'feedName' => 'team',
+            'feedId' => $this->request->getParam('team_id')
         ]);
         
         $this->set([
             'cell' => $cell,
             '_serialize' => false
         ]);
-        $this->render('\\Stream\\json\\index');
     }
 }

@@ -2,21 +2,20 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Event as Event2;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Articles Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
  *
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
  * @method \App\Model\Entity\Article newEntity($data = null, array $options = [])
@@ -157,12 +156,10 @@ class ArticlesTable extends Table
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
-            $ev->type = Event2::NEW_ARTICLE;
-            $ev->team_id = $entity['team_id'];
-            $ev->external = $entity['id'];
-            $events->save($ev);
+            $event = new Event('Fantamanajer.newArticle', $this, [
+                'article' => $entity
+            ]);
+            EventManager::instance()->dispatch($event);
         }
     }
 }

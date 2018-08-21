@@ -65,7 +65,7 @@ class Team extends Entity
     protected function _getPhotoUrl()
     {
         if ($this->photo) {
-            $baseUrl = '/files/' . $this->getSource() . '/' . $this->id . '/photo/';
+            $baseUrl = '/files/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
             return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
         }
@@ -104,4 +104,6 @@ class Team extends Entity
 
         return false;
     }
+    
+    
 }

@@ -33,9 +33,9 @@ class EventsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('events');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('events');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo(
             'Teams',

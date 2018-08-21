@@ -15,6 +15,7 @@ use Cake\ORM\TableRegistry;
  * @property int $points_missed_lineup
  * @property bool $captain_missed_lineup
  * @property bool $jolly
+ * @property bool $started
  * @property int $league_id
  * @property \App\Model\Entity\League $league
  * @property int $season_id
@@ -39,18 +40,4 @@ class Championship extends Entity
         '*' => true,
         'id' => false,
     ];
-
-    /**
-     *
-     * @param User $user user
-     * @return Team
-     */
-    public function findTeamByUser($user)
-    {
-        $teams = TableRegistry::get('Teams');
-
-        return $teams->find()
-            ->where(['user_id' => $user, 'championship_id' => $this->id])
-            ->first();
-    }
 }

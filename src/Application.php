@@ -33,6 +33,7 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\MiddlewareQueue;
+use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use DebugKit;
 use Psr\Http\Message\ResponseInterface;
@@ -68,6 +69,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Migrations');
         $this->addPlugin('Bake');
         $this->addPlugin('CakeScheduler');
+        $this->addPlugin('StreamCake');
 
         /*
          * Only try to load DebugKit in development mode

@@ -37,12 +37,6 @@ class AppView extends View
      */
     public function initialize()
     {
-        $this->loadHelper('AssetCompress.AssetCompress');
-        $this->loadHelper(
-            'Form',
-            [
-            'templates' => 'app_form',
-            ]
-        );
+        
     }
 }
