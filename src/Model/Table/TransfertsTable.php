@@ -1,10 +1,10 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Event as Event2;
 use App\Model\Entity\Transfert;
 use ArrayObject;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -124,12 +124,10 @@ class TransfertsTable extends Table
 
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options)
     {
-        $events = TableRegistry::get('Events');
-        $ev = $events->newEntity();
-        $ev->type = Event2::NEW_TRANSFERT;
-        $ev->team_id = $entity->team_id;
-        $ev->external = $entity->id;
-        $events->save($ev);
+        $event = new Event('Fantamanajer.newMemberTransfert', $this, [
+                'transfert' => $entity
+            ]);
+            EventManager::instance()->dispatch($event);
 
         $lineups = TableRegistry::get('Lineups');
         $lineup = $lineups->find()

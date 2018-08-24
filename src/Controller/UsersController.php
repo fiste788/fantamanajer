@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Stream\ActivityManager;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Network\Exception\UnauthorizedException;
 
 /**
@@ -61,5 +63,20 @@ class UsersController extends AppController
                     '_serialize' => ['success', 'data']
                 ]
         );
+    }
+    
+    public function stream()
+    {
+        $userId = $this->request->getParam('user_id');
+        if (!$this->Authentication->getIdentity()->id == $userId) {
+            throw new ForbiddenException();
+        }
+        
+        $manager = new ActivityManager();
+        $stream = $manager->getActivities('user', $userId, false);
+        $this->set([
+            'stream' => $stream,
+            '_serialize' => 'stream'
+        ]);
     }
 }

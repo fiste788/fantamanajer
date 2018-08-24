@@ -258,27 +258,9 @@ class MembersTable extends Table
 
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        if ($entity->isNew()) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
-            $ev->type = FantamanajerEvent::NEW_PLAYER;
-            $ev->team_id = $entity['team_id'];
-            $ev->external = $entity['id'];
-            $events->save($ev);
-        } elseif ($entity->isDirty('club_id')) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
-            $ev->type = FantamanajerEvent::EDIT_CLUB;
-            $ev->team_id = $entity['team_id'];
-            $ev->external = $entity['id'];
-            $events->save($ev);
-        } elseif ($entity->isDirty('active')) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
-            $ev->type = FantamanajerEvent::DELETE_PLAYER;
-            $ev->team_id = $entity['team_id'];
-            $ev->external = $entity['id'];
-            $events->save($ev);
-        }
+        $event = new Event('Fantamanajer.changeMember', $this, [
+            'member' => $entity
+        ]);
+        EventManager::instance()->dispatch($event);
     }
 }

@@ -18,7 +18,6 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-use Cake\Core\Plugin;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
@@ -67,8 +66,13 @@ Router::scope('/', function (RouteBuilder $routes) {
                 'action' => 'current',
                 'method' => 'GET'
             ]
-        ]
-    ]);
+        ],
+    ], function (RouteBuilder $routes) {
+        $routes->connect('/stream', [
+            'controller' => 'Users',
+            'action' => 'stream'
+        ]);
+    });
     $routes->resources('Players', [
         'only' => 'view'
     ]);
@@ -76,6 +80,10 @@ Router::scope('/', function (RouteBuilder $routes) {
         'only' => ['index', 'view']
         ], function (RouteBuilder $routes) {
         $routes->resources('Members', [
+            'prefix' => 'Clubs',
+            'only' => 'index'
+        ]);
+        $routes->resources('Stream', [
             'prefix' => 'Clubs',
             'only' => 'index'
         ]);
@@ -111,10 +119,9 @@ Router::scope('/', function (RouteBuilder $routes) {
             'prefix' => 'championships',
             'only' => 'index'
         ]);
-        $routes->connect('/stream', [
-            '_method' => 'GET',
-            'action' => 'indexByChampionship',
-            'controller' => 'Stream'
+        $routes->resources('Stream', [
+            'prefix' => 'championships',
+            'only' => 'index'
         ]);
         $routes->connect('/members/free/:role_id', [
             'controller' => 'Members',
@@ -143,8 +150,14 @@ Router::scope('/', function (RouteBuilder $routes) {
             'only' => 'index',
             'prefix' => 'Teams'
         ]);
-        $routes->resources('Notifications', [
-            'only' => 'index',
+        $routes->connect('/notifications', [
+            'controller' => 'notifications',
+            'action' => 'index',
+            'prefix' => 'Teams'
+        ]);
+        $routes->connect('/notifications/count', [
+            'controller' => 'notifications',
+            'action' => 'count',
             'prefix' => 'Teams'
         ]);
         
@@ -167,10 +180,9 @@ Router::scope('/', function (RouteBuilder $routes) {
                 ],
             ]
         ]);
-        $routes->connect('/stream', [
-            '_method' => 'GET',
-            'action' => 'indexByTeam',
-            'controller' => 'Stream'
+        $routes->resources('Stream', [
+            'prefix' => 'teams',
+            'only' => 'index'
         ]);
         $routes->connect('/scores/:matchday_id', [
             'controller' => 'Scores',

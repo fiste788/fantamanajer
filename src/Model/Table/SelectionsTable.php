@@ -172,11 +172,10 @@ class SelectionsTable extends Table
     public function afterSave(CakeEvent $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $events = TableRegistry::get('Events');
-            $ev = $events->newEntity();
-            $ev->type = Event::NEW_PLAYER_SELECTION;
-            $ev->team_id = $entity['team_id'];
-            $events->save($ev);
+            $event = new Event('Fantamanajer.newMemberSelection', $this, [
+                'selection' => $entity
+            ]);
+            EventManager::instance()->dispatch($event);
         }
     }
 

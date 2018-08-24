@@ -4,7 +4,7 @@ use CakeScheduler\Schedule\CakeSchedule;
 
 $schedule = new CakeSchedule();
 $schedule
-    ->shell('fantamanajer weekly_script -n')
+    ->shell('weekly_script -n')
     ->every('minute', 6)
     ->between('09:00', '22:00')
     ->description('Weekly script')

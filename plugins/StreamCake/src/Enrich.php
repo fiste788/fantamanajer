@@ -2,6 +2,7 @@
 
 namespace StreamCake;
 
+use App\Stream\StreamActivity;
 use Cake\Chronos\Chronos;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Inflector;
@@ -93,9 +94,11 @@ class Enrich implements EnrichInterface
      */
     private function collectReferences(array $activities)
     {
+        
         $references = [];
 
         foreach ($activities as $activity) {
+            $contain = $this->getContain($activity);
             foreach ($activity as $field => $value) {
                 if ($value === null) {
                     continue;
@@ -106,7 +109,9 @@ class Enrich implements EnrichInterface
                 }
 
                 list($type, $identifier) = explode(':', $value);
-                $references[$type][] = $identifier;
+                
+                $references[$type]['identifiers'][] = $identifier;
+                $references[$type]['contain'] = $contain;
             }
         }
 
@@ -123,7 +128,7 @@ class Enrich implements EnrichInterface
         $objects = [];
 
         foreach (array_keys($references) as $type) {
-            $identifiers = array_unique($references[$type]);
+            $identifiers = array_unique($references[$type]['identifiers']);
 
             $plural = Inflector::pluralize($type);
             $table = $this->getTableLocator()->get($plural);
@@ -132,7 +137,8 @@ class Enrich implements EnrichInterface
                 'valueField' => function ($obj) {
                     return $obj;
                 }
-            ])->whereInList('id', $identifiers)->toArray();
+            ])->contain($references[$type]['contain'])
+                ->whereInList($plural . '.id', $identifiers)->toArray();
 
             $objects[$type] = $result;
         }
@@ -168,4 +174,22 @@ class Enrich implements EnrichInterface
 
         return $activities;
     }
+    
+    /**
+      * 
+      * @param EnrichedActivity[] $activity
+      * @return StreamActivity
+      */
+     private function getContain($activity) {
+        $base = '\\App\\Stream\\Verb\\';
+        if (array_key_exists('activities',$activity)) {
+            $base .= 'Aggregated\\';
+            $verb = $activity['verb'];
+        } else {
+            $verb = $activity->offsetGet('verb');
+        }
+        $className = $base . ucwords($verb);
+        $method = new \ReflectionMethod($className, 'contain');
+        return $method->invoke(null);
+     }
 }

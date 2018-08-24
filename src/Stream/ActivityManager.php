@@ -13,31 +13,31 @@ class ActivityManager {
      * @param int $id
      * @param boolean $aggregated
      */
-    public function getActivities($feedName, $id, $aggregated)
+    public function getActivities($feedName, $id, $aggregated, $offset = 0, $limit = 20, $options = [])
     {
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
+        $activities = $feed->getActivities($offset, $limit, $options);
         if($aggregated) {
-            $enriched = $enrich->enrichAggregatedActivities($feed->getActivities()['results']);
+            $enriched = $enrich->enrichAggregatedActivities($activities['results']);
         } else {
-            $enriched = $enrich->enrichActivities($feed->getActivities()['results']);
+            $enriched = $enrich->enrichActivities($activities['results']);
         }
-        return $this->convertEnrichedToStreamActivity($enriched);
+        return $this->convertEnrichedToStreamActivity($enriched, $activities);
      }
     
     /**
      * 
-     * @param \StreamCake\ActivityInterface[] $activities
+     * @param \StreamCake\ActivityInterface[] $enriched
      * @return \App\Stream\StreamActivity[]
      */
-     public function convertEnrichedToStreamActivity($activities)
+     public function convertEnrichedToStreamActivity($enricheds,$activities)
      {
-        $streamActivities = [];
-        foreach ($activities as $activity) {
-            $streamActivities[] = $this->getFromVerb($activity);
+        foreach ($enricheds as $key => $activity) {
+            $activities['results'][$key] = $this->getFromVerb($activity);
         }
-        return $streamActivities;
+        return $activities;
      }
      
      /**
@@ -53,7 +53,7 @@ class ActivityManager {
         } else {
             $verb = $activity->offsetGet('verb');
         }
-        $className = $base . $verb;
+        $className = $base . ucwords($verb);
         return new $className($activity);
      }
 }

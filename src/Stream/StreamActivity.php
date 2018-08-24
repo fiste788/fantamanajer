@@ -64,4 +64,8 @@ abstract class StreamActivity implements StreamActivityInterface {
         $this->humanTime = $this->timeStamp->diffForHumans();
         $this->icon = $this->getIcon();
     }
+    
+    public static function contain() {
+        return [];
+    }
 }

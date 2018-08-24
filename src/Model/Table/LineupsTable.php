@@ -2,13 +2,11 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Event as Event2;
 use App\Model\Entity\Lineup;
-use App\Model\Entity\Matchday;
-use App\Model\Entity\Team;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
@@ -22,10 +20,10 @@ use Cake\Validation\Validator;
  * @property MembersTable|BelongsTo $Members
  * @property MembersTable|BelongsTo $Members
  * @property MembersTable|BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasOne $Scores
+ * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property ScoresTable|\Cake\ORM\Association\HasOne $Scores
  * @property \App\Model\Table\View0LineupsDetailsTable|HasMany $View0LineupsDetails
  *
  * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
@@ -35,9 +33,9 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Captain
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $Captain
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
+ * @property MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \App\Model\Entity\Lineup|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
@@ -200,11 +198,10 @@ class LineupsTable extends Table
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $ev = $this->Teams->Events->newEntity();
-            $ev->type = Event2::NEW_LINEUP;
-            $ev->team_id = $entity['team_id'];
-            $ev->external = $entity['id'];
-            $this->Teams->Events->save($ev);
+            $event = new Event('Fantamanajer.newLineup', $this, [
+                'lineup' => $entity
+            ]);
+            EventManager::instance()->dispatch($event);
         }
     }
 
