@@ -18,7 +18,7 @@ class TeamPolicy
 
     public function canEdit(IdentityInterface $user, Team $team)
     {
-        return $user->hasTeam($team->id);
+        return $user->hasTeam($team->id) || $user->admin;
     }
 
     public function canDelete(IdentityInterface $user, Team $team)

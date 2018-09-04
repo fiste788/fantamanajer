@@ -40,7 +40,7 @@ class RenewChampionshipCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io)
     {
         $this->Championships->Teams->removeBehavior('Upload');
-        $championship = $this->Championships->get($args->getArgument('id'), ['contain' => 'Teams']);
+        $championship = $this->Championships->get($args->getArgument('id'), ['contain' => 'Teams.NotificationSubscriptions']);
         $newChampionship = $this->Championships->newEntity($championship->getOriginalValues());
         unset($newChampionship->id);
         $newChampionship->season_id = $this->currentSeason->id;

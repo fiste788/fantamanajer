@@ -22,13 +22,13 @@ trait HasPhotoTrait
         $subfolders = $folder->subdirectories(null, false);
         foreach ($subfolders as $sub) {
             if (file_exists($path . $sub . DS . $name)) {
-                $array[$sub] = $baseUrl . $sub . '/' . $name;
+                $array[$sub] = $baseUrl . $sub . '/' . str_replace(' ', '%20', $name);
             }
         }
         $principal = $path . $name;
         if (file_exists($principal)) {
             $size = getimagesize($principal);
-            $array[$size[0] . 'w'] = $baseUrl . $name;
+            $array[$size[0] . 'w'] = $baseUrl . str_replace(' ', '%20', $name);
         }
         if (!empty($array)) {
             return $array;

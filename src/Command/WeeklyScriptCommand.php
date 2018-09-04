@@ -145,6 +145,13 @@ class WeeklyScriptCommand extends Command
         }
     }
 
+    /**
+     * 
+     * @param Matchday $matchday
+     * @param Championship $championship
+     * @param \App\Model\Entity\Score[] $scores
+     * @param ConsoleIo $io
+     */
     public function sendNotifications(Matchday $matchday, Championship $championship, $scores, ConsoleIo $io)
     {
         $webPush = new WebPush(Configure::read('WebPush'));
@@ -156,7 +163,7 @@ class WeeklyScriptCommand extends Command
                         ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti')
                         ->action('Visualizza', 'open')
                         ->tag(926796012340920300)
-                        ->data(['url' => '/scores/last']);
+                        ->data(['url' => '/scores/' . $scores[$team->id]->id]);
 
                     $io->out("Sending notification to " . $subscription->endpoint);
                     $webPush->sendNotification($subscription->getSubscription(), json_encode($message));

@@ -59,7 +59,7 @@ class PushSubscription extends Entity
                     'endpoint' => $this->endpoint,
                     'publicKey' => $this->public_key,
                     'authToken' => $this->auth_token,
-                    'contentEncoding' => $this->content_encoding || 'aesgcm'
+                    'contentEncoding' => 'aesgcm'
                 ]);
     }
 }

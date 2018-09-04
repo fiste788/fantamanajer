@@ -123,9 +123,14 @@ Router::scope('/', function (RouteBuilder $routes) {
             'prefix' => 'championships',
             'only' => 'index'
         ]);
-        $routes->connect('/members/free/:role_id', [
+        $routes->connect('/members/free', [
             'controller' => 'Members',
             'action' => 'free',
+            'prefix' => 'championships'
+            ]);
+        $routes->connect('/members/free/:role_id', [
+            'controller' => 'Members',
+            'action' => 'freeByRole',
             'prefix' => 'championships'
             ], [
             'role_id' => '\d+'

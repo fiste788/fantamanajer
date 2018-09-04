@@ -27,6 +27,13 @@ class WebPushMessage implements JsonSerializable
      * @var string
      */
     protected $icon = null;
+    
+    /**
+     * The notification image.
+     *
+     * @var string
+     */
+    protected $image = null;
 
     /**
      * The notification actions.
@@ -150,6 +157,19 @@ class WebPushMessage implements JsonSerializable
     public function icon($value)
     {
         $this->icon = $value;
+
+        return $this;
+    }
+    
+    /**
+     * Set the notification image.
+     *
+     * @param  string $value
+     * @return $this
+     */
+    public function image($value)
+    {
+        $this->image = $value;
 
         return $this;
     }
@@ -286,6 +306,7 @@ class WebPushMessage implements JsonSerializable
                 'body' => $this->body,
                 'dir' => $this->dir,
                 'icon' => $this->icon,
+                'image' => $this->image,
                 'badge' => $this->badge,
                 'lang' => $this->lang,
                 'renotify' => $this->renotify,

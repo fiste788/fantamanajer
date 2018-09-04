@@ -3,6 +3,7 @@
 namespace App\Model\Table;
 
 use ArrayObject;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -12,17 +13,17 @@ use Cake\Validation\Validator;
 /**
  * PushSubscriptions Model
  *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property UsersTable|\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\PushSubscription get($primaryKey, $options = [])
  * @method \App\Model\Entity\PushSubscription newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\PushSubscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\PushSubscription|bool save(EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription patchEntity(EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\PushSubscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription|bool saveOrFail(EntityInterface $entity, $options = [])
  */
 class PushSubscriptionsTable extends Table
 {
@@ -122,7 +123,7 @@ class PushSubscriptionsTable extends Table
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
-            $entity->setId(Security::hash($entity->endpoint, 'sha256'));
+            $entity->id = Security::hash($entity->endpoint, 'sha256');
         }
     }
 }

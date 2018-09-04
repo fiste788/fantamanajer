@@ -16,6 +16,7 @@ use Cake\Utility\Hash;
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
  * @property \App\Model\Table\TeamsTable $Teams
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
 class SendLineupsEmailCommand extends Command
 {
@@ -26,6 +27,7 @@ class SendLineupsEmailCommand extends Command
         parent::initialize();
         $this->loadModel('Championships');
         $this->loadModel('Teams');
+        $this->loadModel('Matchdays');
         $this->getCurrentMatchday();
     }
 
@@ -48,8 +50,11 @@ class SendLineupsEmailCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $date = $this->currentMatchday->date;
-        if ($date->wasWithinLast('59 seconds') || $args->getOption('force')) {
+        $previousMatchday = $this->Matchdays->find()->where([
+            'season_id' => $this->currentSeason->id,
+            'number' => $this->currentMatchday->number - 1
+        ])->first();
+        if ($previousMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
             $championships = $this->Championships->find()
                 ->contain(['Teams' => function (Query $q) {
                     return $q->contain(['Users'])

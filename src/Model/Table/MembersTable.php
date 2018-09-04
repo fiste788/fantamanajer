@@ -2,10 +2,12 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Event as FantamanajerEvent;
+use App\Model\Entity\Member;
 use ArrayObject;
+use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -15,24 +17,24 @@ use Cake\Validation\Validator;
 /**
  * Members Model
  *
- * @property \App\Model\Table\PlayersTable|\Cake\ORM\Association\BelongsTo $Players
- * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\BelongsTo $Roles
- * @property \App\Model\Table\ClubsTable|\Cake\ORM\Association\BelongsTo $Clubs
- * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsToMany $Teams
+ * @property PlayersTable|\Cake\ORM\Association\BelongsTo $Players
+ * @property RolesTable|\Cake\ORM\Association\BelongsTo $Roles
+ * @property ClubsTable|\Cake\ORM\Association\BelongsTo $Clubs
+ * @property SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
+ * @property DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property RatingsTable|\Cake\ORM\Association\HasMany $Ratings
+ * @property TeamsTable|\Cake\ORM\Association\BelongsToMany $Teams
  *
- * @method \App\Model\Entity\Member get($primaryKey, $options = [])
- * @method \App\Model\Entity\Member newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Member|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Member[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
+ * @method Member get($primaryKey, $options = [])
+ * @method Member newEntity($data = null, array $options = [])
+ * @method Member[] newEntities(array $data, array $options = [])
+ * @method Member|bool save(EntityInterface $entity, $options = [])
+ * @method Member patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Member[] patchEntities($entities, array $data, array $options = [])
+ * @method Member findOrCreate($search, callable $callback = null, $options = [])
+ * @property VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\Member|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method Member|bool saveOrFail(EntityInterface $entity, $options = [])
  */
 class MembersTable extends Table
 {
@@ -215,6 +217,8 @@ class MembersTable extends Table
         }
         if ($options['role']) {
             $q->where(['role_id' => $options['role']]);
+        } else {
+            $q->select(['id','Players.name','Players.surname','role_id']);
         }
 
         return $q;
@@ -258,9 +262,9 @@ class MembersTable extends Table
 
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        $event = new Event('Fantamanajer.changeMember', $this, [
+        $ev = new Event('Fantamanajer.changeMember', $this, [
             'member' => $entity
         ]);
-        EventManager::instance()->dispatch($event);
+        EventManager::instance()->dispatch($ev);
     }
 }

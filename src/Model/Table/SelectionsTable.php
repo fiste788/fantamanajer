@@ -2,13 +2,16 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Event;
 use App\Model\Entity\Selection;
+use App\Model\Table\MatchdaysTable;
+use App\Model\Table\MembersTable;
+use App\Model\Table\TeamsTable;
 use App\Utility\WebPush\WebPushMessage;
 use ArrayObject;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event as CakeEvent;
+use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\Mailer\Email;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
@@ -22,20 +25,20 @@ use Minishlink\WebPush\WebPush;
 /**
  * Selections Model
  *
- * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property TeamsTable|BelongsTo $Teams
  * @property BelongsTo $Members
  * @property BelongsTo $Members
- * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
- * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
- * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Selection|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Selection|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property MatchdaysTable|BelongsTo $Matchdays
+ * @property MembersTable|BelongsTo $NewMembers
+ * @property MembersTable|BelongsTo $OldMembers
+ * @method Selection get($primaryKey, $options = [])
+ * @method Selection newEntity($data = null, array $options = [])
+ * @method Selection[] newEntities(array $data, array $options = [])
+ * @method Selection|bool save(EntityInterface $entity, $options = [])
+ * @method Selection patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Selection[] patchEntities($entities, array $data, array $options = [])
+ * @method Selection findOrCreate($search, callable $callback = null, $options = [])
+ * @method Selection|bool saveOrFail(EntityInterface $entity, $options = [])
  */
 class SelectionsTable extends Table
 {

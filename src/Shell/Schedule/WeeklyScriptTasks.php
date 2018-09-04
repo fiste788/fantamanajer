@@ -8,6 +8,6 @@ $schedule
     ->every('minute', 6)
     ->between('09:00', '22:00')
     ->description('Weekly script')
-    ->appendOutputTo(LOGS . 'schedule' . DS . 'weekly_script' . DS . date('yyyyddmm') . '.log');
+    ->appendOutputTo(LOGS . 'schedule' . DS . 'weekly_script' . DS . date('ymd') . '.log');
 
 return $schedule;

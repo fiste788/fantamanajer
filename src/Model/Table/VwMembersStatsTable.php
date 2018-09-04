@@ -33,7 +33,7 @@ class VwMembersStatsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('vw_members_stats');
+        $this->setTable('vw_members_stats');
 
         $this->belongsTo(
             'Members',

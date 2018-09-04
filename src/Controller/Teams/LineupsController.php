@@ -6,6 +6,10 @@ use App\Model\Entity\Lineup;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
+/**
+ *
+ * @property \App\Model\Table\LineupsTable $Lineups
+ */
 class LineupsController extends \App\Controller\LineupsController
 {
     public function beforeFilter(Event $event)
@@ -28,16 +32,18 @@ class LineupsController extends \App\Controller\LineupsController
             });
         } else {
             $matchdayId = TableRegistry::getTableLocator()->get('Matchdays')->find()
-                ->innerJoinWith('Scores')
+                ->select('Matchdays.id')
+                ->leftJoinWith('Scores')
                 ->orderAsc('Matchdays.number')
-                ->where([
-                    'Scores.id' => null,
+                ->whereNull('Scores.id')->andWhere([
+                    'Matchdays.number >' => 0,
                     'season_id' => $this->currentSeason->id
                 ])->first();
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchdayId) {
                 $event->getSubject()->query = $this->Lineups->find('byMatchdayIdAndTeamId', [
-                    'matchday_id' => $matchdayId,
-                    'team_id' => $team
+                    'matchday_id' => $matchdayId->id,
+                    'team_id' => $team,
+                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
                 ]);
             });
         }
@@ -51,10 +57,13 @@ class LineupsController extends \App\Controller\LineupsController
 
         try {
             return $this->Crud->execute();
-        } catch (\Exception $e) {
+        } catch (\Cake\Http\Exception\NotFoundException $e) {
+            $lineup = new Lineup();
+            $lineup->team = TableRegistry::get('Teams')->get($team, ['contain' => ['Members' => ['Roles', 'Players']]]);
+            $lineup->modules = Lineup::$module;
             $this->set([
                 'success' => true,
-                'data' => null,
+                'data' => $lineup,
                 '_serialize' => ['success', 'data']
             ]);
         }

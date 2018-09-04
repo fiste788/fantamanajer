@@ -53,7 +53,7 @@ trait GazzettaTrait
     {
         $year = $matchday->season->year;
         $folder = new Folder(RATINGS_CSV . $year, true);
-        $pathCsv = $folder->path . DS . "Giornata" . str_pad($matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
+        $pathCsv = $folder->path . DS . "Matchday" . str_pad($matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
         $file = new File($pathCsv);
         $this->io->out("Search file in path " . $file->path);
         if ($file->exists() && $file->size() > 0 && !$forceDownload) {
@@ -135,6 +135,7 @@ trait GazzettaTrait
             $crawler->addContent($response->body());
             $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
             if ($tr->count() > 0) {
+                $this->io->out("Matchday found");
                 $button = $tr->selectButton("DOWNLOAD");
                 if(!$button->count()) {
                     $link = $tr->selectLink("DOWNLOAD");
