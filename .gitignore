@@ -39,3 +39,4 @@ nbproject/*
 # Sass preprocessor
 .sass-cache/
 *.lock
+backups

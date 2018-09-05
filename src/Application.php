@@ -70,6 +70,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Bake');
         $this->addPlugin('CakeScheduler');
         $this->addPlugin('StreamCake');
+        $this->addPlugin('DatabaseBackup', ['bootstrap' => true]);
 
         /*
          * Only try to load DebugKit in development mode
