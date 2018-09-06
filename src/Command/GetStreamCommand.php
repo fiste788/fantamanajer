@@ -34,17 +34,17 @@ class GetStreamCommand extends Command
     }
 
     /**
-         * @var \App\Model\Entity\Team[] $teams
-         */
+     * @var \App\Model\Entity\Team[] $teams
+     */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $timelineFeed = $this->client->feed('timeline','general');
+        $timelineFeed = $this->client->feed('timeline', 'general');
         $championsipTable = \Cake\ORM\TableRegistry::getTableLocator()->get('Championships');
         $championsips = $championsipTable->find()->contain(['Teams'])->all();
         foreach ($championsips as $championsip) {
             $this->processChampionship($championsip, $timelineFeed);
         }
-        
+
         /*
         $io->out(print_r($activities,1));
         $enrich = new Enrich();
@@ -52,13 +52,13 @@ class GetStreamCommand extends Command
         $richedActivities = $enrich->enrichActivities($activities['results']);
         $io->out(print_r($richedActivities,1));*/
     }
-    
+
     /**
-     * 
+     *
      * @param \App\Model\Entity\Championship $championship
      * @param \GetStream\Stream\Feed $timelineFeed
      */
-    private function processChampionship($championship,$timelineFeed)
+    private function processChampionship($championship, $timelineFeed)
     {
         $championshipFeed = $this->client->feed('championship', $championship->id);
         $championshipFeed->follow($timelineFeed->getSlug(), $timelineFeed->getUserId());

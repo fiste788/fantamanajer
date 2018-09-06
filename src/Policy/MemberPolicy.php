@@ -15,8 +15,8 @@ class MemberPolicy
     {
         return true;
     }
-	
-	public function canFreeByRole(IdentityInterface $user, Member $member)
+
+    public function canFreeByRole(IdentityInterface $user, Member $member)
     {
         return true;
     }

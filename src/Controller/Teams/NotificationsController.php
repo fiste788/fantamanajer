@@ -32,12 +32,12 @@ class NotificationsController extends AppController
             ]
         );
     }
-    
+
     public function index()
     {
         $teamId = $this->request->getParam('team_id');
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('notification', $teamId, true,0,20,['mark_seen' => true]);
+        $stream = $manager->getActivities('notification', $teamId, true, 0, 20, ['mark_seen' => true]);
 
         $this->set(
             [

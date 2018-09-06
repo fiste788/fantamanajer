@@ -26,12 +26,13 @@ class GetMatchdayScheduleCommand extends Command
         $this->loadModel('Matchdays');
         $this->getCurrentMatchday();
     }
-    
+
     protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         parent::buildOptionParser($parser);
         $parser->addArgument('matchday');
         $parser->addArgument('season');
+
         return $parser;
     }
 
@@ -48,7 +49,7 @@ class GetMatchdayScheduleCommand extends Command
                 'season_id' => $season->id
             ])->first();
         }
-        
+
         $this->exec($season, $matchday, $io);
     }
 
@@ -78,12 +79,13 @@ class GetMatchdayScheduleCommand extends Command
                 $date = trim($box->text());
                 if ($date != "") {
                     $io->info($date);
-                    if(!strpos($date, " ")) {
+                    if (!strpos($date, " ")) {
                         $out = Chronos::createFromFormat("!d/m/Y", $date);
                         $out = $out->setTime(18, 0, 0, 0);
                     } else {
                         $out = Chronos::createFromFormat("!d/m/Y H:i", $date);
                     }
+
                     return $out;
                 } else {
                     $io->err("Cannot find date");

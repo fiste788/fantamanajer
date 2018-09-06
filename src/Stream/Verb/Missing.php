@@ -7,7 +7,7 @@ use App\Stream\StreamSingleActivity;
 
 class Missing extends StreamSingleActivity implements StreamActivityInterface
 {
-    
+
     public function getBody()
     {
         return null;

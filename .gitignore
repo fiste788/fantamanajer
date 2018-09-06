@@ -1,6 +1,9 @@
 # CakePHP specific files #
 ##########################
+/backups/*
 /config/app.php
+/config/app_config.php
+/config/app_local.php
 /config/.env
 /logs/*
 /tmp/*
@@ -39,4 +42,3 @@ nbproject/*
 # Sass preprocessor
 .sass-cache/
 *.lock
-backups

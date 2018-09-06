@@ -168,7 +168,7 @@ class ScoresTable extends Table
         $championshipId = $options['championship_id'];
         $q->select([
                 'Teams.id',
-                'sum_points' => $q->func()->coalesce([$q->func()->sum('points'),0])
+                'sum_points' => $q->func()->coalesce([$q->func()->sum('points'), 0])
             ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->where(['Teams.championship_id' => $championshipId])
             ->group('Teams.id')

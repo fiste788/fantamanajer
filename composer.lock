@@ -681,12 +681,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fiste788/cake-scheduler.git",
-                "reference": "6a58a25bbfc52bc50f7c6059087815be7d86f868"
+                "reference": "f33517388abd65f91a9f5abd8c77991b28e88696"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fiste788/cake-scheduler/zipball/6a58a25bbfc52bc50f7c6059087815be7d86f868",
-                "reference": "6a58a25bbfc52bc50f7c6059087815be7d86f868",
+                "url": "https://api.github.com/repos/fiste788/cake-scheduler/zipball/f33517388abd65f91a9f5abd8c77991b28e88696",
+                "reference": "f33517388abd65f91a9f5abd8c77991b28e88696",
                 "shasum": ""
             },
             "require": {
@@ -720,7 +720,7 @@
             "support": {
                 "source": "https://github.com/fiste788/cake-scheduler/tree/master"
             },
-            "time": "2018-05-07T21:15:37+00:00"
+            "time": "2018-09-06T09:37:56+00:00"
         },
         {
             "name": "friendsofcake/crud",
@@ -4189,16 +4189,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.8.5",
+            "version": "1.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "3e4edb822c942f37ade0d09579cfbab11e2fee87"
+                "reference": "20da13beba0dde8fb648be3cc19765732790f46e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/3e4edb822c942f37ade0d09579cfbab11e2fee87",
-                "reference": "3e4edb822c942f37ade0d09579cfbab11e2fee87",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/20da13beba0dde8fb648be3cc19765732790f46e",
+                "reference": "20da13beba0dde8fb648be3cc19765732790f46e",
                 "shasum": ""
             },
             "require": {
@@ -4211,6 +4211,7 @@
             "require-dev": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
+                "php-http/psr7-integration-tests": "dev-master",
                 "phpunit/phpunit": "^5.7.16 || ^6.0.8 || ^7.2.7",
                 "zendframework/zend-coding-standard": "~1.0"
             },
@@ -4248,7 +4249,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2018-08-10T14:16:32+00:00"
+            "time": "2018-09-05T19:29:37+00:00"
         }
     ],
     "packages-dev": [

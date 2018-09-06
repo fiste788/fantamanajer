@@ -7,7 +7,7 @@ use App\Stream\StreamSingleActivity;
 
 class Post extends StreamSingleActivity implements StreamActivityInterface
 {
-    
+
     public function getBody()
     {
         return $this->activity->offsetGet('object')->body;

@@ -7,7 +7,7 @@ use App\Stream\StreamSingleActivity;
 
 class Selection extends StreamSingleActivity implements StreamActivityInterface
 {
-    
+
     public function getBody()
     {
         return null;

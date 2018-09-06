@@ -104,6 +104,4 @@ class Team extends Entity
 
         return false;
     }
-    
-    
 }

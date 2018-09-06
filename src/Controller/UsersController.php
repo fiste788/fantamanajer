@@ -64,14 +64,14 @@ class UsersController extends AppController
                 ]
         );
     }
-    
+
     public function stream()
     {
         $userId = $this->request->getParam('user_id');
         if (!$this->Authentication->getIdentity()->id == $userId) {
             throw new ForbiddenException();
         }
-        
+
         $manager = new ActivityManager();
         $stream = $manager->getActivities('user', $userId, false);
         $this->set([

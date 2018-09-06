@@ -18,7 +18,7 @@ class MembersController extends AppController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
-		$this->Crud->mapAction('freeByRole', 'Crud.Index');
+        $this->Crud->mapAction('freeByRole', 'Crud.Index');
         $championshipId = $this->request->getParam('championship_id');
         if (!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
             throw new \Cake\Http\Exception\ForbiddenException();
@@ -37,7 +37,7 @@ class MembersController extends AppController
 
         return $this->Crud->execute();
     }
-    
+
     public function free()
     {
         $this->Crud->action()->findMethod([
@@ -46,8 +46,8 @@ class MembersController extends AppController
                 'stats' => false,
             ]
         ]);
-        
-        $this->Crud->on('afterPaginate', function(Event $event) {
+
+        $this->Crud->on('afterPaginate', function (Event $event) {
             $collection = new \Cake\Collection\Collection($event->getSubject()->entities);
             $event->getSubject()->entities = $collection->groupBy('role_id')->toArray();
         });

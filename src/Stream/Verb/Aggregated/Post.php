@@ -7,7 +7,7 @@ use App\Stream\StreamAggregatedActivity;
 
 class Post extends StreamAggregatedActivity implements StreamActivityInterface
 {
-    
+
     public function getBody()
     {
         return null;

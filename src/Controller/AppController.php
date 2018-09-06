@@ -71,14 +71,14 @@ class AppController extends Controller
         ];
     }
 
-    public function _afterFind(Event $event)
+    protected function _afterFind(Event $event)
     {
         if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
         }
     }
 
-    public function _afterPaginate(Event $event)
+    protected function _afterPaginate(Event $event)
     {
         if ($this->Authentication->getIdentity()) {
             foreach ($event->getSubject()->entities as $entity) {

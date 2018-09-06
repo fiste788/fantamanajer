@@ -218,7 +218,7 @@ class MembersTable extends Table
         if ($options['role']) {
             $q->where(['role_id' => $options['role']]);
         } else {
-            $q->select(['id','Players.name','Players.surname','role_id']);
+            $q->select(['id', 'Players.name', 'Players.surname', 'role_id']);
         }
 
         return $q;

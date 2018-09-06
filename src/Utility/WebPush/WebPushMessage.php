@@ -27,7 +27,7 @@ class WebPushMessage implements JsonSerializable
      * @var string
      */
     protected $icon = null;
-    
+
     /**
      * The notification image.
      *
@@ -160,7 +160,7 @@ class WebPushMessage implements JsonSerializable
 
         return $this;
     }
-    
+
     /**
      * Set the notification image.
      *

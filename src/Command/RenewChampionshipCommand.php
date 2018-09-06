@@ -29,7 +29,8 @@ class RenewChampionshipCommand extends Command
     public function buildOptionParser(ConsoleOptionParser $parser)
     {
         $parser->setDescription('Renew the given championship');
-        $parser->addArgument('id',['help' => 'Championship id to renew']);
+        $parser->addArgument('id', ['help' => 'Championship id to renew']);
+
         return $parser;
     }
 
@@ -46,29 +47,30 @@ class RenewChampionshipCommand extends Command
         $newChampionship->season_id = $this->currentSeason->id;
         $newChampionship->started = false;
         $that = $this;
-        $newChampionship->teams = array_map(function (Team $team) use ($newChampionship,$that) {
+        $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $that) {
             $newTeam = $that->Championships->Teams->newEntity($team->getOriginalValues());
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
+
             return $newTeam;
         }, $championship->teams);
         $io->out('Save championship');
         $this->Championships->save($newChampionship);
-        foreach($championship->teams as $key => $team) {
+        foreach ($championship->teams as $key => $team) {
             $newTeam = $newChampionship->teams[$key];
             $file = new File(ROOT . DS . $team->photo_dir . $team->photo);
             $io->out('Cerco immagine in ' . ROOT . DS . $team->photo_dir . $team->photo);
-            if($file->exists()) {
+            if ($file->exists()) {
                 $io->out('Trovata immagine ' . $team->photo);
                 $folder = new Folder(ROOT . DS . $team->photo_dir);
                 $to = FILES . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
-                if($folder->copy(['to' => $to])) {
+                if ($folder->copy(['to' => $to])) {
                     $io->out('Copiata folder ' . $to);
                     $newFolder = new Folder($to);
                     $files = $newFolder->findRecursive($team->photo);
                     foreach ($files as $file) {
                         $file = new File($file);
-                        if($file->copy($file->Folder->path . DS . $newTeam->id . "." . $file->ext())) {
+                        if ($file->copy($file->Folder->path . DS . $newTeam->id . "." . $file->ext())) {
                             $file->delete();
                         }
                     }
@@ -76,9 +78,7 @@ class RenewChampionshipCommand extends Command
                     $newTeam->photo_dir = 'webroot' . DS . 'files' . DS . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo' . DS;
                     $this->Championships->Teams->save($newTeam);
                 }
-                
             }
         }
-        
     }
 }

@@ -12,12 +12,12 @@ class StreamCell extends Cell
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
-        if($aggregated) {
+        if ($aggregated) {
             $enriched = $enrich->enrichAggregatedActivities($feed->getActivities()['results']);
         } else {
             $enriched = $enrich->enrichActivities($feed->getActivities()['results']);
         }
-        
+
         $this->set([
             'stream' => $enriched,
             '_serialize' => false

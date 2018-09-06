@@ -146,7 +146,7 @@ class WeeklyScriptCommand extends Command
     }
 
     /**
-     * 
+     *
      * @param Matchday $matchday
      * @param Championship $championship
      * @param \App\Model\Entity\Score[] $scores

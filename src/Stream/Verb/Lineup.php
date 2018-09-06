@@ -6,7 +6,8 @@ use App\Stream\StreamActivityInterface;
 use App\Stream\StreamSingleActivity;
 
 class Lineup extends StreamSingleActivity implements StreamActivityInterface
-{   
+{
+
     public function getBody()
     {
         $lineup = $this->activity->offsetGet('object');
@@ -15,6 +16,7 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
         foreach ($regular as $disposition) {
             $players[] = $disposition->member->player->surname;
         }
+
         return implode(', ', $players);
     }
 

@@ -137,7 +137,7 @@ trait GazzettaTrait
             if ($tr->count() > 0) {
                 $this->io->out("Matchday found");
                 $button = $tr->selectButton("DOWNLOAD");
-                if(!$button->count()) {
+                if (!$button->count()) {
                     $link = $tr->selectLink("DOWNLOAD");
                     $url = $link->link()->getUri();
                 } else {

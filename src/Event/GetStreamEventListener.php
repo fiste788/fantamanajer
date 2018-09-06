@@ -15,13 +15,13 @@ class GetStreamEventListener implements EventListenerInterface
      * @var Client
      */
     private $client;
-    
+
     public function __construct()
     {
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
-    
+
     public function implementedEvents()
     {
         return [
@@ -34,7 +34,7 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     * 
+     *
      * @param Event $event
      * @param Article $article
      */
@@ -48,9 +48,9 @@ class GetStreamEventListener implements EventListenerInterface
             'object' => 'Article:' . $article->id
         ]);
     }
-    
+
     /**
-     * 
+     *
      * @param Event $event
      * @param \App\Model\Entity\Lineup $lineup
      */
@@ -64,9 +64,9 @@ class GetStreamEventListener implements EventListenerInterface
             'object' => 'Lineup:' . $lineup->id
         ]);
     }
-    
+
     /**
-     * 
+     *
      * @param Event $event
      * @param \App\Model\Entity\Selection $selection
      */
@@ -80,9 +80,9 @@ class GetStreamEventListener implements EventListenerInterface
             'object' => 'Selection:' . $selection->id
         ]);
     }
-    
+
     /**
-     * 
+     *
      * @param Event $event
      * @param \App\Model\Entity\Transfert $transfert
      */
@@ -96,9 +96,9 @@ class GetStreamEventListener implements EventListenerInterface
             'object' => 'Transfert:' . $transfert->id
         ]);
     }
-    
+
     /**
-     * 
+     *
      * @param Event $event
      * @param \App\Model\Entity\Member $member
      */
@@ -113,7 +113,7 @@ class GetStreamEventListener implements EventListenerInterface
                 'object' => 'Member:' . $member->id,
                 'to' => 'timeline:general'
             ]);
-            if($member->isDirty('club_id') && !$member->isNew() && $member->active) {
+            if ($member->isDirty('club_id') && !$member->isNew() && $member->active) {
                 $feed = $this->client->feed('club', $member->getOriginal('club_id'));
                 $feed->setGuzzleDefaultOption('verify', false);
                 $feed->addActivity([
@@ -133,7 +133,5 @@ class GetStreamEventListener implements EventListenerInterface
                 'to' => 'timeline:general'
             ]);
         }
-        
     }
-    
 }

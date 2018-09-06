@@ -49,22 +49,19 @@ class SendTestNotificationCommand extends Command
             $webPush = new WebPush(Configure::read('WebPush'));
             $team = $this->Teams->get(55, ['contain' => ['Users.PushSubscriptions']]);
                 $io->out('cerco squadra 55');
-            
-                foreach ($team->user->push_subscriptions as $subscription) {
-                    $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
-                            ->title('Notifica di test')
-                            ->body('Testo molto lungo che ora non sto a scrivere perchè non ho tempo')
-                        ->image('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
-                            ->action('Apri', 'open')
-                            ->tag('missing-lineup-' . $this->currentMatchday->number)
-                            ->data(['url' => '/teams/' . $team->id . '/lineup']);
-                    $io->out(json_encode($message));
-                    $io->out('Send push notification to ' . $subscription->endpoint);
-                    $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
-                    print_r($webPush->flush());
-                }
-                
-            
-        
+
+        foreach ($team->user->push_subscriptions as $subscription) {
+            $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+                    ->title('Notifica di test')
+                    ->body('Testo molto lungo che ora non sto a scrivere perchè non ho tempo')
+                ->image('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
+                    ->action('Apri', 'open')
+                    ->tag('missing-lineup-' . $this->currentMatchday->number)
+                    ->data(['url' => '/teams/' . $team->id . '/lineup']);
+            $io->out(json_encode($message));
+            $io->out('Send push notification to ' . $subscription->endpoint);
+            $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
+            print_r($webPush->flush());
+        }
     }
 }

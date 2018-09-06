@@ -16,7 +16,7 @@ class StreamController extends AppController
         if (!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
             throw new ForbiddenException();
         }
-        
+
         $manager = new ActivityManager();
         $stream = $manager->getActivities('championship', $championshipId, true);
         $this->set([

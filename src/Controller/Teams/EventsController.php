@@ -14,7 +14,7 @@ use Cake\View\CellTrait;
 class EventsController extends AppController
 {
     use CellTrait;
-    
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -39,7 +39,7 @@ class EventsController extends AppController
             'feedName' => 'team',
             'feedId' => $this->request->getParam('team_id')
         ]);
-        
+
         $this->set([
             'cell' => $cell,
             '_serialize' => false
