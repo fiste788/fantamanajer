@@ -16,7 +16,7 @@ class ArticlesTableTest extends TestCase
      *
      * @var \App\Model\Table\ArticlesTable
      */
-    public $Articles;
+    public $ArticlesTable;
 
     /**
      * Fixtures
@@ -37,8 +37,8 @@ class ArticlesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Articles') ? [] : ['className' => 'App\Model\Table\ArticlesTable'];
-        $this->Articles = TableRegistry::get('Articles', $config);
+        $config = TableRegistry::getTableLocator()->exists('Articles') ? [] : ['className' => ArticlesTable::class];
+        $this->ArticlesTable = TableRegistry::getTableLocator()->get('Articles', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class ArticlesTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Articles);
+        unset($this->ArticlesTable);
 
         parent::tearDown();
     }
@@ -59,6 +59,16 @@ class ArticlesTableTest extends TestCase
      * @return void
      */
     public function testInitialize()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeMarshal method
+     *
+     * @return void
+     */
+    public function testBeforeMarshal()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -79,6 +89,36 @@ class ArticlesTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByChampionshipId method
+     *
+     * @return void
+     */
+    public function testFindByChampionshipId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeamId method
+     *
+     * @return void
+     */
+    public function testFindByTeamId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

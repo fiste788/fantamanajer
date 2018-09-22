@@ -16,7 +16,7 @@ class DispositionsTableTest extends TestCase
      *
      * @var \App\Model\Table\DispositionsTable
      */
-    public $Dispositions;
+    public $DispositionsTable;
 
     /**
      * Fixtures
@@ -26,7 +26,8 @@ class DispositionsTableTest extends TestCase
     public $fixtures = [
         'app.dispositions',
         'app.lineups',
-        'app.members'
+        'app.members',
+        'app.ratings'
     ];
 
     /**
@@ -37,8 +38,8 @@ class DispositionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Dispositions') ? [] : ['className' => 'App\Model\Table\DispositionsTable'];
-        $this->Dispositions = TableRegistry::get('Dispositions', $config);
+        $config = TableRegistry::getTableLocator()->exists('Dispositions') ? [] : ['className' => DispositionsTable::class];
+        $this->DispositionsTable = TableRegistry::getTableLocator()->get('Dispositions', $config);
     }
 
     /**
@@ -48,7 +49,7 @@ class DispositionsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Dispositions);
+        unset($this->DispositionsTable);
 
         parent::tearDown();
     }

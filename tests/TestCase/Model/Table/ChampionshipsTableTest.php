@@ -16,7 +16,7 @@ class ChampionshipsTableTest extends TestCase
      *
      * @var \App\Model\Table\ChampionshipsTable
      */
-    public $Championships;
+    public $ChampionshipsTable;
 
     /**
      * Fixtures
@@ -38,8 +38,8 @@ class ChampionshipsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Championships') ? [] : ['className' => 'App\Model\Table\ChampionshipsTable'];
-        $this->Championships = TableRegistry::get('Championships', $config);
+        $config = TableRegistry::getTableLocator()->exists('Championships') ? [] : ['className' => ChampionshipsTable::class];
+        $this->ChampionshipsTable = TableRegistry::getTableLocator()->get('Championships', $config);
     }
 
     /**
@@ -49,7 +49,7 @@ class ChampionshipsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Championships);
+        unset($this->ChampionshipsTable);
 
         parent::tearDown();
     }

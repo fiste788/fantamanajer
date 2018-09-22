@@ -136,35 +136,45 @@ trait GazzettaTrait
             $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
             if ($tr->count() > 0) {
                 $this->io->out("Matchday found");
-                $button = $tr->selectButton("DOWNLOAD");
-                if (!$button->count()) {
-                    $link = $tr->selectLink("DOWNLOAD");
-                    $url = $link->link()->getUri();
-                } else {
-                    $matches = sscanf($button->attr("onclick"), "window.open('%[^']");
-                    //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
-                    $url = $matches[0];
-                }
-                $this->io->verbose("Downloading " . $url);
-                $response = $http->get($url);
-                if ($response->isOk()) {
-                    $crawler = new Crawler();
-                    $crawler->addContent($response->body());
-                    $button = $crawler->filter("#default_content_download_button");
-                    if ($button->count()) {
-                        $url = $button->attr("href");
-                    } else {
-                        $url = str_replace("www", "dl", $url);
-                    }
-                    $this->io->out("Downloading $url in tmp dir");
-                    $file = TMP . $matchday . '.mxm';
-                    file_put_contents($file, file_get_contents($url));
-
-                    return $file;
-                }
+                $url = $this->getUrlFromMatchdayRow($tr);
+                return $this->downloadDropboxUrl($url, $matchday, $http);
             }
+        }
+    }
+    
+    private function getUrlFromMatchdayRow($tr) {
+        $button = $tr->selectButton("DOWNLOAD");
+        if (!$button->count()) {
+            $link = $tr->selectLink("DOWNLOAD");
+            if($link->count()) {
+                return $link->link()->getUri();        
+            }    
         } else {
-            $this->abort("Could not connect to Maxigames");
+            $matches = sscanf($button->attr("onclick"), "window.open('%[^']");
+            //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
+            return $matches[0];
+        }
+    }
+    
+    private function downloadDropboxUrl($url, $matchday, $http) {
+        if($url) {
+            $this->io->verbose("Downloading " . $url);
+            $response = $http->get($url);
+            if ($response->isOk()) {
+                $crawler = new Crawler();
+                $crawler->addContent($response->body());
+                $button = $crawler->filter("#default_content_download_button");
+                if ($button->count()) {
+                    $url = $button->attr("href");
+                } else {
+                    $url = str_replace("www", "dl", $url);
+                }
+                $this->io->out("Downloading $url in tmp dir");
+                $file = TMP . $matchday . '.mxm';
+                file_put_contents($file, file_get_contents($url));
+
+                return $file;
+            }
         }
     }
 

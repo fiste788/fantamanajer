@@ -16,7 +16,7 @@ class ClubsTableTest extends TestCase
      *
      * @var \App\Model\Table\ClubsTable
      */
-    public $Clubs;
+    public $ClubsTable;
 
     /**
      * Fixtures
@@ -36,8 +36,8 @@ class ClubsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Clubs') ? [] : ['className' => 'App\Model\Table\ClubsTable'];
-        $this->Clubs = TableRegistry::get('Clubs', $config);
+        $config = TableRegistry::getTableLocator()->exists('Clubs') ? [] : ['className' => ClubsTable::class];
+        $this->ClubsTable = TableRegistry::getTableLocator()->get('Clubs', $config);
     }
 
     /**
@@ -47,7 +47,7 @@ class ClubsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Clubs);
+        unset($this->ClubsTable);
 
         parent::tearDown();
     }
@@ -68,6 +68,16 @@ class ClubsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findBySeasonId method
+     *
+     * @return void
+     */
+    public function testFindBySeasonId()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

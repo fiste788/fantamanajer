@@ -16,7 +16,7 @@ class RatingsTableTest extends TestCase
      *
      * @var \App\Model\Table\RatingsTable
      */
-    public $Ratings;
+    public $RatingsTable;
 
     /**
      * Fixtures
@@ -26,18 +26,7 @@ class RatingsTableTest extends TestCase
     public $fixtures = [
         'app.ratings',
         'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.seasons',
-        'app.dispositions',
-        'app.lineups',
-        'app.matchdays',
-        'app.articles',
-        'app.teams',
-        'app.scores',
-        'app.transferts',
-        'app.members_teams'
+        'app.matchdays'
     ];
 
     /**
@@ -48,8 +37,8 @@ class RatingsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Ratings') ? [] : ['className' => 'App\Model\Table\RatingsTable'];
-        $this->Ratings = TableRegistry::get('Ratings', $config);
+        $config = TableRegistry::getTableLocator()->exists('Ratings') ? [] : ['className' => RatingsTable::class];
+        $this->RatingsTable = TableRegistry::getTableLocator()->get('Ratings', $config);
     }
 
     /**
@@ -59,7 +48,7 @@ class RatingsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Ratings);
+        unset($this->RatingsTable);
 
         parent::tearDown();
     }
@@ -90,6 +79,26 @@ class RatingsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test existMatchday method
+     *
+     * @return void
+     */
+    public function testExistMatchday()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findMaxMatchday method
+     *
+     * @return void
+     */
+    public function testFindMaxMatchday()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

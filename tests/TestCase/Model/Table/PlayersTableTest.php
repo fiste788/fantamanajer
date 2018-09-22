@@ -16,7 +16,7 @@ class PlayersTableTest extends TestCase
      *
      * @var \App\Model\Table\PlayersTable
      */
-    public $Players;
+    public $PlayersTable;
 
     /**
      * Fixtures
@@ -25,19 +25,7 @@ class PlayersTableTest extends TestCase
      */
     public $fixtures = [
         'app.players',
-        'app.members',
-        'app.roles',
-        'app.clubs',
-        'app.seasons',
-        'app.dispositions',
-        'app.lineups',
-        'app.matchdays',
-        'app.articles',
-        'app.teams',
-        'app.ratings',
-        'app.scores',
-        'app.transferts',
-        'app.members_teams'
+        'app.members'
     ];
 
     /**
@@ -48,8 +36,8 @@ class PlayersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Players') ? [] : ['className' => 'App\Model\Table\PlayersTable'];
-        $this->Players = TableRegistry::get('Players', $config);
+        $config = TableRegistry::getTableLocator()->exists('Players') ? [] : ['className' => PlayersTable::class];
+        $this->PlayersTable = TableRegistry::getTableLocator()->get('Players', $config);
     }
 
     /**
@@ -59,7 +47,7 @@ class PlayersTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Players);
+        unset($this->PlayersTable);
 
         parent::tearDown();
     }
@@ -80,6 +68,16 @@ class PlayersTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithDetails method
+     *
+     * @return void
+     */
+    public function testFindWithDetails()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

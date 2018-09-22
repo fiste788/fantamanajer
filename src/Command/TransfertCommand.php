@@ -42,6 +42,7 @@ class TransfertCommand extends Command
             'boolean' => true,
             'default' => false
         ]);
+        $parser->addArgument('matchday');
 
         return $parser;
     }
@@ -49,9 +50,20 @@ class TransfertCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io)
     {
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
+            $matchday = $this->currentMatchday;
+            if($args->hasArgument('matchday')) {
+               $matchday = $this->Matchdays->find()->where([
+                    'season_id' => $this->currentSeason->id,
+                    'number' => $args->getArgument('matchday')
+                ])->firstOrFail();
+            }
             $selections = $this->Selections->find()
                 ->contain(['OldMembers.Players', 'NewMembers.Players', 'Teams'])
-                ->where(['matchday_id' => $this->currentMatchday->id, 'processed' => false]);
+                ->where([
+                    'matchday_id' => $matchday->id,
+                    'processed' => false,
+                    'Selections.active' => true
+                ]);
             $table[] = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {
                 foreach ($selections as $selection) {
@@ -73,7 +85,7 @@ class TransfertCommand extends Command
         }
     }
 
-    private function doTransferts(ConsoleIo $io, array $selections)
+    private function doTransferts(ConsoleIo $io, $selections)
     {
         if ($this->Selections->saveMany($selections)) {
             $io->out('Changes committed');

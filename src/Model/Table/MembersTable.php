@@ -212,10 +212,10 @@ class MembersTable extends Table
                     ])
                 ->orderAsc('Players.surname')
                 ->orderAsc('Players.name');
-        if ($options['stats']) {
+        if (isset($options['stats']) && $options['stats']) {
             $q->contain(['VwMembersStats']);
         }
-        if ($options['role']) {
+        if (isset($options['role'])) {
             $q->where(['role_id' => $options['role']]);
         } else {
             $q->select(['id', 'Players.name', 'Players.surname', 'role_id']);
@@ -244,6 +244,21 @@ class MembersTable extends Table
         if ($options['stats']) {
             $q->contain(['Roles', 'VwMembersStats']);
         }
+
+        return $q;
+    }
+    
+    public function findNotMine(Query $q, array $options)
+    {
+        $team = $this->Teams->get($options['team_id'], ['contain' => ['Championships']]);
+        $q->contain(['Players', 'Teams'])->leftJoinWith('Teams')->where([
+            'Members.role_id' => $options['role_id'],
+            'OR' => [
+                'Teams.id !=' => $options['team_id'],
+                'Teams.id IS' => null
+            ],
+            'Members.season_id' => $team->championship->season_id
+        ]);
 
         return $q;
     }

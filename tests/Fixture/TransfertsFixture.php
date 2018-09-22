@@ -24,10 +24,10 @@ class TransfertsFixture extends TestFixture
         'matchday_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'constrained' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_indexes' => [
-            'IdGiocOld' => ['type' => 'index', 'columns' => ['old_member_id'], 'length' => []],
-            'IdGiocNew' => ['type' => 'index', 'columns' => ['new_member_id'], 'length' => []],
-            'idSquadra' => ['type' => 'index', 'columns' => ['team_id'], 'length' => []],
-            'idGiornata' => ['type' => 'index', 'columns' => ['matchday_id'], 'length' => []],
+            'old_member_id' => ['type' => 'index', 'columns' => ['old_member_id'], 'length' => []],
+            'new_member_id' => ['type' => 'index', 'columns' => ['new_member_id'], 'length' => []],
+            'team_id' => ['type' => 'index', 'columns' => ['team_id'], 'length' => []],
+            'matchday_id' => ['type' => 'index', 'columns' => ['matchday_id'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -38,24 +38,28 @@ class TransfertsFixture extends TestFixture
         ],
         '_options' => [
             'engine' => 'InnoDB',
-            'collation' => 'utf8_unicode_ci'
+            'collation' => 'utf8mb4_unicode_ci'
         ],
     ];
     // @codingStandardsIgnoreEnd
 
     /**
-     * Records
+     * Init method
      *
-     * @var array
+     * @return void
      */
-    public $records = [
-        [
-            'id' => 1,
-            'old_member_id' => 1,
-            'new_member_id' => 1,
-            'team_id' => 1,
-            'matchday_id' => 1,
-            'constrained' => 1
-        ],
-    ];
+    public function init()
+    {
+        $this->records = [
+            [
+                'id' => 1,
+                'old_member_id' => 1,
+                'new_member_id' => 1,
+                'team_id' => 1,
+                'matchday_id' => 1,
+                'constrained' => 1
+            ],
+        ];
+        parent::init();
+    }
 }

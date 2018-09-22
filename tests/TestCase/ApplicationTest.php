@@ -40,7 +40,7 @@ class ApplicationTest extends IntegrationTestCase
         $app->bootstrap();
         $plugins = $app->getPlugins();
 
-        $this->assertCount(3, $plugins);
+        $this->assertCount(13, $plugins);
         $this->assertSame('Bake', $plugins->get('Bake')->getName());
         $this->assertSame('Migrations', $plugins->get('Migrations')->getName());
         $this->assertSame('DebugKit', $plugins->get('DebugKit')->getName());
@@ -79,8 +79,6 @@ class ApplicationTest extends IntegrationTestCase
         $middleware = $app->middleware($middleware);
 
         $this->assertInstanceOf(ErrorHandlerMiddleware::class, $middleware->get(0));
-        $this->assertInstanceOf(AssetMiddleware::class, $middleware->get(1));
-        $this->assertInstanceOf(RoutingMiddleware::class, $middleware->get(2));
-        $this->assertInstanceOf(CsrfProtectionMiddleware::class, $middleware->get(3));
+        $this->assertInstanceOf(RoutingMiddleware::class, $middleware->get(1));
     }
 }

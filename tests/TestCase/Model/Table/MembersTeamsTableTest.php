@@ -16,7 +16,7 @@ class MembersTeamsTableTest extends TestCase
      *
      * @var \App\Model\Table\MembersTeamsTable
      */
-    public $MembersTeams;
+    public $MembersTeamsTable;
 
     /**
      * Fixtures
@@ -26,18 +26,7 @@ class MembersTeamsTableTest extends TestCase
     public $fixtures = [
         'app.members_teams',
         'app.teams',
-        'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.seasons',
-        'app.dispositions',
-        'app.lineups',
-        'app.matchdays',
-        'app.articles',
-        'app.ratings',
-        'app.scores',
-        'app.transferts'
+        'app.members'
     ];
 
     /**
@@ -48,8 +37,8 @@ class MembersTeamsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('MembersTeams') ? [] : ['className' => 'App\Model\Table\MembersTeamsTable'];
-        $this->MembersTeams = TableRegistry::get('MembersTeams', $config);
+        $config = TableRegistry::getTableLocator()->exists('MembersTeams') ? [] : ['className' => MembersTeamsTable::class];
+        $this->MembersTeamsTable = TableRegistry::getTableLocator()->get('MembersTeams', $config);
     }
 
     /**
@@ -59,7 +48,7 @@ class MembersTeamsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->MembersTeams);
+        unset($this->MembersTeamsTable);
 
         parent::tearDown();
     }
@@ -90,6 +79,16 @@ class MembersTeamsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeSave method
+     *
+     * @return void
+     */
+    public function testBeforeSave()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

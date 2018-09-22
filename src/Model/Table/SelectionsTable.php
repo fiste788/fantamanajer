@@ -145,7 +145,7 @@ class SelectionsTable extends Table
                 return true;
             },
             'NewMemberIsSelectable',
-            ['errorField' => 'new_member', 'message' => 'Un altro utente ha già selezionato il giocatore']
+            ['errorField' => 'new_member', 'message' => __('The member is selected by another team')]
         );
         $rules->add(
             function (Selection $entity, $options) use ($that) {
@@ -166,13 +166,13 @@ class SelectionsTable extends Table
                     )->count() < $championship->number_selections;
             },
             'TeamReachedMaximum',
-            ['errorField' => 'new_member', 'message' => 'Hai raggiunto il limite di cambi selezione']
+            ['errorField' => 'new_member', 'message' => __('Reached maximum number of changes')]
         );
 
         return $rules;
     }
 
-    public function afterSave(CakeEvent $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newMemberSelection', $this, [
@@ -182,7 +182,7 @@ class SelectionsTable extends Table
         }
     }
 
-    public function beforeSave(CakeEvent $event, Selection $entity, ArrayObject $options)
+    public function beforeSave(Event $event, Selection $entity, ArrayObject $options)
     {
         if ($entity->isDirty('processed') && $entity->processed) {
             $membersTeamsTable = TableRegistry::get('MembersTeams');

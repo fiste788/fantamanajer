@@ -101,7 +101,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'identityDecorator' => function ($auth, $user) {
                     return $user->setAuthorization($auth);
                 }
-            ]));
+            ]))->add(new \Authorization\Middleware\RequestAuthorizationMiddleware());
 
         return $middlewareQueue;
     }
@@ -159,7 +159,11 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $resolver = new OrmResolver();
+        $map = new \Authorization\Policy\MapResolver();
+        $map->map(\Cake\Http\ServerRequest::class, Policy\RequestPolicy::class);
+        $orm = new OrmResolver();
+        
+        $resolver = new \Authorization\Policy\ResolverCollection([$orm, $map]);
 
         return new AuthorizationService($resolver);
     }

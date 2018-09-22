@@ -22,7 +22,9 @@ class MatchdaysFixture extends TestFixture
         'date' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'season_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_indexes' => [
-            'stagione_id' => ['type' => 'index', 'columns' => ['season_id'], 'length' => []],
+            'number' => ['type' => 'index', 'columns' => ['number'], 'length' => []],
+            'date' => ['type' => 'index', 'columns' => ['date'], 'length' => []],
+            'season_id' => ['type' => 'index', 'columns' => ['season_id'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -30,22 +32,26 @@ class MatchdaysFixture extends TestFixture
         ],
         '_options' => [
             'engine' => 'InnoDB',
-            'collation' => 'utf8_unicode_ci'
+            'collation' => 'utf8mb4_unicode_ci'
         ],
     ];
     // @codingStandardsIgnoreEnd
 
     /**
-     * Records
+     * Init method
      *
-     * @var array
+     * @return void
      */
-    public $records = [
-        [
-            'id' => 1,
-            'number' => 1,
-            'date' => '2016-03-15 23:15:20',
-            'season_id' => 1
-        ],
-    ];
+    public function init()
+    {
+        $this->records = [
+            [
+                'id' => 1,
+                'number' => 1,
+                'date' => '2018-09-06 10:14:15',
+                'season_id' => 1
+            ],
+        ];
+        parent::init();
+    }
 }

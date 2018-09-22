@@ -16,7 +16,7 @@ class SeasonsTableTest extends TestCase
      *
      * @var \App\Model\Table\SeasonsTable
      */
-    public $Seasons;
+    public $SeasonsTable;
 
     /**
      * Fixtures
@@ -26,20 +26,8 @@ class SeasonsTableTest extends TestCase
     public $fixtures = [
         'app.seasons',
         'app.championships',
-        'app.leagues',
-        'app.teams',
         'app.matchdays',
-        'app.articles',
-        'app.lineups',
-        'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.dispositions',
-        'app.ratings',
-        'app.members_teams',
-        'app.scores',
-        'app.transferts'
+        'app.members'
     ];
 
     /**
@@ -50,8 +38,8 @@ class SeasonsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Seasons') ? [] : ['className' => 'App\Model\Table\SeasonsTable'];
-        $this->Seasons = TableRegistry::get('Seasons', $config);
+        $config = TableRegistry::getTableLocator()->exists('Seasons') ? [] : ['className' => SeasonsTable::class];
+        $this->SeasonsTable = TableRegistry::getTableLocator()->get('Seasons', $config);
     }
 
     /**
@@ -61,7 +49,7 @@ class SeasonsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Seasons);
+        unset($this->SeasonsTable);
 
         parent::tearDown();
     }

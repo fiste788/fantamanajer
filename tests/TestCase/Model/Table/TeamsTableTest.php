@@ -16,7 +16,7 @@ class TeamsTableTest extends TestCase
      *
      * @var \App\Model\Table\TeamsTable
      */
-    public $Teams;
+    public $TeamsTable;
 
     /**
      * Fixtures
@@ -27,22 +27,14 @@ class TeamsTableTest extends TestCase
         'app.teams',
         'app.users',
         'app.championships',
-        'app.leagues',
-        'app.seasons',
-        'app.matchdays',
         'app.articles',
-        'app.lineups',
-        'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.dispositions',
-        'app.ratings',
-        'app.members_teams',
-        'app.scores',
-        'app.transferts',
+        'app.notification_subscriptions',
         'app.events',
-        'app.selections'
+        'app.lineups',
+        'app.scores',
+        'app.selections',
+        'app.transferts',
+        'app.members'
     ];
 
     /**
@@ -53,8 +45,8 @@ class TeamsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Teams') ? [] : ['className' => 'App\Model\Table\TeamsTable'];
-        $this->Teams = TableRegistry::get('Teams', $config);
+        $config = TableRegistry::getTableLocator()->exists('Teams') ? [] : ['className' => TeamsTable::class];
+        $this->TeamsTable = TableRegistry::getTableLocator()->get('Teams', $config);
     }
 
     /**
@@ -64,7 +56,7 @@ class TeamsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Teams);
+        unset($this->TeamsTable);
 
         parent::tearDown();
     }
@@ -95,6 +87,16 @@ class TeamsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByChampionshipId method
+     *
+     * @return void
+     */
+    public function testFindByChampionshipId()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -15,7 +15,7 @@ class Selection extends StreamSingleActivity implements StreamActivityInterface
 
     public function getTitle()
     {
-        return $this->activity->offsetGet('actor')->name . " ha selezionato un giocatore per l'acquisto";
+        return __('{0} has selected a player for the transfert', $this->activity->offsetGet('actor')->name);
     }
 
     public function getIcon()

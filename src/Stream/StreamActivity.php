@@ -62,7 +62,7 @@ abstract class StreamActivity implements StreamActivityInterface
         $this->title = $this->getTitle();
         $this->timeStamp = $this->getTime();
         $this->time = $this->timeStamp->toIso8601String();
-        $this->humanTime = $this->timeStamp->diffForHumans();
+        $this->humanTime = $this->timeStamp->timeAgoInWords();
         $this->icon = $this->getIcon();
     }
 

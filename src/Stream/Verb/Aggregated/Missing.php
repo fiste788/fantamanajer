@@ -15,7 +15,7 @@ class Missing extends StreamAggregatedActivity implements StreamActivityInterfac
 
     public function getTitle()
     {
-        return "Non hai ancora settato la formazione per questa giornata. Sbrigati!";
+        return __('Your lineup for current matchday is missing. Come on!');
     }
 
     public function getIcon()

@@ -25,7 +25,7 @@ class EnrichedActivity implements ArrayAccess, IteratorAggregate
      */
     public function __construct(array $activityData)
     {
-        $activityData['time'] = new Chronos($activityData['time']);
+        $activityData['time'] = new \Cake\I18n\Time($activityData['time']);
         $this->activityData = $activityData;
     }
 

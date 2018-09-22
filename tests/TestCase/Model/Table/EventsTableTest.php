@@ -16,7 +16,7 @@ class EventsTableTest extends TestCase
      *
      * @var \App\Model\Table\EventsTable
      */
-    public $Events;
+    public $EventsTable;
 
     /**
      * Fixtures
@@ -36,8 +36,8 @@ class EventsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Events') ? [] : ['className' => 'App\Model\Table\EventsTable'];
-        $this->Events = TableRegistry::get('Events', $config);
+        $config = TableRegistry::getTableLocator()->exists('Events') ? [] : ['className' => EventsTable::class];
+        $this->EventsTable = TableRegistry::getTableLocator()->get('Events', $config);
     }
 
     /**
@@ -47,7 +47,7 @@ class EventsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Events);
+        unset($this->EventsTable);
 
         parent::tearDown();
     }
@@ -78,6 +78,16 @@ class EventsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByChampionshipId method
+     *
+     * @return void
+     */
+    public function testFindByChampionshipId()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

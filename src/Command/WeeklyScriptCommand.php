@@ -188,7 +188,7 @@ class WeeklyScriptCommand extends Command
         $details = $this->Lineups->find('details', [
             'matchday_id' => $matchday->id,
             'team_id' => $team->id
-        ]);
+        ])->first();
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();
 
         $dispositions = null;

@@ -64,8 +64,8 @@ class Enrich implements EnrichInterface
             $allActivities = array_merge($allActivities, $activities);
 
             $aggregated['activities'] = $activities;
-            $aggregated['created_at'] = new Chronos($aggregated['created_at']);
-            $aggregated['updated_at'] = new Chronos($aggregated['updated_at']);
+            $aggregated['created_at'] = new \Cake\I18n\Time($aggregated['created_at']);
+            $aggregated['updated_at'] = new \Cake\I18n\Time($aggregated['updated_at']);
         }
 
         $references = $this->collectReferences($allActivities);
@@ -111,7 +111,11 @@ class Enrich implements EnrichInterface
                 list($type, $identifier) = explode(':', $value);
                 
                 $references[$type]['identifiers'][] = $identifier;
-                $references[$type]['contain'] = $contain;
+                if($field == 'object') {
+                    $references[$type]['contain'] = $contain;
+                } else {
+                    $references[$type]['contain'] = [];
+                }
             }
         }
 

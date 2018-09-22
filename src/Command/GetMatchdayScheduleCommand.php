@@ -56,7 +56,7 @@ class GetMatchdayScheduleCommand extends Command
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
         $year = $season->year . "-" . substr($season->year + 1, 2, 2);
-        $url = "/it/serie-a-tim/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
+        $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);
         $client = new Client(
             [
@@ -78,7 +78,7 @@ class GetMatchdayScheduleCommand extends Command
                 $box = $datiPartita->filter("p")->first()->filter("span");
                 $date = trim($box->text());
                 if ($date != "") {
-                    $io->info($date);
+                    $io->success($date);
                     if (!strpos($date, " ")) {
                         $out = Chronos::createFromFormat("!d/m/Y", $date);
                         $out = $out->setTime(18, 0, 0, 0);
@@ -88,16 +88,16 @@ class GetMatchdayScheduleCommand extends Command
 
                     return $out;
                 } else {
-                    $io->err("Cannot find date");
+                    $io->error("Cannot find date");
                     $this->abort();
                 }
             } else {
-                $io->err("Cannot find .datipartita");
+                $io->error("Cannot find .datipartita");
                 $this->abort();
             }
         } else {
-            $io->err($response->getStatusCode(), 1);
-            $io->err("Cannot connect to " . $url);
+            $io->error($response->getStatusCode(), 1);
+            $io->error("Cannot connect to " . $url);
             $this->abort();
         }
     }

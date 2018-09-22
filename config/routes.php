@@ -136,6 +136,11 @@ Router::scope('/', function (RouteBuilder $routes) {
             'role_id' => '\d+'
         ]);
     });
+    $routes->prefix('admin', [], function (RouteBuilder $routes) {
+        $routes->resources('Transferts', [
+            'only' => ['create'],
+        ]);
+    });
     $routes->resources('Teams', [
         'only' => ['view', 'update']
         ], function (RouteBuilder $routes) {
@@ -147,12 +152,19 @@ Router::scope('/', function (RouteBuilder $routes) {
             'only' => 'index',
             'prefix' => 'Teams'
         ]);
+        $routes->connect('/members/not_mine/:role_id', [
+            'controller' => 'Members',
+            'action' => 'notMine',
+            'prefix' => 'Teams'
+            ], [
+            'role_id' => '\d+'
+        ]);
         $routes->resources('Selections', [
             'only' => ['index', 'create'],
             'prefix' => 'Teams'
         ]);
         $routes->resources('Transferts', [
-            'only' => 'index',
+            'only' => ['index'],
             'prefix' => 'Teams'
         ]);
         $routes->connect('/notifications', [

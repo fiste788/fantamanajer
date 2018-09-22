@@ -21,8 +21,8 @@ class MembersTeamsFixture extends TestFixture
         'team_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'member_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_indexes' => [
-            'idUtente' => ['type' => 'index', 'columns' => ['team_id'], 'length' => []],
-            'idGioc' => ['type' => 'index', 'columns' => ['member_id'], 'length' => []],
+            'team_id' => ['type' => 'index', 'columns' => ['team_id'], 'length' => []],
+            'member_id' => ['type' => 'index', 'columns' => ['member_id'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -31,21 +31,25 @@ class MembersTeamsFixture extends TestFixture
         ],
         '_options' => [
             'engine' => 'InnoDB',
-            'collation' => 'utf8_unicode_ci'
+            'collation' => 'utf8mb4_unicode_ci'
         ],
     ];
     // @codingStandardsIgnoreEnd
 
     /**
-     * Records
+     * Init method
      *
-     * @var array
+     * @return void
      */
-    public $records = [
-        [
-            'id' => 1,
-            'team_id' => 1,
-            'member_id' => 1
-        ],
-    ];
+    public function init()
+    {
+        $this->records = [
+            [
+                'id' => 1,
+                'team_id' => 1,
+                'member_id' => 1
+            ],
+        ];
+        parent::init();
+    }
 }

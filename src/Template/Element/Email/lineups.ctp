@@ -9,16 +9,16 @@
         <caption><?= $caption ?></caption>
         <thead>
             <tr>
-                <th><?= __('Nome') ?></th>
-                <th><?= __('Ruolo') ?></th>
+                <th><?= __('Name') ?></th>
+                <th><?= __('Role') ?></th>
                 <th><?= __('Club') ?></th>
                 <?php if($dispositions[0]->member->ratings): ?>
-                <th><abbr title="<?= __('Titolare') ?>"><?= __('Tit') ?></abbr></th>
-                <th><abbr title="<?= __('Ammonito') ?>"><?= __('Amm') ?></abbr></th>
-                <th><abbr title="<?= __('Espulso') ?>"><?= __('Esp') ?></abbr></th>
-                <th><?= __('Assist') ?></th>
-                <th><?= __('Gol') ?></th>
-                <th><?= __('Punti') ?></th>
+                <th><abbr title="<?= __('Regular') ?>"><?= __('Reg') ?></abbr></th>
+                <th><abbr title="<?= __('Yellow card') ?>"><?= __('YC') ?></abbr></th>
+                <th><abbr title="<?= __('Red card') ?>"><?= __('RC') ?></abbr></th>
+                <th><?= __('Assists') ?></th>
+                <th><?= __('Goals') ?></th>
+                <th><?= __('Points') ?></th>
                 <?php endif; ?>
             </tr>
         </thead>

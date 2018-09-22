@@ -18,19 +18,24 @@ class LineupsFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'module' => ['type' => 'string', 'length' => 7, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'module' => ['type' => 'string', 'length' => 7, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'jolly' => ['type' => 'boolean', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'cloned' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'created_at' => ['type' => 'timestamp', 'length' => null, 'null' => false, 'default' => 'current_timestamp()', 'comment' => '', 'precision' => null],
+        'modified_at' => ['type' => 'timestamp', 'length' => null, 'null' => false, 'default' => 'current_timestamp()', 'comment' => '', 'precision' => null],
         'captain_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'vcaptain_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'vvcaptain_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'matchday_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'team_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'old_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_indexes' => [
-            'VC' => ['type' => 'index', 'columns' => ['vcaptain_id'], 'length' => []],
-            'VVC' => ['type' => 'index', 'columns' => ['vvcaptain_id'], 'length' => []],
-            'idUtente' => ['type' => 'index', 'columns' => ['team_id'], 'length' => []],
-            'lineups_ibfk_1_idx' => ['type' => 'index', 'columns' => ['captain_id'], 'length' => []],
-            'lineups_ibfk_4_idx' => ['type' => 'index', 'columns' => ['matchday_id'], 'length' => []],
+            'jolly' => ['type' => 'index', 'columns' => ['jolly'], 'length' => []],
+            'vcaptain_id' => ['type' => 'index', 'columns' => ['vcaptain_id'], 'length' => []],
+            'vvcaptain_id' => ['type' => 'index', 'columns' => ['vvcaptain_id'], 'length' => []],
+            'team_id' => ['type' => 'index', 'columns' => ['team_id'], 'length' => []],
+            'captain_id' => ['type' => 'index', 'columns' => ['captain_id'], 'length' => []],
+            'matchday_id' => ['type' => 'index', 'columns' => ['matchday_id'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -42,26 +47,34 @@ class LineupsFixture extends TestFixture
         ],
         '_options' => [
             'engine' => 'InnoDB',
-            'collation' => 'utf8_unicode_ci'
+            'collation' => 'utf8mb4_unicode_ci'
         ],
     ];
     // @codingStandardsIgnoreEnd
 
     /**
-     * Records
+     * Init method
      *
-     * @var array
+     * @return void
      */
-    public $records = [
-        [
-            'id' => 1,
-            'module' => 'Lorem',
-            'jolly' => 1,
-            'captain_id' => 1,
-            'vcaptain_id' => 1,
-            'vvcaptain_id' => 1,
-            'matchday_id' => 1,
-            'team_id' => 1
-        ],
-    ];
+    public function init()
+    {
+        $this->records = [
+            [
+                'id' => 1,
+                'module' => 'Lorem',
+                'jolly' => 1,
+                'cloned' => 1,
+                'created_at' => 1536228855,
+                'modified_at' => 1536228855,
+                'captain_id' => 1,
+                'vcaptain_id' => 1,
+                'vvcaptain_id' => 1,
+                'matchday_id' => 1,
+                'team_id' => 1,
+                'old_id' => 1
+            ],
+        ];
+        parent::init();
+    }
 }

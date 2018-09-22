@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authentication.git",
-                "reference": "f295bbb8152e21785a3571e99e61f5fce48b20af"
+                "reference": "17db13414992a539d82cb6ae77db564051eca6c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authentication/zipball/f295bbb8152e21785a3571e99e61f5fce48b20af",
-                "reference": "f295bbb8152e21785a3571e99e61f5fce48b20af",
+                "url": "https://api.github.com/repos/cakephp/authentication/zipball/17db13414992a539d82cb6ae77db564051eca6c2",
+                "reference": "17db13414992a539d82cb6ae77db564051eca6c2",
                 "shasum": ""
             },
             "require": {
@@ -157,7 +157,7 @@
                 "cakephp",
                 "middleware"
             ],
-            "time": "2018-08-23T02:14:06+00:00"
+            "time": "2018-09-17T06:38:47+00:00"
         },
         {
             "name": "cakephp/authorization",
@@ -165,12 +165,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authorization.git",
-                "reference": "bad690cc275d63b31019b94f47d00ccf7a953cc3"
+                "reference": "2c852bdc91cb8dca399aa2480b4ee2563ef5dffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authorization/zipball/bad690cc275d63b31019b94f47d00ccf7a953cc3",
-                "reference": "bad690cc275d63b31019b94f47d00ccf7a953cc3",
+                "url": "https://api.github.com/repos/cakephp/authorization/zipball/2c852bdc91cb8dca399aa2480b4ee2563ef5dffb",
+                "reference": "2c852bdc91cb8dca399aa2480b4ee2563ef5dffb",
                 "shasum": ""
             },
             "require": {
@@ -210,7 +210,7 @@
                 "authorization",
                 "cakephp"
             ],
-            "time": "2018-08-03T01:25:41+00:00"
+            "time": "2018-09-19T11:58:57+00:00"
         },
         {
             "name": "cakephp/cakephp",
@@ -803,16 +803,16 @@
         },
         {
             "name": "get-stream/stream",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GetStream/stream-php.git",
-                "reference": "53ac4549ecf719435c8573be721784b54a3634ac"
+                "reference": "b5d9c7bffebb86524ecb9caa861a7c2b9b8e124e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GetStream/stream-php/zipball/53ac4549ecf719435c8573be721784b54a3634ac",
-                "reference": "53ac4549ecf719435c8573be721784b54a3634ac",
+                "url": "https://api.github.com/repos/GetStream/stream-php/zipball/b5d9c7bffebb86524ecb9caa861a7c2b9b8e124e",
+                "reference": "b5d9c7bffebb86524ecb9caa861a7c2b9b8e124e",
                 "shasum": ""
             },
             "require": {
@@ -853,7 +853,7 @@
                 "newsfeed",
                 "stream"
             ],
-            "time": "2018-04-16T17:38:38+00:00"
+            "time": "2018-09-06T12:10:31+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1350,26 +1350,26 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.46",
+            "version": "1.0.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2"
+                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a11e4a75f256bdacf99d20780ce42d3b8272975c",
+                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c",
                 "shasum": ""
             },
             "require": {
+                "ext-fileinfo": "*",
                 "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
             },
             "require-dev": {
-                "ext-fileinfo": "*",
                 "phpspec/phpspec": "^3.4",
                 "phpunit/phpunit": "^5.7.10"
             },
@@ -1430,7 +1430,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-08-22T07:45:22+00:00"
+            "time": "2018-09-14T15:30:29+00:00"
         },
         {
             "name": "league/glide",
@@ -1649,16 +1649,16 @@
         },
         {
             "name": "mirko-pagliai/php-tools",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mirko-pagliai/php-tools.git",
-                "reference": "0096d1720cfaf459ab53d91f14860d5e7b6c4bb2"
+                "reference": "e267f187598756f34055aaeed9f2a06d17f620d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mirko-pagliai/php-tools/zipball/0096d1720cfaf459ab53d91f14860d5e7b6c4bb2",
-                "reference": "0096d1720cfaf459ab53d91f14860d5e7b6c4bb2",
+                "url": "https://api.github.com/repos/mirko-pagliai/php-tools/zipball/e267f187598756f34055aaeed9f2a06d17f620d4",
+                "reference": "e267f187598756f34055aaeed9f2a06d17f620d4",
                 "shasum": ""
             },
             "require": {
@@ -1691,7 +1691,7 @@
             ],
             "description": "Some essential tools for PHP",
             "homepage": "https://github.com/mirko-pagliai/php-tools",
-            "time": "2018-09-03T12:47:37+00:00"
+            "time": "2018-09-18T13:30:26+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -1869,16 +1869,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.33.0",
+            "version": "1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "55667c1007a99e82030874b1bb14d24d07108413"
+                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/55667c1007a99e82030874b1bb14d24d07108413",
-                "reference": "55667c1007a99e82030874b1bb14d24d07108413",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
                 "shasum": ""
             },
             "require": {
@@ -1920,20 +1920,20 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-08-07T08:39:47+00:00"
+            "time": "2018-09-20T19:36:25+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d"
+                "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd088dc940a418f09cda079a9b5c7c478890fb8d",
-                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fa6ee28600d21d49b2b4e1006b48426cec8e579c",
+                "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c",
                 "shasum": ""
             },
             "require": {
@@ -1971,7 +1971,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-07-15T17:25:16+00:00"
+            "time": "2018-09-18T07:03:24+00:00"
         },
         {
             "name": "ozee31/cakephp-cors",
@@ -2056,16 +2056,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.6.4",
+            "version": "v1.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "3f2fd07977541b4d630ea0365ad0eceddee5179c"
+                "reference": "a19c29c6c2a66dd01a6c532ae022e438d4e396e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/3f2fd07977541b4d630ea0365ad0eceddee5179c",
-                "reference": "3f2fd07977541b4d630ea0365ad0eceddee5179c",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/a19c29c6c2a66dd01a6c532ae022e438d4e396e9",
+                "reference": "a19c29c6c2a66dd01a6c532ae022e438d4e396e9",
                 "shasum": ""
             },
             "require": {
@@ -2134,7 +2134,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2018-08-29T22:02:48+00:00"
+            "time": "2018-09-21T01:45:19+00:00"
         },
         {
             "name": "psr/container",
@@ -2410,16 +2410,16 @@
         },
         {
             "name": "spatie/image-optimizer",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image-optimizer.git",
-                "reference": "1530d6cf72070068eecab150ffb73466c3806bdd"
+                "reference": "0cc312a83186afc586df0cb034c4303c3d7cf629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/1530d6cf72070068eecab150ffb73466c3806bdd",
-                "reference": "1530d6cf72070068eecab150ffb73466c3806bdd",
+                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/0cc312a83186afc586df0cb034c4303c3d7cf629",
+                "reference": "0cc312a83186afc586df0cb034c4303c3d7cf629",
                 "shasum": ""
             },
             "require": {
@@ -2455,7 +2455,7 @@
                 "image-optimizer",
                 "spatie"
             ],
-            "time": "2018-06-05T07:36:17+00:00"
+            "time": "2018-09-10T10:21:45+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -2557,16 +2557,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.1.2",
+            "version": "v6.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "7d760881d266d63c5e7a1155cbcf2ac656a31ca8"
+                "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
-                "reference": "7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8ddcb66ac10c392d3beb54829eef8ac1438595f4",
+                "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4",
                 "shasum": ""
             },
             "require": {
@@ -2612,7 +2612,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2018-07-13T07:04:35+00:00"
+            "time": "2018-09-11T07:12:52+00:00"
         },
         {
             "name": "symfony/config",
@@ -5908,16 +5908,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.12",
+            "version": "6.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "24da433d7384824d65ea93fbb462e2f31bbb494e"
+                "reference": "0973426fb012359b2f18d3bd1e90ef1172839693"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/24da433d7384824d65ea93fbb462e2f31bbb494e",
-                "reference": "24da433d7384824d65ea93fbb462e2f31bbb494e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0973426fb012359b2f18d3bd1e90ef1172839693",
+                "reference": "0973426fb012359b2f18d3bd1e90ef1172839693",
                 "shasum": ""
             },
             "require": {
@@ -5988,7 +5988,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-08-22T06:32:48+00:00"
+            "time": "2018-09-08T15:10:43+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

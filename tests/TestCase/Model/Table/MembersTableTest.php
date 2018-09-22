@@ -16,7 +16,7 @@ class MembersTableTest extends TestCase
      *
      * @var \App\Model\Table\MembersTable
      */
-    public $Members;
+    public $MembersTable;
 
     /**
      * Fixtures
@@ -30,14 +30,8 @@ class MembersTableTest extends TestCase
         'app.clubs',
         'app.seasons',
         'app.dispositions',
-        'app.lineups',
-        'app.matchdays',
-        'app.articles',
-        'app.teams',
         'app.ratings',
-        'app.scores',
-        'app.transferts',
-        'app.members_teams'
+        'app.teams'
     ];
 
     /**
@@ -48,8 +42,8 @@ class MembersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Members') ? [] : ['className' => 'App\Model\Table\MembersTable'];
-        $this->Members = TableRegistry::get('Members', $config);
+        $config = TableRegistry::getTableLocator()->exists('Members') ? [] : ['className' => MembersTable::class];
+        $this->MembersTable = TableRegistry::getTableLocator()->get('Members', $config);
     }
 
     /**
@@ -59,7 +53,7 @@ class MembersTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Members);
+        unset($this->MembersTable);
 
         parent::tearDown();
     }
@@ -90,6 +84,86 @@ class MembersTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findListBySeasonId method
+     *
+     * @return void
+     */
+    public function testFindListBySeasonId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithStats method
+     *
+     * @return void
+     */
+    public function testFindWithStats()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithDetails method
+     *
+     * @return void
+     */
+    public function testFindWithDetails()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findFree method
+     *
+     * @return void
+     */
+    public function testFindFree()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByClubId method
+     *
+     * @return void
+     */
+    public function testFindByClubId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeamId method
+     *
+     * @return void
+     */
+    public function testFindByTeamId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findBestByMatchdayIdAndRole method
+     *
+     * @return void
+     */
+    public function testFindBestByMatchdayIdAndRole()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

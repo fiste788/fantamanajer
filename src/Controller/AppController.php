@@ -3,17 +3,16 @@ namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
-use Cake\Controller\Component\RequestHandlerComponent;
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Crud\Controller\Component\CrudComponent;
 use Crud\Controller\ControllerTrait;
 
 /**
  *
- * @property CrudComponent $Crud Description
- * @property RequestHandlerComponent $RequestHandler
+ * @property \Crud\Controller\Component\CrudComponent $Crud Description
+ * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization Description
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication Description
  */
@@ -54,7 +53,7 @@ class AppController extends Controller
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                'Crud.ApiQueryLog'
+                Configure::read('debug') ?? 'Crud.ApiQueryLog'
             ]
         ]);
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
@@ -71,14 +70,14 @@ class AppController extends Controller
         ];
     }
 
-    protected function _afterFind(Event $event)
+    public function _afterFind(Event $event)
     {
         if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
         }
     }
 
-    protected function _afterPaginate(Event $event)
+    public function _afterPaginate(Event $event)
     {
         if ($this->Authentication->getIdentity()) {
             foreach ($event->getSubject()->entities as $entity) {

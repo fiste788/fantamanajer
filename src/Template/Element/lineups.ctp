@@ -9,15 +9,15 @@
         <caption><?= $caption ?></caption>
         <thead>
             <tr>
-                <th class="mdl-data-table__cell--non-numeric"><?= __('Nome') ?></th>
-                <th class="mdl-data-table__cell--non-numeric"><?= __('Ruolo') ?></th>
+                <th class="mdl-data-table__cell--non-numeric"><?= __('Name') ?></th>
+                <th class="mdl-data-table__cell--non-numeric"><?= __('Role') ?></th>
                 <th class="mdl-data-table__cell--non-numeric"><?= __('Club') ?></th>
-                <th><abbr title="<?= __('Titolare') ?>"><?= __('Tit') ?></abbr></th>
-                <th><abbr title="<?= __('Ammonito') ?>"><?= __('Amm') ?></abbr></th>
-                <th><abbr title="<?= __('Espulso') ?>"><?= __('Esp') ?></abbr></th>
-                <th><?= __('Assist') ?></th>
-                <th><?= __('Gol') ?></th>
-                <th><?= __('Punti') ?></th>
+                <th><abbr title="<?= __('Regular') ?>"><?= __('Reg') ?></abbr></th>
+                <th><abbr title="<?= __('Yellow cards') ?>"><?= __('YC') ?></abbr></th>
+                <th><abbr title="<?= __('Red cards') ?>"><?= __('RC') ?></abbr></th>
+                <th><?= __('Assists') ?></th>
+                <th><?= __('Goals') ?></th>
+                <th><?= __('Points') ?></th>
             </tr>
         </thead>
         <tbody>

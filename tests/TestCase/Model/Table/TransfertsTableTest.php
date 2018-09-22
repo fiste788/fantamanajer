@@ -16,7 +16,7 @@ class TransfertsTableTest extends TestCase
      *
      * @var \App\Model\Table\TransfertsTable
      */
-    public $Transferts;
+    public $TransfertsTable;
 
     /**
      * Fixtures
@@ -26,23 +26,8 @@ class TransfertsTableTest extends TestCase
     public $fixtures = [
         'app.transferts',
         'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.seasons',
-        'app.championships',
-        'app.leagues',
         'app.teams',
-        'app.users',
-        'app.articles',
-        'app.matchdays',
-        'app.lineups',
-        'app.dispositions',
-        'app.ratings',
-        'app.scores',
-        'app.events',
-        'app.selections',
-        'app.members_teams'
+        'app.matchdays'
     ];
 
     /**
@@ -53,8 +38,8 @@ class TransfertsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Transferts') ? [] : ['className' => 'App\Model\Table\TransfertsTable'];
-        $this->Transferts = TableRegistry::get('Transferts', $config);
+        $config = TableRegistry::getTableLocator()->exists('Transferts') ? [] : ['className' => TransfertsTable::class];
+        $this->TransfertsTable = TableRegistry::getTableLocator()->get('Transferts', $config);
     }
 
     /**
@@ -64,7 +49,7 @@ class TransfertsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Transferts);
+        unset($this->TransfertsTable);
 
         parent::tearDown();
     }
@@ -95,6 +80,26 @@ class TransfertsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeamId method
+     *
+     * @return void
+     */
+    public function testFindByTeamId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

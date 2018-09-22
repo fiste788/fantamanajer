@@ -16,7 +16,7 @@ class LineupsTableTest extends TestCase
      *
      * @var \App\Model\Table\LineupsTable
      */
-    public $Lineups;
+    public $LineupsTable;
 
     /**
      * Fixtures
@@ -25,24 +25,10 @@ class LineupsTableTest extends TestCase
      */
     public $fixtures = [
         'app.lineups',
-        'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.seasons',
-        'app.championships',
-        'app.leagues',
-        'app.teams',
-        'app.users',
-        'app.articles',
         'app.matchdays',
-        'app.ratings',
-        'app.scores',
-        'app.transferts',
-        'app.events',
-        'app.selections',
-        'app.members_teams',
-        'app.dispositions'
+        'app.teams',
+        'app.dispositions',
+        'app.scores'
     ];
 
     /**
@@ -53,8 +39,8 @@ class LineupsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Lineups') ? [] : ['className' => LineupsTable::class];
-        $this->Lineups = TableRegistry::get('Lineups', $config);
+        $config = TableRegistry::getTableLocator()->exists('Lineups') ? [] : ['className' => LineupsTable::class];
+        $this->LineupsTable = TableRegistry::getTableLocator()->get('Lineups', $config);
     }
 
     /**
@@ -64,7 +50,7 @@ class LineupsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Lineups);
+        unset($this->LineupsTable);
 
         parent::tearDown();
     }
@@ -100,11 +86,61 @@ class LineupsTableTest extends TestCase
     }
 
     /**
-     * Test findStatsByMatchdayAndTeam method
+     * Test afterSave method
      *
      * @return void
      */
-    public function testFindStatsByMatchdayAndTeam()
+    public function testAfterSave()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeMarshal method
+     *
+     * @return void
+     */
+    public function testBeforeMarshal()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findDetails method
+     *
+     * @return void
+     */
+    public function testFindDetails()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findLast method
+     *
+     * @return void
+     */
+    public function testFindLast()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByMatchdayIdAndTeamId method
+     *
+     * @return void
+     */
+    public function testFindByMatchdayIdAndTeamId()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithRatings method
+     *
+     * @return void
+     */
+    public function testFindWithRatings()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

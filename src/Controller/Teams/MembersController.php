@@ -15,4 +15,22 @@ class MembersController extends \App\Controller\MembersController
 
         return $this->Crud->execute();
     }
+    
+    public function notMine()
+    {
+        $this->Crud->action()->findMethod([
+            'notMine' => [
+                'team_id' => $this->request->getParam('team_id', null),
+                'role_id' => $this->request->getParam('role_id', null)
+            ]
+        ]);
+
+        return $this->Crud->execute();
+    }
+    
+    public function beforeFilter(\Cake\Event\Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('notMine', 'Crud.Index');
+    }
 }

@@ -68,14 +68,14 @@ class UpdateMatchdayCommand extends Command
 
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
         if ($date != null) {
-            $res = !$args->getOption('interactive') || ($args->getOption('interactive') && $io->ask("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number, ['y', 'n'], 'y') == 'y');
+            $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') && $io->askChoice("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number, ['y', 'n'], 'y') == 'y');
             if ($res) {
                 $matchday->set('date', $date);
                 $this->Matchdays->save($matchday);
                 $io->out('Updated matchday ' . $matchday->number . ' with ' . $matchday->date->format('d/m/Y H:i'));
             }
         } else {
-            $io->err('Cannot get ' . $matchday);
+            $io->error('Cannot get ' . $matchday);
             $this->abort();
         }
     }

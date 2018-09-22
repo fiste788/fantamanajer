@@ -93,8 +93,7 @@ class TransfertsTable extends Table
 
         $validator
             ->boolean('constrained')
-            ->requirePresence('constrained', 'create')
-            ->notEmpty('constrained');
+            ->allowEmpty('constrained', 'create');
 
         return $validator;
     }
@@ -115,13 +114,23 @@ class TransfertsTable extends Table
 
         return $rules;
     }
+    
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
+    }
 
     public function findByTeamId(Query $q, array $options)
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where(['team_id' => $options['team_id']]);
     }
-
+    
+    public function beforeSave(Event $event, Transfert $entity, ArrayObject $options)
+    {
+        $entity->matchday_id = $this->Matchdays->find('current')->first()->id;
+    }
+    
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options)
     {
         $event = new Event('Fantamanajer.newMemberTransfert', $this, [
@@ -129,7 +138,7 @@ class TransfertsTable extends Table
             ]);
             EventManager::instance()->dispatch($event);
 
-        $lineups = TableRegistry::get('Lineups');
+        $lineups = TableRegistry::getTableLocator()->get('Lineups');
         $lineup = $lineups->find()
             ->contain(['Dispositions'])
             ->where(['team_id' => $entity->team_id, 'matchday_id' => $entity->matchday_id])

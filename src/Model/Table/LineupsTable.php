@@ -189,7 +189,7 @@ class LineupsTable extends Table
                 return true;
             },
             'JollyAlreadyUsed',
-            ['errorField' => 'jolly', 'message' => 'Hai già utilizzato il jolly']
+            ['errorField' => 'jolly', 'message' => __('Jolly already used')]
         );
 
         return $rules;

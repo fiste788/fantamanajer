@@ -16,7 +16,7 @@ class ScoresTableTest extends TestCase
      *
      * @var \App\Model\Table\ScoresTable
      */
-    public $Scores;
+    public $ScoresTable;
 
     /**
      * Fixtures
@@ -25,19 +25,9 @@ class ScoresTableTest extends TestCase
      */
     public $fixtures = [
         'app.scores',
-        'app.teams',
-        'app.matchdays',
-        'app.seasons',
-        'app.articles',
         'app.lineups',
-        'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.dispositions',
-        'app.ratings',
-        'app.members_teams',
-        'app.transferts'
+        'app.teams',
+        'app.matchdays'
     ];
 
     /**
@@ -48,8 +38,8 @@ class ScoresTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Scores') ? [] : ['className' => 'App\Model\Table\ScoresTable'];
-        $this->Scores = TableRegistry::get('Scores', $config);
+        $config = TableRegistry::getTableLocator()->exists('Scores') ? [] : ['className' => ScoresTable::class];
+        $this->ScoresTable = TableRegistry::getTableLocator()->get('Scores', $config);
     }
 
     /**
@@ -59,7 +49,7 @@ class ScoresTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Scores);
+        unset($this->ScoresTable);
 
         parent::tearDown();
     }
@@ -90,6 +80,56 @@ class ScoresTableTest extends TestCase
      * @return void
      */
     public function testBuildRules()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findMaxMatchday method
+     *
+     * @return void
+     */
+    public function testFindMaxMatchday()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findScores method
+     *
+     * @return void
+     */
+    public function testFindScores()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findRanking method
+     *
+     * @return void
+     */
+    public function testFindRanking()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test compute method
+     *
+     * @return void
+     */
+    public function testCompute()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test loadDetails method
+     *
+     * @return void
+     */
+    public function testLoadDetails()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -16,7 +16,7 @@ class RolesTableTest extends TestCase
      *
      * @var \App\Model\Table\RolesTable
      */
-    public $Roles;
+    public $RolesTable;
 
     /**
      * Fixtures
@@ -25,19 +25,7 @@ class RolesTableTest extends TestCase
      */
     public $fixtures = [
         'app.roles',
-        'app.members',
-        'app.players',
-        'app.clubs',
-        'app.seasons',
-        'app.dispositions',
-        'app.lineups',
-        'app.matchdays',
-        'app.articles',
-        'app.teams',
-        'app.ratings',
-        'app.scores',
-        'app.transferts',
-        'app.members_teams'
+        'app.members'
     ];
 
     /**
@@ -48,8 +36,8 @@ class RolesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Roles') ? [] : ['className' => 'App\Model\Table\RolesTable'];
-        $this->Roles = TableRegistry::get('Roles', $config);
+        $config = TableRegistry::getTableLocator()->exists('Roles') ? [] : ['className' => RolesTable::class];
+        $this->RolesTable = TableRegistry::getTableLocator()->get('Roles', $config);
     }
 
     /**
@@ -59,7 +47,7 @@ class RolesTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Roles);
+        unset($this->RolesTable);
 
         parent::tearDown();
     }
