@@ -51,7 +51,7 @@ class Score extends Entity
             $this->real_points = 0;
             $this->points = 0;
         } else {
-            if (!$this->lineup->matchday_id == $this->matchday->id) {
+            if ($this->lineup->matchday_id != $this->matchday->id) {
                 $this->lineup = $this->lineup->copy($this->matchday, $championship->captain_missed_lineup);
             }
             $this->real_points = $this->lineup->compute();

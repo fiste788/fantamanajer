@@ -205,13 +205,20 @@ trait GazzettaTrait
             $newMembers = $this->returnArray($path, ";");
             //$this->abort(print_r($oldMembers,1));
             //$this->io->out($rolesById);
+            $buys = [];
+            $sells = [];
             $membersToSave = [];
             foreach ($newMembers as $id => $newMember) {
                 $member = null;
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
+                    $buys[$member->club_id][] = $member;
+                    if($member->isDirty('club_id')) {
+                        $sells[$member->getOriginal('club_id')][] = $member;
+                    }
                 } else {
                     $member = $this->memberNew($newMember, $matchday->season);
+                    $buys[$member->club_id][] = $member;
                 }
                 if ($member != null) {
                     $membersToSave[] = $member;
@@ -222,12 +229,17 @@ trait GazzettaTrait
                     $oldMember->active = false;
                     $membersToSave[] = $oldMember;
                     $this->io->verbose("Deactivate member " . $oldMember);
-                    //$oldMember->save(array('numEvento'=>Event::RIMOSSOGIOCATORE));
+                    $sells[$member->club_id][] = $member;
                 }
             }
             //$this->io->verbose($membersToSave);
             $this->io->out("Savings " . count($membersToSave) . " members");
             if (!$this->Members->saveMany($membersToSave)) {
+                $ev = new Event('Fantamanajer.memberTransferts', $this, [
+                    'sells' => $sells,
+                    'buys' => $buys
+                ]);
+                EventManager::instance()->dispatch($ev);
                 foreach ($membersToSave as $value) {
                     if (!empty($value->getErrors())) {
                         $this->io->err($value);

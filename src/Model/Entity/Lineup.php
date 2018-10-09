@@ -75,7 +75,7 @@ class Lineup extends Entity
      */
     public function copy(Matchday $matchday, $isCaptainActive = true, $cloned = true)
     {
-        $lineups = TableRegistry::get('Lineups');
+        $lineups = TableRegistry::getTableLocator()->get('Lineups');
         $lineup = $lineups->newEntity(
             $this->toArray(),
             ['associated' => ['Teams.Championships', 'Dispositions.Members.Ratings']]
@@ -125,30 +125,32 @@ class Lineup extends Entity
     {
         $sum = 0;
         $cap = null;
-        $entering = [];
+        $substitution = 0;
         $this->resetDispositions();
         if ($this->team->championship->captain) {
             $cap = $this->getActiveCaptain();
         }
-        $notRegular = array_slice($this->dispositions, 11);
         foreach ($this->dispositions as $disposition) {
+            $member = $disposition->member;
             if ($disposition->position <= 11) {
-                $member = $disposition->member;
-                if (!$member->ratings[0]->valued && count($entering) <= 3) {
-                    $substitution = $this->substitution($notRegular, $member, $entering);
-                    if ($substitution != null) {
-                        $entering[$substitution] = true;
-                    }
+                if (!$member->ratings[0]->valued) {
+                    $notValueds[] = $member;
                 } else {
                     $sum += $disposition->regularize($cap);
                 }
             } else {
-                if (array_key_exists($disposition->id, $entering)) {
-                    $sum += $disposition->regularize($cap);
+                foreach($notValueds as $key => $notValued) {
+                    if ($substitution < 3 && $member->role_id == $notValued->role_id && $member->ratings[0]->valued) {
+                        $sum += $disposition->regularize($cap);
+                        $substitution ++;
+                        unset($notValueds[$key]);
+                        continue;
+                    }
                 }
             }
             $this->setDirty('dispositions', true);
         }
+        
 
         return $sum;
     }
@@ -159,29 +161,6 @@ class Lineup extends Entity
             $disposition->consideration = 0;
             $this->disposition[$key] = $disposition;
         }
-    }
-
-    /**
-     *
-     * @param \App\Model\Entity\Disposition[] $notRegular
-     * @param \App\Model\Entity\Member $member
-     * @return int
-     */
-    private function substitution(array $notRegular, Member $member, $entering)
-    {
-        foreach ($notRegular as $key => $disposition) {
-            if (!array_key_exists($disposition->id, $entering)) {
-                $benchwarmer = $disposition->member;
-                if (!empty($benchwarmer->ratings)) {
-                    $rating = $benchwarmer->ratings[0];
-                    if (($member->role_id == $benchwarmer->role_id) && ($rating->valued)) {
-                        return $disposition->id;
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 
     /**

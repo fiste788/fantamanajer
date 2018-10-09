@@ -4,127 +4,135 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-09-19 08:39+0000\n"
-"PO-Revision-Date: 2018-09-19 10:43+0200\n"
+"POT-Creation-Date: 2018-09-22 11:33+0000\n"
+"PO-Revision-Date: 2018-09-22 13:44+0200\n"
+"Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.1.1\n"
-"Last-Translator: \n"
-"Language: it_IT\n"
 
-#: Stream/Verb/Aggregated/Transfert.php:28
-msgid "{0} make one transfert"
+#: Model/Table/LineupsTable.php:192
+msgid "Jolly already used"
+msgstr "Jolly già utilizzato"
+
+#: Model/Table/SelectionsTable.php:148
+msgid "The member is selected by another team"
+msgstr "Il giocatore è già stato selezionato da un altra squadra"
+
+#: Model/Table/SelectionsTable.php:169
+msgid "Reached maximum number of changes"
+msgstr "Raggiunto il limite di cambi giocatore"
+
+#: Stream/Verb/Lineup.php:25 Stream/Verb/Aggregated/Lineup.php:25
+msgid "{0} has setup lineup for matchday {1}"
+msgstr "{0} ha settato la formazione per la giornata {1}"
+
+#: Stream/Verb/Missing.php:18 Stream/Verb/Aggregated/Missing.php:18
+msgid "Your lineup for current matchday is missing. Come on!"
+msgstr "Non hai ancora settato la formazione per questa giornata. Sbrigati!"
+
+#: Stream/Verb/Post.php:18 Stream/Verb/Aggregated/Post.php:18
+msgid "{0} posted a conference"
+msgid_plural "{0} posted {1} conferences"
+msgstr[0] "{0} ha rilasciato una conferenza stampa"
+msgstr[1] "{0} ha rilasciato {1} conferenze stampa"
+
+#: Stream/Verb/Selection.php:18
+msgid "{0} has selected a player for the transfert"
+msgstr "{0} ha selezionato un giocatore"
+
+#: Stream/Verb/Transfert.php:14 Stream/Verb/Aggregated/Transfert.php:20
+msgid "Selled {0} and buyed {1}"
+msgstr "Ha venduto {0} e ha acquistato {1}"
+
+#: Stream/Verb/Transfert.php:23 Stream/Verb/Aggregated/Transfert.php:28
+msgid "{0} make a transfert"
 msgid_plural "{0} make {1} transferts"
 msgstr[0] "{0} ha effettuato un trasferimento"
 msgstr[1] "{0} ha effettuato {1} trasferimenti"
 
-#: Template/Element/lineups.ctp:12
-msgid "Name"
-msgstr ""
+#: Stream/Verb/Aggregated/Selection.php:18
+msgid "A player has been selected for the transfert"
+msgid_plural "{0} players have been selected for the transfert"
+msgstr[0] "Un giocatore è stato selezionato"
+msgstr[1] "{0} giocatori sono stati selezionati"
 
-#: Template/Element/lineups.ctp:13
+#: Template/Element/lineups.ctp:12 Template/Element/Email/lineups.ctp:12
+msgid "Name"
+msgstr "Nome"
+
+#: Template/Element/lineups.ctp:13 Template/Element/Email/lineups.ctp:13
 msgid "Role"
-msgstr ""
+msgstr "Ruolo"
 
 #: Template/Element/lineups.ctp:14 Template/Element/Email/lineups.ctp:14
 msgid "Club"
-msgstr ""
+msgstr "Club"
 
-#: Template/Element/lineups.ctp:15
+#: Template/Element/lineups.ctp:15 Template/Element/Email/lineups.ctp:16
+#: Template/Email/html/lineups.ctp:18 Template/Email/html/score.ctp:10
 msgid "Regular"
-msgstr ""
+msgstr "Titolare"
 
-#: Template/Element/lineups.ctp:15
+#: Template/Element/lineups.ctp:15 Template/Element/Email/lineups.ctp:16
 msgid "Reg"
-msgstr ""
+msgstr "Tit"
 
 #: Template/Element/lineups.ctp:16
 msgid "Yellow cards"
-msgstr ""
+msgstr "Ammonizioni"
 
-#: Template/Element/lineups.ctp:16
+#: Template/Element/lineups.ctp:16 Template/Element/Email/lineups.ctp:17
 msgid "YC"
-msgstr ""
+msgstr "Amm"
 
 #: Template/Element/lineups.ctp:17
 msgid "Red cards"
-msgstr ""
+msgstr "Espulsioni"
 
-#: Template/Element/lineups.ctp:17
+#: Template/Element/lineups.ctp:17 Template/Element/Email/lineups.ctp:18
 msgid "RC"
-msgstr ""
+msgstr "Esp"
 
-#: Template/Element/lineups.ctp:18
+#: Template/Element/lineups.ctp:18 Template/Element/Email/lineups.ctp:19
 msgid "Assists"
-msgstr ""
+msgstr "Assist"
 
-#: Template/Element/lineups.ctp:19
+#: Template/Element/lineups.ctp:19 Template/Element/Email/lineups.ctp:20
 msgid "Goals"
-msgstr ""
+msgstr "Gol"
 
-#: Template/Element/lineups.ctp:20
+#: Template/Element/lineups.ctp:20 Template/Element/Email/lineups.ctp:21
 msgid "Points"
-msgstr ""
-
-#: Template/Element/login.ctp:31
-msgid "Login"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:12
-msgid "Nome"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:13
-msgid "Ruolo"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:16
-msgid "Titolare"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:16
-msgid "Tit"
-msgstr ""
+msgstr "Punti"
 
 #: Template/Element/Email/lineups.ctp:17
-msgid "Ammonito"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:17
-msgid "Amm"
-msgstr ""
+msgid "Yellow card"
+msgstr "Ammonizioni"
 
 #: Template/Element/Email/lineups.ctp:18
-msgid "Espulso"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:18
-msgid "Esp"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:19
-msgid "Assist"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:20
-msgid "Gol"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:21
-msgid "Punti"
-msgstr ""
-
-#: Template/Email/html/lineups.ctp:18 Template/Email/html/score.ctp:10
-msgid "Titolari"
-msgstr ""
+msgid "Red card"
+msgstr "Espulsioni"
 
 #: Template/Email/html/lineups.ctp:25 Template/Email/html/score.ctp:11
-msgid "Panchinari"
-msgstr ""
+msgid "Not regular"
+msgstr "Titolare"
 
-#: View/Helper/PaginatorHelper.php:1212
-msgid "View"
-msgstr ""
+#: Template/Email/html/lineups.ctp:31
+msgid "Missing lineup"
+msgstr "Formazione non settata"
+
+#: Template/Email/html/lost_member.ctp:7
+msgid "{0} has been selected by another team"
+msgstr "{0} è stato selezionato da un altra squadra"
+
+#: Template/Email/html/score.ctp:8
+msgid "Score"
+msgstr "Punteggio"
+
+#~ msgid "Login"
+#~ msgstr "Login"

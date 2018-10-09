@@ -59,22 +59,9 @@ class LineupsFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'module' => 'Lorem',
-                'jolly' => 1,
-                'cloned' => 1,
-                'created_at' => 1536228855,
-                'modified_at' => 1536228855,
-                'captain_id' => 1,
-                'vcaptain_id' => 1,
-                'vvcaptain_id' => 1,
-                'matchday_id' => 1,
-                'team_id' => 1,
-                'old_id' => 1
-            ],
-        ];
+        $this->records = array(
+  array('id' => '1781','module' => '1-3-4-3','jolly' => NULL,'cloned' => NULL,'created_at' => '2018-09-28 23:05:34','modified_at' => '2018-10-08 15:06:07','captain_id' => '4754','vcaptain_id' => '4762','vvcaptain_id' => '4777','matchday_id' => '576','team_id' => '55','old_id' => NULL)
+);
         parent::init();
     }
 }

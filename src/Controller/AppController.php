@@ -53,7 +53,7 @@ class AppController extends Controller
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                Configure::read('debug') ?? 'Crud.ApiQueryLog'
+                //Configure::read('debug') ?? 'Crud.ApiQueryLog'
             ]
         ]);
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');

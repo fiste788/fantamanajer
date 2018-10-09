@@ -104,7 +104,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         'only' => ['view', 'delete', 'update', 'create']
     ]);
     $routes->resources('Championships', [
-        'only' => ['view']
+        'only' => ['view', 'update']
         ], function (RouteBuilder $routes) {
         $routes->resources('Articles', [
             'only' => 'index',
@@ -180,10 +180,14 @@ Router::scope('/', function (RouteBuilder $routes) {
         
         $routes->resources('Lineups', [
             'prefix' => 'teams',
-            'only' => ['current', 'create', 'update'],
+            'only' => ['current', 'create', 'update', 'likely'],
             'map' => [
                 'current' => [
                     'action' => 'current',
+                    'method' => 'GET'
+                ],
+                'likely' => [
+                    'action' => 'likely',
                     'method' => 'GET'
                 ]
             ]

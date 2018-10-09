@@ -39,15 +39,12 @@ class RolesFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'singolar' => 'Lorem ipsum dolor sit amet',
-                'plural' => 'Lorem ipsum dolor sit amet',
-                'abbreviation' => 'Lorem ipsum dolor sit amet',
-                'determinant' => 'Lor'
-            ],
-        ];
+        $this->records = array(
+  array('id' => '1','singolar' => 'Portiere','plural' => 'Portieri','abbreviation' => 'P','determinant' => 'il'),
+  array('id' => '2','singolar' => 'Difensore','plural' => 'Difensori','abbreviation' => 'D','determinant' => 'il'),
+  array('id' => '3','singolar' => 'Centrocampista','plural' => 'Centrocampisti','abbreviation' => 'C','determinant' => 'il'),
+  array('id' => '4','singolar' => 'Attaccante','plural' => 'Attaccanti','abbreviation' => 'A','determinant' => 'l\'')
+);
         parent::init();
     }
 }

@@ -190,6 +190,10 @@ class TeamsTable extends Table
         $validator
             ->requirePresence('name', 'create')
             ->notEmpty('name');
+        
+        $validator
+            ->boolean('admin')
+            ->allowEmpty('admin');
 
         return $validator;
     }

@@ -8,6 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
+ * @property boolean $admin
  * @property string $photo
  * @property string $photo_dir
  * @property int $photo_size

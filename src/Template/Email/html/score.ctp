@@ -5,10 +5,10 @@
  */
 ?>
 <h3>
-    <a href="<?php echo $baseUrl . '/scores/' . $score->id ?>" style="text-decoration:none;color:#ff4081">Punteggio: <?php echo $score->points; ?></a>
+    <a href="<?php echo $baseUrl . '/scores/' . $score->id ?>" style="text-decoration:none;color:#ff4081"><?= __('Score') ?>: <?php echo $score->points; ?></a>
 </h3>
-<?= $this->element('Email/lineups', ['dispositions' => $regulars, 'caption' => __('Titolari'), 'full' => true, 'baseUrl' => $baseUrl]) ?>
-<?= $this->element('Email/lineups', ['dispositions' => $notRegulars, 'caption' => __('Panchinari'), 'full' => true, 'baseUrl' => $baseUrl]) ?>
+<?= $this->element('Email/lineups', ['dispositions' => $regulars, 'caption' => __('Regular'), 'full' => true, 'baseUrl' => $baseUrl]) ?>
+<?= $this->element('Email/lineups', ['dispositions' => $notRegulars, 'caption' => __('Not regular'), 'full' => true, 'baseUrl' => $baseUrl]) ?>
 <?php if ($ranking): ?>
     <div>
         <table width="100%">

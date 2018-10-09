@@ -9,6 +9,7 @@ use Cake\TestSuite\TestCase;
  */
 class ScoreTest extends TestCase
 {
+    public $fixtures = ['app.members', 'app.players', 'app.ratings', 'app.teams', 'app.championships', 'app.lineups', 'app.dispositions', 'app.matchdays', 'app.seasons'];
 
     /**
      * Test subject
@@ -47,6 +48,32 @@ class ScoreTest extends TestCase
      */
     public function testCompute()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $matchday = $this->getTableLocator()->get('Matchdays')->get(576);
+        $team = $this->getTableLocator()->get('Teams')->get(55, ['contain' => 'Championships']);
+        $this->Score->team = $team;
+        $this->Score->matchday = $matchday;
+        $this->Score->matchday_id = $matchday->id;
+        $this->Score->team_id = $team->id;
+        $this->Score->compute();
+        $this->assertEquals(84, $this->Score->points, 'Points not match');
+        $this->assertNull($this->Score->lineup->cloned, null);
+    }
+    
+    /**
+     * Test compute method
+     *
+     * @return void
+     */
+    public function testMissingLineup()
+    {
+        $matchday = $this->getTableLocator()->get('Matchdays')->get(577);
+        $team = $this->getTableLocator()->get('Teams')->get(55, ['contain' => 'Championships']);
+        $this->Score->team = $team;
+        $this->Score->matchday = $matchday;
+        $this->Score->matchday_id = $matchday->id;
+        $this->Score->team_id = $team->id;
+        $this->Score->compute();
+        $this->assertEquals(57.5, $this->Score->points, 'Points not match');
+        $this->assertTrue($this->Score->lineup->cloned);
     }
 }

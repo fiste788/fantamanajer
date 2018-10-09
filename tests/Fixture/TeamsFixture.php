@@ -49,19 +49,9 @@ class TeamsFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'name' => 'Lorem ipsum dolor sit amet',
-                'photo' => '',
-                'photo_dir' => 'Lorem ipsum dolor sit amet',
-                'photo_size' => 1,
-                'photo_type' => 'Lorem ipsum dolor sit amet',
-                'user_id' => 1,
-                'championship_id' => 1,
-                'old_id' => 1
-            ],
-        ];
+        $this->records = array(
+  array('id' => '55','name' => 'Rubin Kebab','photo' => 'kebab.jpg','photo_dir' => 'webroot/files/teams/55/photo/','photo_size' => '216640','photo_type' => 'image/jpeg','user_id' => '2','championship_id' => '14')
+);
         parent::init();
     }
 }

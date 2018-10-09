@@ -15,6 +15,7 @@ use Minishlink\WebPush\WebPush;
 /**
  * @property \App\Model\Table\LineupsTable $Lineups
  * @property \App\Model\Table\TeamsTable $Teams
+ * @property \App\Model\Table\MatchdaysTable Matchdays
  */
 class SendMissingLineupNotificationCommand extends Command
 {
@@ -25,6 +26,7 @@ class SendMissingLineupNotificationCommand extends Command
         parent::initialize();
         $this->loadModel('Lineups');
         $this->loadModel('Teams');
+        $this->loadModel('Matchdays');
         $this->getCurrentMatchday();
     }
 
@@ -53,6 +55,7 @@ class SendMissingLineupNotificationCommand extends Command
             'number' => $this->currentMatchday->number + 1
         ])->first();
         if ($nextMatchday->date->isWithinNext('30 minutes') || $args->getOption('force')) {
+            $io->out('Start');
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
             $webPush = new WebPush(Configure::read('WebPush'));

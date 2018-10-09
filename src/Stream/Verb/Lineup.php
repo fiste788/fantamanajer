@@ -23,8 +23,8 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
     public function getTitle()
     {
         return __('{0} has setup lineup for matchday {1}', [
-            $this->activity['activities'][0]->offsetGet('actor')->name,
-            $this->activity['activities'][0]->offsetGet('object')->matchday->number
+            $this->activity->offsetGet('actor')->name,
+            $this->activity->offsetGet('object')->matchday->number
         ]);
     }
 

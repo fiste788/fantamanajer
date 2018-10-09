@@ -18,8 +18,11 @@ class StreamController extends AppController
             throw new ForbiddenException();
         }
 
+        $page = $this->request->getQuery('page', 1);
+        $rowsForPage = 10;
+        $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('team', $teamId, false);
+        $stream = $manager->getActivities('team', $teamId, false, $offset, $rowsForPage);
         $this->set([
             'success' => true,
             'data' => $stream,

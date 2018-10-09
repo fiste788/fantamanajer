@@ -15,7 +15,7 @@ class Post extends StreamSingleActivity implements StreamActivityInterface
 
     public function getTitle()
     {
-        return __('{0} posted a conference', $this->activity['activities'][0]->offsetGet('actor')->name);
+        return __('{0} posted a conference', $this->activity->offsetGet('actor')->name);
     }
 
     public function getIcon()

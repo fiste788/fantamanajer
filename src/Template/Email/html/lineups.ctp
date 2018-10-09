@@ -15,20 +15,20 @@
                 'VVC' => $team->lineups[0]->vvcaptain_id
             ],
             'dispositions' => array_slice($team->lineups[0]->dispositions, 0, 11), 
-            'caption' => __('Titolari'), 
+            'caption' => __('Regular'), 
             'full' => true, 
             'baseUrl' => $baseUrl
             ])
         ?>
         <?= $this->element('Email/lineups', [
             'dispositions' => array_slice($team->lineups[0]->dispositions, 11), 
-            'caption' => __('Panchinari'), 
+            'caption' => __('Not regular'), 
             'full' => true, 
             'baseUrl' => $baseUrl
             ]) 
         ?>
     <?php else: ?>
-        <p>Formazione non settata</p>
+        <p><?= __('Missing lineup') ?></p>
     <?php endif; ?>
 </div>
 <?php endforeach; ?>

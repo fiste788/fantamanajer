@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-09-19 08:39+0000\n"
+"POT-Creation-Date: 2018-09-22 11:33+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,17 +14,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: Model/Table/LineupsTable.php:192
+msgid "Jolly already used"
+msgstr ""
+
+#: Model/Table/SelectionsTable.php:148
+msgid "The member is selected by another team"
+msgstr ""
+
+#: Model/Table/SelectionsTable.php:169
+msgid "Reached maximum number of changes"
+msgstr ""
+
+#: Stream/Verb/Lineup.php:25
+#: Stream/Verb/Aggregated/Lineup.php:25
+msgid "{0} has setup lineup for matchday {1}"
+msgstr ""
+
+#: Stream/Verb/Missing.php:18
+#: Stream/Verb/Aggregated/Missing.php:18
+msgid "Your lineup for current matchday is missing. Come on!"
+msgstr ""
+
+#: Stream/Verb/Post.php:18
+#: Stream/Verb/Aggregated/Post.php:18
+msgid "{0} posted a conference"
+msgid_plural "{0} posted {1} conferences"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Stream/Verb/Selection.php:18
+msgid "{0} has selected a player for the transfert"
+msgstr ""
+
+#: Stream/Verb/Transfert.php:14
+#: Stream/Verb/Aggregated/Transfert.php:20
+msgid "Selled {0} and buyed {1}"
+msgstr ""
+
+#: Stream/Verb/Transfert.php:23
 #: Stream/Verb/Aggregated/Transfert.php:28
-msgid "{0} make one transfert"
+msgid "{0} make a transfert"
 msgid_plural "{0} make {1} transferts"
 msgstr[0] ""
 msgstr[1] ""
 
+#: Stream/Verb/Aggregated/Selection.php:18
+msgid "A player has been selected for the transfert"
+msgid_plural "{0} players have been selected for the transfert"
+msgstr[0] ""
+msgstr[1] ""
+
 #: Template/Element/lineups.ctp:12
+#: Template/Element/Email/lineups.ctp:12
 msgid "Name"
 msgstr ""
 
 #: Template/Element/lineups.ctp:13
+#: Template/Element/Email/lineups.ctp:13
 msgid "Role"
 msgstr ""
 
@@ -34,10 +81,14 @@ msgid "Club"
 msgstr ""
 
 #: Template/Element/lineups.ctp:15
+#: Template/Element/Email/lineups.ctp:16
+#: Template/Email/html/lineups.ctp:18
+#: Template/Email/html/score.ctp:10
 msgid "Regular"
 msgstr ""
 
 #: Template/Element/lineups.ctp:15
+#: Template/Element/Email/lineups.ctp:16
 msgid "Reg"
 msgstr ""
 
@@ -46,6 +97,7 @@ msgid "Yellow cards"
 msgstr ""
 
 #: Template/Element/lineups.ctp:16
+#: Template/Element/Email/lineups.ctp:17
 msgid "YC"
 msgstr ""
 
@@ -54,80 +106,47 @@ msgid "Red cards"
 msgstr ""
 
 #: Template/Element/lineups.ctp:17
+#: Template/Element/Email/lineups.ctp:18
 msgid "RC"
 msgstr ""
 
 #: Template/Element/lineups.ctp:18
+#: Template/Element/Email/lineups.ctp:19
 msgid "Assists"
 msgstr ""
 
 #: Template/Element/lineups.ctp:19
+#: Template/Element/Email/lineups.ctp:20
 msgid "Goals"
 msgstr ""
 
 #: Template/Element/lineups.ctp:20
+#: Template/Element/Email/lineups.ctp:21
 msgid "Points"
 msgstr ""
 
-#: Template/Element/login.ctp:31
-msgid "Login"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:12
-msgid "Nome"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:13
-msgid "Ruolo"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:16
-msgid "Titolare"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:16
-msgid "Tit"
-msgstr ""
-
 #: Template/Element/Email/lineups.ctp:17
-msgid "Ammonito"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:17
-msgid "Amm"
+msgid "Yellow card"
 msgstr ""
 
 #: Template/Element/Email/lineups.ctp:18
-msgid "Espulso"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:18
-msgid "Esp"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:19
-msgid "Assist"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:20
-msgid "Gol"
-msgstr ""
-
-#: Template/Element/Email/lineups.ctp:21
-msgid "Punti"
-msgstr ""
-
-#: Template/Email/html/lineups.ctp:18
-#: Template/Email/html/score.ctp:10
-msgid "Titolari"
+msgid "Red card"
 msgstr ""
 
 #: Template/Email/html/lineups.ctp:25
 #: Template/Email/html/score.ctp:11
-msgid "Panchinari"
+msgid "Not regular"
 msgstr ""
 
-#: View/Helper/PaginatorHelper.php:1212
-msgid "View"
+#: Template/Email/html/lineups.ctp:31
+msgid "Missing lineup"
+msgstr ""
+
+#: Template/Email/html/lost_member.ctp:7
+msgid "{0} has been selected by another team"
+msgstr ""
+
+#: Template/Email/html/score.ctp:8
+msgid "Score"
 msgstr ""
 

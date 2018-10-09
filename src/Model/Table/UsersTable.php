@@ -55,6 +55,7 @@ class UsersTable extends Table
             'PushSubscriptions',
             [
                 'foreignKey' => 'user_id',
+                'sort' => 'modified_at DESC'
             ]
         );
         $this->hasMany(

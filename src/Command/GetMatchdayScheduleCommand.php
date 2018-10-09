@@ -61,7 +61,8 @@ class GetMatchdayScheduleCommand extends Command
         $client = new Client(
             [
             'host' => 'www.legaseriea.it',
-            'redirect' => 5
+            'redirect' => 5,
+            'timeout' => 60
             ]
         );
 

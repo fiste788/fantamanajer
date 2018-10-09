@@ -29,7 +29,8 @@ class GetStreamEventListener implements EventListenerInterface
             'Fantamanajer.newLineup' => 'addNewLineupActivity',
             'Fantamanajer.newMemberSelection' => 'addNewMemberSelectionActivity',
             'Fantamanajer.newMemberTransfert' => 'addNewMemberTransfertActivity',
-            'Fantamanajer.changeMember' => 'changeMember'
+            'Fantamanajer.changeMember' => 'changeMember',
+            'Fantamanajer.memberTransferts' => 'memberTransferts'
         ];
     }
 
@@ -132,6 +133,43 @@ class GetStreamEventListener implements EventListenerInterface
                 'object' => 'Member:' . $member->id,
                 'to' => 'timeline:general'
             ]);
+        }
+    }
+    
+    /**
+     *
+     * @param Event $event
+     * @param \App\Model\Entity\Member[] $buys
+     * @param \App\Model\Entity\Member[] $sells
+     */
+    public function memberTransferts($event, $buys, $sells)
+    {
+        foreach ($buys as $club => $members) {
+            foreach($members as $member) {
+                $activities = [
+                    'actor' => 'Club:' . $club,
+                    'verb' => 'engage',
+                    'object' => 'Member:' . $member->id,
+                    'to' => 'timeline:general'
+                ];
+            }
+            $feed = $this->client->feed('club', $club);
+            $feed->setGuzzleDefaultOption('verify', false);
+            $feed->addActivities($activities);
+        }
+        foreach ($sells as $club => $member) {
+            foreach($members as $member) {
+                $activities = [
+                    'actor' => 'Club:' . $club,
+                    'verb' => 'sell',
+                    'object' => 'Member:' . $member->id,
+                    'to' => 'timeline:general'
+                ];
+            }
+            $feed = $this->client->feed('club', $club);
+            $feed->setGuzzleDefaultOption('verify', false);
+            $feed->addActivities($activities);
+            
         }
     }
 }

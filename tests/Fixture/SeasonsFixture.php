@@ -39,15 +39,9 @@ class SeasonsFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'name' => 'Lorem ipsum dolor sit amet',
-                'year' => 'Lorem ipsum dolor sit amet',
-                'key_gazzetta' => 'Lorem ipsum dolor sit amet',
-                'bonus_points' => 1
-            ],
-        ];
+        $this->records = array(
+  array('id' => '16','name' => 'Stagione 2018-19','year' => '2018','key_gazzetta' => '6d-39-38-40-30-68-62-2a-35-74-38-64-e0-34-34-49-4f-2d-38-34-39-33-3e-31-2d-38-38-57','bonus_points' => '1')
+);
         parent::init();
     }
 }

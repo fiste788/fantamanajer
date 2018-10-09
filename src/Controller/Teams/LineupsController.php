@@ -16,18 +16,27 @@ class LineupsController extends \App\Controller\LineupsController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('current', 'Crud.View');
+        $this->Crud->mapAction('likely', 'Crud.View');
     }
 
     public function current()
     {
         $team = $this->request->getParam('team_id');
+        $season = $this->currentSeason;
 
         if ($this->Authentication->getIdentity()->hasTeam($team)) {
-            $this->Crud->on('beforeFind', function (Event $event) use ($team) {
+            $this->Crud->on('beforeFind', function (Event $event) use ($team, $season) {
                 $event->getSubject()->query = $this->Lineups->find('last', [
                     'matchday' => $this->currentMatchday,
                     'team_id' => $team,
-                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
+                    'contain' => ['Teams' => ['Members' => function(\Cake\ORM\Query $q) use ($season) {
+                        return $q->find('withStats', ['season_id' => $season->id])
+                            ->select(TableRegistry::getTableLocator()->get('Roles'))
+                            ->select(TableRegistry::getTableLocator()->get('Players'))
+                            ->select(TableRegistry::getTableLocator()->get('VwMembersStats'))
+                            ->select(['id', 'role_id'])
+                            ->contain(['Roles', 'Players']);
+                    }]]
                 ]);
             });
         } else {
@@ -67,5 +76,23 @@ class LineupsController extends \App\Controller\LineupsController
                 '_serialize' => ['success', 'data']
             ]);
         }
+    }
+    
+    public function likely() {
+        $teamId = $this->request->getParam('team_id');
+        $team = $this->Lineups->Teams->get($teamId, [
+            'contain' => [
+                'Members' => [
+                    'Players',
+                    'Clubs'
+                ]
+            ]
+        ]);
+        $this->Lineups->getLikelyLineup($team->members);
+        $this->set([
+                'success' => true,
+                'data' => $team->members,
+                '_serialize' => ['success', 'data']
+            ]);
     }
 }

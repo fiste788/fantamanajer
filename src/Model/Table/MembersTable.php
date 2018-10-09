@@ -229,7 +229,8 @@ class MembersTable extends Table
         return $q->contain(['Roles', 'Players', 'VwMembersStats'])
             ->innerJoinWith('Clubs', function (Query $q) use ($options) {
                 return $q->where(['Clubs.id' => $options['club_id']]);
-            })->where([
+            })->order(['role_id', 'Players.name'])
+            ->where([
                 'active' => true,
                 'season_id' => $options['season_id']
             ]);
@@ -240,7 +241,7 @@ class MembersTable extends Table
         $q->contain(['Clubs', 'Players'])
             ->innerJoinWith('Teams', function (Query $q) use ($options) {
                 return $q->where(['Teams.id' => $options['team_id']]);
-            });
+            })->order(['role_id', 'Players.name']);
         if ($options['stats']) {
             $q->contain(['Roles', 'VwMembersStats']);
         }

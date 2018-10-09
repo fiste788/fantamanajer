@@ -4,5 +4,5 @@
  * @var \App\Model\Entity\Score $score
  */
 ?>
-<p>Hai perso il giocatore <?= $player->surname . ' ' . $player->name ?></p>
+<p><?= __('{0} has been selected by another team', $player->fullName); ?></p>
        

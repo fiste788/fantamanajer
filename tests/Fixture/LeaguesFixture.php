@@ -36,12 +36,10 @@ class LeaguesFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'name' => 'Lorem ipsum dolor sit amet'
-            ],
-        ];
+        $this->records = array(
+  array('id' => '1','name' => 'Alzano Sopra'),
+  array('id' => '2','name' => 'Pipponi')
+);
         parent::init();
     }
 }

@@ -45,15 +45,26 @@ class DispositionsFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'position' => 1,
-                'consideration' => 1,
-                'lineup_id' => 1,
-                'member_id' => 1
-            ],
-        ];
+        $this->records = array(
+  array('id' => '37811','position' => '1','consideration' => '1','lineup_id' => '1781','member_id' => '4656'),
+  array('id' => '37812','position' => '2','consideration' => '2','lineup_id' => '1781','member_id' => '4762'),
+  array('id' => '37813','position' => '3','consideration' => '0','lineup_id' => '1781','member_id' => '4754'),
+  array('id' => '37814','position' => '4','consideration' => '1','lineup_id' => '1781','member_id' => '4777'),
+  array('id' => '37815','position' => '5','consideration' => '1','lineup_id' => '1781','member_id' => '4903'),
+  array('id' => '37816','position' => '6','consideration' => '1','lineup_id' => '1781','member_id' => '5028'),
+  array('id' => '37817','position' => '7','consideration' => '1','lineup_id' => '1781','member_id' => '4993'),
+  array('id' => '37818','position' => '8','consideration' => '1','lineup_id' => '1781','member_id' => '4913'),
+  array('id' => '37819','position' => '9','consideration' => '1','lineup_id' => '1781','member_id' => '5055'),
+  array('id' => '37820','position' => '10','consideration' => '1','lineup_id' => '1781','member_id' => '5084'),
+  array('id' => '37821','position' => '11','consideration' => '0','lineup_id' => '1781','member_id' => '5176'),
+  array('id' => '37822','position' => '12','consideration' => '0','lineup_id' => '1781','member_id' => '4635'),
+  array('id' => '37823','position' => '13','consideration' => '1','lineup_id' => '1781','member_id' => '4750'),
+  array('id' => '37824','position' => '14','consideration' => '0','lineup_id' => '1781','member_id' => '4798'),
+  array('id' => '37825','position' => '15','consideration' => '0','lineup_id' => '1781','member_id' => '5051'),
+  array('id' => '37826','position' => '16','consideration' => '0','lineup_id' => '1781','member_id' => '4958'),
+  array('id' => '37827','position' => '17','consideration' => '0','lineup_id' => '1781','member_id' => '5123'),
+  array('id' => '37828','position' => '18','consideration' => '1','lineup_id' => '1781','member_id' => '5088')
+);
         parent::init();
     }
 }
