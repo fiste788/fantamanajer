@@ -20,4 +20,9 @@ class ScorePolicy
     {
         return $user->isInChampionship($score->team->championship_id);
     }
+    
+    public function canEdit(\App\Model\Entity\User $user, Score $score)
+    {
+        return $user->admin || $user->isChampionshipAdmin($score->team->championship_id);
+    }
 }

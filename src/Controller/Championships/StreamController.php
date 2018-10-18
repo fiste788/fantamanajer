@@ -17,8 +17,11 @@ class StreamController extends AppController
             throw new ForbiddenException();
         }
 
+        $page = $this->request->getQuery('page', 1);
+        $rowsForPage = 10;
+        $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('championship', $championshipId, true);
+        $stream = $manager->getActivities('championship', $championshipId, true, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
             '_serialize' => 'stream'

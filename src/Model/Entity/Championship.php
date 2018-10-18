@@ -39,5 +39,6 @@ class Championship extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
+        'started' => false,
     ];
 }

@@ -124,8 +124,11 @@ class MatchdaysTable extends Table
 
     public function findCurrent(\Cake\ORM\Query $q, array $options)
     {
+        $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
+        $now = new \Cake\I18n\Time();
+        $now->addMinute($interval);
         return $q->contain(['Seasons'])
-            ->where(['date > ' => new DateTime('now')])
+            ->where(['date > ' => $now])
             ->orderAsc('number');
     }
 
@@ -164,7 +167,7 @@ class MatchdaysTable extends Table
     {
         return $this->find()
             ->innerJoinWith('Scores')
-            ->where(['Seasons.id' => $season->id])
+            ->where(['season_id' => $season->id])
             ->orderDesc('Matchdays.id')
             ->limit(1);
     }
@@ -201,8 +204,7 @@ class MatchdaysTable extends Table
     {
         return $this->find()
             ->innerJoinWith('Ratings')
-            ->innerJoinWith('Seasons')
-            ->where(['Seasons.id' => $season->id])
+            ->where(['season_id' => $season->id])
             ->orderDesc('Matchdays.id')
             ->limit(1);
     }

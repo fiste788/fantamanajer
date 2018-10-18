@@ -92,22 +92,28 @@ class ChampionshipsTable extends Table
         $validator
             ->integer('number_transferts')
             ->requirePresence('number_transferts', 'create')
-            ->notEmpty('number_transferts');
+            ->notEmpty('number_transferts')
+            ->greaterThanOrEqual('number_transferts', 0);
 
         $validator
             ->integer('number_selections')
             ->requirePresence('number_selections', 'create')
-            ->notEmpty('number_selections');
+            ->notEmpty('number_selections')
+            ->nonNegativeInteger('number_selections');
 
         $validator
             ->integer('minute_lineup')
             ->requirePresence('minute_lineup', 'create')
-            ->notEmpty('minute_lineup');
+            ->notEmpty('minute_lineup')
+            ->nonNegativeInteger('number_selections')
+            ->lessThanOrEqual('number_selections', 24 * 60);
 
         $validator
             ->integer('points_missed_lineup')
             ->requirePresence('points_missed_lineup', 'create')
-            ->notEmpty('points_missed_lineup');
+            ->notEmpty('points_missed_lineup')
+            ->nonNegativeInteger('points_missed_lineup')
+            ->lessThanOrEqual('points_missed_lineup', 100);
 
         $validator
             ->boolean('captain_missed_lineup')

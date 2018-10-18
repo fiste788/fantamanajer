@@ -57,7 +57,8 @@ class LeaguesTable extends Table
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmpty('name')
+            ->minLength('name', 3);
 
         return $validator;
     }

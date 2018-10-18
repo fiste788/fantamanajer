@@ -17,6 +17,7 @@ class TeamsController extends AppController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');
+        $this->Crud->mapAction('add', 'Crud.Add');
         $this->Crud->mapAction('upload', 'Crud.Edit');
     }
 
@@ -31,19 +32,12 @@ class TeamsController extends AppController
 
         return $this->Crud->execute();
     }
-
-    public function isAuthorized($user = null)
+    
+    public function add()
     {
-        if (in_array($this->request->getParam('action'), ['edit'])) {
-            foreach ($user['teams'] as $team) {
-                if ($team['id'] == $this->request->getParam('id')) {
-                    return true;
-                }
-            }
-        } else {
-            return true;
-        }
+        $this->Crud->action()->saveOptions(['accessibleFields' => ['user' => true]]);
+        $this->Crud->action()->saveMethod('saveWithoutUser');
 
-        return parent::isAuthorized($user);
+        return $this->Crud->execute();
     }
 }

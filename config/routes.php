@@ -89,7 +89,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         ]);
     });
     $routes->resources('Scores', [
-        'only' => 'view'
+        'only' => ['view', 'update']
     ]);
     $routes->resources('Matchdays', [
         'only' => ['view', 'current'],
@@ -142,7 +142,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         ]);
     });
     $routes->resources('Teams', [
-        'only' => ['view', 'update']
+        'only' => ['view', 'update', 'create']
         ], function (RouteBuilder $routes) {
         $routes->resources('Articles', [
             'only' => 'index',
@@ -194,7 +194,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         ]);
         $routes->resources('Scores', [
             'prefix' => 'teams',
-            'only' => ['last', 'viewByMatchday'],
+            'only' => ['last', 'viewByMatchday', 'index'],
             'map' => [
                 'last' => [
                     'action' => 'last'

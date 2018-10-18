@@ -168,6 +168,30 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
+        $rules->addCreate(
+            function (Lineup $entity, $options) {
+                $matchday = $this->Matchdays->get($entity->matchday_id);
+                $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);
+                return $matchday->date->subMinutes($team->championship->minute_lineup)->isFuture();
+            },
+            'Expired',
+            ['errorField' => 'module', 'message' => __('Expired lineup')]
+        );
+        $rules->add(
+            function (Lineup $entity, $options) {
+                for($i = 0; $i < 11; $i++) {
+                    if(!array_key_exists($i, $entity->dispositions)) {
+                        return false;
+                    } else if($entity->dispositions[$i]->position != ($i + 1)) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            'MissingPlayer',
+            ['errorField' => 'module', 'message' => __('Missing player/s')]
+        );
+        
         $rules->add(
             function (Lineup $entity, $options) {
                 if ($entity->jolly) {
@@ -209,7 +233,6 @@ class LineupsTable extends Table
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
         if (array_key_exists('created_at', $data)) {
             unset($data['created_at']);
         }

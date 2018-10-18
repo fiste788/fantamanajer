@@ -3,6 +3,7 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Team;
+use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
 use Cake\Filesystem\File;
@@ -10,20 +11,21 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use GetStream\Stream\Client;
 use Spatie\Image\Image;
 
 /**
  * Teams Model
  *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
- * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
- * @property \App\Model\Table\EventsTable|\Cake\ORM\Association\HasMany $Events
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
- * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\SelectionsTable|\Cake\ORM\Association\HasMany $Selections
- * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsToMany $Members
+ * @property UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
+ * @property ArticlesTable|\Cake\ORM\Association\HasMany $Articles
+ * @property EventsTable|\Cake\ORM\Association\HasMany $Events
+ * @property LineupsTable|\Cake\ORM\Association\HasMany $Lineups
+ * @property ScoresTable|\Cake\ORM\Association\HasMany $Scores
+ * @property SelectionsTable|\Cake\ORM\Association\HasMany $Selections
+ * @property TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
+ * @property MembersTable|\Cake\ORM\Association\BelongsToMany $Members
  * @method \App\Model\Entity\Team get($primaryKey, $options = [])
  * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
@@ -33,8 +35,8 @@ use Spatie\Image\Image;
  * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
  * @method \App\Model\Entity\Team|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
- * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
+ * @property NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
+ * @property NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
  */
 class TeamsTable extends Table
 {
@@ -194,7 +196,7 @@ class TeamsTable extends Table
         $validator
             ->boolean('admin')
             ->allowEmpty('admin');
-
+        
         return $validator;
     }
 
@@ -209,6 +211,8 @@ class TeamsTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['championship_id'], 'Championships'));
+        $rules->add($rules->isUnique(['name', 'championship_id'], __('Team name already exist in this championship')));
+        $rules->add($rules->isUnique(['user_id', 'championship_id'], __('Team name already exist in this championship')));
 
         return $rules;
     }
@@ -217,5 +221,27 @@ class TeamsTable extends Table
     {
         return $q->contain(['Users'])
             ->where(['championship_id' => $options['championship_id']]);
+    }
+    
+    public function saveWithoutUser(Team $team) {
+        if(!$team->user->id) {
+            $team->user = $this->Users->findOrCreate(['email' => $team->user->email]);
+        }
+        if(!$team->user->id) {
+            $team->user->active = false;
+        }
+        $team->scores = $this->Scores->createMissingPoints($team);
+        $team->push_notification_subscriptions = $this->PushNotificationSubscriptions->createDefaultPushSubscription($team);
+        $team->email_notification_subscriptions = $this->EmailNotificationSubscriptions->createDefaultEmailSubscription($team);
+        if($this->save($team, ['associated' => true])) {
+            $config = Configure::read('GetStream.default');
+            $client = new Client($config['appKey'], $config['appSecret']);
+            $championshipFeed = $client->feed('championship', $team->championship_id);
+            $teamFeed = $client->feed('team', $team->id);
+            $userFeed = $client->feed('user', $team->user_id);
+            $userFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
+            $championshipFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
+            return true;
+        }
     }
 }

@@ -50,6 +50,7 @@ class Team extends Entity
     ];
 
     protected $_hidden = [
+        'photo',
         'photo_dir',
         'photo_size',
         'photo_type'

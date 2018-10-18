@@ -86,8 +86,9 @@ class UsersTable extends Table
             ->notEmpty('surname');
 
         $validator
+            ->requirePresence('email')
             ->email('email')
-            ->allowEmpty('email');
+            ->notEmpty('email');
 
         $validator
             ->boolean('active_email')
@@ -100,8 +101,7 @@ class UsersTable extends Table
             ->notEmpty('active');
 
         $validator
-            ->requirePresence('username', 'create')
-            ->notEmpty('username');
+            ->allowEmpty('username');
 
         $validator
             ->requirePresence('password', 'create')

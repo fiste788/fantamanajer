@@ -92,8 +92,7 @@ class ScoresTable extends Table
 
         $validator
             ->numeric('penality_points')
-            ->requirePresence('penality_points', 'create')
-            ->notEmpty('penality_points');
+            ->allowEmpty('penality_points');
 
         $validator
             ->allowEmpty('penality');
@@ -112,6 +111,7 @@ class ScoresTable extends Table
     {
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
+        $rules->add($rules->existsIn(['lineup_id'], 'Lineups'));
 
         return $rules;
     }
@@ -156,6 +156,16 @@ class ScoresTable extends Table
                     return $entity;
                 }, 'team_id');
             }, true);
+    }
+    
+    public function findByTeam(Query $q, array $options)
+    {
+        return $q->contain([
+            'Teams', 
+            'Matchdays' => ['fields' => ['number']]
+        ])->where([
+            'team_id' => $options['team_id']
+        ]);
     }
 
     /**
@@ -217,14 +227,44 @@ class ScoresTable extends Table
         return $score;
     }
 
-    public function loadDetails(Score $score)
+    public function loadDetails(Score $score, $members = false)
     {
-        return $this->loadInto($score, [
-            'Lineups.Dispositions.Members' => [
-                'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score) {
-                    return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
-                }
-            ]
-        ]);
+        if($members) {
+            $contain = [
+                'Lineups' => [
+                    'Dispositions', 'Teams.Members' => [
+                        'Roles', 'Players'
+                    ]
+                ]
+            ];
+        } else {
+             $contain = [
+                'Lineups.Dispositions.Members' => [
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score) {
+                        return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
+                    }
+                ]
+            ];
+        }
+        return $this->loadInto($score, $contain);
+    }
+    
+    public function createMissingPoints(Team $team)
+    {
+        $current = $this->Matchdays->find('current')->first();
+        $matchdaysWithScore = $this->Matchdays->findWithScores($current->season)
+            ->orderAsc('number',true)
+            ->distinct()
+            ->limit(40);
+        $scores = [];
+        foreach($matchdaysWithScore as $matchay) {
+            $scores[] = $this->newEntity([
+                'team_id' => $team->id,
+                'matchday_id' => $matchay->id,
+                'points' => 0,
+                'real_points' => 0
+            ]);
+        }
+        return $scores;
     }
 }

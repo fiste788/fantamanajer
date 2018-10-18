@@ -33,4 +33,13 @@ class ScoresController extends \App\Controller\ScoresController
 
         return $this->view(null);
     }
+    
+    public function index()
+    {
+        $this->Crud->action()->findMethod(['byTeam' =>
+            ['team_id' => $this->request->getParam('team_id')]
+        ]);
+        
+        return $this->Crud->execute();
+    }
 }

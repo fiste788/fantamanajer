@@ -8,12 +8,12 @@ class TeamPolicy
 {
     public function canView(IdentityInterface $user, Team $team)
     {
-        return true;
+        return $user->isInChampionship($team->championship_id);
     }
 
     public function canAdd(IdentityInterface $user, Team $team)
     {
-        return false;
+        return $user->admin || ($user->isChampionshipAdmin($team->championship_id));
     }
 
     public function canEdit(IdentityInterface $user, Team $team)
@@ -23,7 +23,7 @@ class TeamPolicy
 
     public function canDelete(IdentityInterface $user, Team $team)
     {
-        return $user->hasTeam($team->id);
+        return false;
     }
 
     public function canIndex(IdentityInterface $user, Team $team)
