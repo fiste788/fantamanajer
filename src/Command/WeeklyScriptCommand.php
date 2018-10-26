@@ -128,10 +128,10 @@ class WeeklyScriptCommand extends Command
                 $io->out("Elaborating team " . $team->name);
                 $scores[$team->id] = $this->Scores->compute($team, $matchday);
             }
-            $success = $this->Scores->saveMany(
-                $scores,
-                ['associated' => ['Lineups.Dispositions' => ['associated' => false]]]
-            );
+            $success = $this->Scores->saveMany($scores, [
+                'checkRules' => false, 
+                'associated' => ['Lineups.Dispositions' => ['associated' => false]]
+            ]);
             if ($success && !$args->getOption('no_send_mail')) {
                 $io->out("Sending mails");
                 $this->sendWeeklyMails($matchday, $championship);

@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authentication.git",
-                "reference": "baae2103989e3894b26d201ddf82fcef4491d638"
+                "reference": "4677522d73b20c2dabb54cded3b4cfb699e366ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authentication/zipball/baae2103989e3894b26d201ddf82fcef4491d638",
-                "reference": "baae2103989e3894b26d201ddf82fcef4491d638",
+                "url": "https://api.github.com/repos/cakephp/authentication/zipball/4677522d73b20c2dabb54cded3b4cfb699e366ef",
+                "reference": "4677522d73b20c2dabb54cded3b4cfb699e366ef",
                 "shasum": ""
             },
             "require": {
@@ -157,7 +157,7 @@
                 "cakephp",
                 "middleware"
             ],
-            "time": "2018-09-24T01:27:03+00:00"
+            "time": "2018-10-19T12:14:02+00:00"
         },
         {
             "name": "cakephp/authorization",
@@ -300,16 +300,16 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "30f5b26bcf76a5e53ecc274700ad1ec49dc05567"
+                "reference": "395110125ff577f080fa064dca5c5608a4e77ee1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/30f5b26bcf76a5e53ecc274700ad1ec49dc05567",
-                "reference": "30f5b26bcf76a5e53ecc274700ad1ec49dc05567",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/395110125ff577f080fa064dca5c5608a4e77ee1",
+                "reference": "395110125ff577f080fa064dca5c5608a4e77ee1",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-07-11T18:51:56+00:00"
+            "time": "2018-10-18T22:02:21+00:00"
         },
         {
             "name": "cakephp/migrations",
@@ -1605,21 +1605,21 @@
         },
         {
             "name": "mirko-pagliai/cakephp-database-backup",
-            "version": "2.5.0",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mirko-pagliai/cakephp-database-backup.git",
-                "reference": "2599ff1b60810e74ed0b40012d0ca821e6de5b60"
+                "reference": "4c865ee6ef9f791c264744f148a74da1069361bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mirko-pagliai/cakephp-database-backup/zipball/2599ff1b60810e74ed0b40012d0ca821e6de5b60",
-                "reference": "2599ff1b60810e74ed0b40012d0ca821e6de5b60",
+                "url": "https://api.github.com/repos/mirko-pagliai/cakephp-database-backup/zipball/4c865ee6ef9f791c264744f148a74da1069361bd",
+                "reference": "4c865ee6ef9f791c264744f148a74da1069361bd",
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": ">=3.5 <4",
-                "mirko-pagliai/php-tools": "^1.0",
+                "cakephp/cakephp": "^3.6",
+                "mirko-pagliai/php-tools": "^1.1",
                 "php": ">=5.5.9"
             },
             "require-dev": {
@@ -1644,7 +1644,7 @@
             ],
             "description": "Database Backup plugin for CakePHP",
             "homepage": "https://github.com/mirko-pagliai/cakephp-database-backup",
-            "time": "2018-04-11T08:03:10+00:00"
+            "time": "2018-10-23T11:55:10+00:00"
         },
         {
             "name": "mirko-pagliai/php-tools",
@@ -4578,16 +4578,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "46afded9720f40b9dc63542af4e3e43a1177acb0"
+                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/46afded9720f40b9dc63542af4e3e43a1177acb0",
-                "reference": "46afded9720f40b9dc63542af4e3e43a1177acb0",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/8afa52cd417f4ec417b4bfe86b68106538a87660",
+                "reference": "8afa52cd417f4ec417b4bfe86b68106538a87660",
                 "shasum": ""
             },
             "require": {
@@ -4630,7 +4630,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2018-08-08T08:57:40+00:00"
+            "time": "2018-10-18T06:09:13+00:00"
         },
         {
             "name": "composer/composer",

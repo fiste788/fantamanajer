@@ -126,6 +126,7 @@ class Lineup extends Entity
         $sum = 0;
         $cap = null;
         $substitution = 0;
+        $notValueds = [];
         $this->resetDispositions();
         if ($this->team->championship->captain) {
             $cap = $this->getActiveCaptain();

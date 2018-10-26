@@ -212,9 +212,11 @@ trait GazzettaTrait
                 $member = null;
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
-                    $buys[$member->club_id][] = $member;
-                    if($member->isDirty('club_id')) {
-                        $sells[$member->getOriginal('club_id')][] = $member;
+                    if($member != null) {
+                        $buys[$member->club_id][] = $member;
+                        if($member->isDirty('club_id')) {
+                            $sells[$member->getOriginal('club_id')][] = $member;
+                        }
                     }
                 } else {
                     $member = $this->memberNew($newMember, $matchday->season);
@@ -235,11 +237,11 @@ trait GazzettaTrait
             //$this->io->verbose($membersToSave);
             $this->io->out("Savings " . count($membersToSave) . " members");
             if (!$this->Members->saveMany($membersToSave)) {
-                $ev = new Event('Fantamanajer.memberTransferts', $this, [
+                $ev = new \Cake\Event\Event('Fantamanajer.memberTransferts', $this, [
                     'sells' => $sells,
                     'buys' => $buys
                 ]);
-                EventManager::instance()->dispatch($ev);
+                \Cake\Event\EventManager::instance()->dispatch($ev);
                 foreach ($membersToSave as $value) {
                     if (!empty($value->getErrors())) {
                         $this->io->err($value);

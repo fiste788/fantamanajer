@@ -50,11 +50,7 @@ class SendMissingLineupNotificationCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $nextMatchday = $this->Matchdays->find()->where([
-            'season_id' => $this->currentSeason->id,
-            'number' => $this->currentMatchday->number + 1
-        ])->first();
-        if ($nextMatchday->date->isWithinNext('30 minutes') || $args->getOption('force')) {
+        if ($this->currentMatchday->date->isWithinNext('30 minutes') || $args->getOption('force')) {
             $io->out('Start');
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
