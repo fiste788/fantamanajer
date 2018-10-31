@@ -168,6 +168,7 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
+        $rules->add($rules->isUnique(['team_id','matchday_id'], __('Lineup already exists for this matchday. Try to refresh')));
         $rules->addCreate(
             function (Lineup $entity, $options) {
                 $matchday = $this->Matchdays->get($entity->matchday_id);
@@ -309,6 +310,21 @@ class LineupsTable extends Table
                                 );
                     }
                 ]]);
+    }
+    
+    public function createLineup($team_id, $matchday_id) {
+        $lineup = $this->newEntity();
+        $lineup->modules = Lineup::$module;
+        $lineup->team_id = $team_id;
+        $lineup->matchday_id = $matchday_id;
+        $lineup->team = $this->Teams->get($team_id, [
+            'contain' => [
+                'Members' => [
+                    'Roles', 'Players'
+                ]
+            ]
+        ]);
+        return $lineup;
     }
     
     /**

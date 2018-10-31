@@ -20,9 +20,13 @@ class ScoresController extends AppController
     public function view($id)
     {
         $members = $this->request->getQuery('members');
-        $this->Crud->on('afterFind', function (Event $event) use($members) {
+        $that = $this;
+        $this->Crud->on('afterFind', function (Event $event) use($members, $that) {
             $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);
             if($members) {
+                if(!$result->lineup) {
+                   $result->lineup = $this->Scores->Lineups->createLineup($result->team_id, $result->matchday_id);
+                }
                 $result->lineup->modules = Lineup::$module;
             }
             return $result;
@@ -32,10 +36,16 @@ class ScoresController extends AppController
     
     public function edit()
     {
-        $this->Crud->action()->saveOptions(['associated' => ['Lineups.Dispositions']]);
+        $this->Crud->action()->saveOptions(['associated' => [
+            'Lineups' => [
+                'accessibleFields' => ['id' => true],
+                'associated' => ['Dispositions']
+            ]
+        ]]);
         
-        $this->Crud->on('beforeSave', function(\Cake\Event\Event $event) {
-            \Cake\Log\Log::debug($event->getSubject()->entity);
+        $this->Crud->on('afterSave', function(\Cake\Event\Event $event) {
+            $event->getSubject()->entity->compute();
+            $this->Scores->save($event->getSubject()->entity);
     });
 
         return $this->Crud->execute();

@@ -77,7 +77,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
          * Debug Kit should not be installed on a production system
          */
         if (Configure::read('debug')) {
-            $this->addPlugin(DebugKit\Plugin::class);
+            //$this->addPlugin(DebugKit\Plugin::class);
         }
     }
 
@@ -90,11 +90,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     public function middleware($middlewareQueue)
     {
         $middlewareQueue
-            ->add(ErrorHandlerMiddleware::class)
-            //->add(AssetMiddleware::class)
+            ->add(new ErrorHandlerMiddleware(null, Configure::read('Error')))
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
             ->add(BodyParserMiddleware::class)
-            //->add(new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()))
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,

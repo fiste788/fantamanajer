@@ -41,17 +41,25 @@ class Score extends Entity
      */
     public function compute()
     {
+        if(!$this->team) {
+            $teams = TableRegistry::getTableLocator()->get('Teams');
+            $this->team = $teams->get($this->team_id, ['contain' => ['Championships']]);
+        }
         $championship = $this->team->championship;
         $lineups = TableRegistry::get('Lineups');
-        $this->lineup = $lineups->find('last', [
-            'matchday' => $this->matchday,
-            'team_id' => $this->team->id
-        ])->find('withRatings', ['matchday_id' => $this->matchday_id])->first();
+        if(!$this->lineup) {
+            $this->lineup = $lineups->find('last', [
+                'matchday' => $this->matchday,
+                'team_id' => $this->team->id
+            ])->find('withRatings', ['matchday_id' => $this->matchday_id])->first();
+        } else {
+            $this->lineup = $lineups->loadInto($this->lineup, $lineups->find('withRatings', ['matchday_id' => $this->matchday_id])->getContain());
+        }
         if ($this->lineup == null || ($this->lineup->matchday_id != $this->matchday->id && $championship->points_missed_lineup == 0)) {
             $this->real_points = 0;
             $this->points = 0;
         } else {
-            if ($this->lineup->matchday_id != $this->matchday->id) {
+            if ($this->lineup->matchday_id != $this->matchday_id) {
                 $this->lineup = $this->lineup->copy($this->matchday, $championship->captain_missed_lineup);
             }
             $this->real_points = $this->lineup->compute();
@@ -61,8 +69,8 @@ class Score extends Entity
                 $mod = ($malusPoints * 10) % 5;
                 $this->penality_points = -(($malusPoints * 10) - $mod) / 10;
                 $this->penality = 'Formazione non settata';
-                $this->points = $this->points - $this->penality_points;
             }
+            $this->points = $this->points - $this->penality_points;
         }
     }
 }

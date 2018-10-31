@@ -12,7 +12,7 @@ use const DS;
  * @property int $id
  * @property int $code_gazzetta
  * @property bool $playmaker
- * @property int $active
+ * @property bool $active
  * @property int $player_id
  * @property \App\Model\Entity\Player $player
  * @property int $role_id

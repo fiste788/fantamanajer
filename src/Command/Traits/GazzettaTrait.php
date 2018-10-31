@@ -299,7 +299,7 @@ trait GazzettaTrait
             'season_id' => $season->id,
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
-            'active' => 1,
+            'active' => true,
             'role_id' => $member[5] + 1,
             'club_id' => $club->id,
             'player_id' => $player->id

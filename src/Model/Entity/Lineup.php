@@ -145,7 +145,7 @@ class Lineup extends Entity
                         $sum += $disposition->regularize($cap);
                         $substitution ++;
                         unset($notValueds[$key]);
-                        continue;
+                        break;
                     }
                 }
             }
