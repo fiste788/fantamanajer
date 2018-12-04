@@ -176,14 +176,16 @@ class ScoresTable extends Table
     public function findRanking(Query $q, array $options)
     {
         $championshipId = $options['championship_id'];
+        $sum = $q->func()->sum('points');
+        $coalesce = $q->func()->coalesce([$sum, 0], ['float', 'float']);
         $q->select([
                 'Teams.id',
-                'sum_points' => $q->func()->coalesce([$q->func()->sum('points'), 0])
+                'sum_points' => $coalesce
             ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->where(['Teams.championship_id' => $championshipId])
             ->group('Teams.id')
-            ->orderDesc('sum_points');
-
+            ->orderDesc($sum);
+        
         if (array_key_exists('scores', $options) && $options['scores']) {
             $q->formatResults(function (CollectionInterface $results) use ($championshipId) {
                 $scores = $this->find('scores', [

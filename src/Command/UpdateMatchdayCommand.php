@@ -67,7 +67,7 @@ class UpdateMatchdayCommand extends Command
         }
 
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
-        if ($date != null) {
+        if ($date != null && $date->isFuture()) {
             $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') && $io->askChoice("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number, ['y', 'n'], 'y') == 'y');
             if ($res) {
                 $matchday->set('date', $date);

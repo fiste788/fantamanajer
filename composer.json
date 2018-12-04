@@ -19,7 +19,7 @@
         "admad/cakephp-jwt-auth": "^2.0",
         "cakephp/authentication": "dev-master",
         "cakephp/authorization": "dev-master",
-        "cakephp/cakephp": "3.7.0-RC1",
+        "cakephp/cakephp": "3.7.0-RC2",
         "cakephp/migrations": "^2.0",
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",

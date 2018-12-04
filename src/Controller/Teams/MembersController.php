@@ -4,6 +4,11 @@ namespace App\Controller\Teams;
 
 class MembersController extends \App\Controller\MembersController
 {
+    public $paginate = [
+        'limit' => 1000,
+        'maxLimit' => 1000
+    ];
+    
     public function index()
     {
         $this->Crud->action()->findMethod([

@@ -64,8 +64,8 @@ class Enrich implements EnrichInterface
             $allActivities = array_merge($allActivities, $activities);
 
             $aggregated['activities'] = $activities;
-            $aggregated['created_at'] = new \Cake\I18n\Time($aggregated['created_at']);
-            $aggregated['updated_at'] = new \Cake\I18n\Time($aggregated['updated_at']);
+            $aggregated['created_at'] = new \Cake\I18n\Time($aggregated['created_at'], 'UTC');
+            $aggregated['updated_at'] = new \Cake\I18n\Time($aggregated['updated_at'], 'UTC');
         }
 
         $references = $this->collectReferences($allActivities);
