@@ -2,10 +2,8 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Season;
-use App\Model\Entity\Team;
 use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Query;
@@ -203,32 +201,6 @@ class ScoresTable extends Table
         return $q;
     }
 
-    /**
-     *
-     * @param Team     $team
-     * @param Matchday $matchday
-     * @return Score
-     * @throws PDOException
-     */
-    public function compute(Team $team, Matchday $matchday)
-    {
-        $score = $this->find()
-            ->where(['team_id' => $team->id, 'matchday_id' => $matchday->id])
-            ->first();
-        if (!$score) {
-            $score = $this->newEntity([
-                'penality_points' => 0,
-                'matchday_id' => $matchday->id,
-                'team_id' => $team->id
-            ]);
-        }
-        $score->matchday = $matchday;
-        $score->team = $team;
-        $score->compute();
-
-        return $score;
-    }
-
     public function loadDetails(Score $score, $members = false)
     {
         if($members) {
@@ -249,24 +221,5 @@ class ScoresTable extends Table
             ];
         }
         return $this->loadInto($score, $contain);
-    }
-    
-    public function createMissingPoints(Team $team)
-    {
-        $current = $this->Matchdays->find('current')->first();
-        $matchdaysWithScore = $this->Matchdays->findWithScores($current->season)
-            ->orderAsc('number',true)
-            ->distinct()
-            ->limit(40);
-        $scores = [];
-        foreach($matchdaysWithScore as $matchay) {
-            $scores[] = $this->newEntity([
-                'team_id' => $team->id,
-                'matchday_id' => $matchay->id,
-                'points' => 0,
-                'real_points' => 0
-            ]);
-        }
-        return $scores;
     }
 }

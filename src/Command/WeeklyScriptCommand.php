@@ -24,6 +24,7 @@ use Minishlink\WebPush\WebPush;
  * @property \App\Model\Table\RatingsTable $Ratings
  * @property \App\Model\Table\ChampionshipsTable $Championships
  * @property \App\Model\Table\LineupsTable $Lineups
+ * @property \App\Service\ComputeScoreService $ComputeScore
  */
 class WeeklyScriptCommand extends Command
 {
@@ -40,6 +41,7 @@ class WeeklyScriptCommand extends Command
         $this->loadModel('Scores');
         $this->loadModel('Championships');
         $this->loadModel('Lineups');
+        $this->loadService('ComputeScore');
         $this->getCurrentMatchday();
     }
 
@@ -126,7 +128,7 @@ class WeeklyScriptCommand extends Command
             $io->out("Calculating points of matchday " . $matchday->number . " for league " . $championship->league->name);
             foreach ($championship->teams as $team) {
                 $io->out("Elaborating team " . $team->name);
-                $scores[$team->id] = $this->Scores->compute($team, $matchday);
+                $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
             }
             $success = $this->Scores->saveMany($scores, [
                 'checkRules' => false, 

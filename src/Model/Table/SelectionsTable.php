@@ -3,24 +3,21 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Selection;
+use App\Model\Rule\MemberIsSelectableRule;
+use App\Model\Rule\TeamReachedMaxSelectionRule;
 use App\Model\Table\MatchdaysTable;
 use App\Model\Table\MembersTable;
 use App\Model\Table\TeamsTable;
-use App\Utility\WebPush\WebPushMessage;
 use ArrayObject;
-use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\Mailer\Email;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 use Cake\Validation\Validator;
-use Minishlink\WebPush\WebPush;
 
 /**
  * Selections Model
@@ -42,6 +39,7 @@ use Minishlink\WebPush\WebPush;
  */
 class SelectionsTable extends Table
 {
+    use \Burzum\Cake\Service\ServiceAwareTrait;
 
     /**
      * Initialize method
@@ -118,122 +116,20 @@ class SelectionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $that = $this;
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
-        $rules->add(
-            function (Selection $entity, $options) {
-                $selection = $this->findAlreadySelectedMember($entity);
-                if ($selection != null) {
-                    $ranking = TableRegistry::get('Scores')->find('ranking', [
-                        'championship_id' => $selection->team->championship_id
-                    ]);
-                    $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
-                    if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
-                        $selection->active = false;
-                        $this->save($selection);
-                        $this->notifyLostMember($selection);
-
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-
-                return true;
-            },
-            'NewMemberIsSelectable',
-            ['errorField' => 'new_member', 'message' => __('The member is selected by another team')]
+        $rules->add(new MemberIsSelectableRule(), 'NewMemberIsSelectable',
+            ['errorField' => 'new_member', 'message' => __('The member is already selected by another team')]
         );
-        $rules->add(
-            function (Selection $entity, $options) use ($that) {
-                $championship = TableRegistry::get('Championships')->find()->innerJoinWith(
-                    'Teams',
-                    function ($q) use ($entity) {
-                        return $q->where(['Teams.id' => $entity->team_id]);
-                    }
-                )->first();
-
-                return $that->find()
-                    ->where(
-                        [
-                            'matchday_id' => $entity->matchday_id,
-                            'team_id' => $entity->team_id,
-                            'processed' => false
-                        ]
-                    )->count() < $championship->number_selections;
-            },
-            'TeamReachedMaximum',
+        $rules->add(new TeamReachedMaxSelectionRule(), 'TeamReachedMaximum',
             ['errorField' => 'new_member', 'message' => __('Reached maximum number of changes')]
         );
 
         return $rules;
     }
-
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
-    {
-        if ($entity->isNew()) {
-            $event = new Event('Fantamanajer.newMemberSelection', $this, [
-                'selection' => $entity
-            ]);
-            EventManager::instance()->dispatch($event);
-        }
-    }
-
-    public function beforeSave(Event $event, Selection $entity, ArrayObject $options)
-    {
-        if ($entity->isDirty('processed') && $entity->processed) {
-            $membersTeamsTable = TableRegistry::get('MembersTeams');
-            $memberTeam = $membersTeamsTable->find()
-                ->contain(['Members'])
-                ->where([
-                    'team_id' => $entity->team_id,
-                    'member_id' => $entity->old_member_id
-                ])->first();
-            $memberTeam->member_id = $entity->new_member_id;
-            $membersTeamsTable->save($memberTeam);
-        }
-    }
-
-    /**
-     *
-     * @param Selection $selection
-     */
-    public function notifyLostMember(Selection $selection)
-    {
-        $selection = $this->loadInto($selection, ['Teams' => [
-            'EmailNotificationSubscriptions',
-            'PushNotificationSubscriptions',
-            'Users.Subscriptions'
-        ], 'NewMembers.Players']);
-        if ($selection->team->isEmailSubscripted('lost_member')) {
-            $email = new Email();
-            $email->setTemplate('lost_member')
-                ->setViewVars(
-                    [
-                        'player' => $selection->new_member->player,
-                        'baseUrl' => 'https://fantamanajer.it'
-                    ]
-                )
-                ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
-                ->setEmailFormat('html')
-                ->setTo($selection->team->user->email)
-                ->send();
-        }
-        if ($selection->team->isPushSubscripted('lost_member')) {
-            $webPush = new WebPush(Configure::read('WebPush'));
-            foreach ($selection->team->user->subscriptions as $subscription) {
-                $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
-                    ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
-                    ->body('Hai perso il giocatore ' . $selection->new_member->player->surname . ' ' . $selection->new_member->player->name)
-                    ->tag('lost-player-' . $selection->id);
-                $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
-            }
-        }
-    }
-
+    
     /**
      *
      * @param Selection $selection
@@ -266,5 +162,23 @@ class SelectionsTable extends Table
                 'team_id' => $options['team_id'],
                 'matchday_id' => $options['matchday_id'],
                 ])->limit(1);
+    }
+
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew()) {
+            $event = new Event('Fantamanajer.newMemberSelection', $this, [
+                'selection' => $entity
+            ]);
+            EventManager::instance()->dispatch($event);
+        }
+    }
+
+    public function beforeSave(Event $event, Selection $entity, ArrayObject $options)
+    {
+        if ($entity->isDirty('processed') && $entity->processed) {
+            $this->loadService('Selection');
+            $this->Selection->save($entity);
+        }
     }
 }

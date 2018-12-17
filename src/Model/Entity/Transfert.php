@@ -1,7 +1,6 @@
 <?php
 namespace App\Model\Entity;
 
-use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 
@@ -36,38 +35,4 @@ class Transfert extends Entity
         '*' => true,
         'id' => false,
     ];
-    
-    public function substituteMembers()
-    {
-        $team = $this->team;
-        if(!$team) {
-            $teams = TableRegistry::getTableLocator()->get('Teams');
-            $team = $teams->get($this->team_id);
-        }
-        $members = TableRegistry::getTableLocator()->get('MembersTeams');
-        $rec = $members->find()->innerJoinWith('Teams')->where([
-            'member_id' => $this->old_member_id,
-            'Teams.championship_id' => $team->championship_id
-            ])->first();
-        $rec->member_id = $this->new_member_id;
-        $recs [] = $rec;
-        $rec2 = $members->find()->innerJoinWith('Teams')->where([
-            'member_id' => $this->new_member_id,
-            'Teams.championship_id' => $team->championship_id
-        ])->first();
-        if($rec2) {
-            $rec2->member_id = $this->old_member_id;
-            $recs [] = $rec2;
-            $transferts = TableRegistry::getTableLocator()->get('Transferts');
-            $transfert = $transferts->newEntity([
-                'team_id' => $rec2->team_id,
-                'old_member_id' => $this->new_member_id,
-                'new_member_id' => $this->old_member_id,
-                'matchday_id' => $this->matchday_id,
-                'constrained' => $this->constrained
-            ]);
-            $transferts->save($transfert, ['associated' => false]);
-        }
-        $members->saveMany($recs, ['associated' => false]);
-    }
 }

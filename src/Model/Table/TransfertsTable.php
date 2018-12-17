@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Transfert;
@@ -33,6 +34,8 @@ use Cake\Validation\Validator;
 class TransfertsTable extends Table
 {
 
+    use \Burzum\Cake\Service\ServiceAwareTrait;
+
     /**
      * Initialize method
      *
@@ -50,31 +53,31 @@ class TransfertsTable extends Table
         $this->belongsTo(
             'NewMembers',
             [
-            'className' => 'Members',
-            'foreignKey' => 'old_member_id',
-            'propertyName' => 'old_member'
+                'className' => 'Members',
+                'foreignKey' => 'old_member_id',
+                'propertyName' => 'old_member'
             ]
         );
         $this->belongsTo(
             'OldMembers',
             [
-            'className' => 'Members',
-            'foreignKey' => 'new_member_id',
-            'propertyName' => 'new_member'
+                'className' => 'Members',
+                'foreignKey' => 'new_member_id',
+                'propertyName' => 'new_member'
             ]
         );
         $this->belongsTo(
             'Teams',
             [
-            'foreignKey' => 'team_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'team_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
-            'foreignKey' => 'matchday_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'matchday_id',
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -114,7 +117,7 @@ class TransfertsTable extends Table
 
         return $rules;
     }
-    
+
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
         $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
@@ -123,28 +126,21 @@ class TransfertsTable extends Table
     public function findByTeamId(Query $q, array $options)
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
-            ->where(['team_id' => $options['team_id']]);
+                ->where(['team_id' => $options['team_id']]);
     }
-    
+
     public function beforeSave(Event $event, Transfert $entity, ArrayObject $options)
     {
         $entity->matchday_id = $this->Matchdays->find('current')->first()->id;
     }
-    
+
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options)
     {
-        $event = new Event('Fantamanajer.newMemberTransfert', $this, [
-                'transfert' => $entity
-            ]);
-            EventManager::instance()->dispatch($event);
+        EventManager::instance()->dispatch(new Event('Fantamanajer.newMemberTransfert', $this, [
+            'transfert' => $entity
+        ]));
 
-        $lineups = TableRegistry::getTableLocator()->get('Lineups');
-        $lineup = $lineups->find()
-            ->contain(['Dispositions'])
-            ->where(['team_id' => $entity->team_id, 'matchday_id' => $entity->matchday_id])
-            ->first();
-        if ($lineup && $lineup->substitute($entity->old_member_id, $entity->new_member_id)) {
-            $lineups->save($lineup, true);
-        }
+        $this->loadService('Transfert');
+        $this->Transfert->substituteMemberInLineup($entity);
     }
 }

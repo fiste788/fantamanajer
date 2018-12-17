@@ -2,20 +2,17 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\User;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Utility\Security;
 use Cake\Validation\Validator;
-use Firebase\JWT\JWT;
 
 /**
  * Users Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
- * @property \App\Model\Table\PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
+ * @property TeamsTable|\Cake\ORM\Association\HasMany $Teams
+ * @property PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
  * @property HasMany $View2TeamsStats
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
@@ -140,16 +137,5 @@ class UsersTable extends Table
             ->where(['Users.active' => 1]);
 
         return $query;
-    }
-
-    public function getToken($subject, $days = 7)
-    {
-        return JWT::encode(
-            [
-                    'sub' => $subject,
-                    'exp' => time() + ($days * 24 * 60 * 60)
-                ],
-            Security::getSalt()
-        );
     }
 }

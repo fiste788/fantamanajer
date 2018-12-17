@@ -9,9 +9,19 @@ use Cake\ORM\TableRegistry;
 /**
  *
  * @property \App\Model\Table\LineupsTable $Lineups
+ * @property \App\Service\LineupService $Lineup
+ * @property \App\Service\LikelyLineupService $LikelyLineup
  */
 class LineupsController extends \App\Controller\LineupsController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadService('LikelyLineup');
+        $this->loadService('Lineup');
+    }
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -22,77 +32,48 @@ class LineupsController extends \App\Controller\LineupsController
     public function current()
     {
         $team = $this->request->getParam('team_id');
-        $season = $this->currentSeason;
-
+        $that = $this;
         if ($this->Authentication->getIdentity()->hasTeam($team)) {
-            $this->Crud->on('beforeFind', function (Event $event) use ($team, $season) {
-                $event->getSubject()->query = $this->Lineups->find('last', [
-                    'matchday' => $this->currentMatchday,
+            $this->Crud->on('beforeFind', function (Event $event) use ($team, $that) {
+                $event->getSubject()->query = $that->Lineups->find('last', [
                     'team_id' => $team,
-                    'contain' => ['Teams' => ['Members' => function(\Cake\ORM\Query $q) use ($season) {
-                        return $q->find('withStats', ['season_id' => $season->id])
-                            ->select(TableRegistry::getTableLocator()->get('Roles'))
-                            ->select(TableRegistry::getTableLocator()->get('Players'))
-                            ->select(TableRegistry::getTableLocator()->get('VwMembersStats'))
-                            ->select(['id', 'role_id'])
-                            ->contain(['Roles', 'Players']);
-                    }]]
+                    'matchday' => $this->currentMatchday,
+                    'stats' => true
                 ]);
             });
         } else {
-            $matchdayId = TableRegistry::getTableLocator()->get('Matchdays')->find()
-                ->select('Matchdays.id')
-                ->leftJoinWith('Scores')
-                ->orderAsc('Matchdays.number')
-                ->whereNull('Scores.id')->andWhere([
-                    'Matchdays.number >' => 0,
-                    'season_id' => $this->currentSeason->id
-                ])->first();
+            $matchdayId = TableRegistry::getTableLocator()->get('Matchdays')->find('firstWithoutScores')->first();
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchdayId) {
-                $event->getSubject()->query = $this->Lineups->find('byMatchdayIdAndTeamId', [
-                    'matchday_id' => $matchdayId->id,
-                    'team_id' => $team,
-                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
-                ]);
+                $event->getSubject()->query = $this->Crud->findMethod(['byMatchdayIdAndTeamId' => [
+                        'matchday_id' => $matchdayId,
+                        'team_id' => $team,
+                        'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
+                ]]);
             });
         }
-        $this->Crud->on('afterFind', function (Event $event) use ($team) {
-            $lineup = $event->getSubject()->entity;
-            if ($lineup->team_id == $team && $lineup->matchday_id != $this->currentMatchday->id) {
-                $event->getSubject()->entity = $event->getSubject()->entity->copy($this->currentMatchday, true, false);
-            }
-            $event->getSubject()->entity->modules = Lineup::$module;
+        $this->Crud->on('afterFind', function (Event $event) use ($team, $that) {
+            $event->getSubject()->entity = $that->Lineup->duplicate($event->getSubject()->entity, $team, $this->currentMatchday);
         });
 
         try {
             return $this->Crud->execute();
         } catch (\Cake\Http\Exception\NotFoundException $e) {
-            $lineup = new Lineup();
-            $lineup->team = TableRegistry::get('Teams')->get($team, ['contain' => ['Members' => ['Roles', 'Players']]]);
-            $lineup->modules = Lineup::$module;
             $this->set([
                 'success' => true,
-                'data' => $lineup,
+                'data' => $this->Lineup->getEmptyLineup($team),
                 '_serialize' => ['success', 'data']
             ]);
         }
     }
-    
-    public function likely() {
+
+    public function likely()
+    {
         $teamId = $this->request->getParam('team_id');
-        $team = $this->Lineups->Teams->get($teamId, [
-            'contain' => [
-                'Members' => [
-                    'Players',
-                    'Clubs'
-                ]
-            ]
-        ]);
-        $this->Lineups->getLikelyLineup($team->members);
+        $team = $this->LikelyLineup->get($teamId);
         $this->set([
-                'success' => true,
-                'data' => $team->members,
-                '_serialize' => ['success', 'data']
-            ]);
+            'success' => true,
+            'data' => $team->members,
+            '_serialize' => ['success', 'data']
+        ]);
     }
 }

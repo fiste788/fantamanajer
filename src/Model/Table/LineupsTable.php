@@ -3,6 +3,9 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Lineup;
+use App\Model\Rule\JollyAlreadyUsedRule;
+use App\Model\Rule\LineupExpiredRule;
+use App\Model\Rule\MissingPlayerInLineupRule;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -12,9 +15,8 @@ use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
-use GuzzleHttp\Client;
-use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Lineups Model
@@ -28,18 +30,18 @@ use Symfony\Component\DomCrawler\Crawler;
  * @property ScoresTable|\Cake\ORM\Association\HasOne $Scores
  * @property \App\Model\Table\View0LineupsDetailsTable|HasMany $View0LineupsDetails
  *
- * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
- * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
+ * @method Lineup get($primaryKey, $options = [])
+ * @method Lineup newEntity($data = null, array $options = [])
+ * @method Lineup[] newEntities(array $data, array $options = [])
+ * @method Lineup|bool save(EntityInterface $entity, $options = [])
+ * @method Lineup patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Lineup[] patchEntities($entities, array $data, array $options = [])
+ * @method Lineup findOrCreate($search, callable $callback = null, $options = [])
  * @property MembersTable|\Cake\ORM\Association\BelongsTo $Captain
  * @property MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
  * @property MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\Lineup|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method Lineup|bool saveOrFail(EntityInterface $entity, $options = [])
  */
 class LineupsTable extends Table
 {
@@ -168,54 +170,15 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
-        $rules->add($rules->isUnique(['team_id','matchday_id'], __('Lineup already exists for this matchday. Try to refresh')));
-        $rules->addCreate(
-            function (Lineup $entity, $options) {
-                $matchday = $this->Matchdays->get($entity->matchday_id);
-                $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);
-                return $matchday->date->subMinutes($team->championship->minute_lineup)->isFuture();
-            },
-            'Expired',
+        $rules->add($rules->isUnique(['team_id', 'matchday_id'], __('Lineup already exists for this matchday. Try to refresh')));
+        $rules->addCreate(new LineupExpiredRule(), 'Expired',
             ['errorField' => 'module', 'message' => __('Expired lineup')]
         );
-        $rules->add(
-            function (Lineup $entity, $options) {
-                for($i = 0; $i < 11; $i++) {
-                    if(!array_key_exists($i, $entity->dispositions)) {
-                        return false;
-                    } else if($entity->dispositions[$i]->position != ($i + 1)) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            'MissingPlayer',
+        $rules->add(new MissingPlayerInLineupRule(), 'MissingPlayer',
             ['errorField' => 'module', 'message' => __('Missing player/s')]
         );
-        
-        $rules->add(
-            function (Lineup $entity, $options) {
-                if ($entity->jolly) {
-                    $matchday = $this->Matchdays->get($entity->matchday_id);
-                    $matchdays = $this->Matchdays->find()
-                        ->where(['season_id' => $matchday->season_id])
-                        ->count();
 
-                    return $this->find()
-                        ->contain(['Matchdays'])
-                        ->innerJoinWith('Matchdays')
-                        ->where([
-                            'Lineups.id IS NOT' => $entity->id,
-                            'jolly' => true,
-                            'team_id' => $entity->team_id,
-                            'Matchdays.number ' . ($matchday->number <= $matchdays / 2 ? '<=' : '>') => $matchdays / 2
-                        ])
-                        ->isEmpty();
-                }
-
-                return true;
-            },
-            'JollyAlreadyUsed',
+        $rules->add(new JollyAlreadyUsedRule(), 'JollyAlreadyUsed',
             ['errorField' => 'jolly', 'message' => __('Jolly already used')]
         );
 
@@ -245,17 +208,17 @@ class LineupsTable extends Table
     public function findDetails(Query $q, array $options)
     {
         return $q->contain([
-            'Teams',
-            'Dispositions' => [
-                'Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
-                        return $q->where(['matchday_id' => $options['matchday_id']]);
-                    }]
+                'Teams',
+                'Dispositions' => [
+                    'Members' => [
+                        'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
+                            return $q->where(['matchday_id' => $options['matchday_id']]);
+                        }]
                 ]
             ])->where([
                 'team_id' => $options['team_id'],
                 'matchday_id' => $options['matchday_id']
-            ]);
+        ]);
     }
 
     /**
@@ -266,14 +229,31 @@ class LineupsTable extends Table
      */
     public function findLast(Query $q, array $options)
     {
-        return $q->innerJoinWith('Matchdays')
-                ->contain(['Dispositions'])
-                ->where([
-                    'Lineups.team_id' => $options['team_id'],
-                    'Lineups.matchday_id <=' => $options['matchday']->id,
-                    'Matchdays.season_id' => $options['matchday']->season_id
-                ])
-                ->order(['Matchdays.number' => 'DESC']);
+        $q->innerJoinWith('Matchdays')
+            ->contain(['Dispositions'])
+            ->where([
+                'Lineups.team_id' => $options['team_id'],
+                'Lineups.matchday_id <=' => $options['matchday']->id,
+                'Matchdays.season_id' => $options['matchday']->season_id
+            ])
+            ->order(['Matchdays.number' => 'DESC']);
+        if (array_key_exists('stats', $options) && $options['stats']) {
+            $seasonId = $options['matchday']->season_id;
+            $tableLocator = TableRegistry::getTableLocator();
+            $q->contain([
+                'Teams' => [
+                    'Members' => function(Query $q) use ($seasonId, $tableLocator) {
+                        return $q->find('withStats', ['season_id' => $seasonId])
+                                ->select($tableLocator->get('Roles'))
+                                ->select($tableLocator->get('Players'))
+                                ->select($tableLocator->get('VwMembersStats'))
+                                ->select(['id', 'role_id'])
+                                ->contain(['Roles', 'Players']);
+                    }
+                ]
+            ]);
+        }
+        return $q;
     }
 
     public function findByMatchdayIdAndTeamId(Query $q, array $options)
@@ -282,7 +262,7 @@ class LineupsTable extends Table
                 ->where([
                     'Lineups.team_id' => $options['team_id'],
                     'Lineups.matchday_id =' => $options['matchday_id'],
-                ]);
+        ]);
     }
 
     public function findWithRatings(Query $q, array $options)
@@ -294,86 +274,21 @@ class LineupsTable extends Table
                 'Dispositions' => [
                     'Members' => function (Query $q) use ($matchdayId) {
                         return $q->find(
-                            'list',
-                            [
+                                    'list',
+                                    [
                                         'keyField' => 'id',
                                         'valueField' => function ($obj) {
                                             return $obj;
                                         }
                                     ]
-                        )
+                                )
                                 ->contain(
                                     ['Ratings' => function (Query $q) use ($matchdayId) {
-                                        return $q->where(['Ratings.matchday_id' => $matchdayId]);
-                                    }
+                                            return $q->where(['Ratings.matchday_id' => $matchdayId]);
+                                        }
                                     ]
-                                );
+                        );
                     }
-                ]]);
-    }
-    
-    public function createLineup($team_id, $matchday_id) {
-        $lineup = $this->newEntity();
-        $lineup->modules = Lineup::$module;
-        $lineup->team_id = $team_id;
-        $lineup->matchday_id = $matchday_id;
-        $lineup->team = $this->Teams->get($team_id, [
-            'contain' => [
-                'Members' => [
-                    'Roles', 'Players'
-                ]
-            ]
-        ]);
-        return $lineup;
-    }
-    
-    /**
-     * 
-     * @param \App\Model\Entity\Member[] $members
-     */
-    public function getLikelyLineup($members) {
-        $client = new Client([
-            'base_uri' => 'https://www.gazzetta.it'
-        ]);
-        $html = $client->request('GET', '/Calcio/prob_form', ['verify' => false]);
-        if($html->getStatusCode() == 200) {
-            $crawler = new Crawler($html->getBody()->getContents());
-            $matches = $crawler->filter('.matchFieldContainer');
-            $teams = [];
-            $matches->each(function (Crawler $match) use(&$teams) {
-                $i = 0;
-                $teamsName = $match->filter('.match .team')->extract(['_text']);
-                $regulars = $match->filter('.team-players-inner');
-                $details = $match->filter('.matchDetails > div');
-                foreach($teamsName as $team) {
-                    $teams[trim($team)]['regulars'] = $regulars->eq($i);
-                    $teams[trim($team)]['details'] = $details->eq($i);
-                    $i++;
-                }
-            });
-            foreach($members as &$member) {
-                $divs = $teams[strtolower($member->club->name)];
-                $member->likely_lineup = new \stdClass();
-                $member->likely_lineup->regular = null;
-                $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');
-                if($find->count() > 0) {
-                    $member->likely_lineup->regular = true;
-                } else {
-                    $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
-                    if($find->count() == 0) {
-                        $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
-                    }
-                    if($find->count() > 0) {
-                        $title = $find->filter("strong")->text();
-                        switch($title) {
-                            case "Panchina:": $member->likely_lineup->regular = false;break;
-                            case "Squalificati:": $member->likely_lineup->disqualified = true;break;
-                            case "Indisponibili:": $member->likely_lineup->injured = true;break;
-                            case "Ballottaggio:": $member->likely_lineup->second_ballot = 50;break;
-                        }
-                    }
-                }
-            }
-        }
+        ]]);
     }
 }

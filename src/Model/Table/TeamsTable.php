@@ -3,7 +3,7 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Team;
-use Cake\Core\Configure;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
 use Cake\Filesystem\File;
@@ -11,7 +11,6 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use GetStream\Stream\Client;
 use Spatie\Image\Image;
 
 /**
@@ -26,21 +25,22 @@ use Spatie\Image\Image;
  * @property SelectionsTable|\Cake\ORM\Association\HasMany $Selections
  * @property TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
  * @property MembersTable|\Cake\ORM\Association\BelongsToMany $Members
- * @method \App\Model\Entity\Team get($primaryKey, $options = [])
- * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Team|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
+ * @method Team get($primaryKey, $options = [])
+ * @method Team newEntity($data = null, array $options = [])
+ * @method Team[] newEntities(array $data, array $options = [])
+ * @method Team|bool save(EntityInterface $entity, $options = [])
+ * @method Team patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Team[] patchEntities($entities, array $data, array $options = [])
+ * @method Team findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
- * @method \App\Model\Entity\Team|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method Team|bool saveOrFail(EntityInterface $entity, $options = [])
  * @property NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
  * @property NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
  */
 class TeamsTable extends Table
 {
 
+    use ServiceAwareTrait;
     /**
      * Initialize method
      *
@@ -224,24 +224,14 @@ class TeamsTable extends Table
     }
     
     public function saveWithoutUser(Team $team) {
+        $this->loadService("Team");
+        
         if(!$team->user->id) {
             $team->user = $this->Users->findOrCreate(['email' => $team->user->email]);
         }
         if(!$team->user->id) {
             $team->user->active = false;
         }
-        $team->scores = $this->Scores->createMissingPoints($team);
-        $team->push_notification_subscriptions = $this->PushNotificationSubscriptions->createDefaultPushSubscription($team);
-        $team->email_notification_subscriptions = $this->EmailNotificationSubscriptions->createDefaultEmailSubscription($team);
-        if($this->save($team, ['associated' => true])) {
-            $config = Configure::read('GetStream.default');
-            $client = new Client($config['appKey'], $config['appSecret']);
-            $championshipFeed = $client->feed('championship', $team->championship_id);
-            $teamFeed = $client->feed('team', $team->id);
-            $userFeed = $client->feed('user', $team->user_id);
-            $userFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
-            $championshipFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
-            return true;
-        }
+        $this->Team->createTeam($team);
     }
 }

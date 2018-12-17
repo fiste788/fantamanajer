@@ -4,10 +4,10 @@ namespace App\Controller;
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Crud\Controller\ControllerTrait;
+use Burzum\Cake\Service\ServiceAwareTrait;
 
 /**
  *
@@ -20,6 +20,7 @@ class AppController extends Controller
 {
     use ControllerTrait;
     use CurrentMatchdayTrait;
+    use ServiceAwareTrait;
 
     /**
      * @return void

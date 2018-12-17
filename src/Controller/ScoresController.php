@@ -8,9 +8,16 @@ use Cake\Event\Event;
 /**
  *
  * @property \App\Model\Table\ScoresTable $Scores
+ * @property \App\Service\LineupService $Lineup
  */
 class ScoresController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadService('Lineup');
+    }
+    
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -25,7 +32,7 @@ class ScoresController extends AppController
             $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);
             if($members) {
                 if(!$result->lineup) {
-                   $result->lineup = $this->Scores->Lineups->createLineup($result->team_id, $result->matchday_id);
+                   $result->lineup = $that->Lineup->newLineup($result->team_id, $result->matchday_id);
                 }
                 $result->lineup->modules = Lineup::$module;
             }

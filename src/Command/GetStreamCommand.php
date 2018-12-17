@@ -2,14 +2,20 @@
 
 namespace App\Command;
 
+use App\Model\Entity\Championship;
+use App\Model\Entity\Team;
+use App\Model\Table\ChampionshipsTable;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use GetStream\Stream\Client;
-use StreamCake\Enrich;
+use GetStream\Stream\Feed;
 
+/**
+ * @property ChampionshipsTable $Championships
+ */
 class GetStreamCommand extends Command
 {
 
@@ -22,6 +28,7 @@ class GetStreamCommand extends Command
     public function initialize()
     {
         parent::initialize();
+        $this->loadModel('Championships');
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
@@ -34,13 +41,12 @@ class GetStreamCommand extends Command
     }
 
     /**
-     * @var \App\Model\Entity\Team[] $teams
+     * @var Team[] $teams
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
         $timelineFeed = $this->client->feed('timeline', 'general');
-        $championsipTable = \Cake\ORM\TableRegistry::getTableLocator()->get('Championships');
-        $championsips = $championsipTable->find()->contain(['Teams'])->all();
+        $championsips = $this->Championships->find()->contain(['Teams'])->all();
         foreach ($championsips as $championsip) {
             $this->processChampionship($championsip, $timelineFeed);
         }
@@ -55,8 +61,8 @@ class GetStreamCommand extends Command
 
     /**
      *
-     * @param \App\Model\Entity\Championship $championship
-     * @param \GetStream\Stream\Feed $timelineFeed
+     * @param Championship $championship
+     * @param Feed $timelineFeed
      */
     private function processChampionship($championship, $timelineFeed)
     {

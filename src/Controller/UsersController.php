@@ -2,21 +2,32 @@
 
 namespace App\Controller;
 
+use App\Model\Table\UsersTable;
 use App\Stream\ActivityManager;
+use Burzum\Cake\Service\ServiceAwareTrait;
+use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Network\Exception\UnauthorizedException;
 
 /**
- * @property \App\Model\Table\UsersTable $Users
+ * @property UsersTable $Users
  */
 class UsersController extends AppController
 {
-    public function beforeFilter(\Cake\Event\Event $event)
+    use ServiceAwareTrait;
+    
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadService('User');
+    }
+    
+    public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
 
         $this->Crud->mapAction('edit', 'Crud.Edit');
-        $this->Authentication->allowUnauthenticated(['login', 'logout']);
+        $this->Authentication->allowUnauthenticated(['login']);
     }
 
     public function current()

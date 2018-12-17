@@ -17,9 +17,10 @@
     "require": {
         "php": ">=7.0",
         "admad/cakephp-jwt-auth": "^2.0",
+        "burzum/cakephp-service-layer": "dev-master",
         "cakephp/authentication": "dev-master",
         "cakephp/authorization": "dev-master",
-        "cakephp/cakephp": "3.7.0-RC2",
+        "cakephp/cakephp": "3.7.*",
         "cakephp/migrations": "^2.0",
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",

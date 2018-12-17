@@ -1,31 +1,39 @@
 <?php
-namespace App\Model\Table;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
+use App\Model\Table\ArticlesTable;
+use App\Model\Table\LineupsTable;
+use App\Model\Table\RatingsTable;
+use App\Model\Table\ScoresTable;
+use App\Model\Table\SeasonsTable;
+use App\Model\Table\TransfertsTable;
+use Cake\Datasource\EntityInterface;
+use Cake\I18n\Time;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use DateTime;
+namespace App\Model\Table;
 
 /**
  * Matchdays Model
  *
- * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
- * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
- * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
+ * @property SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
+ * @property ArticlesTable|\Cake\ORM\Association\HasMany $Articles
+ * @property LineupsTable|\Cake\ORM\Association\HasMany $Lineups
+ * @property RatingsTable|\Cake\ORM\Association\HasMany $Ratings
+ * @property ScoresTable|\Cake\ORM\Association\HasMany $Scores
+ * @property TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
  *
- * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
- * @method \App\Model\Entity\Matchday newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Matchday|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Matchday|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method Matchday get($primaryKey, $options = [])
+ * @method Matchday newEntity($data = null, array $options = [])
+ * @method Matchday[] newEntities(array $data, array $options = [])
+ * @method Matchday|bool save(EntityInterface $entity, $options = [])
+ * @method Matchday patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Matchday[] patchEntities($entities, array $data, array $options = [])
+ * @method Matchday findOrCreate($search, callable $callback = null, $options = [])
+ * @method Matchday|bool saveOrFail(EntityInterface $entity, $options = [])
  */
 class MatchdaysTable extends Table
 {
@@ -122,23 +130,14 @@ class MatchdaysTable extends Table
         return $rules;
     }
 
-    public function findCurrent(\Cake\ORM\Query $q, array $options)
+    public function findCurrent(Query $q, array $options)
     {
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
-        $now = new \Cake\I18n\Time();
+        $now = new Time();
         $now->addMinute($interval);
         return $q->contain(['Seasons'])
             ->where(['date > ' => $now])
             ->orderAsc('number');
-    }
-
-    public function getTargetCountdown($minutes = 0)
-    {
-        $query = $this->find();
-        $expr = $query->newExpr()->add('MIN(date) - INTERVAL ' . $minutes . ' MINUTE');
-        $query->select(['date' => $expr])->where(['NOW() < date']);
-
-        return $query->first()->date;
     }
 
     /**
@@ -170,6 +169,17 @@ class MatchdaysTable extends Table
             ->where(['season_id' => $season->id])
             ->orderDesc('Matchdays.id')
             ->limit(1);
+    }
+    
+    public function findFirstWithoutScores(Query $q, array $options)
+    {
+        return $q->select('Matchdays.id')
+                ->leftJoinWith('Scores')
+                ->orderAsc('Matchdays.number')
+                ->whereNull('Scores.id')->andWhere([
+                    'Matchdays.number >' => 0,
+                    'season_id' => $options['season']
+                ])->limit(1);
     }
 
     /**

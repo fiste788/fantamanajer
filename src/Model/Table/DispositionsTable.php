@@ -61,11 +61,7 @@ class DispositionsTable extends Table
         $this->hasOne(
             'Ratings',
             [
-            'finder' => function ($q) {
-                return $q->innerJoinWith('Lineups')
-                    ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])
-                    ->andWhere(['Ratings.member_id' => 'member_id']);
-            }
+            'finder' => 'byMatchdayLineup'
             ]
         );
     }
@@ -103,5 +99,12 @@ class DispositionsTable extends Table
         $rules->add($rules->existsIn(['member_id'], 'Members'));
 
         return $rules;
+    }
+    
+    public function findByMatchdayLineup(Query $q, array $options)
+    {
+        return $q->innerJoinWith('Lineups')
+                    ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])
+                    ->andWhere(['Ratings.member_id' => 'member_id']);
     }
 }

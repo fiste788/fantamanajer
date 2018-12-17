@@ -37,15 +37,4 @@ class Selection extends Entity
         '*' => true,
         'id' => false,
     ];
-
-    public function toTransfert(Table $transfertsTable)
-    {
-        $transfert = $transfertsTable->newEntity();
-        $transfert->team_id = $this->team_id;
-        $transfert->matchday_id = $this->matchday_id;
-        $transfert->old_member_id = $this->old_member_id;
-        $transfert->new_member_id = $this->new_member_id;
-
-        return $transfert;
-    }
 }

@@ -33,35 +33,5 @@ class Disposition extends Entity
         'id' => false,
     ];
 
-    /**
-     * Set the disposition as regular and return the points scored
-     *
-     * @param int $cap Id of the captain. Use it for double the points
-     * @return float Points scored
-     */
-    public function regularize($cap = null)
-    {
-        $this->consideration = 1;
-        $points = $this->member->ratings[0]->points_no_bonus;
-        if ($cap && $this->member->id == $cap) {
-            $this->consideration = 2;
-            $points *= 2;
-        }
-
-        return $points;
-    }
-
-    /**
-     * Reset the entity to default value and new
-     *
-     * @return Disposition
-     */
-    public function reset()
-    {
-        unset($this->id);
-        unset($this->lineup_id);
-        $this->consideration = 0;
-
-        return $this;
-    }
+    
 }
