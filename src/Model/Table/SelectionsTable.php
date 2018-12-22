@@ -16,7 +16,6 @@ use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -159,6 +158,7 @@ class SelectionsTable extends Table
     {
         return $q->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where([
+                'Selections.active' => true,
                 'team_id' => $options['team_id'],
                 'matchday_id' => $options['matchday_id'],
                 ])->limit(1);

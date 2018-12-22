@@ -16,5 +16,6 @@ class MissingPlayerInLineupRule
                 return false;
             }
         }
+        return true;
     }
 }

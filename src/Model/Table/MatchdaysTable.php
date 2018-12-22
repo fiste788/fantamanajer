@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model\Table;
+
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use App\Model\Table\ArticlesTable;
@@ -14,7 +16,6 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-namespace App\Model\Table;
 
 /**
  * Matchdays Model
