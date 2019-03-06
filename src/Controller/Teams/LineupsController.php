@@ -4,7 +4,6 @@ namespace App\Controller\Teams;
 
 use App\Model\Entity\Lineup;
 use Cake\Event\Event;
-use Cake\ORM\TableRegistry;
 
 /**
  *
@@ -15,11 +14,12 @@ use Cake\ORM\TableRegistry;
 class LineupsController extends \App\Controller\LineupsController
 {
 
-    public function initialize(): void
+    public function initialize() : void
     {
         parent::initialize();
         $this->loadService('LikelyLineup');
         $this->loadService('Lineup');
+        $this->loadModel('Matchdays');
     }
 
     public function beforeFilter(Event $event)
@@ -42,12 +42,12 @@ class LineupsController extends \App\Controller\LineupsController
                 ]);
             });
         } else {
-            $matchdayId = TableRegistry::getTableLocator()->get('Matchdays')->find('firstWithoutScores')->first();
+            $matchdayId = $this->Matchdays->find('firstWithoutScores')->first();
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchdayId) {
                 $event->getSubject()->query = $this->Crud->findMethod(['byMatchdayIdAndTeamId' => [
-                        'matchday_id' => $matchdayId,
-                        'team_id' => $team,
-                        'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
+                    'matchday_id' => $matchdayId,
+                    'team_id' => $team,
+                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
                 ]]);
             });
         }

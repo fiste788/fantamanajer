@@ -131,7 +131,7 @@ class WeeklyScriptCommand extends Command
                 $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
             }
             $success = $this->Scores->saveMany($scores, [
-                'checkRules' => false, 
+                'checkRules' => false,
                 'associated' => ['Lineups.Dispositions' => ['associated' => false]]
             ]);
             if ($success && !$args->getOption('no_send_mail')) {

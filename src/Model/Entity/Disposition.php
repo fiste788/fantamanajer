@@ -32,6 +32,4 @@ class Disposition extends Entity
         '*' => true,
         'id' => false,
     ];
-
-    
 }

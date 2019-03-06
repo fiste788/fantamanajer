@@ -1,0 +1,1 @@
+docker run -it --rm --name my-running-script -v ${PWD}:/usr/src/myapp -w /usr/src/myapp fantamanajer_php bin/cake $args

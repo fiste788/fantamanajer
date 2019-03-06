@@ -23,11 +23,11 @@ class TeamReachedMaxSelectionRule
     public function __invoke(EntityInterface $entity, array $options)
     {
         $championship = $this->Championships->find()->innerJoinWith(
-                'Teams',
-                function ($q) use ($entity) {
-                return $q->where(['Teams.id' => $entity->team_id]);
+            'Teams',
+            function ($q) use ($entity) {
+                    return $q->where(['Teams.id' => $entity->team_id]);
             }
-            )->first();
+        )->first();
 
         return $this->Selections->find()->where([
                 'matchday_id' => $entity->matchday_id,

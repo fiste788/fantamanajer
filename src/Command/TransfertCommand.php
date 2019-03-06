@@ -51,8 +51,8 @@ class TransfertCommand extends Command
     {
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
             $matchday = $this->currentMatchday;
-            if($args->hasArgument('matchday')) {
-               $matchday = $this->Matchdays->find()->where([
+            if ($args->hasArgument('matchday')) {
+                $matchday = $this->Matchdays->find()->where([
                     'season_id' => $this->currentSeason->id,
                     'number' => $args->getArgument('matchday')
                 ])->firstOrFail();

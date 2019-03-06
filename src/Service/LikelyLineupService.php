@@ -3,18 +3,38 @@
 namespace App\Service;
 
 use App\Model\Entity\Member;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\ModelAwareTrait;
 use GuzzleHttp\Client;
-use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
+use stdClass;
 
+/**
+ *
+ * @property \App\Model\Table\TeamsTable $Teams
+ */
 class LikelyLineupService
 {
+    use ModelAwareTrait;
 
     private $_teams = [];
-    
-    public function get($teamId) {
-        $team = TableRegistry::getTableLocator()->get('Teams')->get($teamId, [
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->loadModel('Teams');
+    }
+
+    /**
+     * Entry function
+     *
+     * @param int $teamId The id of team
+     * @return Team
+     */
+    public function get($teamId)
+    {
+        $team = $this->Teams->get($teamId, [
             'contain' => [
                 'Members' => [
                     'Players',
@@ -23,15 +43,17 @@ class LikelyLineupService
             ]
         ]);
         $this->retrieve($team->members);
+
         return $team;
     }
 
     /**
-     * 
-     * @param Member[] $members
+     * Retrieve from gazzetta likely lineup
+     * @param Member[] $members The members
+     * @return void
      */
     public function retrieve($members)
-    {   
+    {
         $client = new Client([
             'base_uri' => 'https://www.gazzetta.it'
         ]);
@@ -48,6 +70,12 @@ class LikelyLineupService
         }
     }
 
+    /**
+     * Process match
+     *
+     * @param Crawler $match The match
+     * @return void
+     */
     private function processMatch(Crawler $match)
     {
         $i = 0;
@@ -61,6 +89,12 @@ class LikelyLineupService
         }
     }
 
+    /**
+     * Process member
+     *
+     * @param Member $member The member
+     * @return void
+     */
     private function processMember(Member &$member)
     {
         $divs = $this->_teams[strtolower($member->club->name)];
@@ -77,13 +111,17 @@ class LikelyLineupService
             if ($find->count() > 0) {
                 $title = $find->filter("strong")->text();
                 switch ($title) {
-                    case "Panchina:": $member->likely_lineup->regular = false;
+                    case "Panchina:":
+                        $member->likely_lineup->regular = false;
                         break;
-                    case "Squalificati:": $member->likely_lineup->disqualified = true;
+                    case "Squalificati:":
+                        $member->likely_lineup->disqualified = true;
                         break;
-                    case "Indisponibili:": $member->likely_lineup->injured = true;
+                    case "Indisponibili:":
+                        $member->likely_lineup->injured = true;
                         break;
-                    case "Ballottaggio:": $member->likely_lineup->second_ballot = 50;
+                    case "Ballottaggio:":
+                        $member->likely_lineup->second_ballot = 50;
                         break;
                 }
             }

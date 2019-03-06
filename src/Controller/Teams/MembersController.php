@@ -8,7 +8,7 @@ class MembersController extends \App\Controller\MembersController
         'limit' => 1000,
         'maxLimit' => 1000
     ];
-    
+
     public function index()
     {
         $this->Crud->action()->findMethod([
@@ -20,7 +20,7 @@ class MembersController extends \App\Controller\MembersController
 
         return $this->Crud->execute();
     }
-    
+
     public function notMine()
     {
         $this->Crud->action()->findMethod([
@@ -32,7 +32,7 @@ class MembersController extends \App\Controller\MembersController
 
         return $this->Crud->execute();
     }
-    
+
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);

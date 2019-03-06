@@ -63,7 +63,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
             return $value->championship_id == $championshipId;
         }));
     }
-    
+
     public function isChampionshipAdmin($championshipId)
     {
         return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {

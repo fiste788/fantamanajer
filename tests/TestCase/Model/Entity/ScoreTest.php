@@ -2,6 +2,7 @@
 namespace App\Test\TestCase\Model\Entity;
 
 use App\Model\Entity\Score;
+use App\Service\ComputeScoreService;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -48,17 +49,18 @@ class ScoreTest extends TestCase
      */
     public function testCompute()
     {
+        $scoreCompute = new ComputeScoreService();
         $matchday = $this->getTableLocator()->get('Matchdays')->get(576);
         $team = $this->getTableLocator()->get('Teams')->get(55, ['contain' => 'Championships']);
         $this->Score->team = $team;
         $this->Score->matchday = $matchday;
         $this->Score->matchday_id = $matchday->id;
         $this->Score->team_id = $team->id;
-        $this->Score->compute();
-        $this->assertEquals(84, $this->Score->points, 'Points not match');
+        $scoreCompute->exec($this->Score);
+        $this->assertEquals(84, $this->Score->points, 'Points not match expected 84 got ' . $this->Score->points);
         $this->assertNull($this->Score->lineup->cloned, null);
     }
-    
+
     /**
      * Test compute method
      *

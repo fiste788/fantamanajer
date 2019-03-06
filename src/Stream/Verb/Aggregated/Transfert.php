@@ -11,12 +11,13 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
 
     public function getBody()
     {
-        foreach($this->activity['activities'] as $activity) {
-            if($activity->enriched()) {
+        foreach ($this->activity['activities'] as $activity) {
+            if ($activity->enriched()) {
                 $news[] = $activity->offsetGet('object')->new_member->player->full_name;
                 $olds[] = $activity->offsetGet('object')->old_member->player->full_name;
             }
         }
+
         return __('Selled {0} and buyed {1}', [
             implode(', ', $news),
             implode(', ', $olds)
@@ -35,7 +36,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
     {
         return 'swap_vert';
     }
-    
+
     public static function contain()
     {
         return ['NewMembers.Players', 'OldMembers.Players'];

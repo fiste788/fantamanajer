@@ -171,14 +171,20 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->isUnique(['team_id', 'matchday_id'], __('Lineup already exists for this matchday. Try to refresh')));
-        $rules->addCreate(new LineupExpiredRule(), 'Expired',
+        $rules->addCreate(
+            new LineupExpiredRule(),
+            'Expired',
             ['errorField' => 'module', 'message' => __('Expired lineup')]
         );
-        $rules->add(new MissingPlayerInLineupRule(), 'MissingPlayer',
+        $rules->add(
+            new MissingPlayerInLineupRule(),
+            'MissingPlayer',
             ['errorField' => 'module', 'message' => __('Missing player/s')]
         );
 
-        $rules->add(new JollyAlreadyUsedRule(), 'JollyAlreadyUsed',
+        $rules->add(
+            new JollyAlreadyUsedRule(),
+            'JollyAlreadyUsed',
             ['errorField' => 'jolly', 'message' => __('Jolly already used')]
         );
 
@@ -208,16 +214,17 @@ class LineupsTable extends Table
     public function findDetails(Query $q, array $options)
     {
         return $q->contain([
-                'Teams',
-                'Dispositions' => [
-                    'Members' => [
-                        'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
-                            return $q->where(['matchday_id' => $options['matchday_id']]);
-                        }]
+            'Teams',
+            'Dispositions' => [
+                'Members' => [
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
+                        return $q->where(['matchday_id' => $options['matchday_id']]);
+                    }
                 ]
-            ])->where([
-                'team_id' => $options['team_id'],
-                'matchday_id' => $options['matchday_id']
+            ]
+        ])->where([
+            'team_id' => $options['team_id'],
+            'matchday_id' => $options['matchday_id']
         ]);
     }
 
@@ -242,27 +249,28 @@ class LineupsTable extends Table
             $tableLocator = TableRegistry::getTableLocator();
             $q->contain([
                 'Teams' => [
-                    'Members' => function(Query $q) use ($seasonId, $tableLocator) {
+                    'Members' => function (Query $q) use ($seasonId, $tableLocator) {
                         return $q->find('withStats', ['season_id' => $seasonId])
-                                ->select($tableLocator->get('Roles'))
-                                ->select($tableLocator->get('Players'))
-                                ->select($tableLocator->get('VwMembersStats'))
-                                ->select(['id', 'role_id'])
-                                ->contain(['Roles', 'Players']);
+                            ->select($tableLocator->get('Roles'))
+                            ->select($tableLocator->get('Players'))
+                            ->select($tableLocator->get('VwMembersStats'))
+                            ->select(['id', 'role_id'])
+                            ->contain(['Roles', 'Players']);
                     }
                 ]
             ]);
         }
+
         return $q;
     }
 
     public function findByMatchdayIdAndTeamId(Query $q, array $options)
     {
         return $q->contain(['Dispositions'])
-                ->where([
-                    'Lineups.team_id' => $options['team_id'],
-                    'Lineups.matchday_id =' => $options['matchday_id'],
-        ]);
+            ->where([
+                'Lineups.team_id' => $options['team_id'],
+                'Lineups.matchday_id =' => $options['matchday_id'],
+            ]);
     }
 
     public function findWithRatings(Query $q, array $options)
@@ -270,25 +278,25 @@ class LineupsTable extends Table
         $matchdayId = $options['matchday_id'];
 
         return $q->contain([
-                'Teams.Championships',
-                'Dispositions' => [
-                    'Members' => function (Query $q) use ($matchdayId) {
-                        return $q->find(
-                                    'list',
-                                    [
-                                        'keyField' => 'id',
-                                        'valueField' => function ($obj) {
-                                            return $obj;
-                                        }
-                                    ]
-                                )
-                                ->contain(
-                                    ['Ratings' => function (Query $q) use ($matchdayId) {
-                                            return $q->where(['Ratings.matchday_id' => $matchdayId]);
-                                        }
-                                    ]
+            'Teams.Championships',
+            'Dispositions' => [
+                'Members' => function (Query $q) use ($matchdayId) {
+                    return $q->find(
+                        'list',
+                        [
+                            'keyField' => 'id',
+                            'valueField' => function ($obj) {
+                                return $obj;
+                            }
+                        ]
+                    )
+                        ->contain(
+                            ['Ratings' => function (Query $q) use ($matchdayId) {
+                                return $q->where(['Ratings.matchday_id' => $matchdayId]);
+                            }]
                         );
-                    }
-        ]]);
+                }
+            ]
+        ]);
     }
 }

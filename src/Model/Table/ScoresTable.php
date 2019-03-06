@@ -155,11 +155,11 @@ class ScoresTable extends Table
                 }, 'team_id');
             }, true);
     }
-    
+
     public function findByTeam(Query $q, array $options)
     {
         return $q->contain([
-            'Teams', 
+            'Teams',
             'Matchdays' => ['fields' => ['number']]
         ])->where([
             'team_id' => $options['team_id']
@@ -183,7 +183,7 @@ class ScoresTable extends Table
             ->where(['Teams.championship_id' => $championshipId])
             ->group('Teams.id')
             ->orderDesc($sum);
-        
+
         if (array_key_exists('scores', $options) && $options['scores']) {
             $q->formatResults(function (CollectionInterface $results) use ($championshipId) {
                 $scores = $this->find('scores', [
@@ -203,7 +203,7 @@ class ScoresTable extends Table
 
     public function loadDetails(Score $score, $members = false)
     {
-        if($members) {
+        if ($members) {
             $contain = [
                 'Lineups' => [
                     'Dispositions', 'Teams.Members' => [
@@ -218,8 +218,9 @@ class ScoresTable extends Table
                         return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
                     }
                 ]
-            ];
+             ];
         }
+
         return $this->loadInto($score, $contain);
     }
 }

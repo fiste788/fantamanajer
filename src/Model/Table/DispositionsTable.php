@@ -100,7 +100,7 @@ class DispositionsTable extends Table
 
         return $rules;
     }
-    
+
     public function findByMatchdayLineup(Query $q, array $options)
     {
         return $q->innerJoinWith('Lineups')

@@ -37,13 +37,14 @@ class ActivityManager
     public function convertEnrichedToStreamActivity($enricheds, $activities)
     {
         foreach ($enricheds as $key => $activity) {
-            if(is_array($activity) || $activity->enriched()) {
+            if (is_array($activity) || $activity->enriched()) {
                 $activities['results'][$key] = $this->getFromVerb($activity);
             } else {
                 unset($activities['results'][$key]);
             }
         }
         $activities['results'] = array_values($activities['results']);
+
         return $activities;
     }
 
@@ -62,7 +63,7 @@ class ActivityManager
             $verb = $activity->offsetGet('verb');
         }
         $className = $base . ucwords($verb);
-        
+
         return new $className($activity);
     }
 }

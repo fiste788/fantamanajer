@@ -5,7 +5,6 @@ use ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -43,15 +42,15 @@ class MembersTeamsTable extends Table
         $this->belongsTo(
             'Teams',
             [
-            'foreignKey' => 'team_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'team_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Members',
             [
-            'foreignKey' => 'member_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'member_id',
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -90,7 +89,7 @@ class MembersTeamsTable extends Table
     {
         if ($entity->isDirty('member_id') && !$entity->isNew()) {
             $this->loadService('Transfert');
-            
+
             $this->Transfert->saveTeamMember($entity);
         }
     }

@@ -7,7 +7,6 @@ use App\Service\SelectionService;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 
 /**
@@ -26,7 +25,7 @@ class MemberIsSelectableRule
         $this->loadModel('Scores');
         $this->loadService('Selection');
     }
-    
+
     public function __invoke(EntityInterface $entity, array $options)
     {
         $selection = $this->Selections->findAlreadySelectedMember($entity);

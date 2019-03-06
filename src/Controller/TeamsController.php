@@ -32,7 +32,7 @@ class TeamsController extends AppController
 
         return $this->Crud->execute();
     }
-    
+
     public function add()
     {
         $this->Crud->action()->saveOptions(['accessibleFields' => ['user' => true]]);

@@ -13,7 +13,7 @@ class NotificationSubscriptionService
             ['type' => 'push', 'enabled' => true, 'team_id' => $team->id, 'name' => 'score']
         ]);
     }
-    
+
     public function createDefaultEmailSubscription(Team $team)
     {
         return $this->newEntities([

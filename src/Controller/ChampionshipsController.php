@@ -14,8 +14,9 @@ class ChampionshipsController extends AppController
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');
     }
-    
-    public function edit() {
+
+    public function edit()
+    {
         $this->Crud->action()->saveOptions(['associated' => []]);
         $this->Crud->execute();
     }

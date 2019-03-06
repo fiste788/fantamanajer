@@ -34,5 +34,4 @@ class Score extends Entity
         '*' => true,
         'id' => false,
     ];
-
 }

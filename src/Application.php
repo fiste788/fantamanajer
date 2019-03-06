@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -14,25 +15,31 @@
  */
 namespace App;
 
+use Authorization\Middleware\RequestAuthorizationMiddleware;
 use App\Command\UpdateCalendarCommand;
+use Cake\Http\Middleware\BodyParserMiddleware;
+use Authorization\AuthorizationServiceProviderInterface;
 use App\Command\UpdateMatchdayCommand;
 use App\Command\WeeklyScriptCommand;
-use App\Model\Entity\User;
-use Authentication\AuthenticationService;
-use Authentication\AuthenticationServiceInterface;
-use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\IdentifierInterface;
-use Authentication\Middleware\AuthenticationMiddleware;
 use Authorization\AuthorizationService;
-use Authorization\Middleware\AuthorizationMiddleware;
-use Authorization\Policy\OrmResolver;
-use Cake\Console\CommandCollection;
-use Cake\Core\Configure;
-use Cake\Core\Exception\MissingPluginException;
+use App\Model\Entity\User;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationService;
+use Authentication\Identifier\IdentifierInterface;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Authorization\Policy\MapResolver;
+use Authorization\Middleware\AuthorizationMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
-use Cake\Http\Middleware\BodyParserMiddleware;
+use Cake\Core\Configure;
+use Authorization\Policy\ResolverCollection;
+use Cake\Console\CommandCollection;
+use Authorization\Policy\OrmResolver;
+use Cake\Core\Exception\MissingPluginException;
+use Cake\Database\Type;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use DebugKit;
@@ -45,8 +52,11 @@ use Psr\Http\Message\ServerRequestInterface;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface, \Authorization\AuthorizationServiceProviderInterface
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function bootstrap()
     {
         parent::bootstrap();
@@ -59,6 +69,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 // Do not halt if the plugin is missing
             }
         }
+        Type::map('acd', 'App\Database\Type\AttestedCredentialDataType');
+        Type::map('ci', 'App\Database\Type\PublicKeyCredentialDescriptorType');
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
@@ -99,7 +111,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'identityDecorator' => function ($auth, $user) {
                     return $user->setAuthorization($auth);
                 }
-            ]))->add(new \Authorization\Middleware\RequestAuthorizationMiddleware());
+            ]))->add(new RequestAuthorizationMiddleware());
 
         return $middlewareQueue;
     }
@@ -155,13 +167,20 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         return $service;
     }
 
+    /**
+     * Return the authorization provider instance
+     *
+     * @param ServerRequestInterface $request Request
+     * @param ResponseInterface $response Response
+     * @return AuthorizationService
+     */
     public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $map = new \Authorization\Policy\MapResolver();
-        $map->map(\Cake\Http\ServerRequest::class, Policy\RequestPolicy::class);
+        $map = new MapResolver();
+        $map->map(ServerRequest::class, Policy\RequestPolicy::class);
         $orm = new OrmResolver();
-        
-        $resolver = new \Authorization\Policy\ResolverCollection([$orm, $map]);
+
+        $resolver = new ResolverCollection([$orm, $map]);
 
         return new AuthorizationService($resolver);
     }

@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "admad/cakephp-jwt-auth": "^2.0",
         "burzum/cakephp-service-layer": "dev-master",
         "cakephp/authentication": "dev-master",
@@ -30,18 +30,20 @@
         "josegonzalez/dotenv": "3.*",
         "lavary/crunz": "^1.5.1",
         "minishlink/web-push": "^4.0",
-        "mirko-pagliai/cakephp-database-backup": "^2.5",
+        "mirko-pagliai/me-tools": "^2.18",
         "mobiledetect/mobiledetectlib": "2.*",
         "ozee31/cakephp-cors": "^1.1",
         "spatie/image": "^1.5",
         "symfony/css-selector": "^4.0",
-        "symfony/dom-crawler": "^4.0"
+        "symfony/dom-crawler": "^4.0",
+        "web-auth/webauthn-lib": "^1.1"
     },
     "require-dev": {
         "cakephp/bake": "^1.7",
         "cakephp/cakephp-codesniffer": "^3.0",
         "cakephp/debug_kit": "^3.15.0",
         "dereuromark/cakephp-ide-helper": "^0.11.1",
+        "mirko-pagliai/cakephp-database-backup": "^2.6",
         "phpunit/phpunit": "^5.7|^6.0",
         "psy/psysh": "@stable"
     },
@@ -78,5 +80,7 @@
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

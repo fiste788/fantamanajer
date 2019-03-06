@@ -20,11 +20,12 @@ class LineupExpiredRule
         $this->loadModel('Matchdays');
         $this->loadModel('Teams');
     }
-    
+
     public function __invoke(EntityInterface $entity, array $options)
     {
         $matchday = $this->Matchdays->get($entity->matchday_id);
         $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);
+
         return $matchday->date->subMinutes($team->championship->minute_lineup)->isFuture();
     }
 }

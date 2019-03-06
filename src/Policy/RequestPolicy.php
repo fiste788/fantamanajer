@@ -15,9 +15,10 @@ class RequestPolicy
         if ($request->getParam('prefix') === 'Admin' && !$identity->admin) {
             return false;
         }
-        
+
         if ($request->getParam('prefix') === 'Championships') {
             $championshipId = $this->request->getParam('championship_id');
+
             return $identity->isInChampionship($championshipId);
         }
 

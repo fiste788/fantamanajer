@@ -136,6 +136,7 @@ class MatchdaysTable extends Table
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
         $now = new Time();
         $now->addMinute($interval);
+
         return $q->contain(['Seasons'])
             ->where(['date > ' => $now])
             ->orderAsc('number');
@@ -171,7 +172,7 @@ class MatchdaysTable extends Table
             ->orderDesc('Matchdays.id')
             ->limit(1);
     }
-    
+
     public function findFirstWithoutScores(Query $q, array $options)
     {
         return $q->select('Matchdays.id')

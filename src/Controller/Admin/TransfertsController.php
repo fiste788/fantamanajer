@@ -10,11 +10,12 @@ use Cake\Event\Event;
  * @property TransfertsTable $Transferts
  */
 class TransfertsController extends AppController
-{   
+{
+
     public function add()
     {
         $this->Crud->action()->saveOptions(['associated' => []]);
-        $this->Crud->on('afterSave', function(Event $event) {
+        $this->Crud->on('afterSave', function (Event $event) {
             if ($event->getSubject()->success) {
                 $event->getSubject()->entity->substituteMembers();
             }
@@ -22,7 +23,7 @@ class TransfertsController extends AppController
 
         return $this->Crud->execute();
     }
-    
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);

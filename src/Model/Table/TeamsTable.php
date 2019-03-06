@@ -192,11 +192,11 @@ class TeamsTable extends Table
         $validator
             ->requirePresence('name', 'create')
             ->notEmpty('name');
-        
+
         $validator
             ->boolean('admin')
             ->allowEmpty('admin');
-        
+
         return $validator;
     }
 
@@ -222,14 +222,15 @@ class TeamsTable extends Table
         return $q->contain(['Users'])
             ->where(['championship_id' => $options['championship_id']]);
     }
-    
-    public function saveWithoutUser(Team $team) {
+
+    public function saveWithoutUser(Team $team)
+    {
         $this->loadService("Team");
-        
-        if(!$team->user->id) {
+
+        if (!$team->user->id) {
             $team->user = $this->Users->findOrCreate(['email' => $team->user->email]);
         }
-        if(!$team->user->id) {
+        if (!$team->user->id) {
             $team->user->active = false;
         }
         $this->Team->createTeam($team);

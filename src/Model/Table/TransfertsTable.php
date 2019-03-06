@@ -10,7 +10,6 @@ use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -126,7 +125,7 @@ class TransfertsTable extends Table
     public function findByTeamId(Query $q, array $options)
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
-                ->where(['team_id' => $options['team_id']]);
+            ->where(['team_id' => $options['team_id']]);
     }
 
     public function beforeSave(Event $event, Transfert $entity, ArrayObject $options)

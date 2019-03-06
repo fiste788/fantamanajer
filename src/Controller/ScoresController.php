@@ -17,30 +17,31 @@ class ScoresController extends AppController
         parent::initialize();
         $this->loadService('Lineup');
     }
-    
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');
     }
-    
+
     public function view($id)
     {
         $members = $this->request->getQuery('members');
         $that = $this;
-        $this->Crud->on('afterFind', function (Event $event) use($members, $that) {
+        $this->Crud->on('afterFind', function (Event $event) use ($members, $that) {
             $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);
-            if($members) {
-                if(!$result->lineup) {
-                   $result->lineup = $that->Lineup->newLineup($result->team_id, $result->matchday_id);
+            if ($members) {
+                if (!$result->lineup) {
+                    $result->lineup = $that->Lineup->newLineup($result->team_id, $result->matchday_id);
                 }
                 $result->lineup->modules = Lineup::$module;
             }
+
             return $result;
         });
         $this->Crud->execute();
     }
-    
+
     public function edit()
     {
         $this->Crud->action()->saveOptions(['associated' => [
@@ -49,11 +50,11 @@ class ScoresController extends AppController
                 'associated' => ['Dispositions']
             ]
         ]]);
-        
-        $this->Crud->on('afterSave', function(\Cake\Event\Event $event) {
+
+        $this->Crud->on('afterSave', function (\Cake\Event\Event $event) {
             $event->getSubject()->entity->compute();
             $this->Scores->save($event->getSubject()->entity);
-    });
+        });
 
         return $this->Crud->execute();
     }

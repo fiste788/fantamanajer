@@ -20,7 +20,7 @@ class SelectionPolicy
     {
         return $user->hasTeam($selection->team_id);
     }
-    
+
     public function canIndex(IdentityInterface $user, Selection $selection)
     {
         return $user->hasTeam($selection->team_id);

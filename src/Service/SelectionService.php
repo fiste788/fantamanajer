@@ -8,6 +8,7 @@ use App\Utility\WebPush\WebPushMessage;
 use Cake\Core\Configure;
 use Cake\Mailer\Email;
 use Minishlink\WebPush\WebPush;
+use Cake\Datasource\ModelAwareTrait;
 
 /**
  * @property \App\Model\Table\MembersTeamsTable $MembersTeams
@@ -15,7 +16,7 @@ use Minishlink\WebPush\WebPush;
 class SelectionService
 {
 
-    use \Cake\Datasource\ModelAwareTrait;
+    use ModelAwareTrait;
 
     public function __construct()
     {
@@ -29,10 +30,10 @@ class SelectionService
     public function notifyLostMember(Selection $selection)
     {
         $selection = $this->loadInto($selection, ['Teams' => [
-                'EmailNotificationSubscriptions',
-                'PushNotificationSubscriptions',
-                'Users.Subscriptions'
-            ], 'NewMembers.Players']);
+            'EmailNotificationSubscriptions',
+            'PushNotificationSubscriptions',
+            'Users.Subscriptions'
+        ], 'NewMembers.Players']);
         if ($selection->team->isEmailSubscripted('lost_member')) {
             $email = new Email();
             $email->setTemplate('lost_member')
@@ -73,11 +74,11 @@ class SelectionService
     public function save(Selection $entity)
     {
         $memberTeam = $this->MembersTeams->find()
-                ->contain(['Members'])
-                ->where([
-                    'team_id' => $entity->team_id,
-                    'member_id' => $entity->old_member_id
-                ])->first();
+            ->contain(['Members'])
+            ->where([
+                'team_id' => $entity->team_id,
+                'member_id' => $entity->old_member_id
+            ])->first();
         $memberTeam->member_id = $entity->new_member_id;
         $this->membersTeams->save($memberTeam);
     }

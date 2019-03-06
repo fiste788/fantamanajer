@@ -2,17 +2,21 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\ModelAwareTrait;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
 class MembersController extends AppController
 {
+    use ModelAwareTrait;
+
     public function beforeFilter(\Cake\Event\Event $event)
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['best']);
+        $this->loadModel('Matchdays');
     }
 
     public $paginate = [
@@ -22,7 +26,7 @@ class MembersController extends AppController
     public function best()
     {
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
-        $matchday = TableRegistry::get('Matchdays')->findWithRatings($this->currentSeason)->first();
+        $matchday = $this->Matchdays->findWithRatings($this->currentSeason)->first();
         foreach ($roles as $key => $role) {
             $roles[$key]->best_players = $this->Members->find('bestByMatchdayIdAndRole', [
                 'matchday_id' => $matchday->id,
@@ -32,9 +36,9 @@ class MembersController extends AppController
 
         $this->set(
             [
-            'success' => true,
-            'data' => $roles,
-            '_serialize' => ['success', 'data']
+                'success' => true,
+                'data' => $roles,
+                '_serialize' => ['success', 'data']
             ]
         );
     }

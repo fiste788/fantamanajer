@@ -137,27 +137,30 @@ trait GazzettaTrait
             if ($tr->count() > 0) {
                 $this->io->out("Matchday found");
                 $url = $this->getUrlFromMatchdayRow($tr);
+
                 return $this->downloadDropboxUrl($url, $matchday, $http);
             }
         }
     }
-    
-    private function getUrlFromMatchdayRow($tr) {
+
+    private function getUrlFromMatchdayRow($tr)
+    {
         $button = $tr->selectButton("DOWNLOAD");
         if (!$button->count()) {
             $link = $tr->selectLink("DOWNLOAD");
-            if($link->count()) {
-                return $link->link()->getUri();        
-            }    
+            if ($link->count()) {
+                return $link->link()->getUri();
+            }
         } else {
             $matches = sscanf($button->attr("onclick"), "window.open('%[^']");
             //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
             return $matches[0];
         }
     }
-    
-    private function downloadDropboxUrl($url, $matchday, $http) {
-        if($url) {
+
+    private function downloadDropboxUrl($url, $matchday, $http)
+    {
+        if ($url) {
             $this->io->verbose("Downloading " . $url);
             $response = $http->get($url);
             if ($response->isOk()) {
@@ -212,9 +215,9 @@ trait GazzettaTrait
                 $member = null;
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
-                    if($member != null) {
+                    if ($member != null) {
                         $buys[$member->club_id][] = $member;
-                        if($member->isDirty('club_id')) {
+                        if ($member->isDirty('club_id')) {
                             $sells[$member->getOriginal('club_id')][] = $member;
                         }
                     }

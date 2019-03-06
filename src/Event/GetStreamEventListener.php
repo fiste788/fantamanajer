@@ -135,7 +135,7 @@ class GetStreamEventListener implements EventListenerInterface
             ]);
         }
     }
-    
+
     /**
      *
      * @param Event $event
@@ -145,7 +145,7 @@ class GetStreamEventListener implements EventListenerInterface
     public function memberTransferts($event, $buys, $sells)
     {
         foreach ($buys as $club => $members) {
-            foreach($members as $member) {
+            foreach ($members as $member) {
                 $activities = [
                     'actor' => 'Club:' . $club,
                     'verb' => 'engage',
@@ -158,7 +158,7 @@ class GetStreamEventListener implements EventListenerInterface
             $feed->addActivities($activities);
         }
         foreach ($sells as $club => $member) {
-            foreach($members as $member) {
+            foreach ($members as $member) {
                 $activities = [
                     'actor' => 'Club:' . $club,
                     'verb' => 'sell',
@@ -169,7 +169,6 @@ class GetStreamEventListener implements EventListenerInterface
             $feed = $this->client->feed('club', $club);
             $feed->setGuzzleDefaultOption('verify', false);
             $feed->addActivities($activities);
-            
         }
     }
 }

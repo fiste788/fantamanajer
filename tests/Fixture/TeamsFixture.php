@@ -25,7 +25,6 @@ class TeamsFixture extends TestFixture
         'photo_type' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'championship_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'old_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_indexes' => [
             'championship_id' => ['type' => 'index', 'columns' => ['championship_id'], 'length' => []],
         ],
@@ -49,9 +48,9 @@ class TeamsFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = array(
-  array('id' => '55','name' => 'Rubin Kebab','photo' => 'kebab.jpg','photo_dir' => 'webroot/files/teams/55/photo/','photo_size' => '216640','photo_type' => 'image/jpeg','user_id' => '2','championship_id' => '14')
-);
+        $this->records = [
+            ['id' => '55', 'name' => 'Rubin Kebab', 'photo' => 'kebab.jpg', 'photo_dir' => 'webroot/files/teams/55/photo/', 'photo_size' => '216640', 'photo_type' => 'image/jpeg', 'user_id' => '2', 'championship_id' => '14']
+        ];
         parent::init();
     }
 }

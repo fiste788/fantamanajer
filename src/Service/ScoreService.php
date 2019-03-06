@@ -3,20 +3,26 @@
 namespace App\Service;
 
 use App\Model\Entity\Team;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\ModelAwareTrait;
 
 class ScoreService
 {
+    use ModelAwareTrait;
+
+    public function __construct()
+    {
+        $this->loadModel('Matchdays');
+    }
+
     public function createMissingPoints(Team $team)
     {
-        $matchdays = TableRegistry::getTableLocator()->get('Matchdays');
-        $current = $matchdays->find('current')->first();
+        $current = $this->Matchdays->find('current')->first();
         $matchdaysWithScore = $matchdays->findWithScores($current->season)
-            ->orderAsc('number',true)
+            ->orderAsc('number', true)
             ->distinct()
             ->limit(40);
         $scores = [];
-        foreach($matchdaysWithScore as $matchay) {
+        foreach ($matchdaysWithScore as $matchay) {
             $scores[] = $this->newEntity([
                 'team_id' => $team->id,
                 'matchday_id' => $matchay->id,
@@ -24,6 +30,7 @@ class ScoreService
                 'real_points' => 0
             ]);
         }
+
         return $scores;
     }
 }

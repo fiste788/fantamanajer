@@ -248,7 +248,7 @@ class MembersTable extends Table
 
         return $q;
     }
-    
+
     public function findNotMine(Query $q, array $options)
     {
         $team = $this->Teams->get($options['team_id'], ['contain' => ['Championships']]);

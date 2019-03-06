@@ -10,8 +10,9 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
 
     public function getBody()
     {
-        if($this->activity->enriched()) {
-            return __('Selled {0} and buyed {1}', 
+        if ($this->activity->enriched()) {
+            return __(
+                'Selled {0} and buyed {1}',
                 $this->activity->offsetGet('object')->old_member->player->full_name,
                 $this->activity->offsetGet('object')->new_member->player->full_name
             );
@@ -27,7 +28,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
     {
         return 'swap_vert';
     }
-    
+
     public static function contain()
     {
         return ['NewMembers.Players', 'OldMembers.Players'];

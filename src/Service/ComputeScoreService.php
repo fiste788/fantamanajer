@@ -8,35 +8,45 @@ use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Team;
 use Burzum\Cake\Service\ServiceAwareTrait;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\ModelAwareTrait;
 use PDOException;
 
 /**
- * @property LineupService Lineup
+ * @property \App\Service\LineupService $Lineup
+ * @property \App\Model\Table\ScoresTable $Scores
+ * @property \App\Model\Table\TeamsTable $Teams
+ * @property \App\Model\Table\LineupsTable $Lineups
  */
 class ComputeScoreService
 {
+    use ModelAwareTrait;
     use ServiceAwareTrait;
-    
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->loadService("Lineup");
+        $this->loadModel("Scores");
+        $this->loadModel("Teams");
+        $this->loadModel("Lineups");
     }
-    
+
     /**
      *
-     * @param Team     $team
-     * @param Matchday $matchday
+     * @param Team     $team The team
+     * @param Matchday $matchday The matchday
      * @return Score
      * @throws PDOException
      */
     public function computeScore(Team $team, Matchday $matchday)
     {
-        $score = $this->find()
+        $score = $this->Scores->find()
             ->where(['team_id' => $team->id, 'matchday_id' => $matchday->id])
             ->first();
         if (!$score) {
-            $score = $this->newEntity([
+            $score = $this->Scores->newEntity([
                 'penality_points' => 0,
                 'matchday_id' => $matchday->id,
                 'team_id' => $team->id
@@ -48,22 +58,24 @@ class ComputeScoreService
 
         return $score;
     }
-    
+
+    /**
+     * Calculate the score
+     *
+     * @param Score $score Score entity
+     * @return void
+     */
     public function exec(Score $score)
     {
-        if(!$score->team) {
-            $teams = TableRegistry::getTableLocator()->get('Teams');
-            $score->team = $teams->get($score->team_id, ['contain' => ['Championships']]);
-        }
+        $score->team = !$score->team ? $this->Teams->get($score->team_id, ['contain' => ['Championships']]) : $score->team;
         $championship = $score->team->championship;
-        $lineups = TableRegistry::get('Lineups');
-        if(!$score->lineup) {
-            $score->lineup = $lineups->find('last', [
+        if (!$score->lineup) {
+            $score->lineup = $this->Lineups->find('last', [
                 'matchday' => $score->matchday,
                 'team_id' => $score->team->id
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
-            $score->lineup = $lineups->loadInto($score->lineup, $lineups->find('withRatings', ['matchday_id' => $score->matchday_id])->getContain());
+            $score->lineup = $this->Lineups->loadInto($score->lineup, $this->Lineups->find('withRatings', ['matchday_id' => $score->matchday_id])->getContain());
         }
         if ($score->lineup == null || ($score->lineup->matchday_id != $score->matchday->id && $championship->points_missed_lineup == 0)) {
             $score->real_points = 0;
@@ -72,10 +84,10 @@ class ComputeScoreService
             if ($score->lineup->matchday_id != $score->matchday_id) {
                 $score->lineup = $this->Lineup->copy($score->lineup, $score->matchday, $championship->captain_missed_lineup);
             }
-            $score->real_points = $score->lineup->compute();
+            $score->real_points = $this->compute($score->lineup);
             $score->points = ($score->lineup->jolly) ? $score->real_points * 2 : $score->real_points;
             if ($championship->points_missed_lineup != 100 && $score->lineup->cloned) {
-                $malusPoints = round((($this->points / 100) * (100 - $championship->points_missed_lineup)), 1);
+                $malusPoints = round((($score->points / 100) * (100 - $championship->points_missed_lineup)), 1);
                 $mod = ($malusPoints * 10) % 5;
                 $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
                 $score->penality = 'Formazione non settata';
@@ -85,7 +97,9 @@ class ComputeScoreService
     }
 
     /**
+     * Undocumented function
      *
+     * @param Lineup $lineup The lineup to calc
      * @return float
      */
     public function compute(Lineup $lineup)
@@ -94,7 +108,7 @@ class ComputeScoreService
         $cap = null;
         $substitution = 0;
         $notValueds = [];
-        $this->resetDispositions($lineup);
+        $this->Lineup->resetDispositions($lineup);
         if ($lineup->team->championship->captain) {
             $cap = $this->getActiveCaptain($lineup);
         }
@@ -104,13 +118,13 @@ class ComputeScoreService
                 if (!$member->ratings[0]->valued) {
                     $notValueds[] = $member;
                 } else {
-                    $sum += $disposition->regularize($disposition, $cap);
+                    $sum += $this->regularize($disposition, $cap);
                 }
             } else {
-                foreach($notValueds as $key => $notValued) {
+                foreach ($notValueds as $key => $notValued) {
                     if ($substitution < 3 && $member->role_id == $notValued->role_id && $member->ratings[0]->valued) {
                         $sum += $this->regularize($disposition, $cap);
-                        $substitution ++;
+                        $substitution++;
                         unset($notValueds[$key]);
                         break;
                     }
@@ -118,21 +132,14 @@ class ComputeScoreService
             }
             $lineup->setDirty('dispositions', true);
         }
-        
 
         return $sum;
     }
 
-    private function resetDispositions(Lineup $lineup)
-    {
-        foreach ($lineup->dispositions as $key => $disposition) {
-            $disposition->consideration = 0;
-            $lineup->disposition[$key] = $disposition;
-        }
-    }
-
     /**
+     * Return the id of the captain
      *
+     * @param Lineup $lineup The lineup
      * @return int
      */
     private function getActiveCaptain(Lineup $lineup)
@@ -155,10 +162,11 @@ class ComputeScoreService
 
         return null;
     }
-    
+
     /**
      * Set the disposition as regular and return the points scored
      *
+     * @param Disposition $disposition The disposition
      * @param int $cap Id of the captain. Use it for double the points
      * @return float Points scored
      */

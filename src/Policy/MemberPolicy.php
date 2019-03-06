@@ -25,7 +25,7 @@ class MemberPolicy
     {
         return true;
     }
-    
+
     public function canNotMine(IdentityInterface $user, Member $member)
     {
         return true;
