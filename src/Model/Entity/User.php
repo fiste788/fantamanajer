@@ -21,6 +21,7 @@ use Cake\Utility\Hash;
  * @property bool $admin
  * @property Team[] $teams
  * @property PushSubscription[] $push_subscriptions
+ * @property PublicKeyCredentialSource[] $public_key_credential_sources
  * @property int $old_id
  */
 class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity

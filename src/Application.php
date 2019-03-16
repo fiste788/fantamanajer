@@ -71,6 +71,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         }
         Type::map('acd', 'App\Database\Type\AttestedCredentialDataType');
         Type::map('ci', 'App\Database\Type\PublicKeyCredentialDescriptorType');
+        Type::map('trust_path', 'App\Database\Type\TrustPathDataType');
+        Type::map('simple_array', 'App\Database\Type\SimpleArrayDataType');
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');

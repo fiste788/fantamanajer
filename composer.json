@@ -33,6 +33,7 @@
         "mirko-pagliai/me-tools": "^2.18",
         "mobiledetect/mobiledetectlib": "2.*",
         "ozee31/cakephp-cors": "^1.1",
+        "ramsey/uuid": "^3.8",
         "spatie/image": "^1.5",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",

@@ -84,32 +84,32 @@ Router::scope(
                     'controller' => 'Users',
                     'action' => 'stream'
                 ]);
-                $routes->resources('Credentials', [
-                    'path' => 'webauthn',
-                    'only' => ['request', 'create', 'login', 'register'],
-                    'map' => [
-                        'request' => [
-                            'action' => 'publicKeyRequest',
-                            'method' => 'GET',
-                            'path' => 'login'
-                        ],
-                        'create' => [
-                            'action' => 'publicKeyCreation',
-                            'method' => 'GET',
-                            'path' => 'register'
-                        ],
-                        'login' => [
-                            'action' => 'login',
-                            'method' => 'POST'
-                        ],
-                        'register' => [
-                            'action' => 'register',
-                            'method' => 'POST'
-                        ]
-                    ]
-                ]);
             }
         );
+        $routes->resources('Credentials', [
+            'path' => 'webauthn',
+            'only' => ['request', 'create', 'login', 'register'],
+            'map' => [
+                'request' => [
+                    'action' => 'publicKeyRequest',
+                    'method' => 'GET',
+                    'path' => 'login'
+                ],
+                'create' => [
+                    'action' => 'publicKeyCreation',
+                    'method' => 'GET',
+                    'path' => 'register'
+                ],
+                'login' => [
+                    'action' => 'login',
+                    'method' => 'POST'
+                ],
+                'register' => [
+                    'action' => 'register',
+                    'method' => 'POST'
+                ]
+            ]
+        ]);
         $routes->resources('Players', [
             'only' => 'view'
         ]);

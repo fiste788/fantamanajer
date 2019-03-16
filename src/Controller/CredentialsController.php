@@ -44,11 +44,12 @@ class CredentialsController extends AppController
      */
     public function publicKeyRequest()
     {
-        $publicKeyCredentialRequestOptions = $this->Credential->publicKeyRequest($this->request);
+        $publicKeyCredentialRequestOptions = $this->Credential->assertionRequest($this->request);
 
         $this->set([
             'success' => true,
             'data' => $publicKeyCredentialRequestOptions,
+            '_jsonOptions' => (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
             '_serialize' => ['success', 'data']
         ]);
     }
@@ -60,11 +61,12 @@ class CredentialsController extends AppController
      */
     public function publicKeyCreation()
     {
-        $publicKeyCredentialCreationOptions = $this->Credential->publicKeyCreation($this->request);
+        $publicKeyCredentialCreationOptions = $this->Credential->attestationRequest($this->request);
 
         $this->set([
             'success' => true,
             'data' => $publicKeyCredentialCreationOptions,
+            '_jsonOptions' => (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
             '_serialize' => ['success', 'data']
         ]);
     }
@@ -76,7 +78,7 @@ class CredentialsController extends AppController
      */
     public function login()
     {
-        $check = $this->Credential->login($this->request);
+        $check = $this->Credential->assertionResponse($this->request);
         $this->set([
             'success' => $check,
             'data' => $check,
@@ -91,7 +93,7 @@ class CredentialsController extends AppController
      */
     public function register()
     {
-        $check = $this->Credential->register($this->request);
+        $check = $this->Credential->attestationResponse($this->request);
         $this->set([
             'success' => $check,
             'data' => $check,

@@ -43,9 +43,12 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->hasMany(
-            'Credentials',
+            'PublicKeyCredentialSources',
             [
                 'foreignKey' => 'user_id',
+                'targetForeignKey' => 'user_handle',
+                'joinTable' => 'users_user_handles',
+                'sort' => ['created_at']
             ]
         );
         $this->hasMany(

@@ -33,7 +33,7 @@ class CredentialsTable extends Table
     protected function _initializeSchema(TableSchema $schema)
     {
         $schema->columnType('attested_credential_data', 'acd');
-        $schema->columnType('credential_id', 'ci');
+        $schema->columnType('public_key', 'ci');
 
         return $schema;
     }

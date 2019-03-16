@@ -15,7 +15,7 @@ class PublicKeyCredentialDescriptorType extends Type
         if ($value === null) {
             return null;
         }
-        $json = json_decode($value, true);
+        $json = \Safe\json_decode($value, true);
 
         return PublicKeyCredentialDescriptor::createFromJson($json);
     }
@@ -26,12 +26,12 @@ class PublicKeyCredentialDescriptorType extends Type
             return $value;
         }
 
-        return json_decode($value, true);
+        return \Safe\json_decode($value, true);
     }
 
     public function toDatabase($value, Driver $driver)
     {
-        return json_encode($value);
+        return \Safe\json_encode($value);
     }
 
     public function toStatement($value, Driver $driver)

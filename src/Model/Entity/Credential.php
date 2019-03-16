@@ -8,8 +8,9 @@ use Cake\ORM\Entity;
  * Credential Entity
  *
  * @property int $id
- * @property \Webauthn\PublicKeyCredentialDescriptor $credential_id
+ * @property string $credential_id
  * @property \Webauthn\AttestedCredentialData $attested_credential_data
+ * @property \Webauthn\PublicKeyCredentialDescriptor $public_key
  * @property int $counter
  * @property int $user_id
  *
