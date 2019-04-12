@@ -11,8 +11,8 @@ class SimpleArrayDataType extends Type
 
     public function toPHP($value, Driver $driver)
     {
-        if ($value === null) {
-            return null;
+        if ($value === null || $value == '') {
+            return [];
         }
 
         return explode(',', $value);
@@ -20,8 +20,8 @@ class SimpleArrayDataType extends Type
 
     public function marshal($value)
     {
-        if ($value === null) {
-            return null;
+        if ($value === null || $value == '') {
+            return [];
         }
 
         return explode(',', $value);
@@ -29,6 +29,10 @@ class SimpleArrayDataType extends Type
 
     public function toDatabase($value, Driver $driver)
     {
+        if ($value === null || empty($value)) {
+            return null;
+        }
+
         return implode(',', $value);
     }
 

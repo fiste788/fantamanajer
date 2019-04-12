@@ -32,6 +32,9 @@ class PublicKeyCredentialSourcesTable extends Table
     {
         $schema->columnType('trust_path', 'trust_path');
         $schema->columnType('transports', 'simple_array');
+        $schema->columnType('aaguid', 'base64');
+        $schema->columnType('credential_public_key', 'base64');
+        $schema->columnType('public_key_credential_id', 'base64');
 
         return $schema;
     }
@@ -61,12 +64,11 @@ class PublicKeyCredentialSourcesTable extends Table
             ]
         );
 
-        $this->belongsToMany(
+        $this->belongsTo(
             'Users',
             [
                 'foreignKey' => 'user_handle',
-                'targetForeignKey' => 'user_id',
-                'joinTable' => 'users_user_handle'
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -148,18 +150,5 @@ class PublicKeyCredentialSourcesTable extends Table
             ->allowEmptyString('name');
 
         return $validator;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param Event $event arg
-     * @param Transfert $entity arg
-     * @param ArrayObject $options arg
-     * @return void
-     */
-    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
-    {
-        $entity->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
 }

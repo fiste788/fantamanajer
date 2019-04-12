@@ -24,7 +24,8 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.PublicKeyCredentialSources'
+        'app.PublicKeyCredentialSources',
+        'app.Users'
     ];
 
     /**
@@ -67,6 +68,16 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeSave method
+     *
+     * @return void
+     */
+    public function testBeforeSave()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

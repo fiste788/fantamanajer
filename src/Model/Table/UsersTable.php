@@ -14,7 +14,6 @@ use Cake\Validation\Validator;
  * @property TeamsTable|\Cake\ORM\Association\HasMany $Teams
  * @property PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
  * @property CredentialsTable|\Cake\ORM\Association\HasMany $Credentials
- * @property HasMany $View2TeamsStats
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -45,10 +44,9 @@ class UsersTable extends Table
         $this->hasMany(
             'PublicKeyCredentialSources',
             [
-                'foreignKey' => 'user_id',
-                'targetForeignKey' => 'user_handle',
-                'joinTable' => 'users_user_handles',
-                'sort' => ['created_at']
+                'bindingKey' => 'uuid',
+                'foreignKey' => 'user_handle',
+                'sort' => 'created_at'
             ]
         );
         $this->hasMany(
@@ -63,12 +61,6 @@ class UsersTable extends Table
             [
                 'foreignKey' => 'user_id',
                 'sort' => 'modified_at DESC'
-            ]
-        );
-        $this->hasMany(
-            'View2TeamsStats',
-            [
-                'foreignKey' => 'user_id'
             ]
         );
     }
@@ -143,9 +135,9 @@ class UsersTable extends Table
     /**
      * Finder for identity
      *
-     * @param Query $query
-     * @param array $options
-     * @return void
+     * @param Query $query query
+     * @param array $options options
+     * @return Query
      */
     public function findAuth(Query $query, array $options)
     {

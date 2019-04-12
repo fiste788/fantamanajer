@@ -2,9 +2,12 @@
 
 namespace App\Service;
 
-use App\Model\Entity\PublicKeyCredentialSource as AppPublicKeyCredentialSource;
 use App\Model\Entity\User;
+use App\Model\Table\UsersTable;
 use Burzum\Cake\Service\ServiceAwareTrait;
+use Cake\Datasource\ModelAwareTrait;
+use Cake\Http\Client as CakeClient;
+use Cake\Utility\Hash;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;
@@ -13,8 +16,11 @@ use Cose\Algorithm\Manager;
 use Cose\Algorithm\Signature\ECDSA;
 use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
+use Http\Adapter\Cake\Client as CakeAdapter;
+use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
+use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
@@ -30,6 +36,7 @@ use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
+use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialParameters;
 use Webauthn\PublicKeyCredentialRequestOptions;
@@ -42,9 +49,11 @@ use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
  * Credentials Repo
  *
  * @property CredentialRepositoryService $CredentialRepository
+ * @property UsersTable $Users
  */
 class CredentialService
 {
+    use ModelAwareTrait;
     use ServiceAwareTrait;
 
     /**
@@ -52,6 +61,7 @@ class CredentialService
      */
     public function __construct()
     {
+        $this->loadModel('Users');
         $this->loadService('CredentialRepository');
     }
 
@@ -117,6 +127,19 @@ class CredentialService
     /**
      * Undocumented function
      *
+     * @param PublicKeyCredentialSource[] $credentials credentials
+     * @return PublicKeyCredentialDescriptor[]
+     */
+    private function credentialsToDescriptors(array $credentials)
+    {
+        return Hash::map($credentials, '{*}', function (PublicKeyCredentialSource $value) {
+            return $value->getPublicKeyCredentialDescriptor();
+        });
+    }
+
+    /**
+     * Undocumented function
+     *
      * @return Manager
      */
     private function createAlgorithManager()
@@ -136,28 +159,28 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param Decoded $decoder Decoder
-     * @return PublicKeyCredentialLoader
+     * @param Decoder $decoder arg
+     * @return AttestationStatementSupportManager
      */
-    private function createLoader(Decoder $decoder)
+    private function createStatementSupportManager(Decoder $decoder)
     {
-        // Cose Algorithm Manager
+        $config = [
+            // Config params
+        ];
+        $cakeClient = new CakeClient($config);
+        $adapter = new CakeAdapter($cakeClient, new GuzzleMessageFactory());
+
         $coseAlgorithmManager = $this->createAlgorithManager();
 
-        // Attestation Statement Support Manager
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        // $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($httpClient, 'GOOGLE_SAFETYNET_API_KEY'));
+        $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($adapter, 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
 
-        // Attestation Object Loader
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
-
-        // Public Key Credential Loader
-        return new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
+        return $attestationStatementSupportManager;
     }
 
     /**
@@ -170,11 +193,10 @@ class CredentialService
     {
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
-        $credentials = $this->CredentialRepository->PublicKeyCredentialSources->find()->innerJoinWith('Users')->where(['Users.email' => $params['email']])->all();
-
-        $registeredPublicKeyCredentialDescriptors = $credentials->map(function (AppPublicKeyCredentialSource $value) {
-            return $value->toCredentialSource()->getPublicKeyCredentialDescriptor();
-        })->toArray();
+        $user = $this->Users->find()->where(['email' => $params['email']])->first();
+        $credentialUser = $user->toCredentialUserEntity();
+        $credentials = $this->CredentialRepository->findAllForUserEntity($credentialUser);
+        $registeredPublicKeyCredentialDescriptors = $this->credentialsToDescriptors($credentials);
 
         // Public Key Credential Request Options
         $publicKeyCredentialRequestOptions = new PublicKeyCredentialRequestOptions(
@@ -182,10 +204,11 @@ class CredentialService
             60000,
             'localhost',
             $registeredPublicKeyCredentialDescriptors,
-            PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
+            AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
             $this->getExtensions()
         );
         $request->getSession()->start();
+        $request->getSession()->write("User.Handle", $credentialUser->getId());
         $request->getSession()->write("User.PublicKey", json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
         return $publicKeyCredentialRequestOptions;
@@ -204,11 +227,16 @@ class CredentialService
         $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromJson($json);
 
         $decoder = $this->createDecoder();
-        $publicKeyCredentialLoader = $this->createLoader($decoder);
+        $attestationStatementSupportManager = $this->createStatementSupportManager($decoder);
+        // Attestation Object Loader
+        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
+
+        // Public Key Credential Loader
+        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
 
         // Authenticator Assertion Response Validator
         $authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
-            $this,
+            $this->CredentialRepository,
             $decoder,
             new TokenBindingNotSupportedHandler(),
             new ExtensionOutputCheckerHandler()
@@ -230,7 +258,7 @@ class CredentialService
                 $response,
                 $publicKeyCredentialRequestOptions,
                 $request,
-                null // User handle
+                $request->getSession()->consume('User.Handle')
             );
 
             return true;
@@ -248,16 +276,32 @@ class CredentialService
     public function attestationRequest(ServerRequestInterface $request)
     {
         $rpEntity = $this->createRpEntity();
-        $userEntity = $this->createUserEntity($request->getAttribute('identity'));
+        $user = $request->getAttribute('identity');
+        if ($user->uuid == null) {
+            $user->uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
+            $this->Users->save($user);
+        }
+        $userEntity = $user->toCredentialUserEntity();
+
+        $credential = $this->CredentialRepository->findAllForUserEntity($userEntity);
+        $excludeCredentials = $this->credentialsToDescriptors($credential);
 
         // Public Key Credential Parameters
         $publicKeyCredentialParametersList = [
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS384),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS512),
             new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES256),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256)
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES384),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES512),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS256),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS384),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS512)
         ];
 
         // Authenticator Selection Criteria (we used default values)
         $authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE, false, AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED);
+        //$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
 
         $publicKeyCredentialCreationOptions = new PublicKeyCredentialCreationOptions(
             $rpEntity,
@@ -265,9 +309,9 @@ class CredentialService
             random_bytes(32),
             $publicKeyCredentialParametersList,
             20000,
-            [],
+            $excludeCredentials,
             $authenticatorSelectionCriteria,
-            PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_DIRECT,
+            PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
             $this->getExtensions()
         );
 
@@ -293,13 +337,7 @@ class CredentialService
         $decoder = $this->createDecoder();
 
         // Attestation Statement Support Manager
-        $attestationStatementSupportManager = new AttestationStatementSupportManager();
-        $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
-        $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        // $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($httpClient, 'GOOGLE_SAFETYNET_API_KEY'));
-        $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
-        $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
-        $attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $this->createAlgorithManager()));
+        $attestationStatementSupportManager = $this->createStatementSupportManager($decoder);
 
         // Attestation Object Loader
         $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
@@ -327,21 +365,13 @@ class CredentialService
             // Check the response against the request
             $authenticatorAttestationResponseValidator->check($response, $publicKeyCredentialCreationOptions, $request);
 
-            $credentialSource = new PublicKeyCredentialSource(
-                $publicKeyCredential->getId(),
-                $publicKeyCredential->getType(),
-                [],
-                $response->getAttestationObject()->getAttStmt()->getType(),
-                $response->getAttestationObject()->getAttStmt()->getTrustPath(),
-                $response->getAttestationObject()->getAuthData()->getAttestedCredentialData()->getAaguid(),
-                $response->getAttestationObject()->getAuthData()->getAttestedCredentialData()->getCredentialPublicKey(),
-                $publicKeyCredentialCreationOptions->getUser()->getId(),
-                $response->getAttestationObject()->getAuthData()->getSignCount()
+            $credentialSource = PublicKeyCredentialSource::createFromPublicKeyCredential(
+                $publicKeyCredential,
+                $publicKeyCredentialCreationOptions->getUser()->getId()
             );
 
             $credential = $this->CredentialRepository->PublicKeyCredentialSources->newEntity();
             $credential->fromCredentialSource($credentialSource);
-            $credential->user = $request->getAttribute('identity');
             $this->CredentialRepository->PublicKeyCredentialSources->save($credential);
 
             return true;

@@ -5,24 +5,26 @@ use Authentication\IdentityInterface as AuthenticationIdentity;
 use Authorization\IdentityInterface as AuthorizationIdentity;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
+use Webauthn\PublicKeyCredentialUserEntity;
 
 /**
- * User Entity.
+ * User Entity
  *
  * @property int $id
- * @property string $name
- * @property string $surname
- * @property string $email
- * @property bool $active
+ * @property string|null $name
+ * @property string|null $surname
+ * @property string|null $email
+ * @property bool|null $active
  * @property bool $active_email
  * @property string $username
  * @property string $password
- * @property string $login_key
+ * @property string|null $login_key
  * @property bool $admin
- * @property Team[] $teams
- * @property PushSubscription[] $push_subscriptions
- * @property PublicKeyCredentialSource[] $public_key_credential_sources
- * @property int $old_id
+ * @property string|null $uuid
+ *
+ * @property \App\Model\Entity\PublicKeyCredentialSource[] $public_key_credential_sources
+ * @property \App\Model\Entity\Team[] $teams
+ * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  */
 class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {
@@ -37,18 +39,30 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'name' => true,
+        'surname' => true,
+        'email' => true,
+        'active' => true,
+        'active_email' => true,
+        'username' => true,
+        'password' => true,
+        'login_key' => true,
+        'admin' => true,
+        'uuid' => true,
+        'public_key_credential_sources' => true,
+        'teams' => true,
+        'push_subscriptions' => true,
     ];
 
     /**
-     * Fields that are excluded from JSON an array versions of the entity.
+     * Fields that are excluded from JSON versions of the entity.
      *
      * @var array
      */
     protected $_hidden = [
         'password',
-        'login_key'
+        'login_key',
+        'uuid'
     ];
 
     public function hasTeam($teamId)
@@ -112,5 +126,10 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     public function getIdentifier()
     {
         return $this->id;
+    }
+
+    public function toCredentialUserEntity(): PublicKeyCredentialUserEntity
+    {
+        return new PublicKeyCredentialUserEntity($this->email, $this->uuid, $this->name . ' ' . $this->surname);
     }
 }

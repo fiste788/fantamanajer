@@ -15,34 +15,32 @@
  */
 namespace App;
 
-use Authorization\Middleware\RequestAuthorizationMiddleware;
 use App\Command\UpdateCalendarCommand;
-use Cake\Http\Middleware\BodyParserMiddleware;
-use Authorization\AuthorizationServiceProviderInterface;
 use App\Command\UpdateMatchdayCommand;
 use App\Command\WeeklyScriptCommand;
-use Authorization\AuthorizationService;
 use App\Model\Entity\User;
-use Authentication\Middleware\AuthenticationMiddleware;
-use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\IdentifierInterface;
-use Cake\Error\Middleware\ErrorHandlerMiddleware;
-use Authorization\Policy\MapResolver;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Middleware\AuthorizationMiddleware;
-use Cake\Http\BaseApplication;
-use Cake\Http\MiddlewareQueue;
-use Cake\Core\Configure;
+use Authorization\Middleware\RequestAuthorizationMiddleware;
+use Authorization\Policy\MapResolver;
+use Authorization\Policy\OrmResolver;
 use Authorization\Policy\ResolverCollection;
 use Cake\Console\CommandCollection;
-use Authorization\Policy\OrmResolver;
+use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Database\Type;
+use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Cake\Http\BaseApplication;
+use Cake\Http\MiddlewareQueue;
+use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\ServerRequest;
-use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use DebugKit;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -73,6 +71,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         Type::map('ci', 'App\Database\Type\PublicKeyCredentialDescriptorType');
         Type::map('trust_path', 'App\Database\Type\TrustPathDataType');
         Type::map('simple_array', 'App\Database\Type\SimpleArrayDataType');
+        Type::map('base64', 'App\Database\Type\Base64DataType');
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
