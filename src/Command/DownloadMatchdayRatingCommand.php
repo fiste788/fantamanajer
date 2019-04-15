@@ -19,14 +19,14 @@ class DownloadMatchdayRatingCommand extends Command
      */
     private $client;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->client = new Client();
         $this->client->setConfig('ssl_verify_peer', false);
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Download ratings from maxigames');
         $parser->addArgument('matchday', [

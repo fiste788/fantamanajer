@@ -1,4 +1,6 @@
 <?php
+//declare (strict_types = 1);
+
 namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
@@ -8,6 +10,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Crud\Controller\ControllerTrait;
 use Burzum\Cake\Service\ServiceAwareTrait;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -25,7 +28,7 @@ class AppController extends Controller
     /**
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -63,7 +66,7 @@ class AppController extends Controller
         $this->getCurrentMatchday();
     }
 
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return parent::implementedEvents() + [
             'Crud.afterFind' => '_afterFind',
@@ -71,14 +74,14 @@ class AppController extends Controller
         ];
     }
 
-    public function _afterFind(Event $event)
+    public function _afterFind(EventInterface $event)
     {
         if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
         }
     }
 
-    public function _afterPaginate(Event $event)
+    public function _afterPaginate(EventInterface $event)
     {
         if ($this->Authentication->getIdentity()) {
             foreach ($event->getSubject()->entities as $entity) {
@@ -87,7 +90,7 @@ class AppController extends Controller
         }
     }
 
-    public function beforeRender(Event $event)
+    public function beforeRender(EventInterface $event)
     {
         $this->RequestHandler->renderAs($this, 'json');
         $this->getResponse()->withType('application/json');

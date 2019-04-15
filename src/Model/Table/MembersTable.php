@@ -45,7 +45,7 @@ class MembersTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -117,7 +117,7 @@ class MembersTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -144,7 +144,7 @@ class MembersTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['player_id'], 'Players'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
@@ -157,17 +157,18 @@ class MembersTable extends Table
     public function findListBySeasonId($season_id)
     {
         return $this->find('list', [
-                'keyField' => 'code_gazzetta',
-                'valueField' => function ($obj) {
-                    return $obj;
-                }])->where(['season_id' => $season_id]);
+            'keyField' => 'code_gazzetta',
+            'valueField' => function ($obj) {
+                return $obj;
+            }
+        ])->where(['season_id' => $season_id]);
     }
 
     public function findWithStats(Query $query, array $options)
     {
         return $query->contain(['VwMembersStats'])
-                ->where(['season_id' => $options['season_id']])
-                ->group('Members.id');
+            ->where(['season_id' => $options['season_id']])
+            ->group('Members.id');
     }
 
     public function findWithDetails(Query $query, array $options)
@@ -175,7 +176,7 @@ class MembersTable extends Table
         $query->contain(
             ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q) {
                 return $q->contain(['Matchdays'])
-                            ->order(['Matchdays.number' => 'ASC']);
+                    ->order(['Matchdays.number' => 'ASC']);
             }]
         )->order(['Seasons.year' => 'DESC']);
         if ($options['championship_id']) {
@@ -204,14 +205,14 @@ class MembersTable extends Table
             );
 
         $q->innerJoinWith('Seasons.Championships')
-                ->contain(['Players', 'Clubs', 'Roles'])
-                ->where([
-                    'Members.id NOT IN' => $ids,
-                    'Members.active' => true,
-                    'Championships.id' => $championshipId
-                    ])
-                ->orderAsc('Players.surname')
-                ->orderAsc('Players.name');
+            ->contain(['Players', 'Clubs', 'Roles'])
+            ->where([
+                'Members.id NOT IN' => $ids,
+                'Members.active' => true,
+                'Championships.id' => $championshipId
+            ])
+            ->orderAsc('Players.surname')
+            ->orderAsc('Players.name');
         if (isset($options['stats']) && $options['stats']) {
             $q->contain(['VwMembersStats']);
         }
@@ -269,9 +270,10 @@ class MembersTable extends Table
         return $q->contain([
             'Players', 'Ratings' => function (Query $q) use ($options) {
                 return $q->where(['matchday_id' => $options['matchday_id']]);
-            }])->innerJoinWith('Ratings', function (Query $q) use ($options) {
-                return $q->where(['matchday_id' => $options['matchday_id']]);
-            })->innerJoinWith('Roles')
+            }
+        ])->innerJoinWith('Ratings', function (Query $q) use ($options) {
+            return $q->where(['matchday_id' => $options['matchday_id']]);
+        })->innerJoinWith('Roles')
             ->where(['Roles.id' => $options['role']->id])
             ->orderDesc('Ratings.points');
     }

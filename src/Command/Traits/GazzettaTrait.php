@@ -12,6 +12,7 @@ use Cake\Filesystem\Folder;
 use Cake\Http\Client;
 use Cake\ORM\Query;
 use Symfony\Component\DomCrawler\Crawler;
+use Cake\Console\ConsoleOptionParser;
 
 /**
  * @property \App\Model\Table\SeasonsTable $Seasons
@@ -197,11 +198,11 @@ trait GazzettaTrait
             $query = $this->Members->find(
                 'list',
                 [
-                'keyField' => 'code_gazzetta',
-                'valueField' => function ($obj) {
-                    return $obj;
-                },
-                'contain' => ['Players']
+                    'keyField' => 'code_gazzetta',
+                    'valueField' => function ($obj) {
+                        return $obj;
+                    },
+                    'contain' => ['Players']
                 ]
             )->where(['season_id' => $matchday->season->id]);
             $oldMembers = $query->toArray();
@@ -287,8 +288,8 @@ trait GazzettaTrait
         //$queryPlayer = $this->Players->find()->where();
         $player = $this->Players->findOrCreate(
             [
-            'surname' => $surname,
-            'name' => $name
+                'surname' => $surname,
+                'name' => $name
             ],
             null,
             ['atomic' => false]
@@ -299,13 +300,13 @@ trait GazzettaTrait
 
         return $this->Members->newEntity(
             [
-            'season_id' => $season->id,
-            'code_gazzetta' => $member[0],
-            'playmaker' => $member[26],
-            'active' => true,
-            'role_id' => $member[5] + 1,
-            'club_id' => $club->id,
-            'player_id' => $player->id
+                'season_id' => $season->id,
+                'code_gazzetta' => $member[0],
+                'playmaker' => $member[26],
+                'active' => true,
+                'role_id' => $member[5] + 1,
+                'club_id' => $club->id,
+                'player_id' => $player->id
             ]
         );
     }
@@ -332,24 +333,24 @@ trait GazzettaTrait
                     $this->Ratings->patchEntity(
                         $rating,
                         [
-                        //$rating = $this->Ratings->newEntity([
-                        'valued' => $stats[6],
-                        'points' => $stats[7],
-                        'rating' => $stats[10],
-                        'goals' => $stats[11],
-                        'goals_against' => $stats[12],
-                        'goals_victory' => $stats[13],
-                        'goals_tie' => $stats[14],
-                        'assist' => $stats[15],
-                        'yellow_card' => $stats[16],
-                        'red_card' => $stats[17],
-                        'penalities_scored' => $stats[18],
-                        'penalities_taken' => $stats[19],
-                        'present' => $stats[23],
-                        'regular' => $stats[24],
-                        'quotation' => (int)$stats[27],
-                        'member_id' => $member->id,
-                        'matchday_id' => $matchday->id
+                            //$rating = $this->Ratings->newEntity([
+                            'valued' => $stats[6],
+                            'points' => $stats[7],
+                            'rating' => $stats[10],
+                            'goals' => $stats[11],
+                            'goals_against' => $stats[12],
+                            'goals_victory' => $stats[13],
+                            'goals_tie' => $stats[14],
+                            'assist' => $stats[15],
+                            'yellow_card' => $stats[16],
+                            'red_card' => $stats[17],
+                            'penalities_scored' => $stats[18],
+                            'penalities_taken' => $stats[19],
+                            'present' => $stats[23],
+                            'regular' => $stats[24],
+                            'quotation' => (int)$stats[27],
+                            'member_id' => $member->id,
+                            'matchday_id' => $matchday->id
                         ]
                     );
                     $rating->points_no_bonus = $matchday->season->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
@@ -363,7 +364,7 @@ trait GazzettaTrait
                 'checkExisting' => false,
                 'associated' => false,
                 'checkRules' => false
-                ])) {
+            ])) {
                 foreach ($ratings as $value) {
                     if (!empty($value->getErrors())) {
                         $this->io->err($value);
@@ -409,7 +410,7 @@ trait GazzettaTrait
         $reply = 'y';
         if (!file_exists($dectyptedFilePath)) {
             //if ($this->interactive) {
-                $reply = $this->io->askChoice('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y', 'n'], 'y');
+            $reply = $this->io->askChoice('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y', 'n'], 'y');
             //}
         }
         if ($reply == 'y') {
@@ -435,19 +436,19 @@ trait GazzettaTrait
         }
     }
 
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $parser = parent::getOptionParser();
         $parser->addSubcommand(
             'get_ratings_file_url',
             [
-            'help' => 'Get the url of the ratings file'
+                'help' => 'Get the url of the ratings file'
             ]
         );
         $parser->addSubcommand(
             'get_ratings',
             [
-            'help' => 'Download file ratings if not exist'
+                'help' => 'Download file ratings if not exist'
             ]
         );
         $parser->addSubcommand('update_members');
@@ -456,7 +457,7 @@ trait GazzettaTrait
         $parser->addSubcommand(
             'calculate_key',
             [
-            'help' => 'Calculate and save the key for decrypting gazzetta file'
+                'help' => 'Calculate and save the key for decrypting gazzetta file'
             ]
         );
         $parser->addOption('no-interaction', [

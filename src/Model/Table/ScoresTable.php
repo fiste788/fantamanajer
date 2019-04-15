@@ -36,7 +36,7 @@ class ScoresTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -72,7 +72,7 @@ class ScoresTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -105,7 +105,7 @@ class ScoresTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
@@ -131,7 +131,7 @@ class ScoresTable extends Table
                     'conditions' => 'm.id = Scores.matchday_id',
                 ]
             )
-            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'), ])
+            ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'),])
             ->where(['m.season_id' => $season->id])
             ->first();
 
@@ -177,9 +177,9 @@ class ScoresTable extends Table
         $sum = $q->func()->sum('points');
         $coalesce = $q->func()->coalesce([$sum, 0], ['float', 'float']);
         $q->select([
-                'Teams.id',
-                'sum_points' => $coalesce
-            ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
+            'Teams.id',
+            'sum_points' => $coalesce
+        ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->where(['Teams.championship_id' => $championshipId])
             ->group('Teams.id')
             ->orderDesc($sum);
@@ -212,13 +212,13 @@ class ScoresTable extends Table
                 ]
             ];
         } else {
-             $contain = [
+            $contain = [
                 'Lineups.Dispositions.Members' => [
                     'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score) {
                         return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
                     }
                 ]
-             ];
+            ];
         }
 
         return $this->loadInto($score, $contain);

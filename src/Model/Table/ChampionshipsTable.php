@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Composer\DependencyResolver\Rule;
 
 /**
  * Championships Model
@@ -30,7 +31,7 @@ class ChampionshipsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -41,33 +42,33 @@ class ChampionshipsTable extends Table
         $this->belongsTo(
             'Leagues',
             [
-            'foreignKey' => 'league_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'league_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Seasons',
             [
-            'foreignKey' => 'season_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'season_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->hasMany(
             'Teams',
             [
-            'foreignKey' => 'championship_id'
+                'foreignKey' => 'championship_id'
             ]
         );
         $this->hasMany(
             'View0MaxPoints',
             [
-            'foreignKey' => 'championship_id'
+                'foreignKey' => 'championship_id'
             ]
         );
         $this->hasMany(
             'View2TeamsStats',
             [
-            'foreignKey' => 'championship_id'
+                'foreignKey' => 'championship_id'
             ]
         );
     }
@@ -78,7 +79,7 @@ class ChampionshipsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -138,7 +139,7 @@ class ChampionshipsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['league_id'], 'Leagues'));
         $rules->add($rules->existsIn(['season_id'], 'Seasons'));

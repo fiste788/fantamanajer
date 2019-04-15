@@ -3,11 +3,12 @@
 namespace App\Database\Type;
 
 use Cake\Database\Driver;
-use Cake\Database\Type;
 use PDO;
 use Webauthn\AttestedCredentialData;
+use Cake\Database\TypeFactory;
+use Cake\Database\TypeInterface;
 
-class AttestedCredentialDataType extends Type
+class AttestedCredentialDataType implements TypeInterface
 {
 
     public function toPHP($value, Driver $driver)

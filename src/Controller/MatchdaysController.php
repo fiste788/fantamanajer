@@ -2,13 +2,14 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
 class MatchdaysController extends AppController
 {
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('current', 'Crud.View');

@@ -34,7 +34,7 @@ class PushSubscriptionsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -45,20 +45,20 @@ class PushSubscriptionsTable extends Table
         $this->addBehavior(
             'Timestamp',
             [
-            'events' => [
-                'Model.beforeSave' => [
-                    'created_at' => 'new',
-                    'modified_at' => 'always'
+                'events' => [
+                    'Model.beforeSave' => [
+                        'created_at' => 'new',
+                        'modified_at' => 'always'
+                    ]
                 ]
-            ]
             ]
         );
 
         $this->belongsTo(
             'Users',
             [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'user_id',
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -69,7 +69,7 @@ class PushSubscriptionsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->alphaNumeric('id')
@@ -112,7 +112,7 @@ class PushSubscriptionsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['endpoint']));
         $rules->add($rules->existsIn(['user_id'], 'Users'));

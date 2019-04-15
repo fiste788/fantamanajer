@@ -25,7 +25,7 @@ class GetStreamCommand extends Command
      */
     private $client;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Championships');
@@ -33,7 +33,7 @@ class GetStreamCommand extends Command
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Test');
 

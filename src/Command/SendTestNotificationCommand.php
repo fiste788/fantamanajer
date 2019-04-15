@@ -21,7 +21,7 @@ class SendTestNotificationCommand extends Command
     use CurrentMatchdayTrait;
     use ServiceAwareTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadService('Credential');
@@ -29,7 +29,7 @@ class SendTestNotificationCommand extends Command
         $this->getCurrentMatchday();
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
             'short' => 'n',

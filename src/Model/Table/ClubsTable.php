@@ -28,7 +28,7 @@ class ClubsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -39,26 +39,26 @@ class ClubsTable extends Table
         $this->hasMany(
             'Members',
             [
-            'foreignKey' => 'club_id',
-            'sort' => ['role_id']
+                'foreignKey' => 'club_id',
+                'sort' => ['role_id']
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-            'foreignKey' => 'club_id'
+                'foreignKey' => 'club_id'
             ]
         );
         $this->hasMany(
             'View0Members',
             [
-            'foreignKey' => 'club_id'
+                'foreignKey' => 'club_id'
             ]
         );
         $this->hasMany(
             'View1MembersStats',
             [
-            'foreignKey' => 'club_id'
+                'foreignKey' => 'club_id'
             ]
         );
     }
@@ -69,7 +69,7 @@ class ClubsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')

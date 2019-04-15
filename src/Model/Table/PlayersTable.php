@@ -31,7 +31,7 @@ class PlayersTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -42,7 +42,7 @@ class PlayersTable extends Table
         $this->hasMany(
             'Members',
             [
-            'foreignKey' => 'player_id'
+                'foreignKey' => 'player_id'
             ]
         );
     }
@@ -53,7 +53,7 @@ class PlayersTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')

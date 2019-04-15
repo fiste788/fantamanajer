@@ -255,5 +255,6 @@ tchday_id']
 
             ]);
         });
+        $routes->fallbacks(DashedRoute::class);
     }
 );

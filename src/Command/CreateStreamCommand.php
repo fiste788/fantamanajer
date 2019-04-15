@@ -17,13 +17,13 @@ class CreateStreamCommand extends Command
      */
     private $client;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->client = new Client('sgyn7qrwwa6g', 'hbgt5gxen8dzs2mx8fypqmszykb7x62d6pxpn38m62e5jrreaz5jh289qsmra23h');
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Test');
 

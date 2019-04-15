@@ -22,7 +22,7 @@ class GetStreamEventListener implements EventListenerInterface
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
 
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Fantamanajer.newArticle' => 'addNewArticleActivity',

@@ -18,7 +18,7 @@ class DownloadPhotosCommand extends Command
 {
     use CurrentMatchdayTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Seasons');

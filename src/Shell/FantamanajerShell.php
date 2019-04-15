@@ -12,6 +12,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOutput;
 use Cake\Console\Shell;
 use Cake\Utility\Inflector;
+use Cake\Console\ConsoleOptionParser;
 
 /**
  * @property \App\Shell\Task\WeeklyScriptTask $WeeklyScript
@@ -66,7 +67,7 @@ class FantamanajerShell extends Shell
         }
     }
 
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $parser = parent::getOptionParser();
         $parser->addOption('no-interaction', [
@@ -77,7 +78,7 @@ class FantamanajerShell extends Shell
         $parser->addSubcommand(
             'start_season',
             [
-            'help' => 'If the season for current year doesn\'t exist create one and try to update members'
+                'help' => 'If the season for current year doesn\'t exist create one and try to update members'
             ]
         );
         foreach ($this->_taskMap as $task => $config) {
@@ -85,8 +86,8 @@ class FantamanajerShell extends Shell
             $parser->addSubcommand(
                 Inflector::underscore($task),
                 [
-                'help' => $taskParser->getDescription(),
-                'parser' => $taskParser
+                    'help' => $taskParser->getDescription(),
+                    'parser' => $taskParser
                 ]
             );
         }

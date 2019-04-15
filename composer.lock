@@ -4,57 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "988665c50a76358da5d095d09691f6ee",
+    "content-hash": "c3a9f6887fa2452ef6f5ad59742e8657",
     "packages": [
-        {
-            "name": "admad/cakephp-jwt-auth",
-            "version": "2.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ADmad/cakephp-jwt-auth.git",
-                "reference": "d8d39a94783e1bc96a5a7155106072f304bb6ea2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ADmad/cakephp-jwt-auth/zipball/d8d39a94783e1bc96a5a7155106072f304bb6ea2",
-                "reference": "d8d39a94783e1bc96a5a7155106072f304bb6ea2",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^3.5",
-                "firebase/php-jwt": "^5.0"
-            },
-            "require-dev": {
-                "cakephp/chronos": "^1.1",
-                "phpunit/phpunit": "^5.7.14|^6.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "ADmad\\JwtAuth\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ADmad",
-                    "homepage": "https://github.com/ADmad",
-                    "role": "Author"
-                }
-            ],
-            "description": "CakePHP plugin for authenticating using JSON Web Tokens",
-            "homepage": "http://github.com/ADmad/cakephp-jwt-auth",
-            "keywords": [
-                "Authentication",
-                "authenticate",
-                "cakephp",
-                "jwt"
-            ],
-            "time": "2018-04-20T07:58:59+00:00"
-        },
         {
             "name": "aura/intl",
             "version": "3.0.0",
@@ -162,12 +113,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/burzum/cakephp-service-layer.git",
-                "reference": "d051d846734f27b321981f00aee465512d43099e"
+                "reference": "b554cf68688294d36153012b1d7a6df5bc553512"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/burzum/cakephp-service-layer/zipball/d051d846734f27b321981f00aee465512d43099e",
-                "reference": "d051d846734f27b321981f00aee465512d43099e",
+                "url": "https://api.github.com/repos/burzum/cakephp-service-layer/zipball/b554cf68688294d36153012b1d7a6df5bc553512",
+                "reference": "b554cf68688294d36153012b1d7a6df5bc553512",
                 "shasum": ""
             },
             "require": {
@@ -200,32 +151,35 @@
                 }
             ],
             "description": "Service layer and domain / business model implementation for CakePHP",
-            "time": "2019-04-11T13:36:33+00:00"
+            "time": "2019-04-11T20:55:17+00:00"
         },
         {
             "name": "cakephp/authentication",
-            "version": "dev-master",
+            "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authentication.git",
-                "reference": "b594219f5a2d3c7acc8921ebfdb18f47fe781be0"
+                "reference": "3d69f490d2d43412e6810f4219b6f76e3ff420c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authentication/zipball/b594219f5a2d3c7acc8921ebfdb18f47fe781be0",
-                "reference": "b594219f5a2d3c7acc8921ebfdb18f47fe781be0",
+                "url": "https://api.github.com/repos/cakephp/authentication/zipball/3d69f490d2d43412e6810f4219b6f76e3ff420c5",
+                "reference": "3d69f490d2d43412e6810f4219b6f76e3ff420c5",
                 "shasum": ""
             },
             "require": {
-                "cakephp/core": "^3.7",
-                "psr/http-message": "~1.0",
-                "zendframework/zend-diactoros": "^1.4.0"
+                "cakephp/core": "4.x-dev as 4.0.0",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
+                "zendframework/zend-diactoros": "^2.0"
             },
             "require-dev": {
-                "cakephp/cakephp": "^3.7",
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "firebase/php-jwt": "~4.0",
-                "phpunit/phpunit": "^5.7.14|^6.0"
+                "cakephp/cakephp": "4.x-dev as 4.0.0",
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "firebase/php-jwt": "^4.0",
+                "phpunit/phpunit": "^7.0"
             },
             "suggest": {
                 "cakephp/cakephp": "Install version >=3.5.0 to use \"CookieAuthenticator\".",
@@ -258,32 +212,33 @@
                 "cakephp",
                 "middleware"
             ],
-            "time": "2019-04-09T13:58:11+00:00"
+            "time": "2019-03-30T15:44:06+00:00"
         },
         {
             "name": "cakephp/authorization",
-            "version": "dev-master",
+            "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authorization.git",
-                "reference": "a574e1ff73e891fb3f329c1e18e88401f298c2e0"
+                "reference": "22c086d4bb0bef700b5e7030a82844034fe45846"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authorization/zipball/a574e1ff73e891fb3f329c1e18e88401f298c2e0",
-                "reference": "a574e1ff73e891fb3f329c1e18e88401f298c2e0",
+                "url": "https://api.github.com/repos/cakephp/authorization/zipball/22c086d4bb0bef700b5e7030a82844034fe45846",
+                "reference": "22c086d4bb0bef700b5e7030a82844034fe45846",
                 "shasum": ""
             },
             "require": {
-                "cakephp/core": "^3.5",
-                "psr/http-message": "^1.0"
+                "cakephp/cakephp": "4.x-dev as 4.0.0",
+                "psr/http-client": "^1.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
-                "cakephp/bake": "^1.5",
-                "cakephp/cakephp": "^3.5.11",
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "phpunit/phpunit": "^5.7.22|^6.0",
-                "wyrihaximus/twig-view": "^4.3.3"
+                "cakephp/bake": "4.x-dev as 2.0.0",
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "phpunit/phpunit": "^7.0"
             },
             "suggest": {
                 "cakephp/orm": "To use \"OrmResolver\" (Not needed separately if using full CakePHP framework)."
@@ -311,34 +266,36 @@
                 "authorization",
                 "cakephp"
             ],
-            "time": "2019-04-03T14:36:00+00:00"
+            "time": "2019-03-18T12:15:15+00:00"
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.7.6",
+            "version": "4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "e5d50ddf5ca1069a029c16bac58413bb01b205ab"
+                "reference": "a15ae070efc81a1705acaf950be24fc0bd15921f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/e5d50ddf5ca1069a029c16bac58413bb01b205ab",
-                "reference": "e5d50ddf5ca1069a029c16bac58413bb01b205ab",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/a15ae070efc81a1705acaf950be24fc0bd15921f",
+                "reference": "a15ae070efc81a1705acaf950be24fc0bd15921f",
                 "shasum": ""
             },
             "require": {
                 "aura/intl": "^3.0.0",
-                "cakephp/chronos": "^1.0.1",
+                "cakephp/chronos": "2.x-dev as 2.0.0",
+                "composer/ca-bundle": "^1.0",
                 "ext-intl": "*",
                 "ext-mbstring": "*",
-                "php": ">=5.6.0",
+                "php": ">=7.1.0",
+                "psr/http-client": "^1.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
                 "psr/log": "^1.0.0",
                 "psr/simple-cache": "^1.0.0",
-                "zendframework/zend-diactoros": "^1.4.0"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<5.7"
+                "zendframework/zend-diactoros": "^2.0",
+                "zendframework/zend-httphandlerrunner": "^1.0"
             },
             "replace": {
                 "cakephp/cache": "self.version",
@@ -356,9 +313,9 @@
                 "cakephp/validation": "self.version"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "cakephp/chronos": "^1.2.1",
-                "phpunit/phpunit": "^5.7.14|^6.0"
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^7.0"
             },
             "suggest": {
                 "ext-curl": "To enable more efficient network calls in Http\\Client.",
@@ -400,31 +357,30 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2019-04-10T00:59:33+00:00"
+            "time": "2019-04-12T02:11:44+00:00"
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.2.4",
+            "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "ebda7326d4a65e53bc5bb915ebbbeee98f1926b0"
+                "reference": "6c7b974529e383fe45d5a936c87c871351f832d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/ebda7326d4a65e53bc5bb915ebbbeee98f1926b0",
-                "reference": "ebda7326d4a65e53bc5bb915ebbbeee98f1926b0",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/6c7b974529e383fe45d5a936c87c871351f832d5",
+                "reference": "6c7b974529e383fe45d5a936c87c871351f832d5",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|^7"
+                "php": "^7.1"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1",
-                "cakephp/cakephp-codesniffer": "^3.0",
+                "cakephp/cakephp-codesniffer": "dev-next",
                 "phpbench/phpbench": "@dev",
-                "phpstan/phpstan": "^0.6.4",
-                "phpunit/phpunit": "<6.0 || ^7.0"
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "autoload": {
@@ -457,7 +413,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-02-11T02:08:31+00:00"
+            "time": "2019-04-10T02:05:24+00:00"
         },
         {
             "name": "cakephp/migrations",
@@ -604,6 +560,62 @@
                 "stream_filter_register"
             ],
             "time": "2019-04-09T12:31:48+00:00"
+        },
+        {
+            "name": "composer/ca-bundle",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/ca-bundle.git",
+                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
+                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "ext-pcre": "*",
+                "php": "^5.3.2 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
+                "psr/log": "^1.0",
+                "symfony/process": "^2.5 || ^3.0 || ^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\CaBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+            "keywords": [
+                "cabundle",
+                "cacert",
+                "certificate",
+                "ssl",
+                "tls"
+            ],
+            "time": "2019-01-28T09:30:10+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -2669,6 +2681,107 @@
             "time": "2017-02-14T16:28:37+00:00"
         },
         {
+            "name": "psr/http-client",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "496a823ef742b632934724bf769560c2a5c7c44e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/496a823ef742b632934724bf769560c2a5c7c44e",
+                "reference": "496a823ef742b632934724bf769560c2a5c7c44e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "time": "2018-10-30T23:29:13+00:00"
+        },
+        {
+            "name": "psr/http-factory",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-factory.git",
+                "reference": "378bfe27931ecc54ff824a20d6f6bfc303bbd04c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/378bfe27931ecc54ff824a20d6f6bfc303bbd04c",
+                "reference": "378bfe27931ecc54ff824a20d6f6bfc303bbd04c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for PSR-7 HTTP message factories",
+            "keywords": [
+                "factory",
+                "http",
+                "message",
+                "psr",
+                "psr-17",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2018-07-30T21:54:04+00:00"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -2717,6 +2830,112 @@
                 "response"
             ],
             "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "psr/http-server-handler",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "time": "2018-10-30T16:46:14+00:00"
+        },
+        {
+            "name": "psr/http-server-middleware",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2018-10-30T17:12:04+00:00"
         },
         {
             "name": "psr/log",
@@ -5237,38 +5456,41 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.8.6",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "20da13beba0dde8fb648be3cc19765732790f46e"
+                "reference": "c3c330192bc9cc51b7e9ce968ff721dc32ffa986"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/20da13beba0dde8fb648be3cc19765732790f46e",
-                "reference": "20da13beba0dde8fb648be3cc19765732790f46e",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/c3c330192bc9cc51b7e9ce968ff721dc32ffa986",
+                "reference": "c3c330192bc9cc51b7e9ce968ff721dc32ffa986",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0",
+                "php": "^7.1",
+                "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0"
             },
             "provide": {
+                "psr/http-factory-implementation": "1.0",
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
+                "http-interop/http-factory-tests": "^0.5.0",
                 "php-http/psr7-integration-tests": "dev-master",
-                "phpunit/phpunit": "^5.7.16 || ^6.0.8 || ^7.2.7",
-                "zendframework/zend-coding-standard": "~1.0"
+                "phpunit/phpunit": "^7.0.2",
+                "zendframework/zend-coding-standard": "~1.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev",
-                    "dev-develop": "1.9.x-dev",
-                    "dev-release-2.0": "2.0.x-dev"
+                    "dev-master": "2.1.x-dev",
+                    "dev-develop": "2.2.x-dev",
+                    "dev-release-1.8": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -5288,104 +5510,98 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-2-Clause"
+                "BSD-3-Clause"
             ],
             "description": "PSR HTTP Message implementations",
-            "homepage": "https://github.com/zendframework/zend-diactoros",
             "keywords": [
                 "http",
                 "psr",
                 "psr-7"
             ],
-            "time": "2018-09-05T19:29:37+00:00"
-        }
-    ],
-    "packages-dev": [
+            "time": "2019-01-05T20:13:32+00:00"
+        },
         {
-            "name": "ajgl/breakpoint-twig-extension",
-            "version": "0.3.4",
+            "name": "zendframework/zend-httphandlerrunner",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ajgarlag/AjglBreakpointTwigExtension.git",
-                "reference": "13ee39406dc3d959c5704b462a3dbc3cbf088f16"
+                "url": "https://github.com/zendframework/zend-httphandlerrunner.git",
+                "reference": "75fb12751fe9d6e392cce1ee0d687dacae2db787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ajgarlag/AjglBreakpointTwigExtension/zipball/13ee39406dc3d959c5704b462a3dbc3cbf088f16",
-                "reference": "13ee39406dc3d959c5704b462a3dbc3cbf088f16",
+                "url": "https://api.github.com/repos/zendframework/zend-httphandlerrunner/zipball/75fb12751fe9d6e392cce1ee0d687dacae2db787",
+                "reference": "75fb12751fe9d6e392cce1ee0d687dacae2db787",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6",
-                "twig/twig": "^1.14|^2.0"
+                "php": "^7.1",
+                "psr/http-message": "^1.0",
+                "psr/http-message-implementation": "^1.0",
+                "psr/http-server-handler": "^1.0"
             },
             "require-dev": {
-                "symfony/framework-bundle": "^2.7|^3.2|^4.1",
-                "symfony/phpunit-bridge": "^3.4|^4.1",
-                "symfony/twig-bundle": "^2.7|^3.2|^4.1"
-            },
-            "suggest": {
-                "ext-xdebug": "The Xdebug extension is required for the breakpoint to work",
-                "symfony/framework-bundle": "The framework bundle to integrate the extension into Symfony",
-                "symfony/twig-bundle": "The twig bundle to integrate the extension into Symfony"
+                "phpunit/phpunit": "^7.0.2",
+                "zendframework/zend-coding-standard": "~1.0.0",
+                "zendframework/zend-diactoros": "^1.7 || ^2.1.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3.x-dev"
+                    "dev-master": "1.1.x-dev",
+                    "dev-develop": "1.2.x-dev"
+                },
+                "zf": {
+                    "config-provider": "Zend\\HttpHandlerRunner\\ConfigProvider"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Ajgl\\Twig\\Extension\\": "src/"
+                    "Zend\\HttpHandlerRunner\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD-3-Clause"
             ],
-            "authors": [
-                {
-                    "name": "Antonio J. García Lagar",
-                    "email": "aj@garcialagar.es",
-                    "homepage": "http://aj.garcialagar.es",
-                    "role": "developer"
-                }
-            ],
-            "description": "Twig extension to set breakpoints",
-            "homepage": "https://github.com/ajgarlag/AjglBreakpointTwigExtension",
+            "description": "Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.",
             "keywords": [
-                "Xdebug",
-                "breakpoint",
-                "twig"
+                "ZendFramework",
+                "components",
+                "expressive",
+                "psr-15",
+                "psr-7",
+                "zf"
             ],
-            "time": "2019-04-10T11:41:26+00:00"
-        },
+            "time": "2019-02-19T18:20:34+00:00"
+        }
+    ],
+    "packages-dev": [
         {
             "name": "aptoma/twig-markdown",
-            "version": "2.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aptoma/twig-markdown.git",
-                "reference": "64a9c5c7418c08faf91c4410b34bdb65fb25c23d"
+                "reference": "dd287a4c60bd7ca44b6f74795a4c3b96d7497e83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/64a9c5c7418c08faf91c4410b34bdb65fb25c23d",
-                "reference": "64a9c5c7418c08faf91c4410b34bdb65fb25c23d",
+                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/dd287a4c60bd7ca44b6f74795a4c3b96d7497e83",
+                "reference": "dd287a4c60bd7ca44b6f74795a4c3b96d7497e83",
                 "shasum": ""
             },
             "require": {
-                "twig/twig": "~1.12"
+                "php": "^7.0",
+                "twig/twig": "^2.7.0"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
                 "erusev/parsedown": "^1.6",
-                "knplabs/github-api": "~1.2",
+                "knplabs/github-api": "~1.4",
                 "league/commonmark": "~0.5",
                 "michelf/php-markdown": "~1",
-                "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "~0.6"
+                "phpunit/phpunit": "~6.0||~5.0"
             },
             "suggest": {
                 "knplabs/github-api": "Needed for using GitHub's Markdown engine provided through their API.",
@@ -5416,7 +5632,7 @@
                 "markdown",
                 "twig"
             ],
-            "time": "2015-10-23T20:27:08+00:00"
+            "time": "2019-03-13T11:25:31+00:00"
         },
         {
             "name": "asm89/twig-cache-extension",
@@ -5474,27 +5690,26 @@
         },
         {
             "name": "cakephp/bake",
-            "version": "1.9.4",
+            "version": "4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/bake.git",
-                "reference": "ec975a5430834d284533fcad46cb3d75cdbb85e0"
+                "reference": "3086a4900f1c5d5e979ee3013506973639aed8d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/ec975a5430834d284533fcad46cb3d75cdbb85e0",
-                "reference": "ec975a5430834d284533fcad46cb3d75cdbb85e0",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/3086a4900f1c5d5e979ee3013506973639aed8d0",
+                "reference": "3086a4900f1c5d5e979ee3013506973639aed8d0",
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "^3.7.0",
+                "cakephp/cakephp": "4.x-dev as 4.0.0",
                 "cakephp/plugin-installer": "^1.0",
-                "php": ">=5.6.0",
-                "wyrihaximus/twig-view": "^4.3.7"
+                "wyrihaximus/twig-view": "dev-master"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "phpunit/phpunit": "^5.7.14|^6.0"
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "phpunit/phpunit": "^7.0"
             },
             "type": "cakephp-plugin",
             "autoload": {
@@ -5512,34 +5727,35 @@
                     "homepage": "https://github.com/cakephp/bake/graphs/contributors"
                 }
             ],
-            "description": "Bake plugin for CakePHP 3",
+            "description": "Bake plugin for CakePHP",
             "homepage": "https://github.com/cakephp/bake",
             "keywords": [
                 "bake",
                 "cakephp"
             ],
-            "time": "2019-03-27T10:26:53+00:00"
+            "time": "2019-04-10T02:28:37+00:00"
         },
         {
             "name": "cakephp/cakephp-codesniffer",
-            "version": "3.1.1",
+            "version": "dev-next",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp-codesniffer.git",
-                "reference": "682e79fda294c4383e094a2a881e16dcf1130750"
+                "reference": "3227280d01a9c3b99dbec8ab43cb27684edec21f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp-codesniffer/zipball/682e79fda294c4383e094a2a881e16dcf1130750",
-                "reference": "682e79fda294c4383e094a2a881e16dcf1130750",
+                "url": "https://api.github.com/repos/cakephp/cakephp-codesniffer/zipball/3227280d01a9c3b99dbec8ab43cb27684edec21f",
+                "reference": "3227280d01a9c3b99dbec8ab43cb27684edec21f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6",
-                "squizlabs/php_codesniffer": "^3.0.0"
+                "php": "^7.1",
+                "slevomat/coding-standard": "^4.8.7",
+                "squizlabs/php_codesniffer": "^3.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "<6.0"
+                "phpunit/phpunit": "^7.1"
             },
             "type": "phpcodesniffer-standard",
             "autoload": {
@@ -5563,33 +5779,32 @@
                 "codesniffer",
                 "framework"
             ],
-            "time": "2018-11-30T16:04:05+00:00"
+            "time": "2019-02-22T09:37:18+00:00"
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "3.18.0",
+            "version": "4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "6f5ab6ad9a5f36e1ea32cf4fca1afc71d36a0f89"
+                "reference": "50b70f9679c5fa599386964847bbe66fdba5bee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/6f5ab6ad9a5f36e1ea32cf4fca1afc71d36a0f89",
-                "reference": "6f5ab6ad9a5f36e1ea32cf4fca1afc71d36a0f89",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/50b70f9679c5fa599386964847bbe66fdba5bee9",
+                "reference": "50b70f9679c5fa599386964847bbe66fdba5bee9",
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "^3.7.0",
-                "cakephp/chronos": "^1.0.0",
-                "cakephp/plugin-installer": "^1.0.0",
-                "composer/composer": "^1.3.0",
-                "jdorn/sql-formatter": "^1.2.0",
-                "php": ">=5.6.0"
+                "cakephp/cakephp": "4.x-dev as 4.0.0",
+                "cakephp/chronos": "2.x-dev as 2.0.0",
+                "cakephp/plugin-installer": "^1.0",
+                "composer/composer": "^1.3",
+                "jdorn/sql-formatter": "^1.2"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "phpunit/phpunit": "^5.7.14|^6.0"
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "phpunit/phpunit": "^7.0"
             },
             "suggest": {
                 "ext-pdo_sqlite": "DebugKit needs to store panel data in a database. SQLite is simple and easy to use."
@@ -5623,63 +5838,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2019-04-04T17:27:59+00:00"
-        },
-        {
-            "name": "composer/ca-bundle",
-            "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
-                "reference": "558f321c52faeb4828c03e7dc0cfe39a09e09a2d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-openssl": "*",
-                "ext-pcre": "*",
-                "php": "^5.3.2 || ^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
-                "psr/log": "^1.0",
-                "symfony/process": "^2.5 || ^3.0 || ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\CaBundle\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
-                }
-            ],
-            "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
-            "keywords": [
-                "cabundle",
-                "cacert",
-                "certificate",
-                "ssl",
-                "tls"
-            ],
-            "time": "2019-01-28T09:30:10+00:00"
+            "time": "2019-04-12T02:22:10+00:00"
         },
         {
             "name": "composer/composer",
@@ -5926,68 +6085,6 @@
                 "performance"
             ],
             "time": "2019-01-28T20:25:53+00:00"
-        },
-        {
-            "name": "dereuromark/cakephp-ide-helper",
-            "version": "0.11.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dereuromark/cakephp-ide-helper.git",
-                "reference": "75092acf461981b4a6e43b501c69058cbbe874a8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/75092acf461981b4a6e43b501c69058cbbe874a8",
-                "reference": "75092acf461981b4a6e43b501c69058cbbe874a8",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/bake": "^1.3.2",
-                "cakephp/cakephp": "^3.5",
-                "php": ">=5.6",
-                "sebastian/diff": "^1.4 || ^2.0 || ^3.0",
-                "squizlabs/php_codesniffer": "^2.8 || ^3.0"
-            },
-            "require-dev": {
-                "dereuromark/cakephp-shim": "^1.5",
-                "dereuromark/cakephp-tools": "^1.3",
-                "fig-r/psr2r-sniffer": "dev-master"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "IdeHelper\\": "src/",
-                    "IdeHelper\\Test\\Fixture\\": "tests/Fixture/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Scherer",
-                    "homepage": "http://www.dereuromark.de",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Other contributors",
-                    "homepage": "https://github.com/dereuromark/cakephp-ide-helper/graphs/contributors",
-                    "role": "Developer"
-                }
-            ],
-            "description": "CakePHP IdeHelper Plugin to improve auto-completion",
-            "homepage": "https://github.com/dereuromark/cakephp-ide-helper/",
-            "keywords": [
-                "annotations",
-                "autocomplete",
-                "cakephp",
-                "ide",
-                "phpdoc",
-                "phpstorm",
-                "plugin"
-            ],
-            "time": "2018-03-28T22:34:57+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -6436,22 +6533,22 @@
         },
         {
             "name": "phar-io/manifest",
-            "version": "1.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/manifest.git",
-                "reference": "2df402786ab5368a0169091f61a7c1e0eb6852d0"
+                "reference": "7761fcacf03b4d4f16e7ccb606d4879ca431fcf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/manifest/zipball/2df402786ab5368a0169091f61a7c1e0eb6852d0",
-                "reference": "2df402786ab5368a0169091f61a7c1e0eb6852d0",
+                "url": "https://api.github.com/repos/phar-io/manifest/zipball/7761fcacf03b4d4f16e7ccb606d4879ca431fcf4",
+                "reference": "7761fcacf03b4d4f16e7ccb606d4879ca431fcf4",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-phar": "*",
-                "phar-io/version": "^1.0.1",
+                "phar-io/version": "^2.0",
                 "php": "^5.6 || ^7.0"
             },
             "type": "library",
@@ -6487,20 +6584,20 @@
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
-            "time": "2017-03-05T18:14:27+00:00"
+            "time": "2018-07-08T19:23:20+00:00"
         },
         {
             "name": "phar-io/version",
-            "version": "1.0.1",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "a70c0ced4be299a63d32fa96d9281d03e94041df"
+                "reference": "45a2ec53a73c70ce41d55cedef9063630abaf1b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/a70c0ced4be299a63d32fa96d9281d03e94041df",
-                "reference": "a70c0ced4be299a63d32fa96d9281d03e94041df",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/45a2ec53a73c70ce41d55cedef9063630abaf1b6",
+                "reference": "45a2ec53a73c70ce41d55cedef9063630abaf1b6",
                 "shasum": ""
             },
             "require": {
@@ -6534,7 +6631,7 @@
                 }
             ],
             "description": "Library for handling version information and constraints",
-            "time": "2017-03-05T17:38:23+00:00"
+            "time": "2018-07-08T19:19:57+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -6753,40 +6850,40 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "5.3.2",
+            "version": "6.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "c89677919c5dd6d3b3852f230a663118762218ac"
+                "reference": "807e6013b00af69b6c5d9ceb4282d0393dbb9d8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c89677919c5dd6d3b3852f230a663118762218ac",
-                "reference": "c89677919c5dd6d3b3852f230a663118762218ac",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/807e6013b00af69b6c5d9ceb4282d0393dbb9d8d",
+                "reference": "807e6013b00af69b6c5d9ceb4282d0393dbb9d8d",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-xmlwriter": "*",
-                "php": "^7.0",
-                "phpunit/php-file-iterator": "^1.4.2",
+                "php": "^7.1",
+                "phpunit/php-file-iterator": "^2.0",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^2.0.1",
+                "phpunit/php-token-stream": "^3.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
-                "sebastian/environment": "^3.0",
+                "sebastian/environment": "^3.1 || ^4.0",
                 "sebastian/version": "^2.0.1",
                 "theseer/tokenizer": "^1.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^7.0"
             },
             "suggest": {
-                "ext-xdebug": "^2.5.5"
+                "ext-xdebug": "^2.6.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.3.x-dev"
+                    "dev-master": "6.1-dev"
                 }
             },
             "autoload": {
@@ -6812,29 +6909,32 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-04-06T15:36:58+00:00"
+            "time": "2018-10-31T16:06:48+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "1.4.5",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4"
+                "reference": "050bedf145a257b1ff02746c31894800e5122946"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/730b01bc3e867237eaac355e06a36b85dd93a8b4",
-                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/050bedf145a257b1ff02746c31894800e5122946",
+                "reference": "050bedf145a257b1ff02746c31894800e5122946",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -6849,7 +6949,7 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
+                    "email": "sebastian@phpunit.de",
                     "role": "lead"
                 }
             ],
@@ -6859,7 +6959,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2017-11-27T13:52:08+00:00"
+            "time": "2018-09-13T20:33:42+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -6904,28 +7004,28 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.9",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f"
+                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
-                "reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b389aebe1b8b0578430bda0c7c95a829608e059",
+                "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.3 || ^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -6940,7 +7040,7 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
+                    "email": "sebastian@phpunit.de",
                     "role": "lead"
                 }
             ],
@@ -6949,33 +7049,33 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2017-02-26T11:10:40+00:00"
+            "time": "2019-02-20T10:12:59+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "2.0.2",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "791198a2c6254db10131eecfe8c06670700904db"
+                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/791198a2c6254db10131eecfe8c06670700904db",
-                "reference": "791198a2c6254db10131eecfe8c06670700904db",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c99e3be9d3e85f60646f152f9002d46ed7770d18",
+                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.2.4"
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -6998,57 +7098,57 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2017-11-27T05:48:46+00:00"
+            "time": "2018-10-30T05:52:18+00:00"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.14",
+            "version": "7.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "bac23fe7ff13dbdb461481f706f0e9fe746334b7"
+                "reference": "c29c0525cf4572c11efe1db49a8b8aee9dfac58a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bac23fe7ff13dbdb461481f706f0e9fe746334b7",
-                "reference": "bac23fe7ff13dbdb461481f706f0e9fe746334b7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c29c0525cf4572c11efe1db49a8b8aee9dfac58a",
+                "reference": "c29c0525cf4572c11efe1db49a8b8aee9dfac58a",
                 "shasum": ""
             },
             "require": {
+                "doctrine/instantiator": "^1.1",
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-xml": "*",
-                "myclabs/deep-copy": "^1.6.1",
-                "phar-io/manifest": "^1.0.1",
-                "phar-io/version": "^1.0",
-                "php": "^7.0",
+                "myclabs/deep-copy": "^1.7",
+                "phar-io/manifest": "^1.0.2",
+                "phar-io/version": "^2.0",
+                "php": "^7.1",
                 "phpspec/prophecy": "^1.7",
-                "phpunit/php-code-coverage": "^5.3",
-                "phpunit/php-file-iterator": "^1.4.3",
+                "phpunit/php-code-coverage": "^6.0.7",
+                "phpunit/php-file-iterator": "^2.0.1",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-timer": "^1.0.9",
-                "phpunit/phpunit-mock-objects": "^5.0.9",
-                "sebastian/comparator": "^2.1",
-                "sebastian/diff": "^2.0",
-                "sebastian/environment": "^3.1",
+                "phpunit/php-timer": "^2.1",
+                "sebastian/comparator": "^3.0",
+                "sebastian/diff": "^3.0",
+                "sebastian/environment": "^4.0",
                 "sebastian/exporter": "^3.1",
                 "sebastian/global-state": "^2.0",
                 "sebastian/object-enumerator": "^3.0.3",
-                "sebastian/resource-operations": "^1.0",
+                "sebastian/resource-operations": "^2.0",
                 "sebastian/version": "^2.0.1"
             },
             "conflict": {
-                "phpdocumentor/reflection-docblock": "3.0.2",
-                "phpunit/dbunit": "<3.0"
+                "phpunit/phpunit-mock-objects": "*"
             },
             "require-dev": {
                 "ext-pdo": "*"
             },
             "suggest": {
+                "ext-soap": "*",
                 "ext-xdebug": "*",
-                "phpunit/php-invoker": "^1.1"
+                "phpunit/php-invoker": "^2.0"
             },
             "bin": [
                 "phpunit"
@@ -7056,7 +7156,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.5.x-dev"
+                    "dev-master": "7.5-dev"
                 }
             },
             "autoload": {
@@ -7082,67 +7182,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-02-01T05:22:47+00:00"
-        },
-        {
-            "name": "phpunit/phpunit-mock-objects",
-            "version": "5.0.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "cd1cf05c553ecfec36b170070573e540b67d3f1f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/cd1cf05c553ecfec36b170070573e540b67d3f1f",
-                "reference": "cd1cf05c553ecfec36b170070573e540b67d3f1f",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/instantiator": "^1.0.5",
-                "php": "^7.0",
-                "phpunit/php-text-template": "^1.2.1",
-                "sebastian/exporter": "^3.1"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.5.11"
-            },
-            "suggest": {
-                "ext-soap": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "Mock Object library for PHPUnit",
-            "homepage": "https://github.com/sebastianbergmann/phpunit-mock-objects/",
-            "keywords": [
-                "mock",
-                "xunit"
-            ],
-            "abandoned": true,
-            "time": "2018-08-09T05:50:03+00:00"
+            "time": "2019-03-26T13:23:54+00:00"
         },
         {
             "name": "psy/psysh",
@@ -7265,30 +7305,30 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "2.1.3",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "34369daee48eafb2651bea869b4b15d75ccc35f9"
+                "reference": "5de4fc177adf9bce8df98d8d141a7559d7ccf6da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/34369daee48eafb2651bea869b4b15d75ccc35f9",
-                "reference": "34369daee48eafb2651bea869b4b15d75ccc35f9",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/5de4fc177adf9bce8df98d8d141a7559d7ccf6da",
+                "reference": "5de4fc177adf9bce8df98d8d141a7559d7ccf6da",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
-                "sebastian/diff": "^2.0 || ^3.0",
+                "php": "^7.1",
+                "sebastian/diff": "^3.0",
                 "sebastian/exporter": "^3.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.4"
+                "phpunit/phpunit": "^7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -7325,32 +7365,33 @@
                 "compare",
                 "equality"
             ],
-            "time": "2018-02-01T13:46:46+00:00"
+            "time": "2018-07-12T15:12:46+00:00"
         },
         {
             "name": "sebastian/diff",
-            "version": "2.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "347c1d8b49c5c3ee30c7040ea6fc446790e6bddd"
+                "reference": "720fcc7e9b5cf384ea68d9d930d480907a0c1a29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/347c1d8b49c5c3ee30c7040ea6fc446790e6bddd",
-                "reference": "347c1d8b49c5c3ee30c7040ea6fc446790e6bddd",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/720fcc7e9b5cf384ea68d9d930d480907a0c1a29",
+                "reference": "720fcc7e9b5cf384ea68d9d930d480907a0c1a29",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.2"
+                "phpunit/phpunit": "^7.5 || ^8.0",
+                "symfony/process": "^2 || ^3.3 || ^4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -7375,34 +7416,40 @@
             "description": "Diff implementation",
             "homepage": "https://github.com/sebastianbergmann/diff",
             "keywords": [
-                "diff"
+                "diff",
+                "udiff",
+                "unidiff",
+                "unified diff"
             ],
-            "time": "2017-08-03T08:09:46+00:00"
+            "time": "2019-02-04T06:01:07+00:00"
         },
         {
             "name": "sebastian/environment",
-            "version": "3.1.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "cd0871b3975fb7fc44d11314fd1ee20925fce4f5"
+                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/cd0871b3975fb7fc44d11314fd1ee20925fce4f5",
-                "reference": "cd0871b3975fb7fc44d11314fd1ee20925fce4f5",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6fda8ce1974b62b14935adc02a9ed38252eca656",
+                "reference": "6fda8ce1974b62b14935adc02a9ed38252eca656",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.1"
+                "phpunit/phpunit": "^7.5"
+            },
+            "suggest": {
+                "ext-posix": "*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1.x-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -7427,7 +7474,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2017-07-01T08:51:00+00:00"
+            "time": "2019-02-01T05:27:49+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -7694,25 +7741,25 @@
         },
         {
             "name": "sebastian/resource-operations",
-            "version": "1.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/resource-operations.git",
-                "reference": "ce990bb21759f94aeafd30209e8cfcdfa8bc3f52"
+                "reference": "4d7a795d35b889bf80a0cc04e08d77cedfa917a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/resource-operations/zipball/ce990bb21759f94aeafd30209e8cfcdfa8bc3f52",
-                "reference": "ce990bb21759f94aeafd30209e8cfcdfa8bc3f52",
+                "url": "https://api.github.com/repos/sebastianbergmann/resource-operations/zipball/4d7a795d35b889bf80a0cc04e08d77cedfa917a9",
+                "reference": "4d7a795d35b889bf80a0cc04e08d77cedfa917a9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0"
+                "php": "^7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -7732,7 +7779,7 @@
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
             "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
-            "time": "2015-07-28T20:34:47+00:00"
+            "time": "2018-10-04T04:07:39+00:00"
         },
         {
             "name": "sebastian/version",
@@ -7869,6 +7916,45 @@
                 "phra"
             ],
             "time": "2015-10-13T18:44:15+00:00"
+        },
+        {
+            "name": "slevomat/coding-standard",
+            "version": "4.8.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slevomat/coding-standard.git",
+                "reference": "bff96313d8c7c2ba57a4edb13c1c141df8988c58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/bff96313d8c7c2ba57a4edb13c1c141df8988c58",
+                "reference": "bff96313d8c7c2ba57a4edb13c1c141df8988c58",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "squizlabs/php_codesniffer": "^3.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "1.0.0",
+                "phing/phing": "2.16.1",
+                "phpstan/phpstan": "0.9.2",
+                "phpstan/phpstan-phpunit": "0.9.4",
+                "phpstan/phpstan-strict-rules": "0.9",
+                "phpunit/phpunit": "7.5.1"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "SlevomatCodingStandard\\": "SlevomatCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
+            "time": "2019-01-03T13:15:50+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -8088,21 +8174,22 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.38.4",
+            "version": "v2.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7732e9e7017d751313811bd118de61302e9c8b35"
+                "reference": "ed9c49220e09bfaeb1ba4d48077c08a7b09908dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7732e9e7017d751313811bd118de61302e9c8b35",
-                "reference": "7732e9e7017d751313811bd118de61302e9c8b35",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ed9c49220e09bfaeb1ba4d48077c08a7b09908dd",
+                "reference": "ed9c49220e09bfaeb1ba4d48077c08a7b09908dd",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
-                "symfony/polyfill-ctype": "^1.8"
+                "php": "^7.0",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3"
             },
             "require-dev": {
                 "psr/container": "^1.0",
@@ -8112,7 +8199,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.38-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -8150,48 +8237,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-03-23T14:27:19+00:00"
-        },
-        {
-            "name": "umpirsky/twig-php-function",
-            "version": "v0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/umpirsky/twig-php-function.git",
-                "reference": "53b4b1eb0c5eacbd7d66c504b7d809c79b4bedbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/umpirsky/twig-php-function/zipball/53b4b1eb0c5eacbd7d66c504b7d809c79b4bedbc",
-                "reference": "53b4b1eb0c5eacbd7d66c504b7d809c79b4bedbc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "twig/twig": "~1.12"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2.0",
-                "phpunit/phpunit": "~4.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Umpirsky\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Saša Stamenković",
-                    "email": "umpirsky@gmail.com"
-                }
-            ],
-            "description": "Call (almost) any PHP function from your Twig templates.",
-            "time": "2016-03-12T16:36:32+00:00"
+            "time": "2019-03-23T14:28:58+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -8246,34 +8292,32 @@
         },
         {
             "name": "wyrihaximus/twig-view",
-            "version": "4.3.8",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/TwigView.git",
-                "reference": "a5ec66690aa045d6eda17ab1c8a5baf0efdcfa45"
+                "reference": "39ab4caabfc9a89599b4831a7b5a1e3aef19cb9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/TwigView/zipball/a5ec66690aa045d6eda17ab1c8a5baf0efdcfa45",
-                "reference": "a5ec66690aa045d6eda17ab1c8a5baf0efdcfa45",
+                "url": "https://api.github.com/repos/WyriHaximus/TwigView/zipball/39ab4caabfc9a89599b4831a7b5a1e3aef19cb9f",
+                "reference": "39ab4caabfc9a89599b4831a7b5a1e3aef19cb9f",
                 "shasum": ""
             },
             "require": {
-                "ajgl/breakpoint-twig-extension": "^0.3.0",
-                "aptoma/twig-markdown": "^2.0",
+                "aptoma/twig-markdown": "^3.0",
                 "asm89/twig-cache-extension": "^1.0",
-                "cakephp/cakephp": "^3.6",
-                "jasny/twig-extensions": "^1.0",
-                "php": "^5.6 || ^7.0",
-                "twig/twig": "^1.27",
-                "umpirsky/twig-php-function": "0.1"
+                "cakephp/cakephp": "4.x-dev as 4.0.0",
+                "jasny/twig-extensions": "^1.2.0",
+                "php": "^7.1",
+                "twig/twig": "^2.4.3"
             },
             "require-dev": {
-                "cakephp/bake": "^1.5",
-                "cakephp/debug_kit": "^3.0",
-                "phake/phake": "^1.0.4",
-                "phpunit/phpunit": "^5.7.14",
-                "squizlabs/php_codesniffer": "^1.5.6",
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "cakephp/debug_kit": "4.x-dev as 4.0.0",
+                "jakub-onderka/php-console-highlighter": "^0.4.0",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "phpunit/phpunit": "^7.1",
                 "wyrihaximus/phpunit-class-reflection-helpers": "dev-master"
             },
             "type": "cakephp-plugin",
@@ -8293,17 +8337,24 @@
                     "homepage": "http://wyrihaximus.net/"
                 }
             ],
-            "description": "Twig powered View for CakePHP3",
+            "description": "Twig powered View for CakePHP",
             "keywords": [
                 "cakephp",
-                "cakephp3",
+                "template",
                 "twig",
+                "twig2",
                 "view"
             ],
-            "time": "2018-12-17T21:08:25+00:00"
+            "time": "2019-03-29T01:32:03+00:00"
         }
     ],
     "aliases": [
+        {
+            "alias": "3.7.0",
+            "alias_normalized": "3.7.0.0",
+            "version": "4.9999999.9999999.9999999-dev",
+            "package": "cakephp/cakephp"
+        },
         {
             "alias": "1.0",
             "alias_normalized": "1.0.0.0",
@@ -8316,8 +8367,12 @@
         "burzum/cakephp-service-layer": 20,
         "cakephp/authentication": 20,
         "cakephp/authorization": 20,
+        "cakephp/cakephp": 20,
         "fiste788/cake-scheduler": 20,
         "web-auth/webauthn-lib": 20,
+        "cakephp/bake": 20,
+        "cakephp/cakephp-codesniffer": 20,
+        "cakephp/debug_kit": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,

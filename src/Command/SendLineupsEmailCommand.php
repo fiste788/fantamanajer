@@ -22,7 +22,7 @@ class SendLineupsEmailCommand extends Command
 {
     use CurrentMatchdayTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Championships');
@@ -31,7 +31,7 @@ class SendLineupsEmailCommand extends Command
         $this->getCurrentMatchday();
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('force', [
             'help' => 'Force the execution time.',

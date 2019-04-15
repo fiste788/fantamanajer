@@ -30,7 +30,7 @@ class DispositionsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -41,27 +41,27 @@ class DispositionsTable extends Table
         $this->belongsTo(
             'Lineups',
             [
-            'foreignKey' => 'lineup_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'lineup_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Members',
             [
-            'foreignKey' => 'member_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'member_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-            'foreignKey' => 'disposition_id'
+                'foreignKey' => 'disposition_id'
             ]
         );
         $this->hasOne(
             'Ratings',
             [
-            'finder' => 'byMatchdayLineup'
+                'finder' => 'byMatchdayLineup'
             ]
         );
     }
@@ -72,7 +72,7 @@ class DispositionsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -93,7 +93,7 @@ class DispositionsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['lineup_id'], 'Lineups'));
         $rules->add($rules->existsIn(['member_id'], 'Members'));
@@ -104,7 +104,7 @@ class DispositionsTable extends Table
     public function findByMatchdayLineup(Query $q, array $options)
     {
         return $q->innerJoinWith('Lineups')
-                    ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])
-                    ->andWhere(['Ratings.member_id' => 'member_id']);
+            ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])
+            ->andWhere(['Ratings.member_id' => 'member_id']);
     }
 }

@@ -29,7 +29,7 @@ class RolesTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -40,25 +40,25 @@ class RolesTable extends Table
         $this->hasMany(
             'Members',
             [
-            'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id'
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-            'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id'
             ]
         );
         $this->hasMany(
             'View0Members',
             [
-            'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id'
             ]
         );
         $this->hasMany(
             'View1MembersStats',
             [
-            'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id'
             ]
         );
     }
@@ -69,7 +69,7 @@ class RolesTable extends Table
      * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')

@@ -45,7 +45,7 @@ class MatchdaysTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -56,38 +56,38 @@ class MatchdaysTable extends Table
         $this->belongsTo(
             'Seasons',
             [
-            'foreignKey' => 'season_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'season_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->hasMany(
             'Articles',
             [
-            'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id'
             ]
         );
         $this->hasMany(
             'Lineups',
             [
-            'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id'
             ]
         );
         $this->hasMany(
             'Ratings',
             [
-            'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id'
             ]
         );
         $this->hasMany(
             'Scores',
             [
-            'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id'
             ]
         );
         $this->hasMany(
             'Transferts',
             [
-            'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id'
             ]
         );
     }
@@ -98,7 +98,7 @@ class MatchdaysTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -124,7 +124,7 @@ class MatchdaysTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['season_id'], 'Seasons'));
 
@@ -157,7 +157,7 @@ class MatchdaysTable extends Table
                     'team_id IS' => null,
                     'date <' => new DateTime(),
                     'season_id' => $season->id
-                    ]
+                ]
             )
             ->toArray();
 
@@ -176,12 +176,12 @@ class MatchdaysTable extends Table
     public function findFirstWithoutScores(Query $q, array $options)
     {
         return $q->select('Matchdays.id')
-                ->leftJoinWith('Scores')
-                ->orderAsc('Matchdays.number')
-                ->whereNull('Scores.id')->andWhere([
-                    'Matchdays.number >' => 0,
-                    'season_id' => $options['season']
-                ])->limit(1);
+            ->leftJoinWith('Scores')
+            ->orderAsc('Matchdays.number')
+            ->whereNull('Scores.id')->andWhere([
+                'Matchdays.number >' => 0,
+                'season_id' => $options['season']
+            ])->limit(1);
     }
 
     /**
@@ -200,7 +200,7 @@ class MatchdaysTable extends Table
                     'member_id IS' => null,
                     'date <' => new DateTime(),
                     'season_id' => $season->id
-                    ]
+                ]
             )
             ->toArray();
 

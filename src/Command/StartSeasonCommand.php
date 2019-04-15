@@ -18,14 +18,14 @@ class StartSeasonCommand extends Command
     use CurrentMatchdayTrait;
     use Traits\GazzettaTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Seasons');
         $this->getCurrentMatchday();
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Start a new season');
 
@@ -63,9 +63,9 @@ class StartSeasonCommand extends Command
         if ($season == null) {
             $season = $this->Seasons->newEntity(
                 [
-                'year' => $year,
-                'name' => 'Stagione ' . $year . '-' . substr($year + 1, 2, 2),
-                'bonus_points' => true
+                    'year' => $year,
+                    'name' => 'Stagione ' . $year . '-' . substr($year + 1, 2, 2),
+                    'bonus_points' => true
                 ]
             );
             $this->Seasons->saveOrFail($season);
@@ -73,9 +73,9 @@ class StartSeasonCommand extends Command
 
             $firstMatchday = $this->Seasons->Matchdays->newEntity(
                 [
-                'season_id' => $season->id,
-                'number' => 0,
-                'date' => Chronos::create($year, 8, 10, 0, 0, 0)
+                    'season_id' => $season->id,
+                    'number' => 0,
+                    'date' => Chronos::create($year, 8, 10, 0, 0, 0)
                 ]
             );
             $this->Seasons->Matchdays->save($firstMatchday);
@@ -86,9 +86,9 @@ class StartSeasonCommand extends Command
             $io->out('Creating last matchday');
             $lastMatchday = $this->Seasons->Matchdays->newEntity(
                 [
-                'season_id' => $season->id,
-                'number' => 39,
-                'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59)
+                    'season_id' => $season->id,
+                    'number' => 39,
+                    'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59)
                 ]
             );
             if ($this->Seasons->Matchdays->save($lastMatchday)) {

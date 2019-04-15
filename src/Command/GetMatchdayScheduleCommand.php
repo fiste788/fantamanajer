@@ -20,7 +20,7 @@ class GetMatchdayScheduleCommand extends Command
 {
     use CurrentMatchdayTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Matchdays');
@@ -60,9 +60,9 @@ class GetMatchdayScheduleCommand extends Command
         $io->verbose("Downloading page " . $url);
         $client = new Client(
             [
-            'host' => 'www.legaseriea.it',
-            'redirect' => 5,
-            'timeout' => 60
+                'host' => 'www.legaseriea.it',
+                'redirect' => 5,
+                'timeout' => 60
             ]
         );
 

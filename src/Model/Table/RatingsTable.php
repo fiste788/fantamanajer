@@ -30,7 +30,7 @@ class RatingsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -41,15 +41,15 @@ class RatingsTable extends Table
         $this->belongsTo(
             'Members',
             [
-            'foreignKey' => 'member_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'member_id',
+                'joinType' => 'INNER'
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
-            'foreignKey' => 'matchday_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'matchday_id',
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -60,7 +60,7 @@ class RatingsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -151,7 +151,7 @@ class RatingsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['member_id'], 'Members'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));

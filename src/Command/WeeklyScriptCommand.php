@@ -31,7 +31,7 @@ class WeeklyScriptCommand extends Command
     use CurrentMatchdayTrait;
     use GazzettaTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Seasons');
@@ -45,7 +45,7 @@ class WeeklyScriptCommand extends Command
         $this->getCurrentMatchday();
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption(
             'no_send_mail',
@@ -102,8 +102,8 @@ class WeeklyScriptCommand extends Command
                         'EmailNotificationSubscriptions',
                         'PushNotificationSubscriptions',
                         'Users' => ['PushSubscriptions']
-                        ]
-                    ])
+                    ]
+                ])
                 ->where(['Championships.season_id' => $this->currentSeason->id]);
 
             $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);

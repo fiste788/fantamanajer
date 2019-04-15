@@ -1,5 +1,5 @@
 <?php
-
+declare (strict_types = 0);
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -41,8 +41,9 @@ use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Authorization\AuthorizationServiceInterface;
+use Cors\Routing\Middleware\CorsMiddleware;
 
 /**
  * Application setup class.
@@ -55,7 +56,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     /**
      * {@inheritDoc}
      */
-    public function bootstrap()
+    public function bootstrap(): void
     {
         parent::bootstrap();
 
@@ -67,17 +68,18 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 // Do not halt if the plugin is missing
             }
         }
+        /*
         Type::map('acd', 'App\Database\Type\AttestedCredentialDataType');
         Type::map('ci', 'App\Database\Type\PublicKeyCredentialDescriptorType');
         Type::map('trust_path', 'App\Database\Type\TrustPathDataType');
         Type::map('simple_array', 'App\Database\Type\SimpleArrayDataType');
         Type::map('base64', 'App\Database\Type\Base64DataType');
+        */
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
         $this->addPlugin('Crud');
         $this->addPlugin('Cors', ['bootstrap' => true, 'routes' => false]);
-        $this->addPlugin('ADmad/JwtAuth');
         $this->addPlugin('Josegonzalez/Upload');
         $this->addPlugin('Migrations');
         $this->addPlugin('Bake');
@@ -97,14 +99,15 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     /**
      * Setup the middleware queue your application will use.
      *
-     * @param  MiddlewareQueue $middlewareQueue The middleware queue to setup.
-     * @return MiddlewareQueue The updated middleware queue.
+     * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
+     * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      */
-    public function middleware($middlewareQueue)
+    public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
         $middlewareQueue
             ->add(new ErrorHandlerMiddleware(null, Configure::read('Error')))
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
+            //->add(new CorsMiddleware())
             ->add(BodyParserMiddleware::class)
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
@@ -121,10 +124,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      * Returns a service provider instance.
      *
      * @param ServerRequestInterface $request Request
-     * @param ResponseInterface $response Response
      * @return AuthenticationServiceInterface
      */
-    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response)
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         $service = new AuthenticationService();
 
@@ -172,10 +174,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      * Return the authorization provider instance
      *
      * @param ServerRequestInterface $request Request
-     * @param ResponseInterface $response Response
-     * @return AuthorizationService
+     * @return AuthorizationServiceInterface
      */
-    public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {
         $map = new MapResolver();
         $map->map(ServerRequest::class, Policy\RequestPolicy::class);
@@ -192,7 +193,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      * @param CommandCollection $commands The CommandCollection to add commands into.
      * @return CommandCollection The updated collection.
      */
-    public function console($commands)
+    public function console($commands): CommandCollection
     {
         $commands->add('weekly_script', WeeklyScriptCommand::class);
         $commands->add('matchday update', UpdateMatchdayCommand::class);

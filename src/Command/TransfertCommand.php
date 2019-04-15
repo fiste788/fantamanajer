@@ -16,7 +16,7 @@ class TransfertCommand extends Command
 {
     use CurrentMatchdayTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Matchdays');
@@ -24,7 +24,7 @@ class TransfertCommand extends Command
         $this->getCurrentMatchday();
     }
 
-    public function buildOptionParser(ConsoleOptionParser $parser)
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-commit', [
             'help' => 'Disable commit.',

@@ -36,7 +36,7 @@ class ArticlesTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -137,8 +137,8 @@ class ArticlesTable extends Table
     public function findByChampionshipId(Query $q, array $options)
     {
         return $q->contain(['Teams' => [
-                'fields' => ['id', 'name']
-            ]])->orderDesc('created_at')
+            'fields' => ['id', 'name']
+        ]])->orderDesc('created_at')
             ->where(['championship_id' => $options['championship_id']]);
     }
 
