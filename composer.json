@@ -7,10 +7,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/fiste788/crunz"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/fiste788/cake-scheduler"
         }
     ],
@@ -25,12 +21,11 @@
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",
         "friendsofcake/crud": "^5.4",
-        "get-stream/stream": "^2.7",
+        "get-stream/stream": "^3.0",
         "guzzlehttp/psr7": "^1.5",
         "josegonzalez/cakephp-upload": "^4.0",
         "josegonzalez/dotenv": "3.*",
-        "lavary/crunz": "^1.5.1",
-        "minishlink/web-push": "^4.0",
+        "minishlink/web-push": "^5.0",
         "mirko-pagliai/me-tools": "^2.18",
         "mobiledetect/mobiledetectlib": "2.*",
         "ozee31/cakephp-cors": "^1.1",
@@ -40,7 +35,7 @@
         "spatie/image": "^1.5",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",
-        "web-auth/webauthn-lib": "1.1.x-dev"
+        "web-auth/webauthn-lib": "1.2.x-dev"
     },
     "require-dev": {
         "cakephp/bake": "^1.7",

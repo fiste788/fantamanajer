@@ -11,7 +11,8 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Minishlink\WebPush\WebPush;
-
+use Cake\Log\Log;
+use function Safe\sprintf;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
@@ -65,7 +66,39 @@ class SendTestNotificationCommand extends Command
             $io->out(json_encode($message));
             $io->out('Send push notification to ' . $subscription->endpoint);
             $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
-            print_r($webPush->flush());
+        }
+
+        $res = $webPush->flush();
+        /** \Minishlink\WebPush\MessageSentReport */
+        foreach ($res as $result) {
+            // you now have access to request & response objects
+
+            /** @var \Psr\Http\Message\RequestInterface $request */
+            $request = $result->getRequest();
+            /** @var \Psr\Http\Message\ResponseInterface $response */
+            $response = $result->getResponse();
+
+            if ($result->isSuccess()) {
+                // process successful message sent
+                Log::info(sprintf('Notification with payload %s successfully sent for endpoint %s.', [
+                    json_decode((string)$response->getBody()),
+                    $result->getEndpoint()
+                ]));
+            } else {
+                // or a failed one - check expiration first
+                if ($result->isSubscriptionExpired()) {
+                    // this is just an example code, not included in library!
+                    Log::info(sprintf('Expired %s', [$result->getEndpoint()]));
+                    //$db->markExpired($result->getEndpoint());
+                } else {
+                    // process faulty message
+                    Log::info(sprintf('Notification failed: %s. Payload: %s, endpoint: %s', [
+                        $result->getReason(),
+                        json_decode((string)$response->getBody()),
+                        $result->getEndpoint()
+                    ]));
+                }
+            }
         }
     }
 }
