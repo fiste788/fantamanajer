@@ -43,7 +43,7 @@ class GetStreamCommand extends Command
     /**
      * @var Team[] $teams
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $timelineFeed = $this->client->feed('timeline', 'general');
         $championsips = $this->Championships->find()->contain(['Teams'])->all();

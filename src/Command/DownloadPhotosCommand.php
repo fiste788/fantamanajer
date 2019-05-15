@@ -27,7 +27,7 @@ class DownloadPhotosCommand extends Command
         $this->getCurrentMatchday();
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Download photos task');
         $baseUrl = "www.guido8975.it";

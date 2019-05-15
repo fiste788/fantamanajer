@@ -139,7 +139,7 @@ class UsersTable extends Table
      * @param array $options options
      * @return Query
      */
-    public function findAuth(Query $query, array $options)
+    public function findAuth(Query $query, array $options): Query
     {
         $query
             ->contain(['Teams' => ['Championships' => ['Leagues', 'Seasons']]])

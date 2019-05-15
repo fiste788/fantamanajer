@@ -164,14 +164,14 @@ class MembersTable extends Table
         ])->where(['season_id' => $season_id]);
     }
 
-    public function findWithStats(Query $query, array $options)
+    public function findWithStats(Query $query, array $options): Query
     {
         return $query->contain(['VwMembersStats'])
             ->where(['season_id' => $options['season_id']])
             ->group('Members.id');
     }
 
-    public function findWithDetails(Query $query, array $options)
+    public function findWithDetails(Query $query, array $options): Query
     {
         $query->contain(
             ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q) {
@@ -191,7 +191,7 @@ class MembersTable extends Table
         return $query;
     }
 
-    public function findFree(Query $q, array $options)
+    public function findFree(Query $q, array $options): Query
     {
         $championshipId = $options['championship_id'];
         $membersTeams = TableRegistry::get('MembersTeams');
@@ -225,7 +225,7 @@ class MembersTable extends Table
         return $q;
     }
 
-    public function findByClubId(Query $q, array $options)
+    public function findByClubId(Query $q, array $options): Query
     {
         return $q->contain(['Roles', 'Players', 'VwMembersStats'])
             ->innerJoinWith('Clubs', function (Query $q) use ($options) {
@@ -237,7 +237,7 @@ class MembersTable extends Table
             ]);
     }
 
-    public function findByTeamId(Query $q, array $options)
+    public function findByTeamId(Query $q, array $options): Query
     {
         $q->contain(['Clubs', 'Players'])
             ->innerJoinWith('Teams', function (Query $q) use ($options) {
@@ -250,7 +250,7 @@ class MembersTable extends Table
         return $q;
     }
 
-    public function findNotMine(Query $q, array $options)
+    public function findNotMine(Query $q, array $options): Query
     {
         $team = $this->Teams->get($options['team_id'], ['contain' => ['Championships']]);
         $q->contain(['Players', 'Teams'])->leftJoinWith('Teams')->where([
@@ -265,7 +265,7 @@ class MembersTable extends Table
         return $q;
     }
 
-    public function findBestByMatchdayIdAndRole(Query $q, array $options)
+    public function findBestByMatchdayIdAndRole(Query $q, array $options): Query
     {
         return $q->contain([
             'Players', 'Ratings' => function (Query $q) use ($options) {
@@ -278,7 +278,7 @@ class MembersTable extends Table
             ->orderDesc('Ratings.points');
     }
 
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         $ev = new Event('Fantamanajer.changeMember', $this, [
             'member' => $entity

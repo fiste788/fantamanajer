@@ -6,6 +6,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Database\Schema\TableSchema;
 
 /**
  * VwMembersStats Model
@@ -29,7 +30,7 @@ class VwMembersStatsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -38,8 +39,8 @@ class VwMembersStatsTable extends Table
         $this->belongsTo(
             'Members',
             [
-            'foreignKey' => 'member_id',
-            'joinType' => 'INNER'
+                'foreignKey' => 'member_id',
+                'joinType' => 'INNER'
             ]
         );
     }
@@ -50,14 +51,14 @@ class VwMembersStatsTable extends Table
      * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->decimal('sum_present')
+            ->integer('sum_present')
             ->allowEmpty('sum_present');
 
         $validator
-            ->decimal('sum_valued')
+            ->integer('sum_valued')
             ->allowEmpty('sum_valued');
 
         $validator
@@ -69,23 +70,23 @@ class VwMembersStatsTable extends Table
             ->allowEmpty('avg_rating');
 
         $validator
-            ->decimal('sum_goals')
+            ->integer('sum_goals')
             ->allowEmpty('sum_goals');
 
         $validator
-            ->decimal('sum_goals_against')
+            ->integer('sum_goals_against')
             ->allowEmpty('sum_goals_against');
 
         $validator
-            ->decimal('sum_assist')
+            ->integer('sum_assist')
             ->allowEmpty('sum_assist');
 
         $validator
-            ->decimal('sum_yellow_card')
+            ->integer('sum_yellow_card')
             ->allowEmpty('sum_yellow_card');
 
         $validator
-            ->decimal('sum_red_card')
+            ->integer('sum_red_card')
             ->allowEmpty('sum_red_card');
 
         $validator
@@ -103,10 +104,29 @@ class VwMembersStatsTable extends Table
      * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['member_id'], 'Members'));
 
         return $rules;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param TableSchema $schema
+     * @return TableSchema
+     */
+    protected function _initializeSchema(TableSchema $schema): TableSchema
+    {
+        $schema->setColumnType('sum_present', 'integer');
+        $schema->setColumnType('sum_assist', 'integer');
+        $schema->setColumnType('sum_goals', 'integer');
+        $schema->setColumnType('sum_goals_against', 'integer');
+        $schema->setColumnType('sum_red_card', 'integer');
+        $schema->setColumnType('sum_yellow_card', 'integer');
+        $schema->setColumnType('sum_valued', 'integer');
+
+        return $schema;
     }
 }

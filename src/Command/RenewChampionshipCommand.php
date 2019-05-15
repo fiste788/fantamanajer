@@ -38,7 +38,7 @@ class RenewChampionshipCommand extends Command
      *
      * @return Season
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->Championships->Teams->removeBehavior('Upload');
         $championship = $this->Championships->get($args->getArgument('id'), ['contain' => 'Teams.NotificationSubscriptions']);
@@ -64,7 +64,7 @@ class RenewChampionshipCommand extends Command
                 $io->out('Trovata immagine ' . $team->photo);
                 $folder = new Folder(ROOT . DS . $team->photo_dir);
                 $to = FILES . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
-                if ($folder->copy(['to' => $to])) {
+                if ($folder->copy($to)) {
                     $io->out('Copiata folder ' . $to);
                     $newFolder = new Folder($to);
                     $files = $newFolder->findRecursive($team->photo);

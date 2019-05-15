@@ -2,6 +2,7 @@
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -9,7 +10,7 @@ use App\Controller\AppController;
  */
 class ScoresController extends AppController
 {
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         $championshipId = $this->request->getParam('championship_id');

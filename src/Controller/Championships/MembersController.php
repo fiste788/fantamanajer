@@ -2,7 +2,7 @@
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -14,7 +14,7 @@ class MembersController extends AppController
         'maxLimit' => 1000
     ];
 
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
@@ -47,7 +47,7 @@ class MembersController extends AppController
             ]
         ]);
 
-        $this->Crud->on('afterPaginate', function (Event $event) {
+        $this->Crud->on('afterPaginate', function (EventInterface $event) {
             $collection = new \Cake\Collection\Collection($event->getSubject()->entities);
             $event->getSubject()->entities = $collection->groupBy('role_id')->toArray();
         });

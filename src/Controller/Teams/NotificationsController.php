@@ -5,10 +5,11 @@ use App\Controller\AppController;
 use App\Stream\ActivityManager;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Event\EventInterface;
 
 class NotificationsController extends AppController
 {
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $teamId = $this->request->getParam('team_id');
@@ -26,9 +27,9 @@ class NotificationsController extends AppController
 
         $this->set(
             [
-            'success' => true,
-            'data' => $stream,
-            '_serialize' => ['success', 'data']
+                'success' => true,
+                'data' => $stream,
+                '_serialize' => ['success', 'data']
             ]
         );
     }
@@ -41,9 +42,9 @@ class NotificationsController extends AppController
 
         $this->set(
             [
-            'success' => true,
-            'data' => $stream,
-            '_serialize' => ['success', 'data']
+                'success' => true,
+                'data' => $stream,
+                '_serialize' => ['success', 'data']
             ]
         );
     }

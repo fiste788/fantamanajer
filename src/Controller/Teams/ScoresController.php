@@ -2,6 +2,7 @@
 namespace App\Controller\Teams;
 
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 class ScoresController extends \App\Controller\ScoresController
 {
@@ -10,7 +11,7 @@ class ScoresController extends \App\Controller\ScoresController
         'maxLimit' => 40
     ];
 
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('last', 'Crud.View');
@@ -30,7 +31,7 @@ class ScoresController extends \App\Controller\ScoresController
         if ($matchdayId) {
             $conditions['matchday_id'] = $matchdayId;
         }
-        $this->Crud->on('beforeFind', function (Event $event) use ($conditions) {
+        $this->Crud->on('beforeFind', function (EventInterface $event) use ($conditions) {
             return $event->getSubject()->query
                 ->where($conditions, [], true)
                 ->order(['matchday_id' => 'desc']);
@@ -41,8 +42,9 @@ class ScoresController extends \App\Controller\ScoresController
 
     public function index()
     {
-        $this->Crud->action()->findMethod(['byTeam' =>
-            ['team_id' => $this->request->getParam('team_id')]]);
+        $this->Crud->action()->findMethod(['byTeam' => [
+            'team_id' => $this->request->getParam('team_id')
+        ]]);
 
         return $this->Crud->execute();
     }

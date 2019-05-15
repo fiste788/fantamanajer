@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -9,7 +10,7 @@ use Cake\Event\Event;
  */
 class PushSubscriptionsController extends AppController
 {
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');

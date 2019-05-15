@@ -48,7 +48,7 @@ class SendLineupsEmailCommand extends Command
         return $parser;
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
             $championships = $this->Championships->find()

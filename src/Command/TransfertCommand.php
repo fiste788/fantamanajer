@@ -47,7 +47,7 @@ class TransfertCommand extends Command
         return $parser;
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
             $matchday = $this->currentMatchday;

@@ -18,7 +18,7 @@ class ResetPasswordCommand extends Command
         $this->loadModel('Users');
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($args->hasArgument('email')) {
             $user = $this->Users->find()->where(['email' => $args->getArgument('email')])->first();

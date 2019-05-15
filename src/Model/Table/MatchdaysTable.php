@@ -131,7 +131,7 @@ class MatchdaysTable extends Table
         return $rules;
     }
 
-    public function findCurrent(Query $q, array $options)
+    public function findCurrent(Query $q, array $options): Query
     {
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
         $now = new Time();
@@ -147,7 +147,7 @@ class MatchdaysTable extends Table
      * @param Season $season
      * @return Matchday[]
      */
-    public function findWithoutScores(Season $season)
+    public function findWithoutScores(Season $season): array
     {
         $query = $this->find();
         $res = $query->leftJoinWith("Scores")
@@ -173,7 +173,7 @@ class MatchdaysTable extends Table
             ->limit(1);
     }
 
-    public function findFirstWithoutScores(Query $q, array $options)
+    public function findFirstWithoutScores(Query $q, array $options): Query
     {
         return $q->select('Matchdays.id')
             ->leftJoinWith('Scores')
@@ -189,7 +189,7 @@ class MatchdaysTable extends Table
      * @param Season $season
      * @return Matchday[]
      */
-    public function findWithoutRatings(Season $season)
+    public function findWithoutRatings(Season $season): array
     {
         $query = $this->find();
         $res = $query->leftJoinWith("Ratings")

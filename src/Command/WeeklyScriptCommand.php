@@ -77,7 +77,7 @@ class WeeklyScriptCommand extends Command
      *
      * @return Season
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->startup($args, $io);
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);

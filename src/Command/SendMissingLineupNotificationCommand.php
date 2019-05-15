@@ -48,7 +48,7 @@ class SendMissingLineupNotificationCommand extends Command
         return $parser;
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->date->isWithinNext('30 minutes') || $args->getOption('force')) {
             $io->out('Start');

@@ -29,7 +29,7 @@ class EventsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -40,7 +40,7 @@ class EventsTable extends Table
         $this->belongsTo(
             'Teams',
             [
-            'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id'
             ]
         );
     }
@@ -51,7 +51,7 @@ class EventsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -81,14 +81,14 @@ class EventsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
 
         return $rules;
     }
 
-    public function findByChampionshipId(Query $query, array $options)
+    public function findByChampionshipId(Query $query, array $options): Query
     {
         return $query->contain(['Teams' => ['fields' => ['id', 'name']]])
             ->where(['Teams.championship_id' => $options['championship_id']])

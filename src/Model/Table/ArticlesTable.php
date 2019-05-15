@@ -72,15 +72,11 @@ class ArticlesTable extends Table
         );
     }
 
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
-        if (array_key_exists('created_at', $data)) {
-            unset($data['created_at']);
-        }
-        if (array_key_exists('modified_at', $data)) {
-            unset($data['modified_at']);
-        }
+        $data->offsetUnset('created_at');
+        $data->offsetUnset('modified_at');
     }
 
     /**
@@ -89,7 +85,7 @@ class ArticlesTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -121,7 +117,7 @@ class ArticlesTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));

@@ -38,6 +38,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use function Safe\json_encode;
+use Cake\Event\EventInterface;
 
 /**
  * @property UserService $User
@@ -65,7 +66,7 @@ class UsersController extends AppController
      * @param Event $event Event
      * @return void
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
 
@@ -249,7 +250,6 @@ class UsersController extends AppController
         $session = $this->getRequest()->getSession();
         $session->start();
         $session->write("User.PublicKey", json_encode($publicKeyCredentialCreationOptions));
-        Log::error($session);
         $this->set([
             'success' => true,
             'data' => $publicKeyCredentialCreationOptions,

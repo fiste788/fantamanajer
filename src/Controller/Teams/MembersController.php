@@ -2,7 +2,10 @@
 
 namespace App\Controller\Teams;
 
-class MembersController extends \App\Controller\MembersController
+use Cake\Event\EventInterface;
+use App\Controller\MembersController as AppMembersController;
+
+class MembersController extends AppMembersController
 {
     public $paginate = [
         'limit' => 1000,
@@ -33,7 +36,7 @@ class MembersController extends \App\Controller\MembersController
         return $this->Crud->execute();
     }
 
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('notMine', 'Crud.Index');

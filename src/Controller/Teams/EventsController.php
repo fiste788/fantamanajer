@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\View\CellTrait;
+use Cake\Event\EventInterface;
 
 /**
  * Events Controller
@@ -15,7 +16,7 @@ class EventsController extends AppController
 {
     use CellTrait;
 
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $teamId = $this->request->getParam('team_id');

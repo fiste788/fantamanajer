@@ -1,9 +1,12 @@
 <?php
 namespace App\Controller\Teams;
 
-class SelectionsController extends \App\Controller\SelectionsController
+use App\Controller\SelectionsController as AppSelectionsController;
+use Cake\Event\EventInterface;
+
+class SelectionsController extends AppSelectionsController
 {
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');

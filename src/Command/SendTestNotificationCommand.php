@@ -47,7 +47,7 @@ class SendTestNotificationCommand extends Command
         return $parser;
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Parto');
         $webPush = new WebPush(Configure::read('WebPush'));

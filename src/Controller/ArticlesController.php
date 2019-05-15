@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -19,7 +20,7 @@ class ArticlesController extends AppController
         ]
     ];
 
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');

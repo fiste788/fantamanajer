@@ -4,7 +4,6 @@ namespace App\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Composer\DependencyResolver\Rule;
 
 /**
  * Championships Model

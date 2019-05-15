@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Datasource\ModelAwareTrait;
+use Cake\Event\EventInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -12,7 +13,7 @@ class MembersController extends AppController
 {
     use ModelAwareTrait;
 
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['best']);

@@ -2,13 +2,14 @@
 namespace App\Controller\Clubs;
 
 use App\Controller\AppController;
+use Cake\Event\EventInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
  */
 class MembersController extends AppController
 {
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['index']);

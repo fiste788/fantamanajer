@@ -41,7 +41,7 @@ class TransfertsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -87,7 +87,7 @@ class TransfertsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -107,7 +107,7 @@ class TransfertsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
@@ -117,23 +117,23 @@ class TransfertsTable extends Table
         return $rules;
     }
 
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
     }
 
-    public function findByTeamId(Query $q, array $options)
+    public function findByTeamId(Query $q, array $options): Query
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where(['team_id' => $options['team_id']]);
     }
 
-    public function beforeSave(Event $event, Transfert $entity, ArrayObject $options)
+    public function beforeSave(Event $event, Transfert $entity, ArrayObject $options): void
     {
         $entity->matchday_id = $this->Matchdays->find('current')->first()->id;
     }
 
-    public function afterSave(Event $event, Transfert $entity, ArrayObject $options)
+    public function afterSave(Event $event, Transfert $entity, ArrayObject $options): void
     {
         EventManager::instance()->dispatch(new Event('Fantamanajer.newMemberTransfert', $this, [
             'transfert' => $entity

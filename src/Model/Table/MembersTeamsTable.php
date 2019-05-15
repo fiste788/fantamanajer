@@ -85,7 +85,7 @@ class MembersTeamsTable extends Table
         return $rules;
     }
 
-    public function beforeSave(Event $event, \App\Model\Entity\MembersTeam $entity, ArrayObject $options)
+    public function beforeSave(Event $event, \App\Model\Entity\MembersTeam $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('member_id') && !$entity->isNew()) {
             $this->loadService('Transfert');

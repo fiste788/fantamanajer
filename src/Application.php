@@ -80,7 +80,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Authorization');
         $this->addPlugin('Crud');
         $this->addPlugin('Cors', ['bootstrap' => true, 'routes' => false]);
-        $this->addPlugin('Josegonzalez/Upload');
+        //$this->addPlugin('Josegonzalez/Upload');
         $this->addPlugin('Migrations');
         $this->addPlugin('Bake');
         $this->addPlugin('CakeScheduler');

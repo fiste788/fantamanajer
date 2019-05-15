@@ -36,7 +36,7 @@ class StartSeasonCommand extends Command
      *
      * @return Season
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->startup($args, $io);
         $season = $this->createSeason($io, $args);
@@ -58,7 +58,7 @@ class StartSeasonCommand extends Command
 
     private function createSeason(ConsoleIo $io, Arguments $args)
     {
-        $year = date("Y");
+        $year = (int)date("Y");
         $season = $this->Seasons->find()->where(['year' => $year])->first();
         if ($season == null) {
             $season = $this->Seasons->newEntity(

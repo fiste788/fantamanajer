@@ -159,7 +159,7 @@ class RatingsTable extends Table
         return $rules;
     }
 
-    public function existMatchday($matchday)
+    public function existMatchday($matchday): bool
     {
         return $this->exists(['matchday_id' => $matchday->id]);
     }
@@ -169,7 +169,7 @@ class RatingsTable extends Table
      * @param Season $season
      * @return int
      */
-    public function findMaxMatchday(Season $season)
+    public function findMaxMatchday(Season $season): int
     {
         $query = $this->find();
         $res = $query->hydrate(false)

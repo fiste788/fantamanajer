@@ -9,7 +9,7 @@ use Cake\Event\EventInterface;
  */
 class MatchdaysController extends AppController
 {
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('current', 'Crud.View');

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\View\Helper\UrlHelper;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -13,7 +14,7 @@ use Cake\View\Helper\UrlHelper;
  */
 class TeamsController extends AppController
 {
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');

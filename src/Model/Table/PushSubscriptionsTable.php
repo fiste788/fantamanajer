@@ -97,12 +97,8 @@ class PushSubscriptionsTable extends Table
 
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        if (isset($data['created_at'])) {
-            unset($data['created_at']);
-        }
-        if (isset($data['modified_at'])) {
-            unset($data['modified_at']);
-        }
+        $data->offsetUnset('created_at');
+        $data->offsetUnset('modified_at');
     }
 
     /**
@@ -120,7 +116,7 @@ class PushSubscriptionsTable extends Table
         return $rules;
     }
 
-    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
             $entity->id = Security::hash($entity->endpoint, 'sha256');

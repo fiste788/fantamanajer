@@ -2,13 +2,16 @@
 
 namespace App\Controller\Championships;
 
+use Cake\Event\EventInterface;
+use App\Controller\AppController;
+
 /**
  *
  * @property \App\Model\Table\TeamsTable $Teams
  */
-class TeamsController extends \App\Controller\AppController
+class TeamsController extends AppController
 {
-    public function beforeFilter(\Cake\Event\Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $championshipId = $this->request->getParam('championship_id');

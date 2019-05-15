@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Model\Entity\Lineup;
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -18,7 +19,7 @@ class ScoresController extends AppController
         $this->loadService('Lineup');
     }
 
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');

@@ -43,7 +43,7 @@ class UpdateMatchdayCommand extends Command
      *
      * @return Season
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $season = $args->hasArgument('season') ? $args->getArgument('season') : $this->currentSeason;
         $matchday = $args->hasArgument('matchday') ? $args->getArgument('matchday') : $this->currentMatchday->number;

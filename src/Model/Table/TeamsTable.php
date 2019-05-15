@@ -54,7 +54,7 @@ class TeamsTable extends Table
         $this->setTable('teams');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-
+        /*
         $this->addBehavior(
             'Josegonzalez/Upload.Upload',
             [
@@ -96,7 +96,7 @@ class TeamsTable extends Table
                 ],
             ]
         );
-
+*/
         $this->belongsTo(
             'Users',
             [
@@ -217,13 +217,13 @@ class TeamsTable extends Table
         return $rules;
     }
 
-    public function findByChampionshipId(Query $q, array $options)
+    public function findByChampionshipId(Query $q, array $options): Query
     {
         return $q->contain(['Users'])
             ->where(['championship_id' => $options['championship_id']]);
     }
 
-    public function saveWithoutUser(Team $team)
+    public function saveWithoutUser(Team $team): void
     {
         $this->loadService("Team");
 

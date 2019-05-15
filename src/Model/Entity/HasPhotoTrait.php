@@ -19,7 +19,7 @@ trait HasPhotoTrait
         }
         $baseUrl = Router::url($baseUrl, true);
         $folder = new Folder($path);
-        $subfolders = $folder->subdirectories(null, false);
+        $subfolders = $folder->subdirectories($path, false);
         foreach ($subfolders as $sub) {
             if (file_exists($path . $sub . DS . $name)) {
                 $array[$sub] = $baseUrl . $sub . '/' . str_replace(' ', '%20', $name);

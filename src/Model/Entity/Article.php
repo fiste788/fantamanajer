@@ -39,7 +39,7 @@ class Article extends Entity
      * @param int $user_id the user owner
      * @return bool
      */
-    public function isOwnedBy($user_id)
+    public function isOwnedBy($user_id): bool
     {
         return $this->team->user_id == $user_id;
     }

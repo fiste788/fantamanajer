@@ -191,7 +191,7 @@ class LineupsTable extends Table
         return $rules;
     }
 
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newLineup', $this, [
@@ -201,17 +201,17 @@ class LineupsTable extends Table
         }
     }
 
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
-        if (array_key_exists('created_at', $data)) {
+        if ($data->offsetExists('created_at')) {
             unset($data['created_at']);
         }
-        if (array_key_exists('modified_at', $data)) {
+        if ($data->offsetExists('modified_at')) {
             unset($data['modified_at']);
         }
     }
 
-    public function findDetails(Query $q, array $options)
+    public function findDetails(Query $q, array $options): Query
     {
         return $q->contain([
             'Teams',
@@ -234,7 +234,7 @@ class LineupsTable extends Table
      * @param array $options
      * @return Query
      */
-    public function findLast(Query $q, array $options)
+    public function findLast(Query $q, array $options): Query
     {
         $q->innerJoinWith('Matchdays')
             ->contain(['Dispositions'])
@@ -264,7 +264,7 @@ class LineupsTable extends Table
         return $q;
     }
 
-    public function findByMatchdayIdAndTeamId(Query $q, array $options)
+    public function findByMatchdayIdAndTeamId(Query $q, array $options): Query
     {
         return $q->contain(['Dispositions'])
             ->where([
@@ -273,7 +273,7 @@ class LineupsTable extends Table
             ]);
     }
 
-    public function findWithRatings(Query $q, array $options)
+    public function findWithRatings(Query $q, array $options): Query
     {
         $matchdayId = $options['matchday_id'];
 

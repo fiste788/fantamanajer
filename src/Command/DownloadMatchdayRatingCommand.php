@@ -41,7 +41,7 @@ class DownloadMatchdayRatingCommand extends Command
      *
      * @return Season
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->exec($args->getArgument('matchday'), $io);
     }

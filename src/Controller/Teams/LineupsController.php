@@ -4,6 +4,7 @@ namespace App\Controller\Teams;
 
 use App\Model\Entity\Lineup;
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -14,7 +15,7 @@ use Cake\Event\Event;
 class LineupsController extends \App\Controller\LineupsController
 {
 
-    public function initialize() : void
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadService('LikelyLineup');
@@ -22,7 +23,7 @@ class LineupsController extends \App\Controller\LineupsController
         $this->loadModel('Matchdays');
     }
 
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('current', 'Crud.View');

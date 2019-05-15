@@ -30,7 +30,7 @@ class CreateStreamCommand extends Command
         return $parser;
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $championshipFeed = $this->client->feed('championship', 12);
         $teamFeed = $this->client->feed('team', '49');

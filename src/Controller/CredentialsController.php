@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\CredentialService;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  * @property CredentialService $Credential
@@ -30,7 +31,7 @@ class CredentialsController extends AppController
      * @param Event $event Event
      * @return void
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
 

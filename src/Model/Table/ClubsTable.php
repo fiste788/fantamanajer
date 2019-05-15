@@ -90,7 +90,7 @@ class ClubsTable extends Table
         return $validator;
     }
 
-    public function findBySeasonId(Query $q, array $options)
+    public function findBySeasonId(Query $q, array $options): Query
     {
         return $q->innerJoinWith('Members', function (Query $q) use ($options) {
             return $q->where(['season_id' => $options['season_id']]);

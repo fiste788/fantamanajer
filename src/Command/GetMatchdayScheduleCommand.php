@@ -36,7 +36,7 @@ class GetMatchdayScheduleCommand extends Command
         return $parser;
     }
 
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if (!$args->hasArgument('season')) {
             $season = $this->currentSeason;

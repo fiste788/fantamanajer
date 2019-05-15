@@ -119,7 +119,7 @@ class ScoresTable extends Table
      * @param Season $season
      * @return int
      */
-    public function findMaxMatchday(Season $season)
+    public function findMaxMatchday(Season $season): int
     {
         $query = $this->find();
         $res = $query->hydrate(false)
@@ -138,7 +138,7 @@ class ScoresTable extends Table
         return $res['matchday_id'];
     }
 
-    public function findScores(Query $q, array $options)
+    public function findScores(Query $q, array $options): Query
     {
         $championshipId = $options['championship_id'];
 
@@ -156,7 +156,7 @@ class ScoresTable extends Table
             }, true);
     }
 
-    public function findByTeam(Query $q, array $options)
+    public function findByTeam(Query $q, array $options): Query
     {
         return $q->contain([
             'Teams',
@@ -171,7 +171,7 @@ class ScoresTable extends Table
      * @param int $q
      * @return mixed
      */
-    public function findRanking(Query $q, array $options)
+    public function findRanking(Query $q, array $options): Query
     {
         $championshipId = $options['championship_id'];
         $sum = $q->func()->sum('points');
@@ -201,7 +201,7 @@ class ScoresTable extends Table
         return $q;
     }
 
-    public function loadDetails(Score $score, $members = false)
+    public function loadDetails(Score $score, $members = false): Score
     {
         if ($members) {
             $contain = [

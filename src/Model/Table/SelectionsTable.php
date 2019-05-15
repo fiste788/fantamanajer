@@ -46,7 +46,7 @@ class SelectionsTable extends Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -92,7 +92,7 @@ class SelectionsTable extends Table
      * @param  Validator $validator Validator instance.
      * @return Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -113,7 +113,7 @@ class SelectionsTable extends Table
      * @param  RulesChecker $rules The rules object to be modified.
      * @return RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
@@ -138,37 +138,37 @@ class SelectionsTable extends Table
      * @param Selection $selection
      * @return Selection
      */
-    public function findAlreadySelectedMember($selection)
+    public function findAlreadySelectedMember($selection): Selection
     {
         $team = $this->Teams->get($selection->team_id);
 
         return $this->find()
-                ->contain(['Teams'])
-                ->matching(
-                    'Teams',
-                    function ($q) use ($team) {
-                        return $q->where(['Teams.championship_id' => $team->championship_id]);
-                    }
-                )
-                ->where(
-                    [
-                        'team_id !=' => $selection->team_id,
-                        'new_member_id' => $selection->new_member_id
-                    ]
-                )->first();
+            ->contain(['Teams'])
+            ->matching(
+                'Teams',
+                function ($q) use ($team) {
+                    return $q->where(['Teams.championship_id' => $team->championship_id]);
+                }
+            )
+            ->where(
+                [
+                    'team_id !=' => $selection->team_id,
+                    'new_member_id' => $selection->new_member_id
+                ]
+            )->first();
     }
 
-    public function findByTeamIdAndMatchdayId(Query $q, array $options)
+    public function findByTeamIdAndMatchdayId(Query $q, array $options): Query
     {
         return $q->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where([
                 'Selections.active' => true,
                 'team_id' => $options['team_id'],
                 'matchday_id' => $options['matchday_id'],
-                ])->limit(1);
+            ])->limit(1);
     }
 
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newMemberSelection', $this, [
@@ -178,7 +178,7 @@ class SelectionsTable extends Table
         }
     }
 
-    public function beforeSave(Event $event, Selection $entity, ArrayObject $options)
+    public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('processed') && $entity->processed) {
             $this->loadService('Selection');

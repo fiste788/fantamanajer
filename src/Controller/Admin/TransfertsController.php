@@ -3,7 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppController;
 use App\Model\Table\TransfertsTable;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -15,7 +15,7 @@ class TransfertsController extends AppController
     public function add()
     {
         $this->Crud->action()->saveOptions(['associated' => []]);
-        $this->Crud->on('afterSave', function (Event $event) {
+        $this->Crud->on('afterSave', function (EventInterface $event) {
             if ($event->getSubject()->success) {
                 $event->getSubject()->entity->substituteMembers();
             }
@@ -24,7 +24,7 @@ class TransfertsController extends AppController
         return $this->Crud->execute();
     }
 
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');

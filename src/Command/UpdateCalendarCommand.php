@@ -42,7 +42,7 @@ class UpdateCalendarCommand extends Command
      *
      * @return Season
      */
-    public function execute(Arguments $args, ConsoleIo $io)
+    public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if (!$args->hasArgument('season')) {
             $season = $this->currentSeason;

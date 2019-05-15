@@ -69,7 +69,7 @@ class PlayersTable extends Table
         return $validator;
     }
 
-    public function findWithDetails(Query $q, array $options)
+    public function findWithDetails(Query $q, array $options): Query
     {
         return $q->contain(['Members' => function (Query $q) use ($options) {
             return $q->find('withDetails', ['championship_id' => $options['championship_id']]);
