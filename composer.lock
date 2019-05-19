@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f43235e85349dce2dc48316bbb9b95bc",
+    "content-hash": "ea2ed7f596585f8dcb53ff339955d2ce",
     "packages": [
         {
             "name": "aura/intl",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "5760de8250231affab3ea9916affaa5b8e59b1de"
+                "reference": "a38a8b6924cd57463d58d08e13a5d9e310a1e6b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/5760de8250231affab3ea9916affaa5b8e59b1de",
-                "reference": "5760de8250231affab3ea9916affaa5b8e59b1de",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/a38a8b6924cd57463d58d08e13a5d9e310a1e6b5",
+                "reference": "a38a8b6924cd57463d58d08e13a5d9e310a1e6b5",
                 "shasum": ""
             },
             "require": {
@@ -316,12 +316,14 @@
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "dev-next",
                 "mikey179/vfsstream": "^1.6",
+                "paragonie/csp-builder": "^2.3",
                 "phpunit/phpunit": "^8.0"
             },
             "suggest": {
                 "ext-curl": "To enable more efficient network calls in Http\\Client.",
                 "ext-openssl": "To use Security::encrypt() or have secure CSRF token generation.",
-                "lib-ICU": "The intl PHP library, to use Text::transliterate() or Text::slug()"
+                "lib-ICU": "The intl PHP library, to use Text::transliterate() or Text::slug()",
+                "paragonie/csp-builder": "CSP builder, to use the CSP Middleware"
             },
             "type": "library",
             "autoload": {
@@ -358,7 +360,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2019-05-14T17:03:17+00:00"
+            "time": "2019-05-18T02:31:28+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -845,12 +847,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/crud.git",
-                "reference": "d14ee532d8867efb3546f055918a146287d47283"
+                "reference": "163266c5fd56f1e9fc5e377b17850f1416842141"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/d14ee532d8867efb3546f055918a146287d47283",
-                "reference": "d14ee532d8867efb3546f055918a146287d47283",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/163266c5fd56f1e9fc5e377b17850f1416842141",
+                "reference": "163266c5fd56f1e9fc5e377b17850f1416842141",
                 "shasum": ""
             },
             "require": {
@@ -859,7 +861,7 @@
             "require-dev": {
                 "friendsofcake/cakephp-test-utilities": "dev-cake-4.x",
                 "friendsofcake/search": "dev-cake-4.x",
-                "phpunit/phpunit": "^7.0"
+                "phpunit/phpunit": "^8.0"
             },
             "suggest": {
                 "friendsofcake/crud-json-api": "Crud listener for building APIs following the JSON API specification",
@@ -912,7 +914,7 @@
                 "scaffolding",
                 "update"
             ],
-            "time": "2019-04-14T16:07:03+00:00"
+            "time": "2019-05-15T14:21:01+00:00"
         },
         {
             "name": "get-stream/stream",
@@ -1722,108 +1724,6 @@
             "time": "2019-03-23T17:10:13+00:00"
         },
         {
-            "name": "mirko-pagliai/me-tools",
-            "version": "2.18.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mirko-pagliai/me-tools.git",
-                "reference": "89ddc6db9e7241296c96087d5591903e21647ee7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mirko-pagliai/me-tools/zipball/89ddc6db9e7241296c96087d5591903e21647ee7",
-                "reference": "89ddc6db9e7241296c96087d5591903e21647ee7",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^3.7",
-                "mirko-pagliai/php-tools": "^1.2",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "mirko-pagliai/cakephp-assets": "^1.3",
-                "phpunit/phpunit": "^5.7|^6.0"
-            },
-            "suggest": {
-                "components/jquery": "To use jQuery, the JavaScript library",
-                "eonasdan/bootstrap-datetimepicker": "To create Bootstrap's datetime pickers",
-                "mirko-pagliai/cakephp-assets": "A CakePHP plugin to allows you to generate assets",
-                "newerton/fancy-box": "To show photos with fancybox",
-                "npm-asset/fortawesome--fontawesome-free": "To use Font Awesome's icons",
-                "twbs/bootstrap": "To use Bootstrap, the world's most popular framework for building responsive, mobile-first sites"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "MeTools\\": "src"
-                },
-                "files": [
-                    "src/Core/global_functions.php",
-                    "src/Core/request_detectors.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mirko Pagliai",
-                    "email": "mirko.pagliai@gmail.com"
-                }
-            ],
-            "description": "MeTools plugin for CakePHP",
-            "homepage": "https://github.com/mirko-pagliai/me-tools",
-            "time": "2019-05-05T12:10:34+00:00"
-        },
-        {
-            "name": "mirko-pagliai/php-tools",
-            "version": "1.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mirko-pagliai/php-tools.git",
-                "reference": "46003b05490de4b570b46c6377f1e09139ffe43b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mirko-pagliai/php-tools/zipball/46003b05490de4b570b46c6377f1e09139ffe43b",
-                "reference": "46003b05490de4b570b46c6377f1e09139ffe43b",
-                "shasum": ""
-            },
-            "require": {
-                "pguardiario/phpuri": "^1",
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^3.0",
-                "phpunit/phpunit": "^5.7|^6.0|^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tools\\": "src"
-                },
-                "files": [
-                    "src/global_functions.php",
-                    "src/or_fail_functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mirko Pagliai",
-                    "email": "mirko.pagliai@gmail.com"
-                }
-            ],
-            "description": "Some essential tools for PHP",
-            "homepage": "https://github.com/mirko-pagliai/php-tools",
-            "time": "2019-04-11T10:58:14+00:00"
-        },
-        {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.33",
             "source": {
@@ -2205,30 +2105,6 @@
                 "side-channel resistant"
             ],
             "time": "2019-05-13T16:04:50+00:00"
-        },
-        {
-            "name": "pguardiario/phpuri",
-            "version": "1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/monkeysuffrage/phpuri.git",
-                "reference": "ad0a5ec033fe616cfef55578b9c7f2458be8fbfc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/monkeysuffrage/phpuri/zipball/ad0a5ec033fe616cfef55578b9c7f2458be8fbfc",
-                "reference": "ad0a5ec033fe616cfef55578b9c7f2458be8fbfc",
-                "shasum": ""
-            },
-            "type": "project",
-            "autoload": {
-                "files": [
-                    "phpuri.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "A php library for converting relative urls to absolute.",
-            "time": "2015-05-24T09:13:17+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -4470,12 +4346,6 @@
                 "url": "https://github.com/web-auth/webauthn-lib.git",
                 "reference": "a6ed0e22226bb8bede7e2b6bcd1301b15c26df0b"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/a6ed0e22226bb8bede7e2b6bcd1301b15c26df0b",
-                "reference": "a6ed0e22226bb8bede7e2b6bcd1301b15c26df0b",
-                "shasum": ""
-            },
             "require": {
                 "beberlei/assert": "^3.0",
                 "ext-json": "*",
@@ -4505,7 +4375,12 @@
                     "Webauthn\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Webauthn\\Tests\\Functional\\": "tests/functional/",
+                    "Webauthn\\Tests\\Unit\\": "tests/unit/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -4522,9 +4397,9 @@
             "description": "FIDO2/Webauthn Support For PHP",
             "homepage": "https://github.com/web-auth",
             "keywords": [
+                "FIDO",
                 "FIDO2",
-                "fido",
-                "u2f",
+                "U2F",
                 "webauthn"
             ],
             "time": "2019-05-05T15:24:28+00:00"
@@ -5404,12 +5279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/bake.git",
-                "reference": "b338d27476954e0ad7b03e44d1fff6d8deeb9156"
+                "reference": "2247ac6118e931ee09f55c6a79b3cc135aa25a3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/b338d27476954e0ad7b03e44d1fff6d8deeb9156",
-                "reference": "b338d27476954e0ad7b03e44d1fff6d8deeb9156",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/2247ac6118e931ee09f55c6a79b3cc135aa25a3d",
+                "reference": "2247ac6118e931ee09f55c6a79b3cc135aa25a3d",
                 "shasum": ""
             },
             "require": {
@@ -5444,7 +5319,7 @@
                 "bake",
                 "cakephp"
             ],
-            "time": "2019-05-12T11:49:47+00:00"
+            "time": "2019-05-16T13:21:49+00:00"
         },
         {
             "name": "cakephp/cakephp-codesniffer",
@@ -6157,18 +6032,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mirko-pagliai/cakephp-database-backup.git",
-                "reference": "404f6517723e9f6d03e2b50d206db704cc9f08d6"
+                "reference": "bc9834af028929570cfde9643d5d23192e8d3282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mirko-pagliai/cakephp-database-backup/zipball/404f6517723e9f6d03e2b50d206db704cc9f08d6",
-                "reference": "404f6517723e9f6d03e2b50d206db704cc9f08d6",
+                "url": "https://api.github.com/repos/mirko-pagliai/cakephp-database-backup/zipball/bc9834af028929570cfde9643d5d23192e8d3282",
+                "reference": "bc9834af028929570cfde9643d5d23192e8d3282",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "4.x-dev",
                 "cakephp/chronos": "2.x-dev as 2.0.0",
-                "mirko-pagliai/php-tools": "^1.2",
+                "mirko-pagliai/php-tools": "dev-php7",
                 "php": ">=7.2"
             },
             "require-dev": {
@@ -6194,7 +6069,53 @@
             ],
             "description": "Database Backup plugin for CakePHP",
             "homepage": "https://github.com/mirko-pagliai/cakephp-database-backup",
-            "time": "2019-05-14T10:46:00+00:00"
+            "time": "2019-05-15T14:53:18+00:00"
+        },
+        {
+            "name": "mirko-pagliai/php-tools",
+            "version": "dev-php7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mirko-pagliai/php-tools.git",
+                "reference": "f26d9f5c4a6c492e21cfdbe72dbc674343575397"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mirko-pagliai/php-tools/zipball/f26d9f5c4a6c492e21cfdbe72dbc674343575397",
+                "reference": "f26d9f5c4a6c492e21cfdbe72dbc674343575397",
+                "shasum": ""
+            },
+            "require": {
+                "pguardiario/phpuri": "^1",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "dev-next",
+                "phpunit/phpunit": "^5.7|^6.0|^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tools\\": "src"
+                },
+                "files": [
+                    "src/global_functions.php",
+                    "src/or_fail_functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mirko Pagliai",
+                    "email": "mirko.pagliai@gmail.com"
+                }
+            ],
+            "description": "Some essential tools for PHP",
+            "homepage": "https://github.com/mirko-pagliai/php-tools",
+            "time": "2019-05-15T15:28:25+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -6243,6 +6164,30 @@
                 "object graph"
             ],
             "time": "2019-04-07T13:18:21+00:00"
+        },
+        {
+            "name": "pguardiario/phpuri",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/monkeysuffrage/phpuri.git",
+                "reference": "ad0a5ec033fe616cfef55578b9c7f2458be8fbfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/monkeysuffrage/phpuri/zipball/ad0a5ec033fe616cfef55578b9c7f2458be8fbfc",
+                "reference": "ad0a5ec033fe616cfef55578b9c7f2458be8fbfc",
+                "shasum": ""
+            },
+            "type": "project",
+            "autoload": {
+                "files": [
+                    "phpuri.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "A php library for converting relative urls to absolute.",
+            "time": "2015-05-24T09:13:17+00:00"
         },
         {
             "name": "phar-io/manifest",

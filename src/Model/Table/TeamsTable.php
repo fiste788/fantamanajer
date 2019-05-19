@@ -54,7 +54,7 @@ class TeamsTable extends Table
         $this->setTable('teams');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-        /*
+
         $this->addBehavior(
             'Josegonzalez/Upload.Upload',
             [
@@ -96,7 +96,7 @@ class TeamsTable extends Table
                 ],
             ]
         );
-*/
+
         $this->belongsTo(
             'Users',
             [

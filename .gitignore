@@ -1,11 +1,11 @@
 # CakePHP specific files #
 ##########################
-/backups/*
 /config/app.php
 /config/app_config.php
 /config/app_local.php
 /config/.env
 /logs/*
+/resources/backups/*
 /tmp/*
 /vendor/*
 
@@ -19,6 +19,7 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+.directory
 
 # Tool specific files #
 #######################
@@ -41,4 +42,3 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
-*.lock

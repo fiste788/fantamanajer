@@ -63,7 +63,7 @@ class RenewChampionshipCommand extends Command
             if ($file->exists()) {
                 $io->out('Trovata immagine ' . $team->photo);
                 $folder = new Folder(ROOT . DS . $team->photo_dir);
-                $to = FILES . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
+                $to = WWW_ROOT . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
                 if ($folder->copy($to)) {
                     $io->out('Copiata folder ' . $to);
                     $newFolder = new Folder($to);

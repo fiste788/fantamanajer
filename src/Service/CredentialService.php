@@ -164,18 +164,12 @@ class CredentialService
      */
     private function createStatementSupportManager(Decoder $decoder)
     {
-        $config = [
-            // Config params
-        ];
-        $cakeClient = new CakeClient($config);
-        $adapter = new CakeAdapter($cakeClient, new GuzzleMessageFactory());
-
         $coseAlgorithmManager = $this->createAlgorithManager();
 
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($adapter, 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
+        $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(new CakeClient(), 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));

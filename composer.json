@@ -8,6 +8,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/fiste788/cake-scheduler"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/web-auth/webauthn-lib.git"
         }
     ],
     "require": {
@@ -24,14 +28,13 @@
         "josegonzalez/cakephp-upload": "^4.0",
         "josegonzalez/dotenv": "3.*",
         "minishlink/web-push": "^5.0",
-        "mirko-pagliai/me-tools": "^2.18",
         "mobiledetect/mobiledetectlib": "2.*",
         "ozee31/cakephp-cors": "^1.1",
         "ramsey/uuid": "^3.8",
         "spatie/image": "^1.5",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",
-        "web-auth/webauthn-lib": "1.2.x-dev"
+        "web-auth/webauthn-lib": "v1.2.x-dev"
     },
     "require-dev": {
         "cakephp/bake": "4.x-dev",
