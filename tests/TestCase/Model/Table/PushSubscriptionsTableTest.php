@@ -24,8 +24,8 @@ class PushSubscriptionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.push_subscriptions',
-        'app.users'
+        'app.PushSubscriptions',
+        'app.Users'
     ];
 
     /**
@@ -33,7 +33,7 @@ class PushSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('PushSubscriptions') ? [] : ['className' => PushSubscriptionsTable::class];
@@ -45,7 +45,7 @@ class PushSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->PushSubscriptionsTable);
 

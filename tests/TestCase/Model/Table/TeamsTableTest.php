@@ -24,17 +24,16 @@ class TeamsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.teams',
-        'app.users',
-        'app.championships',
-        'app.articles',
-        'app.notification_subscriptions',
-        'app.events',
-        'app.lineups',
-        'app.scores',
-        'app.selections',
-        'app.transferts',
-        'app.members'
+        'app.Teams',
+        'app.Users',
+        'app.Championships',
+        'app.Articles',
+        'app.NotificationSubscriptions',
+        'app.Lineups',
+        'app.Scores',
+        'app.Selections',
+        'app.Transferts',
+        'app.Members'
     ];
 
     /**
@@ -42,7 +41,7 @@ class TeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Teams') ? [] : ['className' => TeamsTable::class];
@@ -54,7 +53,7 @@ class TeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->TeamsTable);
 

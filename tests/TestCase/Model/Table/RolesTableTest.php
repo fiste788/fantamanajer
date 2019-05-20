@@ -24,8 +24,8 @@ class RolesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.roles',
-        'app.members'
+        'app.Roles',
+        'app.Members'
     ];
 
     /**
@@ -33,7 +33,7 @@ class RolesTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Roles') ? [] : ['className' => RolesTable::class];
@@ -45,7 +45,7 @@ class RolesTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->RolesTable);
 

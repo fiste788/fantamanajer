@@ -24,9 +24,9 @@ class MembersTeamsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.members_teams',
-        'app.teams',
-        'app.members'
+        'app.MembersTeams',
+        'app.Teams',
+        'app.Members'
     ];
 
     /**
@@ -34,7 +34,7 @@ class MembersTeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('MembersTeams') ? [] : ['className' => MembersTeamsTable::class];
@@ -46,7 +46,7 @@ class MembersTeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->MembersTeamsTable);
 

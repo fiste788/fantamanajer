@@ -24,10 +24,10 @@ class SeasonsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.seasons',
-        'app.championships',
-        'app.matchdays',
-        'app.members'
+        'app.Seasons',
+        'app.Championships',
+        'app.Matchdays',
+        'app.Members'
     ];
 
     /**
@@ -35,7 +35,7 @@ class SeasonsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Seasons') ? [] : ['className' => SeasonsTable::class];
@@ -47,7 +47,7 @@ class SeasonsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->SeasonsTable);
 

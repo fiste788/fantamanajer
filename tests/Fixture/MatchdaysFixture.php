@@ -42,7 +42,7 @@ class MatchdaysFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '569','number' => '0','date' => '2018-08-10 00:00:00','season_id' => '16'),

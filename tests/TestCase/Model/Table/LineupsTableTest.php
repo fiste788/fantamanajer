@@ -24,11 +24,11 @@ class LineupsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.lineups',
-        'app.matchdays',
-        'app.teams',
-        'app.dispositions',
-        'app.scores'
+        'app.Lineups',
+        'app.Matchdays',
+        'app.Teams',
+        'app.Dispositions',
+        'app.Scores'
     ];
 
     /**
@@ -36,7 +36,7 @@ class LineupsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Lineups') ? [] : ['className' => LineupsTable::class];
@@ -48,7 +48,7 @@ class LineupsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->LineupsTable);
 

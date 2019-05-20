@@ -1,9 +1,9 @@
 <?php
+declare (strict_types = 1);
+
 namespace App\Model\Table;
 
-use Cake\Database\Schema\TableSchema;
-use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -25,10 +25,10 @@ class PublicKeyCredentialSourcesTable extends Table
     /**
      * Undocumented function
      *
-     * @param TableSchema $schema Schema
-     * @return TableSchema
+     * @param \Cake\Database\Schema\TableSchemaInterface $schema Schema
+     * @return \Cake\Database\Schema\TableSchemaInterface
      */
-    protected function _initializeSchema(TableSchema $schema): TableSchema
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         $schema->setColumnType('trust_path', 'trust_path');
         $schema->setColumnType('transports', 'simple_array');
@@ -68,7 +68,7 @@ class PublicKeyCredentialSourcesTable extends Table
             'Users',
             [
                 'foreignKey' => 'user_handle',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }

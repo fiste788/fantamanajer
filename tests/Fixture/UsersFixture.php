@@ -45,7 +45,7 @@ class UsersFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '1','name' => 'Shane','surname' => 'Vendrell','email' => 'francesco.bertocchi@gmail.com','active' => '1','active_email' => '1','username' => 'shane','password' => '$2y$10$sIhcPTjv6QCOnI3IYt5RwuXthC2Q.OMjko2L/3J2beDozDwc/6KEK','login_key' => '2e096a8764ef0193f6842895cc98413b','admin' => '1','old_id' => '1'),

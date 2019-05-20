@@ -24,13 +24,13 @@ class MatchdaysTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.matchdays',
-        'app.seasons',
-        'app.articles',
-        'app.lineups',
-        'app.ratings',
-        'app.scores',
-        'app.transferts'
+        'app.Matchdays',
+        'app.Seasons',
+        'app.Articles',
+        'app.Lineups',
+        'app.Ratings',
+        'app.Scores',
+        'app.Transferts'
     ];
 
     /**
@@ -38,7 +38,7 @@ class MatchdaysTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Matchdays') ? [] : ['className' => MatchdaysTable::class];
@@ -50,7 +50,7 @@ class MatchdaysTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->MatchdaysTable);
 

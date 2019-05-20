@@ -24,9 +24,9 @@ class RatingsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.ratings',
-        'app.members',
-        'app.matchdays'
+        'app.Ratings',
+        'app.Members',
+        'app.Matchdays'
     ];
 
     /**
@@ -34,7 +34,7 @@ class RatingsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Ratings') ? [] : ['className' => RatingsTable::class];
@@ -46,7 +46,7 @@ class RatingsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->RatingsTable);
 

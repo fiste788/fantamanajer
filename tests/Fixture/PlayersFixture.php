@@ -35,7 +35,7 @@ class PlayersFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '1384','name' => 'Wojciech','surname' => 'Szczesny','id' => '4656','code_gazzetta' => '157','active' => '1','playmaker' => '0','created_at' => '2018-08-21 16:04:42','modified_at' => NULL,'player_id' => '1384','role_id' => '1','club_id' => '10','season_id' => '16'),

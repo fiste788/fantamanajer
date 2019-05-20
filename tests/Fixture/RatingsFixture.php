@@ -57,7 +57,7 @@ class RatingsFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '165493','valued' => '1','points' => '5.5','points_no_bonus' => '5.5','rating' => '6.5','goals' => '0','goals_against' => '1','goals_victory' => '0','goals_tie' => '0','assist' => '0','yellow_card' => '0','red_card' => '0','penalities_scored' => '0','penalities_taken' => '0','present' => '1','regular' => '1','quotation' => '19','member_id' => '4656','matchday_id' => '576'),

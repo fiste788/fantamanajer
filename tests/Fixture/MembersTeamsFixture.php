@@ -41,7 +41,7 @@ class MembersTeamsFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '1185','team_id' => '55','member_id' => '4656'),

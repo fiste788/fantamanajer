@@ -22,7 +22,7 @@ class MatchdayTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Matchday = new Matchday();
@@ -33,7 +33,7 @@ class MatchdayTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Matchday);
 

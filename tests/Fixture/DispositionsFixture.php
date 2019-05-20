@@ -43,7 +43,7 @@ class DispositionsFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '37811','position' => '1','consideration' => '1','lineup_id' => '1781','member_id' => '4656'),

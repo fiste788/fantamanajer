@@ -7,6 +7,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Database\Schema\TableSchema;
+use Cake\Database\Schema\TableSchemaInterface;
 
 /**
  * VwMembersStats Model
@@ -117,7 +118,7 @@ class VwMembersStatsTable extends Table
      * @param TableSchema $schema
      * @return TableSchema
      */
-    protected function _initializeSchema(TableSchema $schema): TableSchema
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         $schema->setColumnType('sum_present', 'integer');
         $schema->setColumnType('sum_assist', 'integer');

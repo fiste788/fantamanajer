@@ -40,7 +40,7 @@ class ClubsFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '1','name' => 'Atalanta','partitive' => 'dell\'','determinant' => 'l\'','club_id' => '1'),

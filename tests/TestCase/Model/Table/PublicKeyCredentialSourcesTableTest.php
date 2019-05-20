@@ -1,4 +1,6 @@
 <?php
+declare (strict_types = 1);
+
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\PublicKeyCredentialSourcesTable;
@@ -10,7 +12,6 @@ use Cake\TestSuite\TestCase;
  */
 class PublicKeyCredentialSourcesTableTest extends TestCase
 {
-
     /**
      * Test subject
      *
@@ -25,7 +26,7 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      */
     public $fixtures = [
         'app.PublicKeyCredentialSources',
-        'app.Users'
+        'app.Users',
     ];
 
     /**
@@ -33,7 +34,7 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('PublicKeyCredentialSources') ? [] : ['className' => PublicKeyCredentialSourcesTable::class];
@@ -45,7 +46,7 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->PublicKeyCredentialSources);
 
@@ -68,16 +69,6 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeSave method
-     *
-     * @return void
-     */
-    public function testBeforeSave()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

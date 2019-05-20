@@ -24,10 +24,10 @@ class ScoresTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.scores',
-        'app.lineups',
-        'app.teams',
-        'app.matchdays'
+        'app.Scores',
+        'app.Lineups',
+        'app.Teams',
+        'app.Matchdays'
     ];
 
     /**
@@ -35,7 +35,7 @@ class ScoresTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Scores') ? [] : ['className' => ScoresTable::class];
@@ -47,7 +47,7 @@ class ScoresTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->ScoresTable);
 

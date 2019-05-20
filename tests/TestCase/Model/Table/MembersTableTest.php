@@ -24,14 +24,14 @@ class MembersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.members',
-        'app.players',
-        'app.roles',
-        'app.clubs',
-        'app.seasons',
-        'app.dispositions',
-        'app.ratings',
-        'app.teams'
+        'app.Members',
+        'app.Players',
+        'app.Roles',
+        'app.Clubs',
+        'app.Seasons',
+        'app.Dispositions',
+        'app.Ratings',
+        'app.Teams'
     ];
 
     /**
@@ -39,7 +39,7 @@ class MembersTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Members') ? [] : ['className' => MembersTable::class];
@@ -51,7 +51,7 @@ class MembersTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->MembersTable);
 

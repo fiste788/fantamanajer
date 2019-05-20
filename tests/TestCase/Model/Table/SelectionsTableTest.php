@@ -24,10 +24,10 @@ class SelectionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.selections',
-        'app.teams',
-        'app.matchdays',
-        'app.members'
+        'app.Selections',
+        'app.Teams',
+        'app.Matchdays',
+        'app.Members'
     ];
 
     /**
@@ -35,7 +35,7 @@ class SelectionsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Selections') ? [] : ['className' => SelectionsTable::class];
@@ -47,7 +47,7 @@ class SelectionsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->SelectionsTable);
 

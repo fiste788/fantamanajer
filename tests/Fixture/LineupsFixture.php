@@ -57,7 +57,7 @@ class LineupsFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '1781','module' => '1-3-4-3','jolly' => NULL,'cloned' => NULL,'created_at' => '2018-09-28 23:05:34','modified_at' => '2018-10-08 15:06:07','captain_id' => '4754','vcaptain_id' => '4762','vvcaptain_id' => '4777','matchday_id' => '576','team_id' => '55','old_id' => NULL)

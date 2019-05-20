@@ -22,7 +22,7 @@ use Cake\Routing\Router;
  */
 class Club extends Entity
 {
-    use HasPhotoTrait;
+    use Traits\HasPhotoTrait;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

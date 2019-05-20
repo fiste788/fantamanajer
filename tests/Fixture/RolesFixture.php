@@ -37,7 +37,7 @@ class RolesFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $this->records = array(
   array('id' => '1','singolar' => 'Portiere','plural' => 'Portieri','abbreviation' => 'P','determinant' => 'il'),

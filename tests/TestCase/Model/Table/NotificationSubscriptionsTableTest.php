@@ -24,8 +24,8 @@ class NotificationSubscriptionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.notification_subscriptions',
-        'app.teams'
+        'app.NotificationSubscriptions',
+        'app.Teams'
     ];
 
     /**
@@ -33,7 +33,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('NotificationSubscriptions') ? [] : ['className' => NotificationSubscriptionsTable::class];
@@ -45,7 +45,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->NotificationSubscriptionsTable);
 

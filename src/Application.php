@@ -107,7 +107,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $middlewareQueue
             ->add(new ErrorHandlerMiddleware(null, Configure::read('Error')))
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
-            //->add(new CorsMiddleware())
             ->add(BodyParserMiddleware::class)
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [

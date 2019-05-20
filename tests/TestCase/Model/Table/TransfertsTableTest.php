@@ -24,10 +24,10 @@ class TransfertsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.transferts',
-        'app.members',
-        'app.teams',
-        'app.matchdays'
+        'app.Transferts',
+        'app.Members',
+        'app.Teams',
+        'app.Matchdays'
     ];
 
     /**
@@ -35,7 +35,7 @@ class TransfertsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Transferts') ? [] : ['className' => TransfertsTable::class];
@@ -47,7 +47,7 @@ class TransfertsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->TransfertsTable);
 
