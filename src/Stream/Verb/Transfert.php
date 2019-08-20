@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Stream\Verb;
 
@@ -7,7 +8,6 @@ use App\Stream\StreamSingleActivity;
 
 class Transfert extends StreamSingleActivity implements StreamActivityInterface
 {
-
     public function getBody()
     {
         if ($this->activity->enriched()) {

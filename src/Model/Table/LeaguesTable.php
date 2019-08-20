@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
@@ -20,7 +22,6 @@ use Cake\Validation\Validator;
  */
 class LeaguesTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -38,7 +39,7 @@ class LeaguesTable extends Table
         $this->hasMany(
             'Championships',
             [
-                'foreignKey' => 'league_id'
+                'foreignKey' => 'league_id',
             ]
         );
     }
@@ -46,8 +47,8 @@ class LeaguesTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {

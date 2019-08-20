@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
@@ -30,7 +30,7 @@ class UpdateMatchdayCommand extends Command
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
         $parser->addArgument('season');
         $parser->addArgument('matchday');
@@ -40,28 +40,33 @@ class UpdateMatchdayCommand extends Command
     }
 
     /**
+     * Undocumented function
      *
-     * @return Season
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $season = $args->hasArgument('season') ? $args->getArgument('season') : $this->currentSeason;
-        $matchday = $args->hasArgument('matchday') ? $args->getArgument('matchday') : $this->currentMatchday->number;
-        $this->exec($season, $matchday, $args, $io);
+        $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get((int)$args->getArgument('season')) : $this->currentSeason;
+        $matchday = $args->hasArgument('matchday') ? (int)$args->getArgument('matchday') : $this->currentMatchday->number;
+        return $this->exec($season, $matchday, $args, $io);
     }
 
     /**
+     * Undocumented function
      *
-     * @param Season $season
+     * @param \App\Model\Entity\Season $season
      * @param int $matchdayNumber
-     * @param Arguments $args
-     * @param ConsoleIo $io
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return int
      */
-    public function exec(Season $season, $matchdayNumber, Arguments $args, ConsoleIo $io)
+    public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): ?int
     {
         $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber, $season->id)->first();
         if (is_null($matchday)) {
-            $matchday = $this->Matchdays->newEntity();
+            $matchday = $this->Matchdays->newEmptyEntity();
             $matchday->season_id = $season->id;
             $matchday->number = $matchdayNumber;
         }
@@ -78,5 +83,6 @@ class UpdateMatchdayCommand extends Command
             $io->error('Cannot get ' . $matchday);
             $this->abort();
         }
+        return 1;
     }
 }

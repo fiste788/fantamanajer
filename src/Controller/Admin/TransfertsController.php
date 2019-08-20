@@ -1,17 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-use App\Model\Table\TransfertsTable;
 use Cake\Event\EventInterface;
 
 /**
  *
- * @property TransfertsTable $Transferts
+ * @property \App\Model\Table\TransfertsTable $Transferts
  */
 class TransfertsController extends AppController
 {
-
     public function add()
     {
         $this->Crud->action()->saveOptions(['associated' => []]);

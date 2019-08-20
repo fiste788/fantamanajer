@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
+
 //declare (strict_types = 1);
 
 namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
 use Crud\Controller\ControllerTrait;
-use Burzum\Cake\Service\ServiceAwareTrait;
-use Cake\Event\EventInterface;
 
 /**
  *
@@ -45,20 +46,20 @@ class AppController extends Controller
                 'Clubs.view',
                 'Clubs.index',
                 'Members.best',
-                'Matchdays.current'
-            ]
+                'Matchdays.current',
+            ],
         ]);
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
                 'Crud.Index',
-                'Crud.View'
+                'Crud.View',
             ],
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
                 //Configure::read('debug') ?? 'Crud.ApiQueryLog'
-            ]
+            ],
         ]);
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
         EventManager::instance()->on(new GetStreamEventListener());
@@ -66,14 +67,25 @@ class AppController extends Controller
         $this->getCurrentMatchday();
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
     public function implementedEvents(): array
     {
         return parent::implementedEvents() + [
             'Crud.afterFind' => '_afterFind',
-            'Crud.afterPaginate' => '_afterPaginate'
+            'Crud.afterPaginate' => '_afterPaginate',
         ];
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param \Cake\Event\EventInterface $event Event
+     * @return void
+     */
     public function _afterFind(EventInterface $event)
     {
         if ($this->Authentication->getIdentity()) {
@@ -81,6 +93,12 @@ class AppController extends Controller
         }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param \Cake\Event\EventInterface $event Event
+     * @return void
+     */
     public function _afterPaginate(EventInterface $event)
     {
         if ($this->Authentication->getIdentity()) {
@@ -90,6 +108,12 @@ class AppController extends Controller
         }
     }
 
+    /**
+     * beforeRender
+     *
+     * @param \Cake\Event\EventInterface $event Event
+     * @return void
+     */
     public function beforeRender(EventInterface $event)
     {
         $this->RequestHandler->renderAs($this, 'json');

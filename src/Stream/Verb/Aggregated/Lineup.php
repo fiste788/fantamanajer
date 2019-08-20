@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Stream\Verb\Aggregated;
 
@@ -7,7 +8,6 @@ use App\Stream\StreamAggregatedActivity;
 
 class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
 {
-
     public function getBody()
     {
         $lineup = $this->activity['activities'][0]->offsetGet('object');
@@ -24,7 +24,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
     {
         return __('{0} has setup lineup for matchday {1}', [
             $this->activity['activities'][0]->offsetGet('actor')->name,
-            $this->activity['activities'][0]->offsetGet('object')->matchday->number
+            $this->activity['activities'][0]->offsetGet('object')->matchday->number,
         ]);
     }
 

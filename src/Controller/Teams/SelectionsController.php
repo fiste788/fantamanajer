@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Teams;
 
 use App\Controller\SelectionsController as AppSelectionsController;
@@ -20,7 +22,7 @@ class SelectionsController extends AppSelectionsController
     {
         $this->Crud->action()->findMethod(['byTeamIdAndMatchdayId' => [
             'team_id' => $this->request->getParam('team_id'),
-            'matchday_id' => $this->currentMatchday->id
+            'matchday_id' => $this->currentMatchday->id,
         ]]);
 
         return $this->Crud->execute();

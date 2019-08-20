@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -9,7 +10,6 @@ use App\Model\Entity\Score;
 use App\Model\Entity\Team;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
-use PDOException;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -22,9 +22,6 @@ class ComputeScoreService
     use ModelAwareTrait;
     use ServiceAwareTrait;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->loadService("Lineup");
@@ -35,10 +32,10 @@ class ComputeScoreService
 
     /**
      *
-     * @param Team     $team The team
-     * @param Matchday $matchday The matchday
-     * @return Score
-     * @throws PDOException
+     * @param \App\Model\Entity\Team $team The team
+     * @param \App\Model\Entity\Matchday $matchday The matchday
+     * @return \App\Model\Entity\Score
+     * @throws \PDOException
      */
     public function computeScore(Team $team, Matchday $matchday)
     {
@@ -49,7 +46,7 @@ class ComputeScoreService
             $score = $this->Scores->newEntity([
                 'penality_points' => 0,
                 'matchday_id' => $matchday->id,
-                'team_id' => $team->id
+                'team_id' => $team->id,
             ]);
         }
         $score->matchday = $matchday;
@@ -62,17 +59,17 @@ class ComputeScoreService
     /**
      * Calculate the score
      *
-     * @param Score $score Score entity
+     * @param \App\Model\Entity\Score $score Score entity
      * @return void
      */
     public function exec(Score $score)
     {
-        $score->team = !$score->team ? $this->Teams->get($score->team_id, ['contain' => ['Championships']]) : $score->team;
+        $score->team = $score->team ?? $this->Teams->get($score->team_id, ['contain' => ['Championships']]);
         $championship = $score->team->championship;
         if (!$score->lineup) {
             $score->lineup = $this->Lineups->find('last', [
                 'matchday' => $score->matchday,
-                'team_id' => $score->team->id
+                'team_id' => $score->team->id,
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
             $score->lineup = $this->Lineups->loadInto($score->lineup, $this->Lineups->find('withRatings', ['matchday_id' => $score->matchday_id])->getContain());
@@ -85,9 +82,9 @@ class ComputeScoreService
                 $score->lineup = $this->Lineup->copy($score->lineup, $score->matchday, $championship->captain_missed_lineup);
             }
             $score->real_points = $this->compute($score->lineup);
-            $score->points = ($score->lineup->jolly) ? $score->real_points * 2 : $score->real_points;
+            $score->points = $score->lineup->jolly ? $score->real_points * 2 : $score->real_points;
             if ($championship->points_missed_lineup != 100 && $score->lineup->cloned) {
-                $malusPoints = round((($score->points / 100) * (100 - $championship->points_missed_lineup)), 1);
+                $malusPoints = round(($score->points / 100) * (100 - $championship->points_missed_lineup), 1);
                 $mod = ($malusPoints * 10) % 5;
                 $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
                 $score->penality = 'Formazione non settata';
@@ -99,7 +96,7 @@ class ComputeScoreService
     /**
      * Undocumented function
      *
-     * @param Lineup $lineup The lineup to calc
+     * @param \App\Model\Entity\Lineup $lineup The lineup to calc
      * @return float
      */
     public function compute(Lineup $lineup)
@@ -139,7 +136,7 @@ class ComputeScoreService
     /**
      * Return the id of the captain
      *
-     * @param Lineup $lineup The lineup
+     * @param \App\Model\Entity\Lineup $lineup The lineup
      * @return int
      */
     private function getActiveCaptain(Lineup $lineup)
@@ -166,7 +163,7 @@ class ComputeScoreService
     /**
      * Set the disposition as regular and return the points scored
      *
-     * @param Disposition $disposition The disposition
+     * @param \App\Model\Entity\Disposition $disposition The disposition
      * @param int $cap Id of the captain. Use it for double the points
      * @return float Points scored
      */

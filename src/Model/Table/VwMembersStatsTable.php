@@ -1,13 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
-use App\Model\Entity\VwMembersStat;
-use Cake\ORM\Query;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Database\Schema\TableSchema;
-use Cake\Database\Schema\TableSchemaInterface;
 
 /**
  * VwMembersStats Model
@@ -24,7 +23,6 @@ use Cake\Database\Schema\TableSchemaInterface;
  */
 class VwMembersStatsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -41,7 +39,7 @@ class VwMembersStatsTable extends Table
             'Members',
             [
                 'foreignKey' => 'member_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }
@@ -115,8 +113,8 @@ class VwMembersStatsTable extends Table
     /**
      * Undocumented function
      *
-     * @param TableSchema $schema
-     * @return TableSchema
+     * @param \Cake\Database\Schema\TableSchema $schema
+     * @return \Cake\Database\Schema\TableSchema
      */
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {

@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class TeamsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -49,7 +48,7 @@ class TeamsFixture extends TestFixture
     public function init(): void
     {
         $this->records = [
-            ['id' => '55', 'name' => 'Rubin Kebab', 'photo' => 'kebab.jpg', 'photo_dir' => 'webroot/files/teams/55/photo/', 'photo_size' => '216640', 'photo_type' => 'image/jpeg', 'user_id' => '2', 'championship_id' => '14']
+            ['id' => '55', 'name' => 'Rubin Kebab', 'photo' => 'kebab.jpg', 'photo_dir' => 'webroot/files/teams/55/photo/', 'photo_size' => '216640', 'photo_type' => 'image/jpeg', 'user_id' => '2', 'championship_id' => '14'],
         ];
         parent::init();
     }

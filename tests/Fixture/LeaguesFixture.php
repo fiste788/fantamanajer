@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class LeaguesFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -36,10 +35,10 @@ class LeaguesFixture extends TestFixture
      */
     public function init(): void
     {
-        $this->records = array(
-  array('id' => '1','name' => 'Alzano Sopra'),
-  array('id' => '2','name' => 'Pipponi')
-);
+        $this->records = [
+        ['id' => '1','name' => 'Alzano Sopra'],
+        ['id' => '2','name' => 'Pipponi'],
+        ];
         parent::init();
     }
 }

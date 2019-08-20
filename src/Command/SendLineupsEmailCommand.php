@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -36,13 +37,13 @@ class SendLineupsEmailCommand extends Command
         $parser->addOption('force', [
             'help' => 'Force the execution time.',
             'short' => 'f',
-            'boolean' => true
+            'boolean' => true,
         ]);
         $parser->addOption('no-interaction', [
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
 
         return $parser;
@@ -70,20 +71,19 @@ class SendLineupsEmailCommand extends Command
         $teams = $this->Teams->find()
             ->contain('Lineups', function (Query $q) use ($matchday) {
                 return $q->contain([
-                    'Dispositions' => ['Members' => ['Clubs', 'Roles', 'Players']]
+                    'Dispositions' => ['Members' => ['Clubs', 'Roles', 'Players']],
                 ])->where(['matchday_id' => $matchday->id]);
             })
             ->where(['championship_id' => $championship->id]);
         $addresses = Hash::extract($championship->teams, '{*}.user.email');
         //$addresses = "stefano788@gmail.com";
-        $email = new Email();
-        $email->setTemplate('lineups')
-            ->setViewVars(
-                [
+        $email = new Email(['template' => 'lineups']);
+        $email->setViewVars(
+            [
                     'teams' => $teams,
-                    'baseUrl' => 'https://fantamanajer.it'
+                    'baseUrl' => 'https://fantamanajer.it',
                 ]
-            )
+        )
             ->setSubject('Formazioni giornata ' . $matchday->number)
             ->setEmailFormat('html')
             ->setBcc($addresses)

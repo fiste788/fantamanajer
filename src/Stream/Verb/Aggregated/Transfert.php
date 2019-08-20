@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Stream\Verb\Aggregated;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamAggregatedActivity;
-use Cake\Utility\Text;
 
 class Transfert extends StreamAggregatedActivity implements StreamActivityInterface
 {
-
     public function getBody()
     {
+        $news = [];
+        $olds = [];
         foreach ($this->activity['activities'] as $activity) {
             if ($activity->enriched()) {
                 $news[] = $activity->offsetGet('object')->new_member->player->full_name;
@@ -20,7 +21,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
 
         return __('Selled {0} and buyed {1}', [
             implode(', ', $news),
-            implode(', ', $olds)
+            implode(', ', $olds),
         ]);
     }
 
@@ -28,7 +29,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
     {
         return __n('{0} make a transfert', '{0} make {1} transferts', $this->activity['activity_count'], [
             $this->activity['activities'][0]->offsetGet('actor')->name,
-            $this->activity['activity_count']
+            $this->activity['activity_count'],
         ]);
     }
 

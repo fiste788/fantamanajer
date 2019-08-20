@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -19,7 +20,7 @@ class UserService
         return JWT::encode(
             [
                 'sub' => $subject,
-                'exp' => time() + ($days * 24 * 60 * 60)
+                'exp' => time() + ($days * 24 * 60 * 60),
             ],
             Security::getSalt()
         );

@@ -1,19 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Model\Entity\PublicKeyCredentialSource;
-use App\Model\Table\PublicKeyCredentialSourcesTable;
 use Cake\Datasource\ModelAwareTrait;
 use Webauthn\AttestedCredentialData;
-use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
+use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 /**
  * Credentials Repo
  *
- * @property PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
+ * @property \App\Model\Table\PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
  */
 class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
 {
@@ -31,7 +31,7 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      * Undocumented function
      *
      * @param string $credentialId credentialId
-     * @return PublicKeyCredentialSource
+     * @return \App\Model\Entity\PublicKeyCredentialSource
      */
     private function findByCredentialId($credentialId)
     {
@@ -53,7 +53,7 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      * Undocumented function
      *
      * @param string $credentialId id
-     * @return AttestedCredentialData
+     * @return \Webauthn\AttestedCredentialData
      */
     public function get(string $credentialId): AttestedCredentialData
     {
@@ -70,7 +70,9 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      */
     public function getUserHandleFor(string $credentialId): string
     {
-        $credential = $this->PublicKeyCredentialSources->find()->where(['public_key_credential_id' => base64_encode($credentialId)])->first();
+        $credential = $this->PublicKeyCredentialSources->find()->where([
+            'public_key_credential_id' => base64_encode($credentialId),
+        ])->first();
 
         return $credential->user_handle;
     }
@@ -104,9 +106,9 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      * Undocumented function
      *
      * @param string $publicKeyCredentialId arg
-     * @return WebauthnPublicKeyCredentialSource|null
+     * @return \Webauthn\PublicKeyCredentialSource|null
      */
-    public function findOneByCredentialId(string $publicKeyCredentialId): ? WebauthnPublicKeyCredentialSource
+    public function findOneByCredentialId(string $publicKeyCredentialId): ?WebauthnPublicKeyCredentialSource
     {
         $publicKeyCredential = $this->findByCredentialId($publicKeyCredentialId);
 
@@ -116,12 +118,14 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
     /**
      * Undocumented function
      *
-     * @param PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity arg
+     * @param \Webauthn\PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity arg
      * @return array
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
-        $sources = $this->PublicKeyCredentialSources->find()->where(['user_handle' => $publicKeyCredentialUserEntity->getId()]);
+        $sources = $this->PublicKeyCredentialSources->find()->where([
+            'user_handle' => $publicKeyCredentialUserEntity->getId(),
+        ]);
 
         return $sources->all()->map(function (PublicKeyCredentialSource $value) {
             return $value->toCredentialSource();
@@ -131,7 +135,7 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
     /**
      * Undocumented function
      *
-     * @param WebauthnPublicKeyCredentialSource $publicKeyCredentialSource arg
+     * @param \Webauthn\PublicKeyCredentialSource $publicKeyCredentialSource arg
      * @return void
      */
     public function saveCredentialSource(WebauthnPublicKeyCredentialSource $publicKeyCredentialSource): void

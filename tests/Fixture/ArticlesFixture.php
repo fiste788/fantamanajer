@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class ArticlesFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -57,7 +56,7 @@ class ArticlesFixture extends TestFixture
                 'created_at' => 1536228854,
                 'modified_at' => 1536228854,
                 'team_id' => 1,
-                'matchday_id' => 1
+                'matchday_id' => 1,
             ],
         ];
         parent::init();

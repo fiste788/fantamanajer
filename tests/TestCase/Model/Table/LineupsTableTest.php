@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\LineupsTable;
@@ -10,7 +12,6 @@ use Cake\TestSuite\TestCase;
  */
 class LineupsTableTest extends TestCase
 {
-
     /**
      * Test subject
      *
@@ -28,7 +29,7 @@ class LineupsTableTest extends TestCase
         'app.Matchdays',
         'app.Teams',
         'app.Dispositions',
-        'app.Scores'
+        'app.Scores',
     ];
 
     /**

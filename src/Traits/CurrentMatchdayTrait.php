@@ -1,22 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Traits;
 
-use App\Model\Entity\Matchday;
-use App\Model\Entity\Season;
 use Cake\ORM\TableRegistry;
 
 trait CurrentMatchdayTrait
 {
     /**
      *
-     * @var Matchday
+     * @var \App\Model\Entity\Matchday
      */
     protected $currentMatchday;
 
     /**
      *
-     * @var Season
+     * @var \App\Model\Entity\Season
      */
     protected $currentSeason;
 

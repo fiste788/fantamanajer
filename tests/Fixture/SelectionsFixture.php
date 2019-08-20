@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class SelectionsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -58,7 +57,7 @@ class SelectionsFixture extends TestFixture
                 'old_member_id' => 1,
                 'new_member_id' => 1,
                 'active' => 1,
-                'processed' => 1
+                'processed' => 1,
             ],
         ];
         parent::init();

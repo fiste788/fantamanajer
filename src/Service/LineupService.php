@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -28,10 +29,10 @@ class LineupService
     /**
      * Return a copy of lineup
      *
-     * @param Lineup $lineup Lineup
+     * @param \App\Model\Entity\Lineup $lineup Lineup
      * @param int $teamId Team id
-     * @param int $matchday Matchday id
-     * @return Lineup
+     * @param \App\Model\Entity\Matchday $matchday Matchday id
+     * @return \App\Model\Entity\Lineup
      */
     public function duplicate(Lineup $lineup, $teamId, $matchday)
     {
@@ -46,10 +47,9 @@ class LineupService
     /**
      * Return new empty lineup
      *
-     * @param Team $team Team
-     * @return Lineup
+     * @return \App\Model\Entity\Lineup
      */
-    public function getEmptyLineup($team)
+    public function getEmptyLineup(int $team)
     {
         $lineup = new Lineup();
         $lineup->team = $this->Teams->get($team, ['contain' => ['Members' => ['Roles', 'Players']]]);
@@ -63,11 +63,11 @@ class LineupService
      *
      * @param int $team_id Team id
      * @param int $matchday_id Matchday id
-     * @return Lineup
+     * @return \App\Model\Entity\Lineup
      */
     public function newLineup($team_id, $matchday_id)
     {
-        $lineup = $this->getEmptyLineup();
+        $lineup = $this->getEmptyLineup($team_id);
         $lineup->team_id = $team_id;
         $lineup->matchday_id = $matchday_id;
 
@@ -77,7 +77,7 @@ class LineupService
     /**
      * Substitute member in lineup
      *
-     * @param Lineup $lineup Lineup
+     * @param \App\Model\Entity\Lineup $lineup Lineup
      * @param int $old_member_id Old member id
      * @param int $new_member_id New memeber id
      * @return bool
@@ -106,11 +106,11 @@ class LineupService
     /**
      * Return a not saved copy of the entity with the specified matchday
      *
-     * @param Matchday $lineup the matchday to use
-     * @param bool $matchday if false empty the captain. Default: true
+     * @param \App\Model\Entity\Matchday $lineup the matchday to use
+     * @param \App\Model\Entity\Matchday $matchday if false empty the captain. Default: true
      * @param bool $isCaptainActive if true the lineup was missing. Default true
      * @param bool $cloned if true the lineup is cloned. Default true
-     * @return Lineup
+     * @return \App\Model\Entity\Lineup
      */
     public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true)
     {
@@ -137,8 +137,8 @@ class LineupService
     /**
      * Reset the entity to default value and new
      *
-     * @param Disposition $disposition Disposition
-     * @return Disposition
+     * @param \App\Model\Entity\Disposition $disposition Disposition
+     * @return \App\Model\Entity\Disposition
      */
     private function reset(Disposition $disposition)
     {
@@ -152,7 +152,7 @@ class LineupService
     /**
      * Reset disposition in a lineup
      *
-     * @param Lineup $lineup Lineup
+     * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return void
      */
     public function resetDispositions(Lineup $lineup)

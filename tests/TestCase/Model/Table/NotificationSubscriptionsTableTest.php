@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\NotificationSubscriptionsTable;
@@ -10,7 +12,6 @@ use Cake\TestSuite\TestCase;
  */
 class NotificationSubscriptionsTableTest extends TestCase
 {
-
     /**
      * Test subject
      *
@@ -25,7 +26,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      */
     public $fixtures = [
         'app.NotificationSubscriptions',
-        'app.Teams'
+        'app.Teams',
     ];
 
     /**

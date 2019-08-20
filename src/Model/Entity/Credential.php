@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Entity;
 
@@ -18,7 +19,6 @@ use Cake\ORM\Entity;
  */
 class Credential extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -31,6 +31,6 @@ class Credential extends Entity
     protected $_accessible = [
         'counter' => true,
         'user_id' => true,
-        'user' => true
+        'user' => true,
     ];
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Entity;
 
@@ -17,7 +18,7 @@ use Cake\ORM\Entity;
  * @property int $matchday_id
  * @property int $team_id
  *
- * @property Member $member
+ * @property \App\Model\Entity\Member $member
  * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Disposition[] $dispositions
@@ -26,15 +27,14 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $old_id
  * @property \App\Model\Entity\Member $captain
- * @property Member $vcaptain
- * @property Member $vvcaptain
+ * @property \App\Model\Entity\Member $vcaptain
+ * @property \App\Model\Entity\Member $vvcaptain
  * @property \App\Model\Entity\Score $score
  * @property \App\Model\Entity\Member $v_captain
  * @property \App\Model\Entity\Member $v_v_captain
  */
 class Lineup extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -46,7 +46,7 @@ class Lineup extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false
+        'id' => false,
     ];
 
     /**
@@ -61,6 +61,6 @@ class Lineup extends Entity
         '1-3-4-3',
         '1-3-5-2',
         '1-5-3-2',
-        '1-5-4-1'
+        '1-5-4-1',
     ];
 }

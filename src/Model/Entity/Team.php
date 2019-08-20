@@ -1,15 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
-use Cake\ORM\Entity;
 use App\Model\Entity\Traits\HasPhotoTrait;
+use Cake\ORM\Entity;
 
 /**
  * Team Entity.
  *
  * @property int $id
  * @property string $name
- * @property boolean $admin
+ * @property bool $admin
  * @property string $photo
  * @property string $photo_dir
  * @property int $photo_size
@@ -47,14 +49,14 @@ class Team extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
-        'user' => false
+        'user' => false,
     ];
 
     protected $_hidden = [
         'photo',
         'photo_dir',
         'photo_size',
-        'photo_type'
+        'photo_type',
     ];
 
     /**
@@ -95,7 +97,7 @@ class Team extends Entity
 
     /**
      *
-     * @param NotificationSubscription[] $collection
+     * @param \App\Model\Entity\NotificationSubscription[] $collection
      */
     private function isSubscripted(array $collection, $name)
     {

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\PlayersTable;
@@ -10,7 +12,6 @@ use Cake\TestSuite\TestCase;
  */
 class PlayersTableTest extends TestCase
 {
-
     /**
      * Test subject
      *
@@ -25,7 +26,7 @@ class PlayersTableTest extends TestCase
      */
     public $fixtures = [
         'app.Players',
-        'app.Members'
+        'app.Members',
     ];
 
     /**

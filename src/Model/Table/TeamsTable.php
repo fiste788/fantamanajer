@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
@@ -16,31 +17,32 @@ use Spatie\Image\Image;
 /**
  * Teams Model
  *
- * @property UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
- * @property ArticlesTable|\Cake\ORM\Association\HasMany $Articles
- * @property EventsTable|\Cake\ORM\Association\HasMany $Events
- * @property LineupsTable|\Cake\ORM\Association\HasMany $Lineups
- * @property ScoresTable|\Cake\ORM\Association\HasMany $Scores
- * @property SelectionsTable|\Cake\ORM\Association\HasMany $Selections
- * @property TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
- * @property MembersTable|\Cake\ORM\Association\BelongsToMany $Members
- * @method Team get($primaryKey, $options = [])
- * @method Team newEntity($data = null, array $options = [])
- * @method Team[] newEntities(array $data, array $options = [])
- * @method Team|bool save(EntityInterface $entity, $options = [])
- * @method Team patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Team[] patchEntities($entities, array $data, array $options = [])
- * @method Team findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Service\TeamService $Team
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
+ * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
+ * @property \App\Model\Table\EventsTable|\Cake\ORM\Association\HasMany $Events
+ * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\SelectionsTable|\Cake\ORM\Association\HasMany $Selections
+ * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsToMany $Members
+ * @method \App\Model\Entity\Team get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Team|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
- * @method Team|bool saveOrFail(EntityInterface $entity, $options = [])
- * @property NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
- * @property NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
+ * @method \App\Model\Entity\Team|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
+ * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
  */
 class TeamsTable extends Table
 {
-
     use ServiceAwareTrait;
+
     /**
      * Initialize method
      *
@@ -92,7 +94,7 @@ class TeamsTable extends Table
 
                         return $array;
                     },
-                    'keepFilesOnDelete' => false
+                    'keepFilesOnDelete' => false,
                 ],
             ]
         );
@@ -101,20 +103,20 @@ class TeamsTable extends Table
             'Users',
             [
                 'foreignKey' => 'user_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Championships',
             [
                 'foreignKey' => 'championship_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->hasMany(
             'Articles',
             [
-                'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id',
             ]
         );
         $this->hasMany(
@@ -139,31 +141,31 @@ class TeamsTable extends Table
         $this->hasMany(
             'Events',
             [
-                'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id',
             ]
         );
         $this->hasMany(
             'Lineups',
             [
-                'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id',
             ]
         );
         $this->hasMany(
             'Scores',
             [
-                'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id',
             ]
         );
         $this->hasMany(
             'Selections',
             [
-                'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id',
             ]
         );
         $this->hasMany(
             'Transferts',
             [
-                'foreignKey' => 'team_id'
+                'foreignKey' => 'team_id',
             ]
         );
         $this->belongsToMany(
@@ -172,7 +174,7 @@ class TeamsTable extends Table
                 'foreignKey' => 'team_id',
                 'targetForeignKey' => 'member_id',
                 'joinTable' => 'members_teams',
-                'sort' => ['role_id']
+                'sort' => ['role_id'],
             ]
         );
     }
@@ -180,8 +182,8 @@ class TeamsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -204,8 +206,8 @@ class TeamsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {

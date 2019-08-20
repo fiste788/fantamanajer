@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -11,7 +12,6 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Minishlink\WebPush\WebPush;
-
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
@@ -35,13 +35,13 @@ class SendTestNotificationCommand extends Command
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
         $parser->addOption('force', [
             'short' => 'f',
             'help' => 'Force excecution',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
 
         return $parser;

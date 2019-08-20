@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Event\EventInterface;
 
 /**
@@ -16,8 +16,8 @@ class ArticlesController extends AppController
         'limit' => 5,
         'maxLimit' => 15,
         'sortWhitelist' => [
-            'id', 'title'
-        ]
+            'id', 'title',
+        ],
     ];
 
     public function beforeFilter(EventInterface $event): void

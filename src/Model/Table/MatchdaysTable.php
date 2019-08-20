@@ -1,16 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
-use App\Model\Table\ArticlesTable;
-use App\Model\Table\LineupsTable;
-use App\Model\Table\RatingsTable;
-use App\Model\Table\ScoresTable;
-use App\Model\Table\SeasonsTable;
-use App\Model\Table\TransfertsTable;
-use Cake\Datasource\EntityInterface;
 use Cake\I18n\Time;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -20,25 +13,24 @@ use Cake\Validation\Validator;
 /**
  * Matchdays Model
  *
- * @property SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
- * @property ArticlesTable|\Cake\ORM\Association\HasMany $Articles
- * @property LineupsTable|\Cake\ORM\Association\HasMany $Lineups
- * @property RatingsTable|\Cake\ORM\Association\HasMany $Ratings
- * @property ScoresTable|\Cake\ORM\Association\HasMany $Scores
- * @property TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
+ * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
+ * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
  *
- * @method Matchday get($primaryKey, $options = [])
- * @method Matchday newEntity($data = null, array $options = [])
- * @method Matchday[] newEntities(array $data, array $options = [])
- * @method Matchday|bool save(EntityInterface $entity, $options = [])
- * @method Matchday patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Matchday[] patchEntities($entities, array $data, array $options = [])
- * @method Matchday findOrCreate($search, callable $callback = null, $options = [])
- * @method Matchday|bool saveOrFail(EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Matchday newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday|bool save(\App\Model\Table\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday patchEntity(\App\Model\Table\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Matchday|bool saveOrFail(\App\Model\Table\EntityInterface $entity, $options = [])
  */
 class MatchdaysTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -57,37 +49,37 @@ class MatchdaysTable extends Table
             'Seasons',
             [
                 'foreignKey' => 'season_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->hasMany(
             'Articles',
             [
-                'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id',
             ]
         );
         $this->hasMany(
             'Lineups',
             [
-                'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id',
             ]
         );
         $this->hasMany(
             'Ratings',
             [
-                'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id',
             ]
         );
         $this->hasMany(
             'Scores',
             [
-                'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id',
             ]
         );
         $this->hasMany(
             'Transferts',
             [
-                'foreignKey' => 'matchday_id'
+                'foreignKey' => 'matchday_id',
             ]
         );
     }
@@ -95,8 +87,8 @@ class MatchdaysTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -121,8 +113,8 @@ class MatchdaysTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -144,8 +136,8 @@ class MatchdaysTable extends Table
 
     /**
      *
-     * @param Season $season
-     * @return Matchday[]
+     * @param \App\Model\Entity\Season $season
+     * @return \App\Model\Entity\Matchday[]
      */
     public function findWithoutScores(Season $season): array
     {
@@ -155,8 +147,8 @@ class MatchdaysTable extends Table
             ->where(
                 [
                     'team_id IS' => null,
-                    'date <' => new DateTime(),
-                    'season_id' => $season->id
+                    'date <' => new \DateTime(),
+                    'season_id' => $season->id,
                 ]
             )
             ->toArray();
@@ -180,14 +172,14 @@ class MatchdaysTable extends Table
             ->orderAsc('Matchdays.number')
             ->whereNull('Scores.id')->andWhere([
                 'Matchdays.number >' => 0,
-                'season_id' => $options['season']
+                'season_id' => $options['season'],
             ])->limit(1);
     }
 
     /**
      *
-     * @param Season $season
-     * @return Matchday[]
+     * @param \App\Model\Entity\Season $season
+     * @return \App\Model\Entity\Matchday[]
      */
     public function findWithoutRatings(Season $season): array
     {
@@ -198,8 +190,8 @@ class MatchdaysTable extends Table
                 [
                     'number !=' => 0,
                     'member_id IS' => null,
-                    'date <' => new DateTime(),
-                    'season_id' => $season->id
+                    'date <' => new \DateTime(),
+                    'season_id' => $season->id,
                 ]
             )
             ->toArray();
@@ -208,9 +200,10 @@ class MatchdaysTable extends Table
     }
 
     /**
+     * Undocumented function
      *
-     * @param Season $season
-     * @return int
+     * @param \App\Model\Entity\Season $season
+     * @return \Cake\ORM\Query
      */
     public function findWithRatings(Season $season)
     {

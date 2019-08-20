@@ -1,14 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
 use App\Command\Traits\GazzettaTrait;
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
-use App\Model\Entity\Season;
 use App\Model\Entity\Team;
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
@@ -30,6 +31,7 @@ class WeeklyScriptCommand extends Command
 {
     use CurrentMatchdayTrait;
     use GazzettaTrait;
+    use ServiceAwareTrait;
 
     public function initialize(): void
     {
@@ -52,7 +54,7 @@ class WeeklyScriptCommand extends Command
             [
                 'help' => 'Disable sending summary mails',
                 'boolean' => true,
-                'short' => 'm'
+                'short' => 'm',
             ]
         );
         $parser->addOption(
@@ -60,22 +62,25 @@ class WeeklyScriptCommand extends Command
             [
                 'help' => 'Disable calc of scores',
                 'boolean' => true,
-                'short' => 's'
+                'short' => 's',
             ]
         );
         $parser->addOption('no-interaction', [
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
 
         return $parser;
     }
 
     /**
+     * Undocumented function
      *
-     * @return Season
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -101,12 +106,12 @@ class WeeklyScriptCommand extends Command
                         'Championships',
                         'EmailNotificationSubscriptions',
                         'PushNotificationSubscriptions',
-                        'Users' => ['PushSubscriptions']
-                    ]
+                        'Users' => ['PushSubscriptions'],
+                    ],
                 ])
                 ->where(['Championships.season_id' => $this->currentSeason->id]);
 
-            $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
+            $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason)->all();
             foreach ($missingScores as $key => $matchday) {
                 if ($this->Ratings->existMatchday($matchday)) {
                     $this->calculatePoints($matchday, $championships, $args, $io);
@@ -118,8 +123,8 @@ class WeeklyScriptCommand extends Command
 
     /**
      *
-     * @param Matchday       $matchday
-     * @param Championship[] $championships
+     * @param \App\Model\Entity\Matchday $matchday
+     * @param \App\Model\Entity\Championship[] $championships
      */
     protected function calculatePoints(Matchday $matchday, $championships, Arguments $args, ConsoleIo $io)
     {
@@ -132,7 +137,7 @@ class WeeklyScriptCommand extends Command
             }
             $success = $this->Scores->saveMany($scores, [
                 'checkRules' => false,
-                'associated' => ['Lineups.Dispositions' => ['associated' => false]]
+                'associated' => ['Lineups.Dispositions' => ['associated' => false]],
             ]);
             if ($success && !$args->getOption('no_send_mail')) {
                 $io->out("Sending mails");
@@ -141,7 +146,7 @@ class WeeklyScriptCommand extends Command
                 $this->sendNotifications($matchday, $championship, $scores, $io);
             } elseif (!$success) {
                 foreach ($scores as $score) {
-                    $io->err(print_r($score->getErrors()));
+                    $io->err(print_r($score->getErrors(), true));
                 }
             }
         }
@@ -149,10 +154,10 @@ class WeeklyScriptCommand extends Command
 
     /**
      *
-     * @param Matchday $matchday
-     * @param Championship $championship
+     * @param \App\Model\Entity\Matchday $matchday
+     * @param \App\Model\Entity\Championship $championship
      * @param \App\Model\Entity\Score[] $scores
-     * @param ConsoleIo $io
+     * @param \Cake\Console\ConsoleIo $io
      */
     public function sendNotifications(Matchday $matchday, Championship $championship, $scores, ConsoleIo $io)
     {
@@ -164,7 +169,7 @@ class WeeklyScriptCommand extends Command
                         ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
                         ->body('La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti')
                         ->action('Visualizza', 'open')
-                        ->tag(926796012340920300)
+                        ->tag('926796012340920300')
                         ->data(['url' => '/scores/' . $scores[$team->id]->id]);
 
                     $io->out("Sending notification to " . $subscription->endpoint);
@@ -189,7 +194,7 @@ class WeeklyScriptCommand extends Command
     {
         $details = $this->Lineups->find('details', [
             'matchday_id' => $matchday->id,
-            'team_id' => $team->id
+            'team_id' => $team->id,
         ])->first();
         $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();
 
@@ -199,18 +204,17 @@ class WeeklyScriptCommand extends Command
             $dispositions = $details->dispositions;
             $regulars = array_splice($dispositions, 0, 11);
         }
-        $email = new Email();
-        $email->setTemplate('score')
-            ->setViewVars(
-                [
+        $email = new Email(['template' => 'score']);
+        $email->setViewVars(
+            [
                     'details' => $details,
                     'ranking' => $ranking,
                     'score' => $score,
                     'regulars' => $regulars,
                     'notRegulars' => $dispositions,
-                    'baseUrl' => 'https://fantamanajer.it'
+                    'baseUrl' => 'https://fantamanajer.it',
                 ]
-            )
+        )
             ->setSubject('Punteggio ' . $team->name . ' giornata ' . $matchday->number . ': ' . $score->points)
             ->setEmailFormat('html')
             ->setTo($team->user->email)

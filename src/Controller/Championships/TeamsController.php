@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Championships;
 
-use Cake\Event\EventInterface;
 use App\Controller\AppController;
+use Cake\Event\EventInterface;
 
 /**
  *
@@ -23,7 +24,7 @@ class TeamsController extends AppController
     public function index()
     {
         $this->Crud->action()->findMethod(['byChampionshipId' => [
-            'championship_id' => $this->request->getParam('championship_id')
+            'championship_id' => $this->request->getParam('championship_id'),
         ]]);
 
         return $this->Crud->execute();

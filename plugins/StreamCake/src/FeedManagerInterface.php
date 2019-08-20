@@ -1,8 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace StreamCake;
-
-use GetStream\Stream\Feed;
 
 interface FeedManagerInterface
 {
@@ -10,28 +9,28 @@ interface FeedManagerInterface
      * @param string $feed
      * @param string $id
      *
-     * @return Feed
+     * @return \GetStream\Stream\Feed
      */
     public function getFeed($feed, $id);
 
     /**
      * @param string $userId
      *
-     * @return Feed
+     * @return \GetStream\Stream\Feed
      */
     public function getUserFeed($userId);
 
     /**
      * @param string $userId
      *
-     * @return Feed
+     * @return \GetStream\Stream\Feed
      */
     public function getNotificationFeed($userId);
 
     /**
      * @param string $userId
      *
-     * @return Feed[]
+     * @return \GetStream\Stream\Feed[]
      */
     public function getNewsFeeds($userId);
 

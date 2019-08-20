@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace StreamCake;
 
-interface ActivityInterface
+interface ActivityInterface extends \ArrayAccess
 {
     /**
      * Like activityActor but without the colon and the namespacing which is often `\App\User:`.

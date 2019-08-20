@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
@@ -14,8 +15,8 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
- * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
  *
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
  * @method \App\Model\Entity\Article newEntity($data = null, array $options = [])
@@ -29,7 +30,6 @@ use Cake\Validation\Validator;
  */
 class ArticlesTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -50,9 +50,9 @@ class ArticlesTable extends Table
                 'events' => [
                     'Model.beforeSave' => [
                         'created_at' => 'new',
-                        'modified_at' => 'always'
-                    ]
-                ]
+                        'modified_at' => 'always',
+                    ],
+                ],
             ]
         );
 
@@ -60,14 +60,14 @@ class ArticlesTable extends Table
             'Teams',
             [
                 'foreignKey' => 'team_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
                 'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }
@@ -82,8 +82,8 @@ class ArticlesTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -114,8 +114,8 @@ class ArticlesTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -126,22 +126,26 @@ class ArticlesTable extends Table
     }
 
     /**
+     * Undocumented function
      *
-     * @param int $q
-     * @return Query
+     * @param \Cake\ORM\Query $q
+     * @param array $options
+     * @return void
      */
     public function findByChampionshipId(Query $q, array $options)
     {
         return $q->contain(['Teams' => [
-            'fields' => ['id', 'name']
+            'fields' => ['id', 'name'],
         ]])->orderDesc('created_at')
             ->where(['championship_id' => $options['championship_id']]);
     }
 
     /**
+     * Undocumented function
      *
-     * @param int $q
-     * @return Query
+     * @param \Cake\ORM\Query $q
+     * @param array $options
+     * @return void
      */
     public function findByTeamId(Query $q, array $options)
     {
@@ -153,7 +157,7 @@ class ArticlesTable extends Table
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newArticle', $this, [
-                'article' => $entity
+                'article' => $entity,
             ]);
             EventManager::instance()->dispatch($event);
         }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -16,7 +18,6 @@ use Cake\ORM\Entity;
  */
 class NotificationSubscription extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -31,6 +32,6 @@ class NotificationSubscription extends Entity
         'name' => true,
         'enabled' => true,
         'team_id' => true,
-        'team' => true
+        'team' => true,
     ];
 }

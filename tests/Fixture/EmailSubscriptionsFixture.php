@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class EmailSubscriptionsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -45,7 +44,7 @@ class EmailSubscriptionsFixture extends TestFixture
             'score' => 1,
             'lineups' => 1,
             'lost_member' => 1,
-            'team_id' => 1
+            'team_id' => 1,
         ],
     ];
 }

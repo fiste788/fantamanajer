@@ -1,20 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Teams;
 
-use App\Model\Entity\Lineup;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 /**
  *
- * @property \App\Model\Table\LineupsTable $Lineups
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\LineupService $Lineup
  * @property \App\Service\LikelyLineupService $LikelyLineup
  */
 class LineupsController extends \App\Controller\LineupsController
 {
-
     public function initialize(): void
     {
         parent::initialize();
@@ -39,7 +38,7 @@ class LineupsController extends \App\Controller\LineupsController
                 $event->getSubject()->query = $that->Lineups->find('last', [
                     'team_id' => $team,
                     'matchday' => $this->currentMatchday,
-                    'stats' => true
+                    'stats' => true,
                 ]);
             });
         } else {
@@ -48,7 +47,7 @@ class LineupsController extends \App\Controller\LineupsController
                 $event->getSubject()->query = $this->Crud->findMethod(['byMatchdayIdAndTeamId' => [
                     'matchday_id' => $matchdayId,
                     'team_id' => $team,
-                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]]
+                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]],
                 ]]);
             });
         }
@@ -62,7 +61,7 @@ class LineupsController extends \App\Controller\LineupsController
             $this->set([
                 'success' => true,
                 'data' => $this->Lineup->getEmptyLineup($team),
-                '_serialize' => ['success', 'data']
+                '_serialize' => ['success', 'data'],
             ]);
         }
     }
@@ -74,7 +73,7 @@ class LineupsController extends \App\Controller\LineupsController
         $this->set([
             'success' => true,
             'data' => $team->members,
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 }

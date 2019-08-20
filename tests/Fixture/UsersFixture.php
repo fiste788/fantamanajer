@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class UsersFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -47,10 +46,11 @@ class UsersFixture extends TestFixture
      */
     public function init(): void
     {
-        $this->records = array(
-  array('id' => '1','name' => 'Shane','surname' => 'Vendrell','email' => 'francesco.bertocchi@gmail.com','active' => '1','active_email' => '1','username' => 'shane','password' => '$2y$10$sIhcPTjv6QCOnI3IYt5RwuXthC2Q.OMjko2L/3J2beDozDwc/6KEK','login_key' => '2e096a8764ef0193f6842895cc98413b','admin' => '1','old_id' => '1'),
-  array('id' => '2','name' => 'Stefano','surname' => 'Sonzogni','email' => 'stefano788@gmail.com','active' => '1','active_email' => '1','username' => 'Fiste788','password' => '$2y$10$DTJXpgiG41oi5fjDg.TxFOqV0Wfo0u8XP/LT9Q30ffiqDMBFwHcM.','login_key' => 'be1de040f9f3aa3918be1ced5df95e28','admin' => '1','old_id' => '2'),
-);;
+        $this->records = [
+        ['id' => '1','name' => 'Shane','surname' => 'Vendrell','email' => 'francesco.bertocchi@gmail.com','active' => '1','active_email' => '1','username' => 'shane','password' => '$2y$10$sIhcPTjv6QCOnI3IYt5RwuXthC2Q.OMjko2L/3J2beDozDwc/6KEK','login_key' => '2e096a8764ef0193f6842895cc98413b','admin' => '1','old_id' => '1'],
+        ['id' => '2','name' => 'Stefano','surname' => 'Sonzogni','email' => 'stefano788@gmail.com','active' => '1','active_email' => '1','username' => 'Fiste788','password' => '$2y$10$DTJXpgiG41oi5fjDg.TxFOqV0Wfo0u8XP/LT9Q30ffiqDMBFwHcM.','login_key' => 'be1de040f9f3aa3918be1ced5df95e28','admin' => '1','old_id' => '2'],
+        ];
+
         parent::init();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -15,7 +16,7 @@ use Minishlink\WebPush\WebPush;
 /**
  * @property \App\Model\Table\LineupsTable $Lineups
  * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\MatchdaysTable Matchdays
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
 class SendMissingLineupNotificationCommand extends Command
 {
@@ -36,13 +37,13 @@ class SendMissingLineupNotificationCommand extends Command
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
         $parser->addOption('force', [
             'short' => 'f',
             'help' => 'Force excecution',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
 
         return $parser;
@@ -62,8 +63,8 @@ class SendMissingLineupNotificationCommand extends Command
                     [
                         'season_id' => $this->currentSeason->id,
                         'Teams.id NOT IN' => $this->Lineups->find()->select('team_id')->where([
-                            'matchday_id' => $this->currentMatchday->id
-                        ])
+                            'matchday_id' => $this->currentMatchday->id,
+                        ]),
                     ]
                 );
             foreach ($teams as $team) {
@@ -82,7 +83,7 @@ class SendMissingLineupNotificationCommand extends Command
                 $feed->addActivity([
                     'actor' => 'Team:' . $team->id,
                     'verb' => 'missing',
-                    'object' => 'Lineup:'
+                    'object' => 'Lineup:',
                 ]);
             }
         }

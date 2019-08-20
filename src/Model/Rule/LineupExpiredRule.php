@@ -1,15 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Rule;
 
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\TeamsTable;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- * @property MatchdaysTable $Matchdays
- * @property TeamsTable $Teams
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\TeamsTable $Teams
  */
 class LineupExpiredRule
 {

@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Controller\Api;
 
-use App\Controller\Api\ArticlesController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
@@ -9,7 +10,6 @@ use Cake\TestSuite\IntegrationTestCase;
  */
 class ArticlesControllerTest extends IntegrationTestCase
 {
-
     /**
      * Fixtures
      *

@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -23,7 +26,6 @@ use Cake\Validation\Validator;
  */
 class DispositionsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -42,26 +44,26 @@ class DispositionsTable extends Table
             'Lineups',
             [
                 'foreignKey' => 'lineup_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Members',
             [
                 'foreignKey' => 'member_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-                'foreignKey' => 'disposition_id'
+                'foreignKey' => 'disposition_id',
             ]
         );
         $this->hasOne(
             'Ratings',
             [
-                'finder' => 'byMatchdayLineup'
+                'finder' => 'byMatchdayLineup',
             ]
         );
     }
@@ -69,8 +71,8 @@ class DispositionsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -90,8 +92,8 @@ class DispositionsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {

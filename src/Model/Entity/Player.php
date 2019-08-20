@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
-use const DS;
+use const DIRECTORY_SEPARATOR as DS;
 
 /**
  * Player Entity.
@@ -20,7 +22,6 @@ use const DS;
  */
 class Player extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

@@ -1,18 +1,20 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Command\Traits;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
-use App\Model\Table\RatingsTable;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOptionParser;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Http\Client;
 use Cake\ORM\Query;
 use Symfony\Component\DomCrawler\Crawler;
-use Cake\Console\ConsoleOptionParser;
 
 /**
  * @property \App\Model\Table\SeasonsTable $Seasons
@@ -21,19 +23,19 @@ use Cake\Console\ConsoleOptionParser;
  * @property \App\Model\Table\MembersTable $Members
  * @property \App\Model\Table\ClubsTable $Clubs
  * @property \App\Model\Table\PlayersTable $Players
- * @property RatingsTable $Ratings
+ * @property \App\Model\Table\RatingsTable $Ratings
  */
 trait GazzettaTrait
 {
     /**
      *
-     * @var ConsoleIo
+     * @var \Cake\Console\ConsoleIo
      */
     private $io;
 
     /**
      *
-     * @var Arguments
+     * @var \Cake\Console\Arguments
      */
     private $args;
 
@@ -54,19 +56,27 @@ trait GazzettaTrait
     {
         $year = $matchday->season->year;
         $folder = new Folder(RATINGS_CSV . $year, true);
-        $pathCsv = $folder->path . DS . "Matchday" . str_pad($matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
+        $pathCsv = $folder->path . DS . "Matchday" . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
         $file = new File($pathCsv);
         $this->io->out("Search file in path " . $file->path);
         if ($file->exists() && $file->size() > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
-            return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta));
+            $file = TMP . 'mcc' . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
+            $this->io->verbose($file);
+            if ($forceDownload || !file_exists($file)) {
+                return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta));
+            } else {
+                return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta), $file);
+            }
         }
     }
 
-    private function downloadRatings(Matchday $matchday, $path, $matchdayGazzetta)
+    private function downloadRatings(Matchday $matchday, $path, $matchdayGazzetta, $url = null)
     {
-        $url = $this->getRatingsFile($matchdayGazzetta);
+        if (is_null($url)) {
+            $url = $this->getRatingsFile($matchdayGazzetta);
+        }
         if (!empty($url)) {
             $content = $this->decryptMXMFile($matchday, $url);
             if (!empty($content)) {
@@ -92,8 +102,10 @@ trait GazzettaTrait
     }
 
     /**
+     * Undocumented function
      *
-     * @param string $matchday
+     * @param \App\Model\Entity\Matchday $matchday
+     * @param string $path
      * @return string
      */
     public function decryptMXMFile(Matchday $matchday, $path = null)
@@ -106,14 +118,22 @@ trait GazzettaTrait
             $i = 0;
             $content = file_get_contents($path);
             if (!empty($content)) {
+
                 while (!feof($p_file)) {
+                    //$this->io->verbose($i);
                     if ($i == count($explode_xor)) {
                         $i = 0;
                     }
+
                     $line = fgets($p_file, 2);
-                    $xor2 = hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]);
+                    if($line) {
+                        $xor2 = hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]);
+                        $body .= chr($xor2);
+
+                    } else {
+                        $this->io->out("salto " . substr($body,-5));
+                    }
                     $i++;
-                    $body .= chr($xor2);
                 }
             }
             fclose($p_file);
@@ -126,17 +146,23 @@ trait GazzettaTrait
     {
         $this->io->out("Search ratings on maxigames");
         $http = new Client();
-        $http->setConfig('ssl_verify_peer', false);
+        $http->setConfig('headers', [
+            'Connection' => 'keep-alive',
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip, deflate',
+            'Cache-Control' => 'no-cache',
+            'User-Agent' => 'PostmanRuntime/7.15.2',
+        ]);
         $url = "https://maxigames.maxisoft.it/downloads.php";
         $this->io->verbose("Downloading " . $url);
         $response = $http->get($url);
         if ($response->isOk()) {
             $this->io->out("Maxigames found");
             $crawler = new Crawler();
-            $crawler->addContent($response->body());
+            $crawler->addContent($response->getBody()->getContents());
             $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
             if ($tr->count() > 0) {
-                $this->io->out("Matchday found");
+                $this->io->out("Ratings found for matchday");
                 $url = $this->getUrlFromMatchdayRow($tr);
 
                 return $this->downloadDropboxUrl($url, $matchday, $http);
@@ -159,11 +185,12 @@ trait GazzettaTrait
         }
     }
 
-    private function downloadDropboxUrl($url, $matchday, $http)
+    private function downloadDropboxUrl($url, $matchday, Client $http)
     {
         if ($url) {
             $this->io->verbose("Downloading " . $url);
             $response = $http->get($url);
+            $this->io->verbose("Response " . $response->getStatusCode());
             if ($response->isOk()) {
                 $crawler = new Crawler();
                 $crawler->addContent($response->body());
@@ -178,6 +205,8 @@ trait GazzettaTrait
                 file_put_contents($file, file_get_contents($url));
 
                 return $file;
+            } else {
+                $this->io->err('Response not ok');
             }
         }
     }
@@ -189,7 +218,7 @@ trait GazzettaTrait
         while ($path == null && $matchdayNumber > -1) {
             $matchday = $this->Matchdays->find()->contain(['Seasons'])->where([
                 'number' => $matchdayNumber,
-                'season_id' => $matchday->season_id
+                'season_id' => $matchday->season_id,
             ])->first();
             $path = $this->getRatings($matchday);
             $matchdayNumber--;
@@ -202,9 +231,9 @@ trait GazzettaTrait
                     'valueField' => function ($obj) {
                         return $obj;
                     },
-                    'contain' => ['Players']
+                    'contain' => ['Players'],
                 ]
-            )->where(['season_id' => $matchday->season->id]);
+            )->where(['season_id' => $matchday->season_id]);
             $oldMembers = $query->toArray();
             $newMembers = $this->returnArray($path, ";");
             //$this->abort(print_r($oldMembers,1));
@@ -212,8 +241,8 @@ trait GazzettaTrait
             $buys = [];
             $sells = [];
             $membersToSave = [];
+            $member = null;
             foreach ($newMembers as $id => $newMember) {
-                $member = null;
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
                     if ($member != null) {
@@ -235,7 +264,7 @@ trait GazzettaTrait
                     $oldMember->active = false;
                     $membersToSave[] = $oldMember;
                     $this->io->verbose("Deactivate member " . $oldMember);
-                    $sells[$member->club_id][] = $member;
+                    $sells[$oldMember->club_id][] = $oldMember;
                 }
             }
             //$this->io->verbose($membersToSave);
@@ -243,7 +272,7 @@ trait GazzettaTrait
             if (!$this->Members->saveMany($membersToSave)) {
                 $ev = new \Cake\Event\Event('Fantamanajer.memberTransferts', $this, [
                     'sells' => $sells,
-                    'buys' => $buys
+                    'buys' => $buys,
                 ]);
                 \Cake\Event\EventManager::instance()->dispatch($ev);
                 foreach ($membersToSave as $value) {
@@ -283,13 +312,13 @@ trait GazzettaTrait
         $fullname = trim($member[2], '"');
         $ass = null;
         preg_match($esprex, $fullname, $ass);
-        $surname = ucwords(strtolower(((!empty($ass)) ? $ass[0] : $fullname)));
+        $surname = ucwords(strtolower((!empty($ass) ? $ass[0] : $fullname)));
         $name = ucwords(strtolower(trim(substr($fullname, strlen($surname)))));
         //$queryPlayer = $this->Players->find()->where();
         $player = $this->Players->findOrCreate(
             [
                 'surname' => $surname,
-                'name' => $name
+                'name' => $name,
             ],
             null,
             ['atomic' => false]
@@ -306,7 +335,7 @@ trait GazzettaTrait
                 'active' => true,
                 'role_id' => $member[5] + 1,
                 'club_id' => $club->id,
-                'player_id' => $player->id
+                'player_id' => $player->id,
             ]
         );
     }
@@ -321,6 +350,7 @@ trait GazzettaTrait
                     return $q->where(['matchday_id' => $matchday->id]);
                 }])->toArray();
 
+            $ratings = [];
             foreach ($csvRow as $stats) {
                 if (array_key_exists($stats[0], $members)) {
                     $member = $members[$stats[0]];
@@ -350,7 +380,7 @@ trait GazzettaTrait
                             'regular' => $stats[24],
                             'quotation' => (int)$stats[27],
                             'member_id' => $member->id,
-                            'matchday_id' => $matchday->id
+                            'matchday_id' => $matchday->id,
                         ]
                     );
                     $rating->points_no_bonus = $matchday->season->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
@@ -363,7 +393,7 @@ trait GazzettaTrait
             if (!$this->Ratings->saveMany($ratings, [
                 'checkExisting' => false,
                 'associated' => false,
-                'checkRules' => false
+                'checkRules' => false,
             ])) {
                 foreach ($ratings as $value) {
                     if (!empty($value->getErrors())) {
@@ -386,6 +416,7 @@ trait GazzettaTrait
         if ($header) {
             array_shift($header);
         }
+        $arrayOk = [];
         foreach ($array as $val) {
             $par = explode($sep, $val);
             $array = trim($val);
@@ -416,22 +447,20 @@ trait GazzettaTrait
         if ($reply == 'y') {
             $decript = file_get_contents($dectyptedFilePath);
             $encript = file_get_contents($encryptedFilePath);
-            $res = "";
+            $res = [];
             for ($i = 0; $i < 28; $i++) {
                 $xor1 = hexdec(bin2hex($decript[$i]));
                 $xor2 = hexdec(bin2hex($encript[$i]));
-                if ($i != 0) {
-                    $res .= '-';
-                }
-                $res .= dechex($xor1 ^ $xor2);
+                $res[] = dechex($xor1 ^ $xor2);
             }
-            $this->io->out('Key: ' . $res);
-            $season->key_gazzetta = $res;
+            $key = implode("-", $res);
+            $this->io->out('Key: ' . $key);
+            $season->key_gazzetta = $key;
             if ($this->Seasons->save($season)) {
                 copy($dectyptedFilePath, $dectyptedFilePath . "." . $season->year . ".bak");
                 unlink($dectyptedFilePath);
 
-                return $res;
+                return $key;
             }
         }
     }
@@ -442,13 +471,13 @@ trait GazzettaTrait
         $parser->addSubcommand(
             'get_ratings_file_url',
             [
-                'help' => 'Get the url of the ratings file'
+                'help' => 'Get the url of the ratings file',
             ]
         );
         $parser->addSubcommand(
             'get_ratings',
             [
-                'help' => 'Download file ratings if not exist'
+                'help' => 'Download file ratings if not exist',
             ]
         );
         $parser->addSubcommand('update_members');
@@ -457,14 +486,14 @@ trait GazzettaTrait
         $parser->addSubcommand(
             'calculate_key',
             [
-                'help' => 'Calculate and save the key for decrypting gazzetta file'
+                'help' => 'Calculate and save the key for decrypting gazzetta file',
             ]
         );
         $parser->addOption('no-interaction', [
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
 
         return $parser;
@@ -474,7 +503,7 @@ trait GazzettaTrait
     {
         $this->io->out('Fix Points');
         $this->Seasons->loadInto($season, ['Matchdays.Ratings.Members.Roles']);
-        foreach ($this->season->matchdays as $matchday) {
+        foreach ($season->matchdays as $matchday) {
             $ratings = [];
             foreach ($matchday->ratings as $rating) {
                 $rating->points_no_bonus = $season->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;

@@ -1,14 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Teams;
 
-use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 class ScoresController extends \App\Controller\ScoresController
 {
     public $paginate = [
         'limit' => 40,
-        'maxLimit' => 40
+        'maxLimit' => 40,
     ];
 
     public function beforeFilter(EventInterface $event): void
@@ -26,7 +27,7 @@ class ScoresController extends \App\Controller\ScoresController
     public function viewByMatchday($matchdayId = null)
     {
         $conditions = [
-            'team_id' => $this->getRequest()->getParam('team_id')
+            'team_id' => $this->getRequest()->getParam('team_id'),
         ];
         if ($matchdayId) {
             $conditions['matchday_id'] = $matchdayId;
@@ -43,7 +44,7 @@ class ScoresController extends \App\Controller\ScoresController
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeam' => [
-            'team_id' => $this->request->getParam('team_id')
+            'team_id' => $this->request->getParam('team_id'),
         ]]);
 
         return $this->Crud->execute();

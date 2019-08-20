@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -8,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $year
+ * @property int $year
  * @property string $key_gazzetta
  * @property bool $bonus_points
  * @property \App\Model\Entity\Championship[] $championships
@@ -21,7 +23,6 @@ use Cake\ORM\Entity;
  */
 class Season extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

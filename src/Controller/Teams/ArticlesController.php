@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Teams;
 
@@ -9,13 +10,13 @@ namespace App\Controller\Teams;
 class ArticlesController extends \App\Controller\ArticlesController
 {
     public $paginate = [
-         'limit' => 25
+         'limit' => 25,
     ];
 
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeamId' =>
-            ['team_id' => $this->request->getParam('team_id')]
+            ['team_id' => $this->request->getParam('team_id')],
         ]);
 
         return $this->Crud->execute();

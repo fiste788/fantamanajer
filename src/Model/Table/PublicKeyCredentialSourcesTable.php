@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace App\Model\Table;
 
@@ -21,7 +21,6 @@ use Cake\Validation\Validator;
  */
 class PublicKeyCredentialSourcesTable extends Table
 {
-
     /**
      * Undocumented function
      *
@@ -58,9 +57,9 @@ class PublicKeyCredentialSourcesTable extends Table
             [
                 'events' => [
                     'Model.beforeSave' => [
-                        'created_at' => 'new'
-                    ]
-                ]
+                        'created_at' => 'new',
+                    ],
+                ],
             ]
         );
 
@@ -90,59 +89,59 @@ class PublicKeyCredentialSourcesTable extends Table
             ->scalar('public_key_credential_id')
             ->maxLength('public_key_credential_id', 4294967295)
             ->requirePresence('public_key_credential_id', 'create')
-            ->allowEmptyString('public_key_credential_id', false);
+            ->allowEmptyString('public_key_credential_id');
 
         $validator
             ->scalar('type')
             ->maxLength('type', 255)
             ->requirePresence('type', 'create')
-            ->allowEmptyString('type', false);
+            ->allowEmptyString('type');
 
         $validator
             ->scalar('transports')
             ->maxLength('transports', 4294967295)
             ->requirePresence('transports', 'create')
-            ->allowEmptyString('transports', false);
+            ->allowEmptyString('transports');
 
         $validator
             ->scalar('attestation_type')
             ->maxLength('attestation_type', 255)
             ->requirePresence('attestation_type', 'create')
-            ->allowEmptyString('attestation_type', false);
+            ->allowEmptyString('attestation_type');
 
         $validator
             ->scalar('trust_path')
             ->maxLength('trust_path', 4294967295)
             ->requirePresence('trust_path', 'create')
-            ->allowEmptyString('trust_path', false);
+            ->allowEmptyString('trust_path');
 
         $validator
             ->scalar('aaguid')
             ->maxLength('aaguid', 4294967295)
             ->requirePresence('aaguid', 'create')
-            ->allowEmptyString('aaguid', false);
+            ->allowEmptyString('aaguid');
 
         $validator
             ->scalar('credential_public_key')
             ->maxLength('credential_public_key', 4294967295)
             ->requirePresence('credential_public_key', 'create')
-            ->allowEmptyString('credential_public_key', false);
+            ->allowEmptyString('credential_public_key');
 
         $validator
             ->scalar('user_handle')
             ->maxLength('user_handle', 255)
             ->requirePresence('user_handle', 'create')
-            ->allowEmptyString('user_handle', false);
+            ->allowEmptyString('user_handle');
 
         $validator
             ->integer('counter')
             ->requirePresence('counter', 'create')
-            ->allowEmptyString('counter', false);
+            ->allowEmptyString('counter');
 
         $validator
             ->dateTime('created_at')
             ->requirePresence('created_at', 'create')
-            ->allowEmptyDateTime('created_at', false);
+            ->allowEmptyDateTime('created_at');
 
         $validator
             ->scalar('name')

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\View\Cell;
 
 use Cake\View\Cell;
@@ -20,7 +22,7 @@ class StreamCell extends Cell
 
         $this->set([
             'stream' => $enriched,
-            '_serialize' => false
+            '_serialize' => false,
         ]);
     }
 }

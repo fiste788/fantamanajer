@@ -1,27 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Entity\Championship;
-use App\Model\Entity\Team;
-use App\Model\Table\ChampionshipsTable;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use GetStream\Stream\Client;
-use GetStream\Stream\Feed;
 
 /**
- * @property ChampionshipsTable $Championships
+ * @property \App\Model\Table\ChampionshipsTable $Championships
  */
 class GetStreamCommand extends Command
 {
-
     /**
      *
-     * @var Client
+     * @var \GetStream\Stream\Client
      */
     private $client;
 
@@ -41,7 +37,7 @@ class GetStreamCommand extends Command
     }
 
     /**
-     * @var Team[] $teams
+     * @var \App\Model\Entity\Team[] $teams
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -61,8 +57,8 @@ class GetStreamCommand extends Command
 
     /**
      *
-     * @param Championship $championship
-     * @param Feed $timelineFeed
+     * @param \App\Model\Entity\Championship $championship
+     * @param \GetStream\Stream\Feed $timelineFeed
      */
     private function processChampionship($championship, $timelineFeed)
     {

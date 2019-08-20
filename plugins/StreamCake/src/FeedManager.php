@@ -1,21 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace StreamCake;
 
 use Cake\Core\Configure;
 use GetStream\Stream\Client;
-use GetStream\Stream\Feed;
 
 class FeedManager implements FeedManagerInterface
 {
     /**
-     * @var Client
+     * @var \GetStream\Stream\Client
      */
     private $client;
-    
+
     /**
      *
-     * @var boolean
+     * @var bool
      */
     private $verify;
 
@@ -35,13 +35,13 @@ class FeedManager implements FeedManagerInterface
     private $newsFeeds = [];
 
     /**
-     * @param Client $client
+     * @param \GetStream\Stream\Client $client
      */
     public function __construct()
     {
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
-        if(array_key_exists('verify', $config)) {
+        if (array_key_exists('verify', $config)) {
             $this->verify = $config['verify'];
         }
     }
@@ -83,7 +83,7 @@ class FeedManager implements FeedManagerInterface
     }
 
     /**
-     * @return Client
+     * @return \GetStream\Stream\Client
      */
     public function getClient()
     {
@@ -94,21 +94,22 @@ class FeedManager implements FeedManagerInterface
      * @param string $feed
      * @param string $id
      *
-     * @return Feed
+     * @return \GetStream\Stream\Feed
      */
     public function getFeed($feed, $id)
     {
         $feed = $this->client->feed($feed, $id);
-        if(!$this->verify) {
+        if (!$this->verify) {
             $feed->setGuzzleDefaultOption('verify', false);
         }
+
         return $feed;
     }
 
     /**
      * @param string $userId
      *
-     * @return Feed
+     * @return \GetStream\Stream\Feed
      */
     public function getUserFeed($userId)
     {
@@ -118,7 +119,7 @@ class FeedManager implements FeedManagerInterface
     /**
      * @param string $userId
      *
-     * @return Feed
+     * @return \GetStream\Stream\Feed
      */
     public function getNotificationFeed($userId)
     {
@@ -128,11 +129,11 @@ class FeedManager implements FeedManagerInterface
     /**
      * @param string $userId
      *
-     * @return Feed[]
+     * @return \GetStream\Stream\Feed[]
      */
     public function getNewsFeeds($userId)
     {
-        return array_map(function($feed) use ($userId) {
+        return array_map(function ($feed) use ($userId) {
             return $this->getFeed($feed, $userId);
         }, array_combine($this->newsFeeds, $this->newsFeeds));
     }

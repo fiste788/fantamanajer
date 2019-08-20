@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
@@ -30,7 +30,7 @@ class UpdateCalendarCommand extends Command
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
         $parser->addArgument('season');
         $parser->setDescription('Update season given or current season');
@@ -39,28 +39,31 @@ class UpdateCalendarCommand extends Command
     }
 
     /**
+     * Undocumented function
      *
-     * @return Season
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return integer|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        if (!$args->hasArgument('season')) {
-            $season = $this->currentSeason;
-        }
-        $this->exec($season, $args, $io);
+        $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get($args->getArgument('season')) : $this->currentSeason;
+        return $this->exec($season, $args, $io);
     }
 
     public function exec(Season $season, Arguments $args, ConsoleIo $io)
     {
-        $umc = new UpdateMatchdayCommand();
-        $umc->initialize();
+
         $matchdays = 38;
         $progress = $io->helper('Progress');
         $progress->init(['total' => $matchdays]);
         for ($matchday = 1; $matchday <= $matchdays; $matchday++) {
             $progress->increment();
             $progress->draw();
-            $umc->exec($season, $matchday, $args, $io);
+            $umc = new UpdateMatchdayCommand();
+            $this->executeCommand($umc, ['season' => $season->id, 'matchday' => $matchday, '-n']);
+            //$umc->exec($season, $matchday, $args, $io);
         }
+        return 1;
     }
 }

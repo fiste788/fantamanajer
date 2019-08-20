@@ -1,26 +1,22 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Model\Entity\User;
-use App\Model\Table\UsersTable;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\Http\Client as CakeClient;
 use Cake\Utility\Hash;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;
-use Cose\Algorithms;
 use Cose\Algorithm\Manager;
 use Cose\Algorithm\Signature\ECDSA;
 use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
-use Http\Adapter\Cake\Client as CakeAdapter;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Cose\Algorithms;
 use Psr\Http\Message\ServerRequestInterface;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
-use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
@@ -36,7 +32,6 @@ use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
-use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialParameters;
 use Webauthn\PublicKeyCredentialRequestOptions;
@@ -48,8 +43,8 @@ use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 /**
  * Credentials Repo
  *
- * @property CredentialRepositoryService $CredentialRepository
- * @property UsersTable $Users
+ * @property \App\Service\CredentialRepositoryService $CredentialRepository
+ * @property \App\Model\Table\UsersTable $Users
  */
 class CredentialService
 {
@@ -69,7 +64,7 @@ class CredentialService
      * Undocumented function
      *
      * @param \App\Model\Entity\User $user User
-     * @return PublicKeyCredentialUserEntity
+     * @return \Webauthn\PublicKeyCredentialUserEntity
      */
     public function createUserEntity(User $user)
     {
@@ -85,7 +80,7 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @return AuthenticationExtensionsClientInputs
+     * @return \Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs
      */
     private function getExtensions()
     {
@@ -98,7 +93,7 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @return PublicKeyCredentialRpEntity
+     * @return \Webauthn\PublicKeyCredentialRpEntity
      */
     private function createRpEntity()
     {
@@ -113,7 +108,7 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @return Decoder
+     * @return \CBOR\Decoder
      */
     private function createDecoder()
     {
@@ -127,8 +122,8 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param PublicKeyCredentialSource[] $credentials credentials
-     * @return PublicKeyCredentialDescriptor[]
+     * @param \Webauthn\PublicKeyCredentialSource[] $credentials credentials
+     * @return \Webauthn\PublicKeyCredentialDescriptor[]
      */
     private function credentialsToDescriptors(array $credentials)
     {
@@ -140,7 +135,7 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @return Manager
+     * @return \Cose\Algorithm\Manager
      */
     private function createAlgorithManager()
     {
@@ -159,8 +154,8 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param Decoder $decoder arg
-     * @return AttestationStatementSupportManager
+     * @param \CBOR\Decoder $decoder arg
+     * @return \Webauthn\AttestationStatement\AttestationStatementSupportManager
      */
     private function createStatementSupportManager(Decoder $decoder)
     {
@@ -169,7 +164,7 @@ class CredentialService
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(new CakeClient(), 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
+        //$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(new CakeClient(), 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
@@ -180,8 +175,8 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param ServerRequestInterface $request Request
-     * @return PublicKeyCredentialRequestOptions
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @return \Webauthn\PublicKeyCredentialRequestOptions
      */
     public function assertionRequest(ServerRequestInterface $request)
     {
@@ -211,7 +206,7 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param ServerRequestInterface $request Request
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @return bool
      */
     public function assertionResponse(ServerRequestInterface $request)
@@ -233,7 +228,8 @@ class CredentialService
             $this->CredentialRepository,
             $decoder,
             new TokenBindingNotSupportedHandler(),
-            new ExtensionOutputCheckerHandler()
+            new ExtensionOutputCheckerHandler(),
+            $this->createAlgorithManager()
         );
 
         try {
@@ -264,8 +260,8 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param ServerRequestInterface $request Request
-     * @return PublicKeyCredentialCreationOptions
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @return \Webauthn\PublicKeyCredentialCreationOptions
      */
     public function attestationRequest(ServerRequestInterface $request)
     {
@@ -290,7 +286,7 @@ class CredentialService
             new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES512),
             new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS256),
             new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS384),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS512)
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS512),
         ];
 
         // Authenticator Selection Criteria (we used default values)
@@ -319,7 +315,7 @@ class CredentialService
     /**
      * Save the credential
      *
-     * @param  ServerRequestInterface $request Request
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @return bool
      */
     public function attestationResponse(ServerRequestInterface $request)
@@ -364,7 +360,7 @@ class CredentialService
                 $publicKeyCredentialCreationOptions->getUser()->getId()
             );
 
-            $credential = $this->CredentialRepository->PublicKeyCredentialSources->newEntity();
+            $credential = $this->CredentialRepository->PublicKeyCredentialSources->newEmptyEntity();
             $credential->fromCredentialSource($credentialSource);
             $this->CredentialRepository->PublicKeyCredentialSources->save($credential);
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
 use ArrayObject;
@@ -10,6 +12,7 @@ use Cake\Validation\Validator;
 /**
  * MembersTeams Model
  *
+ * @property \App\Service\TransfertService $Transfert
  * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
  * @method \App\Model\Entity\MembersTeam get($primaryKey, $options = [])
@@ -43,14 +46,14 @@ class MembersTeamsTable extends Table
             'Teams',
             [
                 'foreignKey' => 'team_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Members',
             [
                 'foreignKey' => 'member_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }

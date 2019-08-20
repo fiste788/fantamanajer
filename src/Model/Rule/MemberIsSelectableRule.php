@@ -1,18 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Rule;
 
-use App\Model\Table\SelectionsTable;
-use App\Service\SelectionService;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Utility\Hash;
 
 /**
- * @property SelectionsTable $Selections
- * @property ScoresTable $Scores
- * @property SelectionService $Selection
+ * @property \App\Model\Table\SelectionsTable $Selections
+ * @property \App\Model\Table\ScoresTable $Scores
+ * @property \App\Service\SelectionService $Selection
  */
 class MemberIsSelectableRule
 {
@@ -31,7 +30,7 @@ class MemberIsSelectableRule
         $selection = $this->Selections->findAlreadySelectedMember($entity);
         if ($selection != null) {
             $ranking = $this->Scores->find('ranking', [
-                'championship_id' => $selection->team->championship_id
+                'championship_id' => $selection->team->championship_id,
             ]);
             $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
             if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -29,18 +30,18 @@ class TransfertCommand extends Command
         $parser->addOption('no-commit', [
             'help' => 'Disable commit.',
             'short' => 'c',
-            'boolean' => true
+            'boolean' => true,
         ]);
         $parser->addOption('force', [
             'help' => 'Force the execution',
             'short' => 'f',
-            'boolean' => true
+            'boolean' => true,
         ]);
         $parser->addOption('no-interaction', [
             'short' => 'n',
             'help' => 'Disable interaction',
             'boolean' => true,
-            'default' => false
+            'default' => false,
         ]);
         $parser->addArgument('matchday');
 
@@ -54,7 +55,7 @@ class TransfertCommand extends Command
             if ($args->hasArgument('matchday')) {
                 $matchday = $this->Matchdays->find()->where([
                     'season_id' => $this->currentSeason->id,
-                    'number' => $args->getArgument('matchday')
+                    'number' => $args->getArgument('matchday'),
                 ])->firstOrFail();
             }
             $selections = $this->Selections->find()
@@ -62,7 +63,7 @@ class TransfertCommand extends Command
                 ->where([
                     'matchday_id' => $matchday->id,
                     'processed' => false,
-                    'Selections.active' => true
+                    'Selections.active' => true,
                 ]);
             $table[] = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {

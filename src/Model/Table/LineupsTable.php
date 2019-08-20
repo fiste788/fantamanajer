@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Lineup;
 use App\Model\Rule\JollyAlreadyUsedRule;
 use App\Model\Rule\LineupExpiredRule;
 use App\Model\Rule\MissingPlayerInLineupRule;
@@ -10,8 +10,6 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Association\BelongsTo;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -21,31 +19,30 @@ use Cake\Validation\Validator;
 /**
  * Lineups Model
  *
- * @property MembersTable|BelongsTo $Members
- * @property MembersTable|BelongsTo $Members
- * @property MembersTable|BelongsTo $Members
- * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property ScoresTable|\Cake\ORM\Association\HasOne $Scores
- * @property \App\Model\Table\View0LineupsDetailsTable|HasMany $View0LineupsDetails
+ * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $Members
+ * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $Members
+ * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $Members
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasOne $Scores
+ * @property \App\Model\Table\View0LineupsDetailsTable|\Cake\ORM\Association\HasMany $View0LineupsDetails
  *
- * @method Lineup get($primaryKey, $options = [])
- * @method Lineup newEntity($data = null, array $options = [])
- * @method Lineup[] newEntities(array $data, array $options = [])
- * @method Lineup|bool save(EntityInterface $entity, $options = [])
- * @method Lineup patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Lineup[] patchEntities($entities, array $data, array $options = [])
- * @method Lineup findOrCreate($search, callable $callback = null, $options = [])
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $Captain
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
+ * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Captain
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method Lineup|bool saveOrFail(EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LineupsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -66,9 +63,9 @@ class LineupsTable extends Table
                 'events' => [
                     'Model.beforeSave' => [
                         'created_at' => 'new',
-                        'modified_at' => 'always'
-                    ]
-                ]
+                        'modified_at' => 'always',
+                    ],
+                ],
             ]
         );
 
@@ -76,35 +73,35 @@ class LineupsTable extends Table
             'Captain',
             [
                 'className' => 'Members',
-                'foreignKey' => 'captain_id'
+                'foreignKey' => 'captain_id',
             ]
         );
         $this->belongsTo(
             'VCaptain',
             [
                 'className' => 'Members',
-                'foreignKey' => 'vcaptain_id'
+                'foreignKey' => 'vcaptain_id',
             ]
         );
         $this->belongsTo(
             'VVCaptain',
             [
                 'className' => 'Members',
-                'foreignKey' => 'vvcaptain_id'
+                'foreignKey' => 'vvcaptain_id',
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
                 'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Teams',
             [
                 'foreignKey' => 'team_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->hasMany(
@@ -112,19 +109,19 @@ class LineupsTable extends Table
             [
                 'foreignKey' => 'lineup_id',
                 'sort' => ['Dispositions.position'],
-                'saveStrategy' => 'replace'
+                'saveStrategy' => 'replace',
             ]
         );
         $this->hasOne(
             'Scores',
             [
-                'foreignKey' => 'lineup_id'
+                'foreignKey' => 'lineup_id',
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-                'foreignKey' => 'lineup_id'
+                'foreignKey' => 'lineup_id',
             ]
         );
     }
@@ -132,8 +129,8 @@ class LineupsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -160,8 +157,8 @@ class LineupsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -195,7 +192,7 @@ class LineupsTable extends Table
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newLineup', $this, [
-                'lineup' => $entity
+                'lineup' => $entity,
             ]);
             EventManager::instance()->dispatch($event);
         }
@@ -219,20 +216,20 @@ class LineupsTable extends Table
                 'Members' => [
                     'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
                         return $q->where(['matchday_id' => $options['matchday_id']]);
-                    }
-                ]
-            ]
+                    },
+                ],
+            ],
         ])->where([
             'team_id' => $options['team_id'],
-            'matchday_id' => $options['matchday_id']
+            'matchday_id' => $options['matchday_id'],
         ]);
     }
 
     /**
      *
-     * @param Query $q
+     * @param \Cake\ORM\Query $q
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findLast(Query $q, array $options): Query
     {
@@ -241,7 +238,7 @@ class LineupsTable extends Table
             ->where([
                 'Lineups.team_id' => $options['team_id'],
                 'Lineups.matchday_id <=' => $options['matchday']->id,
-                'Matchdays.season_id' => $options['matchday']->season_id
+                'Matchdays.season_id' => $options['matchday']->season_id,
             ])
             ->order(['Matchdays.number' => 'DESC']);
         if (array_key_exists('stats', $options) && $options['stats']) {
@@ -256,8 +253,8 @@ class LineupsTable extends Table
                             ->select($tableLocator->get('VwMembersStats'))
                             ->select(['id', 'role_id'])
                             ->contain(['Roles', 'Players']);
-                    }
-                ]
+                    },
+                ],
             ]);
         }
 
@@ -287,7 +284,7 @@ class LineupsTable extends Table
                             'keyField' => 'id',
                             'valueField' => function ($obj) {
                                 return $obj;
-                            }
+                            },
                         ]
                     )
                         ->contain(
@@ -295,8 +292,8 @@ class LineupsTable extends Table
                                 return $q->where(['Ratings.matchday_id' => $matchdayId]);
                             }]
                         );
-                }
-            ]
+                },
+            ],
         ]);
     }
 }

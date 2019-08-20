@@ -1,18 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Entity\Selection;
 use App\Model\Rule\MemberIsSelectableRule;
 use App\Model\Rule\TeamReachedMaxSelectionRule;
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\MembersTable;
-use App\Model\Table\TeamsTable;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -21,20 +18,21 @@ use Cake\Validation\Validator;
 /**
  * Selections Model
  *
- * @property TeamsTable|BelongsTo $Teams
- * @property BelongsTo $Members
- * @property BelongsTo $Members
- * @property MatchdaysTable|BelongsTo $Matchdays
- * @property MembersTable|BelongsTo $NewMembers
- * @property MembersTable|BelongsTo $OldMembers
- * @method Selection get($primaryKey, $options = [])
- * @method Selection newEntity($data = null, array $options = [])
- * @method Selection[] newEntities(array $data, array $options = [])
- * @method Selection|bool save(EntityInterface $entity, $options = [])
- * @method Selection patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Selection[] patchEntities($entities, array $data, array $options = [])
- * @method Selection findOrCreate($search, callable $callback = null, $options = [])
- * @method Selection|bool saveOrFail(EntityInterface $entity, $options = [])
+ * @property \App\Service\SelectionService $Selection
+ * @property \App\Model\Table\TeamsTable|\App\Model\Table\BelongsTo $Teams
+ * @property \Cake\ORM\Association\BelongsTo $Members
+ * @property \Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\MatchdaysTable|\App\Model\Table\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $OldMembers
+ * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Selection|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Selection|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class SelectionsTable extends Table
 {
@@ -58,14 +56,14 @@ class SelectionsTable extends Table
             'Teams',
             [
                 'foreignKey' => 'team_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
                 'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
@@ -73,7 +71,7 @@ class SelectionsTable extends Table
             [
                 'className' => 'Members',
                 'foreignKey' => 'old_member_id',
-                'propertyName' => 'old_member'
+                'propertyName' => 'old_member',
             ]
         );
         $this->belongsTo(
@@ -81,7 +79,7 @@ class SelectionsTable extends Table
             [
                 'className' => 'Members',
                 'foreignKey' => 'new_member_id',
-                'propertyName' => 'new_member'
+                'propertyName' => 'new_member',
             ]
         );
     }
@@ -89,8 +87,8 @@ class SelectionsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -110,8 +108,8 @@ class SelectionsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -135,8 +133,8 @@ class SelectionsTable extends Table
 
     /**
      *
-     * @param Selection $selection
-     * @return Selection
+     * @param \App\Model\Entity\Selection $selection
+     * @return \App\Model\Entity\Selection
      */
     public function findAlreadySelectedMember($selection): Selection
     {
@@ -153,7 +151,7 @@ class SelectionsTable extends Table
             ->where(
                 [
                     'team_id !=' => $selection->team_id,
-                    'new_member_id' => $selection->new_member_id
+                    'new_member_id' => $selection->new_member_id,
                 ]
             )->first();
     }
@@ -172,7 +170,7 @@ class SelectionsTable extends Table
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newMemberSelection', $this, [
-                'selection' => $entity
+                'selection' => $entity,
             ]);
             EventManager::instance()->dispatch($event);
         }

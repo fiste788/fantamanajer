@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class TransfertsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -57,7 +56,7 @@ class TransfertsFixture extends TestFixture
                 'new_member_id' => 1,
                 'team_id' => 1,
                 'matchday_id' => 1,
-                'constrained' => 1
+                'constrained' => 1,
             ],
         ];
         parent::init();

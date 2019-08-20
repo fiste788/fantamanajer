@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Championships;
 
@@ -11,13 +12,13 @@ use App\Controller\ArticlesController as AppArticlesController;
 class ArticlesController extends AppArticlesController
 {
     public $paginate = [
-        'limit' => 8
+        'limit' => 8,
     ];
 
     public function index()
     {
         $this->Crud->action()->findMethod(['byChampionshipId' => [
-            'championship_id' => $this->request->getParam('championship_id')
+            'championship_id' => $this->request->getParam('championship_id'),
         ]]);
 
         return $this->Crud->execute();

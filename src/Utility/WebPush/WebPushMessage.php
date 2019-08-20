@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Utility\WebPush;
 
@@ -6,7 +7,6 @@ use JsonSerializable;
 
 class WebPushMessage implements JsonSerializable
 {
-
     /**
      * The notification title.
      *
@@ -66,28 +66,28 @@ class WebPushMessage implements JsonSerializable
     /**
      * The renotify.
      *
-     * @var boolean
+     * @var bool
      */
     protected $renotify = true;
 
     /**
      * The renotify.
      *
-     * @var boolean
+     * @var bool
      */
     protected $requireInteraction = true;
 
     /**
      * The tag for grouping
      *
-     * @var tag
+     * @var array
      */
     protected $tag = null;
 
     /**
      * The vibrate.
      *
-     * @var integer[]
+     * @var int[]
      */
     protected $vibrate = [300, 200, 300];
 
@@ -191,7 +191,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the badge.
      *
-     * @param type $badge
+     * @param string $badge
      * @return $this
      */
     public function badge($badge)
@@ -204,7 +204,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the direction.
      *
-     * @param type $dir
+     * @param string $dir
      * @return $this
      */
     public function dir($dir)
@@ -256,7 +256,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the tag.
      *
-     * @param type $tag
+     * @param string $tag
      * @return $this
      */
     public function tag($tag)
@@ -313,8 +313,8 @@ class WebPushMessage implements JsonSerializable
                 'requireInteraction' => $this->requireInteraction,
                 'tag' => $this->tag,
                 'vibrate' => $this->vibrate,
-                'data' => $this->data
-            ]
+                'data' => $this->data,
+            ],
         ];
     }
 }

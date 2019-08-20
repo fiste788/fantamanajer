@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
@@ -24,8 +26,8 @@ class ScoresController extends AppController
         $this->Crud->action()->findMethod([
             'ranking' => [
                 'championship_id' => $this->request->getParam('championship_id'),
-                'scores' => true
-            ]
+                'scores' => true,
+            ],
         ]);
 
         return $this->Crud->execute();

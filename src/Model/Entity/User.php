@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Authentication\IdentityInterface as AuthenticationIdentity;
@@ -6,6 +9,7 @@ use Authorization\IdentityInterface as AuthorizationIdentity;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use Webauthn\PublicKeyCredentialUserEntity;
+use Authorization\Policy\ResultInterface;
 
 /**
  * User Entity
@@ -25,10 +29,10 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property \App\Model\Entity\PublicKeyCredentialSource[] $public_key_credential_sources
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
+ * @property \Authorization\AuthorizationServiceInterface $authorization
  */
 class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -62,7 +66,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     protected $_hidden = [
         'password',
         'login_key',
-        'uuid'
+        'uuid',
     ];
 
     public function hasTeam($teamId)
@@ -89,10 +93,16 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Authorization\IdentityInterface method
      */
-    public function can($action, $resource)
+    public function can(string $action, $resource): bool
     {
         return $this->authorization->can($this, $action, $resource);
     }
+
+    public function canResult(string $action, $resource): ResultInterface
+    {
+        return $this->authorization->canResult($this, $action, $resource);
+    }
+
 
     /**
      * Authorization\IdentityInterface method

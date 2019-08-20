@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -8,7 +10,7 @@ use Cake\Validation\Validator;
 /**
  * Clubs Model
  *
- * @property MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Club get($primaryKey, $options = [])
  * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
@@ -21,7 +23,6 @@ use Cake\Validation\Validator;
  */
 class ClubsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -40,25 +41,25 @@ class ClubsTable extends Table
             'Members',
             [
                 'foreignKey' => 'club_id',
-                'sort' => ['role_id']
+                'sort' => ['role_id'],
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-                'foreignKey' => 'club_id'
+                'foreignKey' => 'club_id',
             ]
         );
         $this->hasMany(
             'View0Members',
             [
-                'foreignKey' => 'club_id'
+                'foreignKey' => 'club_id',
             ]
         );
         $this->hasMany(
             'View1MembersStats',
             [
-                'foreignKey' => 'club_id'
+                'foreignKey' => 'club_id',
             ]
         );
     }
@@ -66,8 +67,8 @@ class ClubsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -80,11 +81,9 @@ class ClubsTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('partitive', 'create')
             ->notEmpty('partitive');
 
         $validator
-            ->requirePresence('determinant', 'create')
             ->notEmpty('determinant');
 
         return $validator;

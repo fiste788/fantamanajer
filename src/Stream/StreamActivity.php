@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Stream;
 
@@ -8,7 +9,6 @@ namespace App\Stream;
  */
 abstract class StreamActivity implements StreamActivityInterface
 {
-
     /**
      *
      * @var \StreamCake\ActivityInterface $activity

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
@@ -11,7 +13,7 @@ class MembersController extends AppController
 {
     public $paginate = [
         'limit' => 1000,
-        'maxLimit' => 1000
+        'maxLimit' => 1000,
     ];
 
     public function beforeFilter(EventInterface $event): void
@@ -31,8 +33,8 @@ class MembersController extends AppController
             'free' => [
                 'championship_id' => $this->request->getParam('championship_id'),
                 'stats' => $this->request->getQuery('stats', true),
-                'role' => $this->request->getParam('role_id', null)
-            ]
+                'role' => $this->request->getParam('role_id', null),
+            ],
         ]);
 
         return $this->Crud->execute();
@@ -44,7 +46,7 @@ class MembersController extends AppController
             'free' => [
                 'championship_id' => $this->request->getParam('championship_id'),
                 'stats' => false,
-            ]
+            ],
         ]);
 
         $this->Crud->on('afterPaginate', function (EventInterface $event) {

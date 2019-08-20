@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -31,7 +32,7 @@ class TeamService
     /**
      * Create new team
      *
-     * @param Team $team The team to create
+     * @param \App\Model\Entity\Team $team The team to create
      * @return bool
      */
     public function createTeam(Team $team)
@@ -42,9 +43,9 @@ class TeamService
         if ($this->Teams->save($team, ['associated' => true])) {
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
-            $championshipFeed = $client->feed('championship', $team->championship_id);
-            $teamFeed = $client->feed('team', $team->id);
-            $userFeed = $client->feed('user', $team->user_id);
+            $championshipFeed = $client->feed('championship', (int)$team->championship_id);
+            $teamFeed = $client->feed('team', (int)$team->id);
+            $userFeed = $client->feed('user', (int)$team->user_id);
             $userFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
             $championshipFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
 

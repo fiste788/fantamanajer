@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
@@ -33,8 +33,11 @@ class StartSeasonCommand extends Command
     }
 
     /**
+     * Undocumented function
      *
-     * @return Season
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -45,11 +48,17 @@ class StartSeasonCommand extends Command
             if ($this->calculateKey($season) != '') {
                 $firstMatchday = $this->Matchdays->find()->where([
                     'number' => '0',
-                    'season_id' => $season->id
+                    'season_id' => $season->id,
                 ])->first();
                 $this->updateMembers($firstMatchday);
             }
+            return 1;
         } else {
+            $firstMatchday = $this->Matchdays->find()->where([
+                'number' => '0',
+                'season_id' => $season->id,
+            ])->first();
+            $this->updateMembers($firstMatchday);
             $io->err('Season for year ' . $season->year . ' already exist');
 
             $this->abort();
@@ -64,8 +73,8 @@ class StartSeasonCommand extends Command
             $season = $this->Seasons->newEntity(
                 [
                     'year' => $year,
-                    'name' => 'Stagione ' . $year . '-' . substr($year + 1, 2, 2),
-                    'bonus_points' => true
+                    'name' => 'Stagione ' . $year . '-' . substr((string)($year + 1), 2, 2),
+                    'bonus_points' => true,
                 ]
             );
             $this->Seasons->saveOrFail($season);
@@ -75,7 +84,7 @@ class StartSeasonCommand extends Command
                 [
                     'season_id' => $season->id,
                     'number' => 0,
-                    'date' => Chronos::create($year, 8, 10, 0, 0, 0)
+                    'date' => Chronos::create($year, 8, 10, 0, 0, 0),
                 ]
             );
             $this->Seasons->Matchdays->save($firstMatchday);
@@ -88,7 +97,7 @@ class StartSeasonCommand extends Command
                 [
                     'season_id' => $season->id,
                     'number' => 39,
-                    'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59)
+                    'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59),
                 ]
             );
             if ($this->Seasons->Matchdays->save($lastMatchday)) {

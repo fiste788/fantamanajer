@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,9 +11,9 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property TeamsTable|\Cake\ORM\Association\HasMany $Teams
- * @property PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
- * @property CredentialsTable|\Cake\ORM\Association\HasMany $Credentials
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
+ * @property \App\Model\Table\PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
+ * @property \App\Model\Table\CredentialsTable|\Cake\ORM\Association\HasMany $Credentials
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -26,7 +26,6 @@ use Cake\Validation\Validator;
  */
 class UsersTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -46,21 +45,21 @@ class UsersTable extends Table
             [
                 'bindingKey' => 'uuid',
                 'foreignKey' => 'user_handle',
-                'sort' => 'created_at'
+                'sort' => 'created_at',
             ]
         );
         $this->hasMany(
             'Teams',
             [
                 'foreignKey' => 'user_id',
-                'sort' => 'Championships.id DESC'
+                'sort' => 'Championships.id DESC',
             ]
         );
         $this->hasMany(
             'PushSubscriptions',
             [
                 'foreignKey' => 'user_id',
-                'sort' => 'modified_at DESC'
+                'sort' => 'modified_at DESC',
             ]
         );
     }
@@ -68,8 +67,8 @@ class UsersTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -121,8 +120,8 @@ class UsersTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -135,9 +134,9 @@ class UsersTable extends Table
     /**
      * Finder for identity
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findAuth(Query $query, array $options): Query
     {

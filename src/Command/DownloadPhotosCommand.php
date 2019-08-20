@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Traits\CurrentMatchdayTrait;
@@ -50,7 +52,7 @@ class DownloadPhotosCommand extends Command
 
                 //$this->out($response->body());
                 $crawler = new Crawler();
-                $crawler->addContent($response->body());
+                $crawler->addContent($response->getBody());
                 $trs = $crawler->filter("table.Result tr a");
                 $io->out("Trovati " . $trs->count());
                 if ($trs->count() >= 1) {
@@ -65,7 +67,7 @@ class DownloadPhotosCommand extends Command
                         //$this->out($response->body());
                         if ($response->isOk()) {
                             $io->out("Savings " . '/' . $href . " => " . $path . $member->code_gazzetta . '.jpg');
-                            file_put_contents($path . $member->code_gazzetta . '.jpg', $response->body());
+                            file_put_contents($path . $member->code_gazzetta . '.jpg', $response->getBody());
                         }
                     }
                 }

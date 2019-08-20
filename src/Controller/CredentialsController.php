@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\CredentialService;
 use Burzum\Cake\Service\ServiceAwareTrait;
-use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 /**
- * @property CredentialService $Credential
+ * @property \App\Service\CredentialService $Credential
  */
 class CredentialsController extends AppController
 {
@@ -28,7 +27,7 @@ class CredentialsController extends AppController
     /**
      * Before filter
      *
-     * @param Event $event Event
+     * @param \Cake\Event\Event $event Event
      * @return void
      */
     public function beforeFilter(EventInterface $event): void
@@ -51,7 +50,7 @@ class CredentialsController extends AppController
             'success' => true,
             'data' => $publicKeyCredentialRequestOptions,
             '_jsonOptions' => (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 
@@ -68,7 +67,7 @@ class CredentialsController extends AppController
             'success' => true,
             'data' => $publicKeyCredentialCreationOptions,
             '_jsonOptions' => (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 
@@ -83,7 +82,7 @@ class CredentialsController extends AppController
         $this->set([
             'success' => $check,
             'data' => $check,
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 
@@ -98,7 +97,7 @@ class CredentialsController extends AppController
         $this->set([
             'success' => $check,
             'data' => $check,
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 }

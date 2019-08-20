@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Rule;
 
@@ -11,7 +12,6 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class TeamReachedMaxSelectionRule
 {
-
     use ModelAwareTrait;
 
     public function __construct()
@@ -32,7 +32,7 @@ class TeamReachedMaxSelectionRule
         return $this->Selections->find()->where([
                 'matchday_id' => $entity->matchday_id,
                 'team_id' => $entity->team_id,
-                'processed' => false
+                'processed' => false,
             ])->count() < $championship->number_selections;
     }
 }

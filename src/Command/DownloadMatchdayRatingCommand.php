@@ -1,21 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Entity\Season;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use const TMP;
 
 class DownloadMatchdayRatingCommand extends Command
 {
-
     /**
      *
-     * @var Client
+     * @var \Cake\Http\Client
      */
     private $client;
 
@@ -31,15 +31,18 @@ class DownloadMatchdayRatingCommand extends Command
         $parser->setDescription('Download ratings from maxigames');
         $parser->addArgument('matchday', [
             'help' => 'The number of matchday of current season',
-            'required' => true
+            'required' => true,
         ]);
 
         return $parser;
     }
 
     /**
+     * Undocumented function
      *
-     * @return Season
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -61,9 +64,9 @@ class DownloadMatchdayRatingCommand extends Command
         $io->verbose("Downloading " . $url);
         $response = $this->client->get($url);
         if ($response->isOk()) {
-            $this->out("Maxigames found");
+            $io->out("Maxigames found");
             $crawler = new Crawler();
-            $crawler->addContent($response->body());
+            $crawler->addContent($response->getBody());
             $td = $crawler->filter("#content td:contains('Giornata $matchday')");
             if ($td->count() > 0) {
                 return $td->nextAll()->filter("a")->attr("href");
@@ -76,11 +79,11 @@ class DownloadMatchdayRatingCommand extends Command
 
     private function downloadDropboxFile($url, $matchday, ConsoleIo $io)
     {
-        $this->verbose("Downloading " . $url);
+        $io->verbose("Downloading " . $url);
         $response = $this->client->get($url);
         if ($response->isOk()) {
             $crawler = new Crawler();
-            $crawler->addContent($response->body());
+            $crawler->addContent($response->getBody());
             $button = $crawler->filter("#default_content_download_button");
             if ($button->count()) {
                 $url = $button->attr("href");

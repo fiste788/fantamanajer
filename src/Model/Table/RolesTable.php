@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
@@ -22,7 +24,6 @@ use Cake\Validation\Validator;
  */
 class RolesTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -40,25 +41,25 @@ class RolesTable extends Table
         $this->hasMany(
             'Members',
             [
-                'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id',
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-                'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id',
             ]
         );
         $this->hasMany(
             'View0Members',
             [
-                'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id',
             ]
         );
         $this->hasMany(
             'View1MembersStats',
             [
-                'foreignKey' => 'role_id'
+                'foreignKey' => 'role_id',
             ]
         );
     }

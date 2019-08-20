@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Event\EventInterface;
 
 /**
@@ -20,8 +20,8 @@ class ClubsController extends AppController
     {
         $this->Crud->action()->findMethod([
             'bySeasonId' => [
-                'season_id' => $this->currentSeason->id
-            ]
+                'season_id' => $this->currentSeason->id,
+            ],
         ]);
 
         return $this->Crud->execute();

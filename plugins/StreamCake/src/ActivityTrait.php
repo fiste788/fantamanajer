@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace StreamCake;
 
@@ -11,7 +12,7 @@ trait ActivityTrait
      */
     public function activityObject()
     {
-        return (static::class) . ':' . $this->activityId();
+        return static::class . ':' . $this->activityId();
     }
 
     /**

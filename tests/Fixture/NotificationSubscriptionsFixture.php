@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class NotificationSubscriptionsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -52,7 +51,7 @@ class NotificationSubscriptionsFixture extends TestFixture
                 'type' => 'Lorem ipsum dolor sit amet',
                 'name' => 'Lorem ipsum dolor sit amet',
                 'enabled' => 1,
-                'team_id' => 1
+                'team_id' => 1,
             ],
         ];
         parent::init();

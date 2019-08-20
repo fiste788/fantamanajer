@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Controller\AppController;
 use App\Model\Entity\Lineup;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
@@ -48,8 +49,8 @@ class ScoresController extends AppController
         $this->Crud->action()->saveOptions(['associated' => [
             'Lineups' => [
                 'accessibleFields' => ['id' => true],
-                'associated' => ['Dispositions']
-            ]
+                'associated' => ['Dispositions'],
+            ],
         ]]);
 
         $this->Crud->on('afterSave', function (\Cake\Event\Event $event) {

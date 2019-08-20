@@ -1,16 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\View\Helper\UrlHelper;
 use Cake\Event\EventInterface;
 
 /**
  *
  * @property \App\Model\Table\TeamsTable $Teams
- * @property UrlHelper $Url
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class TeamsController extends AppController
 {

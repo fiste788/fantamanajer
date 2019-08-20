@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
@@ -6,7 +7,6 @@ use App\Model\Entity\Transfert;
 use ArrayObject;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -15,12 +15,13 @@ use Cake\Validation\Validator;
 /**
  * Transferts Model
  *
- * @property BelongsTo $Members
- * @property BelongsTo $Members
- * @property TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property \App\Service\TransfertService $Transfert
+ * @property \Cake\ORM\Association\BelongsTo $Members
+ * @property \Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
  * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
@@ -32,7 +33,6 @@ use Cake\Validation\Validator;
  */
 class TransfertsTable extends Table
 {
-
     use \Burzum\Cake\Service\ServiceAwareTrait;
 
     /**
@@ -54,7 +54,7 @@ class TransfertsTable extends Table
             [
                 'className' => 'Members',
                 'foreignKey' => 'old_member_id',
-                'propertyName' => 'old_member'
+                'propertyName' => 'old_member',
             ]
         );
         $this->belongsTo(
@@ -62,21 +62,21 @@ class TransfertsTable extends Table
             [
                 'className' => 'Members',
                 'foreignKey' => 'new_member_id',
-                'propertyName' => 'new_member'
+                'propertyName' => 'new_member',
             ]
         );
         $this->belongsTo(
             'Teams',
             [
                 'foreignKey' => 'team_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
                 'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }
@@ -84,8 +84,8 @@ class TransfertsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -104,8 +104,8 @@ class TransfertsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -136,7 +136,7 @@ class TransfertsTable extends Table
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options): void
     {
         EventManager::instance()->dispatch(new Event('Fantamanajer.newMemberTransfert', $this, [
-            'transfert' => $entity
+            'transfert' => $entity,
         ]));
 
         $this->loadService('Transfert');

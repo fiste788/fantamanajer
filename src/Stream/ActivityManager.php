@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Stream;
 
@@ -7,11 +8,10 @@ use StreamCake\FeedManager;
 
 class ActivityManager
 {
-
     /**
      *
      * @param string $feedName
-     * @param int $id
+     * @param string $id
      * @param bool $aggregated
      */
     public function getActivities($feedName, $id, $aggregated, $offset = 0, $limit = 20, $options = [])
@@ -51,7 +51,7 @@ class ActivityManager
     /**
      *
      * @param \StreamCake\EnrichedActivity[] $activity
-     * @return StreamActivity
+     * @return \App\Stream\StreamActivity
      */
     private function getFromVerb($activity)
     {

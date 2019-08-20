@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -15,13 +17,12 @@ use Minishlink\WebPush\Subscription;
  * @property \Cake\I18n\FrozenTime $expires_at
  * @property int $user_id
  *
- * @property User $user
+ * @property \App\Model\Entity\User $user
  * @property \Cake\I18n\FrozenTime $created_at
  * @property \Cake\I18n\FrozenTime $modified_at
  */
 class PushSubscription extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -37,7 +38,7 @@ class PushSubscription extends Entity
         'auth_token' => true,
         'expires_at' => true,
         'user_id' => true,
-        'user' => true
+        'user' => true,
     ];
 
     /**
@@ -46,12 +47,12 @@ class PushSubscription extends Entity
      * @var array
      */
     protected $_hidden = [
-        'auth_token'
+        'auth_token',
     ];
 
     /**
      *
-     * @return Subscription
+     * @return \Minishlink\WebPush\Subscription
      */
     public function getSubscription()
     {
@@ -59,7 +60,7 @@ class PushSubscription extends Entity
                     'endpoint' => $this->endpoint,
                     'publicKey' => $this->public_key,
                     'authToken' => $this->auth_token,
-                    'contentEncoding' => 'aesgcm'
+                    'contentEncoding' => 'aesgcm',
                 ]);
     }
 }

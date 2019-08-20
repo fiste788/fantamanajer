@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare (strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -42,7 +42,8 @@ class ErrorController extends AppController
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(EventInterface $event)
-    { }
+    {
+    }
 
     /**
      * beforeRender callback.
@@ -64,5 +65,6 @@ class ErrorController extends AppController
      * @return \Cake\Http\Response|null|void
      */
     public function afterFilter(EventInterface $event)
-    { }
+    {
+    }
 }

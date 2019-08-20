@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Season;
@@ -23,7 +25,6 @@ use Cake\Validation\Validator;
  */
 class RatingsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -42,14 +43,14 @@ class RatingsTable extends Table
             'Members',
             [
                 'foreignKey' => 'member_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Matchdays',
             [
                 'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }
@@ -57,8 +58,8 @@ class RatingsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -148,8 +149,8 @@ class RatingsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -166,13 +167,13 @@ class RatingsTable extends Table
 
     /**
      *
-     * @param Season $season
+     * @param \App\Model\Entity\Season $season
      * @return int
      */
     public function findMaxMatchday(Season $season): int
     {
         $query = $this->find();
-        $res = $query->hydrate(false)
+        $res = $query->disableHydration()
             ->leftJoinWith('Matchdays')
             ->select(['matchday_id' => $query->func()->max('Scores.matchday_id')])
             ->where(['m.season_id' => $season->id])

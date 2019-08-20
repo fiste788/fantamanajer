@@ -1,12 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Model\Entity\Member;
+use App\Model\Entity\Team;
 use Cake\Datasource\ModelAwareTrait;
 use GuzzleHttp\Client;
-use Symfony\Component\DomCrawler\Crawler;
 use stdClass;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  *
@@ -30,17 +32,16 @@ class LikelyLineupService
      * Entry function
      *
      * @param int $teamId The id of team
-     * @return Team
      */
-    public function get($teamId)
+    public function get($teamId): Team
     {
         $team = $this->Teams->get($teamId, [
             'contain' => [
                 'Members' => [
                     'Players',
-                    'Clubs'
-                ]
-            ]
+                    'Clubs',
+                ],
+            ],
         ]);
         $this->retrieve($team->members);
 
@@ -49,13 +50,13 @@ class LikelyLineupService
 
     /**
      * Retrieve from gazzetta likely lineup
-     * @param Member[] $members The members
+     * @param \App\Model\Entity\Member[] $members The members
      * @return void
      */
     public function retrieve($members)
     {
         $client = new Client([
-            'base_uri' => 'https://www.gazzetta.it'
+            'base_uri' => 'https://www.gazzetta.it',
         ]);
         $html = $client->request('GET', '/Calcio/prob_form', ['verify' => false]);
         if ($html->getStatusCode() == 200) {
@@ -73,7 +74,7 @@ class LikelyLineupService
     /**
      * Process match
      *
-     * @param Crawler $match The match
+     * @param \Symfony\Component\DomCrawler\Crawler $match The match
      * @return void
      */
     private function processMatch(Crawler $match)
@@ -92,7 +93,7 @@ class LikelyLineupService
     /**
      * Process member
      *
-     * @param Member $member The member
+     * @param \App\Model\Entity\Member $member The member
      * @return void
      */
     private function processMember(Member &$member)

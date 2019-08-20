@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class PushSubscriptionsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -58,7 +57,7 @@ class PushSubscriptionsFixture extends TestFixture
                 'expires_at' => 1536228855,
                 'created_at' => 1536228855,
                 'modified_at' => 1536228855,
-                'user_id' => 1
+                'user_id' => 1,
             ],
         ];
         parent::init();

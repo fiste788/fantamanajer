@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Entity\Season;
 use App\Model\Entity\Team;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
@@ -11,6 +11,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
+use Cake\Log\Log;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -35,13 +36,21 @@ class RenewChampionshipCommand extends Command
     }
 
     /**
+     * Undocumented function
      *
-     * @return Season
+     * @param \Cake\Console\Arguments $args
+     * @param \Cake\Console\ConsoleIo $io
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->Championships->Teams->removeBehavior('Upload');
-        $championship = $this->Championships->get($args->getArgument('id'), ['contain' => 'Teams.NotificationSubscriptions']);
+        $championship = $this->Championships->get($args->getArgument('id'), ['contain' => [
+            'Teams' => [
+                'PushNotificationSubscriptions',
+                'EmailNotificationSubscriptions',
+                ]
+            ]]);
         $newChampionship = $this->Championships->newEntity($championship->getOriginalValues());
         unset($newChampionship->id);
         $newChampionship->season_id = $this->currentSeason->id;
@@ -51,10 +60,10 @@ class RenewChampionshipCommand extends Command
             $newTeam = $that->Championships->Teams->newEntity($team->getOriginalValues());
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
-
             return $newTeam;
         }, $championship->teams);
         $io->out('Save championship');
+
         $this->Championships->save($newChampionship);
         foreach ($championship->teams as $key => $team) {
             $newTeam = $newChampionship->teams[$key];

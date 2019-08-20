@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace StreamCake;
 
 use ArrayAccess;
 use ArrayIterator;
-use Cake\Chronos\Chronos;
 use IteratorAggregate;
-use Traversable;
 
-class EnrichedActivity implements ArrayAccess, IteratorAggregate
+class EnrichedActivity implements IteratorAggregate
 {
     /**
      * @var array
@@ -94,13 +93,13 @@ class EnrichedActivity implements ArrayAccess, IteratorAggregate
      */
     public function offsetGet($offset)
     {
-        return isset($this->activityData[$offset]) ? $this->activityData[$offset] : null;
+        return $this->activityData[$offset] ?? null;
     }
 
     /**
      * Retrieve an external iterator
      *
-     * @return Traversable
+     * @return \Traversable
      */
     public function getIterator()
     {

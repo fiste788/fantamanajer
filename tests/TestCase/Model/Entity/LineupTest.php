@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Model\Entity;
 
 use App\Model\Entity\Lineup;
@@ -9,7 +11,6 @@ use Cake\TestSuite\TestCase;
  */
 class LineupTest extends TestCase
 {
-
     /**
      * Test subject
      *

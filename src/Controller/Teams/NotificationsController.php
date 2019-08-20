@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Teams;
 
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
-use Cake\Event\Event;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
+use Cake\Http\Exception\ForbiddenException;
 
 class NotificationsController extends AppController
 {
@@ -29,7 +30,7 @@ class NotificationsController extends AppController
             [
                 'success' => true,
                 'data' => $stream,
-                '_serialize' => ['success', 'data']
+                '_serialize' => ['success', 'data'],
             ]
         );
     }
@@ -44,7 +45,7 @@ class NotificationsController extends AppController
             [
                 'success' => true,
                 'data' => $stream,
-                '_serialize' => ['success', 'data']
+                '_serialize' => ['success', 'data'],
             ]
         );
     }

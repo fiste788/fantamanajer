@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller\Teams;
 
 use App\Controller\AppController;
@@ -10,7 +12,6 @@ use Cake\Http\Exception\ForbiddenException;
  */
 class StreamController extends AppController
 {
-
     public function index()
     {
         $teamId = $this->request->getParam('team_id');
@@ -18,7 +19,7 @@ class StreamController extends AppController
             throw new ForbiddenException();
         }
 
-        $page = $this->request->getQuery('page', 1);
+        $page = (int)$this->request->getQuery('page', 1);
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
@@ -26,7 +27,7 @@ class StreamController extends AppController
         $this->set([
             'success' => true,
             'data' => $stream,
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 }

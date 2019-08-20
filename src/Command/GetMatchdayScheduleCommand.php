@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Command;
 
@@ -38,15 +39,13 @@ class GetMatchdayScheduleCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        if (!$args->hasArgument('season')) {
-            $season = $this->currentSeason;
-        }
+        $season = $args->getArgument('season') ?? $this->currentSeason;
         if (!$args->hasArgument('matchday')) {
             $matchday = $this->currentMatchday;
         } else {
             $matchday = $this->Matchdays->find()->where([
                 'number' => $args->getArgument('matchday'),
-                'season_id' => $season->id
+                'season_id' => $season->id,
             ])->first();
         }
 
@@ -55,14 +54,15 @@ class GetMatchdayScheduleCommand extends Command
 
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
-        $year = $season->year . "-" . substr($season->year + 1, 2, 2);
+
+        $year = ((string)$season->year) . "-" . substr(((string)($season->year + 1)), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);
         $client = new Client(
             [
                 'host' => 'www.legaseriea.it',
                 'redirect' => 5,
-                'timeout' => 60
+                'timeout' => 60,
             ]
         );
 
@@ -73,7 +73,7 @@ class GetMatchdayScheduleCommand extends Command
         if ($response->isOk()) {
             $io->verbose("Response OK");
             $crawler = new Crawler();
-            $crawler->addContent($response->body());
+            $crawler->addContent($response->getBody());
             $datiPartita = $crawler->filter(".datipartita")->first();
             if ($datiPartita->count()) {
                 $box = $datiPartita->filter("p")->first()->filter("span");

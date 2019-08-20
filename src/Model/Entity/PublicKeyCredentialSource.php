@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
-use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
-use Webauthn\TrustPath\TrustPath;
 
 /**
  * PublicKeyCredentialSource Entity
@@ -14,7 +14,7 @@ use Webauthn\TrustPath\TrustPath;
  * @property string $type
  * @property array $transports
  * @property string $attestation_type
- * @property TrustPath $trust_path
+ * @property \Webauthn\TrustPath\TrustPath $trust_path
  * @property string $aaguid
  * @property string $credential_public_key
  * @property string $user_handle
@@ -25,7 +25,6 @@ use Webauthn\TrustPath\TrustPath;
  */
 class PublicKeyCredentialSource extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -47,13 +46,13 @@ class PublicKeyCredentialSource extends Entity
         'counter' => true,
         'created_at' => true,
         'name' => true,
-        'user' => true
+        'user' => true,
     ];
 
     /**
      * Undocumented function
      *
-     * @return WebauthnPublicKeyCredentialSource
+     * @return \Webauthn\PublicKeyCredentialSource
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {
@@ -63,7 +62,7 @@ class PublicKeyCredentialSource extends Entity
     /**
      * Undocumented function
      *
-     * @param WebauthnPublicKeyCredentialSource $credentialSource arg
+     * @param \Webauthn\PublicKeyCredentialSource $credentialSource arg
      * @return void
      */
     public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)

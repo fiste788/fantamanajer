@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Event\EventInterface;
 
 /**
@@ -19,7 +19,7 @@ class PlayersController extends AppController
     public function view($id)
     {
         $this->Crud->action()->findMethod(['withDetails' => [
-            'championship_id' => $this->request->getQuery('championship_id', null)
+            'championship_id' => $this->request->getQuery('championship_id', null),
         ]]);
 
         return $this->Crud->execute();

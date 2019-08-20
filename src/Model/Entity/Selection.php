@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Cake\ORM\Table;
 
 /**
  * Selection Entity.
@@ -16,14 +17,13 @@ use Cake\ORM\Table;
  * @property \App\Model\Entity\Matchday $matchday
  * @property int $old_member_id
  * @property int $new_member_id
- * @property Member $oldMember
- * @property Member $newMember
+ * @property \App\Model\Entity\Member $oldMember
+ * @property \App\Model\Entity\Member $newMember
  * @property \App\Model\Entity\Member $old_member
  * @property \App\Model\Entity\Member $new_member
  */
 class Selection extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

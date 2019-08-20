@@ -1,10 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Member;
 use ArrayObject;
-use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -17,28 +16,27 @@ use Cake\Validation\Validator;
 /**
  * Members Model
  *
- * @property PlayersTable|\Cake\ORM\Association\BelongsTo $Players
- * @property RolesTable|\Cake\ORM\Association\BelongsTo $Roles
- * @property ClubsTable|\Cake\ORM\Association\BelongsTo $Clubs
- * @property SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
- * @property DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property RatingsTable|\Cake\ORM\Association\HasMany $Ratings
- * @property TeamsTable|\Cake\ORM\Association\BelongsToMany $Teams
+ * @property \App\Model\Table\PlayersTable|\Cake\ORM\Association\BelongsTo $Players
+ * @property \App\Model\Table\RolesTable|\Cake\ORM\Association\BelongsTo $Roles
+ * @property \App\Model\Table\ClubsTable|\Cake\ORM\Association\BelongsTo $Clubs
+ * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
+ * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
+ * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsToMany $Teams
  *
- * @method Member get($primaryKey, $options = [])
- * @method Member newEntity($data = null, array $options = [])
- * @method Member[] newEntities(array $data, array $options = [])
- * @method Member|bool save(EntityInterface $entity, $options = [])
- * @method Member patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Member[] patchEntities($entities, array $data, array $options = [])
- * @method Member findOrCreate($search, callable $callback = null, $options = [])
- * @property VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
+ * @method \App\Model\Entity\Member get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Member newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Member|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Member[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\VwMembersStatsTable|\Cake\ORM\Association\HasOne $VwMembersStats
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method Member|bool saveOrFail(EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Member|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MembersTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -57,41 +55,41 @@ class MembersTable extends Table
             'Players',
             [
                 'foreignKey' => 'player_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Roles',
             [
                 'foreignKey' => 'role_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Clubs',
             [
                 'foreignKey' => 'club_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->belongsTo(
             'Seasons',
             [
                 'foreignKey' => 'season_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
         $this->hasMany(
             'Dispositions',
             [
-                'foreignKey' => 'member_id'
+                'foreignKey' => 'member_id',
             ]
         );
         $this->hasMany(
             'Ratings',
             [
                 'foreignKey' => 'member_id',
-                'strategy' => 'select'
+                'strategy' => 'select',
             ]
         );
         $this->belongsToMany(
@@ -99,14 +97,14 @@ class MembersTable extends Table
             [
                 'foreignKey' => 'member_id',
                 'targetForeignKey' => 'team_id',
-                'joinTable' => 'members_teams'
+                'joinTable' => 'members_teams',
             ]
         );
         $this->hasOne(
             'VwMembersStats',
             [
                 'foreignKey' => 'member_id',
-                'propertyName' => 'stats'
+                'propertyName' => 'stats',
             ]
         );
     }
@@ -114,8 +112,8 @@ class MembersTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -141,8 +139,8 @@ class MembersTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -160,7 +158,7 @@ class MembersTable extends Table
             'keyField' => 'code_gazzetta',
             'valueField' => function ($obj) {
                 return $obj;
-            }
+            },
         ])->where(['season_id' => $season_id]);
     }
 
@@ -209,7 +207,7 @@ class MembersTable extends Table
             ->where([
                 'Members.id NOT IN' => $ids,
                 'Members.active' => true,
-                'Championships.id' => $championshipId
+                'Championships.id' => $championshipId,
             ])
             ->orderAsc('Players.surname')
             ->orderAsc('Players.name');
@@ -233,7 +231,7 @@ class MembersTable extends Table
             })->order(['role_id', 'Players.name'])
             ->where([
                 'active' => true,
-                'season_id' => $options['season_id']
+                'season_id' => $options['season_id'],
             ]);
     }
 
@@ -257,9 +255,9 @@ class MembersTable extends Table
             'Members.role_id' => $options['role_id'],
             'OR' => [
                 'Teams.id !=' => $options['team_id'],
-                'Teams.id IS' => null
+                'Teams.id IS' => null,
             ],
-            'Members.season_id' => $team->championship->season_id
+            'Members.season_id' => $team->championship->season_id,
         ]);
 
         return $q;
@@ -270,7 +268,7 @@ class MembersTable extends Table
         return $q->contain([
             'Players', 'Ratings' => function (Query $q) use ($options) {
                 return $q->where(['matchday_id' => $options['matchday_id']]);
-            }
+            },
         ])->innerJoinWith('Ratings', function (Query $q) use ($options) {
             return $q->where(['matchday_id' => $options['matchday_id']]);
         })->innerJoinWith('Roles')
@@ -281,7 +279,7 @@ class MembersTable extends Table
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         $ev = new Event('Fantamanajer.changeMember', $this, [
-            'member' => $entity
+            'member' => $entity,
         ]);
         EventManager::instance()->dispatch($ev);
     }

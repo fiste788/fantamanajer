@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Policy;
 
 class RequestPolicy
@@ -17,7 +19,7 @@ class RequestPolicy
         }
 
         if ($request->getParam('prefix') === 'Championships') {
-            $championshipId = $this->request->getParam('championship_id');
+            $championshipId = $request->getParam('championship_id');
 
             return $identity->isInChampionship($championshipId);
         }

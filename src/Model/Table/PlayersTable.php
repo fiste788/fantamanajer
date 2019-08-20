@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -9,10 +10,10 @@ use Cake\Validation\Validator;
 /**
  * Players Model
  *
- * @property MembersTable|\Cake\ORM\Association\HasMany $Members
- * @property HasMany $View0LineupsDetails
- * @property HasMany $View0Members
- * @property HasMany $View1MembersStats
+ * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property \Cake\ORM\Association\HasMany $View0LineupsDetails
+ * @property \Cake\ORM\Association\HasMany $View0Members
+ * @property \Cake\ORM\Association\HasMany $View1MembersStats
  * @method \App\Model\Entity\Player get($primaryKey, $options = [])
  * @method \App\Model\Entity\Player newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])
@@ -24,7 +25,6 @@ use Cake\Validation\Validator;
  */
 class PlayersTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -42,7 +42,7 @@ class PlayersTable extends Table
         $this->hasMany(
             'Members',
             [
-                'foreignKey' => 'player_id'
+                'foreignKey' => 'player_id',
             ]
         );
     }
@@ -50,8 +50,8 @@ class PlayersTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {

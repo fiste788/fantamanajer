@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class ScoresFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -59,7 +58,7 @@ class ScoresFixture extends TestFixture
                 'penality' => 'Lorem ipsum dolor sit amet',
                 'lineup_id' => 1,
                 'team_id' => 1,
-                'matchday_id' => 1
+                'matchday_id' => 1,
             ],
         ];
         parent::init();

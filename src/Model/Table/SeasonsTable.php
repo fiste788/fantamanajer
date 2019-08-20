@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
@@ -25,7 +27,6 @@ use Cake\Validation\Validator;
  */
 class SeasonsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -43,43 +44,43 @@ class SeasonsTable extends Table
         $this->hasMany(
             'Championships',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
         $this->hasMany(
             'Matchdays',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
         $this->hasMany(
             'Members',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
         $this->hasMany(
             'View0LineupsDetails',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
         $this->hasMany(
             'View0Members',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
         $this->hasMany(
             'View1MembersStats',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
         $this->hasMany(
             'View2ClubsStats',
             [
-                'foreignKey' => 'season_id'
+                'foreignKey' => 'season_id',
             ]
         );
     }

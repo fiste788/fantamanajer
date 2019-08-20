@@ -1,9 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace StreamCake;
 
-use App\Stream\StreamActivity;
-use Cake\Chronos\Chronos;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Inflector;
 
@@ -31,7 +30,7 @@ class Enrich implements EnrichInterface
     /**
      * @param array $activities
      *
-     * @return EnrichedActivity[]
+     * @return \StreamCake\EnrichedActivity[]
      */
     public function enrichActivities(array $activities)
     {
@@ -49,7 +48,7 @@ class Enrich implements EnrichInterface
     /**
      * @param array $aggregatedActivities
      *
-     * @return EnrichedActivity[]
+     * @return \StreamCake\EnrichedActivity[]
      */
     public function enrichAggregatedActivities(array $aggregatedActivities)
     {
@@ -78,7 +77,7 @@ class Enrich implements EnrichInterface
     /**
      * @param array $activities
      *
-     * @return EnrichedActivity[]
+     * @return \StreamCake\EnrichedActivity[]
      */
     private function wrapActivities(array $activities)
     {
@@ -88,13 +87,13 @@ class Enrich implements EnrichInterface
     }
 
     /**
-     * @param EnrichedActivity[] $activities
+     * @param \StreamCake\EnrichedActivity[] $activities
      *
      * @return array
      */
     private function collectReferences(array $activities)
     {
-        
+
         $references = [];
 
         foreach ($activities as $activity) {
@@ -108,10 +107,10 @@ class Enrich implements EnrichInterface
                     continue;
                 }
 
-                list($type, $identifier) = explode(':', $value);
-                
+                [$type, $identifier] = explode(':', $value);
+
                 $references[$type]['identifiers'][] = $identifier;
-                if($field == 'object') {
+                if ($field == 'object') {
                     $references[$type]['contain'] = $contain;
                 } else {
                     $references[$type]['contain'] = [];
@@ -140,7 +139,7 @@ class Enrich implements EnrichInterface
                 'keyField' => 'id',
                 'valueField' => function ($obj) {
                     return $obj;
-                }
+                },
             ])->contain($references[$type]['contain'])
                 ->whereInList($plural . '.id', $identifiers)->toArray();
 
@@ -151,10 +150,10 @@ class Enrich implements EnrichInterface
     }
 
     /**
-     * @param EnrichedActivity[] $activities
+     * @param \StreamCake\EnrichedActivity[] $activities
      * @param array $objects
      *
-     * @return EnrichedActivity[]
+     * @return \StreamCake\EnrichedActivity[]
      */
     public function injectObjects($activities, $objects)
     {
@@ -165,7 +164,7 @@ class Enrich implements EnrichInterface
                 }
 
                 $value = $activity[$field];
-                list($type, $identifier) = explode(':', $value);
+                [$type, $identifier] = explode(':', $value);
 
                 if (!isset($objects[$type], $objects[$type][$identifier])) {
                     $activity->trackNotEnrichedField($type, $identifier);
@@ -178,15 +177,16 @@ class Enrich implements EnrichInterface
 
         return $activities;
     }
-    
+
     /**
-      * 
-      * @param EnrichedActivity[] $activity
-      * @return StreamActivity
-      */
-     private function getContain($activity) {
+     *
+     * @param \StreamCake\EnrichedActivity[] $activity
+     * @return \App\Stream\StreamActivity
+     */
+    private function getContain($activity)
+    {
         $base = '\\App\\Stream\\Verb\\';
-        if (array_key_exists('activities',$activity)) {
+        if (array_key_exists('activities', $activity)) {
             $base .= 'Aggregated\\';
             $verb = $activity['verb'];
         } else {
@@ -194,6 +194,7 @@ class Enrich implements EnrichInterface
         }
         $className = $base . ucwords($verb);
         $method = new \ReflectionMethod($className, 'contain');
+
         return $method->invoke(null);
-     }
+    }
 }

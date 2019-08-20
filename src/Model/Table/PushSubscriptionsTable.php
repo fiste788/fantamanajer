@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model\Table;
 
@@ -13,21 +14,20 @@ use Cake\Validation\Validator;
 /**
  * PushSubscriptions Model
  *
- * @property UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\PushSubscription get($primaryKey, $options = [])
  * @method \App\Model\Entity\PushSubscription newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\PushSubscription|bool save(EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\PushSubscription patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\PushSubscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\PushSubscription|bool saveOrFail(EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PushSubscriptionsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -48,9 +48,9 @@ class PushSubscriptionsTable extends Table
                 'events' => [
                     'Model.beforeSave' => [
                         'created_at' => 'new',
-                        'modified_at' => 'always'
-                    ]
-                ]
+                        'modified_at' => 'always',
+                    ],
+                ],
             ]
         );
 
@@ -58,7 +58,7 @@ class PushSubscriptionsTable extends Table
             'Users',
             [
                 'foreignKey' => 'user_id',
-                'joinType' => 'INNER'
+                'joinType' => 'INNER',
             ]
         );
     }
@@ -66,8 +66,8 @@ class PushSubscriptionsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param  Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -105,8 +105,8 @@ class PushSubscriptionsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param  RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -119,7 +119,7 @@ class PushSubscriptionsTable extends Table
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
-            $entity->id = Security::hash($entity->endpoint, 'sha256');
+            $entity->id = Security::hash($entity->offsetGet('endpoint'), 'sha256');
         }
     }
 }

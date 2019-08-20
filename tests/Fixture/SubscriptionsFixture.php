@@ -9,7 +9,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class SubscriptionsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
@@ -47,7 +46,7 @@ class SubscriptionsFixture extends TestFixture
             'endpoint' => 'Lorem ipsum dolor sit amet',
             'public_key' => 'Lorem ipsum dolor sit amet',
             'auth_token' => 'Lorem ipsum dolor sit amet',
-            'user_id' => 1
+            'user_id' => 1,
         ],
     ];
 }

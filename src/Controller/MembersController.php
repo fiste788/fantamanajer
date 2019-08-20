@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventInterface;
 
@@ -28,18 +29,20 @@ class MembersController extends AppController
     {
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
         $matchday = $this->Matchdays->findWithRatings($this->currentSeason)->first();
-        foreach ($roles as $key => $role) {
-            $roles[$key]->best_players = $this->Members->find('bestByMatchdayIdAndRole', [
-                'matchday_id' => $matchday->id,
-                'role' => $role
-            ])->limit(5)->toArray();
+        if ($matchday) {
+            foreach ($roles as $key => $role) {
+                $roles[$key]->best_players = $this->Members->find('bestByMatchdayIdAndRole', [
+                    'matchday_id' => $matchday->id,
+                    'role' => $role,
+                ])->limit(5)->toArray();
+            }
         }
 
         $this->set(
             [
                 'success' => true,
                 'data' => $roles,
-                '_serialize' => ['success', 'data']
+                '_serialize' => ['success', 'data'],
             ]
         );
     }

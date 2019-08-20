@@ -1,16 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Database\Type;
 
-use Cake\Database\Driver;
-use Cake\Database\Type;
+use Cake\Database\DriverInterface;
+use Cake\Database\TypeInterface;
 use PDO;
 use Webauthn\PublicKeyCredentialDescriptor;
 
-class PublicKeyCredentialDescriptorType extends Type
+class PublicKeyCredentialDescriptorType implements TypeInterface
 {
-
-    public function toPHP($value, Driver $driver)
+    public function toPHP($value, DriverInterface $driver)
     {
         if ($value === null) {
             return null;
@@ -29,17 +29,43 @@ class PublicKeyCredentialDescriptorType extends Type
         return \Safe\json_decode($value, true);
     }
 
-    public function toDatabase($value, Driver $driver)
+    public function toDatabase($value, DriverInterface $driver)
     {
         return \Safe\json_encode($value);
     }
 
-    public function toStatement($value, Driver $driver)
+    public function toStatement($value, DriverInterface $driver)
     {
         if ($value === null) {
             return PDO::PARAM_NULL;
         }
 
         return PDO::PARAM_STR;
+    }
+
+    public function getBaseType(): ?string
+    {
+    }
+
+    /**
+     * Returns type identifier name for this object.
+     *
+     * @return string|null The type identifier name for this object.
+     */
+    public function getName(): ?string
+    {
+    }
+
+    /**
+     * Generate a new primary key value for a given type.
+     *
+     * This method can be used by types to create new primary key values
+     * when entities are inserted.
+     *
+     * @return mixed A new primary key value.
+     * @see \Cake\Database\Type\UuidType
+     */
+    public function newId()
+    {
     }
 }

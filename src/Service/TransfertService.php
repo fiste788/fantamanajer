@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -16,7 +17,6 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class TransfertService
 {
-
     use ModelAwareTrait;
 
     /**
@@ -34,7 +34,7 @@ class TransfertService
     /**
      * Substitute members in members team
      *
-     * @param Transfert $transfert The transfert to process
+     * @param \App\Model\Entity\Transfert $transfert The transfert to process
      * @return void
      */
     public function substituteMembers(Transfert $transfert)
@@ -45,13 +45,13 @@ class TransfertService
         }
         $rec = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->old_member_id,
-            'Teams.championship_id' => $team->championship_id
+            'Teams.championship_id' => $team->championship_id,
         ])->first();
         $rec->member_id = $transfert->new_member_id;
         $recs[] = $rec;
         $rec2 = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->new_member_id,
-            'Teams.championship_id' => $team->championship_id
+            'Teams.championship_id' => $team->championship_id,
         ])->first();
         if ($rec2) {
             $rec2->member_id = $transfert->old_member_id;
@@ -61,7 +61,7 @@ class TransfertService
                 'old_member_id' => $transfert->new_member_id,
                 'new_member_id' => $transfert->old_member_id,
                 'matchday_id' => $transfert->matchday_id,
-                'constrained' => $transfert->constrained
+                'constrained' => $transfert->constrained,
             ]);
             $this->Transferts->save($transfert, ['associated' => false]);
         }
@@ -71,7 +71,7 @@ class TransfertService
     /**
      * Search old member in lineup and substitute with new
      *
-     * @param Transfert $transfert The transfert
+     * @param \App\Model\Entity\Transfert $transfert The transfert
      * @return void
      */
     public function substituteMemberInLineup(Transfert $transfert)
@@ -88,7 +88,7 @@ class TransfertService
     /**
      * Save team member
      *
-     * @param MembersTeam $entity The mermber team
+     * @param \App\Model\Entity\MembersTeam $entity The mermber team
      * @return void
      */
     public function saveTeamMember(MembersTeam $entity)

@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -22,7 +23,6 @@ use Cake\Validation\Validator;
  */
 class NotificationSubscriptionsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -39,7 +39,7 @@ class NotificationSubscriptionsTable extends Table
 
         $this->belongsTo('Teams', [
             'foreignKey' => 'team_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
         ]);
     }
 
