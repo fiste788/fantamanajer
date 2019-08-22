@@ -16,7 +16,7 @@
         "burzum/cakephp-service-layer": "dev-master",
         "cakephp/authentication": "dev-master",
         "cakephp/authorization": "dev-master",
-        "cakephp/cakephp": "3.7.*",
+        "cakephp/cakephp": "3.8.*",
         "cakephp/migrations": "^2.0",
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",
@@ -35,7 +35,7 @@
         "spatie/image": "^1.5",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",
-        "web-auth/webauthn-lib": "1.2.x-dev"
+        "web-auth/webauthn-lib": "^2.0"
     },
     "require-dev": {
         "cakephp/bake": "^1.7",

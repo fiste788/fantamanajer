@@ -190,11 +190,15 @@ class ScoresTable extends Table
                     'championship_id' => $championshipId
                 ])->all()->toArray();
 
-                return $results->map(function (Score $entity) use ($scores) {
-                    $entity['scores'] = $scores[$entity->team->id];
+                if (!empty($scores)) {
+                    return $results->map(function (Score $entity) use ($scores) {
+                        $entity['scores'] = $scores[$entity->team->id];
 
-                    return $entity;
-                });
+                        return $entity;
+                    });
+                } else {
+                    return $results;
+                }
             }, true);
         }
 
