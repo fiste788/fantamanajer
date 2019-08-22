@@ -211,8 +211,8 @@ trait GazzettaTrait
             $buys = [];
             $sells = [];
             $membersToSave = [];
+            $member = null;
             foreach ($newMembers as $id => $newMember) {
-                $member = null;
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
                     if ($member != null) {
@@ -234,7 +234,7 @@ trait GazzettaTrait
                     $oldMember->active = false;
                     $membersToSave[] = $oldMember;
                     $this->io->verbose("Deactivate member " . $oldMember);
-                    $sells[$member->club_id][] = $member;
+                    $sells[$oldMember->club_id][] = $oldMember;
                 }
             }
             //$this->io->verbose($membersToSave);
@@ -320,6 +320,7 @@ trait GazzettaTrait
                     return $q->where(['matchday_id' => $matchday->id]);
                 }])->toArray();
 
+            $ratings = [];
             foreach ($csvRow as $stats) {
                 if (array_key_exists($stats[0], $members)) {
                     $member = $members[$stats[0]];
@@ -385,6 +386,7 @@ trait GazzettaTrait
         if ($header) {
             array_shift($header);
         }
+        $arrayOk = [];
         foreach ($array as $val) {
             $par = explode($sep, $val);
             $array = trim($val);
@@ -415,22 +417,20 @@ trait GazzettaTrait
         if ($reply == 'y') {
             $decript = file_get_contents($dectyptedFilePath);
             $encript = file_get_contents($encryptedFilePath);
-            $res = "";
+            $res = [];
             for ($i = 0; $i < 28; $i++) {
                 $xor1 = hexdec(bin2hex($decript[$i]));
                 $xor2 = hexdec(bin2hex($encript[$i]));
-                if ($i != 0) {
-                    $res .= '-';
-                }
-                $res .= dechex($xor1 ^ $xor2);
+                $res[] = dechex($xor1 ^ $xor2);
             }
-            $this->io->out('Key: ' . $res);
-            $season->key_gazzetta = $res;
+            $key = implode("-", $res);
+            $this->io->out('Key: ' . $key);
+            $season->key_gazzetta = $key;
             if ($this->Seasons->save($season)) {
                 copy($dectyptedFilePath, $dectyptedFilePath . "." . $season->year . ".bak");
                 unlink($dectyptedFilePath);
 
-                return $res;
+                return $key;
             }
         }
     }
@@ -473,7 +473,7 @@ trait GazzettaTrait
     {
         $this->io->out('Fix Points');
         $this->Seasons->loadInto($season, ['Matchdays.Ratings.Members.Roles']);
-        foreach ($this->season->matchdays as $matchday) {
+        foreach ($season->matchdays as $matchday) {
             $ratings = [];
             foreach ($matchday->ratings as $rating) {
                 $rating->points_no_bonus = $season->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;

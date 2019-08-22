@@ -172,7 +172,7 @@ class RatingsTable extends Table
     public function findMaxMatchday(Season $season)
     {
         $query = $this->find();
-        $res = $query->hydrate(false)
+        $res = $query->disableHydration()
             ->leftJoinWith('Matchdays')
             ->select(['matchday_id' => $query->func()->max('Scores.matchday_id')])
             ->where(['m.season_id' => $season->id])

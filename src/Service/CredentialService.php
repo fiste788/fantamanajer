@@ -175,7 +175,7 @@ class CredentialService
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($adapter, 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
+        //$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($adapter, 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
@@ -239,7 +239,8 @@ class CredentialService
             $this->CredentialRepository,
             $decoder,
             new TokenBindingNotSupportedHandler(),
-            new ExtensionOutputCheckerHandler()
+            new ExtensionOutputCheckerHandler(),
+            $this->createAlgorithManager()
         );
 
         try {

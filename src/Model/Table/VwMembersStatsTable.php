@@ -2,6 +2,7 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\VwMembersStat;
+use Cake\Database\Schema\TableSchema;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -45,6 +46,25 @@ class VwMembersStatsTable extends Table
     }
 
     /**
+     * Undocumented function
+     *
+     * @param \Cake\Database\Schema\TableSchema $schema
+     * @return \Cake\Database\Schema\TableSchema
+     */
+    protected function _initializeSchema(TableSchema $schema)
+    {
+        $schema->setColumnType('sum_present', 'integer');
+        $schema->setColumnType('sum_assist', 'integer');
+        $schema->setColumnType('sum_goals', 'integer');
+        $schema->setColumnType('sum_goals_against', 'integer');
+        $schema->setColumnType('sum_red_card', 'integer');
+        $schema->setColumnType('sum_yellow_card', 'integer');
+        $schema->setColumnType('sum_valued', 'integer');
+
+        return $schema;
+    }
+
+    /**
      * Default validation rules.
      *
      * @param  \Cake\Validation\Validator $validator Validator instance.
@@ -53,11 +73,11 @@ class VwMembersStatsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->decimal('sum_present')
+            ->integer('sum_present')
             ->allowEmpty('sum_present');
 
         $validator
-            ->decimal('sum_valued')
+            ->integer('sum_valued')
             ->allowEmpty('sum_valued');
 
         $validator
@@ -69,23 +89,23 @@ class VwMembersStatsTable extends Table
             ->allowEmpty('avg_rating');
 
         $validator
-            ->decimal('sum_goals')
+            ->integer('sum_goals')
             ->allowEmpty('sum_goals');
 
         $validator
-            ->decimal('sum_goals_against')
+            ->integer('sum_goals_against')
             ->allowEmpty('sum_goals_against');
 
         $validator
-            ->decimal('sum_assist')
+            ->integer('sum_assist')
             ->allowEmpty('sum_assist');
 
         $validator
-            ->decimal('sum_yellow_card')
+            ->integer('sum_yellow_card')
             ->allowEmpty('sum_yellow_card');
 
         $validator
-            ->decimal('sum_red_card')
+            ->integer('sum_red_card')
             ->allowEmpty('sum_red_card');
 
         $validator

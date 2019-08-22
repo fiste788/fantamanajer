@@ -9,6 +9,7 @@ use App\Model\Entity\Season;
 use App\Model\Entity\Team;
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
@@ -30,6 +31,7 @@ class WeeklyScriptCommand extends Command
 {
     use CurrentMatchdayTrait;
     use GazzettaTrait;
+    use ServiceAwareTrait;
 
     public function initialize()
     {

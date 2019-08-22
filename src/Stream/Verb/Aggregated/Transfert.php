@@ -11,6 +11,8 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
 
     public function getBody()
     {
+        $news = [];
+        $olds = [];
         foreach ($this->activity['activities'] as $activity) {
             if ($activity->enriched()) {
                 $news[] = $activity->offsetGet('object')->new_member->player->full_name;

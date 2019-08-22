@@ -44,10 +44,9 @@ class UpdateCalendarCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        if (!$args->hasArgument('season')) {
-            $season = $this->currentSeason;
-        }
-        $this->exec($season, $args, $io);
+        $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get($args->getArgument('season')) : $this->currentSeason;
+
+        return $this->exec($season, $args, $io);
     }
 
     public function exec(Season $season, Arguments $args, ConsoleIo $io)

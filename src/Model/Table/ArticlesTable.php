@@ -75,12 +75,8 @@ class ArticlesTable extends Table
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
         $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
-        if (array_key_exists('created_at', $data)) {
-            unset($data['created_at']);
-        }
-        if (array_key_exists('modified_at', $data)) {
-            unset($data['modified_at']);
-        }
+        $data->offsetUnset('created_at');
+        $data->offsetUnset('modified_at');
     }
 
     /**

@@ -122,7 +122,7 @@ class ScoresTable extends Table
     public function findMaxMatchday(Season $season)
     {
         $query = $this->find();
-        $res = $query->hydrate(false)
+        $res = $query->disableHydration()
             ->join(
                 [
                     'table' => 'matchdays',

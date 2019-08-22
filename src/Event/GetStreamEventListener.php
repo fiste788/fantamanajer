@@ -144,6 +144,7 @@ class GetStreamEventListener implements EventListenerInterface
      */
     public function memberTransferts($event, $buys, $sells)
     {
+        $activities = [];
         foreach ($buys as $club => $members) {
             foreach ($members as $member) {
                 $activities = [

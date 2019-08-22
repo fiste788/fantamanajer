@@ -58,7 +58,7 @@ class ScoreTest extends TestCase
         $this->Score->team_id = $team->id;
         $scoreCompute->exec($this->Score);
         $this->assertEquals(84, $this->Score->points, 'Points not match expected 84 got ' . $this->Score->points);
-        $this->assertNull($this->Score->lineup->cloned, null);
+        $this->assertNull($this->Score->lineup->cloned);
     }
 
     /**
@@ -68,13 +68,14 @@ class ScoreTest extends TestCase
      */
     public function testMissingLineup()
     {
+        $scoreService = new ComputeScoreService();
         $matchday = $this->getTableLocator()->get('Matchdays')->get(577);
         $team = $this->getTableLocator()->get('Teams')->get(55, ['contain' => 'Championships']);
         $this->Score->team = $team;
         $this->Score->matchday = $matchday;
         $this->Score->matchday_id = $matchday->id;
         $this->Score->team_id = $team->id;
-        $this->Score->compute();
+        $scoreService->exec($this->Score);
         $this->assertEquals(57.5, $this->Score->points, 'Points not match');
         $this->assertTrue($this->Score->lineup->cloned);
     }

@@ -30,11 +30,11 @@ class PublicKeyCredentialSourcesTable extends Table
      */
     protected function _initializeSchema(TableSchema $schema)
     {
-        $schema->columnType('trust_path', 'trust_path');
-        $schema->columnType('transports', 'simple_array');
-        $schema->columnType('aaguid', 'base64');
-        $schema->columnType('credential_public_key', 'base64');
-        $schema->columnType('public_key_credential_id', 'base64');
+        $schema->setColumnType('trust_path', 'trust_path');
+        $schema->setColumnType('transports', 'simple_array');
+        $schema->setColumnType('aaguid', 'base64');
+        $schema->setColumnType('credential_public_key', 'base64');
+        $schema->setColumnType('public_key_credential_id', 'base64');
 
         return $schema;
     }

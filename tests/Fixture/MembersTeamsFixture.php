@@ -43,33 +43,33 @@ class MembersTeamsFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = array(
-  array('id' => '1185','team_id' => '55','member_id' => '4656'),
-  array('id' => '1186','team_id' => '55','member_id' => '4635'),
-  array('id' => '1187','team_id' => '55','member_id' => '4653'),
-  array('id' => '1188','team_id' => '55','member_id' => '4754'),
-  array('id' => '1189','team_id' => '55','member_id' => '4700'),
-  array('id' => '1190','team_id' => '55','member_id' => '4686'),
-  array('id' => '1191','team_id' => '55','member_id' => '4775'),
-  array('id' => '1192','team_id' => '55','member_id' => '4798'),
-  array('id' => '1193','team_id' => '55','member_id' => '4762'),
-  array('id' => '1194','team_id' => '55','member_id' => '4750'),
-  array('id' => '1195','team_id' => '55','member_id' => '4777'),
-  array('id' => '1196','team_id' => '55','member_id' => '4993'),
-  array('id' => '1197','team_id' => '55','member_id' => '5028'),
-  array('id' => '1198','team_id' => '55','member_id' => '4903'),
-  array('id' => '1199','team_id' => '55','member_id' => '5051'),
-  array('id' => '1200','team_id' => '55','member_id' => '4913'),
-  array('id' => '1201','team_id' => '55','member_id' => '4945'),
-  array('id' => '1202','team_id' => '55','member_id' => '5005'),
-  array('id' => '1203','team_id' => '55','member_id' => '4958'),
-  array('id' => '1204','team_id' => '55','member_id' => '5084'),
-  array('id' => '1205','team_id' => '55','member_id' => '5123'),
-  array('id' => '1206','team_id' => '55','member_id' => '5176'),
-  array('id' => '1207','team_id' => '55','member_id' => '5088'),
-  array('id' => '1208','team_id' => '55','member_id' => '5079'),
-  array('id' => '1209','team_id' => '55','member_id' => '5055')
-);
+        $this->records = [
+        ['id' => '1185', 'team_id' => '55', 'member_id' => '4656'],
+        ['id' => '1186', 'team_id' => '55', 'member_id' => '4635'],
+        ['id' => '1187', 'team_id' => '55', 'member_id' => '4653'],
+        ['id' => '1188', 'team_id' => '55', 'member_id' => '4754'],
+        ['id' => '1189', 'team_id' => '55', 'member_id' => '4700'],
+        ['id' => '1190', 'team_id' => '55', 'member_id' => '4686'],
+        ['id' => '1191', 'team_id' => '55', 'member_id' => '4775'],
+        ['id' => '1192', 'team_id' => '55', 'member_id' => '4798'],
+        ['id' => '1193', 'team_id' => '55', 'member_id' => '4762'],
+        ['id' => '1194', 'team_id' => '55', 'member_id' => '4750'],
+        ['id' => '1195', 'team_id' => '55', 'member_id' => '4777'],
+        ['id' => '1196', 'team_id' => '55', 'member_id' => '4993'],
+        ['id' => '1197', 'team_id' => '55', 'member_id' => '5028'],
+        ['id' => '1198', 'team_id' => '55', 'member_id' => '4903'],
+        ['id' => '1199', 'team_id' => '55', 'member_id' => '5051'],
+        ['id' => '1200', 'team_id' => '55', 'member_id' => '4913'],
+        ['id' => '1201', 'team_id' => '55', 'member_id' => '4945'],
+        ['id' => '1202', 'team_id' => '55', 'member_id' => '5005'],
+        ['id' => '1203', 'team_id' => '55', 'member_id' => '4958'],
+        ['id' => '1204', 'team_id' => '55', 'member_id' => '5084'],
+        ['id' => '1205', 'team_id' => '55', 'member_id' => '5123'],
+        ['id' => '1206', 'team_id' => '55', 'member_id' => '5176'],
+        ['id' => '1207', 'team_id' => '55', 'member_id' => '5088'],
+        ['id' => '1208', 'team_id' => '55', 'member_id' => '5079'],
+        ['id' => '1209', 'team_id' => '55', 'member_id' => '5055']
+        ];
 
         parent::init();
     }

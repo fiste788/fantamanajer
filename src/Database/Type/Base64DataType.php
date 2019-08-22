@@ -15,6 +15,7 @@ class Base64DataType extends Type
         if ($value === null) {
             return null;
         }
+
         return \Safe\base64_decode($value, true);
     }
 
