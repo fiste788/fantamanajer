@@ -248,11 +248,7 @@ Router::scope(
                 'prefix' => 'teams'
             ], [
                 'matchday_id' => '\d+',
-
-                'pass' => ['ma
-tchday_id']
-
-
+                'pass' => ['matchday_id']
             ]);
         });
     }

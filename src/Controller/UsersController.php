@@ -6,6 +6,7 @@ use App\Service\CredentialService;
 use App\Service\UserService;
 use App\Stream\ActivityManager;
 use Authentication\Authenticator\UnauthenticatedException;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
@@ -60,6 +61,8 @@ class UsersController extends AppController
 
     /**
      * Get login Token
+     *
+     * @return void
      *
      * @throws UnauthenticatedException
      */
@@ -121,5 +124,22 @@ class UsersController extends AppController
             'stream' => $stream,
             '_serialize' => 'stream'
         ]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function edit()
+    {
+        $this->Crud->on(
+            'beforeSave',
+            function (Event $event) {
+                $hasher = new DefaultPasswordHasher();
+                $event->getSubject()->entity->set('password', $hasher->hash($event->getSubject()->entity->get('password')));
+            }
+        );
+        $this->Crud->execute();
     }
 }

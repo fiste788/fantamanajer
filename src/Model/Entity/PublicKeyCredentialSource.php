@@ -3,6 +3,7 @@ namespace App\Model\Entity;
 
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
+use Ramsey\Uuid\UuidFactory;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 use Webauthn\TrustPath\TrustPath;
 
@@ -21,6 +22,7 @@ use Webauthn\TrustPath\TrustPath;
  * @property int $counter
  * @property \Cake\I18n\FrozenTime $created_at
  * @property string|null $name
+ * @property string|null $user_agent
  * @property \App\Model\Entity\User $user
  */
 class PublicKeyCredentialSource extends Entity
@@ -37,16 +39,17 @@ class PublicKeyCredentialSource extends Entity
      */
     protected $_accessible = [
         'public_key_credential_id' => true,
-        'type' => true,
-        'transports' => true,
-        'attestation_type' => true,
-        'trust_path' => true,
-        'aaguid' => true,
-        'credential_public_key' => true,
-        'user_handle' => true,
+        'type' => false,
+        'transports' => false,
+        'attestation_type' => false,
+        'trust_path' => false,
+        'aaguid' => false,
+        'credential_public_key' => false,
+        'user_handle' => false,
         'counter' => true,
-        'created_at' => true,
+        'created_at' => false,
         'name' => true,
+        'user_agent' => true,
         'user' => true
     ];
 
@@ -57,7 +60,9 @@ class PublicKeyCredentialSource extends Entity
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {
-        return new WebauthnPublicKeyCredentialSource($this->public_key_credential_id, $this->type, $this->transports, $this->attestation_type, $this->trust_path, $this->aaguid, $this->credential_public_key, $this->user_handle, $this->counter);
+        $aaguid = (new UuidFactory())->fromString($this->aaguid);
+
+        return new WebauthnPublicKeyCredentialSource($this->public_key_credential_id, $this->type, $this->transports, $this->attestation_type, $this->trust_path, $aaguid, $this->credential_public_key, $this->user_handle, $this->counter);
     }
 
     /**

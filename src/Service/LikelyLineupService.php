@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Model\Entity\Member;
 use Cake\Datasource\ModelAwareTrait;
+use Cake\Log\Log;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use stdClass;
@@ -64,6 +65,7 @@ class LikelyLineupService
             $matches->each(function (Crawler $match) {
                 $this->processMatch($match);
             });
+            Log::error(array_keys($this->_teams));
             foreach ($members as &$member) {
                 $this->processMember($member);
             }
@@ -83,8 +85,8 @@ class LikelyLineupService
         $regulars = $match->filter('.team-players-inner');
         $details = $match->filter('.matchDetails > div');
         foreach ($teamsName as $team) {
-            $this->_teams[trim($team)]['regulars'] = $regulars->eq($i);
-            $this->_teams[trim($team)]['details'] = $details->eq($i);
+            $this->_teams[strtolower(trim($team))]['regulars'] = $regulars->eq($i);
+            $this->_teams[strtolower(trim($team))]['details'] = $details->eq($i);
             $i++;
         }
     }
@@ -98,33 +100,37 @@ class LikelyLineupService
     private function processMember(Member &$member)
     {
         $divs = $this->_teams[strtolower($member->club->name)];
-        $member->likely_lineup = new stdClass();
-        $member->likely_lineup->regular = null;
-        $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');
-        if ($find->count() > 0) {
-            $member->likely_lineup->regular = true;
-        } else {
-            $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
-            if ($find->count() == 0) {
-                $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
-            }
+        if($divs) {
+            $member->likely_lineup = new stdClass();
+            $member->likely_lineup->regular = null;
+            $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');
             if ($find->count() > 0) {
-                $title = $find->filter("strong")->text();
-                switch ($title) {
-                    case "Panchina:":
-                        $member->likely_lineup->regular = false;
-                        break;
-                    case "Squalificati:":
-                        $member->likely_lineup->disqualified = true;
-                        break;
-                    case "Indisponibili:":
-                        $member->likely_lineup->injured = true;
-                        break;
-                    case "Ballottaggio:":
-                        $member->likely_lineup->second_ballot = 50;
-                        break;
+                $member->likely_lineup->regular = true;
+            } else {
+                $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
+                if ($find->count() == 0) {
+                    $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
+                }
+                if ($find->count() > 0) {
+                    $title = $find->filter("strong")->text();
+                    switch ($title) {
+                        case "Panchina:":
+                            $member->likely_lineup->regular = false;
+                            break;
+                        case "Squalificati:":
+                            $member->likely_lineup->disqualified = true;
+                            break;
+                        case "Indisponibili:":
+                            $member->likely_lineup->injured = true;
+                            break;
+                        case "Ballottaggio:":
+                            $member->likely_lineup->second_ballot = 50;
+                            break;
+                    }
                 }
             }
+        } else {
+            Log::error("Non trovo team " . strtolower($member->club->name));
         }
     }
 }

@@ -80,11 +80,11 @@ class ClubsTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('partitive', 'create')
+            //->requirePresence('partitive', 'create')
             ->notEmpty('partitive');
 
         $validator
-            ->requirePresence('determinant', 'create')
+            //->requirePresence('determinant', 'create')
             ->notEmpty('determinant');
 
         return $validator;

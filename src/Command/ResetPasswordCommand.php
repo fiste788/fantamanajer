@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Model\Entity\User;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
@@ -36,7 +37,8 @@ class ResetPasswordCommand extends Command
     private function reset(User $user, ConsoleIo $io)
     {
         $io->out("Resetting password for " . $user->email);
-        $user->password = strtolower($user->name);
+        $hasher = new DefaultPasswordHasher();
+        $user->password = $hasher->hash(strtolower($user->name));
         $this->Users->save($user);
         $io->out("New password is " . strtolower($user->name));
     }

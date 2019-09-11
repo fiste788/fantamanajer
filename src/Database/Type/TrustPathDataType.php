@@ -5,7 +5,8 @@ namespace App\Database\Type;
 use Cake\Database\Driver;
 use Cake\Database\Type;
 use PDO;
-use Webauthn\TrustPath\AbstractTrustPath;
+use Webauthn\TrustPath\EmptyTrustPath;
+use Webauthn\TrustPath\TrustPathLoader;
 
 class TrustPathDataType extends Type
 {
@@ -17,7 +18,8 @@ class TrustPathDataType extends Type
         }
         $json = \Safe\json_decode($value, true);
 
-        return AbstractTrustPath::createFromJson($json);
+        return TrustPathLoader::loadTrustPath($json);
+        //return EmptyTrustPath::createFromArray($json);
     }
 
     public function marshal($value)

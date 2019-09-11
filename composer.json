@@ -24,7 +24,6 @@
         "get-stream/stream": "^3.0",
         "guzzlehttp/psr7": "^1.5",
         "josegonzalez/cakephp-upload": "^4.0",
-        "josegonzalez/dotenv": "3.*",
         "minishlink/web-push": "^5.0",
         "mirko-pagliai/me-tools": "^2.18",
         "mobiledetect/mobiledetectlib": "2.*",
@@ -35,15 +34,17 @@
         "spatie/image": "^1.5",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",
-        "web-auth/webauthn-lib": "^2.0"
+        "web-auth/webauthn-lib": "^2.0",
+        "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
-        "cakephp/bake": "^1.7",
+        "cakephp/bake": "^1.9.0",
         "cakephp/cakephp-codesniffer": "^3.0",
-        "cakephp/debug_kit": "^3.15.0",
+        "cakephp/debug_kit": "^3.17.0",
         "dereuromark/cakephp-ide-helper": "^0.11.1",
+        "josegonzalez/dotenv": "3.*",
         "mirko-pagliai/cakephp-database-backup": "^2.6",
-        "phpunit/phpunit": "^5.7|^6.0",
+        "phpunit/phpunit": "^5|^6",
         "psy/psysh": "@stable"
     },
     "suggest": {

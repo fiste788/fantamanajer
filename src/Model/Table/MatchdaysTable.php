@@ -155,7 +155,7 @@ class MatchdaysTable extends Table
             ->where(
                 [
                     'team_id IS' => null,
-                    'date <' => new DateTime(),
+                    'date <' => new \DateTime(),
                     'season_id' => $season->id
                     ]
             )
@@ -198,7 +198,7 @@ class MatchdaysTable extends Table
                 [
                     'number !=' => 0,
                     'member_id IS' => null,
-                    'date <' => new DateTime(),
+                    'date <' => new \DateTime(),
                     'season_id' => $season->id
                     ]
             )
