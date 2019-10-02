@@ -101,7 +101,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Create new push message
      *
-     * @param array $data
+     * @param array $data Datas
      *
      * @return static
      */
@@ -113,7 +113,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Create new push message
      *
-     * @param array $data
+     * @param array $data Datas
      */
     public function __construct($data = [])
     {
@@ -125,7 +125,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the notification title.
      *
-     * @param  string $value
+     * @param  string $value Title
      * @return $this
      */
     public function title($value)
@@ -138,7 +138,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the notification body.
      *
-     * @param  string $value
+     * @param  string $value Body text
      * @return $this
      */
     public function body($value)
@@ -151,7 +151,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the notification icon.
      *
-     * @param  string $value
+     * @param  string $value Icon path
      * @return $this
      */
     public function icon($value)
@@ -164,7 +164,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the notification image.
      *
-     * @param  string $value
+     * @param  string $value Image path
      * @return $this
      */
     public function image($value)
@@ -177,8 +177,9 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set an action.
      *
-     * @param  string $title
-     * @param  string $action
+     * @param  string $title Title
+     * @param  string $action Action
+     * @param  string $icon Icon
      * @return $this
      */
     public function action($title, $action, $icon = '')
@@ -191,7 +192,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the badge.
      *
-     * @param string $badge
+     * @param string $badge Badge icon
      * @return $this
      */
     public function badge($badge)
@@ -204,7 +205,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the direction.
      *
-     * @param string $dir
+     * @param string $dir Text direction
      * @return $this
      */
     public function dir($dir)
@@ -217,7 +218,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the language.
      *
-     * @param string $lang
+     * @param string $lang Language
      * @return $this
      */
     public function lang($lang)
@@ -230,7 +231,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the renotify
      *
-     * @param bool $renotify
+     * @param bool $renotify Renotify
      * @return $this
      */
     public function renotify($renotify)
@@ -243,7 +244,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the require interaction.
      *
-     * @param bool $requireInteraction
+     * @param bool $requireInteraction RequireInteraction
      * @return $this
      */
     public function requireInteraction($requireInteraction)
@@ -256,7 +257,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the tag.
      *
-     * @param string $tag
+     * @param string $tag Tag
      * @return $this
      */
     public function tag($tag)
@@ -269,7 +270,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the vibrate times.
      *
-     * @param array $vibrate
+     * @param array $vibrate Vibration timings
      * @return $this
      */
     public function vibrate($vibrate)
@@ -282,7 +283,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the data array
      *
-     * @param array $data
+     * @param array $data Additional data
      * @return $this
      */
     public function data($data = [])

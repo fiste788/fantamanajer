@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Model\Entity\Disposition;
+use App\Model\Entity\Team;
+use App\Model\Entity\Score;
 use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
-use App\Model\Entity\Score;
-use App\Model\Entity\Team;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use App\Model\Entity\Disposition;
 use Cake\Datasource\ModelAwareTrait;
+use Burzum\Cake\Service\ServiceAwareTrait;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -22,6 +23,9 @@ class ComputeScoreService
     use ModelAwareTrait;
     use ServiceAwareTrait;
 
+    /**
+     * Undocumented function
+     */
     public function __construct()
     {
         $this->loadService("Lineup");
@@ -72,14 +76,24 @@ class ComputeScoreService
                 'team_id' => $score->team->id,
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
-            $score->lineup = $this->Lineups->loadInto($score->lineup, $this->Lineups->find('withRatings', ['matchday_id' => $score->matchday_id])->getContain());
+            $score->lineup = $this->Lineups->loadInto($score->lineup, $this->Lineups->find('withRatings', [
+                'matchday_id' => $score->matchday_id,
+            ])->getContain());
         }
-        if ($score->lineup == null || ($score->lineup->matchday_id != $score->matchday->id && $championship->points_missed_lineup == 0)) {
+        if (
+            $score->lineup == null
+            || ($score->lineup->matchday_id != $score->matchday->id
+                && $championship->points_missed_lineup == 0)
+        ) {
             $score->real_points = 0;
             $score->points = 0;
         } else {
             if ($score->lineup->matchday_id != $score->matchday_id) {
-                $score->lineup = $this->Lineup->copy($score->lineup, $score->matchday, $championship->captain_missed_lineup);
+                $score->lineup = $this->Lineup->copy(
+                    $score->lineup,
+                    $score->matchday,
+                    $championship->captain_missed_lineup
+                );
             }
             $score->real_points = $this->compute($score->lineup);
             $score->points = $score->lineup->jolly ? $score->real_points * 2 : $score->real_points;

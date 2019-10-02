@@ -42,13 +42,13 @@ class LineupsController extends \App\Controller\LineupsController
                 ]);
             });
         } else {
-            $matchdayId = $this->Matchdays->find('firstWithoutScores')->first();
-            $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchdayId) {
-                $event->getSubject()->query = $this->Crud->findMethod(['byMatchdayIdAndTeamId' => [
-                    'matchday_id' => $matchdayId,
+            $matchday = $this->Matchdays->find('firstWithoutScores', ['season' => $this->currentSeason->id])->first();
+
+            $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchday, $that) {
+                $event->getSubject()->query = $that->Lineups->find('byMatchdayIdAndTeamId', [
+                    'matchday_id' => $matchday->id,
                     'team_id' => $team,
-                    'contain' => ['Teams' => ['Members' => ['Roles', 'Players']]],
-                ]]);
+                ])->contain(['Teams' => ['Members' => ['Roles', 'Players']]]);
             });
         }
         $this->Crud->on('afterFind', function (Event $event) use ($team, $that) {

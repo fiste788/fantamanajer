@@ -15,12 +15,21 @@ class ScoreService
 {
     use ModelAwareTrait;
 
+    /**
+     * Undocumented function
+     */
     public function __construct()
     {
         $this->loadModel('Matchdays');
         $this->loadModel('Scores');
     }
 
+    /**
+     * Create missing points
+     *
+     * @param \App\Model\Entity\Team $team Team
+     * @return \App\model\Entity\Score[]
+     */
     public function createMissingPoints(Team $team)
     {
         $current = $this->Matchdays->find('current')->first();

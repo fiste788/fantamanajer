@@ -1,5 +1,5 @@
 <?php
-declare (strict_types=1);
+declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -14,6 +14,7 @@ declare (strict_types=1);
  * @since     3.3.0
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use App\Command\DownloadPhotosCommand;
@@ -160,9 +161,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         ]);
 
         // Load the authenticators
-        $service->loadAuthenticator('Authentication.Session', [
+        /*$service->loadAuthenticator('Authentication.Session', [
             'fields' => $fields,
-        ]);
+        ]);*/
         $service->loadAuthenticator('Authentication.Form', [
             'loginUrl' => $loginUrl,
             'fields' => $fields,

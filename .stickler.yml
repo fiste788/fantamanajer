@@ -1,6 +1,7 @@
 linters:
   phpcs:
     standard: CakePHP
+    fixer: true
   csslint: {  }
   shellcheck:
     shell: bash

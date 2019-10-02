@@ -43,11 +43,12 @@ class UpdateCalendarCommand extends Command
      *
      * @param \Cake\Console\Arguments $args
      * @param \Cake\Console\ConsoleIo $io
-     * @return integer|null
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get($args->getArgument('season')) : $this->currentSeason;
+
         return $this->exec($season, $args, $io);
     }
 
@@ -64,6 +65,7 @@ class UpdateCalendarCommand extends Command
             $this->executeCommand($umc, ['season' => $season->id, 'matchday' => $matchday, '-n']);
             //$umc->exec($season, $matchday, $args, $io);
         }
+
         return 1;
     }
 }

@@ -9,7 +9,15 @@ use StreamCake\FeedManager;
 
 class StreamCell extends Cell
 {
-    public function display($feedName, $id, $aggregated = false)
+    /**
+     * Undocumented function
+     *
+     * @param string $feedName Feedname
+     * @param string $id Id
+     * @param bool $aggregated Aggregated
+     * @return void
+     */
+    public function display(string $feedName, string $id, $aggregated = false): void
     {
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);

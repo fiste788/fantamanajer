@@ -52,6 +52,7 @@ class StartSeasonCommand extends Command
                 ])->first();
                 $this->updateMembers($firstMatchday);
             }
+
             return 1;
         } else {
             $firstMatchday = $this->Matchdays->find()->where([

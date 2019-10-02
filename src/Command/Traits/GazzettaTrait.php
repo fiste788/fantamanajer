@@ -118,7 +118,6 @@ trait GazzettaTrait
             $i = 0;
             $content = file_get_contents($path);
             if (!empty($content)) {
-
                 while (!feof($p_file)) {
                     //$this->io->verbose($i);
                     if ($i == count($explode_xor)) {
@@ -126,12 +125,11 @@ trait GazzettaTrait
                     }
 
                     $line = fgets($p_file, 2);
-                    if($line) {
+                    if ($line) {
                         $xor2 = hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]);
                         $body .= chr($xor2);
-
                     } else {
-                        $this->io->out("salto " . substr($body,-5));
+                        $this->io->out("salto " . substr($body, -5));
                     }
                     $i++;
                 }
@@ -390,11 +388,13 @@ trait GazzettaTrait
                 }
             }
 
-            if (!$this->Ratings->saveMany($ratings, [
+            if (
+                !$this->Ratings->saveMany($ratings, [
                 'checkExisting' => false,
                 'associated' => false,
                 'checkRules' => false,
-            ])) {
+                ])
+            ) {
                 foreach ($ratings as $value) {
                     if (!empty($value->getErrors())) {
                         $this->io->err($value);

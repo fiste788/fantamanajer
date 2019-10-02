@@ -1,44 +1,45 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Model\Entity\User;
-use Burzum\Cake\Service\ServiceAwareTrait;
-use Cake\Datasource\ModelAwareTrait;
-use Cake\Utility\Hash;
 use CBOR\Decoder;
-use CBOR\OtherObject\OtherObjectManager;
-use CBOR\Tag\TagObjectManager;
-use Cose\Algorithm\Manager;
-use Cose\Algorithm\Signature\ECDSA;
-use Cose\Algorithm\Signature\EdDSA;
-use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
-use Psr\Http\Message\ServerRequestInterface;
-use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
-use Webauthn\AttestationStatement\AttestationObjectLoader;
-use Webauthn\AttestationStatement\AttestationStatementSupportManager;
-use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
-use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
-use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
-use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
-use Webauthn\AuthenticationExtensions\AuthenticationExtension;
-use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
-use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
-use Webauthn\AuthenticatorAssertionResponse;
-use Webauthn\AuthenticatorAssertionResponseValidator;
-use Webauthn\AuthenticatorAttestationResponse;
-use Webauthn\AuthenticatorAttestationResponseValidator;
-use Webauthn\AuthenticatorSelectionCriteria;
-use Webauthn\PublicKeyCredentialCreationOptions;
-use Webauthn\PublicKeyCredentialLoader;
-use Webauthn\PublicKeyCredentialParameters;
-use Webauthn\PublicKeyCredentialRequestOptions;
-use Webauthn\PublicKeyCredentialRpEntity;
+use Cake\Utility\Hash;
+use App\Model\Entity\User;
+use Cose\Algorithm\Manager;
+use CBOR\Tag\TagObjectManager;
+use Cose\Algorithm\Signature\RSA;
+use Cose\Algorithm\Signature\EdDSA;
+use Cose\Algorithm\Signature\ECDSA;
+use Cake\Datasource\ModelAwareTrait;
 use Webauthn\PublicKeyCredentialSource;
+use Webauthn\PublicKeyCredentialLoader;
+use CBOR\OtherObject\OtherObjectManager;
+use Webauthn\PublicKeyCredentialRpEntity;
+use Burzum\Cake\Service\ServiceAwareTrait;
+use Webauthn\PublicKeyCredentialParameters;
 use Webauthn\PublicKeyCredentialUserEntity;
+use Psr\Http\Message\ServerRequestInterface;
+use Webauthn\AuthenticatorSelectionCriteria;
+use Webauthn\AuthenticatorAssertionResponse;
+use Webauthn\AuthenticatorAttestationResponse;
+use Webauthn\PublicKeyCredentialRequestOptions;
+use Webauthn\PublicKeyCredentialCreationOptions;
+use Webauthn\AuthenticatorAssertionResponseValidator;
+use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
+use Webauthn\AttestationStatement\AttestationObjectLoader;
+use Webauthn\AuthenticationExtensions\AuthenticationExtension;
+use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
+use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
+use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
+use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
+use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
+use Webauthn\AttestationStatement\AttestationStatementSupportManager;
+use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
+use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 
 /**
  * Credentials Repo
@@ -70,8 +71,8 @@ class CredentialService
     {
         // User Entity
         return new PublicKeyCredentialUserEntity(
-            (string)$user->id,
-            (string)$user->id,
+            (string) $user->id,
+            (string) $user->id,
             $user->name . ' ' . $user->surname,
             null
         );
@@ -212,8 +213,7 @@ class CredentialService
     public function assertionResponse(ServerRequestInterface $request)
     {
         $publicKey = $request->getSession()->consume("User.PublicKey");
-        $json = \Safe\json_decode($publicKey, true);
-        $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromJson($json);
+        $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
 
         $decoder = $this->createDecoder();
         $attestationStatementSupportManager = $this->createStatementSupportManager($decoder);
@@ -307,7 +307,10 @@ class CredentialService
 
         $session = $request->getSession();
         $session->start();
-        $session->write("User.PublicKey", \Safe\json_encode($publicKeyCredentialCreationOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        $session->write("User.PublicKey", json_encode(
+            $publicKeyCredentialCreationOptions,
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        ));
 
         return $publicKeyCredentialCreationOptions;
     }
@@ -321,8 +324,7 @@ class CredentialService
     public function attestationResponse(ServerRequestInterface $request)
     {
         $publicKey = $request->getSession()->consume("User.PublicKey");
-        $json = \Safe\json_decode($publicKey, true);
-        $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromJson($json);
+        $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
 
         $decoder = $this->createDecoder();
 

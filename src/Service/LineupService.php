@@ -47,6 +47,7 @@ class LineupService
     /**
      * Return new empty lineup
      *
+     * @param int $team Team id
      * @return \App\Model\Entity\Lineup
      */
     public function getEmptyLineup(int $team)

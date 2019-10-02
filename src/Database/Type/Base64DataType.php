@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
 
-use Cake\Database\DriverInterface;
-use Cake\Database\TypeInterface;
 use PDO;
+use Cake\Database\TypeInterface;
+use Cake\Database\DriverInterface;
 
 class Base64DataType implements TypeInterface
 {
@@ -15,7 +16,7 @@ class Base64DataType implements TypeInterface
             return null;
         }
 
-        return \Safe\base64_decode($value, true);
+        return base64_decode($value, true);
     }
 
     public function marshal($value)
@@ -24,7 +25,7 @@ class Base64DataType implements TypeInterface
             return $value;
         }
 
-        return \Safe\base64_decode($value, true);
+        return base64_decode($value, true);
     }
 
     public function toDatabase($value, DriverInterface $driver)
@@ -42,8 +43,7 @@ class Base64DataType implements TypeInterface
     }
 
     public function getBaseType(): ?string
-    {
-    }
+    { }
 
     /**
      * Returns type identifier name for this object.
@@ -51,8 +51,7 @@ class Base64DataType implements TypeInterface
      * @return string|null The type identifier name for this object.
      */
     public function getName(): ?string
-    {
-    }
+    { }
 
     /**
      * Generate a new primary key value for a given type.
@@ -64,6 +63,5 @@ class Base64DataType implements TypeInterface
      * @see \Cake\Database\Type\UuidType
      */
     public function newId()
-    {
-    }
+    { }
 }

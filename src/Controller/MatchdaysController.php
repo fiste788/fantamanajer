@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 /**
@@ -21,9 +20,7 @@ class MatchdaysController extends AppController
 
     public function current()
     {
-        $this->Crud->on('beforeFind', function (Event $event) {
-            $event->getSubject()->query = $this->Matchdays->find('current');
-        });
+        $this->Crud->action()->findMethod(['current']);
 
         return $this->Crud->execute();
     }

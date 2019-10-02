@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
 
-use Cake\Database\DriverInterface;
-use Cake\Database\TypeInterface;
 use PDO;
+use Cake\Database\TypeInterface;
+use Cake\Database\DriverInterface;
 use Webauthn\AttestedCredentialData;
 
 class AttestedCredentialDataType implements TypeInterface
@@ -15,9 +16,9 @@ class AttestedCredentialDataType implements TypeInterface
         if ($value === null) {
             return null;
         }
-        $json = \Safe\json_decode($value, true);
+        $json = json_decode($value, true);
 
-        return AttestedCredentialData::createFromJson($json);
+        return AttestedCredentialData::createFromArray($json);
     }
 
     public function marshal($value)
@@ -26,12 +27,12 @@ class AttestedCredentialDataType implements TypeInterface
             return $value;
         }
 
-        return \Safe\json_decode($value, true);
+        return json_decode($value, true);
     }
 
     public function toDatabase($value, DriverInterface $driver)
     {
-        return \Safe\json_encode($value);
+        return json_encode($value);
     }
 
     public function toStatement($value, DriverInterface $driver)
@@ -44,8 +45,7 @@ class AttestedCredentialDataType implements TypeInterface
     }
 
     public function getBaseType(): ?string
-    {
-    }
+    { }
 
     /**
      * Returns type identifier name for this object.
@@ -53,8 +53,7 @@ class AttestedCredentialDataType implements TypeInterface
      * @return string|null The type identifier name for this object.
      */
     public function getName(): ?string
-    {
-    }
+    { }
 
     /**
      * Generate a new primary key value for a given type.
@@ -66,6 +65,5 @@ class AttestedCredentialDataType implements TypeInterface
      * @see \Cake\Database\Type\UuidType
      */
     public function newId()
-    {
-    }
+    { }
 }

@@ -55,7 +55,7 @@ class GetMatchdayScheduleCommand extends Command
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
 
-        $year = ((string)$season->year) . "-" . substr(((string)($season->year + 1)), 2, 2);
+        $year = ((string)$season->year) . "-" . substr((string)($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);
         $client = new Client(

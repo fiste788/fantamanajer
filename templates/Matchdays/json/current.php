@@ -1,2 +1,1 @@
-<?php
-echo json_encode(['success' => true, 'data' => $matchday]);
+<?= json_encode(['success' => true, 'data' => isset($matchday) ? $matchday : []]);

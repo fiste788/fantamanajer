@@ -1,15 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use Authentication\IdentityInterface as AuthenticationIdentity;
 use Authorization\IdentityInterface as AuthorizationIdentity;
+use Authorization\Policy\ResultInterface;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use Webauthn\PublicKeyCredentialUserEntity;
-use Authorization\Policy\ResultInterface;
 
 /**
  * User Entity
@@ -102,7 +101,6 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     {
         return $this->authorization->canResult($this, $action, $resource);
     }
-
 
     /**
      * Authorization\IdentityInterface method

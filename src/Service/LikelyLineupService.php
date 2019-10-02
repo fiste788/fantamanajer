@@ -32,6 +32,7 @@ class LikelyLineupService
      * Entry function
      *
      * @param int $teamId The id of team
+     * @return \App\Model\Entity\Team
      */
     public function get($teamId): Team
     {

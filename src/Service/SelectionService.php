@@ -19,6 +19,9 @@ class SelectionService
 {
     use ModelAwareTrait;
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->loadModel('MembersTeams');
@@ -27,7 +30,8 @@ class SelectionService
 
     /**
      *
-     * @param \App\Model\Entity\Selection $selection
+     * @param \App\Model\Entity\Selection $selection Selection
+     * @return void
      */
     public function notifyLostMember(Selection $selection)
     {
@@ -55,13 +59,19 @@ class SelectionService
             foreach ($selection->team->user->subscriptions as $subscription) {
                 $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                     ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
-                    ->body('Hai perso il giocatore ' . $selection->new_member->player->surname . ' ' . $selection->new_member->player->name)
+                    ->body('Hai perso il giocatore ' . $selection->new_member->player->full_name)
                     ->tag('lost-player-' . $selection->id);
                 $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
             }
         }
     }
 
+    /**
+     * Transform selection to transfert
+     *
+     * @param \App\Model\Entity\Selection $selection Selection
+     * @return \App\Model\Entity\Transfert
+     */
     public function toTransfert(Selection $selection)
     {
         $transfert = new Transfert();
@@ -73,6 +83,12 @@ class SelectionService
         return $transfert;
     }
 
+    /**
+     * Save selection
+     *
+     * @param \App\Model\Entity\Selection $entity selection
+     * @return void
+     */
     public function save(Selection $entity)
     {
         $memberTeam = $this->MembersTeams->find()

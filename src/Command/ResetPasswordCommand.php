@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -9,7 +8,6 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
-use Cake\Utility\Hash;
 
 /**
  * @property \App\Model\Table\UsersTable $Users
@@ -35,6 +33,7 @@ class ResetPasswordCommand extends Command
                 $this->reset($user, $io);
             }
         }
+
         return 1;
     }
 

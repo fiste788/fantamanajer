@@ -36,7 +36,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
 
         $this->loadComponent('Authentication.Authentication', [
-            'logoutRedirect' => '/users/login'  // Default is false
+            'logoutRedirect' => '/users/login',  // Default is false
         ]);
 
         $this->loadComponent('Authorization.Authorization', [

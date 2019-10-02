@@ -11,7 +11,6 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
-use Cake\Log\Log;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -49,7 +48,7 @@ class RenewChampionshipCommand extends Command
             'Teams' => [
                 'PushNotificationSubscriptions',
                 'EmailNotificationSubscriptions',
-                ]
+                ],
             ]]);
         $newChampionship = $this->Championships->newEntity($championship->getOriginalValues());
         unset($newChampionship->id);
@@ -60,6 +59,7 @@ class RenewChampionshipCommand extends Command
             $newTeam = $that->Championships->Teams->newEntity($team->getOriginalValues());
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
+
             return $newTeam;
         }, $championship->teams);
         $io->out('Save championship');

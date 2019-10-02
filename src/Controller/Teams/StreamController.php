@@ -5,7 +5,6 @@ namespace App\Controller\Teams;
 
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
-use Cake\Http\Exception\ForbiddenException;
 
 /**
  * Steam Controller
@@ -15,9 +14,9 @@ class StreamController extends AppController
     public function index()
     {
         $teamId = $this->request->getParam('team_id');
-        if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {
+        /*if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {
             throw new ForbiddenException();
-        }
+        }*/
 
         $page = (int)$this->request->getQuery('page', 1);
         $rowsForPage = 10;

@@ -50,6 +50,7 @@ class UpdateMatchdayCommand extends Command
     {
         $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get((int)$args->getArgument('season')) : $this->currentSeason;
         $matchday = $args->hasArgument('matchday') ? (int)$args->getArgument('matchday') : $this->currentMatchday->number;
+
         return $this->exec($season, $matchday, $args, $io);
     }
 
@@ -83,6 +84,7 @@ class UpdateMatchdayCommand extends Command
             $io->error('Cannot get ' . $matchday);
             $this->abort();
         }
+
         return 1;
     }
 }

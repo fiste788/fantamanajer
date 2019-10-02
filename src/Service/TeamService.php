@@ -39,7 +39,8 @@ class TeamService
     {
         $team->scores = $this->Score->createMissingPoints($team);
         $team->push_notification_subscriptions = $this->NotificationSubscription->createDefaultPushSubscription($team);
-        $team->email_notification_subscriptions = $this->NotificationSubscription->createDefaultEmailSubscription($team);
+        $team->email_notification_subscriptions = $this->NotificationSubscription
+            ->createDefaultEmailSubscription($team);
         if ($this->Teams->save($team, ['associated' => true])) {
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
