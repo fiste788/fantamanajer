@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Model\Entity\Rating;
 use App\Model\Entity\Team;
 use Cake\Datasource\ModelAwareTrait;
 

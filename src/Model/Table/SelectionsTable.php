@@ -40,6 +40,11 @@ class SelectionsTable extends Table
 {
     use \Burzum\Cake\Service\ServiceAwareTrait;
 
+    public function __construct()
+    {
+        $this->loadService('Selection');
+    }
+
     /**
      * Initialize method
      *
@@ -181,7 +186,6 @@ class SelectionsTable extends Table
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options)
     {
         if ($entity->isDirty('processed') && $entity->processed) {
-            $this->loadService('Selection');
             $this->Selection->save($entity);
         }
     }

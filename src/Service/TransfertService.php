@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Model\Entity\MembersTeam;
 use App\Model\Entity\Transfert;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
 
 /**
@@ -19,6 +20,8 @@ class TransfertService
 
     use ModelAwareTrait;
 
+    use ServiceAwareTrait;
+
     /**
      * Constructor
      */
@@ -29,6 +32,7 @@ class TransfertService
         $this->loadModel('Transferts');
         $this->loadModel('Lineups');
         $this->loadModel('Matchdays');
+        $this->loadService('Lineup');
     }
 
     /**

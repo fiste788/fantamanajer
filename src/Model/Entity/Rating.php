@@ -49,7 +49,7 @@ class Rating extends Entity
      *
      * @return float
      */
-    public function calcNoBonusPoints()
+    public function getBonusPoints()
     {
         $minus = 0;
         for ($i = 0; $i < $this->goals; $i++) {
@@ -73,9 +73,40 @@ class Rating extends Entity
                     $minus += 2;
                     break;
             }
-            //die($minus);
         }
 
-        return $this->points - $minus;
+        return $$minus;
+    }
+
+    /**
+     *
+     * @return float
+     */
+    public function getBonusCleanSheetPoints()
+    {
+        $minus = 0;
+        if($this->goals_against == 0 && $this->member->role->abbreviation == 'P') {
+            $minus += 1;
+        }
+
+        return $$minus;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Season $season
+     * @param boolean $force
+     * @return float
+     */
+    public function calcPointsNoBonus(Season $season, bool $force = false) {
+        $pointsNoBonus = $this->points;
+        if($season->bonus_points || $force) {
+            $pointsNoBonus -= $this->getBonusPoints();
+        }
+        if($season->bonus_points_clean_sheet || $force) {
+            $pointsNoBonus -= $this->getBonusCleanSheetPoints();
+        }
+        return $pointsNoBonus;
     }
 }

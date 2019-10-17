@@ -48,9 +48,9 @@ class DownloadPhotosCommand extends Command
                     $io->out($name . ": " . implode(", ", $values));
                 }
 
-                //$this->out($response->body());
+                //$this->out($response->getStringBody());
                 $crawler = new Crawler();
-                $crawler->addContent($response->body());
+                $crawler->addContent($response->getStringBody());
                 $trs = $crawler->filter("table.Result tr a");
                 $io->out("Trovati " . $trs->count());
                 if ($trs->count() >= 1) {
@@ -62,10 +62,10 @@ class DownloadPhotosCommand extends Command
                         $io->out("Url " . $href);
                         $client = new Client();
                         $response = $client->get($href, [], ['headers' => ['Referer' => $referer]]);
-                        //$this->out($response->body());
+                        //$this->out($response->getStringBody());
                         if ($response->isOk()) {
                             $io->out("Savings " . '/' . $href . " => " . $path . $member->code_gazzetta . '.jpg');
-                            file_put_contents($path . $member->code_gazzetta . '.jpg', $response->body());
+                            file_put_contents($path . $member->code_gazzetta . '.jpg', $response->getStringBody());
                         }
                     }
                 }

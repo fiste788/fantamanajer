@@ -64,7 +64,7 @@ class TransfertCommand extends Command
                     'processed' => false,
                     'Selections.active' => true
                 ]);
-            $table[] = ['Team', 'New Member', 'Old Member'];
+            $table[] = ['Team', 'Old Member', 'New Member'];
             if (!$selections->isEmpty()) {
                 foreach ($selections as $selection) {
                     $selection->processed = true;

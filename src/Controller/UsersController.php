@@ -82,7 +82,17 @@ class UsersController extends AppController
                 ]
             );
         } else {
-            throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            $this->response->statusCode(401);
+            $this->set(
+                [
+                    'success' => false,
+                    'data' => [
+                        'message' => $this->Authentication->getResult()->getStatus()
+                    ],
+                    '_serialize' => ['success', 'data']
+                ]
+            );
         }
     }
 

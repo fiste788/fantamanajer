@@ -73,7 +73,7 @@ class GetMatchdayScheduleCommand extends Command
         if ($response->isOk()) {
             $io->verbose("Response OK");
             $crawler = new Crawler();
-            $crawler->addContent($response->body());
+            $crawler->addContent($response->getStringBody());
             $datiPartita = $crawler->filter(".datipartita")->first();
             if ($datiPartita->count()) {
                 $box = $datiPartita->filter("p")->first()->filter("span");
