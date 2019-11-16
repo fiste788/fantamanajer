@@ -54,7 +54,7 @@ class ComputeScoreService
         }
         $score->matchday = $matchday;
         $score->team = $team;
-        $score->compute();
+        $this->exec($score);
 
         return $score;
     }

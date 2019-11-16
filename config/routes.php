@@ -249,8 +249,7 @@ Router::scope(
                 'prefix' => 'teams',
             ], [
                 'matchday_id' => '\d+',
-                'pass' => ['matchday_id'],
-
+                'pass' => ['matchday_id']
             ]);
         });
         $routes->fallbacks(DashedRoute::class);

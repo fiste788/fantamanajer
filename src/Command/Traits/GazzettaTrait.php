@@ -200,7 +200,7 @@ trait GazzettaTrait
         if ($response->isOk()) {
             $this->io->out("Maxigames found");
             $crawler = new Crawler();
-            $crawler->addContent($response->getBody()->getContents());
+            $crawler->addContent($response->getStringBody());
             $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
             if ($tr->count() > 0) {
                 $this->io->out("Ratings found for matchday");
@@ -248,7 +248,7 @@ trait GazzettaTrait
             $this->io->verbose("Response " . $response->getStatusCode());
             if ($response->isOk()) {
                 $crawler = new Crawler();
-                $crawler->addContent($response->body());
+                $crawler->addContent($response->getStringBody());
                 $button = $crawler->filter("#default_content_download_button");
                 if ($button->count()) {
                     $url = $button->attr("href");
@@ -594,8 +594,10 @@ trait GazzettaTrait
         foreach ($season->matchdays as $matchday) {
             $ratings = [];
             foreach ($matchday->ratings as $rating) {
-                $rating->points_no_bonus = $season->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
-                $ratings[] = $rating;
+                $rating->points_no_bonus = $rating->calcPointsNoBonus($season);
+                if($rating->isDirty()) {
+                    $ratings[] = $rating;
+                }
             }
             $this->Ratings->saveMany($ratings);
         }

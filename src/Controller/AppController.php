@@ -32,6 +32,7 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
+        $this->loadComponent('Flash');
 
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login',

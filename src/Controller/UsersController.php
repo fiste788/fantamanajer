@@ -57,7 +57,8 @@ class UsersController extends AppController
      * Get login Token
      *
      * @return void
-     * @throws \Cake\Network\Exception\UnauthorizedException
+     *
+     * @throws UnauthenticatedException
      */
     public function login()
     {
@@ -76,7 +77,17 @@ class UsersController extends AppController
                 ]
             );
         } else {
-            throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            $this->response->statusCode(401);
+            $this->set(
+                [
+                    'success' => false,
+                    'data' => [
+                        'message' => $this->Authentication->getResult()->getStatus()
+                    ],
+                    '_serialize' => ['success', 'data']
+                ]
+            );
         }
     }
 
@@ -118,5 +129,22 @@ class UsersController extends AppController
             'stream' => $stream,
             '_serialize' => 'stream',
         ]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function edit()
+    {
+        $this->Crud->on(
+            'beforeSave',
+            function (Event $event) {
+                $hasher = new DefaultPasswordHasher();
+                $event->getSubject()->entity->set('password', $hasher->hash($event->getSubject()->entity->get('password')));
+            }
+        );
+        $this->Crud->execute();
     }
 }

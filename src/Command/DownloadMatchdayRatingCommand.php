@@ -82,7 +82,7 @@ class DownloadMatchdayRatingCommand extends Command
         if ($response->isOk()) {
             $io->out("Maxigames found");
             $crawler = new Crawler();
-            $crawler->addContent($response->getBody());
+            $crawler->addContent($response->getStringBody());
             $td = $crawler->filter("#content td:contains('Giornata $matchday')");
             if ($td->count() > 0) {
                 return $td->nextAll()->filter("a")->attr("href");
@@ -107,7 +107,7 @@ class DownloadMatchdayRatingCommand extends Command
         $response = $this->client->get($url);
         if ($response->isOk()) {
             $crawler = new Crawler();
-            $crawler->addContent($response->getBody());
+            $crawler->addContent($response->getStringBody());
             $button = $crawler->filter("#default_content_download_button");
             if ($button->count()) {
                 $url = $button->attr("href");

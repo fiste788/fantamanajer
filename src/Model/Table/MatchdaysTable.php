@@ -135,7 +135,18 @@ class MatchdaysTable extends Table
 
         return $q->contain(['Seasons'])
             ->where(['date > ' => $now])
-            ->orderAsc('number');
+            ->orderAsc('number')->limit(1);
+    }
+
+    public function findPrevious(Query $q, array $options)
+    {
+        $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
+        $now = new Time();
+        $now->addMinute($interval);
+
+        return $q->contain(['Seasons'])
+            ->where(['date < ' => $now])
+            ->orderDesc('date')->limit(1);
     }
 
     /**

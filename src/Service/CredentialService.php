@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Model\Entity\User;
 use Burzum\Cake\Service\ServiceAwareTrait;
+use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Utility\Hash;
 use CBOR\Decoder;
@@ -39,6 +40,7 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
+use WhichBrowser\Parser;
 
 /**
  * Credentials Repo
@@ -71,7 +73,7 @@ class CredentialService
         // User Entity
         return new PublicKeyCredentialUserEntity(
             (string)$user->id,
-            (string)$user->id,
+            (string)$user->uuid,
             $user->name . ' ' . $user->surname,
             null
         );
@@ -99,8 +101,8 @@ class CredentialService
     {
         return new PublicKeyCredentialRpEntity(
             'FantaManajer', //Name
-            //'fantamanajer.it', //ID
-            'localhost',
+            Configure::read('Webauthn.id', 'fantamanajer.it'), //ID
+            //'localhost',
             null //Icon
         );
     }
@@ -164,7 +166,7 @@ class CredentialService
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        //$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(new CakeClient(), 'AIzaSyA9hQpKqE3N8D5Zz09DzrT421T9UZc23iM00'));
+        //$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($adapter, Configure::read('Webauthn.safetyNetKey')));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport(
@@ -283,15 +285,8 @@ class CredentialService
 
         // Public Key Credential Parameters
         $publicKeyCredentialParametersList = [
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS384),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS512),
             new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES256),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES384),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES512),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS256),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS384),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS512),
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256)
         ];
 
         // Authenticator Selection Criteria (we used default values)
@@ -307,7 +302,7 @@ class CredentialService
             $userEntity,
             random_bytes(32),
             $publicKeyCredentialParametersList,
-            20000,
+            60000,
             $excludeCredentials,
             $authenticatorSelectionCriteria,
             PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
@@ -373,6 +368,10 @@ class CredentialService
 
             $credential = $this->CredentialRepository->PublicKeyCredentialSources->newEmptyEntity();
             $credential->fromCredentialSource($credentialSource);
+            $credential->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
+            $credential->user_agent = $request->getHeader('User-Agent')[0];
+            $parsed = new Parser($credential->user_agent);
+            $credential->name = $parsed->toString();
             $this->CredentialRepository->PublicKeyCredentialSources->save($credential);
 
             return true;

@@ -11,6 +11,7 @@ use Cake\Event\EventInterface;
  *
  * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Service\LineupService $Lineup
+ * @property \App\Service\ComputeScoreService $ComputeScore
  */
 class ScoresController extends AppController
 {
@@ -21,6 +22,7 @@ class ScoresController extends AppController
     {
         parent::initialize();
         $this->loadService('Lineup');
+        $this->loadService('ComputeScore');
     }
 
     /**
@@ -72,7 +74,7 @@ class ScoresController extends AppController
         ]]);
 
         $this->Crud->on('afterSave', function (\Cake\Event\Event $event) {
-            $event->getSubject()->entity->compute();
+            $this->ComputeScore->exec($event->getSubject()->entity);
             $this->Scores->save($event->getSubject()->entity);
         });
 

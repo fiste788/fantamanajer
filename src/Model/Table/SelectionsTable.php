@@ -39,6 +39,11 @@ class SelectionsTable extends Table
 {
     use ServiceAwareTrait;
 
+    public function __construct()
+    {
+        $this->loadService('Selection');
+    }
+
     /**
      * @inheritDoc
      */
@@ -200,7 +205,6 @@ class SelectionsTable extends Table
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('processed') && $entity->processed) {
-            $this->loadService('Selection');
             $this->Selection->save($entity);
         }
     }

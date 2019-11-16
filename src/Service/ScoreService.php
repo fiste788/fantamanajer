@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Entity\Rating;
 use App\Model\Entity\Team;
 use Cake\Datasource\ModelAwareTrait;
 
