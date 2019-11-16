@@ -7,7 +7,14 @@ use Cake\Datasource\EntityInterface;
 
 class MissingPlayerInLineupRule
 {
-    public function __invoke(EntityInterface $entity, array $options)
+    /**
+     * Invoke
+     *
+     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param array $options Options
+     * @return bool
+     */
+    public function __invoke(EntityInterface $entity, array $options): bool
     {
         for ($i = 0; $i < 11; $i++) {
             if (!array_key_exists($i, $entity->dispositions)) {

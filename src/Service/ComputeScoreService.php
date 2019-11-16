@@ -1,16 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Model\Entity\Team;
-use App\Model\Entity\Score;
+use App\Model\Entity\Disposition;
 use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
-use App\Model\Entity\Disposition;
-use Cake\Datasource\ModelAwareTrait;
+use App\Model\Entity\Score;
+use App\Model\Entity\Team;
 use Burzum\Cake\Service\ServiceAwareTrait;
+use Cake\Datasource\ModelAwareTrait;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -41,7 +40,7 @@ class ComputeScoreService
      * @return \App\Model\Entity\Score
      * @throws \PDOException
      */
-    public function computeScore(Team $team, Matchday $matchday)
+    public function computeScore(Team $team, Matchday $matchday): Score
     {
         $score = $this->Scores->find()
             ->where(['team_id' => $team->id, 'matchday_id' => $matchday->id])
@@ -66,7 +65,7 @@ class ComputeScoreService
      * @param \App\Model\Entity\Score $score Score entity
      * @return void
      */
-    public function exec(Score $score)
+    public function exec(Score $score): void
     {
         $score->team = $score->team ?? $this->Teams->get($score->team_id, ['contain' => ['Championships']]);
         $championship = $score->team->championship;
@@ -113,7 +112,7 @@ class ComputeScoreService
      * @param \App\Model\Entity\Lineup $lineup The lineup to calc
      * @return float
      */
-    public function compute(Lineup $lineup)
+    public function compute(Lineup $lineup): float
     {
         $sum = 0;
         $cap = null;
@@ -151,9 +150,9 @@ class ComputeScoreService
      * Return the id of the captain
      *
      * @param \App\Model\Entity\Lineup $lineup The lineup
-     * @return int
+     * @return int|null
      */
-    private function getActiveCaptain(Lineup $lineup)
+    private function getActiveCaptain(Lineup $lineup): ?int
     {
         $captains = [$lineup->captain_id, $lineup->vcaptain_id, $lineup->vvcaptain_id];
         foreach ($captains as $cap) {
@@ -181,7 +180,7 @@ class ComputeScoreService
      * @param int $cap Id of the captain. Use it for double the points
      * @return float Points scored
      */
-    private function regularize(Disposition $disposition, $cap = null)
+    private function regularize(Disposition $disposition, $cap = null): float
     {
         $disposition->consideration = 1;
         $points = $disposition->member->ratings[0]->points_no_bonus;

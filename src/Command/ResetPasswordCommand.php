@@ -14,12 +14,18 @@ use Cake\Console\ConsoleIo;
  */
 class ResetPasswordCommand extends Command
 {
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Users');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($args->hasArgument('email')) {
@@ -37,7 +43,14 @@ class ResetPasswordCommand extends Command
         return 1;
     }
 
-    private function reset(User $user, ConsoleIo $io)
+    /**
+     * Reset
+     *
+     * @param \App\Model\Entity\User $user User
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @return void
+     */
+    private function reset(User $user, ConsoleIo $io): void
     {
         $hasher = new DefaultPasswordHasher();
         $io->out("Resetting password for " . $user->email);

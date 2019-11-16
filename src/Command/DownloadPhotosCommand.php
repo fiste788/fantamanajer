@@ -20,6 +20,9 @@ class DownloadPhotosCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -29,6 +32,9 @@ class DownloadPhotosCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Download photos task');

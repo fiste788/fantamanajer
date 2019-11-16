@@ -7,6 +7,7 @@ use App\Model\Entity\Selection;
 use App\Model\Rule\MemberIsSelectableRule;
 use App\Model\Rule\TeamReachedMaxSelectionRule;
 use ArrayObject;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -36,13 +37,10 @@ use Cake\Validation\Validator;
  */
 class SelectionsTable extends Table
 {
-    use \Burzum\Cake\Service\ServiceAwareTrait;
+    use ServiceAwareTrait;
 
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -133,10 +131,10 @@ class SelectionsTable extends Table
 
     /**
      *
-     * @param \App\Model\Entity\Selection $selection
+     * @param \App\Model\Entity\Selection $selection Selection
      * @return \App\Model\Entity\Selection
      */
-    public function findAlreadySelectedMember($selection): Selection
+    public function findAlreadySelectedMember(Selection $selection): Selection
     {
         $team = $this->Teams->get($selection->team_id);
 
@@ -156,6 +154,13 @@ class SelectionsTable extends Table
             )->first();
     }
 
+    /**
+     * Find by team and matchday query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query Query
+     */
     public function findByTeamIdAndMatchdayId(Query $q, array $options): Query
     {
         return $q->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
@@ -166,6 +171,14 @@ class SelectionsTable extends Table
             ])->limit(1);
     }
 
+    /**
+     * After save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
@@ -176,6 +189,14 @@ class SelectionsTable extends Table
         }
     }
 
+    /**
+     * Before save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Selection $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('processed') && $entity->processed) {

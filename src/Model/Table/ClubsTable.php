@@ -24,10 +24,7 @@ use Cake\Validation\Validator;
 class ClubsTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -89,6 +86,13 @@ class ClubsTable extends Table
         return $validator;
     }
 
+    /**
+     * Find by season query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findBySeasonId(Query $q, array $options): Query
     {
         return $q->innerJoinWith('Members', function (Query $q) use ($options) {

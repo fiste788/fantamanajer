@@ -12,6 +12,9 @@ class ScoresController extends \App\Controller\ScoresController
         'maxLimit' => 40,
     ];
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -19,11 +22,22 @@ class ScoresController extends \App\Controller\ScoresController
         $this->Crud->mapAction('viewByMatchday', 'Crud.View');
     }
 
+    /**
+     * Last
+     *
+     * @return void
+     */
     public function last()
     {
         $this->viewByMatchday();
     }
 
+    /**
+     * View by matchday
+     *
+     * @param int $matchdayId Matchday id
+     * @return void
+     */
     public function viewByMatchday($matchdayId = null)
     {
         $conditions = [
@@ -38,9 +52,14 @@ class ScoresController extends \App\Controller\ScoresController
                 ->order(['matchday_id' => 'desc']);
         });
 
-        return $this->view(null);
+        $this->view(null);
     }
 
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeam' => [

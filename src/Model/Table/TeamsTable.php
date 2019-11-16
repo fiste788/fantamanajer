@@ -44,10 +44,7 @@ class TeamsTable extends Table
     use ServiceAwareTrait;
 
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -70,7 +67,13 @@ class TeamsTable extends Table
                     'nameCallback' => function ($data, $settings) {
                         return strtolower($data['name']);
                     },
-                    'transformer' => function (RepositoryInterface $table, EntityInterface $entity, $data, $field, $settings) {
+                    'transformer' => function (
+                        RepositoryInterface $table,
+                        EntityInterface $entity,
+                        $data,
+                        $field,
+                        $settings
+                    ) {
                         $tmpFile = new File($data['name']);
                         $image = Image::load($data['tmp_name']);
                         $array = [$data['tmp_name'] => $data['name']];
@@ -214,17 +217,32 @@ class TeamsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['championship_id'], 'Championships'));
         $rules->add($rules->isUnique(['name', 'championship_id'], __('Team name already exist in this championship')));
-        $rules->add($rules->isUnique(['user_id', 'championship_id'], __('Team name already exist in this championship')));
+        $rules->add(
+            $rules->isUnique(['user_id', 'championship_id'], __('Team name already exist in this championship'))
+        );
 
         return $rules;
     }
 
+    /**
+     * Return find by championship query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query Query
+     */
     public function findByChampionshipId(Query $q, array $options): Query
     {
         return $q->contain(['Users'])
             ->where(['championship_id' => $options['championship_id']]);
     }
 
+    /**
+     * Save without user
+     *
+     * @param \App\Model\Entity\Team $team Team
+     * @return void
+     */
     public function saveWithoutUser(Team $team): void
     {
         $this->loadService("Team");

@@ -25,10 +25,7 @@ use Cake\Validation\Validator;
 class RolesTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {

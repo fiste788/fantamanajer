@@ -30,10 +30,7 @@ use Cake\Validation\Validator;
 class ScoresTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -115,7 +112,7 @@ class ScoresTable extends Table
 
     /**
      *
-     * @param \App\Model\Entity\Season $season
+     * @param \App\Model\Entity\Season $season Season
      * @return int
      */
     public function findMaxMatchday(Season $season): int
@@ -137,6 +134,13 @@ class ScoresTable extends Table
         return $res['matchday_id'];
     }
 
+    /**
+     * Find scores query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findScores(Query $q, array $options): Query
     {
         $championshipId = $options['championship_id'];
@@ -155,6 +159,13 @@ class ScoresTable extends Table
             }, true);
     }
 
+    /**
+     * Find by team query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findByTeam(Query $q, array $options): Query
     {
         return $q->contain([
@@ -166,10 +177,10 @@ class ScoresTable extends Table
     }
 
     /**
-     * Undocumented function
+     * Find ranking query
      *
-     * @param \Cake\ORM\Query $q
-     * @param array $options
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
      * @return \Cake\ORM\Query
      */
     public function findRanking(Query $q, array $options): Query
@@ -202,6 +213,13 @@ class ScoresTable extends Table
         return $q;
     }
 
+    /**
+     * Load score details
+     *
+     * @param \App\Model\Entity\Score $score Score
+     * @param bool $members Members
+     * @return \App\Model\Entity\Score
+     */
     public function loadDetails(Score $score, $members = false): Score
     {
         if ($members) {

@@ -10,6 +10,9 @@ use Cake\Http\Exception\ForbiddenException;
 
 class NotificationsController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -19,6 +22,11 @@ class NotificationsController extends AppController
         }
     }
 
+    /**
+     * Count
+     *
+     * @return void
+     */
     public function count()
     {
         $teamId = $this->request->getParam('team_id');
@@ -35,6 +43,11 @@ class NotificationsController extends AppController
         );
     }
 
+    /**
+     * Index
+     *
+     * @return void
+     */
     public function index()
     {
         $teamId = $this->request->getParam('team_id');

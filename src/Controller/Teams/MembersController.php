@@ -13,6 +13,11 @@ class MembersController extends AppMembersController
         'maxLimit' => 1000,
     ];
 
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod([
@@ -25,6 +30,11 @@ class MembersController extends AppMembersController
         return $this->Crud->execute();
     }
 
+    /**
+     * Not mine
+     *
+     * @return \Cake\Http\Response
+     */
     public function notMine()
     {
         $this->Crud->action()->findMethod([
@@ -37,6 +47,9 @@ class MembersController extends AppMembersController
         return $this->Crud->execute();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

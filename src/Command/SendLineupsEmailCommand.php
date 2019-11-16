@@ -23,6 +23,9 @@ class SendLineupsEmailCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -32,6 +35,9 @@ class SendLineupsEmailCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('force', [
@@ -49,6 +55,9 @@ class SendLineupsEmailCommand extends Command
         return $parser;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
@@ -66,7 +75,14 @@ class SendLineupsEmailCommand extends Command
         }
     }
 
-    private function sendLineupsChampionship(Championship $championship, Matchday $matchday)
+    /**
+     * Send lineups
+     *
+     * @param \App\Model\Entity\Championship $championship Championship
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @return void
+     */
+    private function sendLineupsChampionship(Championship $championship, Matchday $matchday): void
     {
         $teams = $this->Teams->find()
             ->contain('Lineups', function (Query $q) use ($matchday) {
@@ -80,9 +96,9 @@ class SendLineupsEmailCommand extends Command
         $email = new Email(['template' => 'lineups']);
         $email->setViewVars(
             [
-                    'teams' => $teams,
-                    'baseUrl' => 'https://fantamanajer.it',
-                ]
+                'teams' => $teams,
+                'baseUrl' => 'https://fantamanajer.it',
+            ]
         )
             ->setSubject('Formazioni giornata ' . $matchday->number)
             ->setEmailFormat('html')

@@ -20,6 +20,9 @@ class ArticlesController extends AppController
         ],
     ];
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

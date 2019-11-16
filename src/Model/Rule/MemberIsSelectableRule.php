@@ -18,6 +18,9 @@ class MemberIsSelectableRule
     use ServiceAwareTrait;
     use ModelAwareTrait;
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->loadModel('Selections');
@@ -25,7 +28,14 @@ class MemberIsSelectableRule
         $this->loadService('Selection');
     }
 
-    public function __invoke(EntityInterface $entity, array $options)
+    /**
+     * Invoke
+     *
+     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param array $options Options
+     * @return bool
+     */
+    public function __invoke(EntityInterface $entity, array $options): bool
     {
         $selection = $this->Selections->findAlreadySelectedMember($entity);
         if ($selection != null) {

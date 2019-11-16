@@ -24,10 +24,7 @@ use Cake\Validation\Validator;
 class VwMembersStatsTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -113,7 +110,7 @@ class VwMembersStatsTable extends Table
     /**
      * Undocumented function
      *
-     * @param \Cake\Database\Schema\TableSchema $schema
+     * @param \Cake\Database\Schema\TableSchema $schema Schema
      * @return \Cake\Database\Schema\TableSchema
      */
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface

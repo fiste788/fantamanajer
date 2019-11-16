@@ -8,17 +8,32 @@ use App\Stream\StreamSingleActivity;
 
 class Missing extends StreamSingleActivity implements StreamActivityInterface
 {
-    public function getBody()
+    /**
+     * Get body
+     *
+     * @return string|null
+     */
+    public function getBody(): ?string
     {
         return null;
     }
 
-    public function getTitle()
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle(): string
     {
         return __('Your lineup for current matchday is missing. Come on!');
     }
 
-    public function getIcon()
+    /**
+     * Get icon
+     *
+     * @return string
+     */
+    public function getIcon(): string
     {
         return 'star';
     }

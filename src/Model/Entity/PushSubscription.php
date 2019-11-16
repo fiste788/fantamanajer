@@ -54,13 +54,13 @@ class PushSubscription extends Entity
      *
      * @return \Minishlink\WebPush\Subscription
      */
-    public function getSubscription()
+    public function getSubscription(): Subscription
     {
         return Subscription::create([
-                    'endpoint' => $this->endpoint,
-                    'publicKey' => $this->public_key,
-                    'authToken' => $this->auth_token,
-                    'contentEncoding' => 'aesgcm',
-                ]);
+            'endpoint' => $this->endpoint,
+            'publicKey' => $this->public_key,
+            'authToken' => $this->auth_token,
+            'contentEncoding' => 'aesgcm',
+        ]);
     }
 }

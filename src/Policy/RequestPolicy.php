@@ -8,7 +8,7 @@ class RequestPolicy
     /**
      * Method to check if the request can be accessed
      *
-     * @param null|\Authorization\IdentityInterface Identity
+     * @param null|\Authorization\IdentityInterface $identity Identity
      * @param \Cake\Http\ServerRequest $request Server Request
      * @return bool
      */

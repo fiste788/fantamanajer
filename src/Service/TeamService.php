@@ -35,7 +35,7 @@ class TeamService
      * @param \App\Model\Entity\Team $team The team to create
      * @return bool
      */
-    public function createTeam(Team $team)
+    public function createTeam(Team $team): bool
     {
         $team->scores = $this->Score->createMissingPoints($team);
         $team->push_notification_subscriptions = $this->NotificationSubscription->createDefaultPushSubscription($team);

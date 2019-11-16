@@ -45,7 +45,7 @@ class Club extends Entity
      *
      * @return string
      */
-    protected function _getAbbreviation()
+    protected function _getAbbreviation(): string
     {
         return strtoupper(substr($this->name, 0, 3));
     }
@@ -54,7 +54,7 @@ class Club extends Entity
      *
      * @return string
      */
-    protected function _getPhotoUrl()
+    protected function _getPhotoUrl(): string
     {
         return Router::url('/img/' . $this->getSource() . '/' . $this->id . '/photo/' . $this->id . '.png', true);
     }
@@ -63,7 +63,7 @@ class Club extends Entity
      *
      * @return array
      */
-    protected function _getBackgroundUrl()
+    protected function _getBackgroundUrl(): array
     {
         $path = Configure::read('App.paths.images.clubs') . $this->id . DS . 'background/';
 

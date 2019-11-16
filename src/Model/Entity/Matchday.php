@@ -36,17 +36,32 @@ class Matchday extends Entity
         'id' => false,
     ];
 
-    public function isWeeklyScriptDay()
+    /**
+     * Is weekly script day
+     *
+     * @return bool
+     */
+    public function isWeeklyScriptDay(): bool
     {
         return $this->date->diffInHours(new Time(), true) > 48;
     }
 
-    public function isDoTransertDay()
+    /**
+     * Is do transfert day
+     *
+     * @return bool
+     */
+    public function isDoTransertDay(): bool
     {
         return $this->date->isToday();
     }
 
-    public function isSendMailDay()
+    /**
+     * Is send mail day
+     *
+     * @return bool
+     */
+    public function isSendMailDay(): bool
     {
         return $this->date->isWithinNext('10 minutes');
     }

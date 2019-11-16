@@ -10,12 +10,21 @@ use Cake\Event\EventInterface;
  */
 class PlayersController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['view']);
     }
 
+    /**
+     * Index
+     *
+     * @param int $id Id
+     * @return \Cake\Http\Response
+     */
     public function view($id)
     {
         $this->Crud->action()->findMethod(['withDetails' => [

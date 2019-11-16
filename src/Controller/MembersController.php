@@ -14,6 +14,9 @@ class MembersController extends AppController
 {
     use ModelAwareTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -25,6 +28,11 @@ class MembersController extends AppController
         'limit' => 50,
     ];
 
+    /**
+     * Best
+     *
+     * @return void
+     */
     public function best()
     {
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();

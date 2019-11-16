@@ -30,7 +30,7 @@ class ScoreService
      * @param \App\Model\Entity\Team $team Team
      * @return \App\model\Entity\Score[]
      */
-    public function createMissingPoints(Team $team)
+    public function createMissingPoints(Team $team): array
     {
         $current = $this->Matchdays->find('current')->first();
         $matchdaysWithScore = $this->Matchdays->findWithScores($current->season)

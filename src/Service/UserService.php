@@ -15,7 +15,7 @@ class UserService
      * @param int $days The days token is valid
      * @return string
      */
-    public function getToken($subject, $days = 7)
+    public function getToken(string $subject, int $days = 7): string
     {
         return JWT::encode(
             [

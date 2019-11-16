@@ -29,10 +29,7 @@ use Cake\Validation\Validator;
 class PushSubscriptionsTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -95,12 +92,6 @@ class PushSubscriptionsTable extends Table
         return $validator;
     }
 
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
-    {
-        $data->offsetUnset('created_at');
-        $data->offsetUnset('modified_at');
-    }
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -116,6 +107,28 @@ class PushSubscriptionsTable extends Table
         return $rules;
     }
 
+    /**
+     * Before marshal event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \ArrayObject $data Data
+     * @param \ArrayObject $options Options
+     * @return void
+     */
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        $data->offsetUnset('created_at');
+        $data->offsetUnset('modified_at');
+    }
+
+    /**
+     * Before save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {

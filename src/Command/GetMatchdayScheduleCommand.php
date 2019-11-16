@@ -21,6 +21,9 @@ class GetMatchdayScheduleCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -28,6 +31,9 @@ class GetMatchdayScheduleCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         parent::buildOptionParser($parser);
@@ -37,6 +43,9 @@ class GetMatchdayScheduleCommand extends Command
         return $parser;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $season = $args->getArgument('season') ?? $this->currentSeason;
@@ -49,12 +58,19 @@ class GetMatchdayScheduleCommand extends Command
             ])->first();
         }
 
-        $this->exec($season, $matchday, $io);
+        return $this->exec($season, $matchday, $io) ? 1 : 0;
     }
 
-    public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
+    /**
+     * Exec
+     *
+     * @param \App\Model\Entity\Season $season Season
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @return string|null
+     */
+    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): ?string
     {
-
         $year = ((string)$season->year) . "-" . substr((string)($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);

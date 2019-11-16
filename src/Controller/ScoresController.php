@@ -14,18 +14,30 @@ use Cake\Event\EventInterface;
  */
 class ScoresController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
         $this->loadService('Lineup');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');
     }
 
+    /**
+     * View
+     *
+     * @param int $id Id
+     * @return \Cake\Http\Response
+     */
     public function view($id)
     {
         $members = $this->request->getQuery('members');
@@ -41,9 +53,15 @@ class ScoresController extends AppController
 
             return $result;
         });
-        $this->Crud->execute();
+
+        return $this->Crud->execute();
     }
 
+    /**
+     * Edit
+     *
+     * @return \Cake\Http\Response
+     */
     public function edit()
     {
         $this->Crud->action()->saveOptions(['associated' => [

@@ -19,6 +19,9 @@ class RenewChampionshipCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -26,6 +29,9 @@ class RenewChampionshipCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Renew the given championship');
@@ -35,11 +41,7 @@ class RenewChampionshipCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\Arguments $args
-     * @param \Cake\Console\ConsoleIo $io
-     * @return int|null
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -48,8 +50,8 @@ class RenewChampionshipCommand extends Command
             'Teams' => [
                 'PushNotificationSubscriptions',
                 'EmailNotificationSubscriptions',
-                ],
-            ]]);
+            ],
+        ]]);
         $newChampionship = $this->Championships->newEntity($championship->getOriginalValues());
         unset($newChampionship->id);
         $newChampionship->season_id = $this->currentSeason->id;
@@ -84,7 +86,8 @@ class RenewChampionshipCommand extends Command
                         }
                     }
                     $newTeam->photo = $newTeam->id . "." . $file->ext();
-                    $newTeam->photo_dir = 'webroot' . DS . 'files' . DS . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo' . DS;
+                    $newTeam->photo_dir = 'webroot' . DS . 'files' . DS . $newTeam->getSource() . DS .
+                        $newTeam->id . DS . 'photo' . DS;
                     $this->Championships->Teams->save($newTeam);
                 }
             }

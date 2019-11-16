@@ -34,7 +34,7 @@ class LineupService
      * @param \App\Model\Entity\Matchday $matchday Matchday id
      * @return \App\Model\Entity\Lineup
      */
-    public function duplicate(Lineup $lineup, $teamId, $matchday)
+    public function duplicate(Lineup $lineup, int $teamId, Matchday $matchday): Lineup
     {
         if ($lineup->team_id == $teamId && $lineup->matchday_id != $matchday->id) {
             $lineup = $this->copy($lineup, $matchday, true, false);
@@ -50,7 +50,7 @@ class LineupService
      * @param int $team Team id
      * @return \App\Model\Entity\Lineup
      */
-    public function getEmptyLineup(int $team)
+    public function getEmptyLineup(int $team): Lineup
     {
         $lineup = new Lineup();
         $lineup->team = $this->Teams->get($team, ['contain' => ['Members' => ['Roles', 'Players']]]);
@@ -66,7 +66,7 @@ class LineupService
      * @param int $matchday_id Matchday id
      * @return \App\Model\Entity\Lineup
      */
-    public function newLineup($team_id, $matchday_id)
+    public function newLineup(int $team_id, int $matchday_id): Lineup
     {
         $lineup = $this->getEmptyLineup($team_id);
         $lineup->team_id = $team_id;
@@ -83,7 +83,7 @@ class LineupService
      * @param int $new_member_id New memeber id
      * @return bool
      */
-    public function substitute(Lineup $lineup, $old_member_id, $new_member_id)
+    public function substitute(Lineup $lineup, int $old_member_id, int $new_member_id): bool
     {
         foreach ($lineup->dispositions as $key => $disposition) {
             if ($old_member_id == $disposition->id) {
@@ -113,7 +113,7 @@ class LineupService
      * @param bool $cloned if true the lineup is cloned. Default true
      * @return \App\Model\Entity\Lineup
      */
-    public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true)
+    public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true): Lineup
     {
         $lineupCopy = $this->Lineups->newEntity(
             $lineup->toArray(),
@@ -141,7 +141,7 @@ class LineupService
      * @param \App\Model\Entity\Disposition $disposition Disposition
      * @return \App\Model\Entity\Disposition
      */
-    private function reset(Disposition $disposition)
+    private function reset(Disposition $disposition): Disposition
     {
         unset($disposition->id);
         unset($disposition->lineup_id);
@@ -156,7 +156,7 @@ class LineupService
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return void
      */
-    public function resetDispositions(Lineup $lineup)
+    public function resetDispositions(Lineup $lineup): void
     {
         foreach ($lineup->dispositions as $key => $disposition) {
             $disposition->consideration = 0;

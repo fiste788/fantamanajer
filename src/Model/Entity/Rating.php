@@ -50,7 +50,7 @@ class Rating extends Entity
      *
      * @return float
      */
-    public function calcNoBonusPoints()
+    public function calcNoBonusPoints(): float
     {
         $minus = 0;
         for ($i = 0; $i < $this->goals; $i++) {

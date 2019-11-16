@@ -38,10 +38,7 @@ use Cake\Validation\Validator;
 class MembersTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -152,6 +149,12 @@ class MembersTable extends Table
         return $rules;
     }
 
+    /**
+     * Find by season id
+     *
+     * @param int $season_id Season id
+     * @return \Cake\ORM\Query
+     */
     public function findListBySeasonId($season_id)
     {
         return $this->find('list', [
@@ -162,6 +165,13 @@ class MembersTable extends Table
         ])->where(['season_id' => $season_id]);
     }
 
+    /**
+     * Find with stats query
+     *
+     * @param \Cake\ORM\Query $query Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findWithStats(Query $query, array $options): Query
     {
         return $query->contain(['VwMembersStats'])
@@ -169,6 +179,13 @@ class MembersTable extends Table
             ->group('Members.id');
     }
 
+    /**
+     * Find with details
+     *
+     * @param \Cake\ORM\Query $query Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findWithDetails(Query $query, array $options): Query
     {
         $query->contain(
@@ -189,6 +206,13 @@ class MembersTable extends Table
         return $query;
     }
 
+    /**
+     * Find free query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findFree(Query $q, array $options): Query
     {
         $championshipId = $options['championship_id'];
@@ -223,6 +247,13 @@ class MembersTable extends Table
         return $q;
     }
 
+    /**
+     * Find by club id query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findByClubId(Query $q, array $options): Query
     {
         return $q->contain(['Roles', 'Players', 'VwMembersStats'])
@@ -235,6 +266,13 @@ class MembersTable extends Table
             ]);
     }
 
+    /**
+     * Find by team id query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findByTeamId(Query $q, array $options): Query
     {
         $q->contain(['Clubs', 'Players'])
@@ -248,6 +286,13 @@ class MembersTable extends Table
         return $q;
     }
 
+    /**
+     * Find not mine query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findNotMine(Query $q, array $options): Query
     {
         $team = $this->Teams->get($options['team_id'], ['contain' => ['Championships']]);
@@ -263,6 +308,13 @@ class MembersTable extends Table
         return $q;
     }
 
+    /**
+     * Find best by matchday and role
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findBestByMatchdayIdAndRole(Query $q, array $options): Query
     {
         return $q->contain([
@@ -276,6 +328,14 @@ class MembersTable extends Table
             ->orderDesc('Ratings.points');
     }
 
+    /**
+     * After save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         $ev = new Event('Fantamanajer.changeMember', $this, [

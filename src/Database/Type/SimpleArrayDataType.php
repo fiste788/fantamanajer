@@ -9,6 +9,9 @@ use PDO;
 
 class SimpleArrayDataType implements TypeInterface
 {
+    /**
+     * @inheritDoc
+     */
     public function toPHP($value, DriverInterface $driver)
     {
         if ($value === null || $value == '') {
@@ -18,6 +21,9 @@ class SimpleArrayDataType implements TypeInterface
         return explode(',', $value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function marshal($value)
     {
         if ($value === null || $value == '') {
@@ -27,6 +33,9 @@ class SimpleArrayDataType implements TypeInterface
         return explode(',', $value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function toDatabase($value, DriverInterface $driver)
     {
         if ($value === null || empty($value)) {
@@ -36,6 +45,9 @@ class SimpleArrayDataType implements TypeInterface
         return implode(',', $value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function toStatement($value, DriverInterface $driver)
     {
         if ($value === null) {
@@ -45,27 +57,22 @@ class SimpleArrayDataType implements TypeInterface
         return PDO::PARAM_STR;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getBaseType(): ?string
     {
     }
 
     /**
-     * Returns type identifier name for this object.
-     *
-     * @return string|null The type identifier name for this object.
+     * @inheritDoc
      */
     public function getName(): ?string
     {
     }
 
     /**
-     * Generate a new primary key value for a given type.
-     *
-     * This method can be used by types to create new primary key values
-     * when entities are inserted.
-     *
-     * @return mixed A new primary key value.
-     * @see \Cake\Database\Type\UuidType
+     * @inheritDoc
      */
     public function newId()
     {

@@ -11,6 +11,11 @@ use App\Controller\AppController;
  */
 class TransfertsController extends AppController
 {
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeamId' => [

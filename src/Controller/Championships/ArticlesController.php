@@ -15,6 +15,11 @@ class ArticlesController extends AppArticlesController
         'limit' => 8,
     ];
 
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod(['byChampionshipId' => [

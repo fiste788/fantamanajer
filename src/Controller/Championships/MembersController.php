@@ -16,6 +16,9 @@ class MembersController extends AppController
         'maxLimit' => 1000,
     ];
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -27,6 +30,11 @@ class MembersController extends AppController
         }
     }
 
+    /**
+     * Free by role
+     *
+     * @return \Cake\Http\Response
+     */
     public function freeByRole()
     {
         $this->Crud->action()->findMethod([
@@ -40,6 +48,11 @@ class MembersController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * Free
+     *
+     * @return \Cake\Http\Response
+     */
     public function free()
     {
         $this->Crud->action()->findMethod([

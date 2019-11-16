@@ -38,19 +38,35 @@ class Player extends Entity
 
     protected $_virtual = ['photo_url', 'full_name'];
 
-    protected function _getPhotoUrl()
+    /**
+     * Get photo url
+     *
+     * @return string|null
+     */
+    protected function _getPhotoUrl(): ?string
     {
         if ($this->members) {
             foreach ($this->members as $member) {
-                if (file_exists(Configure::read('App.paths.images.players') . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
-                    return Router::url('/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg', true);
+                if (
+                    file_exists(Configure::read('App.paths.images.players') . 'season-' . $member->season->id . DS .
+                        $member->code_gazzetta . '.jpg')
+                ) {
+                    return Router::url(
+                        '/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg',
+                        true
+                    );
                 }
             }
         }
     }
 
-    protected function _getFullName()
+    /**
+     * Get full name
+     *
+     * @return string
+     */
+    protected function _getFullName(): string
     {
-        return ($this->name != '' ? $this->name . ' ' : '') . $this->surname;
+        return $this->surname . ($this->name != '' ? (' ' . $this->name) : '');
     }
 }

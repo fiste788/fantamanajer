@@ -67,7 +67,12 @@ class Team extends Entity
 
     protected $_virtual = ['photo_url'];
 
-    protected function _getPhotoUrl()
+    /**
+     * Get photo
+     *
+     * @return array|null
+     */
+    protected function _getPhotoUrl(): ?array
     {
         if ($this->photo) {
             $baseUrl = '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
@@ -76,7 +81,14 @@ class Team extends Entity
         }
     }
 
-    public function isNotificationSubscripted($type, $name)
+    /**
+     * is Subscripted
+     *
+     * @param string $type Type
+     * @param string $name Name
+     * @return bool
+     */
+    public function isNotificationSubscripted(string $type, string $name): bool
     {
         if ($type == 'email') {
             return $this->isSubscripted($this->email_notification_subscriptions, $name);
@@ -85,21 +97,35 @@ class Team extends Entity
         }
     }
 
-    public function isEmailSubscripted($name)
+    /**
+     * Is Subscripted
+     *
+     * @param string $name Name
+     * @return bool
+     */
+    public function isEmailSubscripted(string $name): bool
     {
         return $this->isSubscripted($this->push_notification_subscriptions, $name);
     }
 
-    public function isPushSubscripted($name)
+    /**
+     * is Subscripted
+     *
+     * @param string $name Name
+     * @return bool
+     */
+    public function isPushSubscripted(string $name): bool
     {
         return $this->isSubscripted($this->push_notification_subscriptions, $name);
     }
 
     /**
      *
-     * @param \App\Model\Entity\NotificationSubscription[] $collection
+     * @param \App\Model\Entity\NotificationSubscription[] $collection Collection
+     * @param string $name Name
+     * @return bool
      */
-    private function isSubscripted(array $collection, $name)
+    private function isSubscripted(array $collection, string $name): bool
     {
         foreach ($collection as $subscription) {
             if ($subscription->name == $name && $subscription->enabled) {

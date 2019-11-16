@@ -8,7 +8,12 @@ use App\Stream\StreamSingleActivity;
 
 class Lineup extends StreamSingleActivity implements StreamActivityInterface
 {
-    public function getBody()
+    /**
+     * Get body
+     *
+     * @return string
+     */
+    public function getBody(): string
     {
         $lineup = $this->activity->offsetGet('object');
         $regular = array_splice($lineup->dispositions, 0, 11);
@@ -20,7 +25,12 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
         return implode(', ', $players);
     }
 
-    public function getTitle()
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle(): string
     {
         return __('{0} has setup lineup for matchday {1}', [
             $this->activity->offsetGet('actor')->name,
@@ -28,12 +38,22 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
         ]);
     }
 
-    public function getIcon()
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getIcon(): string
     {
         return 'star';
     }
 
-    public static function contain()
+    /**
+     * Get contain
+     *
+     * @return array
+     */
+    public static function contain(): array
     {
         return ['Matchdays', 'Dispositions.Members.Players'];
     }

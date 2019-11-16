@@ -25,16 +25,13 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Article[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Article findOrCreate($search, callable $callback = null, $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \App\Model\Entity\Article|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -70,13 +67,6 @@ class ArticlesTable extends Table
                 'joinType' => 'INNER',
             ]
         );
-    }
-
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
-    {
-        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
-        $data->offsetUnset('created_at');
-        $data->offsetUnset('modified_at');
     }
 
     /**
@@ -126,13 +116,23 @@ class ArticlesTable extends Table
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\ORM\Query $q
-     * @param array $options
-     * @return void
+     * @inheritDoc
      */
-    public function findByChampionshipId(Query $q, array $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
+    {
+        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
+        $data->offsetUnset('created_at');
+        $data->offsetUnset('modified_at');
+    }
+
+    /**
+     * Find by championship query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
+    public function findByChampionshipId(Query $q, array $options): Query
     {
         return $q->contain(['Teams' => [
             'fields' => ['id', 'name'],
@@ -141,11 +141,11 @@ class ArticlesTable extends Table
     }
 
     /**
-     * Undocumented function
+     * Find by team query
      *
-     * @param \Cake\ORM\Query $q
-     * @param array $options
-     * @return void
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
      */
     public function findByTeamId(Query $q, array $options)
     {
@@ -153,6 +153,9 @@ class ArticlesTable extends Table
             ->where(['team_id' => $options['team_id']]);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if ($entity->isNew()) {

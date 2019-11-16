@@ -14,6 +14,9 @@ use Cake\Event\EventInterface;
  */
 class LineupsController extends \App\Controller\LineupsController
 {
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -22,6 +25,9 @@ class LineupsController extends \App\Controller\LineupsController
         $this->loadModel('Matchdays');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -29,6 +35,11 @@ class LineupsController extends \App\Controller\LineupsController
         $this->Crud->mapAction('likely', 'Crud.View');
     }
 
+    /**
+     * current
+     *
+     * @return \Cake\Http\Response
+     */
     public function current()
     {
         $team = $this->request->getParam('team_id');
@@ -42,7 +53,9 @@ class LineupsController extends \App\Controller\LineupsController
                 ]);
             });
         } else {
-            $matchday = $this->Matchdays->find('firstWithoutScores', ['season' => $this->currentSeason->id])->first();
+            $matchday = $this->Matchdays->find('firstWithoutScores', [
+                'season' => $this->currentSeason->id,
+            ])->first();
 
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchday, $that) {
                 $event->getSubject()->query = $that->Lineups->find('byMatchdayIdAndTeamId', [
@@ -52,7 +65,11 @@ class LineupsController extends \App\Controller\LineupsController
             });
         }
         $this->Crud->on('afterFind', function (Event $event) use ($team, $that) {
-            $event->getSubject()->entity = $that->Lineup->duplicate($event->getSubject()->entity, $team, $this->currentMatchday);
+            $event->getSubject()->entity = $that->Lineup->duplicate(
+                $event->getSubject()->entity,
+                $team,
+                $this->currentMatchday
+            );
         });
 
         try {
@@ -66,6 +83,11 @@ class LineupsController extends \App\Controller\LineupsController
         }
     }
 
+    /**
+     * Likely
+     *
+     * @return void
+     */
     public function likely()
     {
         $teamId = $this->request->getParam('team_id');

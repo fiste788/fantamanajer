@@ -105,7 +105,7 @@ class WebPushMessage implements JsonSerializable
      *
      * @return static
      */
-    public static function create($data = [])
+    public static function create(array $data = []): WebPushMessage
     {
         return new static($data);
     }
@@ -114,8 +114,9 @@ class WebPushMessage implements JsonSerializable
      * Create new push message
      *
      * @param array $data Datas
+     * @return void
      */
-    public function __construct($data = [])
+    public function __construct(array $data = [])
     {
         foreach ($data as $key => $val) {
             $this->$key = $val;
@@ -128,7 +129,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Title
      * @return $this
      */
-    public function title($value)
+    public function title(string $value)
     {
         $this->title = $value;
 
@@ -141,7 +142,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Body text
      * @return $this
      */
-    public function body($value)
+    public function body(string $value)
     {
         $this->body = $value;
 
@@ -154,7 +155,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Icon path
      * @return $this
      */
-    public function icon($value)
+    public function icon(string $value)
     {
         $this->icon = $value;
 
@@ -167,7 +168,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Image path
      * @return $this
      */
-    public function image($value)
+    public function image(string $value)
     {
         $this->image = $value;
 
@@ -182,7 +183,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $icon Icon
      * @return $this
      */
-    public function action($title, $action, $icon = '')
+    public function action(string $title, string $action, string $icon = '')
     {
         $this->actions[] = compact('title', 'action', 'icon');
 
@@ -195,7 +196,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $badge Badge icon
      * @return $this
      */
-    public function badge($badge)
+    public function badge(string $badge)
     {
         $this->badge = $badge;
 
@@ -208,7 +209,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $dir Text direction
      * @return $this
      */
-    public function dir($dir)
+    public function dir(string $dir)
     {
         $this->dir = $dir;
 
@@ -221,7 +222,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $lang Language
      * @return $this
      */
-    public function lang($lang)
+    public function lang(string $lang)
     {
         $this->lang = $lang;
 
@@ -234,7 +235,7 @@ class WebPushMessage implements JsonSerializable
      * @param bool $renotify Renotify
      * @return $this
      */
-    public function renotify($renotify)
+    public function renotify(bool $renotify)
     {
         $this->renotify = $renotify;
 
@@ -247,7 +248,7 @@ class WebPushMessage implements JsonSerializable
      * @param bool $requireInteraction RequireInteraction
      * @return $this
      */
-    public function requireInteraction($requireInteraction)
+    public function requireInteraction(bool $requireInteraction)
     {
         $this->requireInteraction = $requireInteraction;
 
@@ -260,7 +261,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $tag Tag
      * @return $this
      */
-    public function tag($tag)
+    public function tag(string $tag)
     {
         $this->tag = $tag;
 
@@ -273,7 +274,7 @@ class WebPushMessage implements JsonSerializable
      * @param array $vibrate Vibration timings
      * @return $this
      */
-    public function vibrate($vibrate)
+    public function vibrate(array $vibrate)
     {
         $this->vibrate = $vibrate;
 
@@ -286,7 +287,7 @@ class WebPushMessage implements JsonSerializable
      * @param array $data Additional data
      * @return $this
      */
-    public function data($data = [])
+    public function data(array $data = [])
     {
         $this->data = $data;
 

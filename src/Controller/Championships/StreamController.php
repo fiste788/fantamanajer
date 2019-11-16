@@ -12,6 +12,11 @@ use Cake\Http\Exception\ForbiddenException;
  */
 class StreamController extends AppController
 {
+    /**
+     * Index
+     *
+     * @return void
+     */
     public function index()
     {
         $championshipId = $this->request->getParam('championship_id');

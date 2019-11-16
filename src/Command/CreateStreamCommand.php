@@ -18,9 +18,7 @@ class CreateStreamCommand extends Command
     private $client;
 
     /**
-     * Undocumented function
-     *
-     * @return void
+     * @inheritDoc
      */
     public function initialize(): void
     {
@@ -29,10 +27,7 @@ class CreateStreamCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\ConsoleOptionParser $parser ConsoleOptionParser
-     * @return \Cake\Console\ConsoleOptionParser
+     * @inheritDoc
      */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
@@ -42,11 +37,7 @@ class CreateStreamCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\Arguments $args Arguments
-     * @param \Cake\Console\ConsoleIo $io ConsoleIO
-     * @return int|null
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

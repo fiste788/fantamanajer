@@ -11,6 +11,11 @@ use App\Stream\ActivityManager;
  */
 class StreamController extends AppController
 {
+    /**
+     * Index
+     *
+     * @return void
+     */
     public function index()
     {
         $clubId = $this->request->getParam('club_id');

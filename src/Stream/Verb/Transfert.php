@@ -8,7 +8,12 @@ use App\Stream\StreamSingleActivity;
 
 class Transfert extends StreamSingleActivity implements StreamActivityInterface
 {
-    public function getBody()
+    /**
+     * Get body
+     *
+     * @return string|null
+     */
+    public function getBody(): ?string
     {
         if ($this->activity->enriched()) {
             return __(
@@ -16,20 +21,37 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
                 $this->activity->offsetGet('object')->old_member->player->full_name,
                 $this->activity->offsetGet('object')->new_member->player->full_name
             );
+        } else {
+            return null;
         }
     }
 
-    public function getTitle()
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle(): string
     {
         return __('{0} make a transfert', $this->activity->offsetGet('actor')->name);
     }
 
-    public function getIcon()
+    /**
+     * Get icon
+     *
+     * @return string
+     */
+    public function getIcon(): string
     {
         return 'swap_vert';
     }
 
-    public static function contain()
+    /**
+     * Get contain
+     *
+     * @return array
+     */
+    public static function contain(): array
     {
         return ['NewMembers.Players', 'OldMembers.Players'];
     }

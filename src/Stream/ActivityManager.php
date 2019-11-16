@@ -10,12 +10,22 @@ class ActivityManager
 {
     /**
      *
-     * @param string $feedName
-     * @param string $id
-     * @param bool $aggregated
+     * @param string $feedName FeedName
+     * @param string $id id
+     * @param bool $aggregated Aggregated
+     * @param int $offset Offset
+     * @param int $limit Limit
+     * @param array $options Options
+     * @return \App\Stream\StreamActivity[]
      */
-    public function getActivities($feedName, $id, $aggregated, $offset = 0, $limit = 20, $options = [])
-    {
+    public function getActivities(
+        string $feedName,
+        string $id,
+        bool $aggregated,
+        int $offset = 0,
+        int $limit = 20,
+        array $options = []
+    ): array {
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
@@ -31,10 +41,11 @@ class ActivityManager
 
     /**
      *
-     * @param \StreamCake\ActivityInterface[] $enricheds
+     * @param \StreamCake\ActivityInterface[] $enricheds Ids
+     * @param mixed $activities Activities
      * @return \App\Stream\StreamActivity[]
      */
-    public function convertEnrichedToStreamActivity($enricheds, $activities)
+    public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {
         foreach ($enricheds as $key => $activity) {
             if (is_array($activity) || $activity->enriched()) {
@@ -50,10 +61,10 @@ class ActivityManager
 
     /**
      *
-     * @param \StreamCake\EnrichedActivity[] $activity
+     * @param \StreamCake\EnrichedActivity[] $activity Activity
      * @return \App\Stream\StreamActivity
      */
-    private function getFromVerb($activity)
+    private function getFromVerb(array $activity): StreamActivity
     {
         $base = '\\App\\Stream\\Verb\\';
         if (array_key_exists('activities', $activity)) {

@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Transfert;
 use ArrayObject;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Query;
@@ -33,13 +34,10 @@ use Cake\Validation\Validator;
  */
 class TransfertsTable extends Table
 {
-    use \Burzum\Cake\Service\ServiceAwareTrait;
+    use ServiceAwareTrait;
 
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -117,22 +115,53 @@ class TransfertsTable extends Table
         return $rules;
     }
 
+    /**
+     * Befor marshal
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \ArrayObject $data Data
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
     }
 
+    /**
+     * Find by team id
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findByTeamId(Query $q, array $options): Query
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where(['team_id' => $options['team_id']]);
     }
 
+    /**
+     * Before save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Transfert $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function beforeSave(Event $event, Transfert $entity, ArrayObject $options): void
     {
         $entity->matchday_id = $this->Matchdays->find('current')->first()->id;
     }
 
+    /**
+     * After save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Transfert $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options): void
     {
         EventManager::instance()->dispatch(new Event('Fantamanajer.newMemberTransfert', $this, [

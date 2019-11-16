@@ -20,11 +20,9 @@ trait CurrentMatchdayTrait
     protected $currentSeason;
 
     /**
-     * Initialize
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->getCurrentMatchday();
     }
@@ -34,7 +32,7 @@ trait CurrentMatchdayTrait
      *
      * @return void
      */
-    public function getCurrentMatchday()
+    public function getCurrentMatchday(): void
     {
         $matchdays = TableRegistry::getTableLocator()->get("Matchdays");
         $this->currentMatchday = $matchdays->find('current')->first();

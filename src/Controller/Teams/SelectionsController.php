@@ -8,6 +8,9 @@ use Cake\Event\EventInterface;
 
 class SelectionsController extends AppSelectionsController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -18,6 +21,11 @@ class SelectionsController extends AppSelectionsController
         }
     }
 
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeamIdAndMatchdayId' => [

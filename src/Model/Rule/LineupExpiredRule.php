@@ -14,13 +14,23 @@ class LineupExpiredRule
 {
     use ModelAwareTrait;
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->loadModel('Matchdays');
         $this->loadModel('Teams');
     }
 
-    public function __invoke(EntityInterface $entity, array $options)
+    /**
+     * Invoke
+     *
+     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param array $options Options
+     * @return bool
+     */
+    public function __invoke(EntityInterface $entity, array $options): bool
     {
         $matchday = $this->Matchdays->get($entity->matchday_id);
         $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);

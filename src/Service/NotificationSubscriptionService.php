@@ -28,7 +28,7 @@ class NotificationSubscriptionService
      * @param \App\Model\Entity\Team $team Team
      * @return \App\model\Entity\NotificationSubscription[]
      */
-    public function createDefaultPushSubscription(Team $team)
+    public function createDefaultPushSubscription(Team $team): array
     {
         return $this->NotificationSubscriptions->newEntities([
             ['type' => 'push', 'enabled' => true, 'team_id' => $team->id, 'name' => 'lost_member'],
@@ -42,7 +42,7 @@ class NotificationSubscriptionService
      * @param \App\Model\Entity\Team $team Team
      * @return \App\model\Entity\NotificationSubscription[]
      */
-    public function createDefaultEmailSubscription(Team $team)
+    public function createDefaultEmailSubscription(Team $team): array
     {
         return $this->NotificationSubscriptions->newEntities([
             ['type' => 'email', 'enabled' => true, 'team_id' => $team->id, 'name' => 'score'],

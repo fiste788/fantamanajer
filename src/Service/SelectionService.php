@@ -33,7 +33,7 @@ class SelectionService
      * @param \App\Model\Entity\Selection $selection Selection
      * @return void
      */
-    public function notifyLostMember(Selection $selection)
+    public function notifyLostMember(Selection $selection): void
     {
         $selection = $this->Selections->loadInto($selection, ['Teams' => [
             'EmailNotificationSubscriptions',
@@ -72,7 +72,7 @@ class SelectionService
      * @param \App\Model\Entity\Selection $selection Selection
      * @return \App\Model\Entity\Transfert
      */
-    public function toTransfert(Selection $selection)
+    public function toTransfert(Selection $selection): Transfert
     {
         $transfert = new Transfert();
         $transfert->team_id = $selection->team_id;
@@ -89,7 +89,7 @@ class SelectionService
      * @param \App\Model\Entity\Selection $entity selection
      * @return void
      */
-    public function save(Selection $entity)
+    public function save(Selection $entity): void
     {
         $memberTeam = $this->MembersTeams->find()
             ->contain(['Members'])

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use StreamCake\EnrichedActivity;
+
 /**
  * Event Entity.
  *
@@ -53,9 +55,9 @@ abstract class StreamActivity implements StreamActivityInterface
 
     /**
      *
-     * @param \StreamCake\EnrichedActivity $activity
+     * @param \StreamCake\EnrichedActivity $activity Activity
      */
-    public function __construct($activity)
+    public function __construct(EnrichedActivity $activity)
     {
         $this->activity = $activity;
         $this->body = $this->getBody();
@@ -66,7 +68,12 @@ abstract class StreamActivity implements StreamActivityInterface
         $this->icon = $this->getIcon();
     }
 
-    public static function contain()
+    /**
+     * Get contain
+     *
+     * @return array
+     */
+    public static function contain(): array
     {
         return [];
     }

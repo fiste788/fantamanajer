@@ -27,10 +27,7 @@ use Cake\Validation\Validator;
 class DispositionsTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -103,6 +100,13 @@ class DispositionsTable extends Table
         return $rules;
     }
 
+    /**
+     * Find by matchday lineup query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findByMatchdayLineup(Query $q, array $options)
     {
         return $q->innerJoinWith('Lineups')

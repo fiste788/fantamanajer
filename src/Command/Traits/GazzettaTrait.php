@@ -8,7 +8,6 @@ use App\Model\Entity\Member;
 use App\Model\Entity\Season;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
-use Cake\Console\ConsoleOptionParser;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
@@ -39,6 +38,13 @@ trait GazzettaTrait
      */
     private $args;
 
+    /**
+     * Startup
+     *
+     * @param \Cake\Console\Arguments $args Arguments
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @return void
+     */
     public function startup(Arguments $args, ConsoleIo $io)
     {
         $this->loadModel('Seasons');
@@ -52,7 +58,15 @@ trait GazzettaTrait
         $this->io = $io;
     }
 
-    public function getRatings(Matchday $matchday, $offsetGazzetta = 0, $forceDownload = false)
+    /**
+     * Undocumented function
+     *
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @param int $offsetGazzetta Offset
+     * @param bool $forceDownload Force download
+     * @return string|null
+     */
+    public function getRatings(Matchday $matchday, $offsetGazzetta = 0, $forceDownload = false): ?string
     {
         $year = $matchday->season->year;
         $folder = new Folder(RATINGS_CSV . $year, true);
@@ -72,8 +86,21 @@ trait GazzettaTrait
         }
     }
 
-    private function downloadRatings(Matchday $matchday, $path, $matchdayGazzetta, $url = null)
-    {
+    /**
+     * Download ratings
+     *
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @param string $path Path
+     * @param int $matchdayGazzetta Matchday gazzetta
+     * @param string $url Url
+     * @return string|null
+     */
+    private function downloadRatings(
+        Matchday $matchday,
+        string $path,
+        int $matchdayGazzetta,
+        ?string $url = null
+    ): ?string {
         if (is_null($url)) {
             $url = $this->getRatingsFile($matchdayGazzetta);
         }
@@ -87,7 +114,14 @@ trait GazzettaTrait
         }
     }
 
-    public function writeCsvRatings($content, $path)
+    /**
+     * Write csv ratings
+     *
+     * @param string $content Content
+     * @param string $path Path
+     * @return void
+     */
+    public function writeCsvRatings(string $content, string $path): void
     {
         $lines = explode("\n", $content);
         array_pop($lines);
@@ -104,43 +138,52 @@ trait GazzettaTrait
     /**
      * Undocumented function
      *
-     * @param \App\Model\Entity\Matchday $matchday
-     * @param string $path
-     * @return string
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @param string $path Path
+     * @return string|null
      */
-    public function decryptMXMFile(Matchday $matchday, $path = null)
+    public function decryptMXMFile(Matchday $matchday, ?string $path = null): ?string
     {
-        $body = "";
         $this->io->out("Starting decrypt " . $path);
         $decrypt = $matchday->season->key_gazzetta;
-        if ($path && $p_file = fopen($path, "r")) {
-            $explode_xor = explode("-", $decrypt);
-            $i = 0;
-            $content = file_get_contents($path);
-            if (!empty($content)) {
-                while (!feof($p_file)) {
-                    //$this->io->verbose($i);
-                    if ($i == count($explode_xor)) {
-                        $i = 0;
-                    }
+        if ($path) {
+            $p_file = fopen($path, "r");
+            if ($p_file) {
+                $body = "";
+                $explode_xor = explode("-", $decrypt);
+                $i = 0;
+                $content = file_get_contents($path);
+                if (!empty($content)) {
+                    while (!feof($p_file)) {
+                        //$this->io->verbose($i);
+                        if ($i == count($explode_xor)) {
+                            $i = 0;
+                        }
 
-                    $line = fgets($p_file, 2);
-                    if ($line) {
-                        $xor2 = hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]);
-                        $body .= chr($xor2);
-                    } else {
-                        $this->io->out("salto " . substr($body, -5));
+                        $line = fgets($p_file, 2);
+                        if ($line) {
+                            $xor2 = hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]);
+                            $body .= chr($xor2);
+                        } else {
+                            $this->io->out("salto " . substr($body, -5));
+                        }
+                        $i++;
                     }
-                    $i++;
                 }
-            }
-            fclose($p_file);
-        }
+                fclose($p_file);
 
-        return $body;
+                return $body;
+            }
+        }
     }
 
-    public function getRatingsFile($matchday = null)
+    /**
+     * Get ratings file
+     *
+     * @param int $matchday Matchday
+     * @return string|null
+     */
+    public function getRatingsFile(int $matchday): ?string
     {
         $this->io->out("Search ratings on maxigames");
         $http = new Client();
@@ -168,7 +211,13 @@ trait GazzettaTrait
         }
     }
 
-    private function getUrlFromMatchdayRow($tr)
+    /**
+     * Get url From row
+     *
+     * @param \App\Command\Traits\Symfony\Component\DomCrawler\Crawler $tr Row
+     * @return string|null
+     */
+    private function getUrlFromMatchdayRow(Crawler $tr): ?string
     {
         $button = $tr->selectButton("DOWNLOAD");
         if (!$button->count()) {
@@ -183,7 +232,15 @@ trait GazzettaTrait
         }
     }
 
-    private function downloadDropboxUrl($url, $matchday, Client $http)
+    /**
+     * Download dropbox url
+     *
+     * @param string $url Url
+     * @param int $matchday Matchday
+     * @param \Cake\Http\Client $http Client
+     * @return string|null
+     */
+    private function downloadDropboxUrl(string $url, int $matchday, Client $http): ?string
     {
         if ($url) {
             $this->io->verbose("Downloading " . $url);
@@ -209,7 +266,14 @@ trait GazzettaTrait
         }
     }
 
-    public function updateMembers(Matchday $matchday, $path = null)
+    /**
+     * Update members
+     *
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @param string $path Path
+     * @return void
+     */
+    public function updateMembers(Matchday $matchday, ?string $path = null): void
     {
         $matchdayNumber = $matchday->number;
         $this->io->out('Updating members of matchday ' . $matchdayNumber);
@@ -285,7 +349,14 @@ trait GazzettaTrait
         }
     }
 
-    private function memberTransfert(Member $member, $club)
+    /**
+     * Member transfert
+     *
+     * @param \App\Model\Entity\Member $member Member
+     * @param string $club Club
+     * @return \App\Model\Entity\Member|null
+     */
+    private function memberTransfert(Member $member, $club): ?Member
     {
         $flag = false;
         if (!$member->active) {
@@ -304,7 +375,14 @@ trait GazzettaTrait
         }
     }
 
-    private function memberNew($member, $season)
+    /**
+     * Member new
+     *
+     * @param array $member Member
+     * @param \App\Model\Entity\Season $season Season
+     * @return \App\Model\Entity\Member
+     */
+    private function memberNew(array $member, Season $season): Member
     {
         $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
         $fullname = trim($member[2], '"');
@@ -322,7 +400,11 @@ trait GazzettaTrait
             ['atomic' => false]
         );
         //$queryClub = $this->Clubs->findByName();
-        $club = $this->Clubs->findOrCreate(['name' => ucwords(strtolower(trim($member[3], '"')))], null, ['atomic' => false]);
+        $club = $this->Clubs->findOrCreate(
+            ['name' => ucwords(strtolower(trim($member[3], '"')))],
+            null,
+            ['atomic' => false]
+        );
         $this->io->verbose("Add new member " . $surname . " " . $name);
 
         return $this->Members->newEntity(
@@ -338,7 +420,14 @@ trait GazzettaTrait
         );
     }
 
-    public function importRatings(Matchday $matchday, $path = null)
+    /**
+     * Import ratings
+     *
+     * @param \App\Model\Entity\Matchday $matchday Matchday
+     * @param string|null $path Path
+     * @return bool
+     */
+    public function importRatings(Matchday $matchday, ?string $path = null): bool
     {
         $path = $path ? $path : $this->getRatings($matchday);
         if ($path) {
@@ -381,7 +470,8 @@ trait GazzettaTrait
                             'matchday_id' => $matchday->id,
                         ]
                     );
-                    $rating->points_no_bonus = $matchday->season->bonus_points ? $rating->calcNoBonusPoints() : $rating->points;
+                    $rating->points_no_bonus = $matchday->season->bonus_points ?
+                        $rating->calcNoBonusPoints() : $rating->points;
                     $ratings[] = $rating;
                 } else {
                     throw new RecordNotFoundException("No member for code_gazzetta $stats[0]");
@@ -390,9 +480,9 @@ trait GazzettaTrait
 
             if (
                 !$this->Ratings->saveMany($ratings, [
-                'checkExisting' => false,
-                'associated' => false,
-                'checkRules' => false,
+                    'checkExisting' => false,
+                    'associated' => false,
+                    'checkRules' => false,
                 ])
             ) {
                 foreach ($ratings as $value) {
@@ -407,9 +497,19 @@ trait GazzettaTrait
 
             return true;
         }
+
+        return false;
     }
 
-    public function returnArray($path, $sep = ";", $header = false)
+    /**
+     * Return array
+     *
+     * @param string $path Path
+     * @param string $sep Sep
+     * @param bool $header Header
+     * @return array
+     */
+    public function returnArray(string $path, string $sep = ";", bool $header = false): array
     {
         $content = trim(file_get_contents($path));
         $array = explode("\n", $content);
@@ -426,8 +526,19 @@ trait GazzettaTrait
         return $arrayOk;
     }
 
-    public function calculateKey(Season $season, $encryptedFilePath = null, $dectyptedFilePath = null)
-    {
+    /**
+     * Calculate key
+     *
+     * @param \App\Model\Entity\Season $season Season
+     * @param string $encryptedFilePath Encrypted file path
+     * @param string $dectyptedFilePath Decrypted file path
+     * @return string|null
+     */
+    public function calculateKey(
+        Season $season,
+        ?string $encryptedFilePath = null,
+        ?string $dectyptedFilePath = null
+    ): ?string {
         $this->io->out('Calculating decrypting key');
         if (is_null($encryptedFilePath)) {
             $encryptedFilePath = RATINGS_CSV . $season->year . DS . "mcc00.mxm";
@@ -441,7 +552,12 @@ trait GazzettaTrait
         $reply = 'y';
         if (!file_exists($dectyptedFilePath)) {
             //if ($this->interactive) {
-            $reply = $this->io->askChoice('Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx', ['y', 'n'], 'y');
+            $reply = $this->io->askChoice(
+                'Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. 
+                If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx',
+                ['y', 'n'],
+                'y'
+            );
             //}
         }
         if ($reply == 'y') {
@@ -465,41 +581,13 @@ trait GazzettaTrait
         }
     }
 
-    public function getOptionParser(): ConsoleOptionParser
-    {
-        $parser = parent::getOptionParser();
-        $parser->addSubcommand(
-            'get_ratings_file_url',
-            [
-                'help' => 'Get the url of the ratings file',
-            ]
-        );
-        $parser->addSubcommand(
-            'get_ratings',
-            [
-                'help' => 'Download file ratings if not exist',
-            ]
-        );
-        $parser->addSubcommand('update_members');
-        $parser->addSubcommand('import_ratings');
-        $parser->addSubcommand('fix_points');
-        $parser->addSubcommand(
-            'calculate_key',
-            [
-                'help' => 'Calculate and save the key for decrypting gazzetta file',
-            ]
-        );
-        $parser->addOption('no-interaction', [
-            'short' => 'n',
-            'help' => 'Disable interaction',
-            'boolean' => true,
-            'default' => false,
-        ]);
-
-        return $parser;
-    }
-
-    public function fixPoints(Season $season)
+    /**
+     * Fix porints
+     *
+     * @param \App\Model\Entity\Season $season Season
+     * @return void
+     */
+    public function fixPoints(Season $season): void
     {
         $this->io->out('Fix Points');
         $this->Seasons->loadInto($season, ['Matchdays.Ratings.Members.Roles']);

@@ -3,7 +3,13 @@ declare(strict_types=1);
 
 namespace App\Event;
 
+use App\Model\Entity\Article;
+use App\Model\Entity\Lineup;
+use App\Model\Entity\Member;
+use App\Model\Entity\Selection;
+use App\Model\Entity\Transfert;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use GetStream\Stream\Client;
 
@@ -15,12 +21,18 @@ class GetStreamEventListener implements EventListenerInterface
      */
     private $client;
 
+    /**
+     * @inheritDoc
+     */
     public function __construct()
     {
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function implementedEvents(): array
     {
         return [
@@ -35,10 +47,11 @@ class GetStreamEventListener implements EventListenerInterface
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \App\Model\Entity\Article $article
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Article $article Article
+     * @return void
      */
-    public function addNewArticleActivity($event, $article)
+    public function addNewArticleActivity(Event $event, Article $article): void
     {
         $feed = $this->client->feed('team', (string)$article->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
@@ -51,10 +64,11 @@ class GetStreamEventListener implements EventListenerInterface
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \App\Model\Entity\Lineup $lineup
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Lineup $lineup Lineup
+     * @return void
      */
-    public function addNewLineupActivity($event, $lineup)
+    public function addNewLineupActivity(Event $event, Lineup $lineup): void
     {
         $feed = $this->client->feed('team', (string)$lineup->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
@@ -67,10 +81,11 @@ class GetStreamEventListener implements EventListenerInterface
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \App\Model\Entity\Selection $selection
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Selection $selection Selection
+     * @return void
      */
-    public function addNewMemberSelectionActivity($event, $selection)
+    public function addNewMemberSelectionActivity(Event $event, Selection $selection): void
     {
         $feed = $this->client->feed('team', (string)$selection->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
@@ -83,10 +98,11 @@ class GetStreamEventListener implements EventListenerInterface
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \App\Model\Entity\Transfert $transfert
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Transfert $transfert Transfert
+     * @return void
      */
-    public function addNewMemberTransfertActivity($event, $transfert)
+    public function addNewMemberTransfertActivity(Event $event, Transfert $transfert): void
     {
         $feed = $this->client->feed('team', (string)$transfert->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
@@ -99,10 +115,11 @@ class GetStreamEventListener implements EventListenerInterface
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \App\Model\Entity\Member $member
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Member $member Member
+     * @return void
      */
-    public function changeMember($event, $member)
+    public function changeMember(Event $event, Member $member): void
     {
         if ($member->isNew() || $member->isDirty('club_id') || ($member->isDirty('active') && $member->active)) {
             $feed = $this->client->feed('club', (string)$member->club_id);
@@ -137,11 +154,12 @@ class GetStreamEventListener implements EventListenerInterface
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \App\Model\Entity\Member[] $buys
-     * @param \App\Model\Entity\Member[] $sells
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\Member[] $buys Buys
+     * @param \App\Model\Entity\Member[] $sells Sells
+     * @return void
      */
-    public function memberTransferts($event, $buys, $sells)
+    public function memberTransferts(Event $event, array $buys, array $sells): void
     {
         $activities = [];
         foreach ($buys as $club => $members) {

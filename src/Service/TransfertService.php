@@ -37,7 +37,7 @@ class TransfertService
      * @param \App\Model\Entity\Transfert $transfert The transfert to process
      * @return void
      */
-    public function substituteMembers(Transfert $transfert)
+    public function substituteMembers(Transfert $transfert): void
     {
         $team = $transfert->team;
         if (!$team) {
@@ -74,7 +74,7 @@ class TransfertService
      * @param \App\Model\Entity\Transfert $transfert The transfert
      * @return void
      */
-    public function substituteMemberInLineup(Transfert $transfert)
+    public function substituteMemberInLineup(Transfert $transfert): void
     {
         $lineup = $this->Lineups->find()
             ->contain(['Dispositions'])
@@ -91,7 +91,7 @@ class TransfertService
      * @param \App\Model\Entity\MembersTeam $entity The mermber team
      * @return void
      */
-    public function saveTeamMember(MembersTeam $entity)
+    public function saveTeamMember(MembersTeam $entity): void
     {
         if (!$entity->member) {
             $entity = $this->MembersTeams->loadInto($entity, ['Members']);

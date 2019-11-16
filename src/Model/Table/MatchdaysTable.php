@@ -32,10 +32,7 @@ use Cake\Validation\Validator;
 class MatchdaysTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -123,6 +120,13 @@ class MatchdaysTable extends Table
         return $rules;
     }
 
+    /**
+     * Find current query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findCurrent(Query $q, array $options): Query
     {
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
@@ -136,7 +140,7 @@ class MatchdaysTable extends Table
 
     /**
      *
-     * @param \App\Model\Entity\Season $season
+     * @param \App\Model\Entity\Season $season Season
      * @return \App\Model\Entity\Matchday[]
      */
     public function findWithoutScores(Season $season): array
@@ -156,7 +160,13 @@ class MatchdaysTable extends Table
         return $res;
     }
 
-    public function findWithScores(Season $season)
+    /**
+     * Find with scores
+     *
+     * @param \App\Model\Entity\Season $season Season
+     * @return \Cake\ORM\Query
+     */
+    public function findWithScores(Season $season): Query
     {
         return $this->find()
             ->innerJoinWith('Scores')
@@ -165,6 +175,13 @@ class MatchdaysTable extends Table
             ->limit(1);
     }
 
+    /**
+     * Find first without score query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findFirstWithoutScores(Query $q, array $options): Query
     {
         return $q->select('Matchdays.id')
@@ -178,7 +195,7 @@ class MatchdaysTable extends Table
 
     /**
      *
-     * @param \App\Model\Entity\Season $season
+     * @param \App\Model\Entity\Season $season Season
      * @return \App\Model\Entity\Matchday[]
      */
     public function findWithoutRatings(Season $season): array
@@ -200,9 +217,9 @@ class MatchdaysTable extends Table
     }
 
     /**
-     * Undocumented function
+     * Find with rarings
      *
-     * @param \App\Model\Entity\Season $season
+     * @param \App\Model\Entity\Season $season Season
      * @return \Cake\ORM\Query
      */
     public function findWithRatings(Season $season)

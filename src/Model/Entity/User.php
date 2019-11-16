@@ -68,21 +68,39 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
         'uuid',
     ];
 
-    public function hasTeam($teamId)
+    /**
+     * Has team
+     *
+     * @param int $teamId Id
+     * @return bool
+     */
+    public function hasTeam(int $teamId): bool
     {
         return !empty(Hash::filter($this->teams, function (Team $value) use ($teamId) {
             return $value->id == $teamId;
         }));
     }
 
-    public function isInChampionship($championshipId)
+    /**
+     * In in championship
+     *
+     * @param int $championshipId Id
+     * @return bool
+     */
+    public function isInChampionship(int $championshipId): bool
     {
         return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {
             return $value->championship_id == $championshipId;
         }));
     }
 
-    public function isChampionshipAdmin($championshipId)
+    /**
+     * Is championship admin
+     *
+     * @param int $championshipId Id
+     * @return bool
+     */
+    public function isChampionshipAdmin(int $championshipId): bool
     {
         return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {
             return $value->championship_id == $championshipId && $value->admin;
@@ -90,28 +108,31 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * Authorization\IdentityInterface method
+     * @inheritDoc
      */
     public function can(string $action, $resource): bool
     {
         return $this->authorization->can($this, $action, $resource);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function canResult(string $action, $resource): ResultInterface
     {
         return $this->authorization->canResult($this, $action, $resource);
     }
 
     /**
-     * Authorization\IdentityInterface method
+     * @inheritDoc
      */
-    public function applyScope($action, $resource)
+    public function applyScope(string $action, $resource)
     {
         return $this->authorization->applyScope($this, $action, $resource);
     }
 
     /**
-     * Authorization\IdentityInterface method
+     * @inheritDoc
      */
     public function getOriginalData()
     {
@@ -119,7 +140,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * Setter to be used by the middleware.
+     * @inheritDoc
      */
     public function setAuthorization($service)
     {
@@ -129,13 +150,18 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * Authentication\IdentityInterface method
+     * @inheritDoc
      */
-    public function getIdentifier()
+    public function getIdentifier(): int
     {
         return $this->id;
     }
 
+    /**
+     * Public user entity
+     *
+     * @return \Webauthn\PublicKeyCredentialUserEntity
+     */
     public function toCredentialUserEntity(): PublicKeyCredentialUserEntity
     {
         return new PublicKeyCredentialUserEntity($this->email, $this->uuid, $this->name . ' ' . $this->surname);

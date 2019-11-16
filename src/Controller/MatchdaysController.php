@@ -10,6 +10,9 @@ use Cake\Event\EventInterface;
  */
 class MatchdaysController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -18,6 +21,11 @@ class MatchdaysController extends AppController
         $this->Authorization->skipAuthorization();
     }
 
+    /**
+     * Current
+     *
+     * @return \Cake\Http\Response
+     */
     public function current()
     {
         $this->Crud->action()->findMethod(['current']);

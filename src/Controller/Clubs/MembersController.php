@@ -11,6 +11,9 @@ use Cake\Event\EventInterface;
  */
 class MembersController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -21,6 +24,11 @@ class MembersController extends AppController
         'limit' => 50,
     ];
 
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod([

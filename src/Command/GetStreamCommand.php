@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Model\Entity\Championship;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use GetStream\Stream\Client;
+use GetStream\Stream\Feed;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -21,6 +23,9 @@ class GetStreamCommand extends Command
      */
     private $client;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -29,6 +34,9 @@ class GetStreamCommand extends Command
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Test');
@@ -37,7 +45,7 @@ class GetStreamCommand extends Command
     }
 
     /**
-     * @var \App\Model\Entity\Team[] $teams
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -57,10 +65,11 @@ class GetStreamCommand extends Command
 
     /**
      *
-     * @param \App\Model\Entity\Championship $championship
-     * @param \GetStream\Stream\Feed $timelineFeed
+     * @param \App\Model\Entity\Championship $championship Championship
+     * @param \GetStream\Stream\Feed $timelineFeed Feed
+     * @return void
      */
-    private function processChampionship($championship, $timelineFeed)
+    private function processChampionship(Championship $championship, Feed $timelineFeed): void
     {
         $championshipFeed = $this->client->feed('championship', $championship->id);
         $championshipFeed->follow($timelineFeed->getSlug(), $timelineFeed->getUserId());

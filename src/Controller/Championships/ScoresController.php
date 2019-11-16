@@ -12,6 +12,9 @@ use Cake\Event\EventInterface;
  */
 class ScoresController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
@@ -21,6 +24,11 @@ class ScoresController extends AppController
         }
     }
 
+    /**
+     * Index
+     *
+     * @return \Cake\Http\Response
+     */
     public function index()
     {
         $this->Crud->action()->findMethod([

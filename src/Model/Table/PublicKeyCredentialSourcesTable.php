@@ -22,10 +22,7 @@ use Cake\Validation\Validator;
 class PublicKeyCredentialSourcesTable extends Table
 {
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Database\Schema\TableSchemaInterface $schema Schema
-     * @return \Cake\Database\Schema\TableSchemaInterface
+     * @inheritDoc
      */
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
@@ -39,10 +36,7 @@ class PublicKeyCredentialSourcesTable extends Table
     }
 
     /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {

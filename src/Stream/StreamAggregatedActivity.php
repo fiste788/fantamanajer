@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use Cake\I18n\Time;
+
 /**
  * Description of StreamSingleActivity
  *
@@ -16,7 +18,12 @@ namespace App\Stream;
  */
 abstract class StreamAggregatedActivity extends StreamActivity
 {
-    public function getTime()
+    /**
+     * Get time
+     *
+     * @return \Cake\I18n\Time
+     */
+    public function getTime(): Time
     {
         return $this->activity['updated_at'];
     }

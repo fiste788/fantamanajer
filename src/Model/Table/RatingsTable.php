@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -26,10 +27,7 @@ use Cake\Validation\Validator;
 class RatingsTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -160,14 +158,21 @@ class RatingsTable extends Table
         return $rules;
     }
 
-    public function existMatchday($matchday): bool
+    /**
+     * Exist matchday
+     *
+     * @param \App\Model\Table\Matchday $matchday Matchday
+     * @return bool
+     */
+    public function existMatchday(Matchday $matchday): bool
     {
         return $this->exists(['matchday_id' => $matchday->id]);
     }
 
     /**
+     * Return max matchday
      *
-     * @param \App\Model\Entity\Season $season
+     * @param \App\Model\Entity\Season $season Season
      * @return int
      */
     public function findMaxMatchday(Season $season): int

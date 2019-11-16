@@ -26,10 +26,7 @@ use Cake\Validation\Validator;
 class PlayersTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -69,6 +66,13 @@ class PlayersTable extends Table
         return $validator;
     }
 
+    /**
+     * Find with details query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findWithDetails(Query $q, array $options): Query
     {
         return $q->contain(['Members' => function (Query $q) use ($options) {

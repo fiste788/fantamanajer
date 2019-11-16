@@ -8,7 +8,12 @@ use App\Stream\StreamAggregatedActivity;
 
 class Transfert extends StreamAggregatedActivity implements StreamActivityInterface
 {
-    public function getBody()
+    /**
+     * Get body
+     *
+     * @return string
+     */
+    public function getBody(): string
     {
         $news = [];
         $olds = [];
@@ -25,7 +30,12 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
         ]);
     }
 
-    public function getTitle()
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle(): string
     {
         return __n('{0} make a transfert', '{0} make {1} transferts', $this->activity['activity_count'], [
             $this->activity['activities'][0]->offsetGet('actor')->name,
@@ -33,12 +43,22 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
         ]);
     }
 
-    public function getIcon()
+    /**
+     * Get icon
+     *
+     * @return string
+     */
+    public function getIcon(): string
     {
         return 'swap_vert';
     }
 
-    public static function contain()
+    /**
+     * Get contain
+     *
+     * @return array
+     */
+    public static function contain(): array
     {
         return ['NewMembers.Players', 'OldMembers.Players'];
     }

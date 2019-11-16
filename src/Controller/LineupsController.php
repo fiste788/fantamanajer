@@ -12,6 +12,9 @@ use Cake\Event\EventInterface;
  */
 class LineupsController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -19,6 +22,11 @@ class LineupsController extends AppController
         $this->Crud->mapAction('add', 'Crud.Add');
     }
 
+    /**
+     * Add
+     *
+     * @return \Cake\Http\Response
+     */
     public function add()
     {
         $this->Crud->on(
@@ -28,9 +36,15 @@ class LineupsController extends AppController
                 $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
             }
         );
-        $this->Crud->execute();
+
+        return $this->Crud->execute();
     }
 
+    /**
+     * Edit
+     *
+     * @return \Cake\Http\Response
+     */
     public function edit()
     {
         $this->Crud->on(
@@ -40,6 +54,7 @@ class LineupsController extends AppController
                 $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
             }
         );
-        $this->Crud->execute();
+
+        return $this->Crud->execute();
     }
 }

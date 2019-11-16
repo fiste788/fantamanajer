@@ -50,17 +50,35 @@ class Member extends Entity
 
     protected $_virtual = ['photo_url', 'background_url'];
 
-    protected function _getPhotoUrl()
+    /**
+     * Get photo url
+     *
+     * @return string|null
+     */
+    protected function _getPhotoUrl(): ?string
     {
-        if (file_exists(Configure::read('App.paths.images.players') . 'season-' . $this->season_id . DS . $this->code_gazzetta . '.jpg')) {
-            return Router::url('/img/players/season-' . $this->season_id . '/' . $this->code_gazzetta . '.jpg', true);
+        $path = Configure::read('App.paths.images.players');
+        if (file_exists($path . 'season-' . $this->season_id . DS . $this->code_gazzetta . '.jpg')) {
+            return Router::url(
+                '/img/players/season-' . $this->season_id . '/' . $this->code_gazzetta . '.jpg',
+                true
+            );
         }
     }
 
-    protected function _getBackgroundUrl()
+    /**
+     * Get background url
+     *
+     * @return string|null
+     */
+    protected function _getBackgroundUrl(): ?string
     {
-        if (file_exists(Configure::read('App.paths.images.clubs') . $this->club_id . DS . 'background' . DS . $this->club_id . '.jpg')) {
-            return Router::url('/img/Clubs/' . $this->club_id . '/background/' . $this->club_id . '.jpg', true);
+        $path = Configure::read('App.paths.images.players');
+        if (file_exists($path . $this->club_id . DS . 'background' . DS . $this->club_id . '.jpg')) {
+            return Router::url(
+                '/img/Clubs/' . $this->club_id . '/background/' . $this->club_id . '.jpg',
+                true
+            );
         }
     }
 }

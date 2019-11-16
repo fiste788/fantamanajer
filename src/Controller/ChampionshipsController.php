@@ -10,15 +10,24 @@ use Cake\Event\EventInterface;
  */
 class ChampionshipsController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('edit', 'Crud.Edit');
     }
 
+    /**
+     * Edit
+     *
+     * @return \Cake\Http\Response
+     */
     public function edit()
     {
         $this->Crud->action()->saveOptions(['associated' => []]);
-        $this->Crud->execute();
+
+        return $this->Crud->execute();
     }
 }

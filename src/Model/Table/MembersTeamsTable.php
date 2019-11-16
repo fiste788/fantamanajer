@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\MembersTeam;
 use ArrayObject;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -26,13 +28,10 @@ use Cake\Validation\Validator;
  */
 class MembersTeamsTable extends Table
 {
-    use \Burzum\Cake\Service\ServiceAwareTrait;
+    use ServiceAwareTrait;
 
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -88,7 +87,15 @@ class MembersTeamsTable extends Table
         return $rules;
     }
 
-    public function beforeSave(Event $event, \App\Model\Entity\MembersTeam $entity, ArrayObject $options): void
+    /**
+     * Before save event
+     *
+     * @param \Cake\Event\Event $event Event
+     * @param \App\Model\Entity\MembersTeam $entity Entity
+     * @param \ArrayObject $options Options
+     * @return void
+     */
+    public function beforeSave(Event $event, MembersTeam $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('member_id') && !$entity->isNew()) {
             $this->loadService('Transfert');

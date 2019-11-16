@@ -21,6 +21,9 @@ class SendTestNotificationCommand extends Command
     use CurrentMatchdayTrait;
     use ServiceAwareTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -29,6 +32,9 @@ class SendTestNotificationCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
@@ -47,6 +53,9 @@ class SendTestNotificationCommand extends Command
         return $parser;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Parto');

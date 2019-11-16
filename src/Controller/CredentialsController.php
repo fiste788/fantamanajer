@@ -14,9 +14,7 @@ class CredentialsController extends AppController
     use ServiceAwareTrait;
 
     /**
-     * Initialize
-     *
-     * @return void
+     * @inheritDoc
      */
     public function initialize(): void
     {
@@ -25,10 +23,7 @@ class CredentialsController extends AppController
     }
 
     /**
-     * Before filter
-     *
-     * @param \Cake\Event\Event $event Event
-     * @return void
+     * @inheritDoc
      */
     public function beforeFilter(EventInterface $event): void
     {

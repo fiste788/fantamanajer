@@ -44,10 +44,7 @@ use Cake\Validation\Validator;
 class LineupsTable extends Table
 {
     /**
-     * Initialize method
-     *
-     * @param  array $config The configuration for the Table.
-     * @return void
+     * @inheritDoc
      */
     public function initialize(array $config): void
     {
@@ -167,7 +164,9 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
-        $rules->add($rules->isUnique(['team_id', 'matchday_id'], __('Lineup already exists for this matchday. Try to refresh')));
+        $rules->add(
+            $rules->isUnique(['team_id', 'matchday_id'], __('Lineup already exists for this matchday. Try to refresh'))
+        );
         $rules->addCreate(
             new LineupExpiredRule(),
             'Expired',
@@ -188,6 +187,9 @@ class LineupsTable extends Table
         return $rules;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
@@ -198,6 +200,9 @@ class LineupsTable extends Table
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         if ($data->offsetExists('created_at')) {
@@ -208,6 +213,13 @@ class LineupsTable extends Table
         }
     }
 
+    /**
+     * Find details query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findDetails(Query $q, array $options): Query
     {
         return $q->contain([
@@ -227,8 +239,8 @@ class LineupsTable extends Table
 
     /**
      *
-     * @param \Cake\ORM\Query $q
-     * @param array $options
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
      * @return \Cake\ORM\Query
      */
     public function findLast(Query $q, array $options): Query
@@ -261,6 +273,13 @@ class LineupsTable extends Table
         return $q;
     }
 
+    /**
+     * Find by matchday and team query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findByMatchdayIdAndTeamId(Query $q, array $options): Query
     {
         return $q->contain(['Dispositions'])
@@ -270,6 +289,13 @@ class LineupsTable extends Table
             ]);
     }
 
+    /**
+     * Find with ratings query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
     public function findWithRatings(Query $q, array $options): Query
     {
         $matchdayId = $options['matchday_id'];

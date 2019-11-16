@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-//declare (strict_types = 1);
-
 namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
@@ -27,7 +25,7 @@ class AppController extends Controller
     use ServiceAwareTrait;
 
     /**
-     * @return void
+     * @inheritDoc
      */
     public function initialize(): void
     {
@@ -36,7 +34,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
 
         $this->loadComponent('Authentication.Authentication', [
-            'logoutRedirect' => '/users/login',  // Default is false
+            'logoutRedirect' => '/users/login',
         ]);
 
         $this->loadComponent('Authorization.Authorization', [
@@ -68,25 +66,23 @@ class AppController extends Controller
     }
 
     /**
-     * Undocumented function
-     *
-     * @return array
+     * @inheritDoc
      */
     public function implementedEvents(): array
     {
         return parent::implementedEvents() + [
-            'Crud.afterFind' => '_afterFind',
-            'Crud.afterPaginate' => '_afterPaginate',
+            'Crud.afterFind' => 'afterFind',
+            'Crud.afterPaginate' => 'afterPaginate',
         ];
     }
 
     /**
-     * Undocumented function
+     * After finds
      *
      * @param \Cake\Event\EventInterface $event Event
      * @return void
      */
-    public function _afterFind(EventInterface $event)
+    public function afterFind(EventInterface $event)
     {
         if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
@@ -94,12 +90,12 @@ class AppController extends Controller
     }
 
     /**
-     * Undocumented function
+     * After paginate
      *
      * @param \Cake\Event\EventInterface $event Event
      * @return void
      */
-    public function _afterPaginate(EventInterface $event)
+    public function afterPaginate(EventInterface $event)
     {
         if ($this->Authentication->getIdentity()) {
             foreach ($event->getSubject()->entities as $entity) {
@@ -109,10 +105,7 @@ class AppController extends Controller
     }
 
     /**
-     * beforeRender
-     *
-     * @param \Cake\Event\EventInterface $event Event
-     * @return void
+     * @inheritDoc
      */
     public function beforeRender(EventInterface $event)
     {

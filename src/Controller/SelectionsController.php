@@ -11,6 +11,11 @@ use Cake\Event\Event;
  */
 class SelectionsController extends AppController
 {
+    /**
+     * add
+     *
+     * @return \Cake\Http\Response
+     */
     public function add()
     {
         $this->Crud->on(
@@ -21,6 +26,6 @@ class SelectionsController extends AppController
             }
         );
 
-        $this->Crud->execute();
+        return $this->Crud->execute();
     }
 }

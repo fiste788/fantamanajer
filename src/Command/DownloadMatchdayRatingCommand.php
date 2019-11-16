@@ -19,6 +19,9 @@ class DownloadMatchdayRatingCommand extends Command
      */
     private $client;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -26,6 +29,9 @@ class DownloadMatchdayRatingCommand extends Command
         $this->client->setConfig('ssl_verify_peer', false);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Download ratings from maxigames');
@@ -38,18 +44,21 @@ class DownloadMatchdayRatingCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\Arguments $args
-     * @param \Cake\Console\ConsoleIo $io
-     * @return int|null
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $this->exec($args->getArgument('matchday'), $io);
+        return $this->exec((int)$args->getArgument('matchday'), $io) ? 1 : 0;
     }
 
-    public function exec($matchday, ConsoleIo $io)
+    /**
+     * Exec
+     *
+     * @param int $matchday Matchday
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @return string|null
+     */
+    public function exec(int $matchday, ConsoleIo $io): ?string
     {
         $url = $this->getDropboxUrl($matchday, $io);
         if ($url) {
@@ -57,7 +66,14 @@ class DownloadMatchdayRatingCommand extends Command
         }
     }
 
-    private function getDropboxUrl($matchday, ConsoleIo $io)
+    /**
+     * Get dropbox url
+     *
+     * @param int $matchday Matchday
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @return string|null
+     */
+    private function getDropboxUrl(int $matchday, ConsoleIo $io): ?string
     {
         $io->out("Search ratings on maxigames");
         $url = "https://maxigames.maxisoft.it/downloads.php";
@@ -77,7 +93,15 @@ class DownloadMatchdayRatingCommand extends Command
         }
     }
 
-    private function downloadDropboxFile($url, $matchday, ConsoleIo $io)
+    /**
+     * Download dropbox file
+     *
+     * @param string $url Url
+     * @param int $matchday Matchday
+     * @param \Cake\Console\ConsoleIo $io IO
+     * @return string|null
+     */
+    private function downloadDropboxFile(string $url, int $matchday, ConsoleIo $io): ?string
     {
         $io->verbose("Downloading " . $url);
         $response = $this->client->get($url);
@@ -91,7 +115,7 @@ class DownloadMatchdayRatingCommand extends Command
                 $url = str_replace("www", "dl", $url);
             }
             $io->out("Downloading $url in tmp dir");
-            $file = TMP . $matchday . '.mxm';
+            $file = TMP . (string)$matchday . '.mxm';
             file_put_contents($file, file_get_contents($url));
 
             return $file;

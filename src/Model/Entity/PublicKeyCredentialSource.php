@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Ramsey\Uuid\UuidFactory;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 
 /**
@@ -56,14 +57,26 @@ class PublicKeyCredentialSource extends Entity
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {
-        return new WebauthnPublicKeyCredentialSource($this->public_key_credential_id, $this->type, $this->transports, $this->attestation_type, $this->trust_path, $this->aaguid, $this->credential_public_key, $this->user_handle, $this->counter);
+        $aaguid = (new UuidFactory())->fromString($this->aaguid);
+
+        return new WebauthnPublicKeyCredentialSource(
+            $this->public_key_credential_id,
+            $this->type,
+            $this->transports,
+            $this->attestation_type,
+            $this->trust_path,
+            $aaguid,
+            $this->credential_public_key,
+            $this->user_handle,
+            $this->counter
+        );
     }
 
     /**
      * Undocumented function
      *
-     * @param \Webauthn\PublicKeyCredentialSource $credentialSource arg
-     * @return void
+     * @param \Webauthn\PublicKeyCredentialSource $credentialSource Credential source
+     * @return $this
      */
     public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)
     {
@@ -76,5 +89,7 @@ class PublicKeyCredentialSource extends Entity
         $this->credential_public_key = $credentialSource->getCredentialPublicKey();
         $this->user_handle = $credentialSource->getUserHandle();
         $this->counter = $credentialSource->getCounter();
+
+        return $this;
     }
 }

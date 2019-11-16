@@ -13,6 +13,9 @@ use Cake\Event\EventInterface;
  */
 class TeamsController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -21,18 +24,33 @@ class TeamsController extends AppController
         $this->Crud->mapAction('upload', 'Crud.Edit');
     }
 
+    /**
+     * View
+     *
+     * @param int $id Id
+     * @return \Cake\Http\Response
+     */
     public function view($id)
     {
         $this->Crud->on(
             'beforeFind',
             function (Event $event) {
-                $event->getSubject()->query->contain(['Users', 'PushNotificationSubscriptions', 'EmailNotificationSubscriptions']);
+                $event->getSubject()->query->contain([
+                    'Users',
+                    'PushNotificationSubscriptions',
+                    'EmailNotificationSubscriptions',
+                ]);
             }
         );
 
         return $this->Crud->execute();
     }
 
+    /**
+     * Add
+     *
+     * @return \Cake\Http\Response
+     */
     public function add()
     {
         $this->Crud->action()->saveOptions(['accessibleFields' => ['user' => true]]);

@@ -9,10 +9,14 @@ use Cake\Routing\Router;
 trait HasPhotoTrait
 {
     /**
+     * Get photo
      *
+     * @param string $path Path
+     * @param string $baseUrl Url
+     * @param string|null $name Name
      * @return array
      */
-    private function _getPhotosUrl($path, $baseUrl, $name = null)
+    private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null): array
     {
         $array = [];
         if (!$name) {

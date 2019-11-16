@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
@@ -18,6 +19,9 @@ class StartSeasonCommand extends Command
     use CurrentMatchdayTrait;
     use Traits\GazzettaTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -25,6 +29,9 @@ class StartSeasonCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Start a new season');
@@ -33,17 +40,13 @@ class StartSeasonCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\Arguments $args
-     * @param \Cake\Console\ConsoleIo $io
-     * @return int|null
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->startup($args, $io);
         $season = $this->createSeason($io, $args);
-        if ($season->key_gazzetta == null || $season->key_gazzetta == '') {
+        if ($season && $season->key_gazzetta == null || $season->key_gazzetta == '') {
             $this->getCurrentMatchday();
             if ($this->calculateKey($season) != '') {
                 $firstMatchday = $this->Matchdays->find()->where([
@@ -66,7 +69,14 @@ class StartSeasonCommand extends Command
         }
     }
 
-    private function createSeason(ConsoleIo $io, Arguments $args)
+    /**
+     * Create season
+     *
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @param \Cake\Console\Arguments $args Arguments
+     * @return \App\Model\Entity\Season
+     */
+    private function createSeason(ConsoleIo $io, Arguments $args): Season
     {
         $year = (int)date("Y");
         $season = $this->Seasons->find()->where(['year' => $year])->first();

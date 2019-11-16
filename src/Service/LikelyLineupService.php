@@ -34,7 +34,7 @@ class LikelyLineupService
      * @param int $teamId The id of team
      * @return \App\Model\Entity\Team
      */
-    public function get($teamId): Team
+    public function get(int $teamId): Team
     {
         $team = $this->Teams->get($teamId, [
             'contain' => [
@@ -54,7 +54,7 @@ class LikelyLineupService
      * @param \App\Model\Entity\Member[] $members The members
      * @return void
      */
-    public function retrieve($members)
+    public function retrieve(array $members): void
     {
         $client = new Client([
             'base_uri' => 'https://www.gazzetta.it',
@@ -78,7 +78,7 @@ class LikelyLineupService
      * @param \Symfony\Component\DomCrawler\Crawler $match The match
      * @return void
      */
-    private function processMatch(Crawler $match)
+    private function processMatch(Crawler $match): void
     {
         $i = 0;
         $teamsName = $match->filter('.match .team')->extract(['_text']);
@@ -97,7 +97,7 @@ class LikelyLineupService
      * @param \App\Model\Entity\Member $member The member
      * @return void
      */
-    private function processMember(Member &$member)
+    private function processMember(Member &$member): void
     {
         $divs = $this->_teams[strtolower($member->club->name)];
         $member->likely_lineup = new stdClass();

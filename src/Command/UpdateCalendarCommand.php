@@ -17,6 +17,9 @@ class UpdateCalendarCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -24,6 +27,9 @@ class UpdateCalendarCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
@@ -39,22 +45,26 @@ class UpdateCalendarCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\Arguments $args
-     * @param \Cake\Console\ConsoleIo $io
-     * @return int|null
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get($args->getArgument('season')) : $this->currentSeason;
+        $season = $args->hasArgument('season') ?
+            $this->Matchdays->Seasons->get($args->getArgument('season')) : $this->currentSeason;
 
         return $this->exec($season, $args, $io);
     }
 
-    public function exec(Season $season, Arguments $args, ConsoleIo $io)
+    /**
+     * Exec
+     *
+     * @param \App\Model\Entity\Season $season Season
+     * @param \Cake\Console\Arguments $args Arguments
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @return int
+     */
+    public function exec(Season $season, Arguments $args, ConsoleIo $io): ?int
     {
-
         $matchdays = 38;
         $progress = $io->helper('Progress');
         $progress->init(['total' => $matchdays]);

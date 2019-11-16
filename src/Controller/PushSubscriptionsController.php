@@ -11,6 +11,9 @@ use Cake\Event\EventInterface;
  */
 class PushSubscriptionsController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

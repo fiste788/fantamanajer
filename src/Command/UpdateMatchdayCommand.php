@@ -17,6 +17,9 @@ class UpdateMatchdayCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -24,6 +27,9 @@ class UpdateMatchdayCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
@@ -40,16 +46,14 @@ class UpdateMatchdayCommand extends Command
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\Arguments $args
-     * @param \Cake\Console\ConsoleIo $io
-     * @return int|null
+     * @inheritDoc
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $season = $args->hasArgument('season') ? $this->Matchdays->Seasons->get((int)$args->getArgument('season')) : $this->currentSeason;
-        $matchday = $args->hasArgument('matchday') ? (int)$args->getArgument('matchday') : $this->currentMatchday->number;
+        $season = $args->hasArgument('season') ?
+            $this->Matchdays->Seasons->get((int)$args->getArgument('season')) : $this->currentSeason;
+        $matchday = $args->hasArgument('matchday') ?
+            (int)$args->getArgument('matchday') : $this->currentMatchday->number;
 
         return $this->exec($season, $matchday, $args, $io);
     }
@@ -57,10 +61,10 @@ class UpdateMatchdayCommand extends Command
     /**
      * Undocumented function
      *
-     * @param \App\Model\Entity\Season $season
-     * @param int $matchdayNumber
-     * @param \Cake\Console\Arguments $args
-     * @param \Cake\Console\ConsoleIo $io
+     * @param \App\Model\Entity\Season $season Season
+     * @param int $matchdayNumber Matchday
+     * @param \Cake\Console\Arguments $args Arguments
+     * @param \Cake\Console\ConsoleIo $io Io
      * @return int
      */
     public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): ?int
@@ -74,7 +78,12 @@ class UpdateMatchdayCommand extends Command
 
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
         if ($date != null && $date->isFuture()) {
-            $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') && $io->askChoice("Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number, ['y', 'n'], 'y') == 'y');
+            $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') &&
+                $io->askChoice(
+                    "Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number,
+                    ['y', 'n'],
+                    'y'
+                ) == 'y');
             if ($res) {
                 $matchday->set('date', $date);
                 $this->Matchdays->save($matchday);

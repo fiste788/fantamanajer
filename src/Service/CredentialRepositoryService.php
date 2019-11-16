@@ -33,7 +33,7 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      * @param string $credentialId credentialId
      * @return \App\Model\Entity\PublicKeyCredentialSource
      */
-    private function findByCredentialId($credentialId)
+    private function findByCredentialId(string $credentialId): PublicKeyCredentialSource
     {
         return $this->PublicKeyCredentialSources->find()->where(['public_key_credential_id' => $credentialId])->first();
     }

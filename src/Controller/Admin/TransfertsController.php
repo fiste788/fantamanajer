@@ -12,6 +12,11 @@ use Cake\Event\EventInterface;
  */
 class TransfertsController extends AppController
 {
+    /**
+     * Add
+     *
+     * @return \Cake\Http\Response
+     */
     public function add()
     {
         $this->Crud->action()->saveOptions(['associated' => []]);
@@ -24,6 +29,9 @@ class TransfertsController extends AppController
         return $this->Crud->execute();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

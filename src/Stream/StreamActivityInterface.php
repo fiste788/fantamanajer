@@ -3,13 +3,35 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use Cake\I18n\Time;
+
 interface StreamActivityInterface
 {
-    public function getTitle();
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle(): string;
 
-    public function getBody();
+    /**
+     * Get body
+     *
+     * @return string|null
+     */
+    public function getBody(): ?string;
 
-    public function getIcon();
+    /**
+     * Get icon
+     *
+     * @return string
+     */
+    public function getIcon(): string;
 
-    public function getTime();
+    /**
+     * Get time
+     *
+     * @return \Cake\I18n\Time
+     */
+    public function getTime(): Time;
 }

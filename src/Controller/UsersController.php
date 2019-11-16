@@ -19,9 +19,7 @@ class UsersController extends AppController
     use ServiceAwareTrait;
 
     /**
-     * Initialize
-     *
-     * @return void
+     * @inheritDoc
      */
     public function initialize(): void
     {
@@ -31,10 +29,7 @@ class UsersController extends AppController
     }
 
     /**
-     * Before filter
-     *
-     * @param \Cake\Event\Event $event Event
-     * @return void
+     * @inheritDoc
      */
     public function beforeFilter(EventInterface $event)
     {
@@ -61,11 +56,11 @@ class UsersController extends AppController
     /**
      * Get login Token
      *
+     * @return void
      * @throws \Cake\Network\Exception\UnauthorizedException
      */
     public function login()
     {
-        Log::error('test');
         if ($this->Authentication->getResult()->isValid()) {
             Log::error('valido');
             $user = $this->Authentication->getIdentity();

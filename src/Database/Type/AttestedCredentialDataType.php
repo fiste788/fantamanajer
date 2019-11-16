@@ -1,16 +1,18 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Database\Type;
 
-use PDO;
-use Cake\Database\TypeInterface;
 use Cake\Database\DriverInterface;
+use Cake\Database\TypeInterface;
+use PDO;
 use Webauthn\AttestedCredentialData;
 
 class AttestedCredentialDataType implements TypeInterface
 {
+    /**
+     * @inheritDoc
+     */
     public function toPHP($value, DriverInterface $driver)
     {
         if ($value === null) {
@@ -21,6 +23,9 @@ class AttestedCredentialDataType implements TypeInterface
         return AttestedCredentialData::createFromArray($json);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function marshal($value)
     {
         if (is_array($value) || $value === null) {
@@ -30,11 +35,17 @@ class AttestedCredentialDataType implements TypeInterface
         return json_decode($value, true);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function toDatabase($value, DriverInterface $driver)
     {
         return json_encode($value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function toStatement($value, DriverInterface $driver)
     {
         if ($value === null) {
@@ -44,26 +55,24 @@ class AttestedCredentialDataType implements TypeInterface
         return PDO::PARAM_STR;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getBaseType(): ?string
-    { }
+    {
+    }
 
     /**
-     * Returns type identifier name for this object.
-     *
-     * @return string|null The type identifier name for this object.
+     * @inheritDoc
      */
     public function getName(): ?string
-    { }
+    {
+    }
 
     /**
-     * Generate a new primary key value for a given type.
-     *
-     * This method can be used by types to create new primary key values
-     * when entities are inserted.
-     *
-     * @return mixed A new primary key value.
-     * @see \Cake\Database\Type\UuidType
+     * @inheritDoc
      */
     public function newId()
-    { }
+    {
+    }
 }

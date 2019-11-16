@@ -17,6 +17,9 @@ class TransfertCommand extends Command
 {
     use CurrentMatchdayTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -25,6 +28,9 @@ class TransfertCommand extends Command
         $this->getCurrentMatchday();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-commit', [
@@ -48,6 +54,9 @@ class TransfertCommand extends Command
         return $parser;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
@@ -64,7 +73,7 @@ class TransfertCommand extends Command
                     'matchday_id' => $matchday->id,
                     'processed' => false,
                     'Selections.active' => true,
-                ]);
+                ])->all();
             $table[] = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {
                 foreach ($selections as $selection) {
@@ -78,7 +87,7 @@ class TransfertCommand extends Command
                 }
                 $io->helper('Table')->output($table);
                 if (!$args->getOption('no-commit')) {
-                    $this->doTransferts($io, $selections);
+                    $this->doTransferts($io, $selections->toArray());
                 }
             } else {
                 $io->out('No unprocessed selections found');
@@ -86,7 +95,14 @@ class TransfertCommand extends Command
         }
     }
 
-    private function doTransferts(ConsoleIo $io, $selections)
+    /**
+     * Do transferts
+     *
+     * @param \Cake\Console\ConsoleIo $io Io
+     * @param \App\Model\Entity\Selection $selections Selections
+     * @return void
+     */
+    private function doTransferts(ConsoleIo $io, array $selections): void
     {
         if ($this->Selections->saveMany($selections)) {
             $io->out('Changes committed');

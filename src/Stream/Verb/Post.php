@@ -8,17 +8,32 @@ use App\Stream\StreamSingleActivity;
 
 class Post extends StreamSingleActivity implements StreamActivityInterface
 {
-    public function getBody()
+    /**
+     * Get body
+     *
+     * @return string
+     */
+    public function getBody(): string
     {
         return $this->activity->offsetGet('object')->body;
     }
 
-    public function getTitle()
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle(): string
     {
         return __('{0} posted a conference', $this->activity->offsetGet('actor')->name);
     }
 
-    public function getIcon()
+    /**
+     * Get icon
+     *
+     * @return string
+     */
+    public function getIcon(): string
     {
         return 'message';
     }

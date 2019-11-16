@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -12,9 +11,9 @@ class ArticlePolicy
     /**
      * Can add
      *
-     * @param IdentityInterface $user User
-     * @param Article $article Entity
-     * @return boolean
+     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\Article $article Entity
+     * @return bool
      */
     public function canAdd(IdentityInterface $user, Article $article)
     {
@@ -24,9 +23,9 @@ class ArticlePolicy
     /**
      * Can edit
      *
-     * @param IdentityInterface $user User
-     * @param Article $article Entity
-     * @return boolean
+     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\Article $article Entity
+     * @return bool
      */
     public function canEdit(IdentityInterface $user, Article $article)
     {
@@ -36,9 +35,9 @@ class ArticlePolicy
     /**
      * Can delete
      *
-     * @param IdentityInterface $user User
-     * @param Article $article Entity
-     * @return boolean
+     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\Article $article Entity
+     * @return bool
      */
     public function canDelete(IdentityInterface $user, Article $article)
     {
@@ -48,9 +47,9 @@ class ArticlePolicy
     /**
      * Can index
      *
-     * @param IdentityInterface $user User
-     * @param Article $article Article
-     * @return boolean
+     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\Article $article Article
+     * @return bool
      */
     public function canIndex(IdentityInterface $user, Article $article)
     {
