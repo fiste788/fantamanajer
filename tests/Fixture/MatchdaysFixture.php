@@ -83,7 +83,7 @@ class MatchdaysFixture extends TestFixture
         ['id' => '605', 'number' => '36', 'date' => '2019-05-12 18:00:00', 'season_id' => '16'],
         ['id' => '606', 'number' => '37', 'date' => '2019-05-19 18:00:00', 'season_id' => '16'],
         ['id' => '607', 'number' => '38', 'date' => '2019-05-26 18:00:00', 'season_id' => '16'],
-        ['id' => '608', 'number' => '39', 'date' => '2019-07-31 23:59:59', 'season_id' => '16']
+        ['id' => '608', 'number' => '39', 'date' => '2019-07-31 23:59:59', 'season_id' => '16'],
         ];
         parent::init();
     }

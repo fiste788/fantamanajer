@@ -11,6 +11,7 @@ use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
+use Cake\Log\Log;
 use Minishlink\WebPush\WebPush;
 
 /**
@@ -88,23 +89,25 @@ class SendTestNotificationCommand extends Command
 
             if ($result->isSuccess()) {
                 // process successful message sent
-                Log::info(sprintf('Notification with payload %s successfully sent for endpoint %s.', [
-                    json_decode((string)$response->getBody()),
+                Log::info(sprintf(
+                    'Notification with payload %s successfully sent for endpoint %s.',
+                    json_decode((string)$response->getStringBody()),
                     $result->getEndpoint()
-                ]));
+                ));
             } else {
                 // or a failed one - check expiration first
                 if ($result->isSubscriptionExpired()) {
                     // this is just an example code, not included in library!
-                    Log::info(sprintf('Expired %s', [$result->getEndpoint()]));
+                    Log::info(sprintf('Expired %s', $result->getEndpoint()));
                     //$db->markExpired($result->getEndpoint());
                 } else {
                     // process faulty message
-                    Log::info(sprintf('Notification failed: %s. Payload: %s, endpoint: %s', [
+                    Log::info(sprintf(
+                        'Notification failed: %s. Payload: %s, endpoint: %s',
                         $result->getReason(),
-                        json_decode((string)$response->getBody()),
+                        json_decode((string)$response->getStringBody()),
                         $result->getEndpoint()
-                    ]));
+                    ));
                 }
             }
         }

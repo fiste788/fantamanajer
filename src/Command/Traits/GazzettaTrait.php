@@ -595,7 +595,7 @@ trait GazzettaTrait
             $ratings = [];
             foreach ($matchday->ratings as $rating) {
                 $rating->points_no_bonus = $rating->calcPointsNoBonus($season);
-                if($rating->isDirty()) {
+                if ($rating->isDirty()) {
                     $ratings[] = $rating;
                 }
             }

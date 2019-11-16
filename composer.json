@@ -37,7 +37,8 @@
         "spatie/image": "^1.7",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",
-        "web-auth/webauthn-lib": "^2.0"
+        "web-auth/webauthn-lib": "^2.0",
+        "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
         "cakephp/bake": "4.x-dev",

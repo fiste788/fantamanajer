@@ -62,7 +62,7 @@ class DispositionsFixture extends TestFixture
         ['id' => '37825', 'position' => '15', 'consideration' => '0', 'lineup_id' => '1781', 'member_id' => '5051'],
         ['id' => '37826', 'position' => '16', 'consideration' => '0', 'lineup_id' => '1781', 'member_id' => '4958'],
         ['id' => '37827', 'position' => '17', 'consideration' => '0', 'lineup_id' => '1781', 'member_id' => '5123'],
-        ['id' => '37828', 'position' => '18', 'consideration' => '1', 'lineup_id' => '1781', 'member_id' => '5088']
+        ['id' => '37828', 'position' => '18', 'consideration' => '1', 'lineup_id' => '1781', 'member_id' => '5088'],
         ];
         parent::init();
     }

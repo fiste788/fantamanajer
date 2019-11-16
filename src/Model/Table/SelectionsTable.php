@@ -39,8 +39,12 @@ class SelectionsTable extends Table
 {
     use ServiceAwareTrait;
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
+        parent::__construct();
         $this->loadService('Selection');
     }
 

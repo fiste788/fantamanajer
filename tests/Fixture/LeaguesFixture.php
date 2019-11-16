@@ -37,7 +37,7 @@ class LeaguesFixture extends TestFixture
     {
         $this->records = [
         ['id' => '1', 'name' => 'Alzano Sopra'],
-        ['id' => '2', 'name' => 'Pipponi']
+        ['id' => '2', 'name' => 'Pipponi'],
         ];
         parent::init();
     }

@@ -80,7 +80,7 @@ class MembersFixture extends TestFixture
         ['id' => '5176', 'code_gazzetta' => '942', 'active' => '1', 'playmaker' => '1', 'created_at' => '2018-08-21 16:04:44', 'modified_at' => null, 'player_id' => '2184', 'role_id' => '4', 'club_id' => '17', 'season_id' => '16'],
         ['id' => '5088', 'code_gazzetta' => '839', 'active' => '1', 'playmaker' => '0', 'created_at' => '2018-08-21 16:04:43', 'modified_at' => null, 'player_id' => '1539', 'role_id' => '4', 'club_id' => '2', 'season_id' => '16'],
         ['id' => '5079', 'code_gazzetta' => '829', 'active' => '1', 'playmaker' => '0', 'created_at' => '2018-08-21 16:04:43', 'modified_at' => null, 'player_id' => '538', 'role_id' => '4', 'club_id' => '2', 'season_id' => '16'],
-        ['id' => '5055', 'code_gazzetta' => '801', 'active' => '1', 'playmaker' => '0', 'created_at' => '2018-08-21 16:04:43', 'modified_at' => null, 'player_id' => '1941', 'role_id' => '4', 'club_id' => '32', 'season_id' => '16']
+        ['id' => '5055', 'code_gazzetta' => '801', 'active' => '1', 'playmaker' => '0', 'created_at' => '2018-08-21 16:04:43', 'modified_at' => null, 'player_id' => '1941', 'role_id' => '4', 'club_id' => '32', 'season_id' => '16'],
         ];
         parent::init();
     }

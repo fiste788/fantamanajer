@@ -286,7 +286,7 @@ class CredentialService
         // Public Key Credential Parameters
         $publicKeyCredentialParametersList = [
             new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES256),
-            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256)
+            new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256),
         ];
 
         // Authenticator Selection Criteria (we used default values)

@@ -49,7 +49,7 @@ class PublicKeyCredentialSource extends Entity
         'created_at' => false,
         'name' => true,
         'user_agent' => true,
-        'user' => true
+        'user' => true,
     ];
 
     /**

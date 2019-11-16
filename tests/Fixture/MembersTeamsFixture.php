@@ -67,7 +67,7 @@ class MembersTeamsFixture extends TestFixture
         ['id' => '1206', 'team_id' => '55', 'member_id' => '5176'],
         ['id' => '1207', 'team_id' => '55', 'member_id' => '5088'],
         ['id' => '1208', 'team_id' => '55', 'member_id' => '5079'],
-        ['id' => '1209', 'team_id' => '55', 'member_id' => '5055']
+        ['id' => '1209', 'team_id' => '55', 'member_id' => '5055'],
         ];
 
         parent::init();

@@ -102,7 +102,7 @@ class LikelyLineupService
     private function processMember(Member &$member): void
     {
         $divs = $this->_teams[strtolower($member->club->name)];
-        if($divs) {
+        if ($divs) {
             $member->likely_lineup = new stdClass();
             $member->likely_lineup->regular = null;
             $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');

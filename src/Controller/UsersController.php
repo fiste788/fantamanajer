@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Stream\ActivityManager;
-use Authentication\Authenticator\UnauthenticatedException;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Burzum\Cake\Service\ServiceAwareTrait;
+use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
@@ -58,7 +59,7 @@ class UsersController extends AppController
      *
      * @return void
      *
-     * @throws UnauthenticatedException
+     * @throws \Authentication\Authenticator\UnauthenticatedException
      */
     public function login()
     {
@@ -83,9 +84,9 @@ class UsersController extends AppController
                 [
                     'success' => false,
                     'data' => [
-                        'message' => $this->Authentication->getResult()->getStatus()
+                        'message' => $this->Authentication->getResult()->getStatus(),
                     ],
-                    '_serialize' => ['success', 'data']
+                    '_serialize' => ['success', 'data'],
                 ]
             );
         }
@@ -138,13 +139,11 @@ class UsersController extends AppController
      */
     public function edit()
     {
-        $this->Crud->on(
-            'beforeSave',
-            function (Event $event) {
-                $hasher = new DefaultPasswordHasher();
-                $event->getSubject()->entity->set('password', $hasher->hash($event->getSubject()->entity->get('password')));
-            }
-        );
+        $this->Crud->on('beforeSave', function (Event $event) {
+            $hasher = new DefaultPasswordHasher();
+            $plain = $event->getSubject()->entity->get('password');
+            $event->getSubject()->entity->set('password', $hasher->hash($plain));
+        });
         $this->Crud->execute();
     }
 }

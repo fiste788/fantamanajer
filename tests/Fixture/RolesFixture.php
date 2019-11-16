@@ -42,7 +42,7 @@ class RolesFixture extends TestFixture
         ['id' => '1', 'singolar' => 'Portiere', 'plural' => 'Portieri', 'abbreviation' => 'P', 'determinant' => 'il'],
         ['id' => '2', 'singolar' => 'Difensore', 'plural' => 'Difensori', 'abbreviation' => 'D', 'determinant' => 'il'],
         ['id' => '3', 'singolar' => 'Centrocampista', 'plural' => 'Centrocampisti', 'abbreviation' => 'C', 'determinant' => 'il'],
-        ['id' => '4', 'singolar' => 'Attaccante', 'plural' => 'Attaccanti', 'abbreviation' => 'A', 'determinant' => 'l\'']
+        ['id' => '4', 'singolar' => 'Attaccante', 'plural' => 'Attaccanti', 'abbreviation' => 'A', 'determinant' => 'l\''],
         ];
         parent::init();
     }

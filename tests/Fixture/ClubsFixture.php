@@ -73,7 +73,7 @@ class ClubsFixture extends TestFixture
         ['id' => '29', 'name' => 'Frosinone', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '0'],
         ['id' => '30', 'name' => 'Crotone', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '22'],
         ['id' => '31', 'name' => 'Benevento', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '21'],
-        ['id' => '32', 'name' => 'Spal', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '24']
+        ['id' => '32', 'name' => 'Spal', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '24'],
             ];
         parent::init();
     }

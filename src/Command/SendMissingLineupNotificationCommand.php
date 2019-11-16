@@ -62,7 +62,11 @@ class SendMissingLineupNotificationCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $tomorrow = Chronos::now()->addDay()->second(0);
-        if ($args->getOption('force') || $this->currentMatchday->date->isWithinNext('30 minutes') || $this->currentMatchday->date->eq($tomorrow)) {
+        if (
+            $args->getOption('force') ||
+            $this->currentMatchday->date->isWithinNext('30 minutes') ||
+            $this->currentMatchday->date->eq($tomorrow)
+        ) {
             $io->out('Start');
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
@@ -82,11 +86,15 @@ class SendMissingLineupNotificationCommand extends Command
                 $date = $this->currentMatchday->date->toMutable()->subMinutes($team->championship->minute_lineup);
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
-                            ->title('Formazione non ancora impostatata')
-                            ->body('Ricordati di impostare la formazione per la giornata ' . $this->currentMatchday->number . '! Hai tempo fino alle ' . $date->toFormattedDateString())
-                            ->action('Imposta', 'open')
-                            ->tag('missing-lineup-' . $this->currentMatchday->number)
-                            ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
+                        ->title('Formazione non ancora impostatata')
+                        ->body(sprintf(
+                            'Ricordati di impostare la formazione per la giornata %d! Hai tempo fino alle %s',
+                            $this->currentMatchday->number,
+                            $date->toFormattedDateString()
+                        ))
+                        ->action('Imposta', 'open')
+                        ->tag('missing-lineup-' . $this->currentMatchday->number)
+                        ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
                     $io->out('Send push notification to ' . $subscription->endpoint);
                     $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
                 }

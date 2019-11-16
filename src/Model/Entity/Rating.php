@@ -86,7 +86,7 @@ class Rating extends Entity
     public function getBonusCleanSheetPoints()
     {
         $minus = 0;
-        if($this->goals_against == 0 && $this->member->role->abbreviation == 'P') {
+        if ($this->goals_against == 0 && $this->member->role->abbreviation == 'P') {
             $minus += 1;
         }
 
@@ -96,18 +96,20 @@ class Rating extends Entity
     /**
      * Undocumented function
      *
-     * @param Season $season
-     * @param boolean $force
+     * @param \App\Model\Entity\Season $season Season
+     * @param bool $force Force
      * @return float
      */
-    public function calcPointsNoBonus(Season $season, bool $force = false) {
+    public function calcPointsNoBonus(Season $season, bool $force = false)
+    {
         $pointsNoBonus = $this->points;
-        if($season->bonus_points || $force) {
+        if ($season->bonus_points || $force) {
             $pointsNoBonus -= $this->getBonusPoints();
         }
-        if($season->bonus_points_clean_sheet || $force) {
+        if ($season->bonus_points_clean_sheet || $force) {
             $pointsNoBonus -= $this->getBonusCleanSheetPoints();
         }
+
         return $pointsNoBonus;
     }
 }

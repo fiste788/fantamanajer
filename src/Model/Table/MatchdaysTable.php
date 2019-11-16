@@ -138,7 +138,14 @@ class MatchdaysTable extends Table
             ->orderAsc('number')->limit(1);
     }
 
-    public function findPrevious(Query $q, array $options)
+    /**
+     * Find previuos query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
+    public function findPrevious(Query $q, array $options): Query
     {
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
         $now = new Time();

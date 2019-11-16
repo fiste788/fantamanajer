@@ -41,7 +41,7 @@ class MembersController extends AppController
             foreach ($roles as $key => $role) {
                 $roles[$key]->best_players = $this->Members->find('bestByMatchdayIdAndRole', [
                     'matchday_id' => $matchday->id,
-                    'role' => $role
+                    'role' => $role,
                 ])->limit(5)->toArray();
             }
         }
