@@ -18,7 +18,7 @@ class SelectionsController extends AppSelectionsController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');
-        $teamId = $this->request->getParam('team_id');
+        $teamId = (int)$this->request->getParam('team_id');
 
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();

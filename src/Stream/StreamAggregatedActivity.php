@@ -25,6 +25,6 @@ abstract class StreamAggregatedActivity extends StreamActivity
      */
     public function getTime(): Time
     {
-        return $this->activity['updated_at'];
+        return $this->activity->offsetGet('updated_at');
     }
 }

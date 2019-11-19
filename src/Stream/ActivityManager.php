@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use StreamCake\Enrich;
+use StreamCake\EnrichedActivity;
 use StreamCake\FeedManager;
 
 class ActivityManager
@@ -48,8 +49,9 @@ class ActivityManager
     public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {
         foreach ($enricheds as $key => $activity) {
-            if (is_array($activity) || $activity->enriched()) {
-                $activities['results'][$key] = $this->getFromVerb($activity->getNotEnrichedData());
+            /** @var \StreamCake\EnrichedActivity $activity */
+            if ($activity->enriched()) {
+                $activities['results'][$key] = $this->getFromVerb($activity);
             } else {
                 unset($activities['results'][$key]);
             }
@@ -61,19 +63,14 @@ class ActivityManager
 
     /**
      *
-     * @param \StreamCake\EnrichedActivity[] $activity Activity
+     * @param \StreamCake\EnrichedActivity $activity Activity
      * @return \App\Stream\StreamActivity
      */
-    private function getFromVerb(array $activity): StreamActivity
+    private function getFromVerb(EnrichedActivity $activity): StreamActivity
     {
-        $base = '\\App\\Stream\\Verb\\';
-        if (array_key_exists('activities', $activity)) {
-            $base .= 'Aggregated\\';
-            $verb = $activity['verb'];
-        } else {
-            $verb = $activity->offsetGet('verb');
-        }
-        $className = $base . ucwords($verb);
+        $namespace = '\\App\\Stream\\Verb\\' . $activity->offsetExists('activities') ?? 'Aggregated\\';
+        $name = $activity->offsetGet('verb');
+        $className = $namespace . ucwords($name);
 
         return new $className($activity);
     }

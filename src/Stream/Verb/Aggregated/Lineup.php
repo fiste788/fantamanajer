@@ -15,7 +15,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      */
     public function getBody(): string
     {
-        $lineup = $this->activity['activities'][0]->offsetGet('object');
+        $lineup = $this->activity->offsetGet('activities')[0]->offsetGet('object');
         $regular = array_splice($lineup->dispositions, 0, 11);
         $players = [];
         foreach ($regular as $disposition) {
@@ -33,8 +33,8 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
     public function getTitle(): string
     {
         return __('{0} has setup lineup for matchday {1}', [
-            $this->activity['activities'][0]->offsetGet('actor')->name,
-            $this->activity['activities'][0]->offsetGet('object')->matchday->number,
+            $this->activity->offsetGet('activities')[0]->offsetGet('actor')->name,
+            $this->activity->offsetGet('activities')[0]->offsetGet('object')->matchday->number,
         ]);
     }
 

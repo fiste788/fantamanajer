@@ -19,10 +19,10 @@ class NotificationsController extends AppController
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
-        $teamId = $this->request->getParam('team_id');
+        $teamId = (int)$this->request->getParam('team_id');
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
-        if (!$identity->hasTeam((int)$teamId)) {
+        if (!$identity->hasTeam($teamId)) {
             throw new ForbiddenException();
         }
     }

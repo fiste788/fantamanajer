@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace StreamCake;
@@ -65,6 +66,7 @@ class Enrich implements EnrichInterface
             $aggregated['activities'] = $activities;
             $aggregated['created_at'] = new \Cake\I18n\Time($aggregated['created_at'], 'UTC');
             $aggregated['updated_at'] = new \Cake\I18n\Time($aggregated['updated_at'], 'UTC');
+            $aggregated = new EnrichedActivity($aggregated);
         }
 
         $references = $this->collectReferences($allActivities);

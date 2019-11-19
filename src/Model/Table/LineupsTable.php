@@ -256,7 +256,7 @@ class LineupsTable extends Table
                             ->select($tableLocator->get('Roles'))
                             ->select($tableLocator->get('Players'))
                             ->select($tableLocator->get('VwMembersStats'))
-                            ->select(['id', 'role_id'])
+                            ->select(['id', 'role_id', 'club_id'])
                             ->contain(['Roles', 'Players']);
                     },
                 ],

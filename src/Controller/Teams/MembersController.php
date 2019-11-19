@@ -25,7 +25,7 @@ class MembersController extends AppMembersController
     {
         $this->Crud->action()->findMethod([
             'byTeamId' => [
-                'team_id' => $this->request->getParam('team_id', null),
+                'team_id' => (int)$this->request->getParam('team_id', null),
                 'stats' => $this->request->getQuery('stats', true),
             ],
         ]);
@@ -42,8 +42,8 @@ class MembersController extends AppMembersController
     {
         $this->Crud->action()->findMethod([
             'notMine' => [
-                'team_id' => $this->request->getParam('team_id', null),
-                'role_id' => $this->request->getParam('role_id', null),
+                'team_id' => (int)$this->request->getParam('team_id', null),
+                'role_id' => (int)$this->request->getParam('role_id', null),
             ],
         ]);
 

@@ -37,10 +37,10 @@ class ScoresController extends AppController
     /**
      * View
      *
-     * @param null|int $id Id
+     * @param string|null $id Id
      * @return \Cake\Http\Response
      */
-    public function view(?int $id)
+    public function view(?string $id)
     {
         $members = (bool)$this->request->getQuery('members', false);
         $that = $this;

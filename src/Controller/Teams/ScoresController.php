@@ -44,7 +44,7 @@ class ScoresController extends \App\Controller\ScoresController
     public function viewByMatchday($matchdayId = null)
     {
         $conditions = [
-            'team_id' => $this->getRequest()->getParam('team_id'),
+            'team_id' => (int)$this->getRequest()->getParam('team_id'),
         ];
         if ($matchdayId) {
             $conditions['matchday_id'] = $matchdayId;

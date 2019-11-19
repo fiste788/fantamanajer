@@ -17,7 +17,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
     {
         $news = [];
         $olds = [];
-        foreach ($this->activity['activities'] as $activity) {
+        foreach ($this->activity->offsetGet('activities') as $activity) {
             if ($activity->enriched()) {
                 $news[] = $activity->offsetGet('object')->new_member->player->full_name;
                 $olds[] = $activity->offsetGet('object')->old_member->player->full_name;
@@ -37,9 +37,9 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      */
     public function getTitle(): string
     {
-        return __n('{0} make a transfert', '{0} make {1} transferts', $this->activity['activity_count'], [
-            $this->activity['activities'][0]->offsetGet('actor')->name,
-            $this->activity['activity_count'],
+        return __n('{0} make a transfert', '{0} make {1} transferts', $this->activity->offsetGet('activity_count'), [
+            $this->activity->offsetGet('activities')[0]->offsetGet('actor')->name,
+            $this->activity->offsetGet('activity_count'),
         ]);
     }
 
