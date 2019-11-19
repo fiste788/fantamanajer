@@ -11,7 +11,7 @@ class UserPolicy
     /**
      * Can edit
      *
-     * @param \Authorization\IdentityInterface $identity User
+     * @param \App\Model\Entity\User $identity User
      * @param \App\Model\Entity\User $user Entity
      * @return bool
      */

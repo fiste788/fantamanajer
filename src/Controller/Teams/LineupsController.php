@@ -44,7 +44,9 @@ class LineupsController extends \App\Controller\LineupsController
     {
         $team = $this->request->getParam('team_id');
         $that = $this;
-        if ($this->Authentication->getIdentity()->hasTeam($team)) {
+        /** @var \App\Model\Entity\User $identity */
+        $identity = $this->Authentication->getIdentity();
+        if ($identity->hasTeam($team)) {
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $that) {
                 $event->getSubject()->query = $that->Lineups->find('last', [
                     'team_id' => $team,
@@ -53,6 +55,7 @@ class LineupsController extends \App\Controller\LineupsController
                 ]);
             });
         } else {
+            /** @var \App\Model\Entity\Matchday $matchday */
             $matchday = $this->Matchdays->find('firstWithoutScores', [
                 'season' => $this->currentSeason->id,
             ])->first();

@@ -28,10 +28,11 @@ class ScoreService
      * Create missing points
      *
      * @param \App\Model\Entity\Team $team Team
-     * @return \App\model\Entity\Score[]
+     * @return \App\Model\Entity\Score[]
      */
     public function createMissingPoints(Team $team): array
     {
+        /** @var \App\Model\Entity\Matchday $current */
         $current = $this->Matchdays->find('current')->first();
         $matchdaysWithScore = $this->Matchdays->findWithScores($current->season)
             ->orderAsc('number', true)

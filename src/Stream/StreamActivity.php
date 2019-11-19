@@ -13,7 +13,7 @@ abstract class StreamActivity implements StreamActivityInterface
 {
     /**
      *
-     * @var \StreamCake\ActivityInterface $activity
+     * @var \StreamCake\EnrichedActivity $activity
      */
     protected $activity;
 

@@ -41,9 +41,9 @@ class CreateStreamCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $championshipFeed = $this->client->feed('championship', 12);
+        $championshipFeed = $this->client->feed('championship', (string)12);
         $teamFeed = $this->client->feed('team', '49');
-        $teamFeed->follow('championship', 12);
+        $teamFeed->follow('championship', $championshipFeed->getSlug());
 
         return 1;
         //$io->out($championshipFeed->getToken());

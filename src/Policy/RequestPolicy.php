@@ -8,20 +8,20 @@ class RequestPolicy
     /**
      * Method to check if the request can be accessed
      *
-     * @param null|\Authorization\IdentityInterface $identity Identity
+     * @param null|\App\Model\Entity\User $identity Identity
      * @param \Cake\Http\ServerRequest $request Server Request
      * @return bool
      */
     public function canAccess($identity, \Cake\Http\ServerRequest $request)
     {
-        if ($request->getParam('prefix') === 'Admin' && !$identity->admin) {
+        if ($request->getParam('prefix') === 'Admin' && $identity != null && !$identity->admin) {
             return false;
         }
 
         if ($request->getParam('prefix') === 'Championships') {
             $championshipId = $request->getParam('championship_id');
 
-            return $identity->isInChampionship($championshipId);
+            return $identity != null && $identity->isInChampionship($championshipId);
         }
 
         return true;

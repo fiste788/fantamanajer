@@ -41,7 +41,7 @@ class ActivityManager
 
     /**
      *
-     * @param \StreamCake\ActivityInterface[] $enricheds Ids
+     * @param \StreamCake\EnrichedActivity[] $enricheds Ids
      * @param mixed $activities Activities
      * @return \App\Stream\StreamActivity[]
      */
@@ -49,7 +49,7 @@ class ActivityManager
     {
         foreach ($enricheds as $key => $activity) {
             if (is_array($activity) || $activity->enriched()) {
-                $activities['results'][$key] = $this->getFromVerb($activity);
+                $activities['results'][$key] = $this->getFromVerb($activity->getNotEnrichedData());
             } else {
                 unset($activities['results'][$key]);
             }

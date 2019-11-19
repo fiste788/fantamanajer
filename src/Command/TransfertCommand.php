@@ -99,7 +99,7 @@ class TransfertCommand extends Command
      * Do transferts
      *
      * @param \Cake\Console\ConsoleIo $io Io
-     * @param \App\Model\Entity\Selection $selections Selections
+     * @param \App\Model\Entity\Selection[] $selections Selections
      * @return void
      */
     private function doTransferts(ConsoleIo $io, array $selections): void
@@ -111,7 +111,7 @@ class TransfertCommand extends Command
             foreach ($selections as $value) {
                 if (!empty($value->getErrors())) {
                     $io->error($value);
-                    $io->error(print_r($value->getErrors()));
+                    $io->error(print_r($value->getErrors(), true));
                 }
             }
         }

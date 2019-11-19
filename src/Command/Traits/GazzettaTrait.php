@@ -206,15 +206,19 @@ trait GazzettaTrait
                 $this->io->out("Ratings found for matchday");
                 $url = $this->getUrlFromMatchdayRow($tr);
 
-                return $this->downloadDropboxUrl($url, $matchday, $http);
+                if ($url != null) {
+                    return $this->downloadDropboxUrl($url, $matchday, $http);
+                }
             }
         }
+
+        return null;
     }
 
     /**
      * Get url From row
      *
-     * @param \App\Command\Traits\Symfony\Component\DomCrawler\Crawler $tr Row
+     * @param \Symfony\Component\DomCrawler\Crawler $tr Row
      * @return string|null
      */
     private function getUrlFromMatchdayRow(Crawler $tr): ?string
@@ -226,7 +230,7 @@ trait GazzettaTrait
                 return $link->link()->getUri();
             }
         } else {
-            $matches = sscanf($button->attr("onclick"), "window.open('%[^']");
+            $matches = sscanf($button->attr("onclick") ?? "", "window.open('%[^']");
             //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
             return $matches[0];
         }
@@ -257,7 +261,7 @@ trait GazzettaTrait
                 }
                 $this->io->out("Downloading $url in tmp dir");
                 $file = TMP . $matchday . '.mxm';
-                file_put_contents($file, file_get_contents($url));
+                file_put_contents($file, file_get_contents($url ?? ""));
 
                 return $file;
             } else {
@@ -278,6 +282,7 @@ trait GazzettaTrait
         $matchdayNumber = $matchday->number;
         $this->io->out('Updating members of matchday ' . $matchdayNumber);
         while ($path == null && $matchdayNumber > -1) {
+            /** @var \App\Model\Entity\Matchday $matchday */
             $matchday = $this->Matchdays->find()->contain(['Seasons'])->where([
                 'number' => $matchdayNumber,
                 'season_id' => $matchday->season_id,
@@ -285,7 +290,7 @@ trait GazzettaTrait
             $path = $this->getRatings($matchday);
             $matchdayNumber--;
         }
-        if (file_exists($path)) {
+        if ($path != null && file_exists($path)) {
             $query = $this->Members->find(
                 'list',
                 [
@@ -340,7 +345,7 @@ trait GazzettaTrait
                 foreach ($membersToSave as $value) {
                     if (!empty($value->getErrors())) {
                         $this->io->err($value);
-                        $this->io->err(print_r($value->getErrors()));
+                        $this->io->err(print_r($value->getErrors(), true));
                     }
                 }
             }
@@ -363,9 +368,11 @@ trait GazzettaTrait
             $member->active = true;
             $flag = true;
         }
-        $clubNew = $this->Clubs->findByName(ucwords(strtolower(trim($club, '"'))))->first();
+
+        /** @var \App\Model\Entity\Club $clubNew */
+        $clubNew = $this->Clubs->find()->where(['name' => ucwords(strtolower(trim($club, '"')))])->first();
         if ($member->club_id != $clubNew->id) {
-            $this->io->verbose("Transfert member " . $member->player->fullName);
+            $this->io->verbose("Transfert member " . $member->player->full_name);
             $member->club = $clubNew;
             $member->active = true;
             $flag = true;
@@ -488,7 +495,7 @@ trait GazzettaTrait
                 foreach ($ratings as $value) {
                     if (!empty($value->getErrors())) {
                         $this->io->err($value);
-                        $this->io->err(print_r($value->getErrors()));
+                        $this->io->err(print_r($value->getErrors(), true));
                     }
                 }
 
@@ -511,16 +518,19 @@ trait GazzettaTrait
      */
     public function returnArray(string $path, string $sep = ";", bool $header = false): array
     {
-        $content = trim(file_get_contents($path));
-        $array = explode("\n", $content);
-        if ($header) {
-            array_shift($header);
-        }
         $arrayOk = [];
-        foreach ($array as $val) {
-            $par = explode($sep, $val);
-            $array = trim($val);
-            $arrayOk[$par[0]] = $par;
+        $content = file_get_contents($path ?? "");
+        if ($content != false) {
+            $array = explode("\n", trim($content));
+            if ($header) {
+                array_shift($array);
+            }
+
+            foreach ($array as $val) {
+                $par = explode($sep, $val);
+                $array = trim($val);
+                $arrayOk[$par[0]] = $par;
+            }
         }
 
         return $arrayOk;
@@ -530,8 +540,8 @@ trait GazzettaTrait
      * Calculate key
      *
      * @param \App\Model\Entity\Season $season Season
-     * @param string $encryptedFilePath Encrypted file path
-     * @param string $dectyptedFilePath Decrypted file path
+     * @param string|null $encryptedFilePath Encrypted file path
+     * @param string|null $dectyptedFilePath Decrypted file path
      * @return string|null
      */
     public function calculateKey(
@@ -547,36 +557,36 @@ trait GazzettaTrait
             $dectyptedFilePath = TMP . "0.txt";
         }
         if (!file_exists($encryptedFilePath)) {
-            $encryptedFilePath = $this->getRatingsFile(0);
+            $encryptedFilePath = $this->getRatingsFile(0) ?? "";
         }
         $reply = 'y';
         if (!file_exists($dectyptedFilePath)) {
-            //if ($this->interactive) {
             $reply = $this->io->askChoice(
                 'Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. 
                 If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx',
                 ['y', 'n'],
                 'y'
             );
-            //}
         }
         if ($reply == 'y') {
             $decript = file_get_contents($dectyptedFilePath);
             $encript = file_get_contents($encryptedFilePath);
-            $res = [];
-            for ($i = 0; $i < 28; $i++) {
-                $xor1 = hexdec(bin2hex($decript[$i]));
-                $xor2 = hexdec(bin2hex($encript[$i]));
-                $res[] = dechex($xor1 ^ $xor2);
-            }
-            $key = implode("-", $res);
-            $this->io->out('Key: ' . $key);
-            $season->key_gazzetta = $key;
-            if ($this->Seasons->save($season)) {
-                copy($dectyptedFilePath, $dectyptedFilePath . "." . $season->year . ".bak");
-                unlink($dectyptedFilePath);
+            if ($decript != false && $encript != false) {
+                $res = [];
+                for ($i = 0; $i < 28; $i++) {
+                    $xor1 = hexdec(bin2hex($decript[$i]));
+                    $xor2 = hexdec(bin2hex($encript[$i]));
+                    $res[] = dechex($xor1 ^ $xor2);
+                }
+                $key = implode("-", $res);
+                $this->io->out('Key: ' . $key);
+                $season->key_gazzetta = $key;
+                if ($this->Seasons->save($season)) {
+                    copy($dectyptedFilePath, $dectyptedFilePath . "." . $season->year . ".bak");
+                    unlink($dectyptedFilePath);
 
-                return $key;
+                    return $key;
+                }
             }
         }
     }

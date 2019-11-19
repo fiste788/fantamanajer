@@ -15,6 +15,7 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property int $code_gazzetta
  * @property bool $playmaker
  * @property bool $active
+ * @property mixed $likely_lineup
  * @property int $player_id
  * @property \App\Model\Entity\Player $player
  * @property int $role_id
@@ -64,6 +65,8 @@ class Member extends Entity
                 true
             );
         }
+
+        return null;
     }
 
     /**
@@ -80,5 +83,7 @@ class Member extends Entity
                 true
             );
         }
+
+        return null;
     }
 }

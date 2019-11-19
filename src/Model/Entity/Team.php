@@ -12,10 +12,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property bool $admin
- * @property string $photo
- * @property string $photo_dir
+ * @property null|string $photo
+ * @property null|string $photo_dir
  * @property int $photo_size
- * @property string $photo_type
+ * @property null|string $photo_type
  * @property int $user_id
  * @property \App\Model\Entity\User $user
  * @property int $championship_id
@@ -78,6 +78,8 @@ class Team extends Entity
             $baseUrl = '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
             return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
+        } else {
+            return [];
         }
     }
 

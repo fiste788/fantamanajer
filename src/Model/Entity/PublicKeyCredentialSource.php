@@ -87,7 +87,7 @@ class PublicKeyCredentialSource extends Entity
         $this->transports = $credentialSource->getTransports();
         $this->attestation_type = $credentialSource->getAttestationType();
         $this->trust_path = $credentialSource->getTrustPath();
-        $this->aaguid = $credentialSource->getAaguid();
+        $this->aaguid = $credentialSource->getAaguid()->toString();
         $this->credential_public_key = $credentialSource->getCredentialPublicKey();
         $this->user_handle = $credentialSource->getUserHandle();
         $this->counter = $credentialSource->getCounter();

@@ -11,7 +11,7 @@ class PlayerPolicy
     /**
      * Can view
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Player $player Player
      * @return bool
      */

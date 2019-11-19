@@ -91,7 +91,7 @@ class SendTestNotificationCommand extends Command
                 // process successful message sent
                 Log::info(sprintf(
                     'Notification with payload %s successfully sent for endpoint %s.',
-                    json_decode((string)$response->getStringBody()),
+                    json_decode((string)$response->getBody()),
                     $result->getEndpoint()
                 ));
             } else {
@@ -105,7 +105,7 @@ class SendTestNotificationCommand extends Command
                     Log::info(sprintf(
                         'Notification failed: %s. Payload: %s, endpoint: %s',
                         $result->getReason(),
-                        json_decode((string)$response->getStringBody()),
+                        json_decode((string)$response->getBody()),
                         $result->getEndpoint()
                     ));
                 }

@@ -24,8 +24,10 @@ class MembersController extends AppController
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
         $this->Crud->mapAction('freeByRole', 'Crud.Index');
-        $championshipId = $this->request->getParam('championship_id');
-        if (!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
+        $championshipId = (int)$this->request->getParam('championship_id');
+        /** @var \App\Model\Entity\User $identity */
+        $identity = $this->Authentication->getIdentity();
+        if (!$identity->isInChampionship($championshipId)) {
             throw new \Cake\Http\Exception\ForbiddenException();
         }
     }

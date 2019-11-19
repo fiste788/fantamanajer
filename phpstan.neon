@@ -1,5 +1,11 @@
 parameters:
-    level: 5
+    level: 7
     autoload_files:
         - config/bootstrap.php
+    ignoreErrors:
+        - '#Call to an undefined method Crud\\Action\\BaseAction::[a-zA-Z0-9_]+\(\)#'
+        - '#Access to an undefined property object::\$entity#'
+        - '#Access to an undefined property object::\$query#'
+        - '#Access to an undefined property object::\$entities#'
+        - '#Access to an undefined property object::\$success#'
 

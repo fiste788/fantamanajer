@@ -161,7 +161,7 @@ class RatingsTable extends Table
     /**
      * Exist matchday
      *
-     * @param \App\Model\Table\Matchday $matchday Matchday
+     * @param \App\Model\Entity\Matchday $matchday Matchday
      * @return bool
      */
     public function existMatchday(Matchday $matchday): bool

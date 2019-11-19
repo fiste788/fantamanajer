@@ -26,7 +26,7 @@ class JollyAlreadyUsedRule
     /**
      * Invoke
      *
-     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \App\Model\Entity\Lineup $entity Entity
      * @param array $options Options
      * @return bool
      */

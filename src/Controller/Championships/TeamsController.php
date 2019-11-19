@@ -18,8 +18,10 @@ class TeamsController extends AppController
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
-        $championshipId = $this->request->getParam('championship_id');
-        if (!$this->Authentication->getIdentity()->isInChampionship($championshipId)) {
+        $championshipId = (int)$this->request->getParam('championship_id');
+        /** @var \App\Model\Entity\User $identity */
+        $identity = $this->Authentication->getIdentity();
+        if (!$identity->isInChampionship($championshipId)) {
             throw new \Cake\Http\Exception\ForbiddenException();
         }
     }

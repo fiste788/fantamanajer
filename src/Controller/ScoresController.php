@@ -37,20 +37,20 @@ class ScoresController extends AppController
     /**
      * View
      *
-     * @param int $id Id
+     * @param null|int $id Id
      * @return \Cake\Http\Response
      */
-    public function view($id)
+    public function view(?int $id)
     {
-        $members = $this->request->getQuery('members');
+        $members = (bool)$this->request->getQuery('members', false);
         $that = $this;
         $this->Crud->on('afterFind', function (Event $event) use ($members, $that) {
             $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);
             if ($members) {
-                if (!$result->lineup) {
+                if ($result->lineup == null) {
                     $result->lineup = $that->Lineup->newLineup($result->team_id, $result->matchday_id);
                 }
-                $result->lineup->modules = Lineup::$module;
+                $result->lineup->modules = Lineup::$modules;
             }
 
             return $result;

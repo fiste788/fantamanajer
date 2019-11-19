@@ -35,8 +35,7 @@ trait HasPhotoTrait
             $size = getimagesize($principal);
             $array[$size[0] . 'w'] = $baseUrl . str_replace(' ', '%20', $name);
         }
-        if (!empty($array)) {
-            return $array;
-        }
+
+        return $array;
     }
 }

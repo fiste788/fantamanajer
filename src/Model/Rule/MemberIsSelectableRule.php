@@ -31,7 +31,7 @@ class MemberIsSelectableRule
     /**
      * Invoke
      *
-     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \App\Model\Entity\Selection $entity Entity
      * @param array $options Options
      * @return bool
      */
@@ -42,6 +42,8 @@ class MemberIsSelectableRule
             $ranking = $this->Scores->find('ranking', [
                 'championship_id' => $selection->team->championship_id,
             ]);
+
+            /** @var array $rank */
             $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
             if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
                 $selection->active = false;

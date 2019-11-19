@@ -5,6 +5,7 @@ namespace App\Controller\Teams;
 
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
+use Cake\Utility\Hash;
 
 /**
  * Steam Controller
@@ -23,11 +24,11 @@ class StreamController extends AppController
             throw new ForbiddenException();
         }*/
 
-        $page = (int)$this->request->getQuery('page', 1);
+        $page = (int)Hash::get($this->request->getQueryParams(), 'page', 1);
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('team', $teamId, false, $offset, $rowsForPage);
+        $stream = $manager->getActivities('team', $teamId, false, (int)$offset, $rowsForPage);
         $this->set([
             'success' => true,
             'data' => $stream,

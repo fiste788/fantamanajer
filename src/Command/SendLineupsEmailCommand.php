@@ -10,7 +10,7 @@ use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Mailer\Email;
+use Cake\Mailer\Mailer;
 use Cake\ORM\Query;
 use Cake\Utility\Hash;
 
@@ -93,7 +93,7 @@ class SendLineupsEmailCommand extends Command
             ->where(['championship_id' => $championship->id]);
         $addresses = Hash::extract($championship->teams, '{*}.user.email');
         //$addresses = "stefano788@gmail.com";
-        $email = new Email(['template' => 'lineups']);
+        $email = new Mailer(['template' => 'lineups']);
         $email->setViewVars(
             [
                 'teams' => $teams,

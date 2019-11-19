@@ -44,9 +44,9 @@ class TeamService
         if ($this->Teams->save($team, ['associated' => true])) {
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
-            $championshipFeed = $client->feed('championship', (int)$team->championship_id);
-            $teamFeed = $client->feed('team', (int)$team->id);
-            $userFeed = $client->feed('user', (int)$team->user_id);
+            $championshipFeed = $client->feed('championship', (string)$team->championship_id);
+            $teamFeed = $client->feed('team', (string)$team->id);
+            $userFeed = $client->feed('user', (string)$team->user_id);
             $userFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
             $championshipFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
 

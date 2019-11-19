@@ -11,7 +11,7 @@ class SelectionPolicy
     /**
      * Can add
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
@@ -23,7 +23,7 @@ class SelectionPolicy
     /**
      * Can edit
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
@@ -35,7 +35,7 @@ class SelectionPolicy
     /**
      * Can delete
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
@@ -47,7 +47,7 @@ class SelectionPolicy
     /**
      * Can index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */

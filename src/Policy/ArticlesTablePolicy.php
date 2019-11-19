@@ -11,7 +11,7 @@ class ArticlesTablePolicy
     /**
      * Scope index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \Cake\ORM\Query $query query
      * @return \Cake\ORM\Query
      */
@@ -23,7 +23,7 @@ class ArticlesTablePolicy
     /**
      * Can add
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Table\ArticlesTable $articleTable Table
      * @return bool
      */
@@ -35,7 +35,7 @@ class ArticlesTablePolicy
     /**
      * Can esit
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Table\ArticlesTable $articleTable Table
      * @return bool
      */

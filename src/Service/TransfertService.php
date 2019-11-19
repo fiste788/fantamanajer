@@ -44,20 +44,24 @@ class TransfertService
     public function substituteMembers(Transfert $transfert): void
     {
         $team = $transfert->team;
-        if (!$team) {
+        if ($team == null) {
             $team = $this->Teams->get($transfert->team_id);
         }
+
+        /** @var \App\Model\Entity\MembersTeam $rec */
         $rec = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->old_member_id,
             'Teams.championship_id' => $team->championship_id,
         ])->first();
         $rec->member_id = $transfert->new_member_id;
         $recs[] = $rec;
+
+        /** @var \App\Model\Entity\MembersTeam $rec2 */
         $rec2 = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->new_member_id,
             'Teams.championship_id' => $team->championship_id,
         ])->first();
-        if ($rec2) {
+        if ($rec2 != null) {
             $rec2->member_id = $transfert->old_member_id;
             $recs[] = $rec2;
             $transfert = $this->Transferts->newEntity([
@@ -80,11 +84,15 @@ class TransfertService
      */
     public function substituteMemberInLineup(Transfert $transfert): void
     {
+        /** @var \App\Model\Entity\Lineup $lineup */
         $lineup = $this->Lineups->find()
             ->contain(['Dispositions'])
             ->where(['team_id' => $transfert->team_id, 'matchday_id' => $transfert->matchday_id])
             ->first();
-        if ($lineup && $this->Lineup->substitute($lineup, $transfert->old_member_id, $transfert->new_member_id)) {
+        if (
+            $lineup != null &&
+            $this->Lineup->substitute($lineup, $transfert->old_member_id, $transfert->new_member_id)
+        ) {
             $this->Lineups->save($lineup, true);
         }
     }
@@ -97,13 +105,18 @@ class TransfertService
      */
     public function saveTeamMember(MembersTeam $entity): void
     {
-        if (!$entity->member) {
+        if ($entity->member != null) {
+            /** @var \App\Model\Entity\MembersTeam $entity */
             $entity = $this->MembersTeams->loadInto($entity, ['Members']);
         }
+        /** @var \App\Model\Entity\Matchday $current */
+        $current = $this->Matchdays->find('current')->first();
+
+        /** @var \App\Model\Entity\Transfert $transfert */
         $transfert = $this->Transferts->newEntity();
         $transfert->team_id = $entity->team_id;
         $transfert->constrained = !$entity->member->active;
-        $transfert->matchday_id = $this->Matchdays->find('current')->first()->id;
+        $transfert->matchday_id = $current->id;
         $transfert->old_member_id = $entity->getOriginal('member_id');
         $transfert->new_member_id = $entity->member_id;
         $this->Transferts->save($transfert);

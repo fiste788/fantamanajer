@@ -42,10 +42,11 @@ class ComputeScoreService
      */
     public function computeScore(Team $team, Matchday $matchday): Score
     {
+        /** @var \App\Model\Entity\Score $score */
         $score = $this->Scores->find()
             ->where(['team_id' => $team->id, 'matchday_id' => $matchday->id])
             ->first();
-        if (!$score) {
+        if ($score == null) {
             $score = $this->Scores->newEntity([
                 'penality_points' => 0,
                 'matchday_id' => $matchday->id,
@@ -69,34 +70,37 @@ class ComputeScoreService
     {
         $score->team = $score->team ?? $this->Teams->get($score->team_id, ['contain' => ['Championships']]);
         $championship = $score->team->championship;
-        if (!$score->lineup) {
-            $score->lineup = $this->Lineups->find('last', [
+        $lineup = $score->lineup;
+        if ($lineup == null) {
+            /** @var \App\Model\Entity\Lineup $lineup */
+            $lineup = $this->Lineups->find('last', [
                 'matchday' => $score->matchday,
                 'team_id' => $score->team->id,
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
-            $score->lineup = $this->Lineups->loadInto($score->lineup, $this->Lineups->find('withRatings', [
+            /** @var \App\Model\Entity\Lineup $lineup */
+            $lineup = $this->Lineups->loadInto($lineup, $this->Lineups->find('withRatings', [
                 'matchday_id' => $score->matchday_id,
             ])->getContain());
         }
         if (
-            $score->lineup == null
-            || ($score->lineup->matchday_id != $score->matchday->id
+            $lineup == null
+            || ($lineup->matchday_id != $score->matchday->id
                 && $championship->points_missed_lineup == 0)
         ) {
             $score->real_points = 0;
             $score->points = 0;
         } else {
-            if ($score->lineup->matchday_id != $score->matchday_id) {
-                $score->lineup = $this->Lineup->copy(
-                    $score->lineup,
+            if ($lineup->matchday_id != $score->matchday_id) {
+                $lineup = $this->Lineup->copy(
+                    $lineup,
                     $score->matchday,
                     $championship->captain_missed_lineup
                 );
             }
-            $score->real_points = $this->compute($score->lineup);
-            $score->points = $score->lineup->jolly ? $score->real_points * 2 : $score->real_points;
-            if ($championship->points_missed_lineup != 100 && $score->lineup->cloned) {
+            $score->real_points = $this->compute($lineup);
+            $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
+            if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
                 $malusPoints = round(($score->points / 100) * (100 - $championship->points_missed_lineup), 1);
                 $mod = ($malusPoints * 10) % 5;
                 $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
@@ -104,6 +108,7 @@ class ComputeScoreService
             }
             $score->points = $score->points - $score->penality_points;
         }
+        $score->lineup = $lineup;
     }
 
     /**

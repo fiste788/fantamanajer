@@ -11,7 +11,7 @@ class ClubPolicy
     /**
      * Can index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Club $club Entity
      * @return bool
      */
@@ -23,7 +23,7 @@ class ClubPolicy
     /**
      * Can view
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Club $club Club
      * @return bool
      */

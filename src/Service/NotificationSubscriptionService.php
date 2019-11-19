@@ -26,7 +26,7 @@ class NotificationSubscriptionService
      * Create default push
      *
      * @param \App\Model\Entity\Team $team Team
-     * @return \App\model\Entity\NotificationSubscription[]
+     * @return \App\Model\Entity\NotificationSubscription[]
      */
     public function createDefaultPushSubscription(Team $team): array
     {
@@ -40,7 +40,7 @@ class NotificationSubscriptionService
      * Create default email
      *
      * @param \App\Model\Entity\Team $team Team
-     * @return \App\model\Entity\NotificationSubscription[]
+     * @return \App\Model\Entity\NotificationSubscription[]
      */
     public function createDefaultEmailSubscription(Team $team): array
     {

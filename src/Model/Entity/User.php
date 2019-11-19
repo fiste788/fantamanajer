@@ -16,8 +16,8 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property int $id
  * @property string|null $name
  * @property string|null $surname
- * @property string|null $email
- * @property bool|null $active
+ * @property string $email
+ * @property bool $active
  * @property bool $active_email
  * @property string $username
  * @property string $password
@@ -164,6 +164,6 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      */
     public function toCredentialUserEntity(): PublicKeyCredentialUserEntity
     {
-        return new PublicKeyCredentialUserEntity($this->email, $this->uuid, $this->name . ' ' . $this->surname);
+        return new PublicKeyCredentialUserEntity($this->email, $this->uuid ?? '', $this->name . ' ' . $this->surname);
     }
 }

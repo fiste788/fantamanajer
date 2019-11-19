@@ -29,6 +29,7 @@ class ResetPasswordCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($args->hasArgument('email')) {
+            /** @var \App\Model\Entity\User $user */
             $user = $this->Users->find()->where(['email' => $args->getArgument('email')])->first();
             if ($user != null) {
                 $this->reset($user, $io);
@@ -54,8 +55,8 @@ class ResetPasswordCommand extends Command
     {
         $hasher = new DefaultPasswordHasher();
         $io->out("Resetting password for " . $user->email);
-        $user->password = $hasher->hash(strtolower($user->name));
+        $user->password = $hasher->hash(strtolower($user->name ?? ""));
         $this->Users->save($user);
-        $io->out("New password is " . strtolower($user->name));
+        $io->out("New password is " . strtolower($user->name ?? ""));
     }
 }

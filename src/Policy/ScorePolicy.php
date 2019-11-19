@@ -12,7 +12,7 @@ class ScorePolicy
     /**
      * Can view
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Score $score Entity
      * @return bool
      */
@@ -24,7 +24,7 @@ class ScorePolicy
     /**
      * Can last
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Score $score Entity
      * @return bool
      */

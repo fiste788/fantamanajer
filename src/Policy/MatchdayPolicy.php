@@ -11,7 +11,7 @@ class MatchdayPolicy
     /**
      * Can current
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Matchday $matchday Entity
      * @return bool
      */

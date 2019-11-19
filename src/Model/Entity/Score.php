@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property float $points
  * @property float $real_points
  * @property float $penality_points
- * @property string $penality
+ * @property null|string $penality
  * @property int $team_id
  * @property \App\Model\Entity\Team $team
  * @property int $matchday_id

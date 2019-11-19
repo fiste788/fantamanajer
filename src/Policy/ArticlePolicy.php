@@ -11,7 +11,7 @@ class ArticlePolicy
     /**
      * Can add
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
@@ -23,7 +23,7 @@ class ArticlePolicy
     /**
      * Can edit
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
@@ -35,7 +35,7 @@ class ArticlePolicy
     /**
      * Can delete
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
@@ -47,7 +47,7 @@ class ArticlePolicy
     /**
      * Can index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Article $article Article
      * @return bool
      */

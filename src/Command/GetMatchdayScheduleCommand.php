@@ -67,9 +67,9 @@ class GetMatchdayScheduleCommand extends Command
      * @param \App\Model\Entity\Season $season Season
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
-     * @return string|null
+     * @return \Cake\Chronos\ChronosInterface|null
      */
-    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): ?string
+    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): ?\Cake\Chronos\ChronosInterface
     {
         $year = ((string)$season->year) . "-" . substr((string)($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
@@ -113,7 +113,7 @@ class GetMatchdayScheduleCommand extends Command
                 $this->abort();
             }
         } else {
-            $io->error($response->getStatusCode(), 1);
+            $io->error((string)$response->getStatusCode(), 1);
             $io->error("Cannot connect to " . $url);
             $this->abort();
         }

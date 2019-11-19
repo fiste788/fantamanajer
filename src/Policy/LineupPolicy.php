@@ -11,7 +11,7 @@ class LineupPolicy
     /**
      * Can current
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */
@@ -23,7 +23,7 @@ class LineupPolicy
     /**
      * Can add
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */
@@ -35,7 +35,7 @@ class LineupPolicy
     /**
      * Can edit
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */
@@ -47,7 +47,7 @@ class LineupPolicy
     /**
      * Can delete
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */

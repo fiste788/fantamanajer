@@ -67,7 +67,6 @@ class LikelyLineupService
             $matches->each(function (Crawler $match) {
                 $this->processMatch($match);
             });
-            Log::error(array_keys($this->_teams));
             foreach ($members as &$member) {
                 $this->processMember($member);
             }

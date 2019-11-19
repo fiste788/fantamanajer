@@ -36,6 +36,8 @@ class MembersController extends AppController
     public function best()
     {
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
+
+        /** @var \App\Model\Entity\Matchday $matchday */
         $matchday = $this->Matchdays->findWithRatings($this->currentSeason)->first();
         if ($matchday != null) {
             foreach ($roles as $key => $role) {

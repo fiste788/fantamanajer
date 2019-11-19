@@ -15,8 +15,8 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  *
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
  * @method \App\Model\Entity\Article newEntity($data = null, array $options = [])
@@ -120,7 +120,9 @@ class ArticlesTable extends Table
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
-        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
+        /** @var \App\Model\Entity\Matchday $current */
+        $current = $this->Matchdays->find('current')->first();
+        $data['matchday_id'] = $current->id;
         $data->offsetUnset('created_at');
         $data->offsetUnset('modified_at');
     }

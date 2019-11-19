@@ -8,7 +8,7 @@ use App\Model\Entity\Transfert;
 use App\Utility\WebPush\WebPushMessage;
 use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\Mailer\Email;
+use Cake\Mailer\Mailer;
 use Minishlink\WebPush\WebPush;
 
 /**
@@ -35,20 +35,20 @@ class SelectionService
      */
     public function notifyLostMember(Selection $selection): void
     {
+        /** @var \App\Model\Entity\Selection $selection */
         $selection = $this->Selections->loadInto($selection, ['Teams' => [
             'EmailNotificationSubscriptions',
             'PushNotificationSubscriptions',
             'Users.Subscriptions',
         ], 'NewMembers.Players']);
         if ($selection->team->isEmailSubscripted('lost_member')) {
-            $email = new Email();
-            $email->setTemplate('lost_member')
-                ->setViewVars(
-                    [
-                        'player' => $selection->new_member->player,
-                        'baseUrl' => 'https://fantamanajer.it',
-                    ]
-                )
+            $email = new Mailer(['template' => 'lost_member']);
+            $email->setViewVars(
+                [
+                    'player' => $selection->new_member->player,
+                    'baseUrl' => 'https://fantamanajer.it',
+                ]
+            )
                 ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
                 ->setEmailFormat('html')
                 ->setTo($selection->team->user->email)
@@ -56,7 +56,7 @@ class SelectionService
         }
         if ($selection->team->isPushSubscripted('lost_member')) {
             $webPush = new WebPush(Configure::read('WebPush'));
-            foreach ($selection->team->user->subscriptions as $subscription) {
+            foreach ($selection->team->user->push_subscriptions as $subscription) {
                 $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                     ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
                     ->body('Hai perso il giocatore ' . $selection->new_member->player->full_name)
@@ -91,6 +91,7 @@ class SelectionService
      */
     public function save(Selection $entity): void
     {
+        /** @var \App\Model\Entity\MembersTeam $memberTeam */
         $memberTeam = $this->MembersTeams->find()
             ->contain(['Members'])
             ->where([

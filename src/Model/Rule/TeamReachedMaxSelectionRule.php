@@ -26,12 +26,13 @@ class TeamReachedMaxSelectionRule
     /**
      * Invoke
      *
-     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \App\Model\Entity\Selection $entity Entity
      * @param array $options Options
      * @return bool
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {
+        /** @var \App\Model\Entity\Championship $championship */
         $championship = $this->Championships->find()->innerJoinWith(
             'Teams',
             function ($q) use ($entity) {

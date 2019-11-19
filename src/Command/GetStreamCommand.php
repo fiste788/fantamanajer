@@ -10,7 +10,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use GetStream\Stream\Client;
-use GetStream\Stream\Feed;
+use GetStream\Stream\FeedInterface;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -66,16 +66,16 @@ class GetStreamCommand extends Command
     /**
      *
      * @param \App\Model\Entity\Championship $championship Championship
-     * @param \GetStream\Stream\Feed $timelineFeed Feed
+     * @param \GetStream\Stream\FeedInterface $timelineFeed Feed
      * @return void
      */
-    private function processChampionship(Championship $championship, Feed $timelineFeed): void
+    private function processChampionship(Championship $championship, FeedInterface $timelineFeed): void
     {
-        $championshipFeed = $this->client->feed('championship', $championship->id);
+        $championshipFeed = $this->client->feed('championship', (string)$championship->id);
         $championshipFeed->follow($timelineFeed->getSlug(), $timelineFeed->getUserId());
         foreach ($championship->teams as $team) {
-            $teamFeed = $this->client->feed('team', $team->id);
-            $userFeed = $this->client->feed('user', $team->user_id);
+            $teamFeed = $this->client->feed('team', (string)$team->id);
+            $userFeed = $this->client->feed('user', (string)$team->user_id);
             $userFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
             $championshipFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
         }

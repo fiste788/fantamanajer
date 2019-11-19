@@ -125,7 +125,9 @@ class TransfertsTable extends Table
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
-        $data['matchday_id'] = $this->Matchdays->find('current')->first()->id;
+        /** @var \App\Model\Entity\Matchday $current */
+        $current = $this->Matchdays->find('current')->first();
+        $data['matchday_id'] = $current->id;
     }
 
     /**
@@ -151,7 +153,9 @@ class TransfertsTable extends Table
      */
     public function beforeSave(Event $event, Transfert $entity, ArrayObject $options): void
     {
-        $entity->matchday_id = $this->Matchdays->find('current')->first()->id;
+        /** @var \App\Model\Entity\Matchday $current */
+        $current = $this->Matchdays->find('current')->first();
+        $entity->matchday_id = $current->id;
     }
 
     /**

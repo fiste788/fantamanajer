@@ -11,7 +11,7 @@ class ChampionshipPolicy
     /**
      * Can add
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
@@ -23,7 +23,7 @@ class ChampionshipPolicy
     /**
      * Can edit
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
@@ -35,7 +35,7 @@ class ChampionshipPolicy
     /**
      * Can delete
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
@@ -47,7 +47,7 @@ class ChampionshipPolicy
     /**
      * Can index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Championship $championship Championship
      * @return bool
      */

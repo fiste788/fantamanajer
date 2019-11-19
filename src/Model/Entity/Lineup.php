@@ -11,10 +11,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $module
  * @property bool $jolly
- * @property int $cloned
- * @property int $captain_id
- * @property int $vcaptain_id
- * @property int $vvcaptain_id
+ * @property bool $cloned
+ * @property null|int $captain_id
+ * @property null|int $vcaptain_id
+ * @property null|int $vvcaptain_id
  * @property int $matchday_id
  * @property int $team_id
  *
@@ -54,7 +54,7 @@ class Lineup extends Entity
      *
      * @var array
      */
-    public static $module = [
+    public static $modules = [
         '1-4-4-2',
         '1-4-3-3',
         '1-4-5-1',

@@ -110,15 +110,17 @@ class DownloadMatchdayRatingCommand extends Command
             $crawler->addContent($response->getStringBody());
             $button = $crawler->filter("#default_content_download_button");
             if ($button->count()) {
-                $url = $button->attr("href");
+                $dropboxUrl = $button->attr("href");
             } else {
-                $url = str_replace("www", "dl", $url);
+                $dropboxUrl = str_replace("www", "dl", $url);
             }
-            $io->out("Downloading $url in tmp dir");
-            $file = TMP . (string)$matchday . '.mxm';
-            file_put_contents($file, file_get_contents($url));
+            if ($dropboxUrl != null) {
+                $io->out("Downloading $dropboxUrl in tmp dir");
+                $file = TMP . (string)$matchday . '.mxm';
+                file_put_contents($file, file_get_contents($dropboxUrl));
 
-            return $file;
+                return $file;
+            }
         }
     }
 }

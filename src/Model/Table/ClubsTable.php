@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
 /**
  * Clubs Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Club get($primaryKey, $options = [])
  * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])

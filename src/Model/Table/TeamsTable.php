@@ -18,7 +18,7 @@ use Spatie\Image\Image;
  * Teams Model
  *
  * @property \App\Service\TeamService $Team
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
  * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
  * @property \App\Model\Table\EventsTable|\Cake\ORM\Association\HasMany $Events

@@ -46,9 +46,10 @@ class StartSeasonCommand extends Command
     {
         $this->startup($args, $io);
         $season = $this->createSeason($io, $args);
-        if ($season && $season->key_gazzetta == null || $season->key_gazzetta == '') {
+        if ($season != null && $season->key_gazzetta == null || $season->key_gazzetta == '') {
             $this->getCurrentMatchday();
             if ($this->calculateKey($season) != '') {
+                /** @var \App\Model\Entity\Matchday $firstMatchday */
                 $firstMatchday = $this->Matchdays->find()->where([
                     'number' => '0',
                     'season_id' => $season->id,
@@ -58,6 +59,7 @@ class StartSeasonCommand extends Command
 
             return 1;
         } else {
+            /** @var \App\Model\Entity\Matchday $firstMatchday */
             $firstMatchday = $this->Matchdays->find()->where([
                 'number' => '0',
                 'season_id' => $season->id,
@@ -79,6 +81,8 @@ class StartSeasonCommand extends Command
     private function createSeason(ConsoleIo $io, Arguments $args): Season
     {
         $year = (int)date("Y");
+
+        /** @var \App\Model\Entity\Season $season */
         $season = $this->Seasons->find()->where(['year' => $year])->first();
         if ($season == null) {
             $season = $this->Seasons->newEntity(

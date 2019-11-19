@@ -11,7 +11,7 @@ class MemberPolicy
     /**
      * Can view
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
      * @return bool
      */
@@ -23,7 +23,7 @@ class MemberPolicy
     /**
      * Can free
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
      * @return bool
      */
@@ -35,7 +35,7 @@ class MemberPolicy
     /**
      * Can free by role
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
      * @return bool
      */
@@ -47,7 +47,7 @@ class MemberPolicy
     /**
      * Can index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
      * @return bool
      */
@@ -59,7 +59,7 @@ class MemberPolicy
     /**
      * Can not mime
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
      * @return bool
      */

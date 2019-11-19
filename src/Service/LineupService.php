@@ -39,7 +39,7 @@ class LineupService
         if ($lineup->team_id == $teamId && $lineup->matchday_id != $matchday->id) {
             $lineup = $this->copy($lineup, $matchday, true, false);
         }
-        $lineup->modules = Lineup::$module;
+        $lineup->modules = Lineup::$modules;
 
         return $lineup;
     }
@@ -54,7 +54,7 @@ class LineupService
     {
         $lineup = new Lineup();
         $lineup->team = $this->Teams->get($team, ['contain' => ['Members' => ['Roles', 'Players']]]);
-        $lineup->modules = Lineup::$module;
+        $lineup->modules = Lineup::$modules;
 
         return $lineup;
     }
@@ -107,7 +107,7 @@ class LineupService
     /**
      * Return a not saved copy of the entity with the specified matchday
      *
-     * @param \App\Model\Entity\Matchday $lineup the matchday to use
+     * @param \App\Model\Entity\Lineup $lineup the matchday to use
      * @param \App\Model\Entity\Matchday $matchday if false empty the captain. Default: true
      * @param bool $isCaptainActive if true the lineup was missing. Default true
      * @param bool $cloned if true the lineup is cloned. Default true
@@ -119,8 +119,8 @@ class LineupService
             $lineup->toArray(),
             ['associated' => ['Teams.Championships', 'Dispositions.Members.Ratings']]
         );
-        $lineupCopy->id = null;
-        $lineupCopy->jolly = null;
+        $lineupCopy->unsetProperty('id');
+        $lineupCopy->jolly = false;
         $lineupCopy->cloned = $cloned;
         $lineupCopy->matchday_id = $matchday->id;
         if (!$isCaptainActive) {
@@ -160,7 +160,7 @@ class LineupService
     {
         foreach ($lineup->dispositions as $key => $disposition) {
             $disposition->consideration = 0;
-            $lineup->disposition[$key] = $disposition;
+            $lineup->dispositions[$key] = $disposition;
         }
     }
 }

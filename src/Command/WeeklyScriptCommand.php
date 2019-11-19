@@ -15,7 +15,7 @@ use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
-use Cake\Mailer\Email;
+use Cake\Mailer\Mailer;
 use Minishlink\WebPush\WebPush;
 
 /**
@@ -87,6 +87,8 @@ class WeeklyScriptCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->startup($args, $io);
+
+        /** @var \App\Model\Entity\Matchday[] $missingRatings */
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $key => $matchday) {
             $io->out("Starting decript file day " . $matchday->number);
@@ -101,6 +103,7 @@ class WeeklyScriptCommand extends Command
             }
         }
         if (!$args->getOption('no_calc_scores')) {
+            /** @var \App\Model\Entity\Championship[] $championships */
             $championships = $this->Championships->find()
                 ->contain([
                     'Leagues',
@@ -111,9 +114,9 @@ class WeeklyScriptCommand extends Command
                         'Users' => ['PushSubscriptions'],
                     ],
                 ])
-                ->where(['Championships.season_id' => $this->currentSeason->id]);
+                ->where(['Championships.season_id' => $this->currentSeason->id])->first();
 
-            $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason)->all();
+            $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
             foreach ($missingScores as $key => $matchday) {
                 if ($this->Ratings->existMatchday($matchday)) {
                     $this->calculatePoints($matchday, $championships, $args, $io);
@@ -203,7 +206,7 @@ class WeeklyScriptCommand extends Command
      */
     public function sendWeeklyMails(Matchday $matchday, Championship $championship): void
     {
-        $ranking = $this->Scores->find('ranking', ['championship_id' => $championship->id]);
+        $ranking = $this->Scores->find('ranking', ['championship_id' => $championship->id])->toArray();
         foreach ($championship->teams as $team) {
             if ($team->isEmailSubscripted('score')) {
                 $this->sendPointMail($team, $matchday, $ranking);
@@ -221,19 +224,22 @@ class WeeklyScriptCommand extends Command
      */
     protected function sendPointMail(Team $team, Matchday $matchday, array $ranking): void
     {
+        /** @var \App\Model\Entity\Lineup $details */
         $details = $this->Lineups->find('details', [
             'matchday_id' => $matchday->id,
             'team_id' => $team->id,
         ])->first();
-        $score = $this->Scores->findByMatchdayIdAndTeamId($matchday->id, $team->id)->first();
+
+        /** @var \App\Model\Entity\Score $score */
+        $score = $this->Scores->find()->where(['matchday_id' => $matchday->id, 'team_id' => $team->id])->first();
 
         $dispositions = null;
         $regulars = null;
-        if ($details) {
+        if ($details != null) {
             $dispositions = $details->dispositions;
             $regulars = array_splice($dispositions, 0, 11);
         }
-        $email = new Email(['template' => 'score']);
+        $email = new Mailer(['template' => 'score']);
         $email->setViewVars(
             [
                 'details' => $details,

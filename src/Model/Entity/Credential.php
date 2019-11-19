@@ -13,6 +13,8 @@ use Cake\ORM\Entity;
  * @property \Webauthn\AttestedCredentialData $attested_credential_data
  * @property \Webauthn\PublicKeyCredentialDescriptor $public_key
  * @property int $counter
+ * @property string $user_agent
+ * @property string $name
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user

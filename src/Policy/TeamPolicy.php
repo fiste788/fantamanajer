@@ -11,7 +11,7 @@ class TeamPolicy
     /**
      * Can view
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
@@ -23,7 +23,7 @@ class TeamPolicy
     /**
      * Can add
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
@@ -35,7 +35,7 @@ class TeamPolicy
     /**
      * Can edit
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
@@ -47,7 +47,7 @@ class TeamPolicy
     /**
      * Can delete
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
@@ -59,7 +59,7 @@ class TeamPolicy
     /**
      * Can index
      *
-     * @param \Authorization\IdentityInterface $user User
+     * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */

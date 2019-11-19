@@ -69,8 +69,10 @@ class UpdateMatchdayCommand extends Command
      */
     public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): ?int
     {
-        $matchday = $this->Matchdays->findByNumberAndSeasonId($matchdayNumber, $season->id)->first();
-        if (is_null($matchday)) {
+        /** @var \App\Model\Entity\Matchday|null $matchday */
+        $matchday = $this->Matchdays->find()->where(['number' => $matchdayNumber, 'season_id' => $season->id])->first();
+        if ($matchday == null) {
+            /** @var \App\Model\Entity\Matchday $matchday */
             $matchday = $this->Matchdays->newEmptyEntity();
             $matchday->season_id = $season->id;
             $matchday->number = $matchdayNumber;
@@ -90,7 +92,7 @@ class UpdateMatchdayCommand extends Command
                 $io->out('Updated matchday ' . $matchday->number . ' with ' . $matchday->date->format('d/m/Y H:i'));
             }
         } else {
-            $io->error('Cannot get ' . $matchday);
+            $io->error('Cannot get ' . $matchdayNumber);
             $this->abort();
         }
 

@@ -5,7 +5,6 @@ namespace App\Service;
 
 use App\Model\Entity\PublicKeyCredentialSource;
 use Cake\Datasource\ModelAwareTrait;
-use Webauthn\AttestedCredentialData;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
@@ -35,71 +34,12 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      */
     private function findByCredentialId(string $credentialId): PublicKeyCredentialSource
     {
-        return $this->PublicKeyCredentialSources->find()->where(['public_key_credential_id' => $credentialId])->first();
-    }
+        /** @var \App\Model\Entity\PublicKeyCredentialSource $pkcs */
+        $pkcs = $this->PublicKeyCredentialSources->find()
+            ->where(['public_key_credential_id' => $credentialId])
+            ->first();
 
-    /**
-     * Undocumented function
-     *
-     * @param string $credentialId credentialId
-     * @return bool
-     */
-    public function has(string $credentialId): bool
-    {
-        return $this->PublicKeyCredentialSources->exists(['public_key_credential_id' => $credentialId]);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param string $credentialId id
-     * @return \Webauthn\AttestedCredentialData
-     */
-    public function get(string $credentialId): AttestedCredentialData
-    {
-        $credential = $this->findByCredentialId($credentialId);
-
-        return $credential->attested_credential_data;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param string $credentialId id
-     * @return string
-     */
-    public function getUserHandleFor(string $credentialId): string
-    {
-        $credential = $this->PublicKeyCredentialSources->find()->where([
-            'public_key_credential_id' => base64_encode($credentialId),
-        ])->first();
-
-        return $credential->user_handle;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param string $credentialId id
-     * @return int
-     */
-    public function getCounterFor(string $credentialId): int
-    {
-        return $this->findByCredentialId($credentialId)->counter;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param string $credentialId id
-     * @param int $newCounter new value
-     * @return void
-     */
-    public function updateCounterFor(string $credentialId, int $newCounter): void
-    {
-        $credential = $this->findByCredentialId($credentialId);
-        $credential->counter = $newCounter;
-        $this->PublicKeyCredentialSources->save($credential);
+        return $pkcs;
     }
 
     /**

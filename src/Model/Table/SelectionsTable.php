@@ -20,12 +20,11 @@ use Cake\Validation\Validator;
  * Selections Model
  *
  * @property \App\Service\SelectionService $Selection
- * @property \App\Model\Table\TeamsTable|\App\Model\Table\BelongsTo $Teams
+ * @property \App\Model\Table\TeamsTable&\App\Model\Table\BelongsTo $Teams
  * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable|\App\Model\Table\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $OldMembers
+ * @property \App\Model\Table\MatchdaysTable&\App\Model\Table\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable&\App\Model\Table\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable&\App\Model\Table\BelongsTo $OldMembers
  * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
  * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
@@ -147,7 +146,8 @@ class SelectionsTable extends Table
     {
         $team = $this->Teams->get($selection->team_id);
 
-        return $this->find()
+        /** @var \App\Model\Entity\Selection $selection */
+        $selection = $this->find()
             ->contain(['Teams'])
             ->matching(
                 'Teams',
@@ -161,6 +161,8 @@ class SelectionsTable extends Table
                     'new_member_id' => $selection->new_member_id,
                 ]
             )->first();
+
+        return $selection;
     }
 
     /**

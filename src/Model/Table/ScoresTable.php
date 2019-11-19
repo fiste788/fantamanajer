@@ -244,6 +244,9 @@ class ScoresTable extends Table
             ];
         }
 
-        return $this->loadInto($score, $contain);
+        /** @var \App\Model\Entity\Score $details */
+        $details = $this->loadInto($score, $contain);
+
+        return $details;
     }
 }

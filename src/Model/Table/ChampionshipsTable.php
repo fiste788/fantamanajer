@@ -10,9 +10,9 @@ use Cake\Validation\Validator;
 /**
  * Championships Model
  *
- * @property \App\Model\Table\LeaguesTable|\Cake\ORM\Association\BelongsTo $Leagues
- * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
+ * @property \App\Model\Table\LeaguesTable&\Cake\ORM\Association\BelongsTo $Leagues
+ * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  *
  * @method \App\Model\Entity\Championship get($primaryKey, $options = [])
  * @method \App\Model\Entity\Championship newEntity($data = null, array $options = [])

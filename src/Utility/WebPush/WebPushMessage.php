@@ -80,7 +80,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * The tag for grouping
      *
-     * @var array
+     * @var string
      */
     protected $tag = null;
 
@@ -297,7 +297,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Serialize the message
      *
-     * @return string
+     * @return mixed
      */
     public function jsonSerialize()
     {

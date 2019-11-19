@@ -180,13 +180,14 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Cake\Http\ServerRequest $request Request
      * @return \Webauthn\PublicKeyCredentialRequestOptions
      */
     public function assertionRequest(ServerRequestInterface $request): PublicKeyCredentialRequestOptions
     {
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->find()->where(['email' => $params['email']])->first();
         $credentialUser = $user->toCredentialUserEntity();
         $credentials = $this->CredentialRepository->findAllForUserEntity($credentialUser);
@@ -214,12 +215,14 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Cake\Http\ServerRequest $request Request
      * @return bool
      */
     public function assertionResponse(ServerRequestInterface $request): bool
     {
         $publicKey = $request->getSession()->consume("User.PublicKey");
+
+        /** @var \Webauthn\PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions */
         $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
 
         $decoder = $this->createDecoder();
@@ -241,7 +244,9 @@ class CredentialService
 
         try {
             // Load the data
-            $publicKeyCredential = $publicKeyCredentialLoader->loadArray($request->getParsedBody());
+            /** @var array $body */
+            $body = $request->getParsedBody();
+            $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
             $response = $publicKeyCredential->getResponse();
 
             // Check if the response is an Authenticator Assertion Response
@@ -267,7 +272,7 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Cake\Http\ServerRequest $request Request
      * @return \Webauthn\PublicKeyCredentialCreationOptions
      */
     public function attestationRequest(ServerRequestInterface $request): PublicKeyCredentialCreationOptions
@@ -322,12 +327,14 @@ class CredentialService
     /**
      * Save the credential
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Cake\Http\ServerRequest $request Request
      * @return bool
      */
     public function attestationResponse(ServerRequestInterface $request): bool
     {
         $publicKey = $request->getSession()->consume("User.PublicKey");
+
+        /** @var \Webauthn\PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions */
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
 
         $decoder = $this->createDecoder();
@@ -350,7 +357,9 @@ class CredentialService
 
         try {
             // Load the data
-            $publicKeyCredential = $publicKeyCredentialLoader->loadArray($request->getParsedBody());
+            /** @var array $body */
+            $body = $request->getParsedBody();
+            $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
             $response = $publicKeyCredential->getResponse();
 
             // Check if the response is an Authenticator Attestation Response
@@ -359,13 +368,13 @@ class CredentialService
             }
 
             // Check the response against the request
-            $authenticatorAttestationResponseValidator->check($response, $publicKeyCredentialCreationOptions, $request);
-
-            $credentialSource = PublicKeyCredentialSource::createFromPublicKeyCredential(
-                $publicKeyCredential,
-                $publicKeyCredentialCreationOptions->getUser()->getId()
+            $credentialSource = $authenticatorAttestationResponseValidator->check(
+                $response,
+                $publicKeyCredentialCreationOptions,
+                $request
             );
 
+            /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
             $credential = $this->CredentialRepository->PublicKeyCredentialSources->newEmptyEntity();
             $credential->fromCredentialSource($credentialSource);
             $credential->id = \Ramsey\Uuid\Uuid::uuid4()->toString();

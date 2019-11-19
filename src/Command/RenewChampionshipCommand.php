@@ -78,17 +78,19 @@ class RenewChampionshipCommand extends Command
                 if ($folder->copy($to)) {
                     $io->out('Copiata folder ' . $to);
                     $newFolder = new Folder($to);
-                    $files = $newFolder->findRecursive($team->photo);
-                    foreach ($files as $file) {
-                        $file = new File($file);
-                        if ($file->copy($file->Folder->path . DS . $newTeam->id . "." . $file->ext())) {
-                            $file->delete();
+                    if ($team->photo != null) {
+                        $files = $newFolder->findRecursive($team->photo);
+                        foreach ($files as $file) {
+                            $file = new File($file);
+                            if ($file->copy($file->Folder->path . DS . $newTeam->id . "." . $file->ext())) {
+                                $file->delete();
+                            }
                         }
+                        $newTeam->photo = $newTeam->id . "." . $file->ext();
+                        $newTeam->photo_dir = 'webroot' . DS . 'files' . DS . $newTeam->getSource() . DS .
+                            $newTeam->id . DS . 'photo' . DS;
+                        $this->Championships->Teams->save($newTeam);
                     }
-                    $newTeam->photo = $newTeam->id . "." . $file->ext();
-                    $newTeam->photo_dir = 'webroot' . DS . 'files' . DS . $newTeam->getSource() . DS .
-                        $newTeam->id . DS . 'photo' . DS;
-                    $this->Championships->Teams->save($newTeam);
                 }
             }
         }

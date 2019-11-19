@@ -16,7 +16,10 @@ class SelectionsController extends AppSelectionsController
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');
         $teamId = $this->request->getParam('team_id');
-        if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {
+
+        /** @var \App\Model\Entity\User $identity */
+        $identity = $this->Authentication->getIdentity();
+        if (!$identity->hasTeam($teamId)) {
             throw new \Cake\Http\Exception\ForbiddenException();
         }
     }
