@@ -17,11 +17,13 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Championship get($primaryKey, $options = [])
  * @method \App\Model\Entity\Championship newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Championship[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Championship|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Championship|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Championship[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Championship findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Championship|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0MaxPoints
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View2TeamsStats
  */
 class ChampionshipsTable extends Table
 {

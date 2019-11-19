@@ -12,13 +12,11 @@ use Cake\ORM\Entity;
  * @property bool $active
  * @property bool $processed
  * @property int $team_id
- * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
- * @property \App\Model\Entity\Matchday $matchday
  * @property int $old_member_id
  * @property int $new_member_id
- * @property \App\Model\Entity\Member $oldMember
- * @property \App\Model\Entity\Member $newMember
+ * @property \App\Model\Entity\Team $team
+ * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Member $old_member
  * @property \App\Model\Entity\Member $new_member
  */

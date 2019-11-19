@@ -10,28 +10,24 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $module
- * @property bool $jolly
- * @property bool $cloned
- * @property null|int $captain_id
- * @property null|int $vcaptain_id
- * @property null|int $vvcaptain_id
+ * @property bool|null $jolly
+ * @property bool|null $cloned
+ * @property int|null $captain_id
+ * @property int|null $vcaptain_id
+ * @property int|null $vvcaptain_id
  * @property int $matchday_id
  * @property int $team_id
  *
- * @property \App\Model\Entity\Member $member
  * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Disposition[] $dispositions
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
+ * @property \Cake\ORM\Entity[] $view0_lineups_details
  * @property \Cake\I18n\FrozenTime $created_at
  * @property \Cake\I18n\FrozenTime $modified_at
- * @property int $old_id
- * @property \App\Model\Entity\Member $captain
- * @property \App\Model\Entity\Member $vcaptain
- * @property \App\Model\Entity\Member $vvcaptain
- * @property \App\Model\Entity\Score $score
- * @property \App\Model\Entity\Member $v_captain
- * @property \App\Model\Entity\Member $v_v_captain
+ * @property \App\Model\Entity\Member|null $captain
+ * @property \App\Model\Entity\Score|null $score
+ * @property \App\Model\Entity\Member|null $v_captain
+ * @property \App\Model\Entity\Member|null $v_v_captain
  */
 class Lineup extends Entity
 {

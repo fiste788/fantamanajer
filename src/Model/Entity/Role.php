@@ -14,9 +14,9 @@ use Cake\ORM\Entity;
  * @property string $abbreviation
  * @property string $determinant
  * @property \App\Model\Entity\Member[] $members
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
- * @property \App\Model\Entity\View0Member[] $view0_members
- * @property \App\Model\Entity\View1MembersStat[] $view1_members_stats
+ * @property \Cake\ORM\Entity[] $view0_lineups_details
+ * @property \Cake\ORM\Entity[] $view0_members
+ * @property \Cake\ORM\Entity[] $view1_members_stats
  */
 class Role extends Entity
 {

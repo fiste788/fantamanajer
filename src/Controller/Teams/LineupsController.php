@@ -11,6 +11,7 @@ use Cake\Event\EventInterface;
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\LineupService $Lineup
  * @property \App\Service\LikelyLineupService $LikelyLineup
+ * @property \App\Model\Table\LineupsTable $Lineups
  */
 class LineupsController extends \App\Controller\LineupsController
 {

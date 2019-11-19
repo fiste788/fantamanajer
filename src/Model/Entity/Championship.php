@@ -15,15 +15,15 @@ use Cake\ORM\Entity;
  * @property int $minute_lineup
  * @property int $points_missed_lineup
  * @property bool $captain_missed_lineup
- * @property bool $jolly
+ * @property bool|null $jolly
  * @property bool $started
  * @property int $league_id
  * @property \App\Model\Entity\League $league
  * @property int $season_id
  * @property \App\Model\Entity\Season $season
  * @property \App\Model\Entity\Team[] $teams
- * @property \App\Model\Entity\View0MaxPoint[] $view0_max_points
- * @property \App\Model\Entity\View2TeamsStat[] $view2_teams_stats
+ * @property \Cake\ORM\Entity[] $view0_max_points
+ * @property \Cake\ORM\Entity[] $view2_teams_stats
  */
 class Championship extends Entity
 {

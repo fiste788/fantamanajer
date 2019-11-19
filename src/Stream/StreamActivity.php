@@ -25,7 +25,7 @@ abstract class StreamActivity implements StreamActivityInterface
 
     /**
      *
-     * @var String $text
+     * @var string $text
      */
     public $title;
 
@@ -37,19 +37,19 @@ abstract class StreamActivity implements StreamActivityInterface
 
     /**
      *
-     * @var String $humanTime
+     * @var string $humanTime
      */
     public $humanTime;
 
     /**
      *
-     * @var String $icon
+     * @var string $icon
      */
     public $icon;
 
     /**
      *
-     * @var String $body
+     * @var string|null $body
      */
     public $body;
 

@@ -26,6 +26,7 @@ use Minishlink\WebPush\WebPush;
  * @property \App\Model\Table\ChampionshipsTable $Championships
  * @property \App\Model\Table\LineupsTable $Lineups
  * @property \App\Service\ComputeScoreService $ComputeScore
+ * @property \Cake\ORM\Table $Points
  */
 class WeeklyScriptCommand extends Command
 {
@@ -190,7 +191,10 @@ class WeeklyScriptCommand extends Command
                         ->data(['url' => '/scores/' . $scores[$team->id]->id]);
 
                     $io->out("Sending notification to " . $subscription->endpoint);
-                    $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
+                    $messageString = json_encode($message);
+                    if ($messageString != false) {
+                        $webPush->sendNotification($subscription->getSubscription(), $messageString);
+                    }
                 }
             }
         }

@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Lineup $lineup
  * @property int $member_id
  * @property \App\Model\Entity\Member $member
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
+ * @property \Cake\ORM\Entity[] $view0_lineups_details
  * @property \App\Model\Entity\Rating $rating
  */
 class Disposition extends Entity

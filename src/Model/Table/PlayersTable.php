@@ -10,18 +10,15 @@ use Cake\Validation\Validator;
 /**
  * Players Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
- * @property \Cake\ORM\Association\HasMany $View0LineupsDetails
- * @property \Cake\ORM\Association\HasMany $View0Members
- * @property \Cake\ORM\Association\HasMany $View1MembersStats
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
  * @method \App\Model\Entity\Player get($primaryKey, $options = [])
  * @method \App\Model\Entity\Player newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Player|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Player|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Player patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Player[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Player findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Player|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Player saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PlayersTable extends Table
 {

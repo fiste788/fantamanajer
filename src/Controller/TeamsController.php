@@ -9,7 +9,6 @@ use Cake\Event\EventInterface;
 /**
  *
  * @property \App\Model\Table\TeamsTable $Teams
- * @property \Cake\View\Helper\UrlHelper $Url
  */
 class TeamsController extends AppController
 {

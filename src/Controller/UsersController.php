@@ -9,10 +9,11 @@ use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Utility\Hash;
 
 /**
  * @property \App\Service\UserService $User
- * @property \App\Service\CredentialService $Credential
+ * @property \App\Model\Table\UsersTable $Users
  */
 class UsersController extends AppController
 {
@@ -77,7 +78,7 @@ class UsersController extends AppController
                     '_serialize' => ['success', 'data'],
                 ]
             );
-        } else {
+        } elseif ($result != null) {
             //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
             $this->response = $this->response->withStatus(401);
             $this->set(
@@ -117,11 +118,12 @@ class UsersController extends AppController
     public function stream()
     {
         $userId = $this->request->getParam('user_id');
-        if (!$this->Authentication->getIdentity()->getIdentifier() == $userId) {
+        $identity = $this->Authentication->getIdentity();
+        if ($identity == null || !$identity->getIdentifier() == $userId) {
             throw new ForbiddenException();
         }
 
-        $page = (int)$this->request->getQuery('page', 1);
+        $page = (int)Hash::get($this->request->getQueryParams(), 'page', 1);
         $rowsForPage = 10;
         /** @var int $offset */
         $offset = $rowsForPage * ($page - 1);

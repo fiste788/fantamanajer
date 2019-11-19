@@ -13,14 +13,14 @@ use Cake\ORM\Entity;
  * @property int $year
  * @property string $key_gazzetta
  * @property bool $bonus_points
- * @property bool $bonus_points_clean_sheet
  * @property \App\Model\Entity\Championship[] $championships
  * @property \App\Model\Entity\Matchday[] $matchdays
  * @property \App\Model\Entity\Member[] $members
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
- * @property \App\Model\Entity\View0Member[] $view0_members
- * @property \App\Model\Entity\View1MembersStat[] $view1_members_stats
- * @property \App\Model\Entity\View2ClubsStat[] $view2_clubs_stats
+ * @property \Cake\ORM\Entity[] $view0_lineups_details
+ * @property \Cake\ORM\Entity[] $view0_members
+ * @property \Cake\ORM\Entity[] $view1_members_stats
+ * @property \Cake\ORM\Entity[] $view2_clubs_stats
+ * @property bool $bonus_points_clean_sheet
  */
 class Season extends Entity
 {

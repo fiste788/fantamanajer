@@ -15,16 +15,16 @@ use Cake\Validation\Validator;
  * MembersTeams Model
  *
  * @property \App\Service\TransfertService $Transfert
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  * @method \App\Model\Entity\MembersTeam get($primaryKey, $options = [])
  * @method \App\Model\Entity\MembersTeam newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\MembersTeam[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\MembersTeam|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\MembersTeam|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\MembersTeam patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\MembersTeam|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\MembersTeam saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MembersTeamsTable extends Table
 {

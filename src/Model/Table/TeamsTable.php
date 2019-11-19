@@ -15,29 +15,29 @@ use Cake\Validation\Validator;
 use Spatie\Image\Image;
 
 /**
- * Teams Model
- *
- * @property \App\Service\TeamService $Team
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\BelongsTo $Championships
- * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
- * @property \App\Model\Table\EventsTable|\Cake\ORM\Association\HasMany $Events
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
- * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\SelectionsTable|\Cake\ORM\Association\HasMany $Selections
- * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsToMany $Members
+ * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\BelongsTo $Championships
+ * @property \App\Model\Table\ArticlesTable&\Cake\ORM\Association\HasMany $Articles
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $Events
+ * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
+ * @property \App\Model\Table\MembersTeamsTable&\Cake\ORM\Association\HasMany $MembersTeams
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsToMany $Members
+ *
  * @method \App\Model\Entity\Team get($primaryKey, $options = [])
  * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Team|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
+ * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
- * @method \App\Model\Entity\Team|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
- * @property \App\Model\Table\NotificationSubscriptionsTable|\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
+ * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
+ * @property \App\Service\TeamService $Team
  */
 class TeamsTable extends Table
 {
@@ -140,7 +140,6 @@ class TeamsTable extends Table
                 'saveStrategy' => 'replace',
             ]
         );
-
         $this->hasMany(
             'Events',
             [

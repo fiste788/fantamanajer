@@ -9,8 +9,8 @@ use Cake\Event\EventInterface;
 
 /**
  *
- * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Service\LineupService $Lineup
+ * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Service\ComputeScoreService $ComputeScore
  */
 class ScoresController extends AppController

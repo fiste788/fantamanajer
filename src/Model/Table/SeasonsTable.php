@@ -9,21 +9,21 @@ use Cake\Validation\Validator;
 /**
  * Seasons Model
  *
- * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\HasMany $Championships
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\HasMany $Matchdays
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\HasMany $Members
- * @property \Cake\ORM\Association\HasMany $View0LineupsDetails
- * @property \Cake\ORM\Association\HasMany $View0Members
- * @property \Cake\ORM\Association\HasMany $View1MembersStats
- * @property \Cake\ORM\Association\HasMany $View2ClubsStats
+ * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\HasMany $Matchdays
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0Members
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View1MembersStats
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View2ClubsStats
  * @method \App\Model\Entity\Season get($primaryKey, $options = [])
  * @method \App\Model\Entity\Season newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Season[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Season|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Season|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Season patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Season[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Season findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Season|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Season saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class SeasonsTable extends Table
 {

@@ -11,18 +11,18 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\HasMany $Teams
- * @property \App\Model\Table\PushSubscriptionsTable|\Cake\ORM\Association\HasMany $PushSubscriptions
- * @property \App\Model\Table\CredentialsTable|\Cake\ORM\Association\HasMany $Credentials
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
+ * @property \App\Model\Table\PushSubscriptionsTable&\Cake\ORM\Association\HasMany $PushSubscriptions
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\User|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \App\Model\Table\PublicKeyCredentialSourcesTable&\Cake\ORM\Association\HasMany $PublicKeyCredentialSources
  */
 class UsersTable extends Table
 {

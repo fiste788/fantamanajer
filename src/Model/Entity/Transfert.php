@@ -11,7 +11,6 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $old_member_id
  * @property int $new_member_id
- * @property \App\Model\Entity\Member $member
  * @property int $team_id
  * @property \App\Model\Entity\Team $team
  * @property int $matchday_id

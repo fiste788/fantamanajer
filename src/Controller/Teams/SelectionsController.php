@@ -6,6 +6,9 @@ namespace App\Controller\Teams;
 use App\Controller\SelectionsController as AppSelectionsController;
 use Cake\Event\EventInterface;
 
+/**
+ * @property \App\Model\Table\SelectionsTable $Selections
+ */
 class SelectionsController extends AppSelectionsController
 {
     /**

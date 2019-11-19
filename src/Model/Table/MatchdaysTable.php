@@ -13,21 +13,21 @@ use Cake\Validation\Validator;
 /**
  * Matchdays Model
  *
- * @property \App\Model\Table\SeasonsTable|\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\ArticlesTable|\Cake\ORM\Association\HasMany $Articles
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\HasMany $Lineups
- * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasMany $Ratings
- * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\TransfertsTable|\Cake\ORM\Association\HasMany $Transferts
+ * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\ArticlesTable&\Cake\ORM\Association\HasMany $Articles
+ * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
+ * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
  *
  * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
  * @method \App\Model\Entity\Matchday newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Matchday|bool save(\App\Model\Table\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Matchday patchEntity(\App\Model\Table\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Matchday|bool saveOrFail(\App\Model\Table\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MatchdaysTable extends Table
 {

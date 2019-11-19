@@ -11,18 +11,19 @@ use Cake\Validation\Validator;
 /**
  * Dispositions Model
  *
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\BelongsTo $Lineups
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  *
  * @method \App\Model\Entity\Disposition get($primaryKey, $options = [])
  * @method \App\Model\Entity\Disposition newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Disposition[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Disposition|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Disposition|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Disposition patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Disposition[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Disposition findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\RatingsTable|\Cake\ORM\Association\HasOne $Ratings
- * @method \App\Model\Entity\Disposition|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasOne $Ratings
+ * @method \App\Model\Entity\Disposition saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
  */
 class DispositionsTable extends Table
 {

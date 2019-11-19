@@ -54,7 +54,9 @@ class TransfertService
             'Teams.championship_id' => $team->championship_id,
         ])->first();
         $rec->member_id = $transfert->new_member_id;
-        $recs[] = $rec;
+
+        $recs = new \ArrayObject();
+        $recs->append($rec);
 
         /** @var \App\Model\Entity\MembersTeam $rec2 */
         $rec2 = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
@@ -63,7 +65,7 @@ class TransfertService
         ])->first();
         if ($rec2 != null) {
             $rec2->member_id = $transfert->old_member_id;
-            $recs[] = $rec2;
+            $recs->append($rec2);
             $transfert = $this->Transferts->newEntity([
                 'team_id' => $rec2->team_id,
                 'old_member_id' => $transfert->new_member_id,

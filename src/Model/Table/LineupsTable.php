@@ -19,27 +19,24 @@ use Cake\Validation\Validator;
 /**
  * Lineups Model
  *
- * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $Members
- * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $Members
- * @property \App\Model\Table\MembersTable|\App\Model\Table\BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\DispositionsTable|\Cake\ORM\Association\HasMany $Dispositions
- * @property \App\Model\Table\ScoresTable|\Cake\ORM\Association\HasOne $Scores
- * @property \App\Model\Table\View0LineupsDetailsTable|\Cake\ORM\Association\HasMany $View0LineupsDetails
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
+ * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasOne $Scores
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
  *
  * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
  * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Lineup|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Captain
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VCaptain
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $VVCaptain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Captain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VCaptain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VVCaptain
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\Lineup|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LineupsTable extends Table
 {

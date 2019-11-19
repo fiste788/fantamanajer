@@ -14,18 +14,17 @@ use Cake\Validation\Validator;
 /**
  * Scores Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \Cake\ORM\Association\HasOne $Lineup
- * @property \App\Model\Table\LineupsTable|\Cake\ORM\Association\BelongsTo $Lineups
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
  * @method \App\Model\Entity\Score get($primaryKey, $options = [])
  * @method \App\Model\Entity\Score newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Score|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Score[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Score findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Score|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ScoresTable extends Table
 {

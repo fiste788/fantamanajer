@@ -20,19 +20,18 @@ use Cake\Validation\Validator;
  * Selections Model
  *
  * @property \App\Service\SelectionService $Selection
- * @property \App\Model\Table\TeamsTable&\App\Model\Table\BelongsTo $Teams
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable&\App\Model\Table\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable&\App\Model\Table\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable&\App\Model\Table\BelongsTo $OldMembers
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
  * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Selection|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Selection|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
  */
 class SelectionsTable extends Table
 {
@@ -44,7 +43,7 @@ class SelectionsTable extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->loadService('Selection');
+        //$this->loadService('Selection');
     }
 
     /**
@@ -186,7 +185,7 @@ class SelectionsTable extends Table
      * After save event
      *
      * @param \Cake\Event\Event $event Event
-     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \App\Model\Entity\Selection $entity Entity
      * @param \ArrayObject $options Options
      * @return void
      */

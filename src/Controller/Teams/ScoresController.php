@@ -5,6 +5,9 @@ namespace App\Controller\Teams;
 
 use Cake\Event\EventInterface;
 
+/**
+ * @property \App\Model\Table\ScoresTable $Scores
+ */
 class ScoresController extends \App\Controller\ScoresController
 {
     public $paginate = [

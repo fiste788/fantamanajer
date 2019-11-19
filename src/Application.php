@@ -70,10 +70,10 @@ class Application extends BaseApplication implements
     {
         parent::bootstrap();
 
+        $this->addPlugin('IdeHelper');
         if (PHP_SAPI === 'cli') {
             try {
                 $this->addPlugin('Bake');
-                $this->addPlugin('IdeHelper');
             } catch (MissingPluginException $e) {
                 // Do not halt if the plugin is missing
             }

@@ -10,6 +10,8 @@ use Cake\Utility\Hash;
 
 /**
  * Steam Controller
+ *
+ * @property \Cake\ORM\Table $Stream
  */
 class StreamController extends AppController
 {

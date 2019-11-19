@@ -16,10 +16,12 @@ use Cake\Routing\Router;
  * @property string $partitive
  * @property string $determinant
  * @property \App\Model\Entity\Member[] $members
- * @property int $club_id
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
- * @property \App\Model\Entity\View0Member[] $view0_members
- * @property \App\Model\Entity\View1MembersStat[] $view1_members_stats
+ * @property int|null $club_id
+ * @property \Cake\ORM\Entity[] $view0_lineups_details
+ * @property \Cake\ORM\Entity[] $view0_members
+ * @property \Cake\ORM\Entity[] $view1_members_stats
+ * @property string $photo_url
+ * @property array $background_url
  */
 class Club extends Entity
 {

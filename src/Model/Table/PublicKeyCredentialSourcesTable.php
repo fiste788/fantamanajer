@@ -13,11 +13,13 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\PublicKeyCredentialSource get($primaryKey, $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class PublicKeyCredentialSourcesTable extends Table
 {

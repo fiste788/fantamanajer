@@ -350,7 +350,7 @@ trait GazzettaTrait
                 }
             }
         } else {
-            $this->abort('Cannot download ratings file');
+            $this->abort(0);
         }
     }
 

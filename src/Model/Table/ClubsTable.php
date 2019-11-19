@@ -15,11 +15,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Club get($primaryKey, $options = [])
  * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Club[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Club|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Club|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Club[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Club findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Club|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Club saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0Members
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View1MembersStats
  */
 class ClubsTable extends Table
 {

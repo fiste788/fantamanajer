@@ -12,10 +12,10 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property bool $admin
- * @property null|string $photo
- * @property null|string $photo_dir
- * @property int $photo_size
- * @property null|string $photo_type
+ * @property string|null $photo
+ * @property string|null $photo_dir
+ * @property int|null $photo_size
+ * @property string|null $photo_type
  * @property int $user_id
  * @property \App\Model\Entity\User $user
  * @property int $championship_id
@@ -23,15 +23,13 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\NotificationSubscription[] $email_notification_subscriptions
  * @property \App\Model\Entity\NotificationSubscription[] $push_notification_subscriptions
  * @property \App\Model\Entity\Article[] $articles
- * @property \App\Model\Entity\Event[] $events
+ * @property \Cake\ORM\Entity[] $events
  * @property \App\Model\Entity\Lineup[] $lineups
  * @property \App\Model\Entity\Score[] $scores
- * @property \App\Model\Entity\Selection[] $selections
  * @property \App\Model\Entity\Transfert[] $transferts
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
- * @property \App\Model\Entity\View1MatchdayWin[] $view1_matchday_win
  * @property \App\Model\Entity\Member[] $members
- * @property int $old_id
+ * @property array|null $photo_url
+ * @property \App\Model\Entity\Selection[] $selections
  */
 class Team extends Entity
 {
@@ -74,7 +72,7 @@ class Team extends Entity
      */
     protected function _getPhotoUrl(): ?array
     {
-        if ($this->photo) {
+        if ($this->photo != null) {
             $baseUrl = '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
             return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);

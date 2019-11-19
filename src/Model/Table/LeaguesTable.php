@@ -9,16 +9,16 @@ use Cake\Validation\Validator;
 /**
  * Leagues Model
  *
- * @property \App\Model\Table\ChampionshipsTable|\Cake\ORM\Association\HasMany $Championships
+ * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
  *
  * @method \App\Model\Entity\League get($primaryKey, $options = [])
  * @method \App\Model\Entity\League newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\League[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\League|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\League|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\League patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\League[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\League findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\League|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\League saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LeaguesTable extends Table
 {

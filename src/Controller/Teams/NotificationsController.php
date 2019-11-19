@@ -8,6 +8,9 @@ use App\Stream\ActivityManager;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
 
+/**
+ * @property \Cake\ORM\Table $Notifications
+ */
 class NotificationsController extends AppController
 {
     /**

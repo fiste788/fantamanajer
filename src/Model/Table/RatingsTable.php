@@ -12,17 +12,17 @@ use Cake\Validation\Validator;
 /**
  * Ratings Model
  *
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  *
  * @method \App\Model\Entity\Rating get($primaryKey, $options = [])
  * @method \App\Model\Entity\Rating newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Rating|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rating|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Rating|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rating saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class RatingsTable extends Table
 {

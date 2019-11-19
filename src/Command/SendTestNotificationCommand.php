@@ -72,9 +72,12 @@ class SendTestNotificationCommand extends Command
                 ->action('Apri', 'open')
                 ->tag('missing-lineup-' . $this->currentMatchday->number)
                 ->data(['url' => '/teams/' . $team->id . '/lineup']);
-            $io->out(json_encode($message));
-            $io->out('Send push notification to ' . $subscription->endpoint);
-            $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
+            $messageString = json_encode($message);
+            if ($messageString != false) {
+                $io->out($messageString);
+                $io->out('Send push notification to ' . $subscription->endpoint);
+                $webPush->sendNotification($subscription->getSubscription(), $messageString);
+            }
         }
 
         $res = $webPush->flush();

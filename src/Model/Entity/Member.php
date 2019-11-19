@@ -15,7 +15,6 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property int $code_gazzetta
  * @property bool $playmaker
  * @property bool $active
- * @property mixed $likely_lineup
  * @property int $player_id
  * @property \App\Model\Entity\Player $player
  * @property int $role_id
@@ -26,12 +25,12 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property \App\Model\Entity\Season $season
  * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\Rating[] $ratings
- * @property \App\Model\Entity\View0LineupsDetail[] $view0_lineups_details
- * @property \App\Model\Entity\View0MembersOnlyStat[] $view0_members_only_stats
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\VwMembersStat $stats
  * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\FrozenTime|null $modified_at
+ * @property string|null $photo_url
+ * @property string|null $background_url
  */
 class Member extends Entity
 {

@@ -29,6 +29,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  * @property \Authorization\AuthorizationServiceInterface $authorization
+ * @property int $old_id
  */
 class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {

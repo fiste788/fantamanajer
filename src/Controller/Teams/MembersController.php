@@ -6,6 +6,9 @@ namespace App\Controller\Teams;
 use App\Controller\MembersController as AppMembersController;
 use Cake\Event\EventInterface;
 
+/**
+ * @property \App\Model\Table\MembersTable $Members
+ */
 class MembersController extends AppMembersController
 {
     public $paginate = [

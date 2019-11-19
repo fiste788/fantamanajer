@@ -8,6 +8,7 @@ use Cake\Event\EventInterface;
 
 /**
  * @property \App\Service\CredentialService $Credential
+ * @property \Cake\ORM\Table $Credentials
  */
 class CredentialsController extends AppController
 {

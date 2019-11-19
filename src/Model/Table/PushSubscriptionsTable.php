@@ -14,17 +14,17 @@ use Cake\Validation\Validator;
 /**
  * PushSubscriptions Model
  *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\PushSubscription get($primaryKey, $options = [])
  * @method \App\Model\Entity\PushSubscription newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\PushSubscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\PushSubscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PushSubscriptionsTable extends Table
 {
@@ -125,7 +125,7 @@ class PushSubscriptionsTable extends Table
      * Before save event
      *
      * @param \Cake\Event\Event $event Event
-     * @param \Cake\Datasource\EntityInterface $entity Entity
+     * @param \App\Model\Entity\PushSubscription $entity Entity
      * @param \ArrayObject $options Options
      * @return void
      */

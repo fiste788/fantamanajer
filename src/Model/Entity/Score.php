@@ -12,13 +12,13 @@ use Cake\ORM\Entity;
  * @property float $points
  * @property float $real_points
  * @property float $penality_points
- * @property null|string $penality
+ * @property string|null $penality
  * @property int $team_id
  * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
  * @property \App\Model\Entity\Matchday $matchday
- * @property int $lineup_id
- * @property \App\Model\Entity\Lineup $lineup
+ * @property int|null $lineup_id
+ * @property \App\Model\Entity\Lineup|null $lineup
  */
 class Score extends Entity
 {

@@ -10,16 +10,16 @@ use Cake\Validation\Validator;
 /**
  * NotificationSubscriptions Model
  *
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  *
  * @method \App\Model\Entity\NotificationSubscription get($primaryKey, $options = [])
  * @method \App\Model\Entity\NotificationSubscription newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\NotificationSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\NotificationSubscription|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class NotificationSubscriptionsTable extends Table
 {

@@ -96,7 +96,10 @@ class SendMissingLineupNotificationCommand extends Command
                         ->tag('missing-lineup-' . $this->currentMatchday->number)
                         ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
                     $io->out('Send push notification to ' . $subscription->endpoint);
-                    $webPush->sendNotification($subscription->getSubscription(), json_encode($message));
+                    $messageString = json_encode($message);
+                    if ($messageString != false) {
+                        $webPush->sendNotification($subscription->getSubscription(), $messageString);
+                    }
                 }
                 $io->out('Create activity in notification stream for team ' . $team->id);
                 $feed = $client->feed("notification", $team->id);

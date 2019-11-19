@@ -13,7 +13,7 @@ use Minishlink\WebPush\Subscription;
  * @property string $endpoint
  * @property string $public_key
  * @property string $auth_token
- * @property string $content_encoding
+ * @property string|null $content_encoding
  * @property \Cake\I18n\FrozenTime $expires_at
  * @property int $user_id
  *

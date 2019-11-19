@@ -110,7 +110,7 @@ class TransfertCommand extends Command
             $io->out('Error occurred');
             foreach ($selections as $value) {
                 if (!empty($value->getErrors())) {
-                    $io->error($value);
+                    $io->error(print_r($value, true));
                     $io->error(print_r($value->getErrors(), true));
                 }
             }

@@ -17,20 +17,18 @@ use Cake\Validation\Validator;
  * Transferts Model
  *
  * @property \App\Service\TransfertService $Transfert
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\TeamsTable|\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable|\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
  * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Transfert|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Transfert|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class TransfertsTable extends Table
 {
