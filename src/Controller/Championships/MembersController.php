@@ -42,8 +42,8 @@ class MembersController extends AppController
         $this->Crud->action()->findMethod([
             'free' => [
                 'championship_id' => $this->request->getParam('championship_id'),
-                'stats' => $this->request->getQuery('stats', true),
-                'role' => $this->request->getParam('role_id', null),
+                'stats' => (bool)$this->request->getQuery('stats', true),
+                'role' => (int)$this->request->getParam('role_id', null),
             ],
         ]);
 
@@ -59,7 +59,7 @@ class MembersController extends AppController
     {
         $this->Crud->action()->findMethod([
             'free' => [
-                'championship_id' => $this->request->getParam('championship_id'),
+                'championship_id' => (int)$this->request->getParam('championship_id'),
                 'stats' => false,
             ],
         ]);

@@ -33,7 +33,7 @@ class MembersController extends AppController
     {
         $this->Crud->action()->findMethod([
             'byClubId' => [
-                'club_id' => $this->request->getParam('club_id', null),
+                'club_id' => (int)$this->request->getParam('club_id', null),
                 'season_id' => $this->currentSeason->id,
             ],
         ]);

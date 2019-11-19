@@ -361,7 +361,7 @@ trait GazzettaTrait
      * @param string $club Club
      * @return \App\Model\Entity\Member|null
      */
-    private function memberTransfert(Member $member, $club): ?Member
+    private function memberTransfert(Member $member, string $club): ?Member
     {
         $flag = false;
         if (!$member->active) {

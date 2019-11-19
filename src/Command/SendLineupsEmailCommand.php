@@ -10,9 +10,8 @@ use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Mailer\Mailer;
+use Cake\Mailer\MailerAwareTrait;
 use Cake\ORM\Query;
-use Cake\Utility\Hash;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -22,6 +21,7 @@ use Cake\Utility\Hash;
 class SendLineupsEmailCommand extends Command
 {
     use CurrentMatchdayTrait;
+    use MailerAwareTrait;
 
     /**
      * @inheritDoc
@@ -91,18 +91,7 @@ class SendLineupsEmailCommand extends Command
                 ])->where(['matchday_id' => $matchday->id]);
             })
             ->where(['championship_id' => $championship->id]);
-        $addresses = Hash::extract($championship->teams, '{*}.user.email');
-        //$addresses = "stefano788@gmail.com";
-        $email = new Mailer(['template' => 'lineups']);
-        $email->setViewVars(
-            [
-                'teams' => $teams,
-                'baseUrl' => 'https://fantamanajer.it',
-            ]
-        )
-            ->setSubject('Formazioni giornata ' . $matchday->number)
-            ->setEmailFormat('html')
-            ->setBcc($addresses)
-            ->send();
+
+        $this->getMailer('WeeklyScript')->send('lineups', [$championship, $matchday, $teams]);
     }
 }

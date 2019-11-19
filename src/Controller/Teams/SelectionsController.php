@@ -35,7 +35,7 @@ class SelectionsController extends AppSelectionsController
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeamIdAndMatchdayId' => [
-            'team_id' => $this->request->getParam('team_id'),
+            'team_id' => (int)$this->request->getParam('team_id'),
             'matchday_id' => $this->currentMatchday->id,
         ]]);
 

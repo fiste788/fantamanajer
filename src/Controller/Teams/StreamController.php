@@ -21,7 +21,7 @@ class StreamController extends AppController
      */
     public function index()
     {
-        $teamId = $this->request->getParam('team_id');
+        $teamId = (string)$this->request->getParam('team_id');
         /*if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {
             throw new ForbiddenException();
         }*/

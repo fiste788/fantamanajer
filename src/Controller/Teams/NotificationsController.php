@@ -34,7 +34,7 @@ class NotificationsController extends AppController
      */
     public function count()
     {
-        $teamId = $this->request->getParam('team_id');
+        $teamId = (string)$this->request->getParam('team_id');
         $manager = new \StreamCake\FeedManager();
         $feed = $manager->getFeed('notification', $teamId);
         $stream = $feed->getActivities(0, 20);
@@ -55,7 +55,7 @@ class NotificationsController extends AppController
      */
     public function index()
     {
-        $teamId = $this->request->getParam('team_id');
+        $teamId = (string)$this->request->getParam('team_id');
         $manager = new ActivityManager();
         $stream = $manager->getActivities('notification', $teamId, true, 0, 20, ['mark_seen' => true]);
 

@@ -286,12 +286,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "d53069cceedbad2ef14911e6d3ba6bf2e4d63c97"
+                "reference": "6400b3c063b5ee4e71fb5d31a8a7fd8e4b838e8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/d53069cceedbad2ef14911e6d3ba6bf2e4d63c97",
-                "reference": "d53069cceedbad2ef14911e6d3ba6bf2e4d63c97",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/6400b3c063b5ee4e71fb5d31a8a7fd8e4b838e8b",
+                "reference": "6400b3c063b5ee4e71fb5d31a8a7fd8e4b838e8b",
                 "shasum": ""
             },
             "require": {
@@ -371,7 +371,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2019-11-18T01:53:36+00:00"
+            "time": "2019-11-19T18:43:21+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -1809,12 +1809,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mirko-pagliai/php-tools.git",
-                "reference": "1e2b04c5cfe149b8a72d1cf7b34835b99b365a0d"
+                "reference": "355d158d1672a4bc75f9229e7be1db1c54c719d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mirko-pagliai/php-tools/zipball/1e2b04c5cfe149b8a72d1cf7b34835b99b365a0d",
-                "reference": "1e2b04c5cfe149b8a72d1cf7b34835b99b365a0d",
+                "url": "https://api.github.com/repos/mirko-pagliai/php-tools/zipball/355d158d1672a4bc75f9229e7be1db1c54c719d3",
+                "reference": "355d158d1672a4bc75f9229e7be1db1c54c719d3",
                 "shasum": ""
             },
             "require": {
@@ -1853,7 +1853,7 @@
             ],
             "description": "Some essential tools for PHP",
             "homepage": "https://github.com/mirko-pagliai/php-tools",
-            "time": "2019-11-14T12:41:16+00:00"
+            "time": "2019-11-19T12:07:21+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -6184,12 +6184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-ide-helper.git",
-                "reference": "9e2d89e40a435f0f87b9fd27629672c5a1eedfd1"
+                "reference": "cada9e2274a4d1a24158d9ece3b4e32fc57b9d52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/9e2d89e40a435f0f87b9fd27629672c5a1eedfd1",
-                "reference": "9e2d89e40a435f0f87b9fd27629672c5a1eedfd1",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/cada9e2274a4d1a24158d9ece3b4e32fc57b9d52",
+                "reference": "cada9e2274a4d1a24158d9ece3b4e32fc57b9d52",
                 "shasum": ""
             },
             "require": {
@@ -6237,7 +6237,7 @@
                 "phpstorm",
                 "plugin"
             ],
-            "time": "2019-11-18T10:10:10+00:00"
+            "time": "2019-11-19T13:27:35+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
