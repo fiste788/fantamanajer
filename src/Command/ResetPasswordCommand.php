@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -29,7 +30,7 @@ class ResetPasswordCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($args->hasArgument('email')) {
-            /** @var \App\Model\Entity\User $user */
+            /** @var \App\Model\Entity\User|null $user */
             $user = $this->Users->find()->where(['email' => $args->getArgument('email')])->first();
             if ($user != null) {
                 $this->reset($user, $io);

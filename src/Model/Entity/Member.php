@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -9,28 +10,29 @@ use Cake\Routing\Router;
 use const DIRECTORY_SEPARATOR as DS;
 
 /**
- * Member Entity.
+ * Member Entity
  *
  * @property int $id
  * @property int $code_gazzetta
- * @property bool $playmaker
  * @property bool $active
+ * @property bool $playmaker
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime|null $modified_at
  * @property int $player_id
- * @property \App\Model\Entity\Player $player
  * @property int $role_id
- * @property \App\Model\Entity\Role $role
  * @property int $club_id
- * @property \App\Model\Entity\Club $club
  * @property int $season_id
+ * @property string|null $photo_url
+ * @property string|null $background_url
+ *
+ * @property \App\Model\Entity\Player $player
+ * @property \App\Model\Entity\Role $role
+ * @property \App\Model\Entity\Club $club
  * @property \App\Model\Entity\Season $season
  * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\Rating[] $ratings
  * @property \App\Model\Entity\Team[] $teams
  * @property \App\Model\Entity\VwMembersStat $stats
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime|null $modified_at
- * @property string|null $photo_url
- * @property string|null $background_url
  */
 class Member extends Entity
 {
@@ -44,8 +46,22 @@ class Member extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'code_gazzetta' => true,
+        'active' => true,
+        'playmaker' => true,
+        'created_at' => true,
+        'modified_at' => true,
+        'player_id' => true,
+        'role_id' => true,
+        'club_id' => true,
+        'season_id' => true,
+        'player' => true,
+        'role' => true,
+        'club' => true,
+        'season' => false,
+        'dispositions' => false,
+        'ratings' => false,
+        'teams' => false,
     ];
 
     protected $_virtual = ['photo_url', 'background_url'];

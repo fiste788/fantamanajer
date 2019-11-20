@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,10 +7,11 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * League Entity.
+ * League Entity
  *
  * @property int $id
  * @property string $name
+ *
  * @property \App\Model\Entity\Championship[] $championships
  */
 class League extends Entity
@@ -24,7 +26,7 @@ class League extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'name' => true,
+        'championships' => false,
     ];
 }

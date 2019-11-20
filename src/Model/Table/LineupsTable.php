@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Lineup;
 use App\Model\Rule\JollyAlreadyUsedRule;
 use App\Model\Rule\LineupExpiredRule;
 use App\Model\Rule\MissingPlayerInLineupRule;
@@ -19,29 +21,32 @@ use Cake\Validation\Validator;
 /**
  * Lineups Model
  *
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Captain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VCaptain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VVCaptain
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasOne $Scores
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
  *
  * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
  * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Lineup|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Lineup saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Captain
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VCaptain
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VVCaptain
+ * 
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\Lineup saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LineupsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -51,73 +56,39 @@ class LineupsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior(
-            'Timestamp',
-            [
-                'events' => [
-                    'Model.beforeSave' => [
-                        'created_at' => 'new',
-                        'modified_at' => 'always',
-                    ],
+        $this->belongsTo('Members', [
+            'foreignKey' => 'captain_id',
+        ]);
+        $this->belongsTo('Members', [
+            'foreignKey' => 'vcaptain_id',
+        ]);
+        $this->belongsTo('Members', [
+            'foreignKey' => 'vvcaptain_id',
+        ]);
+        $this->belongsTo('Matchdays', [
+            'foreignKey' => 'matchday_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Teams', [
+            'foreignKey' => 'team_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Dispositions', [
+            'foreignKey' => 'lineup_id',
+            'sort' => ['Dispositions.position'],
+            'saveStrategy' => 'replace',
+        ]);
+        $this->hasOne('Scores', [
+            'foreignKey' => 'lineup_id',
+        ]);
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always',
                 ],
-            ]
-        );
-
-        $this->belongsTo(
-            'Captain',
-            [
-                'className' => 'Members',
-                'foreignKey' => 'captain_id',
-            ]
-        );
-        $this->belongsTo(
-            'VCaptain',
-            [
-                'className' => 'Members',
-                'foreignKey' => 'vcaptain_id',
-            ]
-        );
-        $this->belongsTo(
-            'VVCaptain',
-            [
-                'className' => 'Members',
-                'foreignKey' => 'vvcaptain_id',
-            ]
-        );
-        $this->belongsTo(
-            'Matchdays',
-            [
-                'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Teams',
-            [
-                'foreignKey' => 'team_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->hasMany(
-            'Dispositions',
-            [
-                'foreignKey' => 'lineup_id',
-                'sort' => ['Dispositions.position'],
-                'saveStrategy' => 'replace',
-            ]
-        );
-        $this->hasOne(
-            'Scores',
-            [
-                'foreignKey' => 'lineup_id',
-            ]
-        );
-        $this->hasMany(
-            'View0LineupsDetails',
-            [
-                'foreignKey' => 'lineup_id',
-            ]
-        );
+            ],
+        ]);
     }
 
     /**
@@ -130,19 +101,29 @@ class LineupsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('module')
+            ->maxLength('module', 7)
             ->requirePresence('module', 'create')
-            ->notEmpty('module');
+            ->notEmptyString('module');
 
         $validator
             ->boolean('jolly')
-            ->allowEmpty('jolly');
+            ->allowEmptyString('jolly');
 
         $validator
             ->boolean('cloned')
-            ->allowEmpty('cloned');
+            ->allowEmptyString('cloned');
+
+        $validator
+            ->dateTime('created_at')
+            ->notEmptyDateTime('created_at');
+
+        $validator
+            ->dateTime('modified_at')
+            ->notEmptyDateTime('modified_at');
 
         return $validator;
     }
@@ -219,7 +200,7 @@ class LineupsTable extends Table
             'Teams',
             'Dispositions' => [
                 'Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function ($q) use ($options) {
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($options): Query {
                         return $q->where(['matchday_id' => $options['matchday_id']]);
                     },
                 ],
@@ -296,18 +277,18 @@ class LineupsTable extends Table
         return $q->contain([
             'Teams.Championships',
             'Dispositions' => [
-                'Members' => function (Query $q) use ($matchdayId) {
+                'Members' => function (Query $q) use ($matchdayId): Query {
                     return $q->find(
                         'list',
                         [
                             'keyField' => 'id',
-                            'valueField' => function ($obj) {
+                            'valueField' => function (Lineup $obj): Lineup {
                                 return $obj;
                             },
                         ]
                     )
                         ->contain(
-                            ['Ratings' => function (Query $q) use ($matchdayId) {
+                            ['Ratings' => function (Query $q) use ($matchdayId): Query {
                                 return $q->where(['Ratings.matchday_id' => $matchdayId]);
                             }]
                         );

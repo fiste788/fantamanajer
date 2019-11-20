@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,19 +7,20 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Score Entity.
+ * Score Entity
  *
  * @property int $id
  * @property float $points
  * @property float $real_points
  * @property float $penality_points
  * @property string|null $penality
- * @property int $team_id
- * @property \App\Model\Entity\Team $team
- * @property int $matchday_id
- * @property \App\Model\Entity\Matchday $matchday
  * @property int|null $lineup_id
- * @property \App\Model\Entity\Lineup|null $lineup
+ * @property int $team_id
+ * @property int $matchday_id
+ *
+ * @property \App\Model\Entity\Lineup $lineup
+ * @property \App\Model\Entity\Team $team
+ * @property \App\Model\Entity\Matchday $matchday
  */
 class Score extends Entity
 {
@@ -32,7 +34,15 @@ class Score extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'points' => true,
+        'real_points' => true,
+        'penality_points' => true,
+        'penality' => true,
+        'lineup_id' => false,
+        'team_id' => false,
+        'matchday_id' => false,
+        'lineup' => false,
+        'team' => false,
+        'matchday' => false,
     ];
 }

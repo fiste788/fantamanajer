@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -42,7 +43,7 @@ class ComputeScoreService
      */
     public function computeScore(Team $team, Matchday $matchday): Score
     {
-        /** @var \App\Model\Entity\Score $score */
+        /** @var \App\Model\Entity\Score|null $score */
         $score = $this->Scores->find()
             ->where(['team_id' => $team->id, 'matchday_id' => $matchday->id])
             ->first();
@@ -72,13 +73,13 @@ class ComputeScoreService
         $championship = $score->team->championship;
         $lineup = $score->lineup;
         if ($lineup == null) {
-            /** @var \App\Model\Entity\Lineup $lineup */
+            /** @var \App\Model\Entity\Lineup|null $lineup */
             $lineup = $this->Lineups->find('last', [
                 'matchday' => $score->matchday,
                 'team_id' => $score->team->id,
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
-            /** @var \App\Model\Entity\Lineup $lineup */
+            /** @var \App\Model\Entity\Lineup|null $lineup */
             $lineup = $this->Lineups->loadInto($lineup, $this->Lineups->find('withRatings', [
                 'matchday_id' => $score->matchday_id,
             ])->getContain());

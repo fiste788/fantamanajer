@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -15,11 +16,11 @@ use Minishlink\WebPush\Subscription;
  * @property string $auth_token
  * @property string|null $content_encoding
  * @property \Cake\I18n\FrozenTime $expires_at
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
  */
 class PushSubscription extends Entity
 {
@@ -36,7 +37,10 @@ class PushSubscription extends Entity
         'endpoint' => true,
         'public_key' => true,
         'auth_token' => true,
+        'content_encoding' => true,
         'expires_at' => true,
+        'created_at' => true,
+        'modified_at' => true,
         'user_id' => true,
         'user' => true,
     ];

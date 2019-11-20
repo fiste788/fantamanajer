@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use App\Model\Entity\Traits\HasPhotoTrait;
 use Cake\ORM\Entity;
+use App\Model\Entity\Traits\HasPhotoTrait;
 
 /**
- * Team Entity.
+ * Team Entity
  *
  * @property int $id
  * @property string $name
@@ -17,19 +18,19 @@ use Cake\ORM\Entity;
  * @property int|null $photo_size
  * @property string|null $photo_type
  * @property int $user_id
- * @property \App\Model\Entity\User $user
  * @property int $championship_id
+ * @property array|null $photo_url
+ *
+ * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Championship $championship
+ * @property \App\Model\Entity\Article[] $articles
+ * @property \App\Model\Entity\Lineup[] $lineups
  * @property \App\Model\Entity\NotificationSubscription[] $email_notification_subscriptions
  * @property \App\Model\Entity\NotificationSubscription[] $push_notification_subscriptions
- * @property \App\Model\Entity\Article[] $articles
- * @property \Cake\ORM\Entity[] $events
- * @property \App\Model\Entity\Lineup[] $lineups
  * @property \App\Model\Entity\Score[] $scores
+ * @property \App\Model\Entity\Selection[] $selections
  * @property \App\Model\Entity\Transfert[] $transferts
  * @property \App\Model\Entity\Member[] $members
- * @property array|null $photo_url
- * @property \App\Model\Entity\Selection[] $selections
  */
 class Team extends Entity
 {
@@ -45,9 +46,24 @@ class Team extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'user' => false,
+        'name' => true,
+        'admin' => true,
+        'photo' => true,
+        'photo_dir' => false,
+        'photo_size' => false,
+        'photo_type' => false,
+        'user_id' => true,
+        'championship_id' => true,
+        'user' => true,
+        'championship' => false,
+        'articles' => false,
+        'events' => false,
+        'lineups' => false,
+        'notification_subscriptions' => false,
+        'scores' => false,
+        'selections' => false,
+        'transferts' => false,
+        'members' => false,
     ];
 
     protected $_hidden = [
@@ -75,7 +91,7 @@ class Team extends Entity
         if ($this->photo != null) {
             $baseUrl = '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
-            return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
+            return $this->_getPhotosUrl(ROOT . DS . ($this->photo_dir ?? ''), $baseUrl, $this->photo);
         } else {
             return [];
         }

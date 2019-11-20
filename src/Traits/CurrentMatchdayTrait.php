@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Traits;
@@ -12,8 +13,18 @@ use Cake\ORM\TableRegistry;
  */
 trait CurrentMatchdayTrait
 {
+    /**
+     * Current matchday
+     *
+     * @var \App\Model\Entity\Matchday $currentMatchday
+     */
     protected $currentMatchday;
 
+    /**
+     * Current season
+     *
+     * @var \App\Model\Entity\Season $currentSeason
+     */
     protected $currentSeason;
 
     /**
@@ -33,7 +44,7 @@ trait CurrentMatchdayTrait
     {
         $matchdays = TableRegistry::getTableLocator()->get("Matchdays");
 
-        /** @var \App\Model\Entity\Matchday $cur */
+        /** @var \App\Model\Entity\Matchday|null $cur */
         $cur = $matchdays->find('current')->first();
         if ($cur != null) {
             $this->currentMatchday = $cur;

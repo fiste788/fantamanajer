@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
@@ -60,6 +61,7 @@ class TrustPathDataType implements TypeInterface
      */
     public function getBaseType(): ?string
     {
+        return "string";
     }
 
     /**
@@ -67,12 +69,12 @@ class TrustPathDataType implements TypeInterface
      */
     public function getName(): ?string
     {
+        return "trustpathdata";
     }
 
     /**
      * @inheritDoc
      */
     public function newId()
-    {
-    }
+    { }
 }

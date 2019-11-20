@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Stream;
@@ -68,8 +69,8 @@ class ActivityManager
      */
     private function getFromVerb(EnrichedActivity $activity): StreamActivity
     {
-        $namespace = '\\App\\Stream\\Verb\\' . $activity->offsetExists('activities') ?? 'Aggregated\\';
-        $name = $activity->offsetGet('verb');
+        $namespace = '\\App\\Stream\\Verb\\' . ($activity->offsetExists('activities') ?: 'Aggregated\\');
+        $name = $activity->offsetGet('verb') ?? '';
         $className = $namespace . ucwords($name);
 
         return new $className($activity);

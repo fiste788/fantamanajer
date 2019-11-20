@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,17 +7,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Disposition Entity.
+ * Disposition Entity
  *
  * @property int $id
  * @property int $position
  * @property int $consideration
  * @property int $lineup_id
- * @property \App\Model\Entity\Lineup $lineup
  * @property int $member_id
- * @property \App\Model\Entity\Member $member
- * @property \Cake\ORM\Entity[] $view0_lineups_details
+ * 
  * @property \App\Model\Entity\Rating $rating
+ * @property \App\Model\Entity\Lineup $lineup
+ * @property \App\Model\Entity\Member $member
  */
 class Disposition extends Entity
 {
@@ -30,7 +31,12 @@ class Disposition extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'position' => true,
+        'consideration' => true,
+        'lineup_id' => true,
+        'member_id' => true,
+        'rating' => false,
+        'lineup' => true,
+        'member' => true,
     ];
 }

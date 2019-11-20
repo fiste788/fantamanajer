@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Teams;
@@ -39,11 +40,11 @@ class LineupsController extends \App\Controller\LineupsController
     /**
      * current
      *
-     * @return \Cake\Http\Response
+     * @return \Cake\Http\Response|null
      */
     public function current()
     {
-        $team = (int)$this->request->getParam('team_id');
+        $team = (int) $this->request->getParam('team_id');
         $that = $this;
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
@@ -94,7 +95,7 @@ class LineupsController extends \App\Controller\LineupsController
      */
     public function likely()
     {
-        $teamId = (int)$this->request->getParam('team_id');
+        $teamId = (int) $this->request->getParam('team_id');
         $team = $this->LikelyLineup->get($teamId);
         $this->set([
             'success' => true,

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -62,6 +63,7 @@ class TransfertCommand extends Command
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
             $matchday = $this->currentMatchday;
             if ($args->hasArgument('matchday')) {
+                /** @var \App\Model\Entity\Matchday $matchday */
                 $matchday = $this->Matchdays->find()->where([
                     'season_id' => $this->currentSeason->id,
                     'number' => $args->getArgument('matchday'),
@@ -74,7 +76,7 @@ class TransfertCommand extends Command
                     'processed' => false,
                     'Selections.active' => true,
                 ])->all();
-            $table[] = ['Team', 'New Member', 'Old Member'];
+            $table = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {
                 foreach ($selections as $selection) {
                     $selection->processed = true;

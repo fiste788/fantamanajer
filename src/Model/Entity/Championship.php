@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,7 +7,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Championship Entity.
+ * Championship Entity
  *
  * @property int $id
  * @property bool $captain
@@ -15,15 +16,14 @@ use Cake\ORM\Entity;
  * @property int $minute_lineup
  * @property int $points_missed_lineup
  * @property bool $captain_missed_lineup
- * @property bool|null $jolly
  * @property bool $started
+ * @property bool|null $jolly
  * @property int $league_id
- * @property \App\Model\Entity\League $league
  * @property int $season_id
+ *
+ * @property \App\Model\Entity\League $league
  * @property \App\Model\Entity\Season $season
  * @property \App\Model\Entity\Team[] $teams
- * @property \Cake\ORM\Entity[] $view0_max_points
- * @property \Cake\ORM\Entity[] $view2_teams_stats
  */
 class Championship extends Entity
 {
@@ -37,8 +37,18 @@ class Championship extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'captain' => true,
+        'number_transferts' => true,
+        'number_selections' => true,
+        'minute_lineup' => true,
+        'points_missed_lineup' => true,
+        'captain_missed_lineup' => true,
         'started' => false,
+        'jolly' => true,
+        'league_id' => true,
+        'season_id' => true,
+        'league' => true,
+        'season' => true,
+        'teams' => false,
     ];
 }

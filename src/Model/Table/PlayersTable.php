@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -11,19 +13,23 @@ use Cake\Validation\Validator;
  * Players Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
+ *
  * @method \App\Model\Entity\Player get($primaryKey, $options = [])
  * @method \App\Model\Entity\Player newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Player|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Player saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Player patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Player[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Player findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Player saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PlayersTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -33,12 +39,9 @@ class PlayersTable extends Table
         $this->setDisplayField('surname');
         $this->setPrimaryKey('id');
 
-        $this->hasMany(
-            'Members',
-            [
-                'foreignKey' => 'player_id',
-            ]
-        );
+        $this->hasMany('Members', [
+            'foreignKey' => 'player_id',
+        ]);
     }
 
     /**
@@ -51,14 +54,18 @@ class PlayersTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->allowEmpty('name');
+            ->scalar('name')
+            ->maxLength('name', 30)
+            ->allowEmptyString('name');
 
         $validator
+            ->scalar('surname')
+            ->maxLength('surname', 30)
             ->requirePresence('surname', 'create')
-            ->notEmpty('surname');
+            ->notEmptyString('surname');
 
         return $validator;
     }

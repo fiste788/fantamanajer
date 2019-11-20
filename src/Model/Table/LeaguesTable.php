@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -15,15 +18,18 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\League newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\League[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\League|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\League saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\League patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\League[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\League findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\League saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class LeaguesTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -33,12 +39,9 @@ class LeaguesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany(
-            'Championships',
-            [
-                'foreignKey' => 'league_id',
-            ]
-        );
+        $this->hasMany('Championships', [
+            'foreignKey' => 'league_id',
+        ]);
     }
 
     /**
@@ -51,12 +54,14 @@ class LeaguesTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('name')
+            ->minLength('name', 3)
+            ->maxLength('name', 255)
             ->requirePresence('name', 'create')
-            ->notEmpty('name')
-            ->minLength('name', 3);
+            ->notEmptyString('name');
 
         return $validator;
     }

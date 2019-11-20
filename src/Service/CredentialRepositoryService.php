@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -30,11 +31,11 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      * Undocumented function
      *
      * @param string $credentialId credentialId
-     * @return \App\Model\Entity\PublicKeyCredentialSource
+     * @return \App\Model\Entity\PublicKeyCredentialSource|null
      */
-    private function findByCredentialId(string $credentialId): PublicKeyCredentialSource
+    private function findByCredentialId(string $credentialId): ?PublicKeyCredentialSource
     {
-        /** @var \App\Model\Entity\PublicKeyCredentialSource $pkcs */
+        /** @var \App\Model\Entity\PublicKeyCredentialSource|null $pkcs */
         $pkcs = $this->PublicKeyCredentialSources->find()
             ->where(['public_key_credential_id' => $credentialId])
             ->first();
@@ -52,14 +53,14 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
     {
         $publicKeyCredential = $this->findByCredentialId($publicKeyCredentialId);
 
-        return $publicKeyCredential != null ? $publicKeyCredential->toCredentialSource() : null;
+        return $publicKeyCredential ? $publicKeyCredential->toCredentialSource() : null;
     }
 
     /**
      * Undocumented function
      *
      * @param \Webauthn\PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity arg
-     * @return array
+     * @return \Webauthn\PublicKeyCredentialSource[]
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
@@ -80,10 +81,8 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      */
     public function saveCredentialSource(WebauthnPublicKeyCredentialSource $publicKeyCredentialSource): void
     {
-        $entity = $this->findByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId());
-        if ($entity == null) {
-            $entity = $this->PublicKeyCredentialSources->newEntity();
-        }
+        $entity = $this->findByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId()) ??
+            $this->PublicKeyCredentialSources->newEntity();
         $entity->fromCredentialSource($publicKeyCredentialSource);
         $this->PublicKeyCredentialSources->save($entity);
     }

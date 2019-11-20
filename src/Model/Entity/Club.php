@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -8,20 +9,17 @@ use Cake\ORM\Entity;
 use Cake\Routing\Router;
 
 /**
- * Club Entity.
+ * Club Entity
  *
  * @property int $id
  * @property string $name
- * @property string $abbreviation
  * @property string $partitive
  * @property string $determinant
- * @property \App\Model\Entity\Member[] $members
- * @property int|null $club_id
- * @property \Cake\ORM\Entity[] $view0_lineups_details
- * @property \Cake\ORM\Entity[] $view0_members
- * @property \Cake\ORM\Entity[] $view1_members_stats
+ * @property string $abbreviation
  * @property string $photo_url
  * @property array $background_url
+ *
+ * @property \App\Model\Entity\Member[] $members
  */
 class Club extends Entity
 {
@@ -37,11 +35,32 @@ class Club extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'name' => true,
+        'partitive' => true,
+        'determinant' => true,
+        'members' => false,
     ];
-    protected $_size = [600, 1280];
-    protected $_virtual = ['abbreviation', 'photo_url', 'background_url'];
+
+    /**
+     * Undocumented variable
+     *
+     * @var array
+     */
+    protected $_size = [
+        600,
+        1280
+    ];
+
+    /**
+     * Undocumented variable
+     *
+     * @var array
+     */
+    protected $_virtual = [
+        'abbreviation',
+        'photo_url',
+        'background_url'
+    ];
 
     /**
      *

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command\Traits;
@@ -9,6 +10,7 @@ use App\Model\Entity\Season;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ModelAwareTrait;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Http\Client;
@@ -16,6 +18,8 @@ use Cake\ORM\Query;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
+ * Gazzetta traits
+ * 
  * @property \App\Model\Table\SeasonsTable $Seasons
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Model\Table\RolesTable $Roles
@@ -26,6 +30,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 trait GazzettaTrait
 {
+    use ModelAwareTrait;
+
     /**
      *
      * @var \Cake\Console\ConsoleIo
@@ -70,13 +76,13 @@ trait GazzettaTrait
     {
         $year = $matchday->season->year;
         $folder = new Folder(RATINGS_CSV . $year, true);
-        $pathCsv = $folder->path . DS . "Matchday" . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
+        $pathCsv = $folder->path . DS . "Matchday" . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
         $file = new File($pathCsv);
-        $this->io->out("Search file in path " . $file->path);
+        $this->io->out("Search file in path " . $pathCsv);
         if ($file->exists() && $file->size() > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
-            $file = TMP . 'mcc' . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
+            $file = TMP . 'mcc' . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
             $this->io->verbose($file);
             if ($forceDownload || !file_exists($file)) {
                 return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta));
@@ -101,9 +107,7 @@ trait GazzettaTrait
         int $matchdayGazzetta,
         ?string $url = null
     ): ?string {
-        if (is_null($url)) {
-            $url = $this->getRatingsFile($matchdayGazzetta);
-        }
+        $url = $url ?? $this->getRatingsFile($matchdayGazzetta);
         if (!empty($url)) {
             $content = $this->decryptMXMFile($matchday, $url);
             if (!empty($content)) {
@@ -112,6 +116,7 @@ trait GazzettaTrait
                 return $path;
             }
         }
+        return null;
     }
 
     /**
@@ -144,9 +149,9 @@ trait GazzettaTrait
      */
     public function decryptMXMFile(Matchday $matchday, ?string $path = null): ?string
     {
-        $this->io->out("Starting decrypt " . $path);
         $decrypt = $matchday->season->key_gazzetta;
-        if ($path) {
+        if ($path != null) {
+            $this->io->out("Starting decrypt " . $path);
             $p_file = fopen($path, "r");
             if ($p_file) {
                 $body = "";
@@ -162,7 +167,7 @@ trait GazzettaTrait
 
                         $line = fgets($p_file, 2);
                         if ($line) {
-                            $xor2 = hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]);
+                            $xor2 = (int) (hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]));
                             $body .= chr($xor2);
                         } else {
                             $this->io->out("salto " . substr($body, -5));
@@ -175,6 +180,7 @@ trait GazzettaTrait
                 return $body;
             }
         }
+        return null;
     }
 
     /**
@@ -234,6 +240,8 @@ trait GazzettaTrait
             //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
             return $matches[0];
         }
+
+        return null;
     }
 
     /**
@@ -268,6 +276,8 @@ trait GazzettaTrait
                 $this->io->err('Response not ok');
             }
         }
+
+        return null;
     }
 
     /**
@@ -295,7 +305,7 @@ trait GazzettaTrait
                 'list',
                 [
                     'keyField' => 'code_gazzetta',
-                    'valueField' => function ($obj) {
+                    'valueField' => function (Member $obj): Member {
                         return $obj;
                     },
                     'contain' => ['Players'],
@@ -377,9 +387,7 @@ trait GazzettaTrait
             $member->active = true;
             $flag = true;
         }
-        if ($flag) {
-            return $member;
-        }
+        return $flag ? $member : null;
     }
 
     /**
@@ -393,7 +401,6 @@ trait GazzettaTrait
     {
         $esprex = "/[A-Z']*\s?[A-Z']{2,}/";
         $fullname = trim($member[2], '"');
-        $ass = null;
         preg_match($esprex, $fullname, $ass);
         $surname = ucwords(strtolower((!empty($ass) ? $ass[0] : $fullname)));
         $name = ucwords(strtolower(trim(substr($fullname, strlen($surname)))));
@@ -472,7 +479,7 @@ trait GazzettaTrait
                             'penalities_taken' => $stats[19],
                             'present' => $stats[23],
                             'regular' => $stats[24],
-                            'quotation' => (int)$stats[27],
+                            'quotation' => (int) $stats[27],
                             'member_id' => $member->id,
                             'matchday_id' => $matchday->id,
                         ]
@@ -519,7 +526,7 @@ trait GazzettaTrait
     public function returnArray(string $path, string $sep = ";", bool $header = false): array
     {
         $arrayOk = [];
-        $content = file_get_contents($path ?? "");
+        $content = file_get_contents($path);
         if ($content != false) {
             $array = explode("\n", trim($content));
             if ($header) {
@@ -528,7 +535,6 @@ trait GazzettaTrait
 
             foreach ($array as $val) {
                 $par = explode($sep, $val);
-                $array = trim($val);
                 $arrayOk[$par[0]] = $par;
             }
         }
@@ -574,8 +580,8 @@ trait GazzettaTrait
             if ($decript != false && $encript != false) {
                 $res = [];
                 for ($i = 0; $i < 28; $i++) {
-                    $xor1 = hexdec(bin2hex($decript[$i]));
-                    $xor2 = hexdec(bin2hex($encript[$i]));
+                    $xor1 = (int) hexdec(bin2hex($decript[$i]));
+                    $xor2 = (int) hexdec(bin2hex($encript[$i]));
                     $res[] = dechex($xor1 ^ $xor2);
                 }
                 $key = implode("-", $res);
@@ -589,6 +595,8 @@ trait GazzettaTrait
                 }
             }
         }
+
+        return null;
     }
 
     /**

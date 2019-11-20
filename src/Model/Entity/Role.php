@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,17 +7,15 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Role Entity.
+ * Role Entity
  *
  * @property int $id
  * @property string $singolar
  * @property string $plural
  * @property string $abbreviation
  * @property string $determinant
+ *
  * @property \App\Model\Entity\Member[] $members
- * @property \Cake\ORM\Entity[] $view0_lineups_details
- * @property \Cake\ORM\Entity[] $view0_members
- * @property \Cake\ORM\Entity[] $view1_members_stats
  */
 class Role extends Entity
 {
@@ -30,7 +29,10 @@ class Role extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'singolar' => true,
+        'plural' => true,
+        'abbreviation' => true,
+        'determinant' => true,
+        'members' => false,
     ];
 }

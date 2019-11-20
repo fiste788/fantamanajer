@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Rule;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Query;
 
 /**
  * @property \App\Model\Table\SelectionsTable $Selections
@@ -35,7 +37,7 @@ class TeamReachedMaxSelectionRule
         /** @var \App\Model\Entity\Championship $championship */
         $championship = $this->Championships->find()->innerJoinWith(
             'Teams',
-            function ($q) use ($entity) {
+            function (Query $q) use ($entity): Query {
                 return $q->where(['Teams.id' => $entity->team_id]);
             }
         )->first();

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -7,17 +8,19 @@ use Cake\I18n\Time;
 use Cake\ORM\Entity;
 
 /**
- * Matchday Entity.
+ * Matchday Entity
  *
  * @property int $id
  * @property int $number
  * @property \Cake\I18n\FrozenTime $date
  * @property int $season_id
+ *
  * @property \App\Model\Entity\Season $season
  * @property \App\Model\Entity\Article[] $articles
  * @property \App\Model\Entity\Lineup[] $lineups
  * @property \App\Model\Entity\Rating[] $ratings
  * @property \App\Model\Entity\Score[] $scores
+ * @property \App\Model\Entity\Selection[] $selections
  * @property \App\Model\Entity\Transfert[] $transferts
  */
 class Matchday extends Entity
@@ -32,8 +35,16 @@ class Matchday extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'number' => true,
+        'date' => true,
+        'season_id' => true,
+        'season' => true,
+        'articles' => false,
+        'lineups' => false,
+        'ratings' => false,
+        'scores' => false,
+        'selections' => false,
+        'transferts' => false,
     ];
 
     /**

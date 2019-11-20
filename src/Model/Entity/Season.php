@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,21 +7,18 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Season Entity.
+ * Season Entity
  *
  * @property int $id
  * @property string $name
  * @property int $year
  * @property string $key_gazzetta
  * @property bool $bonus_points
+ * @property bool $bonus_points_clean_sheet
+ *
  * @property \App\Model\Entity\Championship[] $championships
  * @property \App\Model\Entity\Matchday[] $matchdays
  * @property \App\Model\Entity\Member[] $members
- * @property \Cake\ORM\Entity[] $view0_lineups_details
- * @property \Cake\ORM\Entity[] $view0_members
- * @property \Cake\ORM\Entity[] $view1_members_stats
- * @property \Cake\ORM\Entity[] $view2_clubs_stats
- * @property bool $bonus_points_clean_sheet
  */
 class Season extends Entity
 {
@@ -34,8 +32,14 @@ class Season extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'name' => true,
+        'year' => true,
+        'key_gazzetta' => false,
+        'bonus_points' => true,
+        'bonus_points_clean_sheet' => true,
+        'championships' => false,
+        'matchdays' => false,
+        'members' => false,
     ];
 
     /**

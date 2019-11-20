@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -12,23 +14,23 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\HasMany $Matchdays
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0Members
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View1MembersStats
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View2ClubsStats
+ *
  * @method \App\Model\Entity\Season get($primaryKey, $options = [])
  * @method \App\Model\Entity\Season newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Season[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Season|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Season saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Season patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Season[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Season findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Season saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class SeasonsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -38,69 +40,55 @@ class SeasonsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany(
-            'Championships',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
-        $this->hasMany(
-            'Matchdays',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
-        $this->hasMany(
-            'Members',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
-        $this->hasMany(
-            'View0LineupsDetails',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
-        $this->hasMany(
-            'View0Members',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
-        $this->hasMany(
-            'View1MembersStats',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
-        $this->hasMany(
-            'View2ClubsStats',
-            [
-                'foreignKey' => 'season_id',
-            ]
-        );
+        $this->hasMany('Championships', [
+            'foreignKey' => 'season_id',
+        ]);
+        $this->hasMany('Matchdays', [
+            'foreignKey' => 'season_id',
+        ]);
+        $this->hasMany('Members', [
+            'foreignKey' => 'season_id',
+        ]);
     }
 
     /**
      * Default validation rules.
      *
-     * @param  \Cake\Validation\Validator $validator Validator instance.
+     * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('name')
+            ->maxLength('name', 50)
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
+            ->integer('year')
             ->requirePresence('year', 'create')
-            ->notEmpty('year');
+            ->notEmptyString('year');
+
+        $validator
+            ->scalar('key_gazzetta')
+            ->maxLength('key_gazzetta', 255)
+            ->requirePresence('key_gazzetta', 'create')
+            ->notEmptyString('key_gazzetta');
+
+        $validator
+            ->boolean('bonus_points')
+            ->requirePresence('bonus_points', 'create')
+            ->notEmptyString('bonus_points');
+
+        $validator
+            ->boolean('bonus_points_clean_sheet')
+            ->requirePresence('bonus_points_clean_sheet', 'create')
+            ->notEmptyString('bonus_points_clean_sheet');
 
         return $validator;
     }

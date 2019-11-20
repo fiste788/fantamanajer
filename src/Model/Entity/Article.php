@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,7 +7,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Article Entity.
+ * Article Entity
  *
  * @property int $id
  * @property string $title
@@ -15,8 +16,9 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created_at
  * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $team_id
- * @property \App\Model\Entity\Team $team
  * @property int $matchday_id
+ *
+ * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Matchday $matchday
  */
 class Article extends Entity
@@ -31,8 +33,15 @@ class Article extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'title' => true,
+        'subtitle' => true,
+        'body' => true,
+        'created_at' => false,
+        'modified_at' => false,
+        'team_id' => true,
+        'matchday_id' => true,
+        'team' => true,
+        'matchday' => true,
     ];
 
     /**

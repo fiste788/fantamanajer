@@ -38,7 +38,10 @@ class PublicKeyCredentialSourcesTable extends Table
     }
 
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -48,24 +51,18 @@ class PublicKeyCredentialSourcesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior(
-            'Timestamp',
-            [
-                'events' => [
-                    'Model.beforeSave' => [
-                        'created_at' => 'new',
-                    ],
+        $this->addBehavior('Timestamp',[
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
                 ],
-            ]
-        );
+            ],
+        ]);
 
-        $this->belongsTo(
-            'Users',
-            [
-                'foreignKey' => 'user_handle',
-                'joinType' => 'INNER',
-            ]
-        );
+        $this->belongsTo('Users',[
+            'foreignKey' => 'user_handle',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
@@ -83,9 +80,8 @@ class PublicKeyCredentialSourcesTable extends Table
 
         $validator
             ->scalar('public_key_credential_id')
-            ->maxLength('public_key_credential_id', 4294967295)
             ->requirePresence('public_key_credential_id', 'create')
-            ->allowEmptyString('public_key_credential_id');
+            ->notEmptyString('public_key_credential_id');
 
         $validator
             ->scalar('type')
@@ -95,33 +91,29 @@ class PublicKeyCredentialSourcesTable extends Table
 
         $validator
             ->scalar('transports')
-            ->maxLength('transports', 4294967295)
             ->requirePresence('transports', 'create')
-            ->allowEmptyString('transports');
+            ->notEmptyString('transports');
 
         $validator
             ->scalar('attestation_type')
             ->maxLength('attestation_type', 255)
             ->requirePresence('attestation_type', 'create')
-            ->allowEmptyString('attestation_type');
+            ->notEmptyString('attestation_type');
 
         $validator
             ->scalar('trust_path')
-            ->maxLength('trust_path', 4294967295)
             ->requirePresence('trust_path', 'create')
-            ->allowEmptyString('trust_path');
+            ->notEmptyString('trust_path');
 
         $validator
             ->scalar('aaguid')
-            ->maxLength('aaguid', 4294967295)
             ->requirePresence('aaguid', 'create')
-            ->allowEmptyString('aaguid');
+            ->notEmptyString('aaguid');
 
         $validator
             ->scalar('credential_public_key')
-            ->maxLength('credential_public_key', 4294967295)
             ->requirePresence('credential_public_key', 'create')
-            ->allowEmptyString('credential_public_key');
+            ->notEmptyString('credential_public_key');
 
         $validator
             ->scalar('user_handle')
@@ -132,7 +124,7 @@ class PublicKeyCredentialSourcesTable extends Table
         $validator
             ->integer('counter')
             ->requirePresence('counter', 'create')
-            ->allowEmptyString('counter');
+            ->notEmptyString('counter');
 
         $validator
             ->dateTime('created_at')
@@ -143,6 +135,11 @@ class PublicKeyCredentialSourcesTable extends Table
             ->scalar('name')
             ->maxLength('name', 255)
             ->allowEmptyString('name');
+
+        $validator
+            ->scalar('user_agent')
+            ->maxLength('user_agent', 255)
+            ->allowEmptyString('user_agent');
 
         return $validator;
     }

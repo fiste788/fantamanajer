@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use Authentication\IdentityInterface as AuthenticationIdentity;
+use Authorization\AuthorizationServiceInterface;
 use Authorization\IdentityInterface as AuthorizationIdentity;
 use Authorization\Policy\ResultInterface;
 use Cake\ORM\Entity;
@@ -14,8 +16,8 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * User Entity
  *
  * @property int $id
- * @property string|null $name
- * @property string|null $surname
+ * @property string $name
+ * @property string $surname
  * @property string $email
  * @property bool $active
  * @property bool $active_email
@@ -24,12 +26,10 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property string|null $login_key
  * @property bool $admin
  * @property string|null $uuid
- *
- * @property \App\Model\Entity\PublicKeyCredentialSource[] $public_key_credential_sources
- * @property \App\Model\Entity\Team[] $teams
+ * 
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
+ * @property \App\Model\Entity\Team[] $teams
  * @property \Authorization\AuthorizationServiceInterface $authorization
- * @property int $old_id
  */
 class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {
@@ -53,9 +53,8 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
         'login_key' => true,
         'admin' => true,
         'uuid' => true,
-        'public_key_credential_sources' => true,
-        'teams' => true,
-        'push_subscriptions' => true,
+        'push_subscriptions' => false,
+        'teams' => false,
     ];
 
     /**
@@ -109,7 +108,11 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * @inheritDoc
+     * Undocumented function
+     *
+     * @param string $action
+     * @param mixed $resource
+     * @return bool
      */
     public function can(string $action, $resource): bool
     {
@@ -117,7 +120,11 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * @inheritDoc
+     * Undocumented function
+     *
+     * @param string $action
+     * @param mixed $resource
+     * @return ResultInterface
      */
     public function canResult(string $action, $resource): ResultInterface
     {
@@ -125,7 +132,11 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * @inheritDoc
+     * Undocumented function
+     *
+     * @param string $action
+     * @param mixed $resource
+     * @return mixed
      */
     public function applyScope(string $action, $resource)
     {
@@ -133,17 +144,22 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * @inheritDoc
+     * Undocumented function
+     *
+     * @return \App\Model\Entity\User
      */
-    public function getOriginalData()
+    public function getOriginalData(): User
     {
         return $this;
     }
 
     /**
-     * @inheritDoc
+     * Undocumented function
+     *
+     * @param AuthorizationServiceInterface $service
+     * @return User
      */
-    public function setAuthorization($service)
+    public function setAuthorization(AuthorizationServiceInterface $service): User
     {
         $this->authorization = $service;
 
@@ -151,7 +167,9 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     }
 
     /**
-     * @inheritDoc
+     * Undocumented function
+     *
+     * @return int
      */
     public function getIdentifier(): int
     {

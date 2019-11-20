@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -12,22 +13,21 @@ use Cake\ORM\Entity;
  * @property string $module
  * @property bool|null $jolly
  * @property bool|null $cloned
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $modified_at
  * @property int|null $captain_id
  * @property int|null $vcaptain_id
  * @property int|null $vvcaptain_id
  * @property int $matchday_id
  * @property int $team_id
  *
+ * @property \App\Model\Entity\Member|null $captain
+ * @property \App\Model\Entity\Member|null $vcaptain
+ * @property \App\Model\Entity\Member|null $vvcaptain
  * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Disposition[] $dispositions
- * @property \Cake\ORM\Entity[] $view0_lineups_details
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
- * @property \App\Model\Entity\Member|null $captain
- * @property \App\Model\Entity\Score|null $score
- * @property \App\Model\Entity\Member|null $v_captain
- * @property \App\Model\Entity\Member|null $v_v_captain
+ * @property \App\Model\Entity\Score $score
  */
 class Lineup extends Entity
 {
@@ -41,14 +41,29 @@ class Lineup extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'module' => true,
+        'jolly' => true,
+        'cloned' => true,
+        'created_at' => false,
+        'modified_at' => false,
+        'captain_id' => true,
+        'vcaptain_id' => true,
+        'vvcaptain_id' => true,
+        'matchday_id' => true,
+        'team_id' => true,
+        'captain' => true,
+        'vcaptain' => true,
+        'vvcaptain' => true,
+        'matchday' => true,
+        'team' => true,
+        'dispositions' => true,
+        'score' => false,
     ];
 
     /**
      * Fields with the possible modules of a lineup
      *
-     * @var array
+     * @var string[]
      */
     public static $modules = [
         '1-4-4-2',

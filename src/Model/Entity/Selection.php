@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,15 +7,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Selection Entity.
+ * Selection Entity
  *
  * @property int $id
- * @property bool $active
- * @property bool $processed
  * @property int $team_id
  * @property int $matchday_id
  * @property int $old_member_id
  * @property int $new_member_id
+ * @property bool $active
+ * @property bool $processed
+ *
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Member $old_member
@@ -32,7 +34,15 @@ class Selection extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'team_id' => true,
+        'matchday_id' => true,
+        'old_member_id' => true,
+        'new_member_id' => true,
+        'active' => true,
+        'processed' => true,
+        'team' => true,
+        'matchday' => false,
+        'old_member' => true,
+        'new_member' => true,
     ];
 }

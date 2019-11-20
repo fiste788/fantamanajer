@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -16,26 +17,30 @@ use Cake\Validation\Validator;
 /**
  * Transferts Model
  *
- * @property \App\Service\TransfertService $Transfert
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \App\Service\TransfertService $Transfert
+ *
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
  * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class TransfertsTable extends Table
 {
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -45,36 +50,24 @@ class TransfertsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo(
-            'NewMembers',
-            [
-                'className' => 'Members',
-                'foreignKey' => 'old_member_id',
-                'propertyName' => 'old_member',
-            ]
-        );
-        $this->belongsTo(
-            'OldMembers',
-            [
-                'className' => 'Members',
-                'foreignKey' => 'new_member_id',
-                'propertyName' => 'new_member',
-            ]
-        );
-        $this->belongsTo(
-            'Teams',
-            [
-                'foreignKey' => 'team_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Matchdays',
-            [
-                'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER',
-            ]
-        );
+        $this->belongsTo('NewMembers', [
+            'className' => 'Members',
+            'foreignKey' => 'new_member_id',
+            'propertyName' => 'new_member',
+        ]);
+        $this->belongsTo('OldMembers', [
+            'className' => 'Members',
+            'foreignKey' => 'old_member_id',
+            'propertyName' => 'old_member',
+        ]);
+        $this->belongsTo('Teams', [
+            'foreignKey' => 'team_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Matchdays', [
+            'foreignKey' => 'matchday_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
@@ -87,11 +80,12 @@ class TransfertsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->boolean('constrained')
-            ->allowEmpty('constrained', 'create');
+            ->requirePresence('constrained', 'create')
+            ->notEmptyString('constrained');
 
         return $validator;
     }
@@ -105,8 +99,8 @@ class TransfertsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
+        $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
 

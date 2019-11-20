@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -37,7 +38,7 @@ class MembersController extends AppController
     {
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
 
-        /** @var \App\Model\Entity\Matchday $matchday */
+        /** @var \App\Model\Entity\Matchday|null $matchday */
         $matchday = $this->Matchdays->findWithRatings($this->currentSeason)->first();
         if ($matchday != null) {
             foreach ($roles as $key => $role) {

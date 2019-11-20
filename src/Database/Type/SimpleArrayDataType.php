@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
@@ -62,19 +63,18 @@ class SimpleArrayDataType implements TypeInterface
      */
     public function getBaseType(): ?string
     {
+        return "string";
     }
 
     /**
      * @inheritDoc
      */
     public function getName(): ?string
-    {
-    }
+    { }
 
     /**
      * @inheritDoc
      */
     public function newId()
-    {
-    }
+    { }
 }

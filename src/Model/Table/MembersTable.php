@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Member;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -23,22 +25,24 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
  * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsToMany $Teams
+ * @property \App\Model\Table\VwMembersStatsTable&\Cake\ORM\Association\HasOne $VwMembersStats
  *
  * @method \App\Model\Entity\Member get($primaryKey, $options = [])
  * @method \App\Model\Entity\Member newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Member|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Member saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Member[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\VwMembersStatsTable&\Cake\ORM\Association\HasOne $VwMembersStats
- * @method \App\Model\Entity\Member saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @property \App\Model\Table\MembersTeamsTable&\Cake\ORM\Association\HasMany $MembersTeams
  */
 class MembersTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -48,62 +52,38 @@ class MembersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo(
-            'Players',
-            [
-                'foreignKey' => 'player_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Roles',
-            [
-                'foreignKey' => 'role_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Clubs',
-            [
-                'foreignKey' => 'club_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Seasons',
-            [
-                'foreignKey' => 'season_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->hasMany(
-            'Dispositions',
-            [
-                'foreignKey' => 'member_id',
-            ]
-        );
-        $this->hasMany(
-            'Ratings',
-            [
-                'foreignKey' => 'member_id',
-                'strategy' => 'select',
-            ]
-        );
-        $this->belongsToMany(
-            'Teams',
-            [
-                'foreignKey' => 'member_id',
-                'targetForeignKey' => 'team_id',
-                'joinTable' => 'members_teams',
-            ]
-        );
-        $this->hasOne(
-            'VwMembersStats',
-            [
-                'foreignKey' => 'member_id',
-                'propertyName' => 'stats',
-            ]
-        );
+        $this->belongsTo('Players', [
+            'foreignKey' => 'player_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Roles', [
+            'foreignKey' => 'role_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Clubs', [
+            'foreignKey' => 'club_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Seasons', [
+            'foreignKey' => 'season_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Dispositions', [
+            'foreignKey' => 'member_id',
+        ]);
+        $this->hasMany('Ratings', [
+            'foreignKey' => 'member_id',
+            'strategy' => 'select',
+        ]);
+        $this->hasOne('VwMembersStats', [
+            'foreignKey' => 'member_id',
+            'propertyName' => 'stats',
+        ]);
+        $this->belongsToMany('Teams', [
+            'foreignKey' => 'member_id',
+            'targetForeignKey' => 'team_id',
+            'joinTable' => 'members_teams',
+        ]);
     }
 
     /**
@@ -116,18 +96,29 @@ class MembersTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->integer('code_gazzetta')
             ->requirePresence('code_gazzetta', 'create')
-            ->notEmpty('code_gazzetta');
+            ->notEmptyString('code_gazzetta');
 
         $validator
-            ->boolean('playmaker');
+            ->boolean('active')
+            ->requirePresence('active', 'create')
+            ->notEmptyString('active');
 
         $validator
-            ->boolean('active');
+            ->boolean('playmaker')
+            ->notEmptyString('playmaker');
+
+        $validator
+            ->dateTime('created_at')
+            ->notEmptyDateTime('created_at');
+
+        $validator
+            ->dateTime('modified_at')
+            ->allowEmptyDateTime('modified_at');
 
         return $validator;
     }
@@ -159,7 +150,7 @@ class MembersTable extends Table
     {
         return $this->find('list', [
             'keyField' => 'code_gazzetta',
-            'valueField' => function ($obj) {
+            'valueField' => function (Member $obj): Member {
                 return $obj;
             },
         ])->where(['season_id' => $season_id]);
@@ -189,7 +180,7 @@ class MembersTable extends Table
     public function findWithDetails(Query $query, array $options): Query
     {
         $query->contain(
-            ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q) {
+            ['Roles', 'Clubs', 'Seasons', 'Ratings' => function (Query $q): Query {
                 return $q->contain(['Matchdays'])
                     ->order(['Matchdays.number' => 'ASC']);
             }]
@@ -198,7 +189,7 @@ class MembersTable extends Table
             $query->select(['player_id', 'free' => $query->newExpr()->isNull('Teams.id')])
                 ->setDefaultTypes(['free' => 'boolean'])
                 ->enableAutoFields(true)
-                ->leftJoinWith('Teams', function (Query $q) use ($options) {
+                ->leftJoinWith('Teams', function (Query $q) use ($options): Query {
                     return $q->where(['championship_id' => $options['championship_id']]);
                 });
         }
@@ -216,12 +207,12 @@ class MembersTable extends Table
     public function findFree(Query $q, array $options): Query
     {
         $championshipId = $options['championship_id'];
-        $membersTeams = TableRegistry::get('MembersTeams');
+        $membersTeams = TableRegistry::getTableLocator()->get('MembersTeams');
         $ids = $membersTeams->find()
             ->select(['member_id'])
             ->innerJoinWith(
                 'Teams',
-                function ($q) use ($championshipId) {
+                function (Query $q) use ($championshipId): Query {
                     return $q->where(['Teams.championship_id' => $championshipId]);
                 }
             );
@@ -257,7 +248,7 @@ class MembersTable extends Table
     public function findByClubId(Query $q, array $options): Query
     {
         return $q->contain(['Roles', 'Players', 'VwMembersStats'])
-            ->innerJoinWith('Clubs', function (Query $q) use ($options) {
+            ->innerJoinWith('Clubs', function (Query $q) use ($options): Query {
                 return $q->where(['Clubs.id' => $options['club_id']]);
             })->order(['role_id', 'Players.name'])
             ->where([
@@ -276,7 +267,7 @@ class MembersTable extends Table
     public function findByTeamId(Query $q, array $options): Query
     {
         $q->contain(['Clubs', 'Players'])
-            ->innerJoinWith('Teams', function (Query $q) use ($options) {
+            ->innerJoinWith('Teams', function (Query $q) use ($options): Query {
                 return $q->where(['Teams.id' => $options['team_id']]);
             })->order(['role_id', 'Players.name']);
         if ($options['stats']) {
@@ -318,10 +309,10 @@ class MembersTable extends Table
     public function findBestByMatchdayIdAndRole(Query $q, array $options): Query
     {
         return $q->contain([
-            'Players', 'Ratings' => function (Query $q) use ($options) {
+            'Players', 'Ratings' => function (Query $q) use ($options): Query {
                 return $q->where(['matchday_id' => $options['matchday_id']]);
             },
-        ])->innerJoinWith('Ratings', function (Query $q) use ($options) {
+        ])->innerJoinWith('Ratings', function (Query $q) use ($options): Query {
             return $q->where(['matchday_id' => $options['matchday_id']]);
         })->innerJoinWith('Roles')
             ->where(['Roles.id' => $options['role']->id])

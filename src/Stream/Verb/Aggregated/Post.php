@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Stream\Verb\Aggregated;
@@ -28,10 +29,10 @@ class Post extends StreamAggregatedActivity implements StreamActivityInterface
         return __n(
             '{0} posted a conference',
             '{0} posted {1} conferences',
-            $this->activity->offsetGet('activity_count'),
+            $this->activity->offsetGet('activity_count') ?? 0,
             [
                 $this->activity->offsetGet('activities')[0]->offsetGet('actor')->name,
-                $this->activity->offsetGet('activity_count'),
+                $this->activity->offsetGet('activity_count') ?? 0,
             ]
         );
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Mailer;
@@ -29,11 +30,11 @@ class WeeklyScriptMailer extends Mailer
      * @param \App\Model\Entity\Team $team Team
      * @param \App\Model\Entity\Matchday $matchday MAtchay
      * @param array $ranking Ranking
-     * @param \App\Model\Entity\Lineup $details Details
+     * @param \App\Model\Entity\Lineup|null $details Details
      * @param \App\Model\Entity\Score $score Score
      * @return void
      */
-    public function score(Team $team, Matchday $matchday, array $ranking, Lineup $details, Score $score)
+    public function score(Team $team, Matchday $matchday, array $ranking, ?Lineup $details, Score $score)
     {
         $dispositions = null;
         $regulars = null;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,7 +7,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Rating Entity.
+ * Rating Entity
  *
  * @property int $id
  * @property bool $valued
@@ -26,8 +27,9 @@ use Cake\ORM\Entity;
  * @property bool $regular
  * @property int $quotation
  * @property int $member_id
- * @property \App\Model\Entity\Member $member
  * @property int $matchday_id
+ *
+ * @property \App\Model\Entity\Member $member
  * @property \App\Model\Entity\Matchday $matchday
  */
 class Rating extends Entity
@@ -42,8 +44,26 @@ class Rating extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'valued' => true,
+        'points' => true,
+        'points_no_bonus' => true,
+        'rating' => true,
+        'goals' => true,
+        'goals_against' => true,
+        'goals_victory' => true,
+        'goals_tie' => true,
+        'assist' => true,
+        'yellow_card' => true,
+        'red_card' => true,
+        'penalities_scored' => true,
+        'penalities_taken' => true,
+        'present' => true,
+        'regular' => true,
+        'quotation' => true,
+        'member_id' => true,
+        'matchday_id' => true,
+        'member' => true,
+        'matchday' => true,
     ];
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -15,15 +16,19 @@ use Cake\Validation\Validator;
 use Spatie\Image\Image;
 
 /**
+ * Teams Model
+ *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\BelongsTo $Championships
  * @property \App\Model\Table\ArticlesTable&\Cake\ORM\Association\HasMany $Articles
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $Events
  * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\HasMany $Lineups
+ * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
+ * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
- * @property \App\Model\Table\MembersTeamsTable&\Cake\ORM\Association\HasMany $MembersTeams
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsToMany $Members
+ * @property \App\Service\TeamService $Team
  *
  * @method \App\Model\Entity\Team get($primaryKey, $options = [])
  * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
@@ -33,18 +38,18 @@ use Spatie\Image\Image;
  * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
- * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
+ * 
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
- * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
- * @property \App\Service\TeamService $Team
  */
 class TeamsTable extends Table
 {
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -54,6 +59,50 @@ class TeamsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Championships', [
+            'foreignKey' => 'championship_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Articles', [
+            'foreignKey' => 'team_id',
+        ]);
+        $this->hasMany('Events', [
+            'foreignKey' => 'team_id',
+        ]);
+        $this->hasMany('Lineups', [
+            'foreignKey' => 'team_id',
+        ]);
+        $this->hasMany('EmailNotificationSubscriptions', [
+            'className' => 'NotificationSubscriptions',
+            'foreignKey' => 'team_id',
+            'conditions' => ['type' => 'email'],
+            'saveStrategy' => 'replace',
+        ]);
+        $this->hasMany('PushNotificationSubscriptions', [
+            'className' => 'NotificationSubscriptions',
+            'foreignKey' => 'team_id',
+            'conditions' => ['type' => 'push'],
+            'saveStrategy' => 'replace',
+        ]);
+        $this->hasMany('Scores', [
+            'foreignKey' => 'team_id',
+        ]);
+        $this->hasMany('Selections', [
+            'foreignKey' => 'team_id',
+        ]);
+        $this->hasMany('Transferts', [
+            'foreignKey' => 'team_id',
+        ]);
+        $this->belongsToMany('Members', [
+            'foreignKey' => 'team_id',
+            'targetForeignKey' => 'member_id',
+            'joinTable' => 'members_teams',
+            'sort' => ['role_id'],
+        ]);
         $this->addBehavior(
             'Josegonzalez/Upload.Upload',
             [
@@ -64,22 +113,22 @@ class TeamsTable extends Table
                         'size' => 'photo_size', // defaults to `size`
                         'type' => 'photo_type', // defaults to `type`
                     ],
-                    'nameCallback' => function ($data, $settings) {
+                    'nameCallback' => function (array $data, array $settings) {
                         return strtolower($data['name']);
                     },
                     'transformer' => function (
                         RepositoryInterface $table,
                         EntityInterface $entity,
-                        $data,
-                        $field,
-                        $settings
+                        array $data,
+                        string $field,
+                        array $settings
                     ) {
                         $tmpFile = new File($data['name']);
                         $image = Image::load($data['tmp_name']);
                         $array = [$data['tmp_name'] => $data['name']];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, $value) . '.' . $tmpFile->ext();
+                                $tmp = tempnam(TMP, $value) . '.' . ($tmpFile->ext() ?: '');
                                 $image->width($value)->save($tmp);
                                 $array[$tmp] = $value . 'w' . DS . $data['name'];
                             }
@@ -87,7 +136,7 @@ class TeamsTable extends Table
 
                         return $array;
                     },
-                    'deleteCallback' => function ($path, $entity, $field, $settings) {
+                    'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $settings) {
                         // When deleting the entity, both the original and the thumbnail will be removed
                         // when keepFilesOnDelete is set to false
                         $array = [$path . $entity->{$field}];
@@ -99,84 +148,6 @@ class TeamsTable extends Table
                     },
                     'keepFilesOnDelete' => false,
                 ],
-            ]
-        );
-
-        $this->belongsTo(
-            'Users',
-            [
-                'foreignKey' => 'user_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Championships',
-            [
-                'foreignKey' => 'championship_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->hasMany(
-            'Articles',
-            [
-                'foreignKey' => 'team_id',
-            ]
-        );
-        $this->hasMany(
-            'PushNotificationSubscriptions',
-            [
-                'className' => 'NotificationSubscriptions',
-                'foreignKey' => 'team_id',
-                'conditions' => ['type' => 'push'],
-                'saveStrategy' => 'replace',
-            ]
-        );
-        $this->hasMany(
-            'EmailNotificationSubscriptions',
-            [
-                'className' => 'NotificationSubscriptions',
-                'foreignKey' => 'team_id',
-                'conditions' => ['type' => 'email'],
-                'saveStrategy' => 'replace',
-            ]
-        );
-        $this->hasMany(
-            'Events',
-            [
-                'foreignKey' => 'team_id',
-            ]
-        );
-        $this->hasMany(
-            'Lineups',
-            [
-                'foreignKey' => 'team_id',
-            ]
-        );
-        $this->hasMany(
-            'Scores',
-            [
-                'foreignKey' => 'team_id',
-            ]
-        );
-        $this->hasMany(
-            'Selections',
-            [
-                'foreignKey' => 'team_id',
-            ]
-        );
-        $this->hasMany(
-            'Transferts',
-            [
-                'foreignKey' => 'team_id',
-            ]
-        );
-        $this->belongsToMany(
-            'Members',
-            [
-                'foreignKey' => 'team_id',
-                'targetForeignKey' => 'member_id',
-                'joinTable' => 'members_teams',
-                'sort' => ['role_id'],
             ]
         );
     }
@@ -191,15 +162,37 @@ class TeamsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('name')
+            ->maxLength('name', 255)
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
             ->boolean('admin')
-            ->allowEmpty('admin');
+            ->requirePresence('admin', 'create')
+            ->notEmptyString('admin');
+
+        $validator
+            ->scalar('photo')
+            ->maxLength('photo', 255)
+            ->allowEmptyString('photo');
+
+        $validator
+            ->scalar('photo_dir')
+            ->maxLength('photo_dir', 255)
+            ->allowEmptyString('photo_dir');
+
+        $validator
+            ->integer('photo_size')
+            ->allowEmptyString('photo_size');
+
+        $validator
+            ->scalar('photo_type')
+            ->maxLength('photo_type', 255)
+            ->allowEmptyString('photo_type');
 
         return $validator;
     }

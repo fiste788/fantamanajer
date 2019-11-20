@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -22,16 +23,20 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Article patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Article[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Article findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * 
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -41,32 +46,23 @@ class ArticlesTable extends Table
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior(
-            'Timestamp',
-            [
-                'events' => [
-                    'Model.beforeSave' => [
-                        'created_at' => 'new',
-                        'modified_at' => 'always',
-                    ],
+        $this->belongsTo('Teams', [
+            'foreignKey' => 'team_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Matchdays', [
+            'foreignKey' => 'matchday_id',
+            'joinType' => 'INNER',
+        ]);
+
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always',
                 ],
             ]
-        );
-
-        $this->belongsTo(
-            'Teams',
-            [
-                'foreignKey' => 'team_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Matchdays',
-            [
-                'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER',
-            ]
-        );
+        ]);
     }
 
     /**
@@ -79,23 +75,32 @@ class ArticlesTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('title')
+            ->maxLength('title', 256)
             ->requirePresence('title', 'create')
-            ->notEmpty('title');
+            ->notEmptyString('title');
 
         $validator
-            ->allowEmpty('subtitle');
+            ->scalar('subtitle')
+            ->maxLength('subtitle', 256)
+            ->allowEmptyString('subtitle');
 
         $validator
+            ->scalar('body')
+            ->maxLength('body', 16777215)
             ->requirePresence('body', 'create')
-            ->notEmpty('body');
+            ->notEmptyString('body');
 
-        /* $validator
-          ->dateTime('created_at')
-          ->requirePresence('created_at', 'create')
-          ->notEmpty('created_at'); */
+        $validator
+            ->dateTime('created_at')
+            ->notEmptyDateTime('created_at');
+
+        $validator
+            ->dateTime('modified_at')
+            ->notEmptyDateTime('modified_at');
 
         return $validator;
     }
@@ -149,7 +154,7 @@ class ArticlesTable extends Table
      * @param array $options Options
      * @return \Cake\ORM\Query
      */
-    public function findByTeamId(Query $q, array $options)
+    public function findByTeamId(Query $q, array $options): Query
     {
         return $q->orderDesc('created_at')
             ->where(['team_id' => $options['team_id']]);
@@ -158,7 +163,7 @@ class ArticlesTable extends Table
     /**
      * @inheritDoc
      */
-    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
             $event = new Event('Fantamanajer.newArticle', $this, [

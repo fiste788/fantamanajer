@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -51,44 +52,44 @@ class VwMembersStatsTable extends Table
     {
         $validator
             ->integer('sum_present')
-            ->allowEmpty('sum_present');
+            ->allowEmptyString('sum_present');
 
         $validator
             ->integer('sum_valued')
-            ->allowEmpty('sum_valued');
+            ->allowEmptyString('sum_valued');
 
         $validator
             ->numeric('avg_points')
-            ->allowEmpty('avg_points');
+            ->allowEmptyString('avg_points');
 
         $validator
             ->numeric('avg_rating')
-            ->allowEmpty('avg_rating');
+            ->allowEmptyString('avg_rating');
 
         $validator
             ->integer('sum_goals')
-            ->allowEmpty('sum_goals');
+            ->allowEmptyString('sum_goals');
 
         $validator
             ->integer('sum_goals_against')
-            ->allowEmpty('sum_goals_against');
+            ->allowEmptyString('sum_goals_against');
 
         $validator
             ->integer('sum_assist')
-            ->allowEmpty('sum_assist');
+            ->allowEmptyString('sum_assist');
 
         $validator
             ->integer('sum_yellow_card')
-            ->allowEmpty('sum_yellow_card');
+            ->allowEmptyString('sum_yellow_card');
 
         $validator
             ->integer('sum_red_card')
-            ->allowEmpty('sum_red_card');
+            ->allowEmptyString('sum_red_card');
 
         $validator
             ->integer('quotation')
             ->requirePresence('quotation', 'create')
-            ->notEmpty('quotation');
+            ->allowEmptyString('quotation');
 
         return $validator;
     }

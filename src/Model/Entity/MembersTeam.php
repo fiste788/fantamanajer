@@ -6,12 +6,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * MembersTeam Entity.
+ * MembersTeam Entity
  *
  * @property int $id
  * @property int $team_id
- * @property \App\Model\Entity\Team $team
  * @property int $member_id
+ *
+ * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Member $member
  */
 class MembersTeam extends Entity
@@ -26,7 +27,9 @@ class MembersTeam extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'team_id' => true,
+        'member_id' => true,
+        'team' => true,
+        'member' => true,
     ];
 }

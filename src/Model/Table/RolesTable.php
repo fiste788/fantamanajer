@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -10,22 +12,23 @@ use Cake\Validation\Validator;
  * Roles Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0Members
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View1MembersStats
+ *
  * @method \App\Model\Entity\Role get($primaryKey, $options = [])
  * @method \App\Model\Entity\Role newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Role[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Role|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Role saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Role patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Role[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Role findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Role saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class RolesTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -35,59 +38,45 @@ class RolesTable extends Table
         $this->setDisplayField('singolar');
         $this->setPrimaryKey('id');
 
-        $this->hasMany(
-            'Members',
-            [
-                'foreignKey' => 'role_id',
-            ]
-        );
-        $this->hasMany(
-            'View0LineupsDetails',
-            [
-                'foreignKey' => 'role_id',
-            ]
-        );
-        $this->hasMany(
-            'View0Members',
-            [
-                'foreignKey' => 'role_id',
-            ]
-        );
-        $this->hasMany(
-            'View1MembersStats',
-            [
-                'foreignKey' => 'role_id',
-            ]
-        );
+        $this->hasMany('Members', [
+            'foreignKey' => 'role_id',
+        ]);
     }
 
     /**
      * Default validation rules.
      *
-     * @param  \Cake\Validation\Validator $validator Validator instance.
+     * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('singolar')
+            ->maxLength('singolar', 32)
             ->requirePresence('singolar', 'create')
-            ->notEmpty('singolar');
+            ->notEmptyString('singolar');
 
         $validator
+            ->scalar('plural')
+            ->maxLength('plural', 32)
             ->requirePresence('plural', 'create')
-            ->notEmpty('plural');
+            ->notEmptyString('plural');
 
         $validator
+            ->scalar('abbreviation')
+            ->maxLength('abbreviation', 32)
             ->requirePresence('abbreviation', 'create')
-            ->notEmpty('abbreviation');
+            ->notEmptyString('abbreviation');
 
         $validator
-            ->requirePresence('determinant', 'create')
-            ->notEmpty('determinant');
+            ->scalar('determinant')
+            ->maxLength('determinant', 5)
+            ->notEmptyString('determinant');
 
         return $validator;
     }

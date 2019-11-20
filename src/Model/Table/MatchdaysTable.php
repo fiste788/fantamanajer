@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -18,21 +19,25 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\HasMany $Lineups
  * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
+ * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
  *
  * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
  * @method \App\Model\Entity\Matchday newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class MatchdaysTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -42,43 +47,28 @@ class MatchdaysTable extends Table
         $this->setDisplayField('number');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo(
-            'Seasons',
-            [
-                'foreignKey' => 'season_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->hasMany(
-            'Articles',
-            [
-                'foreignKey' => 'matchday_id',
-            ]
-        );
-        $this->hasMany(
-            'Lineups',
-            [
-                'foreignKey' => 'matchday_id',
-            ]
-        );
-        $this->hasMany(
-            'Ratings',
-            [
-                'foreignKey' => 'matchday_id',
-            ]
-        );
-        $this->hasMany(
-            'Scores',
-            [
-                'foreignKey' => 'matchday_id',
-            ]
-        );
-        $this->hasMany(
-            'Transferts',
-            [
-                'foreignKey' => 'matchday_id',
-            ]
-        );
+        $this->belongsTo('Seasons', [
+            'foreignKey' => 'season_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Articles', [
+            'foreignKey' => 'matchday_id',
+        ]);
+        $this->hasMany('Lineups', [
+            'foreignKey' => 'matchday_id',
+        ]);
+        $this->hasMany('Ratings', [
+            'foreignKey' => 'matchday_id',
+        ]);
+        $this->hasMany('Scores', [
+            'foreignKey' => 'matchday_id',
+        ]);
+        $this->hasMany('Selections', [
+            'foreignKey' => 'matchday_id',
+        ]);
+        $this->hasMany('Transferts', [
+            'foreignKey' => 'matchday_id',
+        ]);
     }
 
     /**
@@ -91,17 +81,17 @@ class MatchdaysTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->integer('number')
             ->requirePresence('number', 'create')
-            ->notEmpty('number');
+            ->notEmptyString('number');
 
         $validator
             ->dateTime('date')
             ->requirePresence('date', 'create')
-            ->notEmpty('date');
+            ->notEmptyDateTime('date');
 
         return $validator;
     }

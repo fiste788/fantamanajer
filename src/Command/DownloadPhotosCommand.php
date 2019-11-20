@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -64,8 +65,8 @@ class DownloadPhotosCommand extends Command
                 if ($trs->count() >= 1) {
                     $tr = $trs->first();
                     $href = $trs->attr("href");
-                    $io->out("Found " . $href);
-                    if ($href != "") {
+                    if ($href != null && $href != "") {
+                        $io->out("Found " . $href);
                         $href = "http://" . $baseUrl . '/' . $href;
                         $io->out("Url " . $href);
                         $client = new Client();

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -16,6 +17,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Model\Table\SeasonsTable $Seasons
  */
 class GetMatchdayScheduleCommand extends Command
 {
@@ -28,6 +30,7 @@ class GetMatchdayScheduleCommand extends Command
     {
         parent::initialize();
         $this->loadModel('Matchdays');
+        $this->loadModel('Seasons');
         $this->getCurrentMatchday();
     }
 
@@ -48,17 +51,19 @@ class GetMatchdayScheduleCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $season = $args->getArgument('season') ?? $this->currentSeason;
+        $season = $args->getArgument('season') ?
+            $this->Seasons->get($args->getArgument('season')) : $this->currentSeason;
         if (!$args->hasArgument('matchday')) {
             $matchday = $this->currentMatchday;
         } else {
+            /** @var \App\Model\Entity\Matchday|null $matchday */
             $matchday = $this->Matchdays->find()->where([
                 'number' => $args->getArgument('matchday'),
                 'season_id' => $season->id,
             ])->first();
         }
 
-        return $this->exec($season, $matchday, $io) ? 1 : 0;
+        return $matchday && $this->exec($season, $matchday, $io) ? 1 : 0;
     }
 
     /**
@@ -71,7 +76,7 @@ class GetMatchdayScheduleCommand extends Command
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io): ?\Cake\Chronos\ChronosInterface
     {
-        $year = ((string)$season->year) . "-" . substr((string)($season->year + 1), 2, 2);
+        $year = ((string) $season->year) . "-" . substr((string) ($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);
         $client = new Client(
@@ -113,9 +118,11 @@ class GetMatchdayScheduleCommand extends Command
                 $this->abort();
             }
         } else {
-            $io->error((string)$response->getStatusCode(), 1);
+            $io->error((string) $response->getStatusCode(), 1);
             $io->error("Cannot connect to " . $url);
             $this->abort();
         }
+
+        return null;
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -18,17 +19,18 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Championship newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Championship[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Championship|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Championship[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Championship findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0MaxPoints
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View2TeamsStats
  */
 class ChampionshipsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -38,38 +40,17 @@ class ChampionshipsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo(
-            'Leagues',
-            [
-                'foreignKey' => 'league_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Seasons',
-            [
-                'foreignKey' => 'season_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->hasMany(
-            'Teams',
-            [
-                'foreignKey' => 'championship_id',
-            ]
-        );
-        $this->hasMany(
-            'View0MaxPoints',
-            [
-                'foreignKey' => 'championship_id',
-            ]
-        );
-        $this->hasMany(
-            'View2TeamsStats',
-            [
-                'foreignKey' => 'championship_id',
-            ]
-        );
+        $this->belongsTo('Leagues', [
+            'foreignKey' => 'league_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Seasons', [
+            'foreignKey' => 'season_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('Teams', [
+            'foreignKey' => 'championship_id',
+        ]);
     }
 
     /**
@@ -82,51 +63,35 @@ class ChampionshipsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->boolean('captain')
-            ->requirePresence('captain', 'create')
-            ->notEmpty('captain');
+            ->notEmptyString('captain');
 
         $validator
-            ->integer('number_transferts')
-            ->requirePresence('number_transferts', 'create')
-            ->notEmpty('number_transferts')
-            ->greaterThanOrEqual('number_transferts', 0);
+            ->notEmptyString('number_transferts');
 
         $validator
-            ->integer('number_selections')
-            ->requirePresence('number_selections', 'create')
-            ->notEmpty('number_selections')
-            ->nonNegativeInteger('number_selections');
+            ->notEmptyString('number_selections');
 
         $validator
-            ->integer('minute_lineup')
-            ->requirePresence('minute_lineup', 'create')
-            ->notEmpty('minute_lineup')
-            ->nonNegativeInteger('number_selections')
-            ->lessThanOrEqual('number_selections', 24 * 60);
+            ->notEmptyString('minute_lineup');
 
         $validator
-            ->integer('points_missed_lineup')
-            ->requirePresence('points_missed_lineup', 'create')
-            ->notEmpty('points_missed_lineup')
-            ->nonNegativeInteger('points_missed_lineup')
-            ->lessThanOrEqual('points_missed_lineup', 100);
+            ->notEmptyString('points_missed_lineup');
 
         $validator
             ->boolean('captain_missed_lineup')
-            ->requirePresence('captain_missed_lineup', 'create')
-            ->notEmpty('captain_missed_lineup');
-
-        $validator
-            ->boolean('jolly')
-            ->allowEmpty('jolly');
+            ->notEmptyString('captain_missed_lineup');
 
         $validator
             ->boolean('started')
-            ->allowEmpty('started');
+            ->notEmptyString('started');
+
+        $validator
+            ->boolean('jolly')
+            ->allowEmptyString('jolly');
 
         return $validator;
     }

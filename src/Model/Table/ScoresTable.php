@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -14,22 +15,26 @@ use Cake\Validation\Validator;
 /**
  * Scores Model
  *
+ * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
+ *
  * @method \App\Model\Entity\Score get($primaryKey, $options = [])
  * @method \App\Model\Entity\Score newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Score[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Score findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class ScoresTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -39,26 +44,17 @@ class ScoresTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo(
-            'Lineups',
-            [
-                'foreignKey' => 'lineup_id',
-            ]
-        );
-        $this->belongsTo(
-            'Teams',
-            [
-                'foreignKey' => 'team_id',
-                'joinType' => 'RIGHT',
-            ]
-        );
-        $this->belongsTo(
-            'Matchdays',
-            [
-                'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER',
-            ]
-        );
+        $this->belongsTo('Lineups', [
+            'foreignKey' => 'lineup_id',
+        ]);
+        $this->belongsTo('Teams', [
+            'foreignKey' => 'team_id',
+            'joinType' => 'RIGHT',
+        ]);
+        $this->belongsTo('Matchdays', [
+            'foreignKey' => 'matchday_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
@@ -71,24 +67,24 @@ class ScoresTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->numeric('points')
-            ->requirePresence('points', 'create')
-            ->notEmpty('points');
+            ->notEmptyString('points');
 
         $validator
             ->numeric('real_points')
-            ->requirePresence('real_points', 'create')
-            ->notEmpty('real_points');
+            ->notEmptyString('real_points');
 
         $validator
             ->numeric('penality_points')
-            ->allowEmpty('penality_points');
+            ->notEmptyString('penality_points');
 
         $validator
-            ->allowEmpty('penality');
+            ->scalar('penality')
+            ->maxLength('penality', 255)
+            ->allowEmptyString('penality');
 
         return $validator;
     }
@@ -102,9 +98,9 @@ class ScoresTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['lineup_id'], 'Lineups'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
-        $rules->add($rules->existsIn(['lineup_id'], 'Lineups'));
 
         return $rules;
     }
@@ -112,9 +108,9 @@ class ScoresTable extends Table
     /**
      *
      * @param \App\Model\Entity\Season $season Season
-     * @return int
+     * @return int|null
      */
-    public function findMaxMatchday(Season $season): int
+    public function findMaxMatchday(Season $season): ?int
     {
         $query = $this->find();
         $res = $query->disableHydration()
@@ -130,7 +126,7 @@ class ScoresTable extends Table
             ->where(['m.season_id' => $season->id])
             ->first();
 
-        return $res['matchday_id'];
+        return ($res && $res['matchday_id']) ? $res['matchday_id'] : null;
     }
 
     /**
@@ -147,10 +143,10 @@ class ScoresTable extends Table
         return $q->select(['id', 'points', 'team_id'])
             ->contain([
                 'Matchdays' => ['fields' => ['number']],
-            ])->innerJoinWith('Teams', function ($q) use ($championshipId) {
+            ])->innerJoinWith('Teams', function (Query $q) use ($championshipId): Query {
                 return $q->where(['Teams.championship_id' => $championshipId]);
-            })->formatResults(function (CollectionInterface $results) {
-                return $results->combine('matchday.number', function ($entity) {
+            })->formatResults(function (CollectionInterface $results): CollectionInterface {
+                return $results->combine('matchday.number', function (Score $entity): Score {
                     unset($entity->matchday);
 
                     return $entity;
@@ -196,13 +192,13 @@ class ScoresTable extends Table
             ->orderDesc($sum);
 
         if (array_key_exists('scores', $options) && $options['scores']) {
-            $q->formatResults(function (CollectionInterface $results) use ($championshipId) {
+            $q->formatResults(function (CollectionInterface $results) use ($championshipId): CollectionInterface {
                 $scores = $this->find('scores', [
                     'championship_id' => $championshipId,
                 ])->all()->toArray();
 
                 if (!empty($scores)) {
-                    return $results->map(function (Score $entity) use ($scores) {
+                    return $results->map(function (Score $entity) use ($scores): Score {
                         $entity['scores'] = $scores[$entity->team->id];
 
                         return $entity;
@@ -236,7 +232,7 @@ class ScoresTable extends Table
         } else {
             $contain = [
                 'Lineups.Dispositions.Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score) {
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score): Query {
                         return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
                     },
                 ],

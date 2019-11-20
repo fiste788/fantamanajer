@@ -20,7 +20,6 @@
         "cakephp/authentication": "2.x-dev",
         "cakephp/authorization": "2.x-dev",
         "cakephp/cakephp": "4.x-dev as 3.7.0",
-        "cakephp/migrations": "4.x-dev",
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",
         "friendsofcake/crud": "dev-cake-4.x",
@@ -30,26 +29,26 @@
         "minishlink/web-push": "^5.0",
         "mirko-pagliai/me-tools": "dev-cakephp4",
         "mobiledetect/mobiledetectlib": "2.*",
-        "nikic/php-parser": "^4.2",
         "ozee31/cakephp-cors": "^1.1",
+        "phpstan/phpstan": "^0.11.19",
         "psr/http-factory": "^1.0",
         "ramsey/uuid": "^3.8",
         "spatie/image": "^1.7",
         "symfony/css-selector": "^4.0",
         "symfony/dom-crawler": "^4.0",
-        "web-auth/webauthn-lib": "^2.0",
+        "web-auth/webauthn-lib": "^2.1",
         "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
         "cakephp/bake": "4.x-dev",
         "cakephp/cakephp-codesniffer": "dev-next",
         "cakephp/debug_kit": "4.x-dev",
+        "cakephp/migrations": "4.x-dev",
         "dereuromark/cakephp-ide-helper": "cake4-dev",
         "mirko-pagliai/cakephp-database-backup": "dev-cakephp4",
-        "phpstan/phpstan-shim": "^0.11",
         "phpunit/phpunit": "^8.0",
         "psy/psysh": "@stable",
-        "vimeo/psalm": "^3.3"
+        "vimeo/psalm": "^3.6"
     },
     "suggest": {
         "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",

@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -19,15 +21,18 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Rating newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Rating|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rating saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Rating saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class RatingsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -37,20 +42,14 @@ class RatingsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo(
-            'Members',
-            [
-                'foreignKey' => 'member_id',
-                'joinType' => 'INNER',
-            ]
-        );
-        $this->belongsTo(
-            'Matchdays',
-            [
-                'foreignKey' => 'matchday_id',
-                'joinType' => 'INNER',
-            ]
-        );
+        $this->belongsTo('Members', [
+            'foreignKey' => 'member_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Matchdays', [
+            'foreignKey' => 'matchday_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
@@ -63,82 +62,87 @@ class RatingsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->boolean('valued')
             ->requirePresence('valued', 'create')
-            ->notEmpty('valued');
+            ->notEmptyString('valued');
 
         $validator
             ->numeric('points')
             ->requirePresence('points', 'create')
-            ->notEmpty('points');
+            ->notEmptyString('points');
+
+        $validator
+            ->numeric('points_no_bonus')
+            ->requirePresence('points_no_bonus', 'create')
+            ->notEmptyString('points_no_bonus');
 
         $validator
             ->numeric('rating')
             ->requirePresence('rating', 'create')
-            ->notEmpty('rating');
+            ->notEmptyString('rating');
 
         $validator
             ->integer('goals')
             ->requirePresence('goals', 'create')
-            ->notEmpty('goals');
+            ->notEmptyString('goals');
 
         $validator
             ->integer('goals_against')
             ->requirePresence('goals_against', 'create')
-            ->notEmpty('goals_against');
+            ->notEmptyString('goals_against');
 
         $validator
             ->integer('goals_victory')
             ->requirePresence('goals_victory', 'create')
-            ->notEmpty('goals_victory');
+            ->notEmptyString('goals_victory');
 
         $validator
             ->integer('goals_tie')
             ->requirePresence('goals_tie', 'create')
-            ->notEmpty('goals_tie');
+            ->notEmptyString('goals_tie');
 
         $validator
             ->integer('assist')
             ->requirePresence('assist', 'create')
-            ->notEmpty('assist');
+            ->notEmptyString('assist');
 
         $validator
             ->boolean('yellow_card')
             ->requirePresence('yellow_card', 'create')
-            ->notEmpty('yellow_card');
+            ->notEmptyString('yellow_card');
 
         $validator
             ->boolean('red_card')
             ->requirePresence('red_card', 'create')
-            ->notEmpty('red_card');
+            ->notEmptyString('red_card');
 
         $validator
             ->integer('penalities_scored')
             ->requirePresence('penalities_scored', 'create')
-            ->notEmpty('penalities_scored');
+            ->notEmptyString('penalities_scored');
 
         $validator
             ->integer('penalities_taken')
             ->requirePresence('penalities_taken', 'create')
-            ->notEmpty('penalities_taken');
+            ->notEmptyString('penalities_taken');
 
         $validator
             ->boolean('present')
             ->requirePresence('present', 'create')
-            ->notEmpty('present');
+            ->notEmptyString('present');
 
         $validator
             ->boolean('regular')
             ->requirePresence('regular', 'create')
-            ->notEmpty('regular');
+            ->notEmptyString('regular');
 
         $validator
             ->integer('quotation')
             ->requirePresence('quotation', 'create')
-            ->notEmpty('quotation');
+            ->notEmptyString('quotation');
 
         return $validator;
     }
@@ -173,9 +177,9 @@ class RatingsTable extends Table
      * Return max matchday
      *
      * @param \App\Model\Entity\Season $season Season
-     * @return int
+     * @return int|null
      */
-    public function findMaxMatchday(Season $season): int
+    public function findMaxMatchday(Season $season): ?int
     {
         $query = $this->find();
         $res = $query->disableHydration()
@@ -184,6 +188,6 @@ class RatingsTable extends Table
             ->where(['m.season_id' => $season->id])
             ->first();
 
-        return $res['matchday_id'];
+        return ($res && $res['matchday_id']) ? $res['matchday_id'] : null;
     }
 }

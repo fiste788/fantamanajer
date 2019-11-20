@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -119,7 +120,7 @@ class LineupService
             $lineup->toArray(),
             ['associated' => ['Teams.Championships', 'Dispositions.Members.Ratings']]
         );
-        $lineupCopy->unsetProperty('id');
+        $lineupCopy->unset('id');
         $lineupCopy->jolly = false;
         $lineupCopy->cloned = $cloned;
         $lineupCopy->matchday_id = $matchday->id;

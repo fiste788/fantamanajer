@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -16,15 +17,18 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\NotificationSubscription newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\NotificationSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\NotificationSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class NotificationSubscriptionsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -50,22 +54,22 @@ class NotificationSubscriptionsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->scalar('type')
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmptyString('type');
 
         $validator
             ->scalar('name')
             ->maxLength('name', 32)
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
             ->boolean('enabled')
-            ->notEmpty('enabled');
+            ->notEmptyString('enabled');
 
         return $validator;
     }

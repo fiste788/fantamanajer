@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,23 +12,26 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
+ * @property \App\Model\Table\PublicKeyCredentialSourcesTable&\Cake\ORM\Association\HasMany $PublicKeyCredentialSources
  * @property \App\Model\Table\PushSubscriptionsTable&\Cake\ORM\Association\HasMany $PushSubscriptions
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @property \App\Model\Table\PublicKeyCredentialSourcesTable&\Cake\ORM\Association\HasMany $PublicKeyCredentialSources
  */
 class UsersTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -37,28 +41,19 @@ class UsersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany(
-            'PublicKeyCredentialSources',
-            [
-                'bindingKey' => 'uuid',
-                'foreignKey' => 'user_handle',
-                'sort' => 'created_at',
-            ]
-        );
-        $this->hasMany(
-            'Teams',
-            [
-                'foreignKey' => 'user_id',
-                'sort' => 'Championships.id DESC',
-            ]
-        );
-        $this->hasMany(
-            'PushSubscriptions',
-            [
-                'foreignKey' => 'user_id',
-                'sort' => 'modified_at DESC',
-            ]
-        );
+        $this->hasMany('PublicKeyCredentialSources', [
+            'bindingKey' => 'uuid',
+            'foreignKey' => 'user_handle',
+            'sort' => 'created_at DESC',
+        ]);
+        $this->hasMany('PushSubscriptions', [
+            'foreignKey' => 'user_id',
+            'sort' => 'modified_at DESC',
+        ]);
+        $this->hasMany('Teams', [
+            'foreignKey' => 'user_id',
+            'sort' => 'Championships.id DESC',
+        ]);
     }
 
     /**
@@ -71,44 +66,57 @@ class UsersTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->allowEmpty('name');
+            ->scalar('name')
+            ->maxLength('name', 32)
+            ->notEmptyString('name');
 
         $validator
-            ->requirePresence('surname', 'create')
-            ->notEmpty('surname');
+            ->scalar('surname')
+            ->maxLength('surname', 32)
+            ->notEmptyString('surname');
 
         $validator
-            ->requirePresence('email')
             ->email('email')
-            ->notEmpty('email');
-
-        $validator
-            ->boolean('active_email')
-            ->requirePresence('active_email', 'create')
-            ->notEmpty('active_email');
+            ->requirePresence('email', 'create')
+            ->notEmptyString('email');
 
         $validator
             ->boolean('active')
-            ->requirePresence('active', 'create')
-            ->notEmpty('active');
+            ->notEmptyString('active');
 
         $validator
-            ->allowEmpty('username');
+            ->boolean('active_email')
+            ->notEmptyString('active_email');
 
         $validator
+            ->scalar('username')
+            ->maxLength('username', 50)
+            ->requirePresence('username', 'create')
+            ->notEmptyString('username');
+
+        $validator
+            ->scalar('password')
+            ->maxLength('password', 255)
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmptyString('password');
 
         $validator
-            ->allowEmpty('login_key');
+            ->scalar('login_key')
+            ->maxLength('login_key', 35)
+            ->allowEmptyString('login_key');
 
         $validator
             ->boolean('admin')
             ->requirePresence('admin', 'create')
-            ->notEmpty('admin');
+            ->notEmptyString('admin');
+
+        $validator
+            ->scalar('uuid')
+            ->maxLength('uuid', 32)
+            ->allowEmptyString('uuid');
 
         return $validator;
     }

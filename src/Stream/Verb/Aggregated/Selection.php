@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Stream\Verb\Aggregated;
@@ -28,8 +29,8 @@ class Selection extends StreamAggregatedActivity implements StreamActivityInterf
         return __n(
             'A player has been selected for the transfert',
             '{0} players have been selected for the transfert',
-            $this->activity->offsetGet('activity_count'),
-            $this->activity->offsetGet('activity_count')
+            $this->activity->offsetGet('activity_count') ?? 0,
+            $this->activity->offsetGet('activity_count') ?? 0
         );
     }
 

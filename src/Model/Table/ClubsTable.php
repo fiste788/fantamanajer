@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -16,18 +18,18 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Club[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Club|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Club saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Club[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Club findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\Club saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0LineupsDetails
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View0Members
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasMany $View1MembersStats
  */
 class ClubsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -37,31 +39,9 @@ class ClubsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany(
-            'Members',
-            [
-                'foreignKey' => 'club_id',
-                'sort' => ['role_id'],
-            ]
-        );
-        $this->hasMany(
-            'View0LineupsDetails',
-            [
-                'foreignKey' => 'club_id',
-            ]
-        );
-        $this->hasMany(
-            'View0Members',
-            [
-                'foreignKey' => 'club_id',
-            ]
-        );
-        $this->hasMany(
-            'View1MembersStats',
-            [
-                'foreignKey' => 'club_id',
-            ]
-        );
+        $this->hasMany('Members', [
+            'foreignKey' => 'club_id',
+        ]);
     }
 
     /**
@@ -74,17 +54,23 @@ class ClubsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('name')
+            ->maxLength('name', 15)
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
-            ->notEmpty('partitive');
+            ->scalar('partitive')
+            ->maxLength('partitive', 10)
+            ->notEmptyString('partitive');
 
         $validator
-            ->notEmpty('determinant');
+            ->scalar('determinant')
+            ->maxLength('determinant', 3)
+            ->notEmptyString('determinant');
 
         return $validator;
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Utility\WebPush;
@@ -26,14 +27,14 @@ class WebPushMessage implements JsonSerializable
      *
      * @var string
      */
-    protected $icon = null;
+    protected $icon;
 
     /**
      * The notification image.
      *
      * @var string
      */
-    protected $image = null;
+    protected $image;
 
     /**
      * The notification actions.
@@ -47,7 +48,7 @@ class WebPushMessage implements JsonSerializable
      *
      * @var string
      */
-    protected $badge = null;
+    protected $badge;
 
     /**
      * The text direction.
@@ -61,7 +62,7 @@ class WebPushMessage implements JsonSerializable
      *
      * @var string
      */
-    protected $lang = null;
+    protected $lang;
 
     /**
      * The renotify.
@@ -82,7 +83,7 @@ class WebPushMessage implements JsonSerializable
      *
      * @var string
      */
-    protected $tag = null;
+    protected $tag;
 
     /**
      * The vibrate.
@@ -124,14 +125,14 @@ class WebPushMessage implements JsonSerializable
     }
 
     /**
-     * Set the notification title.
+     * Set the notification title
      *
-     * @param  string $value Title
-     * @return $this
+     * @param string $title
+     * @return WebPushMessage
      */
-    public function title(string $value)
+    public function title(string $title): WebPushMessage
     {
-        $this->title = $value;
+        $this->title = $title;
 
         return $this;
     }
@@ -142,7 +143,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Body text
      * @return $this
      */
-    public function body(string $value)
+    public function body(string $value): WebPushMessage
     {
         $this->body = $value;
 
@@ -155,7 +156,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Icon path
      * @return $this
      */
-    public function icon(string $value)
+    public function icon(string $value): WebPushMessage
     {
         $this->icon = $value;
 
@@ -168,7 +169,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $value Image path
      * @return $this
      */
-    public function image(string $value)
+    public function image(string $value): WebPushMessage
     {
         $this->image = $value;
 
@@ -183,7 +184,7 @@ class WebPushMessage implements JsonSerializable
      * @param  string $icon Icon
      * @return $this
      */
-    public function action(string $title, string $action, string $icon = '')
+    public function action(string $title, string $action, string $icon = ''): WebPushMessage
     {
         $this->actions[] = compact('title', 'action', 'icon');
 
@@ -196,7 +197,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $badge Badge icon
      * @return $this
      */
-    public function badge(string $badge)
+    public function badge(string $badge): WebPushMessage
     {
         $this->badge = $badge;
 
@@ -209,7 +210,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $dir Text direction
      * @return $this
      */
-    public function dir(string $dir)
+    public function dir(string $dir): WebPushMessage
     {
         $this->dir = $dir;
 
@@ -222,7 +223,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $lang Language
      * @return $this
      */
-    public function lang(string $lang)
+    public function lang(string $lang): WebPushMessage
     {
         $this->lang = $lang;
 
@@ -235,7 +236,7 @@ class WebPushMessage implements JsonSerializable
      * @param bool $renotify Renotify
      * @return $this
      */
-    public function renotify(bool $renotify)
+    public function renotify(bool $renotify): WebPushMessage
     {
         $this->renotify = $renotify;
 
@@ -248,7 +249,7 @@ class WebPushMessage implements JsonSerializable
      * @param bool $requireInteraction RequireInteraction
      * @return $this
      */
-    public function requireInteraction(bool $requireInteraction)
+    public function requireInteraction(bool $requireInteraction): WebPushMessage
     {
         $this->requireInteraction = $requireInteraction;
 
@@ -261,7 +262,7 @@ class WebPushMessage implements JsonSerializable
      * @param string $tag Tag
      * @return $this
      */
-    public function tag(string $tag)
+    public function tag(string $tag): WebPushMessage
     {
         $this->tag = $tag;
 
@@ -274,7 +275,7 @@ class WebPushMessage implements JsonSerializable
      * @param array $vibrate Vibration timings
      * @return $this
      */
-    public function vibrate(array $vibrate)
+    public function vibrate(array $vibrate): WebPushMessage
     {
         $this->vibrate = $vibrate;
 
@@ -287,7 +288,7 @@ class WebPushMessage implements JsonSerializable
      * @param array $data Additional data
      * @return $this
      */
-    public function data(array $data = [])
+    public function data(array $data = []): WebPushMessage
     {
         $this->data = $data;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -9,13 +10,14 @@ use Cake\Routing\Router;
 use const DIRECTORY_SEPARATOR as DS;
 
 /**
- * Player Entity.
+ * Player Entity
  *
  * @property int $id
  * @property string|null $name
  * @property string $surname
  * @property string $full_name
  * @property string|null $photo_url
+ *
  * @property \App\Model\Entity\Member[] $members
  */
 class Player extends Entity
@@ -30,11 +32,15 @@ class Player extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
+        'name' => true,
+        'surname' => true,
+        'members' => false,
     ];
 
-    protected $_virtual = ['photo_url', 'full_name'];
+    protected $_virtual = [
+        'photo_url',
+        'full_name'
+    ];
 
     /**
      * Get photo url
@@ -67,6 +73,6 @@ class Player extends Entity
      */
     protected function _getFullName(): string
     {
-        return $this->surname . ($this->name != '' ? (' ' . $this->name) : '');
+        return $this->surname . ($this->name ? (' ' . $this->name) : '');
     }
 }

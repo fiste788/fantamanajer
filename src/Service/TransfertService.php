@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -43,7 +44,7 @@ class TransfertService
      */
     public function substituteMembers(Transfert $transfert): void
     {
-        $team = $transfert->team;
+        $team = $transfert->offsetExists('team') ? $transfert->team : null;
         if ($team == null) {
             $team = $this->Teams->get($transfert->team_id);
         }
@@ -58,7 +59,7 @@ class TransfertService
         $recs = new \ArrayObject();
         $recs->append($rec);
 
-        /** @var \App\Model\Entity\MembersTeam $rec2 */
+        /** @var \App\Model\Entity\MembersTeam|null $rec2 */
         $rec2 = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->new_member_id,
             'Teams.championship_id' => $team->championship_id,
@@ -86,7 +87,7 @@ class TransfertService
      */
     public function substituteMemberInLineup(Transfert $transfert): void
     {
-        /** @var \App\Model\Entity\Lineup $lineup */
+        /** @var \App\Model\Entity\Lineup|null $lineup */
         $lineup = $this->Lineups->find()
             ->contain(['Dispositions'])
             ->where(['team_id' => $transfert->team_id, 'matchday_id' => $transfert->matchday_id])

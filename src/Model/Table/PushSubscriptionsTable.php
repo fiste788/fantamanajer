@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -6,6 +7,7 @@ namespace App\Model\Table;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
@@ -20,16 +22,20 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\PushSubscription newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PushSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
+ * 
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \App\Model\Entity\PushSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class PushSubscriptionsTable extends Table
 {
     /**
-     * @inheritDoc
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
      */
     public function initialize(array $config): void
     {
@@ -39,25 +45,18 @@ class PushSubscriptionsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior(
-            'Timestamp',
-            [
-                'events' => [
-                    'Model.beforeSave' => [
-                        'created_at' => 'new',
-                        'modified_at' => 'always',
-                    ],
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always',
                 ],
-            ]
-        );
-
-        $this->belongsTo(
-            'Users',
-            [
-                'foreignKey' => 'user_id',
-                'joinType' => 'INNER',
-            ]
-        );
+            ],
+        ]);
     }
 
     /**
@@ -69,25 +68,45 @@ class PushSubscriptionsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->alphaNumeric('id')
-            ->requirePresence('id', 'create');
+            ->scalar('id')
+            ->maxLength('id', 64)
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->scalar('endpoint')
+            ->maxLength('endpoint', 255)
             ->requirePresence('endpoint', 'create')
-            ->notEmpty('endpoint')
+            ->notEmptyString('endpoint')
             ->add('endpoint', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('public_key')
-            ->allowEmpty('public_key');
+            ->maxLength('public_key', 255)
+            ->requirePresence('public_key', 'create')
+            ->notEmptyString('public_key');
 
         $validator
             ->scalar('auth_token')
-            ->allowEmpty('auth_token');
+            ->maxLength('auth_token', 255)
+            ->requirePresence('auth_token', 'create')
+            ->notEmptyString('auth_token');
 
         $validator
-            ->allowEmpty('expires_at');
+            ->scalar('content_encoding')
+            ->maxLength('content_encoding', 32)
+            ->allowEmptyString('content_encoding');
+
+        $validator
+            ->dateTime('expires_at')
+            ->notEmptyDateTime('expires_at');
+
+        $validator
+            ->dateTime('created_at')
+            ->notEmptyDateTime('created_at');
+
+        $validator
+            ->dateTime('modified_at')
+            ->notEmptyDateTime('modified_at');
 
         return $validator;
     }
