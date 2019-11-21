@@ -69,7 +69,7 @@ class PublicKeyCredentialDescriptorType implements TypeInterface
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return void
      */

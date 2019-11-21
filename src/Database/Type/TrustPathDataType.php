@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Database\Type;
@@ -73,10 +72,11 @@ class TrustPathDataType implements TypeInterface
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return void
      */
     public function newId()
-    { }
+    {
+    }
 }

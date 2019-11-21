@@ -133,7 +133,7 @@ class Application extends BaseApplication implements
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      *
-     * @return AuthenticationService
+     * @return \Authentication\AuthenticationService
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
@@ -184,7 +184,7 @@ class Application extends BaseApplication implements
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      *
-     * @return AuthorizationService
+     * @return \Authorization\AuthorizationService
      */
     public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {

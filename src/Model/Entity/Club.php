@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -48,7 +47,7 @@ class Club extends Entity
      */
     protected $_size = [
         600,
-        1280
+        1280,
     ];
 
     /**
@@ -59,7 +58,7 @@ class Club extends Entity
     protected $_virtual = [
         'abbreviation',
         'photo_url',
-        'background_url'
+        'background_url',
     ];
 
     /**

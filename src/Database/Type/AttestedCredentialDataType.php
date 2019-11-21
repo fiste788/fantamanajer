@@ -70,7 +70,7 @@ class AttestedCredentialDataType implements TypeInterface
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return void
      */

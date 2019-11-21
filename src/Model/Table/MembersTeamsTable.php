@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -8,7 +7,6 @@ use App\Model\Entity\MembersTeam;
 use ArrayObject;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;

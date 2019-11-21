@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -7,7 +6,6 @@ namespace App\Model\Table;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
@@ -26,7 +24,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
- * 
+ *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class PushSubscriptionsTable extends Table

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -39,7 +38,7 @@ class Player extends Entity
 
     protected $_virtual = [
         'photo_url',
-        'full_name'
+        'full_name',
     ];
 
     /**

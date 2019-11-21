@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -46,7 +45,7 @@ class GetStreamCommand extends Command
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return int|null
      */
@@ -76,11 +75,11 @@ class GetStreamCommand extends Command
      */
     private function processChampionship(Championship $championship, FeedInterface $timelineFeed): void
     {
-        $championshipFeed = $this->client->feed('championship', (string) $championship->id);
+        $championshipFeed = $this->client->feed('championship', (string)$championship->id);
         $championshipFeed->follow($timelineFeed->getSlug(), $timelineFeed->getUserId());
         foreach ($championship->teams as $team) {
-            $teamFeed = $this->client->feed('team', (string) $team->id);
-            $userFeed = $this->client->feed('user', (string) $team->user_id);
+            $teamFeed = $this->client->feed('team', (string)$team->id);
+            $userFeed = $this->client->feed('user', (string)$team->user_id);
             $userFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
             $championshipFeed->follow($teamFeed->getSlug(), $teamFeed->getUserId());
         }

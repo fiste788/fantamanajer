@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -26,7 +25,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property string|null $login_key
  * @property bool $admin
  * @property string|null $uuid
- * 
+ *
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  * @property \App\Model\Entity\Team[] $teams
  * @property \Authorization\AuthorizationServiceInterface $authorization
@@ -110,8 +109,8 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Undocumented function
      *
-     * @param string $action
-     * @param mixed $resource
+     * @param string $action Action
+     * @param mixed $resource Resource
      * @return bool
      */
     public function can(string $action, $resource): bool
@@ -122,9 +121,9 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Undocumented function
      *
-     * @param string $action
-     * @param mixed $resource
-     * @return ResultInterface
+     * @param string $action Action
+     * @param mixed $resource Resource
+     * @return \Authorization\Policy\ResultInterface
      */
     public function canResult(string $action, $resource): ResultInterface
     {
@@ -134,8 +133,8 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Undocumented function
      *
-     * @param string $action
-     * @param mixed $resource
+     * @param string $action Action
+     * @param mixed $resource Resource
      * @return mixed
      */
     public function applyScope(string $action, $resource)
@@ -146,7 +145,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Undocumented function
      *
-     * @return \App\Model\Entity\User
+     * @return self
      */
     public function getOriginalData(): User
     {
@@ -156,8 +155,8 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Undocumented function
      *
-     * @param AuthorizationServiceInterface $service
-     * @return User
+     * @param \Authorization\AuthorizationServiceInterface $service Authorization service
+     * @return self
      */
     public function setAuthorization(AuthorizationServiceInterface $service): User
     {

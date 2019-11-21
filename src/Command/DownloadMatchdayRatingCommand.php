@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -49,7 +48,7 @@ class DownloadMatchdayRatingCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        return $this->exec((int) $args->getArgument('matchday'), $io) ? 1 : 0;
+        return $this->exec((int)$args->getArgument('matchday'), $io) ? 1 : 0;
     }
 
     /**
@@ -121,7 +120,7 @@ class DownloadMatchdayRatingCommand extends Command
             }
             if ($dropboxUrl != null) {
                 $io->out("Downloading $dropboxUrl in tmp dir");
-                $file = TMP . (string) $matchday . '.mxm';
+                $file = TMP . (string)$matchday . '.mxm';
                 file_put_contents($file, file_get_contents($dropboxUrl));
 
                 return $file;

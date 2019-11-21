@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -58,7 +57,7 @@ class SendMissingLineupNotificationCommand extends Command
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return int|null
      */

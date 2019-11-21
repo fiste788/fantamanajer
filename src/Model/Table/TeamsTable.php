@@ -14,6 +14,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Spatie\Image\Image;
+use SplFileInfo;
 
 /**
  * Teams Model
@@ -38,7 +39,7 @@ use Spatie\Image\Image;
  * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
- * 
+ *
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
  */
 class TeamsTable extends Table
@@ -123,12 +124,12 @@ class TeamsTable extends Table
                         string $field,
                         array $settings
                     ) {
-                        $tmpFile = new File($data['name']);
+                        $tmpFile = new SplFileInfo($data['name']);
                         $image = Image::load($data['tmp_name']);
                         $array = [$data['tmp_name'] => $data['name']];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, $value) . '.' . ($tmpFile->ext() ?: '');
+                                $tmp = tempnam(TMP, $value) . '.' . $tmpFile->getExtension();
                                 $image->width($value)->save($tmp);
                                 $array[$tmp] = $value . 'w' . DS . $data['name'];
                             }
@@ -136,9 +137,12 @@ class TeamsTable extends Table
 
                         return $array;
                     },
-                    'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $settings) {
-                        // When deleting the entity, both the original and the thumbnail will be removed
-                        // when keepFilesOnDelete is set to false
+                    'deleteCallback' => function (
+                        string $path,
+                        EntityInterface $entity,
+                        string $field,
+                        array $settings
+                    ) {
                         $array = [$path . $entity->{$field}];
                         foreach (Team::$size as $value) {
                             $array[] = $path . $value . DS . $entity->{$field};

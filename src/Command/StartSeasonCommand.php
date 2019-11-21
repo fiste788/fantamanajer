@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -75,6 +74,7 @@ class StartSeasonCommand extends Command
                 $this->abort();
             }
         }
+
         return 0;
     }
 
@@ -87,7 +87,7 @@ class StartSeasonCommand extends Command
      */
     private function createSeason(ConsoleIo $io, Arguments $args): ?Season
     {
-        $year = (int) date("Y");
+        $year = (int)date("Y");
 
         /** @var \App\Model\Entity\Season|null $season */
         $season = $this->Seasons->find()->where(['year' => $year])->first();
@@ -95,7 +95,7 @@ class StartSeasonCommand extends Command
             $season = $this->Seasons->newEntity(
                 [
                     'year' => $year,
-                    'name' => 'Stagione ' . $year . '-' . substr((string) ($year + 1), 2, 2),
+                    'name' => 'Stagione ' . $year . '-' . substr((string)($year + 1), 2, 2),
                     'bonus_points' => true,
                 ]
             );

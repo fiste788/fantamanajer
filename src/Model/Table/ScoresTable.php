@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -126,7 +125,7 @@ class ScoresTable extends Table
             ->where(['m.season_id' => $season->id])
             ->first();
 
-        return ($res && $res['matchday_id']) ? $res['matchday_id'] : null;
+        return $res && $res['matchday_id'] ? $res['matchday_id'] : null;
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -20,7 +19,7 @@ use Cake\ORM\Entity;
  * @property int|null $sum_yellow_card
  * @property int|null $sum_red_card
  * @property int $quotation
- * 
+ *
  * @property \App\Model\Entity\Member $member
  */
 class VwMembersStat extends Entity

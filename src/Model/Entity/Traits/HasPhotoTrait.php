@@ -6,6 +6,7 @@ namespace App\Model\Entity\Traits;
 
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
+use Symfony\Component\Finder\Finder;
 
 trait HasPhotoTrait
 {
@@ -25,11 +26,11 @@ trait HasPhotoTrait
             $name = $this->id . '.jpg';
         }
         $baseUrl = Router::url($baseUrl, true);
-        $folder = new Folder($path);
-        $subfolders = $folder->subdirectories($path, false);
-        foreach ($subfolders as $sub) {
-            if (file_exists($path . $sub . DS . $name)) {
-                $array[$sub] = $baseUrl . $sub . '/' . str_replace(' ', '%20', $name);
+        $folder = new Finder();
+        $folder->directories()->in($path);
+        foreach ($folder->getIterator() as $sub) {
+            if (file_exists($path . $sub->getRelativePath() . DS . $name)) {
+                $array[$sub->getRelativePath()] = $baseUrl . $sub->getRelativePath() . '/' . str_replace(' ', '%20', $name);
             }
         }
         $principal = $path . $name;

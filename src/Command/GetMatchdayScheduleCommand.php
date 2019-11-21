@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -73,11 +72,11 @@ class GetMatchdayScheduleCommand extends Command
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
      *
-     * @return Chronos|false|null
+     * @return \Cake\Chronos\Chronos|false|null
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
-        $year = ((string) $season->year) . "-" . substr((string) ($season->year + 1), 2, 2);
+        $year = ((string)$season->year) . "-" . substr((string)($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
         $io->verbose("Downloading page " . $url);
         $client = new Client(
@@ -119,7 +118,7 @@ class GetMatchdayScheduleCommand extends Command
                 $this->abort();
             }
         } else {
-            $io->error((string) $response->getStatusCode(), 1);
+            $io->error((string)$response->getStatusCode(), 1);
             $io->error("Cannot connect to " . $url);
             $this->abort();
         }

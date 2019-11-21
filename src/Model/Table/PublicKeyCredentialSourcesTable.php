@@ -51,7 +51,7 @@ class PublicKeyCredentialSourcesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp',[
+        $this->addBehavior('Timestamp', [
             'events' => [
                 'Model.beforeSave' => [
                     'created_at' => 'new',
@@ -59,7 +59,7 @@ class PublicKeyCredentialSourcesTable extends Table
             ],
         ]);
 
-        $this->belongsTo('Users',[
+        $this->belongsTo('Users', [
             'foreignKey' => 'user_handle',
             'joinType' => 'INNER',
         ]);

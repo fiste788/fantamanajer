@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -57,7 +56,7 @@ class SendLineupsEmailCommand extends Command
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return int|null
      */

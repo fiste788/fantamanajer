@@ -79,35 +79,39 @@ class ComputeScoreService
                 'team_id' => $score->team->id,
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
-            /** @var \App\Model\Entity\Lineup|null $lineup */
+            /** @var \App\Model\Entity\Lineup $lineup */
             $lineup = $this->Lineups->loadInto($lineup, $this->Lineups->find('withRatings', [
                 'matchday_id' => $score->matchday_id,
             ])->getContain());
         }
-        if (
-            $lineup == null
-            || ($lineup->matchday_id != $score->matchday->id
-                && $championship->points_missed_lineup == 0)
-        ) {
+        if ($lineup == null) {
             $score->real_points = 0;
             $score->points = 0;
         } else {
             if ($lineup->matchday_id != $score->matchday_id) {
-                $lineup = $this->Lineup->copy(
-                    $lineup,
-                    $score->matchday,
-                    $championship->captain_missed_lineup
-                );
+                if ($championship->points_missed_lineup == 0) {
+                    $lineup = null;
+                    $score->real_points = 0;
+                    $score->points = 0;
+                } else {
+                    $lineup = $this->Lineup->copy(
+                        $lineup,
+                        $score->matchday,
+                        $championship->captain_missed_lineup
+                    );
+                }
             }
-            $score->real_points = $this->compute($lineup);
-            $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
-            if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
-                $malusPoints = round(($score->points / 100) * (100 - $championship->points_missed_lineup), 1);
-                $mod = ($malusPoints * 10) % 5;
-                $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
-                $score->penality = 'Formazione non settata';
+            if ($lineup != null) {
+                $score->real_points = $this->compute($lineup);
+                $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
+                if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
+                    $malusPoints = round(($score->points / 100) * (100 - $championship->points_missed_lineup), 1);
+                    $mod = ($malusPoints * 10) % 5;
+                    $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
+                    $score->penality = 'Formazione non settata';
+                }
+                $score->points = $score->points - $score->penality_points;
             }
-            $score->points = $score->points - $score->penality_points;
         }
         $score->lineup = $lineup;
     }

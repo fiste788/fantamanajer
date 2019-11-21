@@ -16,10 +16,11 @@ use Cake\Filesystem\Folder;
 use Cake\Http\Client;
 use Cake\ORM\Query;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Gazzetta traits
- * 
+ *
  * @property \App\Model\Table\SeasonsTable $Seasons
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Model\Table\RolesTable $Roles
@@ -75,11 +76,11 @@ trait GazzettaTrait
     public function getRatings(Matchday $matchday, $offsetGazzetta = 0, $forceDownload = false): ?string
     {
         $year = $matchday->season->year;
-        $folder = new Folder(RATINGS_CSV . $year, true);
-        $pathCsv = $folder->path . DS . "Matchday" . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
-        $file = new File($pathCsv);
+        $folder = RATINGS_CSV . $year;
+        $pathCsv = $folder . DS . "Matchday" . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
+        $filesystem = new Filesystem();
         $this->io->out("Search file in path " . $pathCsv);
-        if ($file->exists() && $file->size() > 0 && !$forceDownload) {
+        if ($filesystem->exists($pathCsv) && filesize($pathCsv) > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
             $file = TMP . 'mcc' . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
@@ -116,6 +117,7 @@ trait GazzettaTrait
                 return $path;
             }
         }
+
         return null;
     }
 
@@ -180,6 +182,7 @@ trait GazzettaTrait
                 return $body;
             }
         }
+
         return null;
     }
 
@@ -387,6 +390,7 @@ trait GazzettaTrait
             $member->active = true;
             $flag = true;
         }
+
         return $flag ? $member : null;
     }
 

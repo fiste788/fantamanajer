@@ -1,12 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -188,6 +186,6 @@ class RatingsTable extends Table
             ->where(['m.season_id' => $season->id])
             ->first();
 
-        return ($res && $res['matchday_id']) ? $res['matchday_id'] : null;
+        return $res && $res['matchday_id'] ? $res['matchday_id'] : null;
     }
 }

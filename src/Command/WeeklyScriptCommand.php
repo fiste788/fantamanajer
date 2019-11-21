@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -84,7 +83,7 @@ class WeeklyScriptCommand extends Command
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return int|null
      */

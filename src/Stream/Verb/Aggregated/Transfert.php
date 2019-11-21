@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Stream\Verb\Aggregated;
@@ -38,10 +37,15 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      */
     public function getTitle(): string
     {
-        return __n('{0} make a transfert', '{0} make {1} transferts', $this->activity->offsetGet('activity_count') ?? 0, [
-            $this->activity->offsetGet('activities')[0]->offsetGet('actor')->name,
+        return __n(
+            '{0} make a transfert',
+            '{0} make {1} transferts',
             $this->activity->offsetGet('activity_count') ?? 0,
-        ]);
+            [
+                $this->activity->offsetGet('activities')[0]->offsetGet('actor')->name,
+                $this->activity->offsetGet('activity_count') ?? 0,
+            ]
+        );
     }
 
     /**

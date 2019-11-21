@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -56,7 +55,7 @@ class SendTestNotificationCommand extends Command
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return int|null
      */
@@ -95,7 +94,7 @@ class SendTestNotificationCommand extends Command
                 // process successful message sent
                 Log::info(sprintf(
                     'Notification with payload %s successfully sent for endpoint %s.',
-                    json_decode((string) $response->getBody()),
+                    json_decode((string)$response->getBody()),
                     $result->getEndpoint()
                 ));
             } else {
@@ -109,7 +108,7 @@ class SendTestNotificationCommand extends Command
                     Log::info(sprintf(
                         'Notification failed: %s. Payload: %s, endpoint: %s',
                         $result->getReason(),
-                        json_decode((string) $response->getBody()),
+                        json_decode((string)$response->getBody()),
                         $result->getEndpoint()
                     ));
                 }

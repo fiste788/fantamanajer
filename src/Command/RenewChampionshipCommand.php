@@ -10,8 +10,8 @@ use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Filesystem\File;
-use Cake\Filesystem\Folder;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -42,7 +42,7 @@ class RenewChampionshipCommand extends Command
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return int|null
      */
@@ -60,6 +60,7 @@ class RenewChampionshipCommand extends Command
         $newChampionship->season_id = $this->currentSeason->id;
         $newChampionship->started = false;
 
+        /** @var \App\Command\RenewChampionshipCommand $that */
         $that = $this;
         $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $that): Team {
             $newTeam = $that->Championships->Teams->newEntity($team->getOriginalValues());
@@ -71,26 +72,32 @@ class RenewChampionshipCommand extends Command
         $io->out('Save championship');
 
         $this->Championships->save($newChampionship);
+        $filesystem = new Filesystem();
         foreach ($championship->teams as $key => $team) {
             $newTeam = $newChampionship->teams[$key];
-            $file = new File(ROOT . DS . ($team->photo_dir ?? '') . ($team->photo ?? ''));
-            $io->out('Cerco immagine in ' . ROOT . DS . ($team->photo_dir ?? '') . ($team->photo ?? ''));
-            if ($file->exists()) {
+            $filepath = ROOT . DS . ($team->photo_dir ?? '') . ($team->photo ?? '');
+            $io->out('Cerco immagine in ' . $filepath);
+            if ($filesystem->exists($filepath)) {
+                $source = ROOT . DS . ($team->photo_dir ?? '');
                 $io->out('Trovata immagine ' . ($team->photo ?? ''));
-                $folder = new Folder(ROOT . DS . ($team->photo_dir ?? ''));
+
                 $to = WWW_ROOT . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
-                if ($folder->copy($to)) {
+                if ($filesystem->mirror($source, $to, null, ['overrride' => true, 'copy_on_windows' => true])) {
                     $io->out('Copiata folder ' . $to);
-                    $newFolder = new Folder($to);
                     if ($team->photo != null) {
-                        $files = $newFolder->findRecursive($team->photo);
-                        foreach ($files as $file) {
-                            $file = new File($file);
-                            if ($file->copy($file->Folder->path . DS . $newTeam->id . "." . ($file->ext() ?: ''))) {
-                                $file->delete();
-                            }
+                        $finder = new Finder();
+                        $finder->name($team->photo)->in($to);;
+
+                        foreach ($finder->getIterator() as $file) {
+                            $newFileName = $newTeam->id . "." . $file->getExtension();
+                            $newTeam->photo = $newFileName;
+                            $filesystem->rename(
+                                $file->getRelativePathname(),
+                                $file->getRelativePath() . DS . $newFileName,
+                                true
+                            );
                         }
-                        $newTeam->photo = $newTeam->id . "." . ($file->ext() ?: '');
+
                         $newTeam->photo_dir = 'webroot' . DS . 'files' . DS . $newTeam->getSource() . DS .
                             $newTeam->id . DS . 'photo' . DS;
                         $this->Championships->Teams->save($newTeam);

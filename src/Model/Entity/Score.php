@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
  * @property int $team_id
  * @property int $matchday_id
  *
- * @property \App\Model\Entity\Lineup $lineup
+ * @property \App\Model\Entity\Lineup|null $lineup
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Matchday $matchday
  */

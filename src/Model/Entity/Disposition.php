@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -14,7 +13,7 @@ use Cake\ORM\Entity;
  * @property int $consideration
  * @property int $lineup_id
  * @property int $member_id
- * 
+ *
  * @property \App\Model\Entity\Rating $rating
  * @property \App\Model\Entity\Lineup $lineup
  * @property \App\Model\Entity\Member $member

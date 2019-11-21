@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -111,11 +110,11 @@ class SelectionsTable extends Table
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
         $rules->add(new MemberIsSelectableRule(), 'NewMemberIsSelectable', [
             'errorField' => 'new_member',
-            'message' => __('The member is already selected by another team')
+            'message' => __('The member is already selected by another team'),
         ]);
         $rules->add(new TeamReachedMaxSelectionRule(), 'TeamReachedMaximum', [
             'errorField' => 'new_member',
-            'message' => __('Reached maximum number of changes')
+            'message' => __('Reached maximum number of changes'),
         ]);
 
         return $rules;
