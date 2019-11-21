@@ -73,7 +73,9 @@ class SimpleArrayDataType implements TypeInterface
     { }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return void
      */
     public function newId()
     { }

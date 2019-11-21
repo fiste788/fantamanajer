@@ -49,9 +49,10 @@ class TeamPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Team $team Entity
-     * @return bool
+     *
+     * @return false
      */
-    public function canDelete(IdentityInterface $user, Team $team)
+    public function canDelete(IdentityInterface $user, Team $team): bool
     {
         return false;
     }

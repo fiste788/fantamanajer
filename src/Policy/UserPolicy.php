@@ -25,9 +25,10 @@ class UserPolicy
      *
      * @param \Authorization\IdentityInterface $identity User
      * @param \App\Model\Entity\User $user Entity
-     * @return bool
+     *
+     * @return false
      */
-    public function canDelete(IdentityInterface $identity, User $user)
+    public function canDelete(IdentityInterface $identity, User $user): bool
     {
         return false;
     }
@@ -37,9 +38,10 @@ class UserPolicy
      *
      * @param \Authorization\IdentityInterface $identity User
      * @param \App\Model\Entity\User $user Entity
-     * @return bool
+     *
+     * @return true
      */
-    public function canAdd(IdentityInterface $identity, User $user)
+    public function canAdd(IdentityInterface $identity, User $user): bool
     {
         return true;
     }

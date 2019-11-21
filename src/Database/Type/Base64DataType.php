@@ -68,7 +68,9 @@ class Base64DataType implements TypeInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return void
      */
     public function newId()
     {

@@ -56,7 +56,9 @@ class TransfertCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -95,6 +97,8 @@ class TransfertCommand extends Command
                 $io->out('No unprocessed selections found');
             }
         }
+
+        return 1;
     }
 
     /**

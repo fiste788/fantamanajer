@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Command\Traits\GazzettaTrait;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
-use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
@@ -20,7 +20,7 @@ use Cake\Console\ConsoleOptionParser;
 class StartSeasonCommand extends Command
 {
     use CurrentMatchdayTrait;
-    use Traits\GazzettaTrait;
+    use GazzettaTrait;
 
     /**
      * @inheritDoc
@@ -102,27 +102,27 @@ class StartSeasonCommand extends Command
             $this->Seasons->saveOrFail($season);
             $io->out('Created new season for year ' . $year);
 
-            $firstMatchday = $this->Seasons->Matchdays->newEntity(
+            $firstMatchday = $this->Matchdays->newEntity(
                 [
                     'season_id' => $season->id,
                     'number' => 0,
                     'date' => Chronos::create($year, 8, 10, 0, 0, 0),
                 ]
             );
-            $this->Seasons->Matchdays->save($firstMatchday);
+            $this->Matchdays->save($firstMatchday);
             $io->out('Updating calendar');
             $command = new UpdateCalendarCommand();
             $command->initialize();
             $command->exec($season, $args, $io);
             $io->out('Creating last matchday');
-            $lastMatchday = $this->Seasons->Matchdays->newEntity(
+            $lastMatchday = $this->Matchdays->newEntity(
                 [
                     'season_id' => $season->id,
                     'number' => 39,
                     'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59),
                 ]
             );
-            if ($this->Seasons->Matchdays->save($lastMatchday)) {
+            if ($this->Matchdays->save($lastMatchday)) {
                 return $season;
             } else {
                 return null;

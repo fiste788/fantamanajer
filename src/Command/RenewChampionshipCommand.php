@@ -42,7 +42,9 @@ class RenewChampionshipCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -58,7 +60,6 @@ class RenewChampionshipCommand extends Command
         $newChampionship->season_id = $this->currentSeason->id;
         $newChampionship->started = false;
 
-        /** @var \App\Command\RenewChampionshipCommand $that */
         $that = $this;
         $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $that): Team {
             $newTeam = $that->Championships->Teams->newEntity($team->getOriginalValues());
@@ -97,5 +98,7 @@ class RenewChampionshipCommand extends Command
                 }
             }
         }
+
+        return 1;
     }
 }

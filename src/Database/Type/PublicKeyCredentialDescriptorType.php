@@ -69,7 +69,9 @@ class PublicKeyCredentialDescriptorType implements TypeInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return void
      */
     public function newId()
     {

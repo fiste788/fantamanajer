@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -55,7 +56,9 @@ class SendTestNotificationCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -85,8 +88,6 @@ class SendTestNotificationCommand extends Command
         foreach ($res as $result) {
             // you now have access to request & response objects
 
-            /** @var \Psr\Http\Message\RequestInterface $request */
-            $request = $result->getRequest();
             /** @var \Psr\Http\Message\ResponseInterface $response */
             $response = $result->getResponse();
 
@@ -94,7 +95,7 @@ class SendTestNotificationCommand extends Command
                 // process successful message sent
                 Log::info(sprintf(
                     'Notification with payload %s successfully sent for endpoint %s.',
-                    json_decode((string)$response->getBody()),
+                    json_decode((string) $response->getBody()),
                     $result->getEndpoint()
                 ));
             } else {
@@ -108,11 +109,13 @@ class SendTestNotificationCommand extends Command
                     Log::info(sprintf(
                         'Notification failed: %s. Payload: %s, endpoint: %s',
                         $result->getReason(),
-                        json_decode((string)$response->getBody()),
+                        json_decode((string) $response->getBody()),
                         $result->getEndpoint()
                     ));
                 }
             }
         }
+
+        return 1;
     }
 }

@@ -25,9 +25,10 @@ class TransfertPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Transfert $transfert Entity
-     * @return bool
+     *
+     * @return false
      */
-    public function canEdit(IdentityInterface $user, Transfert $transfert)
+    public function canEdit(IdentityInterface $user, Transfert $transfert): bool
     {
         return false;
     }
@@ -37,9 +38,10 @@ class TransfertPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Transfert $transfert Entity
-     * @return bool
+     *
+     * @return false
      */
-    public function canDelete(IdentityInterface $user, Transfert $transfert)
+    public function canDelete(IdentityInterface $user, Transfert $transfert): bool
     {
         return false;
     }
@@ -49,9 +51,10 @@ class TransfertPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Transfert $transfert Entity
-     * @return bool
+     *
+     * @return true
      */
-    public function canIndex(IdentityInterface $user, Transfert $transfert)
+    public function canIndex(IdentityInterface $user, Transfert $transfert): bool
     {
         return true;
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -56,7 +57,9 @@ class SendLineupsEmailCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -73,6 +76,8 @@ class SendLineupsEmailCommand extends Command
                 $io->out('Lineups sended to championship ' . $championship->name);
             }
         }
+
+        return 1;
     }
 
     /**

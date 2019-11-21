@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -83,13 +84,14 @@ class WeeklyScriptCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->startup($args, $io);
 
-        /** @var \App\Model\Entity\Matchday[] $missingRatings */
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $key => $matchday) {
             $io->out("Starting decript file day " . $matchday->number);
@@ -125,6 +127,8 @@ class WeeklyScriptCommand extends Command
                 }
             }
         }
+
+        return 1;
     }
 
     /**

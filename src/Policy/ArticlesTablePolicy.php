@@ -25,9 +25,10 @@ class ArticlesTablePolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Table\ArticlesTable $articleTable Table
-     * @return bool
+     *
+     * @return true
      */
-    public function canAdd(IdentityInterface $user, ArticlesTable $articleTable)
+    public function canAdd(IdentityInterface $user, ArticlesTable $articleTable): bool
     {
         return true;
     }
@@ -37,9 +38,10 @@ class ArticlesTablePolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Table\ArticlesTable $articleTable Table
-     * @return bool
+     *
+     * @return true
      */
-    public function canEdit(IdentityInterface $user, ArticlesTable $articleTable)
+    public function canEdit(IdentityInterface $user, ArticlesTable $articleTable): bool
     {
         return true;
     }

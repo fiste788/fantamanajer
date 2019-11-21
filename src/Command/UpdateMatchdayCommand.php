@@ -65,9 +65,10 @@ class UpdateMatchdayCommand extends Command
      * @param int $matchdayNumber Matchday
      * @param \Cake\Console\Arguments $args Arguments
      * @param \Cake\Console\ConsoleIo $io Io
+     *
      * @return int
      */
-    public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): ?int
+    public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): int
     {
         /** @var \App\Model\Entity\Matchday|null $matchday */
         $matchday = $this->Matchdays->find()->where(['number' => $matchdayNumber, 'season_id' => $season->id])->first();

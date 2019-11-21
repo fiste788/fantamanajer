@@ -14,9 +14,10 @@ class ScorePolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Score $score Entity
-     * @return bool
+     *
+     * @return true
      */
-    public function canView(IdentityInterface $user, Score $score)
+    public function canView(IdentityInterface $user, Score $score): bool
     {
         return true;
     }
@@ -26,9 +27,10 @@ class ScorePolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Score $score Entity
-     * @return bool
+     *
+     * @return true
      */
-    public function canLast(IdentityInterface $user, Score $score)
+    public function canLast(IdentityInterface $user, Score $score): bool
     {
         return true;
     }

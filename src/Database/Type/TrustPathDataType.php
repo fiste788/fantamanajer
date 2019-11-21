@@ -73,7 +73,9 @@ class TrustPathDataType implements TypeInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return void
      */
     public function newId()
     { }

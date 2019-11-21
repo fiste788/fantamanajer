@@ -70,7 +70,9 @@ class AttestedCredentialDataType implements TypeInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return void
      */
     public function newId()
     {

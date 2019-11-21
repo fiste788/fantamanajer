@@ -72,9 +72,10 @@ class GetMatchdayScheduleCommand extends Command
      * @param \App\Model\Entity\Season $season Season
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
-     * @return \Cake\Chronos\ChronosInterface|null
+     *
+     * @return Chronos|false|null
      */
-    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): ?\Cake\Chronos\ChronosInterface
+    public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
         $year = ((string) $season->year) . "-" . substr((string) ($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";

@@ -13,9 +13,10 @@ class PlayerPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Player $player Player
-     * @return bool
+     *
+     * @return true
      */
-    public function canView(IdentityInterface $user, Player $player)
+    public function canView(IdentityInterface $user, Player $player): bool
     {
         return true;
     }

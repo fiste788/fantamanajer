@@ -13,9 +13,10 @@ class MatchdayPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Matchday $matchday Entity
-     * @return bool
+     *
+     * @return true
      */
-    public function canCurrent(IdentityInterface $user, Matchday $matchday)
+    public function canCurrent(IdentityInterface $user, Matchday $matchday): bool
     {
         return true;
     }

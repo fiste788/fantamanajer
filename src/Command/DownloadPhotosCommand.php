@@ -34,7 +34,9 @@ class DownloadPhotosCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -52,7 +54,7 @@ class DownloadPhotosCommand extends Command
             $io->out("Searching user " . $member->player->full_name);
             $response = $client->post($url, ['PanCal' => $member->player->full_name]);
             if ($response->isOk()) {
-                $cookies = $response->getCookie("PHPSESSID");
+                $response->getCookie("PHPSESSID");
                 foreach ($response->getHeaders() as $name => $values) {
                     $io->out($name . ": " . implode(", ", $values));
                 }
@@ -63,7 +65,7 @@ class DownloadPhotosCommand extends Command
                 $trs = $crawler->filter("table.Result tr a");
                 $io->out("Trovati " . $trs->count());
                 if ($trs->count() >= 1) {
-                    $tr = $trs->first();
+                    $trs->first();
                     $href = $trs->attr("href");
                     if ($href != null && $href != "") {
                         $io->out("Found " . $href);
@@ -80,5 +82,7 @@ class DownloadPhotosCommand extends Command
                 }
             }
         }
+
+        return 1;
     }
 }

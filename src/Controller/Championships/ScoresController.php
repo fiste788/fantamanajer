@@ -13,7 +13,9 @@ use Cake\Event\EventInterface;
 class ScoresController extends AppController
 {
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return void
      */
     public function beforeFilter(EventInterface $event)
     {

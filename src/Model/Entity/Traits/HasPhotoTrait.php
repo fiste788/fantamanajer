@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity\Traits;
@@ -14,7 +15,8 @@ trait HasPhotoTrait
      * @param string $path Path
      * @param string $baseUrl Url
      * @param string|null $name Name
-     * @return array
+     *
+     * @return string[]
      */
     private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null): array
     {

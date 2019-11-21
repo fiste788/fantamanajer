@@ -13,9 +13,10 @@ class LineupPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Lineup $lineup Lineup
-     * @return bool
+     *
+     * @return true
      */
-    public function canCurrent(IdentityInterface $user, Lineup $lineup)
+    public function canCurrent(IdentityInterface $user, Lineup $lineup): bool
     {
         return true;
     }

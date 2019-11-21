@@ -521,7 +521,8 @@ trait GazzettaTrait
      * @param string $path Path
      * @param string $sep Sep
      * @param bool $header Header
-     * @return array
+     *
+     * @return string[][]
      */
     public function returnArray(string $path, string $sep = ";", bool $header = false): array
     {

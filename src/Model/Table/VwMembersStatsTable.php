@@ -111,8 +111,8 @@ class VwMembersStatsTable extends Table
     /**
      * Undocumented function
      *
-     * @param \Cake\Database\Schema\TableSchema $schema Schema
-     * @return \Cake\Database\Schema\TableSchema
+     * @param \Cake\Database\Schema\TableSchemaInterface $schema Schema
+     * @return \Cake\Database\Schema\TableSchemaInterface
      */
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {

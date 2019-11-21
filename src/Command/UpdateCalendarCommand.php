@@ -61,9 +61,10 @@ class UpdateCalendarCommand extends Command
      * @param \App\Model\Entity\Season $season Season
      * @param \Cake\Console\Arguments $args Arguments
      * @param \Cake\Console\ConsoleIo $io Io
+     *
      * @return int
      */
-    public function exec(Season $season, Arguments $args, ConsoleIo $io): ?int
+    public function exec(Season $season, Arguments $args, ConsoleIo $io): int
     {
         $matchdays = 38;
         /** @var \Cake\Shell\Helper\ProgressHelper $progress */
