@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * LeaguesFixture
- *
  */
 class LeaguesFixture extends TestFixture
 {
@@ -17,7 +19,7 @@ class LeaguesFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -27,7 +29,6 @@ class LeaguesFixture extends TestFixture
         ],
     ];
     // @codingStandardsIgnoreEnd
-
     /**
      * Init method
      *
@@ -36,8 +37,14 @@ class LeaguesFixture extends TestFixture
     public function init(): void
     {
         $this->records = [
-        ['id' => '1', 'name' => 'Alzano Sopra'],
-        ['id' => '2', 'name' => 'Pipponi'],
+            [
+                'id' => 1,
+                'name' => 'Alzano Sopra',
+            ],
+            [
+                'id' => 1,
+                'name' => 'Pipponi',
+            ],
         ];
         parent::init();
     }

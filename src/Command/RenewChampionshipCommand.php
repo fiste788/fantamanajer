@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -15,6 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
+ * @property \App\Model\Table\TeamsTable $Teams
  */
 class RenewChampionshipCommand extends Command
 {
@@ -27,6 +27,7 @@ class RenewChampionshipCommand extends Command
     {
         parent::initialize();
         $this->loadModel('Championships');
+        $this->loadModel('Teams');
         $this->getCurrentMatchday();
     }
 
@@ -63,7 +64,7 @@ class RenewChampionshipCommand extends Command
         /** @var \App\Command\RenewChampionshipCommand $that */
         $that = $this;
         $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $that): Team {
-            $newTeam = $that->Championships->Teams->newEntity($team->getOriginalValues());
+            $newTeam = $that->Teams->newEntity($team->getOriginalValues());
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
 
@@ -86,7 +87,7 @@ class RenewChampionshipCommand extends Command
                     $io->out('Copiata folder ' . $to);
                     if ($team->photo != null) {
                         $finder = new Finder();
-                        $finder->name($team->photo)->in($to);;
+                        $finder->name($team->photo)->in($to);
 
                         foreach ($finder->getIterator() as $file) {
                             $newFileName = $newTeam->id . "." . $file->getExtension();

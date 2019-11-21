@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property int $year
  * @property string $key_gazzetta
- * @property bool $bonus_points
+ * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
  *
  * @property \App\Model\Entity\Championship[] $championships

@@ -1,15 +1,35 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Model\Entity\Matchday;
+use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Filesystem\Filesystem;
 
-class RatingsService
+/**
+ * Undocumented class
+ */
+class DownloadRatingsService
 {
+    /**
+     *
+     * @var \Cake\Console\ConsoleIo|null
+     */
+    private $io;
+
+    /**
+     * Undocumented function
+     *
+     * @param \Cake\Console\ConsoleIo $io IO
+     */
+    public function __construct(ConsoleIo $io)
+    {
+        $this->io = $io;
+    }
+
     /**
      * Undocumented function
      *
@@ -22,14 +42,18 @@ class RatingsService
     {
         $year = $matchday->season->year;
         $folder = RATINGS_CSV . $year;
-        $pathCsv = $folder . DS . "Matchday" . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
+        $pathCsv = $folder . DS . "Matchday" . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
         $filesystem = new Filesystem();
-        $this->io->out("Search file in path " . $pathCsv);
+        if ($this->io != null) {
+            $this->io->out("Search file in path " . $pathCsv);
+        }
         if ($filesystem->exists($pathCsv) && filesize($pathCsv) > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
-            $file = TMP . 'mcc' . str_pad((string) $matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
-            $this->io->verbose($file);
+            $file = TMP . 'mcc' . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
+            if ($this->io != null) {
+                $this->io->verbose($file);
+            }
             if ($forceDownload || !file_exists($file)) {
                 return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta));
             } else {
@@ -84,7 +108,12 @@ class RatingsService
                 unset($lines[$key]);
             }
         }
-        $this->io->createFile($path, join("\n", $lines));
+        $output = join("\n", $lines);
+        if ($this->io != null) {
+            $this->io->createFile($path, $output);
+        } else {
+            (new Filesystem())->dumpFile($path, $output);
+        }
     }
 
     /**
@@ -98,7 +127,9 @@ class RatingsService
     {
         $decrypt = $matchday->season->key_gazzetta;
         if ($path != null) {
-            $this->io->out("Starting decrypt " . $path);
+            if ($this->io != null) {
+                $this->io->out("Starting decrypt " . $path);
+            }
             $p_file = fopen($path, "r");
             if ($p_file) {
                 $body = "";
@@ -113,10 +144,12 @@ class RatingsService
 
                         $line = fgets($p_file, 2);
                         if ($line) {
-                            $xor2 = (int) (hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]));
+                            $xor2 = (int)(hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]));
                             $body .= chr($xor2);
                         } else {
-                            $this->io->out("salto " . substr($body, -5));
+                            if ($this->io != null) {
+                                $this->io->out("salto " . substr($body, -5));
+                            }
                         }
                         $i++;
                     }
@@ -138,7 +171,9 @@ class RatingsService
      */
     public function getRatingsFile(int $matchday): ?string
     {
-        $this->io->out("Search ratings on maxigames");
+        if ($this->io != null) {
+            $this->io->out("Search ratings on maxigames");
+        }
         $http = new Client();
         $http->setConfig('headers', [
             'Connection' => 'keep-alive',
@@ -148,15 +183,21 @@ class RatingsService
             'User-Agent' => 'PostmanRuntime/7.15.2',
         ]);
         $url = "https://maxigames.maxisoft.it/downloads.php";
-        $this->io->verbose("Downloading " . $url);
+        if ($this->io != null) {
+            $this->io->verbose("Downloading " . $url);
+        }
         $response = $http->get($url);
         if ($response->isOk()) {
-            $this->io->out("Maxigames found");
+            if ($this->io != null) {
+                $this->io->out("Maxigames found");
+            }
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
             $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
             if ($tr->count() > 0) {
-                $this->io->out("Ratings found for matchday");
+                if ($this->io != null) {
+                    $this->io->out("Ratings found for matchday");
+                }
                 $url = $this->getUrlFromMatchdayRow($tr);
 
                 if ($url != null) {
@@ -202,9 +243,13 @@ class RatingsService
     private function downloadDropboxUrl(string $url, int $matchday, Client $http): ?string
     {
         if ($url) {
-            $this->io->verbose("Downloading " . $url);
+            if ($this->io != null) {
+                $this->io->verbose("Downloading " . $url);
+            }
             $response = $http->get($url);
-            $this->io->verbose("Response " . $response->getStatusCode());
+            if ($this->io != null) {
+                $this->io->verbose("Response " . $response->getStatusCode());
+            }
             if ($response->isOk()) {
                 $crawler = new Crawler();
                 $crawler->addContent($response->getStringBody());
@@ -214,16 +259,48 @@ class RatingsService
                 } else {
                     $url = str_replace("www", "dl", $url);
                 }
-                $this->io->out("Downloading $url in tmp dir");
+                if ($this->io != null) {
+                    $this->io->out("Downloading $url in tmp dir");
+                }
                 $file = TMP . $matchday . '.mxm';
                 file_put_contents($file, file_get_contents($url ?? ""));
 
                 return $file;
             } else {
-                $this->io->err('Response not ok');
+                if ($this->io != null) {
+                    $this->io->err('Response not ok');
+                }
             }
         }
 
         return null;
+    }
+
+    /**
+     * Return array
+     *
+     * @param string $path Path
+     * @param string $sep Sep
+     * @param bool $header Header
+     *
+     * @return string[][]
+     */
+    public function returnArray(string $path, string $sep = ";", bool $header = false): array
+    {
+        $arrayOk = [];
+        $content = file_get_contents($path);
+        if ($content != false) {
+            $array = explode("\n", trim($content));
+            if ($header) {
+                array_shift($array);
+            }
+
+            foreach ($array as $val) {
+                $par = explode($sep, $val);
+                $arrayOk[$par[0]] = $par;
+            }
+        }
+
+        return $arrayOk;
     }
 }

@@ -58,6 +58,7 @@ class Base64DataType implements TypeInterface
      */
     public function getBaseType(): ?string
     {
+        return null;
     }
 
     /**
@@ -65,6 +66,7 @@ class Base64DataType implements TypeInterface
      */
     public function getName(): ?string
     {
+        return null;
     }
 
     /**

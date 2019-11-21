@@ -17,14 +17,14 @@ class PushSubscriptionsTableTest extends TestCase
      *
      * @var \App\Model\Table\PushSubscriptionsTable
      */
-    public $PushSubscriptionsTable;
+    protected $PushSubscriptions;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.PushSubscriptions',
         'app.Users',
     ];
@@ -38,7 +38,7 @@ class PushSubscriptionsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('PushSubscriptions') ? [] : ['className' => PushSubscriptionsTable::class];
-        $this->PushSubscriptionsTable = TableRegistry::getTableLocator()->get('PushSubscriptions', $config);
+        $this->PushSubscriptions = TableRegistry::getTableLocator()->get('PushSubscriptions', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class PushSubscriptionsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->PushSubscriptionsTable);
+        unset($this->PushSubscriptions);
 
         parent::tearDown();
     }
@@ -58,7 +58,7 @@ class PushSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -68,17 +68,7 @@ class PushSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeMarshal method
-     *
-     * @return void
-     */
-    public function testBeforeMarshal()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -88,17 +78,7 @@ class PushSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeSave method
-     *
-     * @return void
-     */
-    public function testBeforeSave()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

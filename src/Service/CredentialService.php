@@ -46,6 +46,7 @@ use WhichBrowser\Parser;
  * Credentials Repo
  *
  * @property \App\Service\CredentialRepositoryService $CredentialRepository
+ * @property \App\Model\Table\PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
  * @property \App\Model\Table\UsersTable $Users
  */
 class CredentialService
@@ -375,13 +376,13 @@ class CredentialService
             );
 
             /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
-            $credential = $this->CredentialRepository->PublicKeyCredentialSources->newEmptyEntity();
+            $credential = $this->PublicKeyCredentialSources->newEmptyEntity();
             $credential->fromCredentialSource($credentialSource);
             $credential->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
             $credential->user_agent = $request->getHeader('User-Agent')[0];
             $parsed = new Parser($credential->user_agent);
             $credential->name = $parsed->toString();
-            $this->CredentialRepository->PublicKeyCredentialSources->save($credential);
+            $this->PublicKeyCredentialSources->save($credential);
 
             return true;
         } catch (\Throwable $exception) {

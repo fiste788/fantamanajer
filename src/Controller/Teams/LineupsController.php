@@ -65,7 +65,7 @@ class LineupsController extends \App\Controller\LineupsController
                 $event->getSubject()->query = $that->Lineups->find('byMatchdayIdAndTeamId', [
                     'matchday_id' => $matchday->id,
                     'team_id' => $team,
-                ])->contain(['Teams' => ['Members' => ['Roles', 'Players']]]);
+                ])->contain(['Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
             });
         }
         $this->Crud->on('afterFind', function (Event $event) use ($team, $that) {

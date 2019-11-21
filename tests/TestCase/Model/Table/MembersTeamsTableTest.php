@@ -17,14 +17,14 @@ class MembersTeamsTableTest extends TestCase
      *
      * @var \App\Model\Table\MembersTeamsTable
      */
-    public $MembersTeamsTable;
+    protected $MembersTeams;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.MembersTeams',
         'app.Teams',
         'app.Members',
@@ -39,7 +39,7 @@ class MembersTeamsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('MembersTeams') ? [] : ['className' => MembersTeamsTable::class];
-        $this->MembersTeamsTable = TableRegistry::getTableLocator()->get('MembersTeams', $config);
+        $this->MembersTeams = TableRegistry::getTableLocator()->get('MembersTeams', $config);
     }
 
     /**
@@ -49,7 +49,7 @@ class MembersTeamsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->MembersTeamsTable);
+        unset($this->MembersTeams);
 
         parent::tearDown();
     }
@@ -59,7 +59,7 @@ class MembersTeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -69,7 +69,7 @@ class MembersTeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -79,17 +79,7 @@ class MembersTeamsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeSave method
-     *
-     * @return void
-     */
-    public function testBeforeSave()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

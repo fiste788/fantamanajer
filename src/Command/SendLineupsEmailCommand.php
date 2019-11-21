@@ -64,9 +64,9 @@ class SendLineupsEmailCommand extends Command
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
             $championships = $this->Championships->find()
-                ->contain(['Teams' => function (Query $q) {
+                ->contain(['Teams' => function (Query $q): Query {
                     return $q->contain(['Users'])
-                        ->innerJoinWith('EmailNotificationSubscriptions', function (Query $q) {
+                        ->innerJoinWith('EmailNotificationSubscriptions', function (Query $q): Query {
                             return $q->where(['name' => 'lineups', 'enabled' => true]);
                         });
                 }])->where(['season_id' => $this->currentSeason->id]);
@@ -89,7 +89,7 @@ class SendLineupsEmailCommand extends Command
     private function sendLineupsChampionship(Championship $championship, Matchday $matchday): void
     {
         $teams = $this->Teams->find()
-            ->contain('Lineups', function (Query $q) use ($matchday) {
+            ->contain('Lineups', function (Query $q) use ($matchday): Query {
                 return $q->contain([
                     'Dispositions' => ['Members' => ['Clubs', 'Roles', 'Players']],
                 ])->where(['matchday_id' => $matchday->id]);

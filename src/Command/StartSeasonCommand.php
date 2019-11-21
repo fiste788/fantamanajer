@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Command\Traits\GazzettaTrait;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
+use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
@@ -15,11 +15,13 @@ use Cake\Console\ConsoleOptionParser;
 /**
  * @property \App\Model\Table\SeasonsTable $Seasons
  * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Service\RatingService $Rating
+ * @property \App\Service\UpdateMemberService $UpdateMember
  */
 class StartSeasonCommand extends Command
 {
     use CurrentMatchdayTrait;
-    use GazzettaTrait;
+    use ServiceAwareTrait;
 
     /**
      * @inheritDoc
@@ -47,18 +49,20 @@ class StartSeasonCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $this->startup($args, $io);
+        $this->loadService('UpdateMember', [$io]);
+        $this->loadService('Rating', [$io]);
+
         $season = $this->createSeason($io, $args);
         if ($season != null) {
             if ($season->key_gazzetta == null || $season->key_gazzetta == '') {
                 $this->getCurrentMatchday();
-                if ($this->calculateKey($season) != '') {
+                if ($this->Rating->calculateKey($season) != '') {
                     /** @var \App\Model\Entity\Matchday $firstMatchday */
                     $firstMatchday = $this->Matchdays->find()->where([
                         'number' => '0',
                         'season_id' => $season->id,
                     ])->first();
-                    $this->updateMembers($firstMatchday);
+                    $this->UpdateMember->updateMembers($firstMatchday);
                 }
 
                 return 1;
@@ -68,7 +72,7 @@ class StartSeasonCommand extends Command
                     'number' => '0',
                     'season_id' => $season->id,
                 ])->first();
-                $this->updateMembers($firstMatchday);
+                $this->UpdateMember->updateMembers($firstMatchday);
                 $io->err('Season for year ' . $season->year . ' already exist');
 
                 $this->abort();

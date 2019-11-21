@@ -11,7 +11,6 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property bool $valued
  * @property float $points
- * @property float $points_no_bonus
  * @property float $rating
  * @property int $goals
  * @property int $goals_against
@@ -66,25 +65,22 @@ class Rating extends Entity
     ];
 
     /**
+     * Undocumented function
      *
+     * @param \App\Model\Entity\Member|null $member Member
      * @return float
      */
-    public function getBonusPoints()
+    public function getBonusPointsGoals(?Member $member = null): float
     {
-        $minus = 0;
+        $minus = (float)0;
+        $member = $member ?? $this->member;
         for ($i = 0; $i < $this->goals; $i++) {
-            switch ($this->member->role->abbreviation) {
+            switch ($member->role->abbreviation) {
                 case 'A':
-                    if ($this->member->playmaker) {
-                        $minus += 0.5;
-                    }
+                    $minus += $member->playmaker ? 0.5 : 0;
                     break;
                 case 'C':
-                    if (!$this->member->playmaker) {
-                        $minus += 1;
-                    } else {
-                        $minus += 0.5;
-                    }
+                    $minus += !$member->playmaker ? 1 : 0.5;
                     break;
                 case 'D':
                     $minus += 1.5;
@@ -95,21 +91,24 @@ class Rating extends Entity
             }
         }
 
-        return $$minus;
+        return $minus;
     }
 
     /**
+     * Undocumented function
      *
+     * @param \App\Model\Entity\Member|null $member Member
      * @return float
      */
-    public function getBonusCleanSheetPoints()
+    public function getBonusCleanSheetPoints(?Member $member = null): float
     {
-        $minus = 0;
-        if ($this->goals_against == 0 && $this->member->role->abbreviation == 'P') {
+        $minus = (float)0;
+        $member = $member ?? $this->member;
+        if ($this->goals_against == 0 && $member->role->abbreviation == 'P') {
             $minus += 1;
         }
 
-        return $$minus;
+        return $minus;
     }
 
     /**
@@ -119,11 +118,11 @@ class Rating extends Entity
      * @param bool $force Force
      * @return float
      */
-    public function calcPointsNoBonus(Season $season, bool $force = false)
+    public function calcPointsNoBonus(Season $season, bool $force = false): float
     {
         $pointsNoBonus = $this->points;
-        if ($season->bonus_points || $force) {
-            $pointsNoBonus -= $this->getBonusPoints();
+        if ($season->bonus_points_goals || $force) {
+            $pointsNoBonus -= $this->getBonusPointsGoals();
         }
         if ($season->bonus_points_clean_sheet || $force) {
             $pointsNoBonus -= $this->getBonusCleanSheetPoints();

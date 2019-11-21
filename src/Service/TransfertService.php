@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -76,7 +75,7 @@ class TransfertService
             ]);
             $this->Transferts->save($transfert, ['associated' => false]);
         }
-        $this->MembersTeams->saveMany($recs, ['associated' => false]);
+        $this->MembersTeams->saveMany(array_values((array)$recs), ['associated' => false]);
     }
 
     /**

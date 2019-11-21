@@ -60,6 +60,7 @@ class AttestedCredentialDataType implements TypeInterface
      */
     public function getBaseType(): ?string
     {
+        return null;
     }
 
     /**
@@ -67,6 +68,7 @@ class AttestedCredentialDataType implements TypeInterface
      */
     public function getName(): ?string
     {
+        return null;
     }
 
     /**

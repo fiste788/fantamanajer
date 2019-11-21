@@ -17,14 +17,14 @@ class NotificationSubscriptionsTableTest extends TestCase
      *
      * @var \App\Model\Table\NotificationSubscriptionsTable
      */
-    public $NotificationSubscriptionsTable;
+    protected $NotificationSubscriptions;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.NotificationSubscriptions',
         'app.Teams',
     ];
@@ -38,7 +38,7 @@ class NotificationSubscriptionsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('NotificationSubscriptions') ? [] : ['className' => NotificationSubscriptionsTable::class];
-        $this->NotificationSubscriptionsTable = TableRegistry::getTableLocator()->get('NotificationSubscriptions', $config);
+        $this->NotificationSubscriptions = TableRegistry::getTableLocator()->get('NotificationSubscriptions', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->NotificationSubscriptionsTable);
+        unset($this->NotificationSubscriptions);
 
         parent::tearDown();
     }
@@ -58,7 +58,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -68,7 +68,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -78,7 +78,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -17,14 +17,14 @@ class MembersTableTest extends TestCase
      *
      * @var \App\Model\Table\MembersTable
      */
-    public $MembersTable;
+    protected $Members;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Members',
         'app.Players',
         'app.Roles',
@@ -44,7 +44,7 @@ class MembersTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Members') ? [] : ['className' => MembersTable::class];
-        $this->MembersTable = TableRegistry::getTableLocator()->get('Members', $config);
+        $this->Members = TableRegistry::getTableLocator()->get('Members', $config);
     }
 
     /**
@@ -54,7 +54,7 @@ class MembersTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->MembersTable);
+        unset($this->Members);
 
         parent::tearDown();
     }
@@ -64,7 +64,7 @@ class MembersTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -74,7 +74,7 @@ class MembersTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -84,87 +84,7 @@ class MembersTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findListBySeasonId method
-     *
-     * @return void
-     */
-    public function testFindListBySeasonId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithStats method
-     *
-     * @return void
-     */
-    public function testFindWithStats()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithDetails method
-     *
-     * @return void
-     */
-    public function testFindWithDetails()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findFree method
-     *
-     * @return void
-     */
-    public function testFindFree()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByClubId method
-     *
-     * @return void
-     */
-    public function testFindByClubId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByTeamId method
-     *
-     * @return void
-     */
-    public function testFindByTeamId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findBestByMatchdayIdAndRole method
-     *
-     * @return void
-     */
-    public function testFindBestByMatchdayIdAndRole()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test afterSave method
-     *
-     * @return void
-     */
-    public function testAfterSave()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

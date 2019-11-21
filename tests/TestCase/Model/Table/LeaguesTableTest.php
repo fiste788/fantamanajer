@@ -17,14 +17,14 @@ class LeaguesTableTest extends TestCase
      *
      * @var \App\Model\Table\LeaguesTable
      */
-    public $LeaguesTable;
+    protected $Leagues;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Leagues',
         'app.Championships',
     ];
@@ -38,7 +38,7 @@ class LeaguesTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Leagues') ? [] : ['className' => LeaguesTable::class];
-        $this->LeaguesTable = TableRegistry::getTableLocator()->get('Leagues', $config);
+        $this->Leagues = TableRegistry::getTableLocator()->get('Leagues', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class LeaguesTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->LeaguesTable);
+        unset($this->Leagues);
 
         parent::tearDown();
     }
@@ -58,7 +58,7 @@ class LeaguesTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -68,7 +68,7 @@ class LeaguesTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

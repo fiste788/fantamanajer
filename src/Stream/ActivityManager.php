@@ -64,14 +64,17 @@ class ActivityManager
     /**
      *
      * @param \StreamCake\EnrichedActivity $activity Activity
-     * @return \App\Stream\StreamActivity
+     * @return \App\Stream\StreamActivity|null
      */
-    private function getFromVerb(EnrichedActivity $activity): StreamActivity
+    private function getFromVerb(EnrichedActivity $activity): ?StreamActivity
     {
         $namespace = '\\App\\Stream\\Verb\\' . ($activity->offsetExists('activities') ?: 'Aggregated\\');
         $name = $activity->offsetGet('verb') ?? '';
         $className = $namespace . ucwords($name);
 
-        return new $className($activity);
+        /** @var \App\Stream\StreamActivity|null $clazz */
+        $clazz = class_exists($className) ? new $className($activity) : null;
+
+        return $clazz;
     }
 }

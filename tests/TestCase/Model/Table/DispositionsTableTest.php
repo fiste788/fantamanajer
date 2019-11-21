@@ -17,18 +17,17 @@ class DispositionsTableTest extends TestCase
      *
      * @var \App\Model\Table\DispositionsTable
      */
-    public $DispositionsTable;
+    protected $Dispositions;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Dispositions',
         'app.Lineups',
         'app.Members',
-        'app.Ratings',
     ];
 
     /**
@@ -40,7 +39,7 @@ class DispositionsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Dispositions') ? [] : ['className' => DispositionsTable::class];
-        $this->DispositionsTable = TableRegistry::getTableLocator()->get('Dispositions', $config);
+        $this->Dispositions = TableRegistry::getTableLocator()->get('Dispositions', $config);
     }
 
     /**
@@ -50,7 +49,7 @@ class DispositionsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->DispositionsTable);
+        unset($this->Dispositions);
 
         parent::tearDown();
     }
@@ -60,7 +59,7 @@ class DispositionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -70,7 +69,7 @@ class DispositionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -80,7 +79,7 @@ class DispositionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

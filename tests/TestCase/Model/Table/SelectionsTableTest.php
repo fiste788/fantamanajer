@@ -17,14 +17,14 @@ class SelectionsTableTest extends TestCase
      *
      * @var \App\Model\Table\SelectionsTable
      */
-    public $SelectionsTable;
+    protected $Selections;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Selections',
         'app.Teams',
         'app.Matchdays',
@@ -40,7 +40,7 @@ class SelectionsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Selections') ? [] : ['className' => SelectionsTable::class];
-        $this->SelectionsTable = TableRegistry::getTableLocator()->get('Selections', $config);
+        $this->Selections = TableRegistry::getTableLocator()->get('Selections', $config);
     }
 
     /**
@@ -50,7 +50,7 @@ class SelectionsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->SelectionsTable);
+        unset($this->Selections);
 
         parent::tearDown();
     }
@@ -60,7 +60,7 @@ class SelectionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -70,7 +70,7 @@ class SelectionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -80,57 +80,7 @@ class SelectionsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test afterSave method
-     *
-     * @return void
-     */
-    public function testAfterSave()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeSave method
-     *
-     * @return void
-     */
-    public function testBeforeSave()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test notifyLostMember method
-     *
-     * @return void
-     */
-    public function testNotifyLostMember()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findAlreadySelectedMember method
-     *
-     * @return void
-     */
-    public function testFindAlreadySelectedMember()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByTeamIdAndMatchdayId method
-     *
-     * @return void
-     */
-    public function testFindByTeamIdAndMatchdayId()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

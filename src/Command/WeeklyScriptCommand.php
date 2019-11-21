@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Command\Traits\GazzettaTrait;
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
 use App\Traits\CurrentMatchdayTrait;
@@ -25,12 +24,14 @@ use Minishlink\WebPush\WebPush;
  * @property \App\Model\Table\ChampionshipsTable $Championships
  * @property \App\Model\Table\LineupsTable $Lineups
  * @property \App\Service\ComputeScoreService $ComputeScore
+ * @property \App\Service\RatingService $Rating
+ * @property \App\Service\DownloadRatingsService $DownloadRatings
+ * @property \App\Service\UpdateMemberService $UpdateMember
  * @property \Cake\ORM\Table $Points
  */
 class WeeklyScriptCommand extends Command
 {
     use CurrentMatchdayTrait;
-    use GazzettaTrait;
     use ServiceAwareTrait;
     use MailerAwareTrait;
 
@@ -89,17 +90,19 @@ class WeeklyScriptCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $this->startup($args, $io);
+        $this->loadService('Rating', [$io]);
+        $this->loadService('DownloadRatings', [$io]);
+        $this->loadService('UpdateMember', [$io]);
 
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $key => $matchday) {
             $io->out("Starting decript file day " . $matchday->number);
-            $path = $this->getRatings($matchday);
+            $path = $this->DownloadRatings->getRatings($matchday);
             if ($path != null) {
                 $io->out("Updating table players");
-                $this->updateMembers($matchday, $path);
+                $this->UpdateMember->updateMembers($matchday, $path);
                 $io->out("Importing ratings");
-                $this->importRatings($matchday, $path);
+                $this->Rating->importRatings($matchday, $path);
             } else {
                 $io->out("Cannot download ratings from gazzetta");
             }

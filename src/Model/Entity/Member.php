@@ -23,6 +23,7 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property int $season_id
  * @property string|null $photo_url
  * @property string|null $background_url
+ * @property mixed|null $likely_lineup
  *
  * @property \App\Model\Entity\Player $player
  * @property \App\Model\Entity\Role $role

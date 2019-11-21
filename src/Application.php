@@ -120,7 +120,7 @@ class Application extends BaseApplication implements
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,
-                'identityDecorator' => function ($auth, $user) {
+                'identityDecorator' => function (AuthorizationServiceInterface $auth, User $user) {
                     return $user->setAuthorization($auth);
                 },
             ]))->add(new RequestAuthorizationMiddleware());

@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $position
  * @property int $consideration
+ * @property float $points
  * @property int $lineup_id
  * @property int $member_id
  *

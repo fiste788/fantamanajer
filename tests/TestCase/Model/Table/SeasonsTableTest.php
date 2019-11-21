@@ -17,14 +17,14 @@ class SeasonsTableTest extends TestCase
      *
      * @var \App\Model\Table\SeasonsTable
      */
-    public $SeasonsTable;
+    protected $Seasons;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Seasons',
         'app.Championships',
         'app.Matchdays',
@@ -40,7 +40,7 @@ class SeasonsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Seasons') ? [] : ['className' => SeasonsTable::class];
-        $this->SeasonsTable = TableRegistry::getTableLocator()->get('Seasons', $config);
+        $this->Seasons = TableRegistry::getTableLocator()->get('Seasons', $config);
     }
 
     /**
@@ -50,7 +50,7 @@ class SeasonsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->SeasonsTable);
+        unset($this->Seasons);
 
         parent::tearDown();
     }
@@ -60,7 +60,7 @@ class SeasonsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -70,7 +70,7 @@ class SeasonsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

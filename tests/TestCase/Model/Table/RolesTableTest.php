@@ -17,14 +17,14 @@ class RolesTableTest extends TestCase
      *
      * @var \App\Model\Table\RolesTable
      */
-    public $RolesTable;
+    protected $Roles;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Roles',
         'app.Members',
     ];
@@ -38,7 +38,7 @@ class RolesTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Roles') ? [] : ['className' => RolesTable::class];
-        $this->RolesTable = TableRegistry::getTableLocator()->get('Roles', $config);
+        $this->Roles = TableRegistry::getTableLocator()->get('Roles', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class RolesTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->RolesTable);
+        unset($this->Roles);
 
         parent::tearDown();
     }
@@ -58,7 +58,7 @@ class RolesTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -68,7 +68,7 @@ class RolesTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

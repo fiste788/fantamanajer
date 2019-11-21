@@ -17,20 +17,21 @@ class MatchdaysTableTest extends TestCase
      *
      * @var \App\Model\Table\MatchdaysTable
      */
-    public $MatchdaysTable;
+    protected $Matchdays;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Matchdays',
         'app.Seasons',
         'app.Articles',
         'app.Lineups',
         'app.Ratings',
         'app.Scores',
+        'app.Selections',
         'app.Transferts',
     ];
 
@@ -43,7 +44,7 @@ class MatchdaysTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Matchdays') ? [] : ['className' => MatchdaysTable::class];
-        $this->MatchdaysTable = TableRegistry::getTableLocator()->get('Matchdays', $config);
+        $this->Matchdays = TableRegistry::getTableLocator()->get('Matchdays', $config);
     }
 
     /**
@@ -53,7 +54,7 @@ class MatchdaysTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->MatchdaysTable);
+        unset($this->Matchdays);
 
         parent::tearDown();
     }
@@ -63,7 +64,7 @@ class MatchdaysTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -73,7 +74,7 @@ class MatchdaysTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -83,67 +84,7 @@ class MatchdaysTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findCurrent method
-     *
-     * @return void
-     */
-    public function testFindCurrent()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test getTargetCountdown method
-     *
-     * @return void
-     */
-    public function testGetTargetCountdown()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithoutScores method
-     *
-     * @return void
-     */
-    public function testFindWithoutScores()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithScores method
-     *
-     * @return void
-     */
-    public function testFindWithScores()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithoutRatings method
-     *
-     * @return void
-     */
-    public function testFindWithoutRatings()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithRatings method
-     *
-     * @return void
-     */
-    public function testFindWithRatings()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

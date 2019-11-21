@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity\Traits;
 
-use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
 use Symfony\Component\Finder\Finder;
 
@@ -30,7 +28,8 @@ trait HasPhotoTrait
         $folder->directories()->in($path);
         foreach ($folder->getIterator() as $sub) {
             if (file_exists($path . $sub->getRelativePath() . DS . $name)) {
-                $array[$sub->getRelativePath()] = $baseUrl . $sub->getRelativePath() . '/' . str_replace(' ', '%20', $name);
+                $array[$sub->getRelativePath()] = $baseUrl . $sub->getRelativePath() .
+                    '/' . htmlspecialchars_decode($name);
             }
         }
         $principal = $path . $name;

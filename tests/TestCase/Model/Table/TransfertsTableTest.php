@@ -17,14 +17,14 @@ class TransfertsTableTest extends TestCase
      *
      * @var \App\Model\Table\TransfertsTable
      */
-    public $TransfertsTable;
+    protected $Transferts;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Transferts',
         'app.Members',
         'app.Teams',
@@ -40,7 +40,7 @@ class TransfertsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Transferts') ? [] : ['className' => TransfertsTable::class];
-        $this->TransfertsTable = TableRegistry::getTableLocator()->get('Transferts', $config);
+        $this->Transferts = TableRegistry::getTableLocator()->get('Transferts', $config);
     }
 
     /**
@@ -50,7 +50,7 @@ class TransfertsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->TransfertsTable);
+        unset($this->Transferts);
 
         parent::tearDown();
     }
@@ -60,7 +60,7 @@ class TransfertsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -70,7 +70,7 @@ class TransfertsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -80,27 +80,7 @@ class TransfertsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByTeamId method
-     *
-     * @return void
-     */
-    public function testFindByTeamId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test afterSave method
-     *
-     * @return void
-     */
-    public function testAfterSave()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

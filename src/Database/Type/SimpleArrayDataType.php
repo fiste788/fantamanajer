@@ -62,7 +62,7 @@ class SimpleArrayDataType implements TypeInterface
      */
     public function getBaseType(): ?string
     {
-        return "string";
+        return null;
     }
 
     /**
@@ -70,6 +70,7 @@ class SimpleArrayDataType implements TypeInterface
      */
     public function getName(): ?string
     {
+        return null;
     }
 
     /**

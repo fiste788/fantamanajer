@@ -85,6 +85,14 @@ class ChampionshipsTable extends Table
             ->notEmptyString('captain_missed_lineup');
 
         $validator
+            ->boolean('bonus_points_goals')
+            ->allowEmptyString('bonus_points_goals');
+
+        $validator
+            ->boolean('bonus_points_clean_sheet')
+            ->allowEmptyString('bonus_points_clean_sheet');
+
+        $validator
             ->boolean('started')
             ->notEmptyString('started');
 

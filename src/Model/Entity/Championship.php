@@ -15,6 +15,8 @@ use Cake\ORM\Entity;
  * @property int $minute_lineup
  * @property int $points_missed_lineup
  * @property bool $captain_missed_lineup
+ * @property bool $bonus_points_goals
+ * @property bool $bonus_points_clean_sheet
  * @property bool $started
  * @property bool|null $jolly
  * @property int $league_id

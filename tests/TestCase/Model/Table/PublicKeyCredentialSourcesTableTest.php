@@ -17,16 +17,16 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      *
      * @var \App\Model\Table\PublicKeyCredentialSourcesTable
      */
-    public $PublicKeyCredentialSources;
+    protected $PublicKeyCredentialSources;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.PublicKeyCredentialSources',
-        'app.Users',
+        'app.PublicKeyCredentials',
     ];
 
     /**
@@ -58,7 +58,7 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -68,7 +68,17 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

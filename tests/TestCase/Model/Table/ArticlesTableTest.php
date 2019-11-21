@@ -17,17 +17,17 @@ class ArticlesTableTest extends TestCase
      *
      * @var \App\Model\Table\ArticlesTable
      */
-    public $ArticlesTable;
+    protected $Articles;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
-        'app.articles',
-        'app.teams',
-        'app.matchdays',
+    protected $fixtures = [
+        'app.Articles',
+        'app.Teams',
+        'app.Matchdays',
     ];
 
     /**
@@ -39,7 +39,7 @@ class ArticlesTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Articles') ? [] : ['className' => ArticlesTable::class];
-        $this->ArticlesTable = TableRegistry::getTableLocator()->get('Articles', $config);
+        $this->Articles = TableRegistry::getTableLocator()->get('Articles', $config);
     }
 
     /**
@@ -49,7 +49,7 @@ class ArticlesTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->ArticlesTable);
+        unset($this->Articles);
 
         parent::tearDown();
     }
@@ -59,17 +59,7 @@ class ArticlesTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeMarshal method
-     *
-     * @return void
-     */
-    public function testBeforeMarshal()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -79,7 +69,7 @@ class ArticlesTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -89,37 +79,7 @@ class ArticlesTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByChampionshipId method
-     *
-     * @return void
-     */
-    public function testFindByChampionshipId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByTeamId method
-     *
-     * @return void
-     */
-    public function testFindByTeamId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test afterSave method
-     *
-     * @return void
-     */
-    public function testAfterSave()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

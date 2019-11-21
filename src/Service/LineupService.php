@@ -47,13 +47,13 @@ class LineupService
     /**
      * Return new empty lineup
      *
-     * @param int $team Team id
+     * @param int $teamId Team id
      * @return \App\Model\Entity\Lineup
      */
-    public function getEmptyLineup(int $team): Lineup
+    public function getEmptyLineup(int $teamId): Lineup
     {
         $lineup = new Lineup();
-        $lineup->team = $this->Teams->get($team, ['contain' => ['Members' => ['Roles', 'Players']]]);
+        $lineup->team = $this->Teams->get($teamId, ['contain' => ['Members' => ['Roles', 'Players']]]);
         $lineup->modules = Lineup::$modules;
 
         return $lineup;
@@ -62,15 +62,15 @@ class LineupService
     /**
      * Return new empty lineup with matchday
      *
-     * @param int $team_id Team id
-     * @param int $matchday_id Matchday id
+     * @param int $teamId Team id
+     * @param int $matchdayId Matchday id
      * @return \App\Model\Entity\Lineup
      */
-    public function newLineup(int $team_id, int $matchday_id): Lineup
+    public function newLineup(int $teamId, int $matchdayId): Lineup
     {
-        $lineup = $this->getEmptyLineup($team_id);
-        $lineup->team_id = $team_id;
-        $lineup->matchday_id = $matchday_id;
+        $lineup = $this->getEmptyLineup($teamId);
+        $lineup->team_id = $teamId;
+        $lineup->matchday_id = $matchdayId;
 
         return $lineup;
     }

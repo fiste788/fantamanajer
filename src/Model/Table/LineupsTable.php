@@ -287,7 +287,7 @@ class LineupsTable extends Table
                         ]
                     )
                         ->contain(
-                            ['Ratings' => function (Query $q) use ($matchdayId): Query {
+                            ['Roles', 'Ratings' => function (Query $q) use ($matchdayId): Query {
                                 return $q->where(['Ratings.matchday_id' => $matchdayId]);
                             }]
                         );

@@ -17,14 +17,14 @@ class ChampionshipsTableTest extends TestCase
      *
      * @var \App\Model\Table\ChampionshipsTable
      */
-    public $ChampionshipsTable;
+    protected $Championships;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Championships',
         'app.Leagues',
         'app.Seasons',
@@ -40,7 +40,7 @@ class ChampionshipsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Championships') ? [] : ['className' => ChampionshipsTable::class];
-        $this->ChampionshipsTable = TableRegistry::getTableLocator()->get('Championships', $config);
+        $this->Championships = TableRegistry::getTableLocator()->get('Championships', $config);
     }
 
     /**
@@ -50,7 +50,7 @@ class ChampionshipsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->ChampionshipsTable);
+        unset($this->Championships);
 
         parent::tearDown();
     }
@@ -60,7 +60,7 @@ class ChampionshipsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -70,7 +70,7 @@ class ChampionshipsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -80,7 +80,7 @@ class ChampionshipsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

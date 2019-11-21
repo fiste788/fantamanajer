@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -16,6 +15,7 @@ use Cake\Datasource\ModelAwareTrait;
  * @property \App\Service\LineupService $Lineup
  * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Model\Table\TeamsTable $Teams
+ * @property \App\Model\Table\SeasonsTable $Seasons
  * @property \App\Model\Table\LineupsTable $Lineups
  */
 class ComputeScoreService
@@ -31,6 +31,7 @@ class ComputeScoreService
         $this->loadService("Lineup");
         $this->loadModel("Scores");
         $this->loadModel("Teams");
+        $this->loadModel("Seasons");
         $this->loadModel("Lineups");
     }
 
@@ -70,6 +71,8 @@ class ComputeScoreService
     public function exec(Score $score): void
     {
         $score->team = $score->team ?? $this->Teams->get($score->team_id, ['contain' => ['Championships']]);
+        $season = $score->matchday->has('season') ?
+            $score->matchday->season : $this->Seasons->get($score->matchday->season_id);
         $championship = $score->team->championship;
         $lineup = $score->lineup;
         if ($lineup == null) {
@@ -102,7 +105,11 @@ class ComputeScoreService
                 }
             }
             if ($lineup != null) {
-                $score->real_points = $this->compute($lineup);
+                $score->real_points = $this->compute(
+                    $lineup,
+                    $season->bonus_points_goals && !$score->team->championship->bonus_points_goals,
+                    $season->bonus_points_clean_sheet && !$score->team->championship->bonus_points_clean_sheet
+                );
                 $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
                 if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
                     $malusPoints = round(($score->points / 100) * (100 - $championship->points_missed_lineup), 1);
@@ -120,9 +127,11 @@ class ComputeScoreService
      * Undocumented function
      *
      * @param \App\Model\Entity\Lineup $lineup The lineup to calc
+     * @param bool $subtractBonusGoals Subtract bonus goals
+     * @param bool $subtractBonusCleanSheet Subtract bonus clean sheet
      * @return float
      */
-    public function compute(Lineup $lineup): float
+    public function compute(Lineup $lineup, $subtractBonusGoals = false, $subtractBonusCleanSheet = false): float
     {
         $sum = 0;
         $cap = null;
@@ -138,12 +147,12 @@ class ComputeScoreService
                 if (!$member->ratings[0]->valued) {
                     $notValueds[] = $member;
                 } else {
-                    $sum += $this->regularize($disposition, $cap);
+                    $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
                 }
             } else {
                 foreach ($notValueds as $key => $notValued) {
                     if ($substitution < 3 && $member->role_id == $notValued->role_id && $member->ratings[0]->valued) {
-                        $sum += $this->regularize($disposition, $cap);
+                        $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
                         $substitution++;
                         unset($notValueds[$key]);
                         break;
@@ -187,13 +196,29 @@ class ComputeScoreService
      * Set the disposition as regular and return the points scored
      *
      * @param \App\Model\Entity\Disposition $disposition The disposition
+     * @param bool $subtractBonusGoals Subtract bonus goals
+     * @param bool $subtractBonusCleanSheet Subtract bonus clean sheet
      * @param int $cap Id of the captain. Use it for double the points
      * @return float Points scored
      */
-    private function regularize(Disposition $disposition, $cap = null): float
-    {
+    private function regularize(
+        Disposition $disposition,
+        bool $subtractBonusGoals,
+        bool $subtractBonusCleanSheet,
+        $cap = null
+    ): float {
         $disposition->consideration = 1;
-        $points = $disposition->member->ratings[0]->points_no_bonus;
+        $rating = $disposition->member->ratings[0];
+        $points = $rating->points;
+        if ($subtractBonusGoals) {
+            $points -= $rating->getBonusPointsGoals($disposition->member);
+        }
+        if ($subtractBonusCleanSheet) {
+            $points -= $rating->getBonusCleanSheetPoints($disposition->member);
+        }
+        if ($points != $rating->points) {
+            $disposition->points = $points;
+        }
         if ($cap && $disposition->member->id == $cap) {
             $disposition->consideration = 2;
             $points *= 2;

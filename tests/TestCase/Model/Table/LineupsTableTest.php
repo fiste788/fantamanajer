@@ -17,15 +17,16 @@ class LineupsTableTest extends TestCase
      *
      * @var \App\Model\Table\LineupsTable
      */
-    public $LineupsTable;
+    protected $Lineups;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Lineups',
+        'app.Members',
         'app.Matchdays',
         'app.Teams',
         'app.Dispositions',
@@ -41,7 +42,7 @@ class LineupsTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Lineups') ? [] : ['className' => LineupsTable::class];
-        $this->LineupsTable = TableRegistry::getTableLocator()->get('Lineups', $config);
+        $this->Lineups = TableRegistry::getTableLocator()->get('Lineups', $config);
     }
 
     /**
@@ -51,7 +52,7 @@ class LineupsTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->LineupsTable);
+        unset($this->Lineups);
 
         parent::tearDown();
     }
@@ -61,7 +62,7 @@ class LineupsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -71,7 +72,7 @@ class LineupsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -81,67 +82,7 @@ class LineupsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test afterSave method
-     *
-     * @return void
-     */
-    public function testAfterSave()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test beforeMarshal method
-     *
-     * @return void
-     */
-    public function testBeforeMarshal()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findDetails method
-     *
-     * @return void
-     */
-    public function testFindDetails()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findLast method
-     *
-     * @return void
-     */
-    public function testFindLast()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findByMatchdayIdAndTeamId method
-     *
-     * @return void
-     */
-    public function testFindByMatchdayIdAndTeamId()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test findWithRatings method
-     *
-     * @return void
-     */
-    public function testFindWithRatings()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
