@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace StreamCake;
 
 use ArrayAccess;
 use ArrayIterator;
+use Cake\I18n\FrozenTime;
 use IteratorAggregate;
 
 class EnrichedActivity implements IteratorAggregate
@@ -24,7 +26,7 @@ class EnrichedActivity implements IteratorAggregate
      */
     public function __construct(array $activityData)
     {
-        $activityData['time'] = new \Cake\I18n\Time($activityData['time'], 'UTC');
+        $activityData['time'] = new FrozenTime($activityData['time'], 'UTC');
         $this->activityData = $activityData;
     }
 

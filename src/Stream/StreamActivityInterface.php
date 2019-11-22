@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Stream;
 
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 
 interface StreamActivityInterface
 {
@@ -31,7 +32,7 @@ interface StreamActivityInterface
     /**
      * Get time
      *
-     * @return \Cake\I18n\Time
+     * @return \Cake\I18n\FrozenTime
      */
-    public function getTime(): Time;
+    public function getTime(): FrozenTime;
 }

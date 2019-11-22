@@ -26,8 +26,7 @@ class TransfertsTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Transferts',
-        'app.NewMembers',
-        'app.OldMembers',
+        'app.Members',
         'app.Teams',
         'app.Matchdays',
     ];

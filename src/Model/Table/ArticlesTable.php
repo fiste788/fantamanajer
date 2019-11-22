@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -128,8 +127,12 @@ class ArticlesTable extends Table
         /** @var \App\Model\Entity\Matchday $current */
         $current = $this->Matchdays->find('current')->first();
         $data['matchday_id'] = $current->id;
-        $data->offsetUnset('created_at');
-        $data->offsetUnset('modified_at');
+        if ($data->offsetExists('created_at')) {
+            $data->offsetUnset('created_at');
+        }
+        if ($data->offsetExists('modified_at')) {
+            $data->offsetUnset('modified_at');
+        }
     }
 
     /**

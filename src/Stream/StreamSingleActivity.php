@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -9,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 
 /**
  * Description of StreamSingleActivity
@@ -21,9 +22,9 @@ abstract class StreamSingleActivity extends StreamActivity
     /**
      * Get time
      *
-     * @return \Cake\I18n\Time
+     * @return \Cake\I18n\FrozenTime
      */
-    public function getTime(): Time
+    public function getTime(): FrozenTime
     {
         return $this->activity->offsetGet('time');
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Stream;
@@ -19,7 +20,7 @@ abstract class StreamActivity implements StreamActivityInterface
 
     /**
      *
-     * @var \Cake\I18n\Time
+     * @var \Cake\I18n\FrozenTime
      */
     protected $timeStamp;
 

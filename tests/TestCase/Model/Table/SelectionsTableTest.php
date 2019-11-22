@@ -28,8 +28,7 @@ class SelectionsTableTest extends TestCase
         'app.Selections',
         'app.Teams',
         'app.Matchdays',
-        'app.NewMembers',
-        'app.OldMembers',
+        'app.Members',
     ];
 
     /**

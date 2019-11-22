@@ -23,6 +23,8 @@ Thumbs.db
 
 # Tool specific files #
 #######################
+# PHPUnit
+.phpunit.result.cache
 # vim
 *~
 *.swp

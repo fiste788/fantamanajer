@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
 
+use Cake\I18n\Time;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 
@@ -17,10 +19,12 @@ class UserService
      */
     public function getToken(string $subject, int $days = 7): string
     {
+        $time = new Time();
+        $time->addDays($days);
         return JWT::encode(
             [
                 'sub' => $subject,
-                'exp' => time() + ($days * 24 * 60 * 60),
+                'exp' => $time->getTimestamp(),
             ],
             Security::getSalt()
         );

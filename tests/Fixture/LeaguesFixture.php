@@ -42,7 +42,7 @@ class LeaguesFixture extends TestFixture
                 'name' => 'Alzano Sopra',
             ],
             [
-                'id' => 1,
+                'id' => 2,
                 'name' => 'Pipponi',
             ],
         ];

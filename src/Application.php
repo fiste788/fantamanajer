@@ -17,17 +17,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Command\DownloadPhotosCommand;
-use App\Command\GetMatchdayScheduleCommand;
-use App\Command\ResetPasswordCommand;
-use App\Command\SendLineupsEmailCommand;
-use App\Command\SendMissingLineupNotificationCommand;
-use App\Command\SendTestNotificationCommand;
-use App\Command\StartSeasonCommand;
-use App\Command\UpdateCalendarCommand;
-use App\Command\UpdateMatchdayCommand;
-use App\Command\WeeklyScriptCommand;
-use App\Model\Entity\User;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -70,20 +59,20 @@ class Application extends BaseApplication implements
     {
         parent::bootstrap();
 
-        $this->addPlugin('IdeHelper');
         if (PHP_SAPI === 'cli') {
             try {
                 $this->addPlugin('Bake');
+                $this->addPlugin('IdeHelper');
             } catch (MissingPluginException $e) {
                 // Do not halt if the plugin is missing
             }
         }
 
-        TypeFactory::map('acd', 'App\Database\Type\AttestedCredentialDataType');
-        TypeFactory::map('ci', 'App\Database\Type\PublicKeyCredentialDescriptorType');
-        TypeFactory::map('trust_path', 'App\Database\Type\TrustPathDataType');
-        TypeFactory::map('simple_array', 'App\Database\Type\SimpleArrayDataType');
-        TypeFactory::map('base64', 'App\Database\Type\Base64DataType');
+        TypeFactory::map('acd', \App\Database\Type\AttestedCredentialDataType::class);
+        TypeFactory::map('ci', \App\Database\Type\PublicKeyCredentialDescriptorType::class);
+        TypeFactory::map('trust_path', \App\Database\Type\TrustPathDataType::class);
+        TypeFactory::map('simple_array', \App\Database\Type\SimpleArrayDataType::class);
+        TypeFactory::map('base64', \App\Database\Type\Base64DataType::class);
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
@@ -101,7 +90,7 @@ class Application extends BaseApplication implements
          * Debug Kit should not be installed on a production system
          */
         if (Configure::read('debug')) {
-            //$this->addPlugin(DebugKit\Plugin::class);
+            $this->addPlugin(\DebugKit\Plugin::class);
         }
     }
 
@@ -120,7 +109,7 @@ class Application extends BaseApplication implements
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,
-                'identityDecorator' => function (AuthorizationServiceInterface $auth, User $user) {
+                'identityDecorator' => function (AuthorizationServiceInterface $auth, \App\Model\Entity\User $user) {
                     return $user->setAuthorization($auth);
                 },
             ]))->add(new RequestAuthorizationMiddleware());
@@ -147,7 +136,7 @@ class Application extends BaseApplication implements
         ];
         $loginUrl = '/users/login';
 
-        $service->setConfig('identityClass', User::class);
+        $service->setConfig('identityClass', \App\Model\Entity\User::class);
         // Load identifiers
         $service->loadIdentifier('Authentication.Password', [
             'fields' => $fields,
@@ -207,16 +196,16 @@ class Application extends BaseApplication implements
     {
         $commands->addMany($commands->autoDiscover());
 
-        $commands->add('weekly_script', WeeklyScriptCommand::class);
-        $commands->add('matchday update_date', UpdateMatchdayCommand::class);
-        $commands->add('matchday update_calendar', UpdateCalendarCommand::class);
-        $commands->add('matchday get_date', GetMatchdayScheduleCommand::class);
-        $commands->add('send lineups', SendLineupsEmailCommand::class);
-        $commands->add('send missing_lineup', SendMissingLineupNotificationCommand::class);
-        $commands->add('send test_notification', SendTestNotificationCommand::class);
-        $commands->add('utility download_photos', DownloadPhotosCommand::class);
-        $commands->add('utility reset_password', ResetPasswordCommand::class);
-        $commands->add('utility start_season', StartSeasonCommand::class);
+        $commands->add('weekly_script', \App\Command\WeeklyScriptCommand::class);
+        $commands->add('matchday update_date', \App\Command\UpdateMatchdayCommand::class);
+        $commands->add('matchday update_calendar', \App\Command\UpdateCalendarCommand::class);
+        $commands->add('matchday get_date', \App\Command\GetMatchdayScheduleCommand::class);
+        $commands->add('send lineups', \App\Command\SendLineupsEmailCommand::class);
+        $commands->add('send missing_lineup', \App\Command\SendMissingLineupNotificationCommand::class);
+        $commands->add('send test_notification', \App\Command\SendTestNotificationCommand::class);
+        $commands->add('utility download_photos', \App\Command\DownloadPhotosCommand::class);
+        $commands->add('utility reset_password', \App\Command\ResetPasswordCommand::class);
+        $commands->add('utility start_season', \App\Command\StartSeasonCommand::class);
 
         return $commands;
     }

@@ -65,6 +65,11 @@ class Team extends Entity
         'members' => false,
     ];
 
+    /**
+     * Undocumented variable
+     *
+     * @var array
+     */
     protected $_hidden = [
         'photo',
         'photo_dir',
@@ -98,10 +103,10 @@ class Team extends Entity
      */
     protected function _getPhotoUrl(): ?array
     {
-        if ($this->photo != null) {
+        if ($this->photo != null && $this->photo_dir != null) {
             $baseUrl = '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
-            return $this->_getPhotosUrl(ROOT . DS . ($this->photo_dir ?? ''), $baseUrl, $this->photo);
+            return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
         } else {
             return null;
         }

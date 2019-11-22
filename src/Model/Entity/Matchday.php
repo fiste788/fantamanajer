@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
@@ -53,7 +54,7 @@ class Matchday extends Entity
      */
     public function isWeeklyScriptDay(): bool
     {
-        return $this->date->diffInHours(new Time(), true) > 48;
+        return $this->date->diffInHours(new FrozenTime(), true) > 48;
     }
 
     /**

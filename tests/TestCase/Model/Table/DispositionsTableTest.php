@@ -28,7 +28,7 @@ class DispositionsTableTest extends TestCase
         'app.Dispositions',
         'app.Lineups',
         'app.Members',
-        'app.Rating',
+        'app.Ratings',
     ];
 
     /**

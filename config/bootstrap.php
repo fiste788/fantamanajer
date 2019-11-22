@@ -163,13 +163,6 @@ Log::setConfig(Configure::consume('Log'));
 Security::setSalt(Configure::consume('Security.salt'));
 
 /*
- * The default crypto extension in 3.0 is OpenSSL.
- * If you are migrating from 2.x uncomment this code to
- * use a more compatible Mcrypt based implementation
- */
-//Security::engine(new \Cake\Utility\Crypto\Mcrypt());
-
-/*
  * Setup detectors for mobile and tablet.
  */
 ServerRequest::addDetector('mobile', function ($request) {
@@ -184,21 +177,27 @@ ServerRequest::addDetector('tablet', function ($request) {
 });
 
 /*
- * Enable immutable time objects in the ORM.
+ * You can set whether the ORM uses immutable or mutable Time types.
+ * The default changed in 4.0 to immutable types. You can uncomment
+ * below to switch back to mutable types.
  *
  * You can enable default locale format parsing by adding calls
  * to `useLocaleParser()`. This enables the automatic conversion of
  * locale specific date formats. For details see
- * @link https://book.cakephp.org/3.0/en/core-libraries/internationalization-and-localization.html#parsing-localized-datetime-data
+ * @link https://book.cakephp.org/4/en/core-libraries/internationalization-and-localization.html#parsing-localized-datetime-data
  */
-TypeFactory::build('time')
-    ->useImmutable();
-TypeFactory::build('date')
-    ->useImmutable();
-TypeFactory::build('datetime')
-    ->useImmutable();
-TypeFactory::build('timestamp')
-    ->useImmutable();
+// TypeFactory::build('time')
+//    ->useMutable();
+// TypeFactory::build('date')
+//    ->useMutable();
+// TypeFactory::build('datetime')
+//    ->useMutable();
+// TypeFactory::build('timestamp')
+//    ->useMutable();
+// TypeFactory::build('datetimefractional')
+//    ->useMutable();
+// TypeFactory::build('timestampfractional')
+//    ->useMutable();
 
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize

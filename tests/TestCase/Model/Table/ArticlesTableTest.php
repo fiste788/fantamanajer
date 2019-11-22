@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\ArticlesTable;
+use Cake\Event\Event;
+use Cake\I18n\FrozenTime;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
@@ -81,7 +85,8 @@ class ArticlesTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Articles->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**
@@ -91,7 +96,11 @@ class ArticlesTableTest extends TestCase
      */
     public function testBeforeMarshal(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = $this->Articles->newEmptyEntity(['created_at' => new FrozenTime(), 'updated_at' => new FrozenTime()]);
+
+        $this->Articles->beforeMarshal(new Event('', null, null), new \ArrayObject($data->toArray()), new \ArrayObject());
+        $this->assertArrayNotHasKey('created_at', $data, 'Created_at non unsetted');
+        $this->assertArrayNotHasKey('updated_at', $data, 'Updated_at non unsetted');
     }
 
     /**
@@ -101,7 +110,10 @@ class ArticlesTableTest extends TestCase
      */
     public function testFindByChampionshipId(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Articles->find('byChampionshipId', ['championship_id' => 14]);
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $articles = $query->toArray();
+        $this->assertNotEmpty($articles);
     }
 
     /**
@@ -111,7 +123,10 @@ class ArticlesTableTest extends TestCase
      */
     public function testFindByTeamId(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Articles->find('byTeamId', ['team_id' => 55]);
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $articles = $query->toArray();
+        $this->assertNotEmpty($articles);
     }
 
     /**

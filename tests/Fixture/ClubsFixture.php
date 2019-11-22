@@ -47,18 +47,18 @@ class ClubsFixture extends TestFixture
                 'name' => 'Atalanta',
                 'partitive' => 'dell\'',
                 'determinant' => 'l\'',
-                'club_id' => '1',
             ],
             [
                 'id' => '2',
                 'name' => 'Bologna',
                 'partitive' => 'del',
                 'determinant' => 'il',
-                'club_id' =>
-                '2',
             ],
             [
-                'id' => '3', 'name' => 'Cagliari', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '23',
+                'id' => '3',
+                'name' => 'Cagliari',
+                'partitive' => 'del',
+                'determinant' => 'il',
             ],
             ['id' => '4', 'name' => 'Catania', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '0'],
             ['id' => '5', 'name' => 'Cesena', 'partitive' => 'del', 'determinant' => 'il', 'club_id' => '0'],

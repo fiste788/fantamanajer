@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\ClubsTable;
+use Cake\Collection\Collection;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
@@ -80,6 +82,9 @@ class ClubsTableTest extends TestCase
      */
     public function testFindBySeasonId(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Clubs->find('bySeasonId', ['season_id' => 16]);
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $clubs = $query->toArray();
+        $this->assertNotEmpty($clubs, 'Clubs not present');
     }
 }

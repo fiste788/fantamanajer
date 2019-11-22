@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Entity\Season;
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -119,7 +120,7 @@ class MatchdaysTable extends Table
     public function findCurrent(Query $q, array $options): Query
     {
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
-        $now = new Time();
+        $now = new FrozenTime();
         $now->addMinute($interval);
 
         return $q->contain(['Seasons'])
@@ -137,7 +138,7 @@ class MatchdaysTable extends Table
     public function findPrevious(Query $q, array $options): Query
     {
         $interval = array_key_exists('interval', $options) ? $options['interval'] : 0;
-        $now = new Time();
+        $now = new FrozenTime();
         $now->addMinute($interval);
 
         return $q->contain(['Seasons'])
@@ -158,7 +159,7 @@ class MatchdaysTable extends Table
             ->where(
                 [
                     'team_id IS' => null,
-                    'date <' => new \DateTime(),
+                    'date <' => new FrozenTime(),
                     'season_id' => $season->id,
                 ]
             )
@@ -214,7 +215,7 @@ class MatchdaysTable extends Table
                 [
                     'number !=' => 0,
                     'member_id IS' => null,
-                    'date <' => new \DateTime(),
+                    'date <' => new FrozenTime(),
                     'season_id' => $season->id,
                 ]
             )

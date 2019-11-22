@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
@@ -96,7 +97,10 @@ class MatchdaysTableTest extends TestCase
      */
     public function testFindCurrent(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Matchdays->find('current');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $matchday = $query->first();
+        $this->assertEquals($matchday->id, 577, 'Current matchday not matching');
     }
 
     /**
@@ -106,7 +110,10 @@ class MatchdaysTableTest extends TestCase
      */
     public function testFindPrevious(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Matchdays->find('previous');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $matchday = $query->first();
+        $this->assertEquals($matchday->id, 576, 'Previous matchday not matching');
     }
 
     /**
@@ -116,7 +123,9 @@ class MatchdaysTableTest extends TestCase
      */
     public function testFindWithoutScores(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $season = $this->Matchdays->Seasons->get(16);
+        $matchdays = $this->Matchdays->findWithoutScores($season);
+        $this->assertNotEmpty($matchdays, 'No matchdays without scores');
     }
 
     /**
@@ -126,7 +135,9 @@ class MatchdaysTableTest extends TestCase
      */
     public function testFindWithScores(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $season = $this->Matchdays->Seasons->get(16);
+        $matchdays = $this->Matchdays->findWithScores($season);
+        $this->assertNotEmpty($matchdays, 'No matchdays without scores');
     }
 
     /**
@@ -136,7 +147,10 @@ class MatchdaysTableTest extends TestCase
      */
     public function testFindFirstWithoutScores(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Matchdays->find('firstWithoutScores', ['season' => 16]);
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+        $matchday = $query->first();
+        $this->assertEquals($matchday->id, 571, 'Previous matchday not matching');
     }
 
     /**

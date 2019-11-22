@@ -36,6 +36,11 @@ class Player extends Entity
         'members' => false,
     ];
 
+    /**
+     * Undocumented variable
+     *
+     * @var array
+     */
     protected $_virtual = [
         'photo_url',
         'full_name',
@@ -50,10 +55,8 @@ class Player extends Entity
     {
         if ($this->members) {
             foreach ($this->members as $member) {
-                if (
-                    file_exists(Configure::read('App.paths.images.players') . 'season-' . $member->season->id . DS .
-                        $member->code_gazzetta . '.jpg')
-                ) {
+                $path = Configure::read('App.paths.images.players');
+                if (file_exists($path . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
                     return Router::url(
                         '/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg',
                         true
