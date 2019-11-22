@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -20,9 +21,9 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property string $credential_public_key
  * @property string $user_handle
  * @property int $counter
- * @property \Cake\I18n\FrozenTime $created_at
  * @property string|null $name
  * @property string|null $user_agent
+ * @property \Cake\I18n\FrozenTime $created_at
  * @property \App\Model\Entity\User $user
  */
 class PublicKeyCredentialSource extends Entity
@@ -46,9 +47,9 @@ class PublicKeyCredentialSource extends Entity
         'credential_public_key' => false,
         'user_handle' => false,
         'counter' => true,
-        'created_at' => false,
         'name' => true,
         'user_agent' => true,
+        'created_at' => false,
         'user' => true,
     ];
 

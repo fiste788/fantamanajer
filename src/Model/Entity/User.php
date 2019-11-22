@@ -15,16 +15,16 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * User Entity
  *
  * @property int $id
+ * @property string|null $uuid
+ * @property string $email
  * @property string $name
  * @property string $surname
- * @property string $email
- * @property bool $active
- * @property bool $active_email
  * @property string $username
  * @property string $password
  * @property string|null $login_key
+ * @property bool $active
  * @property bool $admin
- * @property string|null $uuid
+ * @property bool $active_email
  *
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  * @property \App\Model\Entity\Team[] $teams
@@ -42,16 +42,16 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @var array
      */
     protected $_accessible = [
+        'uuid' => false,
+        'email' => true,
         'name' => true,
         'surname' => true,
-        'email' => true,
-        'active' => true,
-        'active_email' => true,
         'username' => true,
         'password' => true,
         'login_key' => true,
+        'active' => true,
         'admin' => false,
-        'uuid' => false,
+        'active_email' => true,
         'push_subscriptions' => false,
         'teams' => false,
     ];

@@ -28,6 +28,7 @@ class DispositionsTableTest extends TestCase
         'app.Dispositions',
         'app.Lineups',
         'app.Members',
+        'app.Rating',
     ];
 
     /**
@@ -80,6 +81,16 @@ class DispositionsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByMatchdayLineup method
+     *
+     * @return void
+     */
+    public function testFindByMatchdayLineup(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

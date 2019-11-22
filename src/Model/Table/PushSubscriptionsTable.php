@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -104,7 +105,7 @@ class PushSubscriptionsTable extends Table
 
         $validator
             ->dateTime('modified_at')
-            ->notEmptyDateTime('modified_at');
+            ->allowEmptyDateTime('modified_at');
 
         return $validator;
     }

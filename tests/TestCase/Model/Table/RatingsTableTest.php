@@ -83,4 +83,24 @@ class RatingsTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test existMatchday method
+     *
+     * @return void
+     */
+    public function testExistMatchday(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findMaxMatchday method
+     *
+     * @return void
+     */
+    public function testFindMaxMatchday(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

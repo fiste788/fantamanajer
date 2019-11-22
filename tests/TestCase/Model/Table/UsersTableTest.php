@@ -26,7 +26,7 @@ class UsersTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Users',
-        'app.Olds',
+        'app.PublicKeyCredentialSources',
         'app.PushSubscriptions',
         'app.Teams',
     ];
@@ -81,6 +81,16 @@ class UsersTableTest extends TestCase
      * @return void
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findAuth method
+     *
+     * @return void
+     */
+    public function testFindAuth(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

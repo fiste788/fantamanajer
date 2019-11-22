@@ -72,4 +72,14 @@ class PlayersTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test findWithDetails method
+     *
+     * @return void
+     */
+    public function testFindWithDetails(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

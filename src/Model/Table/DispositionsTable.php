@@ -77,7 +77,7 @@ class DispositionsTable extends Table
 
         $validator
             ->numeric('points')
-            ->notEmptyString('points');
+            ->allowEmptyString('points');
 
         return $validator;
     }

@@ -16,7 +16,7 @@ use Minishlink\WebPush\Subscription;
  * @property string|null $content_encoding
  * @property \Cake\I18n\FrozenTime $expires_at
  * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\FrozenTime|null $modified_at
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user

@@ -86,4 +86,64 @@ class LineupsTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeMarshal method
+     *
+     * @return void
+     */
+    public function testBeforeMarshal(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findDetails method
+     *
+     * @return void
+     */
+    public function testFindDetails(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findLast method
+     *
+     * @return void
+     */
+    public function testFindLast(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByMatchdayIdAndTeamId method
+     *
+     * @return void
+     */
+    public function testFindByMatchdayIdAndTeamId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithRatings method
+     *
+     * @return void
+     */
+    public function testFindWithRatings(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

@@ -122,7 +122,7 @@ class LineupsTable extends Table
 
         $validator
             ->dateTime('modified_at')
-            ->notEmptyDateTime('modified_at');
+            ->allowEmptyDateTime('modified_at');
 
         return $validator;
     }
@@ -231,7 +231,7 @@ class LineupsTable extends Table
             $tableLocator = TableRegistry::getTableLocator();
             $q->contain([
                 'Teams' => [
-                    'Members' => function (Query $q) use ($seasonId, $tableLocator) {
+                    'Members' => function (Query $q) use ($seasonId, $tableLocator): Query {
                         return $q->find('withStats', ['season_id' => $seasonId])
                             ->select($tableLocator->get('Roles'))
                             ->select($tableLocator->get('Players'))

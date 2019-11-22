@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -9,11 +10,11 @@ use Cake\ORM\Entity;
  * Transfert Entity
  *
  * @property int $id
+ * @property bool $constrained
  * @property int $old_member_id
  * @property int $new_member_id
  * @property int $team_id
  * @property int $matchday_id
- * @property bool $constrained
  *
  * @property \App\Model\Entity\Member $old_member
  * @property \App\Model\Entity\Member $new_member
@@ -32,11 +33,11 @@ class Transfert extends Entity
      * @var array
      */
     protected $_accessible = [
+        'constrained' => true,
         'old_member_id' => true,
         'new_member_id' => true,
         'team_id' => true,
         'matchday_id' => true,
-        'constrained' => true,
         'old_member' => true,
         'new_member' => true,
         'team' => true,

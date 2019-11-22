@@ -65,14 +65,28 @@ class ChampionshipsTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->boolean('started')
+            ->notEmptyString('started');
+
+        $validator
             ->boolean('captain')
             ->notEmptyString('captain');
 
         $validator
-            ->notEmptyString('number_transferts');
+            ->boolean('jolly')
+            ->notEmptyString('jolly');
 
         $validator
-            ->notEmptyString('number_selections');
+            ->boolean('captain_missed_lineup')
+            ->notEmptyString('captain_missed_lineup');
+
+        $validator
+            ->boolean('bonus_points_goals')
+            ->notEmptyString('bonus_points_goals');
+
+        $validator
+            ->boolean('bonus_points_clean_sheet')
+            ->notEmptyString('bonus_points_clean_sheet');
 
         $validator
             ->notEmptyString('minute_lineup');
@@ -81,24 +95,10 @@ class ChampionshipsTable extends Table
             ->notEmptyString('points_missed_lineup');
 
         $validator
-            ->boolean('captain_missed_lineup')
-            ->notEmptyString('captain_missed_lineup');
+            ->notEmptyString('number_selections');
 
         $validator
-            ->boolean('bonus_points_goals')
-            ->allowEmptyString('bonus_points_goals');
-
-        $validator
-            ->boolean('bonus_points_clean_sheet')
-            ->allowEmptyString('bonus_points_clean_sheet');
-
-        $validator
-            ->boolean('started')
-            ->notEmptyString('started');
-
-        $validator
-            ->boolean('jolly')
-            ->allowEmptyString('jolly');
+            ->notEmptyString('number_transferts');
 
         return $validator;
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -119,17 +120,12 @@ class PublicKeyCredentialSourcesTable extends Table
             ->scalar('user_handle')
             ->maxLength('user_handle', 255)
             ->requirePresence('user_handle', 'create')
-            ->allowEmptyString('user_handle');
+            ->notEmptyString('user_handle');
 
         $validator
             ->integer('counter')
             ->requirePresence('counter', 'create')
             ->notEmptyString('counter');
-
-        $validator
-            ->dateTime('created_at')
-            ->requirePresence('created_at', 'create')
-            ->allowEmptyDateTime('created_at');
 
         $validator
             ->scalar('name')
@@ -140,6 +136,11 @@ class PublicKeyCredentialSourcesTable extends Table
             ->scalar('user_agent')
             ->maxLength('user_agent', 255)
             ->allowEmptyString('user_agent');
+
+        $validator
+            ->dateTime('created_at')
+            ->requirePresence('created_at', 'create')
+            ->notEmptyDateTime('created_at');
 
         return $validator;
     }

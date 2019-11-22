@@ -82,4 +82,24 @@ class PushSubscriptionsTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test beforeMarshal method
+     *
+     * @return void
+     */
+    public function testBeforeMarshal(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeSave method
+     *
+     * @return void
+     */
+    public function testBeforeSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

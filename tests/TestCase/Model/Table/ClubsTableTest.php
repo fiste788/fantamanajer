@@ -72,4 +72,14 @@ class ClubsTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test findBySeasonId method
+     *
+     * @return void
+     */
+    public function testFindBySeasonId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

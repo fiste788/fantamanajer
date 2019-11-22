@@ -9,16 +9,16 @@ use Cake\ORM\Entity;
  * Championship Entity
  *
  * @property int $id
+ * @property bool $started
  * @property bool $captain
- * @property int $number_transferts
- * @property int $number_selections
- * @property int $minute_lineup
- * @property int $points_missed_lineup
+ * @property bool $jolly
  * @property bool $captain_missed_lineup
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
- * @property bool $started
- * @property bool|null $jolly
+ * @property int $minute_lineup
+ * @property int $points_missed_lineup
+ * @property int $number_transferts
+ * @property int $number_selections
  * @property int $league_id
  * @property int $season_id
  *
@@ -38,20 +38,20 @@ class Championship extends Entity
      * @var array
      */
     protected $_accessible = [
+        'started' => false,
         'captain' => true,
-        'number_transferts' => true,
-        'number_selections' => true,
-        'minute_lineup' => true,
-        'points_missed_lineup' => true,
+        'jolly' => true,
         'captain_missed_lineup' => true,
         'bonus_points_goals' => true,
         'bonus_points_clean_sheet' => true,
-        'started' => false,
-        'jolly' => true,
-        'league_id' => true,
-        'season_id' => true,
-        'league' => true,
-        'season' => true,
+        'minute_lineup' => true,
+        'points_missed_lineup' => true,
+        'number_transferts' => true,
+        'number_selections' => true,
+        'league_id' => false,
+        'season_id' => false,
+        'league' => false,
+        'season' => false,
         'teams' => false,
     ];
 }

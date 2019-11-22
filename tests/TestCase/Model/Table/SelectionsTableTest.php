@@ -28,7 +28,8 @@ class SelectionsTableTest extends TestCase
         'app.Selections',
         'app.Teams',
         'app.Matchdays',
-        'app.Members',
+        'app.NewMembers',
+        'app.OldMembers',
     ];
 
     /**
@@ -81,6 +82,76 @@ class SelectionsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findAlreadySelectedMember method
+     *
+     * @return void
+     */
+    public function testFindAlreadySelectedMember(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeamIdAndMatchdayId method
+     *
+     * @return void
+     */
+    public function testFindByTeamIdAndMatchdayId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeSave method
+     *
+     * @return void
+     */
+    public function testBeforeSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test loadService method
+     *
+     * @return void
+     */
+    public function testLoadService(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getServiceLocator method
+     *
+     * @return void
+     */
+    public function testGetServiceLocator(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test setServiceLocator method
+     *
+     * @return void
+     */
+    public function testSetServiceLocator(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

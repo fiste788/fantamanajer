@@ -108,7 +108,6 @@ class MembersTable extends Table
 
         $validator
             ->boolean('playmaker')
-            ->requirePresence('playmaker', 'create')
             ->notEmptyString('playmaker');
 
         $validator

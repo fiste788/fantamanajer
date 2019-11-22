@@ -174,7 +174,6 @@ class TeamsTable extends Table
 
         $validator
             ->boolean('admin')
-            ->requirePresence('admin', 'create')
             ->notEmptyString('admin');
 
         $validator

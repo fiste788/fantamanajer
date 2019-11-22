@@ -88,4 +88,74 @@ class MatchdaysTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test findCurrent method
+     *
+     * @return void
+     */
+    public function testFindCurrent(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findPrevious method
+     *
+     * @return void
+     */
+    public function testFindPrevious(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithoutScores method
+     *
+     * @return void
+     */
+    public function testFindWithoutScores(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithScores method
+     *
+     * @return void
+     */
+    public function testFindWithScores(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findFirstWithoutScores method
+     *
+     * @return void
+     */
+    public function testFindFirstWithoutScores(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithoutRatings method
+     *
+     * @return void
+     */
+    public function testFindWithoutRatings(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findWithRatings method
+     *
+     * @return void
+     */
+    public function testFindWithRatings(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

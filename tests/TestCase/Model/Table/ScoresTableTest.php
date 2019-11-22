@@ -84,4 +84,54 @@ class ScoresTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test findMaxMatchday method
+     *
+     * @return void
+     */
+    public function testFindMaxMatchday(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findScores method
+     *
+     * @return void
+     */
+    public function testFindScores(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeam method
+     *
+     * @return void
+     */
+    public function testFindByTeam(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findRanking method
+     *
+     * @return void
+     */
+    public function testFindRanking(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test loadDetails method
+     *
+     * @return void
+     */
+    public function testLoadDetails(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }

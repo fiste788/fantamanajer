@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -68,27 +69,25 @@ class UsersTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->allowEmptyString('uuid');
+
+        $validator
+            ->email('email')
+            ->requirePresence('email', 'create')
+            ->notEmptyString('email')
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 32)
+            ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
         $validator
             ->scalar('surname')
             ->maxLength('surname', 32)
+            ->requirePresence('surname', 'create')
             ->notEmptyString('surname');
-
-        $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmptyString('email');
-
-        $validator
-            ->boolean('active')
-            ->notEmptyString('active');
-
-        $validator
-            ->boolean('active_email')
-            ->notEmptyString('active_email');
 
         $validator
             ->scalar('username')
@@ -108,14 +107,16 @@ class UsersTable extends Table
             ->allowEmptyString('login_key');
 
         $validator
+            ->boolean('active')
+            ->notEmptyString('active');
+
+        $validator
             ->boolean('admin')
-            ->requirePresence('admin', 'create')
             ->notEmptyString('admin');
 
         $validator
-            ->scalar('uuid')
-            ->maxLength('uuid', 32)
-            ->allowEmptyString('uuid');
+            ->boolean('active_email')
+            ->notEmptyString('active_email');
 
         return $validator;
     }

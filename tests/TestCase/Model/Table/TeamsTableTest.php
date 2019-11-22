@@ -31,7 +31,8 @@ class TeamsTableTest extends TestCase
         'app.Articles',
         'app.Events',
         'app.Lineups',
-        'app.NotificationSubscriptions',
+        'app.EmailNotificationSubscriptions',
+        'app.PushNotificationSubscriptions',
         'app.Scores',
         'app.Selections',
         'app.Transferts',
@@ -88,6 +89,56 @@ class TeamsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByChampionshipId method
+     *
+     * @return void
+     */
+    public function testFindByChampionshipId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test saveWithoutUser method
+     *
+     * @return void
+     */
+    public function testSaveWithoutUser(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test loadService method
+     *
+     * @return void
+     */
+    public function testLoadService(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getServiceLocator method
+     *
+     * @return void
+     */
+    public function testGetServiceLocator(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test setServiceLocator method
+     *
+     * @return void
+     */
+    public function testSetServiceLocator(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

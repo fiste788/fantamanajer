@@ -26,7 +26,8 @@ class TransfertsTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Transferts',
-        'app.Members',
+        'app.NewMembers',
+        'app.OldMembers',
         'app.Teams',
         'app.Matchdays',
     ];
@@ -81,6 +82,76 @@ class TransfertsTableTest extends TestCase
      * @return void
      */
     public function testBuildRules(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeMarshal method
+     *
+     * @return void
+     */
+    public function testBeforeMarshal(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeamId method
+     *
+     * @return void
+     */
+    public function testFindByTeamId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeSave method
+     *
+     * @return void
+     */
+    public function testBeforeSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test loadService method
+     *
+     * @return void
+     */
+    public function testLoadService(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test getServiceLocator method
+     *
+     * @return void
+     */
+    public function testGetServiceLocator(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test setServiceLocator method
+     *
+     * @return void
+     */
+    public function testSetServiceLocator(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -83,4 +83,44 @@ class ArticlesTableTest extends TestCase
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
+
+    /**
+     * Test beforeMarshal method
+     *
+     * @return void
+     */
+    public function testBeforeMarshal(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByChampionshipId method
+     *
+     * @return void
+     */
+    public function testFindByChampionshipId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test findByTeamId method
+     *
+     * @return void
+     */
+    public function testFindByTeamId(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test afterSave method
+     *
+     * @return void
+     */
+    public function testAfterSave(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
 }
