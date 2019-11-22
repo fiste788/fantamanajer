@@ -46,25 +46,33 @@ class Member extends Entity
      * @var array
      */
     protected $_accessible = [
-        'code_gazzetta' => true,
-        'active' => true,
-        'playmaker' => true,
-        'created_at' => true,
-        'modified_at' => true,
-        'player_id' => true,
-        'role_id' => true,
-        'club_id' => true,
-        'season_id' => true,
-        'player' => true,
-        'role' => true,
-        'club' => true,
+        'code_gazzetta' => false,
+        'active' => false,
+        'playmaker' => false,
+        'created_at' => false,
+        'modified_at' => false,
+        'player_id' => false,
+        'role_id' => false,
+        'club_id' => false,
+        'season_id' => false,
+        'player' => false,
+        'role' => false,
+        'club' => false,
         'season' => false,
         'dispositions' => false,
         'ratings' => false,
         'teams' => false,
     ];
 
-    protected $_virtual = ['photo_url', 'background_url'];
+    /**
+     * Undocumented variable
+     *
+     * @var array
+     */
+    protected $_virtual = [
+        'photo_url',
+        'background_url',
+    ];
 
     /**
      * Get photo url

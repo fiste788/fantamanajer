@@ -75,17 +75,14 @@ class SeasonsTable extends Table
         $validator
             ->scalar('key_gazzetta')
             ->maxLength('key_gazzetta', 255)
-            ->requirePresence('key_gazzetta', 'create')
             ->notEmptyString('key_gazzetta');
 
         $validator
             ->boolean('bonus_points')
-            ->requirePresence('bonus_points', 'create')
             ->notEmptyString('bonus_points');
 
         $validator
             ->boolean('bonus_points_clean_sheet')
-            ->requirePresence('bonus_points_clean_sheet', 'create')
             ->notEmptyString('bonus_points_clean_sheet');
 
         return $validator;

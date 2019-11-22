@@ -75,6 +75,10 @@ class DispositionsTable extends Table
             ->requirePresence('consideration', 'create')
             ->nonNegativeInteger('consideration');
 
+        $validator
+            ->numeric('points')
+            ->notEmptyString('points');
+
         return $validator;
     }
 

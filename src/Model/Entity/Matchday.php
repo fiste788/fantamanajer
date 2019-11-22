@@ -34,10 +34,10 @@ class Matchday extends Entity
      * @var array
      */
     protected $_accessible = [
-        'number' => true,
+        'number' => false,
         'date' => true,
-        'season_id' => true,
-        'season' => true,
+        'season_id' => false,
+        'season' => false,
         'articles' => false,
         'lineups' => false,
         'ratings' => false,

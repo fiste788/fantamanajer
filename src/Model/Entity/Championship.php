@@ -44,6 +44,8 @@ class Championship extends Entity
         'minute_lineup' => true,
         'points_missed_lineup' => true,
         'captain_missed_lineup' => true,
+        'bonus_points_goals' => true,
+        'bonus_points_clean_sheet' => true,
         'started' => false,
         'jolly' => true,
         'league_id' => true,

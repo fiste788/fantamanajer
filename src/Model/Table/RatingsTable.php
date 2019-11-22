@@ -73,11 +73,6 @@ class RatingsTable extends Table
             ->notEmptyString('points');
 
         $validator
-            ->numeric('points_no_bonus')
-            ->requirePresence('points_no_bonus', 'create')
-            ->notEmptyString('points_no_bonus');
-
-        $validator
             ->numeric('rating')
             ->requirePresence('rating', 'create')
             ->notEmptyString('rating');

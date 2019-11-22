@@ -34,16 +34,16 @@ class Club extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'partitive' => true,
-        'determinant' => true,
+        'name' => false,
+        'partitive' => false,
+        'determinant' => false,
         'members' => false,
     ];
 
     /**
      * Undocumented variable
      *
-     * @var array
+     * @var int[]
      */
     protected $_size = [
         600,

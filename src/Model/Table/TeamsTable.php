@@ -127,7 +127,7 @@ class TeamsTable extends Table
                         $array = [$data['tmp_name'] => $data['name']];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, $value) . '.' . $tmpFile->getExtension();
+                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFile->getExtension();
                                 $image->width($value)->save($tmp);
                                 $array[$tmp] = $value . 'w' . DS . $data['name'];
                             }

@@ -126,7 +126,7 @@ class DownloadRatingsService
     public function decryptMXMFile(Matchday $matchday, ?string $path = null): ?string
     {
         $decrypt = $matchday->season->key_gazzetta;
-        if ($path != null) {
+        if ($path != null && $decrypt != null) {
             if ($this->io != null) {
                 $this->io->out("Starting decrypt " . $path);
             }
@@ -180,7 +180,6 @@ class DownloadRatingsService
             'Accept' => '*/*',
             'Accept-Encoding' => 'gzip, deflate',
             'Cache-Control' => 'no-cache',
-            'User-Agent' => 'PostmanRuntime/7.15.2',
         ]);
         $url = "https://maxigames.maxisoft.it/downloads.php";
         if ($this->io != null) {

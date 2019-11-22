@@ -50,8 +50,8 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
         'username' => true,
         'password' => true,
         'login_key' => true,
-        'admin' => true,
-        'uuid' => true,
+        'admin' => false,
+        'uuid' => false,
         'push_subscriptions' => false,
         'teams' => false,
     ];
@@ -75,7 +75,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      */
     public function hasTeam(int $teamId): bool
     {
-        return !empty(Hash::filter($this->teams, function (Team $value) use ($teamId) {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($teamId): bool {
             return $value->id == $teamId;
         }));
     }
@@ -88,7 +88,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      */
     public function isInChampionship(int $championshipId): bool
     {
-        return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId): bool {
             return $value->championship_id == $championshipId;
         }));
     }
@@ -101,7 +101,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      */
     public function isChampionshipAdmin(int $championshipId): bool
     {
-        return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId) {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId): bool {
             return $value->championship_id == $championshipId && $value->admin;
         }));
     }

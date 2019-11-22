@@ -38,8 +38,8 @@ class PushSubscription extends Entity
         'auth_token' => true,
         'content_encoding' => true,
         'expires_at' => true,
-        'created_at' => true,
-        'modified_at' => true,
+        'created_at' => false,
+        'modified_at' => false,
         'user_id' => true,
         'user' => true,
     ];

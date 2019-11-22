@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property int $year
- * @property string $key_gazzetta
+ * @property string|null $key_gazzetta
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
  *
@@ -34,7 +34,7 @@ class Season extends Entity
         'name' => true,
         'year' => true,
         'key_gazzetta' => false,
-        'bonus_points' => true,
+        'bonus_points_goals' => true,
         'bonus_points_clean_sheet' => true,
         'championships' => false,
         'matchdays' => false,

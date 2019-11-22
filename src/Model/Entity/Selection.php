@@ -38,7 +38,7 @@ class Selection extends Entity
         'old_member_id' => true,
         'new_member_id' => true,
         'active' => true,
-        'processed' => true,
+        'processed' => false,
         'team' => true,
         'matchday' => false,
         'old_member' => true,

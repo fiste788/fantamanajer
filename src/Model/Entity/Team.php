@@ -73,12 +73,23 @@ class Team extends Entity
     ];
 
     /**
+     * Undocumented variable
      *
      * @var array
      */
-    public static $size = [1280, 600, 240];
+    protected $_virtual = [
+        'photo_url',
+    ];
 
-    protected $_virtual = ['photo_url'];
+    /**
+     *
+     * @var int[]
+     */
+    public static $size = [
+        1280,
+        600,
+        240,
+    ];
 
     /**
      * Get photo
@@ -92,7 +103,7 @@ class Team extends Entity
 
             return $this->_getPhotosUrl(ROOT . DS . ($this->photo_dir ?? ''), $baseUrl, $this->photo);
         } else {
-            return [];
+            return null;
         }
     }
 

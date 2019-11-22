@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $position
  * @property int $consideration
- * @property float $points
+ * @property float|null $points
  * @property int $lineup_id
  * @property int $member_id
  *
@@ -32,7 +32,8 @@ class Disposition extends Entity
      */
     protected $_accessible = [
         'position' => true,
-        'consideration' => true,
+        'consideration' => false,
+        'points' => false,
         'lineup_id' => true,
         'member_id' => true,
         'rating' => false,

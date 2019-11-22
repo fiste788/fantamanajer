@@ -28,10 +28,10 @@ class Role extends Entity
      * @var array
      */
     protected $_accessible = [
-        'singolar' => true,
-        'plural' => true,
-        'abbreviation' => true,
-        'determinant' => true,
+        'singolar' => false,
+        'plural' => false,
+        'abbreviation' => false,
+        'determinant' => false,
         'members' => false,
     ];
 }
