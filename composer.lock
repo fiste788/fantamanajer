@@ -169,12 +169,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authentication.git",
-                "reference": "f2692ecf44a109a2debf4315eb2cd246f54642f2"
+                "reference": "6e7921c2fb1654079c0354ea4135976efc7924e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authentication/zipball/f2692ecf44a109a2debf4315eb2cd246f54642f2",
-                "reference": "f2692ecf44a109a2debf4315eb2cd246f54642f2",
+                "url": "https://api.github.com/repos/cakephp/authentication/zipball/6e7921c2fb1654079c0354ea4135976efc7924e7",
+                "reference": "6e7921c2fb1654079c0354ea4135976efc7924e7",
                 "shasum": ""
             },
             "require": {
@@ -222,7 +222,7 @@
                 "cakephp",
                 "middleware"
             ],
-            "time": "2019-11-10T15:57:02+00:00"
+            "time": "2019-11-24T02:28:44+00:00"
         },
         {
             "name": "cakephp/authorization",
@@ -230,12 +230,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authorization.git",
-                "reference": "a414221840517df945f3a9ee713582a76c1de7cb"
+                "reference": "87a9052b8ca711f34e739bf49a0bf30351b52335"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authorization/zipball/a414221840517df945f3a9ee713582a76c1de7cb",
-                "reference": "a414221840517df945f3a9ee713582a76c1de7cb",
+                "url": "https://api.github.com/repos/cakephp/authorization/zipball/87a9052b8ca711f34e739bf49a0bf30351b52335",
+                "reference": "87a9052b8ca711f34e739bf49a0bf30351b52335",
                 "shasum": ""
             },
             "require": {
@@ -278,7 +278,7 @@
                 "authorization",
                 "cakephp"
             ],
-            "time": "2019-11-21T15:53:33+00:00"
+            "time": "2019-11-25T10:20:57+00:00"
         },
         {
             "name": "cakephp/cakephp",
@@ -286,12 +286,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "a7412ef85e6ff63c3b9a81e22c206339aeca8906"
+                "reference": "fee9d98c518225691f5568369de250fa8883c157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/a7412ef85e6ff63c3b9a81e22c206339aeca8906",
-                "reference": "a7412ef85e6ff63c3b9a81e22c206339aeca8906",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/fee9d98c518225691f5568369de250fa8883c157",
+                "reference": "fee9d98c518225691f5568369de250fa8883c157",
                 "shasum": ""
             },
             "require": {
@@ -371,7 +371,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2019-11-22T17:07:02+00:00"
+            "time": "2019-11-23T03:57:00+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -379,12 +379,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "fface0adc6c01c0763abed211d153cab975bdc18"
+                "reference": "3dcb0bd3233aad9c2ead5ec72964b5a11dfb133a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/fface0adc6c01c0763abed211d153cab975bdc18",
-                "reference": "fface0adc6c01c0763abed211d153cab975bdc18",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/3dcb0bd3233aad9c2ead5ec72964b5a11dfb133a",
+                "reference": "3dcb0bd3233aad9c2ead5ec72964b5a11dfb133a",
                 "shasum": ""
             },
             "require": {
@@ -426,7 +426,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-11-17T15:40:29+00:00"
+            "time": "2019-11-24T02:50:01+00:00"
         },
         {
             "name": "cakephp/plugin-installer",
@@ -3688,16 +3688,16 @@
         },
         {
             "name": "spatie/image",
-            "version": "1.7.4",
+            "version": "1.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image.git",
-                "reference": "19ed0a6322e3f700d40d5b84b05c76b58323385c"
+                "reference": "9e36dcc1c5da4e8756a4fd00228342a9c9953f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/image/zipball/19ed0a6322e3f700d40d5b84b05c76b58323385c",
-                "reference": "19ed0a6322e3f700d40d5b84b05c76b58323385c",
+                "url": "https://api.github.com/repos/spatie/image/zipball/9e36dcc1c5da4e8756a4fd00228342a9c9953f4b",
+                "reference": "9e36dcc1c5da4e8756a4fd00228342a9c9953f4b",
                 "shasum": ""
             },
             "require": {
@@ -3706,12 +3706,12 @@
                 "php": "^7.0",
                 "spatie/image-optimizer": "^1.0",
                 "spatie/temporary-directory": "^1.0.0",
-                "symfony/process": "^3.0|^4.0"
+                "symfony/process": "^3.0|^4.0|^5.0"
             },
             "require-dev": {
                 "larapack/dd": "^1.1",
                 "phpunit/phpunit": "^6.0|^7.0",
-                "symfony/var-dumper": "^3.2"
+                "symfony/var-dumper": "^3.2|^5.0"
             },
             "type": "library",
             "autoload": {
@@ -3726,9 +3726,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
-                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 }
             ],
             "description": "Manipulate images with an expressive API",
@@ -3737,31 +3737,31 @@
                 "image",
                 "spatie"
             ],
-            "time": "2019-08-28T12:40:25+00:00"
+            "time": "2019-11-23T17:56:34+00:00"
         },
         {
             "name": "spatie/image-optimizer",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/image-optimizer.git",
-                "reference": "e7527edc984c98ab61db092742856fb15cf71e68"
+                "reference": "9c1d470e34b28b715d25edb539dd6c899461527c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/e7527edc984c98ab61db092742856fb15cf71e68",
-                "reference": "e7527edc984c98ab61db092742856fb15cf71e68",
+                "url": "https://api.github.com/repos/spatie/image-optimizer/zipball/9c1d470e34b28b715d25edb539dd6c899461527c",
+                "reference": "9c1d470e34b28b715d25edb539dd6c899461527c",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
                 "php": "^7.2",
                 "psr/log": "^1.0",
-                "symfony/process": "^4.2"
+                "symfony/process": "^4.2|^5.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.0",
-                "symfony/var-dumper": "^4.2"
+                "symfony/var-dumper": "^4.2|^5.0"
             },
             "type": "library",
             "autoload": {
@@ -3776,9 +3776,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
-                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 }
             ],
             "description": "Easily optimize images using PHP",
@@ -3787,7 +3787,7 @@
                 "image-optimizer",
                 "spatie"
             ],
-            "time": "2019-08-28T14:33:06+00:00"
+            "time": "2019-11-25T12:29:24+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -9351,31 +9351,29 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4"
+                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/88e6d84706d09a236046d686bbea96f07b3a34f4",
-                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/573381c0a64f155a0d9a23f4b0c797194805b925",
+                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.3.3 || ^7.0",
                 "symfony/polyfill-ctype": "^1.8"
             },
+            "conflict": {
+                "vimeo/psalm": "<3.6.0"
+            },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.36 || ^7.5.13"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Webmozart\\Assert\\": "src/"
@@ -9397,7 +9395,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2019-08-24T08:43:50+00:00"
+            "time": "2019-11-24T13:36:37+00:00"
         },
         {
             "name": "webmozart/glob",

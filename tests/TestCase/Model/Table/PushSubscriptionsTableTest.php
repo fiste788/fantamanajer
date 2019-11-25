@@ -4,8 +4,12 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\PushSubscriptionsTable;
+use Cake\Event\Event;
+use Cake\I18n\FrozenTime;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\PushSubscriptionsTable Test Case
@@ -70,7 +74,8 @@ class PushSubscriptionsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->PushSubscriptions->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -80,7 +85,8 @@ class PushSubscriptionsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->PushSubscriptions->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**
@@ -90,7 +96,13 @@ class PushSubscriptionsTableTest extends TestCase
      */
     public function testBeforeMarshal(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = new \ArrayObject([
+            'created_at' => new FrozenTime(),
+            'modified_at' => new FrozenTime(),
+        ]);
+        $this->PushSubscriptions->beforeMarshal(new Event('', null, null), $data, new \ArrayObject());
+        $this->assertArrayNotHasKey('created_at', $data, 'Created_at non unsetted');
+        $this->assertArrayNotHasKey('modified_at', $data, 'Modified_at non unsetted');
     }
 
     /**

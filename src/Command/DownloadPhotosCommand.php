@@ -6,6 +6,7 @@ namespace App\Command;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Http\Client;
@@ -82,6 +83,6 @@ class DownloadPhotosCommand extends Command
             }
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 }

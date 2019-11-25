@@ -7,6 +7,7 @@ use App\Model\Entity\Team;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Symfony\Component\Filesystem\Filesystem;
@@ -107,6 +108,6 @@ class RenewChampionshipCommand extends Command
             }
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 }

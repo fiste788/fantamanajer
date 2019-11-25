@@ -5,6 +5,7 @@ namespace App\Command;
 
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
@@ -48,7 +49,9 @@ class DownloadMatchdayRatingCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        return $this->exec((int)$args->getArgument('matchday'), $io) ? 1 : 0;
+        $matchday = (int)$args->getArgument('matchday');
+
+        return $this->exec($matchday, $io) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
     }
 
     /**

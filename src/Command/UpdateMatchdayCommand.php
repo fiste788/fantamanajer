@@ -7,6 +7,7 @@ use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
@@ -97,6 +98,6 @@ class UpdateMatchdayCommand extends Command
             $this->abort();
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 }

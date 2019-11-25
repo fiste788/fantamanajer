@@ -5,6 +5,7 @@ namespace App\Command;
 
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use GetStream\Stream\Client;
@@ -45,7 +46,7 @@ class CreateStreamCommand extends Command
         $teamFeed = $this->client->feed('team', '49');
         $teamFeed->follow('championship', $championshipFeed->getSlug());
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
         //$io->out($championshipFeed->getToken());
     }
 }

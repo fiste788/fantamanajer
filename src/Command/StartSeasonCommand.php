@@ -9,6 +9,7 @@ use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
@@ -65,7 +66,7 @@ class StartSeasonCommand extends Command
                     $this->UpdateMember->updateMembers($firstMatchday);
                 }
 
-                return 1;
+                return CommandInterface::CODE_SUCCESS;
             } else {
                 /** @var \App\Model\Entity\Matchday $firstMatchday */
                 $firstMatchday = $this->Matchdays->find()->where([
@@ -79,7 +80,7 @@ class StartSeasonCommand extends Command
             }
         }
 
-        return 0;
+        return CommandInterface::CODE_ERROR;
     }
 
     /**

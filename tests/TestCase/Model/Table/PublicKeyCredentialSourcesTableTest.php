@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Model\Table;
 use App\Model\Table\PublicKeyCredentialSourcesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\PublicKeyCredentialSourcesTable Test Case
@@ -70,6 +71,7 @@ class PublicKeyCredentialSourcesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->PublicKeyCredentialSources->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 }

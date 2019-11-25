@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -21,6 +20,7 @@ class UserService
     {
         $time = new Time();
         $time->addDays($days);
+
         return JWT::encode(
             [
                 'sub' => $subject,

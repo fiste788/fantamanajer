@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\SelectionsTable;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\SelectionsTable Test Case
@@ -72,7 +74,8 @@ class SelectionsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Selections->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -82,7 +85,8 @@ class SelectionsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Selections->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**

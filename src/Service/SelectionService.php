@@ -66,6 +66,7 @@ class SelectionService
                     $webPush->sendNotification($subscription->getSubscription(), $messageString);
                 }
             }
+            $webPush->flush();
         }
     }
 

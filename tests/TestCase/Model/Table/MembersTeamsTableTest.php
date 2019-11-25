@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\MembersTeamsTable;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\MembersTeamsTable Test Case
@@ -71,7 +73,8 @@ class MembersTeamsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->MembersTeams->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -81,7 +84,8 @@ class MembersTeamsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->MembersTeams->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**

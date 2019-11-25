@@ -1,12 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\MatchdaysTable;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\MatchdaysTable Test Case
@@ -77,7 +78,8 @@ class MatchdaysTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Matchdays->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -87,7 +89,8 @@ class MatchdaysTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Matchdays->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Model\Entity\User;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 
 /**
@@ -41,7 +42,7 @@ class ResetPasswordCommand extends Command
             }
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 
     /**

@@ -19,7 +19,7 @@
         "burzum/cakephp-service-layer": "dev-master",
         "cakephp/authentication": "2.x-dev",
         "cakephp/authorization": "2.x-dev",
-        "cakephp/cakephp": "4.x-dev",
+        "cakephp/cakephp": "4.x-dev as 3.7.0",
         "cakephp/plugin-installer": "^1.0",
         "fiste788/cake-scheduler": "dev-master as 1.0",
         "friendsofcake/crud": "dev-cake-4.x",

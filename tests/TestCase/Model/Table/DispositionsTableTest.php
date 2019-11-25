@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\DispositionsTable;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\DispositionsTable Test Case
@@ -72,7 +74,8 @@ class DispositionsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Dispositions->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -82,7 +85,8 @@ class DispositionsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Dispositions->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**
@@ -92,6 +96,7 @@ class DispositionsTableTest extends TestCase
      */
     public function testFindByMatchdayLineup(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Dispositions->find('byMatchdayLineup');
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
     }
 }

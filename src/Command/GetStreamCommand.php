@@ -6,6 +6,7 @@ namespace App\Command;
 use App\Model\Entity\Championship;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
@@ -57,7 +58,7 @@ class GetStreamCommand extends Command
             $this->processChampionship($championsip, $timelineFeed);
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
 
         /*
         $io->out(print_r($activities,1));

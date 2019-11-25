@@ -182,8 +182,12 @@ class LineupsTable extends Table
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
-        $data->offsetUnset('created_at');
-        $data->offsetUnset('modified_at');
+        if ($data->offsetExists('created_at')) {
+            $data->offsetUnset('created_at');
+        }
+        if ($data->offsetExists('modified_at')) {
+            $data->offsetUnset('modified_at');
+        }
     }
 
     /**

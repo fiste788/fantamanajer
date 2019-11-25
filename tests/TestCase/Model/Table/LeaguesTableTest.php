@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Model\Table;
 use App\Model\Table\LeaguesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\LeaguesTable Test Case
@@ -70,6 +71,7 @@ class LeaguesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Leagues->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 }

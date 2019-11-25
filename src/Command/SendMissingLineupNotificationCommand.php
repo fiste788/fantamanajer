@@ -8,6 +8,7 @@ use App\Utility\WebPush\WebPushMessage;
 use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
@@ -111,8 +112,9 @@ class SendMissingLineupNotificationCommand extends Command
                     'object' => 'Lineup:',
                 ]);
             }
+            $webPush->flush();
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 }

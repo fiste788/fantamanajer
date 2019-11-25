@@ -6,12 +6,13 @@ namespace App\Command;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
-use Cake\Chronos\Chronos;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
+use Cake\I18n\FrozenTime;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -62,7 +63,8 @@ class GetMatchdayScheduleCommand extends Command
             ])->first();
         }
 
-        return $matchday && $this->exec($season, $matchday, $io) ? 1 : 0;
+        return $matchday && $this->exec($season, $matchday, $io) ?
+            CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
     }
 
     /**
@@ -102,10 +104,10 @@ class GetMatchdayScheduleCommand extends Command
                 if ($date != "") {
                     $io->success($date);
                     if (!strpos($date, " ")) {
-                        $out = Chronos::createFromFormat("!d/m/Y", $date);
+                        $out = FrozenTime::createFromFormat("!d/m/Y", $date);
                         $out = $out->setTime(18, 0, 0, 0);
                     } else {
-                        $out = Chronos::createFromFormat("!d/m/Y H:i", $date);
+                        $out = FrozenTime::createFromFormat("!d/m/Y H:i", $date);
                     }
 
                     return $out;

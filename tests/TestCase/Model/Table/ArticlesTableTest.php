@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
@@ -10,6 +9,7 @@ use Cake\I18n\FrozenTime;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\ArticlesTable Test Case
@@ -75,7 +75,8 @@ class ArticlesTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Articles->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -96,11 +97,13 @@ class ArticlesTableTest extends TestCase
      */
     public function testBeforeMarshal(): void
     {
-        $data = $this->Articles->newEmptyEntity(['created_at' => new FrozenTime(), 'updated_at' => new FrozenTime()]);
-
-        $this->Articles->beforeMarshal(new Event('', null, null), new \ArrayObject($data->toArray()), new \ArrayObject());
+        $data = new \ArrayObject([
+            'created_at' => new FrozenTime(),
+            'modified_at' => new FrozenTime(),
+        ]);
+        $this->Articles->beforeMarshal(new Event('', null, null), $data, new \ArrayObject());
         $this->assertArrayNotHasKey('created_at', $data, 'Created_at non unsetted');
-        $this->assertArrayNotHasKey('updated_at', $data, 'Updated_at non unsetted');
+        $this->assertArrayNotHasKey('modified_at', $data, 'Modified_at non unsetted');
     }
 
     /**

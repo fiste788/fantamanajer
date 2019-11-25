@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\UsersTable;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\UsersTable Test Case
@@ -72,7 +74,8 @@ class UsersTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Users->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -82,7 +85,8 @@ class UsersTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Users->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 
     /**

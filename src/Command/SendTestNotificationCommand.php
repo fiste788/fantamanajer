@@ -8,6 +8,7 @@ use App\Utility\WebPush\WebPushMessage;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
@@ -115,6 +116,6 @@ class SendTestNotificationCommand extends Command
             }
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\NotificationSubscriptionsTable;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\NotificationSubscriptionsTable Test Case
@@ -70,7 +72,8 @@ class NotificationSubscriptionsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->NotificationSubscriptions->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 
     /**
@@ -80,6 +83,7 @@ class NotificationSubscriptionsTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->NotificationSubscriptions->buildRules(new RulesChecker());
+        $this->assertNotNull($rules);
     }
 }

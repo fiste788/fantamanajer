@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Model\Table;
 use App\Model\Table\SeasonsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validator;
 
 /**
  * App\Model\Table\SeasonsTable Test Case
@@ -72,6 +73,7 @@ class SeasonsTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validation = $this->Seasons->validationDefault(new Validator());
+        $this->assertNotNull($validation);
     }
 }

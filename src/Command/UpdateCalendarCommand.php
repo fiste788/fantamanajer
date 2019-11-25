@@ -7,6 +7,7 @@ use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
+use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
@@ -78,6 +79,6 @@ class UpdateCalendarCommand extends Command
             //$umc->exec($season, $matchday, $args, $io);
         }
 
-        return 1;
+        return CommandInterface::CODE_SUCCESS;
     }
 }
