@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
 use const DIRECTORY_SEPARATOR as DS;
@@ -32,7 +31,7 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\Rating[] $ratings
  * @property \App\Model\Entity\Team[] $teams
- * @property \App\Model\Entity\VwMembersStat $stats
+ * @property \App\Model\Entity\MembersStat $stats
  */
 class Member extends Entity
 {
@@ -81,8 +80,7 @@ class Member extends Entity
      */
     protected function _getPhotoUrl(): ?string
     {
-        $path = Configure::read('App.paths.images.players');
-        if (file_exists($path . 'season-' . $this->season_id . DS . $this->code_gazzetta . '.jpg')) {
+        if (file_exists(IMG_PLAYERS . 'season-' . $this->season_id . DS . $this->code_gazzetta . '.jpg')) {
             return Router::url(
                 '/img/players/season-' . $this->season_id . '/' . $this->code_gazzetta . '.jpg',
                 true
@@ -99,8 +97,7 @@ class Member extends Entity
      */
     protected function _getBackgroundUrl(): ?string
     {
-        $path = Configure::read('App.paths.images.players');
-        if (file_exists($path . $this->club_id . DS . 'background' . DS . $this->club_id . '.jpg')) {
+        if (file_exists(IMG_PLAYERS . $this->club_id . DS . 'background' . DS . $this->club_id . '.jpg')) {
             return Router::url(
                 '/img/Clubs/' . $this->club_id . '/background/' . $this->club_id . '.jpg',
                 true

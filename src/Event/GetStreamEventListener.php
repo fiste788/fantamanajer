@@ -162,8 +162,8 @@ class GetStreamEventListener implements EventListenerInterface
     public function memberTransferts(Event $event, array $buys, array $sells): void
     {
         $activities = [];
+        /** @var \App\Model\Entity\Member[] $members */
         foreach ($buys as $club => $members) {
-            /** @var \App\Model\Entity\Member[] $members */
             foreach ($members as $member) {
                 $activities = [
                     'actor' => 'Club:' . $club,
@@ -177,7 +177,6 @@ class GetStreamEventListener implements EventListenerInterface
             $feed->addActivities($activities);
         }
         foreach ($sells as $club => $members) {
-            /** @var \App\Model\Entity\Member[] $members */
             foreach ($members as $member) {
                 $activities = [
                     'actor' => 'Club:' . $club,

@@ -28,7 +28,7 @@ trait HasPhotoTrait
             $folder = new Finder();
             $folder->directories()->in($path);
             foreach ($folder->getIterator() as $sub) {
-                $subpath = $sub->getRelativePath();
+                $subpath = $sub->getFilename();
                 if ($filesystem->exists($path . $subpath . DS . $name)) {
                     $array[$subpath] = $baseUrl . $subpath . '/' . htmlspecialchars_decode($name);
                 }
@@ -36,7 +36,9 @@ trait HasPhotoTrait
             $principal = $path . $name;
             if ($filesystem->exists($principal)) {
                 $size = getimagesize($principal);
-                $array[$size[0] . 'w'] = $baseUrl . htmlspecialchars_decode($name);
+                if ($size != false) {
+                    $array[$size[0] . 'w'] = $baseUrl . htmlspecialchars_decode($name);
+                }
             }
         }
 

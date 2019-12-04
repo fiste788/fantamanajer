@@ -1,15 +1,18 @@
 parameters:
     level: 7
+    checkGenericClassInNonGenericObjectType: false
     autoload_files:
         - config/bootstrap.php
 
     excludes_analyse:
         - src/Console/Installer.php
-        
+
     ignoreErrors:
         - '#Call to an undefined method Crud\\Action\\BaseAction::[a-zA-Z0-9_]+\(\)#'
         - '#Access to an undefined property object::\$entity#'
         - '#Access to an undefined property object::\$query#'
         - '#Access to an undefined property object::\$entities#'
         - '#Access to an undefined property object::\$success#'
+        - '#[a-zA-Z0-9_] no value type specified in iterable type array#'
+        - '#[a-zA-Z0-9_] no value type specified in iterable type [a-zA-Z0-9_]#'
 

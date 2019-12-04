@@ -9,19 +9,19 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * VwMembersStats Model
+ * MembersStats Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
- * @method \App\Model\Entity\VwMembersStat get($primaryKey, $options = [])
- * @method \App\Model\Entity\VwMembersStat newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\VwMembersStat[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\VwMembersStat|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\VwMembersStat patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\VwMembersStat[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\VwMembersStat findOrCreate($search, callable $callback = null, $options = [])
- * @method \App\Model\Entity\VwMembersStat saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\MembersStat get($primaryKey, $options = [])
+ * @method \App\Model\Entity\MembersStat newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\MembersStat[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\MembersStat|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\MembersStat patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\MembersStat[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\MembersStat findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\MembersStat saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
-class VwMembersStatsTable extends Table
+class MembersStatsTable extends Table
 {
     /**
      * @inheritDoc
@@ -30,7 +30,7 @@ class VwMembersStatsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('vw_members_stats');
+        $this->setTable('members_stats');
 
         $this->belongsTo(
             'Members',

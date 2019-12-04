@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
 use const DIRECTORY_SEPARATOR as DS;
@@ -55,8 +54,7 @@ class Player extends Entity
     {
         if ($this->members) {
             foreach ($this->members as $member) {
-                $path = Configure::read('App.paths.images.players');
-                if (file_exists($path . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
+                if (file_exists(IMG_PLAYERS . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
                     return Router::url(
                         '/img/players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg',
                         true

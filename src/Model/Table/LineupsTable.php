@@ -222,7 +222,7 @@ class LineupsTable extends Table
      */
     public function findLast(Query $q, array $options): Query
     {
-        $q->innerJoinWith('Matchdays')
+        $q = $q->innerJoinWith('Matchdays')
             ->contain(['Dispositions'])
             ->where([
                 'Lineups.team_id' => $options['team_id'],
@@ -233,13 +233,13 @@ class LineupsTable extends Table
         if (array_key_exists('stats', $options) && $options['stats']) {
             $seasonId = $options['matchday']->season_id;
             $tableLocator = TableRegistry::getTableLocator();
-            $q->contain([
+            $q = $q->contain([
                 'Teams' => [
                     'Members' => function (Query $q) use ($seasonId, $tableLocator): Query {
                         return $q->find('withStats', ['season_id' => $seasonId])
                             ->select($tableLocator->get('Roles'))
                             ->select($tableLocator->get('Players'))
-                            ->select($tableLocator->get('VwMembersStats'))
+                            ->select($tableLocator->get('MembersStats'))
                             ->select(['id', 'role_id', 'club_id'])
                             ->contain(['Roles', 'Players']);
                     },

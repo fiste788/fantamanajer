@@ -296,7 +296,9 @@ class DownloadRatingsService
 
             foreach ($array as $val) {
                 $par = explode($sep, $val);
-                $arrayOk[$par[0]] = $par;
+                if ($par != false) {
+                    $arrayOk[$par[0]] = $par;
+                }
             }
         }
 

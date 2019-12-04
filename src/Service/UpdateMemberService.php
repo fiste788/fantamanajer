@@ -82,7 +82,7 @@ class UpdateMemberService
             $newMembers = $this->DownloadRatings->returnArray($path, ";");
             $buys = [];
             $sells = [];
-            $membersToSave = [];
+            $membersToSave = new \ArrayIterator();
             $member = null;
             foreach ($newMembers as $id => $newMember) {
                 if (array_key_exists($id, $oldMembers)) {
@@ -98,13 +98,13 @@ class UpdateMemberService
                     $buys[$member->club_id][] = $member;
                 }
                 if ($member != null) {
-                    $membersToSave[] = $member;
+                    $membersToSave->append($member);
                 }
             }
             foreach ($oldMembers as $id => $oldMember) {
                 if (!array_key_exists($id, $newMembers) && $oldMember->active) {
                     $oldMember->active = false;
-                    $membersToSave[] = $oldMember;
+                    $membersToSave->append($oldMember);
                     if ($this->io != null) {
                         $this->io->verbose("Deactivate member " . $oldMember);
                     }
@@ -113,7 +113,7 @@ class UpdateMemberService
             }
             //$this->io->verbose($membersToSave);
             if ($this->io != null) {
-                $this->io->out("Savings " . count($membersToSave) . " members");
+                $this->io->out("Savings " . $membersToSave->count() . " members");
             }
             if (!$this->Members->saveMany($membersToSave)) {
                 $ev = new Event('Fantamanajer.memberTransferts', $this, [
@@ -123,7 +123,7 @@ class UpdateMemberService
                 EventManager::instance()->dispatch($ev);
                 foreach ($membersToSave as $value) {
                     if (!empty($value->getErrors()) && $this->io != null) {
-                        $this->io->err($value);
+                        $this->io->err(print_r($value, true));
                         $this->io->err(print_r($value->getErrors(), true));
                     }
                 }

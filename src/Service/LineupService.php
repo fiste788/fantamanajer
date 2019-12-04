@@ -115,9 +115,13 @@ class LineupService
      */
     public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true): Lineup
     {
+        $lineup->team->setAccess('members', true);
         $lineupCopy = $this->Lineups->newEntity(
             $lineup->toArray(),
-            ['associated' => ['Teams.Championships', 'Dispositions.Members.Ratings']]
+            [
+                'associated' => ['Teams' => ['Championships', 'Members'], 'Dispositions.Members.Ratings'],
+                'guard' => false,
+            ]
         );
         $lineupCopy->unset('id');
         $lineupCopy->jolly = false;

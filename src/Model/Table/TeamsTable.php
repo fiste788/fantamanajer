@@ -11,7 +11,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Psr\Http\Message\UploadedFileInterface;
 use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 use SplFileInfo;
 
 /**
@@ -102,56 +104,58 @@ class TeamsTable extends Table
             'joinTable' => 'members_teams',
             'sort' => ['role_id'],
         ]);
-        $this->addBehavior(
-            'Josegonzalez/Upload.Upload',
-            [
-                'photo' => [
-                    'path' => 'webroot{DS}files{DS}{table}{DS}{primaryKey}{DS}photo{DS}',
-                    'fields' => [
-                        'dir' => 'photo_dir', // defaults to `dir`
-                        'size' => 'photo_size', // defaults to `size`
-                        'type' => 'photo_type', // defaults to `type`
-                    ],
-                    'nameCallback' => function (array $data, array $settings) {
-                        return strtolower($data['name']);
-                    },
-                    'transformer' => function (
-                        RepositoryInterface $table,
-                        EntityInterface $entity,
-                        array $data,
-                        string $field,
-                        array $settings
-                    ) {
-                        $tmpFile = new SplFileInfo($data['name']);
-                        $image = Image::load($data['tmp_name']);
-                        $array = [$data['tmp_name'] => $data['name']];
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                'path' => WWW_ROOT . 'files{DS}{table}{DS}{primaryKey}{DS}{field}{DS}',
+                'fields' => [
+                    'dir' => 'photo_dir', // defaults to `dir`
+                    'size' => 'photo_size', // defaults to `size`
+                    'type' => 'photo_type', // defaults to `type`
+                ],
+                'nameCallback' => function (array $data, array $settings) {
+                    return strtolower($data['name']);
+                },
+                'transformer' => function (
+                    RepositoryInterface $table,
+                    EntityInterface $entity,
+                    UploadedFileInterface $file,
+                    string $field,
+                    array $settings
+                ) {
+                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? $entity->get('id') . '.jpg');
+                    $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
+                    if ($tmpFile != false) {
+                        $file->moveTo($tmpFile);
+                        $image = Image::load($tmpFile);
+                        $array = [$tmpFile => $tmpFileName->getFilename()];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFile->getExtension();
-                                $image->width($value)->save($tmp);
-                                $array[$tmp] = $value . 'w' . DS . $data['name'];
+                                $manipulations = (new Manipulations())->width($value)->optimize();
+                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
+                                $image->manipulate($manipulations)->save($tmp);
+                                $array[$tmp] = $value . 'w' . DS . $tmpFileName->getFilename();
                             }
                         }
 
                         return $array;
-                    },
-                    'deleteCallback' => function (
-                        string $path,
-                        EntityInterface $entity,
-                        string $field,
-                        array $settings
-                    ) {
-                        $array = [$path . $entity->{$field}];
-                        foreach (Team::$size as $value) {
-                            $array[] = $path . $value . DS . $entity->{$field};
-                        }
+                    }
+                },
+                'deleteCallback' => function (
+                    string $path,
+                    EntityInterface $entity,
+                    string $field,
+                    array $settings
+                ) {
+                    $array = [$path . $entity->{$field}];
+                    foreach (Team::$size as $value) {
+                        $array[] = $path . $value . DS . $entity->{$field};
+                    }
 
-                        return $array;
-                    },
-                    'keepFilesOnDelete' => false,
-                ],
-            ]
-        );
+                    return $array;
+                },
+                'keepFilesOnDelete' => false,
+            ],
+        ]);
     }
 
     /**

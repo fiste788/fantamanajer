@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
 
@@ -53,7 +52,7 @@ class Club extends Entity
     /**
      * Undocumented variable
      *
-     * @var array
+     * @var string[]
      */
     protected $_virtual = [
         'abbreviation',
@@ -76,17 +75,23 @@ class Club extends Entity
      */
     protected function _getPhotoUrl(): string
     {
-        return Router::url('/img/' . $this->getSource() . '/' . $this->id . '/photo/' . $this->id . '.png', true);
+        return Router::url(
+            '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.png',
+            true
+        );
     }
 
     /**
      *
-     * @return array
+     * @return string[]
      */
     protected function _getBackgroundUrl(): array
     {
-        $path = Configure::read('App.paths.images.clubs') . $this->id . DS . 'background/';
+        $path = IMG_CLUBS . $this->id . DS . 'background/';
 
-        return $this->_getPhotosUrl($path, '/img/' . $this->getSource() . '/' . $this->id . '/background/');
+        return $this->_getPhotosUrl(
+            $path,
+            '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/background/'
+        );
     }
 }

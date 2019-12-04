@@ -4,23 +4,10 @@ declare(strict_types=1);
 namespace App\Database\Type;
 
 use Cake\Database\DriverInterface;
-use Cake\Database\TypeInterface;
-use PDO;
+use Cake\Database\Type\BaseType;
 
-class Base64DataType implements TypeInterface
+class Base64DataType extends BaseType
 {
-    /**
-     * @inheritDoc
-     */
-    public function toPHP($value, DriverInterface $driver)
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        return base64_decode($value, true);
-    }
-
     /**
      * @inheritDoc
      */
@@ -36,45 +23,20 @@ class Base64DataType implements TypeInterface
     /**
      * @inheritDoc
      */
+    public function toPHP($value, DriverInterface $driver)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return base64_decode($value, true);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function toDatabase($value, DriverInterface $driver)
     {
         return base64_encode($value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toStatement($value, DriverInterface $driver)
-    {
-        if ($value === null) {
-            return PDO::PARAM_NULL;
-        }
-
-        return PDO::PARAM_STR;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBaseType(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getName(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     *
-     * @return void
-     */
-    public function newId()
-    {
     }
 }

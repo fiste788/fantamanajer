@@ -6,12 +6,13 @@ namespace App\Command;
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
 use Cake\Chronos\Chronos;
+use Cake\Command\Command;
 use Cake\Console\Arguments;
-use Cake\Console\Command;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
+use Cake\I18n\Time;
 use GetStream\Stream\Client;
 use Minishlink\WebPush\WebPush;
 
@@ -86,14 +87,14 @@ class SendMissingLineupNotificationCommand extends Command
                     ]
                 );
             foreach ($teams as $team) {
-                $date = $this->currentMatchday->date->toMutable()->subMinutes($team->championship->minute_lineup);
+                $date = new Time($this->currentMatchday->date->getTimestamp());
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
                         ->title('Formazione non ancora impostatata')
                         ->body(sprintf(
-                            'Ricordati di impostare la formazione per la giornata %d! Hai tempo fino alle %s',
+                            'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
                             $this->currentMatchday->number,
-                            $date->toFormattedDateString()
+                            $date->timeAgoInWords()
                         ))
                         ->action('Imposta', 'open')
                         ->tag('missing-lineup-' . $this->currentMatchday->number)

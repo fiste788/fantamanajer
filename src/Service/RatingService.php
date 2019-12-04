@@ -72,7 +72,7 @@ class RatingService
         $reply = 'y';
         if (!file_exists($dectyptedFilePath) && $this->io != null) {
             $reply = $this->io->askChoice(
-                'Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter. 
+                'Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter.
                 If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx',
                 ['y', 'n'],
                 'y'
@@ -153,7 +153,6 @@ class RatingService
                             'matchday_id' => $matchday->id,
                         ]
                     );
-                    $rating->points_no_bonus = $rating->calcPointsNoBonus($matchday->season);
                     $ratings[] = $rating;
                 } else {
                     throw new RecordNotFoundException("No member for code_gazzetta $stats[0]");

@@ -62,7 +62,7 @@ class Team extends Entity
         'scores' => false,
         'selections' => false,
         'transferts' => false,
-        'members' => false,
+        'members' => true,
     ];
 
     /**
@@ -99,7 +99,7 @@ class Team extends Entity
     /**
      * Get photo
      *
-     * @return array|null
+     * @return string[]|null
      */
     protected function _getPhotoUrl(): ?array
     {

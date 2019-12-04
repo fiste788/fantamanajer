@@ -22,6 +22,7 @@ use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Authentication\UrlChecker\CakeRouterUrlChecker;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
@@ -103,7 +104,7 @@ class Application extends BaseApplication implements
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
         $middlewareQueue
-            ->add(new ErrorHandlerMiddleware(null, Configure::read('Error')))
+            ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
             ->add(BodyParserMiddleware::class)
             ->add(new AuthenticationMiddleware($this))
@@ -134,7 +135,6 @@ class Application extends BaseApplication implements
             IdentifierInterface::CREDENTIAL_USERNAME => 'email',
             IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
         ];
-        $loginUrl = '/users/login';
 
         $service->setConfig('identityClass', \App\Model\Entity\User::class);
         // Load identifiers
@@ -157,8 +157,14 @@ class Application extends BaseApplication implements
             'fields' => $fields,
         ]);*/
         $service->loadAuthenticator('Authentication.Form', [
-            'loginUrl' => $loginUrl,
+            'loginUrl' => [
+                'controller' => 'Users',
+                'action' => 'login',
+                'prefix' => false,
+            ],
             'fields' => $fields,
+            'urlChecker' => CakeRouterUrlChecker::class,
+
         ]);
         $service->loadAuthenticator('Authentication.Jwt', [
             'fields' => $fields,

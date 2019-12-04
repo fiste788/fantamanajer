@@ -47,5 +47,10 @@ ConnectionManager::setConfig('test_debug_kit', [
 
 ConnectionManager::alias('test_debug_kit', 'debug_kit');
 
+// Fixate sessionid early on, as php7.2+
+// does not allow the sessionid to be set after stdout
+// has been written to.
+session_id('cli');
+
 $now = new FrozenTime('2018-09-30 00:00:00');
 FrozenTime::setTestNow($now);

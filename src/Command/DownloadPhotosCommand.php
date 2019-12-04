@@ -4,11 +4,10 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Traits\CurrentMatchdayTrait;
+use Cake\Command\Command;
 use Cake\Console\Arguments;
-use Cake\Console\Command;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
-use Cake\Core\Configure;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -45,7 +44,7 @@ class DownloadPhotosCommand extends Command
         $url = "/index.php?ctg=15";
         $referer = "http://" . $baseUrl . $url;
 
-        $path = Configure::read('App.paths.images.players') . 'season-new' . DS;
+        $path = IMG_PLAYERS . 'season-new' . DS;
         $members = $this->Members->find()
             ->contain(['Players'])
             ->where(['season_id' => $this->currentSeason->id])->all();

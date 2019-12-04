@@ -48,5 +48,7 @@ class Season extends Entity
      */
     protected $_hidden = [
         'key_gazzetta',
+        'bonus_points_goals',
+        'bonus_points_clean_sheet',
     ];
 }

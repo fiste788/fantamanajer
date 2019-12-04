@@ -24,7 +24,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
  * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsToMany $Teams
- * @property \App\Model\Table\VwMembersStatsTable&\Cake\ORM\Association\HasOne $VwMembersStats
+ * @property \App\Model\Table\MembersStatsTable&\Cake\ORM\Association\HasOne $MembersStats
  *
  * @method \App\Model\Entity\Member get($primaryKey, $options = [])
  * @method \App\Model\Entity\Member newEntity($data = null, array $options = [])
@@ -74,7 +74,7 @@ class MembersTable extends Table
             'foreignKey' => 'member_id',
             'strategy' => 'select',
         ]);
-        $this->hasOne('VwMembersStats', [
+        $this->hasOne('MembersStats', [
             'foreignKey' => 'member_id',
             'propertyName' => 'stats',
         ]);
@@ -163,7 +163,7 @@ class MembersTable extends Table
      */
     public function findWithStats(Query $query, array $options): Query
     {
-        return $query->contain(['VwMembersStats'])
+        return $query->contain(['MembersStats'])
             ->where(['season_id' => $options['season_id']])
             ->group('Members.id');
     }
@@ -225,7 +225,7 @@ class MembersTable extends Table
             ->orderAsc('Players.surname')
             ->orderAsc('Players.name');
         if (isset($options['stats']) && $options['stats']) {
-            $q->contain(['VwMembersStats']);
+            $q->contain(['MembersStats']);
         }
         if (isset($options['role'])) {
             $q->where(['role_id' => $options['role']]);
@@ -245,7 +245,7 @@ class MembersTable extends Table
      */
     public function findByClubId(Query $q, array $options): Query
     {
-        return $q->contain(['Roles', 'Players', 'VwMembersStats'])
+        return $q->contain(['Roles', 'Players', 'MembersStats'])
             ->innerJoinWith('Clubs', function (Query $q) use ($options): Query {
                 return $q->where(['Clubs.id' => $options['club_id']]);
             })->order(['role_id', 'Players.name'])
@@ -269,7 +269,7 @@ class MembersTable extends Table
                 return $q->where(['Teams.id' => $options['team_id']]);
             })->order(['role_id', 'Players.name']);
         if ($options['stats']) {
-            $q->contain(['Roles', 'VwMembersStats']);
+            $q->contain(['Roles', 'MembersStats']);
         }
 
         return $q;

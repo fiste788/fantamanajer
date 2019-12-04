@@ -55,12 +55,12 @@ $routes->scope('/', function (RouteBuilder $routes) {
 
     $routes->connect('/members/best', [
         'controller' => 'Members',
-        'action' => 'best'
+        'action' => 'best',
     ]);
 
     $routes->connect('/members/{id}', [
         'controller' => 'Members',
-        'action' => 'view'
+        'action' => 'view',
     ])
         ->setPatterns(['id' => '\d+'])
         ->setPass(['id']);
@@ -73,6 +73,7 @@ $routes->scope('/', function (RouteBuilder $routes) {
                 'login' => [
                     'action' => 'login',
                     'method' => 'POST',
+                    '_name' => 'login'
                 ],
                 'logout' => [
                     'action' => 'logout',
@@ -182,13 +183,12 @@ $routes->scope('/', function (RouteBuilder $routes) {
             'prefix' => 'championships',
         ]);
 
-        $routes->connect('/members/free/{role_id}', [
+        $routes->connect('/members/free/:role_id', [
             'controller' => 'Members',
             'action' => 'freeByRole',
             'prefix' => 'championships',
         ])
-            ->setPatterns(['role_id' => '\d+'])
-            ->setPass(['role_id']);
+            ->setPatterns(['role_id' => '\d+']);
     });
 
     $routes->prefix('admin', [], function (RouteBuilder $routes) {

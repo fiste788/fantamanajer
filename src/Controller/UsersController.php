@@ -31,6 +31,8 @@ class UsersController extends AppController
 
     /**
      * @inheritDoc
+     *
+     * @return void
      */
     public function beforeFilter(EventInterface $event)
     {

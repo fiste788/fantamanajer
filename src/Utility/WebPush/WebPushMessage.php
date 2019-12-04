@@ -5,7 +5,7 @@ namespace App\Utility\WebPush;
 
 use JsonSerializable;
 
-class WebPushMessage implements JsonSerializable
+final class WebPushMessage implements JsonSerializable
 {
     /**
      * The notification title.
@@ -271,7 +271,7 @@ class WebPushMessage implements JsonSerializable
     /**
      * Set the vibrate times.
      *
-     * @param array $vibrate Vibration timings
+     * @param int[] $vibrate Vibration timings
      * @return self
      */
     public function vibrate(array $vibrate): WebPushMessage

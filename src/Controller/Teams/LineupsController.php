@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Teams;
 
+use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
@@ -13,7 +14,7 @@ use Cake\Event\EventInterface;
  * @property \App\Service\LikelyLineupService $LikelyLineup
  * @property \App\Model\Table\LineupsTable $Lineups
  */
-class LineupsController extends \App\Controller\LineupsController
+class LineupsController extends AppController
 {
     /**
      * @inheritDoc
@@ -48,6 +49,11 @@ class LineupsController extends \App\Controller\LineupsController
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if ($identity->hasTeam($team)) {
+            /*$this->Crud->action()->findMethod(['last' => [
+                'team_id' => $team,
+                'matchday' => $this->currentMatchday,
+                'stats' => true,
+            ]]);*/
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $that) {
                 $event->getSubject()->query = $that->Lineups->find('last', [
                     'team_id' => $team,
@@ -85,6 +91,8 @@ class LineupsController extends \App\Controller\LineupsController
                 '_serialize' => ['success', 'data'],
             ]);
         }
+
+        return null;
     }
 
     /**

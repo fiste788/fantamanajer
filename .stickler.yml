@@ -1,12 +1,9 @@
 linters:
   phpcs:
-    standard: CakePHP
+    standard: CakePHP4
+    extensions: 'php,ctp'
     fixer: true
-  csslint: {  }
-  shellcheck:
-    shell: bash
-files:
-  ignore:
-    - 'vendor/*'
-    - 'bower_components/*'
-    - 'node_modules/*'
+
+fixers:
+  enable: true
+  workflow: commit

@@ -25,7 +25,7 @@ abstract class StreamActivity implements StreamActivityInterface
 
     /**
      *
-     * @var string $text
+     * @var string $title
      */
     public $title;
 

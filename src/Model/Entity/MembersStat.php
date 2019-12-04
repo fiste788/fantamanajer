@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * VwMembersStat Entity
+ * MembersStat Entity
  *
  * @property int $member_id
  * @property int|null $sum_present
@@ -22,7 +22,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Member $member
  */
-class VwMembersStat extends Entity
+class MembersStat extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

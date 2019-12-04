@@ -4,15 +4,14 @@ declare(strict_types=1);
 namespace App\Database\Type;
 
 use Cake\Database\DriverInterface;
-use Cake\Database\TypeInterface;
-use PDO;
+use Cake\Database\Type\BaseType;
 
-class SimpleArrayDataType implements TypeInterface
+class SimpleArrayDataType extends BaseType
 {
     /**
      * @inheritDoc
      */
-    public function toPHP($value, DriverInterface $driver)
+    public function marshal($value)
     {
         if ($value === null || $value == '') {
             return [];
@@ -24,7 +23,7 @@ class SimpleArrayDataType implements TypeInterface
     /**
      * @inheritDoc
      */
-    public function marshal($value)
+    public function toPHP($value, DriverInterface $driver)
     {
         if ($value === null || $value == '') {
             return [];
@@ -43,42 +42,5 @@ class SimpleArrayDataType implements TypeInterface
         }
 
         return implode(',', $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toStatement($value, DriverInterface $driver)
-    {
-        if ($value === null) {
-            return PDO::PARAM_NULL;
-        }
-
-        return PDO::PARAM_STR;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBaseType(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getName(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     *
-     * @return void
-     */
-    public function newId()
-    {
     }
 }
