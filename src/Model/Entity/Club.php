@@ -83,9 +83,9 @@ class Club extends Entity
 
     /**
      *
-     * @return string[]
+     * @return string[]|null
      */
-    protected function _getBackgroundUrl(): array
+    protected function _getBackgroundUrl(): ?array
     {
         $path = IMG_CLUBS . $this->id . DS . 'background/';
 

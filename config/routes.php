@@ -22,7 +22,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Cake\Routing\Route\DashedRoute;
+use Cake\Routing\Route\InflectedRoute;
 use Cake\Routing\RouteBuilder;
 
 /*
@@ -44,7 +44,7 @@ use Cake\Routing\RouteBuilder;
  */
 
 /** @var \Cake\Routing\RouteBuilder $routes */
-$routes->setRouteClass(DashedRoute::class);
+$routes->setRouteClass(InflectedRoute::class);
 
 $routes->scope('/', function (RouteBuilder $routes) {
     $routes->setExtensions(['json']);
@@ -65,33 +65,29 @@ $routes->scope('/', function (RouteBuilder $routes) {
         ->setPatterns(['id' => '\d+'])
         ->setPass(['id']);
 
-    $routes->resources(
-        'Users',
-        [
-            'only' => ['update', 'login', 'current', 'logout'],
-            'map' => [
-                'login' => [
-                    'action' => 'login',
-                    'method' => 'POST',
-                    '_name' => 'login'
-                ],
-                'logout' => [
-                    'action' => 'logout',
-                    'method' => 'GET',
-                ],
-                'current' => [
-                    'action' => 'current',
-                    'method' => 'GET',
-                ],
+    $routes->resources('Users', [
+        'only' => ['update', 'login', 'current', 'logout'],
+        'map' => [
+            'login' => [
+                'action' => 'login',
+                'method' => 'POST',
+                '_name' => 'login'
+            ],
+            'logout' => [
+                'action' => 'logout',
+                'method' => 'GET',
+            ],
+            'current' => [
+                'action' => 'current',
+                'method' => 'GET',
             ],
         ],
-        function (RouteBuilder $routes) {
-            $routes->connect('/stream', [
-                'controller' => 'Users',
-                'action' => 'stream',
-            ]);
-        }
-    );
+    ], function (RouteBuilder $routes) {
+        $routes->connect('/stream', [
+            'controller' => 'Users',
+            'action' => 'stream',
+        ]);
+    });
     $routes->resources('Credentials', [
         'path' => 'webauthn',
         'only' => ['request', 'create', 'login', 'register'],
@@ -183,7 +179,7 @@ $routes->scope('/', function (RouteBuilder $routes) {
             'prefix' => 'championships',
         ]);
 
-        $routes->connect('/members/free/:role_id', [
+        $routes->connect('/members/free/{role_id}', [
             'controller' => 'Members',
             'action' => 'freeByRole',
             'prefix' => 'championships',
@@ -278,5 +274,5 @@ $routes->scope('/', function (RouteBuilder $routes) {
             ->setPatterns(['matchday_id' => '\d+'])
             ->setPass(['matchday_id']);
     });
-    $routes->fallbacks(DashedRoute::class);
+    // $routes->fallbacks(InflectedRoute::class);
 });

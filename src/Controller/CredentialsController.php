@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -8,6 +9,7 @@ use Cake\Event\EventInterface;
 
 /**
  * @property \App\Service\CredentialService $Credential
+ * @property \App\Service\UserService $User
  * @property \Cake\ORM\Table $Credentials
  */
 class CredentialsController extends AppController
@@ -20,6 +22,7 @@ class CredentialsController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+        $this->loadService('User');
         $this->loadService('Credential');
     }
 
@@ -74,12 +77,34 @@ class CredentialsController extends AppController
      */
     public function login()
     {
-        $check = $this->Credential->assertionResponse($this->request);
-        $this->set([
-            'success' => $check,
-            'data' => $check,
-            '_serialize' => ['success', 'data'],
-        ]);
+        $result = $this->Authentication->getResult();
+        if ($result != null && $result->isValid()) {
+            /** @var \App\Model\Entity\User $user */
+            $user = $this->Authentication->getIdentity();
+            $days = $this->request->getData('remember_me', false) ? 365 : 7;
+            $this->set(
+                [
+                    'success' => true,
+                    'data' => [
+                        'token' => $this->User->getToken((string) $user->id, $days),
+                        'user' => $user->getOriginalData(),
+                    ],
+                    '_serialize' => ['success', 'data'],
+                ]
+            );
+        } elseif ($result != null) {
+            //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            $this->response = $this->response->withStatus(401);
+            $this->set(
+                [
+                    'success' => false,
+                    'data' => [
+                        'message' => $result->getStatus(),
+                    ],
+                    '_serialize' => ['success', 'data'],
+                ]
+            );
+        }
     }
 
     /**

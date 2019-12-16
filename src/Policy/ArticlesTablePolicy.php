@@ -5,6 +5,7 @@ namespace App\Policy;
 
 use App\Model\Table\ArticlesTable;
 use Authorization\IdentityInterface;
+use Cake\ORM\Query;
 
 class ArticlesTablePolicy
 {
@@ -15,7 +16,7 @@ class ArticlesTablePolicy
      * @param \Cake\ORM\Query $query query
      * @return \Cake\ORM\Query
      */
-    public function scopeIndex($user, $query)
+    public function scopeIndex(IdentityInterface $user, Query $query)
     {
         return $query->where(['Articles.user_id' => $user->getIdentifier()]);
     }

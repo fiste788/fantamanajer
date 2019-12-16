@@ -82,6 +82,8 @@ class UpdateMemberService
             $newMembers = $this->DownloadRatings->returnArray($path, ";");
             $buys = [];
             $sells = [];
+
+            /** @var \ArrayIterator<int,\Cake\Datasource\EntityInterface> $membersToSave */
             $membersToSave = new \ArrayIterator();
             $member = null;
             foreach ($newMembers as $id => $newMember) {
@@ -115,7 +117,7 @@ class UpdateMemberService
             if ($this->io != null) {
                 $this->io->out("Savings " . $membersToSave->count() . " members");
             }
-            if (!$this->Members->saveMany($membersToSave)) {
+            if (!$this->Members->saveMany($membersToSave->getArrayCopy())) {
                 $ev = new Event('Fantamanajer.memberTransferts', $this, [
                     'sells' => $sells,
                     'buys' => $buys,
@@ -163,7 +165,7 @@ class UpdateMemberService
     /**
      * Member new
      *
-     * @param array $member Member
+     * @param array<string> $member Member
      * @param \App\Model\Entity\Season $season Season
      * @return \App\Model\Entity\Member
      */
@@ -194,7 +196,7 @@ class UpdateMemberService
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
             'active' => true,
-            'role_id' => $member[5] + 1,
+            'role_id' => ((int)$member[5]) + 1,
             'club_id' => $club->id,
             'player_id' => $player->id,
         ]);

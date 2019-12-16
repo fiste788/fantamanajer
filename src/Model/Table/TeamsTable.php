@@ -106,14 +106,14 @@ class TeamsTable extends Table
         ]);
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'photo' => [
-                'path' => WWW_ROOT . 'files{DS}{table}{DS}{primaryKey}{DS}{field}{DS}',
+                'path' => 'webroot{DS}img{DS}{table}{DS}{primaryKey}{DS}{field}{DS}',
                 'fields' => [
                     'dir' => 'photo_dir', // defaults to `dir`
                     'size' => 'photo_size', // defaults to `size`
                     'type' => 'photo_type', // defaults to `type`
                 ],
-                'nameCallback' => function (array $data, array $settings) {
-                    return strtolower($data['name']);
+                'nameCallback' => function (UploadedFileInterface $data, array $settings) {
+                    return strtolower($data->getClientFilename() ?? '');
                 },
                 'transformer' => function (
                     RepositoryInterface $table,
@@ -122,7 +122,8 @@ class TeamsTable extends Table
                     string $field,
                     array $settings
                 ) {
-                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? $entity->get('id') . '.jpg');
+
+                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? ($entity->get('id') . '.jpg'));
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                     if ($tmpFile != false) {
                         $file->moveTo($tmpFile);
@@ -181,8 +182,6 @@ class TeamsTable extends Table
             ->notEmptyString('admin');
 
         $validator
-            ->scalar('photo')
-            ->maxLength('photo', 255)
             ->allowEmptyString('photo');
 
         $validator

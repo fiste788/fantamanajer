@@ -29,11 +29,7 @@ class MatchdaysController extends AppController
     public function current()
     {
         $this->Crud->action()->findMethod(['current']);
-        /** @var \App\Model\Entity\Matchday $previous */
-        $previous = $this->Matchdays->find('previous')->first();
-        $this->response = $this->response
-            ->withCache($previous->date->toDateTimeString(), $this->currentMatchday->date->timestamp)
-            ->withHeader('Access-Control-Allow-Origin', '*');
+        $this->withMatchdayCache();
 
         $this->set([
             'data' => $this->currentMatchday,

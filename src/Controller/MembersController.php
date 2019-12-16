@@ -35,6 +35,7 @@ class MembersController extends AppController
      */
     public function best()
     {
+        $this->withMatchdayCache();
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
 
         /** @var \App\Model\Entity\Matchday|null $matchday */

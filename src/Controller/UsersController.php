@@ -32,14 +32,13 @@ class UsersController extends AppController
     /**
      * @inheritDoc
      *
-     * @return void
      */
     public function beforeFilter(EventInterface $event)
     {
-        parent::beforeFilter($event);
-
         $this->Crud->mapAction('edit', 'Crud.Edit');
         $this->Authentication->allowUnauthenticated(['login', 'publicKey', 'storeKey']);
+
+        return parent::beforeFilter($event);
     }
 
     /**

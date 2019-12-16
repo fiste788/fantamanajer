@@ -9,6 +9,7 @@ use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
+use Cake\ORM\TableRegistry;
 use Crud\Controller\ControllerTrait;
 
 /**
@@ -32,7 +33,7 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
-        $this->loadComponent('Flash');
+        $this->loadComponent('Paginator');
 
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login',
@@ -112,6 +113,22 @@ class AppController extends Controller
     {
         $this->RequestHandler->renderAs($this, 'json');
         $this->getResponse()->withType('application/json');
-        parent::beforeRender($event);
+
+        return parent::beforeRender($event);
+    }
+
+    /**
+     * Caching the response based on matchday date
+     *
+     * @return void
+     */
+    public function withMatchdayCache(): void
+    {
+        $matchdays = TableRegistry::getTableLocator()->get("Matchdays");
+
+        /** @var \App\Model\Entity\Matchday $previous */
+        $previous = $matchdays->find('previous')->first();
+        $this->response = $this->response
+            ->withCache($previous->date->toDateTimeString(), $this->currentMatchday->date->timestamp);
     }
 }

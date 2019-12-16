@@ -96,7 +96,7 @@ class PushSubscriptionsTable extends Table
 
         $validator
             ->dateTime('expires_at')
-            ->notEmptyDateTime('expires_at');
+            ->allowEmptyDateTime('expires_at');
 
         $validator
             ->dateTime('created_at')
@@ -134,8 +134,12 @@ class PushSubscriptionsTable extends Table
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        $data->offsetUnset('created_at');
-        $data->offsetUnset('modified_at');
+        if ($data->offsetExists('created_at')) {
+            $data->offsetUnset('created_at');
+        }
+        if ($data->offsetExists('modified_at')) {
+            $data->offsetUnset('modified_at');
+        }
     }
 
     /**

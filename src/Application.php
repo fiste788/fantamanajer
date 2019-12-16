@@ -17,12 +17,15 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Authentication\Authenticator\WebauthnAuthenticator;
+use App\Authentication\Identifier\WebauthnHandleIdentifier;
+use App\Command as Commands;
+use App\Database\Type as Types;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
-use Authentication\UrlChecker\CakeRouterUrlChecker;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
@@ -69,11 +72,11 @@ class Application extends BaseApplication implements
             }
         }
 
-        TypeFactory::map('acd', \App\Database\Type\AttestedCredentialDataType::class);
-        TypeFactory::map('ci', \App\Database\Type\PublicKeyCredentialDescriptorType::class);
-        TypeFactory::map('trust_path', \App\Database\Type\TrustPathDataType::class);
-        TypeFactory::map('simple_array', \App\Database\Type\SimpleArrayDataType::class);
-        TypeFactory::map('base64', \App\Database\Type\Base64DataType::class);
+        TypeFactory::map('acd', Types\AttestedCredentialDataType::class);
+        TypeFactory::map('ci', Types\PublicKeyCredentialDescriptorType::class);
+        TypeFactory::map('trust_path', Types\TrustPathDataType::class);
+        TypeFactory::map('simple_array', Types\SimpleArrayDataType::class);
+        TypeFactory::map('base64', Types\Base64DataType::class);
 
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
@@ -151,6 +154,13 @@ class Application extends BaseApplication implements
                 'finder' => 'auth',
             ],
         ]);
+        $service->loadIdentifier('Authentication.WebauthnHandle', [
+            'className' => WebauthnHandleIdentifier::class,
+            'resolver' => [
+                'className' => 'Authentication.Orm',
+                'finder' => 'auth',
+            ],
+        ]);
 
         // Load the authenticators
         /*$service->loadAuthenticator('Authentication.Session', [
@@ -158,17 +168,23 @@ class Application extends BaseApplication implements
         ]);*/
         $service->loadAuthenticator('Authentication.Form', [
             'loginUrl' => [
-                'controller' => 'Users',
-                'action' => 'login',
-                'prefix' => false,
+                '/users/login',
             ],
             'fields' => $fields,
-            'urlChecker' => CakeRouterUrlChecker::class,
+            //'urlChecker' => CakeRouterUrlChecker::class,
 
         ]);
         $service->loadAuthenticator('Authentication.Jwt', [
             'fields' => $fields,
             'returnPayload' => false,
+        ]);
+
+        $service->loadAuthenticator('Authentication.Webauthn', [
+            'className' => WebauthnAuthenticator::class,
+            'loginUrl' => [
+                '/webauthn/login',
+            ],
+            'fields' => $fields,
         ]);
 
         return $service;
@@ -202,16 +218,16 @@ class Application extends BaseApplication implements
     {
         $commands->addMany($commands->autoDiscover());
 
-        $commands->add('weekly_script', \App\Command\WeeklyScriptCommand::class);
-        $commands->add('matchday update_date', \App\Command\UpdateMatchdayCommand::class);
-        $commands->add('matchday update_calendar', \App\Command\UpdateCalendarCommand::class);
-        $commands->add('matchday get_date', \App\Command\GetMatchdayScheduleCommand::class);
-        $commands->add('send lineups', \App\Command\SendLineupsEmailCommand::class);
-        $commands->add('send missing_lineup', \App\Command\SendMissingLineupNotificationCommand::class);
-        $commands->add('send test_notification', \App\Command\SendTestNotificationCommand::class);
-        $commands->add('utility download_photos', \App\Command\DownloadPhotosCommand::class);
-        $commands->add('utility reset_password', \App\Command\ResetPasswordCommand::class);
-        $commands->add('utility start_season', \App\Command\StartSeasonCommand::class);
+        $commands->add('weekly_script', Commands\WeeklyScriptCommand::class);
+        $commands->add('matchday update_date', Commands\UpdateMatchdayCommand::class);
+        $commands->add('matchday update_calendar', Commands\UpdateCalendarCommand::class);
+        $commands->add('matchday get_date', Commands\GetMatchdayScheduleCommand::class);
+        $commands->add('send lineups', Commands\SendLineupsEmailCommand::class);
+        $commands->add('send missing_lineup', Commands\SendMissingLineupNotificationCommand::class);
+        $commands->add('send test_notification', Commands\SendTestNotificationCommand::class);
+        $commands->add('utility download_photos', Commands\DownloadPhotosCommand::class);
+        $commands->add('utility reset_password', Commands\ResetPasswordCommand::class);
+        $commands->add('utility start_season', Commands\StartSeasonCommand::class);
 
         return $commands;
     }

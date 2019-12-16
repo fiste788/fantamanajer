@@ -53,6 +53,19 @@ class PublicKeyCredentialSource extends Entity
     ];
 
     /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var string[]
+     */
+    protected $_hidden = [
+        'attestation_type',
+        'transports',
+        'trust_path',
+        'aaguid',
+        'credential_public_key',
+    ];
+
+    /**
      * Undocumented function
      *
      * @return \Webauthn\PublicKeyCredentialSource

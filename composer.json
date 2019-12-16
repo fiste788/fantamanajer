@@ -7,14 +7,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/fiste788/cake-scheduler"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/web-auth/webauthn-lib.git"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/commercial-hippie/cakephp-upload.git"
         }
     ],
@@ -25,7 +17,7 @@
         "cakephp/authorization": "2.x-dev",
         "cakephp/cakephp": "4.x-dev as 3.7.0",
         "cakephp/plugin-installer": "^1.0",
-        "fiste788/cake-scheduler": "dev-master as 1.0",
+        "fiste788/cake-scheduler": "dev-master",
         "friendsofcake/crud": "dev-cake-4.x",
         "get-stream/stream": "^4.0",
         "josegonzalez/cakephp-upload": "cake-4.x-dev#6cb59c5e79a018fc95d13804b48c10d7a5a90f3a",

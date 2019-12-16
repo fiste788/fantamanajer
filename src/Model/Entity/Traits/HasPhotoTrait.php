@@ -16,9 +16,9 @@ trait HasPhotoTrait
      * @param string $baseUrl Url
      * @param string|null $name Name
      *
-     * @return string[]
+     * @return string[]|null
      */
-    private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null): array
+    private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null): ?array
     {
         $array = [];
         $filesystem = new Filesystem();
@@ -42,6 +42,6 @@ trait HasPhotoTrait
             }
         }
 
-        return $array;
+        return empty($array) ? null : $array;
     }
 }
