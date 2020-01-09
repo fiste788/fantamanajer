@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Clubs;
@@ -27,13 +28,13 @@ class MembersController extends AppController
     /**
      * Index
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index()
     {
         $this->Crud->action()->findMethod([
             'byClubId' => [
-                'club_id' => (int)$this->request->getParam('club_id', null),
+                'club_id' => (int) $this->request->getParam('club_id', null),
                 'season_id' => $this->currentSeason->id,
             ],
         ]);

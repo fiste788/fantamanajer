@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Championships;
@@ -24,7 +25,7 @@ class MembersController extends AppController
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
         $this->Crud->mapAction('freeByRole', 'Crud.Index');
-        $championshipId = (int)$this->request->getParam('championship_id');
+        $championshipId = (int) $this->request->getParam('championship_id');
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if (!$identity->isInChampionship($championshipId)) {
@@ -35,15 +36,15 @@ class MembersController extends AppController
     /**
      * Free by role
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function freeByRole()
     {
         $this->Crud->action()->findMethod([
             'free' => [
                 'championship_id' => $this->request->getParam('championship_id'),
-                'stats' => (bool)$this->request->getQuery('stats', true),
-                'role' => (int)$this->request->getParam('role_id', null),
+                'stats' => (bool) $this->request->getQuery('stats', true),
+                'role' => (int) $this->request->getParam('role_id', null),
             ],
         ]);
 
@@ -53,13 +54,13 @@ class MembersController extends AppController
     /**
      * Free
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function free()
     {
         $this->Crud->action()->findMethod([
             'free' => [
-                'championship_id' => (int)$this->request->getParam('championship_id'),
+                'championship_id' => (int) $this->request->getParam('championship_id'),
                 'stats' => false,
             ],
         ]);

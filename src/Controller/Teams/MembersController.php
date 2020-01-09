@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Teams;
@@ -19,13 +20,13 @@ class MembersController extends AppMembersController
     /**
      * Index
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index()
     {
         $this->Crud->action()->findMethod([
             'byTeamId' => [
-                'team_id' => (int)$this->request->getParam('team_id', null),
+                'team_id' => (int) $this->request->getParam('team_id', null),
                 'stats' => $this->request->getQuery('stats', true),
             ],
         ]);
@@ -36,14 +37,14 @@ class MembersController extends AppMembersController
     /**
      * Not mine
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function notMine()
     {
         $this->Crud->action()->findMethod([
             'notMine' => [
-                'team_id' => (int)$this->request->getParam('team_id', null),
-                'role_id' => (int)$this->request->getParam('role_id', null),
+                'team_id' => (int) $this->request->getParam('team_id', null),
+                'role_id' => (int) $this->request->getParam('role_id', null),
             ],
         ]);
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -27,7 +28,7 @@ class TeamsController extends AppController
      * View
      *
      * @param int $id Id
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function view($id)
     {
@@ -48,7 +49,7 @@ class TeamsController extends AppController
     /**
      * Add
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function add()
     {

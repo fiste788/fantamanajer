@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -23,7 +24,7 @@ class PlayersController extends AppController
      * Index
      *
      * @param int $id Id
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function view($id)
     {

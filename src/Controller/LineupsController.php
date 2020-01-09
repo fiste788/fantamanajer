@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -25,7 +26,7 @@ class LineupsController extends AppController
     /**
      * Add
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function add()
     {
@@ -43,7 +44,7 @@ class LineupsController extends AppController
     /**
      * Edit
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function edit()
     {

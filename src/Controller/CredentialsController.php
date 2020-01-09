@@ -48,7 +48,6 @@ class CredentialsController extends AppController
         $this->set([
             'success' => true,
             'data' => $publicKeyCredentialRequestOptions,
-            '_jsonOptions' => (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
             '_serialize' => ['success', 'data'],
         ]);
     }
@@ -65,7 +64,6 @@ class CredentialsController extends AppController
         $this->set([
             'success' => true,
             'data' => $publicKeyCredentialCreationOptions,
-            '_jsonOptions' => (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
             '_serialize' => ['success', 'data'],
         ]);
     }
@@ -82,29 +80,18 @@ class CredentialsController extends AppController
             /** @var \App\Model\Entity\User $user */
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
-            $this->set(
-                [
-                    'success' => true,
-                    'data' => [
-                        'token' => $this->User->getToken((string) $user->id, $days),
-                        'user' => $user->getOriginalData(),
-                    ],
-                    '_serialize' => ['success', 'data'],
-                ]
-            );
-        } elseif ($result != null) {
-            //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            $this->set('data', [
+                'token' => $this->User->getToken((string) $user->id, $days),
+                'user' => $user->getOriginalData(),
+            ]);
+        } else {
             $this->response = $this->response->withStatus(401);
-            $this->set(
-                [
-                    'success' => false,
-                    'data' => [
-                        'message' => $result->getStatus(),
-                    ],
-                    '_serialize' => ['success', 'data'],
-                ]
-            );
+            $this->set('data', [
+                'message' => $result != null ? $result->getStatus() : 'Authentication error',
+            ]);
         }
+        $this->set('success', $result != null && $result->isValid());
+        $this->set('_serialize', ['success', 'data']);
     }
 
     /**
@@ -114,10 +101,10 @@ class CredentialsController extends AppController
      */
     public function register()
     {
-        $check = $this->Credential->attestationResponse($this->request);
+        $token = $this->Credential->attestationResponse($this->request);
         $this->set([
-            'success' => $check,
-            'data' => $check,
+            'success' => true,
+            'data' => $token,
             '_serialize' => ['success', 'data'],
         ]);
     }

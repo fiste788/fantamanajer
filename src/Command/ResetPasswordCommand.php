@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -56,8 +57,8 @@ class ResetPasswordCommand extends Command
     {
         $hasher = new DefaultPasswordHasher();
         $io->out("Resetting password for " . $user->email);
-        $user->password = $hasher->hash(strtolower($user->name ?? ""));
+        $user->password = $hasher->hash(strtolower($user->name));
         $this->Users->save($user);
-        $io->out("New password is " . strtolower($user->name ?? ""));
+        $io->out("New password is " . strtolower($user->name));
     }
 }

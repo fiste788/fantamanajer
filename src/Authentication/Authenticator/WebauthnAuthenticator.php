@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Authentication\Authenticator;
@@ -8,6 +9,7 @@ use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
 use Authentication\Identifier\IdentifierInterface;
 use Authentication\UrlChecker\UrlCheckerTrait;
+use Cake\Http\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -46,8 +48,8 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         $errors = [
             sprintf(
                 'Login URL `%s` did not match `%s`.',
-                (string)$request->getUri(),
-                implode('` or `', (array)$this->getConfig('loginUrl'))
+                (string) $request->getUri(),
+                implode('` or `', (array) $this->getConfig('loginUrl'))
             ),
         ];
 
@@ -87,7 +89,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * @param \Cake\Http\ServerRequest $request Request
      * @return string|null
      */
-    public function getPublicKey(ServerRequestInterface $request): ?string
+    public function getPublicKey(ServerRequest $request): ?string
     {
         return $request->getSession()->consume("User.PublicKey");
     }
@@ -98,7 +100,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * @param \Cake\Http\ServerRequest $request Request
      * @return string|null
      */
-    public function getUserHandle(ServerRequestInterface $request): ?string
+    public function getUserHandle(ServerRequest $request): ?string
     {
         return $request->getSession()->consume("User.Handle");
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Teams;
@@ -18,7 +19,7 @@ class SelectionsController extends AppSelectionsController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');
-        $teamId = (int)$this->request->getParam('team_id');
+        $teamId = (int) $this->request->getParam('team_id');
 
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
@@ -30,12 +31,12 @@ class SelectionsController extends AppSelectionsController
     /**
      * Index
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index()
     {
         $this->Crud->action()->findMethod(['byTeamIdAndMatchdayId' => [
-            'team_id' => (int)$this->request->getParam('team_id'),
+            'team_id' => (int) $this->request->getParam('team_id'),
             'matchday_id' => $this->currentMatchday->id,
         ]]);
 

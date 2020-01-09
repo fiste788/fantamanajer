@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -13,7 +14,7 @@ use Cake\ORM\Entity;
  * @property int $member_id
  *
  * @property \App\Model\Entity\Team $team
- * @property \App\Model\Entity\Member $member
+ * @property \App\Model\Entity\Member|null $member
  */
 class MembersTeam extends Entity
 {

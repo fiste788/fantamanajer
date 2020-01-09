@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -81,7 +82,6 @@ class Application extends BaseApplication implements
         $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
         $this->addPlugin('Crud');
-        $this->addPlugin('Cors', ['bootstrap' => true, 'routes' => false]);
         $this->addPlugin('Josegonzalez/Upload');
         $this->addPlugin('Migrations');
         $this->addPlugin('Bake');

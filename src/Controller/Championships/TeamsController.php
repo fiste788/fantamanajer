@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Championships;
@@ -18,7 +19,7 @@ class TeamsController extends AppController
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
-        $championshipId = (int)$this->request->getParam('championship_id');
+        $championshipId = (int) $this->request->getParam('championship_id');
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if (!$identity->isInChampionship($championshipId)) {
@@ -29,12 +30,12 @@ class TeamsController extends AppController
     /**
      * Index
      *
-     * @return \Cake\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index()
     {
         $this->Crud->action()->findMethod(['byChampionshipId' => [
-            'championship_id' => (int)$this->request->getParam('championship_id'),
+            'championship_id' => (int) $this->request->getParam('championship_id'),
         ]]);
 
         return $this->Crud->execute();

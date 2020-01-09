@@ -103,6 +103,7 @@ $routes->scope('/', function (RouteBuilder $routes) {
                 'path' => 'register',
             ],
             'login' => [
+                'controller' => 'user',
                 'action' => 'login',
                 'method' => 'POST',
             ],

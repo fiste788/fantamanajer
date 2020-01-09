@@ -112,8 +112,25 @@ class AppController extends Controller
     public function beforeRender(EventInterface $event)
     {
         $this->RequestHandler->renderAs($this, 'json');
-        $this->getResponse()->withType('application/json');
-
+        $this->response = $this->response->withType('application/json');
+        /*
+        $headers = [
+            'Origin',
+            'X-Requested-With',
+            'Content-Type',
+            'Authorization',
+            'Access-Control-Allow-Headers',
+            'X-Http-Method-Override'
+        ];
+        $this->response = $this->response->cors($this->request)
+            ->allowOrigin(['localhost:4200', '*.fantamanajer.it'])
+            ->allowMethods(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+            ->allowHeaders($headers)
+            ->allowCredentials()
+            ->exposeHeaders($headers)
+            ->maxAge(24 * 60 * 60)
+            ->build();
+*/
         return parent::beforeRender($event);
     }
 

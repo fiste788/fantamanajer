@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSource;
 use App\Model\Entity\User;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
+use Cake\Http\Client;
 use Cake\Utility\Hash;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -18,6 +20,7 @@ use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
 use Psr\Http\Message\ServerRequestInterface;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
+use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
@@ -168,7 +171,10 @@ class CredentialService
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-        //$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport($adapter, Configure::read('Webauthn.safetyNetKey')));
+        $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(
+            new Client(),
+            Configure::read('Webauthn.safetyNetKey')
+        ));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport(
@@ -350,9 +356,9 @@ class CredentialService
      * Save the credential
      *
      * @param \Cake\Http\ServerRequest $request Request
-     * @return bool
+     * @return \App\Model\Entity\PublicKeyCredentialSource|null
      */
-    public function attestationResponse(ServerRequestInterface $request): bool
+    public function attestationResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
         $publicKey = $request->getSession()->consume("User.PublicKey");
 
@@ -404,7 +410,7 @@ class CredentialService
             $parsed = new Parser($credential->user_agent);
             $credential->name = $parsed->toString();
 
-            return $this->PublicKeyCredentialSources->save($credential);
+            return $this->PublicKeyCredentialSources->save($credential) ?: null;
         } catch (\Throwable $exception) {
             throw $exception;
         }

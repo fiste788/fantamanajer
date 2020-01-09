@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -75,7 +76,7 @@ class TransfertService
             ]);
             $this->Transferts->save($transfert, ['associated' => false]);
         }
-        $this->MembersTeams->saveMany((array)$recs, ['associated' => false]);
+        $this->MembersTeams->saveMany((array) $recs, ['associated' => false]);
     }
 
     /**
@@ -117,7 +118,7 @@ class TransfertService
         /** @var \App\Model\Entity\Transfert $transfert */
         $transfert = $this->Transferts->newEntity();
         $transfert->team_id = $entity->team_id;
-        $transfert->constrained = !$entity->member->active;
+        $transfert->constrained = !$entity->member || !$entity->member->active;
         $transfert->matchday_id = $current->id;
         $transfert->old_member_id = $entity->getOriginal('member_id');
         $transfert->new_member_id = $entity->member_id;
