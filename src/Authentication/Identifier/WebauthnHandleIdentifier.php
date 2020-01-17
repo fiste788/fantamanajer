@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Authentication\Identifier;
@@ -42,6 +41,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
         $credentialService = $this->getServiceLocator()->load('Credential');
 
         $result = $credentialService->login($publicKey, $request, $userHandle);
+
         return $this->_findIdentity($result->getUserHandle());
     }
 
@@ -55,7 +55,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     {
         $fields = $this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
-        foreach ((array) $fields as $field) {
+        foreach ((array)$fields as $field) {
             $conditions[$field] = $identifier;
         }
 

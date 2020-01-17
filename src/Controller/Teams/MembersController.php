@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Teams;
@@ -26,7 +25,7 @@ class MembersController extends AppMembersController
     {
         $this->Crud->action()->findMethod([
             'byTeamId' => [
-                'team_id' => (int) $this->request->getParam('team_id', null),
+                'team_id' => (int)$this->request->getParam('team_id', null),
                 'stats' => $this->request->getQuery('stats', true),
             ],
         ]);
@@ -43,8 +42,8 @@ class MembersController extends AppMembersController
     {
         $this->Crud->action()->findMethod([
             'notMine' => [
-                'team_id' => (int) $this->request->getParam('team_id', null),
-                'role_id' => (int) $this->request->getParam('role_id', null),
+                'team_id' => (int)$this->request->getParam('team_id', null),
+                'role_id' => (int)$this->request->getParam('role_id', null),
             ],
         ]);
 

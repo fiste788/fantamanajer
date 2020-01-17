@@ -10,9 +10,6 @@ use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
-use CBOR\Decoder;
-use CBOR\OtherObject\OtherObjectManager;
-use CBOR\Tag\TagObjectManager;
 use Cose\Algorithm\Manager;
 use Cose\Algorithm\Signature\ECDSA;
 use Cose\Algorithm\Signature\EdDSA;
@@ -115,20 +112,6 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @return \CBOR\Decoder
-     */
-    private function createDecoder(): Decoder
-    {
-        // Create a CBOR Decoder object
-        $otherObjectManager = new OtherObjectManager();
-        $tagObjectManager = new TagObjectManager();
-
-        return new Decoder($tagObjectManager, $otherObjectManager);
-    }
-
-    /**
-     * Undocumented function
-     *
      * @param \Webauthn\PublicKeyCredentialSource[] $credentials credentials
      * @return \Webauthn\PublicKeyCredentialDescriptor[]
      */
@@ -161,24 +144,22 @@ class CredentialService
     /**
      * Undocumented function
      *
-     * @param \CBOR\Decoder $decoder arg
      * @return \Webauthn\AttestationStatement\AttestationStatementSupportManager
      */
-    private function createStatementSupportManager(Decoder $decoder): AttestationStatementSupportManager
+    private function createStatementSupportManager(): AttestationStatementSupportManager
     {
         $coseAlgorithmManager = $this->createAlgorithManager();
 
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
-        $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
+        $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport());
         $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(
             new Client(),
             Configure::read('Webauthn.safetyNetKey')
         ));
-        $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
+        $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport());
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
         $attestationStatementSupportManager->add(new PackedAttestationStatementSupport(
-            $decoder,
             $coseAlgorithmManager
         ));
 
@@ -255,18 +236,16 @@ class CredentialService
         /** @var \Webauthn\PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions */
         $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
 
-        $decoder = $this->createDecoder();
-        $attestationStatementSupportManager = $this->createStatementSupportManager($decoder);
+        $attestationStatementSupportManager = $this->createStatementSupportManager();
         // Attestation Object Loader
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
+        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
 
         // Public Key Credential Loader
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
+        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
 
         // Authenticator Assertion Response Validator
         $authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
             $this->CredentialRepository,
-            $decoder,
             new TokenBindingNotSupportedHandler(),
             new ExtensionOutputCheckerHandler(),
             $this->createAlgorithManager()
@@ -365,16 +344,14 @@ class CredentialService
         /** @var \Webauthn\PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions */
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
 
-        $decoder = $this->createDecoder();
-
         // Attestation Statement Support Manager
-        $attestationStatementSupportManager = $this->createStatementSupportManager($decoder);
+        $attestationStatementSupportManager = $this->createStatementSupportManager();
 
         // Attestation Object Loader
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager, $decoder);
+        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
 
         // Public Key Credential Loader
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
+        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
 
         $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
             $attestationStatementSupportManager,

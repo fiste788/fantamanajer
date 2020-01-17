@@ -79,11 +79,13 @@ class RenewChampionshipCommand extends Command
         foreach ($championship->teams as $key => $team) {
             /** @var \App\Model\Entity\Team $team */
             $newTeam = $newChampionship->teams[$key];
-            $filepath = ROOT . DS . ($team->photo_dir ?? '') . ($team->photo ?? '');
+            $dir = $team->photo_dir ?? '';
+            $photo = $team->photo ?? '';
+            $filepath = ROOT . DS . $dir . $photo;
             $io->out('Cerco immagine in ' . $filepath);
             if ($filesystem->exists($filepath)) {
-                $source = ROOT . DS . ($team->photo_dir);
-                $io->out('Trovata immagine ' . ($team->photo));
+                $source = ROOT . DS . $dir;
+                $io->out('Trovata immagine ' . $photo);
 
                 $to = WWW_ROOT . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
                 if ($filesystem->mirror($source, $to, null, ['overrride' => true, 'copy_on_windows' => true])) {

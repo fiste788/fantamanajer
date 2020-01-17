@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -81,7 +80,7 @@ class CredentialsController extends AppController
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set('data', [
-                'token' => $this->User->getToken((string) $user->id, $days),
+                'token' => $this->User->getToken((string)$user->id, $days),
                 'user' => $user->getOriginalData(),
             ]);
         } else {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -44,7 +45,7 @@ class ScorePolicy
      */
     public function canIndex(User $user, Score $score)
     {
-        return $user->isInChampionship($score->team->championship_id);
+        return $score->team != null ? $user->isInChampionship($score->team->championship_id) : false;
     }
 
     /**
@@ -56,6 +57,6 @@ class ScorePolicy
      */
     public function canEdit(User $user, Score $score)
     {
-        return $user->admin || $user->isChampionshipAdmin($score->team->championship_id);
+        return $user->admin || ($score->team != null ? $user->isChampionshipAdmin($score->team->championship_id) : false);
     }
 }

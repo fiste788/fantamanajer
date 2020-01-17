@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -43,7 +42,7 @@ class ScoresController extends AppController
      */
     public function view(?string $id)
     {
-        $members = (bool) $this->request->getQuery('members', false);
+        $members = (bool)$this->request->getQuery('members', false);
         $that = $this;
         $this->Crud->on('afterFind', function (Event $event) use ($members, $that) {
             $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);

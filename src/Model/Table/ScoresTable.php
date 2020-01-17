@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -198,7 +199,7 @@ class ScoresTable extends Table
 
                 if (!empty($scores)) {
                     return $results->map(function (Score $entity) use ($scores): Score {
-                        $entity['scores'] = $scores[$entity->team->id];
+                        $entity['scores'] = $scores[$entity->team_id];
 
                         return $entity;
                     });
