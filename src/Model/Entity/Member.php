@@ -31,7 +31,7 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\Rating[] $ratings
  * @property \App\Model\Entity\Team[] $teams
- * @property \App\Model\Entity\MembersStat $stats
+ * @property \App\Model\Entity\MembersStat|null $stats
  */
 class Member extends Entity
 {

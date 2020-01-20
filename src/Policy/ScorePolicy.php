@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -57,6 +56,8 @@ class ScorePolicy
      */
     public function canEdit(User $user, Score $score)
     {
-        return $user->admin || ($score->team != null ? $user->isChampionshipAdmin($score->team->championship_id) : false);
+        return $user->admin || ($score->team != null ?
+            $user->isChampionshipAdmin($score->team->championship_id) :
+            false);
     }
 }

@@ -124,12 +124,11 @@ class RatingService
                     return $q->where(['matchday_id' => $matchday->id]);
                 }])->toArray();
 
-            /** @var iterable<\Cake\Datasource\EntityInterface> $ratings */
             $ratings = [];
             foreach ($csvRow as $stats) {
                 if (array_key_exists($stats[0], $members)) {
                     $member = $members[$stats[0]];
-                    $rating = empty($member->ratings) ? $this->Ratings->newEntity() : $member->ratings[0];
+                    $rating = empty($member->ratings) ? $this->Ratings->newEmptyEntity() : $member->ratings[0];
                     $rating->member = $member;
                     $this->Ratings->patchEntity(
                         $rating,

@@ -19,13 +19,18 @@ use Cake\Validation\Validator;
  * @property \App\Service\TransfertService $Transfert
  *
  * @method \App\Model\Entity\MembersTeam get($primaryKey, $options = [])
- * @method \App\Model\Entity\MembersTeam newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\MembersTeam newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\MembersTeam saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\MembersTeam patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\MembersTeam[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\MembersTeam findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\MembersTeam[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\MembersTeam findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\MembersTeam newEmptyEntity()
+ * @method \App\Model\Entity\MembersTeam[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\MembersTeam[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\MembersTeam[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\MembersTeam[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class MembersTeamsTable extends Table
 {

@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Team[] $teams
+ * @var mixed $baseUrl
  */
 ?>
 <?php foreach($teams as $team): ?>

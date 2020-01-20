@@ -73,6 +73,6 @@ class Player extends Entity
      */
     protected function _getFullName(): string
     {
-        return $this->surname . ($this->name ? (' ' . $this->name) : '');
+        return $this->surname . ($this->name ? ' ' . $this->name : '');
     }
 }

@@ -13,13 +13,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Player get($primaryKey, $options = [])
- * @method \App\Model\Entity\Player newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Player newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Player|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Player saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Player patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Player[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Player findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Player[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Player findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Player newEmptyEntity()
+ * @method \App\Model\Entity\Player[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Player[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Player[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Player[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class PlayersTable extends Table
 {

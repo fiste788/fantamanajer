@@ -1,6 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
+ * @var string $controller_name
+ * @var string $title
+ * @var string $view_name
  */
 ?>
 <!doctype html>

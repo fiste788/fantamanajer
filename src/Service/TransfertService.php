@@ -107,7 +107,7 @@ class TransfertService
      */
     public function saveTeamMember(MembersTeam $entity): void
     {
-        if ($entity->member != null) {
+        if ($entity->member == null) {
             /** @var \App\Model\Entity\MembersTeam $entity */
             $entity = $this->MembersTeams->loadInto($entity, ['Members']);
         }
@@ -115,9 +115,9 @@ class TransfertService
         $current = $this->Matchdays->find('current')->first();
 
         /** @var \App\Model\Entity\Transfert $transfert */
-        $transfert = $this->Transferts->newEntity();
+        $transfert = $this->Transferts->newEmptyEntity();
         $transfert->team_id = $entity->team_id;
-        $transfert->constrained = !$entity->member || !$entity->member->active;
+        $transfert->constrained = $entity->member == null || !$entity->member->active;
         $transfert->matchday_id = $current->id;
         $transfert->old_member_id = $entity->getOriginal('member_id');
         $transfert->new_member_id = $entity->member_id;

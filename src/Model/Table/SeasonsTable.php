@@ -14,13 +14,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Season get($primaryKey, $options = [])
- * @method \App\Model\Entity\Season newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Season newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Season[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Season|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Season saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Season patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Season[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Season findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Season[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Season findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Season newEmptyEntity()
+ * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class SeasonsTable extends Table
 {

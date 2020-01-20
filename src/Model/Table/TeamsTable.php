@@ -32,14 +32,18 @@ use SplFileInfo;
  * @property \App\Service\TeamService $Team
  *
  * @method \App\Model\Entity\Team get($primaryKey, $options = [])
- * @method \App\Model\Entity\Team newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Team newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Team[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Team findOrCreate($search, callable $callback = null, $options = [])
- *
+ * @method \App\Model\Entity\Team[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Team findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Team newEmptyEntity()
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
  */
 class TeamsTable extends Table
@@ -123,7 +127,7 @@ class TeamsTable extends Table
                     array $settings
                 ) {
 
-                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? ($entity->get('id') . '.jpg'));
+                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? $entity->get('id') . '.jpg');
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                     if ($tmpFile != false) {
                         $file->moveTo($tmpFile);

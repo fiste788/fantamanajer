@@ -17,14 +17,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\PushSubscription get($primaryKey, $options = [])
- * @method \App\Model\Entity\PushSubscription newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\PushSubscription newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PushSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PushSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\PushSubscription[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\PushSubscription findOrCreate($search, callable $callback = null, $options = [])
- *
+ * @method \App\Model\Entity\PushSubscription[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\PushSubscription findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\PushSubscription newEmptyEntity()
+ * @method \App\Model\Entity\PushSubscription[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PushSubscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PushSubscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PushSubscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class PushSubscriptionsTable extends Table

@@ -14,5 +14,4 @@ parameters:
         - '#Access to an undefined property object::\$query#'
         - '#Access to an undefined property object::\$entities#'
         - '#Access to an undefined property object::\$success#'
-        - '#Parameter \#1 \$entities of method Cake\\ORM\\Table::saveMany\(\)#'
 

@@ -13,13 +13,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  *
  * @method \App\Model\Entity\NotificationSubscription get($primaryKey, $options = [])
- * @method \App\Model\Entity\NotificationSubscription newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\NotificationSubscription newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\NotificationSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\NotificationSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\NotificationSubscription findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription newEmptyEntity()
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class NotificationSubscriptionsTable extends Table
 {

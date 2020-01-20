@@ -26,6 +26,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property bool $admin
  * @property bool $active_email
  *
+ * @property \App\Model\Entity\PublicKeyCredentialSource[] $public_key_credential_sources
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  * @property \App\Model\Entity\Team[] $teams
  * @property \Authorization\AuthorizationServiceInterface $authorization

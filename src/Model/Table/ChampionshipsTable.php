@@ -15,13 +15,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  *
  * @method \App\Model\Entity\Championship get($primaryKey, $options = [])
- * @method \App\Model\Entity\Championship newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Championship newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Championship[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Championship|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Championship[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Championship findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Championship[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Championship findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Championship newEmptyEntity()
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class ChampionshipsTable extends Table
 {

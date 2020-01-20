@@ -10,15 +10,21 @@ use Cake\Validation\Validator;
 /**
  * PublicKeyCredentialSources Model
  *
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ *
  * @method \App\Model\Entity\PublicKeyCredentialSource get($primaryKey, $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate($search, callable $callback = null, $options = [])
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @method \App\Model\Entity\PublicKeyCredentialSource[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource newEmptyEntity()
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class PublicKeyCredentialSourcesTable extends Table

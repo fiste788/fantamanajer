@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -63,10 +62,8 @@ class RenewChampionshipCommand extends Command
         $newChampionship->season_id = $this->currentSeason->id;
         $newChampionship->started = false;
 
-        /** @var \App\Command\RenewChampionshipCommand $that */
-        $that = $this;
-        $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $that): Team {
-            $newTeam = $that->Teams->newEntity($team->getOriginalValues());
+        $newChampionship->teams = array_map(function (Team $team) use ($newChampionship): Team {
+            $newTeam = $this->Teams->newEntity($team->getOriginalValues());
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
 

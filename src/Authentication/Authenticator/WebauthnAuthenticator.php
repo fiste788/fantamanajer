@@ -8,7 +8,6 @@ use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
 use Authentication\Identifier\IdentifierInterface;
 use Authentication\UrlChecker\UrlCheckerTrait;
-use Cake\Http\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -85,22 +84,28 @@ class WebauthnAuthenticator extends AbstractAuthenticator
     /**
      * Undocumented function
      *
-     * @param \Cake\Http\ServerRequest $request Request
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @return string|null
      */
-    public function getPublicKey(ServerRequest $request): ?string
+    public function getPublicKey(ServerRequestInterface $request): ?string
     {
-        return $request->getSession()->consume("User.PublicKey");
+        /** @var \Cake\Http\ServerRequest $cakeRequest */
+        $cakeRequest = $request;
+
+        return $cakeRequest->getSession()->consume("User.PublicKey");
     }
 
     /**
      * Undocumented function
      *
-     * @param \Cake\Http\ServerRequest $request Request
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @return string|null
      */
-    public function getUserHandle(ServerRequest $request): ?string
+    public function getUserHandle(ServerRequestInterface $request): ?string
     {
-        return $request->getSession()->consume("User.Handle");
+        /** @var \Cake\Http\ServerRequest $cakeRequest */
+        $cakeRequest = $request;
+
+        return $cakeRequest->getSession()->consume("User.Handle");
     }
 }

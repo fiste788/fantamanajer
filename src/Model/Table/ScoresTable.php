@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -20,13 +19,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  *
  * @method \App\Model\Entity\Score get($primaryKey, $options = [])
- * @method \App\Model\Entity\Score newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Score newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Score[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Score findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Score[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Score findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Score newEmptyEntity()
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class ScoresTable extends Table
 {

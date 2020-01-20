@@ -16,13 +16,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasOne $Rating
  *
  * @method \App\Model\Entity\Disposition get($primaryKey, $options = [])
- * @method \App\Model\Entity\Disposition newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Disposition newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Disposition[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Disposition|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Disposition saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Disposition patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Disposition[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Disposition findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Disposition[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Disposition findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Disposition newEmptyEntity()
+ * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class DispositionsTable extends Table
 {

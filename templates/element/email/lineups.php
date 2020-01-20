@@ -2,6 +2,11 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Disposition $disposition
+ * @var string $baseUrl
+ * @var mixed $captains
+ * @var string $caption
+ * @var array $dispositions
+ * @var mixed $full
  */
 ?>
 <?php if (!empty($dispositions)): ?>

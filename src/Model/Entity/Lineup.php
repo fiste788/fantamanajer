@@ -26,7 +26,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Disposition[] $dispositions
- * @property \App\Model\Entity\Score $score
+ * @property \App\Model\Entity\Score|null $score
  */
 class Lineup extends Entity
 {

@@ -55,9 +55,9 @@ class DownloadRatingsService
                 $this->io->verbose($file);
             }
             if ($forceDownload || !file_exists($file)) {
-                return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta));
+                return $this->downloadRatings($matchday, $pathCsv, $matchday->number + $offsetGazzetta);
             } else {
-                return $this->downloadRatings($matchday, $pathCsv, ($matchday->number + $offsetGazzetta), $file);
+                return $this->downloadRatings($matchday, $pathCsv, $matchday->number + $offsetGazzetta, $file);
             }
         }
     }

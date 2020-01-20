@@ -25,5 +25,12 @@
         <TypeCoercion errorLevel="info" />
         <DocblockTypeContradiction errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="suppress" />
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+            <referencedMethod name="Crud\Action\BaseAction::saveoptions" />
+            <referencedMethod name="Crud\Action\BaseAction::savemethod" />
+            <referencedMethod name="Crud\Action\BaseAction::findmethod" />
+            </errorLevel>
+        </UndefinedMethod>
     </issueHandlers>
 </psalm>

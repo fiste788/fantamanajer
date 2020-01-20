@@ -2,6 +2,10 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Score $score
+ * @var string $baseUrl
+ * @var mixed $notRegulars
+ * @var mixed $ranking
+ * @var mixed $regulars
  */
 ?>
 <h3>

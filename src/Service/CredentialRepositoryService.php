@@ -81,7 +81,7 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
     public function saveCredentialSource(WebauthnPublicKeyCredentialSource $publicKeyCredentialSource): void
     {
         $entity = $this->findByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId()) ??
-            $this->PublicKeyCredentialSources->newEntity();
+            $this->PublicKeyCredentialSources->newEmptyEntity();
         $entity->fromCredentialSource($publicKeyCredentialSource);
         $this->PublicKeyCredentialSources->save($entity);
     }

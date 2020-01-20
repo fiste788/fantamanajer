@@ -27,13 +27,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersStatsTable&\Cake\ORM\Association\HasOne $MembersStats
  *
  * @method \App\Model\Entity\Member get($primaryKey, $options = [])
- * @method \App\Model\Entity\Member newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Member newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Member|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Member saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Member[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Member findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Member[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Member findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Member newEmptyEntity()
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class MembersTable extends Table
 {

@@ -26,13 +26,18 @@ use Cake\Validation\Validator;
  * @property \App\Service\SelectionService $Selection
  *
  * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
- * @method \App\Model\Entity\Selection newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Selection newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Selection[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Selection findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Selection[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Selection findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Selection newEmptyEntity()
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class SelectionsTable extends Table
 {

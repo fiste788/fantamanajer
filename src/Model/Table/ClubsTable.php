@@ -13,13 +13,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
  *
  * @method \App\Model\Entity\Club get($primaryKey, $options = [])
- * @method \App\Model\Entity\Club newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Club newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Club[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Club|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Club saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Club[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Club findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Club[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Club findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Club newEmptyEntity()
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class ClubsTable extends Table
 {

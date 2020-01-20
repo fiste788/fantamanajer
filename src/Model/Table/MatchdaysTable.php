@@ -22,13 +22,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
  *
  * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
- * @method \App\Model\Entity\Matchday newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Matchday newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Matchday[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Matchday findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Matchday[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Matchday findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Matchday newEmptyEntity()
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class MatchdaysTable extends Table
 {

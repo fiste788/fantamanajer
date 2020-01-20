@@ -12,13 +12,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
  *
  * @method \App\Model\Entity\League get($primaryKey, $options = [])
- * @method \App\Model\Entity\League newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\League newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\League[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\League|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\League saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\League patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\League[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\League findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\League[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\League findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\League newEmptyEntity()
+ * @method \App\Model\Entity\League[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\League[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\League[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\League[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class LeaguesTable extends Table
 {

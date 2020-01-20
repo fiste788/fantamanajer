@@ -23,13 +23,18 @@ use Cake\Validation\Validator;
  * @property \App\Service\TransfertService $Transfert
  *
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
- * @method \App\Model\Entity\Transfert newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Transfert newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Transfert[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Transfert findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Transfert[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Transfert findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Transfert newEmptyEntity()
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class TransfertsTable extends Table
 {

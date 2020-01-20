@@ -16,13 +16,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  *
  * @method \App\Model\Entity\Rating get($primaryKey, $options = [])
- * @method \App\Model\Entity\Rating newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Rating newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Rating|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Rating saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Rating[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Rating findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Rating[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Rating findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Rating newEmptyEntity()
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class RatingsTable extends Table
 {

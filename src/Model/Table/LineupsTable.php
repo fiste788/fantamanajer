@@ -29,14 +29,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasOne $Scores
  *
  * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
- * @method \App\Model\Entity\Lineup newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Lineup newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Lineup|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Lineup saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup findOrCreate($search, callable $callback = null, $options = [])
- *
+ * @method \App\Model\Entity\Lineup[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Lineup findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Lineup newEmptyEntity()
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class LineupsTable extends Table
