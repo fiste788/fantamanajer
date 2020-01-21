@@ -11,7 +11,7 @@ class Missing extends StreamAggregatedActivity implements StreamActivityInterfac
     /**
      * Get body
      *
-     * @return string|null
+     * @return null
      */
     public function getBody(): ?string
     {

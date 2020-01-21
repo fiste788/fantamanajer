@@ -11,7 +11,7 @@ class Missing extends StreamSingleActivity implements StreamActivityInterface
     /**
      * Get body
      *
-     * @return string|null
+     * @return null
      */
     public function getBody(): ?string
     {

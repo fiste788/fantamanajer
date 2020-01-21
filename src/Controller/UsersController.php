@@ -126,7 +126,6 @@ class UsersController extends AppController
 
         $page = (int)Hash::get($this->request->getQueryParams(), 'page', 1);
         $rowsForPage = 10;
-        /** @var int $offset */
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
         $stream = $manager->getActivities('user', (string)$userId, false, $offset, $rowsForPage);

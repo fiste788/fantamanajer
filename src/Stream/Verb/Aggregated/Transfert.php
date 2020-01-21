@@ -72,7 +72,9 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
     /**
      * Get contain
      *
-     * @return array
+     * @return string[]
+     *
+     * @psalm-return array{0: string, 1: string}
      */
     public static function contain(): array
     {

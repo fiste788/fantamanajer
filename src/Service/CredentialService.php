@@ -382,7 +382,6 @@ class CredentialService
                 $request
             );
 
-            /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
             $credential = $this->PublicKeyCredentialSources->newEmptyEntity();
             $credential->fromCredentialSource($credentialSource);
             $credential->id = \Ramsey\Uuid\Uuid::uuid4()->toString();

@@ -106,7 +106,8 @@ class DownloadMatchdayRatingCommand extends Command
      * @param string $url Url
      * @param int $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io IO
-     * @return string|null
+     *
+     * @return null|string
      */
     private function downloadDropboxFile(string $url, int $matchday, ConsoleIo $io): ?string
     {

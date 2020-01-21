@@ -74,7 +74,6 @@ class UpdateMatchdayCommand extends Command
         /** @var \App\Model\Entity\Matchday|null $matchday */
         $matchday = $this->Matchdays->find()->where(['number' => $matchdayNumber, 'season_id' => $season->id])->first();
         if ($matchday == null) {
-            /** @var \App\Model\Entity\Matchday $matchday */
             $matchday = $this->Matchdays->newEmptyEntity();
             $matchday->season_id = $season->id;
             $matchday->number = $matchdayNumber;

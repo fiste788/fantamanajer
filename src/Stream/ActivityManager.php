@@ -10,14 +10,15 @@ use StreamCake\FeedManager;
 class ActivityManager
 {
     /**
-     *
      * @param string $feedName FeedName
      * @param string $id id
      * @param bool $aggregated Aggregated
      * @param int $offset Offset
      * @param int $limit Limit
      * @param array $options Options
-     * @return \App\Stream\StreamActivity[]
+     *
+     * @return array[]
+     *
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getActivities(
@@ -44,10 +45,11 @@ class ActivityManager
     }
 
     /**
-     *
      * @param \StreamCake\EnrichedActivity[] $enricheds Ids
      * @param array<string, mixed> $activities Activities
-     * @return array
+     *
+     * @return array<string, mixed>
+     *
      */
     public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {

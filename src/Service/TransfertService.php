@@ -114,7 +114,6 @@ class TransfertService
         /** @var \App\Model\Entity\Matchday $current */
         $current = $this->Matchdays->find('current')->first();
 
-        /** @var \App\Model\Entity\Transfert $transfert */
         $transfert = $this->Transferts->newEmptyEntity();
         $transfert->team_id = $entity->team_id;
         $transfert->constrained = $entity->member == null || !$entity->member->active;

@@ -11,7 +11,7 @@ class Selection extends StreamAggregatedActivity implements StreamActivityInterf
     /**
      * Get body
      *
-     * @return string|null
+     * @return null
      */
     public function getBody(): ?string
     {

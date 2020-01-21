@@ -74,7 +74,6 @@ class RenewChampionshipCommand extends Command
         $this->Championships->save($newChampionship);
         $filesystem = new Filesystem();
         foreach ($championship->teams as $key => $team) {
-            /** @var \App\Model\Entity\Team $team */
             $newTeam = $newChampionship->teams[$key];
             $dir = $team->photo_dir ?? '';
             $photo = $team->photo ?? '';

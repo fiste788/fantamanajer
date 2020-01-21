@@ -238,7 +238,8 @@ class DownloadRatingsService
      * @param string $url Url
      * @param int $matchday Matchday
      * @param \Cake\Http\Client $http Client
-     * @return string|null
+     *
+     * @return null|string
      */
     private function downloadDropboxUrl(string $url, int $matchday, Client $http): ?string
     {
@@ -284,6 +285,8 @@ class DownloadRatingsService
      * @param bool $header Header
      *
      * @return string[][]
+     *
+     * @psalm-return array<string, non-empty-list<string>>
      */
     public function returnArray(string $path, string $sep = ";", bool $header = false): array
     {

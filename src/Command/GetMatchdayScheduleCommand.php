@@ -74,7 +74,7 @@ class GetMatchdayScheduleCommand extends Command
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
      *
-     * @return \Cake\Chronos\Chronos|false|null
+     * @return \Cake\I18n\FrozenTime|false|null
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
