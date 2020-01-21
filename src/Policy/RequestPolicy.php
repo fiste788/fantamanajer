@@ -19,7 +19,7 @@ class RequestPolicy
         }
 
         if ($request->getParam('prefix') === 'Championships') {
-            $championshipId = $request->getParam('championship_id');
+            $championshipId = (int)$request->getParam('championship_id');
 
             return $identity != null && $identity->isInChampionship($championshipId);
         }

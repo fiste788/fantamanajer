@@ -17,7 +17,7 @@ class SimpleArrayDataType extends BaseType
             return [];
         }
 
-        return explode(',', $value);
+        return explode(',', (string)$value);
     }
 
     /**
@@ -29,7 +29,7 @@ class SimpleArrayDataType extends BaseType
             return [];
         }
 
-        return explode(',', $value);
+        return explode(',', (string)$value);
     }
 
     /**
@@ -41,6 +41,6 @@ class SimpleArrayDataType extends BaseType
             return null;
         }
 
-        return implode(',', $value);
+        return implode(',', (array)$value);
     }
 }

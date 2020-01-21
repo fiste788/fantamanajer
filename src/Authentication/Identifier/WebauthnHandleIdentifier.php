@@ -33,9 +33,10 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      */
     public function identify(array $data)
     {
+        /** @var \Psr\Http\Message\ServerRequestInterface $request */
         $request = $data['request'];
-        $publicKey = $data['publicKey'];
-        $userHandle = $data['userHandle'];
+        $publicKey = (string)$data['publicKey'];
+        $userHandle = (string)$data['userHandle'];
 
         /** @var \App\Service\CredentialService $credentialService */
         $credentialService = $this->getServiceLocator()->load('Credential');
@@ -53,6 +54,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      */
     protected function _findIdentity(string $identifier)
     {
+        /** @var string[] $fields */
         $fields = $this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
         foreach ((array)$fields as $field) {

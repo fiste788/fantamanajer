@@ -42,6 +42,7 @@ class TeamService
         $team->email_notification_subscriptions = $this->NotificationSubscription
             ->createDefaultEmailSubscription($team);
         if ($this->Teams->save($team, ['associated' => true])) {
+            /** @var array<string, string> $config */
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
             $championshipFeed = $client->feed('championship', (string)$team->championship_id);

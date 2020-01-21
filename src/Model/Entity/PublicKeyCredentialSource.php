@@ -13,7 +13,7 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property string $id
  * @property string $public_key_credential_id
  * @property string $type
- * @property array $transports
+ * @property string[] $transports
  * @property string $attestation_type
  * @property \Webauthn\TrustPath\TrustPath $trust_path
  * @property string $aaguid

@@ -118,7 +118,7 @@ class UsersController extends AppController
      */
     public function stream()
     {
-        $userId = $this->request->getParam('user_id');
+        $userId = (int)$this->request->getParam('user_id');
         $identity = $this->Authentication->getIdentity();
         if ($identity == null || !$identity->getIdentifier() == $userId) {
             throw new ForbiddenException();
@@ -129,7 +129,7 @@ class UsersController extends AppController
         /** @var int $offset */
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('user', $userId, false, $offset, $rowsForPage);
+        $stream = $manager->getActivities('user', (string)$userId, false, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
             '_serialize' => 'stream',
@@ -145,7 +145,7 @@ class UsersController extends AppController
     {
         $this->Crud->on('beforeSave', function (Event $event) {
             $hasher = new DefaultPasswordHasher();
-            $plain = $event->getSubject()->entity->get('password');
+            $plain = (string)$event->getSubject()->entity->get('password');
             $event->getSubject()->entity->set('password', $hasher->hash($plain));
         });
         $this->Crud->execute();

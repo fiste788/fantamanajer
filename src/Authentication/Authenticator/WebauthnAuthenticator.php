@@ -92,7 +92,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         /** @var \Cake\Http\ServerRequest $cakeRequest */
         $cakeRequest = $request;
 
-        return $cakeRequest->getSession()->consume("User.PublicKey");
+        return (string)$cakeRequest->getSession()->consume("User.PublicKey");
     }
 
     /**
@@ -106,6 +106,6 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         /** @var \Cake\Http\ServerRequest $cakeRequest */
         $cakeRequest = $request;
 
-        return $cakeRequest->getSession()->consume("User.Handle");
+        return (string)$cakeRequest->getSession()->consume("User.Handle");
     }
 }

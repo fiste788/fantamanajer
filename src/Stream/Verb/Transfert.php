@@ -16,10 +16,13 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
     public function getBody(): ?string
     {
         if ($this->activity->enriched()) {
+            /** @var \App\Model\Entity\Transfert $transfert */
+            $transfert = $this->activity->offsetGet('object');
+
             return __(
                 'Selled {0} and buyed {1}',
-                $this->activity->offsetGet('object')->old_member->player->full_name,
-                $this->activity->offsetGet('object')->new_member->player->full_name
+                $transfert->old_member->player->full_name,
+                $transfert->new_member->player->full_name
             );
         } else {
             return null;
@@ -33,7 +36,10 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
      */
     public function getTitle(): string
     {
-        return __('{0} make a transfert', $this->activity->offsetGet('actor')->name);
+        /** @var \App\Model\Entity\Team $team */
+        $team = $this->activity->offsetGet('actor');
+
+        return __('{0} make a transfert', $team->name);
     }
 
     /**

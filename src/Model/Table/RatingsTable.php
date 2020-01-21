@@ -186,6 +186,6 @@ class RatingsTable extends Table
             ->where(['m.season_id' => $season->id])
             ->first();
 
-        return $res && $res['matchday_id'] ? $res['matchday_id'] : null;
+        return $res && $res['matchday_id'] ? (int)$res['matchday_id'] : null;
     }
 }

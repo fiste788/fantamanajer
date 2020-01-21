@@ -22,9 +22,11 @@ abstract class StreamAggregatedActivity extends StreamActivity
      * Get time
      *
      * @return \Cake\I18n\FrozenTime
+     * @psalm-suppress MixedInferredReturnType
      */
     public function getTime(): FrozenTime
     {
+        /** @psalm-suppress MixedReturnStatement */
         return $this->activity->offsetGet('updated_at');
     }
 }

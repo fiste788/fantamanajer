@@ -34,7 +34,7 @@ class ConsoleCommand extends Command
      *
      * @param \Cake\Console\Arguments $args The command arguments.
      * @param \Cake\Console\ConsoleIo $io The console io
-     * @return int|null|void The exit code or null for success
+     * @return int|null The exit code or null for success
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
@@ -49,7 +49,7 @@ class ConsoleCommand extends Command
             $io->err('<info>$ php composer.phar require --dev psy/psysh</info>');
             $io->err('');
 
-            return static::CODE_ERROR;
+            return self::CODE_ERROR;
         }
 
         $io->out("You can exit with <info>`CTRL-C`</info> or <info>`exit`</info>");
@@ -61,7 +61,10 @@ class ConsoleCommand extends Command
         restore_error_handler();
         restore_exception_handler();
 
+        /** @psalm-suppress MixedAssignment */
         $psy = new PsyShell();
+
+        /** @psalm-suppress MixedMethodCall */
         $psy->run();
 
         return null;

@@ -103,8 +103,7 @@ class CredentialService
     {
         return new PublicKeyCredentialRpEntity(
             'FantaManajer', //Name
-            Configure::read('Webauthn.id', 'fantamanajer.it'), //ID
-            //'localhost',
+            (string)Configure::read('Webauthn.id', 'fantamanajer.it'), //ID
             null //Icon
         );
     }
@@ -114,6 +113,7 @@ class CredentialService
      *
      * @param \Webauthn\PublicKeyCredentialSource[] $credentials credentials
      * @return \Webauthn\PublicKeyCredentialDescriptor[]
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     private function credentialsToDescriptors(array $credentials): array
     {
@@ -155,7 +155,7 @@ class CredentialService
         $attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport());
         $attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(
             new Client(),
-            Configure::read('Webauthn.safetyNetKey')
+            (string)Configure::read('Webauthn.safetyNetKey')
         ));
         $attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport());
         $attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
@@ -187,7 +187,7 @@ class CredentialService
             $publicKeyCredentialRequestOptions = new PublicKeyCredentialRequestOptions(
                 random_bytes(32),
                 60000,
-                Configure::read('Webauthn.id', 'fantamanajer.it'),
+                (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
                 $registeredPublicKeyCredentialDescriptors,
                 AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 $this->getExtensions()
@@ -213,9 +213,10 @@ class CredentialService
      */
     public function assertionResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = $request->getSession()->consume("User.PublicKey");
+        $publicKey = (string)$request->getSession()->consume("User.PublicKey");
+        $handle = (string)$request->getSession()->consume('User.Handle');
 
-        $response = $this->login($publicKey, $request, $request->getSession()->consume('User.Handle'));
+        $response = $this->login($publicKey, $request, $handle);
 
         return $response != null;
     }
@@ -253,7 +254,7 @@ class CredentialService
 
         try {
             // Load the data
-            /** @var array $body */
+            /** @var array<string, mixed> $body */
             $body = $request->getParsedBody();
             $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
             $response = $publicKeyCredential->getResponse();
@@ -285,6 +286,8 @@ class CredentialService
     public function attestationRequest(ServerRequestInterface $request): PublicKeyCredentialCreationOptions
     {
         $rpEntity = $this->createRpEntity();
+
+        /** @var \App\Model\Entity\User $user */
         $user = $request->getAttribute('identity');
         if ($user->uuid == null) {
             $user->uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
@@ -339,7 +342,7 @@ class CredentialService
      */
     public function attestationResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = $request->getSession()->consume("User.PublicKey");
+        $publicKey = (string)$request->getSession()->consume("User.PublicKey");
 
         /** @var \Webauthn\PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions */
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
@@ -362,7 +365,7 @@ class CredentialService
 
         try {
             // Load the data
-            /** @var array $body */
+            /** @var array<string, mixed> $body */
             $body = $request->getParsedBody();
             $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
             $response = $publicKeyCredential->getResponse();

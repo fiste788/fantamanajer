@@ -127,7 +127,7 @@ class TeamsTable extends Table
                     array $settings
                 ) {
 
-                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? $entity->get('id') . '.jpg');
+                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg');
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                     if ($tmpFile != false) {
                         $file->moveTo($tmpFile);
@@ -137,6 +137,8 @@ class TeamsTable extends Table
                             if ($value < $image->getWidth()) {
                                 $manipulations = (new Manipulations())->width($value)->optimize();
                                 $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
+
+                                /** @psalm-suppress MixedMethodCall */
                                 $image->manipulate($manipulations)->save($tmp);
                                 $array[$tmp] = $value . 'w' . DS . $tmpFileName->getFilename();
                             }

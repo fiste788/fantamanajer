@@ -37,7 +37,7 @@ trait HasPhotoTrait
             if ($filesystem->exists($principal)) {
                 $size = getimagesize($principal);
                 if ($size != false) {
-                    $array[$size[0] . 'w'] = $baseUrl . htmlspecialchars_decode($name);
+                    $array[(string)$size[0] . 'w'] = $baseUrl . htmlspecialchars_decode($name);
                 }
             }
         }

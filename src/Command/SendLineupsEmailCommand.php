@@ -64,16 +64,18 @@ class SendLineupsEmailCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
+            /** @var \App\Model\Entity\Championship[] $championships */
             $championships = $this->Championships->find()
                 ->contain(['Teams' => function (Query $q): Query {
                     return $q->contain(['Users'])
                         ->innerJoinWith('EmailNotificationSubscriptions', function (Query $q): Query {
                             return $q->where(['name' => 'lineups', 'enabled' => true]);
                         });
-                }])->where(['season_id' => $this->currentSeason->id]);
-            foreach ($championships->all() as $championship) {
+                }])->where(['season_id' => $this->currentSeason->id])
+                ->all();
+            foreach ($championships as $championship) {
                 $this->sendLineupsChampionship($championship, $this->currentMatchday);
-                $io->out('Lineups sended to championship ' . $championship->name);
+                $io->out('Lineups sended to championship ' . $championship->id);
             }
         }
 

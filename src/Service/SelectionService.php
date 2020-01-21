@@ -55,9 +55,9 @@ class SelectionService
                 ->send();
         }
         if ($selection->team->isPushSubscripted('lost_member')) {
-            $webPush = new WebPush(Configure::read('WebPush'));
+            $webPush = new WebPush((array)Configure::read('WebPush'));
             foreach ($selection->team->user->push_subscriptions as $subscription) {
-                $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+                $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
                     ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
                     ->body('Hai perso il giocatore ' . $selection->new_member->player->full_name)
                     ->tag('lost-player-' . $selection->id);

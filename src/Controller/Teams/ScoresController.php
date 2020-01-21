@@ -51,7 +51,10 @@ class ScoresController extends \App\Controller\ScoresController
             $conditions['matchday_id'] = $matchdayId;
         }
         $this->Crud->on('beforeFind', function (EventInterface $event) use ($conditions): Query {
-            return $event->getSubject()->query
+            /** @var \Cake\ORM\Query $q */
+            $q = $event->getSubject()->query;
+
+            return $q
                 ->where($conditions, [], true)
                 ->order(['matchday_id' => 'desc']);
         });

@@ -18,7 +18,7 @@ class TrustPathDataType extends BaseType
             return $value;
         }
 
-        return json_decode($value, true);
+        return json_decode((string)$value, true);
     }
 
     /**
@@ -29,7 +29,8 @@ class TrustPathDataType extends BaseType
         if ($value === null) {
             return null;
         }
-        $json = json_decode($value, true);
+        /** @var array<string, mixed> $json */
+        $json = json_decode((string)$value, true);
 
         return TrustPathLoader::loadTrustPath($json);
     }

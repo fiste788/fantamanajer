@@ -130,7 +130,7 @@ class ScoresTable extends Table
             ->where(['m.season_id' => $season->id])
             ->first();
 
-        return $res && $res['matchday_id'] ? $res['matchday_id'] : null;
+        return $res && $res['matchday_id'] ? (int)$res['matchday_id'] : null;
     }
 
     /**
@@ -142,7 +142,7 @@ class ScoresTable extends Table
      */
     public function findScores(Query $q, array $options): Query
     {
-        $championshipId = $options['championship_id'];
+        $championshipId = (int)$options['championship_id'];
 
         return $q->select(['id', 'points', 'team_id'])
             ->contain([
@@ -184,7 +184,7 @@ class ScoresTable extends Table
      */
     public function findRanking(Query $q, array $options): Query
     {
-        $championshipId = $options['championship_id'];
+        $championshipId = (int)$options['championship_id'];
         $sum = $q->func()->sum('points');
         $coalesce = $q->func()->coalesce([$sum, 0], ['float', 'float']);
         $q->select([
@@ -203,7 +203,7 @@ class ScoresTable extends Table
 
                 if (!empty($scores)) {
                     return $results->map(function (Score $entity) use ($scores): Score {
-                        $entity['scores'] = $scores[$entity->team_id];
+                        $entity->set('scores', $scores[$entity->team_id]);
 
                         return $entity;
                     });

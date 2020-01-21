@@ -63,12 +63,12 @@ class SendTestNotificationCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Parto');
-        $webPush = new WebPush(Configure::read('WebPush'));
+        $webPush = new WebPush((array)Configure::read('WebPush'));
         $team = $this->Teams->get(55, ['contain' => ['Users.PushSubscriptions']]);
         $io->out('cerco squadra 55');
 
         foreach ($team->user->push_subscriptions as $subscription) {
-            $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+            $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
                 ->title('Notifica di test')
                 ->body('Testo molto lungo che ora non sto a scrivere perchè non ho tempo')
                 ->image('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
@@ -95,7 +95,7 @@ class SendTestNotificationCommand extends Command
                 // process successful message sent
                 Log::info(sprintf(
                     'Notification with payload %s successfully sent for endpoint %s.',
-                    json_decode((string)$response->getBody()),
+                    $response->getBody()->__toString(),
                     $result->getEndpoint()
                 ));
             } else {
@@ -109,7 +109,7 @@ class SendTestNotificationCommand extends Command
                     Log::info(sprintf(
                         'Notification failed: %s. Payload: %s, endpoint: %s',
                         $result->getReason(),
-                        json_decode((string)$response->getBody()),
+                        $response->getBody()->__toString(),
                         $result->getEndpoint()
                     ));
                 }

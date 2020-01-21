@@ -22,10 +22,18 @@ class StreamCell extends Cell
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
+
+        /**
+         * @psalm-suppress MixedArrayAccess
+         * @psalm-suppress MixedAssignment
+         */
+        $results = $feed->getActivities()['results'];
         if ($aggregated) {
-            $enriched = $enrich->enrichAggregatedActivities($feed->getActivities()['results']);
+            /** @psalm-suppress MixedArgument */
+            $enriched = $enrich->enrichAggregatedActivities($results);
         } else {
-            $enriched = $enrich->enrichActivities($feed->getActivities()['results']);
+            /** @psalm-suppress MixedArgument */
+            $enriched = $enrich->enrichActivities($results);
         }
 
         $this->set([

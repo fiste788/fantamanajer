@@ -106,7 +106,7 @@ class Application extends BaseApplication implements
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
         $middlewareQueue
-            ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
+            ->add(new ErrorHandlerMiddleware((array)Configure::read('Error')))
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
             ->add(BodyParserMiddleware::class)
             ->add(new AuthenticationMiddleware($this))

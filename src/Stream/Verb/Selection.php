@@ -25,7 +25,10 @@ class Selection extends StreamSingleActivity implements StreamActivityInterface
      */
     public function getTitle(): string
     {
-        return __('{0} has selected a player for the transfert', $this->activity->offsetGet('actor')->name);
+        /** @var \App\Model\Entity\Team $team */
+        $team = $this->activity->offsetGet('actor');
+
+        return __('{0} has selected a player for the transfert', $team->name);
     }
 
     /**

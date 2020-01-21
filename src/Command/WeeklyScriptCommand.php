@@ -185,11 +185,11 @@ class WeeklyScriptCommand extends Command
         array $scores,
         ConsoleIo $io
     ): void {
-        $webPush = new WebPush(Configure::read('WebPush'));
+        $webPush = new WebPush((array)Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
             if ($team->isPushSubscripted('score')) {
                 foreach ($team->user->push_subscriptions as $subscription) {
-                    $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+                    $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
                         ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
                         ->body('La tua squadra ha totalizzato un punteggio di ' .
                             $scores[$team->id]->points . ' punti')

@@ -39,6 +39,7 @@ class ScoreService
             ->distinct()
             ->limit(40);
         $scores = [];
+        /** @var \App\Model\Entity\Matchday $matchay */
         foreach ($matchdaysWithScore as $matchay) {
             $scores[] = $this->Scores->newEntity([
                 'team_id' => $team->id,

@@ -22,7 +22,7 @@ class LikelyLineupService
     /**
      * Team array
      *
-     * @var array
+     * @var array<string, array<\Symfony\Component\DomCrawler\Crawler>>
      */
     private $_teams = [];
 
@@ -87,6 +87,7 @@ class LikelyLineupService
     private function processMatch(Crawler $match): void
     {
         $i = 0;
+        /** @var string[] $teamsName */
         $teamsName = $match->filter('.match .team')->extract(['_text']);
         $regulars = $match->filter('.team-players-inner');
         $details = $match->filter('.matchDetails > div');

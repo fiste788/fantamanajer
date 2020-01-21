@@ -18,7 +18,7 @@ class PublicKeyCredentialDescriptorType extends BaseType
             return $value;
         }
 
-        return json_decode($value, true);
+        return json_decode((string)$value, true);
     }
 
     /**
@@ -30,7 +30,7 @@ class PublicKeyCredentialDescriptorType extends BaseType
             return null;
         }
 
-        return PublicKeyCredentialDescriptor::createFromString($value);
+        return PublicKeyCredentialDescriptor::createFromString((string)$value);
     }
 
     /**

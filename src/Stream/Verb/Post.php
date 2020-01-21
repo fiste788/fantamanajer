@@ -15,7 +15,10 @@ class Post extends StreamSingleActivity implements StreamActivityInterface
      */
     public function getBody(): string
     {
-        return $this->activity->offsetGet('object')->body;
+        /** @var \App\Model\Entity\Article $article */
+        $article = $this->activity->offsetGet('object');
+
+        return $article->body;
     }
 
     /**
@@ -25,7 +28,10 @@ class Post extends StreamSingleActivity implements StreamActivityInterface
      */
     public function getTitle(): string
     {
-        return __('{0} posted a conference', $this->activity->offsetGet('actor')->name);
+        /** @var \App\Model\Entity\Team $team */
+        $team = $this->activity->offsetGet('actor');
+
+        return __('{0} posted a conference', $team->name);
     }
 
     /**

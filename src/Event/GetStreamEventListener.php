@@ -26,6 +26,7 @@ class GetStreamEventListener implements EventListenerInterface
      */
     public function __construct()
     {
+        /** @var string[] $config */
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
@@ -134,9 +135,9 @@ class GetStreamEventListener implements EventListenerInterface
                 $feed = $this->client->feed('club', (string)$member->getOriginal('club_id'));
                 $feed->setGuzzleDefaultOption('verify', false);
                 $feed->addActivity([
-                    'actor' => 'Club:' . $member->getOriginal('club_id'),
+                    'actor' => 'Club:' . (string)$member->getOriginal('club_id'),
                     'verb' => 'sell',
-                    'object' => 'Member:' . $member->id,
+                    'object' => 'Member:' . (string)$member->id,
                     'to' => 'timeline:general',
                 ]);
             }
@@ -144,9 +145,9 @@ class GetStreamEventListener implements EventListenerInterface
             $feed = $this->client->feed('club', (string)$member->getOriginal('club_id'));
             $feed->setGuzzleDefaultOption('verify', false);
             $feed->addActivity([
-                'actor' => 'Club:' . $member->getOriginal('club_id'),
+                'actor' => 'Club:' . (string)$member->getOriginal('club_id'),
                 'verb' => 'sell',
-                'object' => 'Member:' . $member->id,
+                'object' => 'Member:' . (string)$member->id,
                 'to' => 'timeline:general',
             ]);
         }
@@ -155,14 +156,13 @@ class GetStreamEventListener implements EventListenerInterface
     /**
      *
      * @param \Cake\Event\Event $event Event
-     * @param array $buys Buys
-     * @param array $sells Sells
+     * @param array<string, \App\Model\Entity\Member[]> $buys Buys
+     * @param array<string, \App\Model\Entity\Member[]> $sells Sells
      * @return void
      */
     public function memberTransferts(Event $event, array $buys, array $sells): void
     {
         $activities = [];
-        /** @var \App\Model\Entity\Member[] $members */
         foreach ($buys as $club => $members) {
             foreach ($members as $member) {
                 $activities = [
@@ -176,6 +176,7 @@ class GetStreamEventListener implements EventListenerInterface
             $feed->setGuzzleDefaultOption('verify', false);
             $feed->addActivities($activities);
         }
+        /** @var \App\Model\Entity\Member[] $members */
         foreach ($sells as $club => $members) {
             foreach ($members as $member) {
                 $activities = [

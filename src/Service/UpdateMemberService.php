@@ -78,6 +78,7 @@ class UpdateMemberService
                     'contain' => ['Players'],
                 ]
             )->where(['season_id' => $matchday->season_id]);
+            /** @var \App\Model\Entity\Member[] $oldMembers */
             $oldMembers = $query->toArray();
             $newMembers = $this->DownloadRatings->returnArray($path, ";");
             $buys = [];
@@ -92,7 +93,7 @@ class UpdateMemberService
                     if ($member != null) {
                         $buys[$member->club_id][] = $member;
                         if ($member->isDirty('club_id')) {
-                            $sells[$member->getOriginal('club_id')][] = $member;
+                            $sells[(int)$member->getOriginal('club_id')][] = $member;
                         }
                     }
                 } else {

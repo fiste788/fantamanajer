@@ -36,6 +36,7 @@ class ResetPasswordCommand extends Command
                 $this->reset($user, $io);
             }
         } else {
+            /** @var \App\Model\Entity\User[] $users */
             $users = $this->Users->find()->all();
             foreach ($users as $user) {
                 $this->reset($user, $io);

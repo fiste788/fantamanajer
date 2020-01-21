@@ -71,6 +71,7 @@ class TransfertCommand extends Command
                     'number' => $args->getArgument('matchday'),
                 ])->firstOrFail();
             }
+
             $selections = $this->Selections->find()
                 ->contain(['OldMembers.Players', 'NewMembers.Players', 'Teams'])
                 ->where([
@@ -80,18 +81,20 @@ class TransfertCommand extends Command
                 ])->all();
             $table = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {
-                foreach ($selections as $selection) {
+                /** @var \App\Model\Entity\Selection[] $selectionsArray */
+                $selectionsArray = $selections->toList();
+                foreach ($selectionsArray as $selection) {
                     $selection->processed = true;
                     $selection->matchday_id = $this->currentMatchday->id;
                     $table[] = [
                         $selection->team->name,
-                        $selection->old_member->player->fullName,
-                        $selection->new_member->player->fullName,
+                        $selection->old_member->player->full_name,
+                        $selection->new_member->player->full_name,
                     ];
                 }
                 $io->helper('Table')->output($table);
                 if (!$args->getOption('no-commit')) {
-                    $this->doTransferts($io, $selections->toArray());
+                    $this->doTransferts($io, $selectionsArray);
                 }
             } else {
                 $io->out('No unprocessed selections found');

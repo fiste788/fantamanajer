@@ -45,6 +45,8 @@ class DownloadPhotosCommand extends Command
         $referer = "http://" . $baseUrl . $url;
 
         $path = IMG_PLAYERS . 'season-new' . DS;
+
+        /** @var \App\Model\Entity\Member[] $members */
         $members = $this->Members->find()
             ->contain(['Players'])
             ->where(['season_id' => $this->currentSeason->id])->all();
@@ -54,6 +56,7 @@ class DownloadPhotosCommand extends Command
             $response = $client->post($url, ['PanCal' => $member->player->full_name]);
             if ($response->isOk()) {
                 $response->getCookie("PHPSESSID");
+                /** @var array $values */
                 foreach ($response->getHeaders() as $name => $values) {
                     $io->out($name . ": " . implode(", ", $values));
                 }
@@ -74,8 +77,9 @@ class DownloadPhotosCommand extends Command
                         $response = $client->get($href, [], ['headers' => ['Referer' => $referer]]);
                         //$this->out($response->getStringBody());
                         if ($response->isOk()) {
-                            $io->out("Savings " . '/' . $href . " => " . $path . $member->code_gazzetta . '.jpg');
-                            file_put_contents($path . $member->code_gazzetta . '.jpg', $response->getStringBody());
+                            $file = $path . (string)$member->code_gazzetta . '.jpg';
+                            $io->out("Savings " . '/' . $href . " => " . $file);
+                            file_put_contents($file, $response->getStringBody());
                         }
                     }
                 }

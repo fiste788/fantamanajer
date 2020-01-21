@@ -78,13 +78,13 @@ class RenewChampionshipCommand extends Command
             $newTeam = $newChampionship->teams[$key];
             $dir = $team->photo_dir ?? '';
             $photo = $team->photo ?? '';
-            $filepath = ROOT . DS . $dir . $photo;
+            $filepath = (string)ROOT . DS . $dir . $photo;
             $io->out('Cerco immagine in ' . $filepath);
             if ($filesystem->exists($filepath)) {
-                $source = ROOT . DS . $dir;
+                $source = (string)ROOT . DS . $dir;
                 $io->out('Trovata immagine ' . $photo);
 
-                $to = WWW_ROOT . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
+                $to = (string)WWW_ROOT . $newTeam->getSource() . DS . $newTeam->id . DS . 'photo';
                 if ($filesystem->mirror($source, $to, null, ['overrride' => true, 'copy_on_windows' => true])) {
                     $io->out('Copiata folder ' . $to);
                     if ($team->photo != null) {

@@ -17,10 +17,15 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
     {
         $news = [];
         $olds = [];
-        foreach ($this->activity->offsetGet('activities') ?? [] as $activity) {
+
+        /** @var \StreamCake\EnrichedActivity[] $activities */
+        $activities = $this->activity->offsetGet('activities') ?? [];
+        foreach ($activities as $activity) {
             if ($activity->enriched()) {
-                $news[] = $activity->offsetGet('object')->new_member->player->full_name;
-                $olds[] = $activity->offsetGet('object')->old_member->player->full_name;
+                /** @var \App\Model\Entity\Transfert $transfert */
+                $transfert = $activity->offsetGet('object');
+                $news[] = $transfert->new_member->player->full_name;
+                $olds[] = $transfert->old_member->player->full_name;
             }
         }
 
@@ -37,13 +42,19 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      */
     public function getTitle(): string
     {
+        /** @var \StreamCake\EnrichedActivity[] $activities */
+        $activities = $this->activity->offsetGet('activities');
+
+        /** @var \App\Model\Entity\Team $team */
+        $team = $activities[0]->offsetGet('actor');
+
         return __n(
             '{0} make a transfert',
             '{0} make {1} transferts',
-            $this->activity->offsetGet('activity_count') ?? 0,
+            (int)($this->activity->offsetGet('activity_count') ?? 0),
             [
-                $this->activity->offsetGet('activities')[0]->offsetGet('actor')->name,
-                $this->activity->offsetGet('activity_count') ?? 0,
+                $team->name,
+                (int)($this->activity->offsetGet('activity_count') ?? 0),
             ]
         );
     }

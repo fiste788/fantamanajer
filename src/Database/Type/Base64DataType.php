@@ -17,7 +17,7 @@ class Base64DataType extends BaseType
             return $value;
         }
 
-        return base64_decode($value, true);
+        return base64_decode((string)$value, true);
     }
 
     /**
@@ -29,7 +29,7 @@ class Base64DataType extends BaseType
             return null;
         }
 
-        return base64_decode($value, true);
+        return base64_decode((string)$value, true);
     }
 
     /**
@@ -37,6 +37,6 @@ class Base64DataType extends BaseType
      */
     public function toDatabase($value, DriverInterface $driver)
     {
-        return base64_encode($value);
+        return base64_encode((string)$value);
     }
 }

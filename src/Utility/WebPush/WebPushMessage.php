@@ -118,6 +118,7 @@ final class WebPushMessage implements JsonSerializable
      */
     public function __construct(array $data = [])
     {
+        /** @psalm-suppress MixedAssignment */
         foreach ($data as $key => $val) {
             $this->$key = $val;
         }

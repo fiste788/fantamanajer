@@ -112,9 +112,9 @@ class ComputeScoreService
                 );
                 $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
                 if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
-                    $malusPoints = round($score->points / 100 * (100 - $championship->points_missed_lineup), 1);
+                    $malusPoints = round($score->points / 100 * (100 - (float)$championship->points_missed_lineup), 1);
                     $mod = ($malusPoints * 10) % 5;
-                    $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
+                    $score->penality_points = - (($malusPoints * 10) - $mod) / 10;
                     $score->penality = 'Formazione non settata';
                 }
                 $score->points = $score->points - $score->penality_points;

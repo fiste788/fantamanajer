@@ -18,6 +18,7 @@ class ActivityManager
      * @param int $limit Limit
      * @param array $options Options
      * @return \App\Stream\StreamActivity[]
+     * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getActivities(
         string $feedName,
@@ -30,7 +31,9 @@ class ActivityManager
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
-        $activities = $feed->getActivities($offset, $limit, $options);
+
+        /** @var array<string, array> $activities */
+        $activities = (array)$feed->getActivities($offset, $limit, $options);
         if ($aggregated) {
             $enriched = $enrich->enrichAggregatedActivities($activities['results']);
         } else {
@@ -43,20 +46,22 @@ class ActivityManager
     /**
      *
      * @param \StreamCake\EnrichedActivity[] $enricheds Ids
-     * @param mixed $activities Activities
-     * @return \App\Stream\StreamActivity[]
+     * @param array<string, mixed> $activities Activities
+     * @return array
      */
     public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {
         foreach ($enricheds as $key => $activity) {
             /** @var \StreamCake\EnrichedActivity $activity */
             if ($activity->enriched()) {
+                /** @psalm-suppress MixedArrayAssignment */
                 $activities['results'][$key] = $this->getFromVerb($activity);
             } else {
+                /** @psalm-suppress MixedArrayAccess */
                 unset($activities['results'][$key]);
             }
         }
-        $activities['results'] = array_values($activities['results']);
+        $activities['results'] = array_values((array)$activities['results']);
 
         return $activities;
     }
@@ -69,10 +74,13 @@ class ActivityManager
     private function getFromVerb(EnrichedActivity $activity): ?StreamActivity
     {
         $namespace = '\\App\\Stream\\Verb\\' . ($activity->offsetExists('activities') ?: 'Aggregated\\');
-        $name = $activity->offsetGet('verb') ?? '';
+        $name = (string)($activity->offsetGet('verb') ?? '');
         $className = $namespace . ucwords($name);
 
-        /** @var \App\Stream\StreamActivity|null $clazz */
+        /**
+         * @var \App\Stream\StreamActivity|null $clazz
+         * @psalm-suppress MixedMethodCall
+         */
         $clazz = class_exists($className) ? new $className($activity) : null;
 
         return $clazz;

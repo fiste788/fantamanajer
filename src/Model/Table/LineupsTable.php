@@ -226,16 +226,18 @@ class LineupsTable extends Table
      */
     public function findLast(Query $q, array $options): Query
     {
+        /** @var \App\Model\Entity\Matchday $matchday */
+        $matchday = $options['matchday'];
         $q = $q->innerJoinWith('Matchdays')
             ->contain(['Dispositions'])
             ->where([
                 'Lineups.team_id' => $options['team_id'],
-                'Lineups.matchday_id <=' => $options['matchday']->id,
-                'Matchdays.season_id' => $options['matchday']->season_id,
+                'Lineups.matchday_id <=' => $matchday->id,
+                'Matchdays.season_id' => $matchday->season_id,
             ])
             ->order(['Matchdays.number' => 'DESC']);
         if (array_key_exists('stats', $options) && $options['stats']) {
-            $seasonId = $options['matchday']->season_id;
+            $seasonId = $matchday->season_id;
             $tableLocator = TableRegistry::getTableLocator();
             $q = $q->contain([
                 'Teams' => [
@@ -279,7 +281,7 @@ class LineupsTable extends Table
      */
     public function findWithRatings(Query $q, array $options): Query
     {
-        $matchdayId = $options['matchday_id'];
+        $matchdayId = (int)$options['matchday_id'];
 
         return $q->contain([
             'Teams.Championships',

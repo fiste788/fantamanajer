@@ -15,7 +15,10 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
      */
     public function getBody(): string
     {
+        /** @var \App\Model\Entity\Lineup $lineup */
         $lineup = $this->activity->offsetGet('object');
+
+        /** @var \App\Model\Entity\Disposition[] $regular */
         $regular = array_splice($lineup->dispositions, 0, 11);
         $players = [];
         foreach ($regular as $disposition) {
@@ -32,9 +35,15 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
      */
     public function getTitle(): string
     {
+        /** @var \App\Model\Entity\Lineup $lineup */
+        $lineup = $this->activity->offsetGet('object');
+
+        /** @var \App\Model\Entity\Team $team */
+        $team = $this->activity->offsetGet('actor');
+
         return __('{0} has setup lineup for matchday {1}', [
-            $this->activity->offsetGet('actor')->name,
-            $this->activity->offsetGet('object')->matchday->number,
+            $team->name,
+            $lineup->matchday->number,
         ]);
     }
 

@@ -31,6 +31,8 @@ class GetStreamCommand extends Command
     {
         parent::initialize();
         $this->loadModel('Championships');
+
+        /** @var string[] $config */
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
@@ -53,6 +55,8 @@ class GetStreamCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $timelineFeed = $this->client->feed('timeline', 'general');
+
+        /** @var \App\Model\Entity\Championship[] $championsips */
         $championsips = $this->Championships->find()->contain(['Teams'])->all();
         foreach ($championsips as $championsip) {
             $this->processChampionship($championsip, $timelineFeed);

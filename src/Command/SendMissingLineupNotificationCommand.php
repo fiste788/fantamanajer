@@ -72,9 +72,13 @@ class SendMissingLineupNotificationCommand extends Command
             $this->currentMatchday->date->eq($tomorrow)
         ) {
             $io->out('Start');
+
+            /** @var string[] $config */
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
-            $webPush = new WebPush(Configure::read('WebPush'));
+            $webPush = new WebPush((array)Configure::read('WebPush'));
+
+            /** @var \App\Model\Entity\Team[] $teams */
             $teams = $this->Teams->find()
                 ->contain(['Users.PushSubscriptions', 'Championships'])
                 ->innerJoinWith('Championships')
@@ -85,11 +89,11 @@ class SendMissingLineupNotificationCommand extends Command
                             'matchday_id' => $this->currentMatchday->id,
                         ]),
                     ]
-                );
+                )->all();
             foreach ($teams as $team) {
                 $date = new Time($this->currentMatchday->date->getTimestamp());
                 foreach ($team->user->push_subscriptions as $subscription) {
-                    $message = WebPushMessage::create(Configure::read('WebPushMessage.default'))
+                    $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
                         ->title('Formazione non ancora impostatata')
                         ->body(sprintf(
                             'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
@@ -105,10 +109,10 @@ class SendMissingLineupNotificationCommand extends Command
                         $webPush->sendNotification($subscription->getSubscription(), $messageString);
                     }
                 }
-                $io->out('Create activity in notification stream for team ' . $team->id);
-                $feed = $client->feed("notification", $team->id);
+                $io->out('Create activity in notification stream for team ' . (string)$team->id);
+                $feed = $client->feed("notification", (string)$team->id);
                 $feed->addActivity([
-                    'actor' => 'Team:' . $team->id,
+                    'actor' => 'Team:' . (string)$team->id,
                     'verb' => 'missing',
                     'object' => 'Lineup:',
                 ]);

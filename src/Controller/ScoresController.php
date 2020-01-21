@@ -45,6 +45,7 @@ class ScoresController extends AppController
         $members = (bool)$this->request->getQuery('members', false);
         $that = $this;
         $this->Crud->on('afterFind', function (Event $event) use ($members, $that) {
+            /** @var \App\Model\Entity\Score $event->getSubject()->entity */
             $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);
             if ($members) {
                 if ($result->lineup == null) {

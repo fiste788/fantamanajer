@@ -209,7 +209,7 @@ class MembersTable extends Table
      */
     public function findFree(Query $q, array $options): Query
     {
-        $championshipId = $options['championship_id'];
+        $championshipId = (int)$options['championship_id'];
         $membersTeams = TableRegistry::getTableLocator()->get('MembersTeams');
         $ids = $membersTeams->find()
             ->select(['member_id'])
@@ -311,6 +311,9 @@ class MembersTable extends Table
      */
     public function findBestByMatchdayIdAndRole(Query $q, array $options): Query
     {
+        /** @var \App\Model\Entity\Role $role */
+        $role = $options['role'];
+
         return $q->contain([
             'Players', 'Ratings' => function (Query $q) use ($options): Query {
                 return $q->where(['matchday_id' => $options['matchday_id']]);
@@ -318,7 +321,7 @@ class MembersTable extends Table
         ])->innerJoinWith('Ratings', function (Query $q) use ($options): Query {
             return $q->where(['matchday_id' => $options['matchday_id']]);
         })->innerJoinWith('Roles')
-            ->where(['Roles.id' => $options['role']->id])
+            ->where(['Roles.id' => $role->id])
             ->orderDesc('Ratings.points');
     }
 

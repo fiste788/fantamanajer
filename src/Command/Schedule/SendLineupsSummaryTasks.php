@@ -4,6 +4,8 @@ declare(strict_types=1);
 use CakeScheduler\Schedule\CakeSchedule;
 
 $schedule = new CakeSchedule();
+
+/** @psalm-suppress MixedMethodCall */
 $schedule
     ->shell('send_lineups_email -n')
     ->every('minute', 3)

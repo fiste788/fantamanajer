@@ -157,7 +157,7 @@ class PushSubscriptionsTable extends Table
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {
         if ($entity->isNew()) {
-            $entity->id = Security::hash($entity->offsetGet('endpoint'), 'sha256');
+            $entity->id = Security::hash((string)$entity->offsetGet('endpoint'), 'sha256');
         }
     }
 }

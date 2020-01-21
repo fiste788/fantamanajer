@@ -223,6 +223,7 @@ class DownloadRatingsService
                 return $link->link()->getUri();
             }
         } else {
+            /** @var string[] $matches */
             $matches = sscanf($button->attr("onclick") ?? "", "window.open('%[^']");
             //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
             return $matches[0];
