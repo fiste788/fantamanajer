@@ -188,7 +188,7 @@ class ScoresTable extends Table
         $sum = $q->func()->sum('points');
         $coalesce = $q->func()->coalesce([$sum, 0], ['float', 'float']);
         $q->select([
-            'Teams.id',
+            'team_id',
             'sum_points' => $coalesce,
         ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->where(['Teams.championship_id' => $championshipId])
