@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -29,13 +30,14 @@ class LineupsController extends AppController
      */
     public function add()
     {
-        $this->Crud->on(
-            'beforeSave',
-            function (Event $event) {
-                $event->getSubject()->entity->set('team', null);
-                $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
-            }
-        );
+        /** @var \Crud\Action\EditAction $action */
+        $action = $this->Crud->action();
+        $action->saveOptions(['associated' => ['Dispositions']]);
+        $this->Crud->on('beforeSave', function (Event $event) {
+            /** @var \App\Model\Entity\Lineup */
+            $lineup = $event->getSubject()->entity;
+            $lineup->matchday_id = $this->currentMatchday->id;
+        });
 
         return $this->Crud->execute();
     }
@@ -47,13 +49,14 @@ class LineupsController extends AppController
      */
     public function edit()
     {
-        $this->Crud->on(
-            'beforeSave',
-            function (Event $event) {
-                $event->getSubject()->entity->set('team', null);
-                $event->getSubject()->entity->set('matchday_id', $this->currentMatchday->id);
-            }
-        );
+        /** @var \Crud\Action\EditAction $action */
+        $action = $this->Crud->action();
+        $action->saveOptions(['associated' => ['Dispositions']]);
+        $this->Crud->on('beforeSave', function (Event $event) {
+            /** @var \App\Model\Entity\Lineup */
+            $lineup = $event->getSubject()->entity;
+            $lineup->matchday_id = $this->currentMatchday->id;
+        });
 
         return $this->Crud->execute();
     }

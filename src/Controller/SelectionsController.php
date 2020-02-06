@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -21,8 +22,10 @@ class SelectionsController extends AppController
         $this->Crud->on(
             'beforeSave',
             function (Event $event) {
-                $event->getSubject()->entity->matchday_id = $this->currentMatchday->id;
-                $event->getSubject()->entity->active = true;
+                /** @var \App\Model\Entity\Selection $selection */
+                $selection = $event->getSubject()->entity;
+                $selection->matchday_id = $this->currentMatchday->id;
+                $selection->active = true;
             }
         );
 

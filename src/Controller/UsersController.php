@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -73,7 +74,7 @@ class UsersController extends AppController
                 [
                     'success' => true,
                     'data' => [
-                        'token' => $this->User->getToken((string)$user->id, $days),
+                        'token' => $this->User->getToken((string) $user->id, $days),
                         'user' => $user->getOriginalData(),
                     ],
                     '_serialize' => ['success', 'data'],
@@ -118,17 +119,17 @@ class UsersController extends AppController
      */
     public function stream()
     {
-        $userId = (int)$this->request->getParam('user_id');
+        $userId = (int) $this->request->getParam('user_id');
         $identity = $this->Authentication->getIdentity();
-        if ($identity == null || !$identity->getIdentifier() == $userId) {
+        if ($identity == null || $identity->getIdentifier() != $userId) {
             throw new ForbiddenException();
         }
 
-        $page = (int)Hash::get($this->request->getQueryParams(), 'page', 1);
+        $page = (int) Hash::get($this->request->getQueryParams(), 'page', 1);
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('user', (string)$userId, false, $offset, $rowsForPage);
+        $stream = $manager->getActivities('user', (string) $userId, false, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
             '_serialize' => 'stream',
@@ -138,15 +139,17 @@ class UsersController extends AppController
     /**
      * Undocumented function
      *
-     * @return void
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function edit()
     {
         $this->Crud->on('beforeSave', function (Event $event) {
             $hasher = new DefaultPasswordHasher();
-            $plain = (string)$event->getSubject()->entity->get('password');
-            $event->getSubject()->entity->set('password', $hasher->hash($plain));
+
+            /** @var \App\Model\Entity\User $user */
+            $user = $event->getSubject()->entity;
+            $user->password = $hasher->hash($user->password);
         });
-        $this->Crud->execute();
+        return $this->Crud->execute();
     }
 }

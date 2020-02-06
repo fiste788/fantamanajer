@@ -26,7 +26,9 @@ class ClubsController extends AppController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'bySeasonId' => [
                 'season_id' => $this->currentSeason->id,
             ],

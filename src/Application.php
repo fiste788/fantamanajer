@@ -21,6 +21,7 @@ use App\Authentication\Authenticator\WebauthnAuthenticator;
 use App\Authentication\Identifier\WebauthnHandleIdentifier;
 use App\Command as Commands;
 use App\Database\Type as Types;
+use App\Model\Entity\User;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -108,11 +109,11 @@ class Application extends BaseApplication implements
         $middlewareQueue
             ->add(new ErrorHandlerMiddleware((array)Configure::read('Error')))
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
-            ->add(BodyParserMiddleware::class)
+            ->add(new BodyParserMiddleware())
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
                 'requireAuthorizationCheck' => false,
-                'identityDecorator' => function (AuthorizationServiceInterface $auth, \App\Model\Entity\User $user) {
+                'identityDecorator' => function (AuthorizationServiceInterface $auth, User $user) {
                     return $user->setAuthorization($auth);
                 },
             ]))->add(new RequestAuthorizationMiddleware());

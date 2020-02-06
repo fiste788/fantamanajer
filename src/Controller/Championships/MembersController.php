@@ -39,7 +39,9 @@ class MembersController extends AppController
      */
     public function freeByRole()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'free' => [
                 'championship_id' => $this->request->getParam('championship_id'),
                 'stats' => (bool)$this->request->getQuery('stats', true),
@@ -57,7 +59,9 @@ class MembersController extends AppController
      */
     public function free()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'free' => [
                 'championship_id' => (int)$this->request->getParam('championship_id'),
                 'stats' => false,

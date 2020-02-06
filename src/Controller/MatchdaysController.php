@@ -28,7 +28,9 @@ class MatchdaysController extends AppController
      */
     public function current()
     {
-        $this->Crud->action()->findMethod(['current']);
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod(['current']);
         $this->withMatchdayCache();
 
         $this->set([

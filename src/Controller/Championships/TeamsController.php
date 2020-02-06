@@ -33,7 +33,9 @@ class TeamsController extends AppController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod(['byChampionshipId' => [
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod(['byChampionshipId' => [
             'championship_id' => (int)$this->request->getParam('championship_id'),
         ]]);
 

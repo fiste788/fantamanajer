@@ -33,6 +33,18 @@ class ArticlePolicy
     }
 
     /**
+     * Can view
+     *
+     * @param \App\Model\Entity\User $user User
+     * @param \App\Model\Entity\Article $article Entity
+     * @return bool
+     */
+    public function canView(IdentityInterface $user, Article $article)
+    {
+        return $user->hasTeam($article->team_id);
+    }
+
+    /**
      * Can delete
      *
      * @param \App\Model\Entity\User $user User

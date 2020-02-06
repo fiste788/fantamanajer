@@ -23,7 +23,9 @@ class MembersController extends AppMembersController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'byTeamId' => [
                 'team_id' => (int)$this->request->getParam('team_id', null),
                 'stats' => $this->request->getQuery('stats', true),
@@ -40,7 +42,9 @@ class MembersController extends AppMembersController
      */
     public function notMine()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'notMine' => [
                 'team_id' => (int)$this->request->getParam('team_id', null),
                 'role_id' => (int)$this->request->getParam('role_id', null),

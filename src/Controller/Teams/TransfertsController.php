@@ -18,7 +18,9 @@ class TransfertsController extends AppController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod(['byTeamId' => [
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod(['byTeamId' => [
             'team_id' => (int)$this->request->getParam('team_id'),
         ]]);
 

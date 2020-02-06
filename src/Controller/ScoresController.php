@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -42,19 +43,20 @@ class ScoresController extends AppController
      */
     public function view(?string $id)
     {
-        $members = (bool)$this->request->getQuery('members', false);
+        $members = (bool) $this->request->getQuery('members', false);
         $that = $this;
         $this->Crud->on('afterFind', function (Event $event) use ($members, $that) {
-            /** @var \App\Model\Entity\Score $event->getSubject()->entity */
-            $result = $this->Scores->loadDetails($event->getSubject()->entity, $members);
+            /** @var \App\Model\Entity\Score $score */
+            $score = $event->getSubject()->entity;
+            $score = $this->Scores->loadDetails($score, $members);
             if ($members) {
-                if ($result->lineup == null) {
-                    $result->lineup = $that->Lineup->newLineup($result->team_id, $result->matchday_id);
+                if ($score->lineup == null) {
+                    $score->lineup = $that->Lineup->newLineup($score->team_id, $score->matchday_id);
                 }
-                $result->lineup->modules = Lineup::$modules;
+                $score->lineup->modules = Lineup::$modules;
             }
 
-            return $result;
+            return $score;
         });
 
         return $this->Crud->execute();
@@ -67,16 +69,20 @@ class ScoresController extends AppController
      */
     public function edit()
     {
-        $this->Crud->action()->saveOptions(['associated' => [
+        /** @var \Crud\Action\EditAction $action */
+        $action = $this->Crud->action();
+        $action->saveOptions(['associated' => [
             'Lineups' => [
                 'accessibleFields' => ['id' => true],
                 'associated' => ['Dispositions'],
             ],
         ]]);
 
-        $this->Crud->on('afterSave', function (\Cake\Event\Event $event) {
-            $this->ComputeScore->exec($event->getSubject()->entity);
-            $this->Scores->save($event->getSubject()->entity);
+        $this->Crud->on('afterSave', function (Event $event) {
+            /** @var \App\Model\Entity\Score $score */
+            $score = $event->getSubject()->entity;
+            $this->ComputeScore->exec($score);
+            $this->Scores->save($score);
         });
 
         return $this->Crud->execute();

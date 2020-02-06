@@ -3,24 +3,46 @@ declare(strict_types=1);
 
 namespace App\Controller\Teams;
 
+use App\Controller\AppController;
+use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
+
 /**
  *
  * @property \App\Model\Table\ArticlesTable $Articles
  */
-class ArticlesController extends \App\Controller\ArticlesController
+class ArticlesController extends AppController
 {
     public $paginate = [
-        'limit' => 25,
+        'page' => 1,
+        'limit' => 1,
+        'maxLimit' => 15,
+        'sortWhitelist' => [
+            'id', 'title',
+        ],
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeFilter(EventInterface $event): void
+    {
+        parent::beforeFilter($event);
+        $this->Crud->mapAction('add', 'Crud.Add');
+        $this->Crud->mapAction('edit', 'Crud.Edit');
+        $this->Crud->mapAction('delete', 'Crud.Delete');
+    }
 
     /**
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function index()
+    public function index(): ResponseInterface
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'byTeamId' => ['team_id' => (int)$this->request->getParam('team_id')],
         ]);
 

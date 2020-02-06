@@ -75,9 +75,6 @@ class TeamsTable extends Table
         $this->hasMany('Articles', [
             'foreignKey' => 'team_id',
         ]);
-        $this->hasMany('Events', [
-            'foreignKey' => 'team_id',
-        ]);
         $this->hasMany('Lineups', [
             'foreignKey' => 'team_id',
         ]);

@@ -69,7 +69,9 @@ class ScoresController extends \App\Controller\ScoresController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod(['byTeam' => [
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod(['byTeam' => [
             'team_id' => (int)$this->request->getParam('team_id'),
         ]]);
 

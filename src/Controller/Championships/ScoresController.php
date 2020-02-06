@@ -34,7 +34,9 @@ class ScoresController extends AppController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'ranking' => [
                 'championship_id' => (int)$this->request->getParam('championship_id'),
                 'scores' => true,

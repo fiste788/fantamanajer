@@ -31,7 +31,9 @@ class MembersController extends AppController
      */
     public function index()
     {
-        $this->Crud->action()->findMethod([
+        /** @var \Crud\Action\IndexAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod([
             'byClubId' => [
                 'club_id' => (int)$this->request->getParam('club_id', null),
                 'season_id' => $this->currentSeason->id,

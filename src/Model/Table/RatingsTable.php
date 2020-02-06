@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -187,5 +188,24 @@ class RatingsTable extends Table
             ->first();
 
         return $res && $res['matchday_id'] ? (int)$res['matchday_id'] : null;
+    }
+
+    /**
+     * Find by member id and season query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
+    public function findByPlayerIdAndSeasonId(Query $q, array $options): Query
+    {
+        return $q->contain(['Matchdays' => function (Query $q): Query {
+            return $q->select(['number'], true);
+        }])->innerJoinWith('Members')
+            ->order(['Matchdays.number' => 'ASC'])
+            ->where([
+                'player_id' => $options['player_id'],
+                'Members.season_id' => $options['season_id'],
+            ]);
     }
 }

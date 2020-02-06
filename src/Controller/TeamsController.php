@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -31,16 +32,13 @@ class TeamsController extends AppController
      */
     public function view($id)
     {
-        $this->Crud->on(
-            'beforeFind',
-            function (Event $event) {
-                $event->getSubject()->query->contain([
-                    'Users',
-                    'PushNotificationSubscriptions',
-                    'EmailNotificationSubscriptions',
-                ]);
-            }
-        );
+        $this->Crud->on('beforeFind', function (Event $event) {
+            $event->getSubject()->query->contain([
+                'Users',
+                'PushNotificationSubscriptions',
+                'EmailNotificationSubscriptions',
+            ]);
+        });
 
         return $this->Crud->execute();
     }
@@ -52,8 +50,10 @@ class TeamsController extends AppController
      */
     public function add()
     {
-        $this->Crud->action()->saveOptions(['accessibleFields' => ['user' => true]]);
-        $this->Crud->action()->saveMethod('saveWithoutUser');
+        /** @var \Crud\Action\AddAction $action */
+        $action = $this->Crud->action();
+        $action->saveOptions(['accessibleFields' => ['user' => true]]);
+        $action->saveMethod('saveWithoutUser');
 
         return $this->Crud->execute();
     }

@@ -116,7 +116,14 @@ $routes->scope('/', function (RouteBuilder $routes) {
 
     $routes->resources('Players', [
         'only' => 'view',
-    ]);
+    ], function (RouteBuilder $routes) {
+        $routes->connect('/ratings/:season_id', [
+            'controller' => 'Ratings',
+            'prefix' => 'players'
+        ])
+            ->setPass(['season_id'])
+            ->setPatterns(['season_id' => '\d+']);
+    });
 
     $routes->resources('Clubs', [
         'only' => ['index', 'view'],

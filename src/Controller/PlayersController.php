@@ -27,7 +27,9 @@ class PlayersController extends AppController
      */
     public function view($id)
     {
-        $this->Crud->action()->findMethod(['withDetails' => [
+        /** @var \Crud\Action\ViewAction $action */
+        $action = $this->Crud->action();
+        $action->findMethod(['withDetails' => [
             'championship_id' => $this->request->getQuery('championship_id', null),
         ]]);
 

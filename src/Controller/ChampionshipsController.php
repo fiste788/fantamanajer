@@ -26,7 +26,9 @@ class ChampionshipsController extends AppController
      */
     public function edit()
     {
-        $this->Crud->action()->saveOptions(['associated' => []]);
+        /** @var \Crud\Action\AddAction $action */
+        $action = $this->Crud->action();
+        $action->saveOptions(['associated' => []]);
 
         return $this->Crud->execute();
     }

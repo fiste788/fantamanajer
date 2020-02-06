@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -22,17 +23,11 @@ class StreamCell extends Cell
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
-
-        /**
-         * @psalm-suppress MixedArrayAccess
-         * @psalm-suppress MixedAssignment
-         */
-        $results = $feed->getActivities()['results'];
+        $activities = (array) $feed->getActivities();
+        $results = (array) $activities['results'];
         if ($aggregated) {
-            /** @psalm-suppress MixedArgument */
             $enriched = $enrich->enrichAggregatedActivities($results);
         } else {
-            /** @psalm-suppress MixedArgument */
             $enriched = $enrich->enrichActivities($results);
         }
 
