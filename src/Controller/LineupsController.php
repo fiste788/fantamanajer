@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -34,7 +33,7 @@ class LineupsController extends AppController
         $action = $this->Crud->action();
         $action->saveOptions(['associated' => ['Dispositions']]);
         $this->Crud->on('beforeSave', function (Event $event) {
-            /** @var \App\Model\Entity\Lineup */
+            /** @var \App\Model\Entity\Lineup $lineup */
             $lineup = $event->getSubject()->entity;
             $lineup->matchday_id = $this->currentMatchday->id;
         });
@@ -53,7 +52,7 @@ class LineupsController extends AppController
         $action = $this->Crud->action();
         $action->saveOptions(['associated' => ['Dispositions']]);
         $this->Crud->on('beforeSave', function (Event $event) {
-            /** @var \App\Model\Entity\Lineup */
+            /** @var \App\Model\Entity\Lineup $lineup */
             $lineup = $event->getSubject()->entity;
             $lineup->matchday_id = $this->currentMatchday->id;
         });

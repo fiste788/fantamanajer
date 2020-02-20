@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -43,15 +42,14 @@ class ScoresController extends AppController
      */
     public function view(?string $id)
     {
-        $members = (bool) $this->request->getQuery('members', false);
-        $that = $this;
-        $this->Crud->on('afterFind', function (Event $event) use ($members, $that) {
+        $members = (bool)$this->request->getQuery('members', false);
+        $this->Crud->on('afterFind', function (Event $event) use ($members) {
             /** @var \App\Model\Entity\Score $score */
             $score = $event->getSubject()->entity;
             $score = $this->Scores->loadDetails($score, $members);
             if ($members) {
                 if ($score->lineup == null) {
-                    $score->lineup = $that->Lineup->newLineup($score->team_id, $score->matchday_id);
+                    $score->lineup = $this->Lineup->newLineup($score->team_id, $score->matchday_id);
                 }
                 $score->lineup->modules = Lineup::$modules;
             }

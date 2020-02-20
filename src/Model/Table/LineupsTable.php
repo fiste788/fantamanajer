@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Lineup;
+use App\Model\Entity\Member;
 use App\Model\Rule\JollyAlreadyUsedRule;
 use App\Model\Rule\LineupExpiredRule;
 use App\Model\Rule\MissingPlayerInLineupRule;
@@ -140,9 +140,9 @@ class LineupsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['captain_id'], 'Captain'));
-        $rules->add($rules->existsIn(['vcaptain_id'], 'VCaptain'));
-        $rules->add($rules->existsIn(['vvcaptain_id'], 'VVCaptain'));
+        $rules->add($rules->existsIn(['captain_id'], 'Members'));
+        $rules->add($rules->existsIn(['vcaptain_id'], 'Members'));
+        $rules->add($rules->existsIn(['vvcaptain_id'], 'Members'));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add(
@@ -291,7 +291,7 @@ class LineupsTable extends Table
                         'list',
                         [
                             'keyField' => 'id',
-                            'valueField' => function (Lineup $obj): Lineup {
+                            'valueField' => function (Member $obj): Member {
                                 return $obj;
                             },
                         ]

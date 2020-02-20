@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Teams;
 
-use App\Controller\AppController;
+use App\Controller\LineupsController as ControllerLineupsController;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
@@ -14,7 +14,7 @@ use Cake\Event\EventInterface;
  * @property \App\Service\LikelyLineupService $LikelyLineup
  * @property \App\Model\Table\LineupsTable $Lineups
  */
-class LineupsController extends AppController
+class LineupsController extends ControllerLineupsController
 {
     /**
      * @inheritDoc

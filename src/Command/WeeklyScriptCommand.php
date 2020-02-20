@@ -58,22 +58,18 @@ class WeeklyScriptCommand extends Command
      */
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
-        $parser->addOption(
-            'no_send_mail',
-            [
-                'help' => 'Disable sending summary mails',
-                'boolean' => true,
-                'short' => 'm',
-            ]
-        );
-        $parser->addOption(
-            'no_calc_scores',
-            [
-                'help' => 'Disable calc of scores',
-                'boolean' => true,
-                'short' => 's',
-            ]
-        );
+        $parser->addOption('no_send_mail', [
+            'help' => 'Disable sending summary mails',
+            'boolean' => true,
+            'default' => false,
+            'short' => 'm',
+        ]);
+        $parser->addOption('no_calc_scores', [
+            'help' => 'Disable calc of scores',
+            'boolean' => true,
+            'default' => false,
+            'short' => 's',
+        ]);
         $parser->addOption('no-interaction', [
             'short' => 'n',
             'help' => 'Disable interaction',
@@ -120,7 +116,7 @@ class WeeklyScriptCommand extends Command
                         'Users' => ['PushSubscriptions'],
                     ],
                 ])
-                ->where(['Championships.season_id' => $this->currentSeason->id])->first();
+                ->where(['Championships.season_id' => $this->currentSeason->id])->all();
 
             $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
             foreach ($missingScores as $key => $matchday) {

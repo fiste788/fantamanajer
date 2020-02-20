@@ -53,7 +53,7 @@ class ComputeScoreService
                 'penality_points' => 0,
                 'matchday_id' => $matchday->id,
                 'team_id' => $team->id,
-            ]);
+            ], ['accessibleFields' => ['*' => true]]);
         }
         $score->matchday = $matchday;
         $score->team = $team;
@@ -144,14 +144,19 @@ class ComputeScoreService
         foreach ($lineup->dispositions as $disposition) {
             $member = $disposition->member;
             if ($disposition->position <= 11) {
-                if (!$member->ratings[0]->valued) {
+                if (empty($member->ratings) || !$member->ratings[0]->valued) {
                     $notValueds[] = $member;
                 } else {
                     $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
                 }
             } else {
                 foreach ($notValueds as $key => $notValued) {
-                    if ($substitution < 3 && $member->role_id == $notValued->role_id && $member->ratings[0]->valued) {
+                    if (
+                        $substitution < 3 &&
+                        $member->role_id == $notValued->role_id &&
+                        !empty($member->ratings) &&
+                        $member->ratings[0]->valued
+                    ) {
                         $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
                         $substitution++;
                         unset($notValueds[$key]);
@@ -216,9 +221,7 @@ class ComputeScoreService
         if ($subtractBonusCleanSheet) {
             $points -= $rating->getBonusCleanSheetPoints($disposition->member);
         }
-        if ($points != $rating->points) {
-            $disposition->points = $points;
-        }
+        $disposition->points = $points;
         if ($cap && $disposition->member->id == $cap) {
             $disposition->consideration = 2;
             $points *= 2;

@@ -45,6 +45,7 @@ use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -168,11 +169,14 @@ class Application extends BaseApplication implements
         ]);*/
         $service->loadAuthenticator('Authentication.Form', [
             'loginUrl' => [
-                '/users/login',
+                Router::url([
+                    'controller' => 'Users',
+                    'action' => 'login',
+                    '_method' => 'POST',
+                    'prefix' => false,
+                ]),
             ],
             'fields' => $fields,
-            //'urlChecker' => CakeRouterUrlChecker::class,
-
         ]);
         $service->loadAuthenticator('Authentication.Jwt', [
             'fields' => $fields,
@@ -182,7 +186,12 @@ class Application extends BaseApplication implements
         $service->loadAuthenticator('Authentication.Webauthn', [
             'className' => WebauthnAuthenticator::class,
             'loginUrl' => [
-                '/webauthn/login',
+                Router::url([
+                    'controller' => 'Credentials',
+                    'action' => 'login',
+                    '_method' => 'POST',
+                    'prefix' => false,
+                ]),
             ],
             'fields' => $fields,
         ]);

@@ -115,11 +115,30 @@ class LineupService
      */
     public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true): Lineup
     {
+        $lineup->setAccess('*', true);
         $lineup->team->setAccess('members', true);
+        $lineup->team->setAccess('*', true);
         $lineupCopy = $this->Lineups->newEntity(
             $lineup->toArray(),
             [
-                'associated' => ['Teams' => ['Championships', 'Members'], 'Dispositions.Members.Ratings'],
+                'associated' => [
+                    'Teams' => [
+                        'guard' => false,
+                        'accessibleFields' => ['*' => true],
+                        'associated' => ['Championships', 'Members'],
+                    ],
+                    'Dispositions' => [
+                        'guard' => false,
+                        'accessibleFields' => ['*' => true],
+                        'associated' => [
+                            'Members' => [
+                                'guard' => false,
+                                'accessibleFields' => ['*' => true],
+                                'associated' => ['Ratings'],
+                            ],
+                        ],
+                    ],
+                ],
                 'guard' => false,
             ]
         );
@@ -150,6 +169,7 @@ class LineupService
         unset($disposition->id);
         unset($disposition->lineup_id);
         $disposition->consideration = 0;
+        $disposition->points = null;
 
         return $disposition;
     }

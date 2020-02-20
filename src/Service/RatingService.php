@@ -129,30 +129,26 @@ class RatingService
                 if (array_key_exists($stats[0], $members)) {
                     $member = $members[$stats[0]];
                     $rating = empty($member->ratings) ? $this->Ratings->newEmptyEntity() : $member->ratings[0];
-                    $rating->member = $member;
-                    $this->Ratings->patchEntity(
-                        $rating,
-                        [
-                            //$rating = $this->Ratings->newEntity([
-                            'valued' => $stats[6],
-                            'points' => $stats[7],
-                            'rating' => $stats[10],
-                            'goals' => $stats[11],
-                            'goals_against' => $stats[12],
-                            'goals_victory' => $stats[13],
-                            'goals_tie' => $stats[14],
-                            'assist' => $stats[15],
-                            'yellow_card' => $stats[16],
-                            'red_card' => $stats[17],
-                            'penalities_scored' => $stats[18],
-                            'penalities_taken' => $stats[19],
-                            'present' => $stats[23],
-                            'regular' => $stats[24],
-                            'quotation' => (int)$stats[27],
-                            'member_id' => $member->id,
-                            'matchday_id' => $matchday->id,
-                        ]
-                    );
+                    $rating->member_id = $member->id;
+                    $rating = $this->Ratings->patchEntity($rating, [
+                        'valued' => $stats[6],
+                        'points' => $stats[7],
+                        'rating' => $stats[10],
+                        'goals' => $stats[11],
+                        'goals_against' => $stats[12],
+                        'goals_victory' => $stats[13],
+                        'goals_tie' => $stats[14],
+                        'assist' => $stats[15],
+                        'yellow_card' => $stats[16],
+                        'red_card' => $stats[17],
+                        'penalities_scored' => $stats[18],
+                        'penalities_taken' => $stats[19],
+                        'present' => $stats[23],
+                        'regular' => $stats[24],
+                        'quotation' => (int)$stats[27],
+                        'member_id' => $member->id,
+                        'matchday_id' => $matchday->id,
+                    ], ['accessibleFields' => ['*' => true]]);
                     $ratings[] = $rating;
                 } else {
                     throw new RecordNotFoundException("No member for code_gazzetta $stats[0]");

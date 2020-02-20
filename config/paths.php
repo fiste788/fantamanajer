@@ -16,6 +16,9 @@
  * Use the DS to separate the directories in other defines
  */
 if (!defined('DS')) {
+    /**
+     * Defines DS as short form of DIRECTORY_SEPARATOR.
+     */
     define('DS', DIRECTORY_SEPARATOR);
 }
 /**

@@ -38,11 +38,13 @@ class TransfertCommand extends Command
             'help' => 'Disable commit.',
             'short' => 'c',
             'boolean' => true,
+            'default' => false,
         ]);
         $parser->addOption('force', [
             'help' => 'Force the execution',
             'short' => 'f',
             'boolean' => true,
+            'default' => false,
         ]);
         $parser->addOption('no-interaction', [
             'short' => 'n',

@@ -84,8 +84,7 @@ class UpdateMemberService
             $buys = [];
             $sells = [];
 
-            /** @var \ArrayIterator<int,\Cake\Datasource\EntityInterface> $membersToSave */
-            $membersToSave = new \ArrayIterator();
+            $membersToSave = [];
             $member = null;
             foreach ($newMembers as $id => $newMember) {
                 if (array_key_exists($id, $oldMembers)) {
@@ -101,13 +100,13 @@ class UpdateMemberService
                     $buys[$member->club_id][] = $member;
                 }
                 if ($member != null) {
-                    $membersToSave->append($member);
+                    $membersToSave[] = $member;
                 }
             }
             foreach ($oldMembers as $id => $oldMember) {
                 if (!array_key_exists($id, $newMembers) && $oldMember->active) {
                     $oldMember->active = false;
-                    $membersToSave->append($oldMember);
+                    $membersToSave[] = $oldMember;
                     if ($this->io != null) {
                         $this->io->verbose("Deactivate member " . $oldMember);
                     }
@@ -116,9 +115,9 @@ class UpdateMemberService
             }
             //$this->io->verbose($membersToSave);
             if ($this->io != null) {
-                $this->io->out("Savings " . $membersToSave->count() . " members");
+                $this->io->out("Savings " . count($membersToSave) . " members");
             }
-            if (!$this->Members->saveMany($membersToSave->getArrayCopy())) {
+            if (!$this->Members->saveMany($membersToSave)) {
                 $ev = new Event('Fantamanajer.memberTransferts', $this, [
                     'sells' => $sells,
                     'buys' => $buys,
@@ -138,10 +137,10 @@ class UpdateMemberService
      * Member transfert
      *
      * @param \App\Model\Entity\Member $member Member
-     * @param string $club Club
+     * @param string $clubName Club
      * @return \App\Model\Entity\Member|null
      */
-    private function memberTransfert(Member $member, string $club): ?Member
+    private function memberTransfert(Member $member, string $clubName): ?Member
     {
         $flag = false;
         if (!$member->active) {
@@ -149,13 +148,13 @@ class UpdateMemberService
             $flag = true;
         }
 
-        /** @var \App\Model\Entity\Club $clubNew */
-        $clubNew = $this->Clubs->find()->where(['name' => ucwords(strtolower(trim($club, '"')))])->first();
-        if ($member->club_id != $clubNew->id) {
+        /** @var \App\Model\Entity\Club $club */
+        $club = $this->Clubs->find()->where(['name' => ucwords(strtolower(trim($clubName, '"')))])->firstOrFail();
+        if ($member->club_id != $club->id) {
             if ($this->io != null) {
                 $this->io->verbose("Transfert member " . $member->player->full_name);
             }
-            $member->club = $clubNew;
+            $member->club = $club;
             $member->active = true;
             $flag = true;
         }
@@ -200,6 +199,6 @@ class UpdateMemberService
             'role_id' => ((int)$member[5]) + 1,
             'club_id' => $club->id,
             'player_id' => $player->id,
-        ]);
+        ], ['accessibleFields' => ['*' => true]]);
     }
 }

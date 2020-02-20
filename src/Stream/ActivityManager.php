@@ -75,7 +75,7 @@ class ActivityManager
      */
     private function getFromVerb(EnrichedActivity $activity): ?StreamActivity
     {
-        $namespace = '\\App\\Stream\\Verb\\' . ($activity->offsetExists('activities') ?: 'Aggregated\\');
+        $namespace = '\\App\\Stream\\Verb\\' . ($activity->offsetExists('activities') ? 'Aggregated\\' : '');
         $name = (string)($activity->offsetGet('verb') ?? '');
         $className = $namespace . ucwords($name);
 

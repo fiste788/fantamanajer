@@ -6,6 +6,7 @@
 /config/.env
 /logs/*
 /resources/backups/*
+/resources/ratings/*
 /tmp/*
 /vendor/*
 

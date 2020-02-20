@@ -143,8 +143,8 @@ class DownloadRatingsService
                         }
 
                         $line = fgets($p_file, 2);
-                        if ($line) {
-                            $xor2 = (int)(hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]));
+                        if ($line !== false) {
+                            $xor2 = (hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]));
                             $body .= chr($xor2);
                         } else {
                             if ($this->io != null) {

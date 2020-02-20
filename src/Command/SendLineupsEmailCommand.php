@@ -45,6 +45,7 @@ class SendLineupsEmailCommand extends Command
             'help' => 'Force the execution time.',
             'short' => 'f',
             'boolean' => true,
+            'default' => false,
         ]);
         $parser->addOption('no-interaction', [
             'short' => 'n',

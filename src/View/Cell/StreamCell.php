@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Cell;
@@ -23,8 +22,8 @@ class StreamCell extends Cell
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);
         $enrich = new Enrich();
-        $activities = (array) $feed->getActivities();
-        $results = (array) $activities['results'];
+        $activities = (array)$feed->getActivities();
+        $results = (array)$activities['results'];
         if ($aggregated) {
             $enriched = $enrich->enrichAggregatedActivities($results);
         } else {

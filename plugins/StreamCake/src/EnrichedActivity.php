@@ -9,7 +9,7 @@ use ArrayIterator;
 use Cake\I18n\FrozenTime;
 use IteratorAggregate;
 
-class EnrichedActivity implements IteratorAggregate
+class EnrichedActivity implements IteratorAggregate, ArrayAccess
 {
     /**
      * @var array
