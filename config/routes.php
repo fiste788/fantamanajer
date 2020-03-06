@@ -154,8 +154,16 @@ $routes->scope('/', function (RouteBuilder $routes) {
     ]);
 
     $routes->resources('PushSubscriptions', [
-        'only' => ['view', 'delete', 'update', 'create'],
+        'only' => ['view', 'update', 'create'],
     ]);
+
+    $routes->connect('/push-subscriptions/:id', [
+        'controller' => 'PushSubscriptions',
+        'action' => 'delete',
+    ])
+        ->setMethods(['DELETE'])
+        ->setPatterns(['id' => '[A-Fa-f0-9]{64}'])
+        ->setPass(['id']);;
 
     $routes->resources('Championships', [
         'only' => ['view', 'update'],
