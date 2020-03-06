@@ -33,6 +33,10 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      */
     public function identify(array $data)
     {
+        if (!isset($data['publicKey']) || !isset($data['userHandle'])) {
+            return null;
+        }
+
         /** @var \Psr\Http\Message\ServerRequestInterface $request */
         $request = $data['request'];
         $publicKey = (string)$data['publicKey'];

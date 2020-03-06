@@ -81,7 +81,8 @@ class TransfertCommand extends Command
                     'processed' => false,
                     'Selections.active' => true,
                 ])->all();
-            $table = ['Team', 'New Member', 'Old Member'];
+            $table = [];
+            $table[] = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {
                 /** @var \App\Model\Entity\Selection[] $selectionsArray */
                 $selectionsArray = $selections->toList();

@@ -26,7 +26,9 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
      */
     public function __construct(array $activityData)
     {
-        $activityData['time'] = new FrozenTime($activityData['time'], 'UTC');
+        if (isset($activityData['time'])) {
+            $activityData['time'] = new FrozenTime($activityData['time'], 'UTC');
+        }
         $this->activityData = $activityData;
     }
 

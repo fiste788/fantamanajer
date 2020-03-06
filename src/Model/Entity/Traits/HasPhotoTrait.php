@@ -32,14 +32,14 @@ trait HasPhotoTrait
             foreach ($folder->getIterator() as $sub) {
                 $subpath = $sub->getFilename();
                 if ($filesystem->exists($path . $subpath . DS . $name)) {
-                    $array[$subpath] = $baseUrl . $subpath . '/' . htmlspecialchars_decode($name);
+                    $array[$subpath] = $baseUrl . $subpath . '/' . rawurlencode($name);
                 }
             }
             $principal = $path . $name;
             if ($filesystem->exists($principal)) {
                 $size = getimagesize($principal);
                 if ($size != false) {
-                    $array[(string)$size[0] . 'w'] = $baseUrl . htmlspecialchars_decode($name);
+                    $array[(string)$size[0] . 'w'] = $baseUrl . rawurlencode($name);
                 }
             }
         }

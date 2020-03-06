@@ -15,6 +15,7 @@ use Cake\Datasource\ModelAwareTrait;
  * @property \App\Service\LineupService $Lineup
  * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Model\Table\TeamsTable $Teams
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Model\Table\SeasonsTable $Seasons
  * @property \App\Model\Table\LineupsTable $Lineups
  */
@@ -31,6 +32,7 @@ class ComputeScoreService
         $this->loadService("Lineup");
         $this->loadModel("Scores");
         $this->loadModel("Teams");
+        $this->loadModel("Matchdays");
         $this->loadModel("Seasons");
         $this->loadModel("Lineups");
     }
@@ -71,6 +73,7 @@ class ComputeScoreService
     public function exec(Score $score): void
     {
         $score->team = $score->team ?? $this->Teams->get($score->team_id, ['contain' => ['Championships']]);
+        $score->matchday = $score->matchday ?? $this->Matchdays->get($score->matchday_id, ['contain' => ['Seasons']]);
         $season = $score->matchday->has('season') ?
             $score->matchday->season : $this->Seasons->get($score->matchday->season_id);
         $championship = $score->team->championship;
@@ -151,11 +154,12 @@ class ComputeScoreService
                 }
             } else {
                 foreach ($notValueds as $key => $notValued) {
+                    $ratings = $member->ratings;
                     if (
                         $substitution < 3 &&
                         $member->role_id == $notValued->role_id &&
-                        !empty($member->ratings) &&
-                        $member->ratings[0]->valued
+                        !empty($ratings) &&
+                        $ratings[0]->valued
                     ) {
                         $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
                         $substitution++;

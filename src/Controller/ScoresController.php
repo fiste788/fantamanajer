@@ -69,12 +69,15 @@ class ScoresController extends AppController
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
-        $action->saveOptions(['associated' => [
-            'Lineups' => [
-                'accessibleFields' => ['id' => true],
-                'associated' => ['Dispositions'],
+        $action->saveOptions([
+            'accessibleFields' => ['*' => true],
+            'associated' => [
+                'Lineups' => [
+                    'accessibleFields' => ['*' => true],
+                    'associated' => ['Dispositions'],
+                ],
             ],
-        ]]);
+        ]);
 
         $this->Crud->on('afterSave', function (Event $event) {
             /** @var \App\Model\Entity\Score $score */

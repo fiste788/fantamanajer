@@ -125,7 +125,10 @@ class LineupService
                     'Teams' => [
                         'guard' => false,
                         'accessibleFields' => ['*' => true],
-                        'associated' => ['Championships', 'Members'],
+                        'associated' => ['Championships', 'Members' => [
+                            'guard' => false,
+                            'accessibleFields' => ['*' => true],
+                        ]],
                     ],
                     'Dispositions' => [
                         'guard' => false,
