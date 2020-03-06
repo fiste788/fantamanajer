@@ -176,7 +176,6 @@ class GetStreamEventListener implements EventListenerInterface
             $feed->setGuzzleDefaultOption('verify', false);
             $feed->addActivities($activities);
         }
-        /** @var \App\Model\Entity\Member[] $members */
         foreach ($sells as $club => $members) {
             foreach ($members as $member) {
                 $activities = [

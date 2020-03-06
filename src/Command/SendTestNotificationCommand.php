@@ -87,7 +87,6 @@ class SendTestNotificationCommand extends Command
 
         $expired = [];
         $res = $webPush->flush();
-        /** @var \Minishlink\WebPush\MessageSentReport $result */
         foreach ($res as $result) {
             /** @var \Psr\Http\Message\ResponseInterface $response */
             $response = $result->getResponse();

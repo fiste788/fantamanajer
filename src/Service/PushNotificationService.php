@@ -33,7 +33,6 @@ class PushNotificationService
     {
         $expired = [];
 
-        /** @var \Minishlink\WebPush\MessageSentReport $result */
         foreach ($report as $result) {
             $response = $result->getResponse();
 
