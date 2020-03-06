@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Lineup|null $lineup
  * @property \App\Model\Entity\Team|null $team
- * @property \App\Model\Entity\Matchday $matchday
+ * @property \App\Model\Entity\Matchday|null $matchday
  */
 class Score extends Entity
 {

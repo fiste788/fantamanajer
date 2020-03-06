@@ -19,7 +19,7 @@ if (!defined('DS')) {
     /**
      * Defines DS as short form of DIRECTORY_SEPARATOR.
      */
-    define('DS', DIRECTORY_SEPARATOR);
+    define('DS', (string) DIRECTORY_SEPARATOR);
 }
 /**
  * These defines should only be edited if you have cake installed in
