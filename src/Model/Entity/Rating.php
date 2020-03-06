@@ -103,7 +103,7 @@ class Rating extends Entity
     {
         $minus = (float)0;
         $member = $member ?? $this->member;
-        if ($this->goals_against == 0 && $member->role->abbreviation == 'P') {
+        if ($this->goals_against == 0 && $member->role->abbreviation == 'P' && $this->rating != 0 && $this->valued) {
             $minus += 1;
         }
 
