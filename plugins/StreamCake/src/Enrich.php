@@ -189,7 +189,7 @@ class Enrich implements EnrichInterface
     private function getContain($activity)
     {
         $base = '\\App\\Stream\\Verb\\';
-        if (array_key_exists('activities', $activity)) {
+        if (isset($activity['activities'])) {
             $base .= 'Aggregated\\';
             $verb = $activity['verb'];
         } else {
