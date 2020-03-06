@@ -28,6 +28,7 @@ use Minishlink\WebPush\WebPush;
  * @property \App\Service\RatingService $Rating
  * @property \App\Service\DownloadRatingsService $DownloadRatings
  * @property \App\Service\UpdateMemberService $UpdateMember
+ * @property \App\Service\PushNotificationService $PushNotification
  * @property \Cake\ORM\Table $Points
  */
 class WeeklyScriptCommand extends Command
@@ -50,6 +51,7 @@ class WeeklyScriptCommand extends Command
         $this->loadModel('Championships');
         $this->loadModel('Lineups');
         $this->loadService('ComputeScore');
+        $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
 
@@ -201,7 +203,10 @@ class WeeklyScriptCommand extends Command
                 }
             }
         }
-        $webPush->flush();
+
+        /** @var \Minishlink\WebPush\MessageSentReport[] $report */
+        $report = $webPush->flush();
+        $this->PushNotification->deleteExpired($report);
     }
 
     /**

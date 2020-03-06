@@ -17,6 +17,7 @@ use Minishlink\WebPush\WebPush;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
+ * @property \App\Model\Table\PushSubscriptionsTable $PushSubscriptions
  */
 class SendTestNotificationCommand extends Command
 {
@@ -31,6 +32,7 @@ class SendTestNotificationCommand extends Command
         parent::initialize();
         $this->loadService('Credential');
         $this->loadModel('Teams');
+        $this->loadModel('PushSubscriptions');
         $this->getCurrentMatchday();
     }
 
@@ -64,7 +66,7 @@ class SendTestNotificationCommand extends Command
     {
         $io->out('Parto');
         $webPush = new WebPush((array)Configure::read('WebPush'));
-        $team = $this->Teams->get(55, ['contain' => ['Users.PushSubscriptions']]);
+        $team = $this->Teams->get(62, ['contain' => ['Users.PushSubscriptions']]);
         $io->out('cerco squadra 55');
 
         foreach ($team->user->push_subscriptions as $subscription) {
@@ -74,7 +76,7 @@ class SendTestNotificationCommand extends Command
                 ->image('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
                 ->action('Apri', 'open')
                 ->tag('missing-lineup-' . $this->currentMatchday->number)
-                ->data(['url' => '/teams/' . $team->id . '/lineup']);
+                ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
             $messageString = json_encode($message);
             if ($messageString != false) {
                 $io->out($messageString);
@@ -83,11 +85,10 @@ class SendTestNotificationCommand extends Command
             }
         }
 
+        $expired = [];
         $res = $webPush->flush();
-        /** \Minishlink\WebPush\MessageSentReport */
+        /** @var \Minishlink\WebPush\MessageSentReport $result */
         foreach ($res as $result) {
-            // you now have access to request & response objects
-
             /** @var \Psr\Http\Message\ResponseInterface $response */
             $response = $result->getResponse();
 
@@ -103,6 +104,7 @@ class SendTestNotificationCommand extends Command
                 if ($result->isSubscriptionExpired()) {
                     // this is just an example code, not included in library!
                     Log::info(sprintf('Expired %s', $result->getEndpoint()));
+                    $expired[] = $result->getEndpoint();
                     //$db->markExpired($result->getEndpoint());
                 } else {
                     // process faulty message
@@ -115,6 +117,8 @@ class SendTestNotificationCommand extends Command
                 }
             }
         }
+        //$this->PushSubscriptions->updateAll(['expired' => true], ['id' => $expired]);
+        $this->PushSubscriptions->deleteAll(['endpoint IN' => $expired]);
 
         return CommandInterface::CODE_SUCCESS;
     }

@@ -44,7 +44,7 @@ class PushSubscriptionsTable extends Table
         parent::initialize($config);
 
         $this->setTable('push_subscriptions');
-        $this->setDisplayField('id');
+        $this->setDisplayField('endpoint');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Users', [
