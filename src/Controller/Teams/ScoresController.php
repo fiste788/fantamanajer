@@ -18,6 +18,7 @@ class ScoresController extends \App\Controller\ScoresController
 
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -30,6 +31,7 @@ class ScoresController extends \App\Controller\ScoresController
      * Last
      *
      * @return void
+     * @throws \Exception
      */
     public function last()
     {
@@ -41,6 +43,7 @@ class ScoresController extends \App\Controller\ScoresController
      *
      * @param int $matchdayId Matchday id
      * @return void
+     * @throws \Exception
      */
     public function viewByMatchday($matchdayId = null)
     {
@@ -66,6 +69,8 @@ class ScoresController extends \App\Controller\ScoresController
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function index()
     {

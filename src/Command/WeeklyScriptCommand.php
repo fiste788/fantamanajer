@@ -39,6 +39,9 @@ class WeeklyScriptCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -86,6 +89,7 @@ class WeeklyScriptCommand extends Command
      * @inheritDoc
      *
      * @return int|null
+     * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -176,6 +180,7 @@ class WeeklyScriptCommand extends Command
      * @param \App\Model\Entity\Score[] $scores Scores
      * @param \Cake\Console\ConsoleIo $io IO
      * @return void
+     * @throws \ErrorException
      */
     public function sendScoreNotifications(
         Matchday $matchday,

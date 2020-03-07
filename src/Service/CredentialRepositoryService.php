@@ -20,6 +20,9 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
 
     /**
      * Costructor
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {
@@ -60,6 +63,7 @@ class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
      *
      * @param \Webauthn\PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity arg
      * @return \Webauthn\PublicKeyCredentialSource[]
+     * @throws \RuntimeException
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array

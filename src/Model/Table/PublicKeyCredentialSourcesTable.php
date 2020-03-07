@@ -48,6 +48,7 @@ class PublicKeyCredentialSourcesTable extends Table
      *
      * @param array $config The configuration for the Table.
      * @return void
+     * @throws \RuntimeException
      */
     public function initialize(array $config): void
     {
@@ -76,6 +77,7 @@ class PublicKeyCredentialSourcesTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {

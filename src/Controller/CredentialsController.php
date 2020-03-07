@@ -39,6 +39,7 @@ class CredentialsController extends AppController
      * Undocumented function
      *
      * @return void
+     * @throws \RuntimeException
      */
     public function publicKeyRequest()
     {
@@ -55,6 +56,10 @@ class CredentialsController extends AppController
      * Get Webauthn public key
      *
      * @return void
+     * @throws \Ramsey\Uuid\Exception\UnsatisfiedDependencyException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function publicKeyCreation()
     {
@@ -71,6 +76,8 @@ class CredentialsController extends AppController
      * Undocumented function
      *
      * @return void
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function login()
     {
@@ -97,6 +104,9 @@ class CredentialsController extends AppController
      * Save the credential
      *
      * @return void
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function register()
     {

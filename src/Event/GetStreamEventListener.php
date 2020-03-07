@@ -51,6 +51,7 @@ class GetStreamEventListener implements EventListenerInterface
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Article $article Article
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function addNewArticleActivity(Event $event, Article $article): void
     {
@@ -68,6 +69,7 @@ class GetStreamEventListener implements EventListenerInterface
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function addNewLineupActivity(Event $event, Lineup $lineup): void
     {
@@ -85,6 +87,7 @@ class GetStreamEventListener implements EventListenerInterface
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Selection $selection Selection
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function addNewMemberSelectionActivity(Event $event, Selection $selection): void
     {
@@ -102,6 +105,7 @@ class GetStreamEventListener implements EventListenerInterface
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Transfert $transfert Transfert
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function addNewMemberTransfertActivity(Event $event, Transfert $transfert): void
     {
@@ -119,6 +123,8 @@ class GetStreamEventListener implements EventListenerInterface
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Member $member Member
      * @return void
+     * @throws \InvalidArgumentException
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function changeMember(Event $event, Member $member): void
     {

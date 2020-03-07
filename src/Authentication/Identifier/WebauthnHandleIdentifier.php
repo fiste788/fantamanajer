@@ -30,6 +30,8 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
 
     /**
      * @inheritdoc
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function identify(array $data)
     {
@@ -55,6 +57,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      *
      * @param string $identifier The username/identifier.
      * @return \ArrayAccess|array|null
+     * @throws \RuntimeException
      */
     protected function _findIdentity(string $identifier)
     {

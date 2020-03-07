@@ -41,6 +41,7 @@ class LineupsController extends ControllerLineupsController
      * current
      *
      * @return \Psr\Http\Message\ResponseInterface|null
+     * @throws \Exception
      */
     public function current()
     {
@@ -99,6 +100,8 @@ class LineupsController extends ControllerLineupsController
      * Likely
      *
      * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \RuntimeException
      */
     public function likely()
     {

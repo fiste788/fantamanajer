@@ -12,6 +12,8 @@ class MatchdaysController extends AppController
 {
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -25,6 +27,8 @@ class MatchdaysController extends AppController
      * Current
      *
      * @return void
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function current()
     {

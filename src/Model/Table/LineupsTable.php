@@ -50,6 +50,7 @@ class LineupsTable extends Table
      *
      * @param array $config The configuration for the Table.
      * @return void
+     * @throws \RuntimeException
      */
     public function initialize(array $config): void
     {
@@ -99,6 +100,7 @@ class LineupsTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -137,6 +139,8 @@ class LineupsTable extends Table
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {

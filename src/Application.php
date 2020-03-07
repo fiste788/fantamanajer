@@ -104,6 +104,7 @@ class Application extends BaseApplication implements
      *
      * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
+     * @throws \InvalidArgumentException
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
@@ -128,6 +129,7 @@ class Application extends BaseApplication implements
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      *
      * @return \Authentication\AuthenticationService
+     * @throws \Cake\Core\Exception\Exception
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
@@ -205,6 +207,7 @@ class Application extends BaseApplication implements
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      *
      * @return \Authorization\AuthorizationService
+     * @throws \InvalidArgumentException
      */
     public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {
@@ -222,6 +225,7 @@ class Application extends BaseApplication implements
      *
      * @param \Cake\Console\CommandCollection $commands The CommandCollection to add commands into.
      * @return \Cake\Console\CommandCollection The updated collection.
+     * @throws \InvalidArgumentException
      */
     public function console($commands): CommandCollection
     {

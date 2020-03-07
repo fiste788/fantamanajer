@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
+use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
 
 /**
@@ -18,17 +20,20 @@ class MembersController extends AppController
 
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
+     * @throws \Authorization\Exception\ForbiddenException
      */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
         $this->Crud->mapAction('freeByRole', 'Crud.Index');
-        $championshipId = (int)$this->request->getParam('championship_id');
+        $championshipId = (int) $this->request->getParam('championship_id');
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if (!$identity->isInChampionship($championshipId)) {
-            throw new \Cake\Http\Exception\ForbiddenException();
+            throw new ForbiddenException();
         }
     }
 
@@ -36,6 +41,7 @@ class MembersController extends AppController
      * Free by role
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function freeByRole()
     {
@@ -43,9 +49,9 @@ class MembersController extends AppController
         $action = $this->Crud->action();
         $action->findMethod([
             'free' => [
-                'championship_id' => $this->request->getParam('championship_id'),
-                'stats' => (bool)$this->request->getQuery('stats', true),
-                'role' => (int)$this->request->getParam('role_id', null),
+                'championship_id' => (int) $this->request->getParam('championship_id'),
+                'stats' => (bool) $this->request->getQuery('stats', true),
+                'role' => (int) $this->request->getParam('role_id', null),
             ],
         ]);
 
@@ -56,6 +62,8 @@ class MembersController extends AppController
      * Free
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function free()
     {
@@ -63,7 +71,7 @@ class MembersController extends AppController
         $action = $this->Crud->action();
         $action->findMethod([
             'free' => [
-                'championship_id' => (int)$this->request->getParam('championship_id'),
+                'championship_id' => (int) $this->request->getParam('championship_id'),
                 'stats' => false,
             ],
         ]);

@@ -77,6 +77,7 @@ class Member extends Entity
      * Get photo url
      *
      * @return string|null
+     * @throws \Cake\Core\Exception\Exception
      */
     protected function _getPhotoUrl(): ?string
     {
@@ -94,6 +95,7 @@ class Member extends Entity
      * Get background url
      *
      * @return string|null
+     * @throws \Cake\Core\Exception\Exception
      */
     protected function _getBackgroundUrl(): ?string
     {

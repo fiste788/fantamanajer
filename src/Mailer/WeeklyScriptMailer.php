@@ -32,6 +32,8 @@ class WeeklyScriptMailer extends Mailer
      * @param \App\Model\Entity\Lineup|null $details Details
      * @param \App\Model\Entity\Score $score Score
      * @return void
+     * @throws \Cake\Mailer\Exception\MissingActionException
+     * @throws \BadMethodCallException
      */
     public function score(Team $team, Matchday $matchday, array $ranking, ?Lineup $details, Score $score)
     {
@@ -62,6 +64,8 @@ class WeeklyScriptMailer extends Mailer
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \App\Model\Entity\Team[] $teams Teams
      * @return void
+     * @throws \Cake\Mailer\Exception\MissingActionException
+     * @throws \BadMethodCallException
      */
     public function lineups(Championship $championship, Matchday $matchday, array $teams)
     {

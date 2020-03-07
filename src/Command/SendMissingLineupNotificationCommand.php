@@ -27,6 +27,9 @@ class SendMissingLineupNotificationCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -62,6 +65,8 @@ class SendMissingLineupNotificationCommand extends Command
      * @inheritDoc
      *
      * @return int|null
+     * @throws \ErrorException
+     * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

@@ -18,6 +18,8 @@ class TransfertsController extends AppController
 
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -30,6 +32,8 @@ class TransfertsController extends AppController
      * Add
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function add()
     {

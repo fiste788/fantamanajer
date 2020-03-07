@@ -26,6 +26,9 @@ class SendLineupsEmailCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -61,6 +64,7 @@ class SendLineupsEmailCommand extends Command
      * @inheritDoc
      *
      * @return int|null
+     * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -89,6 +93,9 @@ class SendLineupsEmailCommand extends Command
      * @param \App\Model\Entity\Championship $championship Championship
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @return void
+     * @throws \Cake\Mailer\Exception\MissingActionException
+     * @throws \Cake\Mailer\Exception\MissingMailerException
+     * @throws \BadMethodCallException
      */
     private function sendLineupsChampionship(Championship $championship, Matchday $matchday): void
     {

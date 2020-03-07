@@ -19,6 +19,9 @@ class LineupService
 
     /**
      * Constructor
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {

@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Model\Entity\Matchday;
 use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
+use Cake\Log\Log;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -37,6 +38,8 @@ class DownloadRatingsService
      * @param int $offsetGazzetta Offset
      * @param bool $forceDownload Force download
      * @return string|null
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \Cake\Console\Exception\StopException
      */
     public function getRatings(Matchday $matchday, $offsetGazzetta = 0, $forceDownload = false): ?string
     {
@@ -70,6 +73,8 @@ class DownloadRatingsService
      * @param int $matchdayGazzetta Matchday gazzetta
      * @param string $url Url
      * @return string|null
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \Cake\Console\Exception\StopException
      */
     private function downloadRatings(
         Matchday $matchday,
@@ -96,6 +101,8 @@ class DownloadRatingsService
      * @param string $content Content
      * @param string $path Path
      * @return void
+     * @throws \Symfony\Component\Filesystem\Exception\IOException
+     * @throws \Cake\Console\Exception\StopException
      */
     public function writeCsvRatings(string $content, string $path): void
     {
@@ -168,6 +175,10 @@ class DownloadRatingsService
      *
      * @param int $matchday Matchday
      * @return string|null
+     * @throws \InvalidArgumentException
+     * @throws \Cake\Core\Exception\Exception
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function getRatingsFile(int $matchday): ?string
     {
@@ -213,6 +224,7 @@ class DownloadRatingsService
      *
      * @param \Symfony\Component\DomCrawler\Crawler $tr Row
      * @return string|null
+     * @throws \InvalidArgumentException
      */
     private function getUrlFromMatchdayRow(Crawler $tr): ?string
     {
@@ -252,21 +264,13 @@ class DownloadRatingsService
                 $this->io->verbose("Response " . $response->getStatusCode());
             }
             if ($response->isOk()) {
-                $crawler = new Crawler();
-                $crawler->addContent($response->getStringBody());
-                $button = $crawler->filter("#default_content_download_button");
-                if ($button->count()) {
-                    $url = $button->attr("href");
-                } else {
-                    $url = str_replace("www", "dl", $url);
-                }
-                if ($this->io != null) {
-                    $this->io->out("Downloading $url in tmp dir");
-                }
-                $file = TMP . $matchday . '.mxm';
-                file_put_contents($file, file_get_contents($url ?? ""));
+                $downloadUrl = $this->getDropboxUrl($response->getStringBody(), $url);
+                if ($downloadUrl != null) {
+                    $file = TMP . $matchday . '.mxm';
+                    file_put_contents($file, file_get_contents($downloadUrl));
 
-                return $file;
+                    return $file;
+                }
             } else {
                 if ($this->io != null) {
                     $this->io->err('Response not ok');
@@ -275,6 +279,36 @@ class DownloadRatingsService
         }
 
         return null;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $dropboxPage Body of the page
+     * @param string $url Url of the page
+     * @return string|null
+     */
+    private function getDropboxUrl(string $dropboxPage, string $url): ?string
+    {
+        $crawler = new Crawler();
+        $crawler->addContent($dropboxPage);
+        try {
+            $button = $crawler->filter("#default_content_download_button");
+            if ($button->count()) {
+                $downloadUrl = $button->attr("href");
+            } else {
+                $downloadUrl = str_replace("www", "dl", $url);
+            }
+            if ($this->io != null) {
+                $this->io->out("Downloading $downloadUrl in tmp dir");
+            }
+
+            return $downloadUrl;
+        } catch (\RuntimeException | \InvalidArgumentException $e) {
+            Log::error($e->getTraceAsString());
+
+            return null;
+        }
     }
 
     /**

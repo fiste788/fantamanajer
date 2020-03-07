@@ -17,6 +17,9 @@ class ResetPasswordCommand extends Command
 {
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -26,6 +29,7 @@ class ResetPasswordCommand extends Command
 
     /**
      * @inheritDoc
+     * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

@@ -5,10 +5,10 @@ namespace App\Controller;
 
 use App\Stream\ActivityManager;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authorization\Exception\ForbiddenException;
 use Burzum\Cake\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Utility\Hash;
 
 /**
@@ -31,7 +31,8 @@ class UsersController extends AppController
 
     /**
      * @inheritDoc
-     *
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event)
     {
@@ -61,6 +62,7 @@ class UsersController extends AppController
      * @return void
      *
      * @throws \Authentication\Authenticator\UnauthenticatedException
+     * @throws \InvalidArgumentException
      */
     public function login()
     {
@@ -115,6 +117,9 @@ class UsersController extends AppController
      * Get activity stream
      *
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
+     * @throws \InvalidArgumentException
+     * @throws \Authorization\Exception\ForbiddenException
      */
     public function stream()
     {
@@ -139,6 +144,7 @@ class UsersController extends AppController
      * Undocumented function
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function edit()
     {

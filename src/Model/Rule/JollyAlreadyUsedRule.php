@@ -16,6 +16,9 @@ class JollyAlreadyUsedRule
 
     /**
      * Construct
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {

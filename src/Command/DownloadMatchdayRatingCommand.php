@@ -22,6 +22,8 @@ class DownloadMatchdayRatingCommand extends Command
 
     /**
      * @inheritDoc
+     * @throws \Cake\Core\Exception\Exception
+     * @throws \InvalidArgumentException
      */
     public function initialize(): void
     {
@@ -46,6 +48,9 @@ class DownloadMatchdayRatingCommand extends Command
 
     /**
      * @inheritDoc
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \Cake\Console\Exception\StopException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -60,6 +65,9 @@ class DownloadMatchdayRatingCommand extends Command
      * @param int $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
      * @return string|null
+     * @throws \InvalidArgumentException
+     * @throws \Cake\Console\Exception\StopException
+     * @throws \RuntimeException
      */
     public function exec(int $matchday, ConsoleIo $io): ?string
     {
@@ -77,6 +85,9 @@ class DownloadMatchdayRatingCommand extends Command
      * @param int $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
      * @return string|null
+     * @throws \Cake\Console\Exception\StopException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     private function getDropboxUrl(int $matchday, ConsoleIo $io): ?string
     {
@@ -108,6 +119,8 @@ class DownloadMatchdayRatingCommand extends Command
      * @param \Cake\Console\ConsoleIo $io IO
      *
      * @return null|string
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     private function downloadDropboxFile(string $url, int $matchday, ConsoleIo $io): ?string
     {

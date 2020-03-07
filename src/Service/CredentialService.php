@@ -16,6 +16,7 @@ use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
 use Psr\Http\Message\ServerRequestInterface;
+use Ramsey\Uuid\Uuid;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
@@ -56,6 +57,9 @@ class CredentialService
 
     /**
      * Costructor
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {
@@ -145,6 +149,7 @@ class CredentialService
      * Undocumented function
      *
      * @return \Webauthn\AttestationStatement\AttestationStatementSupportManager
+     * @throws \InvalidArgumentException
      */
     private function createStatementSupportManager(): AttestationStatementSupportManager
     {
@@ -171,6 +176,7 @@ class CredentialService
      *
      * @param \Cake\Http\ServerRequest $request Request
      * @return \Webauthn\PublicKeyCredentialRequestOptions|null
+     * @throws \RuntimeException
      */
     public function assertionRequest(ServerRequestInterface $request): ?PublicKeyCredentialRequestOptions
     {
@@ -210,6 +216,8 @@ class CredentialService
      *
      * @param \Cake\Http\ServerRequest $request Request
      * @return bool
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function assertionResponse(ServerRequestInterface $request): bool
     {
@@ -228,6 +236,8 @@ class CredentialService
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @param string $userHandle User Handle
      * @return \Webauthn\PublicKeyCredentialSource
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function login(
         string $publicKey,
@@ -252,29 +262,25 @@ class CredentialService
             $this->createAlgorithManager()
         );
 
-        try {
-            // Load the data
-            /** @var array<string, mixed> $body */
-            $body = $request->getParsedBody();
-            $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
-            $response = $publicKeyCredential->getResponse();
+        // Load the data
+        /** @var array<string, mixed> $body */
+        $body = $request->getParsedBody();
+        $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
+        $response = $publicKeyCredential->getResponse();
 
-            // Check if the response is an Authenticator Assertion Response
-            if (!$response instanceof AuthenticatorAssertionResponse) {
-                throw new \RuntimeException('Not an authenticator assertion response');
-            }
-
-            // Check the response against the attestation request
-            return $authenticatorAssertionResponseValidator->check(
-                $publicKeyCredential->getRawId(),
-                $response,
-                $publicKeyCredentialRequestOptions,
-                $request,
-                $userHandle
-            );
-        } catch (\Throwable $throwable) {
-            throw $throwable;
+        // Check if the response is an Authenticator Assertion Response
+        if (!$response instanceof AuthenticatorAssertionResponse) {
+            throw new \RuntimeException('Not an authenticator assertion response');
         }
+
+        // Check the response against the attestation request
+        return $authenticatorAssertionResponseValidator->check(
+            $publicKeyCredential->getRawId(),
+            $response,
+            $publicKeyCredentialRequestOptions,
+            $request,
+            $userHandle
+        );
     }
 
     /**
@@ -282,6 +288,10 @@ class CredentialService
      *
      * @param \Cake\Http\ServerRequest $request Request
      * @return \Webauthn\PublicKeyCredentialCreationOptions
+     * @throws \Ramsey\Uuid\Exception\UnsatisfiedDependencyException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public function attestationRequest(ServerRequestInterface $request): PublicKeyCredentialCreationOptions
     {
@@ -290,7 +300,7 @@ class CredentialService
         /** @var \App\Model\Entity\User $user */
         $user = $request->getAttribute('identity');
         if ($user->uuid == null) {
-            $user->uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
+            $user->uuid = Uuid::uuid4()->toString();
             $this->Users->save($user);
         }
         $userEntity = $user->toCredentialUserEntity();
@@ -339,6 +349,9 @@ class CredentialService
      *
      * @param \Cake\Http\ServerRequest $request Request
      * @return \App\Model\Entity\PublicKeyCredentialSource|null
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function attestationResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
@@ -363,35 +376,31 @@ class CredentialService
             new ExtensionOutputCheckerHandler()
         );
 
-        try {
-            // Load the data
-            /** @var array<string, mixed> $body */
-            $body = $request->getParsedBody();
-            $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
-            $response = $publicKeyCredential->getResponse();
+        // Load the data
+        /** @var array<string, mixed> $body */
+        $body = $request->getParsedBody();
+        $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
+        $response = $publicKeyCredential->getResponse();
 
-            // Check if the response is an Authenticator Attestation Response
-            if (!$response instanceof AuthenticatorAttestationResponse) {
-                throw new \RuntimeException('Not an authenticator attestation response');
-            }
-
-            // Check the response against the request
-            $credentialSource = $authenticatorAttestationResponseValidator->check(
-                $response,
-                $publicKeyCredentialCreationOptions,
-                $request
-            );
-
-            $credential = $this->PublicKeyCredentialSources->newEmptyEntity();
-            $credential->fromCredentialSource($credentialSource);
-            $credential->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
-            $credential->user_agent = $request->getHeader('User-Agent')[0];
-            $parsed = new Parser($credential->user_agent);
-            $credential->name = $parsed->toString();
-
-            return $this->PublicKeyCredentialSources->save($credential) ?: null;
-        } catch (\Throwable $exception) {
-            throw $exception;
+        // Check if the response is an Authenticator Attestation Response
+        if (!$response instanceof AuthenticatorAttestationResponse) {
+            throw new \RuntimeException('Not an authenticator attestation response');
         }
+
+        // Check the response against the request
+        $credentialSource = $authenticatorAttestationResponseValidator->check(
+            $response,
+            $publicKeyCredentialCreationOptions,
+            $request
+        );
+
+        $credential = $this->PublicKeyCredentialSources->newEmptyEntity();
+        $credential->fromCredentialSource($credentialSource);
+        $credential->id = Uuid::uuid4()->toString();
+        $credential->user_agent = $request->getHeader('User-Agent')[0];
+        $parsed = new Parser($credential->user_agent);
+        $credential->name = $parsed->toString();
+
+        return $this->PublicKeyCredentialSources->save($credential) ?: null;
     }
 }

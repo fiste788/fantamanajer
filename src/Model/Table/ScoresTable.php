@@ -66,6 +66,7 @@ class ScoresTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -139,6 +140,7 @@ class ScoresTable extends Table
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
      * @return \Cake\ORM\Query
+     * @throws \InvalidArgumentException
      */
     public function findScores(Query $q, array $options): Query
     {
@@ -181,6 +183,7 @@ class ScoresTable extends Table
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
      * @return \Cake\ORM\Query
+     * @throws \InvalidArgumentException
      */
     public function findRanking(Query $q, array $options): Query
     {

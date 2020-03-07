@@ -100,6 +100,9 @@ class Team extends Entity
      * Get photo
      *
      * @return string[]|null
+     * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
+     * @throws \Cake\Core\Exception\Exception
+     * @throws \LogicException
      */
     protected function _getPhotoUrl(): ?array
     {

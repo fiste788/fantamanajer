@@ -16,6 +16,7 @@ class StreamCell extends Cell
      * @param string $id Id
      * @param bool $aggregated Aggregated
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function display(string $feedName, string $id, $aggregated = false): void
     {

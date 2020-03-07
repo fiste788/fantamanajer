@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Teams;
 
 use App\Controller\SelectionsController as AppSelectionsController;
+use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
 
 /**
@@ -13,6 +14,9 @@ class SelectionsController extends AppSelectionsController
 {
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
+     * @throws \Authorization\Exception\ForbiddenException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -23,7 +27,7 @@ class SelectionsController extends AppSelectionsController
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if (!$identity->hasTeam($teamId)) {
-            throw new \Cake\Http\Exception\ForbiddenException();
+            throw new ForbiddenException();
         }
     }
 
@@ -31,6 +35,8 @@ class SelectionsController extends AppSelectionsController
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function index()
     {

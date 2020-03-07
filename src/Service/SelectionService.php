@@ -21,6 +21,9 @@ class SelectionService
 
     /**
      * Construct
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {
@@ -32,6 +35,10 @@ class SelectionService
      *
      * @param \App\Model\Entity\Selection $selection Selection
      * @return void
+     * @throws \ErrorException
+     * @throws \Cake\Mailer\Exception\MissingMailerException
+     * @throws \Cake\Mailer\Exception\MissingActionException
+     * @throws \BadMethodCallException
      */
     public function notifyLostMember(Selection $selection): void
     {

@@ -65,6 +65,7 @@ class MembersTeamsTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -97,6 +98,7 @@ class MembersTeamsTable extends Table
      * @param \App\Model\Entity\MembersTeam $entity Entity
      * @param \ArrayObject $options Options
      * @return void
+     * @throws \InvalidArgumentException
      */
     public function beforeSave(Event $event, MembersTeam $entity, ArrayObject $options): void
     {

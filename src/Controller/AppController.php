@@ -27,6 +27,8 @@ class AppController extends Controller
 
     /**
      * @inheritDoc
+     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function initialize(): void
     {
@@ -83,6 +85,7 @@ class AppController extends Controller
      *
      * @param \Cake\Event\EventInterface $event Event
      * @return void
+     * @throws \Authorization\Exception\ForbiddenException
      */
     public function afterFind(EventInterface $event)
     {

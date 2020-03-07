@@ -18,6 +18,8 @@ class StreamController extends AppController
      * Index
      *
      * @return void
+     * @throws \InvalidArgumentException
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function index()
     {

@@ -24,6 +24,8 @@ class ArticlesController extends AppController
 
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -37,6 +39,7 @@ class ArticlesController extends AppController
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function index(): ResponseInterface
     {

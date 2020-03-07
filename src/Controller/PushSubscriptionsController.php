@@ -13,6 +13,8 @@ class PushSubscriptionsController extends AppController
 {
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {

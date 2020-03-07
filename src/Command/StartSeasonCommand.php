@@ -26,6 +26,9 @@ class StartSeasonCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -47,6 +50,9 @@ class StartSeasonCommand extends Command
 
     /**
      * @inheritDoc
+     * @throws \Cake\Console\Exception\StopException
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -89,6 +95,8 @@ class StartSeasonCommand extends Command
      * @param \Cake\Console\ConsoleIo $io Io
      * @param \Cake\Console\Arguments $args Arguments
      * @return \App\Model\Entity\Season|null
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     private function createSeason(ConsoleIo $io, Arguments $args): ?Season
     {

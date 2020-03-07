@@ -82,6 +82,7 @@ class SelectionsTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -106,6 +107,8 @@ class SelectionsTable extends Table
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -129,6 +132,8 @@ class SelectionsTable extends Table
      *
      * @param \App\Model\Entity\Selection $selection Selection
      * @return \App\Model\Entity\Selection|null
+     * @throws \Cake\Datasource\Exception\InvalidPrimaryKeyException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     public function findAlreadySelectedMember(Selection $selection): ?Selection
     {

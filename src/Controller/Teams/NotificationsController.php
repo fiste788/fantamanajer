@@ -5,8 +5,8 @@ namespace App\Controller\Teams;
 
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
+use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
-use Cake\Http\Exception\ForbiddenException;
 
 /**
  * @property \Cake\ORM\Table $Notifications
@@ -15,6 +15,7 @@ class NotificationsController extends AppController
 {
     /**
      * @inheritDoc
+     * @throws \Authorization\Exception\ForbiddenException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -31,6 +32,7 @@ class NotificationsController extends AppController
      * Count
      *
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function count()
     {
@@ -52,6 +54,7 @@ class NotificationsController extends AppController
      * Index
      *
      * @return void
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function index()
     {

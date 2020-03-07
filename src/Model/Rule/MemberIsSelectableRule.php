@@ -20,6 +20,9 @@ class MemberIsSelectableRule
 
     /**
      * Construct
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {
@@ -34,6 +37,12 @@ class MemberIsSelectableRule
      * @param \App\Model\Entity\Selection $entity Entity
      * @param array $options Options
      * @return bool
+     * @throws \ErrorException
+     * @throws \Cake\Mailer\Exception\MissingMailerException
+     * @throws \Cake\Datasource\Exception\InvalidPrimaryKeyException
+     * @throws \Cake\Mailer\Exception\MissingActionException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
+     * @throws \BadMethodCallException
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {

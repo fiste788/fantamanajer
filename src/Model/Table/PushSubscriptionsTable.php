@@ -38,6 +38,7 @@ class PushSubscriptionsTable extends Table
      *
      * @param array $config The configuration for the Table.
      * @return void
+     * @throws \RuntimeException
      */
     public function initialize(array $config): void
     {
@@ -66,6 +67,7 @@ class PushSubscriptionsTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -153,6 +155,7 @@ class PushSubscriptionsTable extends Table
      * @param \App\Model\Entity\PushSubscription $entity Entity
      * @param \ArrayObject $options Options
      * @return void
+     * @throws \RuntimeException
      */
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {

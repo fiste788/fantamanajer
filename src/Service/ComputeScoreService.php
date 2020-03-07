@@ -26,6 +26,9 @@ class ComputeScoreService
 
     /**
      * Undocumented function
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {

@@ -18,6 +18,7 @@ class ActivityManager
      * @param array $options Options
      *
      * @return array[]
+     * @throws \GetStream\Stream\StreamFeedException
      *
      * @psalm-suppress MixedReturnTypeCoercion
      */

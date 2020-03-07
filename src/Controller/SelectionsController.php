@@ -15,6 +15,7 @@ class SelectionsController extends AppController
      * add
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function add()
     {

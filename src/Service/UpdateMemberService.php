@@ -34,6 +34,8 @@ class UpdateMemberService
     /**
      * Undocumented function
      * @param \Cake\Console\ConsoleIo $io IO
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct(ConsoleIo $io)
     {
@@ -139,6 +141,7 @@ class UpdateMemberService
      * @param \App\Model\Entity\Member $member Member
      * @param string $clubName Club
      * @return \App\Model\Entity\Member|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     private function memberTransfert(Member $member, string $clubName): ?Member
     {

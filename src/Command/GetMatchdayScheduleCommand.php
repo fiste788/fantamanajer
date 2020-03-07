@@ -25,6 +25,9 @@ class GetMatchdayScheduleCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -75,6 +78,9 @@ class GetMatchdayScheduleCommand extends Command
      * @param \Cake\Console\ConsoleIo $io Io
      *
      * @return \Cake\I18n\FrozenTime|false|null
+     * @throws \Cake\Console\Exception\StopException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {

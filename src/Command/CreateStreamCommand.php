@@ -39,6 +39,7 @@ class CreateStreamCommand extends Command
 
     /**
      * @inheritDoc
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

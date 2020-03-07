@@ -20,6 +20,8 @@ class MembersController extends AppMembersController
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function index()
     {
@@ -39,6 +41,8 @@ class MembersController extends AppMembersController
      * Not mine
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function notMine()
     {
@@ -56,6 +60,8 @@ class MembersController extends AppMembersController
 
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {

@@ -28,6 +28,8 @@ class MembersController extends AppController
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function index()
     {

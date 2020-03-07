@@ -26,6 +26,9 @@ class SendTestNotificationCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -61,6 +64,7 @@ class SendTestNotificationCommand extends Command
      * @inheritDoc
      *
      * @return int|null
+     * @throws \ErrorException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

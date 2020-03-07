@@ -33,6 +33,8 @@ class RatingsController extends AppController
      *
      * @param string $seasonId Season id
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function index(string $seasonId): ResponseInterface
     {

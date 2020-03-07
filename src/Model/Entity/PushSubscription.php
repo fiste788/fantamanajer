@@ -56,6 +56,7 @@ class PushSubscription extends Entity
     /**
      *
      * @return \Minishlink\WebPush\Subscription
+     * @throws \ErrorException
      */
     public function getSubscription(): Subscription
     {

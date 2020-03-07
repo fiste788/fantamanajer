@@ -14,6 +14,8 @@ class TeamsController extends AppController
 {
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -28,6 +30,7 @@ class TeamsController extends AppController
      *
      * @param int $id Id
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function view($id)
     {
@@ -46,6 +49,8 @@ class TeamsController extends AppController
      * Add
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function add()
     {

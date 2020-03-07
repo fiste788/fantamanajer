@@ -69,6 +69,7 @@ class PublicKeyCredentialSource extends Entity
      * Undocumented function
      *
      * @return \Webauthn\PublicKeyCredentialSource
+     * @throws \Ramsey\Uuid\Exception\InvalidUuidStringException
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {

@@ -27,6 +27,8 @@ class ScoresController extends AppController
 
     /**
      * @inheritDoc
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -39,6 +41,7 @@ class ScoresController extends AppController
      *
      * @param string|null $id Id
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function view(?string $id)
     {
@@ -64,6 +67,7 @@ class ScoresController extends AppController
      * Edit
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
     public function edit()
     {

@@ -34,6 +34,8 @@ class RatingService
      * Undocumented function
      *
      * @param \Cake\Console\ConsoleIo $io IO
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct(ConsoleIo $io)
     {

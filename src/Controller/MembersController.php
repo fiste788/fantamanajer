@@ -16,6 +16,8 @@ class MembersController extends AppController
 
     /**
      * @inheritDoc
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function beforeFilter(EventInterface $event): void
     {
@@ -32,6 +34,7 @@ class MembersController extends AppController
      * Best
      *
      * @return void
+     * @throws \RuntimeException
      */
     public function best()
     {

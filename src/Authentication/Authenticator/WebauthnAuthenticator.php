@@ -41,6 +41,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
      *
      * @return \Authentication\Authenticator\Result
+     * @throws \InvalidArgumentException
      */
     protected function _buildLoginUrlErrorResult(ServerRequestInterface $request): Result
     {
@@ -62,6 +63,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
      * @return \Authentication\Authenticator\ResultInterface
+     * @throws \InvalidArgumentException
      */
     public function authenticate(ServerRequestInterface $request): ResultInterface
     {

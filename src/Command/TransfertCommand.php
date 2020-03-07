@@ -20,6 +20,9 @@ class TransfertCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -61,6 +64,8 @@ class TransfertCommand extends Command
      * @inheritDoc
      *
      * @return int|null
+     * @throws \RuntimeException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {

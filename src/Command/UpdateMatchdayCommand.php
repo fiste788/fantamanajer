@@ -20,6 +20,9 @@ class UpdateMatchdayCommand extends Command
 
     /**
      * @inheritDoc
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
@@ -48,6 +51,9 @@ class UpdateMatchdayCommand extends Command
 
     /**
      * @inheritDoc
+     * @throws \Cake\Console\Exception\StopException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -68,6 +74,9 @@ class UpdateMatchdayCommand extends Command
      * @param \Cake\Console\ConsoleIo $io Io
      *
      * @return int
+     * @throws \Cake\Console\Exception\StopException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): int
     {

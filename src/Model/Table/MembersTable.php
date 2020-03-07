@@ -95,6 +95,7 @@ class MembersTable extends Table
      *
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
+     * @throws \InvalidArgumentException
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -286,6 +287,8 @@ class MembersTable extends Table
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
      * @return \Cake\ORM\Query
+     * @throws \Cake\Datasource\Exception\InvalidPrimaryKeyException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     public function findNotMine(Query $q, array $options): Query
     {

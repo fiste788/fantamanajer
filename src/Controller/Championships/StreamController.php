@@ -5,7 +5,7 @@ namespace App\Controller\Championships;
 
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
-use Cake\Http\Exception\ForbiddenException;
+use Authorization\Exception\ForbiddenException;
 use Cake\Utility\Hash;
 
 /**
@@ -19,6 +19,9 @@ class StreamController extends AppController
      * Index
      *
      * @return void
+     * @throws \Authorization\Exception\ForbiddenException
+     * @throws \InvalidArgumentException
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function index()
     {

@@ -24,6 +24,9 @@ class TransfertService
 
     /**
      * Constructor
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {
@@ -104,6 +107,7 @@ class TransfertService
      *
      * @param \App\Model\Entity\MembersTeam $entity The mermber team
      * @return void
+     * @throws \InvalidArgumentException
      */
     public function saveTeamMember(MembersTeam $entity): void
     {

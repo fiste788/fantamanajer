@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Championships;
 
 use App\Controller\AppController;
+use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
 
 /**
@@ -14,6 +15,7 @@ class ScoresController extends AppController
 {
     /**
      * @inheritDoc
+     * @throws \Authorization\Exception\ForbiddenException
      */
     public function beforeFilter(EventInterface $event)
     {
@@ -21,7 +23,7 @@ class ScoresController extends AppController
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if (!$identity->isInChampionship($championshipId)) {
-            throw new \Cake\Http\Exception\ForbiddenException();
+            throw new ForbiddenException();
         }
 
         return parent::beforeFilter($event);
@@ -31,6 +33,8 @@ class ScoresController extends AppController
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
      */
     public function index()
     {

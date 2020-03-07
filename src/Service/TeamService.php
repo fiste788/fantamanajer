@@ -21,6 +21,9 @@ class TeamService
 
     /**
      * Constructor
+     *
+     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \UnexpectedValueException
      */
     public function __construct()
     {
@@ -34,6 +37,7 @@ class TeamService
      *
      * @param \App\Model\Entity\Team $team The team to create
      * @return bool
+     * @throws \GetStream\Stream\StreamFeedException
      */
     public function createTeam(Team $team): bool
     {
