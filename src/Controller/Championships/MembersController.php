@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Championships;
@@ -19,6 +18,17 @@ class MembersController extends AppController
     ];
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
+    /**
      * @inheritDoc
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
@@ -29,7 +39,7 @@ class MembersController extends AppController
         parent::beforeFilter($event);
         $this->Crud->mapAction('free', 'Crud.Index');
         $this->Crud->mapAction('freeByRole', 'Crud.Index');
-        $championshipId = (int) $this->request->getParam('championship_id');
+        $championshipId = (int)$this->request->getParam('championship_id');
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if (!$identity->isInChampionship($championshipId)) {
@@ -49,9 +59,9 @@ class MembersController extends AppController
         $action = $this->Crud->action();
         $action->findMethod([
             'free' => [
-                'championship_id' => (int) $this->request->getParam('championship_id'),
-                'stats' => (bool) $this->request->getQuery('stats', true),
-                'role' => (int) $this->request->getParam('role_id', null),
+                'championship_id' => (int)$this->request->getParam('championship_id'),
+                'stats' => (bool)$this->request->getQuery('stats', true),
+                'role' => (int)$this->request->getParam('role_id', null),
             ],
         ]);
 
@@ -71,7 +81,7 @@ class MembersController extends AppController
         $action = $this->Crud->action();
         $action->findMethod([
             'free' => [
-                'championship_id' => (int) $this->request->getParam('championship_id'),
+                'championship_id' => (int)$this->request->getParam('championship_id'),
                 'stats' => false,
             ],
         ]);

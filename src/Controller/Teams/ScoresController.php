@@ -17,6 +17,17 @@ class ScoresController extends \App\Controller\ScoresController
     ];
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
+    /**
      * @inheritDoc
      * @throws \Crud\Error\Exception\MissingActionException
      */

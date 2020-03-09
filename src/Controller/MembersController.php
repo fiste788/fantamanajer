@@ -15,6 +15,18 @@ class MembersController extends AppController
     use ModelAwareTrait;
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+        $this->loadModel('Matchdays');
+    }
+
+    /**
      * @inheritDoc
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -23,7 +35,6 @@ class MembersController extends AppController
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['best']);
-        $this->loadModel('Matchdays');
     }
 
     public $paginate = [

@@ -16,6 +16,17 @@ class RatingsController extends AppController
     use ModelAwareTrait;
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
+    /**
      * @inheritDoc
      */
     public function beforeFilter(EventInterface $event): void

@@ -17,6 +17,17 @@ class MembersController extends AppMembersController
     ];
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
+    /**
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
