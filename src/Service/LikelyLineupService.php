@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -73,7 +74,7 @@ class LikelyLineupService
         $client = new Client([
             'base_uri' => 'https://www.gazzetta.it',
         ]);
-        $html = $client->request('GET', '/Calcio/prob_form', ['verify' => false]);
+        $html = $client->request('GET', '/Calcio/prob_form');
         if ($html->getStatusCode() == 200) {
             $crawler = new Crawler($html->getBody()->getContents());
             $matches = $crawler->filter('.matchFieldContainer');
@@ -115,8 +116,9 @@ class LikelyLineupService
      */
     private function processMember(Member &$member): void
     {
-        $divs = $this->_teams[strtolower($member->club->name)];
-        if ($divs) {
+        $club = strtolower($member->club->name);
+        if (array_key_exists($club, $this->_teams)) {
+            $divs = $this->_teams[$club];
             $member->likely_lineup = new stdClass();
             $member->likely_lineup->regular = null;
             try {
@@ -153,8 +155,6 @@ class LikelyLineupService
                         break;
                 }
             }
-        } else {
-            Log::error("Non trovo team " . strtolower($member->club->name));
         }
     }
 }
