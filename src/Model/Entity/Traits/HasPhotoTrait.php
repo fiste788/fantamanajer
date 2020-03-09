@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity\Traits;
 
-use Cake\Routing\Router;
+use Cake\Routing\Asset;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -29,20 +29,20 @@ trait HasPhotoTrait
         $filesystem = new Filesystem();
         if ($filesystem->exists($path)) {
             $name = $name ?? $this->id . '.jpg';
-            $baseUrl = Router::url($baseUrl, true);
+            // $baseUrl = Asset::imageUrl($baseUrl);
             $folder = new Finder();
             $folder->directories()->in($path);
             foreach ($folder->getIterator() as $sub) {
                 $subpath = $sub->getFilename();
                 if ($filesystem->exists($path . $subpath . DS . $name)) {
-                    $array[$subpath] = $baseUrl . $subpath . '/' . rawurlencode($name);
+                    $array[$subpath] = Asset::imageUrl($baseUrl . $subpath . '/' . $name);
                 }
             }
             $principal = $path . $name;
             if ($filesystem->exists($principal)) {
                 $size = getimagesize($principal);
                 if ($size != false) {
-                    $array[(string)$size[0] . 'w'] = $baseUrl . rawurlencode($name);
+                    $array[(string)$size[0] . 'w'] = Asset::imageUrl($baseUrl . $name);
                 }
             }
         }

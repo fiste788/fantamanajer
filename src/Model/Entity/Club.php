@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Cake\Routing\Router;
+use Cake\Routing\Asset;
 
 /**
  * Club Entity
@@ -76,10 +76,7 @@ class Club extends Entity
      */
     protected function _getPhotoUrl(): string
     {
-        return Router::url(
-            '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.png',
-            true
-        );
+        return Asset::imageUrl(strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.png');
     }
 
     /**
@@ -95,7 +92,7 @@ class Club extends Entity
 
         return $this->_getPhotosUrl(
             $path,
-            '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/background/'
+            strtolower($this->getSource()) . '/' . $this->id . '/background/'
         );
     }
 }

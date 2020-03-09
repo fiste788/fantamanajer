@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Cake\Routing\Router;
+use Cake\Routing\Asset;
 use const DIRECTORY_SEPARATOR as DS;
 
 /**
@@ -64,6 +65,16 @@ class Member extends Entity
     ];
 
     /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [
+        'created_at',
+        'modified_at',
+    ];
+
+    /**
      * Undocumented variable
      *
      * @var array
@@ -82,10 +93,7 @@ class Member extends Entity
     protected function _getPhotoUrl(): ?string
     {
         if (file_exists(IMG_PLAYERS . 'season-' . $this->season_id . DS . $this->code_gazzetta . '.jpg')) {
-            return Router::url(
-                '/img/players/season-' . $this->season_id . '/' . $this->code_gazzetta . '.jpg',
-                true
-            );
+            return Asset::imageUrl('players/season-' . $this->season_id . '/' . $this->code_gazzetta . '.jpg');
         }
 
         return null;
@@ -100,10 +108,7 @@ class Member extends Entity
     protected function _getBackgroundUrl(): ?string
     {
         if (file_exists(IMG_PLAYERS . $this->club_id . DS . 'background' . DS . $this->club_id . '.jpg')) {
-            return Router::url(
-                '/img/Clubs/' . $this->club_id . '/background/' . $this->club_id . '.jpg',
-                true
-            );
+            return Asset::imageUrl('clubs/' . $this->club_id . '/background/' . $this->club_id . '.jpg');
         }
 
         return null;

@@ -107,7 +107,7 @@ class Team extends Entity
     protected function _getPhotoUrl(): ?array
     {
         if ($this->photo != null && $this->photo_dir != null) {
-            $baseUrl = '/img/' . strtolower($this->getSource()) . '/' . $this->id . '/photo/';
+            $baseUrl = strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
             return $this->_getPhotosUrl((string)ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
         } else {
