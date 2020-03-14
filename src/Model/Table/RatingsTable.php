@@ -192,21 +192,29 @@ class RatingsTable extends Table
     }
 
     /**
-     * Find by member id and season query
+     * Find by member id  query
      *
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
      * @return \Cake\ORM\Query
      */
-    public function findByPlayerIdAndSeasonId(Query $q, array $options): Query
+    public function findByMemberId(Query $q, array $options): Query
     {
-        return $q->contain(['Matchdays' => function (Query $q): Query {
+        return $q->select([
+            'rating',
+            'points',
+            'goals',
+            'goals_against',
+            'assist',
+            'penalities_scored',
+            'penalities_taken',
+            'regular',
+            'yellow_card',
+            'red_card',
+            'quotation',
+        ])->contain(['Matchdays' => function (Query $q): Query {
             return $q->select(['number'], true);
-        }])->innerJoinWith('Members')
-            ->order(['Matchdays.number' => 'ASC'])
-            ->where([
-                'player_id' => $options['player_id'],
-                'Members.season_id' => $options['season_id'],
-            ]);
+        }])->order(['Matchdays.number' => 'ASC'])
+            ->where(['member_id' => $options['member_id']]);
     }
 }

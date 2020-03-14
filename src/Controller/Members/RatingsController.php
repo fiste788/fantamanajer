@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Players;
+namespace App\Controller\Members;
 
 use App\Controller\AppController;
 use Cake\Datasource\ModelAwareTrait;
@@ -15,16 +15,10 @@ class RatingsController extends AppController
 {
     use ModelAwareTrait;
 
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->loadComponent('Paginator');
-    }
+    public $paginate = [
+        'limit' => 1000,
+        'maxLimit' => 1000,
+    ];
 
     /**
      * @inheritDoc
@@ -35,25 +29,19 @@ class RatingsController extends AppController
         $this->Authentication->allowUnauthenticated(['index']);
     }
 
-    public $paginate = [
-        'limit' => 50,
-    ];
-
     /**
      * Ratings
      *
-     * @param string $seasonId Season id
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index(string $seasonId): ResponseInterface
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\ViewAction $action */
         $action = $this->Crud->action();
-        $action->findMethod(['byPlayerIdAndSeasonId' => [
-            'player_id' => $this->getRequest()->getParam('player_id', null),
-            'season_id' => $seasonId,
+        $action->findMethod(['byMemberId' => [
+            'member_id' => $this->getRequest()->getParam('member_id', null),
         ]]);
 
         return $this->Crud->execute();
