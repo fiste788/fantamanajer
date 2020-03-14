@@ -5,7 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Transfert;
 use ArrayObject;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Query;

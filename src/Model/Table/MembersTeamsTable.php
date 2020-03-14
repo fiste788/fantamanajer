@@ -5,7 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\MembersTeam;
 use ArrayObject;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;

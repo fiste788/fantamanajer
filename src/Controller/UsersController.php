@@ -6,7 +6,7 @@ namespace App\Controller;
 use App\Stream\ActivityManager;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Authorization\Exception\ForbiddenException;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Utility\Hash;

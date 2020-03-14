@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\Event;

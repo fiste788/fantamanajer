@@ -5,7 +5,7 @@ namespace App\Command;
 
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;

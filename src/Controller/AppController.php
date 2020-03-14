@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;

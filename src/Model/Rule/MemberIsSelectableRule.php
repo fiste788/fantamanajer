@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Rule;
 
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Utility\Hash;

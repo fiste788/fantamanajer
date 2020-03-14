@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -7,7 +6,6 @@ namespace App\Service;
 use App\Model\Entity\Member;
 use App\Model\Entity\Team;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\Log\Log;
 use GuzzleHttp\Client;
 use stdClass;
 use Symfony\Component\DomCrawler\Crawler;

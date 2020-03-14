@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSource;
 use App\Model\Entity\User;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Http\Client;

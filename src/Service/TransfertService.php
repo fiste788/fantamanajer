@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Model\Entity\MembersTeam;
 use App\Model\Entity\Transfert;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
 
 /**

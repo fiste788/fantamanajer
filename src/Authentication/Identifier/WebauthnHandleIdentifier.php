@@ -6,7 +6,7 @@ namespace App\Authentication\Identifier;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 
 class WebauthnHandleIdentifier extends AbstractIdentifier
 {

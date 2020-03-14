@@ -7,7 +7,7 @@ use App\Model\Entity\Selection;
 use App\Model\Rule\MemberIsSelectableRule;
 use App\Model\Rule\TeamReachedMaxSelectionRule;
 use ArrayObject;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;

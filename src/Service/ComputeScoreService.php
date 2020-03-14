@@ -8,7 +8,7 @@ use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Team;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
 
 /**

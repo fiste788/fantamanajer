@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Entity\Team;
-use Burzum\Cake\Service\ServiceAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use GetStream\Stream\Client;
