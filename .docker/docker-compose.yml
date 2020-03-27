@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   php:
-    build: 
+    build:
       context: './php/'
       args:
        PHP_VERSION: ${PHP_VERSION}
@@ -10,7 +10,7 @@ services:
     volumes:
       - ../:/var/www/html/
     links:
-      - mysql 
+      - mysql
     container_name: php
     environment:
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${MYSQL_DATABASE}
@@ -35,7 +35,7 @@ services:
   mysql:
     image: mariadb:${MYSQL_VERSION:-latest}
     volumes:
-      - ./mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - ./mysql/dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
     networks:
       - backend
     environment:
