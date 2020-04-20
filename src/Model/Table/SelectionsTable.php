@@ -137,6 +137,7 @@ class SelectionsTable extends Table
      */
     public function findAlreadySelectedMember(Selection $selection): ?Selection
     {
+        /** @var \App\Model\Entity\Team $team */
         $team = $this->Teams->get($selection->team_id);
 
         /** @var \App\Model\Entity\Selection|null $selection */

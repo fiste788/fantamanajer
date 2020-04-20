@@ -78,7 +78,7 @@ class PushSubscriptionsTable extends Table
 
         $validator
             ->scalar('endpoint')
-            ->maxLength('endpoint', 255)
+            ->maxLength('endpoint', 512)
             ->requirePresence('endpoint', 'create')
             ->notEmptyString('endpoint')
             ->add('endpoint', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);

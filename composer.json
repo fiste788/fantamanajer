@@ -8,10 +8,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/commercial-hippie/cakephp-upload.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/fiste788/cakephp-service-layer.git"
         }
     ],
     "require": {

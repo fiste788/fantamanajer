@@ -10,6 +10,7 @@ use App\Model\Entity\Score;
 use App\Model\Entity\Team;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
+use Cake\Log\Log;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -113,8 +114,8 @@ class ComputeScoreService
             if ($lineup != null) {
                 $score->real_points = $this->compute(
                     $lineup,
-                    $season->bonus_points_goals && !$score->team->championship->bonus_points_goals,
-                    $season->bonus_points_clean_sheet && !$score->team->championship->bonus_points_clean_sheet
+                    $season->bonus_points_goals && !$championship->bonus_points_goals,
+                    $season->bonus_points_clean_sheet && !$championship->bonus_points_clean_sheet
                 );
                 $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
                 if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
