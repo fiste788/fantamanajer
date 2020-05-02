@@ -10,7 +10,6 @@ use App\Model\Entity\Score;
 use App\Model\Entity\Team;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\Log\Log;
 
 /**
  * @property \App\Service\LineupService $Lineup

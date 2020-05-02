@@ -22,7 +22,7 @@ class PushNotificationService
      */
     public function __construct()
     {
-        $this->loadModel('PushNotifications');
+        $this->loadModel('PushSubscriptions');
     }
 
     /**

@@ -20,7 +20,7 @@
         "fiste788/cake-scheduler": "^4.0",
         "friendsofcake/crud": "^6.0.0-beta2",
         "get-stream/stream": "^4.0",
-        "josegonzalez/cakephp-upload": "cake-4.x-dev#6cb59c5e79a018fc95d13804b48c10d7a5a90f3a",
+        "josegonzalez/cakephp-upload": "5.0.0-beta",
         "minishlink/web-push": "^5.0",
         "mobiledetect/mobiledetectlib": "^2.8",
         "ramsey/uuid": "^3.8",
@@ -32,7 +32,7 @@
     },
     "require-dev": {
         "cakephp/bake": "^2.0.3",
-        "cakephp/cakephp-codesniffer": "~4.0.0",
+        "cakephp/cakephp-codesniffer": "~4.1.0",
         "cakephp/debug_kit": "^4.0",
         "cakephp/migrations": "^3.0",
         "dereuromark/cakephp-ide-helper": "^1.0.0",
@@ -69,8 +69,8 @@
             "@test",
             "@cs-check"
         ],
-        "cs-check": "phpcs --colors -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
-        "cs-fix": "phpcbf --colors --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
+        "cs-check": "phpcs --colors -p  src/ tests/",
+        "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse src/",
         "test": "phpunit --colors=always"
     },

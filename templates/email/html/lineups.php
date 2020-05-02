@@ -2,7 +2,7 @@
 
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Team[] $teams
+ * @var \App\Model\Entity\Team[]|\Cake\Collection\CollectionInterface $teams
  * @var mixed $baseUrl
  */
 ?>

@@ -40,13 +40,16 @@ class RecalcScoresCommand extends Command
     {
         $io->out('Finding scores');
         /** @var \App\Model\Entity\Score[] $scores */
-        $scores = $this->Scores->find()->contain(['Teams.Championships','Matchdays.Seasons'])->where(['Matchdays.season_id' => 17])->all();
+        $scores = $this->Scores->find()
+            ->contain(['Teams.Championships','Matchdays.Seasons'])
+            ->where(['Matchdays.season_id' => 17])->all();
 
-        foreach($scores as $score) {
+        foreach ($scores as $score) {
             $orig = $score->points;
             $this->ComputeScore->exec($score);
             $io->out('Was ' . $orig . " to " . $score->points);
         }
+
         return $this->Scores->saveMany($scores) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
     }
 }
