@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -94,7 +95,7 @@ class UpdateMemberService
                     if ($member != null) {
                         $buys[$member->club_id][] = $member;
                         if ($member->isDirty('club_id')) {
-                            $sells[(int)$member->getOriginal('club_id')][] = $member;
+                            $sells[(int) $member->getOriginal('club_id')][] = $member;
                         }
                     }
                 } else {
@@ -199,7 +200,7 @@ class UpdateMemberService
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
             'active' => true,
-            'role_id' => ((int)$member[5]) + 1,
+            'role_id' => ((int) $member[5]) + 1,
             'club_id' => $club->id,
             'player_id' => $player->id,
         ], ['accessibleFields' => ['*' => true]]);

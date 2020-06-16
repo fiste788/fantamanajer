@@ -4,10 +4,11 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     xmlns:xi="http://www.w3.org/2001/XInclude"
+    errorLevel="1"
     allowCoercionFromStringToClassConst="true"
     allowStringToStandInForClass="true"
-    totallyTyped="true"
     checkForThrowsDocblock="true"
+    usePhpDocPropertiesWithoutMagicCall="true"
     usePhpDocMethodsWithoutMagicCall="true">
 
     <projectFiles>

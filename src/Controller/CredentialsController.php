@@ -47,7 +47,7 @@ class CredentialsController extends AppController
 
         $this->set([
             'success' => true,
-            'data' => $publicKeyCredentialRequestOptions,
+            'data' => ['publicKey' => $publicKeyCredentialRequestOptions],
             '_serialize' => ['success', 'data'],
         ]);
     }
@@ -56,7 +56,6 @@ class CredentialsController extends AppController
      * Get Webauthn public key
      *
      * @return void
-     * @throws \Ramsey\Uuid\Exception\UnsatisfiedDependencyException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \Exception
@@ -67,7 +66,7 @@ class CredentialsController extends AppController
 
         $this->set([
             'success' => true,
-            'data' => $publicKeyCredentialCreationOptions,
+            'data' => ['publicKey' => $publicKeyCredentialCreationOptions],
             '_serialize' => ['success', 'data'],
         ]);
     }

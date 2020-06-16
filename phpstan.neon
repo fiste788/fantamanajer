@@ -2,7 +2,7 @@ parameters:
     level: 8
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false
-    autoload_files:
+    bootstrapFiles:
         - config/bootstrap.php
 
     excludes_analyse:

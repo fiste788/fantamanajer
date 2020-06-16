@@ -279,7 +279,8 @@ class CredentialService
             $response,
             $publicKeyCredentialRequestOptions,
             $request,
-            $userHandle
+            $userHandle,
+            ['localhost']
         );
     }
 
@@ -288,7 +289,6 @@ class CredentialService
      *
      * @param \Cake\Http\ServerRequest $request Request
      * @return \Webauthn\PublicKeyCredentialCreationOptions
-     * @throws \Ramsey\Uuid\Exception\UnsatisfiedDependencyException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \Exception
@@ -391,7 +391,8 @@ class CredentialService
         $credentialSource = $authenticatorAttestationResponseValidator->check(
             $response,
             $publicKeyCredentialCreationOptions,
-            $request
+            $request,
+            ['localhost']
         );
 
         $credential = $this->PublicKeyCredentialSources->newEmptyEntity();
