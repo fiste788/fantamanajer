@@ -320,13 +320,46 @@ class MembersTable extends Table
 
         return $q->contain([
             'Players', 'Ratings' => function (Query $q) use ($options): Query {
-                return $q->where(['matchday_id' => $options['matchday_id']]);
+                return $q->select(['member_id', 'points'])
+                    ->where(['matchday_id' => $options['matchday_id']]);
             },
         ])->innerJoinWith('Ratings', function (Query $q) use ($options): Query {
             return $q->where(['matchday_id' => $options['matchday_id']]);
         })->innerJoinWith('Roles')
             ->where(['Roles.id' => $role->id])
             ->orderDesc('Ratings.points');
+    }
+
+    /**
+     * Find best by matchday and role
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
+    public function findBestByMatchdayId(Query $q, array $options): Query
+    {
+        $expr = $q->newExpr("ROW_NUMBER() OVER(PARTITION BY role_id ORDER BY points DESC)");
+        $contentQuery = $this->find()
+            ->select(['Members.id', 'role_id', 'Ratings.points', 'row_number' => $expr])
+            ->innerJoinWith('Ratings')
+            ->where(['matchday_id' => $options['matchday_id']]);
+        return $q->contain([
+            'Players', 'Ratings' => function (Query $q1) use ($options): Query {
+                return $q1->select(['member_id', 'points'])
+                    ->where(['matchday_id' => $options['matchday_id']]);
+            },
+        ])
+        ->join([
+            't' => [
+                'table' => $contentQuery,
+                'type' => 'LEFT',
+                'conditions' => [
+                    't.Members__id' => new \Cake\Database\Expression\IdentifierExpression('Members.id')
+                ]
+            ],
+        ])
+            ->where(['t.row_number <' => 5]);
     }
 
     /**

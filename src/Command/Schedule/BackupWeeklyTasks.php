@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 use CakeScheduler\Schedule\CakeSchedule;
 
 $schedule = new CakeSchedule();
 
-/** @psalm-suppress MixedMethodCall */
 $schedule
     ->shell('database_backup.export -c gzip -f \'weekly' . DS . '{$DATABASE}_{$DATETIME}.sql.gz\' -r 5')
     ->mondays()

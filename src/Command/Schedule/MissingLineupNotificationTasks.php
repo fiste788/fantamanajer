@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 use CakeScheduler\Schedule\CakeSchedule;
 
 $schedule = new CakeSchedule();
 
-/** @psalm-suppress MixedMethodCall */
 $schedule
     ->shell('send_missing_lineup_notification -n')
     ->every('minute', 15)

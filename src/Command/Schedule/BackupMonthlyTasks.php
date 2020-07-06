@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 use CakeScheduler\Schedule\CakeSchedule;
 
 $schedule = new CakeSchedule();
 
-/** @psalm-suppress MixedMethodCall */
 $schedule
     ->shell('database_backup.export -c gzip -f \'monthly' . DS . '{$DATABASE}_{$DATETIME}.sql.gz\' -r 13')
     ->monthly()

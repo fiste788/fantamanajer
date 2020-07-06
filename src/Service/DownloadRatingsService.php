@@ -186,6 +186,7 @@ class DownloadRatingsService
             $this->io->out("Search ratings on maxigames");
         }
         $http = new Client();
+        $http->setConfig('ssl_verify_peer', false);
         $http->setConfig('headers', [
             'Connection' => 'keep-alive',
             'Accept' => '*/*',
