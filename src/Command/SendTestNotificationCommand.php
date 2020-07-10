@@ -25,7 +25,7 @@ class SendTestNotificationCommand extends Command
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -61,9 +61,8 @@ class SendTestNotificationCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \ErrorException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int

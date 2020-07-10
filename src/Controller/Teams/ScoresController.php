@@ -28,7 +28,8 @@ class ScoresController extends \App\Controller\ScoresController
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\MissingActionException
      */
     public function beforeFilter(EventInterface $event): void

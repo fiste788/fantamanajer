@@ -29,7 +29,8 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
+     *
      * @throws \RuntimeException
      * @throws \Exception
      */

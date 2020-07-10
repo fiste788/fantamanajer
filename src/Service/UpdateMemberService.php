@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -14,7 +13,6 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 
 /**
- *
  * @property \App\Service\DownloadRatingsService $DownloadRatings
  * @property \App\Model\Table\MembersTable $Members
  * @property \App\Model\Table\ClubsTable $Clubs
@@ -27,13 +25,13 @@ class UpdateMemberService
     use ModelAwareTrait;
 
     /**
-     *
      * @var \Cake\Console\ConsoleIo|null
      */
     private $io;
 
     /**
      * Undocumented function
+     *
      * @param \Cake\Console\ConsoleIo $io IO
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -83,7 +81,7 @@ class UpdateMemberService
             )->where(['season_id' => $matchday->season_id]);
             /** @var \App\Model\Entity\Member[] $oldMembers */
             $oldMembers = $query->toArray();
-            $newMembers = $this->DownloadRatings->returnArray($path, ";");
+            $newMembers = $this->DownloadRatings->returnArray($path, ';');
             $buys = [];
             $sells = [];
 
@@ -95,7 +93,7 @@ class UpdateMemberService
                     if ($member != null) {
                         $buys[$member->club_id][] = $member;
                         if ($member->isDirty('club_id')) {
-                            $sells[(int) $member->getOriginal('club_id')][] = $member;
+                            $sells[(int)$member->getOriginal('club_id')][] = $member;
                         }
                     }
                 } else {
@@ -111,14 +109,14 @@ class UpdateMemberService
                     $oldMember->active = false;
                     $membersToSave[] = $oldMember;
                     if ($this->io != null) {
-                        $this->io->verbose("Deactivate member " . $oldMember);
+                        $this->io->verbose('Deactivate member ' . $oldMember);
                     }
                     $sells[$oldMember->club_id][] = $oldMember;
                 }
             }
             //$this->io->verbose($membersToSave);
             if ($this->io != null) {
-                $this->io->out("Savings " . count($membersToSave) . " members");
+                $this->io->out('Savings ' . count($membersToSave) . ' members');
             }
             if (!$this->Members->saveMany($membersToSave)) {
                 $ev = new Event('Fantamanajer.memberTransferts', $this, [
@@ -156,7 +154,7 @@ class UpdateMemberService
         $club = $this->Clubs->find()->where(['name' => ucwords(strtolower(trim($clubName, '"')))])->firstOrFail();
         if ($member->club_id != $club->id) {
             if ($this->io != null) {
-                $this->io->verbose("Transfert member " . $member->player->full_name);
+                $this->io->verbose('Transfert member ' . $member->player->full_name);
             }
             $member->club = $club;
             $member->active = true;
@@ -192,7 +190,7 @@ class UpdateMemberService
             ['atomic' => false]
         );
         if ($this->io != null) {
-            $this->io->verbose("Add new member " . $surname . " " . $name);
+            $this->io->verbose('Add new member ' . $surname . ' ' . $name);
         }
 
         return $this->Members->newEntity([
@@ -200,7 +198,7 @@ class UpdateMemberService
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
             'active' => true,
-            'role_id' => ((int) $member[5]) + 1,
+            'role_id' => ((int)$member[5]) + 1,
             'club_id' => $club->id,
             'player_id' => $player->id,
         ], ['accessibleFields' => ['*' => true]]);

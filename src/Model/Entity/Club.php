@@ -61,7 +61,6 @@ class Club extends Entity
     ];
 
     /**
-     *
      * @return string
      */
     protected function _getAbbreviation(): string
@@ -70,7 +69,6 @@ class Club extends Entity
     }
 
     /**
-     *
      * @return string
      * @throws \Cake\Core\Exception\Exception
      */
@@ -80,7 +78,6 @@ class Club extends Entity
     }
 
     /**
-     *
      * @return string[]|null
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\Exception

@@ -16,7 +16,7 @@ use Cake\Console\ConsoleIo;
 class ResetPasswordCommand extends Command
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -28,7 +28,8 @@ class ResetPasswordCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
@@ -60,9 +61,9 @@ class ResetPasswordCommand extends Command
     private function reset(User $user, ConsoleIo $io): void
     {
         $hasher = new DefaultPasswordHasher();
-        $io->out("Resetting password for " . $user->email);
+        $io->out('Resetting password for ' . $user->email);
         $user->password = $hasher->hash(strtolower($user->name));
         $this->Users->save($user);
-        $io->out("New password is " . strtolower($user->name));
+        $io->out('New password is ' . strtolower($user->name));
     }
 }

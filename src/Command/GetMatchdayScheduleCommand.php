@@ -24,7 +24,7 @@ class GetMatchdayScheduleCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -76,7 +76,6 @@ class GetMatchdayScheduleCommand extends Command
      * @param \App\Model\Entity\Season $season Season
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
-     *
      * @return \Cake\I18n\FrozenTime|false|null
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
@@ -84,9 +83,9 @@ class GetMatchdayScheduleCommand extends Command
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
-        $year = ((string)$season->year) . "-" . substr((string)($season->year + 1), 2, 2);
+        $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
         $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
-        $io->verbose("Downloading page " . $url);
+        $io->verbose('Downloading page ' . $url);
         $client = new Client(
             [
                 'host' => 'www.legaseriea.it',
@@ -100,34 +99,34 @@ class GetMatchdayScheduleCommand extends Command
             $response = $client->get($response->getHeaderLine('Location'));
         }
         if ($response->isOk()) {
-            $io->verbose("Response OK");
+            $io->verbose('Response OK');
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
-            $datiPartita = $crawler->filter(".datipartita")->first();
+            $datiPartita = $crawler->filter('.datipartita')->first();
             if ($datiPartita->count()) {
-                $box = $datiPartita->filter("p")->first()->filter("span");
+                $box = $datiPartita->filter('p')->first()->filter('span');
                 $date = trim($box->text());
-                if ($date != "") {
+                if ($date != '') {
                     $io->success($date);
-                    if (!strpos($date, " ")) {
-                        $out = FrozenTime::createFromFormat("!d/m/Y", $date);
+                    if (!strpos($date, ' ')) {
+                        $out = FrozenTime::createFromFormat('!d/m/Y', $date);
                         $out = $out->setTime(18, 0, 0, 0);
                     } else {
-                        $out = FrozenTime::createFromFormat("!d/m/Y H:i", $date);
+                        $out = FrozenTime::createFromFormat('!d/m/Y H:i', $date);
                     }
 
                     return $out;
                 } else {
-                    $io->error("Cannot find date");
+                    $io->error('Cannot find date');
                     $this->abort();
                 }
             } else {
-                $io->error("Cannot find .datipartita");
+                $io->error('Cannot find .datipartita');
                 $this->abort();
             }
         } else {
             $io->error((string)$response->getStatusCode(), 1);
-            $io->error("Cannot connect to " . $url);
+            $io->error('Cannot connect to ' . $url);
             $this->abort();
         }
 

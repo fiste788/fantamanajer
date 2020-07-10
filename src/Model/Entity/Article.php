@@ -44,7 +44,6 @@ class Article extends Entity
     ];
 
     /**
-     *
      * @param int $userId the user owner
      * @return bool
      */

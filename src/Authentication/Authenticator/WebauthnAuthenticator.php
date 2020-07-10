@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Undocumented class
- *
  */
 class WebauthnAuthenticator extends AbstractAuthenticator
 {
@@ -39,7 +38,6 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * Prepares the error object for a login URL error
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
-     *
      * @return \Authentication\Authenticator\Result
      * @throws \InvalidArgumentException
      */
@@ -88,7 +86,6 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * Undocumented function
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     *
      * @return null|string
      */
     public function getPublicKey(ServerRequestInterface $request): ?string
@@ -97,7 +94,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         $cakeRequest = $request;
 
         /** @var null|string $key */
-        $key = $cakeRequest->getSession()->consume("User.PublicKey");
+        $key = $cakeRequest->getSession()->consume('User.PublicKey');
 
         return $key != null ? (string)$key : null;
     }
@@ -106,7 +103,6 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * Undocumented function
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     *
      * @return null|string
      */
     public function getUserHandle(ServerRequestInterface $request): ?string
@@ -115,7 +111,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         $cakeRequest = $request;
 
         /** @var null|string $handle */
-        $handle = $cakeRequest->getSession()->consume("User.Handle");
+        $handle = $cakeRequest->getSession()->consume('User.Handle');
 
         return $handle != null ? (string)$handle : null;
     }

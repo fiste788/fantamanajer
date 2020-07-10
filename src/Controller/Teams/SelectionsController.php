@@ -13,7 +13,8 @@ use Cake\Event\EventInterface;
 class SelectionsController extends AppSelectionsController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      * @throws \Authorization\Exception\ForbiddenException

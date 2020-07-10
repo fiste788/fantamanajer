@@ -30,7 +30,8 @@ class UsersController extends AppController
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
@@ -60,7 +61,6 @@ class UsersController extends AppController
      * Get login Token
      *
      * @return void
-     *
      * @throws \Authentication\Authenticator\UnauthenticatedException
      * @throws \InvalidArgumentException
      */

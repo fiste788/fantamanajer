@@ -11,7 +11,6 @@ use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- *
  * @property \App\Model\Table\TeamsTable $Teams
  */
 class LikelyLineupService
@@ -41,7 +40,6 @@ class LikelyLineupService
      *
      * @param int $teamId The id of team
      * @return \App\Model\Entity\Team
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \RuntimeException
      */
@@ -62,6 +60,7 @@ class LikelyLineupService
 
     /**
      * Retrieve from gazzetta likely lineup
+     *
      * @param \App\Model\Entity\Member[] $members The members
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -134,21 +133,21 @@ class LikelyLineupService
             }
             if ($find != null && $find->count() > 0) {
                 try {
-                    $title = $find->filter("strong")->text();
+                    $title = $find->filter('strong')->text();
                 } catch (\InvalidArgumentException | \RuntimeException $e) {
                     $title = '';
                 }
                 switch ($title) {
-                    case "Panchina:":
+                    case 'Panchina:':
                         $member->likely_lineup->regular = false;
                         break;
-                    case "Squalificati:":
+                    case 'Squalificati:':
                         $member->likely_lineup->disqualified = true;
                         break;
-                    case "Indisponibili:":
+                    case 'Indisponibili:':
                         $member->likely_lineup->injured = true;
                         break;
-                    case "Ballottaggio:":
+                    case 'Ballottaggio:':
                         $member->likely_lineup->second_ballot = 50;
                         break;
                 }

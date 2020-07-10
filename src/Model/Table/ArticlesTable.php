@@ -17,7 +17,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- *
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
  * @method \App\Model\Entity\Article newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])

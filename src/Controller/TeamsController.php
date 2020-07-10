@@ -7,13 +7,13 @@ use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 /**
- *
  * @property \App\Model\Table\TeamsTable $Teams
  */
 class TeamsController extends AppController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */

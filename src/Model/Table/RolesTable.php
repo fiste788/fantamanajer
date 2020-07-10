@@ -10,7 +10,6 @@ use Cake\Validation\Validator;
  * Roles Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- *
  * @method \App\Model\Entity\Role get($primaryKey, $options = [])
  * @method \App\Model\Entity\Role newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Role[] newEntities(array $data, array $options = [])

@@ -19,7 +19,7 @@ class UpdateMatchdayCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -50,7 +50,8 @@ class UpdateMatchdayCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
@@ -73,7 +74,6 @@ class UpdateMatchdayCommand extends Command
      * @param int $matchdayNumber Matchday
      * @param \Cake\Console\Arguments $args Arguments
      * @param \Cake\Console\ConsoleIo $io Io
-     *
      * @return int
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
@@ -93,7 +93,7 @@ class UpdateMatchdayCommand extends Command
         if ($date != null && $date->isFuture()) {
             $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') &&
                 $io->askChoice(
-                    "Set " . $date->format("Y-m-d H:i:s") . " for matchday " . $matchday->number,
+                    'Set ' . $date->format('Y-m-d H:i:s') . ' for matchday ' . $matchday->number,
                     ['y', 'n'],
                     'y'
                 ) == 'y');

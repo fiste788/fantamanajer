@@ -9,11 +9,10 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
-use Cake\ORM\TableRegistry;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Crud\Controller\ControllerTrait;
 
 /**
- *
  * @property \Crud\Controller\Component\CrudComponent $Crud Description
  * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization Description
@@ -23,10 +22,12 @@ class AppController extends Controller
 {
     use ControllerTrait;
     use CurrentMatchdayTrait;
+    use LocatorAwareTrait;
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Exception
      * @throws \InvalidArgumentException
      */
@@ -140,10 +141,11 @@ class AppController extends Controller
      * Caching the response based on matchday date
      *
      * @return void
+     * @throws \RuntimeException
      */
     public function withMatchdayCache(): void
     {
-        $matchdays = TableRegistry::getTableLocator()->get("Matchdays");
+        $matchdays = $this->getTableLocator()->get('Matchdays');
 
         /** @var \App\Model\Entity\Matchday $previous */
         $previous = $matchdays->find('previous')->first();

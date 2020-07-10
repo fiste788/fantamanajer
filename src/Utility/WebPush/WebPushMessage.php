@@ -102,7 +102,6 @@ final class WebPushMessage implements JsonSerializable
      * Create new push message
      *
      * @param array $data Datas
-     *
      * @return static
      */
     public static function create(array $data = []): WebPushMessage

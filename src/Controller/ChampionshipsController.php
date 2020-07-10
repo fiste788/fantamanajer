@@ -11,7 +11,8 @@ use Cake\Event\EventInterface;
 class ChampionshipsController extends AppController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */

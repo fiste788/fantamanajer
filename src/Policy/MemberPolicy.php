@@ -13,7 +13,6 @@ class MemberPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
-     *
      * @return true
      */
     public function canView(IdentityInterface $user, Member $member): bool
@@ -26,7 +25,6 @@ class MemberPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
-     *
      * @return true
      */
     public function canFree(IdentityInterface $user, Member $member): bool
@@ -39,7 +37,6 @@ class MemberPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
-     *
      * @return true
      */
     public function canFreeByRole(IdentityInterface $user, Member $member): bool
@@ -52,7 +49,6 @@ class MemberPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
-     *
      * @return true
      */
     public function canIndex(IdentityInterface $user, Member $member): bool
@@ -65,7 +61,6 @@ class MemberPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Member $member Entity
-     *
      * @return true
      */
     public function canNotMine(IdentityInterface $user, Member $member): bool

@@ -32,7 +32,6 @@ class SelectionService
     }
 
     /**
-     *
      * @param \App\Model\Entity\Selection $selection Selection
      * @return void
      * @throws \ErrorException

@@ -7,7 +7,6 @@ use Cake\Datasource\ModelAwareTrait;
 use Cake\Log\Log;
 
 /**
- *
  * @property \App\Model\Table\PushSubscriptionsTable $PushSubscriptions
  */
 class PushNotificationService
@@ -29,7 +28,6 @@ class PushNotificationService
      * Remove expired push subscriptions
      *
      * @param \Minishlink\WebPush\MessageSentReport[] $report Report
-     *
      * @return int
      */
     public function deleteExpired($report): int

@@ -21,7 +21,7 @@ class DownloadPhotosCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -36,17 +36,16 @@ class DownloadPhotosCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Download photos task');
-        $baseUrl = "www.guido8975.it";
-        $url = "/index.php?ctg=15";
-        $referer = "http://" . $baseUrl . $url;
+        $baseUrl = 'www.guido8975.it';
+        $url = '/index.php?ctg=15';
+        $referer = 'http://' . $baseUrl . $url;
 
         $path = IMG_PLAYERS . 'season-new' . DS;
 
@@ -56,33 +55,33 @@ class DownloadPhotosCommand extends Command
             ->where(['season_id' => $this->currentSeason->id])->all();
         foreach ($members as $member) {
             $client = new Client(['host' => $baseUrl, 'headers' => ['Referer' => $referer]]);
-            $io->out("Searching user " . $member->player->full_name);
+            $io->out('Searching user ' . $member->player->full_name);
             $response = $client->post($url, ['PanCal' => $member->player->full_name]);
             if ($response->isOk()) {
-                $response->getCookie("PHPSESSID");
+                $response->getCookie('PHPSESSID');
                 /** @var array $values */
                 foreach ($response->getHeaders() as $name => $values) {
-                    $io->out($name . ": " . implode(", ", $values));
+                    $io->out($name . ': ' . implode(', ', $values));
                 }
 
                 //$this->out($response->getStringBody());
                 $crawler = new Crawler();
                 $crawler->addContent($response->getStringBody());
-                $trs = $crawler->filter("table.Result tr a");
-                $io->out("Trovati " . $trs->count());
+                $trs = $crawler->filter('table.Result tr a');
+                $io->out('Trovati ' . $trs->count());
                 if ($trs->count() >= 1) {
                     $trs->first();
-                    $href = $trs->attr("href");
-                    if ($href != null && $href != "") {
-                        $io->out("Found " . $href);
-                        $href = "http://" . $baseUrl . '/' . $href;
-                        $io->out("Url " . $href);
+                    $href = $trs->attr('href');
+                    if ($href != null && $href != '') {
+                        $io->out('Found ' . $href);
+                        $href = 'http://' . $baseUrl . '/' . $href;
+                        $io->out('Url ' . $href);
                         $client = new Client();
                         $response = $client->get($href, [], ['headers' => ['Referer' => $referer]]);
                         //$this->out($response->getStringBody());
                         if ($response->isOk()) {
                             $file = $path . (string)$member->code_gazzetta . '.jpg';
-                            $io->out("Savings " . '/' . $href . " => " . $file);
+                            $io->out('Savings ' . '/' . $href . ' => ' . $file);
                             file_put_contents($file, $response->getStringBody());
                         }
                     }

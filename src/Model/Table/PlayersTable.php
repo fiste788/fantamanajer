@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
  * Players Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- *
  * @method \App\Model\Entity\Player get($primaryKey, $options = [])
  * @method \App\Model\Entity\Player newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])

@@ -25,7 +25,6 @@ class RatingService
     use ModelAwareTrait;
 
     /**
-     *
      * @var \Cake\Console\ConsoleIo|null
      */
     private $io;
@@ -63,13 +62,13 @@ class RatingService
             $this->io->out('Calculating decrypting key');
         }
         if (is_null($encryptedFilePath)) {
-            $encryptedFilePath = RATINGS_CSV . $season->year . DS . "mcc00.mxm";
+            $encryptedFilePath = RATINGS_CSV . $season->year . DS . 'mcc00.mxm';
         }
         if (is_null($dectyptedFilePath)) {
-            $dectyptedFilePath = TMP . "0.txt";
+            $dectyptedFilePath = TMP . '0.txt';
         }
         if (!file_exists($encryptedFilePath)) {
-            $encryptedFilePath = $this->DownloadRatings->getRatingsFile(0) ?? "";
+            $encryptedFilePath = $this->DownloadRatings->getRatingsFile(0) ?? '';
         }
         $reply = 'y';
         if (!file_exists($dectyptedFilePath) && $this->io != null) {
@@ -90,13 +89,13 @@ class RatingService
                     $xor2 = (int)hexdec(bin2hex($encript[$i]));
                     $res[] = dechex($xor1 ^ $xor2);
                 }
-                $key = implode("-", $res);
+                $key = implode('-', $res);
                 if ($this->io != null) {
                     $this->io->out('Key: ' . $key);
                 }
                 $season->key_gazzetta = $key;
                 if ($this->Seasons->save($season)) {
-                    copy($dectyptedFilePath, $dectyptedFilePath . "." . $season->year . ".bak");
+                    copy($dectyptedFilePath, $dectyptedFilePath . '.' . $season->year . '.bak');
                     unlink($dectyptedFilePath);
 
                     return $key;
@@ -118,7 +117,7 @@ class RatingService
     {
         $path = $path ? $path : $this->DownloadRatings->getRatings($matchday);
         if ($path) {
-            $csvRow = $this->DownloadRatings->returnArray($path, ";");
+            $csvRow = $this->DownloadRatings->returnArray($path, ';');
 
             /** @var \App\Model\Entity\Member[] $members */
             $members = $this->Members->findListBySeasonId($matchday->season_id)

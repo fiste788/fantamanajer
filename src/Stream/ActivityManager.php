@@ -16,10 +16,8 @@ class ActivityManager
      * @param int $offset Offset
      * @param int $limit Limit
      * @param array $options Options
-     *
      * @return array[]
      * @throws \GetStream\Stream\StreamFeedException
-     *
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public function getActivities(
@@ -48,9 +46,7 @@ class ActivityManager
     /**
      * @param \StreamCake\EnrichedActivity[] $enricheds Ids
      * @param array<string, mixed> $activities Activities
-     *
      * @return array<string, mixed>
-     *
      */
     public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {
@@ -70,7 +66,6 @@ class ActivityManager
     }
 
     /**
-     *
      * @param \StreamCake\EnrichedActivity $activity Activity
      * @return \App\Stream\StreamActivity|null
      */

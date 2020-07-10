@@ -8,10 +8,10 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -25,7 +25,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsToMany $Teams
  * @property \App\Model\Table\MembersStatsTable&\Cake\ORM\Association\HasOne $MembersStats
- *
  * @method \App\Model\Entity\Member get($primaryKey, $options = [])
  * @method \App\Model\Entity\Member newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
@@ -42,6 +41,8 @@ use Cake\Validation\Validator;
  */
 class MembersTable extends Table
 {
+    use LocatorAwareTrait;
+
     /**
      * Initialize method
      *
@@ -207,11 +208,12 @@ class MembersTable extends Table
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
      * @return \Cake\ORM\Query
+     * @throws \RuntimeException
      */
     public function findFree(Query $q, array $options): Query
     {
         $championshipId = (int)$options['championship_id'];
-        $membersTeams = TableRegistry::getTableLocator()->get('MembersTeams');
+        $membersTeams = $this->getTableLocator()->get('MembersTeams');
         $ids = $membersTeams->find()
             ->select(['member_id'])
             ->innerJoinWith(
@@ -339,11 +341,12 @@ class MembersTable extends Table
      */
     public function findBestByMatchdayId(Query $q, array $options): Query
     {
-        $expr = $q->newExpr("ROW_NUMBER() OVER(PARTITION BY role_id ORDER BY points DESC)");
+        $expr = $q->newExpr('ROW_NUMBER() OVER(PARTITION BY role_id ORDER BY points DESC)');
         $contentQuery = $this->find()
             ->select(['Members.id', 'role_id', 'Ratings.points', 'row_number' => $expr])
             ->innerJoinWith('Ratings')
             ->where(['matchday_id' => $options['matchday_id']]);
+
         return $q->contain([
             'Players', 'Ratings' => function (Query $q1) use ($options): Query {
                 return $q1->select(['member_id', 'points'])
@@ -355,8 +358,8 @@ class MembersTable extends Table
                 'table' => $contentQuery,
                 'type' => 'LEFT',
                 'conditions' => [
-                    't.Members__id' => new \Cake\Database\Expression\IdentifierExpression('Members.id')
-                ]
+                    't.Members__id' => new \Cake\Database\Expression\IdentifierExpression('Members.id'),
+                ],
             ],
         ])
             ->where(['t.row_number <' => 5]);

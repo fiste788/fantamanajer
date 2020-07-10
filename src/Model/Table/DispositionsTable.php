@@ -14,7 +14,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasOne $Rating
- *
  * @method \App\Model\Entity\Disposition get($primaryKey, $options = [])
  * @method \App\Model\Entity\Disposition newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Disposition[] newEntities(array $data, array $options = [])

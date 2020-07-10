@@ -27,9 +27,9 @@ class TeamService
      */
     public function __construct()
     {
-        $this->loadModel("Teams");
-        $this->loadService("Score");
-        $this->loadService("NotificationSubscription");
+        $this->loadModel('Teams');
+        $this->loadService('Score');
+        $this->loadService('NotificationSubscription');
     }
 
     /**

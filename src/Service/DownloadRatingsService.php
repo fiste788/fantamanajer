@@ -16,7 +16,6 @@ use Symfony\Component\Filesystem\Filesystem;
 class DownloadRatingsService
 {
     /**
-     *
      * @var \Cake\Console\ConsoleIo|null
      */
     private $io;
@@ -45,15 +44,15 @@ class DownloadRatingsService
     {
         $year = $matchday->season->year;
         $folder = RATINGS_CSV . $year;
-        $pathCsv = $folder . DS . "Matchday" . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . ".csv";
+        $pathCsv = $folder . DS . 'Matchday' . str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT) . '.csv';
         $filesystem = new Filesystem();
         if ($this->io != null) {
-            $this->io->out("Search file in path " . $pathCsv);
+            $this->io->out('Search file in path ' . $pathCsv);
         }
         if ($filesystem->exists($pathCsv) && filesize($pathCsv) > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
-            $file = TMP . 'mcc' . str_pad((string)$matchday->number, 2, "0", STR_PAD_LEFT) . '.mxm';
+            $file = TMP . 'mcc' . str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT) . '.mxm';
             if ($this->io != null) {
                 $this->io->verbose($file);
             }
@@ -109,8 +108,8 @@ class DownloadRatingsService
         $lines = explode("\n", $content);
         array_pop($lines);
         foreach ($lines as $key => $val) {
-            $pieces = explode("|", $val);
-            $lines[$key] = join(";", $pieces);
+            $pieces = explode('|', $val);
+            $lines[$key] = join(';', $pieces);
             if ($pieces[4] == 0) {
                 unset($lines[$key]);
             }
@@ -135,12 +134,12 @@ class DownloadRatingsService
         $decrypt = $matchday->season->key_gazzetta;
         if ($path != null && $decrypt != null) {
             if ($this->io != null) {
-                $this->io->out("Starting decrypt " . $path);
+                $this->io->out('Starting decrypt ' . $path);
             }
-            $p_file = fopen($path, "r");
+            $p_file = fopen($path, 'r');
             if ($p_file) {
-                $body = "";
-                $explode_xor = explode("-", $decrypt);
+                $body = '';
+                $explode_xor = explode('-', $decrypt);
                 $i = 0;
                 $content = file_get_contents($path);
                 if (!empty($content)) {
@@ -155,7 +154,7 @@ class DownloadRatingsService
                             $body .= chr($xor2);
                         } else {
                             if ($this->io != null) {
-                                $this->io->out("salto " . substr($body, -5));
+                                $this->io->out('salto ' . substr($body, -5));
                             }
                         }
                         $i++;
@@ -183,7 +182,7 @@ class DownloadRatingsService
     public function getRatingsFile(int $matchday): ?string
     {
         if ($this->io != null) {
-            $this->io->out("Search ratings on maxigames");
+            $this->io->out('Search ratings on maxigames');
         }
         $http = new Client();
         $http->setConfig('ssl_verify_peer', false);
@@ -193,21 +192,21 @@ class DownloadRatingsService
             'Accept-Encoding' => 'gzip, deflate',
             'Cache-Control' => 'no-cache',
         ]);
-        $url = "https://maxigames.maxisoft.it/downloads.php";
+        $url = 'https://maxigames.maxisoft.it/downloads.php';
         if ($this->io != null) {
-            $this->io->verbose("Downloading " . $url);
+            $this->io->verbose('Downloading ' . $url);
         }
         $response = $http->get($url);
         if ($response->isOk()) {
             if ($this->io != null) {
-                $this->io->out("Maxigames found");
+                $this->io->out('Maxigames found');
             }
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
             $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
             if ($tr->count() > 0) {
                 if ($this->io != null) {
-                    $this->io->out("Ratings found for matchday");
+                    $this->io->out('Ratings found for matchday');
                 }
                 $url = $this->getUrlFromMatchdayRow($tr);
 
@@ -229,15 +228,15 @@ class DownloadRatingsService
      */
     private function getUrlFromMatchdayRow(Crawler $tr): ?string
     {
-        $button = $tr->selectButton("DOWNLOAD");
+        $button = $tr->selectButton('DOWNLOAD');
         if (!$button->count()) {
-            $link = $tr->selectLink("DOWNLOAD");
+            $link = $tr->selectLink('DOWNLOAD');
             if ($link->count()) {
                 return $link->link()->getUri();
             }
         } else {
             /** @var string[] $matches */
-            $matches = sscanf($button->attr("onclick") ?? "", "window.open('%[^']");
+            $matches = sscanf($button->attr('onclick') ?? '', "window.open('%[^']");
             //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
             return $matches[0];
         }
@@ -251,18 +250,17 @@ class DownloadRatingsService
      * @param string $url Url
      * @param int $matchday Matchday
      * @param \Cake\Http\Client $http Client
-     *
      * @return null|string
      */
     private function downloadDropboxUrl(string $url, int $matchday, Client $http): ?string
     {
         if ($url) {
             if ($this->io != null) {
-                $this->io->verbose("Downloading " . $url);
+                $this->io->verbose('Downloading ' . $url);
             }
             $response = $http->get($url);
             if ($this->io != null) {
-                $this->io->verbose("Response " . $response->getStatusCode());
+                $this->io->verbose('Response ' . $response->getStatusCode());
             }
             if ($response->isOk()) {
                 $downloadUrl = $this->getDropboxUrl($response->getStringBody(), $url);
@@ -294,11 +292,11 @@ class DownloadRatingsService
         $crawler = new Crawler();
         $crawler->addContent($dropboxPage);
         try {
-            $button = $crawler->filter("#default_content_download_button");
+            $button = $crawler->filter('#default_content_download_button');
             if ($button->count()) {
-                $downloadUrl = $button->attr("href");
+                $downloadUrl = $button->attr('href');
             } else {
-                $downloadUrl = str_replace("www", "dl", $url);
+                $downloadUrl = str_replace('www', 'dl', $url);
             }
             if ($this->io != null) {
                 $this->io->out("Downloading $downloadUrl in tmp dir");
@@ -318,12 +316,10 @@ class DownloadRatingsService
      * @param string $path Path
      * @param string $sep Sep
      * @param bool $header Header
-     *
      * @return string[][]
-     *
      * @psalm-return array<string, non-empty-list<string>>
      */
-    public function returnArray(string $path, string $sep = ";", bool $header = false): array
+    public function returnArray(string $path, string $sep = ';', bool $header = false): array
     {
         $arrayOk = [];
         $content = file_get_contents($path);

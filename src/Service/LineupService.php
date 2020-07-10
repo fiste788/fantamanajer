@@ -9,7 +9,6 @@ use App\Model\Entity\Matchday;
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- *
  * @property \App\Model\Table\TeamsTable $Teams
  * @property \App\Model\Table\LineupsTable $Lineups
  */

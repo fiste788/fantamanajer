@@ -8,7 +8,6 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\EventInterface;
 
 /**
- *
  * @property \App\Model\Table\TransfertsTable $Transferts
  * @property \App\Service\TransfertService $Transfert
  */
@@ -17,7 +16,8 @@ class TransfertsController extends AppController
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */

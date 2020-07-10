@@ -20,7 +20,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
  * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
- *
  * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
  * @method \App\Model\Entity\Matchday newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
@@ -151,7 +150,6 @@ class MatchdaysTable extends Table
     }
 
     /**
-     *
      * @param \App\Model\Entity\Season $season Season
      * @return \App\Model\Entity\Matchday[]
      */
@@ -160,7 +158,7 @@ class MatchdaysTable extends Table
         $query = $this->find();
 
         /** @var \App\Model\Entity\Matchday[] $res */
-        $res = $query->leftJoinWith("Scores")
+        $res = $query->leftJoinWith('Scores')
             ->contain('Seasons')
             ->where(
                 [
@@ -208,7 +206,6 @@ class MatchdaysTable extends Table
     }
 
     /**
-     *
      * @param \App\Model\Entity\Season $season Season
      * @return \App\Model\Entity\Matchday[]
      */
@@ -217,7 +214,7 @@ class MatchdaysTable extends Table
         $query = $this->find();
 
         /** @var \App\Model\Entity\Matchday[] $res */
-        $res = $query->leftJoinWith("Ratings")
+        $res = $query->leftJoinWith('Ratings')
             ->contain('Seasons')
             ->where(
                 [

@@ -7,54 +7,45 @@ use StreamCake\EnrichedActivity;
 
 /**
  * Event Entity.
- *
  */
 abstract class StreamActivity implements StreamActivityInterface
 {
     /**
-     *
      * @var \StreamCake\EnrichedActivity $activity
      */
     protected $activity;
 
     /**
-     *
      * @var \Cake\I18n\FrozenTime
      */
     protected $timeStamp;
 
     /**
-     *
      * @var string $title
      */
     public $title;
 
     /**
-     *
      * @var string
      */
     public $time;
 
     /**
-     *
      * @var string $humanTime
      */
     public $humanTime;
 
     /**
-     *
      * @var string $icon
      */
     public $icon;
 
     /**
-     *
      * @var string|null $body
      */
     public $body;
 
     /**
-     *
      * @param \StreamCake\EnrichedActivity $activity Activity
      */
     public function __construct(EnrichedActivity $activity)

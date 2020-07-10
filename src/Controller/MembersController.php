@@ -27,7 +27,8 @@ class MembersController extends AppController
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
      */

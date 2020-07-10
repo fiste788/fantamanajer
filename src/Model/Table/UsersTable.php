@@ -14,7 +14,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\PublicKeyCredentialSourcesTable&\Cake\ORM\Association\HasMany $PublicKeyCredentialSources
  * @property \App\Model\Table\PushSubscriptionsTable&\Cake\ORM\Association\HasMany $PushSubscriptions
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
- *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])

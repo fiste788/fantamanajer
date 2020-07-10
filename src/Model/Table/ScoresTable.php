@@ -17,7 +17,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- *
  * @method \App\Model\Entity\Score get($primaryKey, $options = [])
  * @method \App\Model\Entity\Score newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
@@ -111,7 +110,6 @@ class ScoresTable extends Table
     }
 
     /**
-     *
      * @param \App\Model\Entity\Season $season Season
      * @return int|null
      */

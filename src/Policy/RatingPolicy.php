@@ -13,7 +13,6 @@ class RatingPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Rating $rating Entity
-     *
      * @return true
      */
     public function canIndex(IdentityInterface $user, Rating $rating): bool

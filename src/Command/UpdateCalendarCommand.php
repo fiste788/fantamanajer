@@ -19,7 +19,7 @@ class UpdateCalendarCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -66,7 +66,6 @@ class UpdateCalendarCommand extends Command
      * @param \App\Model\Entity\Season $season Season
      * @param \Cake\Console\Arguments $args Arguments
      * @param \Cake\Console\ConsoleIo $io Io
-     *
      * @return int
      */
     public function exec(Season $season, Arguments $args, ConsoleIo $io): int

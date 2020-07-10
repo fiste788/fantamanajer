@@ -15,7 +15,6 @@ use Cake\Validation\Validator;
  * PushSubscriptions Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- *
  * @method \App\Model\Entity\PushSubscription get($primaryKey, $options = [])
  * @method \App\Model\Entity\PushSubscription newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\PushSubscription[] newEntities(array $data, array $options = [])

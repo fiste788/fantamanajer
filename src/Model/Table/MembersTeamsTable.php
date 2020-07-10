@@ -17,7 +17,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  * @property \App\Service\TransfertService $Transfert
- *
  * @method \App\Model\Entity\MembersTeam get($primaryKey, $options = [])
  * @method \App\Model\Entity\MembersTeam newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam[] newEntities(array $data, array $options = [])

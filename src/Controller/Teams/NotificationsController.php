@@ -14,7 +14,8 @@ use Cake\Event\EventInterface;
 class NotificationsController extends AppController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Authorization\Exception\ForbiddenException
      */
     public function beforeFilter(EventInterface $event): void

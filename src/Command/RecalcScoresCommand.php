@@ -18,7 +18,7 @@ class RecalcScoresCommand extends Command
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -31,7 +31,8 @@ class RecalcScoresCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \Cake\Console\Exception\StopException
@@ -47,7 +48,7 @@ class RecalcScoresCommand extends Command
         foreach ($scores as $score) {
             $orig = $score->points;
             $this->ComputeScore->exec($score);
-            $io->out('Was ' . $orig . " to " . $score->points);
+            $io->out('Was ' . $orig . ' to ' . $score->points);
         }
 
         return $this->Scores->saveMany($scores) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;

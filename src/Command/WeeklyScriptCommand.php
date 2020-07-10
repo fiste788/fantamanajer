@@ -38,7 +38,7 @@ class WeeklyScriptCommand extends Command
     use MailerAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -86,9 +86,8 @@ class WeeklyScriptCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
@@ -99,15 +98,15 @@ class WeeklyScriptCommand extends Command
 
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $key => $matchday) {
-            $io->out("Starting decript file day " . $matchday->number);
+            $io->out('Starting decript file day ' . $matchday->number);
             $path = $this->DownloadRatings->getRatings($matchday);
             if ($path != null) {
-                $io->out("Updating table players");
+                $io->out('Updating table players');
                 $this->UpdateMember->updateMembers($matchday, $path);
-                $io->out("Importing ratings");
+                $io->out('Importing ratings');
                 $this->Rating->importRatings($matchday, $path);
             } else {
-                $io->out("Cannot download ratings from gazzetta");
+                $io->out('Cannot download ratings from gazzetta');
             }
         }
         if (!$args->getOption('no_calc_scores')) {
@@ -128,7 +127,7 @@ class WeeklyScriptCommand extends Command
             foreach ($missingScores as $key => $matchday) {
                 if ($this->Ratings->existMatchday($matchday)) {
                     $this->calculatePoints($matchday, $championships, $args, $io);
-                    $io->out("Completed succesfully");
+                    $io->out('Completed succesfully');
                 }
             }
         }
@@ -150,10 +149,10 @@ class WeeklyScriptCommand extends Command
         $scores = [];
         foreach ($championships as $championship) {
             $io->out(
-                "Calculating points of matchday " . $matchday->number . " for league " . $championship->league->name
+                'Calculating points of matchday ' . $matchday->number . ' for league ' . $championship->league->name
             );
             foreach ($championship->teams as $team) {
-                $io->out("Elaborating team " . $team->name);
+                $io->out('Elaborating team ' . $team->name);
                 $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
             }
             $success = $this->Scores->saveMany($scores, [
@@ -161,9 +160,9 @@ class WeeklyScriptCommand extends Command
                 'associated' => ['Lineups.Dispositions' => ['associated' => false]],
             ]);
             if ($success && !$args->getOption('no_send_mail')) {
-                $io->out("Sending mails");
+                $io->out('Sending mails');
                 $this->sendScoreMails($matchday, $championship);
-                $io->out("Sending notification");
+                $io->out('Sending notification');
                 $this->sendScoreNotifications($matchday, $championship, $scores, $io);
             } elseif (!$success) {
                 foreach ($scores as $score) {
@@ -174,7 +173,6 @@ class WeeklyScriptCommand extends Command
     }
 
     /**
-     *
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \App\Model\Entity\Championship $championship Championship
      * @param \App\Model\Entity\Score[] $scores Scores
@@ -200,7 +198,7 @@ class WeeklyScriptCommand extends Command
                         ->tag('926796012340920300')
                         ->data(['url' => '/scores/' . $scores[$team->id]->id]);
 
-                    $io->out("Sending notification to " . $subscription->endpoint);
+                    $io->out('Sending notification to ' . $subscription->endpoint);
                     $messageString = json_encode($message);
                     if ($messageString != false) {
                         $webPush->sendNotification($subscription->getSubscription(), $messageString);

@@ -11,7 +11,8 @@ use Cake\Event\EventInterface;
 class MatchdaysController extends AppController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
@@ -29,6 +30,7 @@ class MatchdaysController extends AppController
      * @return void
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
+     * @throws \RuntimeException
      */
     public function current()
     {

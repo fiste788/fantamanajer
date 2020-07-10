@@ -6,7 +6,6 @@ namespace App\Controller\Championships;
 use App\Controller\ArticlesController as AppArticlesController;
 
 /**
- *
  * @property \App\Model\Table\ArticlesTable $Articles
  */
 class ArticlesController extends AppArticlesController

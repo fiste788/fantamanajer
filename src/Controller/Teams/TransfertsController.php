@@ -6,7 +6,6 @@ namespace App\Controller\Teams;
 use App\Controller\AppController;
 
 /**
- *
  * @property \App\Model\Table\TransfertsTable $Transferts
  */
 class TransfertsController extends AppController

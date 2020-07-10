@@ -8,7 +8,6 @@ use Cake\Event\EventInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- *
  * @property \App\Model\Table\ArticlesTable $Articles
  */
 class ArticlesController extends AppController
@@ -34,7 +33,8 @@ class ArticlesController extends AppController
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */

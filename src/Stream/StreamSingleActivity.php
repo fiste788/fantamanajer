@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /*
@@ -27,8 +26,8 @@ abstract class StreamSingleActivity extends StreamActivity
      */
     public function getTime(): FrozenTime
     {
-        /** 
-         * @psalm-suppress MixedReturnStatement 
+        /**
+         * @psalm-suppress MixedReturnStatement
          * @psalm-suppress NullableReturnStatement
          */
         return $this->activity->offsetGet('time');

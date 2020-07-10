@@ -24,7 +24,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
  * @property \App\Service\SelectionService $Selection
- *
  * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
  * @method \App\Model\Entity\Selection newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
@@ -129,7 +128,6 @@ class SelectionsTable extends Table
     }
 
     /**
-     *
      * @param \App\Model\Entity\Selection $selection Selection
      * @return \App\Model\Entity\Selection|null
      * @throws \Cake\Datasource\Exception\InvalidPrimaryKeyException

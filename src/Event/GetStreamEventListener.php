@@ -16,7 +16,6 @@ use GetStream\Stream\Client;
 class GetStreamEventListener implements EventListenerInterface
 {
     /**
-     *
      * @var \GetStream\Stream\Client
      */
     private $client;
@@ -47,7 +46,6 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     *
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Article $article Article
      * @return void
@@ -65,7 +63,6 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     *
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return void
@@ -83,7 +80,6 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     *
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Selection $selection Selection
      * @return void
@@ -101,7 +97,6 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     *
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Transfert $transfert Transfert
      * @return void
@@ -119,7 +114,6 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     *
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Member $member Member
      * @return void
@@ -160,7 +154,6 @@ class GetStreamEventListener implements EventListenerInterface
     }
 
     /**
-     *
      * @param \Cake\Event\Event $event Event
      * @param array<string, \App\Model\Entity\Member[]> $buys Buys
      * @param array<string, \App\Model\Entity\Member[]> $sells Sells

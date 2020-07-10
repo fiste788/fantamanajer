@@ -19,13 +19,12 @@ use GetStream\Stream\FeedInterface;
 class GetStreamCommand extends Command
 {
     /**
-     *
      * @var \GetStream\Stream\Client
      */
     private $client;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -51,9 +50,8 @@ class GetStreamCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
@@ -77,7 +75,6 @@ class GetStreamCommand extends Command
     }
 
     /**
-     *
      * @param \App\Model\Entity\Championship $championship Championship
      * @param \GetStream\Stream\FeedInterface $timelineFeed Feed
      * @return void

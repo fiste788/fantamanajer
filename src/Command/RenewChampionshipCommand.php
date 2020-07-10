@@ -22,7 +22,7 @@ class RenewChampionshipCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -48,8 +48,6 @@ class RenewChampionshipCommand extends Command
 
     /**
      * @inheritDoc
-     *
-     * @return int|null
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -94,7 +92,7 @@ class RenewChampionshipCommand extends Command
                         $finder->name($team->photo)->in($to);
 
                         foreach ($finder->getIterator() as $file) {
-                            $newFileName = $newTeam->id . "." . $file->getExtension();
+                            $newFileName = $newTeam->id . '.' . $file->getExtension();
                             $newTeam->photo = $newFileName;
                             $filesystem->rename(
                                 $file->getRelativePathname(),

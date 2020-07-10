@@ -15,12 +15,10 @@ trait HasPhotoTrait
      * @param string $path Path
      * @param string $baseUrl Url
      * @param string|null $name Name
-     *
      * @return null|string[]
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\Exception
      * @throws \LogicException
-     *
      * @psalm-return array<string, string>|null
      */
     private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null): ?array

@@ -13,7 +13,6 @@ class ClubPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Club $club Entity
-     *
      * @return true
      */
     public function canIndex(IdentityInterface $user, Club $club): bool
@@ -26,7 +25,6 @@ class ClubPolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \App\Model\Entity\Club $club Club
-     *
      * @return true
      */
     public function canView(IdentityInterface $user, Club $club): bool

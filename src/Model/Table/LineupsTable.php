@@ -11,10 +11,10 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -27,7 +27,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasOne $Scores
- *
  * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
  * @method \App\Model\Entity\Lineup newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
@@ -45,6 +44,8 @@ use Cake\Validation\Validator;
  */
 class LineupsTable extends Table
 {
+    use LocatorAwareTrait;
+
     /**
      * Initialize method
      *
@@ -212,7 +213,9 @@ class LineupsTable extends Table
             'Dispositions' => [
                 'Members' => [
                     'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q): Query {
-                        return $q->where(['matchday_id' => new \Cake\Database\Expression\IdentifierExpression('Lineups.matchday_id')]);
+                        return $q->where([
+                            'matchday_id' => new \Cake\Database\Expression\IdentifierExpression('Lineups.matchday_id'),
+                        ]);
                     },
                 ],
             ],
@@ -223,7 +226,6 @@ class LineupsTable extends Table
     }
 
     /**
-     *
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
      * @return \Cake\ORM\Query
@@ -242,14 +244,13 @@ class LineupsTable extends Table
             ->order(['Matchdays.number' => 'DESC']);
         if (array_key_exists('stats', $options) && $options['stats']) {
             $seasonId = $matchday->season_id;
-            $tableLocator = TableRegistry::getTableLocator();
             $q = $q->contain([
                 'Teams' => [
-                    'Members' => function (Query $q) use ($seasonId, $tableLocator): Query {
+                    'Members' => function (Query $q) use ($seasonId): Query {
                         return $q->find('withStats', ['season_id' => $seasonId])
-                            ->select($tableLocator->get('Roles'))
-                            ->select($tableLocator->get('Players'))
-                            ->select($tableLocator->get('MembersStats'))
+                            ->select($this->getTableLocator()->get('Roles'))
+                            ->select($this->getTableLocator()->get('Players'))
+                            ->select($this->getTableLocator()->get('MembersStats'))
                             ->select(['id', 'role_id', 'club_id'])
                             ->contain(['Roles', 'Players']);
                     },

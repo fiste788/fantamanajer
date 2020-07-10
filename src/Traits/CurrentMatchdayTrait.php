@@ -3,15 +3,17 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\ModelAwareTrait;
 
 /**
+ * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Model\Entity\Matchday $currentMatchday
  * @property \App\Model\Entity\Season $currentSeason
- *
  */
 trait CurrentMatchdayTrait
 {
+    use ModelAwareTrait;
+
     /**
      * Current matchday
      *
@@ -31,6 +33,7 @@ trait CurrentMatchdayTrait
      */
     public function initialize(): void
     {
+        $this->loadModel('Matchdays');
         $this->getCurrentMatchday();
     }
 
@@ -41,10 +44,8 @@ trait CurrentMatchdayTrait
      */
     public function getCurrentMatchday(): void
     {
-        $matchdays = TableRegistry::getTableLocator()->get("Matchdays");
-
         /** @var \App\Model\Entity\Matchday|null $cur */
-        $cur = $matchdays->find('current')->first();
+        $cur = $this->Matchdays->find('current')->first();
         if ($cur != null) {
             $this->currentMatchday = $cur;
             $this->currentSeason = $cur->season;

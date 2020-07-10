@@ -6,7 +6,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * EmailSubscriptionsFixture
- *
  */
 class EmailSubscriptionsFixture extends TestFixture
 {

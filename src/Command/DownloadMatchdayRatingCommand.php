@@ -15,13 +15,13 @@ use const TMP;
 class DownloadMatchdayRatingCommand extends Command
 {
     /**
-     *
      * @var \Cake\Http\Client
      */
     private $client;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Cake\Core\Exception\Exception
      * @throws \InvalidArgumentException
      */
@@ -47,7 +47,8 @@ class DownloadMatchdayRatingCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \Cake\Console\Exception\StopException
@@ -91,20 +92,20 @@ class DownloadMatchdayRatingCommand extends Command
      */
     private function getDropboxUrl(int $matchday, ConsoleIo $io): ?string
     {
-        $io->out("Search ratings on maxigames");
-        $url = "https://maxigames.maxisoft.it/downloads.php";
-        $io->verbose("Downloading " . $url);
+        $io->out('Search ratings on maxigames');
+        $url = 'https://maxigames.maxisoft.it/downloads.php';
+        $io->verbose('Downloading ' . $url);
         $response = $this->client->get($url);
         if ($response->isOk()) {
-            $io->out("Maxigames found");
+            $io->out('Maxigames found');
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
             $td = $crawler->filter("#content td:contains('Giornata $matchday')");
             if ($td->count() > 0) {
-                return $td->nextAll()->filter("a")->attr("href");
+                return $td->nextAll()->filter('a')->attr('href');
             }
         } else {
-            $io->err("Could not connect to Maxigames");
+            $io->err('Could not connect to Maxigames');
             $this->abort();
         }
 
@@ -117,23 +118,22 @@ class DownloadMatchdayRatingCommand extends Command
      * @param string $url Url
      * @param int $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io IO
-     *
      * @return null|string
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
     private function downloadDropboxFile(string $url, int $matchday, ConsoleIo $io): ?string
     {
-        $io->verbose("Downloading " . $url);
+        $io->verbose('Downloading ' . $url);
         $response = $this->client->get($url);
         if ($response->isOk()) {
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
-            $button = $crawler->filter("#default_content_download_button");
+            $button = $crawler->filter('#default_content_download_button');
             if ($button->count()) {
-                $dropboxUrl = $button->attr("href");
+                $dropboxUrl = $button->attr('href');
             } else {
-                $dropboxUrl = str_replace("www", "dl", $url);
+                $dropboxUrl = str_replace('www', 'dl', $url);
             }
             if ($dropboxUrl != null) {
                 $io->out("Downloading $dropboxUrl in tmp dir");

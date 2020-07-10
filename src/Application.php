@@ -59,7 +59,7 @@ class Application extends BaseApplication implements
     AuthorizationServiceProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function bootstrap(): void
     {
@@ -127,7 +127,6 @@ class Application extends BaseApplication implements
      * Returns a service provider instance.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     *
      * @return \Authentication\AuthenticationService
      * @throws \Cake\Core\Exception\Exception
      */
@@ -205,7 +204,6 @@ class Application extends BaseApplication implements
      * Return the authorization provider instance
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     *
      * @return \Authorization\AuthorizationService
      * @throws \InvalidArgumentException
      */

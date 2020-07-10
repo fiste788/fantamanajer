@@ -19,7 +19,7 @@ class TransfertCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -61,9 +61,8 @@ class TransfertCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \RuntimeException
      * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */

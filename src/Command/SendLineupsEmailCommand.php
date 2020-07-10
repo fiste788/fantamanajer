@@ -25,7 +25,7 @@ class SendLineupsEmailCommand extends Command
     use MailerAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -61,9 +61,8 @@ class SendLineupsEmailCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int

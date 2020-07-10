@@ -6,13 +6,13 @@ namespace App\Controller;
 use Cake\Event\EventInterface;
 
 /**
- *
  * @property \App\Model\Table\PushSubscriptionsTable $PushSubscriptions
  */
 class PushSubscriptionsController extends AppController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */

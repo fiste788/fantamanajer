@@ -8,13 +8,13 @@ use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
 
 /**
- *
  * @property \App\Model\Table\ScoresTable $Scores
  */
 class ScoresController extends AppController
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Authorization\Exception\ForbiddenException
      */
     public function beforeFilter(EventInterface $event)

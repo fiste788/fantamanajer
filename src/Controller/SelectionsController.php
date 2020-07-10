@@ -6,7 +6,6 @@ namespace App\Controller;
 use Cake\Event\Event;
 
 /**
- *
  * @property \App\Model\Table\SelectionsTable $Selections
  */
 class SelectionsController extends AppController

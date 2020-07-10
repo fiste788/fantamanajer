@@ -32,16 +32,15 @@ class ComputeScoreService
      */
     public function __construct()
     {
-        $this->loadService("Lineup");
-        $this->loadModel("Scores");
-        $this->loadModel("Teams");
-        $this->loadModel("Matchdays");
-        $this->loadModel("Seasons");
-        $this->loadModel("Lineups");
+        $this->loadService('Lineup');
+        $this->loadModel('Scores');
+        $this->loadModel('Teams');
+        $this->loadModel('Matchdays');
+        $this->loadModel('Seasons');
+        $this->loadModel('Lineups');
     }
 
     /**
-     *
      * @param \App\Model\Entity\Team $team The team
      * @param \App\Model\Entity\Matchday $matchday The matchday
      * @return \App\Model\Entity\Score

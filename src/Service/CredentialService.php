@@ -199,8 +199,8 @@ class CredentialService
                 $this->getExtensions()
             );
             $request->getSession()->start();
-            $request->getSession()->write("User.Handle", $credentialUser->getId());
-            $request->getSession()->write("User.PublicKey", json_encode(
+            $request->getSession()->write('User.Handle', $credentialUser->getId());
+            $request->getSession()->write('User.PublicKey', json_encode(
                 $publicKeyCredentialRequestOptions,
                 JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             ));
@@ -221,7 +221,7 @@ class CredentialService
      */
     public function assertionResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = (string)$request->getSession()->consume("User.PublicKey");
+        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
         $handle = (string)$request->getSession()->consume('User.Handle');
 
         $response = $this->login($publicKey, $request, $handle);
@@ -336,7 +336,7 @@ class CredentialService
 
         $session = $request->getSession();
         $session->start();
-        $session->write("User.PublicKey", json_encode(
+        $session->write('User.PublicKey', json_encode(
             $publicKeyCredentialCreationOptions,
             JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         ));
@@ -355,7 +355,7 @@ class CredentialService
      */
     public function attestationResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = (string)$request->getSession()->consume("User.PublicKey");
+        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
 
         /** @var \Webauthn\PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions */
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);

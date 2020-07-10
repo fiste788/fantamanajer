@@ -13,7 +13,6 @@ use GetStream\Stream\Client;
 class CreateStreamCommand extends Command
 {
     /**
-     *
      * @var \GetStream\Stream\Client
      */
     private $client;
@@ -38,7 +37,8 @@ class CreateStreamCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \GetStream\Stream\StreamFeedException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int

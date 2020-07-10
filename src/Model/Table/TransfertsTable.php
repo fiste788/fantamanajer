@@ -21,7 +21,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  * @property \App\Service\TransfertService $Transfert
- *
  * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
  * @method \App\Model\Entity\Transfert newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])

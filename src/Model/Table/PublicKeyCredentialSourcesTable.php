@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
  * PublicKeyCredentialSources Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- *
  * @method \App\Model\Entity\PublicKeyCredentialSource get($primaryKey, $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array $data, array $options = [])

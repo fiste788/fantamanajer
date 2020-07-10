@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -88,7 +87,6 @@ class Team extends Entity
     ];
 
     /**
-     *
      * @var int[]
      */
     public static $size = [
@@ -110,7 +108,7 @@ class Team extends Entity
         if ($this->photo != null && $this->photo_dir != null) {
             $baseUrl = strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
-            return $this->_getPhotosUrl((string) ROOT . DS . $this->photo_dir, $baseUrl, (string) $this->photo);
+            return $this->_getPhotosUrl((string)ROOT . DS . $this->photo_dir, $baseUrl, (string)$this->photo);
         } else {
             return null;
         }
@@ -155,7 +153,6 @@ class Team extends Entity
     }
 
     /**
-     *
      * @param \App\Model\Entity\NotificationSubscription[] $collection Collection
      * @param string $name Name
      * @return bool

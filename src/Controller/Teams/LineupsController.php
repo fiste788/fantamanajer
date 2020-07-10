@@ -8,7 +8,6 @@ use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 /**
- *
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\LineupService $Lineup
  * @property \App\Service\LikelyLineupService $LikelyLineup

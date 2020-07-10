@@ -25,7 +25,7 @@ class StartSeasonCommand extends Command
     use ServiceAwareTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -49,7 +49,8 @@ class StartSeasonCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws \Cake\Console\Exception\StopException
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -100,7 +101,7 @@ class StartSeasonCommand extends Command
      */
     private function createSeason(ConsoleIo $io, Arguments $args): ?Season
     {
-        $year = (int)date("Y");
+        $year = (int)date('Y');
 
         /** @var \App\Model\Entity\Season|null $season */
         $season = $this->Seasons->find()->where(['year' => $year])->first();

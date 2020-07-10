@@ -26,7 +26,7 @@ class SendMissingLineupNotificationCommand extends Command
     use CurrentMatchdayTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
@@ -62,9 +62,8 @@ class SendMissingLineupNotificationCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
-     * @return int|null
      * @throws \ErrorException
      * @throws \RuntimeException
      */
@@ -115,7 +114,7 @@ class SendMissingLineupNotificationCommand extends Command
                     }
                 }
                 $io->out('Create activity in notification stream for team ' . (string)$team->id);
-                $feed = $client->feed("notification", (string)$team->id);
+                $feed = $client->feed('notification', (string)$team->id);
                 $feed->addActivity([
                     'actor' => 'Team:' . (string)$team->id,
                     'verb' => 'missing',

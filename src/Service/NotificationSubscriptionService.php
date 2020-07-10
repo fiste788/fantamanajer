@@ -7,7 +7,6 @@ use App\Model\Entity\Team;
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- *
  * @property \App\Model\Table\NotificationSubscriptionsTable $NotificationSubscriptions
  */
 class NotificationSubscriptionService

@@ -30,7 +30,6 @@ use SplFileInfo;
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsToMany $Members
  * @property \App\Service\TeamService $Team
- *
  * @method \App\Model\Entity\Team get($primaryKey, $options = [])
  * @method \App\Model\Entity\Team newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
@@ -248,7 +247,7 @@ class TeamsTable extends Table
      */
     public function saveWithoutUser(Team $team): void
     {
-        $this->loadService("Team");
+        $this->loadService('Team');
 
         if (!$team->user->id) {
             /** @var \App\Model\Entity\User $user */

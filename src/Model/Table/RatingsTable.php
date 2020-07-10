@@ -15,7 +15,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- *
  * @method \App\Model\Entity\Rating get($primaryKey, $options = [])
  * @method \App\Model\Entity\Rating newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
