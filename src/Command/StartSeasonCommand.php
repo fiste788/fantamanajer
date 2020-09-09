@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -29,13 +30,13 @@ class StartSeasonCommand extends Command
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Seasons');
         $this->loadModel('Matchdays');
-        $this->getCurrentMatchday();
     }
 
     /**
@@ -54,6 +55,7 @@ class StartSeasonCommand extends Command
      * @throws \Cake\Console\Exception\StopException
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -61,30 +63,28 @@ class StartSeasonCommand extends Command
         $this->loadService('Rating', [$io]);
 
         $season = $this->createSeason($io, $args);
-        if ($season != null) {
-            if ($season->key_gazzetta == null || $season->key_gazzetta == '') {
-                $this->getCurrentMatchday();
-                if ($this->Rating->calculateKey($season) != '') {
-                    /** @var \App\Model\Entity\Matchday $firstMatchday */
-                    $firstMatchday = $this->Matchdays->find()->where([
-                        'number' => '0',
-                        'season_id' => $season->id,
-                    ])->first();
-                    $this->UpdateMember->updateMembers($firstMatchday);
-                }
-
-                return CommandInterface::CODE_SUCCESS;
-            } else {
+        if ($season->key_gazzetta == null || empty($season->key_gazzetta)) {
+            $this->getCurrentMatchday();
+            if ($this->Rating->calculateKey($season) != '') {
                 /** @var \App\Model\Entity\Matchday $firstMatchday */
                 $firstMatchday = $this->Matchdays->find()->where([
                     'number' => '0',
                     'season_id' => $season->id,
                 ])->first();
                 $this->UpdateMember->updateMembers($firstMatchday);
-                $io->err('Season for year ' . $season->year . ' already exist');
-
-                $this->abort();
             }
+
+            return CommandInterface::CODE_SUCCESS;
+        } else {
+            /** @var \App\Model\Entity\Matchday $firstMatchday */
+            $firstMatchday = $this->Matchdays->find()->where([
+                'number' => '0',
+                'season_id' => $season->id,
+            ])->first();
+            $this->UpdateMember->updateMembers($firstMatchday);
+            $io->err('Season for year ' . $season->year . ' already exist');
+
+            $this->abort();
         }
 
         return CommandInterface::CODE_ERROR;
@@ -95,11 +95,12 @@ class StartSeasonCommand extends Command
      *
      * @param \Cake\Console\ConsoleIo $io Io
      * @param \Cake\Console\Arguments $args Arguments
-     * @return \App\Model\Entity\Season|null
+     * @return \App\Model\Entity\Season
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
-    private function createSeason(ConsoleIo $io, Arguments $args): ?Season
+    private function createSeason(ConsoleIo $io, Arguments $args): Season
     {
         $year = (int)date('Y');
 
@@ -113,34 +114,28 @@ class StartSeasonCommand extends Command
                     'bonus_points' => true,
                 ]
             );
+
+            $firstMatchday = $this->Matchdays->newEntity([
+                'number' => 0,
+                'date' => Chronos::create($year, 8, 20, 0, 0, 0),
+            ]);
+            $season->matchdays = [$firstMatchday];
             $this->Seasons->saveOrFail($season);
             $io->out('Created new season for year ' . $year);
-
-            $firstMatchday = $this->Matchdays->newEntity(
-                [
-                    'season_id' => $season->id,
-                    'number' => 0,
-                    'date' => Chronos::create($year, 8, 10, 0, 0, 0),
-                ]
-            );
-            $this->Matchdays->save($firstMatchday);
+            //$this->Matchdays->save($firstMatchday);
             $io->out('Updating calendar');
             $command = new UpdateCalendarCommand();
             $command->initialize();
             $command->exec($season, $args, $io);
-            $io->out('Creating last matchday');
-            $lastMatchday = $this->Matchdays->newEntity(
-                [
-                    'season_id' => $season->id,
-                    'number' => 39,
-                    'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59),
-                ]
-            );
-            if ($this->Matchdays->save($lastMatchday)) {
-                return $season;
-            } else {
-                return null;
-            }
+
+            $lastMatchday = $this->Matchdays->newEntity([
+                'number' => 39,
+                'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59),
+            ]);
+            $season->matchdays = [$lastMatchday];
+            $this->Seasons->saveOrFail($season);
+
+            return $season;
         } else {
             return $season;
         }

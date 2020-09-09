@@ -42,6 +42,7 @@ class WeeklyScriptCommand extends Command
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
     public function initialize(): void
     {
@@ -201,7 +202,7 @@ class WeeklyScriptCommand extends Command
                     $io->out('Sending notification to ' . $subscription->endpoint);
                     $messageString = json_encode($message);
                     if ($messageString != false) {
-                        $webPush->sendNotification($subscription->getSubscription(), $messageString);
+                        $webPush->queueNotification($subscription->getSubscription(), $messageString);
                     }
                 }
             }

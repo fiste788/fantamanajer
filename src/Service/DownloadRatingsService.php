@@ -84,7 +84,7 @@ class DownloadRatingsService
         $url = $url ?? $this->getRatingsFile($matchdayGazzetta);
         if (!empty($url)) {
             $content = $this->decryptMXMFile($matchday, $url);
-            if (!empty($content)) {
+            if (!empty($content) && strlen($content) > 42000) {
                 $this->writeCsvRatings($content, $path);
                 //self::writeXmlVoti($content, $percorsoXml);
                 return $path;

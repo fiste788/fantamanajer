@@ -25,6 +25,7 @@ class DownloadPhotosCommand extends Command
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
     public function initialize(): void
     {

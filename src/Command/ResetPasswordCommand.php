@@ -9,6 +9,7 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOptionParser;
 
 /**
  * @property \App\Model\Table\UsersTable $Users
@@ -25,6 +26,17 @@ class ResetPasswordCommand extends Command
     {
         parent::initialize();
         $this->loadModel('Users');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
+    {
+        $parser->setDescription('Reset passwords');
+        $parser->addArgument('email', ['help' => 'User email to reset']);
+
+        return $parser;
     }
 
     /**

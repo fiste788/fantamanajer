@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
+use RuntimeException;
 
 /**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Model\Entity\Matchday $currentMatchday
  * @property \App\Model\Entity\Season $currentSeason
  */
 trait CurrentMatchdayTrait
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Current matchday
@@ -29,26 +29,20 @@ trait CurrentMatchdayTrait
     protected $currentSeason;
 
     /**
-     * @inheritDoc
-     */
-    public function initialize(): void
-    {
-        $this->loadModel('Matchdays');
-        $this->getCurrentMatchday();
-    }
-
-    /**
      * Set the current matchday
      *
      * @return void
+     * @throws \RuntimeException
      */
     public function getCurrentMatchday(): void
     {
         /** @var \App\Model\Entity\Matchday|null $cur */
-        $cur = $this->Matchdays->find('current')->first();
+        $cur = $this->getTableLocator()->get('Matchdays')->find('current')->first();
         if ($cur != null) {
             $this->currentMatchday = $cur;
             $this->currentSeason = $cur->season;
+        } else {
+            throw new RuntimeException('Cannot find current matchday');
         }
     }
 }

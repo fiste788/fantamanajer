@@ -30,6 +30,7 @@ class SendMissingLineupNotificationCommand extends Command
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
     public function initialize(): void
     {
@@ -110,7 +111,7 @@ class SendMissingLineupNotificationCommand extends Command
                     $io->out('Send push notification to ' . $subscription->endpoint);
                     $messageString = json_encode($message);
                     if ($messageString != false) {
-                        $webPush->sendNotification($subscription->getSubscription(), $messageString);
+                        $webPush->queueNotification($subscription->getSubscription(), $messageString);
                     }
                 }
                 $io->out('Create activity in notification stream for team ' . (string)$team->id);

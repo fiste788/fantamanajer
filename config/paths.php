@@ -18,6 +18,8 @@
 if (!defined('DS')) {
     /**
      * Defines DS as short form of DIRECTORY_SEPARATOR.
+     *
+     * @var string
      */
     define('DS', (string) DIRECTORY_SEPARATOR);
 }

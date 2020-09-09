@@ -69,7 +69,7 @@ class SelectionService
                     ->tag('lost-player-' . $selection->id);
                 $messageString = json_encode($message);
                 if ($messageString != false) {
-                    $webPush->sendNotification($subscription->getSubscription(), $messageString);
+                    $webPush->queueNotification($subscription->getSubscription(), $messageString);
                 }
             }
             $webPush->flush();

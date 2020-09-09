@@ -5,7 +5,6 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     xmlns:xi="http://www.w3.org/2001/XInclude"
     errorLevel="1"
-    allowCoercionFromStringToClassConst="true"
     allowStringToStandInForClass="true"
     checkForThrowsDocblock="true"
     usePhpDocPropertiesWithoutMagicCall="true"

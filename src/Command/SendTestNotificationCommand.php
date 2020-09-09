@@ -29,6 +29,7 @@ class SendTestNotificationCommand extends Command
      *
      * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
+     * @throws \RuntimeException
      */
     public function initialize(): void
     {
@@ -84,7 +85,7 @@ class SendTestNotificationCommand extends Command
             if ($messageString != false) {
                 $io->out($messageString);
                 $io->out('Send push notification to ' . $subscription->endpoint);
-                $webPush->sendNotification($subscription->getSubscription(), $messageString);
+                $webPush->queueNotification($subscription->getSubscription(), $messageString);
             }
         }
 

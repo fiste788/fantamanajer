@@ -83,22 +83,34 @@ class RatingService
             $decript = file_get_contents($dectyptedFilePath);
             $encript = file_get_contents($encryptedFilePath);
             if ($decript != false && $encript != false) {
-                $res = [];
-                for ($i = 0; $i < 28; $i++) {
-                    $xor1 = (int)hexdec(bin2hex($decript[$i]));
-                    $xor2 = (int)hexdec(bin2hex($encript[$i]));
-                    $res[] = dechex($xor1 ^ $xor2);
+                $keyCount = 28;
+                $keys = [];
+                for ($j = 0; $j < 6; $j++) {
+                    $res = [];
+                    for ($i = $j * $keyCount; $i < ($j + 1) * $keyCount; $i++) {
+                        $xor1 = (int)hexdec(bin2hex($decript[$i]));
+                        $xor2 = (int)hexdec(bin2hex($encript[$i]));
+                        $res[] = dechex($xor1 ^ $xor2);
+                    }
+                    $tmp = implode('-', $res);
+                    if ($this->io != null) {
+                        $this->io->info($tmp);
+                    }
+                    $keys[] = $tmp;
                 }
-                $key = implode('-', $res);
-                if ($this->io != null) {
-                    $this->io->out('Key: ' . $key);
-                }
-                $season->key_gazzetta = $key;
-                if ($this->Seasons->save($season)) {
-                    copy($dectyptedFilePath, $dectyptedFilePath . '.' . $season->year . '.bak');
-                    unlink($dectyptedFilePath);
+                $keys = array_unique($keys);
+                if (count($keys) == 1) {
+                    $key = $keys[0];
+                    if ($this->io != null) {
+                        $this->io->out('Key: ' . $key);
+                    }
+                    $season->key_gazzetta = $key;
+                    if ($this->Seasons->save($season)) {
+                        copy($dectyptedFilePath, $dectyptedFilePath . '.' . $season->year . '.bak');
+                        unlink($dectyptedFilePath);
 
-                    return $key;
+                        return $key;
+                    }
                 }
             }
         }
