@@ -37,6 +37,7 @@ class PublicKeyCredentialSource extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'public_key_credential_id' => true,
         'type' => false,
         'transports' => false,

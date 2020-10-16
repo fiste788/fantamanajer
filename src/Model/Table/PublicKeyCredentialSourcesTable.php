@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use Cake\Database\Schema\TableSchemaInterface;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -149,5 +150,17 @@ class PublicKeyCredentialSourcesTable extends Table
             ->notEmptyDateTime('created_at');
 
         return $validator;
+    }
+
+    /**
+     * Find by member id  query
+     *
+     * @param \Cake\ORM\Query $q Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
+    public function findByUuid(Query $q, array $options): Query
+    {
+        return $q->where(['user_handle' => $options['uuid']]);
     }
 }

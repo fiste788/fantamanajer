@@ -14,7 +14,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  *
  * @property \App\Model\Table\PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
  */
-class CredentialRepositoryService implements PublicKeyCredentialSourceRepository
+class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialSourceRepository
 {
     use ModelAwareTrait;
 

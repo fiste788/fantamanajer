@@ -83,13 +83,16 @@ $routes->scope('/', function (RouteBuilder $routes) {
             ],
         ],
     ], function (RouteBuilder $routes) {
+        $routes->resources('PublicKeyCredentialSources', [
+            'prefix' => 'Users',
+            'only' => ['index', 'delete'],
+        ]);
         $routes->connect('/stream', [
             'controller' => 'Users',
             'action' => 'stream',
         ]);
     });
-    $routes->resources('Credentials', [
-        'path' => 'webauthn',
+    $routes->resources('Webauthn', [
         'only' => ['request', 'create', 'login', 'register'],
         'map' => [
             'request' => [

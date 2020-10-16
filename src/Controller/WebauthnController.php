@@ -4,16 +4,17 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventInterface;
 
 /**
- * @property \App\Service\CredentialService $Credential
+ * @property \App\Service\WebauthnService $Webauthn
  * @property \App\Service\UserService $User
- * @property \Cake\ORM\Table $Credentials
  */
-class CredentialsController extends AppController
+class WebauthnController extends AppController
 {
     use ServiceAwareTrait;
+    use ModelAwareTrait;
 
     /**
      * @inheritDoc
@@ -22,7 +23,7 @@ class CredentialsController extends AppController
     {
         parent::initialize();
         $this->loadService('User');
-        $this->loadService('Credential');
+        $this->loadService('Webauthn');
     }
 
     /**
@@ -43,7 +44,7 @@ class CredentialsController extends AppController
      */
     public function publicKeyRequest()
     {
-        $publicKeyCredentialRequestOptions = $this->Credential->assertionRequest($this->request);
+        $publicKeyCredentialRequestOptions = $this->Webauthn->assertionRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -62,7 +63,7 @@ class CredentialsController extends AppController
      */
     public function publicKeyCreation()
     {
-        $publicKeyCredentialCreationOptions = $this->Credential->attestationRequest($this->request);
+        $publicKeyCredentialCreationOptions = $this->Webauthn->attestationRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -109,7 +110,7 @@ class CredentialsController extends AppController
      */
     public function register()
     {
-        $token = $this->Credential->attestationResponse($this->request);
+        $token = $this->Webauthn->attestationResponse($this->request);
         $this->set([
             'success' => true,
             'data' => $token,

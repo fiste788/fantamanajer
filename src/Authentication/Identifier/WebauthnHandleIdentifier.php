@@ -8,10 +8,25 @@ use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 
+/**
+ * @property \App\Service\WebauthnService $Webauthn
+ */
 class WebauthnHandleIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
     use ServiceAwareTrait;
+
+    /**
+     * Constructor
+     *
+     * @param array $config Configuration
+     * @throws \Cake\Core\Exception\Exception
+     */
+    public function __construct(array $config = [])
+    {
+        $this->setConfig($config);
+        $this->loadService('Webauthn');
+    }
 
     /**
      * Default configuration.
@@ -45,10 +60,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
         $publicKey = (string)$data['publicKey'];
         $userHandle = (string)$data['userHandle'];
 
-        /** @var \App\Service\CredentialService $credentialService */
-        $credentialService = $this->getServiceLocator()->load('Credential');
-
-        $result = $credentialService->login($publicKey, $request, $userHandle);
+        $result = $this->Webauthn->login($publicKey, $request, $userHandle);
 
         return $this->_findIdentity($result->getUserHandle());
     }

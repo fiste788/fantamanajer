@@ -61,4 +61,23 @@ class TeamsController extends AppController
 
         return $this->Crud->execute();
     }
+
+    /**
+     * Edit
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Crud\Error\Exception\ActionNotConfiguredException
+     * @throws \Exception
+     */
+    public function edit()
+    {
+        /** @var \Crud\Action\AddAction $action */
+        $action = $this->Crud->action();
+        $action->saveOptions([
+            'accessibleFields' => ['user' => false],
+            'associated' => ['Members']
+        ]);
+
+        return $this->Crud->execute();
+    }
 }

@@ -26,7 +26,6 @@ class UsersController extends AppController
     {
         parent::initialize();
         $this->loadService('User');
-        $this->loadService('Credential');
     }
 
     /**

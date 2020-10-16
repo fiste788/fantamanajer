@@ -188,7 +188,7 @@ class Application extends BaseApplication implements
             'className' => WebauthnAuthenticator::class,
             'loginUrl' => [
                 Router::url([
-                    'controller' => 'Credentials',
+                    'controller' => 'Webauthn',
                     'action' => 'login',
                     '_method' => 'POST',
                     'prefix' => false,

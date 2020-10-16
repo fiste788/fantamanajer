@@ -46,11 +46,11 @@ use WhichBrowser\Parser;
 /**
  * Credentials Repo
  *
- * @property \App\Service\CredentialRepositoryService $CredentialRepository
+ * @property \App\Service\PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository
  * @property \App\Model\Table\PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
  * @property \App\Model\Table\UsersTable $Users
  */
-class CredentialService
+class WebauthnService
 {
     use ModelAwareTrait;
     use ServiceAwareTrait;
@@ -65,7 +65,7 @@ class CredentialService
     {
         $this->loadModel('Users');
         $this->loadModel('PublicKeyCredentialSources');
-        $this->loadService('CredentialRepository');
+        $this->loadService('PublicKeyCredentialSourceRepository');
     }
 
     /**
@@ -106,9 +106,9 @@ class CredentialService
     private function createRpEntity(): PublicKeyCredentialRpEntity
     {
         return new PublicKeyCredentialRpEntity(
-            'FantaManajer', //Name
+            (string)Configure::read('Webauthn.name', 'FantaManajer'), //Name
             (string)Configure::read('Webauthn.id', 'fantamanajer.it'), //ID
-            null //Icon
+            (string)Configure::read('Webauthn.icon') //Icon
         );
     }
 
@@ -186,7 +186,7 @@ class CredentialService
         $user = $this->Users->find()->where(['email' => $params['email']])->first();
         if ($user != null) {
             $credentialUser = $user->toCredentialUserEntity();
-            $credentials = $this->CredentialRepository->findAllForUserEntity($credentialUser);
+            $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
             $registeredPublicKeyCredentialDescriptors = $this->credentialsToDescriptors($credentials);
 
             // Public Key Credential Request Options
@@ -256,7 +256,7 @@ class CredentialService
 
         // Authenticator Assertion Response Validator
         $authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
-            $this->CredentialRepository,
+            $this->PublicKeyCredentialSourceRepository,
             new TokenBindingNotSupportedHandler(),
             new ExtensionOutputCheckerHandler(),
             $this->createAlgorithManager()
@@ -305,7 +305,7 @@ class CredentialService
         }
         $userEntity = $user->toCredentialUserEntity();
 
-        $credential = $this->CredentialRepository->findAllForUserEntity($userEntity);
+        $credential = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($userEntity);
         $excludeCredentials = $this->credentialsToDescriptors($credential);
 
         // Public Key Credential Parameters
@@ -371,7 +371,7 @@ class CredentialService
 
         $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
             $attestationStatementSupportManager,
-            $this->CredentialRepository,
+            $this->PublicKeyCredentialSourceRepository,
             new TokenBindingNotSupportedHandler(),
             new ExtensionOutputCheckerHandler()
         );
