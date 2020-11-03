@@ -112,7 +112,7 @@ class TransfertsTable extends Table
     }
 
     /**
-     * Befor marshal
+     * Before marshal
      *
      * @param \Cake\Event\Event $event Event
      * @param \ArrayObject $data Data
