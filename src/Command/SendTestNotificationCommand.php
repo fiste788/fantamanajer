@@ -121,7 +121,9 @@ class SendTestNotificationCommand extends Command
             }
         }
         //$this->PushSubscriptions->updateAll(['expired' => true], ['id' => $expired]);
-        $this->PushSubscriptions->deleteAll(['endpoint IN' => $expired]);
+        if (!empty($expired)) {
+            $this->PushSubscriptions->deleteAll(['endpoint IN' => $expired]);
+        }
 
         return CommandInterface::CODE_SUCCESS;
     }
