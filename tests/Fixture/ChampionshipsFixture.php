@@ -56,17 +56,17 @@ class ChampionshipsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '14',
-                'captain' => '1',
-                'number_transferts' => '15',
-                'number_selections' => '2',
-                'minute_lineup' => '10',
-                'points_missed_lineup' => '100',
-                'captain_missed_lineup' => '0',
-                'started' => '1',
-                'jolly' => '1',
-                'league_id' => '1',
-                'season_id' => '16',
+                'id' => 1,
+                'captain' => 1,
+                'number_transferts' => 15,
+                'number_selections' => 2,
+                'minute_lineup' => 10,
+                'points_missed_lineup' => 100,
+                'captain_missed_lineup' => 0,
+                'started' => 1,
+                'jolly' => 1,
+                'league_id' => 1,
+                'season_id' => 1,
             ],
         ];
         parent::init();

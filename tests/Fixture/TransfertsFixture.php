@@ -55,7 +55,7 @@ class TransfertsFixture extends TestFixture
                 'id' => 1,
                 'old_member_id' => 1,
                 'new_member_id' => 1,
-                'team_id' => 55,
+                'team_id' => 1,
                 'matchday_id' => 1,
                 'constrained' => 1,
             ],

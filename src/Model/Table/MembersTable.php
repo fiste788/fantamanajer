@@ -176,6 +176,30 @@ class MembersTable extends Table
     }
 
     /**
+     * Find matchday ratings as list
+     *
+     * @param \Cake\ORM\Query $query Query
+     * @param array $options Options
+     * @return \Cake\ORM\Query
+     */
+    public function findListWithRating(Query $query, array $options): Query
+    {
+        $matchdayId = $options['matchday_id'];
+
+        return $query->find('list', [
+                'keyField' => 'id',
+                'valueField' => function (Member $obj): Member {
+                    return $obj;
+                },
+            ])
+            ->contain(
+                ['Roles', 'Ratings' => function (Query $q) use ($matchdayId): Query {
+                    return $q->where(['Ratings.matchday_id' => $matchdayId]);
+                }]
+            );
+    }
+
+    /**
      * Find with details
      *
      * @param \Cake\ORM\Query $query Query
@@ -190,7 +214,7 @@ class MembersTable extends Table
                     ->order(['Matchdays.number' => 'ASC']);
             }]
         )->order(['Seasons.year' => 'DESC']);
-        if ($options['championship_id']) {
+        if (isset($options['championship_id'])) {
             $query->select(['player_id', 'free' => $query->newExpr()->isNull('Teams.id')])
                 ->setDefaultTypes(['free' => 'boolean'])
                 ->enableAutoFields(true)
@@ -276,7 +300,7 @@ class MembersTable extends Table
             ->innerJoinWith('Teams', function (Query $q) use ($options): Query {
                 return $q->where(['Teams.id' => $options['team_id']]);
             })->order(['role_id', 'Players.name']);
-        if ($options['stats']) {
+        if (isset($options['stats']) && $options['stats']) {
             $q->contain(['Roles', 'MembersStats']);
         }
 

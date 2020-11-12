@@ -44,7 +44,7 @@ class EmailSubscriptionsFixture extends TestFixture
             'score' => 1,
             'lineups' => 1,
             'lost_member' => 1,
-            'team_id' => 55,
+            'team_id' => 1,
         ],
     ];
 }

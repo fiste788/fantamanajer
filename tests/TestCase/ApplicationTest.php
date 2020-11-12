@@ -38,13 +38,12 @@ class ApplicationTest extends IntegrationTestCase
         $app->bootstrap();
         $plugins = $app->getPlugins();
 
-        $this->assertCount(12, $plugins);
+        $this->assertCount(11, $plugins);
         $this->assertSame('Bake', $plugins->get('Bake')->getName());
         $this->assertSame('Migrations', $plugins->get('Migrations')->getName());
         $this->assertSame('Authentication', $plugins->get('Authentication')->getName());
         $this->assertSame('Authorization', $plugins->get('Authorization')->getName());
         $this->assertSame('Crud', $plugins->get('Crud')->getName());
-        $this->assertSame('Cors', $plugins->get('Cors')->getName());
         $this->assertSame('Josegonzalez/Upload', $plugins->get('Josegonzalez/Upload')->getName());
         $this->assertSame('CakeScheduler', $plugins->get('CakeScheduler')->getName());
         $this->assertSame('StreamCake', $plugins->get('StreamCake')->getName());

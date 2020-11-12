@@ -60,17 +60,17 @@ class LineupsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '1781',
+                'id' => 1,
                 'module' => '1-3-4-3',
                 'jolly' => null,
                 'cloned' => null,
                 'created_at' => '2018-09-28 23:05:34',
                 'modified_at' => '2018-10-08 15:06:07',
-                'captain_id' => '4754',
-                'vcaptain_id' => '4762',
-                'vvcaptain_id' => '4777',
-                'matchday_id' => '576',
-                'team_id' => '55',
+                'captain_id' => 4754,
+                'vcaptain_id' => 4762,
+                'vvcaptain_id' => 4777,
+                'matchday_id' => 576,
+                'team_id' => 1,
             ],
         ];
         parent::init();
