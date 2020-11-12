@@ -77,7 +77,6 @@ class DispositionsTable extends Table
 
         $validator
             ->integer('considetarion')
-            ->requirePresence('consideration', 'create')
             ->nonNegativeInteger('consideration');
 
         $validator
