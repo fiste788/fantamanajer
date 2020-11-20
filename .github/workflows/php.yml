@@ -34,10 +34,10 @@ jobs:
       run: vendor/bin/phpcs --report=checkstyle --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/
 
     - name: Run psalm
-      run: vendor/bin/psalm.phar --output-format=github
+      run: vendor/bin/psalm --output-format=github
 
     - name: Run phpstan
-      run: vendor/bin/phpstan.phar analyse --error-format=github
+      run: vendor/bin/phpstan analyse --error-format=github
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
