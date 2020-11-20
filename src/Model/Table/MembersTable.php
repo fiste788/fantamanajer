@@ -184,6 +184,7 @@ class MembersTable extends Table
      */
     public function findListWithRating(Query $query, array $options): Query
     {
+        /** @var int $matchdayId */
         $matchdayId = $options['matchday_id'];
 
         return $query->find('list', [

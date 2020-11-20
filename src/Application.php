@@ -67,8 +67,8 @@ class Application extends BaseApplication implements
 
         if (PHP_SAPI === 'cli') {
             try {
-                $this->addPlugin('Bake');
-                $this->addPlugin('IdeHelper');
+                $this->addPlugin(\Bake\Plugin::class);
+                $this->addPlugin(\IdeHelper\Plugin::class);
             } catch (MissingPluginException $e) {
                 // Do not halt if the plugin is missing
             }
@@ -80,22 +80,22 @@ class Application extends BaseApplication implements
         TypeFactory::map('simple_array', Types\SimpleArrayDataType::class);
         TypeFactory::map('base64', Types\Base64DataType::class);
 
-        $this->addPlugin('Authentication');
-        $this->addPlugin('Authorization');
-        $this->addPlugin('Crud');
-        $this->addPlugin('Josegonzalez/Upload');
-        $this->addPlugin('Migrations');
-        $this->addPlugin('Bake');
+        $this->addPlugin(\Authentication\Plugin::class);
+        $this->addPlugin(\Authorization\Plugin::class);
+        $this->addPlugin(\Crud\Plugin::class);
+        $this->addPlugin(\Josegonzalez\Upload\Plugin::class);
+        $this->addPlugin(\Migrations\Plugin::class);
+        $this->addPlugin(\Bake\Plugin::class);
         $this->addPlugin('CakeScheduler');
         $this->addPlugin('StreamCake');
-        $this->addPlugin('DatabaseBackup', ['bootstrap' => true]);
+        $this->addPlugin(\DatabaseBackup\Plugin::class);
 
         /*
          * Only try to load DebugKit in development mode
          * Debug Kit should not be installed on a production system
          */
         if (Configure::read('debug')) {
-            $this->addPlugin(\DebugKit\Plugin::class);
+            //$this->addPlugin(\DebugKit\Plugin::class);
         }
     }
 
