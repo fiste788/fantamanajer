@@ -28,7 +28,7 @@ jobs:
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer update --prefer-dist --no-progress --no-suggest
 
     - name: Run phpcs
       run: vendor/bin/phpcs --report=checkstyle --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/
