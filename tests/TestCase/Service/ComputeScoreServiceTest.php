@@ -3,11 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Model\Entity\Disposition;
-use App\Model\Entity\Lineup;
-use App\Model\Entity\Matchday;
-use App\Model\Entity\Score;
-use App\Model\Entity\Team;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\TestSuite\TestCase;
