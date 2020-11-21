@@ -62,7 +62,7 @@ class PushNotificationService
             }
         }
         //$this->PushSubscriptions->updateAll(['expired' => true], ['id' => $expired]);
-        if(!empty($expired)) {
+        if (!empty($expired)) {
             return $this->PushSubscriptions->deleteAll(['endpoint IN' => $expired]);
         }
 

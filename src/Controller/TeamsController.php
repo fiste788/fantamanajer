@@ -75,7 +75,7 @@ class TeamsController extends AppController
         $action = $this->Crud->action();
         $action->saveOptions([
             'accessibleFields' => ['user' => false],
-            'associated' => ['Members']
+            'associated' => ['Members'],
         ]);
 
         return $this->Crud->execute();

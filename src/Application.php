@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,6 +23,11 @@ use App\Authentication\Identifier\WebauthnHandleIdentifier;
 use App\Command as Commands;
 use App\Database\Type as Types;
 use App\Model\Entity\User;
+use App\Service\ComputeScoreService;
+use App\Service\LineupService;
+use App\Service\PublicKeyCredentialSourceRepositoryService;
+use App\Service\UserService;
+use App\Service\WebauthnService;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -37,6 +43,7 @@ use Authorization\Policy\OrmResolver;
 use Authorization\Policy\ResolverCollection;
 use Cake\Console\CommandCollection;
 use Cake\Core\Configure;
+use Cake\Core\ContainerInterface;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Database\TypeFactory;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
@@ -241,5 +248,14 @@ class Application extends BaseApplication implements
         $commands->add('utility start_season', Commands\StartSeasonCommand::class);
 
         return $commands;
+    }
+
+    public function services(ContainerInterface $container): void
+    {
+        $container->add(PublicKeyCredentialSourceRepositoryService::class);
+        $container->add(WebauthnService::class);
+        $container->add(UserService::class);
+        $container->add(ComputeScoreService::class);
+        $container->add(LineupService::class);
     }
 }

@@ -1,14 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\UserService;
+use App\Service\WebauthnService;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventInterface;
 
 /**
- * @property \App\Service\WebauthnService $Webauthn
  * @property \App\Service\UserService $User
  */
 class WebauthnController extends AppController
@@ -23,7 +25,6 @@ class WebauthnController extends AppController
     {
         parent::initialize();
         $this->loadService('User');
-        $this->loadService('Webauthn');
     }
 
     /**
@@ -42,9 +43,9 @@ class WebauthnController extends AppController
      * @return void
      * @throws \RuntimeException
      */
-    public function publicKeyRequest()
+    public function publicKeyRequest(WebauthnService $webauthn)
     {
-        $publicKeyCredentialRequestOptions = $this->Webauthn->assertionRequest($this->request);
+        $publicKeyCredentialRequestOptions = $webauthn->assertionRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -61,9 +62,9 @@ class WebauthnController extends AppController
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function publicKeyCreation()
+    public function publicKeyCreation(WebauthnService $webauthn)
     {
-        $publicKeyCredentialCreationOptions = $this->Webauthn->attestationRequest($this->request);
+        $publicKeyCredentialCreationOptions = $webauthn->attestationRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -79,7 +80,7 @@ class WebauthnController extends AppController
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function login()
+    public function login(UserService $userService)
     {
         $result = $this->Authentication->getResult();
         if ($result != null && $result->isValid()) {
@@ -87,7 +88,7 @@ class WebauthnController extends AppController
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set('data', [
-                'token' => $this->User->getToken((string)$user->id, $days),
+                'token' => $userService->getToken((string)$user->id, $days),
                 'user' => $user->getOriginalData(),
             ]);
         } else {
@@ -108,9 +109,9 @@ class WebauthnController extends AppController
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function register()
+    public function register(WebauthnService $webauthn)
     {
-        $token = $this->Webauthn->attestationResponse($this->request);
+        $token = $webauthn->attestationResponse($this->request);
         $this->set([
             'success' => true,
             'data' => $token,

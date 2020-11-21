@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Model\Entity\Lineup;
+use App\Service\ComputeScoreService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
@@ -69,7 +71,7 @@ class ScoresController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function edit()
+    public function edit(ComputeScoreService $computeScore)
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
@@ -83,10 +85,10 @@ class ScoresController extends AppController
             ],
         ]);
 
-        $this->Crud->on('afterSave', function (Event $event) {
+        $this->Crud->on('afterSave', function (Event $event) use ($computeScore) {
             /** @var \App\Model\Entity\Score $score */
             $score = $event->getSubject()->entity;
-            $this->ComputeScore->exec($score);
+            $computeScore->exec($score);
             $this->Scores->save($score);
         });
 
