@@ -58,7 +58,7 @@ class ScoresFixture extends TestFixture
                 'penality_points' => 1,
                 'penality' => 'Lorem ipsum dolor sit amet',
                 'lineup_id' => 1,
-                'team_id' => 55,
+                'team_id' => 1,
                 'matchday_id' => 570,
             ],
         ];

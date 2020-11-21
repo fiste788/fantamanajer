@@ -53,7 +53,7 @@ class ScoreTest extends TestCase
     {
         $scoreCompute = new ComputeScoreService();
         $matchday = $this->getTableLocator()->get('Matchdays')->get(576);
-        $team = $this->getTableLocator()->get('Teams')->get(55, ['contain' => 'Championships']);
+        $team = $this->getTableLocator()->get('Teams')->get(1, ['contain' => 'Championships']);
         $this->Score->team = $team;
         $this->Score->matchday = $matchday;
         $this->Score->matchday_id = $matchday->id;
@@ -72,7 +72,7 @@ class ScoreTest extends TestCase
     {
         $scoreService = new ComputeScoreService();
         $matchday = $this->getTableLocator()->get('Matchdays')->get(577);
-        $team = $this->getTableLocator()->get('Teams')->get(55, ['contain' => 'Championships']);
+        $team = $this->getTableLocator()->get('Teams')->get(1, ['contain' => 'Championships']);
         $this->Score->team = $team;
         $this->Score->matchday = $matchday;
         $this->Score->matchday_id = $matchday->id;

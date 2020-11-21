@@ -51,14 +51,14 @@ class TeamsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '55',
+                'id' => 1,
                 'name' => 'Rubin Kebab',
                 'photo' => 'kebab.jpg',
                 'photo_dir' => 'webroot/files/teams/55/photo/',
                 'photo_size' => '216640',
                 'photo_type' => 'image/jpeg',
-                'user_id' => '2',
-                'championship_id' => '14',
+                'user_id' => 2,
+                'championship_id' => 1,
             ],
         ];
         parent::init();

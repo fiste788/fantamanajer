@@ -48,7 +48,7 @@ class UsersFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '1',
+                'id' => 1,
                 'name' => 'Shane',
                 'surname' => 'Vendrell',
                 'email' => 'francesco.bertocchi@gmail.com',
@@ -60,7 +60,7 @@ class UsersFixture extends TestFixture
                 'admin' => '1',
             ],
             [
-                'id' => '2',
+                'id' => 2,
                 'name' => 'Stefano',
                 'surname' => 'Sonzogni',
                 'email' => 'stefano788@gmail.com',

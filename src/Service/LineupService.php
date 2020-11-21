@@ -156,7 +156,13 @@ class LineupService
             $lineupCopy->vcaptain_id = null;
             $lineupCopy->vvcaptain_id = null;
         }
-        $lineupCopy->dispositions = array_map(function ($disposition) {
+        $lineupCopy->dispositions = array_map(function (Disposition $disposition) use ($lineupCopy) {
+            /** @var \App\Model\Entity\Member $member */
+            $member = $this->Lineups->Dispositions->Members
+                ->find('listWithRating', ['matchday_id' => $lineupCopy->matchday_id])
+                ->where(['Members.id' => $disposition->member_id])->firstOrFail();
+            $disposition->member = $member;
+
             return $this->reset($disposition);
         }, $lineupCopy->dispositions);
 

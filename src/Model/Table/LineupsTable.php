@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Member;
 use App\Model\Rule\JollyAlreadyUsedRule;
 use App\Model\Rule\LineupExpiredRule;
 use App\Model\Rule\MissingPlayerInLineupRule;
@@ -292,20 +291,7 @@ class LineupsTable extends Table
             'Teams.Championships',
             'Dispositions' => [
                 'Members' => function (Query $q) use ($matchdayId): Query {
-                    return $q->find(
-                        'list',
-                        [
-                            'keyField' => 'id',
-                            'valueField' => function (Member $obj): Member {
-                                return $obj;
-                            },
-                        ]
-                    )
-                        ->contain(
-                            ['Roles', 'Ratings' => function (Query $q) use ($matchdayId): Query {
-                                return $q->where(['Ratings.matchday_id' => $matchdayId]);
-                            }]
-                        );
+                    return $q->find('listWithRating', ['matchday_id' => $matchdayId]);
                 },
             ],
         ]);
