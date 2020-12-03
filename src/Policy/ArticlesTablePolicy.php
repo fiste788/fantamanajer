@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -14,9 +15,10 @@ class ArticlesTablePolicy
      *
      * @param \App\Model\Entity\User $user User
      * @param \Cake\ORM\Query $query query
-     * @return \Cake\ORM\Query
+     *
+     * @return Query
      */
-    public function scopeIndex(IdentityInterface $user, Query $query)
+    public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
         return $query->where(['Articles.user_id' => $user->getIdentifier()]);
     }

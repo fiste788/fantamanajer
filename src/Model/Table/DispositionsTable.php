@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -106,9 +107,10 @@ class DispositionsTable extends Table
      *
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     *
+     * @return Query
      */
-    public function findByMatchdayLineup(Query $q, array $options)
+    public function findByMatchdayLineup(Query $q, array $options): Query
     {
         return $q->innerJoinWith('Lineups')
             ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])

@@ -60,7 +60,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * there is no post data, either username or password is missing, or if the scope conditions have not been met.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request The request that contains login information.
-     * @return \Authentication\Authenticator\ResultInterface
+     * @return \Authentication\Authenticator\Result
      * @throws \InvalidArgumentException
      */
     public function authenticate(ServerRequestInterface $request): ResultInterface

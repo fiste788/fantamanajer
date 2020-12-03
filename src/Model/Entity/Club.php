@@ -78,10 +78,11 @@ class Club extends Entity
     }
 
     /**
-     * @return string[]|null
+     * @return null|string[]
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException
+     * @psalm-return array<string, string>|null
      */
     protected function _getBackgroundUrl(): ?array
     {

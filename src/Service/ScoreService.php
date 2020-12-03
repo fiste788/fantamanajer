@@ -31,6 +31,7 @@ class ScoreService
      *
      * @param \App\Model\Entity\Team $team Team
      * @return \App\Model\Entity\Score[]
+     * @psalm-return list<\App\Model\Entity\Score>
      */
     public function createMissingPoints(Team $team): array
     {

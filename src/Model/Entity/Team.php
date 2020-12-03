@@ -98,10 +98,11 @@ class Team extends Entity
     /**
      * Get photo
      *
-     * @return string[]|null
+     * @return null|string[]
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException
+     * @psalm-return array<string, string>|null
      */
     protected function _getPhotoUrl(): ?array
     {
