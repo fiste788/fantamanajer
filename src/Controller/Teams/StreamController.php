@@ -32,7 +32,7 @@ class StreamController extends AppController
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('team', $teamId, false, (int)$offset, $rowsForPage);
+        $stream = $manager->getActivities('team', $teamId, false, $offset, $rowsForPage);
         $this->set([
             'success' => true,
             'data' => $stream,

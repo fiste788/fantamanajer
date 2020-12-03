@@ -5,6 +5,7 @@ namespace App\Command;
 
 use App\Traits\CurrentMatchdayTrait;
 use App\Utility\WebPush\WebPushMessage;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Chronos\Chronos;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
@@ -14,16 +15,18 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\I18n\Time;
 use GetStream\Stream\Client;
-use Minishlink\WebPush\WebPush;
+use Minishlink\WebPush\Notification;
 
 /**
  * @property \App\Model\Table\LineupsTable $Lineups
  * @property \App\Model\Table\TeamsTable $Teams
  * @property \App\Model\Table\MatchdaysTable $Matchdays
+ * @property \App\Service\PushNotificationService $PushNotification
  */
 class SendMissingLineupNotificationCommand extends Command
 {
     use CurrentMatchdayTrait;
+    use ServiceAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -38,6 +41,7 @@ class SendMissingLineupNotificationCommand extends Command
         $this->loadModel('Lineups');
         $this->loadModel('Teams');
         $this->loadModel('Matchdays');
+        $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
 
@@ -81,7 +85,6 @@ class SendMissingLineupNotificationCommand extends Command
             /** @var string[] $config */
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
-            $webPush = new WebPush((array)Configure::read('WebPush'));
 
             /** @var \App\Model\Entity\Team[] $teams */
             $teams = $this->Teams->find()
@@ -98,20 +101,29 @@ class SendMissingLineupNotificationCommand extends Command
             foreach ($teams as $team) {
                 $date = new Time($this->currentMatchday->date->getTimestamp());
                 foreach ($team->user->push_subscriptions as $subscription) {
-                    $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                        ->title('Formazione non ancora impostatata')
-                        ->body(sprintf(
-                            'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
-                            $this->currentMatchday->number,
-                            $date->timeAgoInWords()
-                        ))
-                        ->action('Imposta', 'open')
-                        ->tag('missing-lineup-' . $this->currentMatchday->number)
-                        ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
-                    $io->out('Send push notification to ' . $subscription->endpoint);
-                    $messageString = json_encode($message);
-                    if ($messageString != false) {
-                        $webPush->queueNotification($subscription->getSubscription(), $messageString);
+                    $pushSubscription = $subscription->getSubscription();
+                    if ($pushSubscription != null) {
+                        $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
+                            ->title('Formazione non ancora impostatata')
+                            ->body(sprintf(
+                                'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
+                                $this->currentMatchday->number,
+                                $date->timeAgoInWords()
+                            ))
+                            ->action('Imposta', 'open')
+                            ->tag('missing-lineup-' . $this->currentMatchday->number)
+                            ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
+                        $io->out('Send push notification to ' . $subscription->endpoint);
+                        $messageString = json_encode($message);
+                        if ($messageString != false) {
+                            $notification = Notification::create()
+                                ->withTTL(3600)
+                                ->withTopic('missing-lineup')
+                                ->withPayload($messageString);
+                            $io->out($messageString);
+                            $io->out('Send push notification to ' . $subscription->endpoint);
+                            $this->PushNotification->send($notification, $pushSubscription);
+                        }
                     }
                 }
                 $io->out('Create activity in notification stream for team ' . (string)$team->id);
@@ -122,7 +134,6 @@ class SendMissingLineupNotificationCommand extends Command
                     'object' => 'Lineup:',
                 ]);
             }
-            $webPush->flush();
         }
 
         return CommandInterface::CODE_SUCCESS;

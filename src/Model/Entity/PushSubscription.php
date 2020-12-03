@@ -54,16 +54,20 @@ class PushSubscription extends Entity
     ];
 
     /**
-     * @return \Minishlink\WebPush\Subscription
+     * @return \Minishlink\WebPush\Subscription|null
      * @throws \ErrorException
      */
-    public function getSubscription(): Subscription
+    public function getSubscription(): ?Subscription
     {
-        return Subscription::create([
+        $subscriptionString = json_encode([
             'endpoint' => $this->endpoint,
-            'publicKey' => $this->public_key,
-            'authToken' => $this->auth_token,
             'contentEncoding' => $this->content_encoding ?? 'aesgcm',
+            'keys' => [
+                'p256dh' => $this->public_key,
+                'auth' => $this->auth_token,
+            ],
         ]);
+
+        return $subscriptionString != false ? Subscription::createFromString($subscriptionString) : null;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -40,6 +39,7 @@ class WebauthnController extends AppController
     /**
      * Undocumented function
      *
+     * @param \App\Service\WebauthnService $webauthn Webauthn service
      * @return void
      * @throws \RuntimeException
      */
@@ -57,6 +57,7 @@ class WebauthnController extends AppController
     /**
      * Get Webauthn public key
      *
+     * @param \App\Service\WebauthnService $webauthn Webauthn service
      * @return void
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
@@ -76,6 +77,7 @@ class WebauthnController extends AppController
     /**
      * Undocumented function
      *
+     * @param \App\Service\UserService $userService User service
      * @return void
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
@@ -104,6 +106,7 @@ class WebauthnController extends AppController
     /**
      * Save the credential
      *
+     * @param \App\Service\WebauthnService $webauthn Webauthn service
      * @return void
      * @throws \RuntimeException
      * @throws \InvalidArgumentException

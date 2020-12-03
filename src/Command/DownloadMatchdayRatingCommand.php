@@ -22,7 +22,7 @@ class DownloadMatchdayRatingCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \InvalidArgumentException
      */
     public function initialize(): void

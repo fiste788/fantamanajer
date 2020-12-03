@@ -175,7 +175,7 @@ class DownloadRatingsService
      * @param int $matchday Matchday
      * @return string|null
      * @throws \InvalidArgumentException
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */

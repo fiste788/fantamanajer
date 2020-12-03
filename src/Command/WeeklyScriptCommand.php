@@ -15,7 +15,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\Mailer\MailerAwareTrait;
-use Minishlink\WebPush\WebPush;
+use Minishlink\WebPush\Notification;
 
 /**
  * @property \App\Model\Table\SeasonsTable $Seasons
@@ -187,30 +187,33 @@ class WeeklyScriptCommand extends Command
         array $scores,
         ConsoleIo $io
     ): void {
-        $webPush = new WebPush((array)Configure::read('WebPush'));
+        //$webPush = new WebPush((array)Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
             if ($team->isPushSubscripted('score')) {
                 foreach ($team->user->push_subscriptions as $subscription) {
-                    $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                        ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
-                        ->body('La tua squadra ha totalizzato un punteggio di ' .
-                            $scores[$team->id]->points . ' punti')
-                        ->action('Visualizza', 'open')
-                        ->tag('926796012340920300')
-                        ->data(['url' => '/scores/' . $scores[$team->id]->id]);
+                    $pushSubscription = $subscription->getSubscription();
+                    if ($pushSubscription != null) {
+                        $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
+                            ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
+                            ->body('La tua squadra ha totalizzato un punteggio di ' .
+                                $scores[$team->id]->points . ' punti')
+                            ->action('Visualizza', 'open')
+                            ->tag('926796012340920300')
+                            ->data(['url' => '/scores/' . $scores[$team->id]->id]);
 
-                    $io->out('Sending notification to ' . $subscription->endpoint);
-                    $messageString = json_encode($message);
-                    if ($messageString != false) {
-                        $webPush->queueNotification($subscription->getSubscription(), $messageString);
+                        $io->out('Sending notification to ' . $subscription->endpoint);
+                        $messageString = json_encode($message);
+                        if ($messageString != false) {
+                            $notification = Notification::create()
+                                ->withTTL(3600)
+                                ->withTopic('score')
+                                ->withPayload($messageString);
+                            $this->PushNotification->send($notification, $pushSubscription);
+                        }
                     }
                 }
             }
         }
-
-        /** @var \Minishlink\WebPush\MessageSentReport[] $report */
-        $report = $webPush->flush();
-        $this->PushNotification->deleteExpired($report);
     }
 
     /**

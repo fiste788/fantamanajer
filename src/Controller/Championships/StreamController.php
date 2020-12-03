@@ -36,7 +36,7 @@ class StreamController extends AppController
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('championship', (string)$championshipId, true, (int)$offset, $rowsForPage);
+        $stream = $manager->getActivities('championship', (string)$championshipId, true, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
             '_serialize' => 'stream',

@@ -100,7 +100,7 @@ class Team extends Entity
      *
      * @return string[]|null
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException
      */
     protected function _getPhotoUrl(): ?array
@@ -108,7 +108,7 @@ class Team extends Entity
         if ($this->photo != null && $this->photo_dir != null) {
             $baseUrl = strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
-            return $this->_getPhotosUrl((string)ROOT . DS . $this->photo_dir, $baseUrl, (string)$this->photo);
+            return $this->_getPhotosUrl((string)ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
         } else {
             return null;
         }

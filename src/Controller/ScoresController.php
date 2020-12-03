@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -68,6 +67,7 @@ class ScoresController extends AppController
     /**
      * Edit
      *
+     * @param \App\Service\ComputeScoreService $computeScore Compute score service
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */

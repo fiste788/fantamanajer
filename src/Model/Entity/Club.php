@@ -70,7 +70,7 @@ class Club extends Entity
 
     /**
      * @return string
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      */
     protected function _getPhotoUrl(): string
     {
@@ -80,7 +80,7 @@ class Club extends Entity
     /**
      * @return string[]|null
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException
      */
     protected function _getBackgroundUrl(): ?array

@@ -6,18 +6,21 @@ namespace App\Service;
 use App\Model\Entity\Selection;
 use App\Model\Entity\Transfert;
 use App\Utility\WebPush\WebPushMessage;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Mailer\Mailer;
-use Minishlink\WebPush\WebPush;
+use Minishlink\WebPush\Notification;
 
 /**
  * @property \App\Model\Table\MembersTeamsTable $MembersTeams
  * @property \App\Model\Table\SelectionsTable $Selections
+ * @property \App\Service\PushNotificationService $PushNotification
  */
 class SelectionService
 {
     use ModelAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Construct
@@ -29,6 +32,7 @@ class SelectionService
     {
         $this->loadModel('MembersTeams');
         $this->loadModel('Selections');
+        $this->loadService('PushNotification');
     }
 
     /**
@@ -61,18 +65,23 @@ class SelectionService
                 ->send();
         }
         if ($selection->team->isPushSubscripted('lost_member')) {
-            $webPush = new WebPush((array)Configure::read('WebPush'));
             foreach ($selection->team->user->push_subscriptions as $subscription) {
-                $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                    ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
-                    ->body('Hai perso il giocatore ' . $selection->new_member->player->full_name)
-                    ->tag('lost-player-' . $selection->id);
-                $messageString = json_encode($message);
-                if ($messageString != false) {
-                    $webPush->queueNotification($subscription->getSubscription(), $messageString);
+                $pushSubscription = $subscription->getSubscription();
+                if ($pushSubscription != null) {
+                    $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
+                        ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
+                        ->body('Hai perso il giocatore ' . $selection->new_member->player->full_name)
+                        ->tag('lost-player-' . $selection->id);
+                    $messageString = json_encode($message);
+                    if ($messageString != false) {
+                        $notification = Notification::create()
+                            ->withTTL(3600)
+                            ->withTopic('player-lost')
+                            ->withPayload($messageString);
+                        $this->PushNotification->send($notification, $pushSubscription);
+                    }
                 }
             }
-            $webPush->flush();
         }
     }
 

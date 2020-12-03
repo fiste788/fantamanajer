@@ -68,14 +68,21 @@ final class WebPushMessage implements JsonSerializable
      *
      * @var bool
      */
-    protected $renotify = true;
+    protected $renotify = false;
 
     /**
      * The renotify.
      *
      * @var bool
      */
-    protected $requireInteraction = true;
+    protected $requireInteraction = false;
+
+    /**
+     * The silent
+     *
+     * @var bool
+     */
+    protected $silent = false;
 
     /**
      * The tag for grouping
@@ -256,6 +263,19 @@ final class WebPushMessage implements JsonSerializable
     }
 
     /**
+     * Set the silent.
+     *
+     * @param bool $silent Silent
+     * @return self
+     */
+    public function silent(bool $silent): WebPushMessage
+    {
+        $this->silent = $silent;
+
+        return $this;
+    }
+
+    /**
      * Set the tag.
      *
      * @param string $tag Tag
@@ -313,6 +333,7 @@ final class WebPushMessage implements JsonSerializable
                 'lang' => $this->lang,
                 'renotify' => $this->renotify,
                 'requireInteraction' => $this->requireInteraction,
+                'silent' => $this->silent,
                 'tag' => $this->tag,
                 'vibrate' => $this->vibrate,
                 'data' => $this->data,

@@ -91,7 +91,7 @@ class RenewChampionshipCommand extends Command
                 $source = (string)ROOT . DS . $dir;
                 $io->out('Trovata immagine ' . $photo);
 
-                $to = (string)IMG_TEAMS . $newTeam->id . DS . 'photo' . DS;
+                $to = IMG_TEAMS . $newTeam->id . DS . 'photo' . DS;
                 $io->out('Copy to ' . $source . ' to ' . $to);
                 $filesystem->mirror($source, $to, null, ['overrride' => true, 'copy_on_windows' => true]);
                 if ($team->photo != null) {

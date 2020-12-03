@@ -20,7 +20,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * Constructor
      *
      * @param array $config Configuration
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function __construct(array $config = [])
     {
@@ -77,7 +77,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
         /** @var string[] $fields */
         $fields = $this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
-        foreach ((array)$fields as $field) {
+        foreach ($fields as $field) {
             $conditions[$field] = $identifier;
         }
 

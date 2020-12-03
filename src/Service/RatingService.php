@@ -88,8 +88,8 @@ class RatingService
                 for ($j = 0; $j < 6; $j++) {
                     $res = [];
                     for ($i = $j * $keyCount; $i < ($j + 1) * $keyCount; $i++) {
-                        $xor1 = (int)hexdec(bin2hex($decript[$i]));
-                        $xor2 = (int)hexdec(bin2hex($encript[$i]));
+                        $xor1 = hexdec(bin2hex($decript[$i]));
+                        $xor2 = hexdec(bin2hex($encript[$i]));
                         $res[] = dechex($xor1 ^ $xor2);
                     }
                     $tmp = implode('-', $res);

@@ -183,6 +183,10 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      */
     public function toCredentialUserEntity(): PublicKeyCredentialUserEntity
     {
-        return new PublicKeyCredentialUserEntity($this->email, $this->uuid ?? '', $this->name . ' ' . $this->surname);
+        return new PublicKeyCredentialUserEntity(
+            $this->email,
+            (string)($this->uuid ?? ''),
+            $this->name . ' ' . $this->surname
+        );
     }
 }

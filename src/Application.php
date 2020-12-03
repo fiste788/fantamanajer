@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -135,7 +134,7 @@ class Application extends BaseApplication implements
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @return \Authentication\AuthenticationService
-     * @throws \Cake\Core\Exception\Exception
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
@@ -250,6 +249,12 @@ class Application extends BaseApplication implements
         return $commands;
     }
 
+    /**
+     * Define the containers for an application.
+     *
+     * @param \Cake\Core\ContainerInterface $container container
+     * @return void
+     */
     public function services(ContainerInterface $container): void
     {
         $container->add(PublicKeyCredentialSourceRepositoryService::class);

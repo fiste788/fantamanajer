@@ -96,7 +96,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         /** @var null|string $key */
         $key = $cakeRequest->getSession()->consume('User.PublicKey');
 
-        return $key != null ? (string)$key : null;
+        return $key != null ? $key : null;
     }
 
     /**
@@ -113,6 +113,6 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         /** @var null|string $handle */
         $handle = $cakeRequest->getSession()->consume('User.Handle');
 
-        return $handle != null ? (string)$handle : null;
+        return $handle != null ? $handle : null;
     }
 }
