@@ -59,7 +59,6 @@ class UpdateMatchdayCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        /** @var \App\Model\Entity\Season $season */
         $season = $args->hasArgument('season') ?
             $this->Matchdays->Seasons->get((int)$args->getArgument('season')) : $this->currentSeason;
         $matchday = $args->hasArgument('matchday') ?

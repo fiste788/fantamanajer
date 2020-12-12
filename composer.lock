@@ -2184,33 +2184,33 @@
         },
         {
             "name": "league/uri-components",
-            "version": "dev-master",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-components.git",
-                "reference": "b620469aa9a847df4eacc69a81003e2e668f6ec9"
+                "reference": "14bab20b05bc20d16dec17401a9027c679412589"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-components/zipball/b620469aa9a847df4eacc69a81003e2e668f6ec9",
-                "reference": "b620469aa9a847df4eacc69a81003e2e668f6ec9",
+                "url": "https://api.github.com/repos/thephpleague/uri-components/zipball/14bab20b05bc20d16dec17401a9027c679412589",
+                "reference": "14bab20b05bc20d16dec17401a9027c679412589",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "league/uri-interfaces": "^2.1",
-                "php": "^7.2 || ^8.0",
+                "php": "^7.2",
                 "psr/http-message": "^1.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.3",
-                "guzzlehttp/psr7": "^1.4.2",
+                "guzzlehttp/psr7": "^1.4",
                 "laminas/laminas-diactoros": "^2.0",
                 "league/uri": "^6.0",
                 "phpstan/phpstan": "^0.12",
                 "phpstan/phpstan-phpunit": "^0.12",
                 "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^8.0 || ^9.0"
+                "phpunit/phpunit": "^7.0 | ^8.0"
             },
             "suggest": {
                 "ext-fileinfo": "Needed to create Data URI from a filepath",
@@ -2221,7 +2221,6 @@
                 "php-64bit": "to improve handle IPV4 parsing",
                 "psr/http-message-implementation": "to allow manipulating PSR-7 Uri objects"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2262,15 +2261,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/uri-components/issues",
-                "source": "https://github.com/thephpleague/uri-components/tree/master"
+                "source": "https://github.com/thephpleague/uri-components/tree/2.2.1"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/nyamsprod",
-                    "type": "github"
-                }
-            ],
-            "time": "2020-11-06T22:13:35+00:00"
+            "time": "2020-02-09T19:44:04+00:00"
         },
         {
             "name": "league/uri-interfaces",
@@ -3602,32 +3595,31 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.3",
+            "version": "v6.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "149cfdf118b169f7840bbe3ef0d4bc795d1780c9"
+                "reference": "56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/149cfdf118b169f7840bbe3ef0d4bc795d1780c9",
-                "reference": "149cfdf118b169f7840bbe3ef0d4bc795d1780c9",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e",
+                "reference": "56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e",
                 "shasum": ""
             },
             "require": {
-                "egulias/email-validator": "~2.0",
+                "egulias/email-validator": "^2.0",
                 "php": ">=7.0.0",
                 "symfony/polyfill-iconv": "^1.0",
                 "symfony/polyfill-intl-idn": "^1.10",
                 "symfony/polyfill-mbstring": "^1.0"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9.1",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+                "mockery/mockery": "^1.0",
+                "symfony/phpunit-bridge": "^4.4|^5.0"
             },
             "suggest": {
-                "ext-intl": "Needed to support internationalized email addresses",
-                "true/punycode": "Needed to support internationalized email addresses, if ext-intl is not installed"
+                "ext-intl": "Needed to support internationalized email addresses"
             },
             "type": "library",
             "extra": {
@@ -3662,9 +3654,19 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.3"
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.4"
             },
-            "time": "2019-11-12T09:31:26+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/swiftmailer/swiftmailer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-12-08T18:02:06+00:00"
         },
         {
             "name": "symfony/config",
@@ -5444,16 +5446,16 @@
         },
         {
             "name": "web-auth/cose-lib",
-            "version": "v3.3.x-dev",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/cose-lib.git",
-                "reference": "0ba9ba076238d22a1d8737e84c3caa3e16c7c876"
+                "reference": "ff5b423608b4e2649925a58cfb7d3df67cb66929"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/cose-lib/zipball/0ba9ba076238d22a1d8737e84c3caa3e16c7c876",
-                "reference": "0ba9ba076238d22a1d8737e84c3caa3e16c7c876",
+                "url": "https://api.github.com/repos/web-auth/cose-lib/zipball/ff5b423608b4e2649925a58cfb7d3df67cb66929",
+                "reference": "ff5b423608b4e2649925a58cfb7d3df67cb66929",
                 "shasum": ""
             },
             "require": {
@@ -5462,9 +5464,21 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "fgrosse/phpasn1": "^2.1",
-                "php": ">=7.2"
+                "php": "^7.2"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "v1.0": "1.0.x-dev",
+                    "v1.1": "1.1.x-dev",
+                    "v1.2": "1.2.x-dev",
+                    "v2.0": "2.0.x-dev",
+                    "v2.1": "2.1.x-dev",
+                    "v3.0": "3.0.x-dev",
+                    "v3.1": "3.1.x-dev",
+                    "v3.2": "3.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Cose\\": "src/"
@@ -5491,7 +5505,7 @@
                 "RFC8152"
             ],
             "support": {
-                "source": "https://github.com/web-auth/cose-lib/tree/v3.3"
+                "source": "https://github.com/web-auth/cose-lib/tree/v3.2.9"
             },
             "funding": [
                 {
@@ -5503,20 +5517,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-07-21T23:29:19+00:00"
+            "time": "2020-07-21T21:19:41+00:00"
         },
         {
             "name": "web-auth/metadata-service",
-            "version": "v3.3.x-dev",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-metadata-service.git",
-                "reference": "dcd21e556aef964b9a0c04b1b7260bcc7eb836f9"
+                "reference": "1a27a204280acf0e49e496b5bc8fcc2225e830f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-metadata-service/zipball/dcd21e556aef964b9a0c04b1b7260bcc7eb836f9",
-                "reference": "dcd21e556aef964b9a0c04b1b7260bcc7eb836f9",
+                "url": "https://api.github.com/repos/web-auth/webauthn-metadata-service/zipball/1a27a204280acf0e49e496b5bc8fcc2225e830f6",
+                "reference": "1a27a204280acf0e49e496b5bc8fcc2225e830f6",
                 "shasum": ""
             },
             "require": {
@@ -5524,7 +5538,7 @@
                 "ext-json": "*",
                 "league/uri": "^6.0",
                 "league/uri-components": "^2.1",
-                "php": ">=7.2",
+                "php": "^7.1",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/log": "^1.1"
@@ -5534,6 +5548,14 @@
                 "web-token/jwt-signature-algorithm-ecdsa": "Mandatory for fetching Metadata Statement from distant sources"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "v2.1": "2.1.x-dev",
+                    "v3.0": "3.0.x-dev",
+                    "v3.1": "3.1.x-dev",
+                    "v3.2": "3.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Webauthn\\MetadataService\\": "src/"
@@ -5561,22 +5583,22 @@
                 "webauthn"
             ],
             "support": {
-                "source": "https://github.com/web-auth/webauthn-metadata-service/tree/v3.3"
+                "source": "https://github.com/web-auth/webauthn-metadata-service/tree/v3.2.9"
             },
-            "time": "2020-08-31T19:50:22+00:00"
+            "time": "2020-07-21T21:19:41+00:00"
         },
         {
             "name": "web-auth/webauthn-lib",
-            "version": "v3.3.x-dev",
+            "version": "v3.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-lib.git",
-                "reference": "e530790c282c14dd448fcbd90fc3780114420697"
+                "reference": "b3df2a171ff224d4a3c2b1e8dfae3212abe722fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/e530790c282c14dd448fcbd90fc3780114420697",
-                "reference": "e530790c282c14dd448fcbd90fc3780114420697",
+                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/b3df2a171ff224d4a3c2b1e8dfae3212abe722fc",
+                "reference": "b3df2a171ff224d4a3c2b1e8dfae3212abe722fc",
                 "shasum": ""
             },
             "require": {
@@ -5584,7 +5606,7 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "php": ">=7.2",
+                "php": "^7.2",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0",
@@ -5604,6 +5626,18 @@
                 "web-token/jwt-signature-algorithm-rsa": "Mandatory for the AndroidSafetyNet Attestation Statement support"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "v1.0": "1.0.x-dev",
+                    "v1.1": "1.1.x-dev",
+                    "v1.2": "1.2.x-dev",
+                    "v2.0": "2.0.x-dev",
+                    "v2.1": "2.1.x-dev",
+                    "v3.0": "3.0.x-dev",
+                    "v3.1": "3.1.x-dev",
+                    "v3.2": "3.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Webauthn\\": "src/"
@@ -5631,7 +5665,7 @@
                 "webauthn"
             ],
             "support": {
-                "source": "https://github.com/web-auth/webauthn-lib/tree/v3.3"
+                "source": "https://github.com/web-auth/webauthn-lib/tree/v3.2.10"
             },
             "funding": [
                 {
@@ -5643,11 +5677,11 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-08-31T19:50:22+00:00"
+            "time": "2020-08-31T19:42:44+00:00"
         },
         {
             "name": "web-token/jwt-core",
-            "version": "v2.2.5",
+            "version": "v2.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-core.git",
@@ -5724,7 +5758,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-core/tree/v2.2.5"
+                "source": "https://github.com/web-token/jwt-core/tree/v2.2.6"
             },
             "funding": [
                 {
@@ -5736,7 +5770,7 @@
         },
         {
             "name": "web-token/jwt-signature",
-            "version": "v2.2.5",
+            "version": "v2.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature.git",
@@ -5813,7 +5847,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature/tree/v2.2.5"
+                "source": "https://github.com/web-token/jwt-signature/tree/v2.2.0"
             },
             "funding": [
                 {
@@ -5825,7 +5859,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-eddsa",
-            "version": "v2.2.5",
+            "version": "v2.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-eddsa.git",
@@ -5895,7 +5929,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature-algorithm-eddsa/tree/v2.2.5"
+                "source": "https://github.com/web-token/jwt-signature-algorithm-eddsa/tree/v2.2.0"
             },
             "funding": [
                 {
@@ -5907,7 +5941,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-rsa",
-            "version": "v2.2.5",
+            "version": "v2.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-rsa.git",
@@ -5982,7 +6016,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature-algorithm-rsa/tree/v2.2.1"
+                "source": "https://github.com/web-token/jwt-signature-algorithm-rsa/tree/v2.2"
             },
             "funding": [
                 {
@@ -6274,16 +6308,16 @@
         },
         {
             "name": "cakephp/cakephp-codesniffer",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp-codesniffer.git",
-                "reference": "ea268e9fea27ac70b42b0051537e65feeb002511"
+                "reference": "c5bb1faeebf09cd4a3604bdb0c84f7bc92dc5475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp-codesniffer/zipball/ea268e9fea27ac70b42b0051537e65feeb002511",
-                "reference": "ea268e9fea27ac70b42b0051537e65feeb002511",
+                "url": "https://api.github.com/repos/cakephp/cakephp-codesniffer/zipball/c5bb1faeebf09cd4a3604bdb0c84f7bc92dc5475",
+                "reference": "c5bb1faeebf09cd4a3604bdb0c84f7bc92dc5475",
                 "shasum": ""
             },
             "require": {
@@ -6322,7 +6356,7 @@
                 "issues": "https://github.com/cakephp/cakephp-codesniffer/issues",
                 "source": "https://github.com/cakephp/cakephp-codesniffer"
             },
-            "time": "2020-10-14T20:27:39+00:00"
+            "time": "2020-12-03T20:39:38+00:00"
         },
         {
             "name": "cakephp/debug_kit",
@@ -6514,16 +6548,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.0.7",
+            "version": "2.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "cbee637510037f293e641857b2a6223d0ea8008d"
+                "reference": "62139b2806178adb979d76bd3437534a1a9fd490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/cbee637510037f293e641857b2a6223d0ea8008d",
-                "reference": "cbee637510037f293e641857b2a6223d0ea8008d",
+                "url": "https://api.github.com/repos/composer/composer/zipball/62139b2806178adb979d76bd3437534a1a9fd490",
+                "reference": "62139b2806178adb979d76bd3437534a1a9fd490",
                 "shasum": ""
             },
             "require": {
@@ -6591,7 +6625,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.0.7"
+                "source": "https://github.com/composer/composer/tree/2.0.8"
             },
             "funding": [
                 {
@@ -6607,7 +6641,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-13T16:31:06+00:00"
+            "time": "2020-12-03T16:20:39+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -6907,22 +6941,22 @@
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v0.7.0",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
-                "reference": "e8d808670b8f882188368faaf1144448c169c0b7"
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/e8d808670b8f882188368faaf1144448c169c0b7",
-                "reference": "e8d808670b8f882188368faaf1144448c169c0b7",
+                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/fe390591e0241955f22eb9ba327d137e501c771c",
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0 || ^2.0",
                 "php": ">=5.3",
-                "squizlabs/php_codesniffer": "^2 || ^3 || 4.0.x-dev"
+                "squizlabs/php_codesniffer": "^2.0 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "composer/composer": "*",
@@ -6973,7 +7007,7 @@
                 "issues": "https://github.com/dealerdirect/phpcodesniffer-composer-installer/issues",
                 "source": "https://github.com/dealerdirect/phpcodesniffer-composer-installer"
             },
-            "time": "2020-06-25T14:57:39+00:00"
+            "time": "2020-12-07T18:04:37+00:00"
         },
         {
             "name": "dereuromark/cakephp-ide-helper",
@@ -8325,16 +8359,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.58",
+            "version": "0.12.60",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "2a4847df6047b30af28854ed9dc95304cdb56ae5"
+                "reference": "d4577922c296d28746e28a5f046e787562143157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2a4847df6047b30af28854ed9dc95304cdb56ae5",
-                "reference": "2a4847df6047b30af28854ed9dc95304cdb56ae5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d4577922c296d28746e28a5f046e787562143157",
+                "reference": "d4577922c296d28746e28a5f046e787562143157",
                 "shasum": ""
             },
             "require": {
@@ -8365,7 +8399,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.58"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.60"
             },
             "funding": [
                 {
@@ -8381,7 +8415,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-29T13:32:03+00:00"
+            "time": "2020-12-12T13:07:07+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -8703,16 +8737,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.4.4",
+            "version": "9.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6535e637961f0829832621dc1b7308c2d24a799e"
+                "reference": "8e16c225d57c3d6808014df6b1dd7598d0a5bbbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6535e637961f0829832621dc1b7308c2d24a799e",
-                "reference": "6535e637961f0829832621dc1b7308c2d24a799e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8e16c225d57c3d6808014df6b1dd7598d0a5bbbe",
+                "reference": "8e16c225d57c3d6808014df6b1dd7598d0a5bbbe",
                 "shasum": ""
             },
             "require": {
@@ -8728,7 +8762,7 @@
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
-                "phpunit/php-code-coverage": "^9.2",
+                "phpunit/php-code-coverage": "^9.2.3",
                 "phpunit/php-file-iterator": "^3.0.5",
                 "phpunit/php-invoker": "^3.1.1",
                 "phpunit/php-text-template": "^2.0.3",
@@ -8759,7 +8793,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "9.4-dev"
+                    "dev-master": "9.5-dev"
                 }
             },
             "autoload": {
@@ -8790,7 +8824,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.4.4"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.0"
             },
             "funding": [
                 {
@@ -8802,20 +8836,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-01T04:58:47+00:00"
+            "time": "2020-12-04T05:05:53+00:00"
         },
         {
             "name": "psy/psysh",
-            "version": "v0.10.4",
+            "version": "v0.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "a8aec1b2981ab66882a01cce36a49b6317dc3560"
+                "reference": "7c710551d4a2653afa259c544508dc18a9098956"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/a8aec1b2981ab66882a01cce36a49b6317dc3560",
-                "reference": "a8aec1b2981ab66882a01cce36a49b6317dc3560",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7c710551d4a2653afa259c544508dc18a9098956",
+                "reference": "7c710551d4a2653afa259c544508dc18a9098956",
                 "shasum": ""
             },
             "require": {
@@ -8876,9 +8910,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/master"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.10.5"
             },
-            "time": "2020-05-03T19:32:03+00:00"
+            "time": "2020-12-04T02:51:30+00:00"
         },
         {
             "name": "react/promise",

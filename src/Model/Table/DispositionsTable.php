@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -107,8 +106,7 @@ class DispositionsTable extends Table
      *
      * @param \Cake\ORM\Query $q Query
      * @param array $options Options
-     *
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findByMatchdayLineup(Query $q, array $options): Query
     {

@@ -319,7 +319,6 @@ class MembersTable extends Table
      */
     public function findNotMine(Query $q, array $options): Query
     {
-        /** @var \App\Model\Entity\Team $team */
         $team = $this->Teams->get($options['team_id'], ['contain' => ['Championships']]);
         $q->contain(['Players', 'Teams'])->leftJoinWith('Teams')->where([
             'Members.role_id' => $options['role_id'],

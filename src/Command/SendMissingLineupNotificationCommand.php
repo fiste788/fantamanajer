@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -98,24 +99,25 @@ class SendMissingLineupNotificationCommand extends Command
                         ]),
                     ]
                 )->all();
+            $date = new Time($this->currentMatchday->date->getTimestamp());
             foreach ($teams as $team) {
-                $date = new Time($this->currentMatchday->date->getTimestamp());
-                foreach ($team->user->push_subscriptions as $subscription) {
-                    $pushSubscription = $subscription->getSubscription();
-                    if ($pushSubscription != null) {
-                        $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                            ->title('Formazione non ancora impostatata')
-                            ->body(sprintf(
-                                'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
-                                $this->currentMatchday->number,
-                                $date->timeAgoInWords()
-                            ))
-                            ->action('Imposta', 'open')
-                            ->tag('missing-lineup-' . $this->currentMatchday->number)
-                            ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
-                        $io->out('Send push notification to ' . $subscription->endpoint);
-                        $messageString = json_encode($message);
-                        if ($messageString != false) {
+                $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
+                    ->title('Formazione non ancora impostatata')
+                    ->body(sprintf(
+                        'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
+                        $this->currentMatchday->number,
+                        $date->timeAgoInWords()
+                    ))
+                    ->action('Imposta', 'open')
+                    ->tag('missing-lineup-' . $this->currentMatchday->number)
+                    ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
+
+                $messageString = json_encode($message);
+                if ($messageString != false) {
+                    foreach ($team->user->push_subscriptions as $subscription) {
+                        $pushSubscription = $subscription->getSubscription();
+                        if ($pushSubscription != null) {
+                            $io->out('Send push notification to ' . $subscription->endpoint);
                             $notification = Notification::create()
                                 ->withTTL(3600)
                                 ->withTopic('missing-lineup')

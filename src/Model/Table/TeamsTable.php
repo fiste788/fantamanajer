@@ -250,7 +250,6 @@ class TeamsTable extends Table
         $this->loadService('Team');
 
         if (!$team->user->id) {
-            /** @var \App\Model\Entity\User $user */
             $user = $this->Users->findOrCreate(['email' => $team->user->email]);
             $team->user = $user;
         }

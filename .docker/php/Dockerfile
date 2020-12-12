@@ -2,7 +2,7 @@ ARG PHP_VERSION=""
 
 FROM php:${PHP_VERSION:+${PHP_VERSION}-}fpm-alpine
 
-COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer/composer /usr/bin/composer /usr/local/bin/composer
 
 RUN apk update; \
     apk upgrade; \
