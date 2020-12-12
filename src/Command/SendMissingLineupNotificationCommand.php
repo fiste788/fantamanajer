@@ -124,7 +124,6 @@ class SendMissingLineupNotificationCommand extends Command
                 $webPush->flush();
             }
             $io->out('Flushing notifications');
-
         }
 
         return CommandInterface::CODE_SUCCESS;

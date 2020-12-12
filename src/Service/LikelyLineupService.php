@@ -7,12 +7,9 @@ use App\Model\Entity\Member;
 use App\Model\Entity\Team;
 use Cake\Collection\Collection;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\Utility\Hash;
 use GuzzleHttp\Client;
 use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
-
-use function Amp\Iterator\filter;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
@@ -27,6 +24,13 @@ class LikelyLineupService
      * @var array<string, array<\Symfony\Component\DomCrawler\Crawler>>
      */
     private $_teams = [];
+
+    /**
+     * Team array
+     *
+     * @var array<string, string>
+     */
+    private $_versus = [];
 
     /**
      * Constructor
@@ -105,7 +109,7 @@ class LikelyLineupService
         foreach ($teamsName as $team) {
             $this->_teams[strtolower(trim($team))]['regulars'] = $regulars->eq($i);
             $this->_teams[strtolower(trim($team))]['details'] = $details->eq($i);
-            $this->_teams[strtolower(trim($team))]['versus'] = array_map('trim',array_diff($teamsName,[$team]));
+            $this->_versus[strtolower(trim($team))] = array_map('trim', array_diff($teamsName, [$team]))[0];
             $i++;
         }
     }
@@ -122,7 +126,7 @@ class LikelyLineupService
         if (array_key_exists($club, $this->_teams)) {
             $divs = $this->_teams[$club];
             $member->likely_lineup = new stdClass();
-            $member->likely_lineup->versus = array_pop($divs['versus']);
+            $member->likely_lineup->versus = $this->_versus[$club];
             $member->likely_lineup->regular = null;
             try {
                 $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');
@@ -130,10 +134,9 @@ class LikelyLineupService
                     $member->likely_lineup->regular = true;
                 }
                     $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
-                    if ($find->count() == 0) {
-                        $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
-                    }
-
+                if ($find->count() == 0) {
+                    $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
+                }
             } catch (\RuntimeException $e) {
                 $find = null;
             }
@@ -155,15 +158,15 @@ class LikelyLineupService
                         break;
                     case 'Ballottaggio:':
                         $ballots = new Collection(explode(',', str_replace($title, '', $find->text())));
-                        $member->likely_lineup->second_ballot = $ballots->filter(function ($ballot) use ($member) {
+                        $member->likely_lineup->second_ballot = $ballots->filter(function (string $ballot) use ($member) {
                                 return str_contains($ballot, $member->player->surname);
-                            })
-                            ->map(function($ballot) use ($member) {
+                        })
+                            ->map(function (string $ballot) use ($member) {
                                 $pieces = explode(' ', trim($ballot));
                                 $players = explode('-', $pieces[0]);
                                 $perc = explode('-', $pieces[1]);
-                                foreach($players as $key => $players) {
-                                    if(str_contains($players, $member->player->surname)) {
+                                foreach ($players as $key => $players) {
+                                    if (str_contains($players, $member->player->surname)) {
                                         return floatval(trim($perc[$key]));
                                     }
                                 }
