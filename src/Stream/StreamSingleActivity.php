@@ -22,14 +22,16 @@ abstract class StreamSingleActivity extends StreamActivity
      * Get time
      *
      * @return \Cake\I18n\FrozenTime
-     * @psalm-suppress MixedInferredReturnType
+     * @throws \RuntimeException
      */
     public function getTime(): FrozenTime
     {
-        /**
-         * @psalm-suppress MixedReturnStatement
-         * @psalm-suppress NullableReturnStatement
-         */
-        return $this->activity->offsetGet('time');
+        /** @var \Cake\I18n\FrozenTime|null $res */
+        $res = $this->activity->offsetGet('time');
+        if ($res) {
+            return $res;
+        }
+
+        throw new \RuntimeException('Unable to determine updated at activity time');
     }
 }

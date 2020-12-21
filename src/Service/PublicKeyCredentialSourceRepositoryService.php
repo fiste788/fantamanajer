@@ -64,7 +64,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
      * @param \Webauthn\PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity arg
      * @return \Webauthn\PublicKeyCredentialSource[]
      * @throws \RuntimeException
-     * @psalm-suppress MixedReturnTypeCoercion
+     * @psalm-return array<array-key, \Webauthn\PublicKeyCredentialSource>
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
@@ -72,10 +72,12 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
             'user_handle' => $publicKeyCredentialUserEntity->getId(),
         ]);
 
-        /** @psalm-suppress MixedReturnTypeCoercion */
-        return $sources->all()->map(function (PublicKeyCredentialSource $value) {
+        /** @var \Webauthn\PublicKeyCredentialSource[] $credentials */
+        $credentials = $sources->all()->map(function (PublicKeyCredentialSource $value) {
             return $value->toCredentialSource();
         })->toList();
+
+        return $credentials;
     }
 
     /**

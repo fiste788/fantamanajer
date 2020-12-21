@@ -62,10 +62,8 @@ class ConsoleCommand extends Command
         restore_error_handler();
         restore_exception_handler();
 
-        /** @psalm-suppress MixedAssignment */
         $psy = new PsyShell();
 
-        /** @psalm-suppress MixedMethodCall */
         $psy->run();
 
         return null;

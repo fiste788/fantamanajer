@@ -32,12 +32,7 @@
                 <directory name="src/Controller" />
             </errorLevel>
         </MixedPropertyAssignment>
-        <MixedMethodCall>
-            <errorLevel type="suppress">
-                <directory name="src/Controller" />
-            </errorLevel>
-        </MixedMethodCall>
-         <MixedPropertyFetch>
+        <MixedPropertyFetch>
             <errorLevel type="suppress">
                 <directory name="src/Controller" />
             </errorLevel>

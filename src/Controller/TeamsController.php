@@ -35,7 +35,9 @@ class TeamsController extends AppController
     public function view($id)
     {
         $this->Crud->on('beforeFind', function (Event $event) {
-            $event->getSubject()->query->contain([
+            /** @var \Cake\ORM\Query $query */
+            $query = $event->getSubject()->query;
+            $query->contain([
                 'Users',
                 'PushNotificationSubscriptions',
                 'EmailNotificationSubscriptions',

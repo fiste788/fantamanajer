@@ -117,13 +117,15 @@ class WebauthnService
      *
      * @param \Webauthn\PublicKeyCredentialSource[] $credentials credentials
      * @return \Webauthn\PublicKeyCredentialDescriptor[]
-     * @psalm-suppress MixedReturnTypeCoercion
      */
     private function credentialsToDescriptors(array $credentials): array
     {
-        return Hash::map($credentials, '{*}', function (PublicKeyCredentialSource $value) {
+        /** @var \Webauthn\PublicKeyCredentialDescriptor[] $credentials */
+        $credentials = Hash::map($credentials, '{*}', function (PublicKeyCredentialSource $value) {
             return $value->getPublicKeyCredentialDescriptor();
         });
+
+        return $credentials;
     }
 
     /**
