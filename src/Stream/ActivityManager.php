@@ -47,7 +47,6 @@ class ActivityManager
      * @param \StreamCake\EnrichedActivity[] $enricheds Ids
      * @param array<string, mixed> $activities Activities
      * @return (array|mixed)[]
-     * @psalm-return array{results: list<mixed>}
      */
     public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {

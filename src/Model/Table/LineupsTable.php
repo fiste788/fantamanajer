@@ -211,10 +211,8 @@ class LineupsTable extends Table
             'Teams',
             'Dispositions' => [
                 'Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q): Query {
-                        return $q->where([
-                            'matchday_id' => new \Cake\Database\Expression\IdentifierExpression('Lineups.matchday_id'),
-                        ]);
+                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($options): Query {
+                        return $q->where(['matchday_id' => $options['matchday_id']]);
                     },
                 ],
             ],

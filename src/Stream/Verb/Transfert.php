@@ -56,7 +56,6 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
      * Get contain
      *
      * @return string[]
-     * @psalm-return array{0: string, 1: string}
      */
     public static function contain(): array
     {

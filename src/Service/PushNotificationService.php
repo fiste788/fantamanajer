@@ -41,7 +41,7 @@ class PushNotificationService implements WebPushService
     {
         $this->loadModel('PushSubscriptions');
 
-        $config = (array)Configure::read('WebPush');
+        $config = (array)Configure::read('WebPush.VAPID');
         // With Web-Token
         $jwsProvider = WebTokenProvider::create((string)$config['publicKey'], (string)$config['privateKey']);
         $vapidExtension = VAPIDExtension::create(

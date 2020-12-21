@@ -103,13 +103,18 @@ class LikelyLineupService
     {
         $i = 0;
         /** @var string[] $teamsName */
-        $teamsName = $match->filter('.match .team')->extract(['_text']);
+        $teamsName = array_map(function (string $v) {
+            $v = trim($v);
+            $v = strtolower($v);
+
+            return $v;
+        }, $match->filter('.match .team')->extract(['_text']));
         $regulars = $match->filter('.team-players-inner');
         $details = $match->filter('.matchDetails > div');
         foreach ($teamsName as $team) {
-            $this->_teams[strtolower(trim($team))]['regulars'] = $regulars->eq($i);
-            $this->_teams[strtolower(trim($team))]['details'] = $details->eq($i);
-            $this->_versus[strtolower(trim($team))] = array_map('trim', array_diff($teamsName, [$team]))[0];
+            $this->_teams[$team]['regulars'] = $regulars->eq($i);
+            $this->_teams[$team]['details'] = $details->eq($i);
+            $this->_versus[$team] = array_values(array_diff($teamsName, [$team]))[0];
             $i++;
         }
     }
@@ -119,6 +124,7 @@ class LikelyLineupService
      *
      * @param \App\Model\Entity\Member $member The member
      * @return void
+     * @throws \InvalidArgumentException
      */
     private function processMember(Member &$member): void
     {
@@ -133,7 +139,7 @@ class LikelyLineupService
                 if ($find->count() > 0) {
                     $member->likely_lineup->regular = true;
                 }
-                    $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
+                $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
                 if ($find->count() == 0) {
                     $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
                 }
@@ -158,8 +164,8 @@ class LikelyLineupService
                         break;
                     case 'Ballottaggio:':
                         $ballots = new Collection(explode(',', str_replace($title, '', $find->text())));
-                        $member->likely_lineup->second_ballot = $ballots->filter(function (string $ballot) use ($member) {
-                                return str_contains($ballot, $member->player->surname);
+                        $member->likely_lineup->second_ballot = $ballots->filter(function (string $bal) use ($member) {
+                            return str_contains($bal, $member->player->surname);
                         })
                             ->map(function (string $ballot) use ($member) {
                                 $pieces = explode(' ', trim($ballot));

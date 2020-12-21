@@ -62,7 +62,7 @@ class StartSeasonCommand extends Command
         $this->loadService('Rating', [$io]);
 
         $season = $this->createSeason($io, $args);
-        if ($season->key_gazzetta == null || $season->key_gazzetta == '') {
+        if ($season->key_gazzetta == null) {
             $this->getCurrentMatchday();
             if ($this->Rating->calculateKey($season) != '') {
                 /** @var \App\Model\Entity\Matchday $firstMatchday */

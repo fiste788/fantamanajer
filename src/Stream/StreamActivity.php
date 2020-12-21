@@ -62,8 +62,7 @@ abstract class StreamActivity implements StreamActivityInterface
     /**
      * Get contain
      *
-     * @return array
-     * @psalm-return array<empty, empty>
+     * @return string[]
      */
     public static function contain(): array
     {
