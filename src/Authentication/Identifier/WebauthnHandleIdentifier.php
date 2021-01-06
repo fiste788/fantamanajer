@@ -75,7 +75,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     protected function _findIdentity(string $identifier)
     {
         /** @var string[] $fields */
-        $fields = $this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
+        $fields = (array)$this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
         foreach ($fields as $field) {
             $conditions[$field] = $identifier;
