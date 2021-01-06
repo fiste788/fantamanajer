@@ -10,7 +10,7 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Mailer\Mailer;
-use Minishlink\WebPush\Notification;
+use WebPush\Notification;
 
 /**
  * @property \App\Model\Table\MembersTeamsTable $MembersTeams
@@ -49,10 +49,10 @@ class SelectionService
         $selection = $this->Selections->loadInto($selection, ['Teams' => [
             'EmailNotificationSubscriptions',
             'PushNotificationSubscriptions',
-            'Users.Subscriptions',
+            'Users.PushSubscriptions',
         ], 'NewMembers.Players']);
         if ($selection->team->isEmailSubscripted('lost_member')) {
-            $email = new Mailer(['template' => 'lost_member']);
+            $email = new Mailer();
             $email->setViewVars(
                 [
                     'player' => $selection->new_member->player,
@@ -62,7 +62,8 @@ class SelectionService
                 ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
                 ->setEmailFormat('html')
                 ->setTo($selection->team->user->email)
-                ->send();
+                ->viewBuilder()->setTemplate('lost_member');
+            $email->deliver();
         }
         if ($selection->team->isPushSubscripted('lost_member')) {
             foreach ($selection->team->user->push_subscriptions as $subscription) {

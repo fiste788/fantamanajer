@@ -115,11 +115,11 @@ class SelectionsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
-        $rules->add(new MemberIsSelectableRule(), 'NewMemberIsSelectable', [
+        $rules->addCreate(new MemberIsSelectableRule(), 'NewMemberIsSelectable', [
             'errorField' => 'new_member',
             'message' => __('The member is already selected by another team'),
         ]);
-        $rules->add(new TeamReachedMaxSelectionRule(), 'TeamReachedMaximum', [
+        $rules->addCreate(new TeamReachedMaxSelectionRule(), 'TeamReachedMaximum', [
             'errorField' => 'new_member',
             'message' => __('Reached maximum number of changes'),
         ]);
