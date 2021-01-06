@@ -12,7 +12,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
-use Minishlink\WebPush\Notification;
+use WebPush\Notification;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams

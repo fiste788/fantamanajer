@@ -7,19 +7,19 @@ use Cake\Core\Configure;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Http\Client;
 use Laminas\Diactoros\RequestFactory;
-use Minishlink\WebPush\ExtensionManager;
-use Minishlink\WebPush\Notification;
-use Minishlink\WebPush\Payload\AES128GCM;
-use Minishlink\WebPush\Payload\AESGCM;
-use Minishlink\WebPush\Payload\PayloadExtension;
-use Minishlink\WebPush\StatusReport;
-use Minishlink\WebPush\Subscription;
-use Minishlink\WebPush\TopicExtension;
-use Minishlink\WebPush\TTLExtension;
-use Minishlink\WebPush\VAPID\VAPIDExtension;
-use Minishlink\WebPush\VAPID\WebTokenProvider;
-use Minishlink\WebPush\WebPush;
-use Minishlink\WebPush\WebPushService;
+use WebPush\ExtensionManager;
+use WebPush\Notification;
+use WebPush\Payload\AES128GCM;
+use WebPush\Payload\AESGCM;
+use WebPush\Payload\PayloadExtension;
+use WebPush\StatusReport;
+use WebPush\Subscription;
+use WebPush\TopicExtension;
+use WebPush\TTLExtension;
+use WebPush\VAPID\VAPIDExtension;
+use WebPush\VAPID\WebTokenProvider;
+use WebPush\WebPush;
+use WebPush\WebPushService;
 
 /**
  * @property \App\Model\Table\PushSubscriptionsTable $PushSubscriptions
@@ -66,9 +66,9 @@ class PushNotificationService implements WebPushService
     /**
      * Send notification
      *
-     * @param \Minishlink\WebPush\Notification $notification Notification
-     * @param \Minishlink\WebPush\Subscription $subscription Subscription
-     * @return \Minishlink\WebPush\StatusReport
+     * @param \WebPush\Notification $notification Notification
+     * @param \WebPush\Subscription $subscription Subscription
+     * @return \WebPush\StatusReport
      */
     public function send(Notification $notification, Subscription $subscription): StatusReport
     {

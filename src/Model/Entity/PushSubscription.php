@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Minishlink\WebPush\Subscription;
+use WebPush\Subscription;
 
 /**
  * PushSubscription Entity
@@ -54,7 +54,7 @@ class PushSubscription extends Entity
     ];
 
     /**
-     * @return \Minishlink\WebPush\Subscription|null
+     * @return \WebPush\Subscription|null
      * @throws \ErrorException
      */
     public function getSubscription(): ?Subscription

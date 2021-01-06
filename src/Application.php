@@ -138,10 +138,9 @@ class Application extends BaseApplication implements
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
+        // Instantiate the service
         $service = new AuthenticationService();
 
-        // Instantiate the service
-        //$service = new AuthenticationService();
         $fields = [
             IdentifierInterface::CREDENTIAL_USERNAME => 'email',
             IdentifierInterface::CREDENTIAL_PASSWORD => 'password',

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38fc05a072f5775cfb5c677b492ded74",
+    "content-hash": "12242f2876830eef0bec2e358484dfef",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -180,25 +180,25 @@
         },
         {
             "name": "cakephp/authentication",
-            "version": "2.3.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authentication.git",
-                "reference": "0d7b2730393494e5111501284d99e4a9661e4b89"
+                "reference": "c8dc3a121449aba23367c0dd845471cc3f44287e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authentication/zipball/0d7b2730393494e5111501284d99e4a9661e4b89",
-                "reference": "0d7b2730393494e5111501284d99e4a9661e4b89",
+                "url": "https://api.github.com/repos/cakephp/authentication/zipball/c8dc3a121449aba23367c0dd845471cc3f44287e",
+                "reference": "c8dc3a121449aba23367c0dd845471cc3f44287e",
                 "shasum": ""
             },
             "require": {
-                "cakephp/core": "^4.0",
+                "cakephp/http": "^4.0",
+                "laminas/laminas-diactoros": "^2.2.2",
                 "psr/http-client": "^1.0",
                 "psr/http-message": "^1.0",
                 "psr/http-server-handler": "^1.0",
-                "psr/http-server-middleware": "^1.0",
-                "zendframework/zend-diactoros": "^2.0"
+                "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
                 "cakephp/cakephp": "^4.0",
@@ -244,24 +244,24 @@
                 "issues": "https://github.com/cakephp/authentication/issues",
                 "source": "https://github.com/cakephp/authentication"
             },
-            "time": "2020-11-14T01:51:52+00:00"
+            "time": "2021-01-05T07:21:57+00:00"
         },
         {
             "name": "cakephp/authorization",
-            "version": "2.0.5",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/authorization.git",
-                "reference": "c9eb8b1b6c159e904ead3be86eebda055056fb61"
+                "reference": "23f181885ed6c6b3283c8cd6c1b9bb2953d332ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/authorization/zipball/c9eb8b1b6c159e904ead3be86eebda055056fb61",
-                "reference": "c9eb8b1b6c159e904ead3be86eebda055056fb61",
+                "url": "https://api.github.com/repos/cakephp/authorization/zipball/23f181885ed6c6b3283c8cd6c1b9bb2953d332ea",
+                "reference": "23f181885ed6c6b3283c8cd6c1b9bb2953d332ea",
                 "shasum": ""
             },
             "require": {
-                "cakephp/core": "^4.0",
+                "cakephp/http": "^4.0",
                 "php": ">=7.2",
                 "psr/http-client": "^1.0",
                 "psr/http-message": "^1.0",
@@ -310,20 +310,20 @@
                 "issues": "https://github.com/cakephp/authorization/issues",
                 "source": "https://github.com/cakephp/authorization"
             },
-            "time": "2020-11-14T01:51:36+00:00"
+            "time": "2020-12-29T20:19:24+00:00"
         },
         {
             "name": "cakephp/cakephp",
-            "version": "4.2.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "d4b68a6dd2404d0b8cc7431838a39ec44b3f5f6b"
+                "reference": "9fb456002f603517c658ccf2c3cfdf50ed0d472f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/d4b68a6dd2404d0b8cc7431838a39ec44b3f5f6b",
-                "reference": "d4b68a6dd2404d0b8cc7431838a39ec44b3f5f6b",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/9fb456002f603517c658ccf2c3cfdf50ed0d472f",
+                "reference": "9fb456002f603517c658ccf2c3cfdf50ed0d472f",
                 "shasum": ""
             },
             "require": {
@@ -413,7 +413,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2020-12-21T03:04:22+00:00"
+            "time": "2020-12-27T01:51:39+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -745,16 +745,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.24",
+            "version": "2.1.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "ca90a3291eee1538cd48ff25163240695bd95448"
+                "reference": "0dbf5d78455d4d6a41d186da50adc1122ec066f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ca90a3291eee1538cd48ff25163240695bd95448",
-                "reference": "ca90a3291eee1538cd48ff25163240695bd95448",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/0dbf5d78455d4d6a41d186da50adc1122ec066f4",
+                "reference": "0dbf5d78455d4d6a41d186da50adc1122ec066f4",
                 "shasum": ""
             },
             "require": {
@@ -801,7 +801,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/2.1.24"
+                "source": "https://github.com/egulias/EmailValidator/tree/2.1.25"
             },
             "funding": [
                 {
@@ -809,7 +809,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-14T15:56:27+00:00"
+            "time": "2020-12-29T14:50:06+00:00"
         },
         {
             "name": "fgrosse/phpasn1",
@@ -2332,107 +2332,6 @@
             "time": "2020-10-31T13:45:51+00:00"
         },
         {
-            "name": "minishlink/web-push",
-            "version": "dev-rebuild/ng",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Spomky/web-push-php.git",
-                "reference": "2889d29e69e389fd0a8295fb5b68bc10e6e8fe7e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Spomky/web-push-php/zipball/2889d29e69e389fd0a8295fb5b68bc10e6e8fe7e",
-                "reference": "2889d29e69e389fd0a8295fb5b68bc10e6e8fe7e",
-                "shasum": ""
-            },
-            "require": {
-                "beberlei/assert": "^3.2",
-                "ext-json": "*",
-                "php": ">=7.4",
-                "psr/cache": "^1.0",
-                "psr/event-dispatcher": "^1.0",
-                "psr/http-client": "^1.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0",
-                "psr/log": "^1.1",
-                "thecodingmachine/safe": "^1.1"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "infection/infection": "^0.20",
-                "lcobucci/jwt": "^3.3",
-                "monolog/monolog": "^2.1",
-                "nyholm/psr7": "^1.3",
-                "php-http/mock-client": "^1.4",
-                "phpbench/phpbench": "^0.17.1",
-                "phpstan/phpstan": "^0.12.46",
-                "phpstan/phpstan-beberlei-assert": "^0.12",
-                "phpstan/phpstan-deprecation-rules": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^9.3",
-                "symfony/cache": "^5.1",
-                "symfony/http-client": "^5.1",
-                "thecodingmachine/phpstan-safe-rule": "^1.0",
-                "web-token/jwt-signature-algorithm-ecdsa": "^2.0"
-            },
-            "suggest": {
-                "ext-mbstring": "Mandatory when using Payload or VAPID extensions",
-                "ext-openssl": "Mandatory when using Payload or VAPID extensions",
-                "lcobucci/jwt": "Mandatory if you want to use VAPID using lcobucci/jwt",
-                "psr/log-implementation": "Recommended to receive logs from the library",
-                "web-token/jwt-signature-algorithm-ecdsa": "Mandatory if you want to use VAPID using web-token/jwt-framework"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Minishlink\\WebPush\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Minishlink\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test:unit": [
-                    "./vendor/bin/phpunit --color"
-                ],
-                "test:typing": [
-                    "./vendor/bin/phpstan analyse"
-                ],
-                "test:syntax": [
-                    "./vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no"
-                ],
-                "test:benchmark": [
-                    "./vendor/bin/phpbench run -l dots --report aggregate"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Louis Lagrange",
-                    "email": "lagrange.louis@gmail.com",
-                    "homepage": "https://github.com/Minishlink"
-                }
-            ],
-            "description": "Web Push library for PHP",
-            "homepage": "https://github.com/web-push-libs/web-push-php",
-            "keywords": [
-                "Push API",
-                "WebPush",
-                "notifications",
-                "push",
-                "web"
-            ],
-            "support": {
-                "source": "https://github.com/Spomky/web-push-php/tree/rebuild/ng"
-            },
-            "time": "2020-11-08T09:00:07+00:00"
-        },
-        {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.34",
             "source": {
@@ -2654,56 +2553,6 @@
                 "source": "https://github.com/php-fig/container/tree/master"
             },
             "time": "2017-02-14T16:28:37+00:00"
-        },
-        {
-            "name": "psr/event-dispatcher",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\EventDispatcher\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Standard interfaces for event handling.",
-            "keywords": [
-                "events",
-                "psr",
-                "psr-14"
-            ],
-            "support": {
-                "issues": "https://github.com/php-fig/event-dispatcher/issues",
-                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
-            },
-            "time": "2019-01-08T18:20:26+00:00"
         },
         {
             "name": "psr/http-client",
@@ -3592,6 +3441,83 @@
                 }
             ],
             "time": "2020-08-31T20:08:03+00:00"
+        },
+        {
+            "name": "spomky-labs/web-push-lib",
+            "version": "v1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/web-push-lib.git",
+                "reference": "24b9d554a7425a23d604d30138e2efd6a4c7c9ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/web-push-lib/zipball/24b9d554a7425a23d604d30138e2efd6a4c7c9ea",
+                "reference": "24b9d554a7425a23d604d30138e2efd6a4c7c9ea",
+                "shasum": ""
+            },
+            "require": {
+                "beberlei/assert": "^3.2",
+                "ext-json": "*",
+                "php": ">=7.4",
+                "psr/cache": "^1.0",
+                "psr/http-client": "^1.0.1",
+                "psr/http-factory": "^1.0.1",
+                "psr/http-message": "^1.0.1",
+                "psr/log": "^1.1",
+                "thecodingmachine/safe": "^1.3"
+            },
+            "suggest": {
+                "ext-mbstring": "Mandatory when using Payload or VAPID extensions",
+                "ext-openssl": "Mandatory when using Payload or VAPID extensions",
+                "lcobucci/jwt": "Mandatory if you want to use VAPID using lcobucci/jwt",
+                "psr/log-implementation": "Recommended to receive logs from the library",
+                "web-token/jwt-signature-algorithm-ecdsa": "Mandatory if you want to use VAPID using web-token/jwt-framework"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WebPush\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Spomky-Labs",
+                    "homepage": "https://github.com/Spomky-Labs"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/Spomky-Labs/web-push-lib/contributors"
+                }
+            ],
+            "description": "Web-Push library for PHP",
+            "homepage": "https://github.com/spomky-labs/web-push",
+            "keywords": [
+                "Push API",
+                "WebPush",
+                "notifications",
+                "push",
+                "web"
+            ],
+            "support": {
+                "source": "https://github.com/Spomky-Labs/web-push-lib/tree/v1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spomky",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/FlorentMorselli",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-12-30T17:07:00+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -6204,16 +6130,16 @@
         },
         {
             "name": "whichbrowser/parser",
-            "version": "v2.0.42",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WhichBrowser/Parser-PHP.git",
-                "reference": "4899110cd2f87b01e04ced62dbb9dec541031dee"
+                "reference": "da24adc4f4f26002673d236e69b91a10f2fd594c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WhichBrowser/Parser-PHP/zipball/4899110cd2f87b01e04ced62dbb9dec541031dee",
-                "reference": "4899110cd2f87b01e04ced62dbb9dec541031dee",
+                "url": "https://api.github.com/repos/WhichBrowser/Parser-PHP/zipball/da24adc4f4f26002673d236e69b91a10f2fd594c",
+                "reference": "da24adc4f4f26002673d236e69b91a10f2fd594c",
                 "shasum": ""
             },
             "require": {
@@ -6221,12 +6147,13 @@
                 "psr/cache": "^1.0"
             },
             "require-dev": {
+                "cache/array-adapter": "^1.1",
                 "icomefromthenet/reverse-regex": "0.0.6.3",
-                "phpunit/php-code-coverage": "^2.2 || ^3.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "satooshi/php-coveralls": "^1.0",
-                "squizlabs/php_codesniffer": "2.5.*",
-                "symfony/yaml": "~2.8 || ~3.4 || ~4.2 || ~5.0"
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/php-code-coverage": "^5.0 || ^7.0",
+                "phpunit/phpunit": "^6.0 || ^8.0",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/yaml": "~3.4 || ~4.0"
             },
             "suggest": {
                 "cache/array-adapter": "Allows testing of the caching functionality"
@@ -6261,9 +6188,9 @@
             ],
             "support": {
                 "issues": "https://github.com/WhichBrowser/Parser-PHP/issues",
-                "source": "https://github.com/WhichBrowser/Parser-PHP/tree/v2.0.42"
+                "source": "https://github.com/WhichBrowser/Parser-PHP/tree/v2.1.1"
             },
-            "time": "2020-02-12T10:54:23+00:00"
+            "time": "2021-01-04T16:36:15+00:00"
         }
     ],
     "packages-dev": [
@@ -7188,16 +7115,16 @@
         },
         {
             "name": "dereuromark/cakephp-ide-helper",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dereuromark/cakephp-ide-helper.git",
-                "reference": "df8c5027bedbd608dc3465d2465ba277f011099e"
+                "reference": "f595d822c5bc6208f1d9618df6ac8a262ccf18ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/df8c5027bedbd608dc3465d2465ba277f011099e",
-                "reference": "df8c5027bedbd608dc3465d2465ba277f011099e",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-ide-helper/zipball/f595d822c5bc6208f1d9618df6ac8a262ccf18ee",
+                "reference": "f595d822c5bc6208f1d9618df6ac8a262ccf18ee",
                 "shasum": ""
             },
             "require": {
@@ -7262,7 +7189,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-03T00:09:28+00:00"
+            "time": "2021-01-03T16:39:26+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -9014,6 +8941,56 @@
                 }
             ],
             "time": "2020-12-04T05:05:53+00:00"
+        },
+        {
+            "name": "psr/event-dispatcher",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/event-dispatcher.git",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\EventDispatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Standard interfaces for event handling.",
+            "keywords": [
+                "events",
+                "psr",
+                "psr-14"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/event-dispatcher/issues",
+                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
+            },
+            "time": "2019-01-08T18:20:26+00:00"
         },
         {
             "name": "psy/psysh",
@@ -10862,16 +10839,16 @@
         },
         {
             "name": "twig/markdown-extra",
-            "version": "v3.1.1",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/markdown-extra.git",
-                "reference": "1fe798d559665b64bda4b08eda10793427d7e3bc"
+                "reference": "48142a7727b2b84691f843056346d534933f1d3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/markdown-extra/zipball/1fe798d559665b64bda4b08eda10793427d7e3bc",
-                "reference": "1fe798d559665b64bda4b08eda10793427d7e3bc",
+                "url": "https://api.github.com/repos/twigphp/markdown-extra/zipball/48142a7727b2b84691f843056346d534933f1d3f",
+                "reference": "48142a7727b2b84691f843056346d534933f1d3f",
                 "shasum": ""
             },
             "require": {
@@ -10888,13 +10865,16 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Twig\\Extra\\Markdown\\": "src/"
-                }
+                    "Twig\\Extra\\Markdown\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -10916,7 +10896,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/twigphp/markdown-extra/tree/v3.1.1"
+                "source": "https://github.com/twigphp/markdown-extra/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -10928,20 +10908,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-05T14:54:08+00:00"
+            "time": "2021-01-01T14:58:18+00:00"
         },
         {
             "name": "twig/twig",
-            "version": "v3.1.1",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b02fa41f3783a2616eccef7b92fbc2343ffed737"
+                "reference": "bc4f0e2d6206e58b81e8e8d11f992f480a7cc588"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b02fa41f3783a2616eccef7b92fbc2343ffed737",
-                "reference": "b02fa41f3783a2616eccef7b92fbc2343ffed737",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/bc4f0e2d6206e58b81e8e8d11f992f480a7cc588",
+                "reference": "bc4f0e2d6206e58b81e8e8d11f992f480a7cc588",
                 "shasum": ""
             },
             "require": {
@@ -10956,7 +10936,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -10992,7 +10972,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.1.1"
+                "source": "https://github.com/twigphp/Twig/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -11004,20 +10984,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-27T19:28:23+00:00"
+            "time": "2021-01-05T10:22:42+00:00"
         },
         {
             "name": "vimeo/psalm",
-            "version": "4.3.1",
+            "version": "4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "2feba22a005a18bf31d4c7b9bdb9252c73897476"
+                "reference": "57b53ff26237074fdf5cbcb034f7da5172be4524"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/2feba22a005a18bf31d4c7b9bdb9252c73897476",
-                "reference": "2feba22a005a18bf31d4c7b9bdb9252c73897476",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/57b53ff26237074fdf5cbcb034f7da5172be4524",
+                "reference": "57b53ff26237074fdf5cbcb034f7da5172be4524",
                 "shasum": ""
             },
             "require": {
@@ -11049,15 +11029,14 @@
             "require-dev": {
                 "amphp/amp": "^2.4.2",
                 "bamarni/composer-bin-plugin": "^1.2",
-                "brianium/paratest": "^4.0.0",
+                "brianium/paratest": "^4.0||^6.0",
                 "ext-curl": "*",
-                "php": "^7.3|^8",
                 "phpdocumentor/reflection-docblock": "^5",
-                "phpmyadmin/sql-parser": "5.1.0",
+                "phpmyadmin/sql-parser": "5.1.0||dev-master",
                 "phpspec/prophecy": ">=1.9.0",
                 "phpunit/phpunit": "^9.0",
                 "psalm/plugin-phpunit": "^0.13",
-                "slevomat/coding-standard": "^5.0",
+                "slevomat/coding-standard": "^6.3.11",
                 "squizlabs/php_codesniffer": "^3.5",
                 "symfony/process": "^4.3",
                 "weirdan/prophecy-shim": "^1.0 || ^2.0"
@@ -11107,9 +11086,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vimeo/psalm/issues",
-                "source": "https://github.com/vimeo/psalm/tree/4.3.1"
+                "source": "https://github.com/vimeo/psalm/tree/4.3.2"
             },
-            "time": "2020-12-03T16:44:10+00:00"
+            "time": "2020-12-29T17:37:09+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -11218,7 +11197,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "minishlink/web-push": 20,
+        "spomky-labs/web-push-lib": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,

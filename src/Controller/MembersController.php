@@ -50,7 +50,7 @@ class MembersController extends AppController
      */
     public function best()
     {
-        $this->withMatchdayCache();
+        // $this->withMatchdayCache();
 
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
 

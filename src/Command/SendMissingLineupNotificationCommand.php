@@ -15,7 +15,7 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\I18n\Time;
 use GetStream\Stream\Client;
-use Minishlink\WebPush\Notification;
+use WebPush\Notification;
 
 /**
  * @property \App\Model\Table\LineupsTable $Lineups

@@ -15,7 +15,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\Mailer\MailerAwareTrait;
-use Minishlink\WebPush\Notification;
+use WebPush\Notification;
 
 /**
  * @property \App\Model\Table\SeasonsTable $Seasons
