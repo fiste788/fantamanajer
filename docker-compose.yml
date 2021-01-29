@@ -2,13 +2,13 @@ version: "3.2"
 services:
   php:
     build:
-      context: './php/'
+      context: "./.docker/php/"
       args:
-       PHP_VERSION: ${PHP_VERSION}
+        PHP_VERSION: ${PHP_VERSION}
     networks:
       - backend
     volumes:
-      - ../:/var/www/html/
+      - ./:/var/www/html/
     links:
       - mysql
     container_name: php
@@ -19,9 +19,9 @@ services:
     restart: always
   apache:
     build:
-      context: './apache/'
+      context: "./.docker/apache/"
       args:
-       APACHE_VERSION: ${APACHE_VERSION}
+        APACHE_VERSION: ${APACHE_VERSION}
     depends_on:
       - php
       - mysql
@@ -31,17 +31,17 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ../:/var/www/html/
+      - ./:/var/www/html/
       - /var/www/html/vendor
     container_name: apache
   mysql:
     image: mariadb:${MYSQL_VERSION:-latest}
     volumes:
-      - ./mysql/dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
+      - ./.docker/mysql/dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
     networks:
       - backend
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}

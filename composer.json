@@ -1,15 +1,9 @@
 {
     "name": "fiste788/fantamanajer",
+    "type": "project",
     "description": "FantaManajer API backend written in PHP",
     "homepage": "https://fantamanajer.it",
-    "type": "project",
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/fiste788/cake-scheduler.git"
-        }
-    ],
     "require": {
         "php": ">=7.2",
         "burzum/cakephp-service-layer": "^2.0",
@@ -22,7 +16,7 @@
         "get-stream/stream": "^4.0",
         "josegonzalez/cakephp-upload": "5.0.0",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "ramsey/uuid": "^3.8|^4.0",
+        "ramsey/uuid": "^3.8 || ^4.0",
         "spatie/image": "^1.7",
         "spomky-labs/web-push-lib": "v1.0.x-dev",
         "symfony/css-selector": "^5.0",
@@ -40,6 +34,7 @@
         "cakephp/debug_kit": "^4.4",
         "cakephp/migrations": "^3.0",
         "dereuromark/cakephp-ide-helper": "^1.0.0",
+        "ergebnis/composer-normalize": "^2.13",
         "josegonzalez/dotenv": "^3.2",
         "mirko-pagliai/cakephp-database-backup": "^2.8",
         "phpstan/phpstan": "^0.12",
@@ -48,9 +43,13 @@
         "vimeo/psalm": "^4.0"
     },
     "suggest": {
-        "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
         "dereuromark/cakephp-ide-helper": "After baking your code, this keeps your annotations in sync with the code evolving from there on for maximum IDE and PHPStan compatibility.",
+        "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
         "phpstan/phpstan": "PHPStan focuses on finding errors in your code without actually running it. It catches whole classes of bugs even before you write tests for the code."
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -65,6 +64,14 @@
             "StreamCake\\Test\\": "plugins/StreamCake/tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/fiste788/cake-scheduler.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "post-install-cmd": "App\\Console\\Installer::postInstall",
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
@@ -72,24 +79,18 @@
             "@test",
             "@cs-check"
         ],
+        "cs-check": "phpcs --colors -p  src/ tests/",
+        "cs-fix": "phpcbf --colors -p src/ tests/",
+        "psalm": "psalm",
+        "stan": "phpstan analyse --memory-limit=0",
+        "test": "phpunit --colors=always",
         "test:all": [
             "composer test:unit",
             "composer test:typing",
             "composer test:syntax"
         ],
         "test:syntax": "@cs-fix",
-        "test:unit": "@test",
         "test:typing": "@stan",
-        "cs-check": "phpcs --colors -p  src/ tests/",
-        "cs-fix": "phpcbf --colors -p src/ tests/",
-        "psalm": "psalm",
-        "stan": "phpstan analyse --memory-limit=0",
-        "test": "phpunit --colors=always"
-    },
-    "config": {
-        "sort-packages": true,
-        "optimize-autoloader": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+        "test:unit": "@test"
+    }
 }

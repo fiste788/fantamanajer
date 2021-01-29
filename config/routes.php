@@ -227,7 +227,7 @@ $routes->scope('/', function (RouteBuilder $routes) {
             'prefix' => 'Teams',
         ]);
 
-        $routes->connect('/members/not_mine/{role_id}', [
+        $routes->connect('/members/not_mine/:role_id', [
             'controller' => 'Members',
             'action' => 'notMine',
             'prefix' => 'Teams',
