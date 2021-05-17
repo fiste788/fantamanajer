@@ -51,7 +51,6 @@ class ActivityManager
     public function convertEnrichedToStreamActivity(array $enricheds, $activities): array
     {
         foreach ($enricheds as $key => $activity) {
-            /** @var \StreamCake\EnrichedActivity $activity */
             if ($activity->enriched()) {
                 /** @psalm-suppress MixedArrayAssignment */
                 $activities['results'][$key] = $this->getFromVerb($activity);

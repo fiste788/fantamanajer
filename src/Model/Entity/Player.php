@@ -27,7 +27,7 @@ class Player extends Entity
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var array
+     * @var bool[]
      */
     protected $_accessible = [
         'name' => true,
@@ -38,7 +38,7 @@ class Player extends Entity
     /**
      * Undocumented variable
      *
-     * @var array
+     * @var string[]
      */
     protected $_virtual = [
         'photo_url',

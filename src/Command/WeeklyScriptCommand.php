@@ -98,7 +98,7 @@ class WeeklyScriptCommand extends Command
         $this->loadService('UpdateMember', [$io]);
 
         $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
-        foreach ($missingRatings as $key => $matchday) {
+        foreach ($missingRatings as $matchday) {
             $io->out('Starting decript file day ' . $matchday->number);
             $path = $this->DownloadRatings->getRatings($matchday);
             if ($path != null) {
@@ -125,7 +125,7 @@ class WeeklyScriptCommand extends Command
                 ->where(['Championships.season_id' => $this->currentSeason->id])->all();
 
             $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
-            foreach ($missingScores as $key => $matchday) {
+            foreach ($missingScores as $matchday) {
                 if ($this->Ratings->existMatchday($matchday)) {
                     $this->calculatePoints($matchday, $championships, $args, $io);
                     $io->out('Completed succesfully');

@@ -30,7 +30,7 @@ class PushSubscription extends Entity
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var array
+     * @var bool[]
      */
     protected $_accessible = [
         'endpoint' => true,
@@ -47,7 +47,7 @@ class PushSubscription extends Entity
     /**
      * Fields that are excluded from JSON an array versions of the entity.
      *
-     * @var array
+     * @var string[]
      */
     protected $_hidden = [
         'auth_token',

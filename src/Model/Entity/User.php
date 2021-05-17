@@ -40,7 +40,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var array
+     * @var bool[]
      */
     protected $_accessible = [
         'uuid' => false,
@@ -60,7 +60,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Fields that are excluded from JSON versions of the entity.
      *
-     * @var array
+     * @var string[]
      */
     protected $_hidden = [
         'password',

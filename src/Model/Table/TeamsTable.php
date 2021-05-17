@@ -113,15 +113,15 @@ class TeamsTable extends Table
                     'size' => 'photo_size', // defaults to `size`
                     'type' => 'photo_type', // defaults to `type`
                 ],
-                'nameCallback' => function (UploadedFileInterface $data, array $settings) {
+                'nameCallback' => function (UploadedFileInterface $data, array $_settings) {
                     return strtolower($data->getClientFilename() ?? '');
                 },
                 'transformer' => function (
-                    RepositoryInterface $table,
+                    RepositoryInterface $_table,
                     EntityInterface $entity,
                     UploadedFileInterface $file,
-                    string $field,
-                    array $settings
+                    string $_field,
+                    array $_settings
                 ) {
 
                     $tmpFileName = new SplFileInfo($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg');
@@ -148,7 +148,7 @@ class TeamsTable extends Table
                     string $path,
                     EntityInterface $entity,
                     string $field,
-                    array $settings
+                    array $_settings
                 ) {
                     $array = [$path . $entity->{$field}];
                     foreach (Team::$size as $value) {

@@ -86,7 +86,6 @@ class UpdateMemberService
             $sells = [];
 
             $membersToSave = [];
-            $member = null;
             foreach ($newMembers as $id => $newMember) {
                 if (array_key_exists($id, $oldMembers)) {
                     $member = $this->memberTransfert($oldMembers[$id], $newMember[3]);
