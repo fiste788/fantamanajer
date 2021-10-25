@@ -17,8 +17,6 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
     {
         /** @var \App\Model\Entity\Lineup $lineup */
         $lineup = $this->activity->offsetGet('object');
-
-        /** @var \App\Model\Entity\Disposition[] $regular */
         $regular = array_splice($lineup->dispositions, 0, 11);
         $players = [];
         foreach ($regular as $disposition) {

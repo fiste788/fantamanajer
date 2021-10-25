@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-02-13 10:31+0100\n"
+"POT-Creation-Date: 2021-09-02 11:11+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,37 +14,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Model/Table/LineupsTable.php:150
+#: Model/Table/LineupsTable.php:153
 msgid "Lineup already exists for this matchday. Try to refresh"
 msgstr ""
 
-#: Model/Table/LineupsTable.php:155
+#: Model/Table/LineupsTable.php:158
 msgid "Expired lineup"
 msgstr ""
 
-#: Model/Table/LineupsTable.php:160
+#: Model/Table/LineupsTable.php:163
 msgid "Missing player/s"
 msgstr ""
 
-#: Model/Table/LineupsTable.php:166
+#: Model/Table/LineupsTable.php:169
 msgid "Jolly already used"
 msgstr ""
 
-#: Model/Table/SelectionsTable.php:118
+#: Model/Table/SelectionsTable.php:120
 msgid "The member is already selected by another team"
 msgstr ""
 
-#: Model/Table/SelectionsTable.php:122
+#: Model/Table/SelectionsTable.php:124
 msgid "Reached maximum number of changes"
 msgstr ""
 
-#: Model/Table/TeamsTable.php:218
-#: Model/Table/TeamsTable.php:220
+#: Model/Table/TeamsTable.php:225
+#: Model/Table/TeamsTable.php:227
 msgid "Team name already exist in this championship"
 msgstr ""
 
-#: Stream/Verb/Aggregated/Lineup.php:50
-#: Stream/Verb/Lineup.php:44
+#: Stream/Verb/Aggregated/Lineup.php:49
+#: Stream/Verb/Lineup.php:42
 msgid "{0} has setup lineup for matchday {1}"
 msgstr ""
 
@@ -82,80 +82,80 @@ msgstr[1] ""
 msgid "{0} has selected a player for the transfert"
 msgstr ""
 
-#: element/email/lineups.php:17
-#: element/lineups.php:16
-msgid "Name"
-msgstr ""
-
 #: element/email/lineups.php:18
 #: element/lineups.php:17
-msgid "Role"
+msgid "Name"
 msgstr ""
 
 #: element/email/lineups.php:19
 #: element/lineups.php:18
+msgid "Role"
+msgstr ""
+
+#: element/email/lineups.php:20
+#: element/lineups.php:19
 msgid "Club"
-msgstr ""
-
-#: element/email/lineups.php:21
-#: element/lineups.php:19
-#: email/html/lineups.php:19
-#: email/html/score.php:14
-msgid "Regular"
-msgstr ""
-
-#: element/email/lineups.php:21
-#: element/lineups.php:19
-msgid "Reg"
-msgstr ""
-
-#: element/email/lineups.php:22
-msgid "Yellow card"
 msgstr ""
 
 #: element/email/lineups.php:22
 #: element/lineups.php:20
-msgid "YC"
+#: email/html/lineups.php:20
+#: email/html/score.php:15
+msgid "Regular"
+msgstr ""
+
+#: element/email/lineups.php:22
+#: element/lineups.php:20
+msgid "Reg"
 msgstr ""
 
 #: element/email/lineups.php:23
-msgid "Red card"
+msgid "Yellow card"
 msgstr ""
 
 #: element/email/lineups.php:23
 #: element/lineups.php:21
-msgid "RC"
+msgid "YC"
+msgstr ""
+
+#: element/email/lineups.php:24
+msgid "Red card"
 msgstr ""
 
 #: element/email/lineups.php:24
 #: element/lineups.php:22
-msgid "Assists"
+msgid "RC"
 msgstr ""
 
 #: element/email/lineups.php:25
 #: element/lineups.php:23
-msgid "Goals"
+msgid "Assists"
 msgstr ""
 
 #: element/email/lineups.php:26
 #: element/lineups.php:24
+msgid "Goals"
+msgstr ""
+
+#: element/email/lineups.php:27
+#: element/lineups.php:25
 msgid "Points"
 msgstr ""
 
-#: element/lineups.php:20
+#: element/lineups.php:21
 msgid "Yellow cards"
 msgstr ""
 
-#: element/lineups.php:21
+#: element/lineups.php:22
 msgid "Red cards"
 msgstr ""
 
-#: email/html/lineups.php:26
-#: email/html/score.php:15
+#: email/html/lineups.php:27
+#: email/html/score.php:16
 msgid "Not regular"
 msgstr ""
 
-#: email/html/lineups.php:32
+#: email/html/lineups.php:33
 msgid "Missing lineup"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "{0} has been selected by another team"
 msgstr ""
 
-#: email/html/score.php:12
+#: email/html/score.php:13
 msgid "Score"
 msgstr ""
 

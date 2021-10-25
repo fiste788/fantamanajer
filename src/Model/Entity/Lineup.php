@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Lineup Entity
  *
  * @property int $id
+ * @property string[] $modules
  * @property string $module
  * @property bool|null $jolly
  * @property bool|null $cloned

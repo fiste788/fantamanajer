@@ -75,7 +75,10 @@ class ScoresController extends AppController
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
+        /** @var \App\Model\Entity\User */
+        $user = $this->Authentication->getIdentity();
         $action->saveOptions([
+            'admin' => $user->admin,
             'accessibleFields' => ['*' => true],
             'associated' => [
                 'Lineups' => [

@@ -42,7 +42,7 @@ class RenewChampionshipCommand extends Command
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Renew the given championship');
-        $parser->addArgument('id', ['help' => 'Championship id to renew']);
+        $parser->addArgument('id', ['help' => 'Championship id to renew', 'required' => true]);
 
         return $parser;
     }

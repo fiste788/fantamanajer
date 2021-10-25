@@ -44,10 +44,19 @@ class TeamReachedMaxSelectionRule
             }
         )->first();
 
-        return $this->Selections->find()->where([
+        /** @var \App\Model\Entity\Selection $lastSelection */
+        $lastSelection = $this->Selections->find()->where([
             'matchday_id' => $entity->matchday_id,
             'team_id' => $entity->team_id,
             'processed' => false,
-        ])->count() < $championship->number_selections;
+        ])->last();
+
+        $count = $this->Selections->find()->distinct('new_member_id')->where([
+            'matchday_id' => $entity->matchday_id,
+            'team_id' => $entity->team_id,
+            'processed' => false,
+        ])->count();
+        
+        return $count < $championship->number_selections || $lastSelection->new_member_id == $entity->new_member_id;
     }
 }

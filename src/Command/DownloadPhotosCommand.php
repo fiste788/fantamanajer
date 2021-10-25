@@ -60,7 +60,6 @@ class DownloadPhotosCommand extends Command
             $response = $client->post($url, ['PanCal' => $member->player->full_name]);
             if ($response->isOk()) {
                 $response->getCookie('PHPSESSID');
-                /** @var array $values */
                 foreach ($response->getHeaders() as $name => $values) {
                     $io->out($name . ': ' . implode(', ', $values));
                 }

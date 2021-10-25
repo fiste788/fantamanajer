@@ -17,6 +17,8 @@ use Cake\ORM\Entity;
  * @property bool $bonus_points_clean_sheet
  * @property int $minute_lineup
  * @property int $points_missed_lineup
+ * @property int $number_substitutions
+ * @property int $number_benchwarmers
  * @property int $number_transferts
  * @property int $number_selections
  * @property int $league_id
@@ -46,6 +48,8 @@ class Championship extends Entity
         'bonus_points_clean_sheet' => true,
         'minute_lineup' => true,
         'points_missed_lineup' => true,
+        'number_substitutions' => true,
+        'number_benchwarmers' => true,
         'number_transferts' => true,
         'number_selections' => true,
         'league_id' => false,

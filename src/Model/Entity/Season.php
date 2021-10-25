@@ -14,6 +14,8 @@ use Cake\ORM\Entity;
  * @property string|null $key_gazzetta
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
+ * @property bool $started
+ * @property bool $ended
  *
  * @property \App\Model\Entity\Championship[] $championships
  * @property \App\Model\Entity\Matchday[] $matchdays
@@ -50,5 +52,15 @@ class Season extends Entity
         'key_gazzetta',
         'bonus_points_goals',
         'bonus_points_clean_sheet',
+    ];
+
+    /**
+     * Undocumented variable
+     *
+     * @var string[]
+     */
+    protected $_virtual = [
+        'started',
+        'ended'
     ];
 }

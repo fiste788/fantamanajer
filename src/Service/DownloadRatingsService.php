@@ -314,7 +314,7 @@ class DownloadRatingsService
      * Return array
      *
      * @param string $path Path
-     * @param string $sep Sep
+     * @param non-empty-string $sep Sep
      * @param bool $header Header
      * @return string[][]
      * @psalm-return array<string, non-empty-list<string>>
@@ -331,9 +331,7 @@ class DownloadRatingsService
 
             foreach ($array as $val) {
                 $par = explode($sep, $val);
-                if ($par != false) {
-                    $arrayOk[$par[0]] = $par;
-                }
+                $arrayOk[$par[0]] = $par;
             }
         }
 

@@ -39,6 +39,7 @@ class TeamsController extends AppController
             $query = $event->getSubject()->query;
             $query->contain([
                 'Users',
+                'Championships' => ['Leagues', 'Seasons'],
                 'PushNotificationSubscriptions',
                 'EmailNotificationSubscriptions',
             ]);
@@ -73,11 +74,18 @@ class TeamsController extends AppController
      */
     public function edit()
     {
-        /** @var \Crud\Action\AddAction $action */
+        /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
+        $action->setConfig(['api' => [
+            'success' => [
+                'data' => [
+                    'entity' => ['photo_url']
+                ],
+            ]
+        ]]);
         $action->saveOptions([
             'accessibleFields' => ['user' => false],
-            'associated' => ['Members'],
+            'associated' => ['Members', 'PushNotificationSubscriptions', 'EmailNotificationSubscriptions'],
         ]);
 
         return $this->Crud->execute();

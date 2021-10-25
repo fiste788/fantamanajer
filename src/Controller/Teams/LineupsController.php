@@ -71,7 +71,7 @@ class LineupsController extends ControllerLineupsController
                 $event->getSubject()->query = $that->Lineups->find('byMatchdayIdAndTeamId', [
                     'matchday_id' => $matchday->id,
                     'team_id' => $team,
-                ])->contain(['Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
+                ])->contain(['Matchdays', 'Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
             });
         }
         $this->Crud->on('afterFind', function (Event $event) use ($team, $that) {
@@ -85,9 +85,11 @@ class LineupsController extends ControllerLineupsController
         try {
             return $this->Crud->execute();
         } catch (\Cake\Http\Exception\NotFoundException $e) {
+            $lineup = $this->Lineup->getEmptyLineup($team);
+            $lineup->matchday = $this->currentMatchday;
             $this->set([
                 'success' => true,
-                'data' => $this->Lineup->getEmptyLineup($team),
+                'data' => $lineup,
                 '_serialize' => ['success', 'data'],
             ]);
         }

@@ -158,7 +158,7 @@ class ComputeScoreService
                 foreach ($notValueds as $key => $notValued) {
                     $ratings = $member->ratings;
                     if (
-                        $substitution < 3 &&
+                        $substitution < $lineup->team->championship->number_substitutions &&
                         $member->role_id == $notValued->role_id &&
                         !empty($ratings) &&
                         $ratings[0]->valued

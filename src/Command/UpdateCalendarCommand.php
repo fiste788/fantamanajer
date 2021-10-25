@@ -43,6 +43,12 @@ class UpdateCalendarCommand extends Command
             'boolean' => true,
             'default' => false,
         ]);
+        $parser->addOption('no-future-check', [
+            'short' => 'f',
+            'help' => 'Disable future check',
+            'boolean' => true,
+            'default' => false,
+        ]);
         $parser->addArgument('season');
         $parser->setDescription('Update season given or current season');
 

@@ -56,6 +56,7 @@ class LineupService
     {
         $lineup = new Lineup();
         $lineup->team = $this->Teams->get($teamId, ['contain' => ['Members' => ['Roles', 'Players']]]);
+        $lineup->dispositions = [];
         $lineup->modules = Lineup::$modules;
 
         return $lineup;

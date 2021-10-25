@@ -232,7 +232,7 @@ class LineupsTable extends Table
         /** @var \App\Model\Entity\Matchday $matchday */
         $matchday = $options['matchday'];
         $q = $q->innerJoinWith('Matchdays')
-            ->contain(['Dispositions'])
+            ->contain(['Dispositions', 'Matchdays'])
             ->where([
                 'Lineups.team_id' => $options['team_id'],
                 'Lineups.matchday_id <=' => $matchday->id,

@@ -1,4 +1,5 @@
 <?php
+//declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -17,7 +18,7 @@
 /*
  * Configure paths required to find CakePHP + general filepath constants
  */
-require __DIR__ . '/paths.php';
+require __DIR__ . DIRECTORY_SEPARATOR . 'paths.php';
 
 /*
  * Bootstrap CakePHP.
@@ -30,31 +31,42 @@ require __DIR__ . '/paths.php';
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
-use Cake\Cache\Cache;
-use Cake\Core\Configure;
-use Cake\Core\Configure\Engine\PhpConfig;
-use Cake\Datasource\ConnectionManager;
-use Cake\Error\ConsoleErrorHandler;
-use Cake\Error\ErrorHandler;
-use Cake\Http\ServerRequest;
 use Cake\Log\Log;
+use Cake\Cache\Cache;
 use Cake\Mailer\Mailer;
-use Cake\Mailer\TransportFactory;
+use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
+use Cake\Error\ErrorHandler;
+use Cake\Http\ServerRequest;
+use Cake\Database\TypeFactory;
+use Cake\Mailer\TransportFactory;
+use Cake\Database\Type\StringType;
+use Cake\Error\ConsoleErrorHandler;
+use Cake\Datasource\ConnectionManager;
+use Cake\Core\Configure\Engine\PhpConfig;
 
-/**
- * Uncomment block of code below if you want to `.env` file during development.
- * You should copy `config/.env.default to `config/.env` and set/modify the
+/*
+ * See https://github.com/josegonzalez/php-dotenv for API details.
+ *
+ * Uncomment block of code below if you want to use `.env` file during development.
+ * You should copy `config/.env.example` to `config/.env` and set/modify the
  * variables as required.
- */
+ *
+ * The purpose of the .env file is to emulate the presence of the environment
+ * variables like they would be present in production.
+ *
+ * If you use .env files, be careful to not commit them to source control to avoid
+ * security risks. See https://github.com/josegonzalez/php-dotenv#general-security-information
+ * for more information for recommended practices.
+*/
 if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-    $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-    $dotenv->parse()
-        ->putenv()
-        ->toEnv()
-        ->toServer();
-}
+     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
+     $dotenv->parse()
+         ->putenv()
+         ->toEnv()
+         ->toServer();
+ }
 
 /*
  * Read configuration file and inject configuration into various
@@ -68,17 +80,17 @@ try {
     Configure::config('default', new PhpConfig());
     Configure::load('app', 'default', false);
     Configure::load('app_config', 'default', false);
-} catch (Exception $e) {
+} catch (\Exception $e) {
     exit($e->getMessage() . "\n");
 }
 
 /*
- * Load an environment local configuration file.
- * You can use a file like app_local.php to provide local overrides to your
- * shared configuration.
+ * Load an environment local configuration file to provide overrides to your configuration.
+ * Notice: For security reasons app_local.php **should not** be included in your git repo.
  */
-// Configure::load('app_local', 'default');
-
+if (file_exists(CONFIG . 'app_local.php')) {
+    Configure::load('app_local', 'default');
+}
 
 /*
  * When debug = true the metadata cache should only last
@@ -92,8 +104,7 @@ if (Configure::read('debug')) {
 }
 
 /*
- * Set server timezone to UTC. You can change it to another timezone of your
- * choice but using UTC makes time calculations / conversions easier.
+ * Set the default server timezone. Using UTC makes time calculations / conversions easier.
  * Check http://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
 date_default_timezone_set(Configure::read('App.defaultTimezone'));
@@ -126,12 +137,6 @@ if ($isCli) {
     require __DIR__ . '/bootstrap_cli.php';
 }
 
-/*
- * Set the full base URL.
- * This URL is used as the base of all absolute links.
- *
- * If you define fullBaseUrl in your config file you can remove this.
- */
 /*
  * Set the full base URL.
  * This URL is used as the base of all absolute links.
@@ -185,18 +190,25 @@ ServerRequest::addDetector('tablet', function ($request) {
  * locale specific date formats. For details see
  * @link https://book.cakephp.org/4/en/core-libraries/internationalization-and-localization.html#parsing-localized-datetime-data
  */
-// TypeFactory::build('time')
+// \Cake\Database\TypeFactory::build('time')
 //    ->useMutable();
-// TypeFactory::build('date')
+// \Cake\Database\TypeFactory::build('date')
 //    ->useMutable();
-// TypeFactory::build('datetime')
+// \Cake\Database\TypeFactory::build('datetime')
 //    ->useMutable();
-// TypeFactory::build('timestamp')
+// \Cake\Database\TypeFactory::build('timestamp')
 //    ->useMutable();
-// TypeFactory::build('datetimefractional')
+// \Cake\Database\TypeFactory::build('datetimefractional')
 //    ->useMutable();
-// TypeFactory::build('timestampfractional')
+// \Cake\Database\TypeFactory::build('timestampfractional')
 //    ->useMutable();
+// \Cake\Database\TypeFactory::build('datetimetimezone')
+//    ->useMutable();
+// \Cake\Database\TypeFactory::build('timestamptimezone')
+//    ->useMutable();
+
+// There is no time-specific type in Cake
+TypeFactory::map('time', StringType::class);
 
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize
@@ -206,4 +218,3 @@ ServerRequest::addDetector('tablet', function ($request) {
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
-//Inflector::rules('transliteration', ['/å/' => 'aa']);

@@ -35,6 +35,9 @@ class LineupExpiredRule
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {
+        if($options['admin']) {
+            return true;
+        }
         $matchday = $this->Matchdays->get($entity->matchday_id);
         $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);
 

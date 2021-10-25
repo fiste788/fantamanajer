@@ -41,6 +41,8 @@ trait CurrentMatchdayTrait
         if ($cur != null) {
             $this->currentMatchday = $cur;
             $this->currentSeason = $cur->season;
+            $this->currentSeason->started = $this->currentMatchday->number > 0;
+            $this->currentSeason->ended = $this->currentMatchday->number > 38;
         } else {
             throw new RuntimeException('Cannot find current matchday');
         }

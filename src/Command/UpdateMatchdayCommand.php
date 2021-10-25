@@ -43,6 +43,12 @@ class UpdateMatchdayCommand extends Command
             'boolean' => true,
             'default' => false,
         ]);
+        $parser->addOption('no-future-check', [
+            'short' => 'f',
+            'help' => 'Disable future check',
+            'boolean' => true,
+            'default' => false,
+        ]);
         $parser->addArgument('season');
         $parser->addArgument('matchday');
         $parser->setDescription('Update matchday given or current matchday');
@@ -90,7 +96,7 @@ class UpdateMatchdayCommand extends Command
         }
 
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
-        if ($date != null && $date->isFuture()) {
+        if ($date != null && (!$season->key_gazzetta || $date->isFuture())) {
             $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') &&
                 $io->askChoice(
                     'Set ' . $date->format('Y-m-d H:i:s') . ' for matchday ' . $matchday->number,

@@ -113,8 +113,14 @@ class TeamsTable extends Table
                     'size' => 'photo_size', // defaults to `size`
                     'type' => 'photo_type', // defaults to `type`
                 ],
-                'nameCallback' => function (UploadedFileInterface $data, array $_settings) {
-                    return strtolower($data->getClientFilename() ?? '');
+                'nameCallback' => function (
+                    RepositoryInterface $_table,
+                    EntityInterface $_entity,
+                    UploadedFileInterface $file,
+                    string $_field,
+                    array $_settings
+                ) {
+                    return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
                 },
                 'transformer' => function (
                     RepositoryInterface $_table,
@@ -124,7 +130,7 @@ class TeamsTable extends Table
                     array $_settings
                 ) {
 
-                    $tmpFileName = new SplFileInfo($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg');
+                    $tmpFileName = new SplFileInfo(strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg'));
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                     if ($tmpFile != false) {
                         $file->moveTo($tmpFile);
@@ -137,7 +143,7 @@ class TeamsTable extends Table
 
                                 /** @psalm-suppress MixedMethodCall */
                                 $image->manipulate($manipulations)->save($tmp);
-                                $array[$tmp] = $value . 'w' . DS . $tmpFileName->getFilename();
+                                $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                             }
                         }
 
@@ -150,9 +156,9 @@ class TeamsTable extends Table
                     string $field,
                     array $_settings
                 ) {
-                    $array = [$path . $entity->{$field}];
+                    $array = [$path . (string)$entity->{$field}];
                     foreach (Team::$size as $value) {
-                        $array[] = $path . $value . DS . $entity->{$field};
+                        $array[] = $path . $value . DS . (string)$entity->{$field};
                     }
 
                     return $array;

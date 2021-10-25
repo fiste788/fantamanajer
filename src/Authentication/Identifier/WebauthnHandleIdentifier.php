@@ -49,16 +49,16 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function identify(array $data)
+    public function identify(array $credentials)
     {
-        if (!isset($data['publicKey']) || !isset($data['userHandle'])) {
+        if (!isset($credentials['publicKey']) || !isset($credentials['userHandle'])) {
             return null;
         }
 
         /** @var \Psr\Http\Message\ServerRequestInterface $request */
-        $request = $data['request'];
-        $publicKey = (string)$data['publicKey'];
-        $userHandle = (string)$data['userHandle'];
+        $request = $credentials['request'];
+        $publicKey = (string)$credentials['publicKey'];
+        $userHandle = (string)$credentials['userHandle'];
 
         $result = $this->Webauthn->login($publicKey, $request, $userHandle);
 
