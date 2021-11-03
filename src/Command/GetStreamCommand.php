@@ -26,13 +26,13 @@ class GetStreamCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Championships');
+        $this->fetchTable('Championships');
 
         /** @var string[] $config */
         $config = Configure::read('GetStream.default');

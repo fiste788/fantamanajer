@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Rule;
 
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 
 /**
@@ -13,18 +13,18 @@ use Cake\ORM\Query;
  */
 class TeamReachedMaxSelectionRule
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Construct
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Selections');
-        $this->loadModel('Championships');
+        $this->fetchTable('Selections');
+        $this->fetchTable('Championships');
     }
 
     /**

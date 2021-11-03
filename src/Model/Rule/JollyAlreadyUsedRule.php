@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Rule;
 
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays
@@ -12,18 +12,18 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class JollyAlreadyUsedRule
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Construct
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Matchdays');
-        $this->loadModel('Lineups');
+        $this->fetchTable('Matchdays');
+        $this->fetchTable('Lineups');
     }
 
     /**

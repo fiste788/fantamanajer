@@ -19,13 +19,13 @@ class ResetPasswordCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Users');
+        $this->fetchTable('Users');
     }
 
     /**

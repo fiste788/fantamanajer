@@ -25,17 +25,17 @@ class ComputeScoreServiceTest extends TestCase
     /**
      * Undocumented function
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
         $this->loadService('Lineup');
-        $this->loadModel('Scores');
-        $this->loadModel('Teams');
-        $this->loadModel('Matchdays');
-        $this->loadModel('Seasons');
-        $this->loadModel('Lineups');
+        $this->fetchTable('Scores');
+        $this->fetchTable('Teams');
+        $this->fetchTable('Matchdays');
+        $this->fetchTable('Seasons');
+        $this->fetchTable('Lineups');
     }
 
     /**

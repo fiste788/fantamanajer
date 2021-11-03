@@ -20,13 +20,13 @@ class RecalcScoresCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Scores');
+        $this->fetchTable('Scores');
         $this->loadService('ComputeScore');
     }
 

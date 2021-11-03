@@ -4,24 +4,24 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Entity\Team;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Model\Table\NotificationSubscriptionsTable $NotificationSubscriptions
  */
 class NotificationSubscriptionService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Constructor
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('NotificationSubscriptions');
+        $this->NotificationSubscriptions = $this->fetchTable('NotificationSubscriptions');
     }
 
     /**

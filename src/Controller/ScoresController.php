@@ -55,7 +55,7 @@ class ScoresController extends AppController
                 if ($score->lineup == null) {
                     $score->lineup = $this->Lineup->newLineup($score->team_id, $score->matchday_id);
                 }
-                $score->lineup->modules = Lineup::$modules;
+                $score->lineup->modules = Lineup::$MODULES;
             }
 
             return $score;

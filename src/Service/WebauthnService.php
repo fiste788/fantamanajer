@@ -7,8 +7,8 @@ use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSourc
 use App\Model\Entity\User;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Http\Client;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 use Cose\Algorithm\Manager;
 use Cose\Algorithm\Signature\ECDSA;
@@ -52,19 +52,19 @@ use WhichBrowser\Parser;
  */
 class WebauthnService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
     use ServiceAwareTrait;
 
     /**
      * Costructor
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Users');
-        $this->loadModel('PublicKeyCredentialSources');
+        $this->Users = $this->fetchTable('Users');
+        $this->PublicKeyCredentialSources = $this->fetchTable('PublicKeyCredentialSources');
         $this->loadService('PublicKeyCredentialSourceRepository');
     }
 

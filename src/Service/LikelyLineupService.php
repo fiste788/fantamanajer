@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Model\Entity\Member;
 use App\Model\Entity\Team;
 use Cake\Collection\Collection;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use GuzzleHttp\Client;
 use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
@@ -16,7 +16,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class LikelyLineupService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Team array
@@ -35,12 +35,12 @@ class LikelyLineupService
     /**
      * Constructor
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Teams');
+        $this->Teams = $this->fetchTable('Teams');
     }
 
     /**

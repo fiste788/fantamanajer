@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventInterface;
 
 /**
@@ -12,8 +11,6 @@ use Cake\Event\EventInterface;
  */
 class MembersController extends AppController
 {
-    use ModelAwareTrait;
-
     /**
      * Undocumented function
      *
@@ -23,13 +20,13 @@ class MembersController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
-        $this->loadModel('Matchdays');
+        $this->Matchdays = $this->fetchTable('Matchdays');
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function beforeFilter(EventInterface $event): void

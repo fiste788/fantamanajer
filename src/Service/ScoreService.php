@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Entity\Team;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays
@@ -12,18 +12,18 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class ScoreService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Undocumented function
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Matchdays');
-        $this->loadModel('Scores');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Scores = $this->fetchTable('Scores');
     }
 
     /**

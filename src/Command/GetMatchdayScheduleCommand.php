@@ -26,15 +26,15 @@ class GetMatchdayScheduleCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Matchdays');
-        $this->loadModel('Seasons');
+        $this->fetchTable('Matchdays');
+        $this->fetchTable('Seasons');
         $this->getCurrentMatchday();
     }
 

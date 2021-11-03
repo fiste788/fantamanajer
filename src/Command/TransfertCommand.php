@@ -21,15 +21,15 @@ class TransfertCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Matchdays');
-        $this->loadModel('Selections');
+        $this->fetchTable('Matchdays');
+        $this->fetchTable('Selections');
         $this->getCurrentMatchday();
     }
 

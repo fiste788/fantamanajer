@@ -6,28 +6,26 @@ namespace App\Service;
 use App\Model\Entity\Team;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use GetStream\Stream\Client;
 
 /**
  * @property \App\Service\NotificationSubscriptionService $NotificationSubscription
  * @property \App\Service\ScoreService $Score
- * @property \App\Model\Table\TeamsTable $Teams
  */
 class TeamService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
     use ServiceAwareTrait;
 
     /**
      * Constructor
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Teams');
         $this->loadService('Score');
         $this->loadService('NotificationSubscription');
     }
@@ -37,6 +35,7 @@ class TeamService
      *
      * @param \App\Model\Entity\Team $team The team to create
      * @return bool
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \GetStream\Stream\StreamFeedException
      */
     public function createTeam(Team $team): bool
@@ -45,7 +44,7 @@ class TeamService
         $team->push_notification_subscriptions = $this->NotificationSubscription->createDefaultPushSubscription($team);
         $team->email_notification_subscriptions = $this->NotificationSubscription
             ->createDefaultEmailSubscription($team);
-        if ($this->Teams->save($team, ['associated' => true])) {
+        if ($this->fetchTable('Teams')->save($team, ['associated' => true])) {
             /** @var array<string, string> $config */
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);

@@ -24,15 +24,15 @@ class RenewChampionshipCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Championships');
-        $this->loadModel('Teams');
+        $this->fetchTable('Championships');
+        $this->fetchTable('Teams');
         $this->getCurrentMatchday();
     }
 

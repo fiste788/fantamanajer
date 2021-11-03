@@ -125,11 +125,7 @@ class Team extends Entity
      */
     public function isNotificationSubscripted(string $type, string $name): bool
     {
-        if ($type == 'email') {
-            return $this->isSubscripted($this->email_notification_subscriptions, $name);
-        } else {
-            return $this->isSubscripted($this->push_notification_subscriptions, $name);
-        }
+        return $type == 'email' ? $this->isEmailSubscripted($name) : $this->isPushSubscripted($name);
     }
 
     /**

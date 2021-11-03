@@ -37,7 +37,7 @@ class ArticlesTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      * @throws \RuntimeException
      */

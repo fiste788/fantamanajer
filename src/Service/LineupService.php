@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Model\Entity\Disposition;
 use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
@@ -14,18 +14,18 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class LineupService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Constructor
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Teams');
-        $this->loadModel('Lineups');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->Lineups = $this->fetchTable('Lineups');
     }
 
     /**
@@ -41,7 +41,7 @@ class LineupService
         if ($lineup->team_id == $teamId && $lineup->matchday_id != $matchday->id) {
             $lineup = $this->copy($lineup, $matchday, true, false);
         }
-        $lineup->modules = Lineup::$modules;
+        $lineup->modules = Lineup::$MODULES;
 
         return $lineup;
     }
@@ -57,7 +57,7 @@ class LineupService
         $lineup = new Lineup();
         $lineup->team = $this->Teams->get($teamId, ['contain' => ['Members' => ['Roles', 'Players']]]);
         $lineup->dispositions = [];
-        $lineup->modules = Lineup::$modules;
+        $lineup->modules = Lineup::$MODULES;
 
         return $lineup;
     }

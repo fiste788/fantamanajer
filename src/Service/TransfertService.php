@@ -6,7 +6,7 @@ namespace App\Service;
 use App\Model\Entity\MembersTeam;
 use App\Model\Entity\Transfert;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
@@ -18,23 +18,23 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class TransfertService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     use ServiceAwareTrait;
 
     /**
      * Constructor
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Teams');
-        $this->loadModel('MembersTeams');
-        $this->loadModel('Transferts');
-        $this->loadModel('Lineups');
-        $this->loadModel('Matchdays');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->MembersTeams = $this->fetchTable('MembersTeams');
+        $this->Transferts = $this->fetchTable('Transferts');
+        $this->Lineups = $this->fetchTable('Lineups');
+        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->loadService('Lineup');
     }
 

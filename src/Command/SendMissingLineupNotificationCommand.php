@@ -13,7 +13,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 use GetStream\Stream\Client;
 use WebPush\Notification;
 
@@ -31,16 +31,16 @@ class SendMissingLineupNotificationCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Lineups');
-        $this->loadModel('Teams');
-        $this->loadModel('Matchdays');
+        $this->fetchTable('Lineups');
+        $this->fetchTable('Teams');
+        $this->fetchTable('Matchdays');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
@@ -98,7 +98,7 @@ class SendMissingLineupNotificationCommand extends Command
                         ]),
                     ]
                 )->all();
-            $date = new Time($this->currentMatchday->date->getTimestamp());
+            $date = new FrozenTime($this->currentMatchday->date->getTimestamp());
             foreach ($teams as $team) {
                 $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
                     ->title('Formazione non ancora impostatata')

@@ -1,5 +1,5 @@
 <?php
-//declare(strict_types=1);
+declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -31,20 +31,20 @@ require __DIR__ . DIRECTORY_SEPARATOR . 'paths.php';
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
-use Cake\Log\Log;
 use Cake\Cache\Cache;
-use Cake\Mailer\Mailer;
 use Cake\Core\Configure;
-use Cake\Routing\Router;
-use Cake\Utility\Security;
+use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Database\TypeFactory;
+use Cake\Database\Type\StringType;
+use Cake\Datasource\ConnectionManager;
+use Cake\Error\ConsoleErrorHandler;
 use Cake\Error\ErrorHandler;
 use Cake\Http\ServerRequest;
-use Cake\Database\TypeFactory;
+use Cake\Log\Log;
+use Cake\Mailer\Mailer;
 use Cake\Mailer\TransportFactory;
-use Cake\Database\Type\StringType;
-use Cake\Error\ConsoleErrorHandler;
-use Cake\Datasource\ConnectionManager;
-use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Routing\Router;
+use Cake\Utility\Security;
 
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
@@ -61,12 +61,12 @@ use Cake\Core\Configure\Engine\PhpConfig;
  * for more information for recommended practices.
 */
 if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-     $dotenv->parse()
-         ->putenv()
-         ->toEnv()
-         ->toServer();
- }
+    $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
+    $dotenv->parse()
+        ->putenv()
+        ->toEnv()
+        ->toServer();
+}
 
 /*
  * Read configuration file and inject configuration into various
@@ -134,7 +134,7 @@ if ($isCli) {
  * Include the CLI bootstrap overrides.
  */
 if ($isCli) {
-    require __DIR__ . '/bootstrap_cli.php';
+    require CONFIG . 'bootstrap_cli.php';
 }
 
 /*
@@ -168,44 +168,42 @@ Security::setSalt(Configure::consume('Security.salt'));
 
 /*
  * Setup detectors for mobile and tablet.
+ * If you don't use these checks you can safely remove this code
+ * and the mobiledetect package from composer.json.
  */
-ServerRequest::addDetector('mobile', function ($request) {
-    $detector = new \Detection\MobileDetect();
+// ServerRequest::addDetector('mobile', function ($request) {
+//     $detector = new \Detection\MobileDetect();
 
-    return $detector->isMobile();
-});
-ServerRequest::addDetector('tablet', function ($request) {
-    $detector = new \Detection\MobileDetect();
+//     return $detector->isMobile();
+// });
+// ServerRequest::addDetector('tablet', function ($request) {
+//     $detector = new \Detection\MobileDetect();
 
-    return $detector->isTablet();
-});
+//     return $detector->isTablet();
+// });
 
 /*
- * You can set whether the ORM uses immutable or mutable Time types.
- * The default changed in 4.0 to immutable types. You can uncomment
- * below to switch back to mutable types.
- *
  * You can enable default locale format parsing by adding calls
  * to `useLocaleParser()`. This enables the automatic conversion of
  * locale specific date formats. For details see
  * @link https://book.cakephp.org/4/en/core-libraries/internationalization-and-localization.html#parsing-localized-datetime-data
  */
 // \Cake\Database\TypeFactory::build('time')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('date')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('datetime')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('timestamp')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('datetimefractional')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('timestampfractional')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('datetimetimezone')
-//    ->useMutable();
+//    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('timestamptimezone')
-//    ->useMutable();
+//    ->useLocaleParser();
 
 // There is no time-specific type in Cake
 TypeFactory::map('time', StringType::class);

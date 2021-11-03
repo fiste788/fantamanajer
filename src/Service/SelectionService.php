@@ -8,30 +8,25 @@ use App\Model\Entity\Transfert;
 use App\Utility\WebPush\WebPushMessage;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Mailer\Mailer;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use WebPush\Notification;
 
 /**
- * @property \App\Model\Table\MembersTeamsTable $MembersTeams
- * @property \App\Model\Table\SelectionsTable $Selections
  * @property \App\Service\PushNotificationService $PushNotification
  */
 class SelectionService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
     use ServiceAwareTrait;
 
     /**
      * Construct
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('MembersTeams');
-        $this->loadModel('Selections');
         $this->loadService('PushNotification');
     }
 
@@ -39,6 +34,7 @@ class SelectionService
      * @param \App\Model\Entity\Selection $selection Selection
      * @return void
      * @throws \ErrorException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \Cake\Mailer\Exception\MissingMailerException
      * @throws \Cake\Mailer\Exception\MissingActionException
      * @throws \BadMethodCallException
@@ -46,7 +42,7 @@ class SelectionService
     public function notifyLostMember(Selection $selection): void
     {
         /** @var \App\Model\Entity\Selection $selection */
-        $selection = $this->Selections->loadInto($selection, ['Teams' => [
+        $selection = $this->fetchTable('Selections')->loadInto($selection, ['Teams' => [
             'EmailNotificationSubscriptions',
             'PushNotificationSubscriptions',
             'Users.PushSubscriptions',
@@ -107,18 +103,19 @@ class SelectionService
      * Save selection
      *
      * @param \App\Model\Entity\Selection $entity selection
+     * @throws \Cake\Core\Exception\CakeException
      * @return void
      */
     public function save(Selection $entity): void
     {
         /** @var \App\Model\Entity\MembersTeam $memberTeam */
-        $memberTeam = $this->MembersTeams->find()
+        $memberTeam = $this->fetchTable('MembersTeams')->find()
             ->contain(['Members'])
             ->where([
                 'team_id' => $entity->team_id,
                 'member_id' => $entity->old_member_id,
             ])->first();
         $memberTeam->member_id = $entity->new_member_id;
-        $this->MembersTeams->save($memberTeam);
+        $this->fetchTable('MembersTeams')->save($memberTeam);
     }
 }

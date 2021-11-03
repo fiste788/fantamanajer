@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Members;
 
 use App\Controller\AppController;
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -13,8 +12,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class RatingsController extends AppController
 {
-    use ModelAwareTrait;
-
     public $paginate = [
         'limit' => 1000,
         'maxLimit' => 1000,

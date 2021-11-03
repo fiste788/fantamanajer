@@ -27,15 +27,15 @@ class SendTestNotificationCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Teams');
-        $this->loadModel('PushSubscriptions');
+        $this->fetchTable('Teams');
+        $this->fetchTable('PushSubscriptions');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }

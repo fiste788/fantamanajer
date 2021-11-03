@@ -1,4 +1,14 @@
-version: "3.2"
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+
+# Define volumes
+volumes:
+  code:
+
 services:
   php:
     build:
@@ -8,7 +18,7 @@ services:
     networks:
       - backend
     volumes:
-      - ./:/var/www/html/
+      - code:/var/www/html/
     links:
       - mysql
     container_name: php
@@ -31,8 +41,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./:/var/www/html/
-      - /var/www/html/vendor
+      - code:/var/www/html/
     container_name: apache
   mysql:
     image: mariadb:${MYSQL_VERSION:-latest}
@@ -64,6 +73,18 @@ services:
     volumes:
       - /sessions
     container_name: phpmyadmin
-networks:
-  frontend:
-  backend:
+
+# Define synchronization and forwarding sessions
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        vcs: true
+    code:
+      alpha: "."
+      beta: "volume://code"
+      mode: "two-way-resolved"
+      configurationBeta:
+        permissions:
+          defaultOwner: "id:82"
+          #defaultGroup: "www-data"

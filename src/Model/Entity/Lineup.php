@@ -65,7 +65,7 @@ class Lineup extends Entity
      *
      * @var string[]
      */
-    public static $modules = [
+    public static $MODULES = [
         '1-4-4-2',
         '1-4-3-3',
         '1-4-5-1',

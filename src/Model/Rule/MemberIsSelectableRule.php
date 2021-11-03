@@ -5,7 +5,7 @@ namespace App\Model\Rule;
 
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 
 /**
@@ -16,18 +16,18 @@ use Cake\Utility\Hash;
 class MemberIsSelectableRule
 {
     use ServiceAwareTrait;
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Construct
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
-        $this->loadModel('Selections');
-        $this->loadModel('Scores');
+        $this->fetchTable('Selections');
+        $this->fetchTable('Scores');
         $this->loadService('Selection');
     }
 

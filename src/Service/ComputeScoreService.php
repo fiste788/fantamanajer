@@ -9,7 +9,7 @@ use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Team;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -21,23 +21,23 @@ use Cake\Datasource\ModelAwareTrait;
  */
 class ComputeScoreService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
     use ServiceAwareTrait;
 
     /**
      * Undocumented function
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct()
     {
         $this->loadService('Lineup');
-        $this->loadModel('Scores');
-        $this->loadModel('Teams');
-        $this->loadModel('Matchdays');
-        $this->loadModel('Seasons');
-        $this->loadModel('Lineups');
+        $this->Scores = $this->fetchTable('Scores');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Seasons = $this->fetchTable('Seasons');
+        $this->Lineups = $this->fetchTable('Lineups');
     }
 
     /**
@@ -186,7 +186,7 @@ class ComputeScoreService
     {
         $captains = [$lineup->captain_id, $lineup->vcaptain_id, $lineup->vvcaptain_id];
         foreach ($captains as $cap) {
-            if ($cap) {
+            if ($cap != null) {
                 $dispositions = array_filter(
                     $lineup->dispositions,
                     function ($value) use ($cap) {

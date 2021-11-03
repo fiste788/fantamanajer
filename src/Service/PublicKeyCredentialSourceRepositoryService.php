@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Entity\PublicKeyCredentialSource;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
@@ -12,33 +12,22 @@ use Webauthn\PublicKeyCredentialUserEntity;
 /**
  * Credentials Repo
  *
- * @property \App\Model\Table\PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
  */
 class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialSourceRepository
 {
-    use ModelAwareTrait;
-
-    /**
-     * Costructor
-     *
-     * @throws \Cake\Datasource\Exception\MissingModelException
-     * @throws \UnexpectedValueException
-     */
-    public function __construct()
-    {
-        $this->loadModel('PublicKeyCredentialSources');
-    }
+    use LocatorAwareTrait;
 
     /**
      * Undocumented function
      *
      * @param string $credentialId credentialId
+     * @throws \Cake\Core\Exception\CakeException
      * @return \App\Model\Entity\PublicKeyCredentialSource|null
      */
     private function findByCredentialId(string $credentialId): ?PublicKeyCredentialSource
     {
         /** @var \App\Model\Entity\PublicKeyCredentialSource|null $pkcs */
-        $pkcs = $this->PublicKeyCredentialSources->find()
+        $pkcs = $this->fetchTable('PublicKeyCredentialSources')->find()
             ->where(['public_key_credential_id' => $credentialId])
             ->first();
 
@@ -49,6 +38,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
      * Undocumented function
      *
      * @param string $publicKeyCredentialId arg
+     * @throws \Cake\Core\Exception\CakeException
      * @return \Webauthn\PublicKeyCredentialSource|null
      */
     public function findOneByCredentialId(string $publicKeyCredentialId): ?WebauthnPublicKeyCredentialSource
@@ -68,7 +58,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
-        $sources = $this->PublicKeyCredentialSources->find()->where([
+        $sources = $this->fetchTable('PublicKeyCredentialSources')->find()->where([
             'user_handle' => $publicKeyCredentialUserEntity->getId(),
         ]);
 
@@ -84,13 +74,15 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
      * Undocumented function
      *
      * @param \Webauthn\PublicKeyCredentialSource $publicKeyCredentialSource arg
+     * @throws \Cake\Core\Exception\CakeException
      * @return void
      */
     public function saveCredentialSource(WebauthnPublicKeyCredentialSource $publicKeyCredentialSource): void
     {
+        /** @var \App\Model\Entity\PublicKeyCredentialSource $entity */
         $entity = $this->findByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId()) ??
-            $this->PublicKeyCredentialSources->newEmptyEntity();
+            $this->fetchTable('PublicKeyCredentialSources')->newEmptyEntity();
         $entity->fromCredentialSource($publicKeyCredentialSource);
-        $this->PublicKeyCredentialSources->save($entity);
+        $this->fetchTable('PublicKeyCredentialSources')->save($entity);
     }
 }

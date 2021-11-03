@@ -15,7 +15,6 @@
         "friendsofcake/crud": "^6.0.0",
         "get-stream/stream": "^5.0",
         "josegonzalez/cakephp-upload": "6.0.0",
-        "mobiledetect/mobiledetectlib": "^2.8",
         "ramsey/uuid": "^3.8 || ^4.0",
         "spatie/image": "^1.0",
         "spomky-labs/web-push-lib": "^1.0.0",
@@ -29,18 +28,18 @@
         "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
-        "cakephp/bake": "^2.3",
-        "cakephp/cakephp-codesniffer": "~4.5.0",
-        "cakephp/debug_kit": "^4.4",
-        "cakephp/migrations": "^3.0",
+        "cakephp/bake": "^2.6",
+        "cakephp/cakephp-codesniffer": "^4.5",
+        "cakephp/debug_kit": "^4.5",
+        "cakephp/migrations": "^3.2",
+        "cakephp/repl": "^0.1",
         "dereuromark/cakephp-ide-helper": "^1.0.0",
         "ergebnis/composer-normalize": "^2.13",
         "josegonzalez/dotenv": "^3.2",
         "mirko-pagliai/cakephp-database-backup": "^2.8",
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "~8.5.0 || ^9.3",
-        "psy/psysh": "@stable",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "^4.11"
     },
     "suggest": {
         "dereuromark/cakephp-ide-helper": "After baking your code, this keeps your annotations in sync with the code evolving from there on for maximum IDE and PHPStan compatibility.",

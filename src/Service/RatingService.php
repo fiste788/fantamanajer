@@ -8,7 +8,7 @@ use App\Model\Entity\Season;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Datasource\ModelAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 
 /**
@@ -22,7 +22,7 @@ use Cake\ORM\Query;
 class RatingService
 {
     use ServiceAwareTrait;
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * @var \Cake\Console\ConsoleIo|null
@@ -33,16 +33,16 @@ class RatingService
      * Undocumented function
      *
      * @param \Cake\Console\ConsoleIo $io IO
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct(ConsoleIo $io)
     {
         $this->io = $io;
         $this->loadService('DownloadRatings', [$io]);
-        $this->loadModel('Ratings');
-        $this->loadModel('Seasons');
-        $this->loadModel('Members');
+        $this->Ratings = $this->fetchTable('Ratings');
+        $this->Seasons = $this->fetchTable('Seasons');
+        $this->Members = $this->fetchTable('Members');
     }
 
     /**

@@ -23,7 +23,7 @@ class LineupsController extends ControllerLineupsController
         parent::initialize();
         $this->loadService('LikelyLineup');
         $this->loadService('Lineup');
-        $this->loadModel('Matchdays');
+        $this->Matchdays = $this->fetchTable('Matchdays');
     }
 
     /**

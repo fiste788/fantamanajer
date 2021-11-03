@@ -8,9 +8,9 @@ use App\Model\Entity\Member;
 use App\Model\Entity\Season;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Service\DownloadRatingsService $DownloadRatings
@@ -22,7 +22,7 @@ use Cake\Event\EventManager;
 class UpdateMemberService
 {
     use ServiceAwareTrait;
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * @var \Cake\Console\ConsoleIo|null
@@ -33,17 +33,17 @@ class UpdateMemberService
      * Undocumented function
      *
      * @param \Cake\Console\ConsoleIo $io IO
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
     public function __construct(ConsoleIo $io)
     {
         $this->io = $io;
         $this->loadService('DownloadRatings', [$io]);
-        $this->loadModel('Matchdays');
-        $this->loadModel('Members');
-        $this->loadModel('Clubs');
-        $this->loadModel('Players');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Members = $this->fetchTable('Members');
+        $this->Clubs = $this->fetchTable('Clubs');
+        $this->Players = $this->fetchTable('Players');
     }
 
     /**

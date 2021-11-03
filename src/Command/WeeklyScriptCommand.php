@@ -40,20 +40,20 @@ class WeeklyScriptCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Seasons');
-        $this->loadModel('Matchdays');
-        $this->loadModel('Points');
-        $this->loadModel('Ratings');
-        $this->loadModel('Scores');
-        $this->loadModel('Championships');
-        $this->loadModel('Lineups');
+        $this->fetchTable('Seasons');
+        $this->fetchTable('Matchdays');
+        $this->fetchTable('Points');
+        $this->fetchTable('Ratings');
+        $this->fetchTable('Scores');
+        $this->fetchTable('Championships');
+        $this->fetchTable('Lineups');
         $this->loadService('ComputeScore');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();

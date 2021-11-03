@@ -27,15 +27,15 @@ class StartSeasonCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadModel('Seasons');
-        $this->loadModel('Matchdays');
+        $this->fetchTable('Seasons');
+        $this->fetchTable('Matchdays');
     }
 
     /**
@@ -52,7 +52,7 @@ class StartSeasonCommand extends Command
      * {@inheritDoc}
      *
      * @throws \Cake\Console\Exception\StopException
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
@@ -95,7 +95,7 @@ class StartSeasonCommand extends Command
      * @param \Cake\Console\ConsoleIo $io Io
      * @param \Cake\Console\Arguments $_args Arguments
      * @return \App\Model\Entity\Season
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */

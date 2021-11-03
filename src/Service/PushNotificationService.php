@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Cake\Core\Configure;
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Http\Client;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Laminas\Diactoros\RequestFactory;
 use WebPush\ExtensionManager;
 use WebPush\Notification;
@@ -21,26 +21,21 @@ use WebPush\VAPID\WebTokenProvider;
 use WebPush\WebPush;
 use WebPush\WebPushService;
 
-/**
- * @property \App\Model\Table\PushSubscriptionsTable $PushSubscriptions
- */
 class PushNotificationService implements WebPushService
 {
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     private WebPush $service;
 
     /**
      * Undocumented function
      *
-     * @throws \Cake\Datasource\Exception\MissingModelException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
     public function __construct()
     {
-        $this->loadModel('PushSubscriptions');
-
         $config = (array)Configure::read('WebPush.VAPID');
         // With Web-Token
         $jwsProvider = WebTokenProvider::create((string)$config['publicKey'], (string)$config['privateKey']);

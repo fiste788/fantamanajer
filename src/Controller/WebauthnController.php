@@ -6,7 +6,6 @@ namespace App\Controller;
 use App\Service\UserService;
 use App\Service\WebauthnService;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Event\EventInterface;
 
 /**
@@ -15,7 +14,6 @@ use Cake\Event\EventInterface;
 class WebauthnController extends AppController
 {
     use ServiceAwareTrait;
-    use ModelAwareTrait;
 
     /**
      * @inheritDoc
