@@ -37,7 +37,7 @@ trait CurrentMatchdayTrait
     public function getCurrentMatchday(): void
     {
         /** @var \App\Model\Entity\Matchday|null $cur */
-        $cur = $this->getTableLocator()->get('Matchdays')->find('current')->first();
+        $cur = $this->fetchTable('Matchdays')->find('current')->first();
         if ($cur != null) {
             $this->currentMatchday = $cur;
             $this->currentSeason = $cur->season;

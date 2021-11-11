@@ -21,7 +21,6 @@ class TeamService
     /**
      * Constructor
      *
-     
      * @throws \UnexpectedValueException
      */
     public function __construct()

@@ -11,7 +11,6 @@ use Webauthn\PublicKeyCredentialUserEntity;
 
 /**
  * Credentials Repo
- *
  */
 class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialSourceRepository
 {

@@ -16,9 +16,9 @@ use Webauthn\PublicKeyCredentialUserEntity;
  *
  * @property int $id
  * @property string|null $uuid
- * @property string $email
- * @property string $name
- * @property string $surname
+ * @property string|null $email
+ * @property string|null $name
+ * @property string|null $surname
  * @property string $username
  * @property string $password
  * @property string|null $login_key
@@ -30,6 +30,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property \App\Model\Entity\PushSubscription[] $push_subscriptions
  * @property \App\Model\Entity\Team[] $teams
  * @property \Authorization\AuthorizationServiceInterface $authorization
+ * @property int $old_id
  */
 class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
 {
@@ -184,9 +185,9 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     public function toCredentialUserEntity(): PublicKeyCredentialUserEntity
     {
         return new PublicKeyCredentialUserEntity(
-            $this->email,
+            (string)($this->email ?? ''),
             (string)($this->uuid ?? ''),
-            $this->name . ' ' . $this->surname
+            (string)($this->name ?? '') . ' ' . (string)($this->surname ?? '')
         );
     }
 }

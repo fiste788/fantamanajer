@@ -22,9 +22,9 @@ class NotificationsController extends AppController
     {
         parent::beforeFilter($event);
         $teamId = (int)$this->request->getParam('team_id');
-        /** @var \App\Model\Entity\User $identity */
+        /** @var \App\Model\Entity\User|null $identity */
         $identity = $this->Authentication->getIdentity();
-        if (!$identity->hasTeam($teamId)) {
+        if (!$identity?->hasTeam($teamId)) {
             throw new ForbiddenException();
         }
     }

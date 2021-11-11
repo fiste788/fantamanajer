@@ -130,7 +130,9 @@ class TeamsTable extends Table
                     array $_settings
                 ) {
 
-                    $tmpFileName = new SplFileInfo(strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg'));
+                    $tmpFileName = new SplFileInfo(
+                        strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
+                    );
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                     if ($tmpFile != false) {
                         $file->moveTo($tmpFile);
@@ -250,6 +252,7 @@ class TeamsTable extends Table
      * @return void
      * @throws \Cake\ORM\Exception\PersistenceFailedException
      * @throws \GetStream\Stream\StreamFeedException
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function saveWithoutUser(Team $team): void
     {

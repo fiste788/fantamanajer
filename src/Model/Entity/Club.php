@@ -15,7 +15,7 @@ use Cake\Routing\Asset;
  * @property string $determinant
  * @property string $abbreviation
  * @property string $photo_url
- * @property string[]|null $background_url
+ * @property null|string[] $background_url
  *
  * @property \App\Model\Entity\Member[] $members
  */

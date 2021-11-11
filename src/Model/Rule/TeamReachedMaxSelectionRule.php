@@ -56,7 +56,7 @@ class TeamReachedMaxSelectionRule
             'team_id' => $entity->team_id,
             'processed' => false,
         ])->count();
-        
+
         return $count < $championship->number_selections || $lastSelection->new_member_id == $entity->new_member_id;
     }
 }

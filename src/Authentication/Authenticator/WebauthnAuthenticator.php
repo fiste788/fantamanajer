@@ -43,7 +43,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      */
     protected function _buildLoginUrlErrorResult(ServerRequestInterface $request): Result
     {
-        /** @var string[] */
+        /** @var string[] $config */
         $config = $this->getConfig('loginUrl');
         $errors = [
             sprintf(

@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property int $member_id
  *
  * @property \App\Model\Entity\Team $team
- * @property \App\Model\Entity\Member|null $member
+ * @property \App\Model\Entity\Member $member
  */
 class MembersTeam extends Entity
 {

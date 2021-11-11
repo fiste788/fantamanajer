@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property bool|null $jolly
  * @property bool|null $cloned
  * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime|null $modified_at
+ * @property \Cake\I18n\FrozenTime $modified_at
  * @property int|null $captain_id
  * @property int|null $vcaptain_id
  * @property int|null $vvcaptain_id

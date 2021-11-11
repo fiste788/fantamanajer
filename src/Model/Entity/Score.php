@@ -18,8 +18,8 @@ use Cake\ORM\Entity;
  * @property int $matchday_id
  *
  * @property \App\Model\Entity\Lineup|null $lineup
- * @property \App\Model\Entity\Team|null $team
- * @property \App\Model\Entity\Matchday|null $matchday
+ * @property \App\Model\Entity\Team $team
+ * @property \App\Model\Entity\Matchday $matchday
  */
 class Score extends Entity
 {

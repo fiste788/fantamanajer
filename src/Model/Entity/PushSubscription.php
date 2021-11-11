@@ -11,12 +11,12 @@ use WebPush\Subscription;
  *
  * @property string $id
  * @property string $endpoint
- * @property string $public_key
- * @property string $auth_token
+ * @property string|null $public_key
+ * @property string|null $auth_token
  * @property string|null $content_encoding
- * @property \Cake\I18n\FrozenTime $expires_at
+ * @property \Cake\I18n\FrozenTime|null $expires_at
  * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime|null $modified_at
+ * @property \Cake\I18n\FrozenTime $modified_at
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user

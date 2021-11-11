@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
  * @property string|null $photo_type
  * @property int $user_id
  * @property int $championship_id
- * @property string[]|null $photo_url
+ * @property null|string[] $photo_url
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Championship $championship

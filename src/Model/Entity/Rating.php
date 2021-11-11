@@ -29,6 +29,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Member $member
  * @property \App\Model\Entity\Matchday $matchday
+ * @property float|null $points_no_bonus
  */
 class Rating extends Entity
 {

@@ -79,9 +79,9 @@ class TeamsController extends AppController
         $action->setConfig(['api' => [
             'success' => [
                 'data' => [
-                    'entity' => ['photo_url']
+                    'entity' => ['photo_url'],
                 ],
-            ]
+            ],
         ]]);
         $action->saveOptions([
             'accessibleFields' => ['user' => false],

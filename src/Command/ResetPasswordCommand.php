@@ -72,10 +72,12 @@ class ResetPasswordCommand extends Command
      */
     private function reset(User $user, ConsoleIo $io): void
     {
-        $hasher = new DefaultPasswordHasher();
-        $io->out('Resetting password for ' . $user->email);
-        $user->password = $hasher->hash(strtolower($user->name));
-        $this->Users->save($user);
-        $io->out('New password is ' . strtolower($user->name));
+        if ($user->email && $user->name) {
+            $hasher = new DefaultPasswordHasher();
+            $io->out('Resetting password for ' . $user->email);
+            $user->password = $hasher->hash(strtolower($user->name));
+            $this->Users->save($user);
+            $io->out('New password is ' . strtolower($user->name));
+        }
     }
 }

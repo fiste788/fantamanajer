@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property int $year
- * @property string|null $key_gazzetta
+ * @property string $key_gazzetta
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
  * @property bool $started
@@ -61,6 +61,6 @@ class Season extends Entity
      */
     protected $_virtual = [
         'started',
-        'ended'
+        'ended',
     ];
 }
