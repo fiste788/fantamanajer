@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Cake\Mailer\Mailer;
+use WebPush\Notification;
 use App\Model\Entity\Selection;
 use App\Model\Entity\Transfert;
-use App\Utility\WebPush\WebPushMessage;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
-use Cake\Core\Configure;
-use Cake\Mailer\Mailer;
+use Cake\Datasource\ModelAwareTrait;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use WebPush\Notification;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 
 /**
  * @property \App\Service\PushNotificationService $PushNotification
@@ -65,18 +64,15 @@ class SelectionService
             foreach ($selection->team->user->push_subscriptions as $subscription) {
                 $pushSubscription = $subscription->getSubscription();
                 if ($pushSubscription != null) {
-                    $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                        ->title('Un altra squadra ti ha soffiato un giocatore selezionato')
-                        ->body('Hai perso il giocatore ' . $selection->new_member->player->full_name)
-                        ->tag('lost-player-' . $selection->id);
-                    $messageString = json_encode($message);
-                    if ($messageString != false) {
-                        $notification = Notification::create()
+                    $message = $this->PushNotification->createDefaultMessage(
+                        'Un altra squadra ti ha soffiato un giocatore selezionato',
+                        'Hai perso il giocatore ' . $selection->new_member->player->full_name
+                    )->withTag('lost-player-' . $selection->id);
+                    $notification = Notification::create()
                             ->withTTL(3600)
                             ->withTopic('player-lost')
-                            ->withPayload($messageString);
-                        $this->PushNotification->send($notification, $pushSubscription);
-                    }
+                            ->withPayload($message->toString());
+                    $this->PushNotification->send($notification, $pushSubscription);
                 }
             }
         }

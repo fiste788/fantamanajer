@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use SplFileInfo;
+use Cake\ORM\Query;
+use Cake\ORM\Table;
+use Spatie\Image\Image;
 use App\Model\Entity\Team;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use Cake\ORM\RulesChecker;
+use Cake\Validation\Validator;
+use Spatie\Image\Manipulations;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
-use Cake\Validation\Validator;
 use Psr\Http\Message\UploadedFileInterface;
-use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
-use SplFileInfo;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 
 /**
  * Teams Model
@@ -129,7 +129,6 @@ class TeamsTable extends Table
                     string $_field,
                     array $_settings
                 ) {
-
                     $tmpFileName = new SplFileInfo(
                         strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
                     );

@@ -6,15 +6,14 @@ namespace App\Command;
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
 use App\Traits\CurrentMatchdayTrait;
-use App\Utility\WebPush\WebPushMessage;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Core\Configure;
 use Cake\Mailer\MailerAwareTrait;
+use WebPush\Action;
 use WebPush\Notification;
 
 /**
@@ -193,23 +192,30 @@ class WeeklyScriptCommand extends Command
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $pushSubscription = $subscription->getSubscription();
                     if ($pushSubscription != null) {
-                        $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                            ->title('Punteggio giornata ' . $matchday->number . ' ' . $team->name)
-                            ->body('La tua squadra ha totalizzato un punteggio di ' .
-                                $scores[$team->id]->points . ' punti')
-                            ->action('Visualizza', 'open')
-                            ->tag('926796012340920300')
-                            ->data(['url' => '/scores/' . $scores[$team->id]->id]);
-
+                        $message = $this->PushNotification->createDefaultMessage(
+                            'Punteggio giornata ' . $matchday->number . ' ' . $team->name,
+                            'La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti'
+                        )
+                            ->withImage('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
+                            ->addAction(Action::create('open', 'Visualizza'))
+                            ->withTag('lineup-' . $scores[$team->id]->points)
+                            ->withData(['onActionClick' => [
+                               'default' => [
+                                   'operation' => 'navigateLastFocusedOrOpen',
+                                   'url' => '/scores/' . $scores[$team->id]->id,
+                                ],
+                               'open' => [
+                                   'operation' => 'navigateLastFocusedOrOpen',
+                                    'url' => '/scores/' . $scores[$team->id]->id,
+                                ],
+                            ]]);
                         $io->out('Sending notification to ' . $subscription->endpoint);
-                        $messageString = json_encode($message);
-                        if ($messageString != false) {
-                            $notification = Notification::create()
+
+                        $notification = Notification::create()
                                 ->withTTL(3600)
                                 ->withTopic('score')
-                                ->withPayload($messageString);
-                            $this->PushNotification->send($notification, $pushSubscription);
-                        }
+                                ->withPayload($message->toString());
+                        $this->PushNotification->send($notification, $pushSubscription);
                     }
                 }
             }

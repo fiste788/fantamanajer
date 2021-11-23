@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Traits\CurrentMatchdayTrait;
-use App\Utility\WebPush\WebPushMessage;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Chronos\Chronos;
 use Cake\Command\Command;
@@ -15,6 +14,7 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\I18n\FrozenTime;
 use GetStream\Stream\Client;
+use WebPush\Action;
 use WebPush\Notification;
 
 /**
@@ -100,33 +100,37 @@ class SendMissingLineupNotificationCommand extends Command
                 )->all();
             $date = new FrozenTime($this->currentMatchday->date->getTimestamp());
             foreach ($teams as $team) {
-                $message = WebPushMessage::create((array)Configure::read('WebPushMessage.default'))
-                    ->title('Formazione non ancora impostatata')
-                    ->body(sprintf(
-                        'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
-                        $this->currentMatchday->number,
-                        $date->timeAgoInWords()
-                    ))
-                    ->action('Imposta', 'open')
-                    ->tag('missing-lineup-' . $this->currentMatchday->number)
-                    ->data(['url' => '/teams/' . $team->id . '/lineup/current']);
-
-                $messageString = json_encode($message);
-                if ($messageString != false) {
-                    foreach ($team->user->push_subscriptions as $subscription) {
-                        $pushSubscription = $subscription->getSubscription();
-                        if ($pushSubscription != null) {
-                            $io->out('Send push notification to ' . $subscription->endpoint);
-                            $notification = Notification::create()
-                                ->withTTL(3600)
-                                ->withTopic('missing-lineup')
-                                ->withPayload($messageString);
-                            $io->out($messageString);
-                            $io->out('Send push notification to ' . $subscription->endpoint);
-                            $this->PushNotification->send($notification, $pushSubscription);
-                        }
+                $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', sprintf(
+                    'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
+                    $this->currentMatchday->number,
+                    $date->timeAgoInWords()
+                ))
+                    ->addAction(Action::create('open', 'Imposta'))
+                    ->withTag('missing-lineup-' . $this->currentMatchday->number)
+                    ->withData(['onActionClick' => [
+                        'default' => [
+                            'operation' => 'navigateLastFocusedOrOpen',
+                            'url' => '/teams/' . $team->id . '/lineup/current'
+                        ],
+                        'open' => [
+                            'operation' => 'navigateLastFocusedOrOpen',
+                            'url' => '/teams/' . $team->id . '/lineup/current'
+                        ],
+                    ]]);
+                foreach ($team->user->push_subscriptions as $subscription) {
+                    $pushSubscription = $subscription->getSubscription();
+                    if ($pushSubscription != null) {
+                        $io->out('Send push notification to ' . $subscription->endpoint);
+                        $notification = Notification::create()
+                            ->withTTL(3600)
+                            ->withTopic('missing-lineup')
+                            ->withPayload($message->toString());
+                        $io->out($message->toString());
+                        $io->out('Send push notification to ' . $subscription->endpoint);
+                        $this->PushNotification->send($notification, $pushSubscription);
                     }
                 }
+
                 $io->out('Create activity in notification stream for team ' . (string)$team->id);
                 $feed = $client->feed('notification', (string)$team->id);
                 $feed->addActivity([

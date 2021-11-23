@@ -8,12 +8,13 @@ use Cake\Http\Client;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Laminas\Diactoros\RequestFactory;
 use WebPush\ExtensionManager;
-use WebPush\Notification;
+use WebPush\Message;
+use WebPush\NotificationInterface;
 use WebPush\Payload\AES128GCM;
 use WebPush\Payload\AESGCM;
 use WebPush\Payload\PayloadExtension;
-use WebPush\StatusReport;
-use WebPush\Subscription;
+use WebPush\StatusReportInterface;
+use WebPush\SubscriptionInterface;
 use WebPush\TopicExtension;
 use WebPush\TTLExtension;
 use WebPush\VAPID\VAPIDExtension;
@@ -61,12 +62,32 @@ class PushNotificationService implements WebPushService
     /**
      * Send notification
      *
-     * @param \WebPush\Notification $notification Notification
-     * @param \WebPush\Subscription $subscription Subscription
-     * @return \WebPush\StatusReport
+     * @param \WebPush\NotificationInterface $notification Notification
+     * @param \WebPush\SubscriptionInterface $subscription Subscription
+     * @return \WebPush\StatusReportInterface
      */
-    public function send(Notification $notification, Subscription $subscription): StatusReport
-    {
+    public function send(
+        NotificationInterface $notification,
+        SubscriptionInterface $subscription
+    ): StatusReportInterface {
         return $this->service->send($notification, $subscription);
+    }
+
+    /**
+     * Create default message
+     *
+     * @param string $title Title
+     * @param string|null $body Body
+     * @return \WebPush\Message
+     */
+    public function createDefaultMessage(string $title, ?string $body = null): Message
+    {
+        /** @var array<string, string> $config  */
+        $config = Configure::read('WebPushMessage.default');
+
+        return Message::create($title, $body)
+            ->withBadge($config['badge'])
+            ->withIcon($config['icon'])
+            ->withLang($config['lang']);
     }
 }
