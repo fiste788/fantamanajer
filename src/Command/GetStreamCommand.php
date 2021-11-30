@@ -32,7 +32,7 @@ class GetStreamCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Championships');
+        $this->Championships = $this->fetchTable('Championships');
 
         /** @var string[] $config */
         $config = Configure::read('GetStream.default');

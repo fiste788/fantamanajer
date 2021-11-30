@@ -80,7 +80,7 @@ class WebauthnService
         return new PublicKeyCredentialUserEntity(
             (string)$user->id,
             (string)$user->uuid,
-            $user->name . ' ' . $user->surname,
+            ($user->name ?? '') . ' ' . ($user->surname ?? ''),
             null
         );
     }

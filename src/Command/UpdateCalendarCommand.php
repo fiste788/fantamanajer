@@ -28,7 +28,7 @@ class UpdateCalendarCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Matchdays');
+        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->getCurrentMatchday();
     }
 

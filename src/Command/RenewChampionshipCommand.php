@@ -31,8 +31,8 @@ class RenewChampionshipCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Championships');
-        $this->fetchTable('Teams');
+        $this->Championships = $this->fetchTable('Championships');
+        $this->Teams = $this->fetchTable('Teams');
         $this->getCurrentMatchday();
     }
 

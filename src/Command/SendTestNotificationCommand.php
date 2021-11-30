@@ -33,8 +33,8 @@ class SendTestNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Teams');
-        $this->fetchTable('PushSubscriptions');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->PushSubscriptions = $this->fetchTable('PushSubscriptions');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }

@@ -25,7 +25,7 @@ class ResetPasswordCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Users');
+        $this->Users = $this->fetchTable('Users');
     }
 
     /**

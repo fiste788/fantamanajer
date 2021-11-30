@@ -46,13 +46,13 @@ class WeeklyScriptCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Seasons');
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Points');
-        $this->fetchTable('Ratings');
-        $this->fetchTable('Scores');
-        $this->fetchTable('Championships');
-        $this->fetchTable('Lineups');
+        $this->Seasons = $this->fetchTable('Seasons');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Points = $this->fetchTable('Points');
+        $this->Ratings = $this->fetchTable('Ratings');
+        $this->Scores = $this->fetchTable('Scores');
+        $this->Championships = $this->fetchTable('Championships');
+        $this->Lineups = $this->fetchTable('Lineups');
         $this->loadService('ComputeScore');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
@@ -196,7 +196,6 @@ class WeeklyScriptCommand extends Command
                             'Punteggio giornata ' . $matchday->number . ' ' . $team->name,
                             'La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti'
                         )
-                            ->withImage('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
                             ->addAction(Action::create('open', 'Visualizza'))
                             ->withTag('lineup-' . $scores[$team->id]->points)
                             ->withData(['onActionClick' => [

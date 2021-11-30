@@ -33,8 +33,8 @@ class GetMatchdayScheduleCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Seasons');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Seasons = $this->fetchTable('Seasons');
         $this->getCurrentMatchday();
     }
 

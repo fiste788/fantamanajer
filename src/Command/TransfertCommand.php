@@ -28,8 +28,8 @@ class TransfertCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Selections');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Selections = $this->fetchTable('Selections');
         $this->getCurrentMatchday();
     }
 

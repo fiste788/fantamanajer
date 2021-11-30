@@ -26,7 +26,7 @@ class RecalcScoresCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Scores');
+        $this->Scores = $this->fetchTable('Scores');
         $this->loadService('ComputeScore');
     }
 

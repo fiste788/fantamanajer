@@ -5,7 +5,6 @@ namespace App\Command;
 
 use App\Traits\CurrentMatchdayTrait;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
-use Cake\Chronos\Chronos;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
@@ -38,9 +37,9 @@ class SendMissingLineupNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Lineups');
-        $this->fetchTable('Teams');
-        $this->fetchTable('Matchdays');
+        $this->Lineups = $this->fetchTable('Lineups');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
@@ -74,7 +73,7 @@ class SendMissingLineupNotificationCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $tomorrow = Chronos::now()->addDay()->second(0);
+        $tomorrow = FrozenTime::now()->addDay()->second(0);
         if (
             $args->getOption('force') ||
             $this->currentMatchday->date->isWithinNext('30 minutes') ||

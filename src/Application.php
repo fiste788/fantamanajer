@@ -51,7 +51,9 @@ use Authorization\AuthorizationServiceProviderInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use App\Authentication\Authenticator\WebauthnAuthenticator;
 use App\Authentication\Identifier\WebauthnHandleIdentifier;
+use App\Command\SendTestNotificationCommand;
 use App\Service\PublicKeyCredentialSourceRepositoryService;
+use App\Service\PushNotificationService;
 use Authorization\Middleware\RequestAuthorizationMiddleware;
 
 /**
@@ -262,5 +264,6 @@ class Application extends BaseApplication implements
         $container->add(UserService::class);
         $container->add(ComputeScoreService::class);
         $container->add(LineupService::class);
+        $container->addShared(PushNotificationService::class);
     }
 }

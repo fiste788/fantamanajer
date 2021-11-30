@@ -34,9 +34,9 @@ class SendLineupsEmailCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Championships');
-        $this->fetchTable('Teams');
-        $this->fetchTable('Matchdays');
+        $this->Championships = $this->fetchTable('Championships');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->getCurrentMatchday();
     }
 

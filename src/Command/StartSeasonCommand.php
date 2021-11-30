@@ -34,8 +34,8 @@ class StartSeasonCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Seasons');
-        $this->fetchTable('Matchdays');
+        $this->Seasons = $this->fetchTable('Seasons');
+        $this->Matchdays = $this->fetchTable('Matchdays');
     }
 
     /**
