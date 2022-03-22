@@ -125,7 +125,7 @@ return static function (RouteBuilder $routes) {
         ], function (RouteBuilder $routes) {
             $routes->connect('/ratings', [
                 'controller' => 'Ratings',
-                'prefix' => 'members'
+                'prefix' => 'Members'
             ]);
         });
 
@@ -167,42 +167,43 @@ return static function (RouteBuilder $routes) {
         ])
             ->setMethods(['DELETE'])
             ->setPatterns(['id' => '[A-Fa-f0-9]{64}'])
-            ->setPass(['id']);;
+            ->setPass(['id']);
+        ;
 
         $routes->resources('Championships', [
             'only' => ['view', 'update'],
         ], function (RouteBuilder $routes) {
             $routes->resources('Articles', [
                 'only' => 'index',
-                'prefix' => 'championships',
+                'prefix' => 'Championships',
             ]);
 
             $routes->resources('Scores', [
-                'prefix' => 'championships',
+                'prefix' => 'Championships',
                 'only' => 'index',
                 'path' => 'ranking',
             ]);
 
             $routes->resources('Teams', [
-                'prefix' => 'championships',
+                'prefix' => 'Championships',
                 'only' => 'index',
             ]);
 
             $routes->resources('Stream', [
-                'prefix' => 'championships',
+                'prefix' => 'Championships',
                 'only' => 'index',
             ]);
 
             $routes->connect('/members/free', [
                 'controller' => 'Members',
                 'action' => 'free',
-                'prefix' => 'championships',
+                'prefix' => 'Championships',
             ]);
 
             $routes->connect('/members/free/:role_id', [
                 'controller' => 'Members',
                 'action' => 'freeByRole',
-                'prefix' => 'championships',
+                'prefix' => 'Championships',
             ])
                 ->setPatterns(['role_id' => '\d+']);
         });
@@ -218,7 +219,7 @@ return static function (RouteBuilder $routes) {
         ], function (RouteBuilder $routes) {
             $routes->resources('Articles', [
                 'only' => 'index',
-                'prefix' => 'teams',
+                'prefix' => 'Teams',
             ]);
 
             $routes->resources('Members', [
@@ -257,7 +258,7 @@ return static function (RouteBuilder $routes) {
             ]);
 
             $routes->resources('Lineups', [
-                'prefix' => 'teams',
+                'prefix' => 'Teams',
                 'only' => ['current', 'create', 'update', 'likely'],
                 'map' => [
                     'current' => [
@@ -272,7 +273,7 @@ return static function (RouteBuilder $routes) {
             ]);
 
             $routes->resources('Scores', [
-                'prefix' => 'teams',
+                'prefix' => 'Teams',
                 'only' => ['last', 'viewByMatchday', 'index'],
                 'map' => [
                     'last' => [
@@ -282,14 +283,14 @@ return static function (RouteBuilder $routes) {
             ]);
 
             $routes->resources('Stream', [
-                'prefix' => 'teams',
+                'prefix' => 'Teams',
                 'only' => 'index',
             ]);
 
             $routes->connect('/scores/{matchday_id}', [
                 'controller' => 'Scores',
                 'action' => 'viewByMatchday',
-                'prefix' => 'teams',
+                'prefix' => 'Teams',
             ])
                 ->setPatterns(['matchday_id' => '\d+'])
                 ->setPass(['matchday_id']);

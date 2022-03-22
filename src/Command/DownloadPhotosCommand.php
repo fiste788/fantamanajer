@@ -72,7 +72,7 @@ class DownloadPhotosCommand extends Command
                 if ($trs->count() >= 1) {
                     $trs->first();
                     $href = $trs->attr('href');
-                    if ($href != null && $href != '') {
+                    if ($href != null) {
                         $io->out('Found ' . $href);
                         $href = 'http://' . $baseUrl . '/' . $href;
                         $io->out('Url ' . $href);

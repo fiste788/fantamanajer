@@ -21,7 +21,7 @@ if (!defined('DS')) {
      *
      * @var string
      */
-    define('DS', (string) DIRECTORY_SEPARATOR);
+    define('DS', DIRECTORY_SEPARATOR);
 }
 /**
  * These defines should only be edited if you have cake installed in

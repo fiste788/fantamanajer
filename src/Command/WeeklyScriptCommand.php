@@ -192,6 +192,10 @@ class WeeklyScriptCommand extends Command
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $pushSubscription = $subscription->getSubscription();
                     if ($pushSubscription != null) {
+                        $action = [
+                            'operation' => 'navigateLastFocusedOrOpen',
+                            'url' => '/scores/' . $scores[$team->id]->id,
+                        ];
                         $message = $this->PushNotification->createDefaultMessage(
                             'Punteggio giornata ' . $matchday->number . ' ' . $team->name,
                             'La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti'
@@ -199,14 +203,8 @@ class WeeklyScriptCommand extends Command
                             ->addAction(Action::create('open', 'Visualizza'))
                             ->withTag('lineup-' . $scores[$team->id]->points)
                             ->withData(['onActionClick' => [
-                               'default' => [
-                                   'operation' => 'navigateLastFocusedOrOpen',
-                                   'url' => '/scores/' . $scores[$team->id]->id,
-                                ],
-                               'open' => [
-                                   'operation' => 'navigateLastFocusedOrOpen',
-                                    'url' => '/scores/' . $scores[$team->id]->id,
-                                ],
+                               'default' => $action,
+                               'open' => $action,
                             ]]);
                         $io->out('Sending notification to ' . $subscription->endpoint);
 

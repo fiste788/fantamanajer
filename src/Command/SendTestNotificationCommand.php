@@ -74,6 +74,10 @@ class SendTestNotificationCommand extends Command
         foreach ($team->user->push_subscriptions as $subscription) {
             $pushSubscription = $subscription->getSubscription();
             if ($pushSubscription != null) {
+                $action = [
+                    'operation' => 'navigateLastFocusedOrOpen',
+                    'url' => '/teams/' . $team->id . '/lineup/current',
+                ];
                 $message = $this->PushNotification->createDefaultMessage(
                     'Notifica di test',
                     'Testo molto lungo che ora non sto a scrivere perchè non ho tempo'
@@ -82,14 +86,8 @@ class SendTestNotificationCommand extends Command
                     ->addAction(Action::create('open', 'Apri'))
                     ->withTag('missing-lineup-' . $this->currentMatchday->number)
                     ->withData(['onActionClick' => [
-                        'default' => [
-                            'operation' => 'navigateLastFocusedOrOpen',
-                            'url' => '/teams/' . $team->id . '/lineup/current',
-                        ],
-                        'open' => [
-                            'operation' => 'navigateLastFocusedOrOpen',
-                            'url' => '/teams/' . $team->id . '/lineup/current',
-                        ],
+                        'default' => $action,
+                        'open' => $action,
                     ]]);
                 $notification = Notification::create()
                     ->withTTL(3600)

@@ -99,6 +99,10 @@ class SendMissingLineupNotificationCommand extends Command
                 )->all();
             $date = new FrozenTime($this->currentMatchday->date->getTimestamp());
             foreach ($teams as $team) {
+                $action = [
+                    'operation' => 'navigateLastFocusedOrOpen',
+                    'url' => '/teams/' . $team->id . '/lineup/current'
+                ];
                 $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', sprintf(
                     'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
                     $this->currentMatchday->number,
@@ -107,14 +111,8 @@ class SendMissingLineupNotificationCommand extends Command
                     ->addAction(Action::create('open', 'Imposta'))
                     ->withTag('missing-lineup-' . $this->currentMatchday->number)
                     ->withData(['onActionClick' => [
-                        'default' => [
-                            'operation' => 'navigateLastFocusedOrOpen',
-                            'url' => '/teams/' . $team->id . '/lineup/current'
-                        ],
-                        'open' => [
-                            'operation' => 'navigateLastFocusedOrOpen',
-                            'url' => '/teams/' . $team->id . '/lineup/current'
-                        ],
+                        'default' => $action,
+                        'open' => $action,
                     ]]);
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $pushSubscription = $subscription->getSubscription();
