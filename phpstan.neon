@@ -9,7 +9,7 @@ parameters:
     bootstrapFiles:
         - config/bootstrap.php
 
-    excludes_analyse:
+    excludePaths:
         - src/Console/Installer.php
 
     ignoreErrors:

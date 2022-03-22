@@ -189,6 +189,7 @@ class Application extends BaseApplication implements
         ]);
         $service->loadAuthenticator('Authentication.Jwt', [
             'fields' => $fields,
+            'algorithm' => 'HS256',
             'returnPayload' => false,
         ]);
 

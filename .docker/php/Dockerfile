@@ -19,3 +19,7 @@ RUN cat /usr/local/etc/php/conf.d/opcache.ini >> /usr/local/etc/php/conf.d/docke
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN cat /usr/local/etc/php/conf.d/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+RUN chown www-data:www-data /var/www/html/
+
+# USER www-data

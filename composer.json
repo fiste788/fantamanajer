@@ -18,13 +18,13 @@
         "ramsey/uuid": "^3.8 || ^4.0",
         "spatie/image": "^2.0",
         "spomky-labs/web-push-lib": "^2.0.0",
-        "symfony/css-selector": "^5.0",
-        "symfony/dom-crawler": "^5.0",
+        "symfony/css-selector": "^6.0",
+        "symfony/dom-crawler": "^6.0",
         "web-auth/webauthn-lib": "^3.0",
-        "web-token/jwt-key-mgmt": "^2.2",
-        "web-token/jwt-signature-algorithm-ecdsa": "^2.2",
-        "web-token/jwt-signature-algorithm-eddsa": "^2.2",
-        "web-token/jwt-signature-algorithm-rsa": "^2.2",
+        "web-token/jwt-key-mgmt": "^3.0",
+        "web-token/jwt-signature-algorithm-ecdsa": "^3.0",
+        "web-token/jwt-signature-algorithm-eddsa": "^3.0",
+        "web-token/jwt-signature-algorithm-rsa": "^3.0",
         "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
@@ -48,7 +48,13 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true,
+            "ergebnis/composer-normalize": true,
+            "cakephp/plugin-installer": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -81,7 +87,7 @@
         "cs-check": "phpcs --colors -p  src/ tests/",
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "psalm": "psalm",
-        "stan": "phpstan analyse --memory-limit=0",
+        "stan": "phpstan analyse",
         "test": "phpunit --colors=always",
         "test:all": [
             "composer test:unit",

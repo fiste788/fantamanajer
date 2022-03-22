@@ -19,7 +19,7 @@ class UserService
     public function getToken(string $subject, int $days = 7): string
     {
         $time = new FrozenTime();
-        $time->addDays($days);
+        $time = $time->addDays($days);
 
         return JWT::encode(
             [

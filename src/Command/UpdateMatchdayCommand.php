@@ -97,7 +97,7 @@ class UpdateMatchdayCommand extends Command
 
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
         if ($date != null && (!$season->key_gazzetta || $date->isFuture())) {
-            $res = $args->getOption('no-interaction') || (!$args->getOption('no-interaction') &&
+            $res = $args->getOption('no-interaction') || ($args->getOption('no-interaction') == false &&
                 $io->askChoice(
                     'Set ' . $date->format('Y-m-d H:i:s') . ' for matchday ' . $matchday->number,
                     ['y', 'n'],
