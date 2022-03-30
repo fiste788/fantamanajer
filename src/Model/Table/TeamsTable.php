@@ -3,18 +3,18 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use SplFileInfo;
-use Cake\ORM\Query;
-use Cake\ORM\Table;
-use Spatie\Image\Image;
 use App\Model\Entity\Team;
-use Cake\ORM\RulesChecker;
-use Cake\Validation\Validator;
-use Spatie\Image\Manipulations;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
 use Psr\Http\Message\UploadedFileInterface;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
+use SplFileInfo;
 
 /**
  * Teams Model

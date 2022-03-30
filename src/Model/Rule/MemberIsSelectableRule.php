@@ -38,6 +38,7 @@ class MemberIsSelectableRule
      * @param array $options Options
      * @return bool
      * @throws \ErrorException
+     * @throws \Cake\Core\Exception\CakeException
      * @throws \Cake\Mailer\Exception\MissingMailerException
      * @throws \Cake\Datasource\Exception\InvalidPrimaryKeyException
      * @throws \Cake\Mailer\Exception\MissingActionException

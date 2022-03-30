@@ -3,13 +3,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Cake\Mailer\Mailer;
-use WebPush\Notification;
 use App\Model\Entity\Selection;
 use App\Model\Entity\Transfert;
-use Cake\Datasource\ModelAwareTrait;
-use Cake\ORM\Locator\LocatorAwareTrait;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use Cake\Mailer\Mailer;
+use Cake\ORM\Locator\LocatorAwareTrait;
+use WebPush\Notification;
 
 /**
  * @property \App\Service\PushNotificationService $PushNotification

@@ -101,7 +101,7 @@ class SendMissingLineupNotificationCommand extends Command
             foreach ($teams as $team) {
                 $action = [
                     'operation' => 'navigateLastFocusedOrOpen',
-                    'url' => '/teams/' . $team->id . '/lineup/current'
+                    'url' => '/teams/' . $team->id . '/lineup/current',
                 ];
                 $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', sprintf(
                     'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',

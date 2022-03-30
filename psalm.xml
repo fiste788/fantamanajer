@@ -8,7 +8,8 @@
     allowStringToStandInForClass="true"
     checkForThrowsDocblock="true"
     usePhpDocPropertiesWithoutMagicCall="true"
-    usePhpDocMethodsWithoutMagicCall="true">
+    usePhpDocMethodsWithoutMagicCall="true"
+    autoloader="config/bootstrap.php">
 
     <projectFiles>
         <directory name="src" />

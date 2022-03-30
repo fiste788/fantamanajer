@@ -197,6 +197,7 @@ class SelectionsTable extends Table
      * @param \Cake\Event\Event $event Event
      * @param \App\Model\Entity\Selection $entity Entity
      * @param \ArrayObject $options Options
+     * @throws \Cake\Core\Exception\CakeException
      * @return void
      */
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void

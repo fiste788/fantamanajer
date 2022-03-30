@@ -5,7 +5,6 @@ namespace App\Controller\Teams;
 
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
-use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
 
 /**

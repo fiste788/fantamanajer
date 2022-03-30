@@ -37,10 +37,10 @@ class SimpleArrayDataType extends BaseType
      */
     public function toDatabase($value, DriverInterface $driver)
     {
-        if ($value === null || empty($value)) {
+        if ($value === null || empty($value) || !is_array($value)) {
             return null;
         }
 
-        return implode(',', (array)$value);
+        return implode(',', $value);
     }
 }

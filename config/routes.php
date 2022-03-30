@@ -22,8 +22,8 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Cake\Routing\Route\InflectedRoute;
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Route\InflectedRoute;
 
 return static function (RouteBuilder $routes) {
     /*
@@ -161,7 +161,7 @@ return static function (RouteBuilder $routes) {
             'only' => ['view', 'update', 'create'],
         ]);
 
-        $routes->connect('/push-subscriptions/:id', [
+        $routes->connect('/push-subscriptions/{id}', [
             'controller' => 'PushSubscriptions',
             'action' => 'delete',
         ])
@@ -200,7 +200,7 @@ return static function (RouteBuilder $routes) {
                 'prefix' => 'Championships',
             ]);
 
-            $routes->connect('/members/free/:role_id', [
+            $routes->connect('/members/free/{role_id}', [
                 'controller' => 'Members',
                 'action' => 'freeByRole',
                 'prefix' => 'Championships',
@@ -227,7 +227,7 @@ return static function (RouteBuilder $routes) {
                 'prefix' => 'Teams',
             ]);
 
-            $routes->connect('/members/not_mine/:role_id', [
+            $routes->connect('/members/not_mine/{role_id}', [
                 'controller' => 'Members',
                 'action' => 'notMine',
                 'prefix' => 'Teams',

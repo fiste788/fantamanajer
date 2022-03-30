@@ -3,9 +3,7 @@ version: "3.7"
 networks:
   frontend:
   backend:
-
-
-# Define volumes
+ # Define volumes
 volumes:
   code:
 
@@ -77,9 +75,9 @@ services:
 # Define synchronization and forwarding sessions
 x-mutagen:
   sync:
-    defaults:
-      ignore:
-        vcs: true
+    #defaults:
+    #  ignore:
+    #    vcs: true
     code:
       alpha: "."
       beta: "volume://code"
