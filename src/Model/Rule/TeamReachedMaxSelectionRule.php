@@ -23,8 +23,8 @@ class TeamReachedMaxSelectionRule
      */
     public function __construct()
     {
-        $this->fetchTable('Selections');
-        $this->fetchTable('Championships');
+        $this->Selections = $this->fetchTable('Selections');
+        $this->Championships = $this->fetchTable('Championships');
     }
 
     /**

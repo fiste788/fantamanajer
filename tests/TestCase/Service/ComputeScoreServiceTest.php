@@ -31,18 +31,16 @@ class ComputeScoreServiceTest extends TestCase
     public function __construct()
     {
         $this->loadService('Lineup');
-        $this->fetchTable('Scores');
-        $this->fetchTable('Teams');
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Seasons');
-        $this->fetchTable('Lineups');
+        $this->Scores = $this->fetchTable('Scores');
+        $this->Teams = $this->fetchTable('Teams');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Seasons = $this->fetchTable('Seasons');
+        $this->Lineups = $this->fetchTable('Lineups');
     }
 
     /**
      * @param \App\Model\Entity\Team $team The team
      * @param \App\Model\Entity\Matchday $matchday The matchday
-     * @return \App\Model\Entity\Score
-     * @throws \PDOException
      */
     public function computeScore(): void
     {

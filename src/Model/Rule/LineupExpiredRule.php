@@ -22,8 +22,8 @@ class LineupExpiredRule
      */
     public function __construct()
     {
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Teams');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Teams = $this->fetchTable('Teams');
     }
 
     /**
@@ -35,12 +35,13 @@ class LineupExpiredRule
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {
-        if ($options['admin']) {
+        if (isset($options['admin']) && $options['admin']) {
             return true;
-        }
-        $matchday = $this->Matchdays->get($entity->matchday_id);
-        $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);
+        } else {
+            $matchday = $this->Matchdays->get($entity->matchday_id);
+            $team = $this->Teams->get($entity->team_id, ['contain' => ['Championships']]);
 
-        return $matchday->date->subMinutes($team->championship->minute_lineup)->isFuture();
+            return $matchday->date->subMinutes($team->championship->minute_lineup)->isFuture();
+        }
     }
 }

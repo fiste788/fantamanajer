@@ -22,8 +22,8 @@ class JollyAlreadyUsedRule
      */
     public function __construct()
     {
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Lineups');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Lineups = $this->fetchTable('Lineups');
     }
 
     /**

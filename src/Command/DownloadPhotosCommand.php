@@ -30,9 +30,9 @@ class DownloadPhotosCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->fetchTable('Seasons');
-        $this->fetchTable('Matchdays');
-        $this->fetchTable('Members');
+        $this->Seasons = $this->fetchTable('Seasons');
+        $this->Matchdays = $this->fetchTable('Matchdays');
+        $this->Members = $this->fetchTable('Members');
         $this->getCurrentMatchday();
     }
 

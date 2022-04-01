@@ -26,8 +26,8 @@ class MemberIsSelectableRule
      */
     public function __construct()
     {
-        $this->fetchTable('Selections');
-        $this->fetchTable('Scores');
+        $this->Selections = $this->fetchTable('Selections');
+        $this->Scores = $this->fetchTable('Scores');
         $this->loadService('Selection');
     }
 
