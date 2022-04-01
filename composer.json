@@ -1,9 +1,9 @@
 {
     "name": "fiste788/fantamanajer",
-    "type": "project",
     "description": "FantaManajer API backend written in PHP",
-    "homepage": "https://fantamanajer.it",
     "license": "MIT",
+    "type": "project",
+    "homepage": "https://fantamanajer.it",
     "require": {
         "php": ">=8.1",
         "burzum/cakephp-service-layer": "^2.0",
@@ -46,16 +46,14 @@
         "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
         "phpstan/phpstan": "PHPStan focuses on finding errors in your code without actually running it. It catches whole classes of bugs even before you write tests for the code."
     },
-    "config": {
-        "optimize-autoloader": true,
-        "sort-packages": true,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "composer/package-versions-deprecated": true,
-            "ergebnis/composer-normalize": true,
-            "cakephp/plugin-installer": true
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/fiste788/cake-scheduler.git"
         }
-    },
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "src/",
@@ -69,14 +67,16 @@
             "StreamCake\\Test\\": "plugins/StreamCake/tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/fiste788/cake-scheduler.git"
-        }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true,
+            "ergebnis/composer-normalize": true,
+            "cakephp/plugin-installer": true
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
     "scripts": {
         "post-install-cmd": "App\\Console\\Installer::postInstall",
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
