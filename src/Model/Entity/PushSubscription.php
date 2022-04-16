@@ -57,11 +57,13 @@ class PushSubscription extends Entity
      * @return \WebPush\Subscription|null
      * @throws \ErrorException
      */
-    public function getSubscription(): ?Subscription
+    public function toSubscription(): ?Subscription
     {
+        /** @var string $encodings */
+        $encodings = $this->content_encoding ?? 'aesgcm';
         $subscriptionString = json_encode([
             'endpoint' => $this->endpoint,
-            'contentEncoding' => $this->content_encoding ?? 'aesgcm',
+            'supportedContentEncodings' => [$encodings],
             'keys' => [
                 'p256dh' => $this->public_key,
                 'auth' => $this->auth_token,

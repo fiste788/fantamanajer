@@ -60,19 +60,16 @@ class SelectionService
             $email->deliver();
         }
         if ($selection->team->isPushSubscripted('lost_member')) {
+            $message = $this->PushNotification->createDefaultMessage(
+                'Un altra squadra ti ha soffiato un giocatore selezionato',
+                "Hai perso il giocatore {$selection->new_member->player->full_name}"
+            )->withTag('lost-player-' . $selection->id);
+            $notification = Notification::create()
+                    ->withTTL(3600)
+                    ->withTopic('player-lost')
+                    ->withPayload($message->toString());
             foreach ($selection->team->user->push_subscriptions as $subscription) {
-                $pushSubscription = $subscription->getSubscription();
-                if ($pushSubscription != null) {
-                    $message = $this->PushNotification->createDefaultMessage(
-                        'Un altra squadra ti ha soffiato un giocatore selezionato',
-                        'Hai perso il giocatore ' . $selection->new_member->player->full_name
-                    )->withTag('lost-player-' . $selection->id);
-                    $notification = Notification::create()
-                            ->withTTL(3600)
-                            ->withTopic('player-lost')
-                            ->withPayload($message->toString());
-                    $this->PushNotification->send($notification, $pushSubscription);
-                }
+                $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
             }
         }
     }

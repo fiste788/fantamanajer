@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-use Ramsey\Uuid\UuidFactory;
+use Symfony\Component\Uid\Uuid;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 
 /**
@@ -70,11 +70,11 @@ class PublicKeyCredentialSource extends Entity
      * Undocumented function
      *
      * @return \Webauthn\PublicKeyCredentialSource
-     * @throws \Ramsey\Uuid\Exception\InvalidUuidStringException
+     * @throws \InvalidArgumentException
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {
-        $aaguid = (new UuidFactory())->fromString($this->aaguid);
+        $aaguid = Uuid::fromString($this->aaguid);
 
         return new WebauthnPublicKeyCredentialSource(
             $this->public_key_credential_id,
@@ -102,7 +102,7 @@ class PublicKeyCredentialSource extends Entity
         $this->transports = $credentialSource->getTransports();
         $this->attestation_type = $credentialSource->getAttestationType();
         $this->trust_path = $credentialSource->getTrustPath();
-        $this->aaguid = $credentialSource->getAaguid()->toString();
+        $this->aaguid = $credentialSource->getAaguid()->toRfc4122();
         $this->credential_public_key = $credentialSource->getCredentialPublicKey();
         $this->user_handle = $credentialSource->getUserHandle();
         $this->counter = $credentialSource->getCounter();

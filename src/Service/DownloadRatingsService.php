@@ -21,6 +21,11 @@ class DownloadRatingsService
     private $io;
 
     /**
+     * @var string
+     */
+    const DOWNLOAD_URL = 'https://maxigames.maxisoft.it/downloads.php';
+
+    /**
      * Undocumented function
      *
      * @param \Cake\Console\ConsoleIo $io IO
@@ -43,19 +48,16 @@ class DownloadRatingsService
     public function getRatings(Matchday $matchday, $offsetGazzetta = 0, $forceDownload = false): ?string
     {
         $year = $matchday->season->year;
-        $folder = RATINGS_CSV . $year;
-        $pathCsv = $folder . DS . 'Matchday' . str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT) . '.csv';
+        $folder = RATINGS_CSV . $year . DS;
+        $number = str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT);
+        $pathCsv = $folder . "Matchday{$number}.csv";
         $filesystem = new Filesystem();
-        if ($this->io != null) {
-            $this->io->out('Search file in path ' . $pathCsv);
-        }
+        $this->io?->out('Search file in path ' . $pathCsv);
         if ($filesystem->exists($pathCsv) && filesize($pathCsv) > 0 && !$forceDownload) {
             return $pathCsv;
         } else {
-            $file = TMP . 'mcc' . str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT) . '.mxm';
-            if ($this->io != null) {
-                $this->io->verbose($file);
-            }
+            $file = TMP . "mcc{$number}.mxm";
+            $this->io?->verbose($file);
             if ($forceDownload || !file_exists($file)) {
                 return $this->downloadRatings($matchday, $pathCsv, $matchday->number + $offsetGazzetta);
             } else {
@@ -133,9 +135,7 @@ class DownloadRatingsService
     {
         $decrypt = $matchday->season->key_gazzetta;
         if ($path != null && $decrypt != null) {
-            if ($this->io != null) {
-                $this->io->out('Starting decrypt ' . $path);
-            }
+            $this->io?->out('Starting decrypt ' . $path);
             $p_file = fopen($path, 'r');
             if ($p_file) {
                 $body = '';
@@ -153,9 +153,7 @@ class DownloadRatingsService
                             $xor2 = (hexdec(bin2hex($line)) ^ hexdec($explode_xor[$i]));
                             $body .= chr($xor2);
                         } else {
-                            if ($this->io != null) {
-                                $this->io->out('salto ' . substr($body, -5));
-                            }
+                            $this->io?->out('salto ' . substr($body, -5));
                         }
                         $i++;
                     }
@@ -181,9 +179,7 @@ class DownloadRatingsService
      */
     public function getRatingsFile(int $matchday): ?string
     {
-        if ($this->io != null) {
-            $this->io->out('Search ratings on maxigames');
-        }
+        $this->io?->out('Search ratings on maxigames');
         $http = new Client();
         $http->setConfig('ssl_verify_peer', false);
         $http->setConfig('headers', [
@@ -192,22 +188,15 @@ class DownloadRatingsService
             'Accept-Encoding' => 'gzip, deflate',
             'Cache-Control' => 'no-cache',
         ]);
-        $url = 'https://maxigames.maxisoft.it/downloads.php';
-        if ($this->io != null) {
-            $this->io->verbose('Downloading ' . $url);
-        }
-        $response = $http->get($url);
+        $this->io?->verbose('Downloading ' . self::DOWNLOAD_URL);
+        $response = $http->get(self::DOWNLOAD_URL);
         if ($response->isOk()) {
-            if ($this->io != null) {
-                $this->io->out('Maxigames found');
-            }
+            $this->io?->out('Maxigames found');
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
-            $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata $matchday')");
+            $tr = $crawler->filter(".container .col-sm-9 tr:contains('Giornata {$matchday}')");
             if ($tr->count() > 0) {
-                if ($this->io != null) {
-                    $this->io->out('Ratings found for matchday');
-                }
+                $this->io?->out('Ratings found for matchday');
                 $url = $this->getUrlFromMatchdayRow($tr);
 
                 if ($url != null) {
@@ -255,13 +244,9 @@ class DownloadRatingsService
     private function downloadDropboxUrl(string $url, int $matchday, Client $http): ?string
     {
         if ($url) {
-            if ($this->io != null) {
-                $this->io->verbose('Downloading ' . $url);
-            }
+            $this->io?->verbose('Downloading ' . $url);
             $response = $http->get($url);
-            if ($this->io != null) {
-                $this->io->verbose('Response ' . $response->getStatusCode());
-            }
+            $this->io?->verbose('Response ' . $response->getStatusCode());
             if ($response->isOk()) {
                 $downloadUrl = $this->getDropboxUrl($response->getStringBody(), $url);
                 if ($downloadUrl != null) {
@@ -271,9 +256,7 @@ class DownloadRatingsService
                     return $file;
                 }
             } else {
-                if ($this->io != null) {
-                    $this->io->err('Response not ok');
-                }
+                $this->io?->err('Response not ok');
             }
         }
 
@@ -298,9 +281,7 @@ class DownloadRatingsService
             } else {
                 $downloadUrl = str_replace('www', 'dl', $url);
             }
-            if ($this->io != null) {
-                $this->io->out("Downloading $downloadUrl in tmp dir");
-            }
+            $this->io?->out("Downloading 1{$downloadUrl} in tmp dir");
 
             return $downloadUrl;
         } catch (\RuntimeException | \InvalidArgumentException $e) {

@@ -68,35 +68,36 @@ class SendTestNotificationCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Parto');
-        $team = $this->Teams->get(62, ['contain' => ['Users.PushSubscriptions']]);
-        $io->out('cerco squadra 55');
+        $team = $this->Teams->get(77, ['contain' => ['Users.PushSubscriptions']]);
+        $io->out('cerco squadra 77');
+
+        $action = [
+            'operation' => 'navigateLastFocusedOrOpen',
+            'url' => '/teams/' . $team->id . '/lineup/current',
+        ];
+        $message = $this->PushNotification->createDefaultMessage(
+            'Notifica di test',
+            'Testo molto lungo che ora non sto a scrivere perchè non ho tempo'
+        )
+            ->withImage('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
+            ->withTag('missing-lineup-' . $this->currentMatchday->number)
+            ->renotify()
+            ->interactionRequired()
+            ->withTimestamp(time())
+            ->withData(['onActionClick' => [
+                'default' => $action,
+                'open' => $action,
+            ]])
+            ->addAction(Action::create('open', 'Apri'));
+        $notification = Notification::create()
+            ->withTTL(3600)
+            ->withTopic('missing-lineup')
+            ->withPayload($message->toString());
+        $io->out($notification->getPayload() ?? '');
 
         foreach ($team->user->push_subscriptions as $subscription) {
-            $pushSubscription = $subscription->getSubscription();
-            if ($pushSubscription != null) {
-                $action = [
-                    'operation' => 'navigateLastFocusedOrOpen',
-                    'url' => '/teams/' . $team->id . '/lineup/current',
-                ];
-                $message = $this->PushNotification->createDefaultMessage(
-                    'Notifica di test',
-                    'Testo molto lungo che ora non sto a scrivere perchè non ho tempo'
-                )
-                    ->withImage('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
-                    ->addAction(Action::create('open', 'Apri'))
-                    ->withTag('missing-lineup-' . $this->currentMatchday->number)
-                    ->withData(['onActionClick' => [
-                        'default' => $action,
-                        'open' => $action,
-                    ]]);
-                $notification = Notification::create()
-                    ->withTTL(3600)
-                    ->withTopic('score')
-                    ->withPayload($message->toString());
-                $io->out($message->toString());
-                $io->out('Send push notification to ' . $subscription->endpoint);
-                $this->PushNotification->send($notification, $pushSubscription);
-            }
+            $io->out('Send push notification to ' . $subscription->endpoint);
+            $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
         }
 
         return CommandInterface::CODE_SUCCESS;

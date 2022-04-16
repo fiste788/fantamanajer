@@ -148,9 +148,7 @@ class WeeklyScriptCommand extends Command
     {
         $scores = [];
         foreach ($championships as $championship) {
-            $io->out(
-                'Calculating points of matchday ' . $matchday->number . ' for league ' . $championship->league->name
-            );
+            $io->out("Calculating points of matchday {$matchday->number} for league {$championship->league->name}");
             foreach ($championship->teams as $team) {
                 $io->out('Elaborating team ' . $team->name);
                 $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
@@ -189,31 +187,27 @@ class WeeklyScriptCommand extends Command
         //$webPush = new WebPush((array)Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
             if ($team->isPushSubscripted('score')) {
-                foreach ($team->user->push_subscriptions as $subscription) {
-                    $pushSubscription = $subscription->getSubscription();
-                    if ($pushSubscription != null) {
-                        $action = [
-                            'operation' => 'navigateLastFocusedOrOpen',
-                            'url' => '/scores/' . $scores[$team->id]->id,
-                        ];
-                        $message = $this->PushNotification->createDefaultMessage(
-                            'Punteggio giornata ' . $matchday->number . ' ' . $team->name,
-                            'La tua squadra ha totalizzato un punteggio di ' . $scores[$team->id]->points . ' punti'
-                        )
-                            ->addAction(Action::create('open', 'Visualizza'))
-                            ->withTag('lineup-' . $scores[$team->id]->points)
-                            ->withData(['onActionClick' => [
-                               'default' => $action,
-                               'open' => $action,
-                            ]]);
-                        $io->out('Sending notification to ' . $subscription->endpoint);
+                $action = [
+                    'operation' => 'navigateLastFocusedOrOpen',
+                    'url' => "/scores/{$scores[$team->id]->id}",
+                ];
+                $title = sprintf('Punteggio giornata %d %s', $matchday->number, $team->name);
+                $body = sprintf('La tua squadra ha totalizzato un punteggio di %d punti', $scores[$team->id]->points);
+                $message = $this->PushNotification->createDefaultMessage($title, $body)
+                    ->addAction(Action::create('open', 'Visualizza'))
+                    ->withTag("lineup-{$scores[$team->id]->points}")
+                    ->withData(['onActionClick' => [
+                       'default' => $action,
+                       'open' => $action,
+                    ]]);
 
-                        $notification = Notification::create()
-                                ->withTTL(3600)
-                                ->withTopic('score')
-                                ->withPayload($message->toString());
-                        $this->PushNotification->send($notification, $pushSubscription);
-                    }
+                $notification = Notification::create()
+                        ->withTTL(3600)
+                        ->withTopic('score')
+                        ->withPayload($message->toString());
+                foreach ($team->user->push_subscriptions as $subscription) {
+                    $io->out('Sending notification to ' . $subscription->endpoint);
+                    $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
                 }
             }
         }

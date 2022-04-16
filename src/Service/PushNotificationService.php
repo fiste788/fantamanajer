@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Entity\PushSubscription;
+use App\Utility\AngularPushMessage;
 use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\ORM\Locator\LocatorAwareTrait;
@@ -60,6 +62,34 @@ class PushNotificationService implements WebPushService
     }
 
     /**
+     * Send notification and delete expired
+     *
+     * @param \WebPush\NotificationInterface $notification Notification
+     * @param \App\Model\Entity\PushSubscription $pushSubscription Subscription
+     * @return \WebPush\StatusReportInterface|null
+     * @throws \Cake\Core\Exception\CakeException
+     * @throws \ErrorException
+     */
+    public function sendAndRemoveExpired(
+        NotificationInterface $notification,
+        PushSubscription $pushSubscription
+    ): ?StatusReportInterface {
+        $subscription = $pushSubscription->toSubscription();
+        if ($subscription != null) {
+            $statusReport = $this->service->send($notification, $subscription);
+            if (!$statusReport->isSuccess()) {
+                if ($statusReport->isSubscriptionExpired()) {
+                    $this->fetchTable('PushSubscriptions')->delete($pushSubscription);
+                }
+            }
+
+            return $statusReport;
+        }
+
+        return null;
+    }
+
+    /**
      * Send notification
      *
      * @param \WebPush\NotificationInterface $notification Notification
@@ -82,12 +112,6 @@ class PushNotificationService implements WebPushService
      */
     public function createDefaultMessage(string $title, ?string $body = null): Message
     {
-        /** @var array<string, string> $config  */
-        $config = Configure::read('WebPushMessage.default');
-
-        return Message::create($title, $body)
-            ->withBadge($config['badge'])
-            ->withIcon($config['icon'])
-            ->withLang($config['lang']);
+        return AngularPushMessage::create($title, $body);
     }
 }

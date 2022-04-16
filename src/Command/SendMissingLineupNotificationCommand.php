@@ -103,29 +103,26 @@ class SendMissingLineupNotificationCommand extends Command
                     'operation' => 'navigateLastFocusedOrOpen',
                     'url' => '/teams/' . $team->id . '/lineup/current',
                 ];
-                $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', sprintf(
+                $body = sprintf(
                     'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
                     $this->currentMatchday->number,
                     $date->timeAgoInWords()
-                ))
+                );
+                $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', $body)
                     ->addAction(Action::create('open', 'Imposta'))
                     ->withTag('missing-lineup-' . $this->currentMatchday->number)
                     ->withData(['onActionClick' => [
                         'default' => $action,
                         'open' => $action,
                     ]]);
+                $notification = Notification::create()
+                    ->withTTL(3600)
+                    ->withTopic('missing-lineup')
+                    ->withPayload($message->toString());
+                $io->out($message->toString());
                 foreach ($team->user->push_subscriptions as $subscription) {
-                    $pushSubscription = $subscription->getSubscription();
-                    if ($pushSubscription != null) {
-                        $io->out('Send push notification to ' . $subscription->endpoint);
-                        $notification = Notification::create()
-                            ->withTTL(3600)
-                            ->withTopic('missing-lineup')
-                            ->withPayload($message->toString());
-                        $io->out($message->toString());
-                        $io->out('Send push notification to ' . $subscription->endpoint);
-                        $this->PushNotification->send($notification, $pushSubscription);
-                    }
+                    $io->out('Send push notification to ' . $subscription->endpoint);
+                    $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
                 }
 
                 $io->out('Create activity in notification stream for team ' . (string)$team->id);

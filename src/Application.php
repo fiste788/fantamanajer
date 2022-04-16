@@ -96,7 +96,7 @@ class Application extends BaseApplication implements
         $this->addPlugin('CakeScheduler');
         $this->addPlugin('StreamCake');
         $this->addPlugin(\DatabaseBackup\Plugin::class);
-        //$this->addPlugin(\CakePreloader\Plugin::class);
+        $this->addPlugin(\CakePreloader\Plugin::class);
 
         /*
          * Only try to load DebugKit in development mode

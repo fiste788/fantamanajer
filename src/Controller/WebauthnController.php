@@ -63,7 +63,7 @@ class WebauthnController extends AppController
      */
     public function publicKeyCreation(WebauthnService $webauthn)
     {
-        $publicKeyCredentialCreationOptions = $webauthn->attestationRequest($this->request);
+        $publicKeyCredentialCreationOptions = $webauthn->creationRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -112,7 +112,7 @@ class WebauthnController extends AppController
      */
     public function register(WebauthnService $webauthn)
     {
-        $token = $webauthn->attestationResponse($this->request);
+        $token = $webauthn->creationResponse($this->request);
         $this->set([
             'success' => true,
             'data' => $token,
