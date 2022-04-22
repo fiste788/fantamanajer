@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/fantaman/public_html/api/
+    - cd $DEPLOYPATH && composer update
