@@ -27,7 +27,9 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
     public function __construct(array $activityData)
     {
         if (isset($activityData['time'])) {
-            $activityData['time'] = new FrozenTime($activityData['time'], 'UTC');
+            /** @var string $time */
+            $time = $activityData['time'];
+            $activityData['time'] = new FrozenTime($time, 'UTC');
         }
         $this->activityData = $activityData;
     }
@@ -36,7 +38,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
      * @param string $field
      * @param mixed $value
      */
-    public function trackNotEnrichedField($field, $value)
+    public function trackNotEnrichedField(mixed $field, mixed $value): void
     {
         $this->notEnrichedData[$field] = $value;
     }
@@ -44,7 +46,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
     /**
      * @return array
      */
-    public function getNotEnrichedData()
+    public function getNotEnrichedData(): array
     {
         return $this->notEnrichedData;
     }
@@ -63,7 +65,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->activityData[] = $value;
@@ -77,7 +79,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->activityData[$offset]);
     }
@@ -85,7 +87,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->activityData[$offset]);
     }
@@ -95,7 +97,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
      *
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->activityData[$offset] ?? null;
     }
@@ -105,7 +107,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
      *
      * @return \Traversable
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new ArrayIterator($this->activityData);
     }
