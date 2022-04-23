@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/fantaman/public_html/api_git/
+    - export DEPLOYPATH=/home/fantaman/public_html/api/
     - cd $DEPLOYPATH && /home/fantaman/bin/composer.phar update
