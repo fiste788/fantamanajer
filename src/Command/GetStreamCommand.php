@@ -13,9 +13,6 @@ use Cake\Core\Configure;
 use GetStream\Stream\Client;
 use GetStream\Stream\FeedInterface;
 
-/**
- * @property \App\Model\Table\ChampionshipsTable $Championships
- */
 class GetStreamCommand extends Command
 {
     /**
@@ -32,7 +29,6 @@ class GetStreamCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Championships = $this->fetchTable('Championships');
 
         /** @var string[] $config */
         $config = Configure::read('GetStream.default');
@@ -58,8 +54,9 @@ class GetStreamCommand extends Command
     {
         $timelineFeed = $this->client->feed('timeline', 'general');
 
+        $championshipsTable = $this->fetchTable('Championships');
         /** @var \App\Model\Entity\Championship[] $championsips */
-        $championsips = $this->Championships->find()->contain(['Teams'])->all();
+        $championsips = $championshipsTable->find()->contain(['Teams'])->all();
         foreach ($championsips as $championsip) {
             $this->processChampionship($championsip, $timelineFeed);
         }

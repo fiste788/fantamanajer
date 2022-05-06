@@ -110,7 +110,7 @@ class Team extends Entity
         if ($this->photo != null && $this->photo_dir != null) {
             $baseUrl = strtolower($this->getSource()) . '/' . $this->id . '/photo/';
 
-            return $this->_getPhotosUrl((string)ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
+            return $this->_getPhotosUrl(ROOT . DS . $this->photo_dir, $baseUrl, $this->photo);
         } else {
             return null;
         }

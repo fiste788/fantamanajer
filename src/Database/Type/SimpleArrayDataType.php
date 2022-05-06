@@ -41,6 +41,9 @@ class SimpleArrayDataType extends BaseType
             return null;
         }
 
-        return implode(',', $value);
+        /** @var array<array-key, scalar> $val */
+        $val = $value;
+
+        return implode(',', $val);
     }
 }

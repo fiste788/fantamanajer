@@ -98,6 +98,7 @@ class MembersTeamsTable extends Table
      * @param \ArrayObject $options Options
      * @return void
      * @throws \InvalidArgumentException
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function beforeSave(Event $event, MembersTeam $entity, ArrayObject $options): void
     {

@@ -161,6 +161,7 @@ class TransfertsTable extends Table
      * @param \App\Model\Entity\Transfert $entity Entity
      * @param \ArrayObject $options Options
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options): void
     {

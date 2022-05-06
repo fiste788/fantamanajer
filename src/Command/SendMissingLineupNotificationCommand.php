@@ -17,9 +17,6 @@ use WebPush\Action;
 use WebPush\Notification;
 
 /**
- * @property \App\Model\Table\LineupsTable $Lineups
- * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\PushNotificationService $PushNotification
  */
 class SendMissingLineupNotificationCommand extends Command
@@ -37,9 +34,6 @@ class SendMissingLineupNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Lineups = $this->fetchTable('Lineups');
-        $this->Teams = $this->fetchTable('Teams');
-        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
@@ -85,14 +79,16 @@ class SendMissingLineupNotificationCommand extends Command
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
 
+            $lineupsTable = $this->fetchTable('Lineups');
+            $teamsTable = $this->fetchTable('Teams');
             /** @var \App\Model\Entity\Team[] $teams */
-            $teams = $this->Teams->find()
+            $teams = $teamsTable->find()
                 ->contain(['Users.PushSubscriptions', 'Championships'])
                 ->innerJoinWith('Championships')
                 ->where(
                     [
                         'season_id' => $this->currentSeason->id,
-                        'Teams.id NOT IN' => $this->Lineups->find()->select('team_id')->where([
+                        'Teams.id NOT IN' => $lineupsTable->find()->select('team_id')->where([
                             'matchday_id' => $this->currentMatchday->id,
                         ]),
                     ]

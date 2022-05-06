@@ -11,9 +11,6 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
-/**
- * @property \App\Model\Table\UsersTable $Users
- */
 class ResetPasswordCommand extends Command
 {
     /**
@@ -25,7 +22,6 @@ class ResetPasswordCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Users = $this->fetchTable('Users');
     }
 
     /**
@@ -46,15 +42,17 @@ class ResetPasswordCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        $usersTable = $this->fetchTable('Users');
         if ($args->hasArgument('email')) {
+
             /** @var \App\Model\Entity\User|null $user */
-            $user = $this->Users->find()->where(['email' => $args->getArgument('email')])->first();
+            $user = $usersTable->find()->where(['email' => $args->getArgument('email')])->first();
             if ($user != null) {
                 $this->reset($user, $io);
             }
         } else {
             /** @var \App\Model\Entity\User[] $users */
-            $users = $this->Users->find()->all();
+            $users = $usersTable->find()->all();
             foreach ($users as $user) {
                 $this->reset($user, $io);
             }
@@ -69,14 +67,16 @@ class ResetPasswordCommand extends Command
      * @param \App\Model\Entity\User $user User
      * @param \Cake\Console\ConsoleIo $io Io
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     private function reset(User $user, ConsoleIo $io): void
     {
+        $usersTable = $this->fetchTable('Users');
         if ($user->email && $user->name) {
             $hasher = new DefaultPasswordHasher();
             $io->out('Resetting password for ' . $user->email);
             $user->password = $hasher->hash(strtolower($user->name));
-            $this->Users->save($user);
+            $usersTable->save($user);
             $io->out('New password is ' . strtolower($user->name));
         }
     }

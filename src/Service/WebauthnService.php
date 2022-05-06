@@ -48,8 +48,6 @@ use WhichBrowser\Parser;
  * Credentials Repo
  *
  * @property \App\Service\PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository
- * @property \App\Model\Table\PublicKeyCredentialSourcesTable $PublicKeyCredentialSources
- * @property \App\Model\Table\UsersTable $Users
  */
 class WebauthnService
 {
@@ -64,8 +62,6 @@ class WebauthnService
      */
     public function __construct()
     {
-        $this->Users = $this->fetchTable('Users');
-        $this->PublicKeyCredentialSources = $this->fetchTable('PublicKeyCredentialSources');
         $this->loadService('PublicKeyCredentialSourceRepository');
     }
 
@@ -188,7 +184,7 @@ class WebauthnService
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
         /** @var \App\Model\Entity\User|null $user */
-        $user = $this->Users->find()->where(['email' => $params['email']])->first();
+        $user = $this->fetchTable('Users')->find()->where(['email' => $params['email']])->first();
         if ($user != null) {
             $credentialUser = $user->toCredentialUserEntity();
             $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
@@ -306,7 +302,7 @@ class WebauthnService
         $user = $request->getAttribute('identity');
         if ($user->uuid == null) {
             $user->uuid = Uuid::v4()->toRfc4122();
-            $this->Users->save($user);
+            $this->fetchTable('Users')->save($user);
         }
         $userEntity = $user->toCredentialUserEntity();
 
@@ -394,13 +390,15 @@ class WebauthnService
             ['localhost']
         );
 
-        $credential = $this->PublicKeyCredentialSources->newEmptyEntity();
+        /** @var \App\Model\Table\PublicKeyCredentialSourcesTable $publicKeyCredentialSourcesTable */
+        $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
+        $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
         $credential->fromCredentialSource($credentialSource);
         $credential->id = Uuid::v4()->toRfc4122();
         $credential->user_agent = $request->getHeader('User-Agent')[0];
         $parsed = new Parser($credential->user_agent);
         $credential->name = $parsed->toString();
 
-        return $this->PublicKeyCredentialSources->save($credential) ?: null;
+        return $publicKeyCredentialSourcesTable->save($credential) ?: null;
     }
 }

@@ -14,8 +14,6 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
 /**
- * @property \App\Model\Table\SeasonsTable $Seasons
- * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\RatingService $Rating
  * @property \App\Service\UpdateMemberService $UpdateMember
  */
@@ -34,8 +32,6 @@ class StartSeasonCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Seasons = $this->fetchTable('Seasons');
-        $this->Matchdays = $this->fetchTable('Matchdays');
     }
 
     /**
@@ -61,12 +57,15 @@ class StartSeasonCommand extends Command
         $this->loadService('UpdateMember', [$io]);
         $this->loadService('Rating', [$io]);
 
+        /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+        $matchdaysTable = $this->fetchTable('Matchdays');
+
         $season = $this->createSeason($io, $args);
         if ($season->key_gazzetta == null) {
             $this->getCurrentMatchday();
             if ($this->Rating->calculateKey($season) != '') {
                 /** @var \App\Model\Entity\Matchday $firstMatchday */
-                $firstMatchday = $this->Matchdays->find()->where([
+                $firstMatchday = $matchdaysTable->find()->where([
                     'number' => '0',
                     'season_id' => $season->id,
                 ])->first();
@@ -75,8 +74,9 @@ class StartSeasonCommand extends Command
 
             return CommandInterface::CODE_SUCCESS;
         } else {
+            $matchdaysTable = $this->fetchTable('Matchdays');
             /** @var \App\Model\Entity\Matchday $firstMatchday */
-            $firstMatchday = $this->Matchdays->find()->where([
+            $firstMatchday = $matchdaysTable->find()->where([
                 'number' => '0',
                 'season_id' => $season->id,
             ])->first();
@@ -103,10 +103,12 @@ class StartSeasonCommand extends Command
     {
         $year = (int)date('Y');
 
+        /** @var \App\Model\Table\SeasonsTable $seasonsTable */
+        $seasonsTable = $this->fetchTable('Seasons');
         /** @var \App\Model\Entity\Season|null $season */
-        $season = $this->Seasons->find()->where(['year' => $year])->first();
+        $season = $seasonsTable->find()->where(['year' => $year])->first();
         if ($season == null) {
-            $season = $this->Seasons->newEntity(
+            $season = $seasonsTable->newEntity(
                 [
                     'year' => $year,
                     'name' => 'Stagione ' . $year . '-' . substr((string)($year + 1), 2, 2),
@@ -114,12 +116,14 @@ class StartSeasonCommand extends Command
                 ]
             );
 
-            $zeroMatchday = $this->Matchdays->newEntity([
+            /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+            $matchdaysTable = $this->fetchTable('Matchdays');
+            $zeroMatchday = $matchdaysTable->newEntity([
                 'number' => 0,
                 'date' => Chronos::now()->endOfDay(),
             ]);
             $season->matchdays = [$zeroMatchday];
-            $this->Seasons->saveOrFail($season);
+            $seasonsTable->saveOrFail($season);
             $io->out('Created new season for year ' . $year);
             $io->out('Updating calendar');
             $command = new UpdateCalendarCommand();
@@ -127,19 +131,19 @@ class StartSeasonCommand extends Command
             $upcArgs = new Arguments([], ['no-future-check' => true], []);
             $command->exec($season, $upcArgs, $io);
 
-            $lastMatchday = $this->Matchdays->newEntity([
+            $lastMatchday = $matchdaysTable->newEntity([
                 'number' => 39,
                 'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59),
             ]);
             $season->matchdays = [$lastMatchday];
 
             /** @var \App\Model\Entity\Matchday $firstMatchday */
-            $firstMatchday = $this->Matchdays->find()->where(['number' => 1, 'season_id' => $season->id])->first();
+            $firstMatchday = $matchdaysTable->find()->where(['number' => 1, 'season_id' => $season->id])->first();
             /** @var \App\Model\Entity\Matchday $zeroMatchday */
-            $zeroMatchday = $this->Matchdays->find()->where(['number' => 0, 'season_id' => $season->id])->first();
+            $zeroMatchday = $matchdaysTable->find()->where(['number' => 0, 'season_id' => $season->id])->first();
             $zeroMatchday->date = $firstMatchday->date->subDays(7)->startOfWeek()->startOfDay();
-            $this->Matchdays->saveOrFail($zeroMatchday);
-            $this->Seasons->saveOrFail($season);
+            $matchdaysTable->saveOrFail($zeroMatchday);
+            $seasonsTable->saveOrFail($season);
 
             return $season;
         } else {

@@ -10,10 +10,6 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
-/**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\SelectionsTable $Selections
- */
 class TransfertCommand extends Command
 {
     use CurrentMatchdayTrait;
@@ -28,8 +24,7 @@ class TransfertCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Matchdays = $this->fetchTable('Matchdays');
-        $this->Selections = $this->fetchTable('Selections');
+
         $this->getCurrentMatchday();
     }
 
@@ -72,14 +67,16 @@ class TransfertCommand extends Command
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
             $matchday = $this->currentMatchday;
             if ($args->hasArgument('matchday')) {
+                $matchdaysTable = $this->fetchTable('Matchdays');
                 /** @var \App\Model\Entity\Matchday $matchday */
-                $matchday = $this->Matchdays->find()->where([
+                $matchday = $matchdaysTable->find()->where([
                     'season_id' => $this->currentSeason->id,
                     'number' => $args->getArgument('matchday'),
                 ])->firstOrFail();
             }
 
-            $selections = $this->Selections->find()
+            $selectionsTable = $this->fetchTable('Selections');
+            $selections = $selectionsTable->find()
                 ->contain(['OldMembers.Players', 'NewMembers.Players', 'Teams'])
                 ->where([
                     'matchday_id' => $matchday->id,
@@ -118,10 +115,13 @@ class TransfertCommand extends Command
      * @param \Cake\Console\ConsoleIo $io Io
      * @param \App\Model\Entity\Selection[] $selections Selections
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     private function doTransferts(ConsoleIo $io, array $selections): void
     {
-        if ($this->Selections->saveMany($selections)) {
+        /** @var \App\Model\Table\SelectionsTable $selectionsTable */
+        $selectionsTable = $this->fetchTable('Selections');
+        if ($selectionsTable->saveMany($selections)) {
             $io->out('Changes committed');
         } else {
             $io->out('Error occurred');

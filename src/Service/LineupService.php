@@ -8,25 +8,9 @@ use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
-/**
- * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\LineupsTable $Lineups
- */
 class LineupService
 {
     use LocatorAwareTrait;
-
-    /**
-     * Constructor
-     *
-     * @throws \Cake\Core\Exception\CakeException
-     * @throws \UnexpectedValueException
-     */
-    public function __construct()
-    {
-        $this->Teams = $this->fetchTable('Teams');
-        $this->Lineups = $this->fetchTable('Lineups');
-    }
 
     /**
      * Return a copy of lineup
@@ -35,6 +19,7 @@ class LineupService
      * @param int $teamId Team id
      * @param \App\Model\Entity\Matchday $matchday Matchday id
      * @return \App\Model\Entity\Lineup
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function duplicate(Lineup $lineup, int $teamId, Matchday $matchday): Lineup
     {
@@ -51,11 +36,14 @@ class LineupService
      *
      * @param int $teamId Team id
      * @return \App\Model\Entity\Lineup
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function getEmptyLineup(int $teamId): Lineup
     {
+        /** @var \App\Model\Table\TeamsTable $teamsTable */
+        $teamsTable = $this->fetchTable('Teams');
         $lineup = new Lineup();
-        $lineup->team = $this->Teams->get($teamId, ['contain' => ['Members' => ['Roles', 'Players']]]);
+        $lineup->team = $teamsTable->get($teamId, ['contain' => ['Members' => ['Roles', 'Players']]]);
         $lineup->dispositions = [];
         $lineup->modules = Lineup::$MODULES;
 
@@ -68,6 +56,7 @@ class LineupService
      * @param int $teamId Team id
      * @param int $matchdayId Matchday id
      * @return \App\Model\Entity\Lineup
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function newLineup(int $teamId, int $matchdayId): Lineup
     {
@@ -115,13 +104,17 @@ class LineupService
      * @param bool $isCaptainActive if true the lineup was missing. Default true
      * @param bool $cloned if true the lineup is cloned. Default true
      * @return \App\Model\Entity\Lineup
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true): Lineup
     {
         $lineup->setAccess('*', true);
         $lineup->team->setAccess('members', true);
         $lineup->team->setAccess('*', true);
-        $lineupCopy = $this->Lineups->newEntity(
+
+        /** @var \App\Model\Table\LineupsTable $lineupsTable */
+        $lineupsTable = $this->fetchTable('Lineups');
+        $lineupCopy = $lineupsTable->newEntity(
             $lineup->toArray(),
             [
                 'associated' => [
@@ -157,9 +150,9 @@ class LineupService
             $lineupCopy->vcaptain_id = null;
             $lineupCopy->vvcaptain_id = null;
         }
-        $lineupCopy->dispositions = array_map(function (Disposition $disposition) use ($lineupCopy) {
+        $lineupCopy->dispositions = array_map(function (Disposition $disposition) use ($lineupCopy, $lineupsTable) {
             /** @var \App\Model\Entity\Member $member */
-            $member = $this->Lineups->Dispositions->Members
+            $member = $lineupsTable->Dispositions->Members
                 ->find('listWithRating', ['matchday_id' => $lineupCopy->matchday_id])
                 ->where(['Members.id' => $disposition->member_id])->firstOrFail();
             $disposition->member = $member;

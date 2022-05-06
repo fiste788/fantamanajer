@@ -42,6 +42,10 @@ class ScorePolicy
      */
     public function canIndex(User $user, Score $score)
     {
+        /**
+         * @psalm-suppress RedundantConditionGivenDocblockType
+         * @psalm-suppress DocblockTypeContradiction
+         */
         return $score->team != null ? $user->isInChampionship($score->team->championship_id) : false;
     }
 
@@ -54,6 +58,10 @@ class ScorePolicy
      */
     public function canEdit(User $user, Score $score)
     {
+        /**
+         * @psalm-suppress RedundantConditionGivenDocblockType
+         * @psalm-suppress DocblockTypeContradiction
+         */
         return $user->admin || ($score->team != null ?
             $user->isChampionshipAdmin($score->team->championship_id) :
             false);

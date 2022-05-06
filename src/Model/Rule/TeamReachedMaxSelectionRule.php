@@ -7,25 +7,9 @@ use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query;
 
-/**
- * @property \App\Model\Table\SelectionsTable $Selections
- * @property \App\Model\Table\ChampionshipsTable $Championships
- */
 class TeamReachedMaxSelectionRule
 {
     use LocatorAwareTrait;
-
-    /**
-     * Construct
-     *
-     * @throws \Cake\Core\Exception\CakeException
-     * @throws \UnexpectedValueException
-     */
-    public function __construct()
-    {
-        $this->Selections = $this->fetchTable('Selections');
-        $this->Championships = $this->fetchTable('Championships');
-    }
 
     /**
      * Invoke
@@ -33,25 +17,30 @@ class TeamReachedMaxSelectionRule
      * @param \App\Model\Entity\Selection $entity Entity
      * @param array $options Options
      * @return bool
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {
+        /** @var \App\Model\Table\ChampionshipsTable $championshipsTable */
+        $championshipsTable = $this->fetchTable('Championships');
         /** @var \App\Model\Entity\Championship $championship */
-        $championship = $this->Championships->find()->innerJoinWith(
+        $championship = $championshipsTable->find()->innerJoinWith(
             'Teams',
             function (Query $q) use ($entity): Query {
                 return $q->where(['Teams.id' => $entity->team_id]);
             }
         )->first();
 
+        /** @var \App\Model\Table\SelectionsTable $selectionsTable */
+        $selectionsTable = $this->fetchTable('Selections');
         /** @var \App\Model\Entity\Selection $lastSelection */
-        $lastSelection = $this->Selections->find()->where([
+        $lastSelection = $selectionsTable->find()->where([
             'matchday_id' => $entity->matchday_id,
             'team_id' => $entity->team_id,
             'processed' => false,
         ])->last();
 
-        $count = $this->Selections->find()->distinct('new_member_id')->where([
+        $count = $selectionsTable->find()->distinct('new_member_id')->where([
             'matchday_id' => $entity->matchday_id,
             'team_id' => $entity->team_id,
             'processed' => false,

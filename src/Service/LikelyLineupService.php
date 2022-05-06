@@ -11,9 +11,6 @@ use GuzzleHttp\Client;
 use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
 
-/**
- * @property \App\Model\Table\TeamsTable $Teams
- */
 class LikelyLineupService
 {
     use LocatorAwareTrait;
@@ -33,17 +30,6 @@ class LikelyLineupService
     private $_versus = [];
 
     /**
-     * Constructor
-     *
-     * @throws \Cake\Core\Exception\CakeException
-     * @throws \UnexpectedValueException
-     */
-    public function __construct()
-    {
-        $this->Teams = $this->fetchTable('Teams');
-    }
-
-    /**
      * Entry function
      *
      * @param int $teamId The id of team
@@ -53,7 +39,9 @@ class LikelyLineupService
      */
     public function get(int $teamId): Team
     {
-        $team = $this->Teams->get($teamId, [
+        /** @var \App\Model\Table\TeamsTable $teamsTable */
+        $teamsTable = $this->fetchTable('Teams');
+        $team = $teamsTable->get($teamId, [
             'contain' => [
                 'Members' => [
                     'Players',

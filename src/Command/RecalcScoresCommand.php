@@ -10,7 +10,6 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 
 /**
- * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Service\ComputeScoreService $ComputeScore
  */
 class RecalcScoresCommand extends Command
@@ -26,7 +25,6 @@ class RecalcScoresCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Scores = $this->fetchTable('Scores');
         $this->loadService('ComputeScore');
     }
 
@@ -40,8 +38,10 @@ class RecalcScoresCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Finding scores');
+        /** @var \App\Model\Table\ScoresTable $scoresTable */
+        $scoresTable = $this->fetchTable('Scores');
         /** @var \App\Model\Entity\Score[] $scores */
-        $scores = $this->Scores->find()
+        $scores = $scoresTable->find()
             ->contain(['Teams.Championships','Matchdays.Seasons'])
             ->where(['Matchdays.season_id' => 17])->all();
 
@@ -51,6 +51,6 @@ class RecalcScoresCommand extends Command
             $io->out('Was ' . $orig . ' to ' . $score->points);
         }
 
-        return $this->Scores->saveMany($scores) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
+        return $scoresTable->saveMany($scores) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
     }
 }

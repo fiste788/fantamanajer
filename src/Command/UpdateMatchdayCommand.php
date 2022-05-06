@@ -11,9 +11,6 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
-/**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- */
 class UpdateMatchdayCommand extends Command
 {
     use CurrentMatchdayTrait;
@@ -28,7 +25,6 @@ class UpdateMatchdayCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->getCurrentMatchday();
     }
 
@@ -65,8 +61,10 @@ class UpdateMatchdayCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        $seasonsTable = $this->fetchTable('Seasons');
+        /** @var \App\Model\Entity\Season $season */
         $season = $args->hasArgument('season') ?
-            $this->Matchdays->Seasons->get((int)$args->getArgument('season')) : $this->currentSeason;
+            $seasonsTable->get((int)$args->getArgument('season')) : $this->currentSeason;
         $matchday = $args->hasArgument('matchday') ?
             (int)$args->getArgument('matchday') : $this->currentMatchday->number;
 
@@ -87,10 +85,12 @@ class UpdateMatchdayCommand extends Command
      */
     public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): int
     {
+        /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+        $matchdaysTable = $this->fetchTable('Matchdays');
         /** @var \App\Model\Entity\Matchday|null $matchday */
-        $matchday = $this->Matchdays->find()->where(['number' => $matchdayNumber, 'season_id' => $season->id])->first();
+        $matchday = $matchdaysTable->find()->where(['number' => $matchdayNumber, 'season_id' => $season->id])->first();
         if ($matchday == null) {
-            $matchday = $this->Matchdays->newEmptyEntity();
+            $matchday = $matchdaysTable->newEmptyEntity();
             $matchday->season_id = $season->id;
             $matchday->number = $matchdayNumber;
         }
@@ -105,7 +105,7 @@ class UpdateMatchdayCommand extends Command
                 ) == 'y');
             if ($res) {
                 $matchday->set('date', $date);
-                $this->Matchdays->save($matchday);
+                $matchdaysTable->save($matchday);
                 $io->out('Updated matchday ' . $matchday->number . ' with ' . $matchday->date->format('d/m/Y H:i'));
             }
         } else {

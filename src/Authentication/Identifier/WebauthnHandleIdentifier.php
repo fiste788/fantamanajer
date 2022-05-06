@@ -19,7 +19,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     /**
      * Constructor
      *
-     * @param array $config Configuration
+     * @param array<string, mixed> $config Configuration
      * @throws \Cake\Core\Exception\CakeException
      */
     public function __construct(array $config = [])

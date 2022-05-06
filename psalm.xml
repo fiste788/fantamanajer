@@ -20,7 +20,7 @@
     </projectFiles>
 
     <stubs>
-        <file name="config/bootstrap.php" />
+        <file name="config/stubs.php" />
     </stubs>
 
     <issueHandlers>

@@ -11,9 +11,6 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 
-/**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- */
 class UpdateCalendarCommand extends Command
 {
     use CurrentMatchdayTrait;
@@ -28,7 +25,6 @@ class UpdateCalendarCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->getCurrentMatchday();
     }
 
@@ -56,12 +52,19 @@ class UpdateCalendarCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * Implement this method with your command's logic.
+     *
+     * @param \Cake\Console\Arguments $args The command arguments.
+     * @param \Cake\Console\ConsoleIo $io The console io
+     * @return int|null The exit code or null for success
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        $seaonsTable = $this->fetchTable('Seasons');
+        /** @var \App\Model\Entity\Season $season */
         $season = $args->hasArgument('season') ?
-            $this->Matchdays->Seasons->get($args->getArgument('season')) : $this->currentSeason;
+            $seaonsTable->get($args->getArgument('season')) : $this->currentSeason;
 
         return $this->exec($season, $args, $io);
     }

@@ -7,7 +7,6 @@ use Cake\Event\EventInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
- * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
 class MembersController extends AppController
 {
@@ -20,7 +19,6 @@ class MembersController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
-        $this->Matchdays = $this->fetchTable('Matchdays');
     }
 
     /**
@@ -51,8 +49,10 @@ class MembersController extends AppController
 
         $roles = $this->Members->Roles->find()->cache('roles')->toArray();
 
+        /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+        $matchdaysTable = $this->fetchTable('Matchdays');
         /** @var \App\Model\Entity\Matchday|null $matchday */
-        $matchday = $this->Matchdays->findWithRatings($this->currentSeason)->first();
+        $matchday = $matchdaysTable->findWithRatings($this->currentSeason)->first();
         if ($matchday != null) {
             /** @var \App\Model\Entity\Role $role */
             foreach ($roles as $key => $role) {

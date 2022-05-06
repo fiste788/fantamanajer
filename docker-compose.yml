@@ -2,10 +2,10 @@ version: "3.7"
 
 networks:
   frontend:
-  backend:
- # Define volumes
+  backend: # Define volumes
 volumes:
   code:
+
 
 services:
   php:
@@ -20,11 +20,11 @@ services:
     links:
       - mysql
     container_name: php
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
-      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9000 remote_enable=1
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${MYSQL_DATABASE}
       DATABASE_TEST_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${MYSQL_TEST_DATABASE}
-    restart: always
   apache:
     build:
       context: "./.docker/apache/"

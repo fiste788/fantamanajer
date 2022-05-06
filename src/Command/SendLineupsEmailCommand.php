@@ -14,11 +14,6 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Mailer\MailerAwareTrait;
 use Cake\ORM\Query;
 
-/**
- * @property \App\Model\Table\ChampionshipsTable $Championships
- * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- */
 class SendLineupsEmailCommand extends Command
 {
     use CurrentMatchdayTrait;
@@ -34,9 +29,6 @@ class SendLineupsEmailCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Championships = $this->fetchTable('Championships');
-        $this->Teams = $this->fetchTable('Teams');
-        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->getCurrentMatchday();
     }
 
@@ -69,8 +61,9 @@ class SendLineupsEmailCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
+            $championshipsTable = $this->fetchTable('Championships');
             /** @var \App\Model\Entity\Championship[] $championships */
-            $championships = $this->Championships->find()
+            $championships = $championshipsTable->find()
                 ->contain(['Teams' => function (Query $q): Query {
                     return $q->contain(['Users'])
                         ->innerJoinWith('EmailNotificationSubscriptions', function (Query $q): Query {
@@ -96,10 +89,12 @@ class SendLineupsEmailCommand extends Command
      * @throws \Cake\Mailer\Exception\MissingActionException
      * @throws \Cake\Mailer\Exception\MissingMailerException
      * @throws \BadMethodCallException
+     * @throws \Cake\Core\Exception\CakeException
      */
     private function sendLineupsChampionship(Championship $championship, Matchday $matchday): void
     {
-        $teams = $this->Teams->find()
+        $teamsTable = $this->fetchTable('Teams');
+        $teams = $teamsTable->find()
             ->contain('Lineups', function (Query $q) use ($matchday): Query {
                 return $q->contain([
                     'Dispositions' => ['Members' => ['Clubs', 'Roles', 'Players']],

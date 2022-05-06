@@ -15,9 +15,6 @@ use Cake\ORM\Query;
  * Undocumented class
  *
  * @property \App\Service\DownloadRatingsService $DownloadRatings
- * @property \App\Model\Table\RatingsTable $Ratings
- * @property \App\Model\Table\SeasonsTable $Seasons
- * @property \App\Model\Table\MembersTable $Members
  */
 class RatingService
 {
@@ -40,9 +37,6 @@ class RatingService
     {
         $this->io = $io;
         $this->loadService('DownloadRatings', [$io]);
-        $this->Ratings = $this->fetchTable('Ratings');
-        $this->Seasons = $this->fetchTable('Seasons');
-        $this->Members = $this->fetchTable('Members');
     }
 
     /**
@@ -52,6 +46,7 @@ class RatingService
      * @param string|null $encryptedFilePath Encrypted file path
      * @param string|null $dectyptedFilePath Decrypted file path
      * @return string|null
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function calculateKey(
         Season $season,
@@ -105,7 +100,8 @@ class RatingService
                         $this->io->out('Key: ' . $key);
                     }
                     $season->key_gazzetta = $key;
-                    if ($this->Seasons->save($season)) {
+                    $seasonsTable = $this->fetchTable('Seasons');
+                    if ($seasonsTable->save($season)) {
                         copy($dectyptedFilePath, $dectyptedFilePath . '.' . $season->year . '.bak');
                         unlink($dectyptedFilePath);
 
@@ -124,6 +120,7 @@ class RatingService
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param string|null $path Path
      * @return bool
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function importRatings(Matchday $matchday, ?string $path = null): bool
     {
@@ -131,19 +128,23 @@ class RatingService
         if ($path) {
             $csvRow = $this->DownloadRatings->returnArray($path, ';');
 
+            /** @var \App\Model\Table\MembersTable $membersTable */
+            $membersTable = $this->fetchTable('Members');
             /** @var \App\Model\Entity\Member[] $members */
-            $members = $this->Members->findListBySeasonId($matchday->season_id)
+            $members = $membersTable->findListBySeasonId($matchday->season_id)
                 ->contain(['Roles', 'Ratings' => function (Query $q) use ($matchday): Query {
                     return $q->where(['matchday_id' => $matchday->id]);
                 }])->toArray();
 
+            /** @var \App\Model\Table\RatingsTable $ratingsTable */
+            $ratingsTable = $this->fetchTable('Ratings');
             $ratings = [];
             foreach ($csvRow as $stats) {
                 if (array_key_exists($stats[0], $members)) {
                     $member = $members[$stats[0]];
-                    $rating = empty($member->ratings) ? $this->Ratings->newEmptyEntity() : $member->ratings[0];
+                    $rating = empty($member->ratings) ? $ratingsTable->newEmptyEntity() : $member->ratings[0];
                     $rating->member_id = $member->id;
-                    $rating = $this->Ratings->patchEntity($rating, [
+                    $rating = $ratingsTable->patchEntity($rating, [
                         'valued' => $stats[6],
                         'points' => $stats[7],
                         'rating' => $stats[10],
@@ -169,7 +170,7 @@ class RatingService
             }
 
             if (
-                !$this->Ratings->saveMany($ratings, [
+                !$ratingsTable->saveMany($ratings, [
                     'checkExisting' => false,
                     'associated' => false,
                     'checkRules' => false,

@@ -15,10 +15,6 @@ use Cake\Http\Client;
 use Cake\I18n\FrozenTime;
 use Symfony\Component\DomCrawler\Crawler;
 
-/**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\SeasonsTable $Seasons
- */
 class GetMatchdayScheduleCommand extends Command
 {
     use CurrentMatchdayTrait;
@@ -33,8 +29,6 @@ class GetMatchdayScheduleCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Matchdays = $this->fetchTable('Matchdays');
-        $this->Seasons = $this->fetchTable('Seasons');
         $this->getCurrentMatchday();
     }
 
@@ -51,17 +45,26 @@ class GetMatchdayScheduleCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * Implement this method with your command's logic.
+     *
+     * @param \Cake\Console\Arguments $args The command arguments.
+     * @param \Cake\Console\ConsoleIo $io The console io
+     * @return int|null The exit code or null for success
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        /** @var \App\Model\Table\SeasonsTable $seasonsTable */
+        $seasonsTable = $this->fetchTable('Seasons');
         $season = $args->getArgument('season') ?
-            $this->Seasons->get($args->getArgument('season')) : $this->currentSeason;
+            $seasonsTable->get($args->getArgument('season')) : $this->currentSeason;
         if (!$args->hasArgument('matchday')) {
             $matchday = $this->currentMatchday;
         } else {
+            /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+            $matchdaysTable = $this->fetchTable('Matchdays');
             /** @var \App\Model\Entity\Matchday|null $matchday */
-            $matchday = $this->Matchdays->find()->where([
+            $matchday = $matchdaysTable->find()->where([
                 'number' => $args->getArgument('matchday'),
                 'season_id' => $season->id,
             ])->first();

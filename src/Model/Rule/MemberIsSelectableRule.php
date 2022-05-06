@@ -9,8 +9,6 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 
 /**
- * @property \App\Model\Table\SelectionsTable $Selections
- * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Service\SelectionService $Selection
  */
 class MemberIsSelectableRule
@@ -26,8 +24,6 @@ class MemberIsSelectableRule
      */
     public function __construct()
     {
-        $this->Selections = $this->fetchTable('Selections');
-        $this->Scores = $this->fetchTable('Scores');
         $this->loadService('Selection');
     }
 
@@ -47,9 +43,11 @@ class MemberIsSelectableRule
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {
-        $selection = $this->Selections->findAlreadySelectedMember($entity);
+        /** @var \App\Model\Table\SelectionsTable $selectionsTable */
+        $selectionsTable = $this->fetchTable('Selections');
+        $selection = $selectionsTable->findAlreadySelectedMember($entity);
         if ($selection != null) {
-            $ranking = $this->Scores->find('ranking', [
+            $ranking = $this->fetchTable('Scores')->find('ranking', [
                 'championship_id' => $selection->team->championship_id,
             ]);
 
@@ -57,7 +55,7 @@ class MemberIsSelectableRule
             $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
             if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
                 $selection->active = false;
-                $this->Selections->save($selection);
+                $selectionsTable->save($selection);
                 $this->Selection->notifyLostMember($selection);
 
                 return true;

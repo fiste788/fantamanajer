@@ -23,7 +23,7 @@ class DownloadRatingsService
     /**
      * @var string
      */
-    const DOWNLOAD_URL = 'https://maxigames.maxisoft.it/downloads.php';
+    public const DOWNLOAD_URL = 'https://maxigames.maxisoft.it/downloads.php';
 
     /**
      * Undocumented function

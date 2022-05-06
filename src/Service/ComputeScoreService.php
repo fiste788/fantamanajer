@@ -13,11 +13,6 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Service\LineupService $Lineup
- * @property \App\Model\Table\ScoresTable $Scores
- * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\SeasonsTable $Seasons
- * @property \App\Model\Table\LineupsTable $Lineups
  */
 class ComputeScoreService
 {
@@ -33,11 +28,6 @@ class ComputeScoreService
     public function __construct()
     {
         $this->loadService('Lineup');
-        $this->Scores = $this->fetchTable('Scores');
-        $this->Teams = $this->fetchTable('Teams');
-        $this->Matchdays = $this->fetchTable('Matchdays');
-        $this->Seasons = $this->fetchTable('Seasons');
-        $this->Lineups = $this->fetchTable('Lineups');
     }
 
     /**
@@ -45,15 +35,18 @@ class ComputeScoreService
      * @param \App\Model\Entity\Matchday $matchday The matchday
      * @return \App\Model\Entity\Score
      * @throws \PDOException
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function computeScore(Team $team, Matchday $matchday): Score
     {
+        /** @var \App\Model\Table\ScoresTable $scoresTable */
+        $scoresTable = $this->fetchTable('Scores');
         /** @var \App\Model\Entity\Score|null $score */
-        $score = $this->Scores->find()
+        $score = $scoresTable->find()
             ->where(['team_id' => $team->id, 'matchday_id' => $matchday->id])
             ->first();
         if ($score == null) {
-            $score = $this->Scores->newEntity([
+            $score = $scoresTable->newEntity([
                 'penality_points' => 0,
                 'matchday_id' => $matchday->id,
                 'team_id' => $team->id,
@@ -71,24 +64,42 @@ class ComputeScoreService
      *
      * @param \App\Model\Entity\Score $score Score entity
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function exec(Score $score): void
     {
-        $score->team = $score->team ?? $this->Teams->get($score->team_id, ['contain' => ['Championships']]);
-        $score->matchday = $score->matchday ?? $this->Matchdays->get($score->matchday_id, ['contain' => ['Seasons']]);
+        /** @var \App\Model\Table\TeamsTable $teamsTable */
+        $teamsTable = $this->fetchTable('Teams');
+        /**
+         * @psalm-suppress DocblockTypeContradiction
+         * @psalm-suppress RedundantConditionGivenDocblockType
+         */
+        $score->team = $score->team ?? $teamsTable->get($score->team_id, ['contain' => ['Championships']]);
+        /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+        $matchdaysTable = $this->fetchTable('Matchdays');
+        /**
+         * @psalm-suppress DocblockTypeContradiction
+         * @psalm-suppress RedundantConditionGivenDocblockType
+         */
+        $score->matchday = $score->matchday ?? $matchdaysTable->get($score->matchday_id, ['contain' => ['Seasons']]);
+        /** @var \App\Model\Table\SeasonsTable $seasonsTable */
+        $seasonsTable = $this->fetchTable('Seasons');
         $season = $score->matchday->has('season') ?
-            $score->matchday->season : $this->Seasons->get($score->matchday->season_id);
+            $score->matchday->season : $seasonsTable->get($score->matchday->season_id);
         $championship = $score->team->championship;
         $lineup = $score->lineup;
+
+        /** @var \App\Model\Table\LineupsTable $lineupsTable */
+        $lineupsTable = $this->fetchTable('Lineups');
         if ($lineup == null) {
             /** @var \App\Model\Entity\Lineup|null $lineup */
-            $lineup = $this->Lineups->find('last', [
+            $lineup = $lineupsTable->find('last', [
                 'matchday' => $score->matchday,
                 'team_id' => $score->team->id,
             ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
         } else {
             /** @var \App\Model\Entity\Lineup $lineup */
-            $lineup = $this->Lineups->loadInto($lineup, $this->Lineups->find('withRatings', [
+            $lineup = $lineupsTable->loadInto($lineup, $lineupsTable->find('withRatings', [
                 'matchday_id' => $score->matchday_id,
             ])->getContain());
         }

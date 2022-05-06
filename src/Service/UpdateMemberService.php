@@ -14,10 +14,6 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Service\DownloadRatingsService $DownloadRatings
- * @property \App\Model\Table\MembersTable $Members
- * @property \App\Model\Table\ClubsTable $Clubs
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\PlayersTable $Players
  */
 class UpdateMemberService
 {
@@ -40,10 +36,6 @@ class UpdateMemberService
     {
         $this->io = $io;
         $this->loadService('DownloadRatings', [$io]);
-        $this->Matchdays = $this->fetchTable('Matchdays');
-        $this->Members = $this->fetchTable('Members');
-        $this->Clubs = $this->fetchTable('Clubs');
-        $this->Players = $this->fetchTable('Players');
     }
 
     /**
@@ -52,6 +44,7 @@ class UpdateMemberService
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param string $path Path
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function updateMembers(Matchday $matchday, ?string $path = null): void
     {
@@ -60,8 +53,9 @@ class UpdateMemberService
             $this->io->out('Updating members of matchday ' . $matchdayNumber);
         }
         while ($path == null && $matchdayNumber > -1) {
+
             /** @var \App\Model\Entity\Matchday $matchday */
-            $matchday = $this->Matchdays->find()->contain(['Seasons'])->where([
+            $matchday = $this->fetchTable('Matchdays')->find()->contain(['Seasons'])->where([
                 'number' => $matchdayNumber,
                 'season_id' => $matchday->season_id,
             ])->first();
@@ -69,7 +63,9 @@ class UpdateMemberService
             $matchdayNumber--;
         }
         if ($path != null && file_exists($path)) {
-            $query = $this->Members->find(
+            /** @var \App\Model\Table\MembersTable $membersTable */
+            $membersTable = $this->fetchTable('Members');
+            $query = $membersTable->find(
                 'list',
                 [
                     'keyField' => 'code_gazzetta',
@@ -117,7 +113,7 @@ class UpdateMemberService
             if ($this->io != null) {
                 $this->io->out('Savings ' . count($membersToSave) . ' members');
             }
-            if (!$this->Members->saveMany($membersToSave)) {
+            if (!$membersTable->saveMany($membersToSave)) {
                 $ev = new Event('Fantamanajer.memberTransferts', $this, [
                     'sells' => $sells,
                     'buys' => $buys,
@@ -140,6 +136,7 @@ class UpdateMemberService
      * @param string $clubName Club
      * @return \App\Model\Entity\Member|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException
+     * @throws \Cake\Core\Exception\CakeException
      */
     private function memberTransfert(Member $member, string $clubName): ?Member
     {
@@ -150,7 +147,10 @@ class UpdateMemberService
         }
 
         /** @var \App\Model\Entity\Club $club */
-        $club = $this->Clubs->find()->where(['name' => ucwords(strtolower(trim($clubName, '"')))])->firstOrFail();
+        $club = $this->fetchTable('Clubs')
+            ->find()
+            ->where(['name' => ucwords(strtolower(trim($clubName, '"')))])
+            ->firstOrFail();
         if ($member->club_id != $club->id) {
             if ($this->io != null) {
                 $this->io->verbose('Transfert member ' . $member->player->full_name);
@@ -169,6 +169,7 @@ class UpdateMemberService
      * @param array<string> $member Member
      * @param \App\Model\Entity\Season $season Season
      * @return \App\Model\Entity\Member
+     * @throws \Cake\Core\Exception\CakeException
      */
     private function memberNew(array $member, Season $season): Member
     {
@@ -178,12 +179,17 @@ class UpdateMemberService
         $surname = ucwords(strtolower((!empty($ass) ? $ass[0] : $fullname)));
         $name = ucwords(strtolower(trim(substr($fullname, strlen($surname)))));
         //$queryPlayer = $this->Players->find()->where();
-        $player = $this->Players->findOrCreate([
+
+        /** @var \App\Model\Table\PlayersTable $playersTable */
+        $playersTable = $this->fetchTable('Players');
+        $player = $playersTable->findOrCreate([
             'surname' => $surname,
             'name' => $name,
         ], null, ['atomic' => false]);
-        //$queryClub = $this->Clubs->findByName();
-        $club = $this->Clubs->findOrCreate(
+
+        /** @var \App\Model\Table\ClubsTable $clubsTable */
+        $clubsTable = $this->fetchTable('Clubs');
+        $club = $clubsTable->findOrCreate(
             ['name' => ucwords(strtolower(trim($member[3], '"')))],
             null,
             ['atomic' => false]
@@ -192,7 +198,10 @@ class UpdateMemberService
             $this->io->verbose('Add new member ' . $surname . ' ' . $name);
         }
 
-        return $this->Members->newEntity([
+        /** @var \App\Model\Table\MembersTable $membersTable */
+        $membersTable = $this->fetchTable('Members');
+
+        return $membersTable->newEntity([
             'season_id' => $season->id,
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],

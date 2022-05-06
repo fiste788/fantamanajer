@@ -31,8 +31,6 @@ class RenewChampionshipCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Championships = $this->fetchTable('Championships');
-        $this->Teams = $this->fetchTable('Teams');
         $this->getCurrentMatchday();
     }
 
@@ -48,12 +46,22 @@ class RenewChampionshipCommand extends Command
     }
 
     /**
-     * @inheritDoc
+     * Implement this method with your command's logic.
+     *
+     * @param \Cake\Console\Arguments $args The command arguments.
+     * @param \Cake\Console\ConsoleIo $io The console io
+     * @return int|null The exit code or null for success
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $this->Championships->Teams->removeBehavior('Upload');
-        $championship = $this->Championships->get($args->getArgument('id'), ['contain' => [
+        /** @var \App\Model\Table\TeamsTable $teamsTable */
+        $teamsTable = $this->fetchTable('Teams');
+        $teamsTable->removeBehavior('Upload');
+        /** @var \App\Model\Table\ChampionshipsTable $championshipsTable */
+        $championshipsTable = $this->fetchTable('Championships');
+
+        $championship = $championshipsTable->get($args->getArgument('id'), ['contain' => [
             'Teams' => [
                 'PushNotificationSubscriptions',
                 'EmailNotificationSubscriptions',
@@ -79,16 +87,17 @@ class RenewChampionshipCommand extends Command
         }, $championship->teams);
         $io->out('Save championship');
 
-        $this->Championships->save($newChampionship);
+        $championshipsTable->save($newChampionship);
         $filesystem = new Filesystem();
+
         foreach ($championship->teams as $key => $team) {
             $newTeam = $newChampionship->teams[$key];
             $dir = $team->photo_dir ?? '';
             $photo = $team->photo ?? '';
-            $filepath = (string)ROOT . DS . $dir . $photo;
+            $filepath = ROOT . DS . $dir . $photo;
             $io->out('Cerco immagine in ' . $filepath);
             if ($filesystem->exists($filepath)) {
-                $source = (string)ROOT . DS . $dir;
+                $source = ROOT . DS . $dir;
                 $io->out('Trovata immagine ' . $photo);
 
                 $to = IMG_TEAMS . $newTeam->id . DS . 'photo' . DS;
@@ -111,7 +120,7 @@ class RenewChampionshipCommand extends Command
 
                     $newTeam->photo_dir = 'webroot' . DS . 'img' . DS . strtolower($newTeam->getSource()) . DS .
                         $newTeam->id . DS . 'photo' . DS;
-                    $this->Championships->Teams->save($newTeam);
+                    $teamsTable->save($newTeam);
                 }
             }
         }

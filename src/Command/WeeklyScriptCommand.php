@@ -17,12 +17,6 @@ use WebPush\Action;
 use WebPush\Notification;
 
 /**
- * @property \App\Model\Table\SeasonsTable $Seasons
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\ScoresTable $Scores
- * @property \App\Model\Table\RatingsTable $Ratings
- * @property \App\Model\Table\ChampionshipsTable $Championships
- * @property \App\Model\Table\LineupsTable $Lineups
  * @property \App\Service\ComputeScoreService $ComputeScore
  * @property \App\Service\RatingService $Rating
  * @property \App\Service\DownloadRatingsService $DownloadRatings
@@ -46,13 +40,7 @@ class WeeklyScriptCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Seasons = $this->fetchTable('Seasons');
-        $this->Matchdays = $this->fetchTable('Matchdays');
-        $this->Points = $this->fetchTable('Points');
-        $this->Ratings = $this->fetchTable('Ratings');
-        $this->Scores = $this->fetchTable('Scores');
-        $this->Championships = $this->fetchTable('Championships');
-        $this->Lineups = $this->fetchTable('Lineups');
+
         $this->loadService('ComputeScore');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
@@ -96,7 +84,9 @@ class WeeklyScriptCommand extends Command
         $this->loadService('DownloadRatings', [$io]);
         $this->loadService('UpdateMember', [$io]);
 
-        $missingRatings = $this->Matchdays->findWithoutRatings($this->currentSeason);
+        /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
+        $matchdaysTable = $this->fetchTable('Matchdays');
+        $missingRatings = $matchdaysTable->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $matchday) {
             $io->out('Starting decript file day ' . $matchday->number);
             $path = $this->DownloadRatings->getRatings($matchday);
@@ -110,8 +100,9 @@ class WeeklyScriptCommand extends Command
             }
         }
         if (!$args->getOption('no_calc_scores')) {
+            $championshipsTable = $this->fetchTable('Championships');
             /** @var \App\Model\Entity\Championship[] $championships */
-            $championships = $this->Championships->find()
+            $championships = $championshipsTable->find()
                 ->contain([
                     'Leagues',
                     'Teams' => [
@@ -123,9 +114,11 @@ class WeeklyScriptCommand extends Command
                 ])
                 ->where(['Championships.season_id' => $this->currentSeason->id])->all();
 
-            $missingScores = $this->Matchdays->findWithoutScores($this->currentSeason);
+            /** @var \App\Model\Table\RatingsTable $ratingsTable */
+            $ratingsTable = $this->fetchTable('Ratings');
+            $missingScores = $matchdaysTable->findWithoutScores($this->currentSeason);
             foreach ($missingScores as $matchday) {
-                if ($this->Ratings->existMatchday($matchday)) {
+                if ($ratingsTable->existMatchday($matchday)) {
                     $this->calculatePoints($matchday, $championships, $args, $io);
                     $io->out('Completed succesfully');
                 }
@@ -143,9 +136,11 @@ class WeeklyScriptCommand extends Command
      * @param \Cake\Console\Arguments $args Aguments
      * @param \Cake\Console\ConsoleIo $io Io
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     protected function calculatePoints(Matchday $matchday, $championships, Arguments $args, ConsoleIo $io): void
     {
+        $scoresTable = $this->fetchTable('Scores');
         $scores = [];
         foreach ($championships as $championship) {
             $io->out("Calculating points of matchday {$matchday->number} for league {$championship->league->name}");
@@ -153,7 +148,7 @@ class WeeklyScriptCommand extends Command
                 $io->out('Elaborating team ' . $team->name);
                 $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
             }
-            $success = $this->Scores->saveMany($scores, [
+            $success = $scoresTable->saveMany($scores, [
                 'checkRules' => false,
                 'associated' => ['Lineups.Dispositions' => ['associated' => false]],
             ]);
@@ -219,18 +214,21 @@ class WeeklyScriptCommand extends Command
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \App\Model\Entity\Championship $championship Championship
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function sendScoreMails(Matchday $matchday, Championship $championship): void
     {
-        $ranking = $this->Scores->find('ranking', ['championship_id' => $championship->id])->toArray();
+        $lineupsTable = $this->fetchTable('Lineups');
+        $scoresTable = $this->fetchTable('Scores');
+        $ranking = $scoresTable->find('ranking', ['championship_id' => $championship->id])->toArray();
         foreach ($championship->teams as $team) {
             if ($team->isEmailSubscripted('score')) {
-                $details = $this->Lineups->find('details', [
+                $details = $lineupsTable->find('details', [
                     'matchday_id' => $matchday->id,
                     'team_id' => $team->id,
                 ])->first();
 
-                $score = $this->Scores->find()->where([
+                $score = $scoresTable->find()->where([
                     'matchday_id' => $matchday->id,
                     'team_id' => $team->id,
                 ])->first();

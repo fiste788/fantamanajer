@@ -6,25 +6,9 @@ namespace App\Model\Rule;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
-/**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\LineupsTable $Lineups
- */
 class JollyAlreadyUsedRule
 {
     use LocatorAwareTrait;
-
-    /**
-     * Construct
-     *
-     * @throws \Cake\Core\Exception\CakeException
-     * @throws \UnexpectedValueException
-     */
-    public function __construct()
-    {
-        $this->Matchdays = $this->fetchTable('Matchdays');
-        $this->Lineups = $this->fetchTable('Lineups');
-    }
 
     /**
      * Invoke
@@ -32,16 +16,21 @@ class JollyAlreadyUsedRule
      * @param \App\Model\Entity\Lineup $entity Entity
      * @param array $options Options
      * @return bool
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function __invoke(EntityInterface $entity, array $options): bool
     {
         if ($entity->jolly) {
-            $matchday = $this->Matchdays->get($entity->matchday_id);
-            $matchdays = $this->Matchdays->find()
+            /** @var \App\Model\Table\MatchdaysTable $matchdaysTable  */
+            $matchdaysTable = $this->fetchTable('Matchdays');
+            $matchday = $matchdaysTable->get($entity->matchday_id);
+            $matchdays = $matchdaysTable->find()
                 ->where(['season_id' => $matchday->season_id])
                 ->count();
 
-            return $this->Lineups->find()
+            $lineupsTable = $this->fetchTable('Lineups');
+
+            return $lineupsTable->find()
                 ->contain(['Matchdays'])
                 ->innerJoinWith('Matchdays')
                 ->where([

@@ -8,7 +8,6 @@ use Cake\Event\Event;
 use Cake\Event\EventInterface;
 
 /**
- * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\LineupService $Lineup
  * @property \App\Service\LikelyLineupService $LikelyLineup
  * @property \App\Model\Table\LineupsTable $Lineups
@@ -23,7 +22,6 @@ class LineupsController extends ControllerLineupsController
         parent::initialize();
         $this->loadService('LikelyLineup');
         $this->loadService('Lineup');
-        $this->Matchdays = $this->fetchTable('Matchdays');
     }
 
     /**
@@ -62,8 +60,9 @@ class LineupsController extends ControllerLineupsController
                 ]);
             });
         } else {
+            $matchdaysTable = $this->fetchTable('Matchdays');
             /** @var \App\Model\Entity\Matchday $matchday */
-            $matchday = $this->Matchdays->find('firstWithoutScores', [
+            $matchday = $matchdaysTable->find('firstWithoutScores', [
                 'season' => $this->currentSeason->id,
             ])->first();
 

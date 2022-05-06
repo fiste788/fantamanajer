@@ -9,11 +9,6 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
- * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\MembersTeamsTable $MembersTeams
- * @property \App\Model\Table\TransfertsTable $Transferts
- * @property \App\Model\Table\LineupsTable $Lineups
- * @property \App\Model\Table\MatchdaysTable $Matchdays
  * @property \App\Service\LineupService $Lineup
  */
 class TransfertService
@@ -30,11 +25,6 @@ class TransfertService
      */
     public function __construct()
     {
-        $this->Teams = $this->fetchTable('Teams');
-        $this->MembersTeams = $this->fetchTable('MembersTeams');
-        $this->Transferts = $this->fetchTable('Transferts');
-        $this->Lineups = $this->fetchTable('Lineups');
-        $this->Matchdays = $this->fetchTable('Matchdays');
         $this->loadService('Lineup');
     }
 
@@ -43,16 +33,21 @@ class TransfertService
      *
      * @param \App\Model\Entity\Transfert $transfert The transfert to process
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function substituteMembers(Transfert $transfert): void
     {
         $team = $transfert->offsetExists('team') ? $transfert->team : null;
         if ($team == null) {
-            $team = $this->Teams->get($transfert->team_id);
+            /** @var \App\Model\Table\TeamsTable $teamsTable */
+            $teamsTable = $this->fetchTable('Teams');
+            $team = $teamsTable->get($transfert->team_id);
         }
 
+        /** @var \App\Model\Table\MembersTeamsTable $membersTeamsTable */
+        $membersTeamsTable = $this->fetchTable('MembersTeams');
         /** @var \App\Model\Entity\MembersTeam $rec */
-        $rec = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
+        $rec = $membersTeamsTable->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->old_member_id,
             'Teams.championship_id' => $team->championship_id,
         ])->first();
@@ -62,23 +57,25 @@ class TransfertService
         $recs->append($rec);
 
         /** @var \App\Model\Entity\MembersTeam|null $rec2 */
-        $rec2 = $this->MembersTeams->find()->innerJoinWith('Teams')->where([
+        $rec2 = $membersTeamsTable->find()->innerJoinWith('Teams')->where([
             'member_id' => $transfert->new_member_id,
             'Teams.championship_id' => $team->championship_id,
         ])->first();
         if ($rec2 != null) {
+            /** @var \App\Model\Table\TransfertsTable $transfertsTable */
+            $transfertsTable = $this->fetchTable('Transferts');
             $rec2->member_id = $transfert->old_member_id;
             $recs->append($rec2);
-            $transfert = $this->Transferts->newEntity([
+            $transfert = $transfertsTable->newEntity([
                 'team_id' => $rec2->team_id,
                 'old_member_id' => $transfert->new_member_id,
                 'new_member_id' => $transfert->old_member_id,
                 'matchday_id' => $transfert->matchday_id,
                 'constrained' => $transfert->constrained,
             ]);
-            $this->Transferts->save($transfert, ['associated' => false]);
+            $transfertsTable->save($transfert, ['associated' => false]);
         }
-        $this->MembersTeams->saveMany((array)$recs, ['associated' => false]);
+        $membersTeamsTable->saveMany((array)$recs, ['associated' => false]);
     }
 
     /**
@@ -86,11 +83,14 @@ class TransfertService
      *
      * @param \App\Model\Entity\Transfert $transfert The transfert
      * @return void
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function substituteMemberInLineup(Transfert $transfert): void
     {
+        /** @var \App\Model\Table\LineupsTable $lineupsTable */
+        $lineupsTable = $this->fetchTable('Lineups');
         /** @var \App\Model\Entity\Lineup|null $lineup */
-        $lineup = $this->Lineups->find()
+        $lineup = $lineupsTable->find()
             ->contain(['Dispositions'])
             ->where(['team_id' => $transfert->team_id, 'matchday_id' => $transfert->matchday_id])
             ->first();
@@ -98,7 +98,7 @@ class TransfertService
             $lineup != null &&
             $this->Lineup->substitute($lineup, $transfert->old_member_id, $transfert->new_member_id)
         ) {
-            $this->Lineups->save($lineup, true);
+            $lineupsTable->save($lineup, true);
         }
     }
 
@@ -108,22 +108,33 @@ class TransfertService
      * @param \App\Model\Entity\MembersTeam $entity The mermber team
      * @return void
      * @throws \InvalidArgumentException
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function saveTeamMember(MembersTeam $entity): void
     {
+        /**
+         * @psalm-suppress DocblockTypeContradiction
+         */
         if ($entity->member == null) {
+            /** @var \App\Model\Table\MembersTeamsTable $membersTeamsTable */
+            $membersTeamsTable = $this->fetchTable('MembersTeams');
             /** @var \App\Model\Entity\MembersTeam $entity */
-            $entity = $this->MembersTeams->loadInto($entity, ['Members']);
+            $entity = $membersTeamsTable->loadInto($entity, ['Members']);
         }
         /** @var \App\Model\Entity\Matchday $current */
-        $current = $this->Matchdays->find('current')->first();
+        $current = $this->fetchTable('Matchdays')->find('current')->first();
 
-        $transfert = $this->Transferts->newEmptyEntity();
+        /** @var \App\Model\Table\TransfertsTable $transfertsTable */
+        $transfertsTable = $this->fetchTable('Transferts');
+        $transfert = $transfertsTable->newEmptyEntity();
         $transfert->team_id = $entity->team_id;
+        /**
+         * @psalm-suppress DocblockTypeContradiction
+         */
         $transfert->constrained = $entity->member == null || !$entity->member->active;
         $transfert->matchday_id = $current->id;
         $transfert->old_member_id = $entity->getOriginal('member_id');
         $transfert->new_member_id = $entity->member_id;
-        $this->Transferts->save($transfert);
+        $transfertsTable->save($transfert);
     }
 }

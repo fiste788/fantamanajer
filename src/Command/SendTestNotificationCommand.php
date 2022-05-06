@@ -14,8 +14,6 @@ use WebPush\Action;
 use WebPush\Notification;
 
 /**
- * @property \App\Model\Table\TeamsTable $Teams
- * @property \App\Model\Table\PushSubscriptionsTable $PushSubscriptions
  * @property \App\Service\PushNotificationService $PushNotification
  */
 class SendTestNotificationCommand extends Command
@@ -33,8 +31,6 @@ class SendTestNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Teams = $this->fetchTable('Teams');
-        $this->PushSubscriptions = $this->fetchTable('PushSubscriptions');
         $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
@@ -64,11 +60,14 @@ class SendTestNotificationCommand extends Command
      * {@inheritDoc}
      *
      * @throws \ErrorException
+     * @throws \Cake\Core\Exception\CakeException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Parto');
-        $team = $this->Teams->get(77, ['contain' => ['Users.PushSubscriptions']]);
+        $teamsTable = $this->fetchTable('Teams');
+        /** @var \App\Model\Entity\Team $team */
+        $team = $teamsTable->get(77, ['contain' => ['Users.PushSubscriptions']]);
         $io->out('cerco squadra 77');
 
         $action = [
