@@ -21,7 +21,7 @@ if (!defined('DS')) {
      *
      * @var string
      */
-    define('DS', DIRECTORY_SEPARATOR);
+    define('DS', /** @var string $x */ $x = DIRECTORY_SEPARATOR);
 }
 /**
  * These defines should only be edited if you have cake installed in
@@ -32,7 +32,7 @@ if (!defined('DS')) {
  * The full path to the directory which holds "src", WITHOUT a trailing DS.
  * @var string
  */
-define('ROOT', dirname(__DIR__));
+define('ROOT', /** @var string $y */ $y = dirname(__DIR__));
 /**
  * The actual directory name for the application directory. Normally
  * named 'src'.

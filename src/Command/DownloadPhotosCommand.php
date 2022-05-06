@@ -14,11 +14,6 @@ use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-/**
- * @property \App\Model\Table\SeasonsTable $Seasons
- * @property \App\Model\Table\MatchdaysTable $Matchdays
- * @property \App\Model\Table\MembersTable $Members
- */
 class DownloadPhotosCommand extends Command
 {
     use CurrentMatchdayTrait;
@@ -37,9 +32,6 @@ class DownloadPhotosCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->Seasons = $this->fetchTableClass(SeasonsTable::class);
-        $this->Matchdays = $this->fetchTableClass(MatchdaysTable::class);
-        $this->Members = $this->fetchTableClass(MembersTable::class);
         $this->getCurrentMatchday();
     }
 
@@ -57,8 +49,9 @@ class DownloadPhotosCommand extends Command
 
         $path = IMG_PLAYERS . 'season-new' . DS;
 
+        $membersTable = $this->fetchTable('Members');
         /** @var \App\Model\Entity\Member[] $members */
-        $members = $this->Members->find()
+        $members = $membersTable->find()
             ->contain(['Players'])
             ->where(['season_id' => $this->currentSeason->id])->all();
         foreach ($members as $member) {
