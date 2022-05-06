@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Model\Table\MatchdaysTable;
-use App\Model\Table\MembersTable;
-use App\Model\Table\SeasonsTable;
 use App\Traits\CurrentMatchdayTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
@@ -17,10 +14,6 @@ use Symfony\Component\DomCrawler\Crawler;
 class DownloadPhotosCommand extends Command
 {
     use CurrentMatchdayTrait;
-
-    public \App\Model\Table\SeasonsTable $Seasons;
-    public \App\Model\Table\MatchdaysTable $Matchdays;
-    public \App\Model\Table\MembersTable $Members;
 
     /**
      * {@inheritDoc}
