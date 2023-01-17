@@ -11,10 +11,3 @@ parameters:
 
     excludePaths:
         - src/Console/Installer.php
-
-    ignoreErrors:
-        - '#Access to an undefined property object::\$entity#'
-        - '#Access to an undefined property object::\$query#'
-        - '#Access to an undefined property object::\$entities#'
-        - '#Access to an undefined property object::\$success#'
-

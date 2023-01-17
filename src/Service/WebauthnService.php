@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -258,7 +259,7 @@ class WebauthnService
         // Authenticator Assertion Response Validator
         $authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
             $this->PublicKeyCredentialSourceRepository,
-            new TokenBindingNotSupportedHandler(),
+            null,
             new ExtensionOutputCheckerHandler(),
             $this->createAlgorithManager()
         );
@@ -367,7 +368,7 @@ class WebauthnService
         $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
             $attestationStatementSupportManager,
             $this->PublicKeyCredentialSourceRepository,
-            new TokenBindingNotSupportedHandler(),
+            null,
             new ExtensionOutputCheckerHandler()
         );
 
