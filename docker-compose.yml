@@ -5,6 +5,7 @@ networks:
   backend: # Define volumes
 volumes:
   code:
+  dbdata:
 
 
 services:
@@ -45,6 +46,7 @@ services:
     image: mariadb:${MYSQL_VERSION:-latest}
     volumes:
       - ./.docker/mysql/dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
+      - dbdata:/val/lib/mysql
     networks:
       - backend
     environment:

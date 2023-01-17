@@ -69,7 +69,7 @@ class RatingService
         if (!file_exists($dectyptedFilePath) && $this->io != null) {
             $reply = $this->io->askChoice(
                 'Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter.
-                If you don\'t have one go to http://fantavoti.francesco-pompili.it/Decript.aspx',
+                If you don\'t have one go to https://www.fr3nsis.com/',
                 ['y', 'n'],
                 'y'
             );

@@ -60,14 +60,16 @@ class RenewChampionshipCommand extends Command
         $teamsTable->removeBehavior('Upload');
         /** @var \App\Model\Table\ChampionshipsTable $championshipsTable */
         $championshipsTable = $this->fetchTable('Championships');
-
-        $championship = $championshipsTable->get($args->getArgument('id'), ['contain' => [
+        $relations = [
             'Teams' => [
                 'PushNotificationSubscriptions',
                 'EmailNotificationSubscriptions',
             ],
-        ]]);
-        $newChampionship = $this->Championships->newEntity(
+        ];
+
+        $championship = $championshipsTable->get($args->getArgument('id'), ['contain' => $relations]);
+
+        $newChampionship = $championshipsTable->newEntity(
             $championship->getOriginalValues(),
             ['accessibleFields' => ['*' => true]]
         );
@@ -75,19 +77,22 @@ class RenewChampionshipCommand extends Command
         $newChampionship->season_id = $this->currentSeason->id;
         $newChampionship->started = false;
 
-        $newChampionship->teams = array_map(function (Team $team) use ($newChampionship): Team {
-            $newTeam = $this->Teams->newEntity(
+        $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $teamsTable): Team {
+            $newTeam = $teamsTable->newEntity(
                 $team->getOriginalValues(),
                 ['accessibleFields' => ['*' => true]]
             );
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
+            $newTeam->email_notification_subscriptions = $team->email_notification_subscriptions;
+            $newTeam->push_notification_subscriptions = $team->push_notification_subscriptions;
 
             return $newTeam;
         }, $championship->teams);
         $io->out('Save championship');
+        //$io->abort(print_r($newChampionship, true));
 
-        $championshipsTable->save($newChampionship);
+        $championshipsTable->save($newChampionship, ['associated' => $relations]);
         $filesystem = new Filesystem();
 
         foreach ($championship->teams as $key => $team) {

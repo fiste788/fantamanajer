@@ -41,7 +41,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var bool[]
+     * @var array<string, bool>
      */
     protected $_accessible = [
         'uuid' => false,

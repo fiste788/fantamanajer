@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -26,7 +27,8 @@ class UserService
                 'sub' => $subject,
                 'exp' => $time->getTimestamp(),
             ],
-            Security::getSalt()
+            Security::getSalt(),
+            'HS256'
         );
     }
 }

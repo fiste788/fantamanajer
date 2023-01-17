@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -152,7 +153,7 @@ class WeeklyScriptCommand extends Command
                 'checkRules' => false,
                 'associated' => ['Lineups.Dispositions' => ['associated' => false]],
             ]);
-            if ($success && !$args->getOption('no_send_mail')) {
+            if ($success && $championship->started && !$args->getOption('no_send_mail')) {
                 $io->out('Sending mails');
                 $this->sendScoreMails($matchday, $championship);
                 $io->out('Sending notification');

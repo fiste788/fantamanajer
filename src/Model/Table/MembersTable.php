@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -263,7 +264,7 @@ class MembersTable extends Table
         if (isset($options['role'])) {
             $q->where(['role_id' => $options['role']]);
         } else {
-            $q->select(['id', 'Players.name', 'Players.surname', 'role_id']);
+            $q->select(['id', 'Players.name', 'Players.surname', 'role_id', 'club_id']);
         }
 
         return $q;

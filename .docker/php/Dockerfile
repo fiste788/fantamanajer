@@ -6,7 +6,7 @@ COPY --from=composer/composer /usr/bin/composer /usr/local/bin/composer
 
 RUN apk update; \
     apk upgrade; \
-    apk add --no-cache icu-dev bash git gmp-dev libgmpxx gd libpng-dev libjpeg-turbo-dev freetype-dev libxpm-dev autoconf g++ make
+    apk add --no-cache icu-dev bash git gmp-dev libgmpxx gd libpng-dev libjpeg-turbo-dev freetype-dev libxpm-dev autoconf g++ make bash-completion
 
 RUN pecl install xdebug
 
@@ -22,6 +22,8 @@ RUN cat /usr/local/etc/php/conf.d/error_reporting.ini >> /usr/local/etc/php/conf
 
 COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 RUN cat /usr/local/etc/php/conf.d/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+COPY ./bin/bash-completion.sh /etc/bash-completion.d/cake
 
 RUN chown www-data:www-data /var/www/html/
 

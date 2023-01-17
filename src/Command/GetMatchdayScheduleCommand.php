@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -88,7 +89,7 @@ class GetMatchdayScheduleCommand extends Command
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
     {
         $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
-        $url = "/it/serie-a/calendario-e-risultati/$year/UNICO/UNI/$matchday->number";
+        $url = "/it/serie-a/";
         $io->verbose('Downloading page ' . $url);
         $client = new Client(
             [
@@ -99,33 +100,56 @@ class GetMatchdayScheduleCommand extends Command
         );
 
         $response = $client->get($url);
-        if ($response->isRedirect()) {
-            $response = $client->get($response->getHeaderLine('Location'));
-        }
         if ($response->isOk()) {
             $io->verbose('Response OK');
             $crawler = new Crawler();
             $crawler->addContent($response->getStringBody());
-            $datiPartita = $crawler->filter('.datipartita')->first();
-            if ($datiPartita->count()) {
-                $box = $datiPartita->filter('p')->first()->filter('span');
-                $date = trim($box->text());
-                if ($date != '') {
-                    $io->success($date);
-                    if (!strpos($date, ' ')) {
-                        $out = FrozenTime::createFromFormat('!d/m/Y', $date);
-                        $out = $out->setTime(18, 0, 0, 0);
-                    } else {
-                        $out = FrozenTime::createFromFormat('!d/m/Y H:i', $date);
+            $seasonOption = $crawler->filterXPath('//select[@name="season"]/option[text()="' . $year . '"]');
+            if ($seasonOption->count()) {
+                $seasonId = $seasonOption->first()->attr('value');
+                if ($seasonId) {
+                    $matchdayResponse = $client->get('/api/season/' .  $seasonId . '/championship/A/matchday?lang=it');
+                    /**
+                     * @psalm-suppress MixedArrayAccess
+                     * @var array $matchdays
+                     */
+                    $matchdays = $matchdayResponse->getJson()['data'];
+
+                    /**
+                     * @psalm-suppress MixedAssignment
+                     */
+                    foreach ($matchdays as $matchdayItem) {
+                        /**
+                         * @psalm-suppress MixedArrayAccess
+                         */
+                        if ($matchdayItem['description'] == $matchday->number) {
+                            /**
+                             * @psalm-suppress MixedOperand
+                             */
+                            $matchsResponse = $client->get('/api/match?extra_link&order=oldest&lang=it&season_id=' . $season . '&match_day_id=' . $matchdayItem['id_category']);
+                            /** @var string $date */
+                            $date = $matchsResponse->getJson()['data'][0]['date_time'];
+
+                            if ($date != '') {
+                                $io->success($date);
+                                $out = FrozenTime::parseDate('!d/m/Y');
+
+                                return $out;
+                            } else {
+                                $io->error('Cannot find date');
+                                $this->abort();
+                            }
+                        }
                     }
 
-                    return $out;
+                    $io->error('Cannot find matchday');
+                    $this->abort();
                 } else {
-                    $io->error('Cannot find date');
+                    $io->error('Cannot find season id');
                     $this->abort();
                 }
             } else {
-                $io->error('Cannot find .datipartita');
+                $io->error('Cannot find //select[@name="season"]/option[text()="' . $year . '"]');
                 $this->abort();
             }
         } else {
@@ -133,7 +157,5 @@ class GetMatchdayScheduleCommand extends Command
             $io->error('Cannot connect to ' . $url);
             $this->abort();
         }
-
-        return null;
     }
 }

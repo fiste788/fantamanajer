@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -85,8 +86,6 @@ class StartSeasonCommand extends Command
 
             $this->abort();
         }
-
-        return CommandInterface::CODE_ERROR;
     }
 
     /**

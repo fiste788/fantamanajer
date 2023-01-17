@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -88,6 +89,7 @@ class SendMissingLineupNotificationCommand extends Command
                 ->where(
                     [
                         'season_id' => $this->currentSeason->id,
+                        'started' => true,
                         'Teams.id NOT IN' => $lineupsTable->find()->select('team_id')->where([
                             'matchday_id' => $this->currentMatchday->id,
                         ]),
