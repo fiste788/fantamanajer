@@ -132,7 +132,8 @@ class GetMatchdayScheduleCommand extends Command
 
                             if ($date != '') {
                                 $io->success($date);
-                                $out = FrozenTime::parseDate('!d/m/Y');
+                                $out = FrozenTime::createFromFormat(\DateTimeInterface::ATOM,$date);
+								$io->verbose($out);
 
                                 return $out;
                             } else {

@@ -9,6 +9,7 @@
 /resources/ratings/*
 /tmp/*
 /vendor/*
+preload.php
 
 # OS generated files #
 ######################

@@ -6,7 +6,7 @@ COPY --from=composer/composer /usr/bin/composer /usr/local/bin/composer
 
 RUN apk update; \
     apk upgrade; \
-    apk add --no-cache icu-dev bash git gmp-dev libgmpxx gd libpng-dev libjpeg-turbo-dev freetype-dev libxpm-dev autoconf g++ make bash-completion
+    apk add --no-cache icu-dev bash git gmp-dev libgmpxx gd libpng-dev libjpeg-turbo-dev freetype-dev libxpm-dev autoconf g++ make bash-completion linux-headers
 
 RUN pecl install xdebug
 
