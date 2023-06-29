@@ -9,7 +9,13 @@
 /resources/ratings/*
 /tmp/*
 /vendor/*
-preload.php
+/webroot/img/teams
+/webroot/img/upload
+/webroot/opcache
+/preload.php
+.user.ini
+php.ini
+error_log
 
 # OS generated files #
 ######################
