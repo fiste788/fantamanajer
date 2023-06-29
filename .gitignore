@@ -46,3 +46,5 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
+
+.cpanel.yml

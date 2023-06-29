@@ -7,10 +7,3 @@
     RewriteRule    .* - [e=HTTP_AUTHORIZATION:%1]
 </IfModule>
 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
-
-#SetEnv DEBUG false
-#SetEnv APP_NAME FantaManajer
-#SetEnv APP_ENCODING UTF-8
-#SetEnv APP_DEFAULT_LOCALE it_IT
-#SetEnv APP_DEFAULT_TIMEZONE Europe/Rome
-#SetEnv SECURITY_SALT e030bfc8aa04b1692266d8ac969b7c393709d6c4bdf4bfa593ba0f9ae144d126
