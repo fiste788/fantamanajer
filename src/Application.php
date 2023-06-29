@@ -118,7 +118,7 @@ class Application extends BaseApplication implements
     {
         $middlewareQueue
             ->add(new ErrorHandlerMiddleware((array)Configure::read('Error')))
-            ->add(new RoutingMiddleware($this, '_cake_routes_'))
+            ->add(new RoutingMiddleware($this))
             ->add(new BodyParserMiddleware())
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
