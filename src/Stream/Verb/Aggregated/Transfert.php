@@ -18,7 +18,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
         $news = [];
         $olds = [];
 
-        /** @var \StreamCake\EnrichedActivity[] $activities */
+        /** @var array<\StreamCake\EnrichedActivity> $activities */
         $activities = $this->activity->offsetGet('activities') ?? [];
         foreach ($activities as $activity) {
             if ($activity->enriched()) {
@@ -42,7 +42,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      */
     public function getTitle(): string
     {
-        /** @var \StreamCake\EnrichedActivity[] $activities */
+        /** @var array<\StreamCake\EnrichedActivity> $activities */
         $activities = $this->activity->offsetGet('activities');
 
         /** @var \App\Model\Entity\Team $team */
@@ -72,7 +72,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
     /**
      * Get contain
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function contain(): array
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Championships;
 
 use App\Controller\ArticlesController as AppArticlesController;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\ArticlesTable $Articles
@@ -32,7 +33,7 @@ class ArticlesController extends AppArticlesController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index()
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();

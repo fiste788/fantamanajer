@@ -35,7 +35,7 @@ class WeeklyScriptMailer extends Mailer
      * @throws \Cake\Mailer\Exception\MissingActionException
      * @throws \BadMethodCallException
      */
-    public function score(Team $team, Matchday $matchday, array $ranking, ?Lineup $details, Score $score)
+    public function score(Team $team, Matchday $matchday, array $ranking, ?Lineup $details, Score $score): void
     {
         $dispositions = null;
         $regulars = null;
@@ -62,12 +62,12 @@ class WeeklyScriptMailer extends Mailer
      *
      * @param \App\Model\Entity\Championship $championship Championship
      * @param \App\Model\Entity\Matchday $matchday Matchday
-     * @param \App\Model\Entity\Team[] $teams Teams
+     * @param array<\App\Model\Entity\Team> $teams Teams
      * @return void
      * @throws \Cake\Mailer\Exception\MissingActionException
      * @throws \BadMethodCallException
      */
-    public function lineups(Championship $championship, Matchday $matchday, array $teams)
+    public function lineups(Championship $championship, Matchday $matchday, array $teams): void
     {
         $addresses = Hash::extract($championship->teams, '{*}.user.email');
         $this->setViewVars(

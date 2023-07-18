@@ -15,7 +15,7 @@ class PublicKeyCredentialSourcePolicy
      * @param \App\Model\Entity\PublicKeyCredentialSource $pkcs Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, PublicKeyCredentialSource $pkcs)
+    public function canEdit(IdentityInterface $user, PublicKeyCredentialSource $pkcs): bool
     {
         return $user->uuid == $pkcs->user_handle;
     }
@@ -27,7 +27,7 @@ class PublicKeyCredentialSourcePolicy
      * @param \App\Model\Entity\PublicKeyCredentialSource $pkcs Entity
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, PublicKeyCredentialSource $pkcs)
+    public function canDelete(IdentityInterface $user, PublicKeyCredentialSource $pkcs): bool
     {
         return $user->uuid == $pkcs->user_handle;
     }
@@ -39,7 +39,7 @@ class PublicKeyCredentialSourcePolicy
      * @param \App\Model\Entity\PublicKeyCredentialSource $pkcs Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, PublicKeyCredentialSource $pkcs)
+    public function canAdd(IdentityInterface $user, PublicKeyCredentialSource $pkcs): bool
     {
         return $user->uuid == $pkcs->user_handle;
     }
@@ -51,7 +51,7 @@ class PublicKeyCredentialSourcePolicy
      * @param \App\Model\Entity\PublicKeyCredentialSource $pkcs Entity
      * @return bool
      */
-    public function canIndex(IdentityInterface $user, PublicKeyCredentialSource $pkcs)
+    public function canIndex(IdentityInterface $user, PublicKeyCredentialSource $pkcs): bool
     {
         return $user->uuid == $pkcs->user_handle;
     }

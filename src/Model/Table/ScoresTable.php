@@ -224,7 +224,7 @@ class ScoresTable extends Table
      * @param bool $members Members
      * @return \App\Model\Entity\Score
      */
-    public function loadDetails(Score $score, $members = false): Score
+    public function loadDetails(Score $score, bool $members = false): Score
     {
         if ($members) {
             $contain = [

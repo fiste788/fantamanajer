@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Teams;
 
 use App\Controller\AppController;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\TransfertsTable $Transferts
@@ -17,7 +18,7 @@ class TransfertsController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index()
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();

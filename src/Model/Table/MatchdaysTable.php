@@ -151,13 +151,13 @@ class MatchdaysTable extends Table
 
     /**
      * @param \App\Model\Entity\Season $season Season
-     * @return \App\Model\Entity\Matchday[]
+     * @return array<\App\Model\Entity\Matchday>
      */
     public function findWithoutScores(Season $season): array
     {
         $query = $this->find();
 
-        /** @var \App\Model\Entity\Matchday[] $res */
+        /** @var array<\App\Model\Entity\Matchday> $res */
         $res = $query->leftJoinWith('Scores')
             ->contain('Seasons')
             ->where(
@@ -207,13 +207,13 @@ class MatchdaysTable extends Table
 
     /**
      * @param \App\Model\Entity\Season $season Season
-     * @return \App\Model\Entity\Matchday[]
+     * @return array<\App\Model\Entity\Matchday>
      */
     public function findWithoutRatings(Season $season): array
     {
         $query = $this->find();
 
-        /** @var \App\Model\Entity\Matchday[] $res */
+        /** @var array<\App\Model\Entity\Matchday> $res */
         $res = $query->leftJoinWith('Ratings')
             ->contain('Seasons')
             ->where(
@@ -235,7 +235,7 @@ class MatchdaysTable extends Table
      * @param \App\Model\Entity\Season $season Season
      * @return \Cake\ORM\Query
      */
-    public function findWithRatings(Season $season)
+    public function findWithRatings(Season $season): Query
     {
         return $this->find()
             ->innerJoinWith('Ratings')

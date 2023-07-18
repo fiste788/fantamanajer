@@ -5,7 +5,9 @@ namespace App\Controller\Championships;
 
 use App\Controller\AppController;
 use Authorization\Exception\ForbiddenException;
+use Cake\Collection\Collection;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -54,7 +56,7 @@ class MembersController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function freeByRole()
+    public function freeByRole(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
@@ -76,7 +78,7 @@ class MembersController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function free()
+    public function free(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
@@ -87,8 +89,8 @@ class MembersController extends AppController
             ],
         ]);
 
-        $this->Crud->on('afterPaginate', function (EventInterface $event) {
-            $collection = new \Cake\Collection\Collection($event->getSubject()->entities);
+        $this->Crud->on('afterPaginate', function (EventInterface $event): void {
+            $collection = new Collection($event->getSubject()->entities);
             $event->getSubject()->entities = $collection->groupBy('role_id')->toArray();
         });
 

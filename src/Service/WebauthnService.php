@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -18,6 +17,7 @@ use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
@@ -42,7 +42,6 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
-use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 use WhichBrowser\Parser;
 
 /**
@@ -50,6 +49,7 @@ use WhichBrowser\Parser;
  *
  * @property \App\Service\PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository
  */
+#[\AllowDynamicProperties]
 class WebauthnService
 {
     use LocatorAwareTrait;
@@ -113,12 +113,12 @@ class WebauthnService
     /**
      * Undocumented function
      *
-     * @param \Webauthn\PublicKeyCredentialSource[] $credentials credentials
-     * @return \Webauthn\PublicKeyCredentialDescriptor[]
+     * @param array<\Webauthn\PublicKeyCredentialSource> $credentials credentials
+     * @return array<\Webauthn\PublicKeyCredentialDescriptor>
      */
     private function credentialsToDescriptors(array $credentials): array
     {
-        /** @var \Webauthn\PublicKeyCredentialDescriptor[] $credentials */
+        /** @var array<\Webauthn\PublicKeyCredentialDescriptor> $credentials */
         $credentials = Hash::map($credentials, '{*}', function (PublicKeyCredentialSource $value) {
             return $value->getPublicKeyCredentialDescriptor();
         });
@@ -272,7 +272,7 @@ class WebauthnService
 
         // Check if the response is an Authenticator Assertion Response
         if (!$authenticatorAssertionResponse instanceof AuthenticatorAssertionResponse) {
-            throw new \RuntimeException('Not an authenticator assertion response');
+            throw new RuntimeException('Not an authenticator assertion response');
         }
 
         // Check the response against the attestation request
@@ -380,7 +380,7 @@ class WebauthnService
 
         // Check if the response is an Authenticator Attestation Response
         if (!$authenticatorAttestationResponse instanceof AuthenticatorAttestationResponse) {
-            throw new \RuntimeException('Not an authenticator attestation response');
+            throw new RuntimeException('Not an authenticator attestation response');
         }
 
         // Check the response against the request

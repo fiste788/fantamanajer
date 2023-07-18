@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\TeamsTable $Teams
@@ -32,9 +33,9 @@ class TeamsController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function view($id)
+    public function view(int $id): ResponseInterface
     {
-        $this->Crud->on('beforeFind', function (Event $event) {
+        $this->Crud->on('beforeFind', function (Event $event): void {
             /** @var \Cake\ORM\Query $query */
             $query = $event->getSubject()->query;
             $query->contain([
@@ -55,7 +56,7 @@ class TeamsController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function add()
+    public function add(): ResponseInterface
     {
         /** @var \Crud\Action\AddAction $action */
         $action = $this->Crud->action();
@@ -72,7 +73,7 @@ class TeamsController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function edit()
+    public function edit(): ResponseInterface
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();

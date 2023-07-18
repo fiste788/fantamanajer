@@ -13,6 +13,7 @@ use WebPush\Notification;
 /**
  * @property \App\Service\PushNotificationService $PushNotification
  */
+#[\AllowDynamicProperties]
 class SelectionService
 {
     use LocatorAwareTrait;

@@ -41,7 +41,7 @@ class WebauthnController extends AppController
      * @return void
      * @throws \RuntimeException
      */
-    public function publicKeyRequest(WebauthnService $webauthn)
+    public function publicKeyRequest(WebauthnService $webauthn): void
     {
         $publicKeyCredentialRequestOptions = $webauthn->assertionRequest($this->request);
 
@@ -61,7 +61,7 @@ class WebauthnController extends AppController
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function publicKeyCreation(WebauthnService $webauthn)
+    public function publicKeyCreation(WebauthnService $webauthn): void
     {
         $publicKeyCredentialCreationOptions = $webauthn->creationRequest($this->request);
 
@@ -80,7 +80,7 @@ class WebauthnController extends AppController
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function login(UserService $userService)
+    public function login(UserService $userService): void
     {
         $result = $this->Authentication->getResult();
         if ($result != null && $result->isValid()) {
@@ -110,7 +110,7 @@ class WebauthnController extends AppController
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function register(WebauthnService $webauthn)
+    public function register(WebauthnService $webauthn): void
     {
         $token = $webauthn->creationResponse($this->request);
         $this->set([

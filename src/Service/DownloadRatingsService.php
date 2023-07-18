@@ -7,6 +7,8 @@ use App\Model\Entity\Matchday;
 use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
 use Cake\Log\Log;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -18,7 +20,7 @@ class DownloadRatingsService
     /**
      * @var \Cake\Console\ConsoleIo|null
      */
-    private $io;
+    private ?ConsoleIo $io = null;
 
     /**
      * @var string
@@ -45,7 +47,7 @@ class DownloadRatingsService
      * @throws \Symfony\Component\Filesystem\Exception\IOException
      * @throws \Cake\Console\Exception\StopException
      */
-    public function getRatings(Matchday $matchday, $offsetGazzetta = 0, $forceDownload = false): ?string
+    public function getRatings(Matchday $matchday, int $offsetGazzetta = 0, bool $forceDownload = false): ?string
     {
         $year = $matchday->season->year;
         $folder = RATINGS_CSV . $year . DS;
@@ -176,6 +178,7 @@ class DownloadRatingsService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function getRatingsFile(int $matchday): ?string
     {
@@ -224,7 +227,7 @@ class DownloadRatingsService
                 return $link->link()->getUri();
             }
         } else {
-            /** @var string[] $matches */
+            /** @var array<string> $matches */
             $matches = sscanf($button->attr('onclick') ?? '', "window.open('%[^']");
             //preg_match("/window.open\(\'(.*?)\'#is/",,$matches);
             return $matches[0];
@@ -239,7 +242,7 @@ class DownloadRatingsService
      * @param string $url Url
      * @param int $matchday Matchday
      * @param \Cake\Http\Client $http Client
-     * @return null|string
+     * @return string|null
      */
     private function downloadDropboxUrl(string $url, int $matchday, Client $http): ?string
     {
@@ -284,7 +287,7 @@ class DownloadRatingsService
             $this->io?->out("Downloading 1{$downloadUrl} in tmp dir");
 
             return $downloadUrl;
-        } catch (\RuntimeException | \InvalidArgumentException $e) {
+        } catch (RuntimeException | InvalidArgumentException | \LogicException $e) {
             Log::error($e->getTraceAsString());
 
             return null;
@@ -297,7 +300,7 @@ class DownloadRatingsService
      * @param string $path Path
      * @param non-empty-string $sep Sep
      * @param bool $header Header
-     * @return string[][]
+     * @return array<string[]>
      * @psalm-return array<string, non-empty-list<string>>
      */
     public function returnArray(string $path, string $sep = ';', bool $header = false): array

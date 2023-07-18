@@ -42,7 +42,7 @@ class Club extends Entity
     /**
      * Undocumented variable
      *
-     * @var int[]
+     * @var array<int>
      */
     protected $_size = [
         600,
@@ -52,7 +52,7 @@ class Club extends Entity
     /**
      * Undocumented variable
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_virtual = [
         'abbreviation',
@@ -78,7 +78,7 @@ class Club extends Entity
     }
 
     /**
-     * @return null|string[]
+     * @return array<string>|null
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException

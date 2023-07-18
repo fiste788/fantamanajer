@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\PlayersTable $Players
@@ -27,7 +28,7 @@ class PlayersController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function view($id)
+    public function view(int $id): ResponseInterface
     {
         /** @var \Crud\Action\ViewAction $action */
         $action = $this->Crud->action();

@@ -15,7 +15,7 @@ trait HasPhotoTrait
      * @param string $path Path
      * @param string $baseUrl Url
      * @param string|null $name Name
-     * @return null|string[]
+     * @return array<string>|null
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException

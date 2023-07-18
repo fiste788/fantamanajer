@@ -56,7 +56,7 @@ class PublicKeyCredentialSource extends Entity
     /**
      * Fields that are excluded from JSON versions of the entity.
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_hidden = [
         'attestation_type',

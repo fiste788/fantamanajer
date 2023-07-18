@@ -40,7 +40,7 @@ class ScorePolicy
      * @param \App\Model\Entity\Score $score Entity
      * @return bool
      */
-    public function canIndex(User $user, Score $score)
+    public function canIndex(User $user, Score $score): bool
     {
         /**
          * @psalm-suppress RedundantConditionGivenDocblockType
@@ -56,7 +56,7 @@ class ScorePolicy
      * @param \App\Model\Entity\Score $score Entity
      * @return bool
      */
-    public function canEdit(User $user, Score $score)
+    public function canEdit(User $user, Score $score): bool
     {
         /**
          * @psalm-suppress RedundantConditionGivenDocblockType

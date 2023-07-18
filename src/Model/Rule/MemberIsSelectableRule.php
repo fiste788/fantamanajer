@@ -11,6 +11,7 @@ use Cake\Utility\Hash;
 /**
  * @property \App\Service\SelectionService $Selection
  */
+#[\AllowDynamicProperties]
 class MemberIsSelectableRule
 {
     use ServiceAwareTrait;

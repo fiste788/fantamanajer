@@ -43,7 +43,7 @@ class DownloadPhotosCommand extends Command
         $path = IMG_PLAYERS . 'season-new' . DS;
 
         $membersTable = $this->fetchTable('Members');
-        /** @var \App\Model\Entity\Member[] $members */
+        /** @var array<\App\Model\Entity\Member> $members */
         $members = $membersTable->find()
             ->contain(['Players'])
             ->where(['season_id' => $this->currentSeason->id])->all();

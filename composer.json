@@ -5,7 +5,7 @@
     "type": "project",
     "homepage": "https://fantamanajer.it",
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "burzum/cakephp-service-layer": "^2.0",
         "cakephp/authentication": "^2.0",
         "cakephp/authorization": "^2.0",
@@ -88,7 +88,7 @@
         "cs-check": "phpcs --colors -p  src/ tests/",
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "psalm": "psalm",
-        "stan": "phpstan analyse --memory-limit=-1 --xdebug",
+        "stan": "phpstan analyse --memory-limit=-1",
         "test": "phpunit --colors=always",
         "test:all": [
             "composer test:unit",

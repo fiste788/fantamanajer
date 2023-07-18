@@ -15,7 +15,7 @@ class TransfertPolicy
      * @param \App\Model\Entity\Transfert $transfert Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Transfert $transfert)
+    public function canAdd(IdentityInterface $user, Transfert $transfert): bool
     {
         return $user->hasTeam($transfert->team_id);
     }

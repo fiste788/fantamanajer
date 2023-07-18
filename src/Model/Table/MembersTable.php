@@ -1,11 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
 use App\Model\Entity\Member;
 use ArrayObject;
+use Cake\Database\Expression\IdentifierExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -152,7 +152,7 @@ class MembersTable extends Table
      * @param int $season_id Season id
      * @return \Cake\ORM\Query
      */
-    public function findListBySeasonId($season_id)
+    public function findListBySeasonId(int $season_id): Query
     {
         return $this->find('list', [
             'keyField' => 'code_gazzetta',
@@ -383,7 +383,7 @@ class MembersTable extends Table
                 'table' => $contentQuery,
                 'type' => 'LEFT',
                 'conditions' => [
-                    't.Members__id' => new \Cake\Database\Expression\IdentifierExpression('Members.id'),
+                    't.Members__id' => new IdentifierExpression('Members.id'),
                 ],
             ],
         ])

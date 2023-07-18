@@ -7,6 +7,7 @@ use App\Model\Entity\Lineup;
 use App\Service\ComputeScoreService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -44,7 +45,7 @@ class ScoresController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function view(?string $id)
+    public function view(?string $id): ResponseInterface
     {
         $members = (bool)$this->request->getQuery('members', false);
         $this->Crud->on('afterFind', function (Event $event) use ($members) {
@@ -71,7 +72,7 @@ class ScoresController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function edit(ComputeScoreService $computeScore)
+    public function edit(ComputeScoreService $computeScore): ResponseInterface
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
@@ -88,7 +89,7 @@ class ScoresController extends AppController
             ],
         ]);
 
-        $this->Crud->on('afterSave', function (Event $event) use ($computeScore) {
+        $this->Crud->on('afterSave', function (Event $event) use ($computeScore): void {
             /** @var \App\Model\Entity\Score $score */
             $score = $event->getSubject()->entity;
             $computeScore->exec($score);

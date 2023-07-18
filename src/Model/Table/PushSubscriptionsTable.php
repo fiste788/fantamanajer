@@ -137,7 +137,7 @@ class PushSubscriptionsTable extends Table
      * @param \ArrayObject $options Options
      * @return void
      */
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         if ($data->offsetExists('created_at')) {
             $data->offsetUnset('created_at');

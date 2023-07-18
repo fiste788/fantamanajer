@@ -21,7 +21,7 @@ class StreamController extends AppController
      * @throws \InvalidArgumentException
      * @throws \GetStream\Stream\StreamFeedException
      */
-    public function index()
+    public function index(): void
     {
         $teamId = (string)$this->request->getParam('team_id');
         /*if (!$this->Authentication->getIdentity()->hasTeam($teamId)) {

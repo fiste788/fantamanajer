@@ -87,7 +87,7 @@ class AppController extends Controller
      * @return void
      * @throws \Authorization\Exception\ForbiddenException
      */
-    public function afterFind(EventInterface $event)
+    public function afterFind(EventInterface $event): void
     {
         if ($this->Authentication->getIdentity()) {
             $this->Authorization->authorize($event->getSubject()->entity);
@@ -100,7 +100,7 @@ class AppController extends Controller
      * @param \Cake\Event\EventInterface $event Event
      * @return void
      */
-    public function afterPaginate(EventInterface $event)
+    public function afterPaginate(EventInterface $event): void
     {
         if ($this->Authentication->getIdentity()) {
             foreach ($event->getSubject()->entities as $entity) {

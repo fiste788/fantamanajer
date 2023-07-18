@@ -5,6 +5,7 @@ namespace App\Controller\Teams;
 
 use App\Controller\MembersController as AppMembersController;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -34,7 +35,7 @@ class MembersController extends AppMembersController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index()
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
@@ -55,7 +56,7 @@ class MembersController extends AppMembersController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function notMine()
+    public function notMine(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();

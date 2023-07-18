@@ -15,6 +15,7 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 /**
  * @property \App\Service\DownloadRatingsService $DownloadRatings
  */
+#[\AllowDynamicProperties]
 class UpdateMemberService
 {
     use ServiceAwareTrait;
@@ -23,7 +24,7 @@ class UpdateMemberService
     /**
      * @var \Cake\Console\ConsoleIo|null
      */
-    private $io;
+    private ?ConsoleIo $io = null;
 
     /**
      * Undocumented function
@@ -75,7 +76,7 @@ class UpdateMemberService
                     'contain' => ['Players'],
                 ]
             )->where(['season_id' => $matchday->season_id]);
-            /** @var \App\Model\Entity\Member[] $oldMembers */
+            /** @var array<\App\Model\Entity\Member> $oldMembers */
             $oldMembers = $query->toArray();
             $newMembers = $this->DownloadRatings->returnArray($path, ';');
             $buys = [];

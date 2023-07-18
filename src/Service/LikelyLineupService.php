@@ -8,6 +8,9 @@ use App\Model\Entity\Team;
 use Cake\Collection\Collection;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use GuzzleHttp\Client;
+use InvalidArgumentException;
+use RuntimeException;
+use LogicException;
 use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -20,14 +23,14 @@ class LikelyLineupService
      *
      * @var array<string, array<\Symfony\Component\DomCrawler\Crawler>>
      */
-    private $_teams = [];
+    private array $_teams = [];
 
     /**
      * Team array
      *
      * @var array<string, string>
      */
-    private $_versus = [];
+    private array $_versus = [];
 
     /**
      * Entry function
@@ -36,6 +39,7 @@ class LikelyLineupService
      * @return \App\Model\Entity\Team
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function get(int $teamId): Team
     {
@@ -57,10 +61,11 @@ class LikelyLineupService
     /**
      * Retrieve from gazzetta likely lineup
      *
-     * @param \App\Model\Entity\Member[] $members The members
+     * @param array<\App\Model\Entity\Member> $members The members
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function retrieve(array $members): void
     {
@@ -71,7 +76,7 @@ class LikelyLineupService
         if ($html->getStatusCode() == 200) {
             $crawler = new Crawler($html->getBody()->getContents());
             $matches = $crawler->filter('.matchFieldContainer');
-            $matches->each(function (Crawler $match) {
+            $matches->each(function (Crawler $match): void {
                 $this->processMatch($match);
             });
             foreach ($members as &$member) {
@@ -86,11 +91,12 @@ class LikelyLineupService
      * @param \Symfony\Component\DomCrawler\Crawler $match The match
      * @return void
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     private function processMatch(Crawler $match): void
     {
         $i = 0;
-        /** @var string[] $teamsName */
+        /** @var array<string> $teamsName */
         $teamsName = array_map(function (string $v) {
             $v = trim($v);
             $v = strtolower($v);
@@ -131,13 +137,13 @@ class LikelyLineupService
                 if ($find->count() == 0) {
                     $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
                 }
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException | LogicException $e) {
                 $find = null;
             }
             if ($find != null && $find->count() > 0) {
                 try {
                     $title = $find->filter('strong')->text();
-                } catch (\InvalidArgumentException | \RuntimeException $e) {
+                } catch (InvalidArgumentException | RuntimeException | LogicException $e) {
                     $title = '';
                 }
                 switch ($title) {

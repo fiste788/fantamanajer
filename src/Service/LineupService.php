@@ -106,7 +106,7 @@ class LineupService
      * @return \App\Model\Entity\Lineup
      * @throws \Cake\Core\Exception\CakeException
      */
-    public function copy(Lineup $lineup, Matchday $matchday, $isCaptainActive = true, $cloned = true): Lineup
+    public function copy(Lineup $lineup, Matchday $matchday, bool $isCaptainActive = true, bool $cloned = true): Lineup
     {
         $lineup->setAccess('*', true);
         $lineup->team->setAccess('members', true);

@@ -15,7 +15,7 @@ class PushSubscriptionPolicy
      * @param \App\Model\Entity\PushSubscription $subscription Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, PushSubscription $subscription)
+    public function canEdit(IdentityInterface $user, PushSubscription $subscription): bool
     {
         return $user->id == $subscription->user_id;
     }
@@ -27,7 +27,7 @@ class PushSubscriptionPolicy
      * @param \App\Model\Entity\PushSubscription $subscription Entity
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, PushSubscription $subscription)
+    public function canDelete(IdentityInterface $user, PushSubscription $subscription): bool
     {
         return $user->id == $subscription->user_id;
     }
@@ -39,7 +39,7 @@ class PushSubscriptionPolicy
      * @param \App\Model\Entity\PushSubscription $subscription Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, PushSubscription $subscription)
+    public function canAdd(IdentityInterface $user, PushSubscription $subscription): bool
     {
         return $user->id == $subscription->user_id;
     }

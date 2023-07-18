@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\ChampionshipsTable $Championships
@@ -28,7 +29,7 @@ class ChampionshipsController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function edit()
+    public function edit(): ResponseInterface
     {
         /** @var \Crud\Action\AddAction $action */
         $action = $this->Crud->action();

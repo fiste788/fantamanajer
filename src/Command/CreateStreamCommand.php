@@ -15,7 +15,7 @@ class CreateStreamCommand extends Command
     /**
      * @var \GetStream\Stream\Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * @inheritDoc

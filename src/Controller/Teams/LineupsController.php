@@ -6,6 +6,8 @@ namespace App\Controller\Teams;
 use App\Controller\LineupsController as ControllerLineupsController;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
+use Cake\Http\Exception\NotFoundException;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -40,7 +42,7 @@ class LineupsController extends ControllerLineupsController
      * @return \Psr\Http\Message\ResponseInterface|null
      * @throws \Exception
      */
-    public function current()
+    public function current(): ?ResponseInterface
     {
         $team = (int)$this->request->getParam('team_id');
         $that = $this;
@@ -52,7 +54,7 @@ class LineupsController extends ControllerLineupsController
                 'matchday' => $this->currentMatchday,
                 'stats' => true,
             ]]);*/
-            $this->Crud->on('beforeFind', function (Event $event) use ($team, $that) {
+            $this->Crud->on('beforeFind', function (Event $event) use ($team, $that): void {
                 $event->getSubject()->query = $that->Lineups->find('last', [
                     'team_id' => $team,
                     'matchday' => $this->currentMatchday,
@@ -66,14 +68,14 @@ class LineupsController extends ControllerLineupsController
                 'season' => $this->currentSeason->id,
             ])->first();
 
-            $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchday, $that) {
+            $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchday, $that): void {
                 $event->getSubject()->query = $that->Lineups->find('byMatchdayIdAndTeamId', [
                     'matchday_id' => $matchday->id,
                     'team_id' => $team,
                 ])->contain(['Matchdays', 'Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
             });
         }
-        $this->Crud->on('afterFind', function (Event $event) use ($team, $that) {
+        $this->Crud->on('afterFind', function (Event $event) use ($team, $that): void {
             $event->getSubject()->entity = $that->Lineup->duplicate(
                 $event->getSubject()->entity,
                 $team,
@@ -83,7 +85,7 @@ class LineupsController extends ControllerLineupsController
 
         try {
             return $this->Crud->execute();
-        } catch (\Cake\Http\Exception\NotFoundException $e) {
+        } catch (NotFoundException $e) {
             $lineup = $this->Lineup->getEmptyLineup($team);
             $lineup->matchday = $this->currentMatchday;
             $this->set([
@@ -102,8 +104,9 @@ class LineupsController extends ControllerLineupsController
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
-    public function likely()
+    public function likely(): void
     {
         $teamId = (int)$this->request->getParam('team_id');
         $team = $this->LikelyLineup->get($teamId);

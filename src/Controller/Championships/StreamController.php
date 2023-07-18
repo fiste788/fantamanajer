@@ -23,7 +23,7 @@ class StreamController extends AppController
      * @throws \InvalidArgumentException
      * @throws \GetStream\Stream\StreamFeedException
      */
-    public function index()
+    public function index(): void
     {
         $championshipId = (int)$this->request->getParam('championship_id');
         /** @var \App\Model\Entity\User $identity */

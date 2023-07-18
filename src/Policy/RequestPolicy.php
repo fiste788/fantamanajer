@@ -3,16 +3,19 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
+use App\Model\Entity\User;
+use Cake\Http\ServerRequest;
+
 class RequestPolicy
 {
     /**
      * Method to check if the request can be accessed
      *
-     * @param null|\App\Model\Entity\User $identity Identity
+     * @param \App\Model\Entity\User|null $identity Identity
      * @param \Cake\Http\ServerRequest $request Server Request
      * @return bool
      */
-    public function canAccess($identity, \Cake\Http\ServerRequest $request)
+    public function canAccess(?User $identity, ServerRequest $request): bool
     {
         if ($request->getParam('prefix') === 'Admin' && $identity != null && !$identity->admin) {
             return false;

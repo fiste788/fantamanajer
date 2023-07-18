@@ -18,7 +18,7 @@ class GetStreamCommand extends Command
     /**
      * @var \GetStream\Stream\Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * {@inheritDoc}
@@ -30,7 +30,7 @@ class GetStreamCommand extends Command
     {
         parent::initialize();
 
-        /** @var string[] $config */
+        /** @var array<string> $config */
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }
@@ -55,7 +55,7 @@ class GetStreamCommand extends Command
         $timelineFeed = $this->client->feed('timeline', 'general');
 
         $championshipsTable = $this->fetchTable('Championships');
-        /** @var \App\Model\Entity\Championship[] $championsips */
+        /** @var array<\App\Model\Entity\Championship> $championsips */
         $championsips = $championshipsTable->find()->contain(['Teams'])->all();
         foreach ($championsips as $championsip) {
             $this->processChampionship($championsip, $timelineFeed);

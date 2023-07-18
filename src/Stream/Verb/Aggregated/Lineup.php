@@ -15,7 +15,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      */
     public function getBody(): string
     {
-        /** @var \StreamCake\EnrichedActivity[] $activities */
+        /** @var array<\StreamCake\EnrichedActivity> $activities */
         $activities = $this->activity->offsetGet('activities');
 
         /** @var \App\Model\Entity\Lineup $lineup */
@@ -37,7 +37,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      */
     public function getTitle(): string
     {
-        /** @var \StreamCake\EnrichedActivity[] $activities */
+        /** @var array<\StreamCake\EnrichedActivity> $activities */
         $activities = $this->activity->offsetGet('activities');
 
         /** @var \App\Model\Entity\Lineup $lineup */
@@ -65,7 +65,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
     /**
      * Get contain
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function contain(): array
     {

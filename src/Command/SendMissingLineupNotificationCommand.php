@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -76,13 +75,13 @@ class SendMissingLineupNotificationCommand extends Command
         ) {
             $io->out('Start');
 
-            /** @var string[] $config */
+            /** @var array<string> $config */
             $config = Configure::read('GetStream.default');
             $client = new Client($config['appKey'], $config['appSecret']);
 
             $lineupsTable = $this->fetchTable('Lineups');
             $teamsTable = $this->fetchTable('Teams');
-            /** @var \App\Model\Entity\Team[] $teams */
+            /** @var array<\App\Model\Entity\Team> $teams */
             $teams = $teamsTable->find()
                 ->contain(['Users.PushSubscriptions', 'Championships'])
                 ->innerJoinWith('Championships')

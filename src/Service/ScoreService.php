@@ -14,7 +14,7 @@ class ScoreService
      * Create missing points
      *
      * @param \App\Model\Entity\Team $team Team
-     * @return \App\Model\Entity\Score[]
+     * @return array<\App\Model\Entity\Score>
      * @psalm-return list<\App\Model\Entity\Score>
      * @throws \Cake\Core\Exception\CakeException
      */

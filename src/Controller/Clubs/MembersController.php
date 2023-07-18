@@ -5,6 +5,7 @@ namespace App\Controller\Clubs;
 
 use App\Controller\AppController;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -42,7 +43,7 @@ class MembersController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index()
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();

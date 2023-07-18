@@ -15,7 +15,7 @@ class UserPolicy
      * @param \App\Model\Entity\User $user Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $identity, User $user)
+    public function canEdit(IdentityInterface $identity, User $user): bool
     {
         return $identity->id == $user->id;
     }

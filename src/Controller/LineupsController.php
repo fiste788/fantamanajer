@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\LineupsTable $Lineups
@@ -31,12 +32,12 @@ class LineupsController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function add()
+    public function add(): ResponseInterface
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
         $action->saveOptions(['associated' => ['Dispositions']]);
-        $this->Crud->on('beforeSave', function (Event $event) {
+        $this->Crud->on('beforeSave', function (Event $event): void {
             /** @var \App\Model\Entity\Lineup $lineup */
             $lineup = $event->getSubject()->entity;
             $lineup->matchday_id = $this->currentMatchday->id;
@@ -52,12 +53,12 @@ class LineupsController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function edit()
+    public function edit(): ResponseInterface
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
         $action->saveOptions(['associated' => ['Dispositions']]);
-        $this->Crud->on('beforeSave', function (Event $event) {
+        $this->Crud->on('beforeSave', function (Event $event): void {
             /** @var \App\Model\Entity\Lineup $lineup */
             $lineup = $event->getSubject()->entity;
             $lineup->matchday_id = $this->currentMatchday->id;

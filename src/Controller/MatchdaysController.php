@@ -32,7 +32,7 @@ class MatchdaysController extends AppController
      * @throws \Crud\Error\Exception\MissingActionException
      * @throws \RuntimeException
      */
-    public function current()
+    public function current(): void
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();

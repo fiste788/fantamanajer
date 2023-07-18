@@ -86,7 +86,7 @@ class TransfertCommand extends Command
             $table = [];
             $table[] = ['Team', 'New Member', 'Old Member'];
             if (!$selections->isEmpty()) {
-                /** @var \App\Model\Entity\Selection[] $selectionsArray */
+                /** @var array<\App\Model\Entity\Selection> $selectionsArray */
                 $selectionsArray = $selections->toList();
                 foreach ($selectionsArray as $selection) {
                     $selection->processed = true;
@@ -113,7 +113,7 @@ class TransfertCommand extends Command
      * Do transferts
      *
      * @param \Cake\Console\ConsoleIo $io Io
-     * @param \App\Model\Entity\Selection[] $selections Selections
+     * @param array<\App\Model\Entity\Selection> $selections Selections
      * @return void
      * @throws \Cake\Core\Exception\CakeException
      */

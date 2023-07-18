@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Authentication\Identifier;
 
+use ArrayAccess;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
@@ -11,6 +12,7 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 /**
  * @property \App\Service\WebauthnService $Webauthn
  */
+#[\AllowDynamicProperties]
 class WebauthnHandleIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
@@ -72,9 +74,9 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * @return \ArrayAccess|array|null
      * @throws \RuntimeException
      */
-    protected function _findIdentity(string $identifier)
+    protected function _findIdentity(string $identifier): ArrayAccess|array|null
     {
-        /** @var string[] $fields */
+        /** @var array<string> $fields */
         $fields = (array)$this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
         foreach ($fields as $field) {

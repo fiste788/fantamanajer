@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -14,6 +13,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
 use Cake\I18n\FrozenTime;
+use DateTimeInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class GetMatchdayScheduleCommand extends Command
@@ -85,11 +85,12 @@ class GetMatchdayScheduleCommand extends Command
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
-    public function exec(Season $season, Matchday $matchday, ConsoleIo $io)
+    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): FrozenTime|false|null
     {
         $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
-        $url = "/it/serie-a/";
+        $url = '/it/serie-a/';
         $io->verbose('Downloading page ' . $url);
         $client = new Client(
             [
@@ -108,7 +109,7 @@ class GetMatchdayScheduleCommand extends Command
             if ($seasonOption->count()) {
                 $seasonId = $seasonOption->first()->attr('value');
                 if ($seasonId) {
-                    $matchdayResponse = $client->get('/api/season/' .  $seasonId . '/championship/A/matchday?lang=it');
+                    $matchdayResponse = $client->get('/api/season/' . $seasonId . '/championship/A/matchday?lang=it');
                     /**
                      * @psalm-suppress MixedArrayAccess
                      * @var array $matchdays
@@ -126,14 +127,19 @@ class GetMatchdayScheduleCommand extends Command
                             /**
                              * @psalm-suppress MixedOperand
                              */
-                            $matchsResponse = $client->get('/api/match?extra_link&order=oldest&lang=it&season_id=' . $season . '&match_day_id=' . $matchdayItem['id_category']);
+                            $matchsResponse = $client->get(
+                                '/api/match?extra_link&order=oldest&lang=it&season_id=' .
+                                $season .
+                                '&match_day_id=' .
+                                 $matchdayItem['id_category']
+                            );
                             /** @var string $date */
                             $date = $matchsResponse->getJson()['data'][0]['date_time'];
 
                             if ($date != '') {
                                 $io->success($date);
-                                $out = FrozenTime::createFromFormat(\DateTimeInterface::ATOM,$date);
-								$io->verbose($out);
+                                $out = FrozenTime::createFromFormat(DateTimeInterface::ATOM, $date);
+                                $io->verbose($out->__toString());
 
                                 return $out;
                             } else {

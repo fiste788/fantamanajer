@@ -43,7 +43,7 @@ class MembersController extends AppController
      * @return void
      * @throws \RuntimeException
      */
-    public function best()
+    public function best(): void
     {
         // $this->withMatchdayCache();
 

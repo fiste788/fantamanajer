@@ -16,6 +16,7 @@ use Cake\ORM\Query;
  *
  * @property \App\Service\DownloadRatingsService $DownloadRatings
  */
+#[\AllowDynamicProperties]
 class RatingService
 {
     use ServiceAwareTrait;
@@ -24,7 +25,7 @@ class RatingService
     /**
      * @var \Cake\Console\ConsoleIo|null
      */
-    private $io;
+    private ?ConsoleIo $io = null;
 
     /**
      * Undocumented function
@@ -130,7 +131,7 @@ class RatingService
 
             /** @var \App\Model\Table\MembersTable $membersTable */
             $membersTable = $this->fetchTable('Members');
-            /** @var \App\Model\Entity\Member[] $members */
+            /** @var array<\App\Model\Entity\Member> $members */
             $members = $membersTable->findListBySeasonId($matchday->season_id)
                 ->contain(['Roles', 'Ratings' => function (Query $q) use ($matchday): Query {
                     return $q->where(['matchday_id' => $matchday->id]);

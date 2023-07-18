@@ -43,7 +43,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      */
     protected function _buildLoginUrlErrorResult(ServerRequestInterface $request): Result
     {
-        /** @var string[] $config */
+        /** @var array<string> $config */
         $config = $this->getConfig('loginUrl');
         $errors = [
             sprintf(
@@ -88,14 +88,14 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * Undocumented function
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     * @return null|string
+     * @return string|null
      */
     public function getPublicKey(ServerRequestInterface $request): ?string
     {
         /** @var \Cake\Http\ServerRequest $cakeRequest */
         $cakeRequest = $request;
 
-        /** @var null|string $key */
+        /** @var string|null $key */
         $key = $cakeRequest->getSession()->consume('User.PublicKey');
 
         return $key != null ? $key : null;
@@ -105,14 +105,14 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * Undocumented function
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     * @return null|string
+     * @return string|null
      */
     public function getUserHandle(ServerRequestInterface $request): ?string
     {
         /** @var \Cake\Http\ServerRequest $cakeRequest */
         $cakeRequest = $request;
 
-        /** @var null|string $handle */
+        /** @var string|null $handle */
         $handle = $cakeRequest->getSession()->consume('User.Handle');
 
         return $handle != null ? $handle : null;

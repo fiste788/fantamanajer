@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 use App\Controller\AppController;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\TransfertsTable $Transferts
@@ -35,12 +36,12 @@ class TransfertsController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function add()
+    public function add(): ResponseInterface
     {
         /** @var \Crud\Action\AddAction $action */
         $action = $this->Crud->action();
         $action->saveOptions(['associated' => []]);
-        $this->Crud->on('afterSave', function (EventInterface $event) {
+        $this->Crud->on('afterSave', function (EventInterface $event): void {
             if ($event->getSubject()->success) {
                 /** @var \App\Model\Entity\Transfert $transfert */
                 $transfert = $event->getSubject()->entity;

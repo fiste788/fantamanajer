@@ -51,7 +51,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
      * Undocumented function
      *
      * @param \Webauthn\PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity arg
-     * @return \Webauthn\PublicKeyCredentialSource[]
+     * @return array<\Webauthn\PublicKeyCredentialSource>
      * @throws \RuntimeException
      * @psalm-return array<array-key, \Webauthn\PublicKeyCredentialSource>
      */
@@ -61,7 +61,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
             'user_handle' => $publicKeyCredentialUserEntity->getId(),
         ]);
 
-        /** @var \Webauthn\PublicKeyCredentialSource[] $credentials */
+        /** @var array<\Webauthn\PublicKeyCredentialSource> $credentials */
         $credentials = $sources->all()->map(function (PublicKeyCredentialSource $value) {
             return $value->toCredentialSource();
         })->toList();

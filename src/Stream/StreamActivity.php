@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use Cake\I18n\FrozenTime;
 use StreamCake\EnrichedActivity;
 
 /**
@@ -13,37 +14,37 @@ abstract class StreamActivity implements StreamActivityInterface
     /**
      * @var \StreamCake\EnrichedActivity $activity
      */
-    protected $activity;
+    protected EnrichedActivity $activity;
 
     /**
      * @var \Cake\I18n\FrozenTime
      */
-    protected $timeStamp;
+    protected FrozenTime $timeStamp;
 
     /**
      * @var string $title
      */
-    public $title;
+    public string $title;
 
     /**
      * @var string
      */
-    public $time;
+    public string $time;
 
     /**
      * @var string $humanTime
      */
-    public $humanTime;
+    public string $humanTime;
 
     /**
      * @var string $icon
      */
-    public $icon;
+    public string $icon;
 
     /**
      * @var string|null $body
      */
-    public $body;
+    public ?string $body = null;
 
     /**
      * @param \StreamCake\EnrichedActivity $activity Activity
@@ -62,7 +63,7 @@ abstract class StreamActivity implements StreamActivityInterface
     /**
      * Get contain
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function contain(): array
     {

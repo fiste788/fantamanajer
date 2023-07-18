@@ -27,7 +27,7 @@ class LineupPolicy
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Lineup $lineup)
+    public function canAdd(IdentityInterface $user, Lineup $lineup): bool
     {
         return $user->hasTeam($lineup->team_id);
     }
@@ -39,7 +39,7 @@ class LineupPolicy
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, Lineup $lineup)
+    public function canEdit(IdentityInterface $user, Lineup $lineup): bool
     {
         return $user->hasTeam($lineup->team_id);
     }
@@ -51,7 +51,7 @@ class LineupPolicy
      * @param \App\Model\Entity\Lineup $lineup Lineup
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, Lineup $lineup)
+    public function canDelete(IdentityInterface $user, Lineup $lineup): bool
     {
         return $user->hasTeam($lineup->team_id);
     }

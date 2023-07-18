@@ -18,14 +18,14 @@ class GetStreamEventListener implements EventListenerInterface
     /**
      * @var \GetStream\Stream\Client
      */
-    private $client;
+    private Client $client;
 
     /**
      * @inheritDoc
      */
     public function __construct()
     {
-        /** @var string[] $config */
+        /** @var array<string> $config */
         $config = Configure::read('GetStream.default');
         $this->client = new Client($config['appKey'], $config['appSecret']);
     }

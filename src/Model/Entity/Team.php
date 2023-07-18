@@ -69,7 +69,7 @@ class Team extends Entity
     /**
      * Undocumented variable
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_hidden = [
         'photo',
@@ -81,16 +81,16 @@ class Team extends Entity
     /**
      * Undocumented variable
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_virtual = [
         'photo_url',
     ];
 
     /**
-     * @var int[]
+     * @var array<int>
      */
-    public static $size = [
+    public static array $size = [
         1280,
         600,
         240,
@@ -99,7 +99,7 @@ class Team extends Entity
     /**
      * Get photo
      *
-     * @return null|string[]
+     * @return array<string>|null
      * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
      * @throws \Cake\Core\Exception\CakeException
      * @throws \LogicException
@@ -151,7 +151,7 @@ class Team extends Entity
     }
 
     /**
-     * @param \App\Model\Entity\NotificationSubscription[] $collection Collection
+     * @param array<\App\Model\Entity\NotificationSubscription> $collection Collection
      * @param string $name Name
      * @return bool
      */

@@ -7,6 +7,8 @@
     errorLevel="1"
     allowStringToStandInForClass="true"
     checkForThrowsDocblock="true"
+    findUnusedCode="false"
+    findUnusedBaselineEntry="true"
     usePhpDocPropertiesWithoutMagicCall="true"
     usePhpDocMethodsWithoutMagicCall="true"
     autoloader="config/bootstrap.php">

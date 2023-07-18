@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -102,7 +101,7 @@ class WeeklyScriptCommand extends Command
         }
         if (!$args->getOption('no_calc_scores')) {
             $championshipsTable = $this->fetchTable('Championships');
-            /** @var \App\Model\Entity\Championship[] $championships */
+            /** @var array<\App\Model\Entity\Championship> $championships */
             $championships = $championshipsTable->find()
                 ->contain([
                     'Leagues',
@@ -133,13 +132,13 @@ class WeeklyScriptCommand extends Command
      * Calculate points
      *
      * @param \App\Model\Entity\Matchday $matchday Matchday
-     * @param \App\Model\Entity\Championship[] $championships Championship
+     * @param array<\App\Model\Entity\Championship> $championships Championship
      * @param \Cake\Console\Arguments $args Aguments
      * @param \Cake\Console\ConsoleIo $io Io
      * @return void
      * @throws \Cake\Core\Exception\CakeException
      */
-    protected function calculatePoints(Matchday $matchday, $championships, Arguments $args, ConsoleIo $io): void
+    protected function calculatePoints(Matchday $matchday, array $championships, Arguments $args, ConsoleIo $io): void
     {
         $scoresTable = $this->fetchTable('Scores');
         $scores = [];
@@ -169,7 +168,7 @@ class WeeklyScriptCommand extends Command
     /**
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \App\Model\Entity\Championship $championship Championship
-     * @param \App\Model\Entity\Score[] $scores Scores
+     * @param array<\App\Model\Entity\Score> $scores Scores
      * @param \Cake\Console\ConsoleIo $io IO
      * @return void
      * @throws \ErrorException

@@ -61,7 +61,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     /**
      * Fields that are excluded from JSON versions of the entity.
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_hidden = [
         'password',
@@ -115,7 +115,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return bool
      */
-    public function can(string $action, $resource): bool
+    public function can(string $action, mixed $resource): bool
     {
         return $this->authorization->can($this, $action, $resource);
     }
@@ -127,7 +127,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return \Authorization\Policy\ResultInterface
      */
-    public function canResult(string $action, $resource): ResultInterface
+    public function canResult(string $action, mixed $resource): ResultInterface
     {
         return $this->authorization->canResult($this, $action, $resource);
     }
@@ -139,7 +139,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return mixed
      */
-    public function applyScope(string $action, $resource)
+    public function applyScope(string $action, mixed $resource): mixed
     {
         return $this->authorization->applyScope($this, $action, $resource);
     }

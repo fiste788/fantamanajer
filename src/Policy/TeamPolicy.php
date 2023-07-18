@@ -15,7 +15,7 @@ class TeamPolicy
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
-    public function canView(IdentityInterface $user, Team $team)
+    public function canView(IdentityInterface $user, Team $team): bool
     {
         return $user->isInChampionship($team->championship_id);
     }
@@ -27,7 +27,7 @@ class TeamPolicy
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Team $team)
+    public function canAdd(IdentityInterface $user, Team $team): bool
     {
         return $user->admin || ($user->isChampionshipAdmin($team->championship_id));
     }
@@ -39,7 +39,7 @@ class TeamPolicy
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, Team $team)
+    public function canEdit(IdentityInterface $user, Team $team): bool
     {
         return $user->hasTeam($team->id) || $user->admin;
     }
@@ -63,7 +63,7 @@ class TeamPolicy
      * @param \App\Model\Entity\Team $team Entity
      * @return bool
      */
-    public function canIndex(IdentityInterface $user, Team $team)
+    public function canIndex(IdentityInterface $user, Team $team): bool
     {
         return $user->isInChampionship($team->championship_id);
     }

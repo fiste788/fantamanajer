@@ -38,7 +38,7 @@ class Player extends Entity
     /**
      * Undocumented variable
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_virtual = [
         'photo_url',

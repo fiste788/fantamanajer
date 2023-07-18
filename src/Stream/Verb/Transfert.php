@@ -55,7 +55,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
     /**
      * Get contain
      *
-     * @return string[]
+     * @return array<string>
      */
     public static function contain(): array
     {

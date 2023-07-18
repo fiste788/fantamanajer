@@ -47,7 +47,7 @@ class PushSubscription extends Entity
     /**
      * Fields that are excluded from JSON an array versions of the entity.
      *
-     * @var string[]
+     * @var array<string>
      */
     protected $_hidden = [
         'auth_token',

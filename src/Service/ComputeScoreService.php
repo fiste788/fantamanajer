@@ -14,6 +14,7 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 /**
  * @property \App\Service\LineupService $Lineup
  */
+#[\AllowDynamicProperties]
 class ComputeScoreService
 {
     use LocatorAwareTrait;
@@ -147,8 +148,11 @@ class ComputeScoreService
      * @param bool $subtractBonusCleanSheet Subtract bonus clean sheet
      * @return float
      */
-    public function compute(Lineup $lineup, $subtractBonusGoals = false, $subtractBonusCleanSheet = false): float
-    {
+    public function compute(
+        Lineup $lineup,
+        bool $subtractBonusGoals = false,
+        bool $subtractBonusCleanSheet = false
+    ): float {
         $sum = 0;
         $cap = null;
         $substitution = 0;
@@ -227,7 +231,7 @@ class ComputeScoreService
         Disposition $disposition,
         bool $subtractBonusGoals,
         bool $subtractBonusCleanSheet,
-        $cap = null
+        ?int $cap = null
     ): float {
         $disposition->consideration = 1;
         $rating = $disposition->member->ratings[0];

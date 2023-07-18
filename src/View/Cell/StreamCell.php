@@ -18,7 +18,7 @@ class StreamCell extends Cell
      * @return void
      * @throws \GetStream\Stream\StreamFeedException
      */
-    public function display(string $feedName, string $id, $aggregated = false): void
+    public function display(string $feedName, string $id, bool $aggregated = false): void
     {
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);

@@ -15,7 +15,7 @@ class ArticlePolicy
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Article $article)
+    public function canAdd(IdentityInterface $user, Article $article): bool
     {
         return $user->hasTeam($article->team_id);
     }
@@ -27,7 +27,7 @@ class ArticlePolicy
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, Article $article)
+    public function canEdit(IdentityInterface $user, Article $article): bool
     {
         return $user->hasTeam($article->team_id);
     }
@@ -39,7 +39,7 @@ class ArticlePolicy
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
-    public function canView(IdentityInterface $user, Article $article)
+    public function canView(IdentityInterface $user, Article $article): bool
     {
         return $user->hasTeam($article->team_id);
     }
@@ -51,7 +51,7 @@ class ArticlePolicy
      * @param \App\Model\Entity\Article $article Entity
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, Article $article)
+    public function canDelete(IdentityInterface $user, Article $article): bool
     {
         return $user->hasTeam($article->team_id);
     }
@@ -63,7 +63,7 @@ class ArticlePolicy
      * @param \App\Model\Entity\Article $article Article
      * @return bool
      */
-    public function canIndex(IdentityInterface $user, Article $article)
+    public function canIndex(IdentityInterface $user, Article $article): bool
     {
         return $user->hasTeam($article->team_id);
     }

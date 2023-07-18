@@ -15,7 +15,7 @@ class ChampionshipPolicy
      * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Championship $championship)
+    public function canAdd(IdentityInterface $user, Championship $championship): bool
     {
         return $user->admin;
     }
@@ -27,7 +27,7 @@ class ChampionshipPolicy
      * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, Championship $championship)
+    public function canEdit(IdentityInterface $user, Championship $championship): bool
     {
         return $user->admin;
     }
@@ -39,7 +39,7 @@ class ChampionshipPolicy
      * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, Championship $championship)
+    public function canDelete(IdentityInterface $user, Championship $championship): bool
     {
         return $user->admin;
     }
@@ -51,7 +51,7 @@ class ChampionshipPolicy
      * @param \App\Model\Entity\Championship $championship Championship
      * @return bool
      */
-    public function canIndex(IdentityInterface $user, Championship $championship)
+    public function canIndex(IdentityInterface $user, Championship $championship): bool
     {
         return $user->admin;
     }

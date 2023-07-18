@@ -6,6 +6,7 @@ namespace App\Controller\Teams;
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
 use Cake\Event\EventInterface;
+use StreamCake\FeedManager;
 
 /**
  * @property \Cake\ORM\Table $Notifications
@@ -34,10 +35,10 @@ class NotificationsController extends AppController
      * @return void
      * @throws \GetStream\Stream\StreamFeedException
      */
-    public function count()
+    public function count(): void
     {
         $teamId = (string)$this->request->getParam('team_id');
-        $manager = new \StreamCake\FeedManager();
+        $manager = new FeedManager();
         $feed = $manager->getFeed('notification', $teamId);
         $stream = $feed->getActivities(0, 20);
 
@@ -56,7 +57,7 @@ class NotificationsController extends AppController
      * @return void
      * @throws \GetStream\Stream\StreamFeedException
      */
-    public function index()
+    public function index(): void
     {
         $teamId = (string)$this->request->getParam('team_id');
         $manager = new ActivityManager();

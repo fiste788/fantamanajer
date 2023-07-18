@@ -5,6 +5,7 @@ namespace App\Controller\Teams;
 
 use Cake\Event\EventInterface;
 use Cake\ORM\Query;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\ScoresTable $Scores
@@ -45,7 +46,7 @@ class ScoresController extends \App\Controller\ScoresController
      * @return void
      * @throws \Exception
      */
-    public function last()
+    public function last(): void
     {
         $this->viewByMatchday();
     }
@@ -57,7 +58,7 @@ class ScoresController extends \App\Controller\ScoresController
      * @return void
      * @throws \Exception
      */
-    public function viewByMatchday($matchdayId = null)
+    public function viewByMatchday(?int $matchdayId = null): void
     {
         $conditions = [
             'team_id' => (int)$this->getRequest()->getParam('team_id'),
@@ -84,7 +85,7 @@ class ScoresController extends \App\Controller\ScoresController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index()
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();

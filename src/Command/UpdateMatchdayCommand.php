@@ -58,6 +58,7 @@ class UpdateMatchdayCommand extends Command
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
@@ -82,6 +83,7 @@ class UpdateMatchdayCommand extends Command
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function exec(Season $season, int $matchdayNumber, Arguments $args, ConsoleIo $io): int
     {

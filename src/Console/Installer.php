@@ -22,6 +22,7 @@ if (!defined('STDIN')) {
 }
 
 use Cake\Utility\Security;
+use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Exception;
 
@@ -52,7 +53,7 @@ class Installer
      * @throws \Exception Exception raised by validator.
      * @return void
      */
-    public static function postInstall(Event $event)
+    public static function postInstall(Event $event): void
     {
         $io = $event->getIO();
 
@@ -77,7 +78,7 @@ class Installer
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function createAppLocalConfig($dir, $io)
+    public static function createAppLocalConfig(string $dir, IOInterface $io): void
     {
         $appLocalConfig = $dir . '/config/app_local.php';
         $appLocalConfigTemplate = $dir . '/config/app_local.example.php';
@@ -94,7 +95,7 @@ class Installer
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function createWritableDirectories($dir, $io)
+    public static function createWritableDirectories(string $dir, IOInterface $io): void
     {
         foreach (static::WRITABLE_DIRS as $path) {
             $path = $dir . '/' . $path;
@@ -114,7 +115,7 @@ class Installer
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function setFolderPermissions($dir, $io)
+    public static function setFolderPermissions(string $dir, IOInterface $io): void
     {
         // ask if the permissions should be changed
         if ($io->isInteractive()) {
@@ -178,7 +179,7 @@ class Installer
      * @param \Composer\IO\IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function setSecuritySalt($dir, $io)
+    public static function setSecuritySalt(string $dir, IOInterface $io): void
     {
         $newKey = hash('sha256', Security::randomBytes(64));
         static::setSecuritySaltInFile($dir, $io, $newKey, 'app_local.php');
@@ -193,7 +194,7 @@ class Installer
      * @param string $file A path to a file relative to the application's root
      * @return void
      */
-    public static function setSecuritySaltInFile($dir, $io, $newKey, $file)
+    public static function setSecuritySaltInFile(string $dir, IOInterface $io, string $newKey, string $file): void
     {
         $config = $dir . '/config/' . $file;
         $content = file_get_contents($config);
@@ -224,7 +225,7 @@ class Installer
      * @param string $file A path to a file relative to the application's root
      * @return void
      */
-    public static function setAppNameInFile($dir, $io, $appName, $file)
+    public static function setAppNameInFile(string $dir, IOInterface $io, string $appName, string $file): void
     {
         $config = $dir . '/config/' . $file;
         $content = file_get_contents($config);

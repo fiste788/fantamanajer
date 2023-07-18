@@ -62,7 +62,7 @@ class SendLineupsEmailCommand extends Command
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
             $championshipsTable = $this->fetchTable('Championships');
-            /** @var \App\Model\Entity\Championship[] $championships */
+            /** @var array<\App\Model\Entity\Championship> $championships */
             $championships = $championshipsTable->find()
                 ->contain(['Teams' => function (Query $q): Query {
                     return $q->contain(['Users'])

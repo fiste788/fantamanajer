@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use App\Model\Entity\Matchday;
+use App\Model\Entity\Season;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use RuntimeException;
 
@@ -19,14 +21,14 @@ trait CurrentMatchdayTrait
      *
      * @var \App\Model\Entity\Matchday $currentMatchday
      */
-    protected $currentMatchday;
+    protected Matchday $currentMatchday;
 
     /**
      * Current season
      *
      * @var \App\Model\Entity\Season $currentSeason
      */
-    protected $currentSeason;
+    protected Season $currentSeason;
 
     /**
      * Set the current matchday

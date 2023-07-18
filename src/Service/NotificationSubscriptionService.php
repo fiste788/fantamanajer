@@ -14,7 +14,7 @@ class NotificationSubscriptionService
      * Create default push
      *
      * @param \App\Model\Entity\Team $team Team
-     * @return \App\Model\Entity\NotificationSubscription[]
+     * @return array<\App\Model\Entity\NotificationSubscription>
      * @throws \Cake\Core\Exception\CakeException
      */
     public function createDefaultPushSubscription(Team $team): array
@@ -32,7 +32,7 @@ class NotificationSubscriptionService
      * Create default email
      *
      * @param \App\Model\Entity\Team $team Team
-     * @return \App\Model\Entity\NotificationSubscription[]
+     * @return array<\App\Model\Entity\NotificationSubscription>
      * @throws \Cake\Core\Exception\CakeException
      */
     public function createDefaultEmailSubscription(Team $team): array

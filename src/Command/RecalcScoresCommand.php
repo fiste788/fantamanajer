@@ -40,7 +40,7 @@ class RecalcScoresCommand extends Command
         $io->out('Finding scores');
         /** @var \App\Model\Table\ScoresTable $scoresTable */
         $scoresTable = $this->fetchTable('Scores');
-        /** @var \App\Model\Entity\Score[] $scores */
+        /** @var array<\App\Model\Entity\Score> $scores */
         $scores = $scoresTable->find()
             ->contain(['Teams.Championships','Matchdays.Seasons'])
             ->where(['Matchdays.season_id' => 17])->all();

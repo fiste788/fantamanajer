@@ -5,12 +5,14 @@ namespace App\Service;
 
 use App\Model\Entity\MembersTeam;
 use App\Model\Entity\Transfert;
+use ArrayObject;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Service\LineupService $Lineup
  */
+#[\AllowDynamicProperties]
 class TransfertService
 {
     use LocatorAwareTrait;
@@ -53,7 +55,7 @@ class TransfertService
         ])->first();
         $rec->member_id = $transfert->new_member_id;
 
-        $recs = new \ArrayObject();
+        $recs = new ArrayObject();
         $recs->append($rec);
 
         /** @var \App\Model\Entity\MembersTeam|null $rec2 */

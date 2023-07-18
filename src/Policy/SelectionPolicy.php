@@ -15,7 +15,7 @@ class SelectionPolicy
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Selection $selection)
+    public function canAdd(IdentityInterface $user, Selection $selection): bool
     {
         return $user->hasTeam($selection->team_id);
     }
@@ -27,7 +27,7 @@ class SelectionPolicy
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, Selection $selection)
+    public function canEdit(IdentityInterface $user, Selection $selection): bool
     {
         return $user->hasTeam($selection->team_id);
     }
@@ -39,7 +39,7 @@ class SelectionPolicy
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, Selection $selection)
+    public function canDelete(IdentityInterface $user, Selection $selection): bool
     {
         return $user->hasTeam($selection->team_id);
     }
@@ -51,7 +51,7 @@ class SelectionPolicy
      * @param \App\Model\Entity\Selection $selection Entity
      * @return bool
      */
-    public function canIndex(IdentityInterface $user, Selection $selection)
+    public function canIndex(IdentityInterface $user, Selection $selection): bool
     {
         return $user->hasTeam($selection->team_id);
     }

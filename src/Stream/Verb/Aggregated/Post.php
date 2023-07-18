@@ -25,7 +25,7 @@ class Post extends StreamAggregatedActivity implements StreamActivityInterface
      */
     public function getTitle(): string
     {
-        /** @var \StreamCake\EnrichedActivity[] $activities */
+        /** @var array<\StreamCake\EnrichedActivity> $activities */
         $activities = $this->activity->offsetGet('activities');
 
         /** @var \App\Model\Entity\Team $team */

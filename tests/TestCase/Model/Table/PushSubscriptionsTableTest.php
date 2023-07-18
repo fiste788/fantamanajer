@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\PushSubscriptionsTable;
+use ArrayObject;
 use Cake\Event\Event;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\RulesChecker;
@@ -96,11 +97,11 @@ class PushSubscriptionsTableTest extends TestCase
      */
     public function testBeforeMarshal(): void
     {
-        $data = new \ArrayObject([
+        $data = new ArrayObject([
             'created_at' => new FrozenTime(),
             'modified_at' => new FrozenTime(),
         ]);
-        $this->PushSubscriptions->beforeMarshal(new Event('', null, null), $data, new \ArrayObject());
+        $this->PushSubscriptions->beforeMarshal(new Event('', null, null), $data, new ArrayObject());
         $this->assertArrayNotHasKey('created_at', $data, 'Created_at non unsetted');
         $this->assertArrayNotHasKey('modified_at', $data, 'Modified_at non unsetted');
     }

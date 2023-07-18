@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -11,6 +10,7 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Utility\Hash;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Service\UserService $User
@@ -48,7 +48,7 @@ class UsersController extends AppController
      *
      * @return void
      */
-    public function current()
+    public function current(): void
     {
         $this->set([
             'success' => true,
@@ -64,7 +64,7 @@ class UsersController extends AppController
      * @throws \Authentication\Authenticator\UnauthenticatedException
      * @throws \InvalidArgumentException
      */
-    public function login()
+    public function login(): void
     {
         $result = $this->Authentication->getResult();
         if ($result != null && $result->isValid()) {
@@ -101,7 +101,7 @@ class UsersController extends AppController
      *
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         $this->Authentication->logout();
         $this->set(
@@ -121,7 +121,7 @@ class UsersController extends AppController
      * @throws \InvalidArgumentException
      * @throws \Authorization\Exception\ForbiddenException
      */
-    public function stream()
+    public function stream(): void
     {
         $userId = (int)$this->request->getParam('user_id');
         $identity = $this->Authentication->getIdentity();
@@ -146,9 +146,9 @@ class UsersController extends AppController
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Exception
      */
-    public function edit()
+    public function edit(): ResponseInterface
     {
-        $this->Crud->on('beforeSave', function (Event $event) {
+        $this->Crud->on('beforeSave', function (Event $event): void {
             $hasher = new DefaultPasswordHasher();
 
             /** @var \App\Model\Entity\User $user */

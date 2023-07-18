@@ -13,6 +13,7 @@ use GetStream\Stream\Client;
  * @property \App\Service\NotificationSubscriptionService $NotificationSubscription
  * @property \App\Service\ScoreService $Score
  */
+#[\AllowDynamicProperties]
 class TeamService
 {
     use LocatorAwareTrait;

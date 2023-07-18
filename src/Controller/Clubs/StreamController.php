@@ -21,7 +21,7 @@ class StreamController extends AppController
      * @throws \InvalidArgumentException
      * @throws \GetStream\Stream\StreamFeedException
      */
-    public function index()
+    public function index(): void
     {
         $clubId = (string)$this->request->getParam('club_id');
 

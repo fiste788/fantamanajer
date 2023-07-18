@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use Cake\I18n\FrozenTime;
+use RuntimeException;
 
 /**
  * Description of StreamSingleActivity
@@ -32,6 +33,6 @@ abstract class StreamSingleActivity extends StreamActivity
             return $res;
         }
 
-        throw new \RuntimeException('Unable to determine updated at activity time');
+        throw new RuntimeException('Unable to determine updated at activity time');
     }
 }

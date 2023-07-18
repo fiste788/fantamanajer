@@ -6,6 +6,7 @@ namespace App\Controller\Teams;
 use App\Controller\SelectionsController as AppSelectionsController;
 use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\SelectionsTable $Selections
@@ -39,7 +40,7 @@ class SelectionsController extends AppSelectionsController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Exception
      */
-    public function index()
+    public function index(): ResponseInterface
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
