@@ -76,8 +76,8 @@ class WebauthnService
     {
         // User Entity
         return PublicKeyCredentialUserEntity::create(
-            (string)$user->id,
-            (string)$user->uuid,
+            (string) $user->email,
+            (string) $user->uuid,
             ($user->name ?? '') . ' ' . ($user->surname ?? ''),
             null
         );
@@ -90,8 +90,9 @@ class WebauthnService
      */
     private function getExtensions(): AuthenticationExtensionsClientInputs
     {
-        $extensions = new AuthenticationExtensionsClientInputs();
-        $extensions->add(new AuthenticationExtension('loc', true));
+        $extensions = new AuthenticationExtensionsClientInputs([
+            new AuthenticationExtension('loc', true)
+        ]);
 
         return $extensions;
     }
@@ -104,9 +105,11 @@ class WebauthnService
     private function createRpEntity(): PublicKeyCredentialRpEntity
     {
         return PublicKeyCredentialRpEntity::create(
-            (string)Configure::read('Webauthn.name', 'FantaManajer'), //Name
-            (string)Configure::read('Webauthn.id', 'fantamanajer.it'), //ID
-            (string)Configure::read('Webauthn.icon') //Icon
+            (string) Configure::read('Webauthn.name', 'FantaManajer'),
+            //Name
+            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+            //ID
+            (string) Configure::read('Webauthn.icon') //Icon
         );
     }
 
@@ -158,17 +161,21 @@ class WebauthnService
         $attestationStatementSupportManager = AttestationStatementSupportManager::create();
         $attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
         $attestationStatementSupportManager->add(FidoU2FAttestationStatementSupport::create());
-        $attestationStatementSupportManager->add(AndroidSafetyNetAttestationStatementSupport::create()
-            ->enableApiVerification(
-                new Client(),
-                (string)Configure::read('Webauthn.safetyNetKey'),
-                new HttpFactory()
-            ));
+        $attestationStatementSupportManager->add(
+            AndroidSafetyNetAttestationStatementSupport::create()
+                ->enableApiVerification(
+                    new Client(),
+                    (string) Configure::read('Webauthn.safetyNetKey'),
+                    new HttpFactory()
+                )
+        );
         $attestationStatementSupportManager->add(AndroidKeyAttestationStatementSupport::create());
         $attestationStatementSupportManager->add(TPMAttestationStatementSupport::create());
-        $attestationStatementSupportManager->add(PackedAttestationStatementSupport::create(
-            $coseAlgorithmManager
-        ));
+        $attestationStatementSupportManager->add(
+            PackedAttestationStatementSupport::create(
+                $coseAlgorithmManager
+            )
+        );
 
         return $attestationStatementSupportManager;
     }
@@ -193,21 +200,24 @@ class WebauthnService
 
             // Public Key Credential Request Options
             $publicKeyCredentialRequestOptions =
-            PublicKeyCredentialRequestOptions::create(
-                random_bytes(32) // Challenge
-            )
-            ->allowCredentials(...$allowedCredentials)
-            ->setTimeout(60_000)
-            ->setRpId((string)Configure::read('Webauthn.id', 'fantamanajer.it'))
-            ->setExtensions($this->getExtensions())
-            ->setUserVerification(PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED);
+                PublicKeyCredentialRequestOptions::create(
+                    random_bytes(32),
+                    (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+                    $allowedCredentials,
+                    PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+                    60_000,
+                    $this->getExtensions()
+                );
 
             $request->getSession()->start();
-            $request->getSession()->write('User.Handle', $credentialUser->getId());
-            $request->getSession()->write('User.PublicKey', json_encode(
-                $publicKeyCredentialRequestOptions,
-                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            ));
+            $request->getSession()->write('User.Handle', $credentialUser->id);
+            $request->getSession()->write(
+                'User.PublicKey',
+                json_encode(
+                    $publicKeyCredentialRequestOptions,
+                    JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                )
+            );
 
             return $publicKeyCredentialRequestOptions;
         } else {
@@ -225,8 +235,8 @@ class WebauthnService
      */
     public function assertionResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
-        $handle = (string)$request->getSession()->consume('User.Handle');
+        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
+        $handle = (string) $request->getSession()->consume('User.Handle');
 
         $response = $this->login($publicKey, $request, $handle);
 
@@ -268,7 +278,7 @@ class WebauthnService
         /** @var array<string, mixed> $body */
         $body = $request->getParsedBody();
         $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
-        $authenticatorAssertionResponse = $publicKeyCredential->getResponse();
+        $authenticatorAssertionResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Assertion Response
         if (!$authenticatorAssertionResponse instanceof AuthenticatorAssertionResponse) {
@@ -277,7 +287,7 @@ class WebauthnService
 
         // Check the response against the attestation request
         return $authenticatorAssertionResponseValidator->check(
-            $publicKeyCredential->getRawId(),
+            $publicKeyCredential->rawId,
             $authenticatorAssertionResponse,
             $publicKeyCredentialRequestOptions,
             $request,
@@ -301,10 +311,6 @@ class WebauthnService
 
         /** @var \App\Model\Entity\User $user */
         $user = $request->getAttribute('identity');
-        if ($user->uuid == null) {
-            $user->uuid = Uuid::v4()->toRfc4122();
-            $this->fetchTable('Users')->save($user);
-        }
         $userEntity = $user->toCredentialUserEntity();
 
         $credential = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($userEntity);
@@ -317,28 +323,34 @@ class WebauthnService
         ];
 
         // Authenticator Selection Criteria (we used default values)
-        $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create()
-        ->setAuthenticatorAttachment(AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE)
-        ->setUserVerification(AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED);
+        $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create(
+            null,
+            AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+            AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_PLATFORM,
+            true
+        );
         //$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
 
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::create(
             $rpEntity,
             $userEntity,
             random_bytes(32),
-            $publicKeyCredentialParametersList
-        )
-        ->setTimeout(60_000)
-        ->excludeCredentials(...$excludeCredentials)
-        ->setAuthenticatorSelection($authenticatorSelectionCriteria)
-        ->setAttestation(PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE);
+            $publicKeyCredentialParametersList,
+            $authenticatorSelectionCriteria,
+            PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
+            $excludeCredentials,
+            60_000
+        );
 
         $session = $request->getSession();
         $session->start();
-        $session->write('User.PublicKey', json_encode(
-            $publicKeyCredentialCreationOptions,
-            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-        ));
+        $session->write(
+            'User.PublicKey',
+            json_encode(
+                $publicKeyCredentialCreationOptions,
+                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            )
+        );
 
         return $publicKeyCredentialCreationOptions;
     }
@@ -354,7 +366,7 @@ class WebauthnService
      */
     public function creationResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
+        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
         // Attestation Statement Support Manager
         $attestationStatementSupportManager = $this->createStatementSupportManager();
@@ -376,7 +388,7 @@ class WebauthnService
         /** @var array<string, mixed> $body */
         $body = $request->getParsedBody();
         $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
-        $authenticatorAttestationResponse = $publicKeyCredential->getResponse();
+        $authenticatorAttestationResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Attestation Response
         if (!$authenticatorAttestationResponse instanceof AuthenticatorAttestationResponse) {
