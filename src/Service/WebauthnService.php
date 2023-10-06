@@ -191,38 +191,35 @@ class WebauthnService
     {
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
+        $allowedCredentials = [];
         /** @var \App\Model\Entity\User|null $user */
         $user = $this->fetchTable('Users')->find()->where(['email' => $params['email']])->first();
         if ($user != null) {
             $credentialUser = $user->toCredentialUserEntity();
             $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
             $allowedCredentials = $this->credentialsToDescriptors($credentials);
-
-            // Public Key Credential Request Options
-            $publicKeyCredentialRequestOptions =
-                PublicKeyCredentialRequestOptions::create(
-                    random_bytes(32),
-                    (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
-                    $allowedCredentials,
-                    PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
-                    60_000,
-                    $this->getExtensions()
-                );
-
-            $request->getSession()->start();
             $request->getSession()->write('User.Handle', $credentialUser->id);
-            $request->getSession()->write(
-                'User.PublicKey',
-                json_encode(
-                    $publicKeyCredentialRequestOptions,
-                    JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-                )
-            );
-
-            return $publicKeyCredentialRequestOptions;
-        } else {
-            return null;
         }
+        // Public Key Credential Request Options
+        $publicKeyCredentialRequestOptions =
+            PublicKeyCredentialRequestOptions::create(
+                random_bytes(32),
+                (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+                $allowedCredentials,
+                PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+                60_000,
+                $this->getExtensions()
+            );
+        $request->getSession()->start();
+        $request->getSession()->write(
+            'User.PublicKey',
+            json_encode(
+                $publicKeyCredentialRequestOptions,
+                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            )
+        );
+
+        return $publicKeyCredentialRequestOptions;
     }
 
     /**
@@ -256,7 +253,7 @@ class WebauthnService
     public function login(
         string $publicKey,
         ServerRequestInterface $request,
-        string $userHandle
+        string $userHandle = null
     ): PublicKeyCredentialSource {
         $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
         $attestationStatementSupportManager = $this->createStatementSupportManager();
