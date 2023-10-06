@@ -192,13 +192,15 @@ class WebauthnService
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
         $allowedCredentials = [];
-        /** @var \App\Model\Entity\User|null $user */
-        $user = $this->fetchTable('Users')->find()->where(['email' => $params['email']])->first();
-        if ($user != null) {
-            $credentialUser = $user->toCredentialUserEntity();
-            $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
-            $allowedCredentials = $this->credentialsToDescriptors($credentials);
-            $request->getSession()->write('User.Handle', $credentialUser->id);
+        if (array_key_exists('email', $params)) {
+            /** @var \App\Model\Entity\User|null $user */
+            $user = $this->fetchTable('Users')->find()->where(['email' => $params['email']])->first();
+            if ($user != null) {
+                $credentialUser = $user->toCredentialUserEntity();
+                $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
+                $allowedCredentials = $this->credentialsToDescriptors($credentials);
+                $request->getSession()->write('User.Handle', $credentialUser->id);
+            }
         }
         // Public Key Credential Request Options
         $publicKeyCredentialRequestOptions =
