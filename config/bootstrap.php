@@ -45,6 +45,11 @@ use Cake\Mailer\TransportFactory;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
 
+/**
+ * Load global functions.
+ */
+require CAKE . 'functions.php';
+
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
  *
@@ -58,7 +63,7 @@ use Cake\Utility\Security;
  * If you use .env files, be careful to not commit them to source control to avoid
  * security risks. See https://github.com/josegonzalez/php-dotenv#general-security-information
  * for more information for recommended practices.
-*/
+ */
 if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
     $dotenv->parse()
@@ -193,9 +198,6 @@ Security::setSalt(Configure::consume('Security.salt'));
 //    ->useLocaleParser();
 // \Cake\Database\TypeFactory::build('timestamptimezone')
 //    ->useLocaleParser();
-
-// There is no time-specific type in Cake
-TypeFactory::map('time', StringType::class);
 
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize

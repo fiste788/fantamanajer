@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Transfert;
+use App\Service\TransfertService;
 use ArrayObject;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use League\Container\ContainerAwareTrait;
 
 /**
  * Transferts Model
@@ -21,7 +22,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  * @property \App\Service\TransfertService $Transfert
- * @method \App\Model\Entity\Transfert get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Transfert get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Transfert newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -37,7 +38,7 @@ use Cake\Validation\Validator;
  */
 class TransfertsTable extends Table
 {
-    use ServiceAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * Initialize method
@@ -129,11 +130,11 @@ class TransfertsTable extends Table
     /**
      * Find by team id
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeamId(Query $q, array $options): Query
+    public function findByTeamId(SelectQuery $q, array $options): SelectQuery
     {
         return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where(['team_id' => $options['team_id']]);
@@ -169,7 +170,6 @@ class TransfertsTable extends Table
             'transfert' => $entity,
         ]));
 
-        $this->loadService('Transfert');
-        $this->Transfert->substituteMemberInLineup($entity);
+        $this->getContainer()->get(TransfertService::class)->substituteMemberInLineup($entity);
     }
 }

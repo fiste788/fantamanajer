@@ -7,7 +7,7 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -17,7 +17,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- * @method \App\Model\Entity\Article get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Article get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Article newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -143,29 +143,31 @@ class ArticlesTable extends Table
     /**
      * Find by championship query
      *
-     * @param \Cake\ORM\Query $q Query
-     * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
+     * @param int $championshipId ChampionshipId
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByChampionshipId(Query $q, array $options): Query
+    public function findByChampionshipId(SelectQuery $q, int $championshipId): SelectQuery
     {
-        return $q->contain(['Teams' => [
-            'fields' => ['id', 'name'],
-        ]])->orderDesc('created_at')
-            ->where(['championship_id' => $options['championship_id']]);
+        return $q->contain([
+            'Teams' => [
+                'fields' => ['id', 'name'],
+            ],
+        ])->orderByDesc('created_at')
+            ->where(['championship_id' => $championshipId]);
     }
 
     /**
      * Find by team query
      *
-     * @param \Cake\ORM\Query $q Query
-     * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
+     * @param int $teamId teamId
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeamId(Query $q, array $options): Query
+    public function findByTeamId(SelectQuery $q, array $teamId): SelectQuery
     {
-        return $q->orderDesc('created_at')
-            ->where(['team_id' => $options['team_id']]);
+        return $q->orderByDesc('created_at')
+            ->where(['team_id' => $teamId]);
     }
 
     /**

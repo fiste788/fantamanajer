@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ArticlesController extends AppArticlesController
 {
-    public $paginate = [
+    public array $paginate = [
         'limit' => 8,
     ];
 

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use RuntimeException;
 
 /**
@@ -22,12 +22,12 @@ abstract class StreamAggregatedActivity extends StreamActivity
     /**
      * Get time
      *
-     * @return \Cake\I18n\FrozenTime
+     * @return \Cake\I18n\DateTime
      * @throws \RuntimeException
      */
-    public function getTime(): FrozenTime
+    public function getTime(): DateTime
     {
-        /** @var \Cake\I18n\FrozenTime|null $res */
+        /** @var \Cake\I18n\DateTime|null $res */
         $res = $this->activity->offsetGet('updated_at');
         if ($res) {
             return $res;

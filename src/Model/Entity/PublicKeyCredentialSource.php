@@ -22,7 +22,7 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property int $counter
  * @property string|null $name
  * @property string|null $user_agent
- * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\DateTime $created_at
  * @property \App\Model\Entity\User $user
  */
 class PublicKeyCredentialSource extends Entity
@@ -36,7 +36,7 @@ class PublicKeyCredentialSource extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'public_key_credential_id' => true,
         'type' => false,
@@ -58,7 +58,7 @@ class PublicKeyCredentialSource extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'attestation_type',
         'transports',
         'trust_path',
@@ -97,15 +97,15 @@ class PublicKeyCredentialSource extends Entity
      */
     public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)
     {
-        $this->public_key_credential_id = $credentialSource->getPublicKeyCredentialId();
-        $this->type = $credentialSource->getType();
-        $this->transports = $credentialSource->getTransports();
-        $this->attestation_type = $credentialSource->getAttestationType();
-        $this->trust_path = $credentialSource->getTrustPath();
-        $this->aaguid = $credentialSource->getAaguid()->toRfc4122();
-        $this->credential_public_key = $credentialSource->getCredentialPublicKey();
-        $this->user_handle = $credentialSource->getUserHandle();
-        $this->counter = $credentialSource->getCounter();
+        $this->public_key_credential_id = $credentialSource->publicKeyCredentialId;
+        $this->type = $credentialSource->type;
+        $this->transports = $credentialSource->transports;
+        $this->attestation_type = $credentialSource->attestationType;
+        $this->trust_path = $credentialSource->trustPath;
+        $this->aaguid = $credentialSource->aaguid->toRfc4122();
+        $this->credential_public_key = $credentialSource->credentialPublicKey;
+        $this->user_handle = $credentialSource->userHandle;
+        $this->counter = $credentialSource->counter;
 
         return $this;
     }

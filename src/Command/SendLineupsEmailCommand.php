@@ -12,7 +12,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Mailer\MailerAwareTrait;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 class SendLineupsEmailCommand extends Command
 {
@@ -64,12 +64,14 @@ class SendLineupsEmailCommand extends Command
             $championshipsTable = $this->fetchTable('Championships');
             /** @var array<\App\Model\Entity\Championship> $championships */
             $championships = $championshipsTable->find()
-                ->contain(['Teams' => function (Query $q): Query {
-                    return $q->contain(['Users'])
-                        ->innerJoinWith('EmailNotificationSubscriptions', function (Query $q): Query {
-                            return $q->where(['name' => 'lineups', 'enabled' => true]);
-                        });
-                }])->where(['season_id' => $this->currentSeason->id])
+                ->contain([
+                    'Teams' => function (SelectQuery $q): SelectQuery {
+                        return $q->contain(['Users'])
+                            ->innerJoinWith('EmailNotificationSubscriptions', function (SelectQuery $q): SelectQuery {
+                                return $q->where(['name' => 'lineups', 'enabled' => true]);
+                            });
+                    },
+                ])->where(['season_id' => $this->currentSeason->id])
                 ->all();
             foreach ($championships as $championship) {
                 $this->sendLineupsChampionship($championship, $this->currentMatchday);
@@ -95,7 +97,7 @@ class SendLineupsEmailCommand extends Command
     {
         $teamsTable = $this->fetchTable('Teams');
         $teams = $teamsTable->find()
-            ->contain('Lineups', function (Query $q) use ($matchday): Query {
+            ->contain('Lineups', function (SelectQuery $q) use ($matchday): SelectQuery {
                 return $q->contain([
                     'Dispositions' => ['Members' => ['Clubs', 'Roles', 'Players']],
                 ])->where(['matchday_id' => $matchday->id]);

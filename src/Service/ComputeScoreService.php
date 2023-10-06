@@ -8,17 +8,11 @@ use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Team;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
-/**
- * @property \App\Service\LineupService $Lineup
- */
-#[\AllowDynamicProperties]
 class ComputeScoreService
 {
     use LocatorAwareTrait;
-    use ServiceAwareTrait;
 
     /**
      * Undocumented function
@@ -26,9 +20,8 @@ class ComputeScoreService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct()
+    public function __construct(private LineupService $Lineup)
     {
-        $this->loadService('Lineup');
     }
 
     /**
@@ -75,14 +68,14 @@ class ComputeScoreService
          * @psalm-suppress DocblockTypeContradiction
          * @psalm-suppress RedundantConditionGivenDocblockType
          */
-        $score->team = $score->team ?? $teamsTable->get($score->team_id, ['contain' => ['Championships']]);
+        $score->team = $score->team ?? $teamsTable->get($score->team_id, contain: ['Championships']);
         /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
         $matchdaysTable = $this->fetchTable('Matchdays');
         /**
          * @psalm-suppress DocblockTypeContradiction
          * @psalm-suppress RedundantConditionGivenDocblockType
          */
-        $score->matchday = $score->matchday ?? $matchdaysTable->get($score->matchday_id, ['contain' => ['Seasons']]);
+        $score->matchday = $score->matchday ?? $matchdaysTable->get($score->matchday_id, contain: ['Seasons']);
         /** @var \App\Model\Table\SeasonsTable $seasonsTable */
         $seasonsTable = $this->fetchTable('Seasons');
         $season = $score->matchday->has('season') ?
@@ -94,15 +87,20 @@ class ComputeScoreService
         $lineupsTable = $this->fetchTable('Lineups');
         if ($lineup == null) {
             /** @var \App\Model\Entity\Lineup|null $lineup */
-            $lineup = $lineupsTable->find('last', [
-                'matchday' => $score->matchday,
-                'team_id' => $score->team->id,
-            ])->find('withRatings', ['matchday_id' => $score->matchday_id])->first();
+            $lineup = $lineupsTable->find(
+                'last',
+                $score->matchday,
+                $score->team->id
+            )->find('withRatings', matchday_id: $score->matchday_id)->first();
         } else {
             /** @var \App\Model\Entity\Lineup $lineup */
-            $lineup = $lineupsTable->loadInto($lineup, $lineupsTable->find('withRatings', [
-                'matchday_id' => $score->matchday_id,
-            ])->getContain());
+            $lineup = $lineupsTable->loadInto(
+                $lineup,
+                $lineupsTable->find(
+                    'all',
+                    matchday_id: $score->matchday_id
+                )->getContain()
+            );
         }
         if ($lineup == null) {
             $score->real_points = 0;
@@ -129,9 +127,9 @@ class ComputeScoreService
                 );
                 $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
                 if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
-                    $malusPoints = round($score->points / 100 * (100 - (float)$championship->points_missed_lineup), 1);
+                    $malusPoints = round($score->points / 100 * (100 - (float) $championship->points_missed_lineup), 1);
                     $mod = ($malusPoints * 10) % 5;
-                    $score->penality_points = - (($malusPoints * 10) - $mod) / 10;
+                    $score->penality_points = -(($malusPoints * 10) - $mod) / 10;
                     $score->penality = 'Formazione non settata';
                 }
                 $score->points = $score->points - $score->penality_points;

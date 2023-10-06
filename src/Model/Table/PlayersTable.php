@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
  * Players Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- * @method \App\Model\Entity\Player get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Player get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Player newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Player[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Player|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -76,14 +76,16 @@ class PlayersTable extends Table
     /**
      * Find with details query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithDetails(Query $q, array $options): Query
+    public function findWithDetails(SelectQuery $q, array $options): SelectQuery
     {
-        return $q->contain(['Members' => function (Query $q): Query {
-            return $q->contain(['Seasons', 'Roles', 'Clubs'])->orderDesc('Seasons.year');
-        }]);
+        return $q->contain([
+            'Members' => function (SelectQuery $q): SelectQuery {
+                return $q->contain(['Seasons', 'Roles', 'Clubs'])->orderByDesc('Seasons.year');
+            },
+        ]);
     }
 }

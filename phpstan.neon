@@ -1,13 +1,10 @@
 parameters:
     level: 8
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false
     treatPhpDocTypesAsCertain: false
+    checkGenericClassInNonGenericObjectType: false
     paths:
         - src
 
     bootstrapFiles:
         - config/bootstrap.php
 
-    excludePaths:
-        - src/Console/Installer.php

@@ -33,7 +33,7 @@ class MembersController extends AppController
         $this->Authentication->allowUnauthenticated(['best']);
     }
 
-    public $paginate = [
+    public array $paginate = [
         'limit' => 50,
     ];
 
@@ -56,10 +56,11 @@ class MembersController extends AppController
         if ($matchday != null) {
             /** @var \App\Model\Entity\Role $role */
             foreach ($roles as $key => $role) {
-                $roles[$key]->best_players = $this->Members->find('bestByMatchdayIdAndRole', [
-                    'matchday_id' => $matchday->id,
-                    'role' => $role,
-                ])->limit(5)->toArray();
+                $roles[$key]->best_players = $this->Members->find(
+                    'bestByMatchdayIdAndRole',
+                    matchday_id: $matchday->id,
+                    role: $role
+                )->limit(5)->toArray();
             }
         }
 

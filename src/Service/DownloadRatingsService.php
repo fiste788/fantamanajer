@@ -8,6 +8,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
 use Cake\Log\Log;
 use InvalidArgumentException;
+use LogicException;
 use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,16 +27,6 @@ class DownloadRatingsService
      * @var string
      */
     public const DOWNLOAD_URL = 'https://maxigames.maxisoft.it/downloads.php';
-
-    /**
-     * Undocumented function
-     *
-     * @param \Cake\Console\ConsoleIo $io IO
-     */
-    public function __construct(ConsoleIo $io)
-    {
-        $this->io = $io;
-    }
 
     /**
      * Undocumented function
@@ -287,7 +278,7 @@ class DownloadRatingsService
             $this->io?->out("Downloading 1{$downloadUrl} in tmp dir");
 
             return $downloadUrl;
-        } catch (RuntimeException | InvalidArgumentException | \LogicException $e) {
+        } catch (RuntimeException | InvalidArgumentException | LogicException $e) {
             Log::error($e->getTraceAsString());
 
             return null;

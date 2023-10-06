@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
  * Leagues Model
  *
  * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
- * @method \App\Model\Entity\League get($primaryKey, $options = [])
+ * @method \App\Model\Entity\League get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\League newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\League[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\League|false save(\Cake\Datasource\EntityInterface $entity, $options = [])

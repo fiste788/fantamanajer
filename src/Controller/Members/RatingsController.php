@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class RatingsController extends AppController
 {
-    public $paginate = [
+    public array $paginate = [
         'limit' => 1000,
         'maxLimit' => 1000,
     ];

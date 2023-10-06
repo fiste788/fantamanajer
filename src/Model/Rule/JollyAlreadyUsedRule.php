@@ -14,7 +14,7 @@ class JollyAlreadyUsedRule
      * Invoke
      *
      * @param \App\Model\Entity\Lineup $entity Entity
-     * @param array $options Options
+     * @param array<string, mixed> $options Options
      * @return bool
      * @throws \Cake\Core\Exception\CakeException
      */
@@ -39,7 +39,7 @@ class JollyAlreadyUsedRule
                     'team_id' => $entity->team_id,
                     'Matchdays.number ' . ($matchday->number <= $matchdays / 2 ? '<=' : '>') => $matchdays / 2,
                 ])
-                ->isEmpty();
+                ->all()->isEmpty();
         }
 
         return true;

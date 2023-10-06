@@ -32,7 +32,7 @@ class Selection extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'active' => true,
         'processed' => false,
         'old_member_id' => true,

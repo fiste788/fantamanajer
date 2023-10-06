@@ -5,25 +5,10 @@ namespace App\Controller;
 
 use App\Service\UserService;
 use App\Service\WebauthnService;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\EventInterface;
 
-/**
- * @property \App\Service\UserService $User
- */
 class WebauthnController extends AppController
 {
-    use ServiceAwareTrait;
-
-    /**
-     * @inheritDoc
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->loadService('User');
-    }
-
     /**
      * @inheritDoc
      */
@@ -88,7 +73,7 @@ class WebauthnController extends AppController
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set('data', [
-                'token' => $userService->getToken((string)$user->id, $days),
+                'token' => $userService->getToken((string) $user->id, $days),
                 'user' => $user->getOriginalData(),
             ]);
         } else {

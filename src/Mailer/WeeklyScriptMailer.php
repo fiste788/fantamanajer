@@ -21,7 +21,7 @@ class WeeklyScriptMailer extends Mailer
      *
      * @var string
      */
-    public static $name = 'WeeklyScript';
+    public static string $name = 'WeeklyScript';
 
     /**
      * Undocumented function

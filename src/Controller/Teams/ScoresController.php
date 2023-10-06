@@ -3,16 +3,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Teams;
 
+use App\Controller\ScoresController as ScoresBaseController;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\ScoresTable $Scores
  */
-class ScoresController extends \App\Controller\ScoresController
+class ScoresController extends ScoresBaseController
 {
-    public $paginate = [
+    public array $paginate = [
         'limit' => 40,
         'maxLimit' => 40,
     ];
@@ -66,13 +67,13 @@ class ScoresController extends \App\Controller\ScoresController
         if ($matchdayId) {
             $conditions['matchday_id'] = $matchdayId;
         }
-        $this->Crud->on('beforeFind', function (EventInterface $event) use ($conditions): Query {
-            /** @var \Cake\ORM\Query $q */
+        $this->Crud->on('beforeFind', function (EventInterface $event) use ($conditions): SelectQuery {
+            /** @var \Cake\ORM\Query\SelectQuery $q */
             $q = $event->getSubject()->query;
 
             return $q
                 ->where($conditions, [], true)
-                ->order(['matchday_id' => 'desc']);
+                ->orderBy(['matchday_id' => 'desc']);
         });
 
         $this->view(null);
@@ -89,9 +90,11 @@ class ScoresController extends \App\Controller\ScoresController
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
-        $action->findMethod(['byTeam' => [
-            'team_id' => (int)$this->request->getParam('team_id'),
-        ]]);
+        $action->findMethod([
+            'byTeam' => [
+                'team_id' => (int)$this->request->getParam('team_id'),
+            ],
+        ]);
 
         return $this->Crud->execute();
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Model\Entity\Lineup;
 use App\Service\ComputeScoreService;
+use App\Service\LineupService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,11 +20,16 @@ class ScoresController extends AppController
     /**
      * @inheritDoc
      */
+    public function __construct(private LineupService $Lineup, private ComputeScoreService $ComputeScore)
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadService('Lineup');
-        $this->loadService('ComputeScore');
     }
 
     /**

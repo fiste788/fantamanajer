@@ -10,7 +10,7 @@ use Cake\Event\EventInterface;
  */
 class ArticlesController extends AppController
 {
-    public $paginate = [
+    public array $paginate = [
         'page' => 1,
         'limit' => 5,
         'maxLimit' => 15,

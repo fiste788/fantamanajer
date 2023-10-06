@@ -32,7 +32,7 @@ class MembersController extends AppController
         $this->Authentication->allowUnauthenticated(['index']);
     }
 
-    public $paginate = [
+    public array $paginate = [
         'limit' => 50,
     ];
 

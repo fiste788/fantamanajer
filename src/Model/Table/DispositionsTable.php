@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -13,8 +13,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
- * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasOne $Rating
- * @method \App\Model\Entity\Disposition get($primaryKey, $options = [])
+ * @property \Cake\ORM\Table&\Cake\ORM\Association\HasOne $Rating
+ * @method \App\Model\Entity\Disposition get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Disposition newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Disposition[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Disposition|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -104,11 +104,11 @@ class DispositionsTable extends Table
     /**
      * Find by matchday lineup query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByMatchdayLineup(Query $q, array $options): Query
+    public function findByMatchdayLineup(SelectQuery $q, array $options): SelectQuery
     {
         return $q->innerJoinWith('Lineups')
             ->where(['Ratings.matchday_id' => 'Lineups.matchday_id'])

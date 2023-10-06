@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Controller\Teams;
 
 use App\Controller\LineupsController as ControllerLineupsController;
+use App\Service\LikelyLineupService;
+use App\Service\LineupService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @property \App\Service\LineupService $Lineup
- * @property \App\Service\LikelyLineupService $LikelyLineup
  * @property \App\Model\Table\LineupsTable $Lineups
  */
 class LineupsController extends ControllerLineupsController
@@ -19,11 +19,16 @@ class LineupsController extends ControllerLineupsController
     /**
      * @inheritDoc
      */
+    public function __construct(private LikelyLineupService $LikelyLineup, private LineupService $Lineup)
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadService('LikelyLineup');
-        $this->loadService('Lineup');
     }
 
     /**
@@ -55,24 +60,24 @@ class LineupsController extends ControllerLineupsController
                 'stats' => true,
             ]]);*/
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $that): void {
-                $event->getSubject()->query = $that->Lineups->find('last', [
-                    'team_id' => $team,
-                    'matchday' => $this->currentMatchday,
-                    'stats' => true,
-                ]);
+                $event->getSubject()->query = $that->Lineups->find(
+                    'last',
+                    team_id: $team,
+                    matchday: $this->currentMatchday,
+                    stats: true
+                );
             });
         } else {
             $matchdaysTable = $this->fetchTable('Matchdays');
             /** @var \App\Model\Entity\Matchday $matchday */
-            $matchday = $matchdaysTable->find('firstWithoutScores', [
-                'season' => $this->currentSeason->id,
-            ])->first();
+            $matchday = $matchdaysTable->find('firstWithoutScores', season: $this->currentSeason->id)->first();
 
             $this->Crud->on('beforeFind', function (Event $event) use ($team, $matchday, $that): void {
-                $event->getSubject()->query = $that->Lineups->find('byMatchdayIdAndTeamId', [
-                    'matchday_id' => $matchday->id,
-                    'team_id' => $team,
-                ])->contain(['Matchdays', 'Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
+                $event->getSubject()->query = $that->Lineups->find(
+                    'byMatchdayIdAndTeamId',
+                    matchday_id: $matchday->id,
+                    team_id: $team
+                )->contain(['Matchdays', 'Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
             });
         }
         $this->Crud->on('afterFind', function (Event $event) use ($team, $that): void {

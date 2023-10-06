@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use Cake\Database\Schema\TableSchemaInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  * PublicKeyCredentialSources Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- * @method \App\Model\Entity\PublicKeyCredentialSource get($primaryKey, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\PublicKeyCredentialSource newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -155,11 +155,11 @@ class PublicKeyCredentialSourcesTable extends Table
     /**
      * Find by member id  query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByUuid(Query $q, array $options): Query
+    public function findByUuid(SelectQuery $q, array $options): SelectQuery
     {
         return $q->where(['user_handle' => $options['uuid']]);
     }

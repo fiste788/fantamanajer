@@ -14,9 +14,9 @@ use WebPush\Subscription;
  * @property string|null $public_key
  * @property string|null $auth_token
  * @property string|null $content_encoding
- * @property \Cake\I18n\FrozenTime|null $expires_at
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\DateTime|null $expires_at
+ * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\DateTime $modified_at
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user
@@ -32,7 +32,7 @@ class PushSubscription extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'endpoint' => true,
         'public_key' => true,
         'auth_token' => true,
@@ -49,7 +49,7 @@ class PushSubscription extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'auth_token',
     ];
 

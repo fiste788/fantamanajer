@@ -12,7 +12,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use DateTimeInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -81,13 +81,13 @@ class GetMatchdayScheduleCommand extends Command
      * @param \App\Model\Entity\Season $season Season
      * @param \App\Model\Entity\Matchday $matchday Matchday
      * @param \Cake\Console\ConsoleIo $io Io
-     * @return \Cake\I18n\FrozenTime|false|null
+     * @return \Cake\I18n\DateTime|false|null
      * @throws \Cake\Console\Exception\StopException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \LogicException
      */
-    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): FrozenTime|false|null
+    public function exec(Season $season, Matchday $matchday, ConsoleIo $io): DateTime|false|null
     {
         $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
         $url = '/it/serie-a/';
@@ -112,7 +112,7 @@ class GetMatchdayScheduleCommand extends Command
                     $matchdayResponse = $client->get('/api/season/' . $seasonId . '/championship/A/matchday?lang=it');
                     /**
                      * @psalm-suppress MixedArrayAccess
-                     * @var array $matchdays
+                     * @var array<string, mixed> $matchdays
                      */
                     $matchdays = $matchdayResponse->getJson()['data'];
 
@@ -129,16 +129,16 @@ class GetMatchdayScheduleCommand extends Command
                              */
                             $matchsResponse = $client->get(
                                 '/api/match?extra_link&order=oldest&lang=it&season_id=' .
-                                $season .
+                                $seasonId .
                                 '&match_day_id=' .
-                                 $matchdayItem['id_category']
+                                $matchdayItem['id_category']
                             );
                             /** @var string $date */
                             $date = $matchsResponse->getJson()['data'][0]['date_time'];
 
                             if ($date != '') {
                                 $io->success($date);
-                                $out = FrozenTime::createFromFormat(DateTimeInterface::ATOM, $date);
+                                $out = DateTime::createFromFormat(DateTimeInterface::ATOM, $date);
                                 $io->verbose($out->__toString());
 
                                 return $out;

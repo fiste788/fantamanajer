@@ -29,7 +29,7 @@ class Player extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'surname' => true,
         'members' => false,
@@ -40,7 +40,7 @@ class Player extends Entity
      *
      * @var array<string>
      */
-    protected $_virtual = [
+    protected array $_virtual = [
         'photo_url',
         'full_name',
     ];

@@ -15,9 +15,10 @@ use Cake\Routing\Asset;
  * @property string $determinant
  * @property string $abbreviation
  * @property string $photo_url
- * @property null|string[] $background_url
+ * @property array<string>|null $background_url
  *
  * @property \App\Model\Entity\Member[] $members
+ * @property int|null $club_id
  */
 class Club extends Entity
 {
@@ -32,7 +33,7 @@ class Club extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => false,
         'partitive' => false,
         'determinant' => false,
@@ -44,7 +45,7 @@ class Club extends Entity
      *
      * @var array<int>
      */
-    protected $_size = [
+    protected array $_size = [
         600,
         1280,
     ];
@@ -54,7 +55,7 @@ class Club extends Entity
      *
      * @var array<string>
      */
-    protected $_virtual = [
+    protected array $_virtual = [
         'abbreviation',
         'photo_url',
         'background_url',

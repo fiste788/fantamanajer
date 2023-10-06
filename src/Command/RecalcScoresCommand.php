@@ -3,18 +3,20 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use App\Service\ComputeScoreService;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 
-/**
- * @property \App\Service\ComputeScoreService $ComputeScore
- */
 class RecalcScoresCommand extends Command
 {
-    use ServiceAwareTrait;
+    /**
+     * @inheritDoc
+     */
+    public function __construct(private ComputeScoreService $ComputeScore)
+    {
+    }
 
     /**
      * {@inheritDoc}
@@ -25,7 +27,6 @@ class RecalcScoresCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadService('ComputeScore');
     }
 
     /**
@@ -42,7 +43,7 @@ class RecalcScoresCommand extends Command
         $scoresTable = $this->fetchTable('Scores');
         /** @var array<\App\Model\Entity\Score> $scores */
         $scores = $scoresTable->find()
-            ->contain(['Teams.Championships','Matchdays.Seasons'])
+            ->contain(['Teams.Championships', 'Matchdays.Seasons'])
             ->where(['Matchdays.season_id' => 17])->all();
 
         foreach ($scores as $score) {

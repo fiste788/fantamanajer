@@ -4,30 +4,23 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Entity\Team;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use GetStream\Stream\Client;
 
-/**
- * @property \App\Service\NotificationSubscriptionService $NotificationSubscription
- * @property \App\Service\ScoreService $Score
- */
-#[\AllowDynamicProperties]
 class TeamService
 {
     use LocatorAwareTrait;
-    use ServiceAwareTrait;
 
     /**
      * Constructor
      *
      * @throws \UnexpectedValueException
      */
-    public function __construct()
-    {
-        $this->loadService('Score');
-        $this->loadService('NotificationSubscription');
+    public function __construct(
+        private ScoreService $Score,
+        private NotificationSubscriptionService $NotificationSubscription
+    ) {
     }
 
     /**

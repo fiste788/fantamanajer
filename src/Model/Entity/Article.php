@@ -12,8 +12,8 @@ use Cake\ORM\Entity;
  * @property string $title
  * @property string|null $subtitle
  * @property string $body
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\DateTime $modified_at
  * @property int $team_id
  * @property int $matchday_id
  *
@@ -31,7 +31,7 @@ class Article extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'title' => true,
         'subtitle' => true,
         'body' => true,

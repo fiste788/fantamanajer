@@ -3,22 +3,26 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\UserService;
 use App\Stream\ActivityManager;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Authorization\Exception\ForbiddenException;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Utility\Hash;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * @property \App\Service\UserService $User
  * @property \App\Model\Table\UsersTable $Users
  */
 class UsersController extends AppController
 {
-    use ServiceAwareTrait;
+    /**
+     * @inheritDoc
+     */
+    public function __construct(private UserService $User)
+    {
+    }
 
     /**
      * @inheritDoc
@@ -26,7 +30,6 @@ class UsersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadService('User');
     }
 
     /**

@@ -20,48 +20,60 @@ namespace App;
 use App\Authentication\Authenticator\WebauthnAuthenticator;
 use App\Authentication\Identifier\WebauthnHandleIdentifier;
 use App\Command as Commands;
+use App\Command\SendTestNotificationCommand;
 use App\Database\Type as Types;
 use App\Model\Entity\User;
 use App\Service\ComputeScoreService;
+use App\Service\DownloadRatingsService;
+use App\Service\LikelyLineupService;
 use App\Service\LineupService;
+use App\Service\NotificationSubscriptionService;
 use App\Service\PublicKeyCredentialSourceRepositoryService;
 use App\Service\PushNotificationService;
+use App\Service\RatingService;
+use App\Service\ScoreService;
+use App\Service\SelectionService;
+use App\Service\TeamService;
+use App\Service\TransfertService;
+use App\Service\UpdateMemberService;
 use App\Service\UserService;
 use App\Service\WebauthnService;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\IdentifierInterface;
+use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Authentication\Plugin as AuthenticationPlugin;
+use Authorization\AuthorizationPlugin;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Middleware\RequestAuthorizationMiddleware;
-use Authorization\Plugin as AuthorizationPlugin;
 use Authorization\Policy\MapResolver;
 use Authorization\Policy\OrmResolver;
 use Authorization\Policy\ResolverCollection;
-use Bake\Plugin as BakePlugin;
+use Bake\BakePlugin;
 use Cake\Console\CommandCollection;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
-use Cake\Core\Exception\MissingPluginException;
 use Cake\Database\TypeFactory;
+use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
+use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Routing\Router;
-use CakePreloader\Plugin as CakePreloaderPlugin;
-use Crud\Plugin as CrudPlugin;
-use DatabaseBackup\Plugin as DatabaseBackupPlugin;
-use IdeHelper\Plugin;
-use Josegonzalez\Upload\Plugin as UploadPlugin;
-use Migrations\Plugin as MigrationsPlugin;
+use CakeScheduler\CakeSchedulerPlugin;
+//use CakePreloader\Plugin as CakePreloaderPlugin;
+use Crud\CrudPlugin;
+//use DatabaseBackup\Plugin as DatabaseBackupPlugin;
+use IdeHelper\IdeHelperPlugin;
+use Josegonzalez\Upload\UploadPlugin;
+use Migrations\MigrationsPlugin;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -69,6 +81,8 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
+ *
+ * @extends \Cake\Http\BaseApplication<\App\Application>
  */
 class Application extends BaseApplication implements
     AuthenticationServiceProviderInterface,
@@ -82,14 +96,13 @@ class Application extends BaseApplication implements
         parent::bootstrap();
 
         if (PHP_SAPI === 'cli') {
-            try {
-                $this->addPlugin(BakePlugin::class);
-                $this->addPlugin(Plugin::class);
-            } catch (MissingPluginException $e) {
-                // Do not halt if the plugin is missing
-            }
+            $this->bootstrapCli();
+        } else {
+            FactoryLocator::add(
+                'Table',
+                (new TableLocator())->allowFallbackClass(false)
+            );
         }
-
         TypeFactory::map('acd', Types\AttestedCredentialDataType::class);
         TypeFactory::map('ci', Types\PublicKeyCredentialDescriptorType::class);
         TypeFactory::map('trust_path', Types\TrustPathDataType::class);
@@ -100,12 +113,10 @@ class Application extends BaseApplication implements
         $this->addPlugin(AuthorizationPlugin::class);
         $this->addPlugin(CrudPlugin::class);
         $this->addPlugin(UploadPlugin::class);
-        $this->addPlugin(MigrationsPlugin::class);
-        $this->addPlugin(BakePlugin::class);
-        $this->addPlugin('CakeScheduler');
+        //$this->addPlugin('CakeScheduler');
         $this->addPlugin('StreamCake');
-        $this->addPlugin(DatabaseBackupPlugin::class);
-        $this->addPlugin(CakePreloaderPlugin::class);
+        //$this->addPlugin(DatabaseBackupPlugin::class);
+        //$this->addPlugin(CakePreloaderPlugin::class);
 
         /*
          * Only try to load DebugKit in development mode
@@ -126,7 +137,7 @@ class Application extends BaseApplication implements
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
         $middlewareQueue
-            ->add(new ErrorHandlerMiddleware((array)Configure::read('Error')))
+            ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
             ->add(new RoutingMiddleware($this))
             ->add(new BodyParserMiddleware())
             ->add(new AuthenticationMiddleware($this))
@@ -153,8 +164,8 @@ class Application extends BaseApplication implements
         $service = new AuthenticationService();
 
         $fields = [
-            IdentifierInterface::CREDENTIAL_USERNAME => 'email',
-            IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
+            AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
+            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
         ];
 
         $service->setConfig('identityClass', User::class);
@@ -268,11 +279,36 @@ class Application extends BaseApplication implements
      */
     public function services(ContainerInterface $container): void
     {
-        $container->add(PublicKeyCredentialSourceRepositoryService::class);
-        $container->add(WebauthnService::class);
-        $container->add(UserService::class);
+        $container->add(SendTestNotificationCommand::class)->addArgument(PushNotificationService::class);
+
         $container->add(ComputeScoreService::class);
+        $container->add(DownloadRatingsService::class);
+        $container->extend(DownloadRatingsService::class)->addArgument('io');
+        $container->add(LikelyLineupService::class);
         $container->add(LineupService::class);
+        $container->add(NotificationSubscriptionService::class);
+        $container->add(PublicKeyCredentialSourceRepositoryService::class);
         $container->addShared(PushNotificationService::class);
+        $container->add(RatingService::class);
+        $container->add(ScoreService::class);
+        $container->add(SelectionService::class);
+        $container->add(TeamService::class);
+        $container->add(TransfertService::class);
+        $container->add(UpdateMemberService::class);
+        $container->add(UserService::class);
+        $container->add(WebauthnService::class);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function bootstrapCli(): void
+    {
+        $this->addOptionalPlugin(BakePlugin::class);
+        $this->addPlugin(MigrationsPlugin::class);
+        $this->addPlugin(IdeHelperPlugin::class);
+        $this->addPlugin(CakeSchedulerPlugin::class);
+
+        // Load more plugins here
     }
 }

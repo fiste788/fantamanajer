@@ -6,7 +6,7 @@ namespace App\Authentication\Authenticator;
 use Authentication\Authenticator\AbstractAuthenticator;
 use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
-use Authentication\Identifier\IdentifierInterface;
+use Authentication\Identifier\AbstractIdentifier;
 use Authentication\UrlChecker\UrlCheckerTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,14 +23,14 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * - `loginUrl` Login URL or an array of URLs.
      * - `urlChecker` Url checker config.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'loginUrl' => null,
         'urlChecker' => 'Authentication.Default',
         'fields' => [
-            IdentifierInterface::CREDENTIAL_USERNAME => 'username',
-            IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
+            AbstractIdentifier::CREDENTIAL_USERNAME => 'username',
+            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
         ],
     ];
 

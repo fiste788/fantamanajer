@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  * MembersStats Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
- * @method \App\Model\Entity\MembersStat get($primaryKey, $options = [])
+ * @method \App\Model\Entity\MembersStat get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\MembersStat newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\MembersStat[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\MembersStat|false save(\Cake\Datasource\EntityInterface $entity, $options = [])

@@ -30,7 +30,7 @@ class Disposition extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'position' => true,
         'consideration' => false,
         'points' => false,

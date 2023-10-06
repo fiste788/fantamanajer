@@ -14,13 +14,13 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
-
 namespace App\Console;
 
 if (!defined('STDIN')) {
     define('STDIN', fopen('php://stdin', 'r'));
 }
 
+use Cake\Codeception\Console\Installer as CodeceptionInstaller;
 use Cake\Utility\Security;
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
@@ -65,9 +65,8 @@ class Installer
         static::setFolderPermissions($rootDir, $io);
         static::setSecuritySalt($rootDir, $io);
 
-        $class = 'Cake\Codeception\Console\Installer';
-        if (class_exists($class)) {
-            $class::customizeCodeceptionBinary($event);
+        if (class_exists(CodeceptionInstaller::class)) {
+            CodeceptionInstaller::customizeCodeceptionBinary($event);
         }
     }
 
@@ -119,7 +118,7 @@ class Installer
     {
         // ask if the permissions should be changed
         if ($io->isInteractive()) {
-            $validator = function ($arg) {
+            $validator = function (string $arg): string {
                 if (in_array($arg, ['Y', 'y', 'N', 'n'])) {
                     return $arg;
                 }
@@ -138,7 +137,7 @@ class Installer
         }
 
         // Change the permissions on a path and output the results.
-        $changePerms = function ($path) use ($io): void {
+        $changePerms = function (string $path) use ($io): void {
             $currentPerms = fileperms($path) & 0777;
             $worldWritable = $currentPerms | 0007;
             if ($worldWritable == $currentPerms) {
@@ -153,7 +152,8 @@ class Installer
             }
         };
 
-        $walker = function ($dir) use (&$walker, $changePerms): void {
+        $walker = function (string $dir) use (&$walker, $changePerms): void {
+            /** @phpstan-ignore-next-line */
             $files = array_diff(scandir($dir), ['.', '..']);
             foreach ($files as $file) {
                 $path = $dir . '/' . $file;
@@ -199,6 +199,7 @@ class Installer
         $config = $dir . '/config/' . $file;
         $content = file_get_contents($config);
 
+        /** @phpstan-ignore-next-line */
         $content = str_replace('__SALT__', $newKey, $content, $count);
 
         if ($count == 0) {
@@ -229,6 +230,7 @@ class Installer
     {
         $config = $dir . '/config/' . $file;
         $content = file_get_contents($config);
+        /** @phpstan-ignore-next-line */
         $content = str_replace('__APP_NAME__', $appName, $content, $count);
 
         if ($count == 0) {

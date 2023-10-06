@@ -12,10 +12,10 @@ use const DIRECTORY_SEPARATOR as DS;
  *
  * @property int $id
  * @property int $code_gazzetta
- * @property bool $active
+ * @property bool|null $active
  * @property bool $playmaker
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime|null $modified_at
+ * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\DateTime|null $modified_at
  * @property int $player_id
  * @property int $role_id
  * @property int $club_id
@@ -44,7 +44,7 @@ class Member extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'code_gazzetta' => false,
         'active' => false,
         'playmaker' => false,
@@ -68,7 +68,7 @@ class Member extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'created_at',
         'modified_at',
     ];
@@ -78,7 +78,7 @@ class Member extends Entity
      *
      * @var array<string>
      */
-    protected $_virtual = [
+    protected array $_virtual = [
         'photo_url',
         'background_url',
     ];

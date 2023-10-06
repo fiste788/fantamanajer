@@ -6,15 +6,16 @@ namespace App\Model\Table;
 use App\Model\Entity\Selection;
 use App\Model\Rule\MemberIsSelectableRule;
 use App\Model\Rule\TeamReachedMaxSelectionRule;
+use App\Service\SelectionService;
 use ArrayObject;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use League\Container\ContainerAwareTrait;
 
 /**
  * Selections Model
@@ -24,7 +25,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
  * @property \App\Service\SelectionService $Selection
- * @method \App\Model\Entity\Selection get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Selection get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Selection newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -40,7 +41,7 @@ use Cake\Validation\Validator;
  */
 class SelectionsTable extends Table
 {
-    use ServiceAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * Initialize method
@@ -115,7 +116,7 @@ class SelectionsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
-        $rules->addCreate(new MemberIsSelectableRule(), 'NewMemberIsSelectable', [
+        $rules->addCreate(new MemberIsSelectableRule($this->getContainer()->get(SelectionService::class)), 'NewMemberIsSelectable', [
             'errorField' => 'new_member',
             'message' => __('The member is already selected by another team'),
         ]);
@@ -142,7 +143,7 @@ class SelectionsTable extends Table
             ->contain(['Teams'])
             ->matching(
                 'Teams',
-                function (Query $q) use ($team): Query {
+                function (SelectQuery $q) use ($team): SelectQuery {
                     return $q->where(['Teams.championship_id' => $team->championship_id]);
                 }
             )
@@ -159,11 +160,11 @@ class SelectionsTable extends Table
     /**
      * Find by team and matchday query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query Query
+     * @return \Cake\ORM\Query\SelectQuery Query
      */
-    public function findByTeamIdAndMatchdayId(Query $q, array $options): Query
+    public function findByTeamIdAndMatchdayId(SelectQuery $q, array $options): SelectQuery
     {
         return $q->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where([
@@ -203,9 +204,7 @@ class SelectionsTable extends Table
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('processed') && $entity->processed) {
-            $this->loadService('Selection');
-
-            $this->Selection->save($entity);
+            $this->getContainer()->get(SelectionService::class)->save($entity);
         }
     }
 }

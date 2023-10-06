@@ -5,28 +5,21 @@ namespace App\Service;
 
 use App\Model\Entity\Selection;
 use App\Model\Entity\Transfert;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Mailer\Mailer;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use WebPush\Notification;
 
-/**
- * @property \App\Service\PushNotificationService $PushNotification
- */
-#[\AllowDynamicProperties]
 class SelectionService
 {
     use LocatorAwareTrait;
-    use ServiceAwareTrait;
 
     /**
      * Construct
      *
      * @throws \UnexpectedValueException
      */
-    public function __construct()
+    public function __construct(private PushNotificationService $PushNotification)
     {
-        $this->loadService('PushNotification');
     }
 
     /**
@@ -41,11 +34,14 @@ class SelectionService
     public function notifyLostMember(Selection $selection): void
     {
         /** @var \App\Model\Entity\Selection $selection */
-        $selection = $this->fetchTable('Selections')->loadInto($selection, ['Teams' => [
-            'EmailNotificationSubscriptions',
-            'PushNotificationSubscriptions',
-            'Users.PushSubscriptions',
-        ], 'NewMembers.Players']);
+        $selection = $this->fetchTable('Selections')->loadInto($selection, [
+            'Teams' => [
+                'EmailNotificationSubscriptions',
+                'PushNotificationSubscriptions',
+                'Users.PushSubscriptions',
+            ],
+            'NewMembers.Players',
+        ]);
         if ($selection->team->isEmailSubscripted('lost_member')) {
             $email = new Mailer();
             $email->setViewVars(
@@ -66,9 +62,9 @@ class SelectionService
                 "Hai perso il giocatore {$selection->new_member->player->full_name}"
             )->withTag('lost-player-' . $selection->id);
             $notification = Notification::create()
-                    ->withTTL(3600)
-                    ->withTopic('player-lost')
-                    ->withPayload($message->toString());
+                ->withTTL(3600)
+                ->withTopic('player-lost')
+                ->withPayload($message->toString());
             foreach ($selection->team->user->push_subscriptions as $subscription) {
                 $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
             }

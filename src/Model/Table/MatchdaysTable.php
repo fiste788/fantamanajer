@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Season;
-use Cake\I18n\FrozenTime;
-use Cake\ORM\Query;
+use Cake\I18n\DateTime;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -20,7 +20,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
  * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
- * @method \App\Model\Entity\Matchday get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Matchday get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Matchday newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -116,37 +116,37 @@ class MatchdaysTable extends Table
     /**
      * Find current query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findCurrent(Query $q, array $options): Query
+    public function findCurrent(SelectQuery $q, array $options): SelectQuery
     {
         $interval = array_key_exists('interval', $options) ? (int)$options['interval'] : 0;
-        $now = new FrozenTime();
-        $now->addMinute($interval);
+        $now = new DateTime();
+        $now->addMinutes($interval);
 
         return $q->contain(['Seasons'])
             ->where(['date > ' => $now])
-            ->orderAsc('number')->limit(1);
+            ->orderByAsc('number')->limit(1);
     }
 
     /**
      * Find previuos query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findPrevious(Query $q, array $options): Query
+    public function findPrevious(SelectQuery $q, array $options): SelectQuery
     {
         $interval = array_key_exists('interval', $options) ? (int)$options['interval'] : 0;
-        $now = new FrozenTime();
-        $now->addMinute($interval);
+        $now = new DateTime();
+        $now->addMinutes($interval);
 
         return $q->contain(['Seasons'])
             ->where(['date < ' => $now])
-            ->orderDesc('date')->limit(1);
+            ->orderByDesc('date')->limit(1);
     }
 
     /**
@@ -163,7 +163,7 @@ class MatchdaysTable extends Table
             ->where(
                 [
                     'team_id IS' => null,
-                    'date <' => new FrozenTime(),
+                    'date <' => new DateTime(),
                     'season_id' => $season->id,
                 ]
             )
@@ -176,33 +176,33 @@ class MatchdaysTable extends Table
      * Find with scores
      *
      * @param \App\Model\Entity\Season $season Season
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithScores(Season $season): Query
+    public function findWithScores(Season $season): SelectQuery
     {
         return $this->find()
             ->innerJoinWith('Scores')
             ->where(['season_id' => $season->id])
-            ->orderDesc('Matchdays.id')
+            ->orderByDesc('Matchdays.id')
             ->limit(1);
     }
 
     /**
      * Find first without score query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findFirstWithoutScores(Query $q, array $options): Query
+    public function findFirstWithoutScores(SelectQuery $q, array $options): SelectQuery
     {
         return $q->select('Matchdays.id')
             ->leftJoinWith('Scores')
-            ->orderAsc('Matchdays.number')
+            ->orderByAsc('Matchdays.number')
             ->whereNull('Scores.id')->andWhere([
-                'Matchdays.number >' => 0,
-                'season_id' => $options['season'],
-            ])->limit(1);
+                    'Matchdays.number >' => 0,
+                    'season_id' => $options['season'],
+                ])->limit(1);
     }
 
     /**
@@ -220,7 +220,7 @@ class MatchdaysTable extends Table
                 [
                     'number !=' => 0,
                     'member_id IS' => null,
-                    'date <' => new FrozenTime(),
+                    'date <' => new DateTime(),
                     'season_id' => $season->id,
                 ]
             )
@@ -233,14 +233,14 @@ class MatchdaysTable extends Table
      * Find with rarings
      *
      * @param \App\Model\Entity\Season $season Season
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithRatings(Season $season): Query
+    public function findWithRatings(Season $season): SelectQuery
     {
         return $this->find()
             ->innerJoinWith('Ratings')
             ->where(['season_id' => $season->id])
-            ->orderDesc('Matchdays.id')
+            ->orderByDesc('Matchdays.id')
             ->limit(1);
     }
 }

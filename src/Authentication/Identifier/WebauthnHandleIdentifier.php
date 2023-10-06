@@ -3,20 +3,22 @@ declare(strict_types=1);
 
 namespace App\Authentication\Identifier;
 
+use AllowDynamicProperties;
+use App\Service\WebauthnService;
 use ArrayAccess;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use League\Container\ContainerAwareTrait;
 
 /**
  * @property \App\Service\WebauthnService $Webauthn
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class WebauthnHandleIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
-    use ServiceAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * Constructor
@@ -27,7 +29,6 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     public function __construct(array $config = [])
     {
         $this->setConfig($config);
-        $this->loadService('Webauthn');
     }
 
     /**
@@ -36,9 +37,9 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      *   - `username`: one or many username fields.
      * - `resolver` The resolver implementation to use.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'fields' => [
             self::CREDENTIAL_USERNAME => 'uuid',
         ],
@@ -51,7 +52,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function identify(array $credentials)
+    public function identify(array $credentials): ArrayAccess|array|null
     {
         if (!isset($credentials['publicKey']) || !isset($credentials['userHandle'])) {
             return null;
@@ -62,9 +63,9 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
         $publicKey = (string)$credentials['publicKey'];
         $userHandle = (string)$credentials['userHandle'];
 
-        $result = $this->Webauthn->login($publicKey, $request, $userHandle);
+        $result = $this->getContainer()->get(WebauthnService::class)->login($publicKey, $request, $userHandle);
 
-        return $this->_findIdentity($result->getUserHandle());
+        return $this->_findIdentity($result->userHandle);
     }
 
     /**

@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property int $year
+ * @property string $year
  * @property string $key_gazzetta
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
@@ -32,7 +32,7 @@ class Season extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'year' => true,
         'key_gazzetta' => false,
@@ -48,7 +48,7 @@ class Season extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'key_gazzetta',
         'bonus_points_goals',
         'bonus_points_clean_sheet',
@@ -59,7 +59,7 @@ class Season extends Entity
      *
      * @var array<string>
      */
-    protected $_virtual = [
+    protected array $_virtual = [
         'started',
         'ended',
     ];

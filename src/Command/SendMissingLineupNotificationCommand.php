@@ -3,26 +3,29 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\PushNotificationService;
 use App\Traits\CurrentMatchdayTrait;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use GetStream\Stream\Client;
 use WebPush\Action;
 use WebPush\Notification;
 
-/**
- * @property \App\Service\PushNotificationService $PushNotification
- */
 class SendMissingLineupNotificationCommand extends Command
 {
     use CurrentMatchdayTrait;
-    use ServiceAwareTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(private PushNotificationService $PushNotification)
+    {
+    }
 
     /**
      * {@inheritDoc}
@@ -34,7 +37,6 @@ class SendMissingLineupNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
 
@@ -67,11 +69,11 @@ class SendMissingLineupNotificationCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $tomorrow = FrozenTime::now()->addDay()->second(0);
+        $tomorrow = DateTime::now()->addDays(1)->second(0);
         if (
             $args->getOption('force') ||
             $this->currentMatchday->date->isWithinNext('30 minutes') ||
-            $this->currentMatchday->date->eq($tomorrow)
+            $this->currentMatchday->date->equals($tomorrow)
         ) {
             $io->out('Start');
 
@@ -94,7 +96,7 @@ class SendMissingLineupNotificationCommand extends Command
                         ]),
                     ]
                 )->all();
-            $date = new FrozenTime($this->currentMatchday->date->getTimestamp());
+            $date = new DateTime($this->currentMatchday->date->getTimestamp());
             foreach ($teams as $team) {
                 $action = [
                     'operation' => 'navigateLastFocusedOrOpen',
@@ -108,10 +110,12 @@ class SendMissingLineupNotificationCommand extends Command
                 $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', $body)
                     ->addAction(Action::create('open', 'Imposta'))
                     ->withTag('missing-lineup-' . $this->currentMatchday->number)
-                    ->withData(['onActionClick' => [
-                        'default' => $action,
-                        'open' => $action,
-                    ]]);
+                    ->withData([
+                        'onActionClick' => [
+                            'default' => $action,
+                            'open' => $action,
+                        ],
+                    ]);
                 $notification = Notification::create()
                     ->withTTL(3600)
                     ->withTopic('missing-lineup')

@@ -5,7 +5,7 @@ namespace App\Model\Rule;
 
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 class TeamReachedMaxSelectionRule
 {
@@ -15,7 +15,7 @@ class TeamReachedMaxSelectionRule
      * Invoke
      *
      * @param \App\Model\Entity\Selection $entity Entity
-     * @param array $options Options
+     * @param array<string, mixed> $options Options
      * @return bool
      * @throws \Cake\Core\Exception\CakeException
      */
@@ -26,7 +26,7 @@ class TeamReachedMaxSelectionRule
         /** @var \App\Model\Entity\Championship $championship */
         $championship = $championshipsTable->find()->innerJoinWith(
             'Teams',
-            function (Query $q) use ($entity): Query {
+            function (SelectQuery $q) use ($entity): SelectQuery {
                 return $q->where(['Teams.id' => $entity->team_id]);
             }
         )->first();
@@ -38,7 +38,7 @@ class TeamReachedMaxSelectionRule
             'matchday_id' => $entity->matchday_id,
             'team_id' => $entity->team_id,
             'processed' => false,
-        ])->last();
+        ])->all()->last();
 
         $count = $selectionsTable->find()->distinct('new_member_id')->where([
             'matchday_id' => $entity->matchday_id,

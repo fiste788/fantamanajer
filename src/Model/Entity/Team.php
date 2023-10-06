@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
  * @property string|null $photo_type
  * @property int $user_id
  * @property int $championship_id
- * @property null|string[] $photo_url
+ * @property array<string>|null $photo_url
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Championship $championship
@@ -44,7 +44,7 @@ class Team extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'name' => true,
         'admin' => true,
         'photo' => true,
@@ -71,7 +71,7 @@ class Team extends Entity
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'photo',
         'photo_dir',
         'photo_size',
@@ -83,7 +83,7 @@ class Team extends Entity
      *
      * @var array<string>
      */
-    protected $_virtual = [
+    protected array $_virtual = [
         'photo_url',
     ];
 

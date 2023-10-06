@@ -11,7 +11,7 @@ class MissingPlayerInLineupRule
      * Invoke
      *
      * @param \App\Model\Entity\Lineup $entity Entity
-     * @param array $options Options
+     * @param array<string, mixed> $options Options
      * @return bool
      */
     public function __invoke(EntityInterface $entity, array $options): bool

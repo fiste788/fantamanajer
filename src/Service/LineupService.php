@@ -43,7 +43,7 @@ class LineupService
         /** @var \App\Model\Table\TeamsTable $teamsTable */
         $teamsTable = $this->fetchTable('Teams');
         $lineup = new Lineup();
-        $lineup->team = $teamsTable->get($teamId, ['contain' => ['Members' => ['Roles', 'Players']]]);
+        $lineup->team = $teamsTable->get($teamId, contain: ['Members' => ['Roles', 'Players']]);
         $lineup->dispositions = [];
         $lineup->modules = Lineup::$MODULES;
 

@@ -44,7 +44,7 @@ class PushNotificationService implements WebPushService
         $jwsProvider = WebTokenProvider::create((string)$config['publicKey'], (string)$config['privateKey']);
         $vapidExtension = VAPIDExtension::create(
             (string)$config['subject'],
-            $jwsProvider
+            $jwsProvider,
         );
 
         $payloadExtension = PayloadExtension::create()

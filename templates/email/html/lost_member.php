@@ -5,5 +5,6 @@
  * @var \App\Model\Entity\Player $player
  */
 ?>
-<p><?= __('{0} has been selected by another team', $player->fullName); ?></p>
-       
+<p>
+    <?= __('{0} has been selected by another team', $player->fullName); ?>
+</p>

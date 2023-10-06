@@ -3,18 +3,13 @@ declare(strict_types=1);
 
 namespace App\Model\Rule;
 
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use App\Service\SelectionService;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 
-/**
- * @property \App\Service\SelectionService $Selection
- */
-#[\AllowDynamicProperties]
 class MemberIsSelectableRule
 {
-    use ServiceAwareTrait;
     use LocatorAwareTrait;
 
     /**
@@ -23,16 +18,15 @@ class MemberIsSelectableRule
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct()
+    public function __construct(private SelectionService $Selection)
     {
-        $this->loadService('Selection');
     }
 
     /**
      * Invoke
      *
      * @param \App\Model\Entity\Selection $entity Entity
-     * @param array $options Options
+     * @param array<string, mixed> $options Options
      * @return bool
      * @throws \ErrorException
      * @throws \Cake\Core\Exception\CakeException
@@ -48,11 +42,9 @@ class MemberIsSelectableRule
         $selectionsTable = $this->fetchTable('Selections');
         $selection = $selectionsTable->findAlreadySelectedMember($entity);
         if ($selection != null) {
-            $ranking = $this->fetchTable('Scores')->find('ranking', [
-                'championship_id' => $selection->team->championship_id,
-            ]);
+            $ranking = $this->fetchTable('Scores')->find('ranking', championship_id: $selection->team->championship_id);
 
-            /** @var array $rank */
+            /** @var array<int> $rank */
             $rank = Hash::extract($ranking->toArray(), '{n}.team_id');
             if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
                 $selection->active = false;

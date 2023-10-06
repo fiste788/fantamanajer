@@ -6,7 +6,7 @@ namespace App\Model\Table;
 use App\Model\Entity\Score;
 use App\Model\Entity\Season;
 use Cake\Collection\CollectionInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -17,7 +17,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- * @method \App\Model\Entity\Score get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Score get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Score newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -135,19 +135,19 @@ class ScoresTable extends Table
     /**
      * Find scores query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      * @throws \InvalidArgumentException
      */
-    public function findScores(Query $q, array $options): Query
+    public function findScores(SelectQuery $q, array $options): SelectQuery
     {
         $championshipId = (int)$options['championship_id'];
 
         return $q->select(['id', 'points', 'team_id'])
             ->contain([
                 'Matchdays' => ['fields' => ['number']],
-            ])->innerJoinWith('Teams', function (Query $q) use ($championshipId): Query {
+            ])->innerJoinWith('Teams', function (SelectQuery $q) use ($championshipId): SelectQuery {
                 return $q->where(['Teams.championship_id' => $championshipId]);
             })->formatResults(function (CollectionInterface $results): CollectionInterface {
                 return $results->combine('matchday.number', function (Score $entity): Score {
@@ -161,29 +161,29 @@ class ScoresTable extends Table
     /**
      * Find by team query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeam(Query $q, array $options): Query
+    public function findByTeam(SelectQuery $q, array $options): SelectQuery
     {
         return $q->contain([
             'Teams',
             'Matchdays' => ['fields' => ['number']],
         ])->where([
-            'team_id' => $options['team_id'],
-        ]);
+                    'team_id' => $options['team_id'],
+                ]);
     }
 
     /**
      * Find ranking query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      * @throws \InvalidArgumentException
      */
-    public function findRanking(Query $q, array $options): Query
+    public function findRanking(SelectQuery $q, array $options): SelectQuery
     {
         $championshipId = (int)$options['championship_id'];
         $sum = $q->func()->sum('points');
@@ -194,13 +194,11 @@ class ScoresTable extends Table
         ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->where(['Teams.championship_id' => $championshipId])
             ->group('Teams.id')
-            ->orderDesc($sum);
+            ->orderByDesc($sum);
 
         if (array_key_exists('scores', $options) && $options['scores']) {
             $q->formatResults(function (CollectionInterface $results) use ($championshipId): CollectionInterface {
-                $scores = $this->find('scores', [
-                    'championship_id' => $championshipId,
-                ])->all()->toArray();
+                $scores = $this->find('scores', championship_id: $championshipId)->all()->toArray();
 
                 if (!empty($scores)) {
                     return $results->map(function (Score $entity) use ($scores): Score {
@@ -229,15 +227,20 @@ class ScoresTable extends Table
         if ($members) {
             $contain = [
                 'Lineups' => [
-                    'Dispositions', 'Teams.Members' => [
-                        'Roles', 'Players',
+                    'Dispositions',
+                    'Teams.Members' => [
+                        'Roles',
+                        'Players',
                     ],
                 ],
             ];
         } else {
             $contain = [
                 'Lineups.Dispositions.Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($score): Query {
+                    'Roles',
+                    'Players',
+                    'Clubs',
+                    'Ratings' => function (SelectQuery $q) use ($score): SelectQuery {
                         return $q->where(['Ratings.matchday_id' => $score->matchday_id]);
                     },
                 ],

@@ -31,7 +31,7 @@ class Transfert extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'constrained' => true,
         'old_member_id' => true,
         'new_member_id' => true,

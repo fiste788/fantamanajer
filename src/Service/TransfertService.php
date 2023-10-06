@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AllowDynamicProperties;
 use App\Model\Entity\MembersTeam;
 use App\Model\Entity\Transfert;
 use ArrayObject;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * @property \App\Service\LineupService $Lineup
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class TransfertService
 {
     use LocatorAwareTrait;
-
-    use ServiceAwareTrait;
 
     /**
      * Constructor
@@ -25,9 +23,8 @@ class TransfertService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct()
+    public function __construct(private LineupService $Lineup)
     {
-        $this->loadService('Lineup');
     }
 
     /**

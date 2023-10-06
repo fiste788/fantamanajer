@@ -5,21 +5,13 @@ namespace App\Service;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
-/**
- * Undocumented class
- *
- * @property \App\Service\DownloadRatingsService $DownloadRatings
- */
-#[\AllowDynamicProperties]
 class RatingService
 {
-    use ServiceAwareTrait;
     use LocatorAwareTrait;
 
     /**
@@ -34,10 +26,8 @@ class RatingService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct(ConsoleIo $io)
+    public function __construct(private DownloadRatingsService $DownloadRatings)
     {
-        $this->io = $io;
-        $this->loadService('DownloadRatings', [$io]);
     }
 
     /**
@@ -133,9 +123,12 @@ class RatingService
             $membersTable = $this->fetchTable('Members');
             /** @var array<\App\Model\Entity\Member> $members */
             $members = $membersTable->findListBySeasonId($matchday->season_id)
-                ->contain(['Roles', 'Ratings' => function (Query $q) use ($matchday): Query {
-                    return $q->where(['matchday_id' => $matchday->id]);
-                }])->toArray();
+                ->contain([
+                    'Roles',
+                    'Ratings' => function (SelectQuery $q) use ($matchday): SelectQuery {
+                        return $q->where(['matchday_id' => $matchday->id]);
+                    },
+                ])->toArray();
 
             /** @var \App\Model\Table\RatingsTable $ratingsTable */
             $ratingsTable = $this->fetchTable('Ratings');

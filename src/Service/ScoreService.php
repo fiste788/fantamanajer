@@ -25,7 +25,7 @@ class ScoreService
         /** @var \App\Model\Entity\Matchday $current */
         $current = $matchdaysTable->find('current')->first();
         $matchdaysWithScore = $matchdaysTable->findWithScores($current->season)
-            ->orderAsc('number', true)
+            ->orderByAsc('number', true)
             ->distinct()
             ->limit(40);
 

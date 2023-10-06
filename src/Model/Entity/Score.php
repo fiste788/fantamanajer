@@ -32,7 +32,7 @@ class Score extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'points' => true,
         'real_points' => true,
         'penality_points' => true,

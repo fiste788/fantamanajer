@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use StreamCake\EnrichedActivity;
 
 /**
@@ -17,9 +17,9 @@ abstract class StreamActivity implements StreamActivityInterface
     protected EnrichedActivity $activity;
 
     /**
-     * @var \Cake\I18n\FrozenTime
+     * @var \Cake\I18n\DateTime
      */
-    protected FrozenTime $timeStamp;
+    protected DateTime $timeStamp;
 
     /**
      * @var string $title

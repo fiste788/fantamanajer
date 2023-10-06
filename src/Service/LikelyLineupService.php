@@ -9,8 +9,8 @@ use Cake\Collection\Collection;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
-use RuntimeException;
 use LogicException;
+use RuntimeException;
 use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -45,12 +45,10 @@ class LikelyLineupService
     {
         /** @var \App\Model\Table\TeamsTable $teamsTable */
         $teamsTable = $this->fetchTable('Teams');
-        $team = $teamsTable->get($teamId, [
-            'contain' => [
-                'Members' => [
-                    'Players',
-                    'Clubs',
-                ],
+        $team = $teamsTable->get($teamId, contain: [
+            'Members' => [
+                'Players',
+                'Clubs',
             ],
         ]);
         $this->retrieve($team->members);

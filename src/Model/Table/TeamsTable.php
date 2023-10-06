@@ -4,13 +4,14 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Team;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use App\Service\TeamService;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use League\Container\ContainerAwareTrait;
 use Psr\Http\Message\UploadedFileInterface;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
@@ -30,7 +31,7 @@ use SplFileInfo;
  * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsToMany $Members
  * @property \App\Service\TeamService $Team
- * @method \App\Model\Entity\Team get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Team get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Team newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -47,7 +48,7 @@ use SplFileInfo;
  */
 class TeamsTable extends Table
 {
-    use ServiceAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * Initialize method
@@ -109,26 +110,19 @@ class TeamsTable extends Table
             'photo' => [
                 'path' => 'webroot{DS}img{DS}{table}{DS}{primaryKey}{DS}{field}{DS}',
                 'fields' => [
-                    'dir' => 'photo_dir', // defaults to `dir`
-                    'size' => 'photo_size', // defaults to `size`
-                    'type' => 'photo_type', // defaults to `type`
+                    'dir' => 'photo_dir',
+                    // defaults to `dir`
+                    'size' => 'photo_size',
+                    // defaults to `size`
+                    'type' => 'photo_type',
+                    // defaults to `type`
                 ],
-                'nameCallback' => function (
-                    RepositoryInterface $_table,
-                    EntityInterface $_entity,
-                    UploadedFileInterface $file,
-                    string $_field,
-                    array $_settings
-                ) {
+                'nameCallback' =>
+                function (RepositoryInterface $_table, EntityInterface $_entity, UploadedFileInterface $file, string $_field, array $_settings) {
                     return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
                 },
-                'transformer' => function (
-                    RepositoryInterface $_table,
-                    EntityInterface $entity,
-                    UploadedFileInterface $file,
-                    string $_field,
-                    array $_settings
-                ) {
+                'transformer' =>
+                function (RepositoryInterface $_table, EntityInterface $entity, UploadedFileInterface $file, string $_field, array $_settings) {
                     $tmpFileName = new SplFileInfo(
                         strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
                     );
@@ -151,12 +145,7 @@ class TeamsTable extends Table
                         return $array;
                     }
                 },
-                'deleteCallback' => function (
-                    string $path,
-                    EntityInterface $entity,
-                    string $field,
-                    array $_settings
-                ) {
+                'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $_settings) {
                     $array = [$path . (string)$entity->{$field}];
                     foreach (Team::$size as $value) {
                         $array[] = $path . $value . DS . (string)$entity->{$field};
@@ -234,14 +223,14 @@ class TeamsTable extends Table
     /**
      * Return find by championship query
      *
-     * @param \Cake\ORM\Query $q Query
-     * @param array $options Options
-     * @return \Cake\ORM\Query Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
+     * @param mixed ...$args
+     * @return \Cake\ORM\Query\SelectQuery Query
      */
-    public function findByChampionshipId(Query $q, array $options): Query
+    public function findByChampionshipId(SelectQuery $q, mixed $args): SelectQuery
     {
         return $q->contain(['Users'])
-            ->where(['championship_id' => $options['championship_id']]);
+            ->where(['championship_id' => $args['championship_id']]);
     }
 
     /**
@@ -255,8 +244,6 @@ class TeamsTable extends Table
      */
     public function saveWithoutUser(Team $team): void
     {
-        $this->loadService('Team');
-
         if (!$team->user->id) {
             $user = $this->Users->findOrCreate(['email' => $team->user->email]);
             $team->user = $user;
@@ -264,6 +251,6 @@ class TeamsTable extends Table
         if (!$team->user->id) {
             $team->user->active = false;
         }
-        $this->Team->createTeam($team);
+        $this->getContainer()->get(TeamService::class)->createTeam($team);
     }
 }

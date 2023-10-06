@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property string $module
  * @property bool|null $jolly
  * @property bool|null $cloned
- * @property \Cake\I18n\FrozenTime $created_at
- * @property \Cake\I18n\FrozenTime $modified_at
+ * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\DateTime $modified_at
  * @property int|null $captain_id
  * @property int|null $vcaptain_id
  * @property int|null $vvcaptain_id
@@ -28,6 +28,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Team $team
  * @property \App\Model\Entity\Disposition[] $dispositions
  * @property \App\Model\Entity\Score|null $score
+ * @property int|null $old_id
+ * @property \App\Model\Entity\Member|null $member
  */
 class Lineup extends Entity
 {
@@ -40,7 +42,7 @@ class Lineup extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'module' => true,
         'jolly' => true,
         'cloned' => true,

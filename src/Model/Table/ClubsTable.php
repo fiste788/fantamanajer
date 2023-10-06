@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
  * Clubs Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- * @method \App\Model\Entity\Club get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Club get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Club newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Club[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Club|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -81,15 +81,15 @@ class ClubsTable extends Table
     /**
      * Find by season query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findBySeasonId(Query $q, array $options): Query
+    public function findBySeasonId(SelectQuery $q, array $options): SelectQuery
     {
-        return $q->innerJoinWith('Members', function (Query $q) use ($options) {
+        return $q->innerJoinWith('Members', function (SelectQuery $q) use ($options): SelectQuery {
             return $q->where(['season_id' => $options['season_id']]);
-        })->group('Clubs.id')
-            ->orderAsc('name');
+        })->groupBy('Clubs.id')
+            ->orderByAsc('name');
     }
 }

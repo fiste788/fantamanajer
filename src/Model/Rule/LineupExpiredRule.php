@@ -14,7 +14,7 @@ class LineupExpiredRule
      * Invoke
      *
      * @param \App\Model\Entity\Lineup $entity Entity
-     * @param array $options Options
+     * @param array<string, mixed> $options Options
      * @return bool
      * @throws \Cake\Core\Exception\CakeException
      */
@@ -26,7 +26,7 @@ class LineupExpiredRule
             /** @var \App\Model\Entity\Matchday $matchday */
             $matchday = $this->fetchTable('Matchdays')->get($entity->matchday_id);
             /** @var \App\Model\Entity\Team $team */
-            $team = $this->fetchTable('Teams')->get($entity->team_id, ['contain' => ['Championships']]);
+            $team = $this->fetchTable('Teams')->get($entity->team_id, 'all', null, null, contain: ['Championships']);
 
             return $matchday->date->subMinutes($team->championship->minute_lineup)->isFuture();
         }

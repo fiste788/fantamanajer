@@ -26,7 +26,7 @@ class MembersTeam extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'team_id' => true,
         'member_id' => true,
         'team' => true,

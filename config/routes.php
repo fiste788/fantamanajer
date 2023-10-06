@@ -25,27 +25,32 @@
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Route\InflectedRoute;
 
-return static function (RouteBuilder $routes) {
+/*
+ * This file is loaded in the context of the `Application` class.
+ * So you can use  `$this` to reference the application class instance
+ * if required.
+ */
+return static function (RouteBuilder $routes): void {
     /*
-    * The default class to use for all routes
-    *
-    * The following route classes are supplied with CakePHP and are appropriate
-    * to set as the default:
-    *
-    * - Route
-    * - InflectedRoute
-    * - DashedRoute
-    *
-    * If no call is made to `Router::defaultRouteClass()`, the class used is
-    * `Route` (`Cake\Routing\Route\Route`)
-    *
-    * Note that `Route` does not do any inflections on URLs which will result in
-    * inconsistently cased URLs when used with `:plugin`, `:controller` and
-    * `:action` markers.
-    */
+     * The default class to use for all routes
+     *
+     * The following route classes are supplied with CakePHP and are appropriate
+     * to set as the default:
+     *
+     * - Route
+     * - InflectedRoute
+     * - DashedRoute
+     *
+     * If no call is made to `Router::defaultRouteClass()`, the class used is
+     * `Route` (`Cake\Routing\Route\Route`)
+     *
+     * Note that `Route` does not do any inflections on URLs which will result in
+     * inconsistently cased URLs when used with `:plugin`, `:controller` and
+     * `:action` markers.
+     */
     $routes->setRouteClass(InflectedRoute::class);
 
-    $routes->scope('/', function (RouteBuilder $routes) {
+    $routes->scope('/', function (RouteBuilder $routes): void {
         $routes->setExtensions(['json']);
 
         $routes->resources('Articles', [
@@ -81,7 +86,7 @@ return static function (RouteBuilder $routes) {
                     'method' => 'GET',
                 ],
             ],
-        ], function (RouteBuilder $routes) {
+        ], function (RouteBuilder $routes): void {
             $routes->resources('PublicKeyCredentialSources', [
                 'prefix' => 'Users',
                 'only' => ['index', 'delete'],
@@ -122,7 +127,7 @@ return static function (RouteBuilder $routes) {
 
         $routes->resources('Members', [
             'only' => 'view',
-        ], function (RouteBuilder $routes) {
+        ], function (RouteBuilder $routes): void {
             $routes->connect('/ratings', [
                 'controller' => 'Ratings',
                 'prefix' => 'Members'
@@ -131,7 +136,7 @@ return static function (RouteBuilder $routes) {
 
         $routes->resources('Clubs', [
             'only' => ['index', 'view'],
-        ], function (RouteBuilder $routes) {
+        ], function (RouteBuilder $routes): void {
             $routes->resources('Members', [
                 'prefix' => 'Clubs',
                 'only' => 'index',
@@ -172,7 +177,7 @@ return static function (RouteBuilder $routes) {
 
         $routes->resources('Championships', [
             'only' => ['view', 'update'],
-        ], function (RouteBuilder $routes) {
+        ], function (RouteBuilder $routes): void {
             $routes->resources('Articles', [
                 'only' => 'index',
                 'prefix' => 'Championships',
@@ -208,7 +213,7 @@ return static function (RouteBuilder $routes) {
                 ->setPatterns(['role_id' => '\d+']);
         });
 
-        $routes->prefix('admin', [], function (RouteBuilder $routes) {
+        $routes->prefix('admin', [], function (RouteBuilder $routes): void {
             $routes->resources('Transferts', [
                 'only' => ['create'],
             ]);

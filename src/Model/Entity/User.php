@@ -22,7 +22,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @property string $username
  * @property string $password
  * @property string|null $login_key
- * @property bool $active
+ * @property bool|null $active
  * @property bool $admin
  * @property bool $active_email
  *
@@ -43,7 +43,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'uuid' => false,
         'email' => true,
         'name' => true,
@@ -63,7 +63,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      *
      * @var array<string>
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'password',
         'login_key',
         'uuid',
@@ -139,9 +139,9 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return mixed
      */
-    public function applyScope(string $action, mixed $resource): mixed
+    public function applyScope(string $action, mixed $resource, mixed ...$optionalArgs): mixed
     {
-        return $this->authorization->applyScope($this, $action, $resource);
+        return $this->authorization->applyScope($this, $action, $resource, $optionalArgs);
     }
 
     /**

@@ -67,7 +67,7 @@ class RenewChampionshipCommand extends Command
             ],
         ];
 
-        $championship = $championshipsTable->get($args->getArgument('id'), ['contain' => $relations]);
+        $championship = $championshipsTable->get($args->getArgument('id'), contain: $relations);
 
         $newChampionship = $championshipsTable->newEntity(
             $championship->getOriginalValues(),

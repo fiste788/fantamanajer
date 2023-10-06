@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\Entity;
 
 /**
@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $number
- * @property \Cake\I18n\FrozenTime $date
+ * @property \Cake\I18n\DateTime $date
  * @property int $season_id
  *
  * @property \App\Model\Entity\Season $season
@@ -33,7 +33,7 @@ class Matchday extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'number' => false,
         'date' => true,
         'season_id' => false,
@@ -53,7 +53,7 @@ class Matchday extends Entity
      */
     public function isWeeklyScriptDay(): bool
     {
-        return $this->date->diffInHours(new FrozenTime(), true) > 48;
+        return $this->date->diffInHours(new DateTime(), true) > 48;
     }
 
     /**

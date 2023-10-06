@@ -22,6 +22,7 @@ error_log
 .DS_Store
 .DS_Store?
 ._*
+.phpunit.cache
 .Spotlight-V100
 .Trashes
 Icon?

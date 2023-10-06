@@ -5,7 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -15,7 +15,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- * @method \App\Model\Entity\Rating get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Rating get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Rating newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Rating|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -193,11 +193,11 @@ class RatingsTable extends Table
     /**
      * Find by member id  query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByMemberId(Query $q, array $options): Query
+    public function findByMemberId(SelectQuery $q, array $options): SelectQuery
     {
         return $q->select([
             'rating',
@@ -211,9 +211,11 @@ class RatingsTable extends Table
             'yellow_card',
             'red_card',
             'quotation',
-        ])->contain(['Matchdays' => function (Query $q): Query {
-            return $q->select(['number'], true);
-        }])->order(['Matchdays.number' => 'ASC'])
+        ])->contain([
+                    'Matchdays' => function (SelectQuery $q): SelectQuery {
+                        return $q->select(['number'], true);
+                    },
+                ])->orderBy(['Matchdays.number' => 'ASC'])
             ->where(['member_id' => $options['member_id']]);
     }
 }

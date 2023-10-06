@@ -4,20 +4,20 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\MembersTeam;
+use App\Service\TransfertService;
 use ArrayObject;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use League\Container\ContainerAwareTrait;
 
 /**
  * MembersTeams Model
  *
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
- * @property \App\Service\TransfertService $Transfert
- * @method \App\Model\Entity\MembersTeam get($primaryKey, $options = [])
+ * @method \App\Model\Entity\MembersTeam get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\MembersTeam newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\MembersTeam|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -33,7 +33,7 @@ use Cake\Validation\Validator;
  */
 class MembersTeamsTable extends Table
 {
-    use ServiceAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * Initialize method
@@ -103,9 +103,7 @@ class MembersTeamsTable extends Table
     public function beforeSave(Event $event, MembersTeam $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('member_id') && !$entity->isNew()) {
-            $this->loadService('Transfert');
-
-            $this->Transfert->saveTeamMember($entity);
+            $this->getContainer()->get(TransfertService::class)->saveTeamMember($entity);
         }
     }
 }

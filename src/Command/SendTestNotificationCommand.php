@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\PushNotificationService;
 use App\Traits\CurrentMatchdayTrait;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
@@ -13,13 +13,16 @@ use Cake\Console\ConsoleOptionParser;
 use WebPush\Action;
 use WebPush\Notification;
 
-/**
- * @property \App\Service\PushNotificationService $PushNotification
- */
 class SendTestNotificationCommand extends Command
 {
     use CurrentMatchdayTrait;
-    use ServiceAwareTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(private PushNotificationService $PushNotification)
+    {
+    }
 
     /**
      * {@inheritDoc}
@@ -31,7 +34,6 @@ class SendTestNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
 
@@ -67,7 +69,7 @@ class SendTestNotificationCommand extends Command
         $io->out('Parto');
         $teamsTable = $this->fetchTable('Teams');
         /** @var \App\Model\Entity\Team $team */
-        $team = $teamsTable->get(77, ['contain' => ['Users.PushSubscriptions']]);
+        $team = $teamsTable->get(77, contain: ['Users.PushSubscriptions']);
         $io->out('cerco squadra 77');
 
         $action = [
@@ -83,10 +85,12 @@ class SendTestNotificationCommand extends Command
             ->renotify()
             ->interactionRequired()
             ->withTimestamp(time())
-            ->withData(['onActionClick' => [
-                'default' => $action,
-                'open' => $action,
-            ]])
+            ->withData([
+                'onActionClick' => [
+                    'default' => $action,
+                    'open' => $action,
+                ],
+            ])
             ->addAction(Action::create('open', 'Apri'));
         $notification = Notification::create()
             ->withTTL(3600)

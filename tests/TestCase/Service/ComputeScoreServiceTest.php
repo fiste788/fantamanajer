@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * @property \App\Service\LineupService $Lineup
  * @property \App\Model\Table\ScoresTable $Scores
  * @property \App\Model\Table\TeamsTable $Teams
  * @property \App\Model\Table\MatchdaysTable $Matchdays
@@ -18,7 +16,6 @@ use Cake\TestSuite\TestCase;
 class ComputeScoreServiceTest extends TestCase
 {
     use ModelAwareTrait;
-    use ServiceAwareTrait;
 
     public $fixtures = ['app.Members', 'app.Players', 'app.Ratings', 'app.Teams', 'app.Championships', 'app.Lineups', 'app.Dispositions', 'app.Matchdays', 'app.Seasons'];
 
@@ -28,9 +25,8 @@ class ComputeScoreServiceTest extends TestCase
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct()
+    public function __construct(private LineupService $Lineup)
     {
-        $this->loadService('Lineup');
         $this->Scores = $this->fetchTable('Scores');
         $this->Teams = $this->fetchTable('Teams');
         $this->Matchdays = $this->fetchTable('Matchdays');

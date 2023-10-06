@@ -6,19 +6,13 @@ namespace App\Service;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
-/**
- * @property \App\Service\DownloadRatingsService $DownloadRatings
- */
-#[\AllowDynamicProperties]
 class UpdateMemberService
 {
-    use ServiceAwareTrait;
     use LocatorAwareTrait;
 
     /**
@@ -33,10 +27,8 @@ class UpdateMemberService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct(ConsoleIo $io)
+    public function __construct(private DownloadRatingsService $DownloadRatings)
     {
-        $this->io = $io;
-        $this->loadService('DownloadRatings', [$io]);
     }
 
     /**
@@ -68,13 +60,11 @@ class UpdateMemberService
             $membersTable = $this->fetchTable('Members');
             $query = $membersTable->find(
                 'list',
-                [
-                    'keyField' => 'code_gazzetta',
-                    'valueField' => function (Member $obj): Member {
-                        return $obj;
-                    },
-                    'contain' => ['Players'],
-                ]
+                keyField: 'code_gazzetta',
+                valueField: function (Member $obj): Member {
+                    return $obj;
+                },
+                contain: ['Players']
             )->where(['season_id' => $matchday->season_id]);
             /** @var array<\App\Model\Entity\Member> $oldMembers */
             $oldMembers = $query->toArray();

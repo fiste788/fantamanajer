@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class MembersController extends AppMembersController
 {
-    public $paginate = [
+    public array $paginate = [
         'limit' => 1000,
         'maxLimit' => 1000,
     ];

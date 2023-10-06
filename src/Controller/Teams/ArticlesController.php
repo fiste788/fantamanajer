@@ -12,12 +12,13 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ArticlesController extends AppController
 {
-    public $paginate = [
+    public array $paginate = [
         'page' => 1,
         'limit' => 1,
         'maxLimit' => 15,
         'sortWhitelist' => [
-            'id', 'title',
+            'id',
+            'title',
         ],
     ];
 
@@ -57,7 +58,7 @@ class ArticlesController extends AppController
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
         $action->findMethod([
-            'byTeamId' => ['team_id' => (int)$this->request->getParam('team_id')],
+            'byTeamId' => ['teamId' => (int) $this->request->getParam('team_id')],
         ]);
 
         return $this->Crud->execute();

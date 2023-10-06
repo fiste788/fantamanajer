@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
  * NotificationSubscriptions Model
  *
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @method \App\Model\Entity\NotificationSubscription get($primaryKey, $options = [])
+ * @method \App\Model\Entity\NotificationSubscription get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\NotificationSubscription newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\NotificationSubscription|false save(\Cake\Datasource\EntityInterface $entity, $options = [])

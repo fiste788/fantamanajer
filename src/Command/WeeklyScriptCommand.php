@@ -5,8 +5,12 @@ namespace App\Command;
 
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
+use App\Service\ComputeScoreService;
+use App\Service\DownloadRatingsService;
+use App\Service\PushNotificationService;
+use App\Service\RatingService;
+use App\Service\UpdateMemberService;
 use App\Traits\CurrentMatchdayTrait;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
@@ -17,18 +21,24 @@ use WebPush\Action;
 use WebPush\Notification;
 
 /**
- * @property \App\Service\ComputeScoreService $ComputeScore
- * @property \App\Service\RatingService $Rating
- * @property \App\Service\DownloadRatingsService $DownloadRatings
- * @property \App\Service\UpdateMemberService $UpdateMember
- * @property \App\Service\PushNotificationService $PushNotification
  * @property \Cake\ORM\Table $Points
  */
 class WeeklyScriptCommand extends Command
 {
     use CurrentMatchdayTrait;
-    use ServiceAwareTrait;
     use MailerAwareTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(
+        private PushNotificationService $PushNotification,
+        private ComputeScoreService $ComputeScore,
+        private RatingService $Rating,
+        private DownloadRatingsService $DownloadRatings,
+        private UpdateMemberService $UpdateMember
+    ) {
+    }
 
     /**
      * {@inheritDoc}
@@ -40,9 +50,6 @@ class WeeklyScriptCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->loadService('ComputeScore');
-        $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
 
@@ -80,10 +87,6 @@ class WeeklyScriptCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        $this->loadService('Rating', [$io]);
-        $this->loadService('DownloadRatings', [$io]);
-        $this->loadService('UpdateMember', [$io]);
-
         /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
         $matchdaysTable = $this->fetchTable('Matchdays');
         $missingRatings = $matchdaysTable->findWithoutRatings($this->currentSeason);
@@ -191,15 +194,17 @@ class WeeklyScriptCommand extends Command
                 $message = $this->PushNotification->createDefaultMessage($title, $body)
                     ->addAction(Action::create('open', 'Visualizza'))
                     ->withTag("lineup-{$scores[$team->id]->points}")
-                    ->withData(['onActionClick' => [
-                       'default' => $action,
-                       'open' => $action,
-                    ]]);
+                    ->withData([
+                        'onActionClick' => [
+                            'default' => $action,
+                            'open' => $action,
+                        ],
+                    ]);
 
                 $notification = Notification::create()
-                        ->withTTL(3600)
-                        ->withTopic('score')
-                        ->withPayload($message->toString());
+                    ->withTTL(3600)
+                    ->withTopic('score')
+                    ->withPayload($message->toString());
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $io->out('Sending notification to ' . $subscription->endpoint);
                     $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
@@ -220,13 +225,14 @@ class WeeklyScriptCommand extends Command
     {
         $lineupsTable = $this->fetchTable('Lineups');
         $scoresTable = $this->fetchTable('Scores');
-        $ranking = $scoresTable->find('ranking', ['championship_id' => $championship->id])->toArray();
+        $ranking = $scoresTable->find('ranking', championship_id: $championship->id)->toArray();
         foreach ($championship->teams as $team) {
             if ($team->isEmailSubscripted('score')) {
-                $details = $lineupsTable->find('details', [
-                    'matchday_id' => $matchday->id,
-                    'team_id' => $team->id,
-                ])->first();
+                $details = $lineupsTable->find(
+                    'details',
+                    matchday_id: $matchday->id,
+                    team_id: $team->id
+                )->first();
 
                 $score = $scoresTable->find()->where([
                     'matchday_id' => $matchday->id,

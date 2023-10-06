@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\HasMany $Matchdays
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
- * @method \App\Model\Entity\Season get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Season get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Season newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Season[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Season|false save(\Cake\Datasource\EntityInterface $entity, $options = [])

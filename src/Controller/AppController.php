@@ -5,16 +5,15 @@ namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
-use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
 use Cake\ORM\Locator\LocatorAwareTrait;
+use Cake\View\JsonView;
 use Crud\Controller\ControllerTrait;
 
 /**
  * @property \Crud\Controller\Component\CrudComponent $Crud Description
- * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization Description
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication Description
  */
@@ -23,7 +22,6 @@ class AppController extends Controller
     use ControllerTrait;
     use CurrentMatchdayTrait;
     use LocatorAwareTrait;
-    use ServiceAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -34,8 +32,6 @@ class AppController extends Controller
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->loadComponent('RequestHandler');
 
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login',
@@ -112,29 +108,9 @@ class AppController extends Controller
     /**
      * @inheritDoc
      */
-    public function beforeRender(EventInterface $event)
+    public function viewClasses(): array
     {
-        $this->RequestHandler->renderAs($this, 'json');
-        $this->response = $this->response->withType('application/json');
-        /*
-        $headers = [
-            'Origin',
-            'X-Requested-With',
-            'Content-Type',
-            'Authorization',
-            'Access-Control-Allow-Headers',
-            'X-Http-Method-Override'
-        ];
-        $this->response = $this->response->cors($this->request)
-            ->allowOrigin(['localhost:4200', '*.fantamanajer.it'])
-            ->allowMethods(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
-            ->allowHeaders($headers)
-            ->allowCredentials()
-            ->exposeHeaders($headers)
-            ->maxAge(24 * 60 * 60)
-            ->build();
-*/
-        return parent::beforeRender($event);
+        return [JsonView::class];
     }
 
     /**

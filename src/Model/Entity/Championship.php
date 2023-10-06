@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property bool $started
  * @property bool $captain
- * @property bool $jolly
+ * @property bool|null $jolly
  * @property bool $captain_missed_lineup
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet
@@ -39,7 +39,7 @@ class Championship extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'started' => false,
         'captain' => true,
         'jolly' => true,

@@ -27,7 +27,7 @@ class NotificationSubscription extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'type' => true,
         'name' => true,
         'enabled' => true,

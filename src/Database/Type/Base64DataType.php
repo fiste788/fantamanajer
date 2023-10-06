@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Database\Type;
 
-use Cake\Database\DriverInterface;
+use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
 
 class Base64DataType extends BaseType
@@ -11,7 +11,7 @@ class Base64DataType extends BaseType
     /**
      * @inheritDoc
      */
-    public function marshal($value)
+    public function marshal(mixed $value): mixed
     {
         if (is_array($value) || $value === null) {
             return $value;
@@ -23,7 +23,7 @@ class Base64DataType extends BaseType
     /**
      * @inheritDoc
      */
-    public function toPHP($value, DriverInterface $driver)
+    public function toPHP(mixed $value, Driver $driver): mixed
     {
         if ($value === null) {
             return null;
@@ -35,7 +35,7 @@ class Base64DataType extends BaseType
     /**
      * @inheritDoc
      */
-    public function toDatabase($value, DriverInterface $driver)
+    public function toDatabase(mixed $value, Driver $driver): mixed
     {
         return base64_encode((string)$value);
     }

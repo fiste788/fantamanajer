@@ -11,7 +11,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -26,7 +26,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasOne $Scores
- * @method \App\Model\Entity\Lineup get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Lineup get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Lineup newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Lineup|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -40,6 +40,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  */
 class LineupsTable extends Table
 {
@@ -201,33 +202,36 @@ class LineupsTable extends Table
     /**
      * Find details query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findDetails(Query $q, array $options): Query
+    public function findDetails(SelectQuery $q, array $options): SelectQuery
     {
         return $q->contain([
             'Teams',
             'Dispositions' => [
                 'Members' => [
-                    'Roles', 'Players', 'Clubs', 'Ratings' => function (Query $q) use ($options): Query {
+                    'Roles',
+                    'Players',
+                    'Clubs',
+                    'Ratings' => function (SelectQuery $q) use ($options): SelectQuery {
                         return $q->where(['matchday_id' => $options['matchday_id']]);
                     },
                 ],
             ],
         ])->where([
-            'team_id' => $options['team_id'],
-            'matchday_id' => $options['matchday_id'],
-        ]);
+                    'team_id' => $options['team_id'],
+                    'matchday_id' => $options['matchday_id'],
+                ]);
     }
 
     /**
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findLast(Query $q, array $options): Query
+    public function findLast(SelectQuery $q, array $options): SelectQuery
     {
         /** @var \App\Model\Entity\Matchday $matchday */
         $matchday = $options['matchday'];
@@ -238,13 +242,13 @@ class LineupsTable extends Table
                 'Lineups.matchday_id <=' => $matchday->id,
                 'Matchdays.season_id' => $matchday->season_id,
             ])
-            ->order(['Matchdays.number' => 'DESC']);
+            ->orderBy(['Matchdays.number' => 'DESC']);
         if (array_key_exists('stats', $options) && $options['stats']) {
             $seasonId = $matchday->season_id;
             $q = $q->contain([
                 'Teams' => [
-                    'Members' => function (Query $q) use ($seasonId): Query {
-                        return $q->find('withStats', ['season_id' => $seasonId])
+                    'Members' => function (SelectQuery $q) use ($seasonId): SelectQuery {
+                        return $q->find('withStats', season_id: $seasonId)
                             ->select($this->getTableLocator()->get('Roles'))
                             ->select($this->getTableLocator()->get('Players'))
                             ->select($this->getTableLocator()->get('MembersStats'))
@@ -261,11 +265,11 @@ class LineupsTable extends Table
     /**
      * Find by matchday and team query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByMatchdayIdAndTeamId(Query $q, array $options): Query
+    public function findByMatchdayIdAndTeamId(SelectQuery $q, array $options): SelectQuery
     {
         return $q->contain(['Dispositions'])
             ->where([
@@ -277,19 +281,19 @@ class LineupsTable extends Table
     /**
      * Find with ratings query
      *
-     * @param \Cake\ORM\Query $q Query
+     * @param \Cake\ORM\Query\SelectQuery $q Query
      * @param array $options Options
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithRatings(Query $q, array $options): Query
+    public function findWithRatings(SelectQuery $q, array $options): SelectQuery
     {
-        $matchdayId = (int)$options['matchday_id'];
+        $matchdayId = (int) $options['matchday_id'];
 
         return $q->contain([
             'Teams.Championships',
             'Dispositions' => [
-                'Members' => function (Query $q) use ($matchdayId): Query {
-                    return $q->find('listWithRating', ['matchday_id' => $matchdayId]);
+                'Members' => function (SelectQuery $q) use ($matchdayId): SelectQuery {
+                    return $q->find('listWithRating', matchday_id: $matchdayId);
                 },
             ],
         ]);

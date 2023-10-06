@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 
 interface StreamActivityInterface
 {
@@ -31,7 +31,7 @@ interface StreamActivityInterface
     /**
      * Get time
      *
-     * @return \Cake\I18n\FrozenTime
+     * @return \Cake\I18n\DateTime
      */
-    public function getTime(): FrozenTime;
+    public function getTime(): DateTime;
 }

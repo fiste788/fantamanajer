@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,7 +14,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\PublicKeyCredentialSourcesTable&\Cake\ORM\Association\HasMany $PublicKeyCredentialSources
  * @property \App\Model\Table\PushSubscriptionsTable&\Cake\ORM\Association\HasMany $PushSubscriptions
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
+ * @method \App\Model\Entity\User get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
@@ -143,11 +143,11 @@ class UsersTable extends Table
     /**
      * Finder for identity
      *
-     * @param \Cake\ORM\Query $query query
-     * @param array $options options
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $query query
+     * @param mixed ...$args
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findAuth(Query $query, array $options): Query
+    public function findAuth(SelectQuery $query, mixed $args): SelectQuery
     {
         $query
             ->contain(['Teams' => ['Championships' => ['Leagues', 'Seasons']]])

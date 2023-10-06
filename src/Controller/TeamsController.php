@@ -36,7 +36,7 @@ class TeamsController extends AppController
     public function view(int $id): ResponseInterface
     {
         $this->Crud->on('beforeFind', function (Event $event): void {
-            /** @var \Cake\ORM\Query $query */
+            /** @var \Cake\ORM\Query\SelectQuery $query */
             $query = $event->getSubject()->query;
             $query->contain([
                 'Users',
@@ -77,13 +77,15 @@ class TeamsController extends AppController
     {
         /** @var \Crud\Action\EditAction $action */
         $action = $this->Crud->action();
-        $action->setConfig(['api' => [
-            'success' => [
-                'data' => [
-                    'entity' => ['photo_url'],
+        $action->setConfig([
+            'api' => [
+                'success' => [
+                    'data' => [
+                        'entity' => ['photo_url'],
+                    ],
                 ],
             ],
-        ]]);
+        ]);
         $action->saveOptions([
             'accessibleFields' => ['user' => false],
             'associated' => ['Members', 'PushNotificationSubscriptions', 'EmailNotificationSubscriptions'],
