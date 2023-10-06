@@ -235,7 +235,7 @@ class WebauthnService
     public function assertionResponse(ServerRequestInterface $request): bool
     {
         $publicKey = (string) $request->getSession()->consume('User.PublicKey');
-        $handle = (string) $request->getSession()->consume('User.Handle');
+        $handle = $request->getSession()->consume('User.Handle');
 
         $response = $this->login($publicKey, $request, $handle);
 

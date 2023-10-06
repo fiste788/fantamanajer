@@ -48,7 +48,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         $errors = [
             sprintf(
                 'Login URL `%s` did not match `%s`.',
-                (string)$request->getUri(),
+                (string) $request->getUri(),
                 implode('` or `', $config)
             ),
         ];

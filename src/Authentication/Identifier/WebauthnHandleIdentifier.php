@@ -60,7 +60,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
         /** @var \Psr\Http\Message\ServerRequestInterface $request */
         $request = $credentials['request'];
         $publicKey = (string) $credentials['publicKey'];
-        $userHandle = (string) $credentials['userHandle'];
+        $userHandle = $credentials['userHandle'];
 
         $result = $this->Webauthn->login($publicKey, $request, $userHandle);
 
