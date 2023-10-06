@@ -324,9 +324,9 @@ class WebauthnService
 
         // Authenticator Selection Criteria (we used default values)
         $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create(
-            null,
-            AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
             AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_PLATFORM,
+            AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+            AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED,
             true
         );
         //$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
