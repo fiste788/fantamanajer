@@ -89,7 +89,7 @@ class GetMatchdayScheduleCommand extends Command
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io): FrozenTime|false|null
     {
-        $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
+        $year = ((string) $season->year) . '-' . substr((string) ($season->year + 1), 2, 2);
         $url = '/it/serie-a/';
         $io->verbose('Downloading page ' . $url);
         $client = new Client(
@@ -129,9 +129,9 @@ class GetMatchdayScheduleCommand extends Command
                              */
                             $matchsResponse = $client->get(
                                 '/api/match?extra_link&order=oldest&lang=it&season_id=' .
-                                $season .
+                                $seasonId .
                                 '&match_day_id=' .
-                                 $matchdayItem['id_category']
+                                $matchdayItem['id_category']
                             );
                             /** @var string $date */
                             $date = $matchsResponse->getJson()['data'][0]['date_time'];
@@ -160,7 +160,7 @@ class GetMatchdayScheduleCommand extends Command
                 $this->abort();
             }
         } else {
-            $io->error((string)$response->getStatusCode(), 1);
+            $io->error((string) $response->getStatusCode(), 1);
             $io->error('Cannot connect to ' . $url);
             $this->abort();
         }
