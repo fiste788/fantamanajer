@@ -312,7 +312,7 @@ class WebauthnService
 
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         /** @var \App\Model\Entity\PublicKeyCredentialSource $publicKey */
-        $publicKey = $publicKeyCredentialSourcesTable->find()->where(['id' => $response->publicKeyCredentialId])->first();
+        $publicKey = $publicKeyCredentialSourcesTable->find()->where(['public_key_credential_id' => $response->publicKeyCredentialId])->first();
         $publicKey->last_seen_at = new FrozenTime();
         $publicKeyCredentialSourcesTable->save($publicKey);
         return $response;
