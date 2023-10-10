@@ -347,7 +347,7 @@ class WebauthnService
 
         // Authenticator Selection Criteria (we used default values)
         $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create(
-            AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_CROSS_PLATFORM,
+            AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_PLATFORM,
             AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
             AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED,
             true
