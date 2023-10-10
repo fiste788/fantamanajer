@@ -311,10 +311,11 @@ class WebauthnService
         );
 
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
-        /** @var \App\Model\Entity\PublicKeyCredentialSource $publicKey */
-        $publicKey = $publicKeyCredentialSourcesTable->find()->where(['public_key_credential_id' => $response->publicKeyCredentialId])->first();
-        $publicKey->last_seen_at = new FrozenTime();
-        $publicKeyCredentialSourcesTable->save($publicKey);
+        /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
+        $credential = $publicKeyCredentialSourcesTable->find()->where(['public_key_credential_id' => $response->publicKeyCredentialId])->first();
+        $credential->last_seen_at = new FrozenTime();
+        $this->updateUserAgent($credential, $request->getHeader('User-Agent')[0]);
+        $publicKeyCredentialSourcesTable->save($credential);
         return $response;
     }
 
@@ -415,10 +416,22 @@ class WebauthnService
         $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
         $credential->fromCredentialSource($credentialSource);
         $credential->id = Uuid::v4()->toRfc4122();
-        $credential->user_agent = $request->getHeader('User-Agent')[0];
-        $parsed = new Parser($credential->user_agent);
-        $credential->name = $parsed->toString();
+        $this->updateUserAgent($credential, $request->getHeader('User-Agent')[0]);
 
         return $publicKeyCredentialSourcesTable->save($credential) ?: null;
+    }
+
+    /**
+     * Update useragent
+     *
+     * @param \App\Model\Entity\PublicKeyCredentialSource $credential Credential
+     * @param string $userAgent User-agent
+     * @return void
+     */
+    private function updateUserAgent($credential, $userAgent)
+    {
+        $credential->user_agent = $userAgent;
+        $parsed = new Parser($credential->user_agent);
+        $credential->name = $parsed->toString();
     }
 }

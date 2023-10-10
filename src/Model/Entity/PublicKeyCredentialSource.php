@@ -51,7 +51,7 @@ class PublicKeyCredentialSource extends Entity
         'name' => true,
         'user_agent' => true,
         'created_at' => false,
-        'last_seen_at' => false,
+        'last_seen_at' => true,
         'user' => true,
     ];
 
