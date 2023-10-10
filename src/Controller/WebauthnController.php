@@ -31,7 +31,7 @@ class WebauthnController extends AppController
     {
         parent::beforeFilter($event);
 
-        $this->Authentication->allowUnauthenticated(['publicKeyRequest', 'login']);
+        $this->Authentication->allowUnauthenticated(['signinRequest', 'login']);
     }
 
     /**
@@ -41,9 +41,9 @@ class WebauthnController extends AppController
      * @return void
      * @throws \RuntimeException
      */
-    public function publicKeyRequest(WebauthnService $webauthn): void
+    public function signinRequest(WebauthnService $webauthn): void
     {
-        $publicKeyCredentialRequestOptions = $webauthn->assertionRequest($this->request);
+        $publicKeyCredentialRequestOptions = $webauthn->signinRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -61,9 +61,9 @@ class WebauthnController extends AppController
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function publicKeyCreation(WebauthnService $webauthn): void
+    public function registerRequest(WebauthnService $webauthn): void
     {
-        $publicKeyCredentialCreationOptions = $webauthn->creationRequest($this->request);
+        $publicKeyCredentialCreationOptions = $webauthn->registerRequest($this->request);
 
         $this->set([
             'success' => true,
@@ -88,7 +88,7 @@ class WebauthnController extends AppController
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set('data', [
-                'token' => $userService->getToken((string)$user->id, $days),
+                'token' => $userService->getToken((string) $user->id, $days),
                 'user' => $user->getOriginalData(),
             ]);
         } else {
@@ -110,9 +110,9 @@ class WebauthnController extends AppController
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function register(WebauthnService $webauthn): void
+    public function registerResponse(WebauthnService $webauthn): void
     {
-        $token = $webauthn->creationResponse($this->request);
+        $token = $webauthn->registerResponse($this->request);
         $this->set([
             'success' => true,
             'data' => $token,

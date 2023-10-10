@@ -62,7 +62,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
         $publicKey = (string) $credentials['publicKey'];
         $userHandle = $credentials['userHandle'];
 
-        $result = $this->Webauthn->login($publicKey, $request, $userHandle);
+        $result = $this->Webauthn->signin($publicKey, $request, $userHandle);
 
         return $this->_findIdentity($result->userHandle);
     }

@@ -23,6 +23,7 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property string|null $name
  * @property string|null $user_agent
  * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $last_seen_at
  * @property \App\Model\Entity\User $user
  */
 class PublicKeyCredentialSource extends Entity
@@ -50,6 +51,7 @@ class PublicKeyCredentialSource extends Entity
         'name' => true,
         'user_agent' => true,
         'created_at' => false,
+        'last_seen_at' => false,
         'user' => true,
     ];
 
@@ -97,15 +99,15 @@ class PublicKeyCredentialSource extends Entity
      */
     public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)
     {
-        $this->public_key_credential_id = $credentialSource->getPublicKeyCredentialId();
-        $this->type = $credentialSource->getType();
-        $this->transports = $credentialSource->getTransports();
-        $this->attestation_type = $credentialSource->getAttestationType();
-        $this->trust_path = $credentialSource->getTrustPath();
-        $this->aaguid = $credentialSource->getAaguid()->toRfc4122();
-        $this->credential_public_key = $credentialSource->getCredentialPublicKey();
-        $this->user_handle = $credentialSource->getUserHandle();
-        $this->counter = $credentialSource->getCounter();
+        $this->public_key_credential_id = $credentialSource->publicKeyCredentialId;
+        $this->type = $credentialSource->type;
+        $this->transports = $credentialSource->transports;
+        $this->attestation_type = $credentialSource->attestationType;
+        $this->trust_path = $credentialSource->trustPath;
+        $this->aaguid = $credentialSource->aaguid->toRfc4122();
+        $this->credential_public_key = $credentialSource->credentialPublicKey;
+        $this->user_handle = $credentialSource->userHandle;
+        $this->counter = $credentialSource->counter;
 
         return $this;
     }

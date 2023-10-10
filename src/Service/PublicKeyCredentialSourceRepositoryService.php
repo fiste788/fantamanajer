@@ -58,7 +58,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
         $sources = $this->fetchTable('PublicKeyCredentialSources')->find()->where([
-            'user_handle' => $publicKeyCredentialUserEntity->getId(),
+            'user_handle' => $publicKeyCredentialUserEntity->id,
         ]);
 
         /** @var array<\Webauthn\PublicKeyCredentialSource> $credentials */
@@ -79,7 +79,7 @@ class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialS
     public function saveCredentialSource(WebauthnPublicKeyCredentialSource $publicKeyCredentialSource): void
     {
         /** @var \App\Model\Entity\PublicKeyCredentialSource $entity */
-        $entity = $this->findByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId()) ??
+        $entity = $this->findByCredentialId($publicKeyCredentialSource->publicKeyCredentialId) ??
             $this->fetchTable('PublicKeyCredentialSources')->newEmptyEntity();
         $entity->fromCredentialSource($publicKeyCredentialSource);
         $this->fetchTable('PublicKeyCredentialSources')->save($entity);

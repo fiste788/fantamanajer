@@ -57,6 +57,12 @@ class WeeklyScriptCommand extends Command
             'default' => false,
             'short' => 'm',
         ]);
+        $parser->addOption('force_send_mail', [
+            'help' => 'Force sending summary mails',
+            'boolean' => true,
+            'default' => false,
+            'short' => 'f',
+        ]);
         $parser->addOption('no_calc_scores', [
             'help' => 'Disable calc of scores',
             'boolean' => true,
@@ -99,31 +105,40 @@ class WeeklyScriptCommand extends Command
                 $io->out('Cannot download ratings from gazzetta');
             }
         }
-        if (!$args->getOption('no_calc_scores')) {
-            $championshipsTable = $this->fetchTable('Championships');
-            /** @var array<\App\Model\Entity\Championship> $championships */
-            $championships = $championshipsTable->find()
-                ->contain([
-                    'Leagues',
-                    'Teams' => [
-                        'Championships',
-                        'EmailNotificationSubscriptions',
-                        'PushNotificationSubscriptions',
-                        'Users' => ['PushSubscriptions'],
-                    ],
-                ])
-                ->where(['Championships.season_id' => $this->currentSeason->id])->all();
+        $championshipsTable = $this->fetchTable('Championships');
+        /** @var array<\App\Model\Entity\Championship> $championships */
+        $championships = $championshipsTable->find()
+            ->contain([
+                'Leagues',
+                'Teams' => [
+                    'Championships',
+                    'EmailNotificationSubscriptions',
+                    'PushNotificationSubscriptions',
+                    'Users' => ['PushSubscriptions'],
+                ],
+            ])
+            ->where(['Championships.season_id' => $this->currentSeason->id])->toArray();
 
-            /** @var \App\Model\Table\RatingsTable $ratingsTable */
-            $ratingsTable = $this->fetchTable('Ratings');
-            $missingScores = $matchdaysTable->findWithoutScores($this->currentSeason);
-            foreach ($missingScores as $matchday) {
-                if ($ratingsTable->existMatchday($matchday)) {
-                    $this->calculatePoints($matchday, $championships, $args, $io);
-                    $io->out('Completed succesfully');
-                }
+
+
+        /** @var \App\Model\Table\RatingsTable $ratingsTable */
+        $ratingsTable = $this->fetchTable('Ratings');
+        $missingScores = $matchdaysTable->findWithoutScores($this->currentSeason);
+        foreach ($missingScores as $matchday) {
+            if ($ratingsTable->existMatchday($matchday)) {
+                $this->calculatePoints($matchday, $championships, $args, $io);
+                $io->out('Completed succesfully');
             }
         }
+        if ($args->getOption('force_send_mail')) {
+            /** @var \App\Model\Entity\Matchday $matchday */
+            $matchday = $this->fetchTable('Matchdays')
+                ->find()
+                ->where(['season_id' => $this->currentSeason->id, 'number' => $this->currentMatchday->number - 1])
+                ->first();
+            $this->calculatePoints($matchday, $championships, $args, $io);
+        }
+
 
         return CommandInterface::CODE_SUCCESS;
     }
@@ -142,16 +157,25 @@ class WeeklyScriptCommand extends Command
     {
         $scoresTable = $this->fetchTable('Scores');
         $scores = [];
+        $success = false;
         foreach ($championships as $championship) {
-            $io->out("Calculating points of matchday {$matchday->number} for league {$championship->league->name}");
-            foreach ($championship->teams as $team) {
-                $io->out('Elaborating team ' . $team->name);
-                $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
+            if (!$args->getOption('no_calc_scores')) {
+                $io->out("Calculating points of matchday {$matchday->number} for league {$championship->league->name}");
+                foreach ($championship->teams as $team) {
+                    $io->out('Elaborating team ' . $team->name);
+                    $scores[$team->id] = $this->ComputeScore->computeScore($team, $matchday);
+                }
+                $success = $scoresTable->saveMany($scores, [
+                    'checkRules' => false,
+                    'associated' => ['Lineups.Dispositions' => ['associated' => false]],
+                ]);
+            } elseif ($args->getOption('force_send_mail')) {
+                $scoresTable = $this->fetchTable('Scores');
+                $scores = $scoresTable->find('list', [
+                    'keyField' => 'team_id',
+                ])->where(['matchday_id' => $matchday->id])->toArray();
+                $success = true;
             }
-            $success = $scoresTable->saveMany($scores, [
-                'checkRules' => false,
-                'associated' => ['Lineups.Dispositions' => ['associated' => false]],
-            ]);
             if ($success && $championship->started && !$args->getOption('no_send_mail')) {
                 $io->out('Sending mails');
                 $this->sendScoreMails($matchday, $championship);
@@ -191,15 +215,17 @@ class WeeklyScriptCommand extends Command
                 $message = $this->PushNotification->createDefaultMessage($title, $body)
                     ->addAction(Action::create('open', 'Visualizza'))
                     ->withTag("lineup-{$scores[$team->id]->points}")
-                    ->withData(['onActionClick' => [
-                       'default' => $action,
-                       'open' => $action,
-                    ]]);
+                    ->withData([
+                        'onActionClick' => [
+                            'default' => $action,
+                            'open' => $action,
+                        ]
+                    ]);
 
                 $notification = Notification::create()
-                        ->withTTL(3600)
-                        ->withTopic('score')
-                        ->withPayload($message->toString());
+                    ->withTTL(3600)
+                    ->withTopic('score')
+                    ->withPayload($message->toString());
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $io->out('Sending notification to ' . $subscription->endpoint);
                     $this->PushNotification->sendAndRemoveExpired($notification, $subscription);

@@ -27,22 +27,22 @@ use Cake\Routing\Route\InflectedRoute;
 
 return static function (RouteBuilder $routes) {
     /*
-    * The default class to use for all routes
-    *
-    * The following route classes are supplied with CakePHP and are appropriate
-    * to set as the default:
-    *
-    * - Route
-    * - InflectedRoute
-    * - DashedRoute
-    *
-    * If no call is made to `Router::defaultRouteClass()`, the class used is
-    * `Route` (`Cake\Routing\Route\Route`)
-    *
-    * Note that `Route` does not do any inflections on URLs which will result in
-    * inconsistently cased URLs when used with `:plugin`, `:controller` and
-    * `:action` markers.
-    */
+     * The default class to use for all routes
+     *
+     * The following route classes are supplied with CakePHP and are appropriate
+     * to set as the default:
+     *
+     * - Route
+     * - InflectedRoute
+     * - DashedRoute
+     *
+     * If no call is made to `Router::defaultRouteClass()`, the class used is
+     * `Route` (`Cake\Routing\Route\Route`)
+     *
+     * Note that `Route` does not do any inflections on URLs which will result in
+     * inconsistently cased URLs when used with `:plugin`, `:controller` and
+     * `:action` markers.
+     */
     $routes->setRouteClass(InflectedRoute::class);
 
     $routes->scope('/', function (RouteBuilder $routes) {
@@ -83,6 +83,7 @@ return static function (RouteBuilder $routes) {
             ],
         ], function (RouteBuilder $routes) {
             $routes->resources('PublicKeyCredentialSources', [
+                'path' => 'passkeys',
                 'prefix' => 'Users',
                 'only' => ['index', 'delete'],
             ]);
@@ -92,15 +93,16 @@ return static function (RouteBuilder $routes) {
             ]);
         });
         $routes->resources('Webauthn', [
-            'only' => ['request', 'create', 'login', 'register'],
+            'path' => 'passkeys',
+            'only' => ['signinRequest', 'registerRequest', 'login', 'registerResponse'],
             'map' => [
-                'request' => [
-                    'action' => 'publicKeyRequest',
+                'signinRequest' => [
+                    'action' => 'signinRequest',
                     'method' => 'GET',
                     'path' => 'login',
                 ],
-                'create' => [
-                    'action' => 'publicKeyCreation',
+                'registerRequest' => [
+                    'action' => 'registerRequest',
                     'method' => 'GET',
                     'path' => 'register',
                 ],
@@ -109,8 +111,9 @@ return static function (RouteBuilder $routes) {
                     'action' => 'login',
                     'method' => 'POST',
                 ],
-                'register' => [
-                    'action' => 'register',
+                'registerResponse' => [
+                    'path' => 'register',
+                    'action' => 'registerResponse',
                     'method' => 'POST',
                 ],
             ],

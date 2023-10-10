@@ -8,6 +8,7 @@ use App\Model\Entity\User;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Http\Client;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 use Cose\Algorithm\Manager;
@@ -55,6 +56,12 @@ class WebauthnService
     use LocatorAwareTrait;
     use ServiceAwareTrait;
 
+    protected PublicKeyCredentialLoader $publicKeyCredentialLoader;
+
+    protected AuthenticatorAttestationResponseValidator $authenticatorAttestationResponseValidator;
+
+    protected AuthenticatorAssertionResponseValidator $authenticatorAssertionResponseValidator;
+
     /**
      * Costructor
      *
@@ -64,6 +71,29 @@ class WebauthnService
     public function __construct()
     {
         $this->loadService('PublicKeyCredentialSourceRepository');
+        $attestationStatementSupportManager = $this->createStatementSupportManager();
+
+        // Attestation Object Loader
+        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
+
+        // Public Key Credential Loader
+        $this->publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+
+        $this->authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
+            $attestationStatementSupportManager,
+            $this->PublicKeyCredentialSourceRepository,
+            null,
+            new ExtensionOutputCheckerHandler()
+        );
+
+        // Authenticator Assertion Response Validator
+        $this->authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
+            $this->PublicKeyCredentialSourceRepository,
+            null,
+            new ExtensionOutputCheckerHandler(),
+            $this->createAlgorithManager()
+        );
+
     }
 
     /**
@@ -187,7 +217,7 @@ class WebauthnService
      * @return \Webauthn\PublicKeyCredentialRequestOptions|null
      * @throws \RuntimeException
      */
-    public function assertionRequest(ServerRequestInterface $request): ?PublicKeyCredentialRequestOptions
+    public function signinRequest(ServerRequestInterface $request): ?PublicKeyCredentialRequestOptions
     {
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
@@ -208,7 +238,7 @@ class WebauthnService
                 random_bytes(32),
                 (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
                 $allowedCredentials,
-                PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+                PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 60_000,
                 $this->getExtensions()
             );
@@ -232,12 +262,12 @@ class WebauthnService
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function assertionResponse(ServerRequestInterface $request): bool
+    public function signinResponse(ServerRequestInterface $request): bool
     {
         $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         $handle = $request->getSession()->consume('User.Handle');
 
-        $response = $this->login($publicKey, $request, $handle);
+        $response = $this->signin($publicKey, $request, $handle);
 
         return $response != null;
     }
@@ -252,31 +282,17 @@ class WebauthnService
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function login(
+    public function signin(
         string $publicKey,
         ServerRequestInterface $request,
         string $userHandle = null
     ): PublicKeyCredentialSource {
         $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
-        $attestationStatementSupportManager = $this->createStatementSupportManager();
-        // Attestation Object Loader
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-
-        // Public Key Credential Loader
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
-
-        // Authenticator Assertion Response Validator
-        $authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
-            $this->PublicKeyCredentialSourceRepository,
-            null,
-            new ExtensionOutputCheckerHandler(),
-            $this->createAlgorithManager()
-        );
 
         // Load the data
         /** @var array<string, mixed> $body */
         $body = $request->getParsedBody();
-        $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
+        $publicKeyCredential = $this->publicKeyCredentialLoader->loadArray($body);
         $authenticatorAssertionResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Assertion Response
@@ -285,7 +301,7 @@ class WebauthnService
         }
 
         // Check the response against the attestation request
-        return $authenticatorAssertionResponseValidator->check(
+        $response = $this->authenticatorAssertionResponseValidator->check(
             $publicKeyCredential->rawId,
             $authenticatorAssertionResponse,
             $publicKeyCredentialRequestOptions,
@@ -293,6 +309,13 @@ class WebauthnService
             $userHandle,
             ['localhost']
         );
+
+        $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
+        /** @var \App\Model\Entity\PublicKeyCredentialSource $publicKey */
+        $publicKey = $publicKeyCredentialSourcesTable->find()->where(['id' => $response->publicKeyCredentialId])->first();
+        $publicKey->last_seen_at = new FrozenTime();
+        $publicKeyCredentialSourcesTable->save($publicKey);
+        return $response;
     }
 
     /**
@@ -304,7 +327,7 @@ class WebauthnService
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function creationRequest(ServerRequestInterface $request): PublicKeyCredentialCreationOptions
+    public function registerRequest(ServerRequestInterface $request): PublicKeyCredentialCreationOptions
     {
         $rpEntity = $this->createRpEntity();
 
@@ -323,8 +346,8 @@ class WebauthnService
 
         // Authenticator Selection Criteria (we used default values)
         $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create(
-            AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_PLATFORM,
-            AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+            AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_CROSS_PLATFORM,
+            AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
             AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED,
             true
         );
@@ -363,30 +386,15 @@ class WebauthnService
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function creationResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
+    public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
         $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
-        // Attestation Statement Support Manager
-        $attestationStatementSupportManager = $this->createStatementSupportManager();
-
-        // Attestation Object Loader
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-
-        // Public Key Credential Loader
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
-
-        $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
-            $attestationStatementSupportManager,
-            $this->PublicKeyCredentialSourceRepository,
-            null,
-            new ExtensionOutputCheckerHandler()
-        );
 
         // Load the data
         /** @var array<string, mixed> $body */
         $body = $request->getParsedBody();
-        $publicKeyCredential = $publicKeyCredentialLoader->loadArray($body);
+        $publicKeyCredential = $this->publicKeyCredentialLoader->loadArray($body);
         $authenticatorAttestationResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Attestation Response
@@ -395,7 +403,7 @@ class WebauthnService
         }
 
         // Check the response against the request
-        $credentialSource = $authenticatorAttestationResponseValidator->check(
+        $credentialSource = $this->authenticatorAttestationResponseValidator->check(
             $authenticatorAttestationResponse,
             $publicKeyCredentialCreationOptions,
             $request,
