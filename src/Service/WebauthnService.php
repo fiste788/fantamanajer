@@ -67,6 +67,7 @@ class WebauthnService
      *
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
      */
     public function __construct()
     {
@@ -265,6 +266,7 @@ class WebauthnService
     public function signinResponse(ServerRequestInterface $request): bool
     {
         $publicKey = (string) $request->getSession()->consume('User.PublicKey');
+        /** @var string|null $handle */
         $handle = $request->getSession()->consume('User.Handle');
 
         $response = $this->signin($publicKey, $request, $handle);

@@ -124,7 +124,7 @@ class MatchdaysTable extends Table
     {
         $interval = array_key_exists('interval', $options) ? (int)$options['interval'] : 0;
         $now = new FrozenTime();
-        $now->addMinute($interval);
+        $now->addMinutes($interval);
 
         return $q->contain(['Seasons'])
             ->where(['date > ' => $now])
@@ -142,7 +142,7 @@ class MatchdaysTable extends Table
     {
         $interval = array_key_exists('interval', $options) ? (int)$options['interval'] : 0;
         $now = new FrozenTime();
-        $now->addMinute($interval);
+        $now->addMinutes($interval);
 
         return $q->contain(['Seasons'])
             ->where(['date < ' => $now])

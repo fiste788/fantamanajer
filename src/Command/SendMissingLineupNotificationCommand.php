@@ -71,7 +71,7 @@ class SendMissingLineupNotificationCommand extends Command
         if (
             $args->getOption('force') ||
             $this->currentMatchday->date->isWithinNext('30 minutes') ||
-            $this->currentMatchday->date->eq($tomorrow)
+            $this->currentMatchday->date->equals($tomorrow)
         ) {
             $io->out('Start');
 
@@ -108,10 +108,12 @@ class SendMissingLineupNotificationCommand extends Command
                 $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', $body)
                     ->addAction(Action::create('open', 'Imposta'))
                     ->withTag('missing-lineup-' . $this->currentMatchday->number)
-                    ->withData(['onActionClick' => [
-                        'default' => $action,
-                        'open' => $action,
-                    ]]);
+                    ->withData([
+                        'onActionClick' => [
+                            'default' => $action,
+                            'open' => $action,
+                        ]
+                    ]);
                 $notification = Notification::create()
                     ->withTTL(3600)
                     ->withTopic('missing-lineup')
@@ -122,10 +124,10 @@ class SendMissingLineupNotificationCommand extends Command
                     $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
                 }
 
-                $io->out('Create activity in notification stream for team ' . (string)$team->id);
-                $feed = $client->feed('notification', (string)$team->id);
+                $io->out('Create activity in notification stream for team ' . (string) $team->id);
+                $feed = $client->feed('notification', (string) $team->id);
                 $feed->addActivity([
-                    'actor' => 'Team:' . (string)$team->id,
+                    'actor' => 'Team:' . (string) $team->id,
                     'verb' => 'missing',
                     'object' => 'Lineup:',
                 ]);

@@ -156,6 +156,7 @@ class WeeklyScriptCommand extends Command
     protected function calculatePoints(Matchday $matchday, array $championships, Arguments $args, ConsoleIo $io): void
     {
         $scoresTable = $this->fetchTable('Scores');
+        /** @var array<array-key, \App\Model\Entity\Score> $scores */
         $scores = [];
         $success = false;
         foreach ($championships as $championship) {
@@ -171,6 +172,7 @@ class WeeklyScriptCommand extends Command
                 ]);
             } elseif ($args->getOption('force_send_mail')) {
                 $scoresTable = $this->fetchTable('Scores');
+                /** @var array<array-key, \App\Model\Entity\Score> $scores */
                 $scores = $scoresTable->find('list', [
                     'keyField' => 'team_id',
                 ])->where(['matchday_id' => $matchday->id])->toArray();
