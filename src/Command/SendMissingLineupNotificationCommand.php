@@ -126,10 +126,10 @@ class SendMissingLineupNotificationCommand extends Command
                     $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
                 }
 
-                $io->out('Create activity in notification stream for team ' . (string)$team->id);
-                $feed = $client->feed('notification', (string)$team->id);
+                $io->out('Create activity in notification stream for team ' . (string) $team->id);
+                $feed = $client->feed('notification', (string) $team->id);
                 $feed->addActivity([
-                    'actor' => 'Team:' . (string)$team->id,
+                    'actor' => 'Team:' . (string) $team->id,
                     'verb' => 'missing',
                     'object' => 'Lineup:',
                 ]);

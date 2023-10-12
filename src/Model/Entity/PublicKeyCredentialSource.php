@@ -22,7 +22,8 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property int $counter
  * @property string|null $name
  * @property string|null $user_agent
- * @property \Cake\I18n\DateTime $created_at
+ * @property \Cake\I18n\FrozenTime $created_at
+ * @property \Cake\I18n\FrozenTime $last_seen_at
  * @property \App\Model\Entity\User $user
  */
 class PublicKeyCredentialSource extends Entity
@@ -50,6 +51,7 @@ class PublicKeyCredentialSource extends Entity
         'name' => true,
         'user_agent' => true,
         'created_at' => false,
+        'last_seen_at' => true,
         'user' => true,
     ];
 

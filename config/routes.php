@@ -88,6 +88,7 @@ return static function (RouteBuilder $routes): void {
             ],
         ], function (RouteBuilder $routes): void {
             $routes->resources('PublicKeyCredentialSources', [
+                'path' => 'passkeys',
                 'prefix' => 'Users',
                 'only' => ['index', 'delete'],
             ]);
@@ -97,15 +98,16 @@ return static function (RouteBuilder $routes): void {
             ]);
         });
         $routes->resources('Webauthn', [
-            'only' => ['request', 'create', 'login', 'register'],
+            'path' => 'passkeys',
+            'only' => ['signinRequest', 'registerRequest', 'login', 'registerResponse'],
             'map' => [
-                'request' => [
-                    'action' => 'publicKeyRequest',
+                'signinRequest' => [
+                    'action' => 'signinRequest',
                     'method' => 'GET',
                     'path' => 'login',
                 ],
-                'create' => [
-                    'action' => 'publicKeyCreation',
+                'registerRequest' => [
+                    'action' => 'registerRequest',
                     'method' => 'GET',
                     'path' => 'register',
                 ],
@@ -114,8 +116,9 @@ return static function (RouteBuilder $routes): void {
                     'action' => 'login',
                     'method' => 'POST',
                 ],
-                'register' => [
-                    'action' => 'register',
+                'registerResponse' => [
+                    'path' => 'register',
+                    'action' => 'registerResponse',
                     'method' => 'POST',
                 ],
             ],
