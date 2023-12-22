@@ -28,7 +28,7 @@ class WeeklyScriptMailer extends Mailer
      *
      * @param \App\Model\Entity\Team $team Team
      * @param \App\Model\Entity\Matchday $matchday MAtchay
-     * @param array $ranking Ranking
+     * @param array<string, mixed> $ranking Ranking
      * @param \App\Model\Entity\Lineup|null $details Details
      * @param \App\Model\Entity\Score $score Score
      * @return void

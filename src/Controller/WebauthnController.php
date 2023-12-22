@@ -33,8 +33,9 @@ class WebauthnController extends AppController
         $this->set([
             'success' => true,
             'data' => ['publicKey' => $publicKeyCredentialRequestOptions],
-            '_serialize' => ['success', 'data'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 
     /**
@@ -52,9 +53,10 @@ class WebauthnController extends AppController
 
         $this->set([
             'success' => true,
-            'data' => ['publicKey' => $publicKeyCredentialCreationOptions],
-            '_serialize' => ['success', 'data'],
+            'data' => ['publicKey' => $publicKeyCredentialCreationOptions, 'mediation' => 'conditional'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 
     /**
@@ -73,7 +75,7 @@ class WebauthnController extends AppController
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set('data', [
-                'token' => $userService->getToken((string) $user->id, $days),
+                'token' => $userService->getToken((string)$user->id, $days),
                 'user' => $user->getOriginalData(),
             ]);
         } else {
@@ -83,7 +85,8 @@ class WebauthnController extends AppController
             ]);
         }
         $this->set('success', $result != null && $result->isValid());
-        $this->set('_serialize', ['success', 'data']);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 
     /**
@@ -101,7 +104,8 @@ class WebauthnController extends AppController
         $this->set([
             'success' => true,
             'data' => $token,
-            '_serialize' => ['success', 'data'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }

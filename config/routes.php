@@ -51,7 +51,7 @@ return static function (RouteBuilder $routes): void {
     $routes->setRouteClass(InflectedRoute::class);
 
     $routes->scope('/', function (RouteBuilder $routes): void {
-        $routes->setExtensions(['json']);
+        //$routes->setExtensions(['json']);
 
         $routes->resources('Articles', [
             'only' => ['create', 'update', 'delete', 'view'],

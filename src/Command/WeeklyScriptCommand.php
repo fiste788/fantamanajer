@@ -122,8 +122,6 @@ class WeeklyScriptCommand extends Command
             ])
             ->where(['Championships.season_id' => $this->currentSeason->id])->toArray();
 
-
-
         /** @var \App\Model\Table\RatingsTable $ratingsTable */
         $ratingsTable = $this->fetchTable('Ratings');
         $missingScores = $matchdaysTable->findWithoutScores($this->currentSeason);
@@ -141,7 +139,6 @@ class WeeklyScriptCommand extends Command
                 ->first();
             $this->calculatePoints($matchday, $championships, $args, $io);
         }
-
 
         return CommandInterface::CODE_SUCCESS;
     }

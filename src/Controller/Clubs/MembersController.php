@@ -20,7 +20,6 @@ class MembersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadComponent('Paginator');
     }
 
     /**

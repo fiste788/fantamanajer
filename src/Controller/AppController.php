@@ -5,12 +5,14 @@ namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
+use App\View\CustomFallbackView;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\View\JsonView;
 use Crud\Controller\ControllerTrait;
+use League\Container\ContainerAwareTrait;
 
 /**
  * @property \Crud\Controller\Component\CrudComponent $Crud Description
@@ -22,6 +24,7 @@ class AppController extends Controller
     use ControllerTrait;
     use CurrentMatchdayTrait;
     use LocatorAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -110,7 +113,7 @@ class AppController extends Controller
      */
     public function viewClasses(): array
     {
-        return [JsonView::class];
+        return [JsonView::class, CustomFallbackView::class];
     }
 
     /**

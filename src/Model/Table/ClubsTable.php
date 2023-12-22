@@ -14,16 +14,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Club get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Club newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Club[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Club|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Club saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Club|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Club saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Club patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Club[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Club findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Club findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Club newEmptyEntity()
- * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Club[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class ClubsTable extends Table
 {
@@ -81,14 +81,14 @@ class ClubsTable extends Table
     /**
      * Find by season query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findBySeasonId(SelectQuery $q, array $options): SelectQuery
+    public function findBySeasonId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->innerJoinWith('Members', function (SelectQuery $q) use ($options): SelectQuery {
-            return $q->where(['season_id' => $options['season_id']]);
+        return $query->innerJoinWith('Members', function (SelectQuery $q) use ($args): SelectQuery {
+            return $q->where(['season_id' => $args['season_id']]);
         })->groupBy('Clubs.id')
             ->orderByAsc('name');
     }

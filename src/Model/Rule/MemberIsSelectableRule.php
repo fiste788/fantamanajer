@@ -7,20 +7,12 @@ use App\Service\SelectionService;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
+use League\Container\ContainerAwareTrait;
 
 class MemberIsSelectableRule
 {
     use LocatorAwareTrait;
-
-    /**
-     * Construct
-     *
-     * @throws \Cake\Core\Exception\CakeException
-     * @throws \UnexpectedValueException
-     */
-    public function __construct(private SelectionService $Selection)
-    {
-    }
+    use ContainerAwareTrait;
 
     /**
      * Invoke
@@ -49,7 +41,7 @@ class MemberIsSelectableRule
             if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
                 $selection->active = false;
                 $selectionsTable->save($selection);
-                $this->Selection->notifyLostMember($selection);
+                $this->getContainer()->get(SelectionService::class)->notifyLostMember($selection);
 
                 return true;
             } else {

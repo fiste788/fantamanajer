@@ -36,7 +36,8 @@ class StreamController extends AppController
         $this->set([
             'success' => true,
             'data' => $stream,
-            '_serialize' => ['success', 'data'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }

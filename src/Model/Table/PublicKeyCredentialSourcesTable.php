@@ -15,16 +15,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\PublicKeyCredentialSource get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\PublicKeyCredentialSource newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource newEmptyEntity()
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class PublicKeyCredentialSourcesTable extends Table
@@ -155,12 +155,12 @@ class PublicKeyCredentialSourcesTable extends Table
     /**
      * Find by member id  query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByUuid(SelectQuery $q, array $options): SelectQuery
+    public function findByUuid(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->where(['user_handle' => $options['uuid']]);
+        return $query->where(['user_handle' => $args['uuid']]);
     }
 }

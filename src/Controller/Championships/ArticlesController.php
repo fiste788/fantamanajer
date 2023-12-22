@@ -16,17 +16,6 @@ class ArticlesController extends AppArticlesController
     ];
 
     /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->loadComponent('Paginator');
-    }
-
-    /**
      * Index
      *
      * @return \Psr\Http\Message\ResponseInterface
@@ -37,9 +26,11 @@ class ArticlesController extends AppArticlesController
     {
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
-        $action->findMethod(['byChampionshipId' => [
-            'championship_id' => (int)$this->request->getParam('championship_id'),
-        ]]);
+        $action->findMethod([
+            'byChampionshipId' => [
+                'championshipId' => (int)$this->request->getParam('championship_id'),
+            ],
+        ]);
 
         return $this->Crud->execute();
     }

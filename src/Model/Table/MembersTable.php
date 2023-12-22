@@ -29,16 +29,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Member get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Member newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Member[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Member|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Member saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Member|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Member saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Member[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Member findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Member findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Member newEmptyEntity()
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class MembersTable extends Table
 {
@@ -167,27 +167,27 @@ class MembersTable extends Table
      * Find with stats query
      *
      * @param \Cake\ORM\Query\SelectQuery $query Query
-     * @param array $options Options
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithStats(SelectQuery $query, array $options): SelectQuery
+    public function findWithStats(SelectQuery $query, mixed ...$args): SelectQuery
     {
         return $query->contain(['MembersStats'])
-            ->where(['season_id' => $options['season_id']])
-            ->group('Members.id');
+            ->where(['season_id' => $args['season_id']])
+            ->groupBy('Members.id');
     }
 
     /**
      * Find matchday ratings as list
      *
      * @param \Cake\ORM\Query\SelectQuery $query Query
-     * @param array $options Options
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findListWithRating(SelectQuery $query, array $options): SelectQuery
+    public function findListWithRating(SelectQuery $query, mixed ...$args): SelectQuery
     {
         /** @var int $matchdayId */
-        $matchdayId = $options['matchday_id'];
+        $matchdayId = $args['matchday_id'];
 
         return $query->find(
             'list',
@@ -210,10 +210,10 @@ class MembersTable extends Table
      * Find with details
      *
      * @param \Cake\ORM\Query\SelectQuery $query Query
-     * @param array $options Options
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findWithDetails(SelectQuery $query, array $options): SelectQuery
+    public function findWithDetails(SelectQuery $query, mixed ...$args): SelectQuery
     {
         $query->contain(
             [
@@ -226,12 +226,12 @@ class MembersTable extends Table
                 },
             ]
         )->orderBy(['Seasons.year' => 'DESC']);
-        if (isset($options['championship_id'])) {
+        if (isset($args['championship_id'])) {
             $query->select(['player_id', 'free' => $query->newExpr()->isNull('Teams.id')])
                 ->setDefaultTypes(['free' => 'boolean'])
                 ->enableAutoFields(true)
-                ->leftJoinWith('Teams', function (SelectQuery $q) use ($options): SelectQuery {
-                    return $q->where(['championship_id' => $options['championship_id']]);
+                ->leftJoinWith('Teams', function (SelectQuery $q) use ($args): SelectQuery {
+                    return $q->where(['championship_id' => $args['championship_id']]);
                 });
         }
 
@@ -241,14 +241,14 @@ class MembersTable extends Table
     /**
      * Find free query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      * @throws \RuntimeException
      */
-    public function findFree(SelectQuery $q, array $options): SelectQuery
+    public function findFree(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $championshipId = (int)$options['championship_id'];
+        $championshipId = (int)$args['championship_id'];
         $membersTeams = $this->getTableLocator()->get('MembersTeams');
         $ids = $membersTeams->find()
             ->select(['member_id'])
@@ -259,7 +259,7 @@ class MembersTable extends Table
                 }
             );
 
-        $q->innerJoinWith('Seasons.Championships')
+        $query->innerJoinWith('Seasons.Championships')
             ->contain(['Players', 'Clubs', 'Roles'])
             ->where([
                 'Members.id NOT IN' => $ids,
@@ -268,101 +268,100 @@ class MembersTable extends Table
             ])
             ->orderByAsc('Players.surname')
             ->orderByAsc('Players.name');
-        if (isset($options['stats']) && $options['stats']) {
-            $q->contain(['MembersStats']);
+        if (isset($args['stats']) && $args['stats']) {
+            $query->contain(['MembersStats']);
         }
-        if (isset($options['role'])) {
-            $q->where(['role_id' => $options['role']]);
+        if (isset($args['role'])) {
+            $query->where(['role_id' => $args['role']]);
         } else {
-            $q->select(['id', 'Players.name', 'Players.surname', 'role_id', 'club_id']);
+            $query->select(['id', 'Players.name', 'Players.surname', 'role_id', 'club_id']);
         }
 
-        return $q;
+        return $query;
     }
 
     /**
      * Find by club id query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByClubId(SelectQuery $q, array $options): SelectQuery
+    public function findByClubId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->contain(['Roles', 'Players', 'MembersStats'])
-            ->innerJoinWith('Clubs', function (SelectQuery $q) use ($options): SelectQuery {
-                return $q->where(['Clubs.id' => $options['club_id']]);
+        return $query->contain(['Roles', 'Players', 'MembersStats'])
+            ->innerJoinWith('Clubs', function (SelectQuery $q) use ($args): SelectQuery {
+                return $q->where(['Clubs.id' => $args['club_id']]);
             })->orderBy(['role_id', 'Players.name'])
             ->where([
                 'active' => true,
-                'season_id' => $options['season_id'],
+                'season_id' => $args['season_id'],
             ]);
     }
 
     /**
      * Find by team id query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeamId(SelectQuery $q, array $options): SelectQuery
+    public function findByTeamId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $q->contain(['Clubs', 'Players'])
-            ->innerJoinWith('Teams', function (SelectQuery $q) use ($options): SelectQuery {
-                return $q->where(['Teams.id' => $options['team_id']]);
+        $query->contain(['Clubs', 'Players'])
+            ->innerJoinWith('Teams', function (SelectQuery $q) use ($args): SelectQuery {
+                return $q->where(['Teams.id' => $args['team_id']]);
             })->orderBy(['role_id', 'Players.name']);
-        if (isset($options['stats']) && $options['stats']) {
-            $q->contain(['Roles', 'MembersStats']);
+        if (isset($args['stats']) && $args['stats']) {
+            $query->contain(['Roles', 'MembersStats']);
         }
 
-        return $q;
+        return $query;
     }
 
     /**
      * Find not mine query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      * @throws \Cake\Datasource\Exception\InvalidPrimaryKeyException
      * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
-    public function findNotMine(SelectQuery $q, array $options): SelectQuery
+    public function findNotMine(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $team = $this->Teams->get($options['team_id'], ['contain' => ['Championships']]);
-        $q->contain(['Players', 'Teams'])->leftJoinWith('Teams')->where([
-            'Members.role_id' => $options['role_id'],
+        $team = $this->Teams->get($args['team_id'], ['contain' => ['Championships']]);
+
+        return $query->contain(['Players', 'Teams'])->leftJoinWith('Teams')->where([
+            'Members.role_id' => $args['role_id'],
             'OR' => [
-                'Teams.id !=' => $options['team_id'],
+                'Teams.id !=' => $args['team_id'],
                 'Teams.id IS' => null,
             ],
             'Members.season_id' => $team->championship->season_id,
         ]);
-
-        return $q;
     }
 
     /**
      * Find best by matchday and role
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findBestByMatchdayIdAndRole(SelectQuery $q, array $options): SelectQuery
+    public function findBestByMatchdayIdAndRole(SelectQuery $query, mixed ...$args): SelectQuery
     {
         /** @var \App\Model\Entity\Role $role */
-        $role = $options['role'];
+        $role = $args['role'];
 
-        return $q->contain([
+        return $query->contain([
             'Players',
-            'Ratings' => function (SelectQuery $q) use ($options): SelectQuery {
+            'Ratings' => function (SelectQuery $q) use ($args): SelectQuery {
                 return $q->select(['member_id', 'points'])
-                    ->where(['matchday_id' => $options['matchday_id']]);
+                    ->where(['matchday_id' => $args['matchday_id']]);
             },
-        ])->innerJoinWith('Ratings', function (SelectQuery $q) use ($options): SelectQuery {
-            return $q->where(['matchday_id' => $options['matchday_id']]);
+        ])->innerJoinWith('Ratings', function (SelectQuery $q) use ($args): SelectQuery {
+            return $q->where(['matchday_id' => $args['matchday_id']]);
         })->innerJoinWith('Roles')
             ->where(['Roles.id' => $role->id])
             ->orderByDesc('Ratings.points');
@@ -371,23 +370,23 @@ class MembersTable extends Table
     /**
      * Find best by matchday and role
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed $args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findBestByMatchdayId(SelectQuery $q, array $options): SelectQuery
+    public function findBestByMatchdayId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $expr = $q->newExpr('ROW_NUMBER() OVER(PARTITION BY role_id ORDER BY points DESC)');
+        $expr = $query->newExpr('ROW_NUMBER() OVER(PARTITION BY role_id ORDER BY points DESC)');
         $contentQuery = $this->find()
             ->select(['Members.id', 'role_id', 'Ratings.points', 'row_number' => $expr])
             ->innerJoinWith('Ratings')
-            ->where(['matchday_id' => $options['matchday_id']]);
+            ->where(['matchday_id' => $args['matchday_id']]);
 
-        return $q->contain([
+        return $query->contain([
             'Players',
-            'Ratings' => function (SelectQuery $q1) use ($options): SelectQuery {
+            'Ratings' => function (SelectQuery $q1) use ($args): SelectQuery {
                 return $q1->select(['member_id', 'points'])
-                    ->where(['matchday_id' => $options['matchday_id']]);
+                    ->where(['matchday_id' => $args['matchday_id']]);
             },
         ])
             ->join([

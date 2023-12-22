@@ -34,16 +34,16 @@ use SplFileInfo;
  * @method \App\Model\Entity\Team get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Team newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Team[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Team findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Team findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Team newEmptyEntity()
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
  */
 class TeamsTable extends Table
@@ -118,33 +118,33 @@ class TeamsTable extends Table
                     // defaults to `type`
                 ],
                 'nameCallback' =>
-                function (RepositoryInterface $_table, EntityInterface $_entity, UploadedFileInterface $file, string $_field, array $_settings) {
-                    return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
-                },
+                    function (RepositoryInterface $_table, EntityInterface $_entity, UploadedFileInterface $file, string $_field, array $_settings) {
+                        return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
+                    },
                 'transformer' =>
-                function (RepositoryInterface $_table, EntityInterface $entity, UploadedFileInterface $file, string $_field, array $_settings) {
-                    $tmpFileName = new SplFileInfo(
-                        strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
-                    );
-                    $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
-                    if ($tmpFile != false) {
-                        $file->moveTo($tmpFile);
-                        $image = Image::load($tmpFile);
-                        $array = [$tmpFile => $tmpFileName->getFilename()];
-                        foreach (Team::$size as $value) {
-                            if ($value < $image->getWidth()) {
-                                $manipulations = (new Manipulations())->width($value)->optimize();
-                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
+                    function (RepositoryInterface $_table, EntityInterface $entity, UploadedFileInterface $file, string $_field, array $_settings) {
+                        $tmpFileName = new SplFileInfo(
+                            strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
+                        );
+                        $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
+                        if ($tmpFile != false) {
+                            $file->moveTo($tmpFile);
+                            $image = Image::load($tmpFile);
+                            $array = [$tmpFile => $tmpFileName->getFilename()];
+                            foreach (Team::$size as $value) {
+                                if ($value < $image->getWidth()) {
+                                    $manipulations = (new Manipulations())->width($value)->optimize();
+                                    $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
 
-                                /** @psalm-suppress MixedMethodCall */
-                                $image->manipulate($manipulations)->save($tmp);
-                                $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
+                                    /** @psalm-suppress MixedMethodCall */
+                                    $image->manipulate($manipulations)->save($tmp);
+                                    $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
+                                }
                             }
-                        }
 
-                        return $array;
-                    }
-                },
+                            return $array;
+                        }
+                    },
                 'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $_settings) {
                     $array = [$path . (string)$entity->{$field}];
                     foreach (Team::$size as $value) {
@@ -227,7 +227,7 @@ class TeamsTable extends Table
      * @param mixed ...$args
      * @return \Cake\ORM\Query\SelectQuery Query
      */
-    public function findByChampionshipId(SelectQuery $q, mixed $args): SelectQuery
+    public function findByChampionshipId(SelectQuery $q, mixed ...$args): SelectQuery
     {
         return $q->contain(['Users'])
             ->where(['championship_id' => $args['championship_id']]);

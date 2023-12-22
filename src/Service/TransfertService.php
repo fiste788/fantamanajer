@@ -97,7 +97,7 @@ class TransfertService
             $lineup != null &&
             $this->Lineup->substitute($lineup, $transfert->old_member_id, $transfert->new_member_id)
         ) {
-            $lineupsTable->save($lineup, true);
+            $lineupsTable->save($lineup, ['associated' => true]);
         }
     }
 

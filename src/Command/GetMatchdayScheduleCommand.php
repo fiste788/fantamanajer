@@ -89,7 +89,7 @@ class GetMatchdayScheduleCommand extends Command
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io): DateTime|false|null
     {
-        $year = ((string) $season->year) . '-' . substr((string) ($season->year + 1), 2, 2);
+        $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
         $url = '/it/serie-a/';
         $io->verbose('Downloading page ' . $url);
         $client = new Client(
@@ -160,7 +160,7 @@ class GetMatchdayScheduleCommand extends Command
                 $this->abort();
             }
         } else {
-            $io->error((string) $response->getStatusCode(), 1);
+            $io->error((string)$response->getStatusCode(), 1);
             $io->error('Cannot connect to ' . $url);
             $this->abort();
         }

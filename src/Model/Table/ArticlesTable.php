@@ -20,16 +20,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Article newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Article patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Article[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Article findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Article findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Article newEmptyEntity()
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table
@@ -160,13 +160,13 @@ class ArticlesTable extends Table
     /**
      * Find by team query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
+     * @param \Cake\ORM\Query\SelectQuery $query Query
      * @param int $teamId teamId
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeamId(SelectQuery $q, array $teamId): SelectQuery
+    public function findByTeamId(SelectQuery $query, int $teamId): SelectQuery
     {
-        return $q->orderByDesc('created_at')
+        return $query->orderByDesc('created_at')
             ->where(['team_id' => $teamId]);
     }
 

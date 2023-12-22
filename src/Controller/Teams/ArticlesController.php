@@ -23,17 +23,6 @@ class ArticlesController extends AppController
     ];
 
     /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->loadComponent('Paginator');
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
@@ -58,7 +47,7 @@ class ArticlesController extends AppController
         /** @var \Crud\Action\IndexAction $action */
         $action = $this->Crud->action();
         $action->findMethod([
-            'byTeamId' => ['teamId' => (int) $this->request->getParam('team_id')],
+            'byTeamId' => ['teamId' => (int)$this->request->getParam('team_id')],
         ]);
 
         return $this->Crud->execute();

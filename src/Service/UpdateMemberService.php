@@ -10,10 +10,12 @@ use Cake\Console\ConsoleIo;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Locator\LocatorAwareTrait;
+use League\Container\ContainerAwareTrait;
 
 class UpdateMemberService
 {
     use LocatorAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * @var \Cake\Console\ConsoleIo|null
@@ -27,8 +29,9 @@ class UpdateMemberService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct(private DownloadRatingsService $DownloadRatings)
+    public function __construct(?ConsoleIo $io)
     {
+        $this->io = $io;
     }
 
     /**
@@ -41,6 +44,8 @@ class UpdateMemberService
      */
     public function updateMembers(Matchday $matchday, ?string $path = null): void
     {
+        /** @var \App\Service\DownloadRatingsService $DownloadRatings */
+        $DownloadRatings = $this->getContainer()->get(DownloadRatingsService::class);
         $matchdayNumber = $matchday->number;
         if ($this->io != null) {
             $this->io->out('Updating members of matchday ' . $matchdayNumber);
@@ -52,7 +57,7 @@ class UpdateMemberService
                 'number' => $matchdayNumber,
                 'season_id' => $matchday->season_id,
             ])->first();
-            $path = $this->DownloadRatings->getRatings($matchday);
+            $path = $DownloadRatings->getRatings($matchday);
             $matchdayNumber--;
         }
         if ($path != null && file_exists($path)) {
@@ -68,7 +73,7 @@ class UpdateMemberService
             )->where(['season_id' => $matchday->season_id]);
             /** @var array<\App\Model\Entity\Member> $oldMembers */
             $oldMembers = $query->toArray();
-            $newMembers = $this->DownloadRatings->returnArray($path, ';');
+            $newMembers = $DownloadRatings->returnArray($path, ';');
             $buys = [];
             $sells = [];
 

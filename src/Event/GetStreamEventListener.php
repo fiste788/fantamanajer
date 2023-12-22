@@ -53,7 +53,7 @@ class GetStreamEventListener implements EventListenerInterface
      */
     public function addNewArticleActivity(Event $event, Article $article): void
     {
-        $feed = $this->client->feed('team', (string) $article->team_id);
+        $feed = $this->client->feed('team', (string)$article->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
         $feed->addActivity([
             'actor' => 'Team:' . $article->team_id,
@@ -70,7 +70,7 @@ class GetStreamEventListener implements EventListenerInterface
      */
     public function addNewLineupActivity(Event $event, Lineup $lineup): void
     {
-        $feed = $this->client->feed('team', (string) $lineup->team_id);
+        $feed = $this->client->feed('team', (string)$lineup->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
         $feed->addActivity([
             'actor' => 'Team:' . $lineup->team_id,
@@ -87,7 +87,7 @@ class GetStreamEventListener implements EventListenerInterface
      */
     public function addNewMemberSelectionActivity(Event $event, Selection $selection): void
     {
-        $feed = $this->client->feed('team', (string) $selection->team_id);
+        $feed = $this->client->feed('team', (string)$selection->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
         $feed->addActivity([
             'actor' => 'Team:' . $selection->team_id,
@@ -104,7 +104,7 @@ class GetStreamEventListener implements EventListenerInterface
      */
     public function addNewMemberTransfertActivity(Event $event, Transfert $transfert): void
     {
-        $feed = $this->client->feed('team', (string) $transfert->team_id);
+        $feed = $this->client->feed('team', (string)$transfert->team_id);
         $feed->setGuzzleDefaultOption('verify', false);
         $feed->addActivity([
             'actor' => 'Team:' . $transfert->team_id,
@@ -123,7 +123,7 @@ class GetStreamEventListener implements EventListenerInterface
     public function changeMember(Event $event, Member $member): void
     {
         if ($member->isNew() || $member->isDirty('club_id') || ($member->isDirty('active') && $member->active)) {
-            $feed = $this->client->feed('club', (string) $member->club_id);
+            $feed = $this->client->feed('club', (string)$member->club_id);
             $feed->setGuzzleDefaultOption('verify', false);
             $feed->addActivity([
                 'actor' => 'Club:' . $member->club_id,
@@ -132,22 +132,22 @@ class GetStreamEventListener implements EventListenerInterface
                 'to' => ['timeline:general'],
             ]);
             if ($member->isDirty('club_id') && !$member->isNew() && $member->active) {
-                $feed = $this->client->feed('club', (string) $member->getOriginal('club_id'));
+                $feed = $this->client->feed('club', (string)$member->getOriginal('club_id'));
                 $feed->setGuzzleDefaultOption('verify', false);
                 $feed->addActivity([
-                    'actor' => 'Club:' . (string) $member->getOriginal('club_id'),
+                    'actor' => 'Club:' . (string)$member->getOriginal('club_id'),
                     'verb' => 'sell',
-                    'object' => 'Member:' . (string) $member->id,
+                    'object' => 'Member:' . (string)$member->id,
                     'to' => ['timeline:general'],
                 ]);
             }
         } elseif ($member->isDirty('active') && !$member->active) {
-            $feed = $this->client->feed('club', (string) $member->getOriginal('club_id'));
+            $feed = $this->client->feed('club', (string)$member->getOriginal('club_id'));
             $feed->setGuzzleDefaultOption('verify', false);
             $feed->addActivity([
-                'actor' => 'Club:' . (string) $member->getOriginal('club_id'),
+                'actor' => 'Club:' . (string)$member->getOriginal('club_id'),
                 'verb' => 'sell',
-                'object' => 'Member:' . (string) $member->id,
+                'object' => 'Member:' . (string)$member->id,
                 'to' => ['timeline:general'],
             ]);
         }

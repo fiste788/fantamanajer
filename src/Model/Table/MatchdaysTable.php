@@ -23,16 +23,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Matchday get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Matchday newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Matchday[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Matchday findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Matchday findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Matchday newEmptyEntity()
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class MatchdaysTable extends Table
 {
@@ -116,17 +116,17 @@ class MatchdaysTable extends Table
     /**
      * Find current query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findCurrent(SelectQuery $q, array $options): SelectQuery
+    public function findCurrent(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $interval = array_key_exists('interval', $options) ? (int)$options['interval'] : 0;
+        $interval = array_key_exists('interval', $args) ? (int)$args['interval'] : 0;
         $now = new DateTime();
         $now->addMinutes($interval);
 
-        return $q->contain(['Seasons'])
+        return $query->contain(['Seasons'])
             ->where(['date > ' => $now])
             ->orderByAsc('number')->limit(1);
     }
@@ -134,17 +134,17 @@ class MatchdaysTable extends Table
     /**
      * Find previuos query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed $args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findPrevious(SelectQuery $q, array $options): SelectQuery
+    public function findPrevious(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $interval = array_key_exists('interval', $options) ? (int)$options['interval'] : 0;
+        $interval = array_key_exists('interval', $args) ? (int)$args['interval'] : 0;
         $now = new DateTime();
         $now->addMinutes($interval);
 
-        return $q->contain(['Seasons'])
+        return $query->contain(['Seasons'])
             ->where(['date < ' => $now])
             ->orderByDesc('date')->limit(1);
     }
@@ -190,18 +190,18 @@ class MatchdaysTable extends Table
     /**
      * Find first without score query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findFirstWithoutScores(SelectQuery $q, array $options): SelectQuery
+    public function findFirstWithoutScores(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->select('Matchdays.id')
+        return $query->select('Matchdays.id')
             ->leftJoinWith('Scores')
             ->orderByAsc('Matchdays.number')
             ->whereNull('Scores.id')->andWhere([
                     'Matchdays.number >' => 0,
-                    'season_id' => $options['season'],
+                    'season_id' => $args['season'],
                 ])->limit(1);
     }
 

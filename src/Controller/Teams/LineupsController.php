@@ -19,21 +19,6 @@ class LineupsController extends ControllerLineupsController
     /**
      * @inheritDoc
      */
-    public function __construct(private LikelyLineupService $LikelyLineup, private LineupService $Lineup)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
@@ -51,6 +36,9 @@ class LineupsController extends ControllerLineupsController
     {
         $team = (int)$this->request->getParam('team_id');
         $that = $this;
+        /** @var \App\Service\LineupService $lineupService */
+        $lineupService = $this->getContainer()->get(LineupService::class);
+
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
         if ($identity->hasTeam($team)) {
@@ -80,8 +68,9 @@ class LineupsController extends ControllerLineupsController
                 )->contain(['Matchdays', 'Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
             });
         }
-        $this->Crud->on('afterFind', function (Event $event) use ($team, $that): void {
-            $event->getSubject()->entity = $that->Lineup->duplicate(
+        $this->Crud->on('afterFind', function (Event $event) use ($team, $lineupService): void {
+
+            $event->getSubject()->entity = $lineupService->duplicate(
                 $event->getSubject()->entity,
                 $team,
                 $this->currentMatchday
@@ -91,13 +80,14 @@ class LineupsController extends ControllerLineupsController
         try {
             return $this->Crud->execute();
         } catch (NotFoundException $e) {
-            $lineup = $this->Lineup->getEmptyLineup($team);
+            $lineup = $lineupService->getEmptyLineup($team);
             $lineup->matchday = $this->currentMatchday;
             $this->set([
                 'success' => true,
                 'data' => $lineup,
-                '_serialize' => ['success', 'data'],
             ]);
+
+            $this->viewBuilder()->setOption('serialize', ['data', 'success']);
         }
 
         return null;
@@ -113,12 +103,16 @@ class LineupsController extends ControllerLineupsController
      */
     public function likely(): void
     {
+        /** @var \App\Service\LikelyLineupService $likelyLineupService */
+        $likelyLineupService = $this->getContainer()->get(LikelyLineupService::class);
+
         $teamId = (int)$this->request->getParam('team_id');
-        $team = $this->LikelyLineup->get($teamId);
+        $team = $likelyLineupService->get($teamId);
         $this->set([
             'success' => true,
             'data' => $team->members,
-            '_serialize' => ['success', 'data'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }

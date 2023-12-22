@@ -25,16 +25,16 @@ use League\Container\ContainerAwareTrait;
  * @method \App\Model\Entity\Transfert get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Transfert newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Transfert[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Transfert findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Transfert findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Transfert newEmptyEntity()
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class TransfertsTable extends Table
 {
@@ -130,14 +130,14 @@ class TransfertsTable extends Table
     /**
      * Find by team id
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed $args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeamId(SelectQuery $q, array $options): SelectQuery
+    public function findByTeamId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
-            ->where(['team_id' => $options['team_id']]);
+        return $query->contain(['OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
+            ->where(['team_id' => $args['team_id']]);
     }
 
     /**
@@ -163,6 +163,7 @@ class TransfertsTable extends Table
      * @param \ArrayObject $options Options
      * @return void
      * @throws \Cake\Core\Exception\CakeException
+     * @throws \Psr\Container\ContainerExceptionInterface
      */
     public function afterSave(Event $event, Transfert $entity, ArrayObject $options): void
     {

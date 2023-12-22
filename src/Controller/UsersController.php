@@ -20,13 +20,6 @@ class UsersController extends AppController
     /**
      * @inheritDoc
      */
-    public function __construct(private UserService $User)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function initialize(): void
     {
         parent::initialize();
@@ -56,8 +49,9 @@ class UsersController extends AppController
         $this->set([
             'success' => true,
             'data' => $this->Authentication->getIdentity(),
-            '_serialize' => ['success', 'data'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 
     /**
@@ -71,19 +65,23 @@ class UsersController extends AppController
     {
         $result = $this->Authentication->getResult();
         if ($result != null && $result->isValid()) {
+            /** @var \App\Service\UserService $userService */
+            $userService = $this->getContainer()->get(UserService::class);
             /** @var \App\Model\Entity\User $user */
+
             $user = $this->Authentication->getIdentity();
             $days = $this->request->getData('remember_me', false) ? 365 : 7;
             $this->set(
                 [
                     'success' => true,
                     'data' => [
-                        'token' => $this->User->getToken((string)$user->id, $days),
+                        'token' => $userService->getToken((string)$user->id, $days),
                         'user' => $user->getOriginalData(),
                     ],
-                    '_serialize' => ['success', 'data'],
                 ]
             );
+
+            $this->viewBuilder()->setOption('serialize', ['data', 'success']);
         } elseif ($result != null) {
             //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
             $this->response = $this->response->withStatus(401);
@@ -93,9 +91,10 @@ class UsersController extends AppController
                     'data' => [
                         'message' => $result->getStatus(),
                     ],
-                    '_serialize' => ['success', 'data'],
                 ]
             );
+
+            $this->viewBuilder()->setOption('serialize', ['data', 'success']);
         }
     }
 
@@ -111,9 +110,10 @@ class UsersController extends AppController
             [
                 'success' => true,
                 'data' => true,
-                '_serialize' => ['success', 'data'],
             ]
         );
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 
     /**
@@ -139,8 +139,9 @@ class UsersController extends AppController
         $stream = $manager->getActivities('user', (string)$userId, false, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
-            '_serialize' => 'stream',
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['stream']);
     }
 
     /**

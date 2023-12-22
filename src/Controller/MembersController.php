@@ -18,7 +18,6 @@ class MembersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadComponent('Paginator');
     }
 
     /**
@@ -68,8 +67,8 @@ class MembersController extends AppController
             [
                 'success' => true,
                 'data' => $roles,
-                '_serialize' => ['success', 'data'],
             ]
         );
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }

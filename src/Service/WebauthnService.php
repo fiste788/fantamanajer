@@ -7,7 +7,7 @@ use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSourc
 use App\Model\Entity\User;
 use Cake\Core\Configure;
 use Cake\Http\Client;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 use Cose\Algorithm\Manager;
@@ -16,6 +16,7 @@ use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
 use GuzzleHttp\Psr7\HttpFactory;
+use League\Container\ContainerAwareTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Symfony\Component\Uid\Uuid;
@@ -47,12 +48,15 @@ use WhichBrowser\Parser;
 class WebauthnService
 {
     use LocatorAwareTrait;
+    use ContainerAwareTrait;
 
     protected PublicKeyCredentialLoader $publicKeyCredentialLoader;
 
     protected AuthenticatorAttestationResponseValidator $authenticatorAttestationResponseValidator;
 
     protected AuthenticatorAssertionResponseValidator $authenticatorAssertionResponseValidator;
+
+    protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
 
     /**
      * Costructor
@@ -61,9 +65,9 @@ class WebauthnService
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function __construct(private PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository)
+    public function __construct()
     {
-        $this->loadService('PublicKeyCredentialSourceRepository');
+        $this->PublicKeyCredentialSourceRepository = $this->getContainer()->get(PublicKeyCredentialSourceRepositoryService::class);
         $attestationStatementSupportManager = $this->createStatementSupportManager();
 
         // Attestation Object Loader
@@ -86,7 +90,6 @@ class WebauthnService
             new ExtensionOutputCheckerHandler(),
             $this->createAlgorithManager()
         );
-
     }
 
     /**
@@ -99,8 +102,8 @@ class WebauthnService
     {
         // User Entity
         return PublicKeyCredentialUserEntity::create(
-            (string) $user->email,
-            (string) $user->uuid,
+            (string)$user->email,
+            (string)$user->uuid,
             ($user->name ?? '') . ' ' . ($user->surname ?? ''),
             null
         );
@@ -114,7 +117,7 @@ class WebauthnService
     private function getExtensions(): AuthenticationExtensionsClientInputs
     {
         $extensions = new AuthenticationExtensionsClientInputs([
-            new AuthenticationExtension('loc', true)
+            new AuthenticationExtension('loc', true),
         ]);
 
         return $extensions;
@@ -128,11 +131,11 @@ class WebauthnService
     private function createRpEntity(): PublicKeyCredentialRpEntity
     {
         return PublicKeyCredentialRpEntity::create(
-            (string) Configure::read('Webauthn.name', 'FantaManajer'),
+            (string)Configure::read('Webauthn.name', 'FantaManajer'),
             //Name
-            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
             //ID
-            (string) Configure::read('Webauthn.icon') //Icon
+            (string)Configure::read('Webauthn.icon') //Icon
         );
     }
 
@@ -188,7 +191,7 @@ class WebauthnService
             AndroidSafetyNetAttestationStatementSupport::create()
                 ->enableApiVerification(
                     new Client(),
-                    (string) Configure::read('Webauthn.safetyNetKey'),
+                    (string)Configure::read('Webauthn.safetyNetKey'),
                     new HttpFactory()
                 )
         );
@@ -229,7 +232,7 @@ class WebauthnService
         $publicKeyCredentialRequestOptions =
             PublicKeyCredentialRequestOptions::create(
                 random_bytes(32),
-                (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+                (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
                 $allowedCredentials,
                 PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 60_000,
@@ -257,7 +260,7 @@ class WebauthnService
      */
     public function signinResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
+        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
         /** @var string|null $handle */
         $handle = $request->getSession()->consume('User.Handle');
 
@@ -279,7 +282,7 @@ class WebauthnService
     public function signin(
         string $publicKey,
         ServerRequestInterface $request,
-        string $userHandle = null
+        ?string $userHandle = null
     ): PublicKeyCredentialSource {
         $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
 
@@ -307,9 +310,10 @@ class WebauthnService
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
         $credential = $publicKeyCredentialSourcesTable->find()->where(['public_key_credential_id' => $response->publicKeyCredentialId])->first();
-        $credential->last_seen_at = new FrozenTime();
+        $credential->last_seen_at = new DateTime();
         $this->updateUserAgent($credential, $request->getHeader('User-Agent')[0]);
         $publicKeyCredentialSourcesTable->save($credential);
+
         return $response;
     }
 
@@ -383,7 +387,7 @@ class WebauthnService
      */
     public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
+        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
 
         // Load the data
@@ -422,7 +426,7 @@ class WebauthnService
      * @param string $userAgent User-agent
      * @return void
      */
-    private function updateUserAgent($credential, $userAgent)
+    private function updateUserAgent(EntityPublicKeyCredentialSource $credential, string $userAgent): void
     {
         $credential->user_agent = $userAgent;
         $parsed = new Parser($credential->user_agent);

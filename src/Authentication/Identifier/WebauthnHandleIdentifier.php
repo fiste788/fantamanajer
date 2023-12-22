@@ -60,7 +60,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
 
         /** @var \Psr\Http\Message\ServerRequestInterface $request */
         $request = $credentials['request'];
-        $publicKey = (string) $credentials['publicKey'];
+        $publicKey = (string)$credentials['publicKey'];
         /** @var string|null $userHandle */
         $userHandle = $credentials['userHandle'];
 
@@ -79,7 +79,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     protected function _findIdentity(string $identifier): ArrayAccess|array|null
     {
         /** @var array<string> $fields */
-        $fields = (array) $this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
+        $fields = (array)$this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
         foreach ($fields as $field) {
             $conditions[$field] = $identifier;

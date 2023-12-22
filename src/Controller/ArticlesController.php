@@ -15,7 +15,8 @@ class ArticlesController extends AppController
         'limit' => 5,
         'maxLimit' => 15,
         'sortWhitelist' => [
-            'id', 'title',
+            'id',
+            'title',
         ],
     ];
 
@@ -27,7 +28,6 @@ class ArticlesController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->loadComponent('Paginator');
     }
 
     /**

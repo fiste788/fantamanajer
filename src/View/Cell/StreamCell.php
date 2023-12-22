@@ -33,7 +33,8 @@ class StreamCell extends Cell
 
         $this->set([
             'stream' => $enriched,
-            '_serialize' => false,
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['stream']);
     }
 }

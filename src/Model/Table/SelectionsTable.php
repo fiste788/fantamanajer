@@ -28,16 +28,16 @@ use League\Container\ContainerAwareTrait;
  * @method \App\Model\Entity\Selection get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Selection newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Selection[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Selection findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Selection findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Selection newEmptyEntity()
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class SelectionsTable extends Table
 {
@@ -116,7 +116,7 @@ class SelectionsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['old_member_id'], 'OldMembers'));
         $rules->add($rules->existsIn(['new_member_id'], 'NewMembers'));
-        $rules->addCreate(new MemberIsSelectableRule($this->getContainer()->get(SelectionService::class)), 'NewMemberIsSelectable', [
+        $rules->addCreate(new MemberIsSelectableRule(), 'NewMemberIsSelectable', [
             'errorField' => 'new_member',
             'message' => __('The member is already selected by another team'),
         ]);
@@ -160,17 +160,17 @@ class SelectionsTable extends Table
     /**
      * Find by team and matchday query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery Query
      */
-    public function findByTeamIdAndMatchdayId(SelectQuery $q, array $options): SelectQuery
+    public function findByTeamIdAndMatchdayId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
+        return $query->contain(['Teams', 'OldMembers.Players', 'NewMembers.Players', 'Matchdays'])
             ->where([
                 'Selections.active' => true,
-                'team_id' => $options['team_id'],
-                'matchday_id' => $options['matchday_id'],
+                'team_id' => $args['team_id'],
+                'matchday_id' => $args['matchday_id'],
             ])->limit(1);
     }
 
@@ -199,6 +199,7 @@ class SelectionsTable extends Table
      * @param \App\Model\Entity\Selection $entity Entity
      * @param \ArrayObject $options Options
      * @throws \Cake\Core\Exception\CakeException
+     * @throws \Psr\Container\ContainerExceptionInterface
      * @return void
      */
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void

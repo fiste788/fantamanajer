@@ -46,9 +46,10 @@ class NotificationsController extends AppController
             [
                 'success' => true,
                 'data' => $stream,
-                '_serialize' => ['success', 'data'],
             ]
         );
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 
     /**
@@ -67,8 +68,9 @@ class NotificationsController extends AppController
             [
                 'success' => true,
                 'data' => $stream,
-                '_serialize' => ['success', 'data'],
             ]
         );
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }

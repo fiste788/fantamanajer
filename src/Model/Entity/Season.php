@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $year
+ * @property int $year
  * @property string $key_gazzetta
  * @property bool $bonus_points_goals
  * @property bool $bonus_points_clean_sheet

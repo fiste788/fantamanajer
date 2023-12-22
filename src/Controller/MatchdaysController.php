@@ -4,21 +4,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
-use Cake\View\JsonView;
 
 /**
  * @property \App\Model\Table\MatchdaysTable $Matchdays
  */
 class MatchdaysController extends AppController
 {
-    /**
-     * @inheritDoc
-     */
-    public function viewClasses(): array
-    {
-        return [JsonView::class];
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -51,7 +42,8 @@ class MatchdaysController extends AppController
         $this->set([
             'data' => $this->currentMatchday,
             'success' => true,
-            '_serialize' => ['data', 'success'],
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }

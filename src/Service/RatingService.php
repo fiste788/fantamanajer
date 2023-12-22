@@ -9,15 +9,22 @@ use Cake\Console\ConsoleIo;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query\SelectQuery;
+use League\Container\ContainerAwareTrait;
 
 class RatingService
 {
     use LocatorAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * @var \Cake\Console\ConsoleIo|null
      */
     private ?ConsoleIo $io = null;
+
+    /**
+     * @var \App\Service\DownloadRatingsService $DownloadRatings
+     */
+    private DownloadRatingsService $DownloadRatings;
 
     /**
      * Undocumented function
@@ -26,8 +33,10 @@ class RatingService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct(private DownloadRatingsService $DownloadRatings)
+    public function __construct(?ConsoleIo $io)
     {
+        $this->io = $io;
+        $this->DownloadRatings = $this->getContainer()->get(DownloadRatingsService::class);
     }
 
     /**

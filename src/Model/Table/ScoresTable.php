@@ -20,16 +20,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Score get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Score newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Score[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Score[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Score findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Score findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Score newEmptyEntity()
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class ScoresTable extends Table
 {
@@ -135,16 +135,16 @@ class ScoresTable extends Table
     /**
      * Find scores query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      * @throws \InvalidArgumentException
      */
-    public function findScores(SelectQuery $q, array $options): SelectQuery
+    public function findScores(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $championshipId = (int)$options['championship_id'];
+        $championshipId = (int)$args['championship_id'];
 
-        return $q->select(['id', 'points', 'team_id'])
+        return $query->select(['id', 'points', 'team_id'])
             ->contain([
                 'Matchdays' => ['fields' => ['number']],
             ])->innerJoinWith('Teams', function (SelectQuery $q) use ($championshipId): SelectQuery {
@@ -161,43 +161,43 @@ class ScoresTable extends Table
     /**
      * Find by team query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByTeam(SelectQuery $q, array $options): SelectQuery
+    public function findByTeam(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->contain([
+        return $query->contain([
             'Teams',
             'Matchdays' => ['fields' => ['number']],
         ])->where([
-                    'team_id' => $options['team_id'],
+                    'team_id' => $args['team_id'],
                 ]);
     }
 
     /**
      * Find ranking query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      * @throws \InvalidArgumentException
      */
-    public function findRanking(SelectQuery $q, array $options): SelectQuery
+    public function findRanking(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $championshipId = (int)$options['championship_id'];
-        $sum = $q->func()->sum('points');
-        $coalesce = $q->func()->coalesce([$sum, 0], ['float', 'float']);
-        $q->select([
+        $championshipId = (int)$args['championship_id'];
+        $sum = $query->func()->sum('points');
+        $coalesce = $query->func()->coalesce([$sum, 0], ['float', 'float']);
+        $query->select([
             'team_id',
             'sum_points' => $coalesce,
         ])->contain(['Teams' => ['fields' => ['id', 'name', 'championship_id']]])
             ->where(['Teams.championship_id' => $championshipId])
-            ->group('Teams.id')
+            ->groupBy('Teams.id')
             ->orderByDesc($sum);
 
-        if (array_key_exists('scores', $options) && $options['scores']) {
-            $q->formatResults(function (CollectionInterface $results) use ($championshipId): CollectionInterface {
+        if (array_key_exists('scores', $args) && $args['scores']) {
+            $query->formatResults(function (CollectionInterface $results) use ($championshipId): CollectionInterface {
                 $scores = $this->find('scores', championship_id: $championshipId)->all()->toArray();
 
                 if (!empty($scores)) {
@@ -212,7 +212,7 @@ class ScoresTable extends Table
             }, true);
         }
 
-        return $q;
+        return $query;
     }
 
     /**

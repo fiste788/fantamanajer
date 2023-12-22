@@ -32,7 +32,8 @@ class StreamController extends AppController
         $stream = $manager->getActivities('club', $clubId, false, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
-            '_serialize' => 'stream',
         ]);
+
+        $this->viewBuilder()->setOption('serialize', ['stream']);
     }
 }

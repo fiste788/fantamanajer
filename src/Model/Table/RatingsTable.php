@@ -18,16 +18,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Rating get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Rating newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Rating|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Rating saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rating|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Rating saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Rating patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Rating[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Rating findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Rating findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Rating newEmptyEntity()
- * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Rating[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class RatingsTable extends Table
 {
@@ -181,6 +181,7 @@ class RatingsTable extends Table
     public function findMaxMatchday(Season $season): ?int
     {
         $query = $this->find();
+        /** @var array<string, mixed> $res */
         $res = $query->disableHydration()
             ->leftJoinWith('Matchdays')
             ->select(['matchday_id' => $query->func()->max('Scores.matchday_id')])
@@ -193,13 +194,13 @@ class RatingsTable extends Table
     /**
      * Find by member id  query
      *
-     * @param \Cake\ORM\Query\SelectQuery $q Query
-     * @param array $options Options
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findByMemberId(SelectQuery $q, array $options): SelectQuery
+    public function findByMemberId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $q->select([
+        return $query->select([
             'rating',
             'points',
             'goals',
@@ -216,6 +217,6 @@ class RatingsTable extends Table
                         return $q->select(['number'], true);
                     },
                 ])->orderBy(['Matchdays.number' => 'ASC'])
-            ->where(['member_id' => $options['member_id']]);
+            ->where(['member_id' => $args['member_id']]);
     }
 }
