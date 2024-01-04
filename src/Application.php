@@ -279,6 +279,11 @@ class Application extends BaseApplication implements
      */
     public function services(ContainerInterface $container): void
     {
+        $container->add(\Cake\Controller\ComponentRegistry::class);
+        $container->delegate(
+            new \League\Container\ReflectionContainer(true)
+        );
+
         $container->add(SendTestNotificationCommand::class)->addArgument(PushNotificationService::class);
 
         $container->add(ComputeScoreService::class);

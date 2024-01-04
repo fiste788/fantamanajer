@@ -32,12 +32,10 @@ class LineupsController extends ControllerLineupsController
      * @return \Psr\Http\Message\ResponseInterface|null
      * @throws \Exception
      */
-    public function current(): ?ResponseInterface
+    public function current(LineupService $lineupService): ?ResponseInterface
     {
-        $team = (int)$this->request->getParam('team_id');
+        $team = (int) $this->request->getParam('team_id');
         $that = $this;
-        /** @var \App\Service\LineupService $lineupService */
-        $lineupService = $this->getContainer()->get(LineupService::class);
 
         /** @var \App\Model\Entity\User $identity */
         $identity = $this->Authentication->getIdentity();
@@ -101,12 +99,9 @@ class LineupsController extends ControllerLineupsController
      * @throws \RuntimeException
      * @throws \LogicException
      */
-    public function likely(): void
+    public function likely(LikelyLineupService $likelyLineupService): void
     {
-        /** @var \App\Service\LikelyLineupService $likelyLineupService */
-        $likelyLineupService = $this->getContainer()->get(LikelyLineupService::class);
-
-        $teamId = (int)$this->request->getParam('team_id');
+        $teamId = (int) $this->request->getParam('team_id');
         $team = $likelyLineupService->get($teamId);
         $this->set([
             'success' => true,

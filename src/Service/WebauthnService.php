@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSource;
 use App\Model\Entity\User;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\I18n\DateTime;
@@ -16,7 +17,6 @@ use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
 use GuzzleHttp\Psr7\HttpFactory;
-use League\Container\ContainerAwareTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Symfony\Component\Uid\Uuid;
@@ -45,10 +45,16 @@ use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 use WhichBrowser\Parser;
 
+/**
+ * Credentials Repo
+ *
+ * @property \App\Service\PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository
+ */
+#[\AllowDynamicProperties]
 class WebauthnService
 {
     use LocatorAwareTrait;
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     protected PublicKeyCredentialLoader $publicKeyCredentialLoader;
 
@@ -67,7 +73,7 @@ class WebauthnService
      */
     public function __construct()
     {
-        $this->PublicKeyCredentialSourceRepository = $this->getContainer()->get(PublicKeyCredentialSourceRepositoryService::class);
+        $this->loadService('PublicKeyCredentialSourceRepository');
         $attestationStatementSupportManager = $this->createStatementSupportManager();
 
         // Attestation Object Loader
@@ -102,8 +108,8 @@ class WebauthnService
     {
         // User Entity
         return PublicKeyCredentialUserEntity::create(
-            (string)$user->email,
-            (string)$user->uuid,
+            (string) $user->email,
+            (string) $user->uuid,
             ($user->name ?? '') . ' ' . ($user->surname ?? ''),
             null
         );
@@ -131,11 +137,11 @@ class WebauthnService
     private function createRpEntity(): PublicKeyCredentialRpEntity
     {
         return PublicKeyCredentialRpEntity::create(
-            (string)Configure::read('Webauthn.name', 'FantaManajer'),
+            (string) Configure::read('Webauthn.name', 'FantaManajer'),
             //Name
-            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
             //ID
-            (string)Configure::read('Webauthn.icon') //Icon
+            (string) Configure::read('Webauthn.icon') //Icon
         );
     }
 
@@ -191,7 +197,7 @@ class WebauthnService
             AndroidSafetyNetAttestationStatementSupport::create()
                 ->enableApiVerification(
                     new Client(),
-                    (string)Configure::read('Webauthn.safetyNetKey'),
+                    (string) Configure::read('Webauthn.safetyNetKey'),
                     new HttpFactory()
                 )
         );
@@ -232,7 +238,7 @@ class WebauthnService
         $publicKeyCredentialRequestOptions =
             PublicKeyCredentialRequestOptions::create(
                 random_bytes(32),
-                (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+                (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
                 $allowedCredentials,
                 PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 60_000,
@@ -260,7 +266,7 @@ class WebauthnService
      */
     public function signinResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
+        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         /** @var string|null $handle */
         $handle = $request->getSession()->consume('User.Handle');
 
@@ -387,7 +393,7 @@ class WebauthnService
      */
     public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
+        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
 
         // Load the data

@@ -8,6 +8,7 @@ use App\Model\Rule\MemberIsSelectableRule;
 use App\Model\Rule\TeamReachedMaxSelectionRule;
 use App\Service\SelectionService;
 use ArrayObject;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -15,7 +16,6 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use League\Container\ContainerAwareTrait;
 
 /**
  * Selections Model
@@ -41,7 +41,7 @@ use League\Container\ContainerAwareTrait;
  */
 class SelectionsTable extends Table
 {
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Initialize method
@@ -205,7 +205,9 @@ class SelectionsTable extends Table
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('processed') && $entity->processed) {
-            $this->getContainer()->get(SelectionService::class)->save($entity);
+            $this->loadService('SelectionService');
+
+            $this->Selection->save($entity);
         }
     }
 }

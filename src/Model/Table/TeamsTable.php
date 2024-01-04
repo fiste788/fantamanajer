@@ -4,17 +4,15 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Team;
-use App\Service\TeamService;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\RepositoryInterface;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use League\Container\ContainerAwareTrait;
 use Psr\Http\Message\UploadedFileInterface;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 use SplFileInfo;
 
 /**
@@ -48,7 +46,7 @@ use SplFileInfo;
  */
 class TeamsTable extends Table
 {
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Initialize method
@@ -119,12 +117,12 @@ class TeamsTable extends Table
                 ],
                 'nameCallback' =>
                     function (RepositoryInterface $_table, EntityInterface $_entity, UploadedFileInterface $file, string $_field, array $_settings) {
-                        return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
+                        return strtolower($file->getClientFilename() ?? (string) $_entity->get('id'));
                     },
                 'transformer' =>
                     function (RepositoryInterface $_table, EntityInterface $entity, UploadedFileInterface $file, string $_field, array $_settings) {
                         $tmpFileName = new SplFileInfo(
-                            strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
+                            strtolower($file->getClientFilename() ?? (string) $entity->get('id') . '.jpg')
                         );
                         $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                         if ($tmpFile != false) {
@@ -133,11 +131,8 @@ class TeamsTable extends Table
                             $array = [$tmpFile => $tmpFileName->getFilename()];
                             foreach (Team::$size as $value) {
                                 if ($value < $image->getWidth()) {
-                                    $manipulations = (new Manipulations())->width($value)->optimize();
-                                    $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
-
-                                    /** @psalm-suppress MixedMethodCall */
-                                    $image->manipulate($manipulations)->save($tmp);
+                                    $tmp = tempnam(TMP, (string) $value) . '.' . $tmpFileName->getExtension();
+                                    $image->width($value)->optimize()->save($tmp);
                                     $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                                 }
                             }
@@ -146,9 +141,9 @@ class TeamsTable extends Table
                         }
                     },
                 'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $_settings) {
-                    $array = [$path . (string)$entity->{$field}];
+                    $array = [$path . (string) $entity->{$field}];
                     foreach (Team::$size as $value) {
-                        $array[] = $path . $value . DS . (string)$entity->{$field};
+                        $array[] = $path . $value . DS . (string) $entity->{$field};
                     }
 
                     return $array;
@@ -244,6 +239,8 @@ class TeamsTable extends Table
      */
     public function saveWithoutUser(Team $team): void
     {
+        $this->loadService('Team');
+
         if (!$team->user->id) {
             $user = $this->Users->findOrCreate(['email' => $team->user->email]);
             $team->user = $user;
@@ -251,6 +248,6 @@ class TeamsTable extends Table
         if (!$team->user->id) {
             $team->user->active = false;
         }
-        $this->getContainer()->get(TeamService::class)->createTeam($team);
+        $this->Team->createTeam($team);
     }
 }

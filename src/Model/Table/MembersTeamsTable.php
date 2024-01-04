@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\MembersTeam;
-use App\Service\TransfertService;
 use ArrayObject;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use League\Container\ContainerAwareTrait;
 
 /**
  * MembersTeams Model
@@ -33,7 +32,7 @@ use League\Container\ContainerAwareTrait;
  */
 class MembersTeamsTable extends Table
 {
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Initialize method
@@ -103,7 +102,11 @@ class MembersTeamsTable extends Table
     public function beforeSave(Event $event, MembersTeam $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('member_id') && !$entity->isNew()) {
-            $this->getContainer()->get(TransfertService::class)->saveTeamMember($entity);
+            /** @var \App\Service\TransfertService $transfert */
+            $transfert = $this->loadService('Transfert');
+
+            $transfert->saveTeamMember($entity);
+
         }
     }
 }

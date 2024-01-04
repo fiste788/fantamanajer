@@ -5,26 +5,25 @@ namespace App\Service;
 
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Query\SelectQuery;
-use League\Container\ContainerAwareTrait;
 
+/**
+ * @property \App\Service\DownloadRatingsService $DownloadRatings
+ */
+#[\AllowDynamicProperties]
 class RatingService
 {
     use LocatorAwareTrait;
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * @var \Cake\Console\ConsoleIo|null
      */
     private ?ConsoleIo $io = null;
-
-    /**
-     * @var \App\Service\DownloadRatingsService $DownloadRatings
-     */
-    private DownloadRatingsService $DownloadRatings;
 
     /**
      * Undocumented function
@@ -33,10 +32,10 @@ class RatingService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct(?ConsoleIo $io)
+    public function __construct(ConsoleIo $io)
     {
         $this->io = $io;
-        $this->DownloadRatings = $this->getContainer()->get(DownloadRatingsService::class);
+        $this->loadService('DownloadRatings', [$io]);
     }
 
     /**
@@ -162,7 +161,7 @@ class RatingService
                         'penalities_taken' => $stats[19],
                         'present' => $stats[23],
                         'regular' => $stats[24],
-                        'quotation' => (int)$stats[27],
+                        'quotation' => (int) $stats[27],
                         'member_id' => $member->id,
                         'matchday_id' => $matchday->id,
                     ], ['accessibleFields' => ['*' => true]]);

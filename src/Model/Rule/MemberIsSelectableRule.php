@@ -3,16 +3,32 @@ declare(strict_types=1);
 
 namespace App\Model\Rule;
 
+use AllowDynamicProperties;
 use App\Service\SelectionService;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
-use League\Container\ContainerAwareTrait;
 
+/**
+ * @property \App\Service\SelectionService $Selection
+ */
+#[AllowDynamicProperties]
 class MemberIsSelectableRule
 {
     use LocatorAwareTrait;
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
+
+    /**
+     * Construct
+     *
+     * @throws \Cake\Core\Exception\CakeException
+     * @throws \UnexpectedValueException
+     */
+    public function __construct()
+    {
+        $this->loadService('Selection');
+    }
 
     /**
      * Invoke
@@ -41,7 +57,7 @@ class MemberIsSelectableRule
             if (array_search($entity->team_id, $rank) > array_search($selection->team->id, $rank)) {
                 $selection->active = false;
                 $selectionsTable->save($selection);
-                $this->getContainer()->get(SelectionService::class)->notifyLostMember($selection);
+                $this->Selection->notifyLostMember($selection);
 
                 return true;
             } else {

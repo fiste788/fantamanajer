@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
 use App\View\CustomFallbackView;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
@@ -24,6 +25,7 @@ class AppController extends Controller
     use ControllerTrait;
     use CurrentMatchdayTrait;
     use LocatorAwareTrait;
+    use ServiceAwareTrait;
     use ContainerAwareTrait;
 
     /**

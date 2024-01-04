@@ -4,15 +4,14 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Transfert;
-use App\Service\TransfertService;
 use ArrayObject;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use League\Container\ContainerAwareTrait;
 
 /**
  * Transferts Model
@@ -38,7 +37,7 @@ use League\Container\ContainerAwareTrait;
  */
 class TransfertsTable extends Table
 {
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Initialize method
@@ -171,6 +170,7 @@ class TransfertsTable extends Table
             'transfert' => $entity,
         ]));
 
-        $this->getContainer()->get(TransfertService::class)->substituteMemberInLineup($entity);
+        $this->loadService('Transfert');
+        $this->Transfert->substituteMemberInLineup($entity);
     }
 }

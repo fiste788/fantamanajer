@@ -6,16 +6,16 @@ namespace App\Service;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Member;
 use App\Model\Entity\Season;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Console\ConsoleIo;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use League\Container\ContainerAwareTrait;
 
 class UpdateMemberService
 {
     use LocatorAwareTrait;
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * @var \Cake\Console\ConsoleIo|null
@@ -32,6 +32,7 @@ class UpdateMemberService
     public function __construct(?ConsoleIo $io)
     {
         $this->io = $io;
+        $this->loadService('DownloadRatings', [$io]);
     }
 
     /**
@@ -45,7 +46,7 @@ class UpdateMemberService
     public function updateMembers(Matchday $matchday, ?string $path = null): void
     {
         /** @var \App\Service\DownloadRatingsService $DownloadRatings */
-        $DownloadRatings = $this->getContainer()->get(DownloadRatingsService::class);
+        $DownloadRatings = $this->loadService(DownloadRatingsService::class);
         $matchdayNumber = $matchday->number;
         if ($this->io != null) {
             $this->io->out('Updating members of matchday ' . $matchdayNumber);
@@ -84,7 +85,7 @@ class UpdateMemberService
                     if ($member != null) {
                         $buys[$member->club_id][] = $member;
                         if ($member->isDirty('club_id')) {
-                            $sells[(int)$member->getOriginal('club_id')][] = $member;
+                            $sells[(int) $member->getOriginal('club_id')][] = $member;
                         }
                     }
                 } else {
@@ -202,7 +203,7 @@ class UpdateMemberService
             'code_gazzetta' => $member[0],
             'playmaker' => $member[26],
             'active' => true,
-            'role_id' => ((int)$member[5]) + 1,
+            'role_id' => ((int) $member[5]) + 1,
             'club_id' => $club->id,
             'player_id' => $player->id,
         ], ['accessibleFields' => ['*' => true]]);

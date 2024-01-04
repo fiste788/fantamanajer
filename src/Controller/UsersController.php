@@ -61,12 +61,10 @@ class UsersController extends AppController
      * @throws \Authentication\Authenticator\UnauthenticatedException
      * @throws \InvalidArgumentException
      */
-    public function login(): void
+    public function login(UserService $userService): void
     {
         $result = $this->Authentication->getResult();
         if ($result != null && $result->isValid()) {
-            /** @var \App\Service\UserService $userService */
-            $userService = $this->getContainer()->get(UserService::class);
             /** @var \App\Model\Entity\User $user */
 
             $user = $this->Authentication->getIdentity();
@@ -75,7 +73,7 @@ class UsersController extends AppController
                 [
                     'success' => true,
                     'data' => [
-                        'token' => $userService->getToken((string)$user->id, $days),
+                        'token' => $userService->getToken((string) $user->id, $days),
                         'user' => $user->getOriginalData(),
                     ],
                 ]
@@ -126,17 +124,17 @@ class UsersController extends AppController
      */
     public function stream(): void
     {
-        $userId = (int)$this->request->getParam('user_id');
+        $userId = (int) $this->request->getParam('user_id');
         $identity = $this->Authentication->getIdentity();
         if ($identity == null || $identity->getIdentifier() != $userId) {
             throw new ForbiddenException();
         }
 
-        $page = (int)Hash::get($this->request->getQueryParams(), 'page', 1);
+        $page = (int) Hash::get($this->request->getQueryParams(), 'page', 1);
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('user', (string)$userId, false, $offset, $rowsForPage);
+        $stream = $manager->getActivities('user', (string) $userId, false, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
         ]);

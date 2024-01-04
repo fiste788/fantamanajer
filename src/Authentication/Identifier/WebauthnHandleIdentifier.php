@@ -4,12 +4,11 @@ declare(strict_types=1);
 namespace App\Authentication\Identifier;
 
 use AllowDynamicProperties;
-use App\Service\WebauthnService;
 use ArrayAccess;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
-use League\Container\ContainerAwareTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 
 /**
  * @property \App\Service\WebauthnService $Webauthn
@@ -18,7 +17,7 @@ use League\Container\ContainerAwareTrait;
 class WebauthnHandleIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
-    use ContainerAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Constructor
@@ -29,6 +28,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     public function __construct(array $config = [])
     {
         $this->setConfig($config);
+        $this->loadService('Webauthn');
     }
 
     /**
@@ -37,7 +37,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      *   - `username`: one or many username fields.
      * - `resolver` The resolver implementation to use.
      *
-     * @var array<string, mixed>
+     * @var array<array-key, mixed>
      */
     protected array $_defaultConfig = [
         'fields' => [
@@ -49,6 +49,8 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     /**
      * {@inheritDoc}
      *
+     * @param array<array-key, mixed> $credentials
+     * @return \ArrayAccess|array<array-key, mixed>|null
      * @throws \RuntimeException
      * @throws \Exception
      */
@@ -60,11 +62,11 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
 
         /** @var \Psr\Http\Message\ServerRequestInterface $request */
         $request = $credentials['request'];
-        $publicKey = (string)$credentials['publicKey'];
+        $publicKey = (string) $credentials['publicKey'];
         /** @var string|null $userHandle */
         $userHandle = $credentials['userHandle'];
 
-        $result = $this->getContainer()->get(WebauthnService::class)->login($publicKey, $request, $userHandle);
+        $result = $this->Webauthn->signin($publicKey, $request, $userHandle);
 
         return $this->_findIdentity($result->userHandle);
     }
@@ -73,13 +75,13 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * Find a user record using the username/identifier provided.
      *
      * @param string $identifier The username/identifier.
-     * @return \ArrayAccess|array|null
+     * @return \ArrayAccess|array<array-key, mixed>|null
      * @throws \RuntimeException
      */
     protected function _findIdentity(string $identifier): ArrayAccess|array|null
     {
         /** @var array<string> $fields */
-        $fields = (array)$this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
+        $fields = (array) $this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
         $conditions = [];
         foreach ($fields as $field) {
             $conditions[$field] = $identifier;
