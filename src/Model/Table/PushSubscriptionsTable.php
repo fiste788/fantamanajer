@@ -155,6 +155,7 @@ class PushSubscriptionsTable extends Table
      * @param \ArrayObject $options Options
      * @return void
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options): void
     {

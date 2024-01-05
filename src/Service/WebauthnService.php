@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AllowDynamicProperties;
 use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSource;
 use App\Model\Entity\User;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
@@ -50,7 +51,7 @@ use WhichBrowser\Parser;
  *
  * @property \App\Service\PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class WebauthnService
 {
     use LocatorAwareTrait;
@@ -108,8 +109,8 @@ class WebauthnService
     {
         // User Entity
         return PublicKeyCredentialUserEntity::create(
-            (string) $user->email,
-            (string) $user->uuid,
+            (string)$user->email,
+            (string)$user->uuid,
             ($user->name ?? '') . ' ' . ($user->surname ?? ''),
             null
         );
@@ -137,11 +138,11 @@ class WebauthnService
     private function createRpEntity(): PublicKeyCredentialRpEntity
     {
         return PublicKeyCredentialRpEntity::create(
-            (string) Configure::read('Webauthn.name', 'FantaManajer'),
+            (string)Configure::read('Webauthn.name', 'FantaManajer'),
             //Name
-            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
             //ID
-            (string) Configure::read('Webauthn.icon') //Icon
+            (string)Configure::read('Webauthn.icon') //Icon
         );
     }
 
@@ -197,7 +198,7 @@ class WebauthnService
             AndroidSafetyNetAttestationStatementSupport::create()
                 ->enableApiVerification(
                     new Client(),
-                    (string) Configure::read('Webauthn.safetyNetKey'),
+                    (string)Configure::read('Webauthn.safetyNetKey'),
                     new HttpFactory()
                 )
         );
@@ -238,7 +239,7 @@ class WebauthnService
         $publicKeyCredentialRequestOptions =
             PublicKeyCredentialRequestOptions::create(
                 random_bytes(32),
-                (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
+                (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
                 $allowedCredentials,
                 PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 60_000,
@@ -266,7 +267,7 @@ class WebauthnService
      */
     public function signinResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
+        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
         /** @var string|null $handle */
         $handle = $request->getSession()->consume('User.Handle');
 
@@ -315,7 +316,9 @@ class WebauthnService
 
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
-        $credential = $publicKeyCredentialSourcesTable->find()->where(['public_key_credential_id' => $response->publicKeyCredentialId])->first();
+        $credential = $publicKeyCredentialSourcesTable->find()
+            ->where(['public_key_credential_id' => $response->publicKeyCredentialId])
+            ->first();
         $credential->last_seen_at = new DateTime();
         $this->updateUserAgent($credential, $request->getHeader('User-Agent')[0]);
         $publicKeyCredentialSourcesTable->save($credential);
@@ -393,7 +396,7 @@ class WebauthnService
      */
     public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
+        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
         $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
 
         // Load the data

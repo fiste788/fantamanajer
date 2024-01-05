@@ -251,12 +251,14 @@ class WeeklyScriptCommand extends Command
         $ranking = $scoresTable->find('ranking', championship_id: $championship->id)->toArray();
         foreach ($championship->teams as $team) {
             if ($team->isEmailSubscripted('score')) {
+                /** @var \App\Model\Entity\Lineup $details */
                 $details = $lineupsTable->find(
                     'details',
                     matchday_id: $matchday->id,
                     team_id: $team->id
                 )->first();
 
+                /** @var \App\Model\Entity\Score $score */
                 $score = $scoresTable->find()->where([
                     'matchday_id' => $matchday->id,
                     'team_id' => $team->id,

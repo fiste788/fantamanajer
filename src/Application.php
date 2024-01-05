@@ -55,6 +55,7 @@ use Authorization\Policy\OrmResolver;
 use Authorization\Policy\ResolverCollection;
 use Bake\BakePlugin;
 use Cake\Console\CommandCollection;
+use Cake\Controller\ComponentRegistry;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Database\TypeFactory;
@@ -73,6 +74,7 @@ use Crud\CrudPlugin;
 //use DatabaseBackup\Plugin as DatabaseBackupPlugin;
 use IdeHelper\IdeHelperPlugin;
 use Josegonzalez\Upload\UploadPlugin;
+use League\Container\ReflectionContainer;
 use Migrations\MigrationsPlugin;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -136,8 +138,10 @@ class Application extends BaseApplication implements
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
+        /** @var array<array-key, mixed> $config */
+        $config = Configure::read('Error');
         $middlewareQueue
-            ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+            ->add(new ErrorHandlerMiddleware($config, $this))
             ->add(new RoutingMiddleware($this))
             ->add(new BodyParserMiddleware())
             ->add(new AuthenticationMiddleware($this))
@@ -279,9 +283,9 @@ class Application extends BaseApplication implements
      */
     public function services(ContainerInterface $container): void
     {
-        $container->add(\Cake\Controller\ComponentRegistry::class);
+        $container->add(ComponentRegistry::class);
         $container->delegate(
-            new \League\Container\ReflectionContainer(true)
+            new ReflectionContainer(true)
         );
 
         $container->add(SendTestNotificationCommand::class)->addArgument(PushNotificationService::class);

@@ -12,6 +12,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
 /**
  * Credentials Repo
  */
+/** @psalm-suppress DeprecatedInterface */
 class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialSourceRepository
 {
     use LocatorAwareTrait;

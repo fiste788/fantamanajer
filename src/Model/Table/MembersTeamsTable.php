@@ -106,7 +106,6 @@ class MembersTeamsTable extends Table
             $transfert = $this->loadService('Transfert');
 
             $transfert->saveTeamMember($entity);
-
         }
     }
 }

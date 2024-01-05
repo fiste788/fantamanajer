@@ -116,13 +116,25 @@ class TeamsTable extends Table
                     // defaults to `type`
                 ],
                 'nameCallback' =>
-                    function (RepositoryInterface $_table, EntityInterface $_entity, UploadedFileInterface $file, string $_field, array $_settings) {
-                        return strtolower($file->getClientFilename() ?? (string) $_entity->get('id'));
+                    function (
+                        RepositoryInterface $_table,
+                        EntityInterface $_entity,
+                        UploadedFileInterface $file,
+                        string $_field,
+                        array $_settings
+                    ) {
+                        return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
                     },
                 'transformer' =>
-                    function (RepositoryInterface $_table, EntityInterface $entity, UploadedFileInterface $file, string $_field, array $_settings) {
+                    function (
+                        RepositoryInterface $_table,
+                        EntityInterface $entity,
+                        UploadedFileInterface $file,
+                        string $_field,
+                        array $_settings
+                    ) {
                         $tmpFileName = new SplFileInfo(
-                            strtolower($file->getClientFilename() ?? (string) $entity->get('id') . '.jpg')
+                            strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
                         );
                         $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                         if ($tmpFile != false) {
@@ -131,7 +143,7 @@ class TeamsTable extends Table
                             $array = [$tmpFile => $tmpFileName->getFilename()];
                             foreach (Team::$size as $value) {
                                 if ($value < $image->getWidth()) {
-                                    $tmp = tempnam(TMP, (string) $value) . '.' . $tmpFileName->getExtension();
+                                    $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
                                     $image->width($value)->optimize()->save($tmp);
                                     $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                                 }
@@ -141,9 +153,9 @@ class TeamsTable extends Table
                         }
                     },
                 'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $_settings) {
-                    $array = [$path . (string) $entity->{$field}];
+                    $array = [$path . (string)$entity->{$field}];
                     foreach (Team::$size as $value) {
-                        $array[] = $path . $value . DS . (string) $entity->{$field};
+                        $array[] = $path . $value . DS . (string)$entity->{$field};
                     }
 
                     return $array;

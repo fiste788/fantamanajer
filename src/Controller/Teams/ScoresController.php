@@ -13,7 +13,12 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ScoresController extends ScoresBaseController
 {
-    public array $paginate = [
+    /**
+     * Pagination
+     *
+     * @var array<string, mixed>
+     */
+    protected array $paginate = [
         'limit' => 40,
         'maxLimit' => 40,
     ];

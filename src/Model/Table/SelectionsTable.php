@@ -6,7 +6,6 @@ namespace App\Model\Table;
 use App\Model\Entity\Selection;
 use App\Model\Rule\MemberIsSelectableRule;
 use App\Model\Rule\TeamReachedMaxSelectionRule;
-use App\Service\SelectionService;
 use ArrayObject;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;

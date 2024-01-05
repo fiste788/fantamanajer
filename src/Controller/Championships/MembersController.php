@@ -14,7 +14,12 @@ use Psr\Http\Message\ResponseInterface;
  */
 class MembersController extends AppController
 {
-    public array $paginate = [
+    /**
+     * Pagination
+     *
+     * @var array<string, mixed>
+     */
+    protected array $paginate = [
         'limit' => 1000,
         'maxLimit' => 1000,
     ];

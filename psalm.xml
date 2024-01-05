@@ -28,6 +28,7 @@
 
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+        <LessSpecificImplementedReturnType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <DocblockTypeContradiction errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="suppress" />

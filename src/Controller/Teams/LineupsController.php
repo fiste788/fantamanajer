@@ -34,7 +34,7 @@ class LineupsController extends ControllerLineupsController
      */
     public function current(LineupService $lineupService): ?ResponseInterface
     {
-        $team = (int) $this->request->getParam('team_id');
+        $team = (int)$this->request->getParam('team_id');
         $that = $this;
 
         /** @var \App\Model\Entity\User $identity */
@@ -101,7 +101,7 @@ class LineupsController extends ControllerLineupsController
      */
     public function likely(LikelyLineupService $likelyLineupService): void
     {
-        $teamId = (int) $this->request->getParam('team_id');
+        $teamId = (int)$this->request->getParam('team_id');
         $team = $likelyLineupService->get($teamId);
         $this->set([
             'success' => true,

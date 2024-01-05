@@ -73,7 +73,7 @@ class UsersController extends AppController
                 [
                     'success' => true,
                     'data' => [
-                        'token' => $userService->getToken((string) $user->id, $days),
+                        'token' => $userService->getToken((string)$user->id, $days),
                         'user' => $user->getOriginalData(),
                     ],
                 ]
@@ -124,17 +124,17 @@ class UsersController extends AppController
      */
     public function stream(): void
     {
-        $userId = (int) $this->request->getParam('user_id');
+        $userId = (int)$this->request->getParam('user_id');
         $identity = $this->Authentication->getIdentity();
         if ($identity == null || $identity->getIdentifier() != $userId) {
             throw new ForbiddenException();
         }
 
-        $page = (int) Hash::get($this->request->getQueryParams(), 'page', 1);
+        $page = (int)Hash::get($this->request->getQueryParams(), 'page', 1);
         $rowsForPage = 10;
         $offset = $rowsForPage * ($page - 1);
         $manager = new ActivityManager();
-        $stream = $manager->getActivities('user', (string) $userId, false, $offset, $rowsForPage);
+        $stream = $manager->getActivities('user', (string)$userId, false, $offset, $rowsForPage);
         $this->set([
             'stream' => $stream,
         ]);

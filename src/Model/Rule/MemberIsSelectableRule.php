@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Rule;
 
 use AllowDynamicProperties;
-use App\Service\SelectionService;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;

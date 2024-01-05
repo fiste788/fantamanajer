@@ -23,7 +23,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * - `loginUrl` Login URL or an array of URLs.
      * - `urlChecker` Url checker config.
      *
-     * @var array<string, mixed>
+     * @var array<array-key, mixed>
      */
     protected array $_defaultConfig = [
         'loginUrl' => null,

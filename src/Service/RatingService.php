@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AllowDynamicProperties;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Season;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
@@ -14,7 +15,7 @@ use Cake\ORM\Query\SelectQuery;
 /**
  * @property \App\Service\DownloadRatingsService $DownloadRatings
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class RatingService
 {
     use LocatorAwareTrait;
@@ -161,7 +162,7 @@ class RatingService
                         'penalities_taken' => $stats[19],
                         'present' => $stats[23],
                         'regular' => $stats[24],
-                        'quotation' => (int) $stats[27],
+                        'quotation' => (int)$stats[27],
                         'member_id' => $member->id,
                         'matchday_id' => $matchday->id,
                     ], ['accessibleFields' => ['*' => true]]);
