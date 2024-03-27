@@ -66,7 +66,7 @@ class Member extends Entity
     /**
      * Fields that are excluded from JSON versions of the entity.
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_hidden = [
         'created_at',
@@ -76,7 +76,7 @@ class Member extends Entity
     /**
      * Undocumented variable
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_virtual = [
         'photo_url',

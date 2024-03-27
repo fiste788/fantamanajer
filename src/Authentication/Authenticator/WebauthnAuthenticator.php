@@ -77,7 +77,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
             'userHandle' => $this->getUserHandle($request),
         ]);
 
-        if (empty($user)) {
+        if ($user == null) {
             return new Result(null, Result::FAILURE_IDENTITY_NOT_FOUND, $this->_identifier->getErrors());
         }
 

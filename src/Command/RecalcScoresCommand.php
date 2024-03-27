@@ -52,6 +52,6 @@ class RecalcScoresCommand extends Command
             $io->out('Was ' . $orig . ' to ' . $score->points);
         }
 
-        return $scoresTable->saveMany($scores) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
+        return $scoresTable->saveMany($scores) != false ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
     }
 }

@@ -58,7 +58,7 @@ class DownloadMatchdayRatingCommand extends Command
     {
         $matchday = (int)$args->getArgument('matchday');
 
-        return $this->exec($matchday, $io) ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
+        return $this->exec($matchday, $io) != null ? CommandInterface::CODE_SUCCESS : CommandInterface::CODE_ERROR;
     }
 
     /**
@@ -75,7 +75,7 @@ class DownloadMatchdayRatingCommand extends Command
     public function exec(int $matchday, ConsoleIo $io): ?string
     {
         $url = $this->getDropboxUrl($matchday, $io);
-        if ($url) {
+        if ($url != null) {
             return $this->downloadDropboxFile($url, $matchday, $io);
         }
 

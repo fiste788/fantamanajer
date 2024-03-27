@@ -58,7 +58,7 @@ class ScoresController extends ScoresBaseController
         $conditions = [
             'team_id' => (int)$this->getRequest()->getParam('team_id'),
         ];
-        if ($matchdayId) {
+        if ($matchdayId != null) {
             $conditions['matchday_id'] = $matchdayId;
         }
         $this->Crud->on('beforeFind', function (EventInterface $event) use ($conditions): SelectQuery {

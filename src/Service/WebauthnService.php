@@ -30,7 +30,7 @@ use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
 use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
 use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
 use Webauthn\AuthenticationExtensions\AuthenticationExtension;
-use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
+use Webauthn\AuthenticationExtensions\AuthenticationExtensions;
 use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
 use Webauthn\AuthenticatorAssertionResponse;
 use Webauthn\AuthenticatorAssertionResponseValidator;
@@ -119,11 +119,11 @@ class WebauthnService
     /**
      * Undocumented function
      *
-     * @return \Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs
+     * @return \Webauthn\AuthenticationExtensions\AuthenticationExtensions
      */
-    private function getExtensions(): AuthenticationExtensionsClientInputs
+    private function getExtensions(): AuthenticationExtensions
     {
-        $extensions = new AuthenticationExtensionsClientInputs([
+        $extensions = new AuthenticationExtensions([
             new AuthenticationExtension('loc', true),
         ]);
 

@@ -71,7 +71,7 @@ class SendMissingLineupNotificationCommand extends Command
     {
         $tomorrow = DateTime::now()->addDays(1)->second(0);
         if (
-            $args->getOption('force') ||
+            $args->getOption('force') == true ||
             $this->currentMatchday->date->isWithinNext('30 minutes') ||
             $this->currentMatchday->date->equals($tomorrow)
         ) {

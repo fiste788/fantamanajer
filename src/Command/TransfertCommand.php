@@ -64,7 +64,7 @@ class TransfertCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force')) {
+        if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force') == true) {
             $matchday = $this->currentMatchday;
             if ($args->hasArgument('matchday')) {
                 $matchdaysTable = $this->fetchTable('Matchdays');
@@ -98,7 +98,7 @@ class TransfertCommand extends Command
                     ];
                 }
                 $io->helper('Table')->output($table);
-                if (!$args->getOption('no-commit')) {
+                if ($args->getOption('no-commit') == false) {
                     $this->doTransferts($io, $selectionsArray);
                 }
             } else {
@@ -121,7 +121,7 @@ class TransfertCommand extends Command
     {
         /** @var \App\Model\Table\SelectionsTable $selectionsTable */
         $selectionsTable = $this->fetchTable('Selections');
-        if ($selectionsTable->saveMany($selections)) {
+        if ($selectionsTable->saveMany($selections) != false) {
             $io->out('Changes committed');
         } else {
             $io->out('Error occurred');

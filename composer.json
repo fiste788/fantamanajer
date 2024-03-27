@@ -22,10 +22,7 @@
         "symfony/dom-crawler": "^7.0",
         "symfony/uid": "^7.0",
         "web-auth/webauthn-lib": "^4.7",
-        "web-token/jwt-key-mgmt": "^3.2",
-        "web-token/jwt-signature-algorithm-ecdsa": "^3.2",
-        "web-token/jwt-signature-algorithm-eddsa": "^3.2",
-        "web-token/jwt-signature-algorithm-rsa": "^3.2",
+        "web-token/jwt-library": "^3.3",
         "whichbrowser/parser": "^2.1"
     },
     "require-dev": {

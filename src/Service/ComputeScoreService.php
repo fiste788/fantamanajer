@@ -241,7 +241,7 @@ class ComputeScoreService
             $points -= $rating->getBonusCleanSheetPoints($disposition->member);
         }
         $disposition->points = $points;
-        if ($cap && $disposition->member->id == $cap) {
+        if ($cap != null && $disposition->member->id == $cap) {
             $disposition->consideration = 2;
             $points *= 2;
         }

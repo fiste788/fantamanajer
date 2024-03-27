@@ -38,7 +38,7 @@ class Player extends Entity
     /**
      * Undocumented variable
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_virtual = [
         'photo_url',
@@ -72,6 +72,6 @@ class Player extends Entity
      */
     protected function _getFullName(): string
     {
-        return $this->surname . ($this->name ? ' ' . $this->name : '');
+        return $this->surname . ($this->name != null ? ' ' . $this->name : '');
     }
 }

@@ -57,7 +57,7 @@ class GetMatchdayScheduleCommand extends Command
     {
         /** @var \App\Model\Table\SeasonsTable $seasonsTable */
         $seasonsTable = $this->fetchTable('Seasons');
-        $season = $args->getArgument('season') ?
+        $season = $args->getArgument('season') != null ?
             $seasonsTable->get($args->getArgument('season')) : $this->currentSeason;
         if (!$args->hasArgument('matchday')) {
             $matchday = $this->currentMatchday;
@@ -108,7 +108,7 @@ class GetMatchdayScheduleCommand extends Command
             $seasonOption = $crawler->filterXPath('//select[@name="season"]/option[text()="' . $year . '"]');
             if ($seasonOption->count()) {
                 $seasonId = $seasonOption->first()->attr('value');
-                if ($seasonId) {
+                if ($seasonId != null) {
                     $matchdayResponse = $client->get('/api/season/' . $seasonId . '/championship/A/matchday?lang=it');
                     /**
                      * @psalm-suppress MixedArrayAccess

@@ -60,7 +60,7 @@ class SendLineupsEmailCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
-        if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force')) {
+        if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force') == true) {
             $championshipsTable = $this->fetchTable('Championships');
             /** @var array<\App\Model\Entity\Championship> $championships */
             $championships = $championshipsTable->find()

@@ -131,7 +131,7 @@ class WeeklyScriptCommand extends Command
                 $io->out('Completed succesfully');
             }
         }
-        if ($args->getOption('force_send_mail')) {
+        if ($args->getOption('force_send_mail') == true) {
             /** @var \App\Model\Entity\Matchday $matchday */
             $matchday = $this->fetchTable('Matchdays')
                 ->find()
@@ -160,7 +160,7 @@ class WeeklyScriptCommand extends Command
         $scores = [];
         $success = false;
         foreach ($championships as $championship) {
-            if (!$args->getOption('no_calc_scores')) {
+            if ($args->getOption('no_calc_scores') == false) {
                 $io->out("Calculating points of matchday {$matchday->number} for league {$championship->league->name}");
                 foreach ($championship->teams as $team) {
                     $io->out('Elaborating team ' . $team->name);
@@ -169,8 +169,8 @@ class WeeklyScriptCommand extends Command
                 $success = $scoresTable->saveMany($scores, [
                     'checkRules' => false,
                     'associated' => ['Lineups.Dispositions' => ['associated' => false]],
-                ]);
-            } elseif ($args->getOption('force_send_mail')) {
+                ]) != false;
+            } elseif ($args->getOption('force_send_mail') == true) {
                 $scoresTable = $this->fetchTable('Scores');
                 /** @var array<array-key, \App\Model\Entity\Score> $scores */
                 $scores = $scoresTable->find('list', [
@@ -178,7 +178,7 @@ class WeeklyScriptCommand extends Command
                 ])->where(['matchday_id' => $matchday->id])->toArray();
                 $success = true;
             }
-            if ($success && $championship->started && !$args->getOption('no_send_mail')) {
+            if ($success && $championship->started && $args->getOption('no_send_mail') == false) {
                 $io->out('Sending mails');
                 $this->sendScoreMails($matchday, $championship);
                 $io->out('Sending notification');

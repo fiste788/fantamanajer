@@ -124,8 +124,8 @@ class RatingService
      */
     public function importRatings(Matchday $matchday, ?string $path = null): bool
     {
-        $path = $path ? $path : $this->DownloadRatings->getRatings($matchday);
-        if ($path) {
+        $path = $path != null ? $path : $this->DownloadRatings->getRatings($matchday);
+        if ($path != null) {
             $csvRow = $this->DownloadRatings->returnArray($path, ';');
 
             /** @var \App\Model\Table\MembersTable $membersTable */

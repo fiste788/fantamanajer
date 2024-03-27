@@ -53,7 +53,7 @@ class Club extends Entity
     /**
      * Undocumented variable
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_virtual = [
         'abbreviation',

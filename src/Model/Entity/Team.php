@@ -69,7 +69,7 @@ class Team extends Entity
     /**
      * Undocumented variable
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_hidden = [
         'photo',
@@ -81,7 +81,7 @@ class Team extends Entity
     /**
      * Undocumented variable
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_virtual = [
         'photo_url',

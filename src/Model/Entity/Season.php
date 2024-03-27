@@ -46,7 +46,7 @@ class Season extends Entity
     /**
      * Fields that are excluded from JSON an array versions of the entity.
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_hidden = [
         'key_gazzetta',
@@ -57,7 +57,7 @@ class Season extends Entity
     /**
      * Undocumented variable
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected array $_virtual = [
         'started',
