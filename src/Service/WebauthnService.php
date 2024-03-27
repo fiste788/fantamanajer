@@ -300,8 +300,7 @@ class WebauthnService
         );
 
         // Load the data
-        /** @var array<string, mixed> $body */
-        $body = $request->getParsedBody();
+        $body = $request->getBody()->getContents();
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
@@ -414,8 +413,7 @@ class WebauthnService
         );
 
         // Load the data
-        /** @var array<string, mixed> $body */
-        $body = $request->getParsedBody();
+        $body = $request->getBody()->getContents();
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
