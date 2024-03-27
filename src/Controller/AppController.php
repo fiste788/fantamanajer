@@ -68,7 +68,14 @@ class AppController extends Controller
         EventManager::instance()->on(new GetStreamEventListener());
 
         $this->getCurrentMatchday();
-        $this->response->withType('json');
+        
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeRender(EventInterface $event) {
+        $this->response = $this->response->withType('application/json');
     }
 
     /**
