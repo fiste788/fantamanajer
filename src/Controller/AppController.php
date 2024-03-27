@@ -72,7 +72,10 @@ class AppController extends Controller
     }
 
     /**
-     * @inheritDoc
+     * beforeRender callback.
+     *
+     * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
+     * @return void
      */
     public function beforeRender(EventInterface $event) {
         $this->response = $this->response->withType('application/json');

@@ -20,6 +20,7 @@ use Cose\Algorithms;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
@@ -37,6 +38,8 @@ use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\AuthenticatorSelectionCriteria;
+use Webauthn\Denormalizer\WebauthnSerializerFactory;
+use Webauthn\PublicKeyCredential;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialParameters;
@@ -57,13 +60,13 @@ class WebauthnService
     use LocatorAwareTrait;
     use ServiceAwareTrait;
 
-    protected PublicKeyCredentialLoader $publicKeyCredentialLoader;
-
     protected AuthenticatorAttestationResponseValidator $authenticatorAttestationResponseValidator;
 
     protected AuthenticatorAssertionResponseValidator $authenticatorAssertionResponseValidator;
 
     protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
+
+    protected SerializerInterface $serializer;
 
     /**
      * Costructor
@@ -77,11 +80,8 @@ class WebauthnService
         $this->loadService('PublicKeyCredentialSourceRepository');
         $attestationStatementSupportManager = $this->createStatementSupportManager();
 
-        // Attestation Object Loader
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-
-        // Public Key Credential Loader
-        $this->publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $factory = new WebauthnSerializerFactory($attestationStatementSupportManager);
+        $this->serializer = $factory->create();
 
         $this->authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
             $attestationStatementSupportManager,
@@ -291,12 +291,22 @@ class WebauthnService
         ServerRequestInterface $request,
         ?string $userHandle = null
     ): PublicKeyCredentialSource {
-        $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($publicKey);
+        // $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString();
+
+        $publicKeyCredentialRequestOptions = $this->serializer->deserialize(
+            $publicKey,
+            PublicKeyCredentialRequestOptions::class,
+            'json'
+        );
 
         // Load the data
         /** @var array<string, mixed> $body */
         $body = $request->getParsedBody();
-        $publicKeyCredential = $this->publicKeyCredentialLoader->loadArray($body);
+        $publicKeyCredential = $this->serializer->deserialize(
+            $body,
+            PublicKeyCredential::class,
+            'json'
+        );
         $authenticatorAssertionResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Assertion Response
@@ -397,12 +407,20 @@ class WebauthnService
     public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
         $publicKey = (string)$request->getSession()->consume('User.PublicKey');
-        $publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromString($publicKey);
+        $publicKeyCredentialCreationOptions = $this->serializer->deserialize(
+            $publicKey,
+            PublicKeyCredentialCreationOptions::class,
+            'json'
+        );
 
         // Load the data
         /** @var array<string, mixed> $body */
         $body = $request->getParsedBody();
-        $publicKeyCredential = $this->publicKeyCredentialLoader->loadArray($body);
+        $publicKeyCredential = $this->serializer->deserialize(
+            $body,
+            PublicKeyCredential::class,
+            'json'
+        );
         $authenticatorAttestationResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Attestation Response
