@@ -16,6 +16,7 @@
 .user.ini
 php.ini
 error_log
+/preload.php
 
 # OS generated files #
 ######################
