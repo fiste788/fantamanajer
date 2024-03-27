@@ -1,5 +1,4 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/fantaman/api/
-    - cd $DEPLOYPATH && composer install
+    - composer install --no-scripts

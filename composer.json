@@ -20,6 +20,7 @@
         "spomky-labs/web-push-lib": "v2.0.x-dev",
         "symfony/css-selector": "^7.0",
         "symfony/dom-crawler": "^7.0",
+        "symfony/property-access": "^7.0",
         "symfony/serializer": "^7.0",
         "symfony/uid": "^7.0",
         "web-auth/webauthn-lib": "^4.7",
