@@ -69,7 +69,7 @@ use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Routing\Router;
 use CakeScheduler\CakeSchedulerPlugin;
-//use CakePreloader\Plugin as CakePreloaderPlugin;
+use CakePreloader\Plugin as CakePreloaderPlugin;
 use Crud\CrudPlugin;
 //use DatabaseBackup\Plugin as DatabaseBackupPlugin;
 use IdeHelper\IdeHelperPlugin;
@@ -317,6 +317,7 @@ class Application extends BaseApplication implements
         $this->addPlugin(MigrationsPlugin::class);
         $this->addPlugin(IdeHelperPlugin::class);
         $this->addPlugin(CakeSchedulerPlugin::class);
+        $this->addPlugin(CakePreloaderPlugin::class);
 
         // Load more plugins here
     }
