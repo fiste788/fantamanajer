@@ -13,12 +13,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.2
         with:
           ref: ${{ github.head_ref }}
 
       - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v2.30.2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: json, mbstring, openssl, gmp, curl, simplexml, intl
