@@ -68,7 +68,6 @@ class AppController extends Controller
         EventManager::instance()->on(new GetStreamEventListener());
 
         $this->getCurrentMatchday();
-        
     }
 
     /**
@@ -77,7 +76,8 @@ class AppController extends Controller
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
      * @return void
      */
-    public function beforeRender(EventInterface $event) {
+    public function beforeRender(EventInterface $event)
+    {
         $this->response = $this->response->withType('application/json');
     }
 

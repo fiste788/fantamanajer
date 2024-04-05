@@ -150,7 +150,14 @@ class UsersTable extends Table
     public function findAuth(SelectQuery $query, mixed ...$args): SelectQuery
     {
         $query
-            ->contain(['Teams' => ['Championships' => ['Leagues', 'Seasons']]])
+            ->contain(['Teams' => [
+                'PushNotificationSubscriptions',
+                'EmailNotificationSubscriptions',
+                'Championships' => [
+                    'Leagues',
+                    'Seasons',
+                    ],
+                ]])
             ->where(['Users.active' => 1]);
 
         return $query;

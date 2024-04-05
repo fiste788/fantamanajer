@@ -10,6 +10,7 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\I18n\DateTime;
+use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 use Cose\Algorithm\Manager;
@@ -24,7 +25,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
-use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
@@ -41,7 +41,6 @@ use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredential;
 use Webauthn\PublicKeyCredentialCreationOptions;
-use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialParameters;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
@@ -300,7 +299,8 @@ class WebauthnService
         );
 
         // Load the data
-        $body = $request->getBody()->getContents();
+        $body = $request->getBody()->__toString();
+        Log::info($body);
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
@@ -413,12 +413,14 @@ class WebauthnService
         );
 
         // Load the data
-        $body = $request->getBody()->getContents();
+        $body = $request->getBody()->__toString();
+        Log::info($body);
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
             'json'
         );
+
         $authenticatorAttestationResponse = $publicKeyCredential->response;
 
         // Check if the response is an Authenticator Attestation Response
