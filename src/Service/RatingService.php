@@ -173,11 +173,11 @@ class RatingService
             }
 
             if (
-                !$ratingsTable->saveMany($ratings, [
+                $ratingsTable->saveMany($ratings, [
                     'checkExisting' => false,
                     'associated' => false,
                     'checkRules' => false,
-                ])
+                ]) == false
             ) {
                 foreach ($ratings as $value) {
                     if (!empty($value->getErrors()) && $this->io != null) {

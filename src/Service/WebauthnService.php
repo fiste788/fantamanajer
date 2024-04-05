@@ -10,7 +10,6 @@ use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\I18n\DateTime;
-use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
 use Cose\Algorithm\Manager;
@@ -300,7 +299,6 @@ class WebauthnService
 
         // Load the data
         $body = $request->getBody()->__toString();
-        Log::info($body);
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
@@ -414,7 +412,6 @@ class WebauthnService
 
         // Load the data
         $body = $request->getBody()->__toString();
-        Log::info($body);
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,

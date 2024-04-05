@@ -77,9 +77,9 @@ class DownloadRatingsService
         ?string $url = null
     ): ?string {
         $url = $url ?? $this->getRatingsFile($matchdayGazzetta);
-        if ($url != null && $url != '') {
+        if ($url != null) {
             $content = $this->decryptMXMFile($matchday, $url);
-            if ($content != null && empty($content) == false && strlen($content) > 42000) {
+            if ($content != null && strlen($content) > 42000) {
                 $this->writeCsvRatings($content, $path);
                 //self::writeXmlVoti($content, $percorsoXml);
                 return $path;
@@ -135,7 +135,7 @@ class DownloadRatingsService
                 $explode_xor = explode('-', $decrypt);
                 $i = 0;
                 $content = file_get_contents($path);
-                if (!empty($content)) {
+                if ($content !== false && !empty($content)) {
                     while (!feof($p_file)) {
                         if ($i == count($explode_xor)) {
                             $i = 0;

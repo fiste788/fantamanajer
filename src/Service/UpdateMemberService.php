@@ -110,7 +110,7 @@ class UpdateMemberService
             if ($this->io != null) {
                 $this->io->out('Savings ' . count($membersToSave) . ' members');
             }
-            if (!$membersTable->saveMany($membersToSave)) {
+            if ($membersTable->saveMany($membersToSave) == false) {
                 $ev = new Event('Fantamanajer.memberTransferts', $this, [
                     'sells' => $sells,
                     'buys' => $buys,
