@@ -40,6 +40,7 @@ class AngularPushMessage extends Message
             'body' => $this->getBody(),
             'dir' => $this->getDir(),
             'icon' => $this->getIcon(),
+            'image' => $this->getImage(),
             'badge' => $this->getBadge(),
             'lang' => $this->getLang(),
             'renotify' => $this->getRenotify(),

@@ -80,7 +80,7 @@ class SendTestNotificationCommand extends Command
             'Notifica di test',
             'Testo molto lungo che ora non sto a scrivere perchè non ho tempo'
         )
-            ->withImage('https://api.fantamanajer.it/files/teams/55/photo/600w/kebab.jpg')
+            ->withImage($team->photo_url['600w'] ?? '')
             ->withTag('missing-lineup-' . $this->currentMatchday->number)
             ->renotify()
             ->interactionRequired()
