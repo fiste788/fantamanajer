@@ -12,6 +12,7 @@
 /webroot/img/teams
 /webroot/img/upload
 /webroot/opcache
+/webroot/php_info.php
 /preload.php
 .user.ini
 php.ini

@@ -30,20 +30,6 @@ use Cake\Validation\Validator;
 class PublicKeyCredentialSourcesTable extends Table
 {
     /**
-     * @inheritDoc
-     */
-    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
-    {
-        $schema->setColumnType('trust_path', 'trust_path');
-        $schema->setColumnType('transports', 'simple_array');
-        $schema->setColumnType('aaguid', 'base64');
-        $schema->setColumnType('credential_public_key', 'base64');
-        $schema->setColumnType('public_key_credential_id', 'base64');
-
-        return $schema;
-    }
-
-    /**
      * Initialize method
      *
      * @param array<string, mixed> $config The configuration for the Table.
@@ -53,6 +39,13 @@ class PublicKeyCredentialSourcesTable extends Table
     public function initialize(array $config): void
     {
         parent::initialize($config);
+        
+        $schema = $this->getSchema();
+        $schema->setColumnType('trust_path', 'trust_path');
+        $schema->setColumnType('transports', 'simple_array');
+        $schema->setColumnType('aaguid', 'base64');
+        $schema->setColumnType('credential_public_key', 'base64');
+        $schema->setColumnType('public_key_credential_id', 'base64');
 
         $this->setTable('public_key_credential_sources');
         $this->setDisplayField('name');

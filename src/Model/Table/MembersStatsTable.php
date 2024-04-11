@@ -34,6 +34,16 @@ class MembersStatsTable extends Table
     public function initialize(array $config): void
     {
         parent::initialize($config);
+        
+        $schema = $this->getSchema();
+        
+        $schema->setColumnType('sum_present', 'integer');
+        $schema->setColumnType('sum_assist', 'integer');
+        $schema->setColumnType('sum_goals', 'integer');
+        $schema->setColumnType('sum_goals_against', 'integer');
+        $schema->setColumnType('sum_red_card', 'integer');
+        $schema->setColumnType('sum_yellow_card', 'integer');
+        $schema->setColumnType('sum_valued', 'integer');
 
         $this->setTable('members_stats');
 
