@@ -1,33 +1,20 @@
 # CakePHP specific files #
 ##########################
-/config/app.php
-/config/app_config.php
 /config/app_local.php
 /config/.env
 /logs/*
-/resources/backups/*
-/resources/ratings/*
 /tmp/*
 /vendor/*
-/webroot/img/teams/*
-/webroot/img/upload/*
-/webroot/opcache
-/webroot/php_info.php
-/preload.php
-.user.ini
-php.ini
-error_log
-preload.php
 
 # OS generated files #
 ######################
 .DS_Store
 .DS_Store?
 ._*
-.phpunit.cache
 .Spotlight-V100
 .Trashes
-Icon?
+# Icon must end with two \r
+Icon
 ehthumbs.db
 Thumbs.db
 .directory
@@ -35,7 +22,8 @@ Thumbs.db
 # Tool specific files #
 #######################
 # PHPUnit
-.phpunit.result.cache
+.phpunit.cache
+tests.sqlite
 # vim
 *~
 *.swp
@@ -51,7 +39,29 @@ Thumbs.db
 .idea/*
 # NetBeans
 nbproject/*
-# Visual Studio Code
-.vscode
+# nova
+.nova
 # Sass preprocessor
 .sass-cache/
+# node
+/node_modules/*
+# yarn
+yarn-debug.log
+yarn-error.log
+
+
+# App specific files #
+##########################
+/config/app.php
+/config/app_config.php
+/resources/backups/*
+/resources/ratings/*
+/webroot/img/teams/*
+/webroot/img/upload/*
+/webroot/opcache
+/webroot/php_info.php
+/preload.php
+.user.ini
+php.ini
+error_log
+preload.php

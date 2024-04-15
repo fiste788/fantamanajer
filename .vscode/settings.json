@@ -1,0 +1,7 @@
+{
+    "phpSortImports.sorting": "alphabetically",
+    "phpSortImports.onSave": false,
+    "phpcs.enable": false,
+    "phpcbf.enable": false,
+    "remote.containers.dockerComposePath": "mutagen-compose"
+}

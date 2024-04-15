@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "neilbrayfield.php-docblocker",
+        "xdebug.php-debug",
+        "devsense.phptools-vscode",
+        "devsense.composer-php-vscode",
+        "xdebug.php-pack",
+        "phproberto.vscode-php-getters-setters",
+        "bmewburn.vscode-intelephense-client",
+        "devsense.profiler-php-vscode",
+        "reduxx.php-sort-imports",
+        "swordev.phpstan"
+    ]
+}
