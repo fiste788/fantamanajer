@@ -38,9 +38,10 @@ class StreamController extends AppController
         $manager = new ActivityManager();
         $stream = $manager->getActivities('championship', (string)$championshipId, true, $offset, $rowsForPage);
         $this->set([
-            'stream' => $stream,
+            'success' => true,
+            'data' => $stream,
         ]);
 
-        $this->viewBuilder()->setOption('serialize', ['stream']);
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 }
