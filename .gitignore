@@ -9,8 +9,8 @@
 /resources/ratings/*
 /tmp/*
 /vendor/*
-/webroot/img/teams
-/webroot/img/upload
+/webroot/img/teams/*
+/webroot/img/upload/*
 /webroot/opcache
 /webroot/php_info.php
 /preload.php
