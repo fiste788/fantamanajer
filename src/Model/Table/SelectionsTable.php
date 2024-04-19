@@ -204,7 +204,7 @@ class SelectionsTable extends Table
     public function beforeSave(Event $event, Selection $entity, ArrayObject $options): void
     {
         if ($entity->isDirty('processed') && $entity->processed) {
-            $this->loadService('SelectionService');
+            $this->loadService('Selection');
 
             $this->Selection->save($entity);
         }

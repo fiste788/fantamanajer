@@ -5,21 +5,28 @@ namespace App\Service;
 
 use App\Model\Entity\Selection;
 use App\Model\Entity\Transfert;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Mailer\Mailer;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use WebPush\Notification;
 
+/**
+ * @property \App\Service\PushNotificationService $PushNotification
+ */
+#[\AllowDynamicProperties]
 class SelectionService
 {
     use LocatorAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Construct
      *
      * @throws \UnexpectedValueException
      */
-    public function __construct(private PushNotificationService $PushNotification)
+    public function __construct()
     {
+        $this->loadService('PushNotification');
     }
 
     /**

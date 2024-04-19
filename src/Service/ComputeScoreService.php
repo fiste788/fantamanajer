@@ -8,11 +8,17 @@ use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
 use App\Model\Entity\Score;
 use App\Model\Entity\Team;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\ORM\Locator\LocatorAwareTrait;
 
+/**
+ * @property \App\Service\LineupService $Lineup
+ */
+#[\AllowDynamicProperties]
 class ComputeScoreService
 {
     use LocatorAwareTrait;
+    use ServiceAwareTrait;
 
     /**
      * Undocumented function
@@ -20,8 +26,9 @@ class ComputeScoreService
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
-    public function __construct(private LineupService $Lineup)
+    public function __construct()
     {
+        $this->loadService('Lineup');
     }
 
     /**
