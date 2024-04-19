@@ -96,8 +96,8 @@ class ComputeScoreService
             /** @var \App\Model\Entity\Lineup|null $lineup */
             $lineup = $lineupsTable->find(
                 'last',
-                $score->matchday,
-                $score->team->id
+                matchday_id: $score->matchday,
+                team_id: $score->team->id
             )->find('withRatings', matchday_id: $score->matchday_id)->first();
         } else {
             /** @var \App\Model\Entity\Lineup $lineup */
