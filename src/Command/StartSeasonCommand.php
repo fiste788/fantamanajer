@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Model\Entity\Season;
-use App\Service\RatingService;
-use App\Service\UpdateMemberService;
 use App\Traits\CurrentMatchdayTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Chronos\Chronos;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
@@ -21,13 +20,7 @@ use Cake\Console\ConsoleOptionParser;
 class StartSeasonCommand extends Command
 {
     use CurrentMatchdayTrait;
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct(private UpdateMemberService $UpdateMember, private RatingService $Rating)
-    {
-    }
+    use ServiceAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -61,6 +54,9 @@ class StartSeasonCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        $this->loadService('UpdateMember', [$io]);
+        $this->loadService('Rating', [$io]);
+
         /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
         $matchdaysTable = $this->fetchTable('Matchdays');
 

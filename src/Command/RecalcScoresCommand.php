@@ -3,20 +3,18 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Service\ComputeScoreService;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 
+/**
+ * @property \App\Service\ComputeScoreService $ComputeScore
+ */
 class RecalcScoresCommand extends Command
 {
-    /**
-     * @inheritDoc
-     */
-    public function __construct(private ComputeScoreService $ComputeScore)
-    {
-    }
+    use ServiceAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -27,6 +25,7 @@ class RecalcScoresCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
+        $this->loadService('ComputeScore');
     }
 
     /**

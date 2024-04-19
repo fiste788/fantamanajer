@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Service\PushNotificationService;
 use App\Traits\CurrentMatchdayTrait;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
@@ -12,20 +12,18 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\I18n\DateTime;
+use Cake\I18n\FrozenTime;
 use GetStream\Stream\Client;
 use WebPush\Action;
 use WebPush\Notification;
 
+/**
+ * @property \App\Service\PushNotificationService $PushNotification
+ */
 class SendMissingLineupNotificationCommand extends Command
 {
     use CurrentMatchdayTrait;
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct(private PushNotificationService $PushNotification)
-    {
-    }
+    use ServiceAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -37,6 +35,7 @@ class SendMissingLineupNotificationCommand extends Command
     public function initialize(): void
     {
         parent::initialize();
+        $this->loadService('PushNotification');
         $this->getCurrentMatchday();
     }
 
