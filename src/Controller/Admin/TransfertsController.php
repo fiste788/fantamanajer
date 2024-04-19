@@ -4,21 +4,17 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-use App\Service\TransfertService;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\EventInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \App\Model\Table\TransfertsTable $Transferts
+ * @property \App\Service\TransfertService $Transfert
  */
 class TransfertsController extends AppController
 {
-    /**
-     * @inheritDoc
-     */
-    public function __construct(private TransfertService $Transfert)
-    {
-    }
+    use ServiceAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -30,6 +26,7 @@ class TransfertsController extends AppController
     {
         parent::beforeFilter($event);
         $this->Crud->mapAction('add', 'Crud.Add');
+        $this->loadService('Transfert');
     }
 
     /**

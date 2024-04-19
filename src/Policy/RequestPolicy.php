@@ -17,11 +17,11 @@ class RequestPolicy
      */
     public function canAccess(?User $identity, ServerRequest $request): bool
     {
-        if ($request->getParam('prefix') === 'Admin' && $identity != null && !$identity->admin) {
+        if (strtolower((string) $request->getParam('prefix')) === 'admin' && $identity != null && !$identity->admin) {
             return false;
         }
 
-        if ($request->getParam('prefix') === 'Championships') {
+        if (strtolower((string) $request->getParam('prefix')) === 'championships') {
             $championshipId = (int)$request->getParam('championship_id');
 
             return $identity != null && $identity->isInChampionship($championshipId);
