@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace StreamCaked;
+namespace StreamCake;
 
 use Cake\Core\BasePlugin;
 use Cake\Core\PluginApplicationInterface;

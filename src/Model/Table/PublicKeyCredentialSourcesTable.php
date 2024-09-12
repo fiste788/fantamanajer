@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -39,7 +38,7 @@ class PublicKeyCredentialSourcesTable extends Table
     public function initialize(array $config): void
     {
         parent::initialize($config);
-        
+
         $schema = $this->getSchema();
         $schema->setColumnType('trust_path', 'trust_path');
         $schema->setColumnType('transports', 'simple_array');

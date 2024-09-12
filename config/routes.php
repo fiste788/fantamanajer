@@ -178,6 +178,16 @@ return static function (RouteBuilder $routes): void {
             ->setPass(['id']);
         ;
 
+        $routes->resources('Leagues', [
+            'only' => ['view'],
+        ], function (RouteBuilder $routes): void {
+            $routes->connect('/roll-of-honor', [
+                'controller' => 'Championships',
+                'action' => 'index',
+                'prefix' => 'Leagues',
+            ]);
+        });
+
         $routes->resources('Championships', [
             'only' => ['view', 'update'],
         ], function (RouteBuilder $routes): void {

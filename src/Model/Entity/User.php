@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -92,6 +93,19 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
     {
         return !empty(Hash::filter($this->teams, function (Team $value) use ($championshipId): bool {
             return $value->championship_id == $championshipId;
+        }));
+    }
+
+    /**
+     * In in league
+     *
+     * @param int $leagueId Id
+     * @return bool
+     */
+    public function isInLeague(int $leagueId): bool
+    {
+        return !empty(Hash::filter($this->teams, function (Team $value) use ($leagueId): bool {
+            return $value->championship->league_id == $leagueId;
         }));
     }
 

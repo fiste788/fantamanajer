@@ -12,6 +12,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Psr\Http\Message\UploadedFileInterface;
+use Spatie\Image\Enums\ImageDriver;
 use Spatie\Image\Image;
 use SplFileInfo;
 
@@ -139,7 +140,7 @@ class TeamsTable extends Table
                         $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                         if ($tmpFile != false) {
                             $file->moveTo($tmpFile);
-                            $image = Image::load($tmpFile);
+                            $image = Image::useImageDriver(ImageDriver::Gd)->load($tmpFile);
                             $array = [$tmpFile => $tmpFileName->getFilename()];
                             foreach (Team::$size as $value) {
                                 if ($value < $image->getWidth()) {
@@ -261,5 +262,23 @@ class TeamsTable extends Table
             $team->user->active = false;
         }
         $this->Team->createTeam($team);
+    }
+
+    /**
+     * Return teams ordered
+     *
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args
+     * @return \Cake\ORM\Query\SelectQuery Query
+     */
+    public function findTeamsOrdered(SelectQuery $query, mixed ...$args): SelectQuery
+    {
+        return $query->contain(['PushNotificationSubscriptions',
+                'EmailNotificationSubscriptions',
+                'Championships' => [
+                    'Leagues',
+                    'Seasons',
+                    ],
+                ])->innerJoinWith('Championships.Seasons')->orderBy(['Seasons.year' => 'DESC']);
     }
 }

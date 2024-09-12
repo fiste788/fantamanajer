@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Test\TestCase\Service;
 
+use App\Service\ComputeScoreService;
+use App\Service\LineupService;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\TestSuite\TestCase;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -8,7 +9,6 @@ use App\Model\Entity\PublicKeyCredentialSource as EntityPublicKeyCredentialSourc
 use App\Model\Entity\User;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
-use Cake\Http\Client;
 use Cake\I18n\DateTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Hash;
@@ -17,13 +17,11 @@ use Cose\Algorithm\Signature\ECDSA;
 use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
-use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
-use Webauthn\AttestationStatement\AndroidSafetyNetAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\FidoU2FAttestationStatementSupport;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
@@ -64,7 +62,7 @@ class WebauthnService
 
     protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
 
-    protected SerializerInterface $serializer;
+    public SerializerInterface $serializer;
 
     /**
      * Costructor
@@ -192,14 +190,6 @@ class WebauthnService
         $attestationStatementSupportManager = AttestationStatementSupportManager::create();
         $attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
         $attestationStatementSupportManager->add(FidoU2FAttestationStatementSupport::create());
-        $attestationStatementSupportManager->add(
-            AndroidSafetyNetAttestationStatementSupport::create()
-                ->enableApiVerification(
-                    new Client(),
-                    (string)Configure::read('Webauthn.safetyNetKey'),
-                    new HttpFactory()
-                )
-        );
         $attestationStatementSupportManager->add(AndroidKeyAttestationStatementSupport::create());
         $attestationStatementSupportManager->add(TPMAttestationStatementSupport::create());
         $attestationStatementSupportManager->add(

@@ -1,7 +1,6 @@
 parameters:
     level: 8
     treatPhpDocTypesAsCertain: false
-    checkGenericClassInNonGenericObjectType: false
     paths:
         - src
 
@@ -12,6 +11,8 @@ parameters:
         - src/Stream/*
 
     ignoreErrors:
+        -
+            identifier: missingType.generics
         - '#Access to an undefined property object::\$entity#'
         - '#Access to an undefined property object::\$query#'
         - '#Access to an undefined property object::\$entities#'

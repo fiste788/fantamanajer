@@ -13,7 +13,7 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 /**
  * @property \App\Service\LineupService $Lineup
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class TransfertService
 {
     use LocatorAwareTrait;

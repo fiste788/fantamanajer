@@ -1,14 +1,25 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
 
+use AllowDynamicProperties;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
 use Webauthn\AttestedCredentialData;
 
+/**
+ * AttestedCredential data type
+ *
+ * @property \App\Service\WebauthnService $Webauthn
+ */
+#[AllowDynamicProperties]
 class AttestedCredentialDataType extends BaseType
 {
+    use ServiceAwareTrait;
+
     /**
      * @inheritDoc
      */
@@ -32,7 +43,14 @@ class AttestedCredentialDataType extends BaseType
         /** @var array<string, mixed> $json */
         $json = json_decode((string)$value, true);
 
-        return AttestedCredentialData::createFromArray($json);
+        $this->loadService('Webauthn');
+
+        return $this->Webauthn->serializer->deserialize(
+            $json,
+            AttestedCredentialData::class,
+            'json'
+        );
+        //return AttestedCredentialData::createFromArray($json);
     }
 
     /**

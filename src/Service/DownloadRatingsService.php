@@ -26,7 +26,7 @@ class DownloadRatingsService
     /**
      * @var string
      */
-    public const DOWNLOAD_URL = 'https://maxigames.maxisoft.it/downloads.php';
+    public const string DOWNLOAD_URL = 'https://maxigames.maxisoft.it/downloads.php';
 
     /**
      * Undocumented function
@@ -43,9 +43,9 @@ class DownloadRatingsService
         $year = $matchday->season->year;
         $folder = RATINGS_CSV . $year . DS;
         $number = str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT);
-        $pathCsv = $folder . "Matchday{$number}.csv";
+        $pathCsv = "{$folder}Matchday{$number}.csv";
         $filesystem = new Filesystem();
-        $this->io?->out('Search file in path ' . $pathCsv);
+        $this->io?->out("Search file in path {$pathCsv}");
         if ($filesystem->exists($pathCsv) && filesize($pathCsv) > 0 && !$forceDownload) {
             return $pathCsv;
         } else {

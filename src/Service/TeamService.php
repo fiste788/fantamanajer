@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AllowDynamicProperties;
 use App\Model\Entity\Team;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Core\Configure;
@@ -13,7 +14,7 @@ use GetStream\Stream\Client;
  * @property \App\Service\NotificationSubscriptionService $NotificationSubscription
  * @property \App\Service\ScoreService $Score
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class TeamService
 {
     use LocatorAwareTrait;
@@ -29,7 +30,6 @@ class TeamService
         $this->loadService('Score');
         $this->loadService('NotificationSubscription');
     }
-
 
     /**
      * Create new team

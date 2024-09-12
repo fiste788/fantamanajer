@@ -12,7 +12,6 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\I18n\DateTime;
-use Cake\I18n\FrozenTime;
 use GetStream\Stream\Client;
 use WebPush\Action;
 use WebPush\Notification;
@@ -99,7 +98,7 @@ class SendMissingLineupNotificationCommand extends Command
             foreach ($teams as $team) {
                 $action = [
                     'operation' => 'navigateLastFocusedOrOpen',
-                    'url' => '/teams/' . $team->id . '/lineup/current',
+                    'url' => "/teams/{$team->id}/lineup/current",
                 ];
                 $body = sprintf(
                     'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
@@ -121,7 +120,7 @@ class SendMissingLineupNotificationCommand extends Command
                     ->withPayload($message->toString());
                 $io->out($message->toString());
                 foreach ($team->user->push_subscriptions as $subscription) {
-                    $io->out('Send push notification to ' . $subscription->endpoint);
+                    $io->out("Send push notification to {$subscription->endpoint}");
                     $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
                 }
 

@@ -113,12 +113,13 @@ class StartSeasonCommand extends Command
                     'bonus_points' => true,
                 ]
             );
+            $firstAugust = Chronos::create($year, 8, 1);
 
             /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
             $matchdaysTable = $this->fetchTable('Matchdays');
             $zeroMatchday = $matchdaysTable->newEntity([
                 'number' => 0,
-                'date' => Chronos::now()->endOfDay(),
+                'date' => $firstAugust,
             ]);
             $season->matchdays = [$zeroMatchday];
             $seasonsTable->saveOrFail($season);
@@ -131,16 +132,9 @@ class StartSeasonCommand extends Command
 
             $lastMatchday = $matchdaysTable->newEntity([
                 'number' => 39,
-                'date' => Chronos::create($year + 1, 7, 31, 23, 59, 59),
+                'date' => $firstAugust->addYears(1)->addSeconds(-1),
             ]);
             $season->matchdays = [$lastMatchday];
-
-            /** @var \App\Model\Entity\Matchday $firstMatchday */
-            $firstMatchday = $matchdaysTable->find()->where(['number' => 1, 'season_id' => $season->id])->first();
-            /** @var \App\Model\Entity\Matchday $zeroMatchday */
-            $zeroMatchday = $matchdaysTable->find()->where(['number' => 0, 'season_id' => $season->id])->first();
-            $zeroMatchday->date = $firstMatchday->date->subDays(7)->startOfWeek()->startOfDay();
-            $matchdaysTable->saveOrFail($zeroMatchday);
             $seasonsTable->saveOrFail($season);
 
             return $season;

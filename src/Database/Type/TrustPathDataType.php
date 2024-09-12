@@ -1,14 +1,27 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
 
+use AllowDynamicProperties;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
 use Webauthn\TrustPath\TrustPathLoader;
+use Webauthn\Denormalizer\WebauthnSerializerFactory;
+use Webauthn\TrustPath\TrustPath;
 
+/**
+ * TrustPath data type
+ *
+ * @property \App\Service\WebauthnService $Webauthn
+ */
+#[AllowDynamicProperties]
 class TrustPathDataType extends BaseType
 {
+    use ServiceAwareTrait;
+
     /**
      * @inheritDoc
      */
@@ -32,7 +45,14 @@ class TrustPathDataType extends BaseType
         /** @var array<string, mixed> $json */
         $json = json_decode((string)$value, true);
 
-        return TrustPathLoader::loadTrustPath($json);
+        $this->loadService('Webauthn');
+
+        return $this->Webauthn->serializer->deserialize(
+            $json,
+            TrustPath::class,
+            'json'
+        );
+        // return TrustPathLoader::loadTrustPath($json);
     }
 
     /**

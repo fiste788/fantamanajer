@@ -55,7 +55,8 @@ class UsersTable extends Table
         ]);
         $this->hasMany('Teams', [
             'foreignKey' => 'user_id',
-            'sort' => 'Championships.id DESC',
+            //'sort' => 'Championships.id DESC',
+            'finder' => 'teamsOrdered',
         ]);
     }
 

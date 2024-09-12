@@ -41,7 +41,8 @@ class ArticlePolicy
      */
     public function canView(IdentityInterface $user, Article $article): bool
     {
-        return $user->hasTeam($article->team_id);
+        //return $user->hasTeam($article->team_id);
+        return true;
     }
 
     /**

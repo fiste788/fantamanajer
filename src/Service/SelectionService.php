@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AllowDynamicProperties;
 use App\Model\Entity\Selection;
 use App\Model\Entity\Transfert;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
@@ -13,7 +14,7 @@ use WebPush\Notification;
 /**
  * @property \App\Service\PushNotificationService $PushNotification
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class SelectionService
 {
     use LocatorAwareTrait;

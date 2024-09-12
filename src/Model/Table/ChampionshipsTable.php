@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -12,6 +14,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\LeaguesTable&\Cake\ORM\Association\BelongsTo $Leagues
  * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
+ * @property \App\Model\Table\RollOfHonorsTable&\Cake\ORM\Association\BelongsTo $RollOfHonors
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  * @method \App\Model\Entity\Championship get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Championship newEntity(array $data, array $options = [])
@@ -51,8 +54,13 @@ class ChampionshipsTable extends Table
             'foreignKey' => 'season_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('Teams', [
+        $this->belongsTo('Teams', [
             'foreignKey' => 'championship_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('RollOfHonors', [
+            'foreignKey' => 'championship_id',
+            'propertyName' => 'roll_of_honor',
         ]);
     }
 
@@ -121,5 +129,31 @@ class ChampionshipsTable extends Table
         $rules->add($rules->existsIn(['season_id'], 'Seasons'));
 
         return $rules;
+    }
+
+    /**
+     * Find by team id query
+     *
+     * @param \Cake\ORM\Query\SelectQuery $query Query
+     * @param mixed ...$args Options
+     * @return \Cake\ORM\Query\SelectQuery
+     */
+    public function findByLeagueId(SelectQuery $query, mixed ...$args): SelectQuery
+    {
+        $teams = $this->RollOfHonors->Teams;
+
+        return $query->select(['id'])
+            ->select(['Seasons.id', 'Seasons.name'])
+            ->contain(['Seasons', 'RollOfHonors' => function (SelectQuery $q) use ($teams): SelectQuery {
+                return $q->select(['championship_id', 'rank', 'points'])
+                    ->contain(['Teams' => function (SelectQuery $q) use ($teams): SelectQuery {
+                        return $q->select($teams)
+                            ->select(['Users.id', 'Users.name', 'Users.surname'])
+                            ->contain(['Users']);
+                    }])->orderBy(['rank' => 'ASC']);
+            }])
+            ->where([
+                'Championships.league_id' => $args['league_id'],
+            ])->orderBy(['Seasons.year' => 'DESC']);
     }
 }

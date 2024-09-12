@@ -5,7 +5,7 @@
     "type": "project",
     "homepage": "https://fantamanajer.it",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "burzum/cakephp-service-layer": "^3.0",
         "cakephp/authentication": "^3.0",
         "cakephp/authorization": "^3.0",
@@ -24,7 +24,7 @@
         "symfony/serializer": "^7.0",
         "symfony/uid": "^7.0",
         "web-auth/webauthn-lib": "^4.7",
-        "web-token/jwt-library": "^3.3",
+        "web-token/jwt-library": "^4.0",
         "whichbrowser/parser": "^2.1"
     },
     "require-dev": {

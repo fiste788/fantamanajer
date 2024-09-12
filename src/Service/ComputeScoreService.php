@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AllowDynamicProperties;
 use App\Model\Entity\Disposition;
 use App\Model\Entity\Lineup;
 use App\Model\Entity\Matchday;
@@ -14,7 +15,7 @@ use Cake\ORM\Locator\LocatorAwareTrait;
 /**
  * @property \App\Service\LineupService $Lineup
  */
-#[\AllowDynamicProperties]
+#[AllowDynamicProperties]
 class ComputeScoreService
 {
     use LocatorAwareTrait;

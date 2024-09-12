@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * MembersStats Model
  *
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
+ * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @method \App\Model\Entity\MembersStat get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\MembersStat newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\MembersStat[] newEntities(array $data, array $options = [])
@@ -26,7 +26,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\MembersStat[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
  * @method \App\Model\Entity\MembersStat[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
-class MembersStatsTable extends Table
+class RollOfHonorsTable extends Table
 {
     /**
      * @inheritDoc
@@ -37,20 +37,31 @@ class MembersStatsTable extends Table
 
         $schema = $this->getSchema();
 
-        $schema->setColumnType('sum_present', 'integer');
-        $schema->setColumnType('sum_assist', 'integer');
-        $schema->setColumnType('sum_goals', 'integer');
-        $schema->setColumnType('sum_goals_against', 'integer');
-        $schema->setColumnType('sum_red_card', 'integer');
-        $schema->setColumnType('sum_yellow_card', 'integer');
-        $schema->setColumnType('sum_valued', 'integer');
+        $schema->setColumnType('points', 'decimal');
+        $schema->setColumnType('rank', 'integer');
 
-        $this->setTable('members_stats');
+        $this->setTable('roll_of_honors');
 
         $this->belongsTo(
-            'Members',
+            'Leagues',
             [
-                'foreignKey' => 'member_id',
+                'foreignKey' => 'league_id',
+                'joinType' => 'INNER',
+            ]
+        );
+
+        $this->belongsTo(
+            'Championships',
+            [
+                'foreignKey' => 'championship_id',
+                'joinType' => 'INNER',
+            ]
+        );
+
+        $this->belongsTo(
+            'Teams',
+            [
+                'foreignKey' => 'team_id',
                 'joinType' => 'INNER',
             ]
         );
@@ -66,45 +77,12 @@ class MembersStatsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('sum_present')
-            ->allowEmptyString('sum_present');
+            ->numeric('points')
+            ->allowEmptyString('points');
 
         $validator
-            ->integer('sum_valued')
-            ->allowEmptyString('sum_valued');
-
-        $validator
-            ->numeric('avg_points')
-            ->allowEmptyString('avg_points');
-
-        $validator
-            ->numeric('avg_rating')
-            ->allowEmptyString('avg_rating');
-
-        $validator
-            ->integer('sum_goals')
-            ->allowEmptyString('sum_goals');
-
-        $validator
-            ->integer('sum_goals_against')
-            ->allowEmptyString('sum_goals_against');
-
-        $validator
-            ->integer('sum_assist')
-            ->allowEmptyString('sum_assist');
-
-        $validator
-            ->integer('sum_yellow_card')
-            ->allowEmptyString('sum_yellow_card');
-
-        $validator
-            ->integer('sum_red_card')
-            ->allowEmptyString('sum_red_card');
-
-        $validator
-            ->integer('quotation')
-            ->requirePresence('quotation', 'create')
-            ->allowEmptyString('quotation');
+            ->integer('rank')
+            ->allowEmptyString('rank');
 
         return $validator;
     }
@@ -118,7 +96,9 @@ class MembersStatsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['member_id'], 'Members'));
+        $rules->add($rules->existsIn(['team_id'], 'Teams'));
+        $rules->add($rules->existsIn(['championship_id'], 'Championships'));
+        $rules->add($rules->existsIn(['league_id'], 'Leagues'));
 
         return $rules;
     }
@@ -131,13 +111,8 @@ class MembersStatsTable extends Table
      */
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
-        $schema->setColumnType('sum_present', 'integer');
-        $schema->setColumnType('sum_assist', 'integer');
-        $schema->setColumnType('sum_goals', 'integer');
-        $schema->setColumnType('sum_goals_against', 'integer');
-        $schema->setColumnType('sum_red_card', 'integer');
-        $schema->setColumnType('sum_yellow_card', 'integer');
-        $schema->setColumnType('sum_valued', 'integer');
+        $schema->setColumnType('points', 'float');
+        $schema->setColumnType('rank', 'integer');
 
         return $schema;
     }

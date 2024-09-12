@@ -1,14 +1,25 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Database\Type;
 
+use AllowDynamicProperties;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
 use Webauthn\PublicKeyCredentialDescriptor;
 
+/**
+ * PublicKeyCredential data type
+ *
+ * @property \App\Service\WebauthnService $Webauthn
+ */
+#[AllowDynamicProperties]
 class PublicKeyCredentialDescriptorType extends BaseType
 {
+    use ServiceAwareTrait;
+
     /**
      * @inheritDoc
      */
@@ -30,7 +41,14 @@ class PublicKeyCredentialDescriptorType extends BaseType
             return null;
         }
 
-        return PublicKeyCredentialDescriptor::createFromString((string)$value);
+        $this->loadService('Webauthn');
+
+        return $this->Webauthn->serializer->deserialize(
+            $value,
+            PublicKeyCredentialDescriptor::class,
+            'json'
+        );
+        //return PublicKeyCredentialDescriptor::createFromString((string)$value);
     }
 
     /**
