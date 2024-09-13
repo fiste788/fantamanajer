@@ -19,6 +19,8 @@ use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
@@ -35,6 +37,7 @@ use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\AuthenticatorSelectionCriteria;
+use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
 use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredential;
 use Webauthn\PublicKeyCredentialCreationOptions;
@@ -48,7 +51,6 @@ use WhichBrowser\Parser;
 /**
  * Credentials Repo
  *
- * @property \App\Service\PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository
  */
 #[AllowDynamicProperties]
 class WebauthnService
@@ -60,7 +62,7 @@ class WebauthnService
 
     protected AuthenticatorAssertionResponseValidator $authenticatorAssertionResponseValidator;
 
-    protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
+    // protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
 
     public SerializerInterface $serializer;
 
@@ -73,25 +75,24 @@ class WebauthnService
      */
     public function __construct()
     {
-        $this->loadService('PublicKeyCredentialSourceRepository');
+        // $this->loadService('PublicKeyCredentialSourceRepository');
         $attestationStatementSupportManager = $this->createStatementSupportManager();
 
         $factory = new WebauthnSerializerFactory($attestationStatementSupportManager);
         $this->serializer = $factory->create();
 
+        $csmFactory = new CeremonyStepManagerFactory();
+
+        $creationCSM = $csmFactory->creationCeremony();
+        $requestCSM = $csmFactory->requestCeremony();
+
         $this->authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
-            $attestationStatementSupportManager,
-            $this->PublicKeyCredentialSourceRepository,
-            null,
-            new ExtensionOutputCheckerHandler()
+            $creationCSM
         );
 
         // Authenticator Assertion Response Validator
         $this->authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
-            $this->PublicKeyCredentialSourceRepository,
-            null,
-            new ExtensionOutputCheckerHandler(),
-            $this->createAlgorithManager()
+            $requestCSM,
         );
     }
 
@@ -218,6 +219,7 @@ class WebauthnService
             $user = $this->fetchTable('Users')->find()->where(['email' => $params['email']])->first();
             if ($user != null) {
                 $credentialUser = $user->toCredentialUserEntity();
+
                 $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
                 $allowedCredentials = $this->credentialsToDescriptors($credentials);
                 $request->getSession()->write('User.Handle', $credentialUser->id);
@@ -340,6 +342,9 @@ class WebauthnService
         $user = $request->getAttribute('identity');
         $userEntity = $user->toCredentialUserEntity();
 
+        /** @var \App\Model\Table\PublicKeyCredentialSourcesTable $publicKeyCredentialSourcesTable */
+        $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
+        $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
         $credential = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($userEntity);
         $excludeCredentials = $this->credentialsToDescriptors($credential);
 
@@ -353,8 +358,7 @@ class WebauthnService
         $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create(
             AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_PLATFORM,
             AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
-            AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED,
-            true
+            AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED
         );
         //$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
 
@@ -369,15 +373,18 @@ class WebauthnService
             60_000
         );
 
+        $jsonObject = $this->serializer->serialize(
+            $publicKeyCredentialCreationOptions,
+            'json',
+            [ // Optional
+                AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+                JsonEncode::OPTIONS => JSON_THROW_ON_ERROR,
+            ]
+        );
+
         $session = $request->getSession();
         $session->start();
-        $session->write(
-            'User.PublicKey',
-            json_encode(
-                $publicKeyCredentialCreationOptions,
-                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            )
-        );
+        $session->write('User.PublicKey', $jsonObject);
 
         return $publicKeyCredentialCreationOptions;
     }

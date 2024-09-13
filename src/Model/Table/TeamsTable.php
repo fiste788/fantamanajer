@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -117,42 +118,42 @@ class TeamsTable extends Table
                     // defaults to `type`
                 ],
                 'nameCallback' =>
-                    function (
-                        RepositoryInterface $_table,
-                        EntityInterface $_entity,
-                        UploadedFileInterface $file,
-                        string $_field,
-                        array $_settings
-                    ) {
-                        return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
-                    },
+                function (
+                    RepositoryInterface $_table,
+                    EntityInterface $_entity,
+                    UploadedFileInterface $file,
+                    string $_field,
+                    array $_settings
+                ) {
+                    return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
+                },
                 'transformer' =>
-                    function (
-                        RepositoryInterface $_table,
-                        EntityInterface $entity,
-                        UploadedFileInterface $file,
-                        string $_field,
-                        array $_settings
-                    ) {
-                        $tmpFileName = new SplFileInfo(
-                            strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
-                        );
-                        $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
-                        if ($tmpFile != false) {
-                            $file->moveTo($tmpFile);
-                            $image = Image::useImageDriver(ImageDriver::Gd)->load($tmpFile);
-                            $array = [$tmpFile => $tmpFileName->getFilename()];
-                            foreach (Team::$size as $value) {
-                                if ($value < $image->getWidth()) {
-                                    $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
-                                    $image->width($value)->optimize()->save($tmp);
-                                    $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
-                                }
+                function (
+                    RepositoryInterface $_table,
+                    EntityInterface $entity,
+                    UploadedFileInterface $file,
+                    string $_field,
+                    array $_settings
+                ) {
+                    $tmpFileName = new SplFileInfo(
+                        strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
+                    );
+                    $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
+                    if ($tmpFile != false) {
+                        $file->moveTo($tmpFile);
+                        $image = Image::useImageDriver(ImageDriver::Gd)->load($tmpFile);
+                        $array = [$tmpFile => $tmpFileName->getFilename()];
+                        foreach (Team::$size as $value) {
+                            if ($value < $image->getWidth()) {
+                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
+                                $image->width($value)->optimize()->save($tmp);
+                                $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                             }
-
-                            return $array;
                         }
-                    },
+
+                        return $array;
+                    }
+                },
                 'deleteCallback' => function (string $path, EntityInterface $entity, string $field, array $_settings) {
                     $array = [$path . (string)$entity->{$field}];
                     foreach (Team::$size as $value) {
@@ -273,12 +274,11 @@ class TeamsTable extends Table
      */
     public function findTeamsOrdered(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        return $query->contain(['PushNotificationSubscriptions',
-                'EmailNotificationSubscriptions',
-                'Championships' => [
-                    'Leagues',
-                    'Seasons',
-                    ],
-                ])->innerJoinWith('Championships.Seasons')->orderBy(['Seasons.year' => 'DESC']);
+        return $query->contain([
+            'Championships' => [
+                'Leagues',
+                'Seasons',
+            ],
+        ])->innerJoinWith('Championships.Seasons')->orderBy(['Seasons.year' => 'DESC']);
     }
 }

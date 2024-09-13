@@ -141,7 +141,7 @@ class ChampionshipsTable extends Table
     {
         $teams = $this->RollOfHonors->Teams;
 
-        return $query->select(['id'])
+        $query = $query->select(['id', 'league_id'])
             ->select(['Seasons.id', 'Seasons.name'])
             ->contain(['Seasons', 'RollOfHonors' => function (SelectQuery $q) use ($teams): SelectQuery {
                 return $q->select(['championship_id', 'rank', 'points'])
@@ -154,5 +154,10 @@ class ChampionshipsTable extends Table
             ->where([
                 'Championships.league_id' => $args['league_id'],
             ])->orderBy(['Seasons.year' => 'DESC']);
+
+        /** @var \App\Model\Entity\Season */
+        $season = $args['season'];
+
+        return !$season->ended ? $query->where(['Seasons.year <' => $season->year]) : $query;
     }
 }

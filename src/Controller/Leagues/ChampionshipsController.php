@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Leagues;
@@ -13,6 +14,16 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ChampionshipsController extends AppController
 {
+    /**
+     * Pagination
+     *
+     * @var array<string, mixed>
+     */
+    protected array $paginate = [
+        'limit' => 1000,
+        'maxLimit' => 1000,
+    ];
+
     /**
      * {@inheritDoc}
      *
@@ -42,6 +53,7 @@ class ChampionshipsController extends AppController
         $action = $this->Crud->action();
         $action->findMethod(['byLeagueId' => [
             'league_id' => (int)$this->request->getParam('league_id'),
+            'season' => $this->currentSeason
         ]]);
 
         return $this->Crud->execute();

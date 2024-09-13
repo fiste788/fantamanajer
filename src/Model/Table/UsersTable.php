@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -150,17 +151,21 @@ class UsersTable extends Table
      */
     public function findAuth(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $query
-            ->contain(['Teams' => [
-                'PushNotificationSubscriptions',
-                'EmailNotificationSubscriptions',
-                'Championships' => [
-                    'Leagues',
-                    'Seasons',
-                    ],
-                ]])
+        return $query
+            ->contain(['Teams' => function (SelectQuery $q): SelectQuery {
+                return $q->select(['id', 'name', 'user_id', 'championship_id'])
+                    ->contain([
+                        'Championships' => function (SelectQuery $q): SelectQuery {
+                            return $q->select(['id', 'league_id', 'season_id', 'started'])
+                                ->select($this->Teams->Championships->Leagues)
+                                ->select($this->Teams->Championships->Seasons)
+                                ->contain([
+                                    'Leagues',
+                                    'Seasons',
+                                ]);
+                        }
+                    ]);
+            }])
             ->where(['Users.active' => 1]);
-
-        return $query;
     }
 }

@@ -23,7 +23,7 @@
         "symfony/property-access": "^7.0",
         "symfony/serializer": "^7.0",
         "symfony/uid": "^7.0",
-        "web-auth/webauthn-lib": "^4.7",
+        "web-auth/webauthn-lib": "^5.0",
         "web-token/jwt-library": "^4.0",
         "whichbrowser/parser": "^2.1"
     },

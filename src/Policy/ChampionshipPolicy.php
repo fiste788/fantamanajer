@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -53,6 +54,6 @@ class ChampionshipPolicy
      */
     public function canIndex(IdentityInterface $user, Championship $championship): bool
     {
-        return $user->admin;
+        return $user->isInLeague($championship->league_id);
     }
 }
