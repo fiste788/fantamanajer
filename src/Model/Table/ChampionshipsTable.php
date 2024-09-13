@@ -54,9 +54,8 @@ class ChampionshipsTable extends Table
             'foreignKey' => 'season_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Teams', [
+        $this->hasMany('Teams', [
             'foreignKey' => 'championship_id',
-            'joinType' => 'INNER',
         ]);
         $this->hasMany('RollOfHonors', [
             'foreignKey' => 'championship_id',
