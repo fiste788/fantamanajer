@@ -34,6 +34,18 @@ class ChampionshipPolicy
     }
 
     /**
+     * Can view
+     *
+     * @param \App\Model\Entity\User $user User
+     * @param \App\Model\Entity\Article $article Entity
+     * @return bool
+     */
+    public function canView(IdentityInterface $user, Championship $championship): bool
+    {
+        return $user->admin;
+    }
+
+    /**
      * Can delete
      *
      * @param \App\Model\Entity\User $user User
