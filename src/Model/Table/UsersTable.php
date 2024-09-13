@@ -156,7 +156,7 @@ class UsersTable extends Table
                 return $q->select(['id', 'name', 'photo', 'photo_dir', 'user_id', 'championship_id'])
                     ->contain([
                         'Championships' => function (SelectQuery $q): SelectQuery {
-                            return $q->select(['id', 'league_id', 'season_id', 'started'])
+                            return $q->select(['id', 'league_id', 'season_id', 'jolly', 'number_benchwarmers', 'started'])
                                 ->select($this->Teams->Championships->Leagues)
                                 ->select($this->Teams->Championships->Seasons)
                                 ->contain([
