@@ -104,7 +104,7 @@ class PublicKeyCredentialSource extends Entity
      */
     public function fromCredentialSource(SerializerInterface $serializer, WebauthnPublicKeyCredentialSource $credentialSource)
     {
-        $this->public_key_credential_id = $credentialSource->publicKeyCredentialId;
+        $this->public_key_credential_id = Base64UrlSafe::encodeUnpadded($credentialSource->publicKeyCredentialId);
         $this->type = $credentialSource->type;
         $this->transports = $credentialSource->transports;
         $this->attestation_type = $credentialSource->attestationType;
