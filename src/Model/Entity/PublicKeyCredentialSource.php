@@ -79,7 +79,8 @@ class PublicKeyCredentialSource extends Entity
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {
-        return (new PublicKeyCredentialSourceDenormalizer())->denormalize([
+        $denormalizer = new PublicKeyCredentialSourceDenormalizer();
+        return $denormalizer->denormalize([
             'publicKeyCredentialId' => $this->public_key_credential_id,
             'type' => $this->type,
             'transports' => $this->transports,
@@ -100,7 +101,8 @@ class PublicKeyCredentialSource extends Entity
      */
     public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)
     {
-        $data = (new PublicKeyCredentialSourceDenormalizer())->normalize($credentialSource);
+        $denormalizer = new PublicKeyCredentialSourceDenormalizer();
+        $data = $denormalizer->normalize($credentialSource);
         $this->public_key_credential_id = $data['publicKeyCredentialId'];
         $this->type = $data['type'];
         $this->transports = $data['transports'];
