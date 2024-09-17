@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use ParagonIE\ConstantTime\Base64UrlSafe;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 use Webauthn\Denormalizer\PublicKeyCredentialSourceDenormalizer;
 use Webauthn\Denormalizer\TrustPathDenormalizer;
+use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
+use Webauthn\TrustPath\TrustPath;
 
 /**
  * PublicKeyCredentialSource Entity
@@ -77,10 +81,9 @@ class PublicKeyCredentialSource extends Entity
      * @return \Webauthn\PublicKeyCredentialSource
      * @throws \InvalidArgumentException
      */
-    public function toCredentialSource(): WebauthnPublicKeyCredentialSource
+    public function toCredentialSource(SerializerInterface $serializer): WebauthnPublicKeyCredentialSource
     {
-        $denormalizer = new PublicKeyCredentialSourceDenormalizer();
-        return $denormalizer->denormalize([
+        return $serializer->deserialize([
             'publicKeyCredentialId' => $this->public_key_credential_id,
             'type' => $this->type,
             'transports' => $this->transports,
@@ -90,7 +93,7 @@ class PublicKeyCredentialSource extends Entity
             'credentialPublicKey' => $this->credential_public_key,
             'userHandle' => $this->user_handle,
             'counter' => $this->counter
-        ], WebauthnPublicKeyCredentialSource::class);
+        ], WebauthnPublicKeyCredentialSource::class, 'json');
     }
 
     /**
@@ -99,19 +102,17 @@ class PublicKeyCredentialSource extends Entity
      * @param \Webauthn\PublicKeyCredentialSource $credentialSource Credential source
      * @return $this
      */
-    public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)
+    public function fromCredentialSource(SerializerInterface $serializer, WebauthnPublicKeyCredentialSource $credentialSource)
     {
-        $denormalizer = new PublicKeyCredentialSourceDenormalizer();
-        $data = $denormalizer->normalize($credentialSource);
-        $this->public_key_credential_id = $data['publicKeyCredentialId'];
-        $this->type = $data['type'];
-        $this->transports = $data['transports'];
-        $this->attestation_type = $data['attestationType'];
-        $this->trust_path = $data['trustPath'];
-        $this->aaguid = $data['aaguid'];
-        $this->credential_public_key = $data['credentialPublicKey'];
-        $this->user_handle = $data['userHandle'];
-        $this->counter = $data['counter'];
+        $this->public_key_credential_id = $credentialSource->publicKeyCredentialId;
+        $this->type = $credentialSource->type;
+        $this->transports = $credentialSource->transports;
+        $this->attestation_type = $credentialSource->attestationType;
+        $this->trust_path = $serializer->serialize($credentialSource->trustPath, TrustPath::class);
+        $this->aaguid =  $credentialSource->aaguid->toRfc4122();
+        $this->credential_public_key = Base64UrlSafe::encodeUnpadded($credentialSource->credentialPublicKey);
+        $this->user_handle = Base64UrlSafe::encodeUnpadded($credentialSource->userHandle);;
+        $this->counter = $credentialSource->counter;
 
         return $this;
     }

@@ -310,7 +310,7 @@ class WebauthnService
 
         // Check the response against the attestation request
         $response = $this->authenticatorAssertionResponseValidator->check(
-            $credential->toCredentialSource(),
+            $credential->toCredentialSource($this->serializer),
             $authenticatorAssertionResponse,
             $publicKeyCredentialRequestOptions,
             (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
@@ -431,7 +431,7 @@ class WebauthnService
         /** @var \App\Model\Table\PublicKeyCredentialSourcesTable $publicKeyCredentialSourcesTable */
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
-        $credential->fromCredentialSource($credentialSource);
+        $credential->fromCredentialSource($this->serializer, $credentialSource);
         $credential->id = Uuid::v4()->toRfc4122();
         $this->updateUserAgent($credential, $request->getHeaderLine('User-Agent'));
 
