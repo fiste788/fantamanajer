@@ -84,14 +84,14 @@ class PublicKeyCredentialSource extends Entity
     public function toCredentialSource(SerializerInterface $serializer): WebauthnPublicKeyCredentialSource
     {
         return $serializer->deserialize(json_encode([
-            'publicKeyCredentialId' => $this->public_key_credential_id,
+            'publicKeyCredentialId' => Base64UrlSafe::decode($this->public_key_credential_id),
             'type' => $this->type,
             'transports' => $this->transports,
             'attestationType' => $this->attestation_type,
             'trustPath' => json_decode($this->trust_path),
-            'aaguid' => $this->aaguid,
-            'credentialPublicKey' => $this->credential_public_key,
-            'userHandle' => $this->user_handle,
+            'aaguid' => Base64UrlSafe::decode($this->aaguid),
+            'credentialPublicKey' => Base64UrlSafe::decode($this->credential_public_key),
+            'userHandle' => Base64UrlSafe::decode($this->user_handle),
             'counter' => $this->counter
         ]), WebauthnPublicKeyCredentialSource::class, 'json');
     }
