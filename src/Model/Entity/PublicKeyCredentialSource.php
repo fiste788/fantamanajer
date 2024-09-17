@@ -83,7 +83,7 @@ class PublicKeyCredentialSource extends Entity
      */
     public function toCredentialSource(SerializerInterface $serializer): WebauthnPublicKeyCredentialSource
     {
-        return $serializer->deserialize([
+        return $serializer->deserialize(json_encode([
             'publicKeyCredentialId' => $this->public_key_credential_id,
             'type' => $this->type,
             'transports' => $this->transports,
@@ -93,7 +93,7 @@ class PublicKeyCredentialSource extends Entity
             'credentialPublicKey' => $this->credential_public_key,
             'userHandle' => $this->user_handle,
             'counter' => $this->counter
-        ], WebauthnPublicKeyCredentialSource::class, 'json');
+        ]), WebauthnPublicKeyCredentialSource::class, 'json');
     }
 
     /**
