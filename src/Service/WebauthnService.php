@@ -220,7 +220,7 @@ class WebauthnService
             if ($user != null) {
                 $credentialUser = $user->toCredentialUserEntity();
 
-                $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($credentialUser);
+                $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($this->serializer, $credentialUser);
                 $allowedCredentials = $this->credentialsToDescriptors($credentials);
                 $request->getSession()->write('User.Handle', $credentialUser->id);
             }
@@ -344,7 +344,7 @@ class WebauthnService
         /** @var \App\Model\Table\PublicKeyCredentialSourcesTable $publicKeyCredentialSourcesTable */
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
-        $credential = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($userEntity);
+        $credential = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($this->serializer, $userEntity);
         $excludeCredentials = $this->credentialsToDescriptors($credential);
 
         // Public Key Credential Parameters
