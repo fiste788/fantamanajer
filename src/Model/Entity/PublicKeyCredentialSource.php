@@ -88,7 +88,7 @@ class PublicKeyCredentialSource extends Entity
             'type' => $this->type,
             'transports' => $this->transports,
             'attestationType' => $this->attestation_type,
-            'trustPath' => $this->trust_path,
+            'trustPath' => json_encode($this->trust_path),
             'aaguid' => $this->aaguid,
             'credentialPublicKey' => $this->credential_public_key,
             'userHandle' => $this->user_handle,
