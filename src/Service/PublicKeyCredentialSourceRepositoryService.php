@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -13,7 +14,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * Credentials Repo
  */
 /** @psalm-suppress DeprecatedInterface */
-class PublicKeyCredentialSourceRepositoryService implements PublicKeyCredentialSourceRepository
+class PublicKeyCredentialSourceRepositoryService
 {
     use LocatorAwareTrait;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -105,9 +106,7 @@ class Application extends BaseApplication implements
                 (new TableLocator())->allowFallbackClass(false)
             );
         }
-        TypeFactory::map('acd', Types\AttestedCredentialDataType::class);
-        TypeFactory::map('ci', Types\PublicKeyCredentialDescriptorType::class);
-        TypeFactory::map('trust_path', Types\TrustPathDataType::class);
+
         TypeFactory::map('simple_array', Types\SimpleArrayDataType::class);
         TypeFactory::map('base64', Types\Base64DataType::class);
 

@@ -318,31 +318,31 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "5.0.10",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "f0b88ba6cc42e319fd012a32e96af7b3826fefdc"
+                "reference": "eb61f6b7b7e9c39f91ccd5c48c82336128217e73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/f0b88ba6cc42e319fd012a32e96af7b3826fefdc",
-                "reference": "f0b88ba6cc42e319fd012a32e96af7b3826fefdc",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/eb61f6b7b7e9c39f91ccd5c48c82336128217e73",
+                "reference": "eb61f6b7b7e9c39f91ccd5c48c82336128217e73",
                 "shasum": ""
             },
             "require": {
-                "cakephp/chronos": "^3.0.2",
-                "composer/ca-bundle": "^1.2",
+                "cakephp/chronos": "^3.1",
+                "composer/ca-bundle": "^1.5",
                 "ext-intl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "laminas/laminas-diactoros": "^3.0",
+                "laminas/laminas-diactoros": "^3.3",
                 "laminas/laminas-httphandlerrunner": "^2.6",
                 "league/container": "^4.2",
                 "php": ">=8.1",
                 "psr/container": "^1.1 || ^2.0",
                 "psr/http-client": "^1.0.2",
-                "psr/http-factory": "^1.0.2",
+                "psr/http-factory": "^1.1",
                 "psr/http-message": "^1.1 || ^2.0",
                 "psr/http-server-handler": "^1.0.2",
                 "psr/http-server-middleware": "^1.0.2",
@@ -381,8 +381,8 @@
                 "mockery/mockery": "^1.6",
                 "paragonie/csp-builder": "^2.3 || ^3.0",
                 "phpstan/extension-installer": "^1.3",
-                "phpstan/phpstan": "1.11.*",
-                "phpunit/phpunit": "^10.1.0 <=10.5.3",
+                "phpstan/phpstan": "1.12.3",
+                "phpunit/phpunit": "^10.5.5 || ^11.1.3",
                 "symplify/phpstan-rules": "^12.4"
             },
             "suggest": {
@@ -434,7 +434,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2024-07-28T16:58:12+00:00"
+            "time": "2024-09-14T02:34:26+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -1128,16 +1128,16 @@
         },
         {
             "name": "friendsofcake/crud",
-            "version": "7.0.1",
+            "version": "7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/crud.git",
-                "reference": "4378ee91a65bd7dd2fc24e75c28fac491618fdb4"
+                "reference": "1472e017011196e071992fd3fde932a42c281ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/4378ee91a65bd7dd2fc24e75c28fac491618fdb4",
-                "reference": "4378ee91a65bd7dd2fc24e75c28fac491618fdb4",
+                "url": "https://api.github.com/repos/FriendsOfCake/crud/zipball/1472e017011196e071992fd3fde932a42c281ba7",
+                "reference": "1472e017011196e071992fd3fde932a42c281ba7",
                 "shasum": ""
             },
             "require": {
@@ -1146,7 +1146,7 @@
             "require-dev": {
                 "friendsofcake/cakephp-test-utilities": "^3.0",
                 "friendsofcake/search": "^7.0",
-                "phpunit/phpunit": "^10.1"
+                "phpunit/phpunit": "^10.5.5 || ^11.1.3"
             },
             "suggest": {
                 "friendsofcake/crud-json-api": "Crud listener for building APIs following the JSON API specification",
@@ -1205,7 +1205,7 @@
                 "source": "https://github.com/FriendsOfCake/crud",
                 "wiki": "http://crud.readthedocs.org/en/latest/"
             },
-            "time": "2023-10-04T17:49:37+00:00"
+            "time": "2024-09-17T10:36:20+00:00"
         },
         {
             "name": "get-stream/stream",
@@ -6594,20 +6594,20 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "5.0.6",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "e3af2116c9a94a15d4cdf00835bb496d6f94f709"
+                "reference": "9df73d208464dd807e88b9d6b87ccc64f4c02f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/e3af2116c9a94a15d4cdf00835bb496d6f94f709",
-                "reference": "e3af2116c9a94a15d4cdf00835bb496d6f94f709",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/9df73d208464dd807e88b9d6b87ccc64f4c02f8d",
+                "reference": "9df73d208464dd807e88b9d6b87ccc64f4c02f8d",
                 "shasum": ""
             },
             "require": {
-                "cakephp/cakephp": "^5.0",
+                "cakephp/cakephp": "^5.1",
                 "composer/composer": "^2.0",
                 "doctrine/sql-formatter": "^1.1.3",
                 "php": ">=8.1"
@@ -6615,7 +6615,7 @@
             "require-dev": {
                 "cakephp/authorization": "^3.0",
                 "cakephp/cakephp-codesniffer": "^5.0",
-                "phpunit/phpunit": "^10.1.0 <=10.5.3"
+                "phpunit/phpunit": "^10.5.5 || ^11.1.3"
             },
             "suggest": {
                 "ext-pdo_sqlite": "DebugKit needs to store panel data in a database. SQLite is simple and easy to use."
@@ -6655,20 +6655,20 @@
                 "issues": "https://github.com/cakephp/debug_kit/issues",
                 "source": "https://github.com/cakephp/debug_kit"
             },
-            "time": "2024-03-04T15:03:18+00:00"
+            "time": "2024-09-14T03:01:20+00:00"
         },
         {
             "name": "cakephp/migrations",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/migrations.git",
-                "reference": "6047ee0033bb0f4c5f7a3afceb2e8d85d319c9f0"
+                "reference": "d39616f375dd7c407d7471551be3688cf12473f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/migrations/zipball/6047ee0033bb0f4c5f7a3afceb2e8d85d319c9f0",
-                "reference": "6047ee0033bb0f4c5f7a3afceb2e8d85d319c9f0",
+                "url": "https://api.github.com/repos/cakephp/migrations/zipball/d39616f375dd7c407d7471551be3688cf12473f9",
+                "reference": "d39616f375dd7c407d7471551be3688cf12473f9",
                 "shasum": ""
             },
             "require": {
@@ -6715,7 +6715,7 @@
                 "issues": "https://github.com/cakephp/migrations/issues",
                 "source": "https://github.com/cakephp/migrations"
             },
-            "time": "2024-08-21T20:03:33+00:00"
+            "time": "2024-09-16T15:16:33+00:00"
         },
         {
             "name": "cakephp/repl",
@@ -9191,16 +9191,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.33",
+            "version": "10.5.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4def7a9cda75af9c2bc179ed53a8e41313e7f7cf"
+                "reference": "3c69d315bdf79080c8e115b69d1961c6905b0e18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4def7a9cda75af9c2bc179ed53a8e41313e7f7cf",
-                "reference": "4def7a9cda75af9c2bc179ed53a8e41313e7f7cf",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3c69d315bdf79080c8e115b69d1961c6905b0e18",
+                "reference": "3c69d315bdf79080c8e115b69d1961c6905b0e18",
                 "shasum": ""
             },
             "require": {
@@ -9272,7 +9272,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.33"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.34"
             },
             "funding": [
                 {
@@ -9288,7 +9288,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T06:06:56+00:00"
+            "time": "2024-09-13T05:19:38+00:00"
         },
         {
             "name": "psy/psysh",

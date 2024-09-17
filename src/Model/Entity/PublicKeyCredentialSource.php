@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Symfony\Component\Uid\Uuid;
+use Webauthn\Denormalizer\PublicKeyCredentialSourceDenormalizer;
+use Webauthn\Denormalizer\TrustPathDenormalizer;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 
 /**
@@ -15,7 +18,7 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property string $type
  * @property string[] $transports
  * @property string $attestation_type
- * @property \Webauthn\TrustPath\TrustPath $trust_path
+ * @property string $trust_path
  * @property string $aaguid
  * @property string $credential_public_key
  * @property string $user_handle
@@ -76,19 +79,17 @@ class PublicKeyCredentialSource extends Entity
      */
     public function toCredentialSource(): WebauthnPublicKeyCredentialSource
     {
-        $aaguid = Uuid::fromString($this->aaguid);
-
-        return new WebauthnPublicKeyCredentialSource(
-            $this->public_key_credential_id,
-            $this->type,
-            $this->transports,
-            $this->attestation_type,
-            $this->trust_path,
-            $aaguid,
-            $this->credential_public_key,
-            $this->user_handle,
-            $this->counter
-        );
+        return (new PublicKeyCredentialSourceDenormalizer())->denormalize([
+            'publicKeyCredentialId' => $this->public_key_credential_id,
+            'type' => $this->type,
+            'transports' => $this->transports,
+            'attestationType' => $this->attestation_type,
+            'trustPath' => $this->trust_path,
+            'aaguid' => $this->aaguid,
+            'credentialPublicKey' => $this->credential_public_key,
+            'userHandle' => $this->user_handle,
+            'counter' => $this->counter
+        ], WebauthnPublicKeyCredentialSource::class);
     }
 
     /**
@@ -99,15 +100,16 @@ class PublicKeyCredentialSource extends Entity
      */
     public function fromCredentialSource(WebauthnPublicKeyCredentialSource $credentialSource)
     {
-        $this->public_key_credential_id = $credentialSource->publicKeyCredentialId;
-        $this->type = $credentialSource->type;
-        $this->transports = $credentialSource->transports;
-        $this->attestation_type = $credentialSource->attestationType;
-        $this->trust_path = $credentialSource->trustPath;
-        $this->aaguid = $credentialSource->aaguid->toRfc4122();
-        $this->credential_public_key = $credentialSource->credentialPublicKey;
-        $this->user_handle = $credentialSource->userHandle;
-        $this->counter = $credentialSource->counter;
+        $data = (new PublicKeyCredentialSourceDenormalizer())->normalize($credentialSource);
+        $this->public_key_credential_id = $data['publicKeyCredentialId'];
+        $this->type = $data['type'];
+        $this->transports = $data['transports'];
+        $this->attestation_type = $data['attestationType'];
+        $this->trust_path = $data['trustPath'];
+        $this->aaguid = $data['aaguid'];
+        $this->credential_public_key = $data['credentialPublicKey'];
+        $this->user_handle = $data['userHandle'];
+        $this->counter = $data['counter'];
 
         return $this;
     }

@@ -37,7 +37,7 @@ class ChampionshipPolicy
      * Can view
      *
      * @param \App\Model\Entity\User $user User
-     * @param \App\Model\Entity\Article $article Entity
+     * @param \App\Model\Entity\Championship $championship Entity
      * @return bool
      */
     public function canView(IdentityInterface $user, Championship $championship): bool

@@ -62,7 +62,7 @@ class WebauthnService
 
     protected AuthenticatorAssertionResponseValidator $authenticatorAssertionResponseValidator;
 
-    // protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
+    protected PublicKeyCredentialSourceRepositoryService $PublicKeyCredentialSourceRepository;
 
     public SerializerInterface $serializer;
 
@@ -281,8 +281,6 @@ class WebauthnService
         ServerRequestInterface $request,
         ?string $userHandle = null
     ): PublicKeyCredentialSource {
-        // $publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString();
-
         $publicKeyCredentialRequestOptions = $this->serializer->deserialize(
             $publicKey,
             PublicKeyCredentialRequestOptions::class,
@@ -291,6 +289,7 @@ class WebauthnService
 
         // Load the data
         $body = $request->getBody()->__toString();
+        /** @var \Webauthn\PublicKeyCredential $publicKeyCredential */
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
@@ -303,21 +302,21 @@ class WebauthnService
             throw new RuntimeException('Not an authenticator assertion response');
         }
 
-        // Check the response against the attestation request
-        $response = $this->authenticatorAssertionResponseValidator->check(
-            $publicKeyCredential->rawId,
-            $authenticatorAssertionResponse,
-            $publicKeyCredentialRequestOptions,
-            $request,
-            $userHandle,
-            ['localhost']
-        );
-
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
         $credential = $publicKeyCredentialSourcesTable->find()
-            ->where(['public_key_credential_id' => $response->publicKeyCredentialId])
+            ->where(['public_key_credential_id' => $publicKeyCredential->rawId])
             ->first();
+
+        // Check the response against the attestation request
+        $response = $this->authenticatorAssertionResponseValidator->check(
+            $credential->toCredentialSource(),
+            $authenticatorAssertionResponse,
+            $publicKeyCredentialRequestOptions,
+            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+            $userHandle
+        );
+
         $credential->last_seen_at = new DateTime();
         $this->updateUserAgent($credential, $request->getHeader('User-Agent')[0]);
         $publicKeyCredentialSourcesTable->save($credential);
@@ -426,8 +425,7 @@ class WebauthnService
         $credentialSource = $this->authenticatorAttestationResponseValidator->check(
             $authenticatorAttestationResponse,
             $publicKeyCredentialCreationOptions,
-            $request,
-            ['localhost']
+            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
         );
 
         /** @var \App\Model\Table\PublicKeyCredentialSourcesTable $publicKeyCredentialSourcesTable */
@@ -435,7 +433,7 @@ class WebauthnService
         $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
         $credential->fromCredentialSource($credentialSource);
         $credential->id = Uuid::v4()->toRfc4122();
-        $this->updateUserAgent($credential, $request->getHeader('User-Agent')[0]);
+        $this->updateUserAgent($credential, $request->getHeaderLine('User-Agent'));
 
         return $publicKeyCredentialSourcesTable->save($credential) ?: null;
     }
