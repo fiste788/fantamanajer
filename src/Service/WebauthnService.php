@@ -75,7 +75,7 @@ class WebauthnService
      */
     public function __construct()
     {
-        // $this->loadService('PublicKeyCredentialSourceRepository');
+        $this->loadService('PublicKeyCredentialSourceRepository');
         $attestationStatementSupportManager = $this->createStatementSupportManager();
 
         $factory = new WebauthnSerializerFactory($attestationStatementSupportManager);
