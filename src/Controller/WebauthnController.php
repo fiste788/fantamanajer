@@ -97,6 +97,7 @@ class WebauthnController extends AppController
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @throws \Exception
+     * @throws \TypeError
      */
     public function registerResponse(WebauthnService $webauthn): void
     {

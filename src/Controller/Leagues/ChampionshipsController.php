@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Leagues;
@@ -53,7 +52,7 @@ class ChampionshipsController extends AppController
         $action = $this->Crud->action();
         $action->findMethod(['byLeagueId' => [
             'league_id' => (int)$this->request->getParam('league_id'),
-            'season' => $this->currentSeason
+            'season' => $this->currentSeason,
         ]]);
 
         return $this->Crud->execute();

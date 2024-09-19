@@ -53,6 +53,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * @return \ArrayAccess|array<array-key, mixed>|null
      * @throws \RuntimeException
      * @throws \Exception
+     * @throws \TypeError
      */
     public function identify(array $credentials): ArrayAccess|array|null
     {

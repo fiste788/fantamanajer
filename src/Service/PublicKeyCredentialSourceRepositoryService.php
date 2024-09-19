@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -8,7 +7,6 @@ use App\Model\Entity\PublicKeyCredentialSource;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
-use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 /**
@@ -43,8 +41,10 @@ class PublicKeyCredentialSourceRepositoryService
      * @throws \Cake\Core\Exception\CakeException
      * @return \Webauthn\PublicKeyCredentialSource|null
      */
-    public function findOneByCredentialId(SerializerInterface $serializer, string $publicKeyCredentialId): ?WebauthnPublicKeyCredentialSource
-    {
+    public function findOneByCredentialId(
+        SerializerInterface $serializer,
+        string $publicKeyCredentialId
+    ): ?WebauthnPublicKeyCredentialSource {
         $publicKeyCredential = $this->findByCredentialId($publicKeyCredentialId);
 
         return $publicKeyCredential ? $publicKeyCredential->toCredentialSource($serializer) : null;
@@ -58,8 +58,10 @@ class PublicKeyCredentialSourceRepositoryService
      * @throws \RuntimeException
      * @psalm-return array<array-key, \Webauthn\PublicKeyCredentialSource>
      */
-    public function findAllForUserEntity(SerializerInterface $serializer, PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
-    {
+    public function findAllForUserEntity(
+        SerializerInterface $serializer,
+        PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity
+    ): array {
         $sources = $this->fetchTable('PublicKeyCredentialSources')->find()->where([
             'user_handle' => $publicKeyCredentialUserEntity->id,
         ]);
@@ -77,10 +79,14 @@ class PublicKeyCredentialSourceRepositoryService
      *
      * @param \Webauthn\PublicKeyCredentialSource $publicKeyCredentialSource arg
      * @throws \Cake\Core\Exception\CakeException
+     * @throws \TypeError
+     * @throws \RangeException
      * @return void
      */
-    public function saveCredentialSource(SerializerInterface $serializer, WebauthnPublicKeyCredentialSource $publicKeyCredentialSource): void
-    {
+    public function saveCredentialSource(
+        SerializerInterface $serializer,
+        WebauthnPublicKeyCredentialSource $publicKeyCredentialSource
+    ): void {
         /** @var \App\Model\Entity\PublicKeyCredentialSource $entity */
         $entity = $this->findByCredentialId($publicKeyCredentialSource->publicKeyCredentialId) ??
             $this->fetchTable('PublicKeyCredentialSources')->newEmptyEntity();

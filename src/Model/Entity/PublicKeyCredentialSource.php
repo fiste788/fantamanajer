@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -7,12 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Uid\Uuid;
-use Webauthn\Denormalizer\PublicKeyCredentialSourceDenormalizer;
-use Webauthn\Denormalizer\TrustPathDenormalizer;
-use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
-use Webauthn\TrustPath\TrustPath;
 
 /**
  * PublicKeyCredentialSource Entity
@@ -20,7 +14,7 @@ use Webauthn\TrustPath\TrustPath;
  * @property string $id
  * @property string $public_key_credential_id
  * @property string $type
- * @property string[] $transports
+ * @property string $transports
  * @property string $attestation_type
  * @property string $trust_path
  * @property string $aaguid
@@ -80,19 +74,21 @@ class PublicKeyCredentialSource extends Entity
      *
      * @return \Webauthn\PublicKeyCredentialSource
      * @throws \InvalidArgumentException
+     * @throws \TypeError
+     * @throws \RangeException
      */
     public function toCredentialSource(SerializerInterface $serializer): WebauthnPublicKeyCredentialSource
     {
         return $serializer->deserialize(json_encode([
-            'publicKeyCredentialId' => Base64UrlSafe::decode($this->public_key_credential_id),
+            'publicKeyCredentialId' => $this->public_key_credential_id,
             'type' => $this->type,
-            'transports' => $this->transports,
+            'transports' => json_decode($this->transports),
             'attestationType' => $this->attestation_type,
             'trustPath' => json_decode($this->trust_path),
-            'aaguid' => Base64UrlSafe::decode($this->aaguid),
-            'credentialPublicKey' => Base64UrlSafe::decode($this->credential_public_key),
-            'userHandle' => Base64UrlSafe::decode($this->user_handle),
-            'counter' => $this->counter
+            'aaguid' => $this->aaguid,
+            'credentialPublicKey' => $this->credential_public_key,
+            'userHandle' => Base64UrlSafe::encode($this->user_handle),
+            'counter' => $this->counter,
         ]), WebauthnPublicKeyCredentialSource::class, 'json');
     }
 
@@ -101,18 +97,26 @@ class PublicKeyCredentialSource extends Entity
      *
      * @param \Webauthn\PublicKeyCredentialSource $credentialSource Credential source
      * @return $this
+     * @throws \TypeError
+     * @throws \RangeException
      */
-    public function fromCredentialSource(SerializerInterface $serializer, WebauthnPublicKeyCredentialSource $credentialSource)
-    {
-        $this->public_key_credential_id = Base64UrlSafe::encodeUnpadded($credentialSource->publicKeyCredentialId);
-        $this->type = $credentialSource->type;
-        $this->transports = $credentialSource->transports;
-        $this->attestation_type = $credentialSource->attestationType;
-        $this->trust_path = $serializer->serialize($credentialSource->trustPath, TrustPath::class);
-        $this->aaguid =  $credentialSource->aaguid->toRfc4122();
-        $this->credential_public_key = Base64UrlSafe::encodeUnpadded($credentialSource->credentialPublicKey);
-        $this->user_handle = Base64UrlSafe::encodeUnpadded($credentialSource->userHandle);;
-        $this->counter = $credentialSource->counter;
+    public function fromCredentialSource(
+        SerializerInterface $serializer,
+        WebauthnPublicKeyCredentialSource $credentialSource
+    ) {
+        /** @var array<string, string> $json */
+        $json = json_decode($serializer->serialize($credentialSource, 'json'), true);
+        $transports = json_encode($json['transports']);
+        $trustPath = json_encode($json['trustPath']);
+        $this->public_key_credential_id = $json['publicKeyCredentialId'];
+        $this->type = $json['type'];
+        $this->transports = $transports != false ? $transports : '';
+        $this->attestation_type = $json['attestationType'];
+        $this->trust_path = $trustPath != false ? $trustPath : '';
+        $this->aaguid = $json['aaguid'];
+        $this->credential_public_key = $json['credentialPublicKey'];
+        $this->user_handle = Base64UrlSafe::decode($json['userHandle']);
+        $this->counter = (int)$json['counter'];
 
         return $this;
     }

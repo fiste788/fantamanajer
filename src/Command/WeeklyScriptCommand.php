@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use AllowDynamicProperties;
 use App\Model\Entity\Championship;
 use App\Model\Entity\Matchday;
 use App\Traits\CurrentMatchdayTrait;
@@ -24,6 +25,7 @@ use WebPush\Notification;
  * @property \App\Service\PushNotificationService $PushNotification
  * @property \Cake\ORM\Table $Points
  */
+#[AllowDynamicProperties]
 class WeeklyScriptCommand extends Command
 {
     use CurrentMatchdayTrait;

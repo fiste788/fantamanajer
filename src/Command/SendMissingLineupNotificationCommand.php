@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use AllowDynamicProperties;
 use App\Traits\CurrentMatchdayTrait;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
@@ -19,6 +20,7 @@ use WebPush\Notification;
 /**
  * @property \App\Service\PushNotificationService $PushNotification
  */
+#[AllowDynamicProperties]
 class SendMissingLineupNotificationCommand extends Command
 {
     use CurrentMatchdayTrait;

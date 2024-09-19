@@ -77,9 +77,9 @@ class LineupService
      */
     public function substitute(Lineup $lineup, int $old_member_id, int $new_member_id): bool
     {
-        foreach ($lineup->dispositions as $key => $disposition) {
+        foreach ($lineup->dispositions as $disposition) {
             if ($old_member_id == $disposition->id) {
-                $lineup->dispositions[$key]->id = $new_member_id;
+                $disposition->id = $new_member_id;
                 $lineup->setDirty('dispositions', true);
             }
         }

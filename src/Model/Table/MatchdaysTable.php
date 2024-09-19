@@ -105,6 +105,7 @@ class MatchdaysTable extends Table
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
+     * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -200,9 +201,9 @@ class MatchdaysTable extends Table
             ->leftJoinWith('Scores')
             ->orderByAsc('Matchdays.number')
             ->whereNull('Scores.id')->andWhere([
-                    'Matchdays.number >' => 0,
-                    'season_id' => $args['season'],
-                ])->limit(1);
+                'Matchdays.number >' => 0,
+                'season_id' => $args['season'],
+            ])->limit(1);
     }
 
     /**

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use AllowDynamicProperties;
 use App\Model\Entity\Season;
 use App\Traits\CurrentMatchdayTrait;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
@@ -17,6 +18,7 @@ use Cake\Console\ConsoleOptionParser;
  * @property \App\Service\RatingService $Rating
  * @property \App\Service\UpdateMemberService $UpdateMember
  */
+#[AllowDynamicProperties]
 class StartSeasonCommand extends Command
 {
     use CurrentMatchdayTrait;

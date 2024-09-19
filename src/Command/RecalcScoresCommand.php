@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use AllowDynamicProperties;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Command\Command;
 use Cake\Console\Arguments;
@@ -12,6 +13,7 @@ use Cake\Console\ConsoleIo;
 /**
  * @property \App\Service\ComputeScoreService $ComputeScore
  */
+#[AllowDynamicProperties]
 class RecalcScoresCommand extends Command
 {
     use ServiceAwareTrait;

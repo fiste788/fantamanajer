@@ -152,6 +152,7 @@ class RatingsTable extends Table
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
+     * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -213,10 +214,10 @@ class RatingsTable extends Table
             'red_card',
             'quotation',
         ])->contain([
-                    'Matchdays' => function (SelectQuery $q): SelectQuery {
-                        return $q->select(['number'], true);
-                    },
-                ])->orderBy(['Matchdays.number' => 'ASC'])
+            'Matchdays' => function (SelectQuery $q): SelectQuery {
+                return $q->select(['number'], true);
+            },
+        ])->orderBy(['Matchdays.number' => 'ASC'])
             ->where(['member_id' => $args['member_id']]);
     }
 }

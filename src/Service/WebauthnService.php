@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -17,6 +16,7 @@ use Cose\Algorithm\Signature\ECDSA;
 use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
 use Cose\Algorithms;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
@@ -31,7 +31,6 @@ use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
 use Webauthn\AttestationStatement\TPMAttestationStatementSupport;
 use Webauthn\AuthenticationExtensions\AuthenticationExtension;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensions;
-use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
 use Webauthn\AuthenticatorAssertionResponse;
 use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\AuthenticatorAttestationResponse;
@@ -50,7 +49,6 @@ use WhichBrowser\Parser;
 
 /**
  * Credentials Repo
- *
  */
 #[AllowDynamicProperties]
 class WebauthnService
@@ -206,10 +204,10 @@ class WebauthnService
      * Undocumented function
      *
      * @param \Cake\Http\ServerRequest $request Request
-     * @return \Webauthn\PublicKeyCredentialRequestOptions|null
+     * @return mixed
      * @throws \RuntimeException
      */
-    public function signinRequest(ServerRequestInterface $request): ?PublicKeyCredentialRequestOptions
+    public function signinRequest(ServerRequestInterface $request): mixed
     {
         // List of registered PublicKeyCredentialDescriptor classes associated to the user
         $params = $request->getQueryParams();
@@ -220,7 +218,10 @@ class WebauthnService
             if ($user != null) {
                 $credentialUser = $user->toCredentialUserEntity();
 
-                $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity($this->serializer, $credentialUser);
+                $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity(
+                    $this->serializer,
+                    $credentialUser
+                );
                 $allowedCredentials = $this->credentialsToDescriptors($credentials);
                 $request->getSession()->write('User.Handle', $credentialUser->id);
             }
@@ -235,16 +236,19 @@ class WebauthnService
                 60_000,
                 $this->getExtensions()
             );
-        $request->getSession()->start();
-        $request->getSession()->write(
-            'User.PublicKey',
-            json_encode(
-                $publicKeyCredentialRequestOptions,
-                JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            )
-        );
 
-        return $publicKeyCredentialRequestOptions;
+        $jsonObject = $this->serializer->serialize(
+            $publicKeyCredentialRequestOptions,
+            'json',
+            [ // Optional
+                AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+                JsonEncode::OPTIONS => JSON_THROW_ON_ERROR,
+            ]
+        );
+        $request->getSession()->start();
+        $request->getSession()->write('User.PublicKey', $jsonObject);
+
+        return json_decode($jsonObject);
     }
 
     /**
@@ -254,6 +258,7 @@ class WebauthnService
      * @return bool
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \TypeError
      */
     public function signinResponse(ServerRequestInterface $request): bool
     {
@@ -275,6 +280,7 @@ class WebauthnService
      * @return \Webauthn\PublicKeyCredentialSource
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \TypeError
      */
     public function signin(
         string $publicKey,
@@ -305,7 +311,7 @@ class WebauthnService
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         /** @var \App\Model\Entity\PublicKeyCredentialSource $credential */
         $credential = $publicKeyCredentialSourcesTable->find()
-            ->where(['public_key_credential_id' => $publicKeyCredential->rawId])
+            ->where(['public_key_credential_id' => Base64UrlSafe::encodeUnpadded($publicKeyCredential->rawId)])
             ->first();
 
         // Check the response against the attestation request
@@ -328,12 +334,12 @@ class WebauthnService
      * Undocumented function
      *
      * @param \Cake\Http\ServerRequest $request Request
-     * @return \Webauthn\PublicKeyCredentialCreationOptions
+     * @return mixed
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \Exception
      */
-    public function registerRequest(ServerRequestInterface $request): PublicKeyCredentialCreationOptions
+    public function registerRequest(ServerRequestInterface $request): mixed
     {
         $rpEntity = $this->createRpEntity();
 
@@ -385,7 +391,7 @@ class WebauthnService
         $session->start();
         $session->write('User.PublicKey', $jsonObject);
 
-        return $publicKeyCredentialCreationOptions;
+        return json_decode($jsonObject);
     }
 
     /**
@@ -396,6 +402,8 @@ class WebauthnService
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @throws \Exception
+     * @throws \TypeError
+     * @throws \RangeException
      */
     public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {

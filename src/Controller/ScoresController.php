@@ -8,6 +8,7 @@ use App\Service\ComputeScoreService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Psr\Http\Message\ResponseInterface;
+use function Cake\Core\toBool;
 
 /**
  * @property \App\Service\LineupService $Lineup
@@ -37,7 +38,7 @@ class ScoresController extends AppController
      */
     public function view(?string $id): ResponseInterface
     {
-        $members = (bool)$this->request->getQuery('members', false);
+        $members = toBool($this->request->getQuery('members')) ?? false;
         $this->Crud->on('afterFind', function (Event $event) use ($members) {
             /** @var \App\Model\Entity\Score $score */
             $score = $event->getSubject()->entity;

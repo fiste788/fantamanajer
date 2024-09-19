@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -133,6 +132,7 @@ class UsersTable extends Table
      *
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
+     * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -156,14 +156,21 @@ class UsersTable extends Table
                 return $q->select(['id', 'name', 'photo', 'photo_dir', 'user_id', 'championship_id'])
                     ->contain([
                         'Championships' => function (SelectQuery $q): SelectQuery {
-                            return $q->select(['id', 'league_id', 'season_id', 'jolly', 'captain', 'number_benchwarmers', 'started'])
-                                ->select($this->Teams->Championships->Leagues)
+                            return $q->select([
+                                'id',
+                                'league_id',
+                                'season_id',
+                                'jolly',
+                                'captain',
+                                'number_benchwarmers',
+                                'started',
+                            ])->select($this->Teams->Championships->Leagues)
                                 ->select($this->Teams->Championships->Seasons)
                                 ->contain([
                                     'Leagues',
                                     'Seasons',
                                 ]);
-                        }
+                        },
                     ]);
             }])
             ->where(['Users.active' => 1]);

@@ -61,13 +61,16 @@ class LineupsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Members', [
+        $this->belongsTo('Captain', [
+            'className' => 'Members',
             'foreignKey' => 'captain_id',
         ]);
-        $this->belongsTo('Members', [
+        $this->belongsTo('Vcaptain', [
+            'className' => 'Members',
             'foreignKey' => 'vcaptain_id',
         ]);
-        $this->belongsTo('Members', [
+        $this->belongsTo('VVcaptain', [
+            'className' => 'Members',
             'foreignKey' => 'vvcaptain_id',
         ]);
         $this->belongsTo('Matchdays', [
@@ -221,9 +224,9 @@ class LineupsTable extends Table
                 ],
             ],
         ])->where([
-                    'team_id' => $args['team_id'],
-                    'matchday_id' => $args['matchday_id'],
-                ]);
+            'team_id' => $args['team_id'],
+            'matchday_id' => $args['matchday_id'],
+        ]);
     }
 
     /**
