@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -7,9 +8,11 @@ use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
 use App\View\CustomFallbackView;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use Cake\Chronos\Chronos;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
+use Cake\I18n\DateTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\View\JsonView;
 use Crud\Controller\ControllerTrait;
@@ -143,5 +146,17 @@ class AppController extends Controller
         $previous = $matchdays->find('previous')->first();
         $this->response = $this->response
             ->withCache($previous->date->toDateTimeString(), $this->currentMatchday->date->timestamp);
+    }
+
+    /**
+     * Caching the response forever
+     *
+     * @return void
+     * @throws \RuntimeException
+     */
+    public function withReadonlyCache(DateTime $date): void
+    {
+        $this->response = $this->response
+            ->withCache($date->toDateTimeString(), '+1 year');
     }
 }

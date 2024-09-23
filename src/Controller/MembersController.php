@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -47,31 +48,34 @@ class MembersController extends AppController
      * @return void
      * @throws \RuntimeException
      */
-    public function best(): void
+    public function best($id): void
     {
         // $this->withMatchdayCache();
 
-        $roles = $this->Members->Roles->find()->cache('roles')->toArray();
+        //$roles = $this->Members->Roles->find()->cache('roles')->toArray();
 
         /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
         $matchdaysTable = $this->fetchTable('Matchdays');
-        /** @var \App\Model\Entity\Matchday|null $matchday */
-        $matchday = $matchdaysTable->findWithRatings($this->currentSeason)->first();
-        if ($matchday != null) {
-            /** @var \App\Model\Entity\Role $role */
-            foreach ($roles as $key => $role) {
-                $roles[$key]->best_players = $this->Members->find(
-                    'bestByMatchdayIdAndRole',
-                    matchday_id: $matchday->id,
-                    role: $role
-                )->limit(5)->toArray();
+        $matchday = $matchdaysTable->get($id);
+        /** @var \App\Model\Entity\Matchday|null $matchdayWithScore */
+        $matchdayWithScore = $matchdaysTable->findWithRatings($this->currentSeason)->first();
+        if ($matchdayWithScore != null) {
+            $targetMatchday = $matchday->number > $matchdayWithScore->number ? $matchdayWithScore : $matchday;
+            $query = $this->Members->find(
+                'bestByMatchdayId',
+                matchday_id: $targetMatchday->id,
+            );
+            if ($targetMatchday->id == $id) {
+                $query = $query->cache('best');
+                $this->withReadonlyCache($targetMatchday->date);
             }
+            $roles = $query->toArray();
         }
 
         $this->set(
             [
                 'success' => true,
-                'data' => $roles,
+                'data' => $roles ?? [],
             ]
         );
         $this->viewBuilder()->setOption('serialize', ['data', 'success']);

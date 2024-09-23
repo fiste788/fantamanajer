@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -377,10 +378,10 @@ class MembersTable extends Table
      */
     public function findBestByMatchdayId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $expr = $query->newExpr('ROW_NUMBER() OVER(PARTITION BY role_id ORDER BY points DESC)');
+        $expr = $query->newExpr('RANK() OVER(PARTITION BY role_id ORDER BY points DESC, surname ASC)');
         $contentQuery = $this->find()
-            ->select(['Members.id', 'role_id', 'Ratings.points', 'row_number' => $expr])
-            ->innerJoinWith('Ratings')
+            ->select(['Members.id', 'role_id', 'Ratings.points', 'rank' => $expr])
+            ->innerJoinWith('Ratings')->innerJoinWith('Players')
             ->where(['matchday_id' => $args['matchday_id']]);
 
         return $query->contain([
@@ -399,7 +400,7 @@ class MembersTable extends Table
                     ],
                 ],
             ])
-            ->where(['t.row_number <' => 5]);
+            ->where(['t.rank <=' => 5]);
     }
 
     /**

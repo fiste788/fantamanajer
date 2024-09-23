@@ -30,6 +30,7 @@ use Cake\Routing\Route\InflectedRoute;
  * So you can use  `$this` to reference the application class instance
  * if required.
  */
+
 return static function (RouteBuilder $routes): void {
     /*
      * The default class to use for all routes
@@ -57,10 +58,11 @@ return static function (RouteBuilder $routes): void {
             'only' => ['create', 'update', 'delete', 'view'],
         ]);
 
-        $routes->connect('/members/best', [
+        $routes->connect('/members/matchdays/{id}/best', [
             'controller' => 'Members',
             'action' => 'best',
-        ]);
+        ])->setPatterns(['id' => '\d+'])
+            ->setPass(['id']);
 
         $routes->connect('/members/{id}', [
             'controller' => 'Members',
@@ -175,8 +177,7 @@ return static function (RouteBuilder $routes): void {
         ])
             ->setMethods(['DELETE'])
             ->setPatterns(['id' => '[A-Fa-f0-9]{64}'])
-            ->setPass(['id']);
-        ;
+            ->setPass(['id']);;
 
         $routes->resources('Leagues', [
             'only' => ['view'],
