@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity\Traits;
@@ -21,12 +22,12 @@ trait HasPhotoTrait
      * @throws \LogicException
      * @psalm-return array<string, string>|null
      */
-    private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null): ?array
+    private function _getPhotosUrl(string $path, string $baseUrl, ?string $name = null, ?string $ext = 'jpg'): ?array
     {
         $array = [];
         $filesystem = new Filesystem();
         if ($filesystem->exists($path)) {
-            $name = $name ?? $this->id . '.jpg';
+            $name = $name ?? $this->id . '.' . $ext;
             // $baseUrl = Asset::imageUrl($baseUrl);
             $folder = new Finder();
             $folder->directories()->in($path);

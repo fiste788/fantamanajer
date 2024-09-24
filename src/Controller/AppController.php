@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -8,7 +7,6 @@ use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
 use App\View\CustomFallbackView;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
-use Cake\Chronos\Chronos;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Event\EventManager;

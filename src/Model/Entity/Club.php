@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -75,7 +76,7 @@ class Club extends Entity
      */
     protected function _getPhotoUrl(): string
     {
-        return Asset::imageUrl(strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.png');
+        return Asset::imageUrl(strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.webp');
     }
 
     /**
@@ -91,7 +92,9 @@ class Club extends Entity
 
         return $this->_getPhotosUrl(
             $path,
-            strtolower($this->getSource()) . '/' . $this->id . '/background/'
+            strtolower($this->getSource()) . '/' . $this->id . '/background/',
+            null,
+            'webp'
         );
     }
 }

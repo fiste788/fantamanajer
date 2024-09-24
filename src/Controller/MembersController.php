@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -48,7 +47,7 @@ class MembersController extends AppController
      * @return void
      * @throws \RuntimeException
      */
-    public function best($id): void
+    public function best(int $id): void
     {
         // $this->withMatchdayCache();
 
