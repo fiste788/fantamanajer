@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -148,9 +149,9 @@ class LineupsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['captain_id'], 'Members'));
-        $rules->add($rules->existsIn(['vcaptain_id'], 'Members'));
-        $rules->add($rules->existsIn(['vvcaptain_id'], 'Members'));
+        $rules->add($rules->existsIn(['captain_id'], $this->Members));
+        $rules->add($rules->existsIn(['vcaptain_id'], $this->Members));
+        $rules->add($rules->existsIn(['vvcaptain_id'], $this->Members));
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add(
