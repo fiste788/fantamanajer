@@ -9,15 +9,15 @@ use Cake\ORM\Entity;
  * MembersStat Entity
  *
  * @property int $member_id
- * @property string|null $sum_present
- * @property string|null $sum_valued
+ * @property int|null $sum_present
+ * @property int|null $sum_valued
  * @property float|null $avg_points
  * @property float|null $avg_rating
- * @property string|null $sum_goals
- * @property string|null $sum_goals_against
- * @property string|null $sum_assist
- * @property string|null $sum_yellow_card
- * @property string|null $sum_red_card
+ * @property int|null $sum_goals
+ * @property int|null $sum_goals_against
+ * @property int|null $sum_assist
+ * @property int|null $sum_yellow_card
+ * @property int|null $sum_red_card
  * @property int $quotation
  *
  * @property \App\Model\Entity\Member $member

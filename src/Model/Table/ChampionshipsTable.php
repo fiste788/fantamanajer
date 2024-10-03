@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\LeaguesTable&\Cake\ORM\Association\BelongsTo $Leagues
  * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\RollOfHonorsTable&\Cake\ORM\Association\BelongsTo $RollOfHonors
+ * @property \App\Model\Table\RollOfHonorsTable&\Cake\ORM\Association\HasMany $RollOfHonors
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  * @method \App\Model\Entity\Championship get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Championship newEntity(array $data, array $options = [])

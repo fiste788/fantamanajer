@@ -27,6 +27,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\League $league
  * @property \App\Model\Entity\Season $season
  * @property \App\Model\Entity\Team[] $teams
+ * @property \App\Model\Entity\RollOfHonor[] $roll_of_honor
  */
 class Championship extends Entity
 {

@@ -13,11 +13,11 @@ use Cake\ORM\Entity;
  * @property int $consideration
  * @property float|null $points
  * @property int $lineup_id
- * @property int $member_id
+ * @property int|null $member_id
  *
  * @property \App\Model\Entity\Rating|null $rating
  * @property \App\Model\Entity\Lineup $lineup
- * @property \App\Model\Entity\Member $member
+ * @property \App\Model\Entity\Member|null $member
  */
 class Disposition extends Entity
 {

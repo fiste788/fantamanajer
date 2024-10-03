@@ -12,9 +12,12 @@ use Cake\ORM\Entity;
  * @property int $championship_id
  * @property int $league_id
  * @property float|null $points
- * @property int|null $rank
+ * @property int $rank
  *
  * @property \App\Model\Entity\Member $member
+ * @property \App\Model\Entity\League $league
+ * @property \App\Model\Entity\Championship $championship
+ * @property \App\Model\Entity\Team $team
  */
 class RollOfHonor extends Entity
 {
@@ -27,7 +30,5 @@ class RollOfHonor extends Entity
      *
      * @var array<string, bool>
      */
-    protected array $_accessible = [
-
-    ];
+    protected array $_accessible = [];
 }

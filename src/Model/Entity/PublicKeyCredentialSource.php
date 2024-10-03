@@ -14,7 +14,7 @@ use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
  * @property string $id
  * @property string $public_key_credential_id
  * @property string $type
- * @property string $transports
+ * @property string|null $transports
  * @property string $attestation_type
  * @property string $trust_path
  * @property string $aaguid
@@ -82,7 +82,7 @@ class PublicKeyCredentialSource extends Entity
         return $serializer->deserialize(json_encode([
             'publicKeyCredentialId' => $this->public_key_credential_id,
             'type' => $this->type,
-            'transports' => json_decode($this->transports),
+            'transports' => json_decode($this->transports != null ? $this->transports : ''),
             'attestationType' => $this->attestation_type,
             'trustPath' => json_decode($this->trust_path),
             'aaguid' => $this->aaguid,

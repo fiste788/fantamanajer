@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -21,8 +20,8 @@ use Cake\Validation\Validator;
  * Lineups Model
  *
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Captain
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VCaptain
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VVCaptain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Vcaptain
+ * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $VVcaptain
  * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions

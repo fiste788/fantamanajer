@@ -12,19 +12,21 @@ use Cake\Validation\Validator;
  * MembersStats Model
  *
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @method \App\Model\Entity\MembersStat get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\MembersStat newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\MembersStat[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\MembersStat|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\MembersStat patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\MembersStat[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\MembersStat findOrCreate($search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\MembersStat saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\MembersStat newEmptyEntity()
- * @method \App\Model\Entity\MembersStat[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\MembersStat[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\MembersStat[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\MembersStat[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\RollOfHonor newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor newEmptyEntity()
+ * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @property \App\Model\Table\LeaguesTable&\Cake\ORM\Association\BelongsTo $Leagues
+ * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\BelongsTo $Championships
  */
 class RollOfHonorsTable extends Table
 {

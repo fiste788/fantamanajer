@@ -169,25 +169,32 @@ class ComputeScoreService
         }
         foreach ($lineup->dispositions as $disposition) {
             $member = $disposition->member;
-            if ($disposition->position <= 11) {
-                if (empty($member->ratings) || !$member->ratings[0]->valued) {
-                    $notValueds[] = $member;
-                } else {
-                    $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
-                }
-            } else {
-                foreach ($notValueds as $key => $notValued) {
-                    $ratings = $member->ratings;
-                    if (
-                        $substitution < $lineup->team->championship->number_substitutions &&
-                        $member->role_id == $notValued->role_id &&
-                        !empty($ratings) &&
-                        $ratings[0]->valued
-                    ) {
+            if ($member) {
+                if ($disposition->position <= 11) {
+                    if (empty($member->ratings) || !$member->ratings[0]->valued) {
+                        $notValueds[] = $member;
+                    } else {
                         $sum += $this->regularize($disposition, $subtractBonusGoals, $subtractBonusCleanSheet, $cap);
-                        $substitution++;
-                        unset($notValueds[$key]);
-                        break;
+                    }
+                } else {
+                    foreach ($notValueds as $key => $notValued) {
+                        $ratings = $member->ratings;
+                        if (
+                            $substitution < $lineup->team->championship->number_substitutions &&
+                            $member->role_id == $notValued->role_id &&
+                            !empty($ratings) &&
+                            $ratings[0]->valued
+                        ) {
+                            $sum += $this->regularize(
+                                $disposition,
+                                $subtractBonusGoals,
+                                $subtractBonusCleanSheet,
+                                $cap
+                            );
+                            $substitution++;
+                            unset($notValueds[$key]);
+                            break;
+                        }
                     }
                 }
             }
@@ -215,7 +222,7 @@ class ComputeScoreService
                     }
                 );
                 $disposition = array_shift($dispositions);
-                if ($disposition && $disposition->member->ratings[0]->valued) {
+                if ($disposition && $disposition->member && $disposition->member->ratings[0]->valued) {
                     return $cap;
                 }
             }
@@ -239,21 +246,26 @@ class ComputeScoreService
         bool $subtractBonusCleanSheet,
         ?int $cap = null
     ): float {
-        $disposition->consideration = 1;
-        $rating = $disposition->member->ratings[0];
-        $points = $rating->points;
-        if ($subtractBonusGoals) {
-            $points -= $rating->getBonusPointsGoals($disposition->member);
-        }
-        if ($subtractBonusCleanSheet) {
-            $points -= $rating->getBonusCleanSheetPoints($disposition->member);
-        }
-        $disposition->points = $points;
-        if ($cap != null && $disposition->member->id == $cap) {
-            $disposition->consideration = 2;
-            $points *= 2;
+        if ($disposition->member) {
+            $disposition->consideration = 1;
+
+            $rating = $disposition->member->ratings[0];
+            $points = $rating->points;
+            if ($subtractBonusGoals) {
+                $points -= $rating->getBonusPointsGoals($disposition->member);
+            }
+            if ($subtractBonusCleanSheet) {
+                $points -= $rating->getBonusCleanSheetPoints($disposition->member);
+            }
+            $disposition->points = $points;
+            if ($cap != null && $disposition->member->id == $cap) {
+                $disposition->consideration = 2;
+                $points *= 2;
+            }
+
+            return $points;
         }
 
-        return $points;
+        return 0;
     }
 }
