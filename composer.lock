@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "51bee4923aee57435bfffcac4647fbd4",
+    "content-hash": "a516f2bd3878a6b184249992de3bdd50",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -132,6 +132,55 @@
                 }
             ],
             "time": "2023-11-29T23:19:16+00:00"
+        },
+        {
+            "name": "brick/varexporter",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/varexporter.git",
+                "reference": "2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb",
+                "reference": "2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.0",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^8.5 || ^9.0",
+                "vimeo/psalm": "5.15.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\VarExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A powerful alternative to var_export(), which can export closures and objects without __set_state()",
+            "keywords": [
+                "var_export"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/varexporter/issues",
+                "source": "https://github.com/brick/varexporter/tree/0.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-09-01T21:10:07+00:00"
         },
         {
             "name": "burzum/cakephp-service-layer",
@@ -315,6 +364,61 @@
                 "source": "https://github.com/cakephp/authorization"
             },
             "time": "2024-07-25T12:20:58+00:00"
+        },
+        {
+            "name": "cakephp/bake",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakephp/bake.git",
+                "reference": "2a30ba221859176dbe583783da7299bde95c8956"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/2a30ba221859176dbe583783da7299bde95c8956",
+                "reference": "2a30ba221859176dbe583783da7299bde95c8956",
+                "shasum": ""
+            },
+            "require": {
+                "brick/varexporter": "^0.4.0",
+                "cakephp/cakephp": "^5.0.3",
+                "cakephp/twig-view": "^2.0.0",
+                "nikic/php-parser": "^4.13.2 || ^5.0.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^5.0.0",
+                "cakephp/debug_kit": "^5.0.0",
+                "phpunit/phpunit": "^10.1.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Bake\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/bake/graphs/contributors"
+                }
+            ],
+            "description": "Bake plugin for CakePHP",
+            "homepage": "https://github.com/cakephp/bake",
+            "keywords": [
+                "bake",
+                "cakephp"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "issues": "https://github.com/cakephp/bake/issues",
+                "source": "https://github.com/cakephp/bake"
+            },
+            "time": "2024-03-11T17:36:39+00:00"
         },
         {
             "name": "cakephp/cakephp",
@@ -543,6 +647,125 @@
                 "source": "https://github.com/cakephp/plugin-installer/tree/2.0.1"
             },
             "time": "2023-09-10T10:02:44+00:00"
+        },
+        {
+            "name": "cakephp/repl",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakephp/repl.git",
+                "reference": "bd0797743b703d885ec9b71dfa69f64ac81ed53e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakephp/repl/zipball/bd0797743b703d885ec9b71dfa69f64ac81ed53e",
+                "reference": "bd0797743b703d885ec9b71dfa69f64ac81ed53e",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^5.0",
+                "php": ">=8.1",
+                "psy/psysh": "@stable"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^5.0",
+                "phpunit/phpunit": "^10.1.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Cake\\Repl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/repl/graphs/contributors"
+                }
+            ],
+            "description": "REPL plugin for CakePHP",
+            "homepage": "https://github.com/cakephp/repl",
+            "keywords": [
+                "REPL",
+                "cakephp"
+            ],
+            "support": {
+                "forum": "https://discourse.cakephp.org/",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/repl/issues",
+                "slack": "https://cakesf.herokuapp.com/",
+                "source": "https://github.com/cakephp/repl/tree/2.0.1"
+            },
+            "time": "2023-09-10T04:20:15+00:00"
+        },
+        {
+            "name": "cakephp/twig-view",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakephp/twig-view.git",
+                "reference": "2bda8f75e97d821b20bda521c4306240241c401b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cakephp/twig-view/zipball/2bda8f75e97d821b20bda521c4306240241c401b",
+                "reference": "2bda8f75e97d821b20bda521c4306240241c401b",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^5.0.0",
+                "jasny/twig-extensions": "^1.3",
+                "twig/markdown-extra": "^3.0",
+                "twig/twig": "^3.10.3"
+            },
+            "conflict": {
+                "wyrihaximus/twig-view": "*"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^5.0",
+                "cakephp/debug_kit": "^5.0",
+                "cakephp/plugin-installer": "^1.3",
+                "michelf/php-markdown": "^1.9",
+                "mikey179/vfsstream": "^1.6.10",
+                "phpunit/phpunit": "^10.1.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Cake\\TwigView\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakePHP Community",
+                    "homepage": "https://github.com/cakephp/cakephp/graphs/contributors"
+                }
+            ],
+            "description": "Twig powered View for CakePHP",
+            "keywords": [
+                "cakephp",
+                "template",
+                "twig",
+                "view"
+            ],
+            "support": {
+                "forum": "https://stackoverflow.com/tags/cakephp",
+                "irc": "irc://irc.freenode.org/cakephp",
+                "issues": "https://github.com/cakephp/twig-view/issues",
+                "source": "https://github.com/cakephp/twig-view"
+            },
+            "time": "2024-07-02T20:42:26+00:00"
         },
         {
             "name": "cnizzardini/cakephp-preloader",
@@ -1596,6 +1819,72 @@
             "time": "2024-07-18T11:15:46+00:00"
         },
         {
+            "name": "jasny/twig-extensions",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jasny/twig-extensions.git",
+                "reference": "8a5ca5f49317bf421a519556ad2e876820d41e01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jasny/twig-extensions/zipball/8a5ca5f49317bf421a519556ad2e876820d41e01",
+                "reference": "8a5ca5f49317bf421a519556ad2e876820d41e01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0",
+                "twig/twig": "^2.7 | ^3.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "ext-json": "*",
+                "ext-pcre": "*",
+                "phpstan/phpstan": "^1.12.0",
+                "phpunit/phpunit": "^9.6",
+                "squizlabs/php_codesniffer": "^3.10"
+            },
+            "suggest": {
+                "ext-intl": "Required for the use of the LocalDate Twig extension",
+                "ext-pcre": "Required for the use of the PCRE Twig extension"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jasny\\Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arnold Daniels",
+                    "email": "arnold@jasny.net",
+                    "homepage": "http://www.jasny.net"
+                }
+            ],
+            "description": "A set of useful Twig filters",
+            "homepage": "http://github.com/jasny/twig-extensions#README",
+            "keywords": [
+                "PCRE",
+                "array",
+                "date",
+                "datetime",
+                "preg",
+                "regex",
+                "templating",
+                "text",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/jasny/twig-extensions/issues",
+                "source": "https://github.com/jasny/twig-extensions"
+            },
+            "time": "2024-09-03T09:04:53+00:00"
+        },
+        {
             "name": "josegonzalez/cakephp-upload",
             "version": "8.0.2",
             "source": {
@@ -2321,6 +2610,62 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.9.0"
             },
             "time": "2024-03-31T07:05:07+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v4.19.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/715f4d25e225bc47b293a8b997fe6ce99bf987d2",
+                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.19.4"
+            },
+            "time": "2024-09-29T15:01:53+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -3184,6 +3529,85 @@
                 "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
             },
             "time": "2021-10-29T13:26:27+00:00"
+        },
+        {
+            "name": "psy/psysh",
+            "version": "v0.12.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/psysh.git",
+                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2fd717afa05341b4f8152547f142cd2f130f6818",
+                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "nikic/php-parser": "^5.0 || ^4.0",
+                "php": "^8.0 || ^7.4",
+                "symfony/console": "^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4",
+                "symfony/var-dumper": "^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4"
+            },
+            "conflict": {
+                "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.2"
+            },
+            "suggest": {
+                "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
+                "ext-pdo-sqlite": "The doc command requires SQLite to work.",
+                "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well."
+            },
+            "bin": [
+                "bin/psysh"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.12.x-dev"
+                },
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": false
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Psy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Hileman",
+                    "email": "justin@justinhileman.info",
+                    "homepage": "http://justinhileman.com"
+                }
+            ],
+            "description": "An interactive shell for modern PHP.",
+            "homepage": "http://psysh.org",
+            "keywords": [
+                "REPL",
+                "console",
+                "interactive",
+                "shell"
+            ],
+            "support": {
+                "issues": "https://github.com/bobthecow/psysh/issues",
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.4"
+            },
+            "time": "2024-06-10T01:18:23+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -5137,6 +5561,82 @@
             "time": "2024-09-09T11:45:10+00:00"
         },
         {
+            "name": "symfony/polyfill-php81",
+            "version": "v1.31.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php81.git",
+                "reference": "4a4cfc2d253c21a5ad0e53071df248ed48c6ce5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php81/zipball/4a4cfc2d253c21a5ad0e53071df248ed48c6ce5c",
+                "reference": "4a4cfc2d253c21a5ad0e53071df248ed48c6ce5c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php81\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 8.1+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php81/tree/v1.31.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-09T11:45:10+00:00"
+        },
+        {
             "name": "symfony/polyfill-php83",
             "version": "v1.31.0",
             "source": {
@@ -5938,6 +6438,89 @@
             "time": "2024-09-17T09:16:35+00:00"
         },
         {
+            "name": "symfony/var-dumper",
+            "version": "v7.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-dumper.git",
+                "reference": "e20e03889539fd4e4211e14d2179226c513c010d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e20e03889539fd4e4211e14d2179226c513c010d",
+                "reference": "e20e03889539fd4e4211e14d2179226c513c010d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/console": "<6.4"
+            },
+            "require-dev": {
+                "ext-iconv": "*",
+                "symfony/console": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/process": "^6.4|^7.0",
+                "symfony/uid": "^6.4|^7.0",
+                "twig/twig": "^3.0.4"
+            },
+            "bin": [
+                "Resources/bin/var-dump-server"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions/dump.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Component\\VarDumper\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides mechanisms for walking through any arbitrary PHP variable",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "debug",
+                "dump"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/var-dumper/tree/v7.1.5"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-16T10:07:02+00:00"
+        },
+        {
             "name": "symfony/var-exporter",
             "version": "v7.1.2",
             "source": {
@@ -6083,6 +6666,157 @@
                 }
             ],
             "time": "2024-09-17T12:49:58+00:00"
+        },
+        {
+            "name": "twig/markdown-extra",
+            "version": "v3.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/markdown-extra.git",
+                "reference": "25f23c02936f8c7157a8413154c06a462c9c20d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/markdown-extra/zipball/25f23c02936f8c7157a8413154c06a462c9c20d3",
+                "reference": "25f23c02936f8c7157a8413154c06a462c9c20d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "twig/twig": "^3.13|^4.0"
+            },
+            "require-dev": {
+                "erusev/parsedown": "^1.7",
+                "league/commonmark": "^1.0|^2.0",
+                "league/html-to-markdown": "^4.8|^5.0",
+                "michelf/php-markdown": "^1.8|^2.0",
+                "symfony/phpunit-bridge": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
+                "psr-4": {
+                    "Twig\\Extra\\Markdown\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "A Twig extension for Markdown",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "html",
+                "markdown",
+                "twig"
+            ],
+            "support": {
+                "source": "https://github.com/twigphp/markdown-extra/tree/v3.13.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-03T20:17:35+00:00"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v3.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "126b2c97818dbff0cdf3fbfc881aedb3d40aae72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/126b2c97818dbff0cdf3fbfc881aedb3d40aae72",
+                "reference": "126b2c97818dbff0cdf3fbfc881aedb3d40aae72",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/polyfill-ctype": "^1.8",
+                "symfony/polyfill-mbstring": "^1.3",
+                "symfony/polyfill-php81": "^1.29"
+            },
+            "require-dev": {
+                "psr/container": "^1.0|^2.0",
+                "symfony/phpunit-bridge": "^5.4.9|^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Resources/core.php",
+                    "src/Resources/debug.php",
+                    "src/Resources/escaper.php",
+                    "src/Resources/string_loader.php"
+                ],
+                "psr-4": {
+                    "Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Twig Team",
+                    "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "templating"
+            ],
+            "support": {
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/v3.14.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-09T17:55:12+00:00"
         },
         {
             "name": "web-auth/cose-lib",
@@ -6626,110 +7360,6 @@
             "time": "2024-04-13T18:00:56+00:00"
         },
         {
-            "name": "brick/varexporter",
-            "version": "0.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brick/varexporter.git",
-                "reference": "2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/brick/varexporter/zipball/2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb",
-                "reference": "2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb",
-                "shasum": ""
-            },
-            "require": {
-                "nikic/php-parser": "^4.0",
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^8.5 || ^9.0",
-                "vimeo/psalm": "5.15.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Brick\\VarExporter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A powerful alternative to var_export(), which can export closures and objects without __set_state()",
-            "keywords": [
-                "var_export"
-            ],
-            "support": {
-                "issues": "https://github.com/brick/varexporter/issues",
-                "source": "https://github.com/brick/varexporter/tree/0.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/BenMorel",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-09-01T21:10:07+00:00"
-        },
-        {
-            "name": "cakephp/bake",
-            "version": "3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/bake.git",
-                "reference": "2a30ba221859176dbe583783da7299bde95c8956"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/2a30ba221859176dbe583783da7299bde95c8956",
-                "reference": "2a30ba221859176dbe583783da7299bde95c8956",
-                "shasum": ""
-            },
-            "require": {
-                "brick/varexporter": "^0.4.0",
-                "cakephp/cakephp": "^5.0.3",
-                "cakephp/twig-view": "^2.0.0",
-                "nikic/php-parser": "^4.13.2 || ^5.0.0",
-                "php": ">=8.1"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^5.0.0",
-                "cakephp/debug_kit": "^5.0.0",
-                "phpunit/phpunit": "^10.1.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Bake\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/bake/graphs/contributors"
-                }
-            ],
-            "description": "Bake plugin for CakePHP",
-            "homepage": "https://github.com/cakephp/bake",
-            "keywords": [
-                "bake",
-                "cakephp"
-            ],
-            "support": {
-                "forum": "https://stackoverflow.com/tags/cakephp",
-                "issues": "https://github.com/cakephp/bake/issues",
-                "source": "https://github.com/cakephp/bake"
-            },
-            "time": "2024-03-11T17:36:39+00:00"
-        },
-        {
             "name": "cakephp/cakephp-codesniffer",
             "version": "5.1.3",
             "source": {
@@ -6906,125 +7536,6 @@
                 "source": "https://github.com/cakephp/migrations"
             },
             "time": "2024-10-08T14:22:48+00:00"
-        },
-        {
-            "name": "cakephp/repl",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/repl.git",
-                "reference": "bd0797743b703d885ec9b71dfa69f64ac81ed53e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/repl/zipball/bd0797743b703d885ec9b71dfa69f64ac81ed53e",
-                "reference": "bd0797743b703d885ec9b71dfa69f64ac81ed53e",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^5.0",
-                "php": ">=8.1",
-                "psy/psysh": "@stable"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^5.0",
-                "phpunit/phpunit": "^10.1.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
-                "psr-4": {
-                    "Cake\\Repl\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/repl/graphs/contributors"
-                }
-            ],
-            "description": "REPL plugin for CakePHP",
-            "homepage": "https://github.com/cakephp/repl",
-            "keywords": [
-                "REPL",
-                "cakephp"
-            ],
-            "support": {
-                "forum": "https://discourse.cakephp.org/",
-                "irc": "irc://irc.freenode.org/cakephp",
-                "issues": "https://github.com/cakephp/repl/issues",
-                "slack": "https://cakesf.herokuapp.com/",
-                "source": "https://github.com/cakephp/repl/tree/2.0.1"
-            },
-            "time": "2023-09-10T04:20:15+00:00"
-        },
-        {
-            "name": "cakephp/twig-view",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/twig-view.git",
-                "reference": "2bda8f75e97d821b20bda521c4306240241c401b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/twig-view/zipball/2bda8f75e97d821b20bda521c4306240241c401b",
-                "reference": "2bda8f75e97d821b20bda521c4306240241c401b",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^5.0.0",
-                "jasny/twig-extensions": "^1.3",
-                "twig/markdown-extra": "^3.0",
-                "twig/twig": "^3.10.3"
-            },
-            "conflict": {
-                "wyrihaximus/twig-view": "*"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^5.0",
-                "cakephp/debug_kit": "^5.0",
-                "cakephp/plugin-installer": "^1.3",
-                "michelf/php-markdown": "^1.9",
-                "mikey179/vfsstream": "^1.6.10",
-                "phpunit/phpunit": "^10.1.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Cake\\TwigView\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/cakephp/graphs/contributors"
-                }
-            ],
-            "description": "Twig powered View for CakePHP",
-            "keywords": [
-                "cakephp",
-                "template",
-                "twig",
-                "view"
-            ],
-            "support": {
-                "forum": "https://stackoverflow.com/tags/cakephp",
-                "irc": "irc://irc.freenode.org/cakephp",
-                "issues": "https://github.com/cakephp/twig-view/issues",
-                "source": "https://github.com/cakephp/twig-view"
-            },
-            "time": "2024-07-02T20:42:26+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -8411,72 +8922,6 @@
             "time": "2024-08-06T10:04:20+00:00"
         },
         {
-            "name": "jasny/twig-extensions",
-            "version": "v1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jasny/twig-extensions.git",
-                "reference": "8a5ca5f49317bf421a519556ad2e876820d41e01"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jasny/twig-extensions/zipball/8a5ca5f49317bf421a519556ad2e876820d41e01",
-                "reference": "8a5ca5f49317bf421a519556ad2e876820d41e01",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4.0",
-                "twig/twig": "^2.7 | ^3.0"
-            },
-            "require-dev": {
-                "ext-intl": "*",
-                "ext-json": "*",
-                "ext-pcre": "*",
-                "phpstan/phpstan": "^1.12.0",
-                "phpunit/phpunit": "^9.6",
-                "squizlabs/php_codesniffer": "^3.10"
-            },
-            "suggest": {
-                "ext-intl": "Required for the use of the LocalDate Twig extension",
-                "ext-pcre": "Required for the use of the PCRE Twig extension"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jasny\\Twig\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Arnold Daniels",
-                    "email": "arnold@jasny.net",
-                    "homepage": "http://www.jasny.net"
-                }
-            ],
-            "description": "A set of useful Twig filters",
-            "homepage": "http://github.com/jasny/twig-extensions#README",
-            "keywords": [
-                "PCRE",
-                "array",
-                "date",
-                "datetime",
-                "preg",
-                "regex",
-                "templating",
-                "text",
-                "time"
-            ],
-            "support": {
-                "issues": "https://github.com/jasny/twig-extensions/issues",
-                "source": "https://github.com/jasny/twig-extensions"
-            },
-            "time": "2024-09-03T09:04:53+00:00"
-        },
-        {
             "name": "justinrainbow/json-schema",
             "version": "5.3.0",
             "source": {
@@ -8711,62 +9156,6 @@
                 "source": "https://github.com/cweiske/jsonmapper/tree/v4.5.0"
             },
             "time": "2024-09-08T10:13:13+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "v4.19.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/715f4d25e225bc47b293a8b997fe6ce99bf987d2",
-                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.19.4"
-            },
-            "time": "2024-09-29T15:01:53+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -9365,85 +9754,6 @@
                 }
             ],
             "time": "2024-10-08T15:36:51+00:00"
-        },
-        {
-            "name": "psy/psysh",
-            "version": "v0.12.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2fd717afa05341b4f8152547f142cd2f130f6818",
-                "reference": "2fd717afa05341b4f8152547f142cd2f130f6818",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-tokenizer": "*",
-                "nikic/php-parser": "^5.0 || ^4.0",
-                "php": "^8.0 || ^7.4",
-                "symfony/console": "^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4",
-                "symfony/var-dumper": "^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4"
-            },
-            "conflict": {
-                "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
-            },
-            "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.2"
-            },
-            "suggest": {
-                "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
-                "ext-pdo-sqlite": "The doc command requires SQLite to work.",
-                "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well."
-            },
-            "bin": [
-                "bin/psysh"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.12.x-dev"
-                },
-                "bamarni-bin": {
-                    "bin-links": false,
-                    "forward-command": false
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
-                "psr-4": {
-                    "Psy\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Justin Hileman",
-                    "email": "justin@justinhileman.info",
-                    "homepage": "http://justinhileman.com"
-                }
-            ],
-            "description": "An interactive shell for modern PHP.",
-            "homepage": "http://psysh.org",
-            "keywords": [
-                "REPL",
-                "console",
-                "interactive",
-                "shell"
-            ],
-            "support": {
-                "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.4"
-            },
-            "time": "2024-06-10T01:18:23+00:00"
         },
         {
             "name": "react/promise",
@@ -11064,165 +11374,6 @@
             "time": "2024-09-09T11:45:10+00:00"
         },
         {
-            "name": "symfony/polyfill-php81",
-            "version": "v1.31.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php81.git",
-                "reference": "4a4cfc2d253c21a5ad0e53071df248ed48c6ce5c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php81/zipball/4a4cfc2d253c21a5ad0e53071df248ed48c6ce5c",
-                "reference": "4a4cfc2d253c21a5ad0e53071df248ed48c6ce5c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php81\\": ""
-                },
-                "classmap": [
-                    "Resources/stubs"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 8.1+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php81/tree/v1.31.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-09T11:45:10+00:00"
-        },
-        {
-            "name": "symfony/var-dumper",
-            "version": "v7.1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "e20e03889539fd4e4211e14d2179226c513c010d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e20e03889539fd4e4211e14d2179226c513c010d",
-                "reference": "e20e03889539fd4e4211e14d2179226c513c010d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "conflict": {
-                "symfony/console": "<6.4"
-            },
-            "require-dev": {
-                "ext-iconv": "*",
-                "symfony/console": "^6.4|^7.0",
-                "symfony/http-kernel": "^6.4|^7.0",
-                "symfony/process": "^6.4|^7.0",
-                "symfony/uid": "^6.4|^7.0",
-                "twig/twig": "^3.0.4"
-            },
-            "bin": [
-                "Resources/bin/var-dump-server"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "Resources/functions/dump.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Component\\VarDumper\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides mechanisms for walking through any arbitrary PHP variable",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "debug",
-                "dump"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.1.5"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-16T10:07:02+00:00"
-        },
-        {
             "name": "theseer/tokenizer",
             "version": "1.2.3",
             "source": {
@@ -11271,157 +11422,6 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
-        },
-        {
-            "name": "twig/markdown-extra",
-            "version": "v3.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twigphp/markdown-extra.git",
-                "reference": "25f23c02936f8c7157a8413154c06a462c9c20d3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/markdown-extra/zipball/25f23c02936f8c7157a8413154c06a462c9c20d3",
-                "reference": "25f23c02936f8c7157a8413154c06a462c9c20d3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.2",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "twig/twig": "^3.13|^4.0"
-            },
-            "require-dev": {
-                "erusev/parsedown": "^1.7",
-                "league/commonmark": "^1.0|^2.0",
-                "league/html-to-markdown": "^4.8|^5.0",
-                "michelf/php-markdown": "^1.8|^2.0",
-                "symfony/phpunit-bridge": "^6.4|^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "Resources/functions.php"
-                ],
-                "psr-4": {
-                    "Twig\\Extra\\Markdown\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                }
-            ],
-            "description": "A Twig extension for Markdown",
-            "homepage": "https://twig.symfony.com",
-            "keywords": [
-                "html",
-                "markdown",
-                "twig"
-            ],
-            "support": {
-                "source": "https://github.com/twigphp/markdown-extra/tree/v3.13.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-03T20:17:35+00:00"
-        },
-        {
-            "name": "twig/twig",
-            "version": "v3.14.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twigphp/Twig.git",
-                "reference": "126b2c97818dbff0cdf3fbfc881aedb3d40aae72"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/126b2c97818dbff0cdf3fbfc881aedb3d40aae72",
-                "reference": "126b2c97818dbff0cdf3fbfc881aedb3d40aae72",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.2",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/polyfill-ctype": "^1.8",
-                "symfony/polyfill-mbstring": "^1.3",
-                "symfony/polyfill-php81": "^1.29"
-            },
-            "require-dev": {
-                "psr/container": "^1.0|^2.0",
-                "symfony/phpunit-bridge": "^5.4.9|^6.4|^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/Resources/core.php",
-                    "src/Resources/debug.php",
-                    "src/Resources/escaper.php",
-                    "src/Resources/string_loader.php"
-                ],
-                "psr-4": {
-                    "Twig\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Twig Team",
-                    "role": "Contributors"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "https://twig.symfony.com",
-            "keywords": [
-                "templating"
-            ],
-            "support": {
-                "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.14.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-09T17:55:12+00:00"
         },
         {
             "name": "vimeo/psalm",
