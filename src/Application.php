@@ -313,11 +313,13 @@ class Application extends BaseApplication implements
     protected function bootstrapCli(): void
     {
         $this->addOptionalPlugin(BakePlugin::class);
-        $this->addOptionalPlugin(MigrationsPlugin::class);
-        $this->addOptionalPlugin(IdeHelperPlugin::class);
         $this->addPlugin(CakeSchedulerPlugin::class);
         $this->addPlugin(CakePreloaderPlugin::class);
 
+        if (Configure::read('debug')) {
+            $this->addOptionalPlugin(MigrationsPlugin::class);
+            $this->addOptionalPlugin(IdeHelperPlugin::class);
+        }
         // Load more plugins here
     }
 }
