@@ -21,6 +21,7 @@
         "spomky-labs/web-push-lib": "2.0.x-dev",
         "symfony/css-selector": "^7.0",
         "symfony/dom-crawler": "^7.0",
+        "symfony/finder": "^7.0",
         "symfony/property-access": "^7.0",
         "symfony/serializer": "^7.0",
         "symfony/uid": "^7.0",
