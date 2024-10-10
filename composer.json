@@ -15,6 +15,7 @@
         "fiste788/cake-scheduler": "dev-master",
         "friendsofcake/crud": "^7.0",
         "get-stream/stream": "^7.0",
+        "josegonzalez/dotenv": "^4.0",
         "josegonzalez/cakephp-upload": "^8.0",
         "spatie/image": "^3.3",
         "spomky-labs/web-push-lib": "2.0.x-dev",
@@ -35,7 +36,6 @@
         "cakephp/repl": "^2.0",
         "dereuromark/cakephp-ide-helper": "^2.1",
         "ergebnis/composer-normalize": "^2.13",
-        "josegonzalez/dotenv": "^4.0",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.5.5",
         "vimeo/psalm": "^5.18"
@@ -77,6 +77,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "ergebnis/composer-normalize": true
         },
+        "classmap-authoritative": true,
         "optimize-autoloader": true,
         "platform-check": true,
         "sort-packages": true
