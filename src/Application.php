@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -312,8 +313,8 @@ class Application extends BaseApplication implements
     protected function bootstrapCli(): void
     {
         $this->addOptionalPlugin(BakePlugin::class);
-        $this->addPlugin(MigrationsPlugin::class);
-        $this->addPlugin(IdeHelperPlugin::class);
+        $this->addOptionalPlugin(MigrationsPlugin::class);
+        $this->addOptionalPlugin(IdeHelperPlugin::class);
         $this->addPlugin(CakeSchedulerPlugin::class);
         $this->addPlugin(CakePreloaderPlugin::class);
 
