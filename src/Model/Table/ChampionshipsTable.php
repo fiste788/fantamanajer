@@ -16,18 +16,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\RollOfHonorsTable&\Cake\ORM\Association\HasMany $RollOfHonors
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  * @method \App\Model\Entity\Championship get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Championship newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Championship[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Championship|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Championship[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Championship findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\Championship newEntity(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Championship newEmptyEntity()
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class ChampionshipsTable extends Table
 {

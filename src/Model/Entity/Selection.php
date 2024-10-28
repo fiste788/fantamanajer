@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -39,6 +40,8 @@ class Selection extends Entity
         'new_member_id' => true,
         'team_id' => true,
         'matchday_id' => true,
+        'created_at' => false,
+        'modified_at' => false,
         'old_member' => true,
         'new_member' => true,
         'team' => true,

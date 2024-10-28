@@ -78,7 +78,7 @@ class TransfertService
             ]);
             $transfertsTable->save($transfert, ['associated' => false]);
         }
-        $membersTeamsTable->saveMany((array)$recs, ['associated' => false]);
+        $membersTeamsTable->saveMany($recs, ['associated' => false]);
     }
 
     /**

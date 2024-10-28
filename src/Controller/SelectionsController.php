@@ -26,6 +26,12 @@ class SelectionsController extends AppController
                 $selection = $event->getSubject()->entity;
                 $selection->matchday_id = $this->currentMatchday->id;
                 $selection->active = true;
+
+                $this->Selections->updateQuery()->set(['active' => false])->where([
+                    'team_id' => $selection->team_id,
+                    'matchday_id' => $selection->matchday_id,
+                    'active' => true,
+                ]);
             }
         );
 

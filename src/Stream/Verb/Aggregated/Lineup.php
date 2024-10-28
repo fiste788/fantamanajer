@@ -24,7 +24,9 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
         $regular = array_splice($lineup->dispositions, 0, 11);
         $players = [];
         foreach ($regular as $disposition) {
-            $players[] = $disposition->member->player->surname;
+            if ($disposition->member != null) {
+                $players[] = $disposition->member->player->surname;
+            }
         }
 
         return implode(', ', $players);
