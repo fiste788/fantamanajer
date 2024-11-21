@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -73,7 +74,7 @@ class LikelyLineupService
         $html = $client->request('GET', '/Calcio/prob_form');
         if ($html->getStatusCode() == 200) {
             $crawler = new Crawler($html->getBody()->getContents());
-            $matches = $crawler->filter('.matchFieldContainer');
+            $matches = $crawler->filter('.bck-box-match-details');
             $matches->each(function (Crawler $match): void {
                 $this->processMatch($match);
             });
@@ -100,9 +101,9 @@ class LikelyLineupService
             $v = strtolower($v);
 
             return $v;
-        }, $match->filter('.match .team')->extract(['_text']));
-        $regulars = $match->filter('.team-players-inner');
-        $details = $match->filter('.matchDetails > div');
+        }, $match->filter('.details-team')->extract(['_text']));
+        $regulars = $match->filter('.lineup-team__lineup-list');
+        $details = $match->filter('.details-team');
         foreach ($teamsName as $team) {
             $this->_teams[$team]['regulars'] = $regulars->eq($i);
             $this->_teams[$team]['details'] = $details->eq($i);
@@ -141,7 +142,7 @@ class LikelyLineupService
             if ($find != null && $find->count() > 0) {
                 try {
                     $title = $find->filter('strong')->text();
-                } catch (InvalidArgumentException | RuntimeException | LogicException $e) {
+                } catch (InvalidArgumentException | LogicException $e) {
                     $title = '';
                 }
                 switch ($title) {

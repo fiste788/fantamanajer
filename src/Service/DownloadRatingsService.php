@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -21,7 +22,7 @@ class DownloadRatingsService
     /**
      * @var \Cake\Console\ConsoleIo|null
      */
-    private ?ConsoleIo $io = null;
+    public ?ConsoleIo $io = null;
 
     /**
      * @var string

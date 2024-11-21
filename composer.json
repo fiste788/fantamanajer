@@ -37,7 +37,7 @@
         "cakephp/migrations": "^4.1",
         "dereuromark/cakephp-ide-helper": "^2.1",
         "ergebnis/composer-normalize": "^2.13",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^10.5.5",
         "vimeo/psalm": "^5.18"
     },
