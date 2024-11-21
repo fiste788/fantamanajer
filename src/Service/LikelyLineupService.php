@@ -103,7 +103,7 @@ class LikelyLineupService
             return $v;
         }, $match->filter('.details-team')->extract(['_text']));
         $regulars = $match->filter('.lineup-team__lineup-list');
-        $details = $match->filter('.details-team');
+        $details = $match->filter('.match-details__note-row');
         foreach ($teamsName as $team) {
             $this->_teams[$team]['regulars'] = $regulars->eq($i);
             $this->_teams[$team]['details'] = $details->eq($i);
@@ -128,14 +128,10 @@ class LikelyLineupService
             $member->likely_lineup->versus = $this->_versus[$club];
             $member->likely_lineup->regular = null;
             try {
-                $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');
-                if ($find->count() > 0) {
+                if ($divs['regulars']->filter('li:contains("' . $member->player->surname . '")')->count() > 0) {
                     $member->likely_lineup->regular = true;
                 }
-                $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
-                if ($find->count() == 0) {
-                    $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
-                }
+                $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
             } catch (RuntimeException | LogicException $e) {
                 $find = null;
             }
