@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -20,6 +21,7 @@ namespace App;
 use App\Authentication\Authenticator\WebauthnAuthenticator;
 use App\Authentication\Identifier\WebauthnHandleIdentifier;
 use App\Command as Commands;
+use App\Command\ConvertTeamImageCommand;
 use App\Command\SendTestNotificationCommand;
 use App\Database\Type as Types;
 use App\Model\Entity\User;
@@ -259,6 +261,7 @@ class Application extends BaseApplication implements
     {
         $commands->addMany($commands->autoDiscover());
 
+
         $commands->add('weekly_script', Commands\WeeklyScriptCommand::class);
         $commands->add('matchday update_date', Commands\UpdateMatchdayCommand::class);
         $commands->add('matchday update_calendar', Commands\UpdateCalendarCommand::class);
@@ -269,6 +272,7 @@ class Application extends BaseApplication implements
         $commands->add('utility download_photos', Commands\DownloadPhotosCommand::class);
         $commands->add('utility reset_password', Commands\ResetPasswordCommand::class);
         $commands->add('utility start_season', Commands\StartSeasonCommand::class);
+        $commands->add('convert_team', Commands\ConvertTeamImageCommand::class);
 
         return $commands;
     }
