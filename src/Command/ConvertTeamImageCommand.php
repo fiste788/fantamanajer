@@ -64,7 +64,7 @@ class ConvertTeamImageCommand extends Command
             $newFile = new SplFileInfo($tmpFile->getPath() . DS . $tmpFile->getBasename($tmpFile->getExtension()) . "webp");
             if ($tmpFile->isFile()) {
                 $io->info($newFile->__toString());
-                Image::useImageDriver(ImageDriver::Gd)->load($tmpFile->getPathname())->quality(80)->save($newFile->getPathname());
+                Image::useImageDriver(ImageDriver::Gd)->load($tmpFile->getPathname())->optimize()->quality(80)->save($newFile->getPathname());
                 $team->photo = $newFile->getFilename();
                 $team->photo_size = $newFile->getSize();
                 $team->photo_type = $newFile->getType();
@@ -75,7 +75,7 @@ class ConvertTeamImageCommand extends Command
                 foreach ($finder->getIterator() as $file) {
                     $io->info($file->__toString());
                     $newFile = new SplFileInfo($file->getPath() . DS . $file->getBasename($file->getExtension()) . "webp");
-                    Image::useImageDriver(ImageDriver::Gd)->load($file->getPathname())->quality(80)->save($newFile->getPathname());
+                    Image::useImageDriver(ImageDriver::Gd)->load($file->getPathname())->optimize()->quality(80)->save($newFile->getPathname());
                 }
                 $teamsTable->save($team);
             }

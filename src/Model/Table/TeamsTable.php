@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -144,8 +145,8 @@ class TeamsTable extends Table
                         $array = [$tmpFile => $tmpFileName->getFilename()];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
-                                $image->width($value)->optimize()->save($tmp);
+                                $tmp = tempnam(TMP, (string)$value) . '.webp';
+                                $image->width($value)->quality(80)->optimize()->save($tmp);
                                 $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                             }
                         }
