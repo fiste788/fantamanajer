@@ -93,7 +93,7 @@ class Team extends Entity
     public static array $size = [
         1280,
         600,
-        240,
+        256,
     ];
 
     /**
