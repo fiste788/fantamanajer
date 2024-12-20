@@ -27,18 +27,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
  * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasOne $Scores
  * @method \App\Model\Entity\Lineup get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Lineup newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Lineup[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Lineup|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Lineup saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Lineup findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\Lineup newEntity(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Lineup newEmptyEntity()
- * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Lineup>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Lineup> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Lineup>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Lineup[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Lineup> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
  */

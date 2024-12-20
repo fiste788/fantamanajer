@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -31,18 +32,18 @@ use SplFileInfo;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsToMany $Members
  * @property \App\Service\TeamService $Team
  * @method \App\Model\Entity\Team get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Team newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Team[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Team[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Team findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\Team newEntity(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team newEmptyEntity()
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
  */
 class TeamsTable extends Table
@@ -144,8 +145,8 @@ class TeamsTable extends Table
                         $array = [$tmpFile => $tmpFileName->getFilename()];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, (string)$value) . '.' . $tmpFileName->getExtension();
-                                $image->width($value)->optimize()->save($tmp);
+                                $tmp = tempnam(TMP, (string)$value) . '.webp';
+                                $image->width($value)->quality(80)->optimize()->save($tmp);
                                 $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                             }
                         }

@@ -59,6 +59,7 @@ yarn-error.log
 /webroot/img/teams/*
 /webroot/img/upload/*
 /webroot/opcache
+/webroot/apcu
 /webroot/php_info.php
 /preload.php
 .user.ini

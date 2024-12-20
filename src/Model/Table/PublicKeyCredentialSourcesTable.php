@@ -12,18 +12,18 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @method \App\Model\Entity\PublicKeyCredentialSource get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\PublicKeyCredentialSource newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource newEntity(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\PublicKeyCredentialSource newEmptyEntity()
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\PublicKeyCredentialSource>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\PublicKeyCredentialSource> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\PublicKeyCredentialSource>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\PublicKeyCredentialSource[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\PublicKeyCredentialSource> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class PublicKeyCredentialSourcesTable extends Table

@@ -12,18 +12,18 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
  * @method \App\Model\Entity\NotificationSubscription get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\NotificationSubscription newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\NotificationSubscription newEntity(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\NotificationSubscription newEmptyEntity()
- * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\NotificationSubscription>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\NotificationSubscription> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\NotificationSubscription>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\NotificationSubscription[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\NotificationSubscription> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class NotificationSubscriptionsTable extends Table
 {

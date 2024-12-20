@@ -114,11 +114,11 @@ class ConvertTeamImageCommand extends Command
                         $image = Image::load($file->getPathname());
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                
+
                                 mkdir($tmpFile->getPath() . DS . $value . 'w');
                                 $tmp = $tmpFile->getPath() . DS . $value . 'w' . DS . $file->getFilename();
                                 $io->info($tmp);
-                                $image->width($value)->optimize()->save( $tmp);
+                                $image->width($value)->optimize()->save($tmp);
                             }
                         }
                     }

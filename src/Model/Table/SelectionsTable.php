@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -25,18 +26,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
  * @property \App\Service\SelectionService $Selection
  * @method \App\Model\Entity\Selection get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Selection newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Selection[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Selection[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Selection findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\Selection newEntity(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Selection newEmptyEntity()
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class SelectionsTable extends Table
 {
@@ -74,6 +75,14 @@ class SelectionsTable extends Table
             'foreignKey' => 'old_member_id',
             'propertyName' => 'old_member',
         ]);
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always',
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -96,6 +105,14 @@ class SelectionsTable extends Table
         $validator
             ->boolean('processed')
             ->notEmptyString('processed');
+
+        $validator
+            ->dateTime('created_at')
+            ->notEmptyDateTime('created_at');
+
+        $validator
+            ->dateTime('modified_at')
+            ->allowEmptyDateTime('modified_at');
 
         return $validator;
     }
@@ -125,6 +142,19 @@ class SelectionsTable extends Table
         ]);
 
         return $rules;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
+    {
+        if ($data->offsetExists('created_at')) {
+            $data->offsetUnset('created_at');
+        }
+        if ($data->offsetExists('modified_at')) {
+            $data->offsetUnset('modified_at');
+        }
     }
 
     /**

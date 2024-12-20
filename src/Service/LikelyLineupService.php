@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service;
@@ -73,7 +74,7 @@ class LikelyLineupService
         $html = $client->request('GET', '/Calcio/prob_form');
         if ($html->getStatusCode() == 200) {
             $crawler = new Crawler($html->getBody()->getContents());
-            $matches = $crawler->filter('.matchFieldContainer');
+            $matches = $crawler->filter('.bck-box-match-details');
             $matches->each(function (Crawler $match): void {
                 $this->processMatch($match);
             });
@@ -100,9 +101,9 @@ class LikelyLineupService
             $v = strtolower($v);
 
             return $v;
-        }, $match->filter('.match .team')->extract(['_text']));
-        $regulars = $match->filter('.team-players-inner');
-        $details = $match->filter('.matchDetails > div');
+        }, $match->filter('.details-team')->extract(['_text']));
+        $regulars = $match->filter('.lineup-team__lineup-list');
+        $details = $match->filter('.match-details__note-row');
         foreach ($teamsName as $team) {
             $this->_teams[$team]['regulars'] = $regulars->eq($i);
             $this->_teams[$team]['details'] = $details->eq($i);
@@ -127,21 +128,17 @@ class LikelyLineupService
             $member->likely_lineup->versus = $this->_versus[$club];
             $member->likely_lineup->regular = null;
             try {
-                $find = $divs['regulars']->filter('li:contains("' . strtoupper($member->player->surname) . '")');
-                if ($find->count() > 0) {
+                if ($divs['regulars']->filter('li:contains("' . $member->player->surname . '")')->count() > 0) {
                     $member->likely_lineup->regular = true;
                 }
-                $find = $divs['details']->filter('p:contains("' . strtoupper($member->player->surname) . '")');
-                if ($find->count() == 0) {
-                    $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
-                }
+                $find = $divs['details']->filter('p:contains("' . $member->player->surname . '")');
             } catch (RuntimeException | LogicException $e) {
                 $find = null;
             }
             if ($find != null && $find->count() > 0) {
                 try {
                     $title = $find->filter('strong')->text();
-                } catch (InvalidArgumentException | RuntimeException | LogicException $e) {
+                } catch (InvalidArgumentException | LogicException $e) {
                     $title = '';
                 }
                 switch ($title) {

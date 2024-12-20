@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -11,6 +12,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\I18n\DateTime;
 use DateTimeInterface;
@@ -129,17 +131,19 @@ class GetMatchdayScheduleCommand extends Command
                              */
                             $matchsResponse = $client->get(
                                 '/api/match?extra_link&order=oldest&lang=it&season_id=' .
-                                $seasonId .
-                                '&match_day_id=' .
-                                $matchdayItem['id_category']
+                                    $seasonId .
+                                    '&match_day_id=' .
+                                    $matchdayItem['id_category']
                             );
                             /** @var string $date */
                             $date = $matchsResponse->getJson()['data'][0]['date_time'];
 
                             if ($date != '') {
                                 $io->success($date);
-                                $out = DateTime::createFromFormat(DateTimeInterface::ATOM, $date);
-                                $io->verbose($out->__toString());
+                                $timezone = Configure::read('App.defaultTimezone');
+                                $out = DateTime::createFromFormat(DateTimeInterface::RFC3339, $date, new \DateTimeZone('UTC'));
+                                $out = $out->setTimezone($timezone);
+                                $io->verbose(print_r($out, true));
 
                                 return $out;
                             } else {

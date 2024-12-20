@@ -75,7 +75,7 @@ class Club extends Entity
      */
     protected function _getPhotoUrl(): string
     {
-        return Asset::imageUrl(strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.webp');
+        return Asset::imageUrl(strtolower($this->getSource()) . '/' . $this->id . '/photo/' . $this->id . '.webp?v=2');
     }
 
     /**
