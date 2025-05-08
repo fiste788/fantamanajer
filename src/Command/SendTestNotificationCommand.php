@@ -78,7 +78,7 @@ class SendTestNotificationCommand extends Command
         ];
         $message = $this->PushNotification->createDefaultMessage(
             'Notifica di test',
-            'Testo molto lungo che ora non sto a scrivere perchè non ho tempo'
+            'Testo molto lungo che ora non sto a scrivere perchè non ho tempo',
         )
             ->withImage($team->photo_url['600w'] ?? '')
             ->withTag('missing-lineup-' . $this->currentMatchday->number)

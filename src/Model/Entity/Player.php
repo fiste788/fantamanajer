@@ -56,7 +56,7 @@ class Player extends Entity
             foreach ($this->members as $member) {
                 if (file_exists(IMG_PLAYERS . 'season-' . $member->season->id . DS . $member->code_gazzetta . '.jpg')) {
                     return Asset::imageUrl(
-                        'players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg'
+                        'players/season-' . $member->season->id . '/' . $member->code_gazzetta . '.jpg',
                     );
                 }
             }

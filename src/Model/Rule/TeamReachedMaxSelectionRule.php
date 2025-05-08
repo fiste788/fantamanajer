@@ -28,7 +28,7 @@ class TeamReachedMaxSelectionRule
             'Teams',
             function (SelectQuery $q) use ($entity): SelectQuery {
                 return $q->where(['Teams.id' => $entity->team_id]);
-            }
+            },
         )->first();
 
         /** @var \App\Model\Table\SelectionsTable $selectionsTable */

@@ -27,7 +27,7 @@ class UserService
                 'exp' => $time->getTimestamp(),
             ],
             Security::getSalt(),
-            'HS256'
+            'HS256',
         );
     }
 }

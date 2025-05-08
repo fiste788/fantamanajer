@@ -200,7 +200,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
         return new PublicKeyCredentialUserEntity(
             (string)($this->email ?? ''),
             (string)($this->uuid ?? ''),
-            (string)($this->name ?? '') . ' ' . (string)($this->surname ?? '')
+            (string)($this->name ?? '') . ' ' . (string)($this->surname ?? ''),
         );
     }
 }

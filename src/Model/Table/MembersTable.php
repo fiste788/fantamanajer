@@ -160,7 +160,7 @@ class MembersTable extends Table
             keyField: 'code_gazzetta',
             valueField: function (Member $obj): Member {
                 return $obj;
-            }
+            },
         )->where(['season_id' => $season_id]);
     }
 
@@ -195,7 +195,7 @@ class MembersTable extends Table
             keyField: 'id',
             valueField: function (Member $obj): Member {
                 return $obj;
-            }
+            },
         )
             ->contain(
                 [
@@ -203,7 +203,7 @@ class MembersTable extends Table
                     'Ratings' => function (SelectQuery $q) use ($matchdayId): SelectQuery {
                         return $q->where(['Ratings.matchday_id' => $matchdayId]);
                     },
-                ]
+                ],
             );
     }
 
@@ -225,7 +225,7 @@ class MembersTable extends Table
                     return $q->contain(['Matchdays'])
                         ->orderBy(['Matchdays.number' => 'ASC']);
                 },
-            ]
+            ],
         )->orderBy(['Seasons.year' => 'DESC']);
         if (isset($args['championship_id'])) {
             $query->select(['player_id', 'free' => $query->newExpr()->isNull('Teams.id')])
@@ -257,7 +257,7 @@ class MembersTable extends Table
                 'Teams',
                 function (SelectQuery $q) use ($championshipId): SelectQuery {
                     return $q->where(['Teams.championship_id' => $championshipId]);
-                }
+                },
             );
 
         $query->innerJoinWith('Seasons.Championships')

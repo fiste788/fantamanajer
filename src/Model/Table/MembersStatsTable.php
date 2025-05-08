@@ -52,7 +52,7 @@ class MembersStatsTable extends Table
             [
                 'foreignKey' => 'member_id',
                 'joinType' => 'INNER',
-            ]
+            ],
         );
     }
 

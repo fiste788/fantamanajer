@@ -154,23 +154,23 @@ class LineupsTable extends Table
         $rules->add($rules->existsIn(['matchday_id'], 'Matchdays'));
         $rules->add($rules->existsIn(['team_id'], 'Teams'));
         $rules->add(
-            $rules->isUnique(['team_id', 'matchday_id'], __('Lineup already exists for this matchday. Try to refresh'))
+            $rules->isUnique(['team_id', 'matchday_id'], __('Lineup already exists for this matchday. Try to refresh')),
         );
         $rules->addCreate(
             new LineupExpiredRule(),
             'Expired',
-            ['errorField' => 'module', 'message' => __('Expired lineup')]
+            ['errorField' => 'module', 'message' => __('Expired lineup')],
         );
         $rules->add(
             new MissingPlayerInLineupRule(),
             'MissingPlayer',
-            ['errorField' => 'module', 'message' => __('Missing player/s')]
+            ['errorField' => 'module', 'message' => __('Missing player/s')],
         );
 
         $rules->add(
             new JollyAlreadyUsedRule(),
             'JollyAlreadyUsed',
-            ['errorField' => 'jolly', 'message' => __('Jolly already used')]
+            ['errorField' => 'jolly', 'message' => __('Jolly already used')],
         );
 
         return $rules;

@@ -94,7 +94,7 @@ class SendMissingLineupNotificationCommand extends Command
                         'Teams.id NOT IN' => $lineupsTable->find()->select('team_id')->where([
                             'matchday_id' => $this->currentMatchday->id,
                         ]),
-                    ]
+                    ],
                 )->all();
             $date = new DateTime($this->currentMatchday->date->getTimestamp());
             foreach ($teams as $team) {
@@ -105,7 +105,7 @@ class SendMissingLineupNotificationCommand extends Command
                 $body = sprintf(
                     'Ricordati di impostare la formazione per la giornata %d! Ti restano %s',
                     $this->currentMatchday->number,
-                    $date->timeAgoInWords()
+                    $date->timeAgoInWords(),
                 );
                 $message = $this->PushNotification->createDefaultMessage('Formazione non ancora impostatata', $body)
                     ->addAction(Action::create('open', 'Imposta'))

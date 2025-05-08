@@ -32,7 +32,7 @@ class SelectionsController extends AppController
                     'matchday_id' => $selection->matchday_id,
                     'active' => true,
                 ])->execute();
-            }
+            },
         );
 
         return $this->Crud->execute();

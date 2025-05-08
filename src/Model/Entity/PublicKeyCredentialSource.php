@@ -102,7 +102,7 @@ class PublicKeyCredentialSource extends Entity
      */
     public function fromCredentialSource(
         SerializerInterface $serializer,
-        WebauthnPublicKeyCredentialSource $credentialSource
+        WebauthnPublicKeyCredentialSource $credentialSource,
     ) {
         /** @var array<string, string> $json */
         $json = json_decode($serializer->serialize($credentialSource, 'json'), true);

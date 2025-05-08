@@ -139,7 +139,7 @@ class LineupService
                     ],
                 ],
                 'guard' => false,
-            ]
+            ],
         );
         $lineupCopy->unset('id');
         $lineupCopy->jolly = false;

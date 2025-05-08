@@ -72,7 +72,7 @@ class PushNotificationService implements WebPushService
      */
     public function sendAndRemoveExpired(
         NotificationInterface $notification,
-        PushSubscription $pushSubscription
+        PushSubscription $pushSubscription,
     ): ?StatusReportInterface {
         $subscription = $pushSubscription->toSubscription();
         if ($subscription != null) {
@@ -98,7 +98,7 @@ class PushNotificationService implements WebPushService
      */
     public function send(
         NotificationInterface $notification,
-        SubscriptionInterface $subscription
+        SubscriptionInterface $subscription,
     ): StatusReportInterface {
         return $this->service->send($notification, $subscription);
     }

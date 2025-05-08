@@ -166,7 +166,7 @@ class MatchdaysTable extends Table
                     'team_id IS' => null,
                     'date <' => new DateTime(),
                     'season_id' => $season->id,
-                ]
+                ],
             )
             ->toArray();
 
@@ -223,7 +223,7 @@ class MatchdaysTable extends Table
                     'member_id IS' => null,
                     'date <' => new DateTime(),
                     'season_id' => $season->id,
-                ]
+                ],
             )
             ->toArray();
 

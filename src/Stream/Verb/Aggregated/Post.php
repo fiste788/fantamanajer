@@ -38,7 +38,7 @@ class Post extends StreamAggregatedActivity implements StreamActivityInterface
             [
                 $team->name,
                 (int)($this->activity->offsetGet('activity_count') ?? 0),
-            ]
+            ],
         );
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -75,7 +74,7 @@ class DownloadRatingsService
         Matchday $matchday,
         string $path,
         int $matchdayGazzetta,
-        ?string $url = null
+        ?string $url = null,
     ): ?string {
         $url = $url ?? $this->getRatingsFile($matchdayGazzetta);
         if ($url != null) {

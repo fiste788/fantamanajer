@@ -50,7 +50,7 @@ class LineupsController extends ControllerLineupsController
                     'last',
                     team_id: $team,
                     matchday: $this->currentMatchday,
-                    stats: true
+                    stats: true,
                 );
             });
         } else {
@@ -62,7 +62,7 @@ class LineupsController extends ControllerLineupsController
                 $event->getSubject()->query = $that->Lineups->find(
                     'byMatchdayIdAndTeamId',
                     matchday_id: $matchday->id,
-                    team_id: $team
+                    team_id: $team,
                 )->contain(['Matchdays', 'Teams' => ['Members' => ['Roles', 'Players', 'Clubs']]]);
             });
         }
@@ -71,7 +71,7 @@ class LineupsController extends ControllerLineupsController
             $event->getSubject()->entity = $lineupService->duplicate(
                 $event->getSubject()->entity,
                 $team,
-                $this->currentMatchday
+                $this->currentMatchday,
             );
         });
 

@@ -55,7 +55,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
             [
                 $team->name,
                 (int)($this->activity->offsetGet('activity_count') ?? 0),
-            ]
+            ],
         );
     }
 

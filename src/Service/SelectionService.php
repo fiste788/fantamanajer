@@ -56,7 +56,7 @@ class SelectionService
                 [
                     'player' => $selection->new_member->player,
                     'baseUrl' => 'https://fantamanajer.it',
-                ]
+                ],
             )
                 ->setSubject('Un altra squadra ti ha soffiato un giocatore selezionato')
                 ->setEmailFormat('html')
@@ -67,7 +67,7 @@ class SelectionService
         if ($selection->team->isPushSubscripted('lost_member')) {
             $message = $this->PushNotification->createDefaultMessage(
                 'Un altra squadra ti ha soffiato un giocatore selezionato',
-                "Hai perso il giocatore {$selection->new_member->player->full_name}"
+                "Hai perso il giocatore {$selection->new_member->player->full_name}",
             )->withTag('lost-player-' . $selection->id);
             $notification = Notification::create()
                 ->withTTL(3600)

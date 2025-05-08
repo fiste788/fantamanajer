@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -101,7 +100,7 @@ class GetMatchdayScheduleCommand extends Command
                 'host' => 'www.legaseriea.it',
                 'redirect' => 5,
                 'timeout' => 60,
-            ]
+            ],
         );
 
         $response = $client->get($url);
@@ -135,7 +134,7 @@ class GetMatchdayScheduleCommand extends Command
                                 '/api/match?extra_link&order=oldest&lang=it&season_id=' .
                                     $seasonId .
                                     '&match_day_id=' .
-                                    $matchdayItem['id_category']
+                                    $matchdayItem['id_category'],
                             );
                             /** @var string $date */
                             $date = $matchsResponse->getJson()['data'][0]['date_time'];
@@ -143,13 +142,13 @@ class GetMatchdayScheduleCommand extends Command
                             if ($date != '') {
                                 $io->success($date);
                                 /**
-                                 * @var string
+                                 * @var string $timezone
                                  */
                                 $timezone = toString(Configure::read('App.defaultTimezone', 'UTC'));
                                 $out = DateTime::createFromFormat(
                                     DateTimeInterface::RFC3339,
                                     $date,
-                                    new DateTimeZone('UTC')
+                                    new DateTimeZone('UTC'),
                                 );
                                 $out = $out->setTimezone($timezone);
                                 $io->verbose(print_r($out, true));

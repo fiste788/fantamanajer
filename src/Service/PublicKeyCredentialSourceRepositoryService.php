@@ -43,7 +43,7 @@ class PublicKeyCredentialSourceRepositoryService
      */
     public function findOneByCredentialId(
         SerializerInterface $serializer,
-        string $publicKeyCredentialId
+        string $publicKeyCredentialId,
     ): ?WebauthnPublicKeyCredentialSource {
         $publicKeyCredential = $this->findByCredentialId($publicKeyCredentialId);
 
@@ -60,7 +60,7 @@ class PublicKeyCredentialSourceRepositoryService
      */
     public function findAllForUserEntity(
         SerializerInterface $serializer,
-        PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity
+        PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity,
     ): array {
         $sources = $this->fetchTable('PublicKeyCredentialSources')->find()->where([
             'user_handle' => $publicKeyCredentialUserEntity->id,
@@ -85,7 +85,7 @@ class PublicKeyCredentialSourceRepositoryService
      */
     public function saveCredentialSource(
         SerializerInterface $serializer,
-        WebauthnPublicKeyCredentialSource $publicKeyCredentialSource
+        WebauthnPublicKeyCredentialSource $publicKeyCredentialSource,
     ): void {
         /** @var \App\Model\Entity\PublicKeyCredentialSource $entity */
         $entity = $this->findByCredentialId($publicKeyCredentialSource->publicKeyCredentialId) ??

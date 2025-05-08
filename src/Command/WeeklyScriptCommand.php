@@ -202,7 +202,7 @@ class WeeklyScriptCommand extends Command
         Matchday $matchday,
         Championship $championship,
         array $scores,
-        ConsoleIo $io
+        ConsoleIo $io,
     ): void {
         //$webPush = new WebPush((array)Configure::read('WebPush'));
         foreach ($championship->teams as $team) {
@@ -254,7 +254,7 @@ class WeeklyScriptCommand extends Command
                 $details = $lineupsTable->find(
                     'details',
                     matchday_id: $matchday->id,
-                    team_id: $team->id
+                    team_id: $team->id,
                 )->first();
 
                 /** @var \App\Model\Entity\Score $score */

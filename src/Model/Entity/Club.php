@@ -93,7 +93,7 @@ class Club extends Entity
             $path,
             strtolower($this->getSource()) . '/' . $this->id . '/background/',
             null,
-            'webp'
+            'webp',
         );
     }
 }

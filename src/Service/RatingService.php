@@ -51,7 +51,7 @@ class RatingService
     public function calculateKey(
         Season $season,
         ?string $encryptedFilePath = null,
-        ?string $dectyptedFilePath = null
+        ?string $dectyptedFilePath = null,
     ): ?string {
         if ($this->io != null) {
             $this->io->out('Calculating decrypting key');
@@ -71,7 +71,7 @@ class RatingService
                 'Copy decrypted file in ' . $dectyptedFilePath . ' and then press enter.
                 If you don\'t have one go to https://www.fr3nsis.com/',
                 ['y', 'n'],
-                'y'
+                'y',
             );
         }
         if ($reply == 'y') {

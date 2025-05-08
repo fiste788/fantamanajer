@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Command;
@@ -104,7 +103,7 @@ class UpdateMatchdayCommand extends Command
             $res = $noInteraction || ($io->askChoice(
                 'Set ' . $date->format('Y-m-d H:i:s') . ' for matchday ' . $matchday->number,
                 ['y', 'n'],
-                'y'
+                'y',
             ) == 'y');
             if ($res) {
                 $matchday->set('date', $date);

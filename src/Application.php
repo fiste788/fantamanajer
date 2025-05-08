@@ -102,7 +102,7 @@ class Application extends BaseApplication implements
         } else {
             FactoryLocator::add(
                 'Table',
-                (new TableLocator())->allowFallbackClass(false)
+                (new TableLocator())->allowFallbackClass(false),
             );
         }
 
@@ -284,7 +284,7 @@ class Application extends BaseApplication implements
     {
         $container->add(ComponentRegistry::class);
         $container->delegate(
-            new ReflectionContainer(true)
+            new ReflectionContainer(true),
         );
 
         $container->add(SendTestNotificationCommand::class)->addArgument(PushNotificationService::class);

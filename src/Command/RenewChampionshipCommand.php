@@ -71,7 +71,7 @@ class RenewChampionshipCommand extends Command
 
         $newChampionship = $championshipsTable->newEntity(
             $championship->getOriginalValues(),
-            ['accessibleFields' => ['*' => true]]
+            ['accessibleFields' => ['*' => true]],
         );
         unset($newChampionship->id);
         $newChampionship->season_id = $this->currentSeason->id;
@@ -80,7 +80,7 @@ class RenewChampionshipCommand extends Command
         $newChampionship->teams = array_map(function (Team $team) use ($newChampionship, $teamsTable): Team {
             $newTeam = $teamsTable->newEntity(
                 $team->getOriginalValues(),
-                ['accessibleFields' => ['*' => true]]
+                ['accessibleFields' => ['*' => true]],
             );
             unset($newTeam->id);
             $newTeam->championship_id = $newChampionship->id;
@@ -119,7 +119,7 @@ class RenewChampionshipCommand extends Command
                         $filesystem->rename(
                             $file->getPathname(),
                             $file->getPath() . DS . $newFileName,
-                            true
+                            true,
                         );
                     }
 

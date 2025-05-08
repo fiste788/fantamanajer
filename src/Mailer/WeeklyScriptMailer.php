@@ -74,7 +74,7 @@ class WeeklyScriptMailer extends Mailer
             [
                 'teams' => $teams,
                 'baseUrl' => 'https://fantamanajer.it',
-            ]
+            ],
         )
             ->setSubject('Formazioni giornata ' . $matchday->number)
             ->setEmailFormat('html')

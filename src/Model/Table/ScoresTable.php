@@ -125,7 +125,7 @@ class ScoresTable extends Table
                     'alias' => 'm',
                     'type' => 'LEFT',
                     'conditions' => 'm.id = Scores.matchday_id',
-                ]
+                ],
             )
             ->select(['matchday_id' => $query->func()->max('Scores.matchday_id'),])
             ->where(['m.season_id' => $season->id])

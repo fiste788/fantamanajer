@@ -70,7 +70,7 @@ class UpdateMemberService
                 valueField: function (Member $obj): Member {
                     return $obj;
                 },
-                contain: ['Players']
+                contain: ['Players'],
             )->where(['season_id' => $matchday->season_id]);
             /** @var array<\App\Model\Entity\Member> $oldMembers */
             $oldMembers = $query->toArray();
@@ -189,7 +189,7 @@ class UpdateMemberService
         $club = $clubsTable->findOrCreate(
             ['name' => ucwords(strtolower(trim($member[3], '"')))],
             null,
-            ['atomic' => false]
+            ['atomic' => false],
         );
         if ($this->io != null) {
             $this->io->verbose('Add new member ' . $surname . ' ' . $name);

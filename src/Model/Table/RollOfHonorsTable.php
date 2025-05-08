@@ -49,7 +49,7 @@ class RollOfHonorsTable extends Table
             [
                 'foreignKey' => 'league_id',
                 'joinType' => 'INNER',
-            ]
+            ],
         );
 
         $this->belongsTo(
@@ -57,7 +57,7 @@ class RollOfHonorsTable extends Table
             [
                 'foreignKey' => 'championship_id',
                 'joinType' => 'INNER',
-            ]
+            ],
         );
 
         $this->belongsTo(
@@ -65,7 +65,7 @@ class RollOfHonorsTable extends Table
             [
                 'foreignKey' => 'team_id',
                 'joinType' => 'INNER',
-            ]
+            ],
         );
     }
 

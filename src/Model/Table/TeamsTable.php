@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -123,7 +122,7 @@ class TeamsTable extends Table
                     EntityInterface $_entity,
                     UploadedFileInterface $file,
                     string $_field,
-                    array $_settings
+                    array $_settings,
                 ) {
                     return strtolower($file->getClientFilename() ?? (string)$_entity->get('id'));
                 },
@@ -133,10 +132,10 @@ class TeamsTable extends Table
                     EntityInterface $entity,
                     UploadedFileInterface $file,
                     string $_field,
-                    array $_settings
+                    array $_settings,
                 ) {
                     $tmpFileName = new SplFileInfo(
-                        strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg')
+                        strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg'),
                     );
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
                     if ($tmpFile != false) {
@@ -147,7 +146,7 @@ class TeamsTable extends Table
                             if ($value < $image->getWidth()) {
                                 $tmpname = tempnam(TMP, (string)$value);
                                 if ($tmpname != false) {
-                                    $tmp = $tmpname  . '.webp';
+                                    $tmp = $tmpname . '.webp';
                                     $image->width($value)->quality(80)->optimize()->save($tmp);
                                     $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
                                 }
@@ -227,7 +226,7 @@ class TeamsTable extends Table
         $rules->add($rules->existsIn(['championship_id'], 'Championships'));
         $rules->add($rules->isUnique(['name', 'championship_id'], __('Team name already exist in this championship')));
         $rules->add(
-            $rules->isUnique(['user_id', 'championship_id'], __('Team name already exist in this championship'))
+            $rules->isUnique(['user_id', 'championship_id'], __('Team name already exist in this championship')),
         );
 
         return $rules;

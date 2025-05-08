@@ -113,7 +113,7 @@ class StartSeasonCommand extends Command
                     'year' => $year,
                     'name' => 'Stagione ' . $year . '-' . substr((string)($year + 1), 2, 2),
                     'bonus_points' => true,
-                ]
+                ],
             );
             $firstAugust = Chronos::create($year, 8, 1);
 

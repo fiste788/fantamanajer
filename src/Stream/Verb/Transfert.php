@@ -22,7 +22,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
             return __(
                 'Selled {0} and buyed {1}',
                 $transfert->old_member->player->full_name,
-                $transfert->new_member->player->full_name
+                $transfert->new_member->player->full_name,
             );
         } else {
             return null;

@@ -98,7 +98,7 @@ class ComputeScoreService
             $lineup = $lineupsTable->find(
                 'last',
                 matchday: $score->matchday,
-                team_id: $score->team->id
+                team_id: $score->team->id,
             )->find('withRatings', matchday_id: $score->matchday_id)->first();
         } else {
             /** @var \App\Model\Entity\Lineup $lineup */
@@ -106,8 +106,8 @@ class ComputeScoreService
                 $lineup,
                 $lineupsTable->find(
                     'withRatings',
-                    matchday_id: $score->matchday_id
-                )->getContain()
+                    matchday_id: $score->matchday_id,
+                )->getContain(),
             );
         }
         if ($lineup == null) {
@@ -123,7 +123,7 @@ class ComputeScoreService
                     $lineup = $this->Lineup->copy(
                         $lineup,
                         $score->matchday,
-                        $championship->captain_missed_lineup
+                        $championship->captain_missed_lineup,
                     );
                 }
             }
@@ -131,7 +131,7 @@ class ComputeScoreService
                 $score->real_points = $this->compute(
                     $lineup,
                     $season->bonus_points_goals && !$championship->bonus_points_goals,
-                    $season->bonus_points_clean_sheet && !$championship->bonus_points_clean_sheet
+                    $season->bonus_points_clean_sheet && !$championship->bonus_points_clean_sheet,
                 );
                 $score->points = $lineup->jolly ? $score->real_points * 2 : $score->real_points;
                 if ($championship->points_missed_lineup != 100 && $lineup->cloned) {
@@ -157,7 +157,7 @@ class ComputeScoreService
     public function compute(
         Lineup $lineup,
         bool $subtractBonusGoals = false,
-        bool $subtractBonusCleanSheet = false
+        bool $subtractBonusCleanSheet = false,
     ): float {
         $sum = 0;
         $cap = null;
@@ -189,7 +189,7 @@ class ComputeScoreService
                                 $disposition,
                                 $subtractBonusGoals,
                                 $subtractBonusCleanSheet,
-                                $cap
+                                $cap,
                             );
                             $substitution++;
                             unset($notValueds[$key]);
@@ -219,7 +219,7 @@ class ComputeScoreService
                     $lineup->dispositions,
                     function ($value) use ($cap) {
                         return $value->member_id == $cap;
-                    }
+                    },
                 );
                 $disposition = array_shift($dispositions);
                 if ($disposition && $disposition->member && $disposition->member->ratings[0]->valued) {
@@ -244,7 +244,7 @@ class ComputeScoreService
         Disposition $disposition,
         bool $subtractBonusGoals,
         bool $subtractBonusCleanSheet,
-        ?int $cap = null
+        ?int $cap = null,
     ): float {
         if ($disposition->member) {
             $disposition->consideration = 1;

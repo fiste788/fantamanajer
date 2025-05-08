@@ -75,7 +75,7 @@ class MembersController extends AppController
             [
                 'success' => true,
                 'data' => $roles ?? [],
-            ]
+            ],
         );
         $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }

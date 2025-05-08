@@ -26,7 +26,7 @@ class ActivityManager
         bool $aggregated,
         int $offset = 0,
         int $limit = 20,
-        array $options = []
+        array $options = [],
     ): array {
         $feedManager = new FeedManager();
         $feed = $feedManager->getFeed($feedName, $id);

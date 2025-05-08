@@ -85,7 +85,7 @@ class WebauthnService
         $requestCSM = $csmFactory->requestCeremony();
 
         $this->authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
-            $creationCSM
+            $creationCSM,
         );
 
         // Authenticator Assertion Response Validator
@@ -107,7 +107,7 @@ class WebauthnService
             (string)$user->email,
             (string)$user->uuid,
             ($user->name ?? '') . ' ' . ($user->surname ?? ''),
-            null
+            null,
         );
     }
 
@@ -137,7 +137,7 @@ class WebauthnService
             //Name
             (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
             //ID
-            (string)Configure::read('Webauthn.icon') //Icon
+            (string)Configure::read('Webauthn.icon'), //Icon
         );
     }
 
@@ -193,8 +193,8 @@ class WebauthnService
         $attestationStatementSupportManager->add(TPMAttestationStatementSupport::create());
         $attestationStatementSupportManager->add(
             PackedAttestationStatementSupport::create(
-                $coseAlgorithmManager
-            )
+                $coseAlgorithmManager,
+            ),
         );
 
         return $attestationStatementSupportManager;
@@ -220,7 +220,7 @@ class WebauthnService
 
                 $credentials = $this->PublicKeyCredentialSourceRepository->findAllForUserEntity(
                     $this->serializer,
-                    $credentialUser
+                    $credentialUser,
                 );
                 $allowedCredentials = $this->credentialsToDescriptors($credentials);
                 $request->getSession()->write('User.Handle', $credentialUser->id);
@@ -234,7 +234,7 @@ class WebauthnService
                 $allowedCredentials,
                 PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 60_000,
-                $this->getExtensions()
+                $this->getExtensions(),
             );
 
         $jsonObject = $this->serializer->serialize(
@@ -243,7 +243,7 @@ class WebauthnService
             [ // Optional
                 AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
                 JsonEncode::OPTIONS => JSON_THROW_ON_ERROR,
-            ]
+            ],
         );
         $request->getSession()->start();
         $request->getSession()->write('User.PublicKey', $jsonObject);
@@ -285,12 +285,12 @@ class WebauthnService
     public function signin(
         string $publicKey,
         ServerRequestInterface $request,
-        ?string $userHandle = null
+        ?string $userHandle = null,
     ): PublicKeyCredentialSource {
         $publicKeyCredentialRequestOptions = $this->serializer->deserialize(
             $publicKey,
             PublicKeyCredentialRequestOptions::class,
-            'json'
+            'json',
         );
 
         // Load the data
@@ -299,7 +299,7 @@ class WebauthnService
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
-            'json'
+            'json',
         );
         $authenticatorAssertionResponse = $publicKeyCredential->response;
 
@@ -320,7 +320,7 @@ class WebauthnService
             $authenticatorAssertionResponse,
             $publicKeyCredentialRequestOptions,
             (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
-            $userHandle
+            $userHandle,
         );
 
         $credential->last_seen_at = new DateTime();
@@ -363,7 +363,7 @@ class WebauthnService
         $authenticatorSelectionCriteria = AuthenticatorSelectionCriteria::create(
             AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_PLATFORM,
             AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
-            AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED
+            AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_PREFERRED,
         );
         //$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
 
@@ -375,7 +375,7 @@ class WebauthnService
             $authenticatorSelectionCriteria,
             PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
             $excludeCredentials,
-            60_000
+            60_000,
         );
 
         $jsonObject = $this->serializer->serialize(
@@ -384,7 +384,7 @@ class WebauthnService
             [ // Optional
                 AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
                 JsonEncode::OPTIONS => JSON_THROW_ON_ERROR,
-            ]
+            ],
         );
 
         $session = $request->getSession();
@@ -411,7 +411,7 @@ class WebauthnService
         $publicKeyCredentialCreationOptions = $this->serializer->deserialize(
             $publicKey,
             PublicKeyCredentialCreationOptions::class,
-            'json'
+            'json',
         );
 
         // Load the data
@@ -419,7 +419,7 @@ class WebauthnService
         $publicKeyCredential = $this->serializer->deserialize(
             $body,
             PublicKeyCredential::class,
-            'json'
+            'json',
         );
 
         $authenticatorAttestationResponse = $publicKeyCredential->response;

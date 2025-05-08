@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -175,13 +174,13 @@ class SelectionsTable extends Table
                 'Teams',
                 function (SelectQuery $q) use ($team): SelectQuery {
                     return $q->where(['Teams.championship_id' => $team->championship_id]);
-                }
+                },
             )
             ->where(
                 [
                     'team_id !=' => $selection->team_id,
                     'new_member_id' => $selection->new_member_id,
-                ]
+                ],
             )->first();
 
         return $selection;

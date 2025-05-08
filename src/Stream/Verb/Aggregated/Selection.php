@@ -29,7 +29,7 @@ class Selection extends StreamAggregatedActivity implements StreamActivityInterf
             'A player has been selected for transfert',
             '{0} players have been selected for transfert',
             (int)($this->activity->offsetGet('activity_count') ?? 0),
-            (int)($this->activity->offsetGet('activity_count') ?? 0)
+            (int)($this->activity->offsetGet('activity_count') ?? 0),
         );
     }
 

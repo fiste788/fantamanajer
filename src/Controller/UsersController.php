@@ -76,7 +76,7 @@ class UsersController extends AppController
                         'token' => $userService->getToken((string)$user->id, $days),
                         'user' => $user->getOriginalData(),
                     ],
-                ]
+                ],
             );
 
             $this->viewBuilder()->setOption('serialize', ['data', 'success']);
@@ -89,7 +89,7 @@ class UsersController extends AppController
                     'data' => [
                         'message' => $result->getStatus(),
                     ],
-                ]
+                ],
             );
 
             $this->viewBuilder()->setOption('serialize', ['data', 'success']);
@@ -108,7 +108,7 @@ class UsersController extends AppController
             [
                 'success' => true,
                 'data' => true,
-            ]
+            ],
         );
 
         $this->viewBuilder()->setOption('serialize', ['data', 'success']);
