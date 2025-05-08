@@ -6,6 +6,7 @@ namespace App\Controller\Teams;
 use App\Controller\SelectionsController as AppSelectionsController;
 use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -20,6 +21,7 @@ class SelectionsController extends AppSelectionsController
      * @throws \Crud\Error\Exception\MissingActionException
      * @throws \Authorization\Exception\ForbiddenException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

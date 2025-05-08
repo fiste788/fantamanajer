@@ -9,6 +9,7 @@ use Authorization\IdentityInterface as AuthorizationIdentity;
 use Authorization\Policy\ResultInterface;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
+use Override;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 /**
@@ -128,6 +129,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return bool
      */
+    #[Override]
     public function can(string $action, mixed $resource): bool
     {
         return $this->authorization->can($this, $action, $resource);
@@ -140,6 +142,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return \Authorization\Policy\ResultInterface
      */
+    #[Override]
     public function canResult(string $action, mixed $resource): ResultInterface
     {
         return $this->authorization->canResult($this, $action, $resource);
@@ -152,6 +155,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      * @param mixed $resource Resource
      * @return mixed
      */
+    #[Override]
     public function applyScope(string $action, mixed $resource, mixed ...$optionalArgs): mixed
     {
         return $this->authorization->applyScope($this, $action, $resource, $optionalArgs);
@@ -162,6 +166,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      *
      * @return self
      */
+    #[Override]
     public function getOriginalData(): User
     {
         return $this;
@@ -185,6 +190,7 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
      *
      * @return int
      */
+    #[Override]
     public function getIdentifier(): int
     {
         return $this->id;

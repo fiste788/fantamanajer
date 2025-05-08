@@ -10,6 +10,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -28,6 +29,7 @@ class RenewChampionshipCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -37,6 +39,7 @@ class RenewChampionshipCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Renew the given championship');
@@ -53,6 +56,7 @@ class RenewChampionshipCommand extends Command
      * @return int|null The exit code or null for success
      * @throws \Cake\Core\Exception\CakeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         /** @var \App\Model\Table\TeamsTable $teamsTable */

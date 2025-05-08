@@ -10,6 +10,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 
 class ResetPasswordCommand extends Command
 {
@@ -19,6 +20,7 @@ class ResetPasswordCommand extends Command
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -27,6 +29,7 @@ class ResetPasswordCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Reset passwords');
@@ -40,6 +43,7 @@ class ResetPasswordCommand extends Command
      *
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $usersTable = $this->fetchTable('Users');

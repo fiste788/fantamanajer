@@ -9,6 +9,7 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * Matchdays Model
@@ -42,6 +43,7 @@ class MatchdaysTable extends Table
      * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -80,6 +82,7 @@ class MatchdaysTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -107,6 +110,7 @@ class MatchdaysTable extends Table
      * @return \Cake\ORM\RulesChecker
      * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
+    #[Override]
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['season_id'], 'Seasons'));

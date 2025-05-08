@@ -7,6 +7,7 @@ use App\Controller\AppController;
 use App\Stream\ActivityManager;
 use Cake\Event\EventInterface;
 use Cake\Utility\Hash;
+use Override;
 
 /**
  * Steam Controller
@@ -21,6 +22,7 @@ class StreamController extends AppController
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

@@ -9,6 +9,7 @@ use App\Service\LineupService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\NotFoundException;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -19,6 +20,7 @@ class LineupsController extends ControllerLineupsController
     /**
      * @inheritDoc
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

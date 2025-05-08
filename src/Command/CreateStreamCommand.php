@@ -9,6 +9,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use GetStream\Stream\Client;
+use Override;
 
 class CreateStreamCommand extends Command
 {
@@ -20,6 +21,7 @@ class CreateStreamCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -29,6 +31,7 @@ class CreateStreamCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Test');
@@ -41,6 +44,7 @@ class CreateStreamCommand extends Command
      *
      * @throws \GetStream\Stream\StreamFeedException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $championshipFeed = $this->client->feed('championship', (string)12);

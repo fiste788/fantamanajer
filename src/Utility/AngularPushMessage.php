@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Utility;
 
 use Cake\Core\Configure;
+use Override;
 use WebPush\Message;
 
 class AngularPushMessage extends Message
@@ -15,6 +16,7 @@ class AngularPushMessage extends Message
      * @param string|null $body Notification body
      * @return \WebPush\Message
      */
+    #[Override]
     public static function create(string $title, ?string $body = null): Message
     {
         /** @var array<string, string> $config  */
@@ -32,6 +34,7 @@ class AngularPushMessage extends Message
     /**
      * @return array<string, mixed>
      */
+    #[Override]
     public function jsonSerialize(): array
     {
         $options = [

@@ -14,6 +14,7 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * Members Model
@@ -50,6 +51,7 @@ class MembersTable extends Table
      * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -99,6 +101,7 @@ class MembersTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -137,6 +140,7 @@ class MembersTable extends Table
      * @return \Cake\ORM\RulesChecker
      * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
+    #[Override]
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['player_id'], 'Players'));

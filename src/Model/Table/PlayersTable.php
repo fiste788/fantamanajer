@@ -6,6 +6,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * Players Model
@@ -33,6 +34,7 @@ class PlayersTable extends Table
      * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -53,6 +55,7 @@ class PlayersTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator

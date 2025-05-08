@@ -6,6 +6,7 @@ namespace App\Controller\Teams;
 use App\Controller\ScoresController as ScoresBaseController;
 use Cake\Event\EventInterface;
 use Cake\ORM\Query\SelectQuery;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -28,6 +29,7 @@ class ScoresController extends ScoresBaseController
      *
      * @throws \Crud\Error\Exception\MissingActionException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

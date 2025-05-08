@@ -10,6 +10,7 @@ use Authorization\Exception\ForbiddenException;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Utility\Hash;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -20,6 +21,7 @@ class UsersController extends AppController
     /**
      * @inheritDoc
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -31,6 +33,7 @@ class UsersController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         $this->Crud->mapAction('edit', 'Crud.Edit');
@@ -51,6 +54,50 @@ class UsersController extends AppController
             'data' => $this->Authentication->getIdentity(),
         ]);
 
+        $this->viewBuilder()->setOption('serialize', ['data', 'success']);
+    }
+
+    /**
+     * Return current user
+     *
+     * @return void
+     */
+    public function view(int $id): void
+    {
+        $result = $this->Authentication->getResult();
+        if ($result != null && $result->isValid()) {
+            /** @var \App\Model\Entity\User $user */
+
+            $user = $this->Authentication->getIdentity();
+            if ($user->id == $id) {
+                $this->set([
+                    'success' => true,
+                    'data' => $this->Authentication->getIdentity(),
+                ]);
+                $this->withMatchdayCache();
+            } else {
+                $this->response = $this->response->withStatus(401);
+                $this->set(
+                    [
+                        'success' => false,
+                        'data' => [
+                            'message' => $result->getStatus(),
+                        ],
+                    ],
+                );
+            }
+        } elseif ($result != null) {
+            //throw new UnauthenticatedException($this->Authentication->getResult()->getStatus());
+            $this->response = $this->response->withStatus(401);
+            $this->set(
+                [
+                    'success' => false,
+                    'data' => [
+                        'message' => $result->getStatus(),
+                    ],
+                ],
+            );
+        }
         $this->viewBuilder()->setOption('serialize', ['data', 'success']);
     }
 

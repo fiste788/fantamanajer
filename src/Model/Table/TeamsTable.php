@@ -11,6 +11,7 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 use Psr\Http\Message\UploadedFileInterface;
 use Spatie\Image\Enums\ImageDriver;
 use Spatie\Image\Image;
@@ -57,6 +58,7 @@ class TeamsTable extends Table
      * @return void
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -177,6 +179,7 @@ class TeamsTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -221,6 +224,7 @@ class TeamsTable extends Table
      * @return \Cake\ORM\RulesChecker
      * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
+    #[Override]
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -14,6 +15,7 @@ class ClubsController extends AppController
     /**
      * @inheritDoc
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

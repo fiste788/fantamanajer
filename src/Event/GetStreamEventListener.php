@@ -12,6 +12,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use GetStream\Stream\Client;
+use Override;
 
 class GetStreamEventListener implements EventListenerInterface
 {
@@ -33,6 +34,7 @@ class GetStreamEventListener implements EventListenerInterface
     /**
      * @inheritDoc
      */
+    #[Override]
     public function implementedEvents(): array
     {
         return [

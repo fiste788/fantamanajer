@@ -9,6 +9,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Http\Client;
+use Override;
 use Symfony\Component\DomCrawler\Crawler;
 use const TMP;
 
@@ -25,6 +26,7 @@ class DownloadMatchdayRatingCommand extends Command
      * @throws \Cake\Core\Exception\CakeException
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -35,6 +37,7 @@ class DownloadMatchdayRatingCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Download ratings from maxigames');
@@ -54,6 +57,7 @@ class DownloadMatchdayRatingCommand extends Command
      * @throws \LogicException
      * @throws \Cake\Console\Exception\StopException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $matchday = (int)$args->getArgument('matchday');

@@ -5,6 +5,7 @@ namespace App\Stream\Verb\Aggregated;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamAggregatedActivity;
+use Override;
 
 class Post extends StreamAggregatedActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Post extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return null
      */
+    #[Override]
     public function getBody(): ?string
     {
         return null;
@@ -23,6 +25,7 @@ class Post extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var array<\StreamCake\EnrichedActivity> $activities */
@@ -47,6 +50,7 @@ class Post extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'message';

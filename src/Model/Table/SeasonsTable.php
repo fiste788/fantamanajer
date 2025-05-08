@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * Seasons Model
@@ -34,6 +35,7 @@ class SeasonsTable extends Table
      * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -60,6 +62,7 @@ class SeasonsTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator

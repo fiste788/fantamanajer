@@ -9,6 +9,7 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
+use Override;
 
 /**
  * @property \App\Service\ComputeScoreService $ComputeScore
@@ -24,6 +25,7 @@ class RecalcScoresCommand extends Command
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -37,6 +39,7 @@ class RecalcScoresCommand extends Command
      * @throws \RuntimeException
      * @throws \Cake\Console\Exception\StopException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Finding scores');

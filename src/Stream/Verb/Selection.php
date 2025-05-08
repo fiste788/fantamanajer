@@ -5,6 +5,7 @@ namespace App\Stream\Verb;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamSingleActivity;
+use Override;
 
 class Selection extends StreamSingleActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Selection extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return null
      */
+    #[Override]
     public function getBody(): ?string
     {
         return null;
@@ -23,6 +25,7 @@ class Selection extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var \App\Model\Entity\Team $team */
@@ -36,6 +39,7 @@ class Selection extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'gavel';

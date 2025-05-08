@@ -15,6 +15,7 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * Lineups Model
@@ -53,6 +54,7 @@ class LineupsTable extends Table
      * @return void
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -106,6 +108,7 @@ class LineupsTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -146,6 +149,7 @@ class LineupsTable extends Table
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
+    #[Override]
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['captain_id'], $this->fetchTable('Members')));

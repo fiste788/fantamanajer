@@ -13,6 +13,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 
 /**
  * @property \App\Service\RatingService $Rating
@@ -31,6 +32,7 @@ class StartSeasonCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -39,6 +41,7 @@ class StartSeasonCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Start a new season');
@@ -54,6 +57,7 @@ class StartSeasonCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->loadService('UpdateMember', [$io]);

@@ -5,6 +5,7 @@ namespace App\Stream\Verb\Aggregated;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamAggregatedActivity;
+use Override;
 
 class Selection extends StreamAggregatedActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Selection extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return null
      */
+    #[Override]
     public function getBody(): ?string
     {
         return null;
@@ -23,6 +25,7 @@ class Selection extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         return __n(
@@ -38,6 +41,7 @@ class Selection extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'gavel';

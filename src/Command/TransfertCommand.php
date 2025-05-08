@@ -9,6 +9,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 
 class TransfertCommand extends Command
 {
@@ -21,6 +22,7 @@ class TransfertCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -31,6 +33,7 @@ class TransfertCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-commit', [
@@ -62,6 +65,7 @@ class TransfertCommand extends Command
      * @throws \RuntimeException
      * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->isDoTransertDay() || $args->getOption('force') == true) {

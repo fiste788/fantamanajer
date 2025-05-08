@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Override;
 
 /**
  * @property \App\Model\Table\MembersTable $Members
@@ -15,6 +16,7 @@ class MembersController extends AppController
      *
      * @return void
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -26,6 +28,7 @@ class MembersController extends AppController
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

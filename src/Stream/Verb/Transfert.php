@@ -5,6 +5,7 @@ namespace App\Stream\Verb;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamSingleActivity;
+use Override;
 
 class Transfert extends StreamSingleActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string|null
      */
+    #[Override]
     public function getBody(): ?string
     {
         if ($this->activity->enriched()) {
@@ -34,6 +36,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var \App\Model\Entity\Team $team */
@@ -47,6 +50,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'swap_vert';
@@ -57,6 +61,7 @@ class Transfert extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return array<string>
      */
+    #[Override]
     public static function contain(): array
     {
         return ['NewMembers.Players', 'OldMembers.Players'];

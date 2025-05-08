@@ -5,6 +5,7 @@ namespace App\Controller\Teams;
 
 use App\Controller\MembersController as AppMembersController;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -70,6 +71,7 @@ class MembersController extends AppMembersController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

@@ -14,6 +14,7 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\I18n\DateTime;
 use GetStream\Stream\Client;
+use Override;
 use WebPush\Action;
 use WebPush\Notification;
 
@@ -33,6 +34,7 @@ class SendMissingLineupNotificationCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -43,6 +45,7 @@ class SendMissingLineupNotificationCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
@@ -67,6 +70,7 @@ class SendMissingLineupNotificationCommand extends Command
      * @throws \ErrorException
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $tomorrow = DateTime::now()->addDays(1)->second(0);

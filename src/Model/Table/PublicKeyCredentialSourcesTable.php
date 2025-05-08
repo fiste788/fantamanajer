@@ -6,6 +6,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * PublicKeyCredentialSources Model
@@ -36,6 +37,7 @@ class PublicKeyCredentialSourcesTable extends Table
      * @return void
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -65,6 +67,7 @@ class PublicKeyCredentialSourcesTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator

@@ -9,6 +9,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
+use Override;
 use Symfony\Component\DomCrawler\Crawler;
 
 class DownloadPhotosCommand extends Command
@@ -22,6 +23,7 @@ class DownloadPhotosCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -33,6 +35,7 @@ class DownloadPhotosCommand extends Command
      *
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Download photos task');

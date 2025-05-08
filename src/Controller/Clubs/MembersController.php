@@ -5,6 +5,7 @@ namespace App\Controller\Clubs;
 
 use App\Controller\AppController;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -17,6 +18,7 @@ class MembersController extends AppController
      *
      * @return void
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -25,6 +27,7 @@ class MembersController extends AppController
     /**
      * @inheritDoc
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

@@ -16,6 +16,7 @@ use Cake\Http\Client;
 use Cake\I18n\DateTime;
 use DateTimeInterface;
 use DateTimeZone;
+use Override;
 use Symfony\Component\DomCrawler\Crawler;
 use function Cake\Core\toString;
 
@@ -30,6 +31,7 @@ class GetMatchdayScheduleCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -39,6 +41,7 @@ class GetMatchdayScheduleCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         parent::buildOptionParser($parser);
@@ -56,6 +59,7 @@ class GetMatchdayScheduleCommand extends Command
      * @return int|null The exit code or null for success
      * @throws \Cake\Core\Exception\CakeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         /** @var \App\Model\Table\SeasonsTable $seasonsTable */

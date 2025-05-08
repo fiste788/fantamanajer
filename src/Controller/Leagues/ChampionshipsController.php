@@ -6,6 +6,7 @@ namespace App\Controller\Leagues;
 use App\Controller\AppController;
 use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -28,6 +29,7 @@ class ChampionshipsController extends AppController
      *
      * @throws \Authorization\Exception\ForbiddenException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

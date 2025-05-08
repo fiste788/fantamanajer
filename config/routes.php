@@ -72,7 +72,7 @@ return static function (RouteBuilder $routes): void {
             ->setPass(['id']);
 
         $routes->resources('Users', [
-            'only' => ['update', 'login', 'current', 'logout'],
+            'only' => ['update', 'login', 'current', 'logout', 'view'],
             'map' => [
                 'login' => [
                     'action' => 'login',

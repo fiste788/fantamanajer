@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Override;
 
 /**
  * @property \App\Model\Table\ArticlesTable $Articles
@@ -30,6 +31,7 @@ class ArticlesController extends AppController
      *
      * @return void
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -41,6 +43,7 @@ class ArticlesController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

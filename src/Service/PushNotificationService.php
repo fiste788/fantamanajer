@@ -9,6 +9,7 @@ use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Laminas\Diactoros\RequestFactory;
+use Override;
 use WebPush\ExtensionManager;
 use WebPush\Message;
 use WebPush\NotificationInterface;
@@ -96,6 +97,7 @@ class PushNotificationService implements WebPushService
      * @param \WebPush\SubscriptionInterface $subscription Subscription
      * @return \WebPush\StatusReportInterface
      */
+    #[Override]
     public function send(
         NotificationInterface $notification,
         SubscriptionInterface $subscription,

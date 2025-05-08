@@ -76,6 +76,8 @@ class Team extends Entity
         'photo_dir',
         'photo_size',
         'photo_type',
+        'photo_width',
+        'photo_height',
     ];
 
     /**
@@ -85,6 +87,8 @@ class Team extends Entity
      */
     protected array $_virtual = [
         'photo_url',
+        'photo_width',
+        'photo_height',
     ];
 
     /**
@@ -114,6 +118,44 @@ class Team extends Entity
         } else {
             return null;
         }
+    }
+
+    /**
+     * Get width
+     *
+     * @return int|null
+     * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
+     * @throws \Cake\Core\Exception\CakeException
+     * @throws \LogicException
+     * @psalm-return int|null
+     */
+    protected function _getPhotoWidth(): ?int
+    {
+        $size = $this->_getSize(ROOT . DS . $this->photo_dir, $this->photo);
+        if ($size != false) {
+            return (int)$size[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get height
+     *
+     * @return int|null
+     * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
+     * @throws \Cake\Core\Exception\CakeException
+     * @throws \LogicException
+     * @psalm-return int|null
+     */
+    protected function _getPhotoHeight(): ?int
+    {
+        $size = $this->_getSize(ROOT . DS . $this->photo_dir, $this->photo);
+        if ($size != false) {
+            return (int)$size[1];
+        }
+
+        return null;
     }
 
     /**

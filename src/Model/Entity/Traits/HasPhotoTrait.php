@@ -47,4 +47,26 @@ trait HasPhotoTrait
 
         return empty($array) ? null : $array;
     }
+
+    /**
+     * Get size
+     *
+     * @return array<int|string, int|string>|false
+     * @throws \Symfony\Component\Finder\Exception\DirectoryNotFoundException
+     * @throws \Cake\Core\Exception\CakeException
+     * @throws \LogicException
+     */
+    protected function _getSize(string $path, ?string $name = null, ?string $ext = 'jpg'): array|bool
+    {
+        $filesystem = new Filesystem();
+        if ($filesystem->exists($path)) {
+            $name = $name ?? $this->id . '.' . $ext;
+            $principal = $path . $name;
+            if ($filesystem->exists($principal)) {
+                return getimagesize($principal);
+            }
+        }
+
+        return false;
+    }
 }

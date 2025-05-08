@@ -6,6 +6,7 @@ namespace App\Controller\Championships;
 use App\Controller\AppController;
 use Authorization\Exception\ForbiddenException;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -18,6 +19,7 @@ class ScoresController extends AppController
      *
      * @throws \Authorization\Exception\ForbiddenException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         $championshipId = (int)$this->request->getParam('championship_id');

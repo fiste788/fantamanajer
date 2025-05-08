@@ -6,12 +6,14 @@ namespace App\Controller;
 use App\Service\UserService;
 use App\Service\WebauthnService;
 use Cake\Event\EventInterface;
+use Override;
 
 class WebauthnController extends AppController
 {
     /**
      * @inheritDoc
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

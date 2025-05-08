@@ -5,6 +5,7 @@ namespace App\Stream\Verb\Aggregated;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamAggregatedActivity;
+use Override;
 
 class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getBody(): string
     {
         /** @var array<\StreamCake\EnrichedActivity> $activities */
@@ -37,6 +39,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var array<\StreamCake\EnrichedActivity> $activities */
@@ -59,6 +62,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'star';
@@ -69,6 +73,7 @@ class Lineup extends StreamAggregatedActivity implements StreamActivityInterface
      *
      * @return array<string>
      */
+    #[Override]
     public static function contain(): array
     {
         return ['Matchdays', 'Dispositions.Members.Players'];

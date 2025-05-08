@@ -10,6 +10,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 
 class UpdateCalendarCommand extends Command
 {
@@ -22,6 +23,7 @@ class UpdateCalendarCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -31,6 +33,7 @@ class UpdateCalendarCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
@@ -59,6 +62,7 @@ class UpdateCalendarCommand extends Command
      * @return int|null The exit code or null for success
      * @throws \Cake\Core\Exception\CakeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $seaonsTable = $this->fetchTable('Seasons');

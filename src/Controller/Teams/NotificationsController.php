@@ -6,6 +6,7 @@ namespace App\Controller\Teams;
 use App\Controller\AppController;
 use App\Stream\ActivityManager;
 use Cake\Event\EventInterface;
+use Override;
 use StreamCake\FeedManager;
 
 /**
@@ -18,6 +19,7 @@ class NotificationsController extends AppController
      *
      * @throws \Authorization\Exception\ForbiddenException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

@@ -5,12 +5,14 @@ namespace App\Database\Type;
 
 use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
+use Override;
 
 class SimpleArrayDataType extends BaseType
 {
     /**
      * @inheritDoc
      */
+    #[Override]
     public function marshal(mixed $value): mixed
     {
         if ($value === null || $value == '') {
@@ -23,6 +25,7 @@ class SimpleArrayDataType extends BaseType
     /**
      * @inheritDoc
      */
+    #[Override]
     public function toPHP(mixed $value, Driver $driver): mixed
     {
         if ($value === null || $value == '') {
@@ -35,6 +38,7 @@ class SimpleArrayDataType extends BaseType
     /**
      * @inheritDoc
      */
+    #[Override]
     public function toDatabase(mixed $value, Driver $driver): mixed
     {
         if ($value === null || empty($value) || !is_array($value)) {

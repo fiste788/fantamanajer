@@ -7,6 +7,7 @@ use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * MembersStats Model
@@ -31,6 +32,7 @@ class MembersStatsTable extends Table
     /**
      * @inheritDoc
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -63,6 +65,7 @@ class MembersStatsTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -117,6 +120,7 @@ class MembersStatsTable extends Table
      * @return \Cake\ORM\RulesChecker
      * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
+    #[Override]
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['member_id'], 'Members'));

@@ -8,6 +8,7 @@ use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\UrlChecker\UrlCheckerTrait;
+use Override;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -65,6 +66,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * @return \Authentication\Authenticator\Result
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function authenticate(ServerRequestInterface $request): ResultInterface
     {
         if (!$this->_checkUrl($request) || $request->getMethod() != 'POST') {

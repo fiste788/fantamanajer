@@ -10,6 +10,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 use WebPush\Action;
 use WebPush\Notification;
 
@@ -31,6 +32,7 @@ class SendTestNotificationCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -40,6 +42,7 @@ class SendTestNotificationCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no-interaction', [
@@ -64,6 +67,7 @@ class SendTestNotificationCommand extends Command
      * @throws \ErrorException
      * @throws \Cake\Core\Exception\CakeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out('Parto');

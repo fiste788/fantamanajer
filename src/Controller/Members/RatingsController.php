@@ -5,6 +5,7 @@ namespace App\Controller\Members;
 
 use App\Controller\AppController;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -25,6 +26,7 @@ class RatingsController extends AppController
     /**
      * @inheritDoc
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

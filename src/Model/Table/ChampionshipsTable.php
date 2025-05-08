@@ -7,6 +7,7 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Override;
 
 /**
  * Championships Model
@@ -37,6 +38,7 @@ class ChampionshipsTable extends Table
      * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
+    #[Override]
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -69,6 +71,7 @@ class ChampionshipsTable extends Table
      * @return \Cake\Validation\Validator
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -122,6 +125,7 @@ class ChampionshipsTable extends Table
      * @return \Cake\ORM\RulesChecker
      * @throws \Cake\Core\Exception\CakeException If a rule with the same name already exists
      */
+    #[Override]
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['league_id'], 'Leagues'));

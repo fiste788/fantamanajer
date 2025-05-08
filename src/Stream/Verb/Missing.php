@@ -5,6 +5,7 @@ namespace App\Stream\Verb;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamSingleActivity;
+use Override;
 
 class Missing extends StreamSingleActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Missing extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return null
      */
+    #[Override]
     public function getBody(): ?string
     {
         return null;
@@ -23,6 +25,7 @@ class Missing extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         return __('Your lineup for current matchday is missing. Come on!');
@@ -33,6 +36,7 @@ class Missing extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'star';

@@ -5,6 +5,7 @@ namespace App\Stream\Verb;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamSingleActivity;
+use Override;
 
 class Post extends StreamSingleActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Post extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getBody(): string
     {
         /** @var \App\Model\Entity\Article $article */
@@ -26,6 +28,7 @@ class Post extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var \App\Model\Entity\Team $team */
@@ -39,6 +42,7 @@ class Post extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'message';

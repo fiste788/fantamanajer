@@ -10,6 +10,7 @@ use Cake\Console\Arguments;
 use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Override;
 use Spatie\Image\Image;
 use SplFileInfo;
 use Symfony\Component\Filesystem\Filesystem;
@@ -25,6 +26,7 @@ class ConvertTeamImageCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -33,6 +35,7 @@ class ConvertTeamImageCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Convert to webp');
@@ -48,6 +51,7 @@ class ConvertTeamImageCommand extends Command
      * @return int|null The exit code or null for success
      * @throws \Cake\Core\Exception\CakeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         /** @var \App\Model\Table\TeamsTable $teamsTable */

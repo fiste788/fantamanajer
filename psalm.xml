@@ -27,6 +27,7 @@
     </stubs>
 
     <issueHandlers>
+        <ClassMustBeFinal errorLevel="suppress" /> 
         <LessSpecificReturnType errorLevel="info" />
         <LessSpecificImplementedReturnType errorLevel="info" />
         <RedundantConditionGivenDocblockType errorLevel="info" />

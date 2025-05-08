@@ -7,6 +7,7 @@ use App\Model\Entity\Lineup;
 use App\Service\ComputeScoreService;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use function Cake\Core\toBool;
 
@@ -23,6 +24,7 @@ class ScoresController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

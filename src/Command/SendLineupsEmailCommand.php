@@ -13,6 +13,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Mailer\MailerAwareTrait;
 use Cake\ORM\Query\SelectQuery;
+use Override;
 
 class SendLineupsEmailCommand extends Command
 {
@@ -26,6 +27,7 @@ class SendLineupsEmailCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -35,6 +37,7 @@ class SendLineupsEmailCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('force', [
@@ -58,6 +61,7 @@ class SendLineupsEmailCommand extends Command
      *
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         if ($this->currentMatchday->date->wasWithinLast('59 seconds') || $args->getOption('force') == true) {

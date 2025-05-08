@@ -12,6 +12,7 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use GetStream\Stream\Client;
 use GetStream\Stream\FeedInterface;
+use Override;
 
 class GetStreamCommand extends Command
 {
@@ -26,6 +27,7 @@ class GetStreamCommand extends Command
      * @throws \Cake\Core\Exception\CakeException
      * @throws \UnexpectedValueException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -38,6 +40,7 @@ class GetStreamCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->setDescription('Test');
@@ -50,6 +53,7 @@ class GetStreamCommand extends Command
      *
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $timelineFeed = $this->client->feed('timeline', 'general');

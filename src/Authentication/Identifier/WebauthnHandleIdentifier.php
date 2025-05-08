@@ -9,6 +9,7 @@ use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
+use Override;
 
 /**
  * @property \App\Service\WebauthnService $Webauthn
@@ -55,6 +56,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      * @throws \Exception
      * @throws \TypeError
      */
+    #[Override]
     public function identify(array $credentials): ArrayAccess|array|null
     {
         if (!isset($credentials['publicKey'])) {

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use Cake\I18n\DateTime;
+use Override;
 use RuntimeException;
 
 /**
@@ -25,6 +26,7 @@ abstract class StreamAggregatedActivity extends StreamActivity
      * @return \Cake\I18n\DateTime
      * @throws \RuntimeException
      */
+    #[Override]
     public function getTime(): DateTime
     {
         /** @var \Cake\I18n\DateTime|null $res */

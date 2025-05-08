@@ -5,12 +5,14 @@ namespace App\Database\Type;
 
 use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
+use Override;
 
 class Base64DataType extends BaseType
 {
     /**
      * @inheritDoc
      */
+    #[Override]
     public function marshal(mixed $value): mixed
     {
         if (is_array($value) || $value === null) {
@@ -23,6 +25,7 @@ class Base64DataType extends BaseType
     /**
      * @inheritDoc
      */
+    #[Override]
     public function toPHP(mixed $value, Driver $driver): mixed
     {
         if ($value === null) {
@@ -35,6 +38,7 @@ class Base64DataType extends BaseType
     /**
      * @inheritDoc
      */
+    #[Override]
     public function toDatabase(mixed $value, Driver $driver): mixed
     {
         return base64_encode((string)$value);

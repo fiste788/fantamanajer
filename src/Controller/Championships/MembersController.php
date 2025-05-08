@@ -7,6 +7,7 @@ use App\Controller\AppController;
 use Authorization\Exception\ForbiddenException;
 use Cake\Collection\Collection;
 use Cake\Event\EventInterface;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -31,6 +32,7 @@ class MembersController extends AppController
      * @throws \Crud\Error\Exception\MissingActionException
      * @throws \Authorization\Exception\ForbiddenException
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);

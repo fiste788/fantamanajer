@@ -5,6 +5,7 @@ namespace App\Stream\Verb\Aggregated;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamAggregatedActivity;
+use Override;
 
 class Transfert extends StreamAggregatedActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return string
      */
+    #[Override]
     public function getBody(): string
     {
         $news = [];
@@ -40,6 +42,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var array<\StreamCake\EnrichedActivity> $activities */
@@ -64,6 +67,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'swap_vert';
@@ -74,6 +78,7 @@ class Transfert extends StreamAggregatedActivity implements StreamActivityInterf
      *
      * @return array<string>
      */
+    #[Override]
     public static function contain(): array
     {
         return ['NewMembers.Players', 'OldMembers.Players'];

@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Event\GetStreamEventListener;
 use App\Traits\CurrentMatchdayTrait;
-use App\View\CustomFallbackView;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
@@ -13,8 +12,10 @@ use Cake\Event\EventManager;
 use Cake\I18n\DateTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\View\JsonView;
+use Cake\View\NegotiationRequiredView;
 use Crud\Controller\ControllerTrait;
 use League\Container\ContainerAwareTrait;
+use Override;
 
 /**
  * @property \Crud\Controller\Component\CrudComponent $Crud Description
@@ -35,9 +36,12 @@ class AppController extends Controller
      * @throws \Exception
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
+
+        $this->viewBuilder()->setClassName('Json');
 
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login',
@@ -77,6 +81,7 @@ class AppController extends Controller
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
      * @return void
      */
+    #[Override]
     public function beforeRender(EventInterface $event)
     {
         $this->response = $this->response->withType('application/json');
@@ -85,6 +90,7 @@ class AppController extends Controller
     /**
      * @inheritDoc
      */
+    #[Override]
     public function implementedEvents(): array
     {
         return parent::implementedEvents() + [
@@ -125,9 +131,10 @@ class AppController extends Controller
     /**
      * @inheritDoc
      */
+    #[Override]
     public function viewClasses(): array
     {
-        return [JsonView::class, CustomFallbackView::class];
+        return [JsonView::class, NegotiationRequiredView::class];
     }
 
     /**

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Override;
 
 /**
  * Error Handling Controller
@@ -32,6 +33,7 @@ class ErrorController extends AppController
      *
      * @return void
      */
+    #[Override]
     public function initialize(): void
     {
         // Only add parent::initialize() if you are confident your appcontroller is safe.
@@ -43,6 +45,7 @@ class ErrorController extends AppController
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
      * @return void
      */
+    #[Override]
     public function beforeFilter(EventInterface $event): void
     {
     }
@@ -53,6 +56,7 @@ class ErrorController extends AppController
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
      * @return void
      */
+    #[Override]
     public function beforeRender(EventInterface $event): void
     {
         parent::beforeRender($event);
@@ -66,6 +70,7 @@ class ErrorController extends AppController
      * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event Event.
      * @return void
      */
+    #[Override]
     public function afterFilter(EventInterface $event): void
     {
     }

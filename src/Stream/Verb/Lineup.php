@@ -5,6 +5,7 @@ namespace App\Stream\Verb;
 
 use App\Stream\StreamActivityInterface;
 use App\Stream\StreamSingleActivity;
+use Override;
 
 class Lineup extends StreamSingleActivity implements StreamActivityInterface
 {
@@ -13,6 +14,7 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getBody(): string
     {
         /** @var \App\Model\Entity\Lineup $lineup */
@@ -33,6 +35,7 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getTitle(): string
     {
         /** @var \App\Model\Entity\Lineup $lineup */
@@ -52,6 +55,7 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return string
      */
+    #[Override]
     public function getIcon(): string
     {
         return 'star';
@@ -62,6 +66,7 @@ class Lineup extends StreamSingleActivity implements StreamActivityInterface
      *
      * @return array<string>
      */
+    #[Override]
     public static function contain(): array
     {
         return ['Matchdays', 'Dispositions.Members.Players'];

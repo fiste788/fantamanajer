@@ -76,6 +76,7 @@ use IdeHelper\IdeHelperPlugin;
 use Josegonzalez\Upload\UploadPlugin;
 use League\Container\ReflectionContainer;
 use Migrations\MigrationsPlugin;
+use Override;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -93,6 +94,7 @@ class Application extends BaseApplication implements
     /**
      * @inheritDoc
      */
+    #[Override]
     public function bootstrap(): void
     {
         parent::bootstrap();
@@ -134,6 +136,7 @@ class Application extends BaseApplication implements
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
         /** @var array<array-key, mixed> $config */
@@ -160,6 +163,7 @@ class Application extends BaseApplication implements
      * @return \Authentication\AuthenticationService
      * @throws \Cake\Core\Exception\CakeException
      */
+    #[Override]
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         // Instantiate the service
@@ -237,6 +241,7 @@ class Application extends BaseApplication implements
      * @return \Authorization\AuthorizationService
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {
         $map = new MapResolver();
@@ -255,6 +260,7 @@ class Application extends BaseApplication implements
      * @return \Cake\Console\CommandCollection The updated collection.
      * @throws \InvalidArgumentException
      */
+    #[Override]
     public function console(CommandCollection $commands): CommandCollection
     {
         $commands->addMany($commands->autoDiscover());
@@ -280,6 +286,7 @@ class Application extends BaseApplication implements
      * @param \Cake\Core\ContainerInterface $container container
      * @return void
      */
+    #[Override]
     public function services(ContainerInterface $container): void
     {
         $container->add(ComponentRegistry::class);

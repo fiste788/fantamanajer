@@ -14,6 +14,7 @@ use Cake\Console\CommandInterface;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Mailer\MailerAwareTrait;
+use Override;
 use WebPush\Action;
 use WebPush\Notification;
 
@@ -39,6 +40,7 @@ class WeeklyScriptCommand extends Command
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
+    #[Override]
     public function initialize(): void
     {
         parent::initialize();
@@ -51,6 +53,7 @@ class WeeklyScriptCommand extends Command
     /**
      * @inheritDoc
      */
+    #[Override]
     public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addOption('no_send_mail', [
@@ -86,6 +89,7 @@ class WeeklyScriptCommand extends Command
      *
      * @throws \RuntimeException
      */
+    #[Override]
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $this->loadService('Rating', [$io]);
