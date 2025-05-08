@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -142,7 +143,10 @@ class DownloadMatchdayRatingCommand extends Command
             if ($dropboxUrl != null) {
                 $io->out("Downloading $dropboxUrl in tmp dir");
                 $file = TMP . (string)$matchday . '.mxm';
-                file_put_contents($file, file_get_contents($dropboxUrl));
+                $content = file_get_contents($dropboxUrl);
+                if ($content != false) {
+                    file_put_contents($file, $content);
+                }
 
                 return $file;
             }

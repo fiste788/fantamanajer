@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
@@ -99,12 +100,12 @@ class UpdateMatchdayCommand extends Command
 
         $date = (new GetMatchdayScheduleCommand())->exec($season, $matchday, $io);
         if ($date != null && (!$season->key_gazzetta || $date->isFuture())) {
-            $res = $args->getOption('no-interaction') == true || ($args->getOption('no-interaction') == false &&
-                $io->askChoice(
-                    'Set ' . $date->format('Y-m-d H:i:s') . ' for matchday ' . $matchday->number,
-                    ['y', 'n'],
-                    'y'
-                ) == 'y');
+            $noInteraction = $args->getBooleanOption('no-interaction') ?? false;
+            $res = $noInteraction || ($io->askChoice(
+                'Set ' . $date->format('Y-m-d H:i:s') . ' for matchday ' . $matchday->number,
+                ['y', 'n'],
+                'y'
+            ) == 'y');
             if ($res) {
                 $matchday->set('date', $date);
                 $matchdaysTable->save($matchday);

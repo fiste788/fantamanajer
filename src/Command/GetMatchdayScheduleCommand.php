@@ -16,7 +16,9 @@ use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\I18n\DateTime;
 use DateTimeInterface;
+use DateTimeZone;
 use Symfony\Component\DomCrawler\Crawler;
+use function Cake\Core\toString;
 
 class GetMatchdayScheduleCommand extends Command
 {
@@ -140,8 +142,15 @@ class GetMatchdayScheduleCommand extends Command
 
                             if ($date != '') {
                                 $io->success($date);
-                                $timezone = Configure::read('App.defaultTimezone');
-                                $out = DateTime::createFromFormat(DateTimeInterface::RFC3339, $date, new \DateTimeZone('UTC'));
+                                /**
+                                 * @var string
+                                 */
+                                $timezone = toString(Configure::read('App.defaultTimezone', 'UTC'));
+                                $out = DateTime::createFromFormat(
+                                    DateTimeInterface::RFC3339,
+                                    $date,
+                                    new DateTimeZone('UTC')
+                                );
                                 $out = $out->setTimezone($timezone);
                                 $io->verbose(print_r($out, true));
 

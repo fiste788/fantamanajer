@@ -6,7 +6,7 @@ namespace StreamCake;
 
 use ArrayAccess;
 use ArrayIterator;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use IteratorAggregate;
 
 class EnrichedActivity implements IteratorAggregate, ArrayAccess
@@ -29,7 +29,7 @@ class EnrichedActivity implements IteratorAggregate, ArrayAccess
         if (isset($activityData['time'])) {
             /** @var string $time */
             $time = $activityData['time'];
-            $activityData['time'] = new FrozenTime($time, 'UTC');
+            $activityData['time'] = new DateTime($time, 'UTC');
         }
         $this->activityData = $activityData;
     }

@@ -32,16 +32,6 @@
         <RedundantConditionGivenDocblockType errorLevel="info" />
         <DocblockTypeContradiction errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="suppress" />
-        <MixedPropertyAssignment>
-            <errorLevel type="suppress">
-                <directory name="src/Controller" />
-            </errorLevel>
-        </MixedPropertyAssignment>
-        <MixedPropertyFetch>
-            <errorLevel type="suppress">
-                <directory name="src/Controller" />
-            </errorLevel>
-        </MixedPropertyFetch>
         <MixedArgument>
             <errorLevel type="suppress">
                 <directory name="src/Controller" />

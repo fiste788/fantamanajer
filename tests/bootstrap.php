@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,7 +18,7 @@ declare(strict_types=1);
 
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Migrations\TestSuite\Migrator;
 
 /**
@@ -53,8 +54,8 @@ ConnectionManager::alias('test_debug_kit', 'debug_kit');
 // has been written to.
 session_id('cli');
 
-$now = new FrozenTime('2018-09-30 00:00:00');
-FrozenTime::setTestNow($now);
+$now = new DateTime('2018-09-30 00:00:00');
+DateTime::setTestNow($now);
 
 // Use migrations to build test database schema.
 //

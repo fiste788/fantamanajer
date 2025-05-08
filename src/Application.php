@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -21,7 +20,6 @@ namespace App;
 use App\Authentication\Authenticator\WebauthnAuthenticator;
 use App\Authentication\Identifier\WebauthnHandleIdentifier;
 use App\Command as Commands;
-use App\Command\ConvertTeamImageCommand;
 use App\Command\SendTestNotificationCommand;
 use App\Database\Type as Types;
 use App\Model\Entity\User;
@@ -260,7 +258,6 @@ class Application extends BaseApplication implements
     public function console(CommandCollection $commands): CommandCollection
     {
         $commands->addMany($commands->autoDiscover());
-
 
         $commands->add('weekly_script', Commands\WeeklyScriptCommand::class);
         $commands->add('matchday update_date', Commands\UpdateMatchdayCommand::class);

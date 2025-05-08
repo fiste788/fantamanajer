@@ -145,9 +145,12 @@ class TeamsTable extends Table
                         $array = [$tmpFile => $tmpFileName->getFilename()];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
-                                $tmp = tempnam(TMP, (string)$value) . '.webp';
-                                $image->width($value)->quality(80)->optimize()->save($tmp);
-                                $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
+                                $tmpname = tempnam(TMP, (string)$value);
+                                if ($tmpname != false) {
+                                    $tmp = $tmpname  . '.webp';
+                                    $image->width($value)->quality(80)->optimize()->save($tmp);
+                                    $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
+                                }
                             }
                         }
 

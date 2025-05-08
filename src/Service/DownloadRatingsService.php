@@ -246,7 +246,10 @@ class DownloadRatingsService
                 $downloadUrl = $this->getDropboxUrl($response->getStringBody(), $url);
                 if ($downloadUrl != null) {
                     $file = TMP . $matchday . '.mxm';
-                    file_put_contents($file, file_get_contents($downloadUrl));
+                    $content = file_get_contents($file);
+                    if ($content != false) {
+                        file_put_contents($file, $content);
+                    }
 
                     return $file;
                 }

@@ -1,6 +1,6 @@
 ARG PHP_VERSION=""
 
-FROM php:${PHP_VERSION:+${PHP_VERSION}-}fpm-alpine
+FROM php:8.4.4-fpm-alpine
 
 COPY --from=composer/composer /usr/bin/composer /usr/local/bin/composer
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace StreamCake;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Inflector;
 
@@ -65,8 +65,8 @@ class Enrich implements EnrichInterface
             $allActivities = array_merge($allActivities, $activities);
 
             $aggregated['activities'] = $activities;
-            $aggregated['created_at'] = new FrozenTime($aggregated['created_at'], 'UTC');
-            $aggregated['updated_at'] = new FrozenTime($aggregated['updated_at'], 'UTC');
+            $aggregated['created_at'] = new DateTime($aggregated['created_at'], 'UTC');
+            $aggregated['updated_at'] = new DateTime($aggregated['updated_at'], 'UTC');
             $aggregated = new EnrichedActivity($aggregated);
         }
 

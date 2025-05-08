@@ -48,6 +48,7 @@ class SelectionsTable extends Table
      *
      * @param array<string, mixed> $config The configuration for the Table.
      * @return void
+     * @throws \RuntimeException
      */
     public function initialize(array $config): void
     {
