@@ -11,22 +11,22 @@ use Cake\Validation\Validator;
 /**
  * MembersStats Model
  *
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
  * @method \App\Model\Entity\RollOfHonor get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\RollOfHonor newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\RollOfHonor[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\RollOfHonor> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\RollOfHonor|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\RollOfHonor patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\RollOfHonor[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\RollOfHonor> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\RollOfHonor findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\RollOfHonor saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\RollOfHonor newEmptyEntity()
- * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\RollOfHonor[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @property \App\Model\Table\LeaguesTable&\Cake\ORM\Association\BelongsTo $Leagues
- * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\BelongsTo $Championships
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\RollOfHonor> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\LeaguesTable> $Leagues
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\ChampionshipsTable> $Championships
  */
 class RollOfHonorsTable extends Table
 {

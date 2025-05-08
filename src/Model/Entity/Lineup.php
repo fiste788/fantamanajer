@@ -26,10 +26,11 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Member|null $vvcaptain
  * @property \App\Model\Entity\Matchday $matchday
  * @property \App\Model\Entity\Team $team
- * @property \App\Model\Entity\Disposition[] $dispositions
+ * @property array<\App\Model\Entity\Disposition> $dispositions
  * @property \App\Model\Entity\Score|null $score
  * @property int|null $old_id
  * @property \App\Model\Entity\Member|null $member
+ * @property \App\Model\Entity\Member|null $v_vcaptain
  */
 class Lineup extends Entity
 {

@@ -14,22 +14,22 @@ use Cake\Validation\Validator;
 /**
  * Scores Model
  *
- * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\LineupsTable> $Lineups
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MatchdaysTable> $Matchdays
  * @method \App\Model\Entity\Score get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Score newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Score[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Score> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Score|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Score saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Score patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Score[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Score> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Score findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Score newEmptyEntity()
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Score[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Score> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class ScoresTable extends Table
 {

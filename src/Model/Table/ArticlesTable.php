@@ -15,22 +15,23 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MatchdaysTable> $Matchdays
  * @method \App\Model\Entity\Article get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Article newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Article[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Article> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Article[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Article> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Article newEmptyEntity()
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Article> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  */
 class ArticlesTable extends Table
 {

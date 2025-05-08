@@ -19,24 +19,26 @@ use Cake\Validation\Validator;
 /**
  * Selections Model
  *
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MatchdaysTable> $Matchdays
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MembersTable> $NewMembers
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MembersTable> $OldMembers
  * @property \App\Service\SelectionService $Selection
  * @method \App\Model\Entity\Selection get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Selection newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Selection[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Selection> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Selection|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Selection saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Selection patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Selection[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Selection> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Selection findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Selection newEmptyEntity()
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Selection[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Selection> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  */
 class SelectionsTable extends Table
 {

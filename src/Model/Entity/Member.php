@@ -28,9 +28,9 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property \App\Model\Entity\Role $role
  * @property \App\Model\Entity\Club $club
  * @property \App\Model\Entity\Season $season
- * @property \App\Model\Entity\Disposition[] $dispositions
- * @property \App\Model\Entity\Rating[] $ratings
- * @property \App\Model\Entity\Team[] $teams
+ * @property array<\App\Model\Entity\Disposition> $dispositions
+ * @property array<\App\Model\Entity\Rating> $ratings
+ * @property array<\App\Model\Entity\Team> $teams
  * @property \App\Model\Entity\MembersStat|null $stats
  */
 class Member extends Entity

@@ -9,22 +9,22 @@ use Cake\Validation\Validator;
 /**
  * Seasons Model
  *
- * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\HasMany $Championships
- * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\HasMany $Matchdays
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\HasMany $Members
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ChampionshipsTable> $Championships
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\MatchdaysTable> $Matchdays
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\MembersTable> $Members
  * @method \App\Model\Entity\Season get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Season newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Season[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Season> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Season|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Season saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Season patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Season[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Season> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Season findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Season newEmptyEntity()
- * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Season[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Season> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class SeasonsTable extends Table
 {

@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string $abbreviation
  * @property string $determinant
  *
- * @property \App\Model\Entity\Member[] $members
+ * @property array<\App\Model\Entity\Member> $members
  */
 class Role extends Entity
 {

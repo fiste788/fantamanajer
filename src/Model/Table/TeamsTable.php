@@ -19,31 +19,32 @@ use SplFileInfo;
 /**
  * Teams Model
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\ChampionshipsTable&\Cake\ORM\Association\BelongsTo $Championships
- * @property \App\Model\Table\ArticlesTable&\Cake\ORM\Association\HasMany $Articles
- * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\HasMany $Lineups
- * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $EmailNotificationSubscriptions
- * @property \App\Model\Table\NotificationSubscriptionsTable&\Cake\ORM\Association\HasMany $PushNotificationSubscriptions
- * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
- * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsToMany $Members
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\ChampionshipsTable> $Championships
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ArticlesTable> $Articles
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\LineupsTable> $Lineups
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\NotificationSubscriptionsTable> $EmailNotificationSubscriptions
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\NotificationSubscriptionsTable> $PushNotificationSubscriptions
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ScoresTable> $Scores
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\SelectionsTable> $Selections
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\TransfertsTable> $Transferts
+ * @property \Cake\ORM\Association\BelongsToMany<\App\Model\Table\MembersTable> $Members
  * @property \App\Service\TeamService $Team
  * @method \App\Model\Entity\Team get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Team newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Team[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Team> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Team[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Team> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Team newEmptyEntity()
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Team[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Team> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  * @mixin \Josegonzalez\Upload\Model\Behavior\UploadBehavior
+ * @extends \Cake\ORM\Table<array{Upload: \Josegonzalez\Upload\Model\Behavior\UploadBehavior}>
  */
 class TeamsTable extends Table
 {
@@ -138,14 +139,14 @@ class TeamsTable extends Table
                         strtolower($file->getClientFilename() ?? (string)$entity->get('id') . '.jpg'),
                     );
                     $tmpFile = tempnam(TMP, $tmpFileName->getFilename());
-                    if ($tmpFile != false) {
+                    if ($tmpFile !== false) {
                         $file->moveTo($tmpFile);
                         $image = Image::useImageDriver(ImageDriver::Gd)->load($tmpFile);
                         $array = [$tmpFile => $tmpFileName->getFilename()];
                         foreach (Team::$size as $value) {
                             if ($value < $image->getWidth()) {
                                 $tmpname = tempnam(TMP, (string)$value);
-                                if ($tmpname != false) {
+                                if ($tmpname !== false) {
                                     $tmp = $tmpname . '.webp';
                                     $image->width($value)->quality(80)->optimize()->save($tmp);
                                     $array[$tmp] = $value . 'w' . DS . strtolower($tmpFileName->getFilename());
@@ -259,6 +260,7 @@ class TeamsTable extends Table
         $this->loadService('Team');
 
         if (!$team->user->id) {
+            /** @var \App\Model\Entity\User $user */
             $user = $this->Users->findOrCreate(['email' => $team->user->email]);
             $team->user = $user;
         }

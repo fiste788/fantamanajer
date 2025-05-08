@@ -11,23 +11,23 @@ use Cake\Validation\Validator;
 /**
  * Championships Model
  *
- * @property \App\Model\Table\LeaguesTable&\Cake\ORM\Association\BelongsTo $Leagues
- * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\RollOfHonorsTable&\Cake\ORM\Association\HasMany $RollOfHonors
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\HasMany $Teams
  * @method \App\Model\Entity\Championship get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Championship newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Championship[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Championship> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Championship|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Championship saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Championship patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Championship[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Championship> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Championship findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Championship newEmptyEntity()
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Championship[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Championship> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\LeaguesTable> $Leagues
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\SeasonsTable> $Seasons
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\TeamsTable> $Teams
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\RollOfHonorsTable> $RollOfHonors
  */
 class ChampionshipsTable extends Table
 {
@@ -140,7 +140,7 @@ class ChampionshipsTable extends Table
      */
     public function findByLeagueId(SelectQuery $query, mixed ...$args): SelectQuery
     {
-        $teams = $this->RollOfHonors->Teams;
+        $teams = $this->Teams;
 
         $query = $query->select(['id', 'league_id'])
             ->select(['Seasons.id', 'Seasons.name'])

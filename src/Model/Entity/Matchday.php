@@ -15,12 +15,12 @@ use Cake\ORM\Entity;
  * @property int $season_id
  *
  * @property \App\Model\Entity\Season $season
- * @property \App\Model\Entity\Article[] $articles
- * @property \App\Model\Entity\Lineup[] $lineups
- * @property \App\Model\Entity\Rating[] $ratings
- * @property \App\Model\Entity\Score[] $scores
- * @property \App\Model\Entity\Selection[] $selections
- * @property \App\Model\Entity\Transfert[] $transferts
+ * @property array<\App\Model\Entity\Article> $articles
+ * @property array<\App\Model\Entity\Lineup> $lineups
+ * @property array<\App\Model\Entity\Rating> $ratings
+ * @property array<\App\Model\Entity\Score> $scores
+ * @property array<\App\Model\Entity\Selection> $selections
+ * @property array<\App\Model\Entity\Transfert> $transferts
  */
 class Matchday extends Entity
 {

@@ -22,14 +22,14 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Championship $championship
- * @property \App\Model\Entity\Article[] $articles
- * @property \App\Model\Entity\Lineup[] $lineups
- * @property \App\Model\Entity\NotificationSubscription[] $email_notification_subscriptions
- * @property \App\Model\Entity\NotificationSubscription[] $push_notification_subscriptions
- * @property \App\Model\Entity\Score[] $scores
- * @property \App\Model\Entity\Selection[] $selections
- * @property \App\Model\Entity\Transfert[] $transferts
- * @property \App\Model\Entity\Member[] $members
+ * @property array<\App\Model\Entity\Article> $articles
+ * @property array<\App\Model\Entity\Lineup> $lineups
+ * @property array<\App\Model\Entity\NotificationSubscription> $email_notification_subscriptions
+ * @property array<\App\Model\Entity\NotificationSubscription> $push_notification_subscriptions
+ * @property array<\App\Model\Entity\Score> $scores
+ * @property array<\App\Model\Entity\Selection> $selections
+ * @property array<\App\Model\Entity\Transfert> $transferts
+ * @property array<\App\Model\Entity\Member> $members
  */
 class Team extends Entity
 {

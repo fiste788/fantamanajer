@@ -16,24 +16,24 @@ use Cake\Validation\Validator;
 /**
  * Transferts Model
  *
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $NewMembers
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $OldMembers
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsTo $Teams
- * @property \App\Model\Table\MatchdaysTable&\Cake\ORM\Association\BelongsTo $Matchdays
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MembersTable> $NewMembers
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MembersTable> $OldMembers
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\TeamsTable> $Teams
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MatchdaysTable> $Matchdays
  * @property \App\Service\TransfertService $Transfert
  * @method \App\Model\Entity\Transfert get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Transfert newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Transfert[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Transfert> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Transfert|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Transfert saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Transfert patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Transfert[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Transfert> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Transfert findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Transfert newEmptyEntity()
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Transfert[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Transfert> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class TransfertsTable extends Table
 {

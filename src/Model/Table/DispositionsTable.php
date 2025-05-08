@@ -11,22 +11,22 @@ use Cake\Validation\Validator;
 /**
  * Dispositions Model
  *
- * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\BelongsTo $Lineups
- * @property \App\Model\Table\MembersTable&\Cake\ORM\Association\BelongsTo $Members
- * @property \Cake\ORM\Table&\Cake\ORM\Association\HasOne $Rating
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\LineupsTable> $Lineups
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\MembersTable> $Members
+ * @property \Cake\ORM\Association\HasOne<\Cake\ORM\Table> $Rating
  * @method \App\Model\Entity\Disposition get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Disposition newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Disposition[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Disposition> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Disposition|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Disposition saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Disposition patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Disposition[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Disposition> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Disposition findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Disposition newEmptyEntity()
- * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Disposition[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Disposition> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class DispositionsTable extends Table
 {

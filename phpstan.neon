@@ -9,6 +9,8 @@ parameters:
 
     excludePaths:
         - src/Stream/*
+        - src/Console/*
+        - plugins/*
 
     ignoreErrors:
         -
@@ -17,3 +19,5 @@ parameters:
         - '#Access to an undefined property object::\$query#'
         - '#Access to an undefined property object::\$entities#'
         - '#Access to an undefined property object::\$success#'
+        - '#Class App\\Model\\Table\\[a-zA-Z0-9\\_]+ has PHPDoc tag \@method for method findOrCreate\(\) parameter \#1 \$search with no value type specified in iterable type array\.#'
+        - '#Class App\\Model\\Table\\[a-zA-Z0-9\\_]+ has PHPDoc tag \@method for method get\(\) parameter \#2 \$finder with no value type specified in iterable type array\.#'

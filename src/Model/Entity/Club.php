@@ -17,7 +17,7 @@ use Cake\Routing\Asset;
  * @property string $photo_url
  * @property array<string>|null $background_url
  *
- * @property \App\Model\Entity\Member[] $members
+ * @property array<\App\Model\Entity\Member> $members
  * @property int|null $club_id
  */
 class Club extends Entity

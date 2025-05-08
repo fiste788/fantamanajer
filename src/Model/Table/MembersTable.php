@@ -18,27 +18,27 @@ use Cake\Validation\Validator;
 /**
  * Members Model
  *
- * @property \App\Model\Table\PlayersTable&\Cake\ORM\Association\BelongsTo $Players
- * @property \App\Model\Table\RolesTable&\Cake\ORM\Association\BelongsTo $Roles
- * @property \App\Model\Table\ClubsTable&\Cake\ORM\Association\BelongsTo $Clubs
- * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\DispositionsTable&\Cake\ORM\Association\HasMany $Dispositions
- * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
- * @property \App\Model\Table\TeamsTable&\Cake\ORM\Association\BelongsToMany $Teams
- * @property \App\Model\Table\MembersStatsTable&\Cake\ORM\Association\HasOne $MembersStats
  * @method \App\Model\Entity\Member get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Member newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Member[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Member> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Member|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Member saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Member patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Member[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Member> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Member findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Member newEmptyEntity()
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Member[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Member> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\PlayersTable> $Players
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\RolesTable> $Roles
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\ClubsTable> $Clubs
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\SeasonsTable> $Seasons
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\DispositionsTable> $Dispositions
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\RatingsTable> $Ratings
+ * @property \Cake\ORM\Association\HasOne<\App\Model\Table\MembersStatsTable> $MembersStats
+ * @property \Cake\ORM\Association\BelongsToMany<\App\Model\Table\TeamsTable> $Teams
  */
 class MembersTable extends Table
 {

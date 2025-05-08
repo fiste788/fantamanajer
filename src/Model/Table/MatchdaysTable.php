@@ -13,26 +13,26 @@ use Cake\Validation\Validator;
 /**
  * Matchdays Model
  *
- * @property \App\Model\Table\SeasonsTable&\Cake\ORM\Association\BelongsTo $Seasons
- * @property \App\Model\Table\ArticlesTable&\Cake\ORM\Association\HasMany $Articles
- * @property \App\Model\Table\LineupsTable&\Cake\ORM\Association\HasMany $Lineups
- * @property \App\Model\Table\RatingsTable&\Cake\ORM\Association\HasMany $Ratings
- * @property \App\Model\Table\ScoresTable&\Cake\ORM\Association\HasMany $Scores
- * @property \App\Model\Table\SelectionsTable&\Cake\ORM\Association\HasMany $Selections
- * @property \App\Model\Table\TransfertsTable&\Cake\ORM\Association\HasMany $Transferts
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\SeasonsTable> $Seasons
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ArticlesTable> $Articles
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\LineupsTable> $Lineups
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\RatingsTable> $Ratings
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ScoresTable> $Scores
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\SelectionsTable> $Selections
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\TransfertsTable> $Transferts
  * @method \App\Model\Entity\Matchday get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Matchday newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Matchday[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Matchday> newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Matchday|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Matchday saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Matchday patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Matchday[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\Matchday> patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Matchday findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Matchday newEmptyEntity()
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \App\Model\Entity\Matchday[]|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Matchday> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
  */
 class MatchdaysTable extends Table
 {

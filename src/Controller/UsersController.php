@@ -31,12 +31,12 @@ class UsersController extends AppController
      * @throws \Crud\Error\Exception\ActionNotConfiguredException
      * @throws \Crud\Error\Exception\MissingActionException
      */
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): void
     {
         $this->Crud->mapAction('edit', 'Crud.Edit');
         $this->Authentication->allowUnauthenticated(['login', 'publicKey', 'storeKey']);
 
-        return parent::beforeFilter($event);
+        parent::beforeFilter($event);
     }
 
     /**

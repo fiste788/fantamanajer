@@ -16,7 +16,7 @@ use const DIRECTORY_SEPARATOR as DS;
  * @property string $full_name
  * @property string|null $photo_url
  *
- * @property \App\Model\Entity\Member[] $members
+ * @property array<\App\Model\Entity\Member> $members
  */
 class Player extends Entity
 {

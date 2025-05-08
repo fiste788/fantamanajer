@@ -18,7 +18,7 @@ class ScoresController extends AppController
      *
      * @throws \Authorization\Exception\ForbiddenException
      */
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): void
     {
         $championshipId = (int)$this->request->getParam('championship_id');
         /** @var \App\Model\Entity\User $identity */
@@ -27,7 +27,7 @@ class ScoresController extends AppController
             throw new ForbiddenException();
         }
 
-        return parent::beforeFilter($event);
+        parent::beforeFilter($event);
     }
 
     /**

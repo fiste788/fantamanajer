@@ -18,6 +18,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\League $league
  * @property \App\Model\Entity\Championship $championship
  * @property \App\Model\Entity\Team $team
+ * @property int $season_id
  */
 class RollOfHonor extends Entity
 {

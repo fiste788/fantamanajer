@@ -17,9 +17,9 @@ use Cake\ORM\Entity;
  * @property bool $started
  * @property bool $ended
  *
- * @property \App\Model\Entity\Championship[] $championships
- * @property \App\Model\Entity\Matchday[] $matchdays
- * @property \App\Model\Entity\Member[] $members
+ * @property array<\App\Model\Entity\Championship> $championships
+ * @property array<\App\Model\Entity\Matchday> $matchdays
+ * @property array<\App\Model\Entity\Member> $members
  */
 class Season extends Entity
 {

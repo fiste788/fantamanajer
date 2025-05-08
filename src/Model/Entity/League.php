@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  *
- * @property \App\Model\Entity\Championship[] $championships
+ * @property array<\App\Model\Entity\Championship> $championships
  */
 class League extends Entity
 {
