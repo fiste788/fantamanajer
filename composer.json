@@ -5,7 +5,7 @@
     "type": "project",
     "homepage": "https://fantamanajer.it",
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "burzum/cakephp-service-layer": "^3.0",
         "cakephp/authentication": "^3.0",
         "cakephp/authorization": "^3.0",
@@ -38,7 +38,7 @@
         "dereuromark/cakephp-ide-helper": "^2.6",
         "ergebnis/composer-normalize": "^2.45",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^11.5",
+        "phpunit/phpunit": "^11.5  || ^12.1",
         "vimeo/psalm": "^6.5"
     },
     "suggest": {
