@@ -67,7 +67,7 @@ class StartSeasonCommand extends Command
         $matchdaysTable = $this->fetchTable('Matchdays');
 
         $season = $this->createSeason($io, $args);
-        if ($season->key_gazzetta == null) {
+        if ($season->key_gazzetta == null || $season->key_gazzetta == '') {
             $this->getCurrentMatchday();
             if ($this->Rating->calculateKey($season) != '') {
                 /** @var \App\Model\Entity\Matchday $firstMatchday */

@@ -100,7 +100,7 @@ class WeeklyScriptCommand extends Command
         $matchdaysTable = $this->fetchTable('Matchdays');
         $missingRatings = $matchdaysTable->findWithoutRatings($this->currentSeason);
         foreach ($missingRatings as $matchday) {
-            $io->out('Starting decript file day ' . $matchday->number);
+            $io->out('Starting decript file matchday ' . $matchday->number);
             $path = $this->DownloadRatings->getRatings($matchday);
             if ($path != null) {
                 $io->out('Updating table players');

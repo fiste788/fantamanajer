@@ -115,16 +115,16 @@ class GetMatchdayScheduleCommand extends Command
             $seasonOption = $crawler->filterXPath('//select[@name="season"]/option[text()="' . $year . '"]');
             if ($seasonOption->count()) {
                 $seasonId = $seasonOption->first()->attr('value');
-                
+
                 if ($seasonId != null) {
                     $matchdayResponse = $client->get('/api/season/' . $seasonId . '/championship/A/matchday?lang=it');
-                    
+
                     /**
                      * @psalm-suppress MixedArrayAccess
                      * @var array<string, mixed> $matchdays
                      */
                     $matchdays = $matchdayResponse->getJson()['data'];
-                    
+
                     /**
                      * @psalm-suppress MixedAssignment
                      */
@@ -132,7 +132,10 @@ class GetMatchdayScheduleCommand extends Command
                         /**
                          * @psalm-suppress MixedArrayAccess
                          */
-                        if ($matchdayItem['description'] == $matchday->number || trim(substr($matchdayItem['title'], -2)) == $matchday->number) {
+                        if (
+                            $matchdayItem['description'] == $matchday->number ||
+                            trim(substr($matchdayItem['title'], -2)) == $matchday->number
+                        ) {
                             /**
                              * @psalm-suppress MixedOperand
                              */

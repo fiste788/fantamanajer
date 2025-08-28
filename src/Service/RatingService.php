@@ -63,7 +63,7 @@ class RatingService
             $dectyptedFilePath = TMP . '0.txt';
         }
         if (!file_exists($encryptedFilePath)) {
-            $encryptedFilePath = $this->DownloadRatings->getRatingsFile(0) ?? '';
+            $encryptedFilePath = $this->DownloadRatings->downloadMxmFile(0, $season->year) ?? '';
         }
         $reply = 'y';
         if (!file_exists($dectyptedFilePath) && $this->io != null) {
