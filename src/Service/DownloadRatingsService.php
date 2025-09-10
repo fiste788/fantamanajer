@@ -137,7 +137,7 @@ class DownloadRatingsService
             $downloadUrl = $this->getDropboxUrl($response->getStringBody(), $url);
 
             if ($downloadUrl !== null) {
-                 $filesystem = new Filesystem();
+                $filesystem = new Filesystem();
                 $tempPath = TMP . $seasonYear . DS;
                 $file = $tempPath . str_pad((string)$matchday, 2, '0', STR_PAD_LEFT) . '.mxm';
 
