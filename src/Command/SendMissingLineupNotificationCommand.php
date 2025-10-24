@@ -123,7 +123,7 @@ class SendMissingLineupNotificationCommand extends Command
                 $notification = Notification::create()
                     ->withTTL(3600)
                     ->withTopic('missing-lineup')
-                    ->withPayload($message->toString());
+                    ->withPayload($this->PushNotification->serialize($message));
                 $io->out($message->toString());
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $io->out("Send push notification to {$subscription->endpoint}");

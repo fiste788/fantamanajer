@@ -72,7 +72,7 @@ class SelectionService
             $notification = Notification::create()
                 ->withTTL(3600)
                 ->withTopic('player-lost')
-                ->withPayload($message->toString());
+                ->withPayload($this->PushNotification->serialize($message));
             foreach ($selection->team->user->push_subscriptions as $subscription) {
                 $this->PushNotification->sendAndRemoveExpired($notification, $subscription);
             }

@@ -230,7 +230,7 @@ class WeeklyScriptCommand extends Command
                 $notification = Notification::create()
                     ->withTTL(3600)
                     ->withTopic('score')
-                    ->withPayload($message->toString());
+                    ->withPayload($this->PushNotification->serialize($message));
                 foreach ($team->user->push_subscriptions as $subscription) {
                     $io->out('Sending notification to ' . $subscription->endpoint);
                     $this->PushNotification->sendAndRemoveExpired($notification, $subscription);

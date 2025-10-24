@@ -5,11 +5,14 @@ namespace App\Service;
 
 use App\Model\Entity\PushSubscription;
 use App\Utility\AngularPushMessage;
+use Cake\Chronos\ClockFactory;
 use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Laminas\Diactoros\RequestFactory;
 use Override;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpKernel\HttpClientKernel;
 use WebPush\ExtensionManager;
 use WebPush\Message;
 use WebPush\NotificationInterface;
@@ -40,26 +43,28 @@ class PushNotificationService implements WebPushService
      */
     public function __construct()
     {
+        $clock = new ClockFactory();
         $config = (array)Configure::read('WebPush.VAPID');
         // With Web-Token
         $jwsProvider = WebTokenProvider::create((string)$config['publicKey'], (string)$config['privateKey']);
         $vapidExtension = VAPIDExtension::create(
             (string)$config['subject'],
             $jwsProvider,
+            $clock
         );
 
         $payloadExtension = PayloadExtension::create()
-            ->addContentEncoding(AES128GCM::create())
-            ->addContentEncoding(AESGCM::create());
+            ->addContentEncoding(AES128GCM::create($clock))
+            ->addContentEncoding(AESGCM::create($clock));
 
         $extensionManager = ExtensionManager::create()
             ->add(TTLExtension::create())
             ->add(TopicExtension::create())
             ->add($vapidExtension)
             ->add($payloadExtension);
-        $client = new Client();
-        $requestFactory = new RequestFactory();
-        $this->service = WebPush::create($client, $requestFactory, $extensionManager);
+        
+        $client = HttpClient::create();
+        $this->service = WebPush::create($client, $extensionManager);
     }
 
     /**
@@ -114,6 +119,55 @@ class PushNotificationService implements WebPushService
      */
     public function createDefaultMessage(string $title, ?string $body = null): Message
     {
-        return AngularPushMessage::create($title, $body);
+         /** @var array<string, string> $config  */
+        $config = Configure::read('WebPushMessage.default');
+
+        $message = Message::create($title, $body);
+        /** @psalm-suppress LessSpecificReturnStatement */
+        return $message
+            ->withBadge($config['badge'])
+            ->withIcon($config['icon'])
+            ->withLang($config['lang'])
+            ->withTimestamp(time());
+    }
+
+    public function serialize(Message $message): string
+    {
+        $options = [
+            'title' => $message->getTitle(),
+            'actions' => $message->getActions(),
+            'body' => $message->getBody(),
+            'dir' => $message->getDir(),
+            'icon' => $message->getIcon(),
+            'image' => $message->getImage(),
+            'badge' => $message->getBadge(),
+            'lang' => $message->getLang(),
+            'renotify' => $message->getRenotify(),
+            'requireInteraction' => $message->isInteractionRequired(),
+            'tag' => $message->getTag(),
+            'vibrate' => $message->getVibrate(),
+            'silent' => $message->isSilent(),
+            'data' => $message->getData(),
+        ];
+        $value = json_encode([
+            'notification' => $this->getOptions($options),
+        ]);
+
+        return $value == false ? '' : $value;
+    }
+
+    /**
+     * @param array<string, mixed> $properties Properties
+     * @return array<string, mixed>
+     */
+    private function getOptions(array $properties): array
+    {
+        return array_filter($properties, static function ($v): bool {
+            if (is_array($v) && count($v) === 0) {
+                return false;
+            }
+
+            return $v !== null;
+        });
     }
 }

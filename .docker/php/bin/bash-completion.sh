@@ -1,7 +1,5 @@
 #
-# Bash completion file for CakePHP console.
-# Copy this file to a file named `cake` under `/etc/bash_completion.d/`.
-# For more info check https://book.cakephp.org/4/en/console-commands/completion.html#how-to-enable-bash-autocompletion-for-the-cakephp-console
+# Bash completion file for CakePHP console
 #
 
 _cake()
@@ -14,11 +12,11 @@ _cake()
 
     if [[ "$cur" == -* ]] ; then
         if [[ ${COMP_CWORD} = 1 ]] ; then
-            opts=$(${cake} completion options)
+            opts=$(${cake} Completion options)
         elif [[ ${COMP_CWORD} = 2 ]] ; then
-            opts=$(${cake} completion options "${COMP_WORDS[1]}")
+            opts=$(${cake} Completion options "${COMP_WORDS[1]}")
         else
-            opts=$(${cake} completion options "${COMP_WORDS[1]}" "${COMP_WORDS[2]}")
+            opts=$(${cake} Completion options "${COMP_WORDS[1]}" "${COMP_WORDS[2]}")
         fi
 
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
@@ -26,13 +24,13 @@ _cake()
     fi
 
     if [[ ${COMP_CWORD} = 1 ]] ; then
-        opts=$(${cake} completion commands)
+        opts=$(${cake} Completion commands)
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
         return 0
     fi
 
     if [[ ${COMP_CWORD} = 2 ]] ; then
-        opts=$(${cake} completion subcommands $prev)
+        opts=$(${cake} Completion subcommands $prev)
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
         if [[ $COMPREPLY = "" ]] ; then
             _filedir
@@ -41,7 +39,13 @@ _cake()
         return 0
     fi
 
-    return 0
+    opts=$(${cake} Completion fuzzy "${COMP_WORDS[@]:1}")
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    if [[ $COMPREPLY = "" ]] ; then
+        _filedir
+        return 0
+    fi
+    return 0;
 }
 
 complete -F _cake cake bin/cake
