@@ -19,7 +19,7 @@ class RolesFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'singolar' => ['type' => 'string', 'length' => 32, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
+        'singular' => ['type' => 'string', 'length' => 32, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
         'plural' => ['type' => 'string', 'length' => 32, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
         'abbreviation' => ['type' => 'string', 'length' => 32, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
         'determinant' => ['type' => 'string', 'length' => 5, 'null' => false, 'default' => 'il', 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
@@ -42,28 +42,28 @@ class RolesFixture extends TestFixture
         $this->records = [
             [
                 'id' => '1',
-                'singolar' => 'Portiere',
+                'singular' => 'Portiere',
                 'plural' => 'Portieri',
                 'abbreviation' => 'P',
                 'determinant' => 'il',
             ],
             [
                 'id' => '2',
-                'singolar' => 'Difensore',
+                'singular' => 'Difensore',
                 'plural' => 'Difensori',
                 'abbreviation' => 'D',
                 'determinant' => 'il',
             ],
             [
                 'id' => '3',
-                'singolar' => 'Centrocampista',
+                'singular' => 'Centrocampista',
                 'plural' => 'Centrocampisti',
                 'abbreviation' => 'C',
                 'determinant' => 'il',
             ],
             [
                 'id' => '4',
-                'singolar' => 'Attaccante',
+                'singular' => 'Attaccante',
                 'plural' => 'Attaccanti',
                 'abbreviation' => 'A',
                 'determinant' => 'l\'',

@@ -39,7 +39,7 @@ class RolesTable extends Table
         parent::initialize($config);
 
         $this->setTable('roles');
-        $this->setDisplayField('singolar');
+        $this->setDisplayField('singular');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Members', [
@@ -62,10 +62,10 @@ class RolesTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->scalar('singolar')
-            ->maxLength('singolar', 32)
-            ->requirePresence('singolar', 'create')
-            ->notEmptyString('singolar');
+            ->scalar('singular')
+            ->maxLength('singular', 32)
+            ->requirePresence('singular', 'create')
+            ->notEmptyString('singular');
 
         $validator
             ->scalar('plural')

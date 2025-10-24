@@ -29,4 +29,4 @@ COPY ./bin/bash-completion.sh /etc/bash-completion.d/cake
 
 RUN chown www-data:www-data /var/www/html/
 
-# USER www-data
+USER www-data

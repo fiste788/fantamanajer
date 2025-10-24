@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Role Entity
  *
  * @property int $id
- * @property string $singolar
+ * @property string $singular
  * @property string $plural
  * @property string $abbreviation
  * @property string $determinant
@@ -28,7 +28,7 @@ class Role extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'singolar' => false,
+        'singular' => false,
         'plural' => false,
         'abbreviation' => false,
         'determinant' => false,

@@ -72,7 +72,7 @@ class UpdateMembersCommand extends Command
         /** @var \App\Model\Table\MatchdaysTable $matchdaysTable */
         $matchdaysTable = $this->fetchTable('Matchdays');
         /** @var \App\Model\Entity\Matchday|null $matchday */
-        $matchday = $matchdaysTable->find()->where([
+        $matchday = $matchdaysTable->find()->contain(['Seasons'])->where([
             'number' => $matchdayNumber,
             'season_id' => $this->currentSeason->id,
             ])->first();
