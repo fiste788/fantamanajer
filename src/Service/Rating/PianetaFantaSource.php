@@ -69,10 +69,10 @@ class PianetaFantaSource implements RatingSourceInterface
     {
         // Recupera le squadre dal DB con i relativi membri (giocatori del club)
         $clubsTable = $this->getTableLocator()->get('Clubs');
+        $membersTable = $this->getTableLocator()->get('Members');
 
         /** @var \App\Model\Entity\Club[] */
         $clubs = $clubsTable->find('bySeasonId', season_id: $matchday->season->id)
-            ->contain(['Members' => ['Players']])
             ->all();
 
         $http = new Client([
@@ -107,7 +107,7 @@ class PianetaFantaSource implements RatingSourceInterface
                 $giocatoriApi = $json['data']['giocatori'] ?? [];
                 foreach ($giocatoriApi as $g) {
                     $cod = (int) ($g['CodGiocatore'] ?? 0);
-                    if ($cod !== 0) {
+                    if ($cod > 0) {
                         $apiGiocatoriMap[$cod] = $g;
                     }
                 }
@@ -117,13 +117,18 @@ class PianetaFantaSource implements RatingSourceInterface
 
             $processedCodes = [];
 
+            /**
+             * @var \App\Model\Entity\Member[] $members
+             */
+            $members = $membersTable->find('byClubId', club_id: $club->id, season_id: $matchday->season_id)
+                ->all();
             // 1. Cicla su tutti i giocatori presenti a DB per il club
-            if (!empty($club->members)) {
-                foreach ($club->members as $member) {
-                    $player = $member->player ?? null;
+            if (!empty($members)) {
+                foreach ($members as $member) {
+                    $player = $member->player;
                     $code = $member->code_gazzetta;
-                    $nome = $player->name ?? $member->name ?? '';
-                    $ruoloRaw = $player->role ?? $member->role ?? 'D';
+                    $nome = $player->full_name;
+                    $ruoloRaw = $member->role;
 
                     if (isset($apiGiocatoriMap[$code])) {
                         // Giocatore presente nell'API PianetaFanta
