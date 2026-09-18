@@ -71,7 +71,7 @@ class PianetaFantaSource implements RatingSourceInterface
         $clubsTable = $this->getTableLocator()->get('Clubs');
 
         /** @var \App\Model\Entity\Club[] */
-        $clubs = $clubsTable->find()
+        $clubs = $clubsTable->find('bySeasonId', season_id: $matchday->season->id)
             ->contain(['Members' => ['Players']])
             ->all();
 
