@@ -84,7 +84,7 @@ class UpdateCalendarCommand extends Command
     public function exec(Season $season, Arguments $args, ConsoleIo $io): int
     {
         $matchdays = 38;
-        /** @var \Cake\Command\Helper\ProgressHelper $progress */
+        /** @var \Cake\Console\Helper\ProgressHelper $progress */
         $progress = $io->helper('Progress');
         $progress->init(['total' => $matchdays]);
         for ($matchday = 1; $matchday <= $matchdays; $matchday++) {

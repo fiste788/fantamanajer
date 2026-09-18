@@ -37,6 +37,7 @@ use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\CeremonyStep\CeremonyStepManagerFactory;
+use Webauthn\CredentialRecord;
 use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredential;
 use Webauthn\PublicKeyCredentialCreationOptions;
@@ -104,8 +105,8 @@ class WebauthnService
     {
         // User Entity
         return PublicKeyCredentialUserEntity::create(
-            (string)$user->email,
-            (string)$user->uuid,
+            (string) $user->email,
+            (string) $user->uuid,
             ($user->name ?? '') . ' ' . ($user->surname ?? ''),
             null,
         );
@@ -133,11 +134,11 @@ class WebauthnService
     private function createRpEntity(): PublicKeyCredentialRpEntity
     {
         return PublicKeyCredentialRpEntity::create(
-            (string)Configure::read('Webauthn.name', 'FantaManajer'),
+            (string) Configure::read('Webauthn.name', 'FantaManajer'),
             //Name
-            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
             //ID
-            (string)Configure::read('Webauthn.icon'), //Icon
+            (string) Configure::read('Webauthn.icon'), //Icon
         );
     }
 
@@ -230,7 +231,7 @@ class WebauthnService
         $publicKeyCredentialRequestOptions =
             PublicKeyCredentialRequestOptions::create(
                 random_bytes(32),
-                (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+                (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
                 $allowedCredentials,
                 PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_REQUIRED,
                 60_000,
@@ -262,7 +263,7 @@ class WebauthnService
      */
     public function signinResponse(ServerRequestInterface $request): bool
     {
-        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
+        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         /** @var string|null $handle */
         $handle = $request->getSession()->consume('User.Handle');
 
@@ -277,7 +278,7 @@ class WebauthnService
      * @param string $publicKey Public key
      * @param \Psr\Http\Message\ServerRequestInterface $request Request
      * @param string $userHandle User Handle
-     * @return \Webauthn\PublicKeyCredentialSource
+     * @return \Webauthn\CredentialRecord
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @throws \TypeError
@@ -286,7 +287,7 @@ class WebauthnService
         string $publicKey,
         ServerRequestInterface $request,
         ?string $userHandle = null,
-    ): PublicKeyCredentialSource {
+    ): CredentialRecord {
         $publicKeyCredentialRequestOptions = $this->serializer->deserialize(
             $publicKey,
             PublicKeyCredentialRequestOptions::class,
@@ -316,10 +317,10 @@ class WebauthnService
 
         // Check the response against the attestation request
         $response = $this->authenticatorAssertionResponseValidator->check(
-            $credential->toCredentialSource($this->serializer),
+            $credential->toCredentialRecord($this->serializer),
             $authenticatorAssertionResponse,
             $publicKeyCredentialRequestOptions,
-            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
             $userHandle,
         );
 
@@ -407,7 +408,7 @@ class WebauthnService
      */
     public function registerResponse(ServerRequestInterface $request): ?EntityPublicKeyCredentialSource
     {
-        $publicKey = (string)$request->getSession()->consume('User.PublicKey');
+        $publicKey = (string) $request->getSession()->consume('User.PublicKey');
         $publicKeyCredentialCreationOptions = $this->serializer->deserialize(
             $publicKey,
             PublicKeyCredentialCreationOptions::class,
@@ -433,13 +434,13 @@ class WebauthnService
         $credentialSource = $this->authenticatorAttestationResponseValidator->check(
             $authenticatorAttestationResponse,
             $publicKeyCredentialCreationOptions,
-            (string)Configure::read('Webauthn.id', 'fantamanajer.it'),
+            (string) Configure::read('Webauthn.id', 'fantamanajer.it'),
         );
 
         /** @var \App\Model\Table\PublicKeyCredentialSourcesTable $publicKeyCredentialSourcesTable */
         $publicKeyCredentialSourcesTable = $this->fetchTable('PublicKeyCredentialSources');
         $credential = $publicKeyCredentialSourcesTable->newEmptyEntity();
-        $credential->fromCredentialSource($this->serializer, $credentialSource);
+        $credential->fromCredentialRecord($this->serializer, $credentialSource);
         $credential->id = Uuid::v4()->toRfc4122();
         $this->updateUserAgent($credential, $request->getHeaderLine('User-Agent'));
 

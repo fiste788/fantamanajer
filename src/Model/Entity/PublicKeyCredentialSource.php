@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Symfony\Component\Serializer\SerializerInterface;
-use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
+use Webauthn\CredentialRecord;
 
 /**
  * PublicKeyCredentialSource Entity
@@ -72,12 +72,12 @@ class PublicKeyCredentialSource extends Entity
     /**
      * Undocumented function
      *
-     * @return \Webauthn\PublicKeyCredentialSource
+     * @return \Webauthn\CredentialRecord
      * @throws \InvalidArgumentException
      * @throws \TypeError
      * @throws \RangeException
      */
-    public function toCredentialSource(SerializerInterface $serializer): WebauthnPublicKeyCredentialSource
+    public function toCredentialRecord(SerializerInterface $serializer): CredentialRecord
     {
         return $serializer->deserialize(json_encode([
             'publicKeyCredentialId' => $this->public_key_credential_id,
@@ -89,23 +89,23 @@ class PublicKeyCredentialSource extends Entity
             'credentialPublicKey' => $this->credential_public_key,
             'userHandle' => Base64UrlSafe::encode($this->user_handle),
             'counter' => $this->counter,
-        ]), WebauthnPublicKeyCredentialSource::class, 'json');
+        ]), CredentialRecord::class, 'json');
     }
 
     /**
      * Undocumented function
      *
-     * @param \Webauthn\PublicKeyCredentialSource $credentialSource Credential source
+     * @param \Webauthn\CredentialRecord $credentialRecord Credential record
      * @return $this
      * @throws \TypeError
      * @throws \RangeException
      */
-    public function fromCredentialSource(
+    public function fromCredentialRecord(
         SerializerInterface $serializer,
-        WebauthnPublicKeyCredentialSource $credentialSource,
+        CredentialRecord $credentialRecord
     ) {
         /** @var array<string, string> $json */
-        $json = json_decode($serializer->serialize($credentialSource, 'json'), true);
+        $json = json_decode($serializer->serialize($credentialRecord, 'json'), true);
         $transports = json_encode($json['transports']);
         $trustPath = json_encode($json['trustPath']);
         $this->public_key_credential_id = $json['publicKeyCredentialId'];
@@ -116,7 +116,7 @@ class PublicKeyCredentialSource extends Entity
         $this->aaguid = $json['aaguid'];
         $this->credential_public_key = $json['credentialPublicKey'];
         $this->user_handle = Base64UrlSafe::decode($json['userHandle']);
-        $this->counter = (int)$json['counter'];
+        $this->counter = (int) $json['counter'];
 
         return $this;
     }

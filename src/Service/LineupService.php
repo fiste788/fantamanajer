@@ -121,10 +121,13 @@ class LineupService
                     'Teams' => [
                         'guard' => false,
                         'accessibleFields' => ['*' => true],
-                        'associated' => ['Championships', 'Members' => [
-                            'guard' => false,
-                            'accessibleFields' => ['*' => true],
-                        ]],
+                        'associated' => [
+                            'Championships',
+                            'Members' => [
+                                'guard' => false,
+                                'accessibleFields' => ['*' => true],
+                            ]
+                        ],
                     ],
                     'Dispositions' => [
                         'guard' => false,
@@ -153,7 +156,7 @@ class LineupService
         $lineupCopy->dispositions = array_map(function (Disposition $disposition) use ($lineupCopy, $lineupsTable) {
             /** @var \App\Model\Entity\Member $member */
             $member = $lineupsTable->Dispositions->Members
-                ->find('listWithRating', ['matchday_id' => $lineupCopy->matchday_id])
+                ->find('listWithRating', matchday_id: $lineupCopy->matchday_id)
                 ->where(['Members.id' => $disposition->member_id])->firstOrFail();
             $disposition->member = $member;
 

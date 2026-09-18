@@ -6,6 +6,8 @@ namespace App\Service;
 use App\Model\Entity\PublicKeyCredentialSource;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Symfony\Component\Serializer\SerializerInterface;
+use Webauthn\Credential;
+use Webauthn\CredentialRecord;
 use Webauthn\PublicKeyCredentialSource as WebauthnPublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 
@@ -39,15 +41,15 @@ class PublicKeyCredentialSourceRepositoryService
      *
      * @param string $publicKeyCredentialId arg
      * @throws \Cake\Core\Exception\CakeException
-     * @return \Webauthn\PublicKeyCredentialSource|null
+     * @return \Webauthn\CredentialRecord|null
      */
     public function findOneByCredentialId(
         SerializerInterface $serializer,
         string $publicKeyCredentialId,
-    ): ?WebauthnPublicKeyCredentialSource {
+    ): ?CredentialRecord {
         $publicKeyCredential = $this->findByCredentialId($publicKeyCredentialId);
 
-        return $publicKeyCredential ? $publicKeyCredential->toCredentialSource($serializer) : null;
+        return $publicKeyCredential ? $publicKeyCredential->toCredentialRecord($serializer) : null;
     }
 
     /**
@@ -68,7 +70,7 @@ class PublicKeyCredentialSourceRepositoryService
 
         /** @var array<\Webauthn\PublicKeyCredentialSource> $credentials */
         $credentials = $sources->all()->map(function (PublicKeyCredentialSource $value) use ($serializer) {
-            return $value->toCredentialSource($serializer);
+            return $value->toCredentialRecord($serializer);
         })->toList();
 
         return $credentials;
@@ -77,7 +79,7 @@ class PublicKeyCredentialSourceRepositoryService
     /**
      * Undocumented function
      *
-     * @param \Webauthn\PublicKeyCredentialSource $publicKeyCredentialSource arg
+     * @param \Webauthn\CredentialRecord $publicKeyCredentialSource arg
      * @throws \Cake\Core\Exception\CakeException
      * @throws \TypeError
      * @throws \RangeException
@@ -85,12 +87,12 @@ class PublicKeyCredentialSourceRepositoryService
      */
     public function saveCredentialSource(
         SerializerInterface $serializer,
-        WebauthnPublicKeyCredentialSource $publicKeyCredentialSource,
+        CredentialRecord $publicKeyCredentialSource,
     ): void {
         /** @var \App\Model\Entity\PublicKeyCredentialSource $entity */
         $entity = $this->findByCredentialId($publicKeyCredentialSource->publicKeyCredentialId) ??
             $this->fetchTable('PublicKeyCredentialSources')->newEmptyEntity();
-        $entity->fromCredentialSource($serializer, $publicKeyCredentialSource);
+        $entity->fromCredentialRecord($serializer, $publicKeyCredentialSource);
         $this->fetchTable('PublicKeyCredentialSources')->save($entity);
     }
 }
