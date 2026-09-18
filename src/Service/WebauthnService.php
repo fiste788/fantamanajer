@@ -170,7 +170,6 @@ class WebauthnService
         $coseAlgorithmManager->add(new ECDSA\ES256());
         $coseAlgorithmManager->add(new ECDSA\ES512());
         $coseAlgorithmManager->add(new EdDSA\EdDSA());
-        $coseAlgorithmManager->add(new RSA\RS1());
         $coseAlgorithmManager->add(new RSA\RS256());
         $coseAlgorithmManager->add(new RSA\RS512());
 

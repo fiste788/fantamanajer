@@ -191,12 +191,12 @@ class Application extends BaseApplication implements
                 ],
             ],
             'loginUrl' => [
-                Router::url([
-                    'controller' => 'Users',
-                    'action' => 'login',
-                    '_method' => 'POST',
-                    'prefix' => false,
-                ]),
+
+                'controller' => 'Users',
+                'action' => 'login',
+                '_method' => 'POST',
+                'prefix' => false,
+
             ],
             'fields' => $fields,
         ]);
@@ -224,12 +224,10 @@ class Application extends BaseApplication implements
             ],
             'className' => WebauthnAuthenticator::class,
             'loginUrl' => [
-                Router::url([
-                    'controller' => 'Webauthn',
-                    'action' => 'login',
-                    '_method' => 'POST',
-                    'prefix' => false,
-                ]),
+                'controller' => 'Webauthn',
+                'action' => 'login',
+                '_method' => 'POST',
+                'prefix' => false,
             ],
             'fields' => $fields,
         ]);
