@@ -183,14 +183,12 @@ class Application extends BaseApplication implements
         ]);*/
         $service->loadAuthenticator('Authentication.Form', [
             'identifier' => [
-                'Authentication.Password',
-                [
-                    'fields' => $fields,
-                    'resolver' => [
-                        'className' => 'Authentication.Orm',
-                        'finder' => 'auth',
-                    ],
-                ]
+                'className' => 'Authentication.Password',
+                'fields' => $fields,
+                'resolver' => [
+                    'className' => 'Authentication.Orm',
+                    'finder' => 'auth',
+                ],
             ],
             'loginUrl' => [
                 Router::url([
@@ -202,30 +200,26 @@ class Application extends BaseApplication implements
             ],
             'fields' => $fields,
         ]);
+
         $service->loadAuthenticator('Authentication.Jwt', [
             'identifier' => [
-                'Authentication.JwtSubject' => [
-                    'resolver' => [
-                        'className' => 'Authentication.Orm',
-                        'finder' => 'auth',
-                    ],
+                'className' => 'Authentication.JwtSubject',
+                'resolver' => [
+                    'className' => 'Authentication.Orm',
+                    'finder' => 'auth',
                 ],
             ],
             'fields' => $fields,
             'algorithm' => 'HS256',
             'returnPayload' => false,
-
         ]);
 
         $service->loadAuthenticator('Authentication.Webauthn', [
             'identifier' => [
-                'Authentication.WebauthnHandle',
-                [
-                    'className' => WebauthnHandleIdentifier::class,
-                    'resolver' => [
-                        'className' => 'Authentication.Orm',
-                        'finder' => 'auth',
-                    ],
+                'className' => WebauthnHandleIdentifier::class,
+                'resolver' => [
+                    'className' => 'Authentication.Orm',
+                    'finder' => 'auth',
                 ],
             ],
             'className' => WebauthnAuthenticator::class,
