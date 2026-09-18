@@ -7,6 +7,7 @@ use Authentication\Authenticator\AbstractAuthenticator;
 use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
 use Authentication\Identifier\AbstractIdentifier;
+use Authentication\Identifier\PasswordIdentifier;
 use Authentication\UrlChecker\UrlCheckerTrait;
 use Override;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,14 +25,14 @@ class WebauthnAuthenticator extends AbstractAuthenticator
      * - `loginUrl` Login URL or an array of URLs.
      * - `urlChecker` Url checker config.
      *
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected array $_defaultConfig = [
         'loginUrl' => null,
         'urlChecker' => 'Authentication.Default',
         'fields' => [
-            AbstractIdentifier::CREDENTIAL_USERNAME => 'username',
-            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
+            PasswordIdentifier::CREDENTIAL_USERNAME => 'username',
+            PasswordIdentifier::CREDENTIAL_PASSWORD => 'password',
         ],
     ];
 
@@ -49,7 +50,7 @@ class WebauthnAuthenticator extends AbstractAuthenticator
         $errors = [
             sprintf(
                 'Login URL `%s` did not match `%s`.',
-                (string)$request->getUri(),
+                (string) $request->getUri(),
                 implode('` or `', $config),
             ),
         ];
@@ -73,14 +74,14 @@ class WebauthnAuthenticator extends AbstractAuthenticator
             return $this->_buildLoginUrlErrorResult($request);
         }
 
-        $user = $this->_identifier->identify([
+        $user = $this->getIdentifier()->identify([
             'request' => $request,
             'publicKey' => $this->getPublicKey($request),
             'userHandle' => $this->getUserHandle($request),
         ]);
 
         if ($user == null) {
-            return new Result(null, Result::FAILURE_IDENTITY_NOT_FOUND, $this->_identifier->getErrors());
+            return new Result(null, Result::FAILURE_IDENTITY_NOT_FOUND, $this->getIdentifier()->getErrors());
         }
 
         return new Result($user, Result::SUCCESS);

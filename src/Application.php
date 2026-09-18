@@ -43,7 +43,8 @@ use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Middleware\AuthenticationMiddleware;
-use Authentication\Plugin as AuthenticationPlugin;
+use Authentication\AuthenticationPlugin;
+use Authentication\Identifier\PasswordIdentifier;
 use Authorization\AuthorizationPlugin;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
@@ -68,7 +69,7 @@ use Cake\Http\ServerRequest;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Routing\Router;
-use CakePreloader\Plugin as CakePreloaderPlugin;
+use CakePreloader\CakePreloaderPlugin;
 use CakeScheduler\CakeSchedulerPlugin;
 use Crud\CrudPlugin;
 //use DatabaseBackup\Plugin as DatabaseBackupPlugin;
@@ -170,38 +171,27 @@ class Application extends BaseApplication implements
         $service = new AuthenticationService();
 
         $fields = [
-            AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
-            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
+            PasswordIdentifier::CREDENTIAL_USERNAME => 'email',
+            PasswordIdentifier::CREDENTIAL_PASSWORD => 'password',
         ];
 
         $service->setConfig('identityClass', User::class);
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', [
-            'fields' => $fields,
-            'resolver' => [
-                'className' => 'Authentication.Orm',
-                'finder' => 'auth',
-            ],
-        ]);
-        $service->loadIdentifier('Authentication.JwtSubject', [
-            'resolver' => [
-                'className' => 'Authentication.Orm',
-                'finder' => 'auth',
-            ],
-        ]);
-        $service->loadIdentifier('Authentication.WebauthnHandle', [
-            'className' => WebauthnHandleIdentifier::class,
-            'resolver' => [
-                'className' => 'Authentication.Orm',
-                'finder' => 'auth',
-            ],
-        ]);
 
         // Load the authenticators
         /*$service->loadAuthenticator('Authentication.Session', [
             'fields' => $fields,
         ]);*/
         $service->loadAuthenticator('Authentication.Form', [
+            'identifier' => [
+                'Authentication.Password',
+                [
+                    'fields' => $fields,
+                    'resolver' => [
+                        'className' => 'Authentication.Orm',
+                        'finder' => 'auth',
+                    ],
+                ]
+            ],
             'loginUrl' => [
                 Router::url([
                     'controller' => 'Users',
@@ -213,12 +203,31 @@ class Application extends BaseApplication implements
             'fields' => $fields,
         ]);
         $service->loadAuthenticator('Authentication.Jwt', [
+            'identifier' => [
+                'Authentication.JwtSubject' => [
+                    'resolver' => [
+                        'className' => 'Authentication.Orm',
+                        'finder' => 'auth',
+                    ],
+                ],
+            ],
             'fields' => $fields,
             'algorithm' => 'HS256',
             'returnPayload' => false,
+
         ]);
 
         $service->loadAuthenticator('Authentication.Webauthn', [
+            'identifier' => [
+                'Authentication.WebauthnHandle',
+                [
+                    'className' => WebauthnHandleIdentifier::class,
+                    'resolver' => [
+                        'className' => 'Authentication.Orm',
+                        'finder' => 'auth',
+                    ],
+                ],
+            ],
             'className' => WebauthnAuthenticator::class,
             'loginUrl' => [
                 Router::url([

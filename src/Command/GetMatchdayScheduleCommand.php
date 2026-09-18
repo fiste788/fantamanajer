@@ -96,94 +96,111 @@ class GetMatchdayScheduleCommand extends Command
      */
     public function exec(Season $season, Matchday $matchday, ConsoleIo $io): DateTime|false|null
     {
-        $year = ((string)$season->year) . '-' . substr((string)($season->year + 1), 2, 2);
-        $url = '/it/serie-a/';
-        $io->verbose('Downloading page ' . $url);
-        $client = new Client(
-            [
-                'host' => 'www.legaseriea.it',
-                'redirect' => 5,
-                'timeout' => 60,
-            ],
-        );
+        $client = new Client([
+            'host' => 'www.legaseriea.it',
+            'timeout' => 30,
+            'redirect' => true,
+        ]);
 
-        $response = $client->get($url);
-        if ($response->isOk()) {
-            $io->info('Response OK');
-            $crawler = new Crawler();
-            $crawler->addContent($response->getStringBody());
-            $seasonOption = $crawler->filterXPath('//select[@name="season"]/option[text()="' . $year . '"]');
-            if ($seasonOption->count()) {
-                $seasonId = $seasonOption->first()->attr('value');
+        // 1. Estrazione ID Stagione dall'HTML
+        $responseHome = $client->get('/serie-a/calendario-risultati', [], [
+            'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept' => 'application/json',
+                'Origin' => 'https://www.legaseriea.it',
+                'Referer' => 'https://www.legaseriea.it/',
+            ]
+        ]);
 
-                if ($seasonId != null) {
-                    $matchdayResponse = $client->get('/api/season/' . $seasonId . '/championship/A/matchday?lang=it');
+        $html = $responseHome->getStringBody();
+        $cleanHtml = stripslashes($html);
 
-                    /**
-                     * @psalm-suppress MixedArrayAccess
-                     * @var array<string, mixed> $matchdays
-                     */
-                    $matchdays = $matchdayResponse->getJson()['data'];
+        // Supponiamo che $seasonName sia "2024/2025" o "2025/2026"
+        $seasonName = $this->getSeasonName($season); // Questo potresti passarlo come parametro
 
-                    /**
-                     * @psalm-suppress MixedAssignment
-                     */
-                    foreach ($matchdays as $matchdayItem) {
-                        /**
-                         * @psalm-suppress MixedArrayAccess
-                         */
-                        if (
-                            $matchdayItem['description'] == $matchday->number ||
-                            trim(substr($matchdayItem['title'], -2)) == $matchday->number
-                        ) {
-                            /**
-                             * @psalm-suppress MixedOperand
-                             */
-                            $matchsResponse = $client->get(
-                                '/api/match?extra_link&order=oldest&lang=it&season_id=' .
-                                    $seasonId .
-                                    '&match_day_id=' .
-                                    $matchdayItem['id_category'],
-                            );
-                            /** @var string $date */
-                            $date = $matchsResponse->getJson()['data'][0]['date_time'];
 
-                            if ($date != '') {
-                                $io->success($date);
-                                /**
-                                 * @var string $timezone
-                                 */
-                                $timezone = toString(Configure::read('App.defaultTimezone', 'UTC'));
-                                $out = DateTime::createFromFormat(
-                                    DateTimeInterface::RFC3339,
-                                    $date,
-                                    new DateTimeZone('UTC'),
-                                );
-                                $out = $out->setTimezone($timezone);
-                                $io->verbose(print_r($out, true));
+        // Se il titolo apparisse PRIMA dell'ID nel tuo HTML, invertiamo l'ordine:
+        $patternAlternative = '/\\\\?"title\\\\?":\\\\?"' . preg_quote($seasonName, '/') . '\\\\?".*?\\\\?"seasonId\\\\?":\\\\?"(serie-a::Football_Season::[a-z0-9]+)\\\\?"/s';
 
-                                return $out;
-                            } else {
-                                $io->error('Cannot find date');
-                                $this->abort();
-                            }
-                        }
-                    }
-
-                    $io->error('Cannot find matchday');
-                    $this->abort();
-                } else {
-                    $io->error('Cannot find season id');
-                    $this->abort();
-                }
-            } else {
-                $io->error('Cannot find //select[@name="season"]/option[text()="' . $year . '"]');
-                $this->abort();
-            }
+        if (preg_match($patternAlternative, $html, $matches)) {
+            $seasonId = $matches[1];
+            $io->success("Trovato ID per la stagione $seasonName: $seasonId");
         } else {
-            $io->error((string)$response->getStatusCode(), 1);
-            $io->error('Cannot connect to ' . $url);
-            $this->abort();
+            $io->error("Impossibile trovare l'ID per la stagione: $seasonName");
+            return false;
         }
+
+
+        // 2. Chiamata all'API SDP Matchdays
+        $apiUrl = "https://api-sdp.legaseriea.it/v1/serie-a/football/seasons/" . urlencode($seasonId) . "/matchdays?locale=it-IT";
+        $io->info($apiUrl);
+        $apiResponse = $client->get($apiUrl);
+        if (!$apiResponse->isOk()) {
+            $io->error('Errore durante la chiamata all\'API SDP.');
+            return false;
+        }
+
+        $json = $apiResponse->getJson();
+        $matchdays = $json['matchdays'] ?? []; // La chiave corretta è 'matchdays'
+        $matchDayId = $matchdays[$matchday->number - 1]['matchSetId'] ?? null;
+
+        $matchesUrl = "https://api-sdp.legaseriea.it/v1/serie-a/football/seasons/" .
+            urlencode($seasonId) .
+            "/matches?matchDayId=" . urlencode($matchDayId) . "&locale=it-IT";
+
+        $resMatches = $client->get($matchesUrl);
+
+        if (!$resMatches->isOk()) {
+            $io->error("Impossibile recuperare i match per la giornata.");
+            return false;
+        }
+
+        $data = $resMatches->getJson();
+        $matches = $data['matches'] ?? [];
+
+        if (empty($matches)) {
+            $io->error("Nessun match trovato per questa giornata.");
+            return false;
+        }
+
+        // 2. Troviamo la data minima (il primo calcio d'inizio ufficiale)
+        $earliestDate = null;
+
+        foreach ($matches as $match) {
+            $currentMatchDate = $match['matchDateUtc'] ?? null;
+
+            if ($currentMatchDate) {
+                if ($earliestDate === null || $currentMatchDate < $earliestDate) {
+                    $earliestDate = $currentMatchDate;
+                }
+            }
+        }
+
+        if (!$earliestDate) {
+            $io->error("Nessuna data valida trovata nei match.");
+            return false;
+        }
+
+        // 3. Risultato finale
+        $timezone = (string) Configure::read('App.defaultTimezone', 'Europe/Rome');
+        // Creiamo l'oggetto Cake\I18n\DateTime partendo dalla stringa UTC
+// Cake lo parserizza automaticamente riconoscendo lo 'Z' finale come UTC
+        $finalDate = new \Cake\I18n\DateTime($earliestDate);
+
+        // Cambiamo la Timezone. 
+// Attenzione: se il metodo restituisce un oggetto "Frozen" (immutabile), 
+// devi riassegnare la variabile: $finalDate = $finalDate->setTimezone(...)
+        $finalDate = $finalDate->setTimezone($timezone);
+
+        $io->success("Data convertita per Cake: " . $finalDate->format('Y-m-d H:i:s'));
+
+        return $finalDate;
+    }
+
+    private function getSeasonName(Season $season): string
+    {
+        // Supponiamo che $season->name arrivi come "2025/26"
+        $seasonName = $season->year . "/" . ($season->year + 1);
+        return $seasonName;
     }
 }

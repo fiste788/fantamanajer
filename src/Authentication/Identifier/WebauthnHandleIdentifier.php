@@ -6,6 +6,7 @@ namespace App\Authentication\Identifier;
 use AllowDynamicProperties;
 use ArrayAccess;
 use Authentication\Identifier\AbstractIdentifier;
+use Authentication\Identifier\PasswordIdentifier;
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
 use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
@@ -38,11 +39,11 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
      *   - `username`: one or many username fields.
      * - `resolver` The resolver implementation to use.
      *
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected array $_defaultConfig = [
         'fields' => [
-            self::CREDENTIAL_USERNAME => 'uuid',
+            PasswordIdentifier::CREDENTIAL_USERNAME => 'uuid',
         ],
         'resolver' => 'Authentication.Orm',
     ];
@@ -65,7 +66,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
 
         /** @var \Psr\Http\Message\ServerRequestInterface $request */
         $request = $credentials['request'];
-        $publicKey = (string)$credentials['publicKey'];
+        $publicKey = (string) $credentials['publicKey'];
         /** @var string|null $userHandle */
         $userHandle = $credentials['userHandle'];
 
@@ -84,7 +85,7 @@ class WebauthnHandleIdentifier extends AbstractIdentifier
     protected function _findIdentity(string $identifier): ArrayAccess|array|null
     {
         /** @var array<string> $fields */
-        $fields = (array)$this->getConfig('fields.' . self::CREDENTIAL_USERNAME);
+        $fields = (array) $this->getConfig('fields.' . PasswordIdentifier::CREDENTIAL_USERNAME);
         $conditions = [];
         foreach ($fields as $field) {
             $conditions[$field] = $identifier;

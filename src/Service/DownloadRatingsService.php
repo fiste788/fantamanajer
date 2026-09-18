@@ -39,7 +39,7 @@ class DownloadRatingsService
     {
         $year = $matchday->season->year;
         $folder = RATINGS_CSV . $year . DS;
-        $number = str_pad((string)$matchday->number, 2, '0', STR_PAD_LEFT);
+        $number = str_pad((string) $matchday->number, 2, '0', STR_PAD_LEFT);
         $pathCsv = "{$folder}Matchday{$number}.csv";
 
         $filesystem = new Filesystem();
@@ -78,6 +78,12 @@ class DownloadRatingsService
      */
     public function downloadMxmFile(int $matchday, int $seasonYear): ?string
     {
+        $filesystem = new Filesystem();
+        $tempPath = TMP . $seasonYear . DS;
+        $file = $tempPath . str_pad((string) $matchday, 2, '0', STR_PAD_LEFT) . '.mxm';
+        if ($filesystem->exists($file)) {
+            return $file;
+        }
         $this->io?->out('Searching for ratings on maxigames.maxisoft.it');
         $http = new Client([
             'ssl_verify_peer' => false,
@@ -137,10 +143,6 @@ class DownloadRatingsService
             $downloadUrl = $this->getDropboxUrl($response->getStringBody(), $url);
 
             if ($downloadUrl !== null) {
-                $filesystem = new Filesystem();
-                $tempPath = TMP . $seasonYear . DS;
-                $file = $tempPath . str_pad((string)$matchday, 2, '0', STR_PAD_LEFT) . '.mxm';
-
                 if (!$filesystem->exists($tempPath)) {
                     $filesystem->mkdir($tempPath);
                 }
@@ -220,7 +222,7 @@ class DownloadRatingsService
         $keyLength = count($explodeXor);
 
         for ($i = 0; $i < $contentLength; $i++) {
-            $xor = (int)hexdec($explodeXor[$i % $keyLength]);
+            $xor = (int) hexdec($explodeXor[$i % $keyLength]);
             $body .= chr(ord($content[$i]) ^ $xor);
         }
 
@@ -273,7 +275,7 @@ class DownloadRatingsService
             foreach ($array as $val) {
                 $par = explode($sep, $val);
                 if (isset($par[0])) {
-                     $arrayOk[$par[0]] = $par;
+                    $arrayOk[$par[0]] = $par;
                 }
             }
         }

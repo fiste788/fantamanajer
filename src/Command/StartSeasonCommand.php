@@ -82,11 +82,11 @@ class StartSeasonCommand extends Command
         } else {
             $matchdaysTable = $this->fetchTable('Matchdays');
             /** @var \App\Model\Entity\Matchday $firstMatchday */
-            $firstMatchday = $matchdaysTable->find()->where([
+            $firstMatchday = $matchdaysTable->find()->contain(['Seasons'])->where([
                 'number' => '0',
                 'season_id' => $season->id,
             ])->first();
-            $this->UpdateMember->updateMembers($firstMatchday);
+            $this->UpdateMember->updateMembers($firstMatchday, '/home/fantaman/api/tmp/2026/mcc00.txt');
             $io->err('Season for year ' . $season->year . ' already exist');
 
             $this->abort();
@@ -105,7 +105,7 @@ class StartSeasonCommand extends Command
      */
     private function createSeason(ConsoleIo $io, Arguments $_args): Season
     {
-        $year = (int)date('Y');
+        $year = (int) date('Y');
 
         /** @var \App\Model\Table\SeasonsTable $seasonsTable */
         $seasonsTable = $this->fetchTable('Seasons');
@@ -115,7 +115,7 @@ class StartSeasonCommand extends Command
             $season = $seasonsTable->newEntity(
                 [
                     'year' => $year,
-                    'name' => 'Stagione ' . $year . '-' . substr((string)($year + 1), 2, 2),
+                    'name' => 'Stagione ' . $year . '-' . substr((string) ($year + 1), 2, 2),
                     'bonus_points' => true,
                 ],
             );
