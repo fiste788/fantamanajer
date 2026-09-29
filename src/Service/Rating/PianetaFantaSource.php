@@ -6,6 +6,7 @@ namespace App\Service\Rating;
 use App\Model\Entity\Matchday;
 use Cake\Console\ConsoleIo;
 use Cake\Http\Client;
+use Cake\I18n\DateTime;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -14,6 +15,7 @@ class PianetaFantaSource implements RatingSourceInterface
     use LocatorAwareTrait;
 
     private const API_URL = 'https://pianetafanta.it/api/voti/squadra';
+    private const PARTITE_API_URL = 'https://pianetafanta.it/api/voti/partite';
     private const REFERER_URL = 'https://pianetafanta.it/voti-fantacalcio';
     private const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36';
 
@@ -42,6 +44,80 @@ class PianetaFantaSource implements RatingSourceInterface
         $this->io = $io;
     }
 
+    /**
+     * Verifica se sono passate almeno 12 ore dall'ultima partita della giornata
+     * recuperando la schedule delle partite dall'API PianetaFanta.
+     *
+     * @param Matchday $matchday
+     * @return bool
+     */
+    public function isUltimaPartitaConclusa(Matchday $matchday): bool
+    {
+        $lastMatchDate = $this->getLastMatchDateFromApi($matchday);
+
+        if (!$lastMatchDate) {
+            // Se non è possibile recuperare la data dall'API, lasciamo proseguire
+            $this->io?->warning("Impossibile recuperare la data dell'ultima partita dall'API PianetaFanta.");
+            return true;
+        }
+
+        return $lastMatchDate->addHours(12)->isPast();
+    }
+
+    /**
+     * Recupera la data e ora dell'ultima partita della giornata dall'API PianetaFanta.
+     *
+     * @param Matchday $matchday
+     * @return DateTime|null
+     */
+    private function getLastMatchDateFromApi(Matchday $matchday): ?DateTime
+    {
+        $http = new Client([
+            'ssl_verify_peer' => false,
+            'headers' => [
+                'Accept' => '*/*',
+                'User-Agent' => self::USER_AGENT,
+                'Referer' => self::REFERER_URL,
+            ],
+        ]);
+
+        $year = $matchday->season->year;
+        $stagioneStr = $year . '_' . ($year + 1);
+
+        $response = $http->get(self::PARTITE_API_URL, [
+            'giornata' => $matchday->number,
+            'stagione' => $stagioneStr,
+        ]);
+
+        if (!$response->isOk()) {
+            $this->io?->err("Errore HTTP {$response->getStatusCode()} nel recupero partite per la giornata {$matchday->number}.");
+            return null;
+        }
+
+        $json = $response->getJson();
+        $partite = $json['data']['partite'] ?? [];
+
+        if (empty($partite)) {
+            return null;
+        }
+
+        $maxDate = null;
+        foreach ($partite as $partita) {
+            if (!empty($partita['Data'])) {
+                try {
+                    $date = new DateTime($partita['Data']);
+                    if ($maxDate === null || $date->greaterThan($maxDate)) {
+                        $maxDate = $date;
+                    }
+                } catch (\Throwable $e) {
+                    // Ignora eventuali stringhe data non valide
+                }
+            }
+        }
+
+        return $maxDate;
+    }
+
     public function getRatings(Matchday $matchday, int $offsetGazzetta = 0, bool $forceDownload = false): ?string
     {
         $year = $matchday->season->year;
@@ -54,6 +130,12 @@ class PianetaFantaSource implements RatingSourceInterface
         if ($filesystem->exists($pathCsv) && filesize($pathCsv) > 0 && !$forceDownload) {
             $this->io?->out("File CSV già esistente in {$pathCsv}. Download non necessario.");
             return $pathCsv;
+        }
+
+        // Controllo se sono passate almeno 12 ore dall'ultima partita
+        if (!$forceDownload && !$this->isUltimaPartitaConclusa($matchday)) {
+            $this->io?->out("Download sospeso: non sono ancora passate 12 ore dall'ultima partita della giornata {$matchday->number}.");
+            return null;
         }
 
         $this->io?->out("Inizio recupero voti da API PianetaFanta per giornata {$matchday->number}...");
@@ -89,6 +171,7 @@ class PianetaFantaSource implements RatingSourceInterface
         $matchdayNumber = $matchday->number;
 
         $csvLines = [];
+        $totalValuedCount = 0;
 
         foreach ($clubs as $club) {
             $squadraClean = strtoupper(trim((string) $club->name));
@@ -122,6 +205,7 @@ class PianetaFantaSource implements RatingSourceInterface
              */
             $members = $membersTable->find('byClubId', club_id: $club->id, season_id: $matchday->season_id)
                 ->all();
+
             // 1. Cicla su tutti i giocatori presenti a DB per il club
             if (!empty($members)) {
                 foreach ($members as $member) {
@@ -135,7 +219,6 @@ class PianetaFantaSource implements RatingSourceInterface
                         $g = $apiGiocatoriMap[$code];
                         $stats = $this->parsePlayerStats($g);
                         $quota = (int) ($g['Quota'] ?? 0);
-                        // Usa il nome dell'API se disponibile, altrimenti fallback DB
                         if (!empty($g['Nome'])) {
                             $nome = $g['Nome'];
                         }
@@ -143,6 +226,10 @@ class PianetaFantaSource implements RatingSourceInterface
                         // Giocatore a DB ma assente nella risposta API
                         $stats = $this->createEmptyPlayerStats();
                         $quota = 0;
+                    }
+
+                    if ($stats['valued'] === 1) {
+                        $totalValuedCount++;
                     }
 
                     $csvLines[] = $this->buildCsvLine(
@@ -164,6 +251,10 @@ class PianetaFantaSource implements RatingSourceInterface
                     $stats = $this->parsePlayerStats($g);
                     $ruoloStr = strtoupper(trim((string) ($g['Ruolo'] ?? 'D')));
 
+                    if ($stats['valued'] === 1) {
+                        $totalValuedCount++;
+                    }
+
                     $csvLines[] = $this->buildCsvLine(
                         $code,
                         (string) ($g['Nome'] ?? ''),
@@ -182,6 +273,14 @@ class PianetaFantaSource implements RatingSourceInterface
             $this->io?->err('Nessun dato recuperato dall\'API o dal DB.');
             return false;
         }
+
+        // Controllo sui voti valorizzati: se nessun giocatore ha voto a referto (valued == 1), annulla la generazione
+        if ($totalValuedCount === 0) {
+            $this->io?->err("Download annullato: nessun voto valorizzato trovato nei dati PianetaFanta per la giornata {$matchday->number}.");
+            return false;
+        }
+
+        $this->io?->out("Trovati {$totalValuedCount} giocatori con voto valorizzato.");
 
         try {
             $filesystem = new Filesystem();
