@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Model\Entity\Lineup;
 use App\Service\ComputeScoreService;
+use Burzum\CakeServiceLayer\Service\ServiceAwareTrait;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Override;
@@ -18,6 +19,18 @@ use function Cake\Core\toBool;
  */
 class ScoresController extends AppController
 {
+    use ServiceAwareTrait;
+
+    /**
+     * Initialize method
+     *
+     */
+    public function initialize(): void
+    {
+        $this->loadService('ComputeScore');
+        $this->loadService('Lineup');
+    }
+
     /**
      * {@inheritDoc}
      *
